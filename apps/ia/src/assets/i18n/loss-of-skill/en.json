@@ -8,8 +8,8 @@
       "openPositions": "Open Positions"
     },
     "popup": {
-      "titleWorkforce": "Current Workforce:",
-      "titleLeavers": "Leavers:"
+      "titleWorkforce": "Current Workforce",
+      "titleLeavers": "Leavers"
     }
   },
   "riskOfLeaving": {

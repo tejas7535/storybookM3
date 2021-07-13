@@ -27,8 +27,8 @@ export const appRoutePaths: Routes = [
       {
         path: AppRoutePath.LossOfSkillPath,
         loadChildren: async () =>
-          import('./loss-of-skills/loss-of-skills.module').then(
-            (m) => m.LossOfSkillsModule
+          import('./loss-of-skill/loss-of-skill.module').then(
+            (m) => m.LossOfSkillModule
           ),
       },
     ],

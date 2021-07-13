@@ -12,21 +12,21 @@ import {
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
-import { LossOfSkillsService } from '../../loss-of-skills.service';
+import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfile } from '../../models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
   loadLostJobProfilesSuccess,
-} from '../actions/loss-of-skills.actions';
-import { LossOfSkillsEffects } from './loss-of-skills.effects';
+} from '../actions/loss-of-skill.actions';
+import { LossOfSkillEffects } from './loss-of-skill.effects';
 
-describe('LossOfSkills Effects', () => {
-  let spectator: SpectatorService<LossOfSkillsEffects>;
+describe('LossOfSkill Effects', () => {
+  let spectator: SpectatorService<LossOfSkillEffects>;
   let actions$: any;
-  let lossOfSkillsService: LossOfSkillsService;
+  let lossOfSkillService: LossOfSkillService;
   let action: any;
-  let effects: LossOfSkillsEffects;
+  let effects: LossOfSkillEffects;
   let store: MockStore;
 
   const error = {
@@ -34,12 +34,12 @@ describe('LossOfSkills Effects', () => {
   };
 
   const createService = createServiceFactory({
-    service: LossOfSkillsEffects,
+    service: LossOfSkillEffects,
     providers: [
       provideMockActions(() => actions$),
       provideMockStore({}),
       {
-        provide: LossOfSkillsService,
+        provide: LossOfSkillService,
         useValue: {
           getLostJobProfiles: jest.fn(),
         },
@@ -50,8 +50,8 @@ describe('LossOfSkills Effects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    effects = spectator.inject(LossOfSkillsEffects);
-    lossOfSkillsService = spectator.inject(LossOfSkillsService);
+    effects = spectator.inject(LossOfSkillEffects);
+    lossOfSkillService = spectator.inject(LossOfSkillService);
     store = spectator.inject(MockStore);
   });
 
@@ -157,13 +157,13 @@ describe('LossOfSkills Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        lossOfSkillsService.getLostJobProfiles = jest
+        lossOfSkillService.getLostJobProfiles = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadLostJobProfiles$).toBeObservable(expected);
         m.flush();
-        expect(lossOfSkillsService.getLostJobProfiles).toHaveBeenCalledWith(
+        expect(lossOfSkillService.getLostJobProfiles).toHaveBeenCalledWith(
           request
         );
       })
@@ -180,13 +180,13 @@ describe('LossOfSkills Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        lossOfSkillsService.getLostJobProfiles = jest
+        lossOfSkillService.getLostJobProfiles = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadLostJobProfiles$).toBeObservable(expected);
         m.flush();
-        expect(lossOfSkillsService.getLostJobProfiles).toHaveBeenCalledWith(
+        expect(lossOfSkillService.getLostJobProfiles).toHaveBeenCalledWith(
           request
         );
       })

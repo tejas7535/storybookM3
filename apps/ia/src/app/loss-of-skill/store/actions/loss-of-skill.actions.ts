@@ -4,17 +4,17 @@ import { EmployeesRequest } from '../../../shared/models';
 import { LostJobProfile } from '../../models';
 
 export const loadLostJobProfiles = createAction(
-  '[Loss of Skills] Load Lost Job Profiles',
+  '[Loss of Skill] Load Lost Job Profiles',
   props<{ request: EmployeesRequest }>()
 );
 
 export const loadLostJobProfilesSuccess = createAction(
-  '[Loss of Skills] Load Lost Job Profiles Success',
+  '[Loss of Skill] Load Lost Job Profiles Success',
   props<{ lostJobProfiles: LostJobProfile[] }>()
 );
 
 export const loadLostJobProfilesFailure = createAction(
-  '[Loss of Skills] Load Lost Job Profiles Failure',
+  '[Loss of Skill] Load Lost Job Profiles Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -24,4 +24,4 @@ const all = union({
   loadLostJobProfilesFailure,
 });
 
-export type LossOfSkillsActions = typeof all;
+export type LossOfSkillActions = typeof all;

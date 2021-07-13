@@ -19,19 +19,19 @@ import {
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import { EmployeesRequest } from '../../../shared/models';
-import { LossOfSkillsService } from '../../loss-of-skills.service';
+import { LossOfSkillService } from '../../loss-of-skill.service';
 import { LostJobProfile } from '../../models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
   loadLostJobProfilesSuccess,
-} from '../actions/loss-of-skills.actions';
+} from '../actions/loss-of-skill.actions';
 
 @Injectable()
-export class LossOfSkillsEffects implements OnInitEffects {
+export class LossOfSkillEffects implements OnInitEffects {
   constructor(
     private readonly actions$: Actions,
-    private readonly lossOfSkillsService: LossOfSkillsService,
+    private readonly lossOfSkillService: LossOfSkillService,
     private readonly store: Store
   ) {}
 
@@ -52,7 +52,7 @@ export class LossOfSkillsEffects implements OnInitEffects {
       ofType(loadLostJobProfiles),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.lossOfSkillsService.getLostJobProfiles(request).pipe(
+        this.lossOfSkillService.getLostJobProfiles(request).pipe(
           map((lostJobProfiles: LostJobProfile[]) =>
             loadLostJobProfilesSuccess({ lostJobProfiles })
           ),
