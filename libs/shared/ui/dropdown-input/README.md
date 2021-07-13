@@ -37,7 +37,6 @@ import { DropdownInputModule } from '@schaeffler/dropdown-input';
 API of DropdownInput Component:
 
 ```typescript
-
   @Output() updateSearch = new EventEmitter<string>();
   @Input() formControl = new FormControl('');
   @Input() options: DropdownInputOption[] = [];
