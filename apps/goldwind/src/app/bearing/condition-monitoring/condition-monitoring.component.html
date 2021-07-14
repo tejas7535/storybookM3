@@ -23,9 +23,16 @@
     <goldwind-center-load></goldwind-center-load>
   </div>
   <div
-    id="edm-monitoring"
+    id="static-saftey-factor-monitoring"
     class="grid-element"
     [ngClass]="{ highlight: equipment.selectedTab === 3 }"
+  >
+    <goldwind-static-saftey-factor-monitor></goldwind-static-saftey-factor-monitor>
+  </div>
+  <div
+    id="edm-monitoring"
+    class="grid-element"
+    [ngClass]="{ highlight: equipment.selectedTab === 2 }"
   >
     <goldwind-edm-monitor></goldwind-edm-monitor>
   </div>

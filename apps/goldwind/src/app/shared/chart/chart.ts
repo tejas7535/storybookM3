@@ -4,6 +4,7 @@ export enum GaugeColors {
   GREEN = '#0ebc5b',
   YELLOW = '#fccf46',
   RED = '#e62c27',
+  GREY = '#f7f7f7',
 }
 
 // echarts default configuration
@@ -86,7 +87,7 @@ export const GREASE_GAUGE_SERIES = {
     fontWeight: 'bolder',
   },
   pointer: {
-    // show: false, // screendesign does hide it
+    show: false, // screendesign does hide it
   },
   axisLine: {
     lineStyle: {

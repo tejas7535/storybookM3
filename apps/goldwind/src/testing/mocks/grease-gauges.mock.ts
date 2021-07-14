@@ -24,7 +24,9 @@ export const GREASE_STATUS_MOCK = {
         fontWeight: 'bolder',
         formatter: '12.55 %',
       },
-      pointer: {},
+      pointer: {
+        show: false,
+      },
       axisLine: {
         lineStyle: {
           width: 12,
@@ -71,7 +73,9 @@ export const GREASE_STATUS_MOCK = {
         fontWeight: 'bolder',
         formatter: '55.55 %',
       },
-      pointer: {},
+      pointer: {
+        show: false,
+      },
       axisLine: {
         lineStyle: {
           width: 12,
@@ -118,7 +122,9 @@ export const GREASE_STATUS_MOCK = {
         fontWeight: 'bolder',
         formatter: '99.99 °C',
       },
-      pointer: {},
+      pointer: {
+        show: false,
+      },
       axisLine: {
         lineStyle: {
           width: 12,

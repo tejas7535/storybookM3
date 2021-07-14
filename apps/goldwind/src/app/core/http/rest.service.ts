@@ -11,6 +11,7 @@ import { Edm } from '../store/reducers/edm-monitor/models';
 import { GcmStatus } from '../store/reducers/grease-status/models';
 import { LoadSense } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
+import { StaticSafetyStatus } from '../store/reducers/static-safety/models';
 
 export interface IotParams {
   id: string;
@@ -110,12 +111,16 @@ export class RestService {
           description: 'Radial Load y',
           abreviation: 'F_y',
           designValue: undefined,
-          actualValue: 1635.0,
-          minValue: 1700.0,
-          maxValue: 1900.0,
+          actualValue: 1635,
+          minValue: 1700,
+          maxValue: 1900,
           notification: undefined,
         },
       ])
     );
+  }
+
+  public getStaticSafety(id: string): Observable<StaticSafetyStatus[]> {
+    return this.getIot(`${id}/analytics/static-safety-factor`);
   }
 }

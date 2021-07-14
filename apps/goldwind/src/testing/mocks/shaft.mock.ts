@@ -13,7 +13,9 @@ export const SHAFT_LATEST_GRAPH_DATA = {
       fontSize: 18,
       fontWeight: 'bolder',
     },
-    pointer: {},
+    pointer: {
+      show: false,
+    },
     axisLine: {
       lineStyle: {
         width: 12,

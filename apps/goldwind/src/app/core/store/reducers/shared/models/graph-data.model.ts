@@ -3,6 +3,28 @@ interface GraphSeriesData {
   name?: string;
 }
 
+interface Series {
+  [index: number]: {
+    name?: string;
+    type: string;
+    symbol?: string;
+    coordinateSystem?: string;
+    areaStyle?: any;
+    smooth?: boolean;
+    itemStyle?: any;
+    data:
+      | GraphSeriesData[]
+      | [number, number][][]
+      | [number, number][]
+      | [
+          {
+            name?: string;
+            value: number[];
+          }
+        ];
+  };
+}
+
 export interface GraphData {
   tooltip?: {
     formatter: any;
@@ -10,25 +32,5 @@ export interface GraphData {
   legend?: {
     data: string[];
   };
-  series: {
-    [index: number]: {
-      name?: string;
-      type: string;
-      symbol?: string;
-      coordinateSystem?: string;
-      areaStyle?: any;
-      smooth?: boolean;
-      itemStyle?: any;
-      data:
-        | GraphSeriesData[]
-        | [number, number][][]
-        | [number, number][]
-        | [
-            {
-              name?: string;
-              value: number[];
-            }
-          ];
-    };
-  };
+  series: Series | Series[];
 }

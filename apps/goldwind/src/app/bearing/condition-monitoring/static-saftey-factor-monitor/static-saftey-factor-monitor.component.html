@@ -1,0 +1,36 @@
+<ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+  <mat-card
+    *transloco="let t; read: 'conditionMonitoring.static-saftey-factor-monitor'"
+    class="full-height-card"
+    fxFill
+    fxLayout="column"
+  >
+    <mat-card-header>
+      <mat-card-title fxLayout="row" layout-align="center center">
+        <mat-icon>health_and_safety</mat-icon>
+        <span>{{ t('title') }}</span>
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ this.staticSafetyTimeStamp$ | ngrxPush }} <br />
+        {{ t('updateFrequency') }}: {{ refresh }}s
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content
+      fxFlex
+      fxLayout="column"
+      fxLayoutAlign="space-between end"
+    >
+      <div
+        fxFlex
+        echarts
+        [options]="chartOptions"
+        [merge]="this.staticSafetyLatestGraphData$ | ngrxPush"
+        class="dashboard-echart shaft-chart"
+      ></div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <mat-card class="full-height-card placeholder-item"></mat-card>
+</ng-template>

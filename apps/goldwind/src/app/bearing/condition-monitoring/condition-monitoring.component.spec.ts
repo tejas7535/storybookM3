@@ -12,6 +12,7 @@ import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 import { ShaftModule } from './shaft/shaft.module';
+import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/static-saftey-factor-monitor.module';
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
@@ -24,6 +25,7 @@ describe('ConditionMonitoringComponent', () => {
       EdmMonitorModule,
       GreaseMonitorModule,
       CenterLoadModule,
+      StaticSafteyFactorMonitorModule,
       ShaftModule,
       MatCardModule,
       MatTabsModule,
@@ -53,6 +55,14 @@ describe('ConditionMonitoringComponent', () => {
             },
           },
           greaseStatus: {
+            loading: false,
+            result: undefined,
+            status: {
+              loading: false,
+              result: undefined,
+            },
+          },
+          staticSafety: {
             loading: false,
             result: undefined,
             status: {

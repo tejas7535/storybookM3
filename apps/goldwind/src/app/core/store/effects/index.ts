@@ -6,3 +6,4 @@ export * from './edm-monitor/edm-monitor.effects';
 export * from './grease-status/grease-status.effects';
 export * from './load-assessment/load-assessment.effects';
 export * from './shaft/shaft.effects';
+export * from './static-safety/static-safety.effects';
