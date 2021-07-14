@@ -5,6 +5,7 @@ import { PictureCardModule } from '@schaeffler/picture-card';
 import { MagneticSliderComponent } from '../../magnetic-slider/magnetic-slider.component';
 import { PictureCardListComponent } from './picture-card-list.component';
 
+const mockFn = (): void => {};
 describe('PictureCardListComponent', () => {
   let component: PictureCardListComponent;
   let spectator: Spectator<PictureCardListComponent>;
@@ -37,8 +38,6 @@ describe('PictureCardListComponent', () => {
 
   describe('#registerOnChange', () => {
     it('should call onChange method', () => {
-      const mockFn = () => {};
-
       component.registerOnChange(mockFn);
       expect(component['onChange']).toEqual(mockFn);
     });
@@ -46,8 +45,6 @@ describe('PictureCardListComponent', () => {
 
   describe('#registerOnTouched', () => {
     it('should call onTouched method', () => {
-      const mockFn = () => {};
-
       component.registerOnTouched(mockFn);
       expect(component['onTouched']).toEqual(mockFn);
     });

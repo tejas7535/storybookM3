@@ -23,6 +23,7 @@ export class HttpLocaleInterceptor implements HttpInterceptor {
     const modifiedReq = req.clone({
       headers: req.headers.set('Locale', this.getCurrentLongLocale()),
     });
+
     return next.handle(modifiedReq);
   }
 

@@ -12,8 +12,8 @@ import { MMSeparator } from './separator.enum';
   providedIn: 'root',
 })
 export class LocaleService {
-  private readonly separator = new BehaviorSubject<MMSeparator>(null);
-  private readonly language = new BehaviorSubject<MMLocales>(null);
+  private readonly separator = new BehaviorSubject<MMSeparator>(undefined);
+  private readonly language = new BehaviorSubject<MMLocales>(undefined);
 
   separator$ = this.separator.asObservable();
   language$ = this.language.asObservable();
