@@ -16,7 +16,6 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
   templateUrl: './attrition-dialog.component.html',
 })
 export class AttritionDialogComponent implements OnInit {
-  public readonly chartTitle = 'organizationalView.attritionDialog.chartTitle';
   public data$: Observable<any>;
   public attritionQuotaLoading$: Observable<boolean>;
 

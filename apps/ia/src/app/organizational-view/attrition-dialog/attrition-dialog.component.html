@@ -9,11 +9,14 @@
     <div class="invisible lg:visible">
       <mat-divider class="h-full" [vertical]="true"></mat-divider>
     </div>
-    <div class="flex-grow relative">
+    <div
+      class="flex-grow relative"
+      *transloco="let t; read: 'organizationalView.attritionDialog'"
+    >
       <ia-line-chart
         [config]="data$ | ngrxPush"
         [isDataLoading]="attritionQuotaLoading$ | ngrxPush"
-        [title]="chartTitle"
+        [title]="t('chartTitle')"
       ></ia-line-chart>
     </div>
   </div>
