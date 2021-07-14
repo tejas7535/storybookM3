@@ -265,7 +265,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  public hasHeadline(pageId: string, memberId: string): boolean {
+  public hasHeadline(pageId?: string, memberId?: string): boolean {
     const noHeadlineIds = new Set([
       RSY_BEARING_TYPE,
       IDMM_MOUNTING_METHOD,

@@ -101,20 +101,20 @@ export class HomeStore extends ComponentStore<HomeState> {
   );
 
   public readonly setActivePageId = this.updater(
-    (state, activePageId: string) => ({
+    (state, activePageId: string): any => ({
       ...state,
       activePageId,
     })
   );
 
   public readonly setInactivePageId = this.updater(
-    (state, inactivePageId: string) => ({
+    (state, inactivePageId: string): any => ({
       ...state,
       inactivePageId,
     })
   );
 
-  public readonly setBearing = this.updater((state, bearing: string) => ({
+  public readonly setBearing = this.updater((state, bearing: string): any => ({
     ...state,
     bearing,
   }));
@@ -131,13 +131,15 @@ export class HomeStore extends ComponentStore<HomeState> {
         switchMap(([_prevParams, { url, params, id }]) =>
           this.lazyListLoaderService.loadOptions(url, params).pipe(
             tapResponse(
-              (bearings) => {
+              (bearings: any) => {
                 const bearing = bearings.find(
-                  (bearing) => bearing.id === id
+                  (_bearing: any) => _bearing.id === id
                 ).text;
                 this.setBearing(bearing);
               },
-              (error) => console.log(error)
+              (error) => {
+                throw error;
+              }
             )
           )
         )

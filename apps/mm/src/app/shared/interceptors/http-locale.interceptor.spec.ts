@@ -19,13 +19,13 @@ const environment = {
 };
 
 @Injectable()
-export class ExampleService {
+class ExampleService {
   private readonly apiUrl = environment.baseUrl;
 
   constructor(private readonly http: HttpClient) {}
 
-  public getPosts(): Observable<String> {
-    return this.http.get<String>(`${this.apiUrl}/test`);
+  public getPosts(): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/test`);
   }
 }
 
@@ -78,7 +78,7 @@ describe(`HttpLocaleInterceptor`, () => {
     test(
       'should change locale header attribute',
       waitForAsync(() => {
-        service.getPosts().subscribe((response) => {
+        service.getPosts().subscribe((response: any) => {
           expect(response).toBeTruthy();
         });
         const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);

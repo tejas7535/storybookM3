@@ -107,7 +107,7 @@ describe('ListMemberComponent', () => {
 
       component.ngOnInit();
 
-      component.isPictureList$.subscribe((isPictureList) => {
+      component.isPictureList$.subscribe((isPictureList: boolean) => {
         expect(isPictureList).toEqual(true);
         done();
       });
@@ -130,7 +130,7 @@ describe('ListMemberComponent', () => {
 
       component.ngOnInit();
 
-      component.isPictureList$.subscribe((isPictureList) => {
+      component.isPictureList$.subscribe((isPictureList: boolean) => {
         expect(isPictureList).toEqual(false);
         done();
       });
@@ -215,8 +215,5 @@ describe('ListMemberComponent', () => {
     });
   });
 
-  // TODO: implement tests
-  //   describe('#setupOptions', () => {
-
-  //   });
+  // TODO: implement tests for setupOptions
 });

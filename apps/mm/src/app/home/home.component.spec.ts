@@ -350,7 +350,7 @@ describe('HomeComponent', () => {
       const pageId = 'RSY_BEARING_TYPE';
       const memberId = 'IDMM_MOUNTING_METHOD';
 
-      const result1 = component.hasHeadline(pageId, undefined);
+      const result1 = component.hasHeadline(pageId);
       const result2 = component.hasHeadline(undefined, memberId);
 
       expect(result1).toBe(false);
@@ -361,7 +361,7 @@ describe('HomeComponent', () => {
       const pageId = 'some id with headline';
       const memberId = 'some id with headline';
 
-      const result1 = component.hasHeadline(pageId, undefined);
+      const result1 = component.hasHeadline(pageId);
       const result2 = component.hasHeadline(undefined, memberId);
 
       expect(result1).toBe(true);
