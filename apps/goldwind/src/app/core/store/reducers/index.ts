@@ -16,6 +16,7 @@ import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromLoadAssement from './load-assessment/load-assessment.reducer';
 import * as fromLoadSense from './load-sense/load-sense.reducer';
 import * as fromShaft from './shaft/shaft.reducer';
+import * as fromStaticSafety from './static-safety/static-safety.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -63,6 +64,9 @@ export const getLoadAssessmentState =
 
 export const getShaftState =
   createFeatureSelector<fromShaft.ShaftState>('shaft');
+
+export const getStaticSafetyState =
+  createFeatureSelector<fromStaticSafety.StaticSafetyState>('staticSafety');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

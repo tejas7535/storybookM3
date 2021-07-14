@@ -64,6 +64,9 @@ export const getGreaseStatusLatestGraphData = createSelector(
               ...GREASE_GAUGE_SERIES,
               name: label,
               center: (gaugePositions as any)[formControl],
+              pointer: {
+                show: false,
+              },
               detail: {
                 ...GREASE_GAUGE_SERIES.detail,
                 formatter: `${value.toFixed(2)} ${unit}`,

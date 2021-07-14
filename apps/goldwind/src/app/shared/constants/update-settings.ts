@@ -8,6 +8,9 @@ export interface UpdateSettings {
   bearingLoad: {
     refresh: number;
   };
+  staticSafety: {
+    refresh: number;
+  };
 }
 
 export const UPDATE_SETTINGS: UpdateSettings = {
@@ -19,5 +22,8 @@ export const UPDATE_SETTINGS: UpdateSettings = {
   },
   bearingLoad: {
     refresh: 10,
+  },
+  staticSafety: {
+    refresh: 60,
   },
 };
