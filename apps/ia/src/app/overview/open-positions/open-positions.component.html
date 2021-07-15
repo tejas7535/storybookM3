@@ -10,7 +10,7 @@
           {{ t('openForApplications') }}
         </span>
         <div class="flex flex-row items-center">
-          <h4 class="mr-8">{{ openApplications?.length | defaultValue }}</h4>
+          <h4 class="mr-8">{{ countOpenPositions() | defaultValue }}</h4>
           <button
             [matMenuTriggerFor]="openApplicationsMenu"
             mat-fab

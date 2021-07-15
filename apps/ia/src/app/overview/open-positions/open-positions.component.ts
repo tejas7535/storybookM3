@@ -8,8 +8,17 @@ import { OpenApplication } from '../models/open-application.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpenPositionsComponent {
-  @Input() openApplications: OpenApplication[];
   @Input() loading: boolean; // not used at the moment
+  @Input() openApplications: OpenApplication[];
+
+  countOpenPositions() {
+    return (
+      this.openApplications
+        ?.map((openApplication) => openApplication.count)
+        // eslint-disable-next-line unicorn/no-array-reduce
+        .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0)
+    );
+  }
 
   trackByFn(index: number): number {
     return index;
