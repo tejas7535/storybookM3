@@ -140,6 +140,7 @@
 
         <mm-result-page
           [active]="!stepper.hasNext"
+          [bearing]="activeBearing$ | ngrxPush"
           #resultPage
         ></mm-result-page>
         <!-- <pre>{{ form.value | json }}</pre> -->

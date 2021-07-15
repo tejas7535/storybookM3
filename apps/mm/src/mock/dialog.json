@@ -75,7 +75,7 @@
                   "id": "RSY_BEARING_SERIES",
                   "text": "dialog.bearingSeries",
                   "type": "lazy-list",
-                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series",
+                  "optionsUrl": "https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1/bearing-types/<RSY_BEARING_TYPE>/series",
                   "sources": [
                     {
                       "id": "RSY_BEARING_TYPE",
@@ -148,7 +148,7 @@
                   "id": "RSY_BEARING",
                   "text": "dialog.bearing",
                   "type": "lazy-list",
-                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings",
+                  "optionsUrl": "https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings",
                   "sources": [
                     {
                       "id": "RSY_BEARING_TYPE",
@@ -224,7 +224,7 @@
                   "expressionType": "MEMBER"
                 }
               ],
-              "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>",
+              "optionsUrl": "https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>",
               "abbreviation": "",
               "memberType": "Variable",
               "requiresUpdate": true,
@@ -289,7 +289,7 @@
                   "expressionType": "MEMBER"
                 }
               ],
-              "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods",
+              "optionsUrl": "https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods",
               "abbreviation": "",
               "memberType": "Variable",
               "requiresUpdate": true,
@@ -333,7 +333,7 @@
                   "id": "IDMM_MOUNTING_METHOD",
                   "text": "dialog.mountingMethod",
                   "type": "lazy-list",
-                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods/<IDMM_MEASSURING_METHOD>/mountingMethods",
+                  "optionsUrl": "https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods/<IDMM_MEASSURING_METHOD>/mountingMethods",
                   "sources": [
                     {
                       "id": "RSY_BEARING_TYPE",
@@ -536,7 +536,7 @@
                       "expressionType": "MEMBER"
                     }
                   ],
-                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-preflight"
+                  "optionsUrl": "https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1/bearing-preflight"
                 },
                 {
                   "id": "IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS",
