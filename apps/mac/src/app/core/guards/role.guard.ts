@@ -6,12 +6,12 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/azure-auth';
+import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 
 import { RoutePath } from '../../app-routing.enum';
 
@@ -23,24 +23,18 @@ export class RoleGuard implements CanActivateChild {
 
   canActivateChild(
     _childRoute: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
+    _state?: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.store.select(getRoles).pipe(
-      map((roles) => {
-        const requiredRoles: string[] = _childRoute?.data?.requiredRoles || [];
-        if (!requiredRoles || requiredRoles.length === 0) {
-          return true;
+    const requiredRoles: string[] = _childRoute?.data?.requiredRoles || [];
+    if (!requiredRoles || requiredRoles.length === 0) {
+      return of(true);
+    }
+
+    return this.store.select(hasIdTokenRoles(requiredRoles)).pipe(
+      tap((granted) => {
+        if (!granted) {
+          this.router.navigate([RoutePath.ForbiddenPath]);
         }
-
-        for (const role of requiredRoles) {
-          if (!roles.includes(role)) {
-            this.router.navigate([RoutePath.ForbiddenPath]);
-
-            return false;
-          }
-        }
-
-        return true;
       })
     );
   }

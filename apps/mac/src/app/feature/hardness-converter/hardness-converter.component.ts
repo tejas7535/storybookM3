@@ -96,7 +96,7 @@ export class HardnessConverterComponent implements OnInit {
 
   handleKeyInput(key: string, value: string): void {
     if (
-      Number.isInteger(parseInt(key, 10)) ||
+      Number.isInteger(Number.parseInt(key, 10)) ||
       key === 'Backspace' ||
       key === 'Delete'
     ) {

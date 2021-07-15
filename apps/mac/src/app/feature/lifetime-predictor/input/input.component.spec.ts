@@ -100,8 +100,8 @@ describe('InputComponent', () => {
     const mockedFormControls = new SliderControl({
       key: 'es',
       name: 'RESIDUAL_STRESS',
-      min: -90,
-      max: 90,
+      min: -70,
+      max: 70,
       step: 10,
       disabled: false,
       formControl: new FormControl(230),
@@ -122,11 +122,13 @@ describe('InputComponent', () => {
       expect((component.materialControls[0] as SliderControl).max).toBe(70);
     });
 
-    it('should increase branch coverage', () => {
+    it('should adjust control to max value', () => {
       mockSelectedHV = 150;
 
       component.materialControls = [mockedFormControls];
       component.adjustES(mockedEsFormControl, mockSelectedHV);
+
+      expect(mockedEsFormControl.value).toBe(mockedFormControls.max);
     });
   });
 

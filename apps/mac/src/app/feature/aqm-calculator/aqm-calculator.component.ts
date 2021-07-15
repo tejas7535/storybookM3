@@ -72,7 +72,7 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private patchSelect(material: AQMMaterial): void {
+  private patchSelect(material?: AQMMaterial): void {
     if (material !== this.materialInput.value) {
       this.materialInput.patchValue(material);
     }
@@ -95,11 +95,13 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
     this.compositionForm = new FormGroup(controls);
 
     this.subscription.add(
-      this.compositionForm.valueChanges.subscribe((value) => {
+      this.compositionForm.valueChanges.subscribe((value: any) => {
         const matIndex = this.findMaterialIndex(value);
-        matIndex > -1
-          ? this.patchSelect(this.materials[matIndex])
-          : this.patchSelect(undefined);
+        if (matIndex > -1) {
+          this.patchSelect(this.materials[matIndex]);
+        } else {
+          this.patchSelect();
+        }
 
         if (this.compositionForm.valid) {
           this.aqmCalculationResult =

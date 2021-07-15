@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -107,25 +106,9 @@ export class PredictionComponent implements OnInit {
       return res.data;
     });
 
-    this.mergeData$ = this.store
-      .select(fromStore.getPredictionResultGraphData)
-      .pipe(
-        map((graphData: EChartsOption) => ({
-          ...this.chartOptions,
-          xAxis: {
-            ...this.chartOptions.xAxis,
-            ...graphData.xAxis,
-          },
-          yAxis: {
-            ...this.chartOptions.yAxis,
-            ...graphData.yAxis,
-          },
-          dataset: {
-            ...(this.chartOptions as any).dataset,
-            ...(graphData as any).dataset,
-          },
-        }))
-      );
+    this.mergeData$ = this.store.select(
+      fromStore.getPredictionResultGraphDataMapped(this.chartOptions)
+    );
 
     registerLocaleData(localeDe, 'de');
 
@@ -230,14 +213,10 @@ export class PredictionComponent implements OnInit {
       data: undefined,
       ...settings,
     };
-    loadsRequest.data = parsedFile.reduce((values, entry) => {
-      const value = Number(entry[0]);
-      if (!Number.isNaN(value)) {
-        values.push(value);
-      }
-
-      return values;
-    }, []);
+    loadsRequest.data = parsedFile
+      .map((entry) => entry[0])
+      .filter((value) => !Number.isNaN(Number(value)))
+      .map((value) => Number(value));
     if (loadsRequest.data.length > limit) {
       loadsRequest.data.slice(0, loadsRequest.data.length);
     }
@@ -255,7 +234,7 @@ export class PredictionComponent implements OnInit {
           return keys[0];
         }
 
-        return undefined;
+        return {};
       })
       .includes(value);
   }

@@ -31,7 +31,11 @@ export const getHeatTreatmentList = createSelector(
           ? material
           : { ...material, disabled: true }
       )
-      .sort((a, b) => (a.disabled === b.disabled ? 0 : b.disabled ? -1 : 1))
+      .sort((a, b) => {
+        const value = b.disabled ? -1 : 1;
+
+        return a.disabled === b.disabled ? 0 : value;
+      })
   // filter duplicate heattreatments when more materials use them
 );
 

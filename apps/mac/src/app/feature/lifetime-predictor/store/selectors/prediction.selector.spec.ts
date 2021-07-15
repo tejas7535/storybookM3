@@ -1,3 +1,5 @@
+import { EChartsOption } from 'echarts';
+
 import {
   mockedPredictionRequestWithKpi,
   mockedPredictionRequestWithLimits,
@@ -222,20 +224,6 @@ describe('PredictionSelectors', () => {
     ).toEqual({ kpi: undefined });
   });
 
-  // TODO: enable this test again
-  // it('should getPredictionResultGraphData', () => {
-  //   expect(
-  //     PredictionSelectors.getPredictionResultGraphData.projector(
-  //       PredictionSelectors.getPredictionResult({
-  //         ltp: {
-  //           prediction: mockedPredictionRequestWithLimits,
-  //           input: initialInputState,
-  //         },
-  //       })
-  //     )
-  //   ).toEqual(mockedPredictionResultGraphData);
-  // });
-
   it('should getStatisticalResult', () => {
     expect(
       PredictionSelectors.getStatisticalResult.projector(
@@ -351,6 +339,80 @@ describe('PredictionSelectors', () => {
             y: 122.464_994_125_332_68,
           },
         },
+      },
+    });
+  });
+
+  it('should set min and max for axis in graphData', () => {
+    expect(
+      PredictionSelectors.getPredictionResultGraphData.projector({
+        ...mockedPredictionRequest.predictionResult,
+        limits: {
+          x_min: 100,
+          x_max: 200,
+          y_min: 100,
+          y_max: 200,
+        },
+      })
+    ).toEqual({
+      dataset: {
+        source: [],
+      },
+      xAxis: {
+        min: 100,
+        max: 200,
+      },
+      yAxis: {
+        min: 100,
+        max: 200,
+      },
+    });
+  });
+
+  it('should return mapped graphData', () => {
+    const chartOptions: EChartsOption = {
+      dataset: {
+        source: [],
+      },
+      yAxis: {
+        min: 50,
+        max: 100,
+      },
+      xAxis: {
+        min: 50,
+        max: 100,
+      },
+    };
+
+    const mockedGraphData: EChartsOption = {
+      dataset: {
+        source: ['some val'],
+      },
+      xAxis: {
+        min: 100,
+        max: 200,
+      },
+      yAxis: {
+        min: 100,
+        max: 200,
+      },
+    };
+
+    expect(
+      PredictionSelectors.getPredictionResultGraphDataMapped(
+        chartOptions
+      ).projector(mockedGraphData)
+    ).toEqual({
+      dataset: {
+        source: ['some val'],
+      },
+      xAxis: {
+        min: 100,
+        max: 200,
+      },
+      yAxis: {
+        min: 100,
+        max: 200,
       },
     });
   });

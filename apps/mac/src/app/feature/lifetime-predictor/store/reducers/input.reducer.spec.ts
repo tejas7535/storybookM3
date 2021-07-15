@@ -75,7 +75,7 @@ describe('inputReducer', () => {
       expect(newState.burdeningTypes).toEqual(mockBurdeningTypes);
     });
 
-    it('should set state on setBurdeningTypeOptions', () => {
+    it('should set display state on setBurdeningTypeOptions', () => {
       const mockDisplay = {
         showFKM: true,
         showMurakami: false,

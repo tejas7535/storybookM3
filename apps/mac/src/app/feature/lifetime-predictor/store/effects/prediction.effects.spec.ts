@@ -16,7 +16,6 @@ import { MockService } from '../../mock/mock.service';
 import { RestService } from '../../services/rest.service';
 
 describe('PredictionEffects', () => {
-  // eslint-disable-next-line
   let actions: Observable<any>;
   let effects: PredictionEffects;
 
@@ -86,7 +85,7 @@ describe('PredictionEffects', () => {
       statisticalRequest: mockedStatisticalRequest,
     });
 
-    effects.setPredictionRequest$.subscribe((action) => {
+    effects.setPredictionRequest$.subscribe((action: any) => {
       expect(action).toEqual([
         {
           type: '[Predict Lifetime Container Component] Set ML Request',
@@ -106,7 +105,7 @@ describe('PredictionEffects', () => {
       selectedHardness: 400,
     });
 
-    effects.postPrediction$.subscribe((action) => {
+    effects.postPrediction$.subscribe((action: any) => {
       expect(action).toEqual({
         type: '[Prediction Component] Post Prediction',
       });
@@ -119,7 +118,7 @@ describe('PredictionEffects', () => {
       predictionRequest: mockedPredictionRequest,
     });
 
-    effects.postMLPrediction$.subscribe((action) => {
+    effects.postMLPrediction$.subscribe((action: any) => {
       expect(action).toEqual({
         type: '[Prediction Component] Set Prediction Results',
         predictionResult: undefined,
@@ -133,7 +132,7 @@ describe('PredictionEffects', () => {
       statisticalRequest: mockedStatisticalRequest,
     });
 
-    effects.postStatisticalPrediction$.subscribe((action) => {
+    effects.postStatisticalPrediction$.subscribe((action: any) => {
       expect(action).toEqual({
         type: '[Prediction Component] Set Statistical Results',
         statisticalResult: mockedStatisticalResult,
@@ -154,7 +153,7 @@ describe('PredictionEffects', () => {
       },
     });
 
-    effects.setLoadsRequest$.subscribe((action) => {
+    effects.setLoadsRequest$.subscribe((action: any) => {
       expect(action).toEqual({
         type: '[Ouput Wohler Chart Component] Get Load Data',
       });
@@ -167,7 +166,7 @@ describe('PredictionEffects', () => {
       loadsRequest: { status: 1, data: [1, 2, 3, 4] },
     });
 
-    effects.postLoadsData$.subscribe((action) => {
+    effects.postLoadsData$.subscribe((action: any) => {
       expect(action).toEqual({
         type: '[Ouput Wohler Chart Component] Set Loads Result',
         ...mockedLoadsResult,

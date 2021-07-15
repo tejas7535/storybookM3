@@ -210,10 +210,12 @@ export class InputComponent implements OnInit {
       max: esLimit,
     });
 
-    if (Math.abs(esFormControls.value) > esLimit) {
-      esFormControls.value > 0
-        ? esFormControls.patchValue(esLimit)
-        : esFormControls.patchValue(-esLimit);
+    if (esFormControls.value > esLimit) {
+      esFormControls.patchValue(esLimit);
+    }
+
+    if (esFormControls.value < -esLimit) {
+      esFormControls.patchValue(-esLimit);
     }
   }
 
@@ -360,12 +362,8 @@ export class InputComponent implements OnInit {
         disabled: false,
         flexibleLabel(label: string): string {
           const addedString =
-            // eslint-disable-next-line no-invalid-this
             this.formControl.value > 15
-              ? // eslint-disable-next-line no-invalid-this
-                this.formControl.value > 60
-                ? '(Low-Budget)'
-                : '(Standard)'
+              ? `${this.formControl.value > 60 ? '(Low-Budget)' : '(Standard)'}`
               : '(TPQ)';
 
           return label + addedString;

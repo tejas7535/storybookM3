@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
@@ -21,8 +20,7 @@ export class InputEffects {
       ofType(InputActions.getFormOptions),
       mergeMap(async () =>
         InputActions.setPredictionOptions({ predictions: PREDICTION_TYPES })
-      ),
-      catchError(() => of(InputActions.getPredictionsFailure()))
+      )
     );
   });
 
@@ -33,8 +31,7 @@ export class InputEffects {
         InputActions.setBurdeningTypeOptions({
           burdeningTypes: BURDENING_TYPES,
         })
-      ),
-      catchError(() => of(InputActions.getBurdeningTypesFailure()))
+      )
     );
   });
 
@@ -43,8 +40,7 @@ export class InputEffects {
       ofType(InputActions.getFormOptions),
       mergeMap(async () =>
         InputActions.setMaterialOptions({ materials: MATERIAL_TYPES })
-      ),
-      catchError(() => of(InputActions.getMaterialsFailure()))
+      )
     );
   });
 }

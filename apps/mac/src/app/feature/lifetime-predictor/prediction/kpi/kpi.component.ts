@@ -8,6 +8,6 @@ import { Component, Input } from '@angular/core';
 export class KpiComponent {
   @Input() value: string | number;
   @Input() description: string;
-  @Input() descriptionParams: Object; // TODO: define model
+  @Input() descriptionParams: any; // TODO: define model
   @Input() tooltip: string;
 }
