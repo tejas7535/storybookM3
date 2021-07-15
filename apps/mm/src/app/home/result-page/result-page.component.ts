@@ -13,6 +13,7 @@ import { ResultPageService } from './result-page.service';
 })
 export class ResultPageComponent {
   @Input() public active? = false;
+  @Input() public bearing? = '';
 
   public result$: Observable<Result>;
 

@@ -20,11 +20,11 @@ export class ReportService {
       map((report: string) => {
         const parser = new DOMParser();
         const htmlDoc = parser.parseFromString(report, 'text/html');
-        const bodyContent = htmlDoc.querySelector('body')?.children;
+        const bodyContent = htmlDoc.querySelector('.content')?.children;
 
         const structuredContent =
           bodyContent &&
-          Array.from(bodyContent).reduce((acc: any, section: any) => {
+          [...(bodyContent as any)].reduce((acc: any, section: any) => {
             const content = section.querySelectorAll('[name^="anchor_"]');
 
             return section.localName === 'h1' &&

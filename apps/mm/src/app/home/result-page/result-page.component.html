@@ -1,12 +1,8 @@
 <ng-container *ngIf="active">
   <ng-container *transloco="let t; read: 'result'">
-    <h5>{{ t('title') }}</h5>
-    <span class="subtitle-1">Bearing ID (todo)</span>
-
     <schaeffler-report
       *ngIf="result$ | ngrxPush as result; else loading"
-      [title]="'Bearing ID (todo)'"
-      [subtitle]="'Report ID (todo)'"
+      [title]="bearing"
       [displayReport]="result.htmlReportUrl"
       [downloadReport]="result.pdfReportUrl"
     >

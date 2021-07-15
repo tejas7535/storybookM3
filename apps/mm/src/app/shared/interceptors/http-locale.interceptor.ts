@@ -24,7 +24,9 @@ export class HttpLocaleInterceptor implements HttpInterceptor {
       headers: req.headers.set('Locale', this.getCurrentLongLocale()),
     });
 
-    return next.handle(modifiedReq);
+    return req.url.includes('bearing-calculation/body')
+      ? next.handle(req)
+      : next.handle(modifiedReq);
   }
 
   public getCurrentLongLocale(): string {
