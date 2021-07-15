@@ -112,6 +112,30 @@
       "materialValidationStatus": {
         "invalid": "Invalid",
         "total": "Total"
+      },
+      "excelExport": {
+        "summary": "Summary",
+        "sapQuote": "SAP Quote:",
+        "gqCase": "GQ Case:",
+        "quotationSummary": {
+          "title": "Quotation Summary",
+          "customerNumber": "Customer Number",
+          "customerName": "Customer Name",
+          "quoteNetValue": "Quote Net Value",
+          "quoteWeightedAverageGPM": "Quote Weighted Average GPM%",
+          "quoteWeightedAverageGPI": "Quote Weighted Average GPI%",
+          "currencyUsed": "Currency Used"
+        },
+        "customerOverview": {
+          "title": "Customer Overview",
+          "keyAccount": "Key Account",
+          "subKeyAccount": "Subkey Account",
+          "customerClassification": "Customer Classification",
+          "netSales": "Net Sales",
+          "gpi": "GPI%",
+          "country": "Country",
+          "incoterms": "Incoterms"
+        }
       }
     },
     "customerDetails": {

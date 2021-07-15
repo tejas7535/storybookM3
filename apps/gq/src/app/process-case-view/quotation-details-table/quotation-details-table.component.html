@@ -1,6 +1,7 @@
 <div class="table-container" fxLayout="column">
   <ag-grid-angular
     class="ag-theme-material"
+    [excelStyles]="excelStyles"
     [rowData]="rowData"
     [defaultColDef]="defaultColumnDefs"
     [columnDefs]="columnDefs$ | ngrxPush"
