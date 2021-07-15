@@ -1,6 +1,7 @@
 import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 import { TranslocoModule } from '@ngneat/transloco';
 
+import { QUOTATION_MOCK } from '../../../../testing/mocks';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
@@ -96,14 +97,14 @@ describe('CreateColumnService', () => {
           colId: 'test',
         },
         context: {
-          currency: 'USD',
+          quotation: QUOTATION_MOCK,
         },
       };
       const result = ColumnUtilityService.numberCurrencyFormatter(
         params as unknown as ValueFormatterParams
       );
 
-      expect(result).toEqual('1,234.00 USD');
+      expect(result).toEqual('1,234.00 EUR');
     });
   });
 

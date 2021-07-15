@@ -6,10 +6,13 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
 import {
   ColumnFields,
   PriceColumns,
 } from '../../services/column-utility-service/column-fields.enum';
+import { HelperService } from '../../services/helper-service/helper-service.service';
+import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
 
 describe('ExportToExcelButtonComponent', () => {
@@ -33,10 +36,14 @@ describe('ExportToExcelButtonComponent', () => {
     const mockIds = [{ getColId: () => '0' }, { getColId: () => '1' }];
     mockParams = {
       api: {
-        exportDataAsExcel: jest.fn(),
+        getSheetDataForExcel: jest.fn(() => '2'),
+        exportMultipleSheetsAsExcel: jest.fn(),
       },
       columnApi: {
         getAllColumns: jest.fn(() => mockIds),
+      },
+      context: {
+        quotation: QUOTATION_MOCK,
       },
     } as unknown as IStatusPanelParams;
   });
@@ -57,9 +64,21 @@ describe('ExportToExcelButtonComponent', () => {
   describe('exportToExcel', () => {
     test('should export to Excel', () => {
       component['params'] = mockParams;
+      component.getSummarySheet = jest.fn(() => '1');
+      const today = new Date();
+      const date = `${today.getFullYear()}-${
+        today.getMonth() + 1
+      }-${today.getDate()}`;
+      const time = `${today.getHours()}-${today.getMinutes()}`;
+
       component.exportToExcel();
 
-      expect(mockParams.api.exportDataAsExcel).toHaveBeenCalled();
+      expect(mockParams.api.exportMultipleSheetsAsExcel).toHaveBeenCalledWith({
+        data: ['1', '2'],
+        fileName: `GQ_Case_${QUOTATION_MOCK.gqId}_${date}_${time}`,
+      });
+      expect(mockParams.api.getSheetDataForExcel).toHaveBeenCalledTimes(1);
+      expect(component.getSummarySheet).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -89,7 +108,7 @@ describe('ExportToExcelButtonComponent', () => {
         },
       } as any;
 
-      const expected = `${colDef.headerName} [${params.context?.currency}]`;
+      const expected = `${colDef.headerName} [${params.context?.quotation.currency}]`;
 
       const result = component.processHeaderCallback(params);
       expect(result).toEqual(expected);
@@ -143,6 +162,360 @@ describe('ExportToExcelButtonComponent', () => {
 
       const result = component.applyExcelCellValueFormatter(params);
       expect(result).toEqual(formatterReturnValue);
+    });
+  });
+  describe('getSummarySheet', () => {
+    test('should return summary sheet', () => {
+      component['params'] = mockParams;
+      component.addSummaryHeader = jest.fn(() => []);
+      component.addQuotationSummary = jest.fn(() => []);
+      component.addCustomerOverview = jest.fn(() => []);
+
+      component.getSummarySheet();
+
+      expect(component.addSummaryHeader).toHaveBeenCalledTimes(1);
+      expect(component.addQuotationSummary).toHaveBeenCalledTimes(1);
+      expect(component.addCustomerOverview).toHaveBeenCalledTimes(1);
+      expect(
+        component['params'].api.getSheetDataForExcel
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['params'].api.getSheetDataForExcel
+      ).toHaveBeenLastCalledWith({
+        prependContent: [],
+        columnKeys: [''],
+        sheetName: 'translate it',
+        columnWidth: 250,
+      });
+    });
+  });
+
+  describe('addSummaryHeader', () => {
+    test('should return summary Header', () => {
+      const result = component.addSummaryHeader(QUOTATION_MOCK);
+      const type = 'String';
+
+      const expected = [
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelText.id,
+          },
+          {
+            data: {
+              type,
+              value: QUOTATION_MOCK.sapId,
+            },
+            styleId: excelStyleObjects.excelText.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelText.id,
+          },
+          {
+            data: {
+              type,
+              value: QUOTATION_MOCK.gqId.toString(),
+            },
+            styleId: excelStyleObjects.excelText.id,
+          },
+        ],
+        [],
+      ];
+      expect(result.length).toEqual(3);
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('addQuotationSummary', () => {
+    test('should return quotation summary', () => {
+      const result = component.addQuotationSummary(QUOTATION_MOCK);
+      const type = 'String';
+
+      const expected = [
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelTextBold.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: QUOTATION_MOCK.customer.identifier.customerId,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: QUOTATION_MOCK.customer.name,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: '2000',
+            },
+            styleId: excelStyleObjects.excelTextBorderBold.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: `80%`,
+            },
+            styleId: excelStyleObjects.excelTextBorderBold.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: `90%`,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: QUOTATION_MOCK.currency,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [],
+      ];
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('addCustomerOverview', () => {
+    test('should addCustomerOverview', () => {
+      const result = component.addCustomerOverview(QUOTATION_MOCK);
+      const type = 'String';
+      const lastYear = HelperService.getLastYear();
+      const currentYear = HelperService.getCurrentYear();
+
+      const expected = [
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelTextBold.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: CUSTOMER_MOCK.keyAccount,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: CUSTOMER_MOCK.subKeyAccount,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: CUSTOMER_MOCK.abcClassification,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: `${lastYear} translate it`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value:
+                CUSTOMER_MOCK.marginDetail?.netSalesLastYear.toString() || '-',
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: `${lastYear} translate it`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: `${CUSTOMER_MOCK.marginDetail?.gpiLastYear.toString()}%`,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: `${currentYear} translate it`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: CUSTOMER_MOCK.marginDetail?.currentNetSales.toString(),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: `${currentYear} translate it`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: `${CUSTOMER_MOCK.marginDetail?.currentGpi.toString()}%`,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: CUSTOMER_MOCK.country,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: CUSTOMER_MOCK.incoterms,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+      ];
+      expect(result).toEqual(expected);
     });
   });
 });

@@ -8,6 +8,7 @@ import {
   ColumnApi,
   ColumnEvent,
   ColumnState,
+  ExcelStyle,
   GridReadyEvent,
   IStatusPanelParams,
   StatusPanelDef,
@@ -16,6 +17,7 @@ import { Store } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
+import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
@@ -27,6 +29,7 @@ import {
   MODULES,
   STATUS_BAR_CONFIG,
 } from './config';
+import { TableContext } from './config/tablecontext.model';
 
 @Component({
   selector: 'gq-quotation-details-table',
@@ -38,13 +41,13 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   rowData: QuotationDetail[];
 
-  tableContext: any = {
-    currency: undefined,
+  tableContext: TableContext = {
+    quotation: undefined,
   };
 
   @Input() set quotation(quotation: Quotation) {
     this.rowData = quotation?.quotationDetails;
-    this.tableContext.currency = quotation?.currency;
+    this.tableContext.quotation = quotation;
   }
 
   modules: any[] = MODULES;
@@ -57,6 +60,7 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   public columnDefs$: Observable<ColDef[]>;
   public rowSelection = 'multiple';
+  public excelStyles: ExcelStyle[] = excelStyles;
 
   constructor(
     private readonly store: Store,

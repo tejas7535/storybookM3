@@ -78,7 +78,9 @@ describe('QuotationDetailsTableComponent', () => {
       component.quotation = QUOTATION_MOCK;
 
       expect(component.rowData).toEqual(QUOTATION_MOCK.quotationDetails);
-      expect(component.tableContext.currency).toEqual(QUOTATION_MOCK.currency);
+      expect(component.tableContext.quotation.currency).toEqual(
+        QUOTATION_MOCK.currency
+      );
     });
   });
 

@@ -41,7 +41,7 @@ export class ColumnUtilityService {
 
     return HelperService.transformNumberCurrency(
       formattedNumber,
-      params.context.currency
+      params.context.quotation.currency
     );
   }
 
