@@ -118,6 +118,25 @@ export const getPredictionResultGraphData = createSelector(
   }
 );
 
+export const getPredictionResultGraphDataMapped = (
+  chartOptions: EChartsOption
+) =>
+  createSelector(getPredictionResultGraphData, (graphData: EChartsOption) => ({
+    ...chartOptions,
+    xAxis: {
+      ...chartOptions.xAxis,
+      ...graphData.xAxis,
+    },
+    yAxis: {
+      ...chartOptions.yAxis,
+      ...graphData.yAxis,
+    },
+    dataset: {
+      ...chartOptions.dataset,
+      ...graphData.dataset,
+    },
+  }));
+
 export const getStatisticalResult = createSelector(
   getPredictionState,
   (prediction) => {
@@ -136,6 +155,7 @@ export const getLoadsRequest = createSelector(
   getPredictionState,
   (loads, prediction) => {
     if (!loads.data) {
+      // eslint-disable-next-line unicorn/no-useless-undefined
       return undefined;
     }
     const { data, conversionFactor, repetitionFactor, method } = loads;

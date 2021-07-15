@@ -292,16 +292,6 @@ describe('PredictionComponent', () => {
     expect(testObj).toBeTruthy();
   });
 
-  // it('customize tooltip should handle rangeValues as well', () => {
-  //   const testObj: any = component.customizeTooltip({
-  //     argument: 10001,
-  //     rangeValue1Text: '590',
-  //     rangeValue2Text: '780',
-  //   });
-  //   expect(testObj.text).toBeTruthy();
-  //   expect(testObj.html).not.toBeDefined();
-  // });
-
   it('customize tooltip should not add text if 10000 > x | x > 10000000', () => {
     const testObj: any = component.customizeTooltip([
       {

@@ -18,7 +18,7 @@ import { LegendComponent } from './legend/legend.component';
     ReactiveComponentModule,
     FlexLayoutModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
+      echarts: async () => import('echarts'),
     }),
   ],
   exports: [ChartComponent, LegendComponent],

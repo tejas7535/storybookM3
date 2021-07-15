@@ -14,9 +14,9 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
       c: 0.93,
       cr: 1.35,
       mn: 0.25,
-      mo: 0.0,
+      mo: 0,
       name: '100Cr6 Min',
-      ni: 0.0,
+      ni: 0,
       si: 0.15,
     },
     {
@@ -40,10 +40,10 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
     {
       c: 0.93,
       cr: 1.4,
-      mn: 1.0,
-      mo: 0.0,
+      mn: 1,
+      mo: 0,
       name: '100CrMnSi6-4 Min',
-      ni: 0.0,
+      ni: 0,
       si: 0.5,
     },
     {
@@ -70,7 +70,7 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
       mn: 0.6,
       mo: 0.25,
       name: '100CrMo7-3 Min',
-      ni: 0.0,
+      ni: 0,
       si: 0.2,
     },
     {
@@ -97,7 +97,7 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
       mn: 0.8,
       mo: 0.5,
       name: '100CrMnMoSi8-4-6 Min',
-      ni: 0.0,
+      ni: 0,
       si: 0.4,
     },
     {
@@ -124,7 +124,7 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
       mn: 0.25,
       mo: 0.15,
       name: '100CrMo7 Min',
-      ni: 0.0,
+      ni: 0,
       si: 0.25,
     },
     {
@@ -147,7 +147,7 @@ export const AQM_CALCULATION_MATERIALS_MOCK: AQMMaterialsResponse = {
     },
   ],
   sumLimits: {
-    '100Cr6': 2.0,
+    '100Cr6': 2,
     '100CrMnMoSi8-4-6': 3.3,
     '100CrMnSi6-4': 3.2,
     '100CrMo7': 2.35,

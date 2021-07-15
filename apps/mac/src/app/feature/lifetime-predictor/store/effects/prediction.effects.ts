@@ -6,7 +6,7 @@ import {
   concatMap,
   filter,
   map,
-  switchMap,
+  mergeMap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -21,6 +21,9 @@ import {
   getPredictionRequest,
   getStatisticalRequest,
 } from '../selectors/prediction.selectors';
+import { HvLimits } from './../../models/hv-limits.model';
+import { PredictionRequest } from './../../models/prediction-request.model';
+import { StatisticalRequest } from './../../models/statistical-request.model';
 
 @Injectable()
 export class PredictionEffects {
@@ -33,16 +36,24 @@ export class PredictionEffects {
   public setPredictionRequest$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(PredictionActions.setPredictionRequest),
-      switchMap((requests) => {
-        return [
-          PredictionActions.setMLRequest({
-            predictionRequest: requests.predictionRequest,
-          }),
-          PredictionActions.setStatisticalRequest({
-            statisticalRequest: requests.statisticalRequest,
-          }),
-        ];
-      })
+      mergeMap(
+        ({
+          predictionRequest,
+          statisticalRequest,
+        }: {
+          predictionRequest: HvLimits | PredictionRequest;
+          statisticalRequest: HvLimits | StatisticalRequest;
+        }) => {
+          return [
+            PredictionActions.setMLRequest({
+              predictionRequest,
+            }),
+            PredictionActions.setStatisticalRequest({
+              statisticalRequest,
+            }),
+          ];
+        }
+      )
     );
   });
 
@@ -59,7 +70,7 @@ export class PredictionEffects {
       concatMap((action) =>
         of(action).pipe(withLatestFrom(this.store.select(getPredictionRequest)))
       ),
-      switchMap(([_action, predictionRequest]) =>
+      mergeMap(([_action, predictionRequest]) =>
         this.restService.postPrediction(predictionRequest, 2).pipe(
           map((predictionResult: PredictionResult) =>
             PredictionActions.setPredictionResult({ predictionResult })
@@ -81,7 +92,7 @@ export class PredictionEffects {
           withLatestFrom(this.store.select(getStatisticalRequest))
         )
       ),
-      switchMap(([_action, statisticalRequest]) =>
+      mergeMap(([_action, statisticalRequest]) =>
         this.restService.postStatisticalService(statisticalRequest).pipe(
           map((statisticalResult: StatisticalPrediction) =>
             PredictionActions.setStatisticalResult({ statisticalResult })
@@ -104,7 +115,7 @@ export class PredictionEffects {
       ofType(PredictionActions.postLoadsData, PredictionActions.postPrediction),
       withLatestFrom(this.store.select(getLoadsRequest)),
       filter(([_action, loadsRequest]) => loadsRequest !== undefined),
-      switchMap(([_action, loadsRequest]) =>
+      mergeMap(([_action, loadsRequest]) =>
         this.restService.postLoadsData(loadsRequest).pipe(
           map((loadsResult: Loads) =>
             PredictionActions.setLoadsResult({

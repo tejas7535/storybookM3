@@ -253,6 +253,18 @@
       "rules": {
         "@typescript-eslint/explicit-member-accessibility": "off"
       }
+    },
+    {
+      "files": [
+        "**src/fixtures/**/*.ts",
+        "**src/integration/**/*.ts",
+        "**src/plugins/**/*.ts",
+        "**src/support/**/*.ts"
+      ],
+      "rules": {
+        "jest/expect-expect": "off",
+        "@angular-eslint/component-max-inline-declarations": "off"
+      }
     }
   ]
 }

@@ -27,13 +27,15 @@ export class SliderComponent implements OnInit {
     }
     this.control.formControl.setValidators(validators);
     this.control.formControl.updateValueAndValidity();
-    this.control.formControl.valueChanges.subscribe((value) =>
+    this.control.formControl.valueChanges.subscribe((value: any) =>
       this.control.formControl.patchValue(value, this.formOptions)
     );
     if (this.control.disabled === true || this.control.disabled === false) {
       this.setDisabled(this.control.disabled);
     } else {
-      this.control.disabled.subscribe((disabled) => this.setDisabled(disabled));
+      this.control.disabled.subscribe((disabled: boolean) =>
+        this.setDisabled(disabled)
+      );
     }
   }
 
@@ -56,9 +58,11 @@ export class SliderComponent implements OnInit {
    * Enables or disables this component's FormControl.
    */
   public setDisabled(disabled: boolean): void {
-    disabled
-      ? this.control.formControl.disable(this.formOptions)
-      : this.control.formControl.enable(this.formOptions);
+    if (disabled) {
+      this.control.formControl.disable(this.formOptions);
+    } else {
+      this.control.formControl.enable(this.formOptions);
+    }
   }
 
   /**

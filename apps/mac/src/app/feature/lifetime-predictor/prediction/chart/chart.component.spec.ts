@@ -24,7 +24,7 @@ describe('ChartComponent', () => {
       FlexLayoutModule,
       ReactiveComponentModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
       provideTranslocoTestingModule({ en }),
     ],
@@ -49,8 +49,7 @@ describe('ChartComponent', () => {
 
   it('should generate current timestamp', () => {
     const timestamp = component.generateDatetime();
-    const regexMatcher =
-      /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/;
+    const regexMatcher = /^\d{4}(?:-\d{1,2}){2} (?:\d{1,2}:){2}\d{1,2}/;
     expect(regexMatcher.test(timestamp)).toEqual(true);
   });
 

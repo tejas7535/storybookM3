@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/azure-auth';
+import { getRoles, hasIdTokenRoles } from '@schaeffler/azure-auth';
 
 import { AppState } from '../store';
 import { RoutePath } from './../../app-routing.enum';
@@ -40,10 +40,7 @@ describe('RoleGuard', () => {
 
   describe('canActivateChild', () => {
     test('should grant access, if no roles are required', (done) => {
-      store.overrideSelector(getRoles, []);
-      store.refreshState();
-
-      guard.canActivateChild(mockBaseRoute, undefined).subscribe((granted) => {
+      guard.canActivateChild(mockBaseRoute).subscribe((granted: boolean) => {
         expect(granted).toBeTruthy();
         done();
       });
@@ -51,11 +48,14 @@ describe('RoleGuard', () => {
 
     test('should grant access, if user has base role', (done) => {
       store.overrideSelector(getRoles, ['lifetime-predictor-user']);
-      store.refreshState();
+      store.overrideSelector(
+        hasIdTokenRoles(mockProtectedRoute.data.requiredRoles),
+        true
+      );
 
       guard
-        .canActivateChild(mockProtectedRoute, undefined)
-        .subscribe((granted) => {
+        .canActivateChild(mockProtectedRoute)
+        .subscribe((granted: boolean) => {
           expect(granted).toBeTruthy();
           done();
         });
@@ -63,12 +63,16 @@ describe('RoleGuard', () => {
 
     test('should not grant access if user is lacking base role', (done) => {
       store.overrideSelector(getRoles, []);
+      store.overrideSelector(
+        hasIdTokenRoles(mockProtectedRoute.data.reqiredRoles),
+        false
+      );
       store.refreshState();
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard
-        .canActivateChild(mockProtectedRoute, undefined)
-        .subscribe((granted) => {
+        .canActivateChild(mockProtectedRoute)
+        .subscribe((granted: boolean) => {
           expect(guard['router'].navigate).toHaveBeenCalledWith([
             RoutePath.ForbiddenPath,
           ]);

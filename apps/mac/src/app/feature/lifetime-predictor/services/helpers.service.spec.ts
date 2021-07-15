@@ -384,12 +384,8 @@ describe('HelpersService', () => {
 
     const lines = helpersService.calculateLines(limits);
 
-    let before;
-    for (const line of lines) {
-      if (before) {
-        expect(line.value - before.value).toEqual(50);
-      }
-      before = line;
+    for (let i = 0; i < lines.length - 1; i += 1) {
+      expect(lines[i + 1].value - lines[i].value).toEqual(50);
     }
   });
 
@@ -403,12 +399,8 @@ describe('HelpersService', () => {
 
     const lines = helpersService.calculateLines(limits);
 
-    let before;
-    for (const line of lines) {
-      if (before) {
-        expect(line.value - before.value).toEqual(100);
-      }
-      before = line;
+    for (let i = 0; i < lines.length - 1; i += 1) {
+      expect(lines[i + 1].value - lines[i].value).toEqual(100);
     }
   });
 
@@ -508,6 +500,7 @@ describe('HelpersService', () => {
 
   it('should return undefined if predictionResult is empty', () => {
     const kpiResult = helpersService.prepareKpis(
+      // eslint-disable-next-line unicorn/no-useless-undefined
       undefined,
       undefined,
       undefined
@@ -642,13 +635,15 @@ describe('HelpersService', () => {
     const kpis = helpersService.prepareKpis(
       predictionResult,
       display,
+      // eslint-disable-next-line unicorn/no-useless-undefined
       undefined
     );
     expect(kpis).toEqual(expectedKpis);
   });
 
-  it('should return undefined if predictionResult is empty', () => {
+  it('should return undefined if predictionResult is empty at preparePredictionResult', () => {
     const predictionResult = helpersService.preparePredictionResult(
+      // eslint-disable-next-line unicorn/no-useless-undefined
       undefined,
       undefined,
       undefined,
@@ -1023,6 +1018,7 @@ describe('HelpersService', () => {
       1: { x: 0, y: 1 },
     };
 
+    // eslint-disable-next-line unicorn/no-useless-undefined
     const result = helpersService.transformGraph(mockedGraph, undefined);
 
     expect(result).toEqual([]);
