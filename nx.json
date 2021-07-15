@@ -202,6 +202,10 @@
     "shared-ui-styles": {
       "tags": ["scope:shared", "type:styles"]
     },
+    "shared-ui-subheader": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": []
+    },
     "shared-utils-application-insights": {
       "tags": ["scope:shared", "type:utils"]
     },
