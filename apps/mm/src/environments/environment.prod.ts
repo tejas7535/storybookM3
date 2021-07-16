@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   devToolsEnabled: false,
-  baseUrl: 'https://mountingmanager-cae.schaeffler.com/api/v1',
+  baseUrl: 'https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1',
   oneTrustId: '3496b347-7944-4e06-acdf-6d1daa0eb70b-test',
   preflightPath: 'bearing-preflight',
   materialsPath: 'materialdata/id/',

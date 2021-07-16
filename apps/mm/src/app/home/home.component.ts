@@ -9,7 +9,14 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { map, pairwise, startWith, takeUntil, tap } from 'rxjs/operators';
+import {
+  map,
+  pairwise,
+  startWith,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import {
   DynamicFormTemplateContext,
@@ -30,6 +37,7 @@ import {
   IDMM_MEASSURING_METHOD,
   IDMM_MOUNTING_METHOD,
   PAGE_MOUNTING_MANAGER_SEAT,
+  PAGE_RESULT,
   PROPERTY_PAGE_MOUNTING,
   PROPERTY_PAGE_MOUNTING_SITUATION,
   PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
@@ -124,14 +132,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.form = form;
     this.initialFormValue = form.value;
     this.form.valueChanges
-      .pipe(startWith(false), pairwise())
-      .subscribe(([prev, next]: [FormValue, FormValue]) => {
-        if (!prev || !next) {
-          return;
+      .pipe(startWith(false), pairwise(), withLatestFrom(this.activePageId$))
+      .subscribe(
+        ([[prev, next], activePageId]: [[FormValue, FormValue], any]) => {
+          if (
+            activePageId === PROPERTY_PAGE_MOUNTING_SITUATION ||
+            activePageId === PAGE_RESULT
+          ) {
+            return;
+          }
+          if (!prev || !next) {
+            return;
+          }
+          const actualNext = this.getResetedFormValue(prev, next);
+          this.form.reset(actualNext, { onlySelf: true, emitEvent: false });
         }
-        const actualNext = this.getResetedFormValue(prev, next);
-        this.form.reset(actualNext, { onlySelf: true, emitEvent: false });
-      });
+      );
 
     this.homeStore.setPageMetas(nestedMetas);
   }
