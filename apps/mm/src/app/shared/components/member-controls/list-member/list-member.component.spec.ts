@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import {
   BearinxListValue,
@@ -212,6 +212,28 @@ describe('ListMemberComponent', () => {
       });
 
       component.control.patchValue(true);
+    });
+  });
+
+  describe('preselectOnlyOption', () => {
+    it('should preselect an option if there is no other available', () => {
+      const listValues$ = new Subject<
+        (BearinxListValue & { value: string })[]
+      >();
+      const ops: (BearinxListValue & { value: string })[] = [
+        {
+          id: 'testId',
+          text: 'someText',
+          value: 'someValue',
+        },
+      ];
+
+      component.options$ = listValues$.asObservable();
+      component['preselectOnlyOption']();
+      listValues$.next(ops);
+
+      expect(component.control.value).toEqual(ops[0].id);
+      expect(component.meta.control.get('value').value).toEqual(ops[0].id);
     });
   });
 

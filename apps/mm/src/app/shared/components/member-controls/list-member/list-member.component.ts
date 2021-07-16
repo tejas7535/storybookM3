@@ -68,6 +68,7 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
     this.setupOptions(listValues$);
     this.connectRuntime();
+    this.preselectOnlyOption();
   }
 
   public ngOnDestroy(): void {
@@ -137,5 +138,14 @@ export class ListMemberComponent implements OnInit, OnDestroy {
           this.meta.control?.get('initialValue')?.setValue(defaultValue);
         }
       });
+  }
+
+  private preselectOnlyOption(): void {
+    this.options$.pipe(takeUntil(this.destroy$)).subscribe((options) => {
+      if (options.length === 1) {
+        this.control.patchValue(options[0].id);
+        this.meta.control?.get('value')?.setValue(options[0].id);
+      }
+    });
   }
 }
