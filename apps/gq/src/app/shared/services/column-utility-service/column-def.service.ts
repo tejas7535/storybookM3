@@ -119,6 +119,15 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {
+      headerName: translate(
+        'shared.quotationDetailsTable.lastCustomerPriceDate'
+      ),
+      field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
+      filter: 'agDateColumnFilter',
+      valueFormatter: ColumnUtilityService.dateFormatter,
+      filterParams: ColumnUtilityService.dateFilterParams,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.percentDifference'),
       field: 'percentDifference',
       valueFormatter: ColumnUtilityService.percentageFormatter,

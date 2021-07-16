@@ -9,31 +9,6 @@ import { ColumnUtilityService } from '../../../shared/services/column-utility-se
   providedIn: 'root',
 })
 export class ColumnDefService {
-  filterParams = {
-    comparator: (compareDate: Date, cellDate: string) => {
-      const newCellDate = new Date(cellDate);
-      newCellDate.setHours(0, 0, 0, 0);
-
-      const parsedCompareDate = compareDate.getTime();
-      const parsedCellDate = newCellDate.getTime();
-
-      if (parsedCompareDate === parsedCellDate) {
-        return 0;
-      }
-
-      if (parsedCompareDate < parsedCellDate) {
-        return 1;
-      }
-      if (parsedCompareDate > parsedCellDate) {
-        return -1;
-      }
-
-      // this is just a default that never happens
-      return 0;
-    },
-    buttons: ['reset'],
-  };
-
   COLUMN_DEFS: ColDef[] = [
     {
       checkboxSelection: true,
@@ -48,7 +23,7 @@ export class ColumnDefService {
       field: 'gqCreated',
       filter: 'agDateColumnFilter',
       valueFormatter: ColumnUtilityService.dateFormatter,
-      filterParams: this.filterParams,
+      filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
       headerName: translate('caseView.caseTable.sapId'),

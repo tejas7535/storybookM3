@@ -9,6 +9,7 @@ export enum ColumnFields {
   GPC = 'gpc',
   SQV = 'sqv',
   LAST_CUSTOMER_PRICE = 'lastCustomerPrice',
+  LAST_CUSTOMER_PRICE_DATE = 'lastCustomerPriceDate',
 }
 
 export const PriceColumns = [
