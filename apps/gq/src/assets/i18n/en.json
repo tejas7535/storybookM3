@@ -8,6 +8,7 @@
       "info": "Info",
       "item": "Item",
       "lastCustomerPrice": "Last Customer Price",
+      "lastCustomerPriceDate": "Last Customer Price Date",
       "materialDescription": "Description",
       "materialNumber": "Material",
       "netValue": "Net Value",

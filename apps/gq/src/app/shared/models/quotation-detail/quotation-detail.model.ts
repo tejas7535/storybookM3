@@ -19,6 +19,7 @@ export class QuotationDetail {
   public gqRating: number;
   public recommendedPrice: number;
   public lastCustomerPrice: number;
+  public lastCustomerPriceDate: string;
   public percentDifference: number;
   public gpc: number;
   public sqv: number;
