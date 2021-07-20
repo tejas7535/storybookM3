@@ -1,4 +1,5 @@
 export interface GcmStatus {
+  [name: string]: string | number;
   deviceId: string;
   gcm01TemperatureOptics: number;
   gcm01TemperatureOpticsMax: number;

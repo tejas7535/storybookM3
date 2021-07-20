@@ -1,9 +1,10 @@
-import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import { GreaseSensorName } from '../../reducers/grease-status/models';
 import {
-  getGreaseStatusLatestGraphData,
+  getGreaseStatusLatestDeteriorationGraphData,
+  getGreaseStatusLatestTemperatureOpticsGraphData,
+  getGreaseStatusLatestWaterContentGraphData,
   getGreaseStatusLatestLoading,
   getGreaseStatusLatestResult,
   getGreaseStatusLoading,
@@ -79,14 +80,31 @@ describe('Grease Status Selector', () => {
       );
     });
   });
-
-  describe('getGreaseStatusLatestGraphData', () => {
-    it('should return latest grease status series data', () => {
-      const expectedResult = GREASE_STATUS_MOCK;
-      const result = getGreaseStatusLatestGraphData(fakeState, {
-        sensorName: GreaseSensorName.GCM01,
-      });
-      expect(result).toEqual(expectedResult);
+  describe('getGreaseStatusLatestDeteriorationGraphData', () => {
+    it('should return latest getGreaseStatusLatestDeteriorationGraphData', () => {
+      expect(
+        getGreaseStatusLatestDeteriorationGraphData(fakeState, {
+          sensorName: GreaseSensorName.GCM01,
+        })
+      ).toHaveProperty('series');
+    });
+  });
+  describe('getGreaseStatusLatestTemperatureOpticsGraphData', () => {
+    it('should return latest getGreaseStatusLatestTemperatureOpticsGraphData', () => {
+      expect(
+        getGreaseStatusLatestTemperatureOpticsGraphData(fakeState, {
+          sensorName: GreaseSensorName.GCM01,
+        })
+      ).toHaveProperty('series');
+    });
+  });
+  describe('getGreaseStatusLatestWaterContentGraphData', () => {
+    it('should return latestgetGreaseStatusLatestWaterContentGraphData', () => {
+      expect(
+        getGreaseStatusLatestWaterContentGraphData(fakeState, {
+          sensorName: GreaseSensorName.GCM01,
+        })
+      ).toHaveProperty('series');
     });
   });
 });

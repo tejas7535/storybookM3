@@ -6,3 +6,9 @@ export enum GreaseSensorName {
 export interface GreaseSensor {
   sensorName: GreaseSensorName;
 }
+
+export enum GreaseType {
+  deterioration = 'deterioration',
+  temperatureOptics = 'temperatureOptics',
+  waterContent = 'waterContent',
+}

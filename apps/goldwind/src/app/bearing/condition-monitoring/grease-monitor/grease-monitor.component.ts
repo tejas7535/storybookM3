@@ -7,10 +7,11 @@ import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
 import { GreaseSensorName } from '../../../core/store/reducers/grease-status/models';
-import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
-  getGreaseStatusLatestGraphData,
+  getGreaseStatusLatestDeteriorationGraphData,
   getGreaseStatusLatestLoading,
+  getGreaseStatusLatestTemperatureOpticsGraphData,
+  getGreaseStatusLatestWaterContentGraphData,
   getGreaseTimeStamp,
 } from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
@@ -22,7 +23,9 @@ import { Sensor } from '../../../shared/sensor/sensor.enum';
   styleUrls: ['./grease-monitor.component.scss'],
 })
 export class GreaseMonitorComponent implements OnInit {
-  greaseStatusLatestGraphData$: Observable<GraphData>;
+  getGreaseStatusLatestWaterContentGraphData$: Observable<EChartsOption>;
+  getGreaseStatusLatestTemperatureOpticsGraphData$: Observable<EChartsOption>;
+  getGreaseStatusLatestDeteriorationGraphData$: Observable<EChartsOption>;
   greaseTimeStamp$: Observable<string>;
   sensor = false;
   loading$: Observable<boolean>;
@@ -49,8 +52,16 @@ export class GreaseMonitorComponent implements OnInit {
       ? GreaseSensorName.GCM02
       : GreaseSensorName.GCM01;
 
-    this.greaseStatusLatestGraphData$ = this.store.select(
-      getGreaseStatusLatestGraphData,
+    this.getGreaseStatusLatestWaterContentGraphData$ = this.store.select(
+      getGreaseStatusLatestWaterContentGraphData,
+      { sensorName: greaseSensor }
+    );
+    this.getGreaseStatusLatestTemperatureOpticsGraphData$ = this.store.select(
+      getGreaseStatusLatestTemperatureOpticsGraphData,
+      { sensorName: greaseSensor }
+    );
+    this.getGreaseStatusLatestDeteriorationGraphData$ = this.store.select(
+      getGreaseStatusLatestDeteriorationGraphData,
       { sensorName: greaseSensor }
     );
 

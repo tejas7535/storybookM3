@@ -6,7 +6,6 @@ import { take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getShaftLatestGraphData,
   getShaftLatestLoading,
@@ -21,7 +20,7 @@ import { UPDATE_SETTINGS } from '../../../shared/constants';
   styleUrls: ['./shaft.component.scss'],
 })
 export class ShaftComponent implements OnInit {
-  shaftLatestGraphData$: Observable<GraphData>;
+  shaftLatestGraphData$: Observable<EChartsOption>;
   shaftTimeStamp$: Observable<string>;
   refresh = UPDATE_SETTINGS.shaft.refresh;
   loading$: Observable<boolean>;

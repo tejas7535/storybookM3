@@ -31,13 +31,14 @@ export const getStaticSafetyLatestTimeStamp = createSelector(
 export const getStaticSafetyLatestGraphData = createSelector(
   getStaticSafetyLatestResult,
   (state: StaticSafetyStatus) => {
-    const gaubeConfig = new GaugeEchartConfig(
-      state.value,
-      STATIC_STAFETY_SETTINGS.MIN,
-      STATIC_STAFETY_SETTINGS.MAX,
-      STATIC_STAFETY_SETTINGS.TITLE_KEY,
-      STATIC_STAFETY_SETTINGS.THRESHOLD_CONFIG
-    );
+    const gaubeConfig = new GaugeEchartConfig({
+      value: state.value,
+      min: STATIC_STAFETY_SETTINGS.MIN,
+      max: STATIC_STAFETY_SETTINGS.MAX,
+      name: STATIC_STAFETY_SETTINGS.TITLE_KEY,
+      thresholds: STATIC_STAFETY_SETTINGS.THRESHOLD_CONFIG,
+      reverse: true,
+    });
 
     return state && gaubeConfig.extandedSeries();
   }

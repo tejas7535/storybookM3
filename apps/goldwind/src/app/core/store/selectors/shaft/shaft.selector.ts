@@ -1,10 +1,7 @@
-import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
+import { GaugeEchartConfig } from 'apps/goldwind/src/app/shared/chart/gauge-chart';
 
-import {
-  GaugeColors,
-  GREASE_GAUGE_SERIES,
-} from '../../../../shared/chart/chart';
+import { GaugeColors } from '../../../../shared/chart/chart';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { getShaftState } from '../../reducers';
 import { ShaftStatus } from '../../reducers/shaft/models';
@@ -32,32 +29,23 @@ export const getShaftLatestTimeStamp = createSelector(
 
 export const getShaftLatestGraphData = createSelector(
   getShaftLatestResult,
-  (state: ShaftStatus) =>
-    state && {
-      series: {
-        ...GREASE_GAUGE_SERIES,
-        name: translate('conditionMonitoring.shaft.rotorRotationSpeed'),
-        max: 20,
-        data: [
-          {
-            value: state.rsm01ShaftSpeed.toFixed(2),
-            name: translate(
-              'conditionMonitoring.shaft.rotorRotationSpeed'
-            ).toUpperCase(),
-          },
-        ],
-        axisLine: {
-          lineStyle: {
-            ...GREASE_GAUGE_SERIES.axisLine.lineStyle,
-            color: [
-              [16.5 / 20, GaugeColors.GREEN],
-              [18 / 20, GaugeColors.YELLOW],
-              [1, GaugeColors.RED],
-            ],
-          },
-        },
-      },
-    }
+  (state: ShaftStatus) => {
+    const gaubeConfig = new GaugeEchartConfig({
+      // state.rsm01ShaftSpeed,
+      value: 5,
+      min: 0,
+      max: 20,
+      unit: 'rpm',
+      name: 'conditionMonitoring.shaft.rotorRotationSpeed',
+      thresholds: [
+        { value: 11, color: GaugeColors.GREEN },
+        { value: 15, color: GaugeColors.YELLOW },
+        { value: 20, color: GaugeColors.RED },
+      ],
+    });
+
+    return state && gaubeConfig.extandedSeries();
+  }
 );
 
 export const getShaftResult = createSelector(

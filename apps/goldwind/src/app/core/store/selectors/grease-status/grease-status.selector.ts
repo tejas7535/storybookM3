@@ -1,16 +1,17 @@
-import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
+import { GaugeEchartConfig } from '../../../../shared/chart/gauge-chart';
+import { EChartsOption } from 'echarts';
 
-import { GREASE_GAUGE_SERIES } from '../../../../shared/chart/chart';
-import { DATE_FORMAT, GREASE_DASHBOARD } from '../../../../shared/constants';
-import { Control } from '../../../../shared/models';
+import { GaugeColors } from '../../../../shared/chart/chart';
+import { DATE_FORMAT } from '../../../../shared/constants';
 import { getGreaseStatusState } from '../../reducers';
 import { GreaseStatusState } from '../../reducers/grease-status/grease-status.reducer';
-import { GcmStatus, GreaseSensor } from '../../reducers/grease-status/models';
-import { GraphData } from '../../reducers/shared/models';
-
-const isTempGauge = (formControl: string) =>
-  formControl === 'temperatureOptics';
+import {
+  GcmStatus,
+  GreaseSensor,
+  GreaseSensorName,
+  GreaseType,
+} from '../../reducers/grease-status/models';
 
 export const getGreaseStatusLoading = createSelector(
   getGreaseStatusState,
@@ -42,50 +43,84 @@ export const getGreaseTimeStamp = createSelector(
     )
 );
 
-export const getGreaseStatusLatestGraphData = createSelector(
+export const getGreaseStatusLatestWaterContentGraphData = createSelector(
   getGreaseStatusLatestResult,
-  (gcmProcessed: GcmStatus, { sensorName }: GreaseSensor): GraphData => {
-    const gaugePositions = {
-      temperatureOptics: ['20%', '50%'],
-      waterContent: ['50%', '50%'],
-      deterioration: ['80%', '50%'],
-    };
+  (gcmProcessed: GcmStatus, { sensorName }: GreaseSensor): EChartsOption => {
+    const type: GreaseType = GreaseType.waterContent;
 
-    return (
-      gcmProcessed && {
-        series: GREASE_DASHBOARD.map(
-          ({ label, formControl, unit }: Control) => {
-            const property = `${sensorName}${formControl
-              .charAt(0)
-              .toUpperCase()}${formControl.slice(1)}`;
-            const value: number = (gcmProcessed as any)[property];
+    const gaubeConfig = new GaugeEchartConfig({
+      name: `greaseStatus.${type}`,
+      min: 0,
+      max: 100,
+      unit: '%',
 
-            return {
-              ...GREASE_GAUGE_SERIES,
-              name: label,
-              center: (gaugePositions as any)[formControl],
-              pointer: {
-                show: false,
-              },
-              detail: {
-                ...GREASE_GAUGE_SERIES.detail,
-                formatter: `${value.toFixed(2)} ${unit}`,
-              },
-              data: [
-                {
-                  value,
-                  name: translate(`greaseStatus.${label}`).toUpperCase(),
-                },
-              ],
-              max: isTempGauge(formControl) ? 120 : 100,
-              axisLabel: {
-                ...GREASE_GAUGE_SERIES.axisLabel,
-                show: isTempGauge(formControl),
-              },
-            };
-          }
-        ),
-      }
-    );
+      value: getValueFromSensorType(gcmProcessed, sensorName, type),
+      thresholds: [
+        { color: GaugeColors.GREEN, value: 80 },
+        { color: GaugeColors.YELLOW, value: 90 },
+        { color: GaugeColors.RED, value: 100 },
+      ],
+    });
+
+    return gaubeConfig.extandedSeries();
   }
 );
+
+export const getGreaseStatusLatestTemperatureOpticsGraphData = createSelector(
+  getGreaseStatusLatestResult,
+  (gcmProcessed: GcmStatus, { sensorName }: GreaseSensor): EChartsOption => {
+    const type: GreaseType = GreaseType.temperatureOptics;
+    const gaubeConfig = new GaugeEchartConfig({
+      name: `greaseStatus.${type}`,
+      unit: '°C',
+      min: 0,
+      max: 120,
+      value: getValueFromSensorType(gcmProcessed, sensorName, type),
+      thresholds: [
+        { color: GaugeColors.GREEN, value: 80 },
+        { color: GaugeColors.YELLOW, value: 90 },
+        { color: GaugeColors.RED, value: 120 },
+      ],
+    });
+
+    return gaubeConfig.extandedSeries();
+  }
+);
+
+export const getGreaseStatusLatestDeteriorationGraphData = createSelector(
+  getGreaseStatusLatestResult,
+  (gcmProcessed: GcmStatus, { sensorName }: GreaseSensor): EChartsOption => {
+    const type: GreaseType = GreaseType.deterioration;
+
+    const gaubeConfig = new GaugeEchartConfig({
+      name: `greaseStatus.${type}`,
+      min: 0,
+      max: 100,
+      unit: '%',
+      value: getValueFromSensorType(gcmProcessed, sensorName, type),
+      thresholds: [
+        { color: GaugeColors.GREEN, value: 80 },
+        { color: GaugeColors.YELLOW, value: 90 },
+        { color: GaugeColors.RED, value: 100 },
+      ],
+    });
+
+    return gaubeConfig.extandedSeries();
+  }
+);
+/**
+ * Can be used to get a number valued for a echart from a gcm Sensor by type
+ * @param gcmProcessed
+ * @param sensorName
+ * @param type
+ * @returns
+ */
+function getValueFromSensorType(
+  gcmProcessed: GcmStatus,
+  sensorName: GreaseSensorName,
+  type: GreaseType
+): number {
+  return gcmProcessed[
+    `${sensorName}${type.replace(/^./, (s) => s.toUpperCase())}`
+  ] as number;
+}
