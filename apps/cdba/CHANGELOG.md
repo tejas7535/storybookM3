@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.27.0](///compare/cdba-v1.27.0...cdba-v1.26.0) (2021-07-20)
+
+
+### 🎸 Features
+
+* **cdba:** add hover effect for sidebar b04b8cf
+* **cdba:** increase panel width for search selects (DSCDA-2513) 27a39ea
+
 ## [1.26.0](///compare/cdba-v1.26.0...cdba-v1.25.0) (2021-07-06)
 
 
