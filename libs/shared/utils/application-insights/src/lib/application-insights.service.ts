@@ -18,6 +18,7 @@ import {
   APPLICATION_INSIGHTS_CONFIG,
   ApplicationInsightsModuleConfig,
 } from './application-insights-module-config';
+import { AI_COOKIES } from './cookie-groups';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +56,13 @@ export class ApplicationInsightsService {
         disableCookiesUsage: !cookieEnabled,
       },
     });
+
+    // delete cookies since app insights only disable usage of them
+    if (!cookieEnabled) {
+      AI_COOKIES.forEach((aiCookie) =>
+        this.appInsights.getCookieMgr().del(aiCookie)
+      );
+    }
 
     this.appInsights.loadAppInsights();
 
