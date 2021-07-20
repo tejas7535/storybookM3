@@ -3,6 +3,7 @@ import {
   CALCULATIONS_MOCK,
   CUSTOMER_DETAILS_MOCK,
   DETAIL_STATE_MOCK,
+  DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
   PRICE_DETAILS_MOCK,
   PRODUCTION_DETAILS_MOCK,
@@ -42,6 +43,9 @@ import {
 
 describe('Detail Selector', () => {
   const fakeState: { detail: DetailState } = { detail: DETAIL_STATE_MOCK };
+  const fakeStateMissingSalesInformation: { detail: DetailState } = {
+    detail: DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK,
+  };
 
   const initialDetailState: { detail: DetailState } = {
     detail: initialState,
@@ -106,6 +110,12 @@ describe('Detail Selector', () => {
 
     test('should return undefined', () => {
       expect(getPriceDetails(initialDetailState)).toBeUndefined();
+    });
+
+    test('should return undefined for average price if user is not allow to see it', () => {
+      expect(
+        getPriceDetails(fakeStateMissingSalesInformation).averagePrice
+      ).toBeUndefined();
     });
   });
 
