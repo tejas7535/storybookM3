@@ -69,7 +69,9 @@ export const getPriceDetails = createSelector(
           referenceType.gpcDate,
           referenceType.puUm,
           referenceType.currency,
-          referenceType.averagePrices[0]
+          referenceType.averagePrices && referenceType.averagePrices.length > 0
+            ? referenceType.averagePrices[0]
+            : undefined
         )
       : undefined
 );

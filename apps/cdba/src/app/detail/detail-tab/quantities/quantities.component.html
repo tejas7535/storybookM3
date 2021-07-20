@@ -14,8 +14,8 @@
           }}
         </div>
       </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end" *ngIf="quantitiesDetails.netSales?.length"
+      <div fxLayout="row wrap" *ngIf="quantitiesDetails.netSales?.length">
+        <label fxFlexAlign="end"
           >{{
             t('quantities.netSales', { year: currentYear - 1 })
           }}:&nbsp;</label
@@ -57,142 +57,54 @@
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="quantitiesDetails && !errorMessage">
+    <div
+      class="widget-group"
+      *ngIf="
+        quantitiesDetails && quantitiesDetails.actualQuantities && !errorMessage
+      "
+    >
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities?.length > 3"
+        *ngFor="
+          let actualQuantity of quantitiesDetails.actualQuantities
+            .slice()
+            .reverse();
+          index as i
+        "
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.actualQuantity', { year: currentYear - 4 })
+            t('quantities.actualQuantity', { year: currentYear - (4 - i) })
           }}:&nbsp;</label
         >
         <div>
-          {{
-            quantitiesDetails.actualQuantities[3]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities?.length > 2"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.actualQuantity', { year: currentYear - 3 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.actualQuantities[2]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities?.length > 1"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.actualQuantity', { year: currentYear - 2 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.actualQuantities[1]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities?.length"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.actualQuantity', { year: currentYear - 1 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.actualQuantities[0]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
+          {{ actualQuantity | number: '':'de-DE' | undefinedAttributeFallback }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="quantitiesDetails && !errorMessage">
+    <div
+      class="widget-group"
+      *ngIf="
+        quantitiesDetails &&
+        quantitiesDetails.plannedQuantities &&
+        !errorMessage
+      "
+    >
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities?.length"
+        *ngFor="
+          let plannedQuantity of quantitiesDetails.plannedQuantities;
+          index as i
+        "
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.plannedQuantity', { year: currentYear + i })
           }}:&nbsp;</label
         >
         <div>
           {{
-            quantitiesDetails.plannedQuantities[0]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities?.length > 1"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.plannedQuantity', { year: currentYear + 1 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.plannedQuantities[1]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities?.length > 2"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.plannedQuantity', { year: currentYear + 2 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.plannedQuantities[2]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities?.length > 3"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.plannedQuantity', { year: currentYear + 3 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.plannedQuantities[3]
-              | number: '':'de-DE'
-              | undefinedAttributeFallback
+            plannedQuantity | number: '':'de-DE' | undefinedAttributeFallback
           }}
         </div>
       </div>
