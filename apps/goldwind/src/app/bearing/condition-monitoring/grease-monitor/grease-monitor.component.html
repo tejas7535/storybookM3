@@ -23,14 +23,31 @@
     </div>
     <mat-card-content
       fxFlex
-      fxLayout="column"
-      fxLayoutAlign="space-between end"
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxLayoutAlign="center"
     >
       <div
         fxFlex
         echarts
         [options]="chartOptions"
-        [merge]="greaseStatusLatestGraphData$ | ngrxPush"
+        [merge]="this.getGreaseStatusLatestWaterContentGraphData$ | ngrxPush"
+        class="grease-monitor-chart dashboard-echart"
+      ></div>
+      <div
+        fxFlex
+        echarts
+        [options]="chartOptions"
+        [merge]="
+          this.getGreaseStatusLatestTemperatureOpticsGraphData$ | ngrxPush
+        "
+        class="grease-monitor-chart dashboard-echart"
+      ></div>
+      <div
+        fxFlex
+        echarts
+        [options]="chartOptions"
+        [merge]="this.getGreaseStatusLatestDeteriorationGraphData$ | ngrxPush"
         class="grease-monitor-chart dashboard-echart"
       ></div>
     </mat-card-content>

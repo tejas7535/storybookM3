@@ -1,5 +1,4 @@
 import { DATE_FORMAT } from '../../../../../app/shared/constants';
-import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
 import { initialState, ShaftState } from '../../reducers/shaft/shaft.reducer';
 import {
   getShaftLatestGraphData,
@@ -66,9 +65,11 @@ describe('Shaft Selector', () => {
 
   describe('getShaftLatestGraphData', () => {
     it('should return the latest shaft latest graph data', () => {
-      expect(getShaftLatestGraphData(fakeState)).toEqual(
-        SHAFT_LATEST_GRAPH_DATA
-      );
+      expect(getShaftLatestGraphData(fakeState)).toHaveProperty('series');
+      // reducing test complexity to the fact that the seperate gauge class has it's own tests
+      expect(
+        (getShaftLatestGraphData(fakeState).series as any).length
+      ).toBeGreaterThan(0);
     });
   });
 

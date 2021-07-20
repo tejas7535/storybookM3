@@ -7,7 +7,7 @@ export class GaugeEchartConfig {
   private readonly START_ANGLE = 200;
   private readonly GAUGE_RADIUS = '80%';
   private readonly DEFAULT_END_ANGLE = -20;
-  private readonly DEFAULT_GAUGE_CENTER = ['50%', '60%'];
+  private readonly DEFAULT_GAUGE_CENTER = ['50%', '50%'];
   private readonly HIDE_ELEMENTS_IN_TRESHOLD_TICK = {
     pointer: {
       show: false,
@@ -25,9 +25,9 @@ export class GaugeEchartConfig {
       show: false,
     },
   };
-  private readonly AXIS_TICK_LABEL_COLOR = '#999';
-  private readonly AXIS_TICK_LABEL_FONTSIZE = 8;
-  private readonly AXIS_TICK_LABEL_DISTANCE = -35;
+  private readonly AXIS_TICK_LABEL_COLOR = 'rgba(0,0,0,0.68)';
+  private readonly AXIS_TICK_LABEL_FONTSIZE = 12;
+  private readonly AXIS_TICK_LABEL_DISTANCE = -50;
   private readonly GAUGE_COMMON = {
     center: this.DEFAULT_GAUGE_CENTER,
     radius: this.GAUGE_RADIUS,
@@ -41,34 +41,40 @@ export class GaugeEchartConfig {
       show: false,
     },
   };
-  private readonly INNER_PROGRESS_RADIUS = '74%';
-  private readonly INNER_PROGRESS_OFFSET = ['0', '-130%'];
-  private readonly INNER_PROGRESS_FONTWEIGHT = 'lighter';
-  private readonly INNER_PROGRESS_WIDTH = 14;
+  private readonly INNER_PROGRESS_RADIUS = '76%';
+  private readonly INNER_PROGRESS_OFFSET = ['0', '-140%'];
+  private readonly TITLE_FONTWHEIGHT = '500';
+  private readonly TITLE_SIZE = 14;
+  private readonly INNER_PROGRESS_WIDTH = 18;
   private readonly OUTER_THRESHOLD_BAR_WIDTH = 4;
 
   private readonly GAUGE_MAX_VALUE: number;
   private readonly GAUGE_MIN_VALUE: number;
   private readonly thresholds: IThreshold[];
   private readonly value: number;
-  private readonly DIRECTION = 1;
+  private readonly REVERSE: boolean;
   private readonly name: TranslateParams;
+  private readonly unit: string;
 
   /**
    *
    */
-  constructor(
-    value: number,
-    min: number,
-    max: number,
-    name: string,
-    thresholds: IThreshold[]
-  ) {
-    this.value = value;
-    this.name = name;
-    this.thresholds = thresholds;
-    this.GAUGE_MAX_VALUE = max;
-    this.GAUGE_MIN_VALUE = min;
+  constructor(config: {
+    value: number;
+    unit?: string;
+    min: number;
+    max: number;
+    name: string;
+    thresholds: IThreshold[];
+    reverse?: boolean;
+  }) {
+    this.value = config.value;
+    this.unit = config.unit || '';
+    this.name = config.name;
+    this.thresholds = config.thresholds;
+    this.GAUGE_MAX_VALUE = config.max;
+    this.GAUGE_MIN_VALUE = config.min;
+    this.REVERSE = config.reverse;
   }
   /**
    *
@@ -78,9 +84,9 @@ export class GaugeEchartConfig {
     return {
       series: [
         ...this.thresholds.map((threshold_value) =>
-          this.getAxisThresholdTick(threshold_value.value)
+          this.getAxisThresholdTickSeries(threshold_value.value)
         ),
-        this.getOuterThresholdBar(),
+        this.getOuterThresholdBarSeries(),
         this.getInnerProgress(),
       ],
     };
@@ -90,27 +96,35 @@ export class GaugeEchartConfig {
    * @param value the state value use to calculate the endangle
    * @returns an series object
    */
-  private getAxisThresholdTick(value: number): any {
+  private getAxisThresholdTickSeries(value: number): any {
+    // angle sum - max value = how many percent per degree
     const per_angle_factor =
       (this.START_ANGLE - this.DEFAULT_END_ANGLE) / this.GAUGE_MAX_VALUE;
-    const getCalculatedPartialEndAngle =
-      this.DEFAULT_END_ANGLE + per_angle_factor * value;
+    const getCalculatedPartialEndAngle = !this.REVERSE
+      ? this.START_ANGLE - per_angle_factor * value
+      : this.DEFAULT_END_ANGLE + per_angle_factor * value;
 
     return {
       ...this.HIDE_ELEMENTS_IN_TRESHOLD_TICK,
       ...this.GAUGE_COMMON,
 
       axisLabel: {
-        distance: this.AXIS_TICK_LABEL_DISTANCE,
+        distance:
+          this.unit === ''
+            ? this.AXIS_TICK_LABEL_DISTANCE
+            : this.AXIS_TICK_LABEL_DISTANCE -
+              (250 / Math.abs(this.AXIS_TICK_LABEL_DISTANCE)) *
+                this.unit.length,
         color: this.AXIS_TICK_LABEL_COLOR,
         fontSize: this.AXIS_TICK_LABEL_FONTSIZE,
-        formatter: (v: any) => v.toFixed(1).toString().replace('.', ','),
+        fontFamily: 'Roboto',
+        formatter: (v: any) =>
+          `${v.toFixed(1).toString().replace('.', ',')} ${this.unit}`,
       },
       /**
        *
        */
       endAngle: getCalculatedPartialEndAngle,
-      min: this.GAUGE_MAX_VALUE,
       max: value,
       splitLine: {
         show: false,
@@ -132,8 +146,11 @@ export class GaugeEchartConfig {
       splitNumber: 1,
       title: {
         show: true,
+        color: this.AXIS_TICK_LABEL_COLOR,
         offsetCenter: this.INNER_PROGRESS_OFFSET,
-        fontWeight: this.INNER_PROGRESS_FONTWEIGHT,
+        fontWeight: this.TITLE_FONTWHEIGHT,
+        fontFamily: 'Roboto',
+        fontSize: this.TITLE_SIZE,
       },
       progress: {
         itemStyle: {
@@ -142,12 +159,13 @@ export class GaugeEchartConfig {
         width: this.INNER_PROGRESS_WIDTH,
         show: true,
       },
+      silent: true,
       axisLabel: {
         show: false,
       },
       name: translate(this.name),
-      min: this.GAUGE_MAX_VALUE,
-      max: this.GAUGE_MIN_VALUE,
+      min: this.REVERSE ? this.GAUGE_MAX_VALUE : this.GAUGE_MIN_VALUE,
+      max: this.REVERSE ? this.GAUGE_MIN_VALUE : this.GAUGE_MAX_VALUE,
       data: [
         {
           value: this.value.toFixed(1),
@@ -156,9 +174,11 @@ export class GaugeEchartConfig {
       ],
       detail: {
         offsetCenter: [0, 0],
-        fontWeight: 'normal',
-        fontSize: this.INNER_PROGRESS_WIDTH,
-        formatter: (v: any) => v.toFixed(1).toString().replace('.', ','),
+        fontWeight: '500',
+        fontSize: 20,
+        color: 'rgba(0,0,0,0.91)',
+        formatter: (v: any) =>
+          `${v.toFixed(1).toString().replace('.', ',')} ${this.unit}`,
       },
       axisLine: {
         lineStyle: {
@@ -172,7 +192,7 @@ export class GaugeEchartConfig {
    * Creates an outline colored with the given threshold and color level
    * @returns the outer threshold bar as series object
    */
-  private getOuterThresholdBar(): any {
+  private getOuterThresholdBarSeries(): any {
     return {
       ...GREASE_GAUGE_SERIES,
       ...this.GAUGE_COMMON,
@@ -188,7 +208,7 @@ export class GaugeEchartConfig {
           ...GREASE_GAUGE_SERIES.axisLine.lineStyle,
           width: this.OUTER_THRESHOLD_BAR_WIDTH,
           color: this.thresholds.map((threshold) => [
-            Math.abs(this.DIRECTION - threshold.value / this.GAUGE_MAX_VALUE),
+            this.getPercentOfValue(threshold),
             threshold.color,
           ]),
         },
@@ -197,20 +217,29 @@ export class GaugeEchartConfig {
       progress: {
         show: false,
       },
-      min: this.GAUGE_MIN_VALUE, // setting min value to max state value to its inverted on display
-      max: this.GAUGE_MAX_VALUE,
+      // setting min value to max state value to its inverted on display
+      max: this.REVERSE ? this.GAUGE_MAX_VALUE : this.GAUGE_MIN_VALUE,
+      min: this.REVERSE ? this.GAUGE_MIN_VALUE : this.GAUGE_MAX_VALUE,
       data: [{ value: 0 }], // dont need value because its only used for coloring the threshold bars
       detail: {
         show: false,
       },
     };
   }
+  private getPercentOfValue(threshold: IThreshold): number {
+    return this.REVERSE
+      ? Math.abs(1 - threshold.value / this.GAUGE_MAX_VALUE)
+      : Math.abs(threshold.value / this.GAUGE_MAX_VALUE);
+  }
+
   /**
    * Helper function the return the correct color for a state value
    * @returns a color for the progressbar
    */
   private getProgressColor(): string {
-    return this.thresholds.find((threshold) => threshold.value <= this.value)
-      .color;
+    return (
+      this.thresholds.find((threshold) => threshold.value <= this.value)
+        ?.color || GaugeColors.GREEN
+    );
   }
 }
