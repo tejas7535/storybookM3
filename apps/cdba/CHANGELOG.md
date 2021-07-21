@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.27.1](///compare/cdba-v1.27.1...cdba-v1.27.0) (2021-07-21)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** solve page rendering issue for users without sales access rights (DSCDA-2546) d89ab42
+
 ## [1.27.0](///compare/cdba-v1.27.0...cdba-v1.26.0) (2021-07-20)
 
 
