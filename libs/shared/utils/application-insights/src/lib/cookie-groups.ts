@@ -5,3 +5,5 @@ export const COOKIE_GROUPS = {
   TargetingCookies: 'C0004',
   SocialMediaCookies: 'C0005',
 };
+
+export const AI_COOKIES = ['ai_session', 'ai_user'];
