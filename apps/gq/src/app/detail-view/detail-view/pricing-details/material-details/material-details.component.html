@@ -1,84 +1,114 @@
 <div *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
-  <div
-    class="container"
-    fxLayout="row"
-    fxLayoutAlign="space-between none"
-    *ngIf="materialDetails"
-  >
-    <div fxFlex="50%">
-      <p>
-        <span class="label">{{ t('materialDescription') }}: </span
-        >{{ materialDetails.materialDescription }}
+  <div class="flex flex-row w-full" *ngIf="materialDetails">
+    <div class="w-1/2">
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('materialDescription') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.materialDescription }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('15digit') }}: </span
-        >{{ materialDetails.materialNumber15 | materialTransform }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('15digit') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.materialNumber15 | materialTransform }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('materialStatus') }}: </span
-        >{{ materialDetails.materialStatus }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('materialStatus') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.materialStatus }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('productLine') }}: </span
-        >{{ materialDetails.productLine }} |
-        {{ materialDetails.productLineId }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('productLine') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.productLine }} |
+          {{ materialDetails.productLineId }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('productHierarchy') }}: </span
-        >{{ materialDetails.productHierarchy }} |
-        {{ materialDetails.productHierarchyId }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('productHierarchy') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.productHierarchy }} |
+          {{ materialDetails.productHierarchyId }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('gpsdGroup') }}: </span>
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('gpsdGroup') }}: </span>
         <span *ngIf="materialDetails.gpsdGroup"
           >{{ materialDetails.gpsdGroup }} |</span
         >
-        {{ materialDetails.gpsdGroupId }}
+        <span class="text-dark">
+          {{ materialDetails.gpsdGroupId }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('series') }}: </span
-        >{{ materialDetails.series || '-' }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('series') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.series || '-' }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('followingType') }}: </span
-        >{{ materialDetails.followingType || '-' }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('followingType') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.followingType || '-' }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('customerMaterial') }}: </span
-        >{{ customerMaterial || '-' }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('customerMaterial') }}: </span>
+        <span class="text-dark">
+          {{ customerMaterial || '-' }}
+        </span>
       </p>
     </div>
-    <div fxFlex="50%">
-      <p>
-        <span class="label">{{ t('dimension') }}: </span
-        >{{ materialDetails.dimensions || '-' }}
+    <div class="w-1/2">
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('dimension') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.dimensions || '-' }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('innerDiameter') }}: </span
-        >{{ materialDetails.innerDiameter }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('innerDiameter') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.innerDiameter }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('outerDiameter') }}: </span
-        >{{ materialDetails.outerDiameter }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('outerDiameter') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.outerDiameter }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('width') }}: </span>{{ materialDetails.width }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('width') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.width }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('grossWeight') }}: </span
-        >{{ materialDetails.grossWeight }} [{{ materialDetails.weightUnit }}]
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('grossWeight') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.grossWeight }} [{{ materialDetails.weightUnit }}]
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('baseUoM') }}: </span
-        >{{ materialDetails.baseUoM }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('baseUoM') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.baseUoM }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('materialType') }}: </span
-        >{{ materialDetails.materialType }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('materialType') }}: </span
+        ><span class="text-dark">
+          {{ materialDetails.materialType }}
+        </span>
       </p>
-      <p>
-        <span class="label">{{ t('ean11') }}: </span
-        >{{ materialDetails.ean11 || '-' }}
+      <p class="m-2 text-caption">
+        <span class="text-light">{{ t('ean11') }}: </span>
+        <span class="text-dark">
+          {{ materialDetails.ean11 || '-' }}
+        </span>
       </p>
     </div>
   </div>

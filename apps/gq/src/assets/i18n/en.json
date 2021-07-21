@@ -25,7 +25,12 @@
       "orderQuantity": "Quantity",
       "rlt": "RLT",
       "sqv": "SQV",
-      "uom": "UoM"
+      "uom": "UoM",
+      "rlm": "RLM % (Reloc.)",
+      "relocCost": "Reloc. Cost",
+      "relocPlant": "Reloc. Plant",
+      "relocCity": "Reloc. City",
+      "relocCountry": "Reloc. Country"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

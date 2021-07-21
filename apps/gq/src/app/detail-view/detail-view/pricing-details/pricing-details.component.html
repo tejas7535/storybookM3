@@ -3,7 +3,7 @@
     <mat-card-title class="!text-h6 !font-bold opacity-60">
       {{ t('label') }}
     </mat-card-title>
-    <mat-card-content>
+    <mat-card-content *ngIf="customerCurrency$ | ngrxPush as currency">
       <mat-accordion multi="true">
         <mat-expansion-panel class="border border-lightBg" expanded="true">
           <mat-expansion-panel-header>
@@ -33,8 +33,20 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <gq-production-cost-details
+            [currency]="currency"
             [quotationDetail]="quotationDetail"
           ></gq-production-cost-details>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="border border-lightBg" expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="font-bold opacity-60">
+              {{ t('relocationCostDetails.label') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <gq-relocation-cost-details
+            [quotationDetail]="quotationDetail"
+            [currency]="currency"
+          ></gq-relocation-cost-details>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-card-content>

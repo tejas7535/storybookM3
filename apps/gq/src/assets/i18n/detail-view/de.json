@@ -59,6 +59,11 @@
       "supplyPlant": "Lieferwerk",
       "productionPlant": "Produktionswerk",
       "productionPlantRlt": "Produktionswerk WBZ"
+    },
+    "relocationCostDetails": {
+      "label": "Zukünftige Kosten",
+      "relocationPlant": "Zukünftiges Prod.Werk",
+      "relocationCost": "Zukünftige Kosten"
     }
   }
 }

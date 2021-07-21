@@ -1,6 +1,4 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -13,13 +11,7 @@ describe('ProductionCostDetailsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ProductionCostDetailsComponent,
-    imports: [
-      provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
-      SharedPipesModule,
-    ],
-    providers: [provideMockStore({})],
-    declarations: [ProductionCostDetailsComponent],
+    imports: [provideTranslocoTestingModule({ en: {} }), SharedPipesModule],
   });
 
   beforeEach(() => {

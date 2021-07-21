@@ -59,6 +59,11 @@
       "supplyPlant": "Delivery Plant",
       "productionPlant": "Production Plant",
       "productionPlantRlt": "Production Plant RLT"
+    },
+    "relocationCostDetails": {
+      "label": "Relocation Cost",
+      "relocationPlant": "Relocation Plant",
+      "relocationCost": "Relocation Cost"
     }
   }
 }

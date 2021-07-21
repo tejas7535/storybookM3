@@ -104,6 +104,11 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.relocCost'),
+      field: ColumnFields.RELOCATION_COST,
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.gpi'),
       field: ColumnFields.GPI,
       valueFormatter: ColumnUtilityService.percentageFormatter,
@@ -111,6 +116,11 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.gpm'),
       field: ColumnFields.GPM,
+      valueFormatter: ColumnUtilityService.percentageFormatter,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.rlm'),
+      field: ColumnFields.RLM,
       valueFormatter: ColumnUtilityService.percentageFormatter,
     },
     {
@@ -166,6 +176,21 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.gpsd'),
       field: 'material.gpsdGroupId',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.relocPlant'),
+      field: 'relocatedProductionPlant.plantNumber',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.relocCity'),
+      field: 'relocatedProductionPlant.city',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.relocCountry'),
+      field: 'relocatedProductionPlant.country',
       valueFormatter: ColumnUtilityService.basicTransform,
     },
   ];

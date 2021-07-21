@@ -3,10 +3,10 @@ import { Component, Input } from '@angular/core';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 
 @Component({
-  selector: 'gq-production-cost-details',
-  templateUrl: './production-cost-details.component.html',
+  selector: 'gq-relocation-cost-details',
+  templateUrl: './relocation-cost-details.component.html',
 })
-export class ProductionCostDetailsComponent {
+export class RelocationCostDetailsComponent {
   @Input() quotationDetail: QuotationDetail;
   @Input() currency: string;
 }
