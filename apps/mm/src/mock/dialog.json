@@ -35,13 +35,13 @@
               "listValues": [
                 {
                   "id": 1,
-                  "text": "dialog.bearingTypeListValues.sphericalBallBearing",
-                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp"
+                  "text": "dialog.bearingTypeListValues.radialSelfAligningRollerBearing",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/pero_unknown.bmp"
                 },
                 {
                   "id": 2,
-                  "text": "dialog.bearingTypeListValues.barrelRollerBearing",
-                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/toro_unknown.bmp"
+                  "text": "dialog.bearingTypeListValues.selfAligningBallBearing",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp"
                 }
               ]
             }

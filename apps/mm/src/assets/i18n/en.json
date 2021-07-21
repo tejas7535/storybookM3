@@ -22,10 +22,8 @@
     "bearing": "Bearing",
     "bearingType": "Bearing type",
     "bearingTypeListValues": {
-      "sphericalBallBearing": "Spherical Ball Bearing",
-      "barrelRollerBearing": "Barrel Roller Bearing",
-      "sphericalRollerBearing": "Spherical Roller Bearing",
-      "radialRollerBearing": "Radial Roller Bearing"
+      "radialSelfAligningRollerBearing": "Radial self aligning roller bearing",
+      "selfAligningBallBearing": "Self aligning ball bearing"
     },
     "bearingSeries": "Bearing series",
     "bearingSeat": "Bearing seat",

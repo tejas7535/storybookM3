@@ -19,10 +19,8 @@
     "bearing": "Bearing zh",
     "bearingType": "Bearing type zh",
     "bearingTypeListValues": {
-      "sphericalBallBearing": "Spherical Ball Bearing zh",
-      "barrelRollerBearing": "Barrel Roller Bearing zh",
-      "sphericalRollerBearing": "Spherical Roller Bearing zh",
-      "radialRollerBearing": "Radial Roller Bearing zh"
+      "radialSelfAligningRollerBearing": "向心调心滚子轴承",
+      "selfAligningBallBearing": "调心球轴承"
     },
     "bearingSeries": "Bearing series zh",
     "bearingSeat": "Bearing seat zh",

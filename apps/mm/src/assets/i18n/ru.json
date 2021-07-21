@@ -22,10 +22,8 @@
     "bearing": "Bearing ru",
     "bearingType": "Bearing type ru",
     "bearingTypeListValues": {
-      "sphericalBallBearing": "Spherical Ball Bearing ru",
-      "barrelRollerBearing": "Barrel Roller Bearing ru",
-      "sphericalRollerBearing": "Spherical Roller Bearing ru",
-      "radialRollerBearing": "Radial Roller Bearing ru"
+      "radialSelfAligningRollerBearing": "Радиальные сферические роликоподшипники",
+      "selfAligningBallBearing": "Радиальные сферические шарикоподшипники"
     },
     "bearingSeries": "Bearing series ru",
     "bearingSeat": "Bearing seat ru",
