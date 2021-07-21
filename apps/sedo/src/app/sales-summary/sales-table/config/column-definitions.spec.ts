@@ -10,7 +10,7 @@ describe('columnDef', () => {
     const expected = new Date(data.value).toLocaleDateString();
     expect(res).toEqual(expected);
   });
-  test('should render Date', () => {
+  test('should render empty Date', () => {
     const data = {};
     const res = dateFormatter(data);
     expect(res).toEqual('');
