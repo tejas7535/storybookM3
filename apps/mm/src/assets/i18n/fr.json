@@ -22,10 +22,8 @@
     "bearing": "Bearing fr",
     "bearingType": "Bearing type fr",
     "bearingTypeListValues": {
-      "sphericalBallBearing": "Spherical Ball Bearing fr",
-      "barrelRollerBearing": "Barrel Roller Bearing fr",
-      "sphericalRollerBearing": "Spherical Roller Bearing fr",
-      "radialRollerBearing": "Radial Roller Bearing fr"
+      "radialSelfAligningRollerBearing": "Roulement à rotule sur deux rangées de rouleaux",
+      "selfAligningBallBearing": "Roulement à rotule sur billes"
     },
     "bearingSeries": "Bearing series fr",
     "bearingSeat": "Bearing seat fr",
