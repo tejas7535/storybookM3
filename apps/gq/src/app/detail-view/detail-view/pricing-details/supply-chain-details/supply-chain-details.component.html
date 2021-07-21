@@ -1,18 +1,18 @@
 <div *transloco="let t; read: 'detailView.pricingDetails.supplyChainDetails'">
   <div *ngIf="quotationDetail">
-    <p>
-      <span class="label">{{ t('supplyPlant') }}: </span>
-      <span>{{ quotationDetail.plant | plantDisplay }}</span>
+    <p class="m-2 text-caption">
+      <span class="text-light">{{ t('supplyPlant') }}: </span>
+      <span class="text-dark">{{ quotationDetail.plant | plantDisplay }}</span>
     </p>
-    <p>
-      <span class="label">{{ t('productionPlant') }}: </span>
-      <span>
+    <p class="m-2 text-caption">
+      <span class="text-light">{{ t('productionPlant') }}: </span>
+      <span class="text-dark">
         {{ quotationDetail.productionPlant | plantDisplay }}
       </span>
     </p>
-    <p>
-      <span class="label">{{ t('productionPlantRlt') }}: </span
-      ><span>{{ quotationDetail.rlt || '-' }}</span>
+    <p class="m-2 text-caption">
+      <span class="text-light">{{ t('productionPlantRlt') }}: </span
+      ><span class="text-dark">{{ quotationDetail.rlt || '-' }}</span>
     </p>
   </div>
 </div>

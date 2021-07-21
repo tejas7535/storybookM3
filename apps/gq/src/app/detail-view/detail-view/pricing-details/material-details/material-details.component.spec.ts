@@ -15,7 +15,7 @@ describe('MaterialDetailsComponent', () => {
     detectChanges: false,
     imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [provideMockStore({})],
-    declarations: [MaterialDetailsComponent, MaterialTransformPipe],
+    declarations: [MaterialTransformPipe],
   });
 
   beforeEach(() => {

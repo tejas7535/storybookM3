@@ -13,12 +13,14 @@ import { MaterialDetailsModule } from './material-details/material-details.modul
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
+import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
 
 @NgModule({
   declarations: [
     PricingDetailsComponent,
     SupplyChainDetailsComponent,
     ProductionCostDetailsComponent,
+    RelocationCostDetailsComponent,
   ],
   imports: [
     CommonModule,

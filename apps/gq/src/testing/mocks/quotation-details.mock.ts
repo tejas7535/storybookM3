@@ -41,4 +41,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   customerMaterial: 'mockCustomerMaterial',
   coefficient1: 0.88,
   coefficient2: 2.5,
+  relocationCost: 24.5,
+  relocatedProductionPlant: PLANT_MOCK,
+  rlm: 0.65,
 };

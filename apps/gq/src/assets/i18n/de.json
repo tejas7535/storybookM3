@@ -25,7 +25,12 @@
       "orderQuantity": "Menge",
       "rlt": "WBZ",
       "sqv": "SAW",
-      "uom": "Mengeneinheit"
+      "uom": "Mengeneinheit",
+      "rlm": "RLM % (Verlagerung)",
+      "relocCost": " Zukünftige Kosten",
+      "relocPlant": "Zukünftiges Produktionswerk",
+      "relocCity": "Stadt Produktionswerk",
+      "relocCountry": "Land Produktionswerk"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

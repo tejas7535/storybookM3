@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -11,6 +12,7 @@ import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
+import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 
 describe('PricingDetailsComponent', () => {
@@ -29,7 +31,12 @@ describe('PricingDetailsComponent', () => {
       SharedPipesModule,
       ReactiveComponentModule,
     ],
-    declarations: [SupplyChainDetailsComponent, ProductionCostDetailsComponent],
+    providers: [provideMockStore({})],
+    declarations: [
+      SupplyChainDetailsComponent,
+      ProductionCostDetailsComponent,
+      RelocationCostDetailsComponent,
+    ],
   });
 
   beforeEach(() => {

@@ -8,6 +8,8 @@ import {
 } from '@ag-grid-community/all-modules';
 
 import { Transaction } from '../../../core/store/reducers/transactions/models/transaction.model';
+import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
+import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { DEFAULT_COLUMN_DEFS, MODULES } from './config';
 import { ColumnDefService } from './config/column-def.service';
@@ -20,7 +22,7 @@ import { ColumnDefService } from './config/column-def.service';
 export class ComparableTransactionsComponent {
   @Input() rowData: Transaction[];
   @Input() set currency(currency: string) {
-    this.tableContext.currency = currency;
+    this.tableContext.quotation.currency = currency;
   }
 
   private readonly TABLE_KEY = 'transactions';
@@ -28,8 +30,8 @@ export class ComparableTransactionsComponent {
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
 
-  tableContext: { currency: string } = {
-    currency: undefined,
+  tableContext: TableContext = {
+    quotation: { curreny: undefined } as unknown as Quotation,
   };
 
   constructor(

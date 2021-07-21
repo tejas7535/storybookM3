@@ -30,9 +30,12 @@ export class QuotationDetail {
   public customerMaterial: string;
   public coefficient1: number;
   public coefficient2: number;
+  public relocationCost: number;
+  public relocatedProductionPlant: Plant;
 
   // properties added in GQ application
   public netValue: number;
   public gpi: number;
   public gpm: number;
+  public rlm: number;
 }

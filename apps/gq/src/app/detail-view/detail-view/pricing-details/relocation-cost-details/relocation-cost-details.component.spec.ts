@@ -1,17 +1,17 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
-import { SupplyChainDetailsComponent } from './supply-chain-details.component';
+import { RelocationCostDetailsComponent } from './relocation-cost-details.component';
 
-describe('SupplyChainDetailsComponent', () => {
-  let component: SupplyChainDetailsComponent;
-  let spectator: Spectator<SupplyChainDetailsComponent>;
+describe('RelocationCostDetailsComponent', () => {
+  let component: RelocationCostDetailsComponent;
+  let spectator: Spectator<RelocationCostDetailsComponent>;
 
   const createComponent = createComponentFactory({
-    component: SupplyChainDetailsComponent,
+    component: RelocationCostDetailsComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
