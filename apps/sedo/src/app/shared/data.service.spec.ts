@@ -1,8 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
+
+import { of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -15,6 +18,7 @@ describe('DataService', () => {
   let dataService: DataService;
   let spectator: SpectatorService<DataService>;
   let httpMock: HttpTestingController;
+  let httpClient: HttpClient;
 
   const createService = createServiceFactory({
     service: DataService,
@@ -26,15 +30,16 @@ describe('DataService', () => {
     spectator = createService();
     dataService = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
+    httpClient = spectator.inject(HttpClient);
   });
 
   it('should be created', () => {
     expect(dataService).toBeTruthy();
   });
 
-  describe('updateDates', () => {
+  describe('getAllSales', () => {
     it(
-      'getAllSales',
+      'should get all sales data',
       waitForAsync(() => {
         const url = `${environment.apiBaseUrl}/sales/all`;
 
@@ -50,16 +55,15 @@ describe('DataService', () => {
   });
 
   describe('updateDates', () => {
-    it('should resolve', () => {
+    it('should resolve', async () => {
       const updateDates = new UpdateDatesParams('key', 'date1', 'date2');
+      httpClient.put = jest.fn().mockReturnValue(of({}));
 
       const url = `${environment.apiBaseUrl}/sales/update-dates`;
+      await dataService.updateDates(updateDates);
 
-      expect(dataService.updateDates(updateDates)).resolves.not.toThrow();
-
-      const req = httpMock.expectOne(url);
-      expect(req.request.method).toBe('PUT');
-      req.flush({});
+      expect(httpClient.put).toHaveBeenCalledTimes(1);
+      expect(httpClient.put).toHaveBeenCalledWith(url, updateDates);
     });
   });
 });

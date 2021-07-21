@@ -28,7 +28,8 @@
             "style": "kebab-case"
           }
         ],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "unicorn/no-useless-undefined": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

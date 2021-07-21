@@ -2,9 +2,8 @@ import { ColDef } from '@ag-grid-community/all-modules';
 
 import { FILTER_PARAMS } from './filter-params';
 
-export const dateFormatter = (data: any): string => {
-  return data.value ? new Date(data.value).toLocaleDateString() : '';
-};
+export const dateFormatter = (data: any): string =>
+  data.value ? new Date(data.value).toLocaleDateString() : '';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {

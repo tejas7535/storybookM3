@@ -126,7 +126,8 @@ describe('SalesRowDetailsComponent', () => {
 
     it('should set formcontrol values with eopDateVerified', () => {
       component.rowData = {
-        // eslint-disable-next-line no-null/no-null
+        // Values are comming as null from API
+        // eslint-disable-next-line unicorn/no-null
         eopDateTemp: null,
         eopDateVerified: salesSummaryMock.eopDateVerified,
         edoDate: salesSummaryMock.edoDate,
@@ -147,7 +148,8 @@ describe('SalesRowDetailsComponent', () => {
     it('should disable the form group because missing rowData.lastModifier', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = {
-        // eslint-disable-next-line no-null/no-null
+        // Values are comming as null from API
+        // eslint-disable-next-line unicorn/no-null
         lastModifier: null,
       } as unknown as SalesSummary;
       component['handleUserAccess']('');
@@ -168,7 +170,6 @@ describe('SalesRowDetailsComponent', () => {
     it('should not disable the form group', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = {
-        // eslint-disable-next-line no-null/no-null
         lastModifier: 'USER',
       } as unknown as SalesSummary;
       component['handleUserAccess']('user');
