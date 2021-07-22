@@ -29,7 +29,7 @@ export const getIsLoggedIn = createSelector(
 
 export const getRoles = createSelector(
   getAuthState,
-  (state) => (state.accountInfo?.idTokenClaims as any)?.roles || []
+  (state): string[] => (state.accountInfo?.idTokenClaims as any)?.roles || []
 );
 
 export const hasIdTokenRole = (role: string) =>

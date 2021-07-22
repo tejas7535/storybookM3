@@ -167,7 +167,7 @@ export const getMaterialDesignation = createSelector(
     state[index]?.details?.item?.materialDesignation
 );
 
-export const getIsCompareDetailsDisabled = createSelector(
+export const getObjectsAreEqual = createSelector(
   getCompareState,
   (state: CompareState) =>
     state[0] &&

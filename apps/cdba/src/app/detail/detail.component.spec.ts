@@ -18,7 +18,7 @@ import {
 } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 
-import { REFERENCE_TYPE_MOCK } from '../../testing/mocks';
+import { AUTH_STATE_MOCK, REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { MaterialNumberModule } from '../shared/pipes';
 import { SharedModule } from '../shared/shared.module';
@@ -44,6 +44,7 @@ describe('DetailComponent', () => {
       mockProvider(BreadcrumbsService),
       provideMockStore({
         initialState: {
+          'azure-auth': AUTH_STATE_MOCK,
           detail: {},
         },
         selectors: [

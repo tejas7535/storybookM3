@@ -17,7 +17,7 @@ import {
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
   getDimensionAndWeightDetails,
-  getIsCompareDetailsDisabled,
+  getObjectsAreEqual,
   getMaterialDesignation,
   getProductErrorMessage,
   getSelectedCalculation,
@@ -381,9 +381,9 @@ describe('Compare Selectors', () => {
     });
   });
 
-  describe('getIsCompareDetailsDisabled', () => {
+  describe('getObjectsAreEqual', () => {
     it('should return false when compare items dont exist', () => {
-      result = getIsCompareDetailsDisabled(initialCompareState);
+      result = getObjectsAreEqual(initialCompareState);
 
       expect(result).toBeFalsy();
     });
@@ -395,13 +395,13 @@ describe('Compare Selectors', () => {
           1: { ...COMPARE_STATE_MOCK[0] },
         },
       };
-      result = getIsCompareDetailsDisabled(patchedState);
+      result = getObjectsAreEqual(patchedState);
 
       expect(result).toBeTruthy();
     });
 
     it('should return false if compared items are different', () => {
-      result = getIsCompareDetailsDisabled(fakeState);
+      result = getObjectsAreEqual(fakeState);
 
       expect(result).toBeFalsy();
     });

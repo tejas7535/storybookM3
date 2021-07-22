@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -10,25 +10,18 @@ import { Tab } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 
 import { CompareRoutePath } from './compare-route-path.enum';
-import { getIsCompareDetailsDisabled } from './store';
+import { getObjectsAreEqual } from './store';
 
 @Component({
   selector: 'cdba-compare',
   templateUrl: './compare.component.html',
   styleUrls: ['./compare.component.scss'],
 })
-export class CompareComponent implements OnInit {
+export class CompareComponent implements OnInit, OnDestroy {
   public breadcrumbs$: Observable<Breadcrumb[]>;
-  public tabs: Tab[] = [
-    {
-      label$: 'compare.tabs.details',
-      link: CompareRoutePath.DetailsPath,
-    },
-    {
-      label$: 'compare.tabs.billOfMaterial',
-      link: CompareRoutePath.BomPath,
-    },
-  ];
+  public tabs: Tab[];
+  objectsAreEqual: boolean;
+  objectsAreEqualSubscription: Subscription;
 
   constructor(
     private readonly store: Store,
@@ -36,10 +29,33 @@ export class CompareComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.tabs[0].disabled$ = this.store.select(getIsCompareDetailsDisabled);
-
     this.breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
+
+    this.objectsAreEqualSubscription = this.store
+      .select(getObjectsAreEqual)
+      .subscribe((objectsAreEqual) => {
+        this.objectsAreEqual = objectsAreEqual;
+      });
+
+    this.tabs = [
+      {
+        label: 'compare.tabs.details',
+        link: CompareRoutePath.DetailsPath,
+        disabled: this.objectsAreEqual,
+      },
+      {
+        label: 'compare.tabs.billOfMaterial',
+        link: CompareRoutePath.BomPath,
+      },
+    ];
   }
+
+  ngOnDestroy(): void {
+    if (this.objectsAreEqualSubscription) {
+      this.objectsAreEqualSubscription.unsubscribe();
+    }
+  }
+
   /**
    * Improves performance of ngFor.
    */

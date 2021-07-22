@@ -19,6 +19,7 @@ import { SnackBarService } from '@schaeffler/snackbar';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
+  AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -56,7 +57,7 @@ describe('Detail Effects', () => {
   let actions$: any;
   let effects: DetailEffects;
   let detailService: DetailService;
-  let store: any;
+  let store: MockStore;
   let router: Router;
   let snackbarService: SnackBarService;
 
@@ -66,10 +67,14 @@ describe('Detail Effects', () => {
     service: DetailEffects,
     imports: [RouterTestingModule],
     providers: [
-      provideMockActions(() => actions$),
-      provideMockStore(),
       mockProvider(DetailService),
       mockProvider(SnackBarService),
+      provideMockActions(() => actions$),
+      provideMockStore({
+        initialState: {
+          'azure-auth': AUTH_STATE_MOCK,
+        },
+      }),
     ],
   });
 
@@ -207,6 +212,57 @@ describe('Detail Effects', () => {
         expect(detailService.calculations).toHaveBeenCalled();
       })
     );
+  });
+
+  describe('check roles and rights', () => {
+    const stateWithoutRoles: any = {
+      ...AUTH_STATE_MOCK,
+      accountInfo: AUTH_STATE_MOCK.accountInfo,
+      idTokenClaims: {
+        ...AUTH_STATE_MOCK.accountInfo.idTokenClaims,
+        roles: [],
+      },
+    };
+    const result = loadCalculationsFailure({
+      errorMessage: 'unauthorized',
+    });
+
+    beforeEach(() => {
+      store.dispatch = jest.fn();
+      store.setState(stateWithoutRoles);
+    });
+
+    test('before loading calculations', () => {
+      action = loadCalculations();
+
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.loadCalculations$).toBeObservable(expected);
+        m.flush();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          loadCalculationsFailure({ errorMessage: 'unauthorized' })
+        );
+      });
+    });
+
+    test('before loading bom', () => {
+      action = loadBom({ bomIdentifier: BOM_IDENTIFIER_MOCK });
+
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.loadCalculations$).toBeObservable(expected);
+        m.flush();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          loadBomFailure({ errorMessage: 'unauthorized' })
+        );
+      });
+    });
   });
 
   describe('loadDrawings$', () => {

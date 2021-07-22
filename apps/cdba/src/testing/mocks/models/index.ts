@@ -10,3 +10,4 @@ export * from './production-details.mock';
 export * from './calculations.mock';
 export * from './bom.mock';
 export * from './drawings.mock';
+export * from './auth.mock';

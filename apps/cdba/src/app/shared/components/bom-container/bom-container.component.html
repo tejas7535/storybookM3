@@ -53,7 +53,7 @@
             <div
               class="subcaption"
               fxLayout="row wrap"
-              *ngrxLet="selectedCalculation$ as calculation"
+              *ngrxLet="selectedCalculation$; let calculation"
             >
               <label>{{ t('costType') }}:&nbsp;</label>
               <div

@@ -3,7 +3,6 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '@cdba/shared';
 import { BomContainerModule } from '@cdba/shared/components';
 
 import { BomCompareTabComponent } from './bom-compare-tab.component';
@@ -16,7 +15,6 @@ describe('BomCompareTabComponent', () => {
     component: BomCompareTabComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      SharedModule,
       MockModule(BomContainerModule),
     ],
   });

@@ -6,6 +6,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import { RoleGuard } from './role.guard';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 describe('RoleGuard', () => {
   let spectator: SpectatorService<RoleGuard>;
@@ -17,6 +18,12 @@ describe('RoleGuard', () => {
     imports: [RouterTestingModule],
     providers: [provideMockStore({})],
   });
+
+  const mockRoute: ActivatedRouteSnapshot = {
+    data: {
+      rolesWithAccess: [],
+    },
+  } as unknown as ActivatedRouteSnapshot;
 
   beforeEach(() => {
     spectator = createService();
@@ -33,7 +40,7 @@ describe('RoleGuard', () => {
       store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), true);
 
       guard
-        .canActivateChild(undefined, undefined)
+        .canActivateChild(mockRoute)
         .subscribe((granted) => expect(granted).toBeTruthy());
     });
 
@@ -42,7 +49,7 @@ describe('RoleGuard', () => {
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard
-        .canActivateChild(undefined, undefined)
+        .canActivateChild(mockRoute)
         .subscribe((granted) => expect(granted).toBeFalsy());
     });
 
@@ -50,7 +57,7 @@ describe('RoleGuard', () => {
       store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), false);
       guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard.canActivateChild(undefined, undefined).subscribe((granted) => {
+      guard.canActivateChild(mockRoute).subscribe((granted) => {
         expect(granted).toBeFalsy();
         expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
       });
