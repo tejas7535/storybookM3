@@ -7,7 +7,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -32,50 +31,41 @@ import * as fromRouter from '../../reducers';
 export class ShaftEffects {
   private isPollingActive = false;
 
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        tap((currentRoute) => {
-          if (currentRoute !== BearingRoutePath.ConditionMonitoringPath) {
-            this.store.dispatch(stopGetShaftLatest());
-          }
-
-          if (currentRoute === BearingRoutePath.ConditionMonitoringPath) {
-            this.store.dispatch(getShaftId({ source: currentRoute }));
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      map((currentRoute) =>
+        currentRoute !== BearingRoutePath.ConditionMonitoringPath
+          ? stopGetShaftLatest()
+          : getShaftId({ source: currentRoute })
+      )
+    );
+  });
 
   /**
    * Load Shaft Device ID
    */
-  shaftId$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(getShaftId),
-        filter((_) => !this.isPollingActive),
-        withLatestFrom(this.store.select(fromRouter.getRouterState)),
-        map(([_action, routerState]) => ({
-          deviceId: routerState.state.params.id,
-        })),
-        tap(({ deviceId }) => {
-          this.isPollingActive = true;
-          this.store.dispatch(getShaftLatest({ deviceId }));
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  shaftId$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getShaftId),
+      filter((_) => !this.isPollingActive),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
+      map(([_action, routerState]) => ({
+        deviceId: routerState.state.params.id,
+      })),
+      map(({ deviceId }) => {
+        this.isPollingActive = true;
+
+        return getShaftLatest({ deviceId });
+      })
+    );
+  });
 
   /**
    * Continue Load Shaft Device ID

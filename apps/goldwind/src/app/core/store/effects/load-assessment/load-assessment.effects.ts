@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -38,25 +44,21 @@ import { getLoadAssessmentInterval } from '../../selectors/load-assessment/load-
 
 @Injectable()
 export class LoadAssessmentEffects {
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        tap((currentRoute) => {
-          if (currentRoute === BearingRoutePath.LoadAssessmentPath) {
-            this.store.dispatch(getLoadAssessmentId());
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      filter(
+        (currentRoute) => currentRoute === BearingRoutePath.LoadAssessmentPath
+      ),
+      map(() => getLoadAssessmentId())
+    );
+  });
 
   /**
    * Set Interval
@@ -71,24 +73,21 @@ export class LoadAssessmentEffects {
   /**
    * Load Load Assessment Id
    */
-  loadAssessmentId$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(getLoadAssessmentId),
-        withLatestFrom(this.store.select(fromRouter.getRouterState)),
-        map(([_action, routerState]) => ({
-          deviceId: routerState.state.params.id,
-        })),
-        tap(({ deviceId }) => {
-          this.store.dispatch(getGreaseStatus({ deviceId }));
-          this.store.dispatch(getLoadAverage({ deviceId }));
-          this.store.dispatch(getBearingLoad({ deviceId }));
-          this.store.dispatch(getShaft({ deviceId }));
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  loadAssessmentId$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getLoadAssessmentId),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
+      map(([_action, routerState]) => ({
+        deviceId: routerState.state.params.id,
+      })),
+      mergeMap(({ deviceId }) => [
+        getGreaseStatus({ deviceId }),
+        getLoadAverage({ deviceId }),
+        getBearingLoad({ deviceId }),
+        getShaft({ deviceId }),
+      ])
+    );
+  });
 
   /**
    * Load Grease Status

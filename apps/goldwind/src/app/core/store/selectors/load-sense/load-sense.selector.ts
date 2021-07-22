@@ -192,46 +192,40 @@ export const generateGeneratorSeries = (
 
 export const getLoadGraphData = createSelector(
   getBearingLoadLatestResult,
-  (loadSenseResult: LoadSense): GraphData => {
-    return (
-      loadSenseResult && {
-        tooltip: {
-          formatter: (params: any) => tooltipFormatter(params, loadSenseResult),
-        },
-        series: [
-          generateGeneratorSeries(
-            `conditionMonitoring.centerLoad.generator`,
-            loadSenseResult
-          ),
-          generateRotorSeries(
-            `conditionMonitoring.centerLoad.rotor`,
-            loadSenseResult
-          ),
-        ],
-      }
-    );
-  }
+  (loadSenseResult: LoadSense): GraphData =>
+    loadSenseResult && {
+      tooltip: {
+        formatter: (params: any) => tooltipFormatter(params, loadSenseResult),
+      },
+      series: [
+        generateGeneratorSeries(
+          `conditionMonitoring.centerLoad.generator`,
+          loadSenseResult
+        ),
+        generateRotorSeries(
+          `conditionMonitoring.centerLoad.rotor`,
+          loadSenseResult
+        ),
+      ],
+    }
 );
 
 export const getAverageLoadGraphData = createSelector(
   getLoadAverageResult,
-  (loadSenseResult: LoadSense): GraphData => {
-    return (
-      loadSenseResult && {
-        tooltip: {
-          formatter: (params: any) => tooltipFormatter(params, loadSenseResult),
-        },
-        series: [
-          generateGeneratorSeries(
-            `conditionMonitoring.centerLoad.generatorAverage`,
-            loadSenseResult
-          ),
-          generateRotorSeries(
-            `conditionMonitoring.centerLoad.rotorAverage`,
-            loadSenseResult
-          ),
-        ],
-      }
-    );
-  }
+  (loadSenseResult: LoadSense): GraphData =>
+    loadSenseResult && {
+      tooltip: {
+        formatter: (params: any) => tooltipFormatter(params, loadSenseResult),
+      },
+      series: [
+        generateGeneratorSeries(
+          `conditionMonitoring.centerLoad.generatorAverage`,
+          loadSenseResult
+        ),
+        generateRotorSeries(
+          `conditionMonitoring.centerLoad.rotorAverage`,
+          loadSenseResult
+        ),
+      ],
+    }
 );

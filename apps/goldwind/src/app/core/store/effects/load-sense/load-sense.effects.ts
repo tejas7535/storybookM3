@@ -7,7 +7,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -32,30 +31,22 @@ import * as fromRouter from '../../reducers';
 export class BearingLoadEffects {
   private isPollingActive = false;
 
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        tap((currentRoute) => {
-          if (
-            currentRoute &&
-            currentRoute === BearingRoutePath.ConditionMonitoringPath
-          ) {
-            this.store.dispatch(getLoadId());
-          } else {
-            this.store.dispatch(stopGetLoad());
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      map((currentRoute) =>
+        currentRoute === BearingRoutePath.ConditionMonitoringPath
+          ? getLoadId()
+          : stopGetLoad()
+      )
+    );
+  });
 
   /**
    * Load Load ID

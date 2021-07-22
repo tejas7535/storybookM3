@@ -1,7 +1,7 @@
 import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,6 @@ describe('Data View Effects', () => {
   let actions$: any;
   let action: any;
   let store: any;
-  let metadata: EffectsMetadata<DataViewEffects>;
   let effects: DataViewEffects;
   let restService: RestService;
 
@@ -49,7 +48,6 @@ describe('Data View Effects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
     effects = spectator.inject(DataViewEffects);
-    metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
     store.overrideSelector(getDataInterval, {
@@ -62,13 +60,6 @@ describe('Data View Effects', () => {
   });
 
   describe('router$', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getDataId',
       marbles((m) => {
@@ -80,12 +71,10 @@ describe('Data View Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', { b: 'data-view' });
+        const result = getDataId();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(getDataId()); // will also be moved
       })
     );
   });

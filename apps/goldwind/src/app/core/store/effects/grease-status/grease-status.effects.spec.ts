@@ -62,17 +62,9 @@ describe('Grease Status Effects', () => {
   });
 
   describe('router$', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getGreaseStatusId',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -80,23 +72,16 @@ describe('Grease Status Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: mockRoute as any,
-        });
+        const result = getGreaseStatusId({ source: mockRoute });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getGreaseStatusId({ source: mockRoute })
-        );
       })
     );
 
     it(
       'should dispatch stopGetGreaseStatusLatest when leaving the condition monitoring route',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -104,28 +89,15 @@ describe('Grease Status Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: 'overview' as any,
-        });
+        const result = stopGetGreaseStatusLatest();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          stopGetGreaseStatusLatest()
-        );
       })
     );
   });
 
   describe('greaseStatusId$', () => {
-    it('should not return an action', () => {
-      expect(metadata.greaseStatusId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should return getGreaseStatusLatest',
       marbles((m) => {
@@ -134,20 +106,13 @@ describe('Grease Status Effects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
-          b: {
-            deviceId,
-            source: 'condition-monitoring',
-          },
-        });
+        const result = getGreaseStatusLatest({ deviceId });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.greaseStatusId$).toBeObservable(expected);
         m.flush();
 
         expect(effects['isPollingActive']).toBe(true);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getGreaseStatusLatest({ deviceId })
-        );
       })
     );
   });

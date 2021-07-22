@@ -21,7 +21,7 @@ describe('CenterLoadComponent', () => {
       MatIconModule,
       MatSliderModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
     ],
     providers: [

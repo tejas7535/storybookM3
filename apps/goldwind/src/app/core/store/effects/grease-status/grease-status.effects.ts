@@ -7,7 +7,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -32,52 +31,45 @@ import * as fromRouter from '../../reducers';
 export class GreaseStatusEffects {
   private isPollingActive = false;
 
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        tap((currentRoute) => {
-          if (currentRoute === BearingRoutePath.ConditionMonitoringPath) {
-            this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
-          }
-          if (currentRoute !== BearingRoutePath.ConditionMonitoringPath) {
-            this.store.dispatch(stopGetGreaseStatusLatest());
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      map((currentRoute) =>
+        currentRoute === BearingRoutePath.ConditionMonitoringPath
+          ? getGreaseStatusId({ source: currentRoute })
+          : stopGetGreaseStatusLatest()
+      )
+    );
+  });
 
   /**
    * Load Grease Status ID
    */
-  greaseStatusId$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(getGreaseStatusId),
-        filter((_) => !this.isPollingActive),
-        withLatestFrom(this.store.select(fromRouter.getRouterState)),
-        map(([action, routerState]) => ({
-          deviceId: routerState.state.params.id,
-          source: action.source,
-        })),
-        tap(({ deviceId, source }) => {
-          if (source === BearingRoutePath.ConditionMonitoringPath) {
-            this.isPollingActive = true;
-            this.store.dispatch(getGreaseStatusLatest({ deviceId }));
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  greaseStatusId$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getGreaseStatusId),
+      filter((_) => !this.isPollingActive),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
+      map(([action, routerState]) => ({
+        deviceId: routerState.state.params.id,
+        source: action.source,
+      })),
+      filter(
+        ({ source }) => source === BearingRoutePath.ConditionMonitoringPath
+      ),
+      map(({ deviceId }) => {
+        this.isPollingActive = true;
+
+        return getGreaseStatusLatest({ deviceId });
+      })
+    );
+  });
 
   /**
    * Continue Load Latest Grease Status

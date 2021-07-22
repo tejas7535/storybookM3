@@ -23,7 +23,7 @@ describe('GreaseStatusComponent', () => {
       MatCardModule,
       MatIconModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
     ],
     providers: [

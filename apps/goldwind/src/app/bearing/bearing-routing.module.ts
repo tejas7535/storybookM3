@@ -18,21 +18,21 @@ const routes: Routes = [
           },
           {
             path: BearingRoutePath.ConditionMonitoringPath,
-            loadChildren: () =>
+            loadChildren: async () =>
               import('./condition-monitoring/condition-monitoring.module').then(
                 (m) => m.ConditionMonitoringModule
               ),
           },
           {
             path: BearingRoutePath.LoadAssessmentPath,
-            loadChildren: () =>
+            loadChildren: async () =>
               import('./load-assessment/load-assessment.module').then(
                 (m) => m.LoadAssessmentModule
               ),
           },
           {
             path: BearingRoutePath.DataViewPath,
-            loadChildren: () =>
+            loadChildren: async () =>
               import('./data-view/data-view.module').then(
                 (m) => m.DataViewModule
               ),

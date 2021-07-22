@@ -17,7 +17,7 @@ import { ShaftComponent } from './shaft.component';
     CommonModule,
     SharedModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('../../../shared/chart/echarts'),
+      echarts: async () => import('../../../shared/chart/echarts'),
     }),
 
     // UI Modules

@@ -229,6 +229,7 @@ export class LoadAssessmentComponent
       sensorNode.formControl.valueChanges
         .pipe(filter(() => sensorNode.formControl.dirty))
         .subscribe((value: any) => {
+          // eslint-disable-next-line unicorn/no-array-reduce
           const nodeValues = sensorNode.children.reduce(
             (acc, { formControl }) => ({ ...acc, [formControl]: value }),
             {}
@@ -251,6 +252,7 @@ export class LoadAssessmentComponent
   formatTooltip(params: any): string {
     return (
       Array.isArray(params) &&
+      // eslint-disable-next-line unicorn/no-array-reduce
       params.reduce((acc, param, index) => {
         const { label, unit } = LOAD_ASSESSMENT_CONTROLS.find(
           ({ formControl }) => formControl === param.seriesName

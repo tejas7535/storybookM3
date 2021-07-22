@@ -69,7 +69,7 @@ describe('LoadAssessmentComponent', () => {
 
       // ECharts
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
     ],
     providers: [
@@ -150,8 +150,7 @@ describe('LoadAssessmentComponent', () => {
       const mockLabelName = 'waterContent_1';
       component.formatLegend = jest.fn();
 
-      const legendFormatter = (component.chartOptions.legend as any)
-        .formatter as Function;
+      const legendFormatter = (component.chartOptions.legend as any).formatter;
       legendFormatter(mockLabelName);
 
       expect(component.formatLegend).toHaveBeenCalledTimes(1);
@@ -169,7 +168,7 @@ describe('LoadAssessmentComponent', () => {
       component.formatTooltip = jest.fn();
 
       const tooltipFormatter = (component.chartOptions.tooltip as any)
-        .formatter as Function;
+        .formatter;
       tooltipFormatter(mockParams);
 
       expect(component.formatTooltip).toHaveBeenCalledTimes(1);

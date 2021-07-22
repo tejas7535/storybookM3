@@ -1,7 +1,7 @@
 import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -37,7 +37,6 @@ describe('LoadAssessmentEffects', () => {
   let actions$: any;
   let action: any;
   let store: any;
-  let metadata: EffectsMetadata<LoadAssessmentEffects>;
   let effects: LoadAssessmentEffects;
   let restService: RestService;
 
@@ -65,7 +64,6 @@ describe('LoadAssessmentEffects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
     effects = spectator.inject(LoadAssessmentEffects);
-    metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
     store.overrideSelector(fromRouter.getRouterState, {
@@ -79,17 +77,9 @@ describe('LoadAssessmentEffects', () => {
   });
 
   describe('router$', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getLoadAssessmentId',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -97,14 +87,10 @@ describe('LoadAssessmentEffects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: mockRoute as any,
-        });
+        const result = getLoadAssessmentId();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(getLoadAssessmentId());
       })
     );
   });
@@ -132,39 +118,21 @@ describe('LoadAssessmentEffects', () => {
   });
 
   describe('loadAssessmentId$', () => {
-    it('should not return an action', () => {
-      expect(metadata.loadAssessmentId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should return many actions',
       marbles((m) => {
-        store.dispatch = jest.fn();
         action = getLoadAssessmentId();
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
-          b: {
-            deviceId,
-          },
+        const expected = m.cold('-(bcde)', {
+          b: getGreaseStatus({ deviceId }),
+          c: getLoadAverage({ deviceId }),
+          d: getBearingLoad({ deviceId }),
+          e: getShaft({ deviceId }),
         });
 
         m.expect(effects.loadAssessmentId$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getGreaseStatus({ deviceId })
-        );
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getLoadAverage({ deviceId })
-        );
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getBearingLoad({ deviceId })
-        );
       })
     );
   });

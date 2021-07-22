@@ -8,7 +8,6 @@ import {
   mergeMap,
   pairwise,
   startWith,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -28,25 +27,22 @@ import * as fromRouter from '../../reducers';
 
 @Injectable()
 export class BearingEffects {
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values(AppRoutePath).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        filter(
-          (currentRoute: string) =>
-            currentRoute && currentRoute === AppRoutePath.BearingPath
-        ),
-        tap(() => this.store.dispatch(getBearingId()))
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values(AppRoutePath).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      filter(
+        (currentRoute: string) =>
+          currentRoute && currentRoute === AppRoutePath.BearingPath
+      ),
+      map(() => getBearingId())
+    );
+  });
 
   /**
    * Load Bearing ID

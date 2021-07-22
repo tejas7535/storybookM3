@@ -33,7 +33,7 @@ import { LoadAssessmentComponent } from './load-assessment.component';
     DateRangeModule,
     EmptyGraphModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('../../shared/chart/echarts'),
+      echarts: async () => import('../../shared/chart/echarts'),
     }),
     CenterLoadModule,
 

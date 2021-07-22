@@ -87,6 +87,7 @@ export class EdmMonitorComponent implements OnInit {
   formatTooltip(params: any): string {
     return (
       Array.isArray(params) &&
+      // eslint-disable-next-line unicorn/no-array-reduce
       params.reduce((acc, param, index) => {
         const result = `${acc}${this.formatLegend(param.seriesName)}: ${
           param.data.value[1]

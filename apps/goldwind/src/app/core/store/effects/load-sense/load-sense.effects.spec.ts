@@ -61,17 +61,9 @@ describe('Load Sense Effects', () => {
   });
 
   describe('router$', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getLoadId',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -79,21 +71,16 @@ describe('Load Sense Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: 'condition-monitoring' as any,
-        });
+        const result = getLoadId();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(getLoadId());
       })
     );
 
     it(
       'should dispatch stopGetLoad when leaving the bearing route',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -101,12 +88,10 @@ describe('Load Sense Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', { b: 'overview' as any });
+        const result = stopGetLoad();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(stopGetLoad());
       })
     );
   });
