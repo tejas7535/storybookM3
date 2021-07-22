@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { GreetingService } from '../greeting.service';
 
 @Component({
-  selector: 'schaeffler-home',
+  selector: 'helloworld-azure-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
