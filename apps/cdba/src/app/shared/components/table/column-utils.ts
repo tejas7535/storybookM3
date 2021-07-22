@@ -18,7 +18,7 @@ export const currentYear = new Date().getFullYear();
 
 export const formatNumber = (
   params: ValueFormatterParams,
-  digitsInfo: string = '1.0-2'
+  digitsInfo: string = '1.0-3'
 ) => decimalPipe.transform(params.value, digitsInfo);
 
 export const formatDate = (params: ValueFormatterParams) =>
@@ -119,4 +119,39 @@ export const getMainMenuItems = (
   menuItems.push(resetFilter, resetTable);
 
   return menuItems;
+};
+
+export const matchAllFractionsForIntegerValue = (
+  filterValue: number | null,
+  cellValue: number | null
+) =>
+  filterValue === cellValue ||
+  (filterValue === Math.trunc(filterValue) &&
+    filterValue === Math.trunc(cellValue));
+
+export const transformGermanFractionSeparator = (text: string | null) =>
+  text === null
+    ? undefined
+    : Number.parseFloat(text.toString().replace(',', '.'));
+
+const onlyNumericValuesRegExp = '\\d\\,\\.';
+
+export const filterParamsForDecimalValues = {
+  numberParser: transformGermanFractionSeparator,
+  allowedCharPattern: onlyNumericValuesRegExp,
+  filterOptions: [
+    {
+      displayKey: 'equalsInteger',
+      displayName: 'Equals Integer',
+      test: matchAllFractionsForIntegerValue,
+    },
+    'equals',
+    'notEqual',
+    'lessThan',
+    'lessThanOrEqual',
+    'greaterThan',
+    'greaterThanOrEqual',
+    'inRange',
+    'empty',
+  ],
 };
