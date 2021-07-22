@@ -10,12 +10,14 @@ import {
 
 import {
   currentYear,
+  filterParamsForDecimalValues,
   formatDate,
   formatLongValue,
   formatMaterialNumber,
   formatMaterialNumberFromString,
   formatNumber,
   getMainMenuItems,
+  matchAllFractionsForIntegerValue,
   valueGetterArray,
   valueGetterDate,
 } from './column-utils';
@@ -41,12 +43,12 @@ describe('ColumnUtils', () => {
       expect(result).toEqual('10.000');
     });
 
-    it('should round value to two decimals', () => {
-      params.value = 10.357;
+    it('should round value to three decimals', () => {
+      params.value = 10.3571;
 
       result = formatNumber(params);
 
-      expect(result).toEqual('10,36');
+      expect(result).toEqual('10,357');
     });
   });
 
@@ -221,6 +223,53 @@ describe('ColumnUtils', () => {
       expect(mockParams.api.setFilterModel).toHaveBeenCalled();
       expect(mockParams.columnApi.resetColumnGroupState).toHaveBeenCalled();
       expect(mockParams.columnApi.resetColumnState).toHaveBeenCalled();
+    });
+  });
+
+  describe('transformGermanFractionSeparator', () => {
+    it('should parse incoming string as number', () => {
+      const result = filterParamsForDecimalValues.numberParser('42');
+
+      expect(result).toBe(42);
+    });
+
+    it('should return undefined for incoming null values', () => {
+      // eslint-disable-next-line unicorn/no-null
+      const result = filterParamsForDecimalValues.numberParser(null);
+
+      expect(result).toBe(undefined);
+    });
+
+    it('should replace comma with dot as the fractional separator', () => {
+      const result = filterParamsForDecimalValues.numberParser('42,567');
+
+      expect(result).toEqual(42.567);
+    });
+  });
+
+  describe('matchAllFractionsForIntegerValue', () => {
+    it('should match all integers with any fractions for equals integer filter', () => {
+      const result = matchAllFractionsForIntegerValue(42, 42.678);
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should match equal integers', () => {
+      const result = matchAllFractionsForIntegerValue(42, 42);
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should only be usable for integers without fraction', () => {
+      const result = matchAllFractionsForIntegerValue(42.897, 42.998);
+
+      expect(result).toBeFalsy();
+    });
+
+    it('should not match for different integers values', () => {
+      const result = matchAllFractionsForIntegerValue(42, 43.678);
+
+      expect(result).toBeFalsy();
     });
   });
 });

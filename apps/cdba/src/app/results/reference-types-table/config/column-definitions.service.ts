@@ -7,6 +7,7 @@ import { translate } from '@ngneat/transloco';
 import {
   columnDefinitionToReferenceTypeProp,
   currentYear,
+  filterParamsForDecimalValues,
   formatDate,
   formatLongValue,
   formatMaterialNumber,
@@ -75,6 +76,7 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.pcmSqv'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.pcmSqv'),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: (params) => formatNumber(params, '1.3-3'),
     },
     {
@@ -101,6 +103,7 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.sqvSapLatestMonth'
       ),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: (params) => formatNumber(params, '1.3-3'),
     },
     {
@@ -113,6 +116,7 @@ export class ColumnDefinitionService {
         { year: currentYear - 1 }
       ),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: (params) => formatNumber(params, '1.3-3'),
     },
     {
@@ -124,12 +128,13 @@ export class ColumnDefinitionService {
         }
       ),
       headerTooltip: translate(
-        'results.referenceTypesTable.tooltips.volumeUnit',
+        'results.referenceTypesTable.tooltips.averagePrice',
         {
           year: currentYear - 1,
         }
       ),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: (params) => formatNumber(params, '1.3-3'),
       valueGetter: (params) =>
         valueGetterArray(
@@ -419,6 +424,7 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.length'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.length'),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: formatNumber,
     },
     {
@@ -426,6 +432,7 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.width'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.width'),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: formatNumber,
     },
     {
@@ -433,6 +440,7 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.height'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.height'),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: formatNumber,
     },
     {
@@ -449,6 +457,7 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.weight'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.weight'),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: formatNumber,
     },
     {
@@ -465,6 +474,7 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.volumeCubic'
       ),
       filter: 'agNumberColumnFilter',
+      filterParams: filterParamsForDecimalValues,
       valueFormatter: formatNumber,
     },
     {
