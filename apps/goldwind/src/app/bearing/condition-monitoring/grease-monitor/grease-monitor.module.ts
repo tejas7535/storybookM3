@@ -19,7 +19,7 @@ import { GreaseMonitorComponent } from './grease-monitor.component';
     SharedModule,
     SensorModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('../../../shared/chart/echarts'),
+      echarts: async () => import('../../../shared/chart/echarts'),
     }),
 
     // UI Modules

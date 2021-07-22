@@ -7,7 +7,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -15,74 +14,65 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
+import {
+  getStaticSafetyId,
+  getStaticSafetyLatest,
+  getStaticSafetyLatestFailure,
+  stopGetStaticSafetyLatest,
+} from '../..';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
-import * as fromRouter from '../../reducers';
-import {
-  stopGetStaticSafetyLatest,
-  getStaticSafetyId,
-  getStaticSafetyLatest,
-  getStaticSafetyLatestFailure,
-} from '../..';
 import { getStaticSafetyLatestSuccess } from '../../actions';
+import * as fromRouter from '../../reducers';
 
 @Injectable()
 export class StaticSafetyEffects {
   private isPollingActive = false;
 
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        tap((currentRoute) => {
-          if (currentRoute !== BearingRoutePath.ConditionMonitoringPath) {
-            this.store.dispatch(stopGetStaticSafetyLatest());
-          }
-
-          if (currentRoute === BearingRoutePath.ConditionMonitoringPath) {
-            this.store.dispatch(getStaticSafetyId({ source: currentRoute }));
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      map((currentRoute) =>
+        currentRoute !== BearingRoutePath.ConditionMonitoringPath
+          ? stopGetStaticSafetyLatest()
+          : getStaticSafetyId({ source: currentRoute })
+      )
+    );
+  });
 
   /**
    * Load Static Safety Device ID
    */
-  staticSafetyId$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(getStaticSafetyId),
-        filter((_) => !this.isPollingActive),
-        withLatestFrom(this.store.select(fromRouter.getRouterState)),
-        map(([_action, routerState]) => ({
-          deviceId: routerState.state.params.id,
-        })),
-        tap(({ deviceId }) => {
-          this.isPollingActive = true;
-          this.store.dispatch(getStaticSafetyLatest({ deviceId }));
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  staticSafetyId$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getStaticSafetyId),
+      filter((_) => !this.isPollingActive),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
+      map(([_action, routerState]) => ({
+        deviceId: routerState.state.params.id,
+      })),
+      map(({ deviceId }) => {
+        this.isPollingActive = true;
+
+        return getStaticSafetyLatest({ deviceId });
+      })
+    );
+  });
 
   /**
    * Continue Load Static Safety Device ID
    */
   continueStaticSafetyId$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(getStaticSafetyLatest, getStaticSafetyLatestFailure),
+      ofType(getStaticSafetyLatestSuccess, getStaticSafetyLatestFailure),
       delay(UPDATE_SETTINGS.staticSafety.refresh * 1000),
       filter(() => this.isPollingActive),
       withLatestFrom(this.store.select(fromRouter.getRouterState)),

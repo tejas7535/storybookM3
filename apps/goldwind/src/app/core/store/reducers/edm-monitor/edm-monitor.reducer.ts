@@ -24,7 +24,7 @@ export const initialState: EdmMonitorState = {
     startDate: Math.floor(
       +new Date().setFullYear(new Date().getFullYear() - 1) / 1000
     ),
-    endDate: Math.floor(+new Date() / 1000),
+    endDate: Math.floor(Date.now() / 1000),
   },
 };
 

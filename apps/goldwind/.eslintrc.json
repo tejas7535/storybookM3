@@ -27,7 +27,8 @@
             "prefix": "goldwind",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "import/no-extraneous-dependencies": "off"
       }
     },
     {

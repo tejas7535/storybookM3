@@ -61,17 +61,9 @@ describe('Shaft Effects', () => {
   });
 
   describe('router$', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getShaftId',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -79,16 +71,10 @@ describe('Shaft Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: 'condition-monitoring' as any,
-        });
+        const result = getShaftId({ source: 'condition-monitoring' });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getShaftId({ source: 'condition-monitoring' })
-        );
       })
     );
 
@@ -103,47 +89,29 @@ describe('Shaft Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: 'overview' as any,
-        });
+        const result = stopGetShaftLatest();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(stopGetShaftLatest());
       })
     );
   });
 
   describe('shaftId$', () => {
-    it('should not return an action', () => {
-      expect(metadata.shaftId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should return getShaftLatest',
       marbles((m) => {
-        store.dispatch = jest.fn();
         action = getShaftId({ source: 'condition-monitoring' });
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
-          b: {
-            deviceId,
-          },
-        });
+        const result = getShaftLatest({ deviceId });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.shaftId$).toBeObservable(expected);
         m.flush();
 
         expect(effects['isPollingActive']).toBe(true);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getShaftLatest({ deviceId })
-        );
       })
     );
   });

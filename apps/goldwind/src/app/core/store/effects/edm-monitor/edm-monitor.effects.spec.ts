@@ -1,7 +1,7 @@
 import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -23,7 +23,6 @@ describe('Edm Monitor Effects', () => {
   let actions$: any;
   let action: any;
   let store: any;
-  let metadata: EffectsMetadata<EdmMonitorEffects>;
   let effects: EdmMonitorEffects;
   let restService: RestService;
 
@@ -49,7 +48,6 @@ describe('Edm Monitor Effects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
     effects = spectator.inject(EdmMonitorEffects);
-    metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
     store.overrideSelector(fromRouter.getRouterState, {
@@ -63,17 +61,9 @@ describe('Edm Monitor Effects', () => {
   });
 
   describe('router$', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getEdmId',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -81,12 +71,10 @@ describe('Edm Monitor Effects', () => {
           },
         });
 
-        const expected = m.cold('-b', { b: 'condition-monitoring' });
+        const result = getEdmId();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
       })
     );
   });

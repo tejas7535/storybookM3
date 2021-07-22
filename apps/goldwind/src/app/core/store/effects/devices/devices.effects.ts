@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { RestService } from '../../../http/rest.service';
@@ -17,25 +16,22 @@ import {
 
 @Injectable()
 export class DevicesEffects {
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values(AppRoutePath).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        filter(
-          (currentRoute: string) =>
-            currentRoute && currentRoute === AppRoutePath.OverviewPath
-        ),
-        tap(() => this.store.dispatch(getDevices()))
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values(AppRoutePath).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      filter(
+        (currentRoute: string) =>
+          currentRoute && currentRoute === AppRoutePath.OverviewPath
+      ),
+      map(() => getDevices())
+    );
+  });
 
   /**
    * Load Devices
@@ -54,7 +50,6 @@ export class DevicesEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
-    private readonly store: Store
+    private readonly restService: RestService
   ) {}
 }

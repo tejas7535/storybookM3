@@ -20,7 +20,7 @@ import { CenterLoadComponent } from './center-load.component';
     SharedModule,
     EmptyGraphModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('../../../shared/chart/echarts'),
+      echarts: async () => import('../../../shared/chart/echarts'),
     }),
 
     // UI Modules

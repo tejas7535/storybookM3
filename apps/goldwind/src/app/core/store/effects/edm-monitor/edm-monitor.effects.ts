@@ -6,7 +6,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -29,26 +28,23 @@ import { getEdmInterval } from '../../selectors';
 
 @Injectable()
 export class EdmMonitorEffects {
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values(BearingRoutePath).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        filter(
-          (currentRoute: string) =>
-            currentRoute &&
-            currentRoute === BearingRoutePath.ConditionMonitoringPath
-        ),
-        tap(() => this.store.dispatch(getEdmId()))
-      );
-    },
-    { dispatch: false }
-  );
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values(BearingRoutePath).find(
+          (route: string) => route !== '' && url.includes(route)
+        )
+      ),
+      filter(
+        (currentRoute: string) =>
+          currentRoute &&
+          currentRoute === BearingRoutePath.ConditionMonitoringPath
+      ),
+      map(() => getEdmId())
+    );
+  });
 
   /**
    * Set Interval

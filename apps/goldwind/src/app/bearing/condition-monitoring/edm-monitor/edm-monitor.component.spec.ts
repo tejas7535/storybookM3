@@ -28,7 +28,7 @@ describe('EdmMonitorComponent', () => {
       MatIconModule,
       MatSlideToggleModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
     ],
     providers: [provideMockStore({})],
@@ -68,8 +68,7 @@ describe('EdmMonitorComponent', () => {
       const mockLabelName = 'edmValue1CounterMax';
       component.formatLegend = jest.fn();
 
-      const legendFormatter = (component.chartOptions.legend as any)
-        .formatter as Function;
+      const legendFormatter = (component.chartOptions.legend as any).formatter;
       legendFormatter(mockLabelName);
 
       expect(component.formatLegend).toHaveBeenCalledTimes(1);
@@ -87,7 +86,7 @@ describe('EdmMonitorComponent', () => {
       component.formatTooltip = jest.fn();
 
       const tooltipFormatter = (component.chartOptions.tooltip as any)
-        .formatter as Function;
+        .formatter;
       tooltipFormatter(mockParams);
 
       expect(component.formatTooltip).toHaveBeenCalledTimes(1);

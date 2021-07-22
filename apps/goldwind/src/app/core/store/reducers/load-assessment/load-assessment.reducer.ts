@@ -43,7 +43,7 @@ export const initialState: LoadAssessmentState = {
   },
   interval: {
     startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),
-    endDate: Math.floor(+new Date() / 1000),
+    endDate: Math.floor(Date.now() / 1000),
   },
 };
 

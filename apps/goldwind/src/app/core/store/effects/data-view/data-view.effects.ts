@@ -6,7 +6,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -29,27 +28,24 @@ import { getDataInterval } from '../../selectors';
 
 @Injectable()
 export class DataViewEffects {
-  router$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        map((action: any) => action.payload.routerState.url),
-        map((url: string) =>
-          Object.values(BearingRoutePath).find(
-            (route: string) => route !== '' && url.includes(route)
-          )
-        ),
-        filter(
-          (currentRoute: string) =>
-            currentRoute && currentRoute === BearingRoutePath.DataViewPath
-        ),
-        tap(
-          () => this.store.dispatch(getDataId()) // will later be dispatched once sensor ids are there
+  router$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState.url),
+      map((url: string) =>
+        Object.values(BearingRoutePath).find(
+          (route: string) => route !== '' && url.includes(route)
         )
-      );
-    },
-    { dispatch: false }
-  );
+      ),
+      filter(
+        (currentRoute: string) =>
+          currentRoute && currentRoute === BearingRoutePath.DataViewPath
+      ),
+      map(
+        () => getDataId() // will later be dispatched once sensor ids are there
+      )
+    );
+  });
 
   /**
    * Set Interval

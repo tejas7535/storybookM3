@@ -23,7 +23,7 @@ import { EdmMonitorComponent } from './edm-monitor.component';
     SensorModule,
     EmptyGraphModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('../../../shared/chart/echarts'),
+      echarts: async () => import('../../../shared/chart/echarts'),
     }),
 
     // UI Modules

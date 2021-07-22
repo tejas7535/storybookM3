@@ -1,17 +1,19 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { marbles } from 'rxjs-marbles';
+
 import { StaticSafetyEffects } from '..';
 import {
   getStaticSafetyId,
   getStaticSafetyLatest,
   stopGetStaticSafetyLatest,
 } from '../..';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
   getStaticSafetyLatestFailure,
@@ -61,17 +63,9 @@ describe('StaticSafetyEffects', () => {
   });
 
   describe('$router', () => {
-    it('should not return an action', () => {
-      expect(metadata.router$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should dispatch getStaticSafetyId',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -79,22 +73,16 @@ describe('StaticSafetyEffects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: 'condition-monitoring' as any,
-        });
+        const result = getStaticSafetyId({ source: 'condition-monitoring' });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getStaticSafetyId({ source: 'condition-monitoring' })
-        );
       })
     );
+
     it(
       'should dispatch stopGetShaft when leaving the bearing route',
       marbles((m) => {
-        store.dispatch = jest.fn();
         actions$ = m.hot('-a', {
           a: {
             type: ROUTER_NAVIGATED,
@@ -102,49 +90,28 @@ describe('StaticSafetyEffects', () => {
           },
         });
 
-        const expected = m.cold('-b', {
-          b: 'overview' as any,
-        });
+        const result = stopGetStaticSafetyLatest();
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.router$).toBeObservable(expected);
-        m.flush();
-
-        expect(store.dispatch).toHaveBeenCalledWith(
-          stopGetStaticSafetyLatest()
-        );
       })
     );
   });
 
   describe('staticSafetyId$', () => {
-    it('should not return an action', () => {
-      expect(metadata.staticSafetyId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
     it(
       'should return getStaticSafetyLatest',
       marbles((m) => {
-        store.dispatch = jest.fn();
         action = getStaticSafetyId({ source: 'condition-monitoring' });
-
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-b', {
-          b: {
-            deviceId,
-          },
-        });
+        const result = getStaticSafetyLatest({ deviceId });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.staticSafetyId$).toBeObservable(expected);
         m.flush();
 
         expect(effects['isPollingActive']).toBe(true);
-        expect(store.dispatch).toHaveBeenCalledWith(
-          getStaticSafetyLatest({ deviceId })
-        );
       })
     );
   });
