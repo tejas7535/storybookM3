@@ -89,3 +89,19 @@ label {
 .page-container {
   margin: 0;
 }
+
+.gauge_title {
+  display: flex;
+  flex-direction: column;
+  height: 48px;
+  justify-content: center;
+
+  span {
+    color: rgba(0, 0, 0, 0.87);
+    font-family: Roboto;
+  }
+}
+.mat-card-subtitle,
+.mat-card-content {
+  line-height: 20px !important;
+}

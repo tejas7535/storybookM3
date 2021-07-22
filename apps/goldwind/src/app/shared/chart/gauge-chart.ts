@@ -5,9 +5,9 @@ import { IThreshold } from './gauge-config.interface';
 
 export class GaugeEchartConfig {
   private readonly START_ANGLE = 200;
-  private readonly GAUGE_RADIUS = '80%';
+  private readonly GAUGE_RADIUS = '85%';
   private readonly DEFAULT_END_ANGLE = -20;
-  private readonly DEFAULT_GAUGE_CENTER = ['50%', '50%'];
+  private readonly DEFAULT_GAUGE_CENTER = ['50%', '60%'];
   private readonly HIDE_ELEMENTS_IN_TRESHOLD_TICK = {
     pointer: {
       show: false,
@@ -27,7 +27,7 @@ export class GaugeEchartConfig {
   };
   private readonly AXIS_TICK_LABEL_COLOR = 'rgba(0,0,0,0.68)';
   private readonly AXIS_TICK_LABEL_FONTSIZE = 12;
-  private readonly AXIS_TICK_LABEL_DISTANCE = -50;
+  private readonly AXIS_TICK_LABEL_DISTANCE = -45;
   private readonly GAUGE_COMMON = {
     center: this.DEFAULT_GAUGE_CENTER,
     radius: this.GAUGE_RADIUS,
@@ -41,10 +41,7 @@ export class GaugeEchartConfig {
       show: false,
     },
   };
-  private readonly INNER_PROGRESS_RADIUS = '76%';
-  private readonly INNER_PROGRESS_OFFSET = ['0', '-140%'];
-  private readonly TITLE_FONTWHEIGHT = '500';
-  private readonly TITLE_SIZE = 14;
+  private readonly INNER_PROGRESS_RADIUS = '75%';
   private readonly INNER_PROGRESS_WIDTH = 18;
   private readonly OUTER_THRESHOLD_BAR_WIDTH = 4;
 
@@ -107,29 +104,20 @@ export class GaugeEchartConfig {
     return {
       ...this.HIDE_ELEMENTS_IN_TRESHOLD_TICK,
       ...this.GAUGE_COMMON,
-
       axisLabel: {
-        distance:
-          this.unit === ''
-            ? this.AXIS_TICK_LABEL_DISTANCE
-            : this.AXIS_TICK_LABEL_DISTANCE -
-              (250 / Math.abs(this.AXIS_TICK_LABEL_DISTANCE)) *
-                this.unit.length,
+        distance: this.AXIS_TICK_LABEL_DISTANCE,
         color: this.AXIS_TICK_LABEL_COLOR,
         fontSize: this.AXIS_TICK_LABEL_FONTSIZE,
         fontFamily: 'Roboto',
-        formatter: (v: any) =>
-          `${v.toFixed(1).toString().replace('.', ',')} ${this.unit}`,
       },
-      /**
-       *
-       */
       endAngle: getCalculatedPartialEndAngle,
+      min: this.REVERSE ? this.GAUGE_MAX_VALUE : this.GAUGE_MIN_VALUE,
       max: value,
       splitLine: {
         show: false,
       },
       splitNumber: 1,
+      top: 0,
     };
   }
   /**
@@ -145,12 +133,7 @@ export class GaugeEchartConfig {
       radius: this.INNER_PROGRESS_RADIUS,
       splitNumber: 1,
       title: {
-        show: true,
-        color: this.AXIS_TICK_LABEL_COLOR,
-        offsetCenter: this.INNER_PROGRESS_OFFSET,
-        fontWeight: this.TITLE_FONTWHEIGHT,
-        fontFamily: 'Roboto',
-        fontSize: this.TITLE_SIZE,
+        show: false,
       },
       progress: {
         itemStyle: {

@@ -12,7 +12,8 @@
           <span>{{ t('title') }}</span>
         </mat-card-title>
         <mat-card-subtitle *transloco="let t; read: 'bearing'">
-          {{ greaseTimeStamp$ | ngrxPush }} | {{ t('mainBearing') }}
+          {{ greaseTimeStamp$ | ngrxPush }} <br />
+          {{ t('mainBearing') }}
         </mat-card-subtitle>
       </mat-card-header>
       <goldwind-sensor
@@ -25,31 +26,51 @@
       fxFlex
       fxLayout="row"
       fxLayout.lt-md="column"
+      fxLayoutGap="8px"
       fxLayoutAlign="center"
     >
-      <div
-        fxFlex
-        echarts
-        [options]="chartOptions"
-        [merge]="this.getGreaseStatusLatestWaterContentGraphData$ | ngrxPush"
-        class="grease-monitor-chart dashboard-echart"
-      ></div>
-      <div
-        fxFlex
-        echarts
-        [options]="chartOptions"
-        [merge]="
-          this.getGreaseStatusLatestTemperatureOpticsGraphData$ | ngrxPush
-        "
-        class="grease-monitor-chart dashboard-echart"
-      ></div>
-      <div
-        fxFlex
-        echarts
-        [options]="chartOptions"
-        [merge]="this.getGreaseStatusLatestDeteriorationGraphData$ | ngrxPush"
-        class="grease-monitor-chart dashboard-echart"
-      ></div>
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
+        <div class="gauge_title">
+          <span>{{ t('waterContent') }}</span>
+        </div>
+        <div
+          fxFlex
+          echarts
+          [options]="chartOptions"
+          [merge]="this.getGreaseStatusLatestWaterContentGraphData$ | ngrxPush"
+          class="grease-monitor-chart dashboard-echart"
+        ></div>
+      </div>
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
+        <div class="gauge_title">
+          <span
+            ><span>{{ t('temperatureOptics') }}</span></span
+          >
+        </div>
+        <div
+          fxFlex
+          echarts
+          [options]="chartOptions"
+          [merge]="
+            this.getGreaseStatusLatestTemperatureOpticsGraphData$ | ngrxPush
+          "
+          class="grease-monitor-chart dashboard-echart"
+        ></div>
+      </div>
+      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
+        <div class="gauge_title">
+          <span
+            ><span>{{ t('deterioration') }}</span></span
+          >
+        </div>
+        <div
+          fxFlex
+          echarts
+          [options]="chartOptions"
+          [merge]="this.getGreaseStatusLatestDeteriorationGraphData$ | ngrxPush"
+          class="grease-monitor-chart dashboard-echart"
+        ></div>
+      </div>
     </mat-card-content>
   </mat-card>
 </ng-container>
