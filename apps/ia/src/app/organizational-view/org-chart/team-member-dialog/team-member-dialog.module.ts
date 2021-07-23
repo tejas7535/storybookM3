@@ -1,3 +1,4 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -23,6 +24,7 @@ import { TeamMemberDialogComponent } from './team-member-dialog.component';
     IconsModule,
     MatIconModule,
     SharedTranslocoModule,
+    ScrollingModule,
   ],
   exports: [TeamMemberDialogComponent],
 })

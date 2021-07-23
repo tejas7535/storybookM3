@@ -52,8 +52,8 @@ export class DateInputComponent {
     end: new FormControl({ value: '', disabled: true }),
   });
   startView: 'multi-year' | 'month' | 'year' = 'multi-year';
-  minDate = new Date('2019-01-01 00:00:00');
-  maxDate = new Date('2020-12-31 00:00:00');
+  minDate = new Date('2019-01-01 00:00:00'); // TODO: adapt when having real data
+  maxDate = new Date(new Date().getFullYear(), 11, 31); // last day of current year
 
   updateStartEndDates(refDate: Date): void {
     switch (this.timePeriod) {

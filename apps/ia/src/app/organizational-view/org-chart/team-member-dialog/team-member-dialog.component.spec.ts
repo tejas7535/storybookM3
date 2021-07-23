@@ -9,6 +9,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { Employee } from '../../../shared/models/employee.model';
 import { TeamMemberDialogComponent } from './team-member-dialog.component';
 
 describe('TeamMemberDialogComponent', () => {
@@ -46,9 +47,10 @@ describe('TeamMemberDialogComponent', () => {
 
   describe('trackByFn', () => {
     it('should return index', () => {
-      const result = component.trackByFn(3);
+      const employee = { employeeId: '3' } as unknown as Employee;
+      const result = component.trackByFn(3, employee);
 
-      expect(result).toEqual(3);
+      expect(result).toEqual(employee.employeeId);
     });
   });
 });

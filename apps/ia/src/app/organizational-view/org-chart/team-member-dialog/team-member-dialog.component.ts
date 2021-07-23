@@ -10,7 +10,7 @@ import { Employee } from '../../../shared/models/employee.model';
 export class TeamMemberDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: Employee) {}
 
-  public trackByFn(index: number): number {
-    return index;
+  public trackByFn(_index: number, item: Employee): string {
+    return item.employeeId;
   }
 }
