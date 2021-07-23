@@ -50,6 +50,7 @@
   "snackBarMessages": {
     "createSuccess": "Case was created successfully",
     "deleteSuccess": "Case was deleted successfully",
-    "importSuccess": "Case was imported successfully"
+    "importSuccess": "Case was imported successfully",
+    "reimportSucess": "This SAP Quotation has already been imported. It will be imported again for you."
   }
 }

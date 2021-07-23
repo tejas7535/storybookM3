@@ -50,6 +50,7 @@
   "snackBarMessages": {
     "createSuccess": "Case wurde erfolgreich erstellt",
     "deleteSuccess": "Case wurde erfolgreich gelöscht",
-    "importSuccess": "Case wurde erfolgreich importiert"
+    "importSuccess": "Case wurde erfolgreich importiert",
+    "reimportSucess": "Dieses SAP Angebot wurde bereits importiert. Das Angebot wird erneut importiert"
   }
 }
