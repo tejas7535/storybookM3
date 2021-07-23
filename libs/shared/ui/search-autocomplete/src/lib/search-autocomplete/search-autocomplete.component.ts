@@ -80,15 +80,13 @@ export class SearchAutocompleteComponent
       debouncedSearchInput,
       this.baseOptions$,
     ]).pipe(
-      map(([searchInput, options]) => {
-        return this.filter(options, searchInput);
-      })
+      map(([searchInput, options]) => this.filterOptions(options, searchInput))
     );
 
     this.valueSelected$ = this.control.valueChanges.pipe(
-      map((value: string | SearchAutocompleteOption) => {
-        return typeof value !== 'string';
-      })
+      map(
+        (value: string | SearchAutocompleteOption) => typeof value !== 'string'
+      )
     );
 
     this.control.valueChanges.subscribe((val: string) => {
@@ -155,11 +153,9 @@ export class SearchAutocompleteComponent
   public trackByFn: TrackByFunction<SearchAutocompleteOption> = (
     _index: number,
     val: SearchAutocompleteOption
-  ): string => {
-    return val.id;
-  };
+  ): string => val.id;
 
-  private filter(
+  private filterOptions(
     options: SearchAutocompleteOption[],
     searchString: string
   ): SearchAutocompleteOption[] {

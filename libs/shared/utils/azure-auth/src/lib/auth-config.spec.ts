@@ -73,6 +73,7 @@ describe('Azure Auth Config', () => {
       const message = 'message';
       loggerCallback('any' as unknown as LogLevel, message, false);
 
+      // eslint-disable-next-line no-console
       expect(console.log).toHaveBeenCalledWith(message);
     });
   });

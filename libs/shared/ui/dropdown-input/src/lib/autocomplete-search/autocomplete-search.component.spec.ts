@@ -104,9 +104,7 @@ describe('AutocompleteSearchComponent', () => {
       const clickMock = jest.fn();
       const mockEvent = {
         source: {
-          _getHostElement: () => {
-            return { click: clickMock };
-          },
+          _getHostElement: () => ({ click: clickMock }),
         },
       };
 

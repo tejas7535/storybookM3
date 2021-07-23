@@ -4,7 +4,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { IconsService } from './icons.service';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function iconsFactory(iconsService: IconsService): Function {
+export function iconsFactory(iconsService: IconsService): () => void {
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   const func = function (): void {
     iconsService.registerFontClassAlias();

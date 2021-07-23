@@ -49,6 +49,7 @@ export class SpeedDialFabComponent implements OnChanges {
    * Fill or clear fabButtons expected by open-state to trigger animation
    */
   public ngOnChanges(change: SimpleChanges): void {
+    // eslint-disable-next-line no-prototype-builtins
     if (change.hasOwnProperty('open')) {
       this.fabButtons = this.open ? this.secondaryButtons : [];
     }

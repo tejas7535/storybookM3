@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -16,7 +15,7 @@ import { UnsupportedViewportComponent } from './unsupported-viewport.component';
   exports: [UnsupportedViewportComponent],
 })
 export class UnsupportedViewportModule {
-  constructor(private readonly translocoService: TranslocoService) {
+  public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
   }

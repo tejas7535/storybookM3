@@ -12,11 +12,11 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { SearchAutocompleteOption } from './search-autocomple-option.model';
 import { SearchAutocompleteComponent } from './search-autocomplete.component';
 
+const mockFn = () => {};
+
 describe('SearchAutocompleteComponent', () => {
   let component: SearchAutocompleteComponent;
   let spectator: Spectator<SearchAutocompleteComponent>;
-
-  const mockFn = () => {};
 
   const createComponent = createComponentFactory({
     component: SearchAutocompleteComponent,

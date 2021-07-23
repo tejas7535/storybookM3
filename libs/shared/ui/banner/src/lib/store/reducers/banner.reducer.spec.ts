@@ -53,7 +53,7 @@ describe('In BannerReducer', () => {
   });
 
   describe('CloseBannerAction', () => {
-    it('should reset state ', () => {
+    it('should reset state', () => {
       const state = reducer(
         {
           ...initialState,

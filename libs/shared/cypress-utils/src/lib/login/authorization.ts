@@ -19,10 +19,12 @@ export class Authorization {
     const hexDigits = '0123456789abcdef';
 
     for (let i = 0; i < 36; i += 1) {
-      s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+      const start = Math.floor(Math.random() * 0x10);
+      s[i] = hexDigits.slice(start, start + 1);
     }
     s[14] = '4';
-    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // eslint-disable-line  no-bitwise
+    const start = (s[19] & 0x3) | 0x8; // eslint-disable-line  no-bitwise
+    s[19] = hexDigits.slice(start, start + 1);
     s[8] = s[13] = s[18] = s[23] = '-';
 
     return s.join('');
@@ -55,11 +57,11 @@ export class Authorization {
       const _el = document.createElement('html');
       _el.innerHTML = response.body;
       // This should be more strict depending on your login page template.
-      const loginForm = _el.getElementsByTagName('form');
+      const loginForm = _el.querySelectorAll('form');
 
-      const isAlreadyLoggedIn = !loginForm.length;
+      const isAlreadyLoggedIn = loginForm.length === 0;
       if (isAlreadyLoggedIn) {
-        return undefined;
+        return;
       }
 
       return cy.request({

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { TranslocoService } from '@ngneat/transloco';
 
 import { ForbiddenModule } from './forbidden.module';

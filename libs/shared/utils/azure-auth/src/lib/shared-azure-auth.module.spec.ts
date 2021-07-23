@@ -20,6 +20,7 @@ describe('SharedAzureAuth', () => {
 
   test('should throw error if already loaded', () => {
     let throwError = false;
+    let errorMsg = '';
 
     try {
       const azureConf = new AzureConfig(
@@ -31,13 +32,13 @@ describe('SharedAzureAuth', () => {
 
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new SharedAzureAuthModule(module);
-    } catch (e) {
+    } catch (error) {
       throwError = true;
-      expect(e.message).toEqual(
-        'SharedAzureAuthModule is already loaded. Import it in the AppModule only'
-      );
+      errorMsg = error.message;
     }
-
+    expect(errorMsg).toEqual(
+      'SharedAzureAuthModule is already loaded. Import it in the AppModule only'
+    );
     expect(throwError).toBeTruthy();
   });
 

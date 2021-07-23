@@ -26,7 +26,7 @@ export function preloadLanguage(
   const lang = language || getBrowserLang() || fallback;
 
   transloco.setActiveLang(lang);
-  const loader = () => transloco.load(lang).toPromise();
+  const loader = async () => transloco.load(lang).toPromise();
 
   return loader;
 }

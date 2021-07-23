@@ -20,11 +20,11 @@ export class TruncatePipe implements PipeTransform {
     let stringLimit = limit;
 
     if (completeWords) {
-      stringLimit = value.substr(0, stringLimit).lastIndexOf(' ');
+      stringLimit = value.slice(0, stringLimit).lastIndexOf(' ');
     }
 
     return limit > value.length
-      ? `${value.substr(0, stringLimit)}`
-      : `${value.substr(0, stringLimit)} ${ellipsis}`;
+      ? `${value.slice(0, stringLimit)}`
+      : `${value.slice(0, stringLimit)} ${ellipsis}`;
   }
 }
