@@ -5,6 +5,7 @@ import { User } from './user.model';
 export class Quotation {
   public gqId: number;
   public imported: boolean;
+  public reImported: boolean;
   public sapId: string;
   public gqCreated: string;
   public gqCreatedByUser: User;

@@ -63,6 +63,7 @@ import {
   getCreateCustomerCasePayload,
   getSelectedQuotation,
 } from '../../selectors';
+import { CreationType } from './creation-type.enum';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -122,7 +123,8 @@ export class CreateCaseEffects {
             this.navigateAfterCaseCreate(
               createdCase.customerId,
               createdCase.salesOrg,
-              createdCase.gqId
+              createdCase.gqId,
+              CreationType.CREATE_CASE
             );
           }),
           map((createdCase: CreateCaseResponse) =>
@@ -148,7 +150,8 @@ export class CreateCaseEffects {
             this.navigateAfterCaseCreate(
               quotation.customer.identifier.customerId,
               quotation.customer.identifier.salesOrg,
-              quotation.gqId
+              quotation.gqId,
+              quotation.reImported ? CreationType.REIMPORT : CreationType.IMPORT
             );
           }),
           map((quotation: Quotation) =>
@@ -212,7 +215,8 @@ export class CreateCaseEffects {
             this.navigateAfterCaseCreate(
               response.customerId,
               response.salesOrg,
-              response.gqId
+              response.gqId,
+              CreationType.CREATE_CASE
             )
           ),
           map(() => createCustomerCaseSuccess()),
@@ -237,7 +241,8 @@ export class CreateCaseEffects {
   navigateAfterCaseCreate(
     customerId: string,
     salesOrg: string,
-    gqId: number
+    gqId: number,
+    creationType: CreationType
   ): void {
     this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
       queryParams: {
@@ -246,7 +251,19 @@ export class CreateCaseEffects {
         sales_org: salesOrg,
       },
     });
-    const successMessage = translate('caseView.snackBarMessages.importSuccess');
+    let translationKey = '';
+    if (creationType === CreationType.CREATE_CASE) {
+      translationKey = 'createSuccess';
+    } else if (creationType === CreationType.IMPORT) {
+      translationKey = 'importSuccess';
+    } else {
+      translationKey = 'reimportSucess';
+    }
+
+    const successMessage = translate(
+      `caseView.snackBarMessages.${translationKey}`
+    );
+
     this.snackBarService.showSuccessMessage(successMessage);
   }
 }

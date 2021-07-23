@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -66,6 +66,7 @@ import {
   getSelectedQuotation,
 } from '../../selectors';
 import { CreateCaseEffects } from './create-case.effects';
+import { CreationType } from './creation-type.enum';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -534,12 +535,34 @@ describe('Create Case Effects', () => {
     });
   });
   describe('navigateAfterCaseCreate', () => {
-    test('should navigate and display snackbar', () => {
+    beforeEach(() => {
       router.navigate = jest.fn();
       snackBarService.showSuccessMessage = jest.fn();
+    });
+    test('should navigate and display snackbar for createCase', () => {
+      effects.navigateAfterCaseCreate('1', '2', 3, CreationType.CREATE_CASE);
 
-      effects.navigateAfterCaseCreate('1', '2', 3);
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.snackBarMessages.createSuccess'
+      );
+      expect(router.navigate).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+    });
+    test('should navigate and display snackbar for importCase', () => {
+      effects.navigateAfterCaseCreate('1', '2', 3, CreationType.IMPORT);
 
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.snackBarMessages.createSuccess'
+      );
+      expect(router.navigate).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+    });
+    test('should navigate and display snackbar for reimportCase', () => {
+      effects.navigateAfterCaseCreate('1', '2', 3, CreationType.REIMPORT);
+
+      expect(translate).toHaveBeenCalledWith(
+        'caseView.snackBarMessages.createSuccess'
+      );
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
