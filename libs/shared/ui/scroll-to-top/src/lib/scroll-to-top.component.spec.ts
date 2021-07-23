@@ -95,7 +95,7 @@ describe('ScrollToTopComponent', () => {
       component['document'].body.scrollTop = undefined;
     });
 
-    test('should set windowScrolled to true', () => {
+    test('should set windowScrolled to true - usecase 1', () => {
       component['document'].documentElement.scrollTop = 100;
       component['document'].body.scrollTop = 100;
 
@@ -104,7 +104,7 @@ describe('ScrollToTopComponent', () => {
       expect(component.containerScrolled).toBeTruthy();
     });
 
-    test('should set windowScrolled to true', () => {
+    test('should set windowScrolled to true - usecase 2', () => {
       component['document'].documentElement.scrollTop = 110;
       component['document'].body.scrollTop = 110;
 
@@ -113,7 +113,7 @@ describe('ScrollToTopComponent', () => {
       expect(component.containerScrolled).toBeTruthy();
     });
 
-    test('should set windowScrolled on false', () => {
+    test('should set windowScrolled on false - usecase 1', () => {
       component['document'].documentElement.scrollTop = 5;
       component['document'].body.scrollTop = 5;
 
@@ -122,7 +122,7 @@ describe('ScrollToTopComponent', () => {
       expect(component.containerScrolled).toBeFalsy();
     });
 
-    test('should set windowScrolled on false', () => {
+    test('should set windowScrolled on false - usecase 2', () => {
       component['document'].documentElement.scrollTop = 0;
       component['document'].documentElement.scrollTop = 0;
 
@@ -224,7 +224,7 @@ describe('ScrollToTopComponent', () => {
       expect(spyRequestAnimation).not.toHaveBeenCalled();
     });
 
-    test('should not call native window methods', () => {
+    test('should not call native window methods - usecase 1', () => {
       component['document'].body.scrollTop = 0;
 
       component.scrollToTop();
@@ -233,7 +233,7 @@ describe('ScrollToTopComponent', () => {
       expect(spyRequestAnimation).not.toHaveBeenCalled();
     });
 
-    test('should call native window methods', () => {
+    test('should call native window methods - usecase 2', () => {
       component['document'].documentElement.scrollTop = 1000;
 
       component.scrollToTop();

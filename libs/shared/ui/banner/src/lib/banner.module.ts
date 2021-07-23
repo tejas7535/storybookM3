@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
@@ -23,7 +22,7 @@ import { StoreModule } from './store/store.module';
   exports: [BannerComponent],
 })
 export class BannerModule {
-  constructor(private readonly translocoService: TranslocoService) {
+  public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
   }

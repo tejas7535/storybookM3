@@ -24,6 +24,7 @@ export class ReportService {
 
         const structuredContent =
           bodyContent &&
+          // eslint-disable-next-line unicorn/no-array-reduce
           [...(bodyContent as any)].reduce((acc: any, section: any) => {
             const content = section.querySelectorAll('[name^="anchor_"]');
 

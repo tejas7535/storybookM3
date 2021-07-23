@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,7 +27,7 @@ const routes = [
   exports: [PageNotFoundComponent],
 })
 export class PageNotFoundModule {
-  constructor(private readonly translocoService: TranslocoService) {
+  public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
   }

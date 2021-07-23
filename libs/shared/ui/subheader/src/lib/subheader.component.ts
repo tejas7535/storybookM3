@@ -6,11 +6,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./subheader.component.scss'],
 })
 export class SubheaderComponent {
-  @Input() showBackButton = true;
-  @Input() title = '';
-  @Output() backButtonClicked = new EventEmitter();
+  @Input() public showBackButton = true;
+  @Input() public title = '';
+  @Output() public backButtonClicked = new EventEmitter();
 
-  clickBackButton(): void {
+  public clickBackButton(): void {
     this.backButtonClicked.emit();
   }
 }

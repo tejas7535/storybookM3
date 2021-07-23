@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'schaeffler-horizontal-separator',
@@ -7,7 +7,7 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HorizontalSeparatorComponent {
-  @Input() text!: string;
+  @Input() public text!: string;
 
-  @Input() alwaysCentered = false;
+  @Input() public alwaysCentered = false;
 }

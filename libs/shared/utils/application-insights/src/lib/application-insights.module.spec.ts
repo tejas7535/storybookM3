@@ -61,7 +61,7 @@ describe('ApplicationInsightsModule', () => {
   });
 
   describe('ngrxIgnorePattern', () => {
-    it('injection token should be undefined', () => {
+    it('injection token should be undefined - usecase 1', () => {
       moduleConfiguration = {
         ...baseModuleConfiguration,
         enableNgrxMetaReducer: false,
@@ -75,7 +75,7 @@ describe('ApplicationInsightsModule', () => {
       try {
         // try to get Injection Token --> will throw an error if undefined
         ignorePattern = TestBed.inject(NGRX_IGNORE_PATTERN);
-      } catch (e) {
+      } catch {
         errorThrown = true;
       }
 
@@ -83,7 +83,7 @@ describe('ApplicationInsightsModule', () => {
       expect(errorThrown).toBeTruthy();
     });
 
-    it('injection token should be undefined', () => {
+    it('injection token should be undefined - usecase 2', () => {
       moduleConfiguration = {
         ...baseModuleConfiguration,
         enableNgrxMetaReducer: false,
@@ -96,7 +96,7 @@ describe('ApplicationInsightsModule', () => {
       try {
         // try to get Injection Token --> will throw an error if undefined
         ignorePattern = TestBed.inject(NGRX_IGNORE_PATTERN);
-      } catch (e) {
+      } catch {
         errorThrown = true;
       }
 

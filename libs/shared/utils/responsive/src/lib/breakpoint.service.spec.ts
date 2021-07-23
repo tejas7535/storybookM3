@@ -47,19 +47,19 @@ describe('BreakpointService', () => {
       filter((match) => {
         let isMatch = true;
         if (
-          (match.matchStr instanceof Array && !(s instanceof Array)) ||
-          (!(match.matchStr instanceof Array) && s instanceof Array)
+          (Array.isArray(match.matchStr) && !Array.isArray(s)) ||
+          (!Array.isArray(match.matchStr) && Array.isArray(s))
         ) {
           isMatch = false;
         }
-        if (!(match.matchStr instanceof Array)) {
+        if (!Array.isArray(match.matchStr)) {
           isMatch = match.matchStr === s;
         } else {
           if (match.matchStr.length !== s.length) {
             isMatch = false;
           } else {
-            // eslint-disable-next-line
-            for (let i = 0; i < s.length; i++) {
+            // eslint-disable-next-line unicorn/no-for-loop
+            for (let i = 0; i < s.length; i = i + 1) {
               if (match.matchStr[i] !== s[i]) {
                 isMatch = false;
               }
@@ -70,7 +70,7 @@ describe('BreakpointService', () => {
         return isMatch;
       }),
       map(
-        // eslint-disable-next-line
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         (match) => <BreakpointState>{ matches: match.result, breakpoints: {} }
       )
     );

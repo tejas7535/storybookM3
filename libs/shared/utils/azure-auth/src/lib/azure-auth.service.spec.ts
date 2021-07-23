@@ -13,15 +13,14 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { AzureAuthService } from './azure-auth.service';
+import { AccountInfo } from './models';
 
 const guardConfig: any = {
   interactionType: undefined,
   authRequest: undefined,
 };
 
-const factory = () => {
-  return guardConfig;
-};
+const factory = () => guardConfig;
 
 describe('Azure Auth Service', () => {
   let service: AzureAuthService;
@@ -60,26 +59,18 @@ describe('Azure Auth Service', () => {
 
   describe('createImageFromBlob', () => {
     test('should return promise with image url', (done) => {
-      const url = 'test';
-
-      const dummyReader = {
-        readAsDataURL: jest.fn(),
-        result: url,
-      } as unknown as FileReader;
-
+      const fileReader = new FileReader();
       const spy = jest
         .spyOn(global, 'FileReader')
-        .mockImplementation(() => dummyReader);
+        .mockImplementation(() => fileReader);
 
       const blob: Blob = new Blob(['test'], { type: 'image/png' });
 
       AzureAuthService.createImageFromBlob(blob).subscribe((res) => {
-        expect(res).toEqual(url);
+        expect(res).toEqual('data:image/png;base64,dGVzdA==');
         expect(spy).toHaveBeenCalledTimes(1);
         done();
       });
-
-      dummyReader.onload({} as any);
     });
   });
 
@@ -277,7 +268,9 @@ describe('Azure Auth Service', () => {
     });
 
     test('should return first acc from available accs', () => {
-      msalService.instance.getActiveAccount = jest.fn(() => undefined);
+      msalService.instance.getActiveAccount = jest.fn(
+        () => undefined as AccountInfo
+      );
 
       const result = service.handleAccount();
 

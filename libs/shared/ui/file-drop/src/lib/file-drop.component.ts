@@ -31,7 +31,7 @@ export class FileDropComponent implements OnChanges {
    * Joins accept array to prevent template call expression.
    */
   public ngOnChanges(): void {
-    this.acceptAsArray = this.accept ? this.accept.join() : '';
+    this.acceptAsArray = this.accept ? this.accept.join(',') : '';
   }
 
   /**

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { TranslocoService } from '@ngneat/transloco';
 
 import deJson from './i18n/de.json';

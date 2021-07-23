@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -30,7 +29,7 @@ const routes = [
   exports: [ForbiddenComponent],
 })
 export class ForbiddenModule {
-  constructor(private readonly translocoService: TranslocoService) {
+  public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
   }

@@ -41,6 +41,6 @@ export class DroppableDirective {
     const splitted = name.split('.');
     const type = `.${splitted[splitted.length - 1]}`;
 
-    return this.accept.indexOf(type) !== -1;
+    return this.accept.includes(type);
   }
 }

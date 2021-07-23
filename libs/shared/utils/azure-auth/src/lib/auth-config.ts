@@ -17,8 +17,8 @@ import {
 } from './models';
 
 const isIE =
-  window.navigator.userAgent.indexOf('MSIE ') > -1 ||
-  window.navigator.userAgent.indexOf('Trident/') > -1; // Remove this line to use Angular Universal
+  window.navigator.userAgent.includes('MSIE ') ||
+  window.navigator.userAgent.includes('Trident/'); // Remove this line to use Angular Universal
 
 export const loggerCallback = (
   logLevel: LogLevel,
@@ -33,25 +33,26 @@ export const loggerCallback = (
       console.error(message);
       break;
     case LogLevel.Info:
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-restricted-syntax, no-console
       console.info(message);
       break;
     case LogLevel.Verbose:
-      // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-restricted-syntax,no-console
       console.debug(message);
       break;
     case LogLevel.Warning:
       console.warn(message);
       break;
     default:
+      // eslint-disable-next-line no-console
       console.log(message);
   }
 };
 
 export const getMsalInstanceConfig = (
   msalInstanceConfig: MsalInstanceConfig
-): IPublicClientApplication => {
-  return new PublicClientApplication({
+): IPublicClientApplication =>
+  new PublicClientApplication({
     auth: {
       clientId: msalInstanceConfig.clientId,
       authority: `${msalInstanceConfig.loginUrl}${msalInstanceConfig.tenantId}/`,
@@ -72,7 +73,6 @@ export const getMsalInstanceConfig = (
       },
     },
   });
-};
 
 export const getMsalInterceptorConfig = (
   msalInterceptorConfig: MsalInterceptorConfig
@@ -99,12 +99,10 @@ export const getMsalInterceptorConfig = (
 
 export const getMsalGuardConfig = (
   msalGuardConfig: MsalGuardConfig
-): MsalGuardConfiguration => {
-  return {
-    interactionType: msalGuardConfig.interactionType,
-    loginFailedRoute: msalGuardConfig.loginFailedRoute,
-    authRequest: {
-      scopes: msalGuardConfig.scopes,
-    },
-  };
-};
+): MsalGuardConfiguration => ({
+  interactionType: msalGuardConfig.interactionType,
+  loginFailedRoute: msalGuardConfig.loginFailedRoute,
+  authRequest: {
+    scopes: msalGuardConfig.scopes,
+  },
+});

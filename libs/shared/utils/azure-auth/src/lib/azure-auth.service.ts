@@ -36,7 +36,9 @@ export class AzureAuthService {
   public static createImageFromBlob(image: Blob): Observable<string> {
     const promise: Promise<string> = new Promise((resolve) => {
       const fileReader = new FileReader();
-      fileReader.onload = (_e) => resolve(fileReader.result as string);
+      fileReader.addEventListener('load', (_e) =>
+        resolve(fileReader.result as string)
+      );
       fileReader.readAsDataURL(image);
     });
 

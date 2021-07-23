@@ -54,7 +54,7 @@ describe('SharedTranslocoModule for Root', () => {
 
     test('should load language from fallback language in the edge case', () => {
       Object.defineProperty(transloco, 'getBrowserLang', {
-        value: jest.fn().mockImplementation(() => undefined),
+        value: jest.fn().mockImplementation(() => {}),
       });
       const service = {
         load: jest.fn().mockImplementation(() => of(true)),

@@ -13,6 +13,7 @@ import { DropdownInputComponent } from './dropdown-input.component';
 describe('DropdownInputComponent', () => {
   let component: DropdownInputComponent;
   let spectator: Spectator<DropdownInputComponent>;
+  let mockFn: () => any;
 
   const createComponent = createComponentFactory({
     component: DropdownInputComponent,
@@ -30,6 +31,7 @@ describe('DropdownInputComponent', () => {
   beforeEach(async () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    mockFn = () => {};
   });
 
   it('should create', () => {
@@ -127,15 +129,11 @@ describe('DropdownInputComponent', () => {
   });
 
   test('registerOnChange call onChange method', () => {
-    const mockFn = () => {};
-
     component.registerOnChange(mockFn);
     expect(component['onChange']).toEqual(mockFn);
   });
 
   test('registerOnTouched call onTouched method', () => {
-    const mockFn = () => {};
-
     component.registerOnTouched(mockFn);
     expect(component['onTouched']).toEqual(mockFn);
   });

@@ -76,6 +76,7 @@ describe('ApplicationInsightsMetaReducerFactory', () => {
   describe('shouldLogEvent', () => {
     const ignorePatternRegExpressions: RegExp[] = [
       new RegExp('@ngrx/*'),
+      // eslint-disable-next-line no-control-regex
       new RegExp('Auth\b*'),
     ];
     let actionType: string;
