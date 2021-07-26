@@ -145,6 +145,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       },
     ];
     // dispatch action depending on page
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     this.isCaseView
       ? this.store.dispatch(addRowDataItem({ items }))
       : this.store.dispatch(addMaterialRowDataItem({ items }));

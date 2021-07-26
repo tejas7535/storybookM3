@@ -75,8 +75,8 @@ export class HelperService {
     event: KeyboardEvent,
     manualPriceInput: HTMLInputElement
   ): void {
-    const parsedInput = parseInt(event.key, 10);
-    const isValidNumber = parsedInput === 0 || !isNaN(parsedInput);
+    const parsedInput = Number.parseInt(event.key, 10);
+    const isValidNumber = parsedInput === 0 || !Number.isNaN(parsedInput);
     const inputIsAllowedSpecialKey = [
       KeyName.BACKSPACE,
       KeyName.DELETE,
@@ -103,7 +103,8 @@ export class HelperService {
   ) {
     event.preventDefault();
     const price =
-      Math.round(parseFloat(event.clipboardData.getData('text')) * 100) / 100;
+      Math.round(Number.parseFloat(event.clipboardData.getData('text')) * 100) /
+      100;
 
     if (price) {
       formControl.setValue(price);

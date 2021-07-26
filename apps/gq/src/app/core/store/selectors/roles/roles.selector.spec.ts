@@ -1,7 +1,11 @@
+import { ColDef } from '@ag-grid-community/core';
+
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
+import { ColumnUtilityService } from '../../../../shared/services/column-utility-service/column-utility.service';
 import {
   filterRoles,
   getAllRoles,
+  getColumnDefsForRoles,
   userHasGPCRole,
   userHasManualPriceRole,
   userHasSQVRole,
@@ -32,7 +36,17 @@ describe('shared selector', () => {
       ]);
     });
     test('should return empty array', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
       expect(getAllRoles.projector(undefined)).toEqual([]);
+    });
+  });
+  describe('getColumnDefsForRoles', () => {
+    test('should call ColumnUtilityService with roles', () => {
+      ColumnUtilityService.createColumnDefs = jest.fn(() => []);
+      const roles = [UserRoles.BASIC, UserRoles.REGION_WORLD];
+      const colDef: ColDef[] = [];
+      expect(getColumnDefsForRoles(colDef).projector(roles)).toEqual([]);
+      expect(ColumnUtilityService.createColumnDefs).toHaveBeenCalledTimes(1);
     });
   });
   describe('filter roles', () => {

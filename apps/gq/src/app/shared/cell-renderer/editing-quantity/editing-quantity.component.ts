@@ -1,4 +1,9 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ICellEditorParams } from '@ag-grid-community/all-modules';
@@ -9,7 +14,7 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
   selector: 'gq-editing-quantity',
   templateUrl: './editing-quantity.component.html',
 })
-export class EditingQuantityComponent {
+export class EditingQuantityComponent implements AfterViewChecked {
   @ViewChild('quantity') inputElement: ElementRef;
   quantityFormControl = new FormControl();
   params: ICellEditorParams;

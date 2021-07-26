@@ -1,9 +1,11 @@
+import { ColDef } from '@ag-grid-community/core';
 import { createSelector } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
 import { RoleGroup } from '../../../../shared/role-modal/models/role-group.model';
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
+import { ColumnUtilityService } from '../../../../shared/services/column-utility-service/column-utility.service';
 
 export const getAllRoles = createSelector(
   getRoles,
@@ -29,19 +31,23 @@ export const getAllRoles = createSelector(
         ]
       : []
 );
+export const getColumnDefsForRoles = (colDef: ColDef[]) =>
+  createSelector(getRoles, (roles) =>
+    ColumnUtilityService.createColumnDefs(roles, colDef)
+  );
 
 export const filterRoles = (roles: string[], prefix: string): string[] =>
   roles.filter((role) => role.includes(prefix));
 
 export const userHasGPCRole = createSelector(
   getRoles,
-  (roles: String[]): boolean => roles.includes(UserRoles.COST_GPC)
+  (roles: string[]): boolean => roles.includes(UserRoles.COST_GPC)
 );
 export const userHasManualPriceRole = createSelector(
   getRoles,
-  (roles: String[]): boolean => roles.includes(UserRoles.MANUAL_PRICE)
+  (roles: string[]): boolean => roles.includes(UserRoles.MANUAL_PRICE)
 );
 export const userHasSQVRole = createSelector(
   getRoles,
-  (roles: String[]): boolean => roles.includes(UserRoles.COST_SQV)
+  (roles: string[]): boolean => roles.includes(UserRoles.COST_SQV)
 );

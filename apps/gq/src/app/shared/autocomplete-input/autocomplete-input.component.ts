@@ -26,6 +26,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   @Input() autocompleteLoading = false;
 
   @Input() set isDisabled(isDisabled: boolean) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     isDisabled
       ? this.searchFormControl.disable()
       : this.searchFormControl.enable();

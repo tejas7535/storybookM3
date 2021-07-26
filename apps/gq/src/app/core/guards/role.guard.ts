@@ -27,6 +27,7 @@ export class RoleGuard implements CanActivateChild {
     _state: RouterStateSnapshot
   ): Observable<boolean> {
     return this.store.select(getRoles).pipe(
+      // eslint-disable-next-line ngrx/avoid-mapping-selectors
       map((roles) => {
         if (!roles.includes(UserRoles.BASIC)) {
           this.router.navigate([AppRoutePath.ForbiddenPath]);

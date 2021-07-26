@@ -47,9 +47,9 @@ describe('EditPriceComponent', () => {
       expect(component.params.api.startEditingCell).toHaveBeenCalledWith({
         rowIndex: 1,
         colKey: ColumnFields.PRICE,
-        rowPinned: null,
-        charPress: null,
-        keyPress: null,
+        rowPinned: undefined,
+        charPress: undefined,
+        keyPress: undefined,
       });
     });
   });

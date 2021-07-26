@@ -70,15 +70,8 @@ import {
   getSelectedQuotationIdentifier,
 } from '../../selectors';
 
-/**
- * Effect class for all tagging related actions which trigger side effects
- */
 @Injectable()
 export class ProcessCaseEffect {
-  /**
-   * Get possible values for a form field
-   *
-   */
   customerDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadCustomer),
@@ -99,11 +92,7 @@ export class ProcessCaseEffect {
     );
   });
 
-  /**
-   * Get possible values for a form field
-   *
-   */
-  quotationDetails$ = createEffect(() => {
+  quotation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadQuotation),
       withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),

@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { PriceSource } from 'apps/gq/src/app/shared/models/quotation-detail';
 
 import {
   CUSTOMER_MOCK,
@@ -8,6 +7,7 @@ import {
   QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import { Quotation } from '../../../../shared/models/';
+import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,

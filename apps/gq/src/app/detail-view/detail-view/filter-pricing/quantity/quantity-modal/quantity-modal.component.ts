@@ -20,7 +20,6 @@ import { HelperService } from '../../../../../shared/services/helper-service/hel
 @Component({
   selector: 'gq-quantity-modal',
   templateUrl: './quantity-modal.component.html',
-  styles: [],
 })
 export class QuantityModalComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
@@ -58,6 +57,7 @@ export class QuantityModalComponent implements OnInit, OnDestroy {
 
     const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
       pairwise(),
+      // eslint-disable-next-line ngrx/avoid-mapping-selectors
       map(([preVal, curVal]) => preVal && !curVal)
     );
 

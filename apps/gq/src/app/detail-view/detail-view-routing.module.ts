@@ -6,14 +6,14 @@ import { DetailRoutePath } from './detail-route-path.enum';
 const routes: Routes = [
   {
     path: DetailRoutePath.BasePath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./detail-view/detail-view.module').then(
         (m) => m.DetailViewModule
       ),
   },
   {
     path: DetailRoutePath.TransactionsPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./transaction-view/transaction-view.module').then(
         (m) => m.TransactionViewModule
       ),

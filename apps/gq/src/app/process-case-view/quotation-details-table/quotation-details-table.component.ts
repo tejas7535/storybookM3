@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import {
   ColDef,
@@ -15,14 +14,12 @@ import {
 } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/azure-auth';
-
+import { getColumnDefsForRoles } from '../../core/store';
 import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { ColumnDefService } from '../../shared/services/column-utility-service/column-def.service';
-import { ColumnUtilityService } from '../../shared/services/column-utility-service/column-utility.service';
 import {
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,
@@ -69,16 +66,9 @@ export class QuotationDetailsTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.columnDefs$ = this.store
-      .select(getRoles)
-      .pipe(
-        map((roles) =>
-          ColumnUtilityService.createColumnDefs(
-            roles,
-            this.columnDefinitionService.COLUMN_DEFS
-          )
-        )
-      );
+    this.columnDefs$ = this.store.select(
+      getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS)
+    );
   }
 
   public onColumnChange(event: ColumnEvent): void {

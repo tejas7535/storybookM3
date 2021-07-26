@@ -21,9 +21,9 @@ export class EditPriceComponent {
     this.params.api.startEditingCell({
       rowIndex: this.params.rowIndex,
       colKey: ColumnFields.PRICE,
-      rowPinned: null,
-      charPress: null,
-      keyPress: null,
+      rowPinned: undefined,
+      charPress: undefined,
+      keyPress: undefined,
     });
   }
 }

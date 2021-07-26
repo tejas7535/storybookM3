@@ -4,8 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { isManualCase } from 'apps/gq/src/app/core/store';
 
+import { isManualCase } from '../../../../../core/store';
 import { QuantityModalComponent } from '../quantity-modal/quantity-modal.component';
 
 @Component({

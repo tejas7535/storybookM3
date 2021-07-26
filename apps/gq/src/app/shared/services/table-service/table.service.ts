@@ -81,7 +81,8 @@ export class TableService {
 
     const quantity =
       typeof updatedRow.quantity === 'number'
-        ? updatedRow.quantity > 0
+        ? // eslint-disable-next-line unicorn/no-nested-ternary
+          updatedRow.quantity > 0
           ? updatedRow.quantity
           : false
         : false;
@@ -151,7 +152,7 @@ export class TableService {
         materialId: el.materialNumber,
         quantity:
           typeof el.quantity === 'string'
-            ? parseInt(el.quantity, 10)
+            ? Number.parseInt(el.quantity, 10)
             : el.quantity,
       };
     });

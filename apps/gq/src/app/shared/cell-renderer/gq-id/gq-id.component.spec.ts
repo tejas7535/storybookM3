@@ -1,8 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { VIEW_QUOTATION_MOCK } from 'apps/gq/src/testing/mocks';
 
+import { VIEW_QUOTATION_MOCK } from '../../../../testing/mocks';
 import { GqIdComponent } from './gq-id.component';
 
 describe('GqIdComponent', () => {

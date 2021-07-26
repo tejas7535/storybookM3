@@ -61,7 +61,7 @@ describe('TableService', () => {
       ]);
     });
 
-    test('should delete an Item', () => {
+    test('should delete an Item and set empty array', () => {
       const materialNumber = '1234';
       const quantity = 10;
       const rowData: MaterialTableItem[] = [
