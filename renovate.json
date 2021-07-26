@@ -159,6 +159,10 @@
     {
       "packageNames": ["@azure/msal-browser", "@azure/msal-angular"],
       "groupName": "@azure/msal"
+    },
+    {
+      "packageNames": ["@commitlint/cli", "@commitlint/config-conventional"],
+      "groupName": "commitlint"
     }
   ]
 }
