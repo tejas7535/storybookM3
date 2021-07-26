@@ -38,7 +38,8 @@
       "prefix": "cdba",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/cdba",
             "index": "apps/cdba/src/index.html",
@@ -115,7 +116,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@nrwl/angular:webpack-server",
           "options": {
             "browserTarget": "cdba:build"
           },
@@ -373,6 +374,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/goldwind",
             "index": "apps/goldwind/src/index.html",
@@ -551,7 +553,8 @@
       "prefix": "gq",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/gq",
             "index": "apps/gq/src/index.html",
@@ -629,7 +632,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@nrwl/angular:webpack-server",
           "options": {
             "browserTarget": "gq:build"
           },
@@ -729,6 +732,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/helloworld-azure",
             "index": "apps/helloworld-azure/src/index.html",
@@ -904,7 +908,8 @@
       "prefix": "ia",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@nrwl/angular:webpack-browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/ia",
             "index": "apps/ia/src/index.html",
@@ -979,7 +984,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@nrwl/angular:webpack-server",
           "options": {
             "browserTarget": "ia:build"
           },
@@ -1078,6 +1083,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/mac",
             "index": "apps/mac/src/index.html",
@@ -1246,6 +1252,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/mm",
             "index": "apps/mm/src/index.html",
@@ -1419,6 +1426,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/sedo",
             "index": "apps/sedo/src/index.html",

@@ -52,6 +52,7 @@
       "packageNames": [
         "@angular/cli",
         "@angular/pwa",
+        "@angular-devkit/architect",
         "@angular-devkit/core",
         "@angular-devkit/build-angular",
         "@angular-devkit/build-ng-packagr",
