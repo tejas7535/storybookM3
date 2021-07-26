@@ -16,61 +16,60 @@
     "cancel": "cancel zh"
   },
   "dialog": {
-    "bearing": "Bearing zh",
-    "bearingType": "Bearing type zh",
+    "bearing": "轴承",
+    "bearingType": "轴承类型",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "向心调心滚子轴承",
       "selfAligningBallBearing": "调心球轴承"
     },
-    "bearingSeries": "Bearing series zh",
-    "bearingSeat": "Bearing seat zh",
-    "measuringAndMounting": "Measuring & mounting zh",
-    "measuringMethod": "Measuring method zh",
-    "mounting": "Mounting zh",
-    "mountingMethod": "Mounting Method zh",
-    "calculationOptions": "Calculation options zh",
-    "hydraulicNutType": "Hydraulic nut type zh",
-    "previousMountings": "Number of previous mountings zh",
+    "bearingSeries": "轴承系列",
+    "bearingSeat": "轴承座",
+    "measuringAndMounting": "测量&安装方法",
+    "measuringMethod": "测量方法",
+    "mounting": "安装",
+    "mountingMethod": "安装方法",
+    "calculationOptions": "计算方法选择",
+    "hydraulicNutType": "液压螺母类型",
+    "previousMountings": "安装数量",
     "previousMountingsListValues": {
-      "zeroToOne": "0-1 zh",
-      "two": "2 zh",
-      "three": "3 zh",
-      "four": "4 zh",
-      "five": "5 zh",
-      "sixPlus": "6+ zh"
+      "zeroToOne": "0-1",
+      "two": "2",
+      "three": "3",
+      "four": "4",
+      "five": "5",
+      "sixPlus": "6+"
     },
-    "mountingOptions": "Mounting options zh",
+    "mountingOptions": "装配指定值",
     "mountingOptionsListValues": {
-      "radialClearanceReduction": "Radial clearance reduction zh",
-      "innerRingExpansion": "Inner ring expansion zh"
+      "radialClearanceReduction": "径向游隙减少量",
+      "innerRingExpansion": "内圈滚道膨胀量"
     },
-    "innerRingExpansion": "Inner ring expansion zh",
-    "radialClearanceReduction": "Radial clearance reduction zh",
-    "shaftData": "Shaft data zh",
-    "innerShaftDiameter": "Inner shaft diameter zh",
-    "shaftMaterial": "Shaft material zh",
+    "innerRingExpansion": "相对内圈滚道膨胀量",
+    "radialClearanceReduction": "径向游隙减少量",
+    "shaftData": "轴数据",
+    "innerShaftDiameter": "轴轴内径",
+    "shaftMaterial": "轴材料",
     "shaftMaterialListValues": {
-      "steel": "Steel zh",
-      "100Cr6": "100Cr6 zh",
-      "C45": "C45 zh",
-      "16MnCr5": "16MnCr5 zh",
-      "castIronGG14": "Cast iron GG14 zh",
-      "castIronGG26": "Cast iron GG26 zh",
-      "castIronGGG": "Cast iron GGG zh",
-      "brass": "Brass zh",
-      "bronze": "Bronze zh",
-      "alloyAluminium": "Alloy Aluminium zh",
-      "userDefinedMaterial": "User defined Material zh"
+      "steel": "钢",
+      "100Cr6": "100Cr6",
+      "C45": "C45",
+      "16MnCr5": "16MnCr5",
+      "castIronGG14": "铸铁GG14",
+      "castIronGG26": "铸铁GG26",
+      "castIronGGG": "铸铁GGG",
+      "brass": "黄铜",
+      "bronze": "青铜",
+      "alloyAluminium": "铝合金",
+      "userDefinedMaterial": "用户定义"
     },
-    "modulusOfElasticity": "Modulus of Elasticity zh",
-    "poissonRatio": "Poisson ratio zh",
-    "report": "report zh"
+    "modulusOfElasticity": "弹性模量",
+    "poissonRatio": "泊松比",
+    "report": "报告"
   },
   "result": {
     "title": "Report zh",
     "downloadReport": "Download Report zh",
     "startNewCalculation": "Start new Calculation zh"
   },
-  "settings": "Settings zh",
-  "test": "test zh"
+  "settings": "Settings zh"
 }

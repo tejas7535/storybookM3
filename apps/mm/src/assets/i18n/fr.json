@@ -19,61 +19,60 @@
     "cancel": "cancel fr"
   },
   "dialog": {
-    "bearing": "Bearing fr",
-    "bearingType": "Bearing type fr",
+    "bearing": "Roulement",
+    "bearingType": "Type de roulement",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Roulement à rotule sur deux rangées de rouleaux",
       "selfAligningBallBearing": "Roulement à rotule sur billes"
     },
-    "bearingSeries": "Bearing series fr",
-    "bearingSeat": "Bearing seat fr",
-    "measuringAndMounting": "Measuring & mounting fr",
-    "measuringMethod": "Measuring method fr",
-    "mounting": "Mounting fr",
-    "mountingMethod": "Mounting Method fr",
-    "calculationOptions": "Calculation options fr",
-    "hydraulicNutType": "Hydraulic nut type fr",
-    "previousMountings": "Number of previous mountings fr",
+    "bearingSeries": "Série de roulement",
+    "bearingSeat": "Portée du roulement",
+    "measuringAndMounting": "Mesure et de montage",
+    "measuringMethod": "Méthode de mesure",
+    "mounting": "Montage",
+    "mountingMethod": "Méthode de montage",
+    "calculationOptions": "Options de calcul",
+    "hydraulicNutType": "Type d’écrou hydraulique",
+    "previousMountings": "Nombre de montages antérieurs",
     "previousMountingsListValues": {
-      "zeroToOne": "0-1 fr",
-      "two": "2 fr",
-      "three": "3 fr",
-      "four": "4 fr",
-      "five": "5 fr",
-      "sixPlus": "6+ fr"
+      "zeroToOne": "0-1",
+      "two": "2",
+      "three": "3",
+      "four": "4",
+      "five": "5",
+      "sixPlus": "6+"
     },
-    "mountingOptions": "Mounting options fr",
+    "mountingOptions": "Valeur spécifiée pour le montage",
     "mountingOptionsListValues": {
-      "radialClearanceReduction": "Radial clearance reduction fr",
-      "innerRingExpansion": "Inner ring expansion fr"
+      "radialClearanceReduction": "Réduction du jeu radial",
+      "innerRingExpansion": "Expansion du chemin de roulement intérieur"
     },
-    "innerRingExpansion": "Inner ring expansion fr",
-    "radialClearanceReduction": "Radial clearance reduction fr",
-    "shaftData": "Shaft data fr",
-    "innerShaftDiameter": "Inner shaft diameter fr",
-    "shaftMaterial": "Shaft material fr",
+    "innerRingExpansion": "Expansion du chemin de roulement intérieur",
+    "radialClearanceReduction": "Réduction du jeu radial",
+    "shaftData": "Caractéristiques de l'arbre",
+    "innerShaftDiameter": "Diamètre de l'arbre intérieur",
+    "shaftMaterial": "Matière de l’arbre",
     "shaftMaterialListValues": {
-      "steel": "Steel fr",
-      "100Cr6": "100Cr6 fr",
-      "C45": "C45 fr",
-      "16MnCr5": "16MnCr5 fr",
-      "castIronGG14": "Cast iron GG14 fr",
-      "castIronGG26": "Cast iron GG26 fr",
-      "castIronGGG": "Cast iron GGG fr",
-      "brass": "Brass fr",
-      "bronze": "Bronze fr",
-      "alloyAluminium": "Alloy Aluminium fr",
-      "userDefinedMaterial": "User defined Material fr"
+      "steel": "Acier",
+      "100Cr6": "100Cr6",
+      "C45": "C45",
+      "16MnCr5": "16MnCr5",
+      "castIronGG14": "Fonte grise FGL 140",
+      "castIronGG26": "Fonte grise FGL 260",
+      "castIronGGG": "Fonte GS",
+      "brass": "Laiton",
+      "bronze": "Bronze",
+      "alloyAluminium": "Alliage d'aluminium",
+      "userDefinedMaterial": "défini pour l'utilisateur"
     },
-    "modulusOfElasticity": "Modulus of Elasticity fr",
-    "poissonRatio": "Poisson ratio fr",
-    "report": "report fr"
+    "modulusOfElasticity": "Module d'élasticité E",
+    "poissonRatio": "Coefficient de Poisson",
+    "report": "Rapport"
   },
   "result": {
     "title": "Report fr",
     "downloadReport": "Download Report fr",
     "startNewCalculation": "Start new Calculation fr"
   },
-  "settings": "Settings fr",
-  "test": "test fr"
+  "settings": "Settings fr"
 }

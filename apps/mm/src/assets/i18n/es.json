@@ -19,61 +19,60 @@
     "cancel": "cancel es"
   },
   "dialog": {
-    "bearing": "Bearing es",
-    "bearingType": "Bearing type es",
+    "bearing": "Rodamiento",
+    "bearingType": "Tipo de rodamiento",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Rodamientos de rodillos oscilantes",
       "selfAligningBallBearing": "Rodamiento oscilante de bolas"
     },
-    "bearingSeries": "Bearing series es",
-    "bearingSeat": "Bearing seat es",
-    "measuringAndMounting": "Measuring & mounting es",
-    "measuringMethod": "Measuring method es",
-    "mounting": "Mounting es",
-    "mountingMethod": "Mounting Method es",
-    "calculationOptions": "Calculation options es",
-    "hydraulicNutType": "Hydraulic nut type es",
-    "previousMountings": "Number of previous mountings es",
+    "bearingSeries": "Serie",
+    "bearingSeat": "Asiento",
+    "measuringAndMounting": "medición & de montaje",
+    "measuringMethod": "Método de medición",
+    "mounting": "Montaje",
+    "mountingMethod": "Método de montaje",
+    "calculationOptions": "Opciones de cálculo",
+    "hydraulicNutType": "Tipo de tuerca hidráulica",
+    "previousMountings": "Número de montajes previos",
     "previousMountingsListValues": {
-      "zeroToOne": "0-1 es",
-      "two": "2 es",
-      "three": "3 es",
-      "four": "4 es",
-      "five": "5 es",
-      "sixPlus": "6+ es"
+      "zeroToOne": "0-1",
+      "two": "2",
+      "three": "3",
+      "four": "4",
+      "five": "5",
+      "sixPlus": "6+"
     },
-    "mountingOptions": "Mounting options es",
+    "mountingOptions": "Especificaciones para el montaje",
     "mountingOptionsListValues": {
-      "radialClearanceReduction": "Radial clearance reduction es",
-      "innerRingExpansion": "Inner ring expansion es"
+      "radialClearanceReduction": "Reducción del juego radial",
+      "innerRingExpansion": "Dilatación de las pistas de rodadura del anillo interior"
     },
-    "innerRingExpansion": "Inner ring expansion es",
+    "innerRingExpansion": "Reducción del juego radial",
     "radialClearanceReduction": "Radial clearance reduction es",
-    "shaftData": "Shaft data es",
-    "innerShaftDiameter": "Inner shaft diameter es",
-    "shaftMaterial": "Shaft material es",
+    "shaftData": "Datos del eje",
+    "innerShaftDiameter": "Diámetro interior del eje",
+    "shaftMaterial": "Material del eje",
     "shaftMaterialListValues": {
-      "steel": "Steel es",
-      "100Cr6": "100Cr6 es",
-      "C45": "C45 es",
-      "16MnCr5": "16MnCr5 es",
-      "castIronGG14": "Cast iron GG14 es",
-      "castIronGG26": "Cast iron GG26 es",
-      "castIronGGG": "Cast iron GGG es",
-      "brass": "Brass es",
-      "bronze": "Bronze es",
-      "alloyAluminium": "Alloy Aluminium es",
-      "userDefinedMaterial": "User defined Material es"
+      "steel": "Acero",
+      "100Cr6": "100Cr6",
+      "C45": "C45",
+      "16MnCr5": "16MnCr5",
+      "castIronGG14": "Fundición de hierro GG14",
+      "castIronGG26": "Fundición de hierro GG26",
+      "castIronGGG": "Fundición de hierro GGG",
+      "brass": "Latón",
+      "bronze": "Bronce",
+      "alloyAluminium": "Aleación de aluminio",
+      "userDefinedMaterial": "definido para el usuario"
     },
-    "modulusOfElasticity": "Modulus of Elasticity es",
-    "poissonRatio": "Poisson ratio es",
-    "report": "report es"
+    "modulusOfElasticity": "Módulo E",
+    "poissonRatio": "Coeficiente de contracción transversal",
+    "report": "Informe"
   },
   "result": {
     "title": "Report es",
     "downloadReport": "Download Report es",
     "startNewCalculation": "Start new Calculation es"
   },
-  "settings": "Settings es",
-  "test": "el testo"
+  "settings": "Settings es"
 }

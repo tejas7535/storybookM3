@@ -19,61 +19,60 @@
     "cancel": "cancel ru"
   },
   "dialog": {
-    "bearing": "Bearing ru",
-    "bearingType": "Bearing type ru",
+    "bearing": "Подшипник",
+    "bearingType": "Тип подшипника",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Радиальные сферические роликоподшипники",
       "selfAligningBallBearing": "Радиальные сферические шарикоподшипники"
     },
-    "bearingSeries": "Bearing series ru",
-    "bearingSeat": "Bearing seat ru",
-    "measuringAndMounting": "Measuring & mounting ru",
-    "measuringMethod": "Measuring method ru",
-    "mounting": "Mounting ru",
-    "mountingMethod": "Mounting Method ru",
-    "calculationOptions": "Calculation options ru",
-    "hydraulicNutType": "Hydraulic nut type ru",
-    "previousMountings": "Number of previous mountings ru",
+    "bearingSeries": "Серия подшипника",
+    "bearingSeat": "Гнездо подшипника",
+    "measuringAndMounting": "измерения и монтажа",
+    "measuringMethod": "Метод измерения",
+    "mounting": "монтажа",
+    "mountingMethod": "Способ монтажа",
+    "calculationOptions": "Варианты расчета",
+    "hydraulicNutType": "Тип гидравлической гайки",
+    "previousMountings": "Количество предыдущих монтажей",
     "previousMountingsListValues": {
-      "zeroToOne": "0-1 ru",
-      "two": "2 ru",
-      "three": "3 ru",
-      "four": "4 ru",
-      "five": "5 ru",
-      "sixPlus": "6+ ru"
+      "zeroToOne": "0-1",
+      "two": "2",
+      "three": "3",
+      "four": "4",
+      "five": "5",
+      "sixPlus": "6+"
     },
-    "mountingOptions": "Mounting options ru",
+    "mountingOptions": "Предписания по монтажу",
     "mountingOptionsListValues": {
-      "radialClearanceReduction": "Radial clearance reduction ru",
-      "innerRingExpansion": "Inner ring expansion ru"
+      "radialClearanceReduction": "Уменьшение радиального зазора",
+      "innerRingExpansion": "Удлинение внутренней дорожки качения"
     },
-    "innerRingExpansion": "Inner ring expansion ru",
-    "radialClearanceReduction": "Radial clearance reduction ru",
-    "shaftData": "Shaft data ru",
-    "innerShaftDiameter": "Inner shaft diameter ru",
-    "shaftMaterial": "Shaft material ru",
+    "innerRingExpansion": "расширение внутренней дорожки качения",
+    "radialClearanceReduction": "меньшение радиального зазора",
+    "shaftData": "Данные вала",
+    "innerShaftDiameter": "Внутренний диаметр валов",
+    "shaftMaterial": "Материал вала",
     "shaftMaterialListValues": {
-      "steel": "Steel ru",
-      "100Cr6": "100Cr6 ru",
-      "C45": "C45 ru",
-      "16MnCr5": "16MnCr5 ru",
-      "castIronGG14": "Cast iron GG14 ru",
-      "castIronGG26": "Cast iron GG26 ru",
-      "castIronGGG": "Cast iron GGG ru",
-      "brass": "Brass ru",
-      "bronze": "Bronze ru",
-      "alloyAluminium": "Alloy Aluminium ru",
-      "userDefinedMaterial": "User defined Material ru"
+      "steel": "Сталь",
+      "100Cr6": "100Cr6",
+      "C45": "C45",
+      "16MnCr5": "16MnCr5",
+      "castIronGG14": "Чугун GG14",
+      "castIronGG26": "Чугун GG26",
+      "castIronGGG": "Чугун GGG",
+      "brass": "Латунь",
+      "bronze": "Бронза",
+      "alloyAluminium": "Алюминиевый сплав",
+      "userDefinedMaterial": "определяется пользователем"
     },
-    "modulusOfElasticity": "Modulus of Elasticity ru",
-    "poissonRatio": "Poisson ratio ru",
-    "report": "report ru"
+    "modulusOfElasticity": "Модуль упругости",
+    "poissonRatio": "Коэффициент Пуассона",
+    "report": "Отчет"
   },
   "result": {
     "title": "Report ru",
     "downloadReport": "Download Report ru",
     "startNewCalculation": "Start new Calculation ru"
   },
-  "settings": "Settings ru",
-  "test": "test ru"
+  "settings": "Settings ru"
 }
