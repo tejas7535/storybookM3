@@ -5,7 +5,7 @@ import { SnackBarData } from './snackbar-data.model';
 
 const iconMap: Map<string, string> = new Map([
   ['success', 'icon-toast-success'],
-  ['error', 'icon-toast-error'],
+  ['error', 'icon-toast-warning'],
   ['warning', 'icon-toast-warning'],
   ['information', 'icon-toast-information'],
 ]);
