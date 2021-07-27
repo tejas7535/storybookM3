@@ -73,4 +73,14 @@ describe('LegalComponent', () => {
       expect(component.legal).toEqual('content.termsOfUse');
     });
   });
+
+  describe('navigate', () => {
+    it('should trigger the router navigate to the root route', () => {
+      routerMock.navigate = jest.fn();
+
+      component.navigate();
+
+      expect(routerMock.navigate).toHaveBeenCalledWith(['/']);
+    });
+  });
 });
