@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
+import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, Event, FluctuationKpi } from '../shared/models';
 import { Employee } from '../shared/models/employee.model';
 import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
@@ -41,6 +43,8 @@ export class OverviewComponent implements OnInit {
   isFluctuationChartLoading$: Observable<boolean>;
   fluctuationKpi$: Observable<FluctuationKpi>;
 
+  employeeListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
+
   unforcedFluctuationChartData$: Observable<EChartsOption>;
   isUnforcedFluctuationChartLoading$: Observable<boolean>;
   unforcedFluctuationKpi$: Observable<FluctuationKpi>;
@@ -63,7 +67,10 @@ export class OverviewComponent implements OnInit {
   openApplications$: Observable<OpenApplication[]>;
   openApplicationsLoading$: Observable<boolean>;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     this.loadFluctuationData();
@@ -72,6 +79,19 @@ export class OverviewComponent implements OnInit {
     this.loadResignedEmployeesData();
     this.loadOpenApplicationsData();
     this.loadAttritionQuotaData();
+
+    this.employeeListDialogMetaHeadings$ = this.translocoService
+      .selectTranslate('employeeListDialog.contentTitle', {}, 'overview')
+      .pipe(
+        map(
+          (contentTitle: string) =>
+            new EmployeeListDialogMetaHeadings(
+              undefined,
+              undefined,
+              contentTitle
+            )
+        )
+      );
   }
 
   loadFluctuationData() {

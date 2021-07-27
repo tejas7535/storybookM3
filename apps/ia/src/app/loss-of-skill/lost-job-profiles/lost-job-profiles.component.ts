@@ -7,7 +7,10 @@ import {
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
+import { Employee } from '../../shared/models/employee.model';
 import { LostJobProfile } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
@@ -81,7 +84,9 @@ export class LostJobProfilesComponent {
     const title = translate(
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
-    const total = params.value;
+    const total = translate(`lossOfSkill.employeeListDialog.headerRight`, {
+      total: params.value,
+    });
     const employees: string[] =
       key === 'workforce' ? params.data.employees : params.data.leavers;
 
@@ -90,17 +95,25 @@ export class LostJobProfilesComponent {
 
   private openEmployeeListDialog(
     title: string,
-    total: number,
+    total: string,
     employees: string[]
   ): void {
-    this.dialog.open(EmployeeListDialogComponent, {
-      data: {
+    // TODO: extend REST API to get full employee not just the name? may be useful later anyway
+    const convertedEmployees = employees.map(
+      (employee) => ({ employeeName: employee } as unknown as Employee)
+    );
+
+    const data = new EmployeeListDialogMeta(
+      new EmployeeListDialogMetaHeadings(
         title,
         total,
-        employees,
-      },
-      width: '700px',
-      height: '400px',
+        translate('lossOfSkill.employeeListDialog.contentTitle')
+      ),
+      convertedEmployees
+    );
+
+    this.dialog.open(EmployeeListDialogComponent, {
+      data,
     });
   }
 }

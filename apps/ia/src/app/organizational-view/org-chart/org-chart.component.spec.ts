@@ -9,11 +9,11 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
+import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeAttritionMeta } from '../../shared/models';
 import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { OrgChartComponent } from './org-chart.component';
-import { TeamMemberDialogModule } from './team-member-dialog/team-member-dialog.module';
 
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
@@ -24,7 +24,7 @@ describe('OrgChartComponent', () => {
     detectChanges: false,
     imports: [
       MatProgressSpinnerModule,
-      TeamMemberDialogModule,
+      EmployeeListDialogModule,
       provideTranslocoTestingModule({ en }),
       LoadingSpinnerModule,
       MatDialogModule,

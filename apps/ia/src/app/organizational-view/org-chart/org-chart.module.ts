@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { OrgChartComponent } from './org-chart.component';
-import { TeamMemberDialogModule } from './team-member-dialog/team-member-dialog.module';
 
 @NgModule({
   declarations: [OrgChartComponent],
@@ -14,7 +14,7 @@ import { TeamMemberDialogModule } from './team-member-dialog/team-member-dialog.
     SharedModule,
     AttritionDialogModule,
     LoadingSpinnerModule,
-    TeamMemberDialogModule,
+    EmployeeListDialogModule,
     SharedTranslocoModule,
   ],
   exports: [OrgChartComponent],

@@ -36,5 +36,8 @@
       "date": "Date",
       "name": "Name"
     }
+  },
+  "employeeListDialog": {
+    "contentTitle": "Staff"
   }
 }

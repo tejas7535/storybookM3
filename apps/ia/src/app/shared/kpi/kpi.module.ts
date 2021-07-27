@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { TeamMemberDialogModule } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.module';
+import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
 import { KpiComponent } from './kpi.component';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { KpiComponent } from './kpi.component';
     CommonModule,
     SharedTranslocoModule,
     MatIconModule,
-    TeamMemberDialogModule,
+    EmployeeListDialogModule,
   ],
   exports: [KpiComponent],
 })
