@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { Color } from '../../shared/models/color.enum';
 import { Employee } from '../../shared/models/employee.model';
 import { DoughnutConfig } from './doughnut-chart/models/doughnut-config.model';
@@ -32,4 +33,5 @@ export class EntriesExitsComponent {
   @Input() exitsCount: number;
   @Input() exitEmployees: Employee[] = [];
   @Input() entryEmployees: Employee[] = [];
+  @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
 }

@@ -1,32 +1,44 @@
-<div mat-dialog-title class="!flex flex-row">
+<div
+  mat-dialog-title
+  class="!flex flex-row"
+  *ngIf="data?.headings?.headerLeft || data?.headings?.headerRight"
+>
   <h6 class="flex-grow !text-dark !mt-0 !mr-0 !mb-4 !ml-1 font-medium">
-    {{ data?.title }}
+    {{ data?.headings?.headerLeft }}
   </h6>
-  <h6 class="!text-dark font-medium">Total: {{ data?.total }}</h6>
+  <h6 class="!text-dark font-medium">{{ data?.headings?.headerRight }}</h6>
 </div>
-<!-- <h2 mat-dialog-title align="end">{{ data?.total }}</h2> -->
-<mat-dialog-content>
-  <div
-    class="
-      flex flex-wrap flex-col
-      content-start
-      justify-evenly
-      !max-h-[240px]
-      overflow-x-auto overflow-y-hidden
-      gap-2
-      py-2
-    "
+<mat-dialog-content class="!overflow-hidden">
+  <h6
+    *ngIf="data?.headings?.contentTitle"
+    class="text-overline font-medium leading-3 uppercase mt-0 mr-0 mb-2 ml-1"
   >
-    <div
-      class="w-[250px] flex flex-row gap-3 justify-start"
-      *ngFor="let employee of data?.employees; trackBy: trackByFn"
-    >
-      <img src="assets/images/dummy.png" [alt]="employee" />
-      <div class="self-center">{{ employee }}</div>
-    </div>
-  </div>
+    {{ data?.headings?.contentTitle }}
+  </h6>
+  <cdk-virtual-scroll-viewport itemSize="56" class="h-[400px] w-[300px]">
+    <mat-list>
+      <ng-container
+        *cdkVirtualFor="
+          let child of data.employees;
+          let last = last;
+          trackBy: trackByFn
+        "
+      >
+        <mat-list-item>
+          <img
+            matListAvatar
+            src="assets/images/dummy.png"
+            [alt]="child.employeeName"
+          />
+          <p matLine>{{ child.employeeName }}</p>
+          <mat-icon class="text-light">whatshot</mat-icon>
+        </mat-list-item>
+        <mat-divider *ngIf="!last"></mat-divider>
+      </ng-container>
+    </mat-list>
+  </cdk-virtual-scroll-viewport>
 </mat-dialog-content>
-<mat-dialog-actions align="end" *transloco="let t; read: 'teamMemberDialog'">
+<mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
   <button mat-button mat-dialog-close color="primary">
     {{ t('close') | uppercase }}
   </button>

@@ -45,5 +45,8 @@
     "terminationReceived": "Termination received",
     "employeesAdded": "Employees added",
     "openPositions": "Open positions"
+  },
+  "employeeListDialog": {
+    "contentTitle": "Staff"
   }
 }

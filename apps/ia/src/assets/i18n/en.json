@@ -31,8 +31,7 @@
     "reasonsAndCounterMeasures": "Reasons & Counter Measures",
     "attritionAnalytics": "Attrition Analytics"
   },
-  "teamMemberDialog": {
-    "close": "Close",
-    "metaTitle": "Staff"
+  "employeeListDialog": {
+    "close": "Close"
   }
 }

@@ -3,8 +3,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { TeamMemberDialogComponent } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.component';
-import { TeamMemberDialogModule } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.module';
+import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogModule } from '../employee-list-dialog/employee-list-dialog.module';
 import { SharedModule } from '../shared.module';
 import { KpiComponent } from './kpi.component';
 
@@ -20,7 +20,7 @@ describe('KpiComponent', () => {
       SharedModule,
       MatIconModule,
       MatTooltipModule,
-      TeamMemberDialogModule,
+      EmployeeListDialogModule,
     ],
   });
 
@@ -37,8 +37,8 @@ describe('KpiComponent', () => {
 
       component.openTeamMemberDialog();
       expect(component['dialog'].open).toHaveBeenCalledWith(
-        TeamMemberDialogComponent,
-        { data: { directLeafChildren: [employee] } }
+        EmployeeListDialogComponent,
+        { data: { headings: undefined, employees: [employee] } }
       );
     });
   });

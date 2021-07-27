@@ -11,14 +11,17 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { TranslocoService } from '@ngneat/transloco';
 import d3OrgChart from 'd3-org-chart';
 
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
-import { TeamMemberDialogComponent } from './team-member-dialog/team-member-dialog.component';
 
 @Component({
   selector: 'ia-org-chart',
@@ -53,7 +56,8 @@ export class OrgChartComponent implements AfterViewInit {
 
   public constructor(
     private readonly orgChartService: OrgChartService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly translocoService: TranslocoService
   ) {}
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
@@ -62,8 +66,20 @@ export class OrgChartComponent implements AfterViewInit {
     const employee = this.data.find((elem) => elem.employeeId === employeeId);
 
     if (node.classList.contains(OrgChartConfig.BUTTON_CSS.people)) {
-      this.dialog.open(TeamMemberDialogComponent, {
-        data: employee,
+      const data = new EmployeeListDialogMeta(
+        new EmployeeListDialogMetaHeadings(
+          `${employee.employeeName} (${employee.orgUnit})`,
+          undefined,
+          this.translocoService.translate(
+            'employeeListDialog.contentTitle',
+            {},
+            'organizational-view'
+          )
+        ),
+        employee.directLeafChildren
+      );
+      this.dialog.open(EmployeeListDialogComponent, {
+        data,
       });
     } else if (node.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
       const attritionMeta = employee?.attritionMeta;

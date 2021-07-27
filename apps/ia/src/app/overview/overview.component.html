@@ -16,6 +16,9 @@
                 [title]="(fluctuationKpi$ | ngrxPush)?.orgUnitName"
                 [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
                 [employees]="(fluctuationKpi$ | ngrxPush)?.exitEmployees"
+                [employeeListDialogMetaHeadings]="
+                  employeeListDialogMetaHeadings$ | ngrxPush
+                "
               ></ia-kpi>
             </div>
           </div>
@@ -47,6 +50,9 @@
                 [employees]="
                   (unforcedFluctuationKpi$ | ngrxPush)?.exitEmployees
                 "
+                [employeeListDialogMetaHeadings]="
+                  employeeListDialogMetaHeadings$ | ngrxPush
+                "
               ></ia-kpi>
             </div>
           </div>
@@ -70,6 +76,9 @@
           [exitsCount]="exitsCount$ | ngrxPush"
           [exitEmployees]="exitEmployees$ | ngrxPush"
           [entryEmployees]="entryEmployees$ | ngrxPush"
+          [employeeListDialogMetaHeadings]="
+            employeeListDialogMetaHeadings$ | ngrxPush
+          "
         ></ia-entries-exits>
       </div>
     </div>

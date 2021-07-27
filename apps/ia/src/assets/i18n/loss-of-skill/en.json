@@ -14,5 +14,9 @@
   },
   "riskOfLeaving": {
     "title": "Top performer @ risk of leaving"
+  },
+  "employeeListDialog": {
+    "headerRight": "Total: {{total}}",
+    "contentTitle": "Staff"
   }
 }

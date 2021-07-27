@@ -4,8 +4,11 @@ import { translate } from '@ngneat/transloco';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
+import { Employee } from '../../shared/models/employee.model';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 
 describe('LostJobProfilesComponent', () => {
@@ -49,7 +52,7 @@ describe('LostJobProfilesComponent', () => {
       expect(translate).toHaveBeenCalled();
       expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
         'translate it',
-        5,
+        'translate it',
         ['Foo', 'Bar']
       );
     });
@@ -60,7 +63,7 @@ describe('LostJobProfilesComponent', () => {
       expect(translate).toHaveBeenCalled();
       expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
         'translate it',
-        5,
+        'translate it',
         ['Donald']
       );
     });
@@ -69,20 +72,25 @@ describe('LostJobProfilesComponent', () => {
   describe('openEmployeeListDialog', () => {
     it('should open the dialog with correct params', () => {
       const title = 'FOO';
-      const total = 5;
+      const total = 'Total: 5';
       const employees = ['Donald'];
 
       component['dialog'].open = jest.fn();
 
       component['openEmployeeListDialog'](title, total, employees);
 
+      const data = new EmployeeListDialogMeta(
+        new EmployeeListDialogMetaHeadings(
+          title,
+          total,
+          translate('lossOfSkill.employeeListDialog.contentTitle')
+        ),
+        [{ employeeName: 'Donald' } as unknown as Employee]
+      );
+
       expect(component['dialog'].open).toHaveBeenCalledWith(
         EmployeeListDialogComponent,
-        {
-          data: { title, total, employees },
-          width: '700px',
-          height: '400px',
-        }
+        { data }
       );
     });
   });
