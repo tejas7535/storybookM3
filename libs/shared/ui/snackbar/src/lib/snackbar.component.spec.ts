@@ -107,7 +107,7 @@ describe('SnackBarComponent', () => {
       test('should have correct icon', () => {
         const matIcon = spectator.query('mat-icon');
 
-        expect(matIcon).toHaveClass('icon-toast-error');
+        expect(matIcon).toHaveClass('icon-toast-warning');
       });
     });
 

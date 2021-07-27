@@ -54,11 +54,13 @@ export class SnackBarService {
    */
   public showErrorMessage(
     message: string,
-    action?: string
+    action?: string,
+    shouldStay?: boolean
   ): Observable<string> {
     const snackBarConfig: MatSnackBarConfig = {
       panelClass: 'error-message',
       data: new SnackBarData(message, action, SnackBarType.ERROR),
+      ...(shouldStay && { duration: Infinity }),
     };
 
     return this.showMessage(snackBarConfig);
