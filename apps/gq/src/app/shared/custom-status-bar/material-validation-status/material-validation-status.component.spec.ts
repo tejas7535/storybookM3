@@ -97,7 +97,7 @@ describe('MaterialValidationStatusComponent', () => {
       component.rowValueChanges();
 
       expect(component.invalid).toEqual(1);
-      expect(component.combinations).toEqual(nodes.length);
+      expect(component.amountDetails).toEqual(nodes.length);
     });
   });
 });

@@ -7,13 +7,10 @@ import { MaterialTableItem } from '../../models/table';
 @Component({
   selector: 'gq-material-validation-status',
   templateUrl: './material-validation-status.component.html',
-  styleUrls: ['./material-validation-status.component.scss'],
 })
 export class MaterialValidationStatusComponent {
-  MAX_NUMBER_OF_QUOTATION_DETAILS = 100;
-
   invalid = 0;
-  combinations = 0;
+  amountDetails = 0;
 
   private params: IStatusPanelParams;
 
@@ -28,13 +25,13 @@ export class MaterialValidationStatusComponent {
 
   rowValueChanges(): void {
     this.invalid = 0;
-    this.combinations = 0;
+    this.amountDetails = 0;
 
     this.params.api.forEachNode((row: RowNode) => {
       const tmpDetail: MaterialTableItem = row.data;
 
-      this.invalid += tmpDetail.info?.valid ? 0 : 1;
-      this.combinations += 1;
+      this.invalid += +!tmpDetail.info?.valid;
+      this.amountDetails += 1;
     });
   }
 }
