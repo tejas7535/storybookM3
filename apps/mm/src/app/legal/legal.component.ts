@@ -54,4 +54,8 @@ export class LegalComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  navigate(): void {
+    this.router.navigate(['/']);
+  }
 }

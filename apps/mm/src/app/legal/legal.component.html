@@ -1,12 +1,7 @@
 <div class="mx-auto max-w-screen-md w-full" *transloco="let t; read: 'legal'">
-  <div class="flex items-center">
-    <mat-icon
-      fontSet="schaeffler-icons"
-      fontIcon="icon-arrow-west"
-      class="cursor-pointer text-icon"
-      [routerLink]="'/'"
-    ></mat-icon>
-    <h4>{{ t('goToHome') }}</h4>
-  </div>
+  <schaeffler-subheader
+    [title]="t('goToHome')"
+    (backButtonClicked)="navigate()"
+  ></schaeffler-subheader>
   <div [innerHTML]="t(legal)"></div>
 </div>
