@@ -57,15 +57,14 @@ export class PriceService {
   }
 
   static calculatePercentDifference(detail: QuotationDetail): number {
-    const lastPrice = PriceService.roundToTwoDecimals(detail.lastCustomerPrice);
+    const lastPrice = detail.lastCustomerPrice;
     const currentPrice = detail.price;
-    if (currentPrice && lastPrice) {
-      const priceDiff = (currentPrice - lastPrice) / lastPrice;
 
-      return PriceService.roundPercentageToTwoDecimals(priceDiff);
-    }
-
-    return undefined;
+    return currentPrice && lastPrice
+      ? PriceService.roundPercentageToTwoDecimals(
+          (currentPrice - lastPrice) / lastPrice
+        )
+      : undefined;
   }
 
   static calculateNetValue(price: number, quantity: number): number {
@@ -125,6 +124,7 @@ export class PriceService {
   static roundPercentageToTwoDecimals(number: number): number {
     return Math.round(number * 10_000) / 100;
   }
+
   static roundToTwoDecimals(number: number): number {
     return Math.round(number * 100) / 100;
   }

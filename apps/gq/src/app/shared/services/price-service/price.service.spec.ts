@@ -38,26 +38,22 @@ describe('PriceService', () => {
     });
   });
 
-  describe('calculatePercentDifference', () => {
-    test('should Calculate % diff', () => {
+  describe('calculatePercentDifference should', () => {
+    test.each([
+      { lastCustomerPrice: 110, price: 120, expected: 9.09 },
+      { lastCustomerPrice: 100, price: 50, expected: -50 },
+      { lastCustomerPrice: undefined, price: 100, expected: undefined },
+      { lastCustomerPrice: 137, price: 137, expected: 0 },
+      { lastCustomerPrice: 0.237, price: 0.237, expected: 0 },
+    ])('calculate diff in %', ({ lastCustomerPrice, price, expected }) => {
       const detail = {
-        lastCustomerPrice: 110,
-        price: 120,
+        lastCustomerPrice,
+        price,
       } as any;
 
       const result = PriceService.calculatePercentDifference(detail);
 
-      expect(result).toEqual(9.09);
-    });
-    test('should return undefined', () => {
-      const detail = {
-        lastCustomerPrice: undefined,
-        price: 100,
-      } as any;
-
-      const result = PriceService.calculatePercentDifference(detail);
-
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(expected);
     });
   });
 
