@@ -35,18 +35,44 @@ import { SubheaderModule } from '@schaeffler/subheader';
 API of Subheader Component:
 
 ```typescript
-  ...
+  @Input() showBackButton = true // true by default, can be disabled if you want to pass in your own custom backButton via `ng-container`
+
+  @Input() title = '' // title of the subheader
+
+  @Output() backButtonClicked // event that is triggered when the default backButton is clicked, only emitted if @Input() showBackButton = true
 ```
 
 Use like:
 
 ```html
 <!-- comp-xy.component.html -->
-
-<schaeffler-subheader></schaeffler-subheader>
+<schaeffler-subheader title="Search Results | 69 Findings" (backButtonClicked)="navigate()">
+  <ng-container breadcrumbs>
+    <schaeffler-breadcrumbs [breadcrumbs]="breadcrumbs"></schaeffler-breadcrumbs>
+  </ng-container>
+  <!-- 
+    <ng-container backButton>
+      place your own custom back button here
+    <ng-container>
+  -->
+  <ng-container header>
+    place content here
+  <ng-container>
+  <ng-container content>
+    place content here
+  <ng-container>
+</schaeffler-subheader>
 ```
 
 ```typescript
 // comp-xy.component.ts
-  ...
+  import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
+  public breadcrumbs: BreadCrumbs[] = [
+    {label: 'Label', url: '/page', queryParams: {queryParam: 'value'}}
+  ]
+
+  public navigate():void {
+    // execute navigation logic
+  }
 ```
