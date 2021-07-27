@@ -19,10 +19,7 @@ export class RegressionService {
   ): number[][] => {
     const { coefficient1, coefficient2 } = coefficients;
     // Get max quantity
-    const max = Math.max.apply(
-      Math,
-      transactions.map((t) => t.quantity)
-    );
+    const max = Math.max(...transactions.map((t) => t.quantity));
     const data = [];
 
     // datapoints from 0 to 1
@@ -58,8 +55,7 @@ export class RegressionService {
     coefficient1: number,
     coefficient2: number,
     quantity: number
-  ): number => {
+  ): number =>
     // f(x) = exp(a)* x^(b)
-    return Math.exp(coefficient1) * Math.pow(quantity, coefficient2);
-  };
+    Math.exp(coefficient1) * Math.pow(quantity, coefficient2);
 }

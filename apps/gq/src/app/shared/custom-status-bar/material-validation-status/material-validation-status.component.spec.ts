@@ -13,7 +13,6 @@ describe('MaterialValidationStatusComponent', () => {
     component: MaterialValidationStatusComponent,
     declarations: [MaterialValidationStatusComponent],
     imports: [provideTranslocoTestingModule({ en: {} })],
-    providers: [],
   });
 
   beforeEach(() => {
@@ -87,7 +86,9 @@ describe('MaterialValidationStatusComponent', () => {
       const params = {
         api: {
           forEachNode: (callback: (row: RowNode) => void) =>
-            nodes.forEach(callback),
+            nodes.forEach((element) => {
+              callback(element);
+            }),
         },
       } as unknown as IStatusPanelParams;
 

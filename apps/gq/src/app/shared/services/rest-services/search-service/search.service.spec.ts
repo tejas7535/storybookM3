@@ -54,7 +54,7 @@ describe('SearchService', () => {
   });
 
   describe('autocomplete', () => {
-    test('should call ', () => {
+    test('should call', () => {
       const search: AutocompleteSearch = new AutocompleteSearch(
         'testParam',
         'hallo'
@@ -73,7 +73,7 @@ describe('SearchService', () => {
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
     });
-    test('should call for sapquotation ', () => {
+    test('should call for sapquotation', () => {
       const search: AutocompleteSearch = new AutocompleteSearch(
         FilterNames.SAP_QUOTATION,
         'test'

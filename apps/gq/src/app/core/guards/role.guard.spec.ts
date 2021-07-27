@@ -33,7 +33,7 @@ describe('RoleGuard', () => {
       store.overrideSelector(getRoles, ['BASIC']);
 
       guard
-        .canActivateChild(undefined, undefined)
+        .canActivateChild({} as any, {} as any)
         .subscribe((granted) => expect(granted).toBeTruthy());
     });
 
@@ -42,7 +42,7 @@ describe('RoleGuard', () => {
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard
-        .canActivateChild(undefined, undefined)
+        .canActivateChild({} as any, {} as any)
         .subscribe((granted) => expect(granted).toBeFalsy());
     });
 
@@ -50,7 +50,7 @@ describe('RoleGuard', () => {
       store.overrideSelector(getRoles, []);
       guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard.canActivateChild(undefined, undefined).subscribe();
+      guard.canActivateChild({} as any, {} as any).subscribe();
 
       expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
     });

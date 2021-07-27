@@ -202,6 +202,7 @@ describe('AutocompleteInputComponent', () => {
       expect(result).toEqual(`${id} | ${value}`);
     });
     test('should return only id', () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
       const result = component.transformFormValue('1', undefined);
       expect(result).toEqual('1');
     });
@@ -251,13 +252,13 @@ describe('AutocompleteInputComponent', () => {
     });
   });
   describe('set isDisabled', () => {
-    test('should set test options', () => {
+    test('should set test options for isDisabled true', () => {
       component.isDisabled = true;
       expect(component.searchFormControl.disabled).toBeTruthy();
       expect(component.searchFormControl.enabled).toBeFalsy();
     });
 
-    test('should set test options', () => {
+    test('should set test options for isDisabled false', () => {
       component.isDisabled = false;
       expect(component.searchFormControl.disabled).toBeFalsy();
       expect(component.searchFormControl.enabled).toBeTruthy();

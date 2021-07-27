@@ -80,7 +80,7 @@ describe('QuotationDetailsService', (): void => {
     });
   });
   describe('removeMaterial', () => {
-    test('should call ', () => {
+    test('should call', () => {
       const qgPositionIds = ['123456'];
 
       const mock = {

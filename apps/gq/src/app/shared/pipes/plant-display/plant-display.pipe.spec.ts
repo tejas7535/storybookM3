@@ -16,7 +16,7 @@ describe('PlantDisplayPipe', () => {
 
     expect(result).toEqual(expected);
   });
-  test('should transform data', () => {
+  test('should transform data for undefined', () => {
     const pipe = new PlantDisplayPipe();
     const plant = undefined as any;
     const result = pipe.transform(plant);

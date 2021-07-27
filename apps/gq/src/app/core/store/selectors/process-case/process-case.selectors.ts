@@ -97,7 +97,7 @@ export const getAddMaterialRowDataValid = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => {
     const rowData = state ? [...state.addMaterials.addMaterialRowData] : [];
-    let rowDataValid = rowData.length >= 1;
+    let rowDataValid = rowData.length > 0;
     for (const row of rowData) {
       if (row.materialNumber || row.quantity) {
         const error =

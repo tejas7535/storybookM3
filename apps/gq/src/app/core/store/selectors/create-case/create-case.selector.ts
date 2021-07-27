@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { CreateCustomerCase } from 'apps/gq/src/app/shared/services/rest-services/search-service/models/create-customer-case.model';
 
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
@@ -7,6 +6,7 @@ import {
   MaterialQuantities,
   MaterialTableItem,
 } from '../../../../shared/models/table';
+import { CreateCustomerCase } from '../../../../shared/services/rest-services/search-service/models/create-customer-case.model';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import { getCaseState } from '../../reducers';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
@@ -75,7 +75,7 @@ export const getCustomerConditionsValid = createSelector(
   getCaseState,
   (state: CaseState): boolean => {
     const rowData = state ? [...state.rowData] : [];
-    let rowDataValid = rowData.length >= 1;
+    let rowDataValid = rowData.length > 0;
     for (const row of rowData) {
       if (row.materialNumber || row.quantity) {
         const error =
@@ -103,8 +103,8 @@ export const getCustomerConditionsValid = createSelector(
 export const getCreateCaseData = createSelector(
   getCaseState,
   (state: CaseState): CreateCase => {
-    const { customerId } = state.customer;
-    const salesOrg = state.customer.salesOrgs.find((org) => org.selected)?.id;
+    const { customerId, salesOrgs } = state.customer;
+    const salesOrg = salesOrgs.find((org) => org.selected)?.id;
 
     const materialQuantities: MaterialQuantities[] =
       TableService.createMaterialQuantitiesFromTableItems(state.rowData, 0);
@@ -163,7 +163,7 @@ export const getCreateCustomerCaseDisabled = createSelector(
       state.customer.salesOrgs.find((salesOrg) => salesOrg.selected) !== null;
 
     const materialSelection =
-      state.plSeries.materialSelection.salesIndications.length !== 0 ||
+      state.plSeries.materialSelection.salesIndications.length > 0 ||
       state.plSeries.materialSelection.includeQuotationHistory;
 
     const plAndSeries =

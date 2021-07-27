@@ -76,7 +76,7 @@ describe('EditingPriceComponent', () => {
     test('should call HelperService', () => {
       HelperService.validateNumberInputKeyPress = jest.fn();
 
-      component.onKeyPress({} as any, undefined);
+      component.onKeyPress({} as any, {} as any);
 
       expect(HelperService.validateNumberInputKeyPress).toHaveBeenCalledTimes(
         1

@@ -142,10 +142,7 @@ export class ChartConfigService {
 
   calculateAxisMax = (datapoints: DataPoint[], index: number): number => {
     // Get current max axis point
-    const maxPoint = Math.max.apply(
-      Math,
-      datapoints.map((o) => o.value[index])
-    );
+    const maxPoint = Math.max(...datapoints.map((o) => o.value[index]));
     // Get current steps (there are always six lines)
     const step = Math.floor(maxPoint / 6);
     // Add an additional step

@@ -16,7 +16,7 @@ describe('TransparencyGraphComponent', () => {
       UnderConstructionModule,
       provideTranslocoTestingModule({ en: {} }),
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
     ],
   });

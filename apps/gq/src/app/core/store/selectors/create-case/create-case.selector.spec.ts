@@ -1,8 +1,7 @@
-import { CreateCustomerCase } from 'apps/gq/src/app/shared/services/rest-services/search-service/models/create-customer-case.model';
-
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import { ValidationDescription } from '../../../../shared/models/table';
+import { CreateCustomerCase } from '../../../../shared/services/rest-services/search-service/models/create-customer-case.model';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import * as createSelectors from './create-case.selector';
@@ -117,11 +116,6 @@ describe('Create Case Selector', () => {
       expect(
         createSelectors.getCustomerConditionsValid.projector(fakeState.case)
       ).toBeTruthy();
-    });
-    test('should return false if no state exists', () => {
-      expect(
-        createSelectors.getCustomerConditionsValid.projector(undefined)
-      ).toBeFalsy();
     });
   });
 

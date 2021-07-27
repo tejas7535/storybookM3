@@ -165,16 +165,16 @@ describe('CreateColumnService', () => {
       };
     });
 
-    test('should short info column', () => {
+    test('should sort info column', () => {
       const res = ColumnUtilityService.infoComparator(cell1, cell2);
       expect(res).toEqual(1);
     });
-    test('should short info column', () => {
+    test('should sort info column and return 0', () => {
       cell2.valid = true;
       const res = ColumnUtilityService.infoComparator(cell1, cell2);
       expect(res).toEqual(0);
     });
-    test('should short info column', () => {
+    test('should sort info column and return -1', () => {
       cell1.valid = false;
       cell2.valid = true;
       const res = ColumnUtilityService.infoComparator(cell1, cell2);
@@ -198,7 +198,7 @@ describe('CreateColumnService', () => {
       const expected = new Date(data.value).toLocaleDateString();
       expect(res).toEqual(expected);
     });
-    test('should render Date', () => {
+    test('should render Date for empty data', () => {
       const data = {};
       const res = ColumnUtilityService.dateFormatter(data);
       expect(res).toEqual('');

@@ -175,7 +175,7 @@ describe('ProcessCaseEffect', () => {
     );
   });
 
-  describe(' quotationDetails$', () => {
+  describe('quotation$', () => {
     let gqId: number;
 
     beforeEach(() => {
@@ -195,7 +195,7 @@ describe('ProcessCaseEffect', () => {
     });
 
     test(
-      'should return quotationDetailsSuccess action when REST call is successful',
+      'should return loadQuotationSuccess action when REST call is successful',
       marbles((m) => {
         quotationService.getQuotation = jest.fn(() => response);
         const item = QUOTATION_MOCK;
@@ -208,7 +208,7 @@ describe('ProcessCaseEffect', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.quotationDetails$).toBeObservable(expected);
+        m.expect(effects.quotation$).toBeObservable(expected);
         m.flush();
         expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
         expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
@@ -216,7 +216,7 @@ describe('ProcessCaseEffect', () => {
     );
 
     test(
-      'should return quotationDetailsFailure on REST error',
+      'should return loadQuotationFailure on REST error',
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
@@ -227,7 +227,7 @@ describe('ProcessCaseEffect', () => {
 
         quotationService.getQuotation = jest.fn(() => response);
 
-        m.expect(effects.quotationDetails$).toBeObservable(expected);
+        m.expect(effects.quotation$).toBeObservable(expected);
         m.flush();
         expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
       })

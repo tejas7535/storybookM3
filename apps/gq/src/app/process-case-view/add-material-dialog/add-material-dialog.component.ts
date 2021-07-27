@@ -35,6 +35,7 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
 
     const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
       pairwise(),
+      // eslint-disable-next-line ngrx/avoid-mapping-selectors
       map(([preVal, curVal]) => preVal && !curVal)
     );
 

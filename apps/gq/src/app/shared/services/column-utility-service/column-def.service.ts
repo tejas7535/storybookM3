@@ -45,6 +45,7 @@ export class ColumnDefService {
         if (params.newValue) {
           this.selectNewQuantity(params.newValue, params.data.gqPositionId);
         }
+
         return true;
       },
     },
@@ -57,7 +58,7 @@ export class ColumnDefService {
       cellEditor: 'editingPriceComponent',
       valueSetter: (params: ValueSetterParams) => {
         if (params.newValue) {
-          const parsedNewValue = parseFloat(params.newValue);
+          const parsedNewValue = Number.parseFloat(params.newValue);
           const { priceUnit } = params.data.material;
           this.selectManualPrice(
             parsedNewValue,

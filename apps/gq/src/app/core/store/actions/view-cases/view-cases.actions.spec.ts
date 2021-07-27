@@ -1,3 +1,4 @@
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import {
   loadCases,
   loadCasesFailure,
@@ -13,7 +14,7 @@ describe('View Actions', () => {
       });
     });
     test('load Cases Success', () => {
-      const quotations = [];
+      const quotations: ViewQuotation[] = [];
       const action = loadCasesSuccess({ quotations });
       expect(action).toEqual({
         quotations,
