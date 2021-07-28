@@ -7,3 +7,4 @@ export * from './grease-status/grease-status.actions';
 export * from './load-assessment/load-assessment.actions';
 export * from './shaft/shaft.actions';
 export * from './static-safety/static-safety.actions';
+export * from './center-load/center-load.actions';

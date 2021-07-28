@@ -15,6 +15,7 @@ import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromLoadAssement from './load-assessment/load-assessment.reducer';
 import * as fromLoadSense from './load-sense/load-sense.reducer';
+import * as fromCenterLoad from './center-load/center-load.reducer';
 import * as fromShaft from './shaft/shaft.reducer';
 import * as fromStaticSafety from './static-safety/static-safety.reducer';
 
@@ -64,6 +65,9 @@ export const getLoadAssessmentState =
 
 export const getShaftState =
   createFeatureSelector<fromShaft.ShaftState>('shaft');
+
+export const getCenterLoadState =
+  createFeatureSelector<fromCenterLoad.CenterLoadState>('center-load');
 
 export const getStaticSafetyState =
   createFeatureSelector<fromStaticSafety.StaticSafetyState>('staticSafety');

@@ -54,7 +54,7 @@ const TREE_DATA: SensorNode[] = [
   {
     name: 'loadMonitor',
     children: LOAD_ASSESSMENT_CONTROLS.filter(
-      (control) => control.type === Type.load
+      ({ type }) => type === Type.load || type === Type.centerload
     ),
     formControl: new FormControl(''),
     indeterminate: false,
@@ -104,7 +104,11 @@ export class LoadAssessmentComponent
     deterioration_2: new FormControl(''),
     temperatureOptics_2: new FormControl(''),
     rsmShaftSpeed: new FormControl(''),
-    // centerLoad: new FormControl(''),
+    centerLoadFx: new FormControl(''),
+    centerLoadFy: new FormControl(''),
+    centerLoadFz: new FormControl(''),
+    centerLoadMy: new FormControl(''),
+    centerLoadMz: new FormControl(''),
     lsp01Strain: new FormControl(''),
     lsp02Strain: new FormControl(''),
     lsp03Strain: new FormControl(''),
@@ -128,6 +132,7 @@ export class LoadAssessmentComponent
     legend: {
       ...axisChartOptions.legend,
       formatter: (name: string) => this.formatLegend(name),
+      show: false,
     },
     tooltip: {
       ...axisChartOptions.tooltip,
@@ -162,6 +167,7 @@ export class LoadAssessmentComponent
   );
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  displayFormSubcription: Subscription;
   /* eslint-enable @typescript-eslint/member-ordering */
 
   public constructor(private readonly store: Store) {
@@ -196,7 +202,7 @@ export class LoadAssessmentComponent
         })
     );
 
-    this.displayForm.valueChanges
+    this.displayFormSubcription = this.displayForm.valueChanges
       .pipe(filter(() => this.displayForm.dirty))
       .subscribe((loadAssessmentDisplay: LoadAssessmentDisplay) =>
         this.store.dispatch(setLoadAssessmentDisplay({ loadAssessmentDisplay }))
@@ -211,6 +217,7 @@ export class LoadAssessmentComponent
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    this.displayFormSubcription.unsubscribe();
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;

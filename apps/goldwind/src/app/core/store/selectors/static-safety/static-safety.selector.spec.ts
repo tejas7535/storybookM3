@@ -83,7 +83,6 @@ describe('Static Safety Selector', () => {
   describe('getStaticSafetyLatestGraphData', () => {
     it('should return the latest result', () => {
       const graphState = getStaticSafetyLatestGraphData(fakeState);
-      // 5 == magic TODO: dynamic
       expect(graphState.series).toHaveLength(
         STATIC_STAFETY_SETTINGS.THRESHOLD_CONFIG.length + 2
       );

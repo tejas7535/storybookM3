@@ -43,12 +43,36 @@ export const LOAD_ASSESSMENT_CONTROLS: Control[] = [
     unit: Unit.rotationSpeed,
     type: Type.rsm,
   },
-  // {
-  //   label: 'centerLoad',
-  //   formControl: 'centerLoad',
-  //   unit: Unit.load,
-  //   type: Type.load,
-  // },
+  {
+    label: 'centerLoadFx',
+    formControl: 'centerLoadFx',
+    unit: Unit.load,
+    type: Type.centerload,
+  },
+  {
+    label: 'centerLoadFy',
+    formControl: 'centerLoadFy',
+    unit: Unit.load,
+    type: Type.centerload,
+  },
+  {
+    label: 'centerLoadFz',
+    formControl: 'centerLoadFz',
+    unit: Unit.load,
+    type: Type.centerload,
+  },
+  {
+    label: 'centerLoadMy',
+    formControl: 'centerLoadMy',
+    unit: Unit.load,
+    type: Type.centerload,
+  },
+  {
+    label: 'centerLoadMz',
+    formControl: 'centerLoadMz',
+    unit: Unit.load,
+    type: Type.centerload,
+  },
   {
     label: 'lsp01Strain',
     formControl: 'lsp01Strain',

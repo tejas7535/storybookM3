@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { RestService } from '../../../http/rest.service';
+import { IotParams, RestService } from '../../../http/rest.service';
 import {
   getGreaseStatus,
   getGreaseStatusFailure,
@@ -41,6 +41,11 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getLoadAssessmentInterval } from '../../selectors/load-assessment/load-assessment.selector';
+import {
+  getCenterLoad,
+  getCenterLoadFailure,
+  getCenterLoadSuccess,
+} from '../../actions';
 
 @Injectable()
 export class LoadAssessmentEffects {
@@ -83,6 +88,7 @@ export class LoadAssessmentEffects {
       mergeMap(({ deviceId }) => [
         getGreaseStatus({ deviceId }),
         getLoadAverage({ deviceId }),
+        getCenterLoad({ deviceId }),
         getBearingLoad({ deviceId }),
         getShaft({ deviceId }),
       ])
@@ -96,10 +102,7 @@ export class LoadAssessmentEffects {
     return this.actions$.pipe(
       ofType(getGreaseStatus),
       withLatestFrom(this.store.select(getLoadAssessmentInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
+      map(actionInterval()),
       mergeMap((greaseParams) =>
         this.restService.getGreaseStatus(greaseParams).pipe(
           map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
@@ -136,10 +139,7 @@ export class LoadAssessmentEffects {
     return this.actions$.pipe(
       ofType(getShaft),
       withLatestFrom(this.store.select(getLoadAssessmentInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
+      map(actionInterval()),
       mergeMap((deviceId) =>
         this.restService.getShaft(deviceId).pipe(
           map((shaft) => getShaftSuccess({ shaft })),
@@ -153,14 +153,25 @@ export class LoadAssessmentEffects {
     return this.actions$.pipe(
       ofType(getLoadAverage),
       withLatestFrom(this.store.select(getLoadAssessmentInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
+      map(actionInterval()),
       mergeMap((greaseParams) =>
         this.restService.getBearingLoadAverage(greaseParams).pipe(
           map(([loadAverage]) => getLoadAverageSuccess({ loadAverage })),
           catchError((_e) => of(getLoadAverageFailure()))
+        )
+      )
+    );
+  });
+
+  loadCenterLoad$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getCenterLoad),
+      withLatestFrom(this.store.select(getLoadAssessmentInterval)),
+      map(actionInterval()),
+      mergeMap((deviceId) =>
+        this.restService.getCenterLoad(deviceId).pipe(
+          map((centerLoad) => getCenterLoadSuccess({ centerLoad })),
+          catchError((_e) => of(getCenterLoadFailure()))
         )
       )
     );
@@ -171,4 +182,17 @@ export class LoadAssessmentEffects {
     private readonly restService: RestService,
     private readonly store: Store
   ) {}
+}
+
+/**
+ * helper funtion for interval actions to reduce complexity above
+ */
+function actionInterval(): (
+  value: [any, Interval],
+  index: number
+) => IotParams {
+  return ([action, interval]: [any, Interval]) => ({
+    id: action.deviceId,
+    ...interval,
+  });
 }

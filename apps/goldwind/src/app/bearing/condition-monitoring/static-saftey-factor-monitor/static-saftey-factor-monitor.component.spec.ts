@@ -5,6 +5,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { StaticSafteyFactorMonitorComponent } from './static-saftey-factor-monitor.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('StaticSafteyFactorMonitorComponent', () => {
   let component: StaticSafteyFactorMonitorComponent;
@@ -16,6 +17,7 @@ describe('StaticSafteyFactorMonitorComponent', () => {
     imports: [
       RouterTestingModule,
       MatCardModule,
+      MatIconModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),

@@ -6,7 +6,11 @@ export interface LoadAssessmentDisplay {
   deterioration_2: boolean;
   temperatureOptics_2: boolean;
   rsmShaftSpeed: boolean;
-  // centerLoad: boolean;
+  centerLoadFx: boolean;
+  centerLoadFy: boolean;
+  centerLoadFz: boolean;
+  centerLoadMy: boolean;
+  centerLoadMz: boolean;
   lsp01Strain: boolean;
   lsp02Strain: boolean;
   lsp03Strain: boolean;

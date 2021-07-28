@@ -22,9 +22,6 @@ describe('Static Safety Reducer', () => {
     });
   });
 
-  /** *****************************
-   * TODO: eval if needed
-   */
   describe('getStaticSafetyId', () => {
     it('should change state to passed action prop', () => {
       const action = getStaticSafetyId({ source: 'Hello' });
