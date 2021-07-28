@@ -5,6 +5,7 @@
     [max]="maxDate"
     [formGroup]="rangeInput"
     [rangePicker]="picker"
+    [disabled]="timePeriods.LAST_12_MONTHS === timePeriod"
   >
     <input
       matStartDate
