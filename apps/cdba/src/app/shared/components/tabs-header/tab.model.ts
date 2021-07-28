@@ -1,7 +1,5 @@
-import { Observable } from 'rxjs';
-
 export interface Tab {
-  label$: string;
+  label: string;
   link: string;
-  disabled$?: Observable<boolean> | boolean;
+  disabled?: boolean;
 }

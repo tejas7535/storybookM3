@@ -3,15 +3,8 @@
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
-import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { exhaustMap, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -21,15 +14,15 @@ import { Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import {
-  BomIdentifier,
   BomItem,
   Calculation,
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DetailService } from '../../../../detail/service/detail.service';
+import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { DetailService } from '@cdba/detail/service/detail.service';
+import { RoleFacade } from '@cdba/core/auth/role.facade';
 import {
   loadBom,
   loadBomFailure,
@@ -81,23 +74,32 @@ export class DetailEffects {
     )
   );
 
-  loadCalculations$ = createEffect(() =>
-    this.actions$.pipe(
+  loadCalculations$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadCalculations),
-      concatLatestFrom(() =>
-        this.store.select(getSelectedReferenceTypeIdentifier)
-      ),
-      map(([_action, refTypeIdentifier]) => refTypeIdentifier),
-      mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
-        this.detailService.calculations(materialNumber, plant).pipe(
-          map((items: Calculation[]) => loadCalculationsSuccess({ items })),
-          catchError((errorMessage) =>
-            of(loadCalculationsFailure({ errorMessage }))
-          )
-        )
-      )
-    )
-  );
+      concatLatestFrom(() => [
+        this.store.select(getSelectedReferenceTypeIdentifier),
+        this.roleFacade.hasAnyPricingRole$,
+      ]),
+      exhaustMap(([, referenceTypeIdentifier, hasPricingRole]) => {
+        return referenceTypeIdentifier && hasPricingRole
+          ? this.detailService
+              .calculations(
+                referenceTypeIdentifier.materialNumber,
+                referenceTypeIdentifier.plant
+              )
+              .pipe(
+                map((items: Calculation[]) =>
+                  loadCalculationsSuccess({ items })
+                ),
+                catchError((errorMessage) =>
+                  of(loadCalculationsFailure({ errorMessage }))
+                )
+              )
+          : of(loadCalculationsFailure({ errorMessage: 'unauthorized' }));
+      })
+    );
+  });
 
   loadDrawings$ = createEffect(() =>
     this.actions$.pipe(
@@ -129,18 +131,20 @@ export class DetailEffects {
     )
   );
 
-  loadBom$ = createEffect(() =>
-    this.actions$.pipe(
+  loadBom$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadBom),
-      map((action) => action.bomIdentifier),
-      switchMap((bomIdentifier: BomIdentifier) =>
-        this.detailService.getBom(bomIdentifier).pipe(
-          map((items: BomItem[]) => loadBomSuccess({ items })),
-          catchError((errorMessage) => of(loadBomFailure({ errorMessage })))
-        )
-      )
-    )
-  );
+      concatLatestFrom(() => this.roleFacade.hasAnyPricingRole$),
+      exhaustMap(([action, hasPricingRole]) => {
+        return hasPricingRole
+          ? this.detailService.getBom(action.bomIdentifier).pipe(
+              map((items: BomItem[]) => loadBomSuccess({ items })),
+              catchError((errorMessage) => of(loadBomFailure({ errorMessage })))
+            )
+          : of(loadBomFailure({ errorMessage: 'unauthorized' }));
+      })
+    );
+  });
 
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
@@ -187,6 +191,7 @@ export class DetailEffects {
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
     private readonly store: Store,
+    private readonly roleFacade: RoleFacade,
     private readonly router: Router,
     private readonly snackbarService: SnackBarService
   ) {}

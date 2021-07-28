@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
-import { RoleGuard } from '@cdba/core';
+import { RoleGuard } from './core/auth';
 
 import { AppRoutePath } from './app-route-path.enum';
 import { FORBIDDEN_ACTION } from './shared/constants';

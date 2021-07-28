@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DetailRoutePath } from './detail-route-path.enum';
 import { DetailComponent } from './detail.component';
+import { authConfig, RoleGuard } from '../core/auth';
 
 const routes: Routes = [
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
         path: DetailRoutePath.BomPath,
         loadChildren: async () =>
           import('./bom-tab/bom-tab.module').then((m) => m.BomTabModule),
+        canActivateChild: [RoleGuard],
+        data: {
+          rolesWithAccess: authConfig.pricingRoles,
+        },
       },
       {
         path: DetailRoutePath.CalculationsPath,
@@ -27,14 +32,11 @@ const routes: Routes = [
           import('./calculations-tab/calculations-tab.module').then(
             (m) => m.CalculationsTabModule
           ),
+        canActivateChild: [RoleGuard],
+        data: {
+          rolesWithAccess: authConfig.pricingRoles,
+        },
       },
-      /* {
-        path: DetailRoutePath.DrawingsPath,
-        loadChildren: () =>
-          import('./drawings-tab/drawings-tab.module').then(
-            (m) => m.DrawingsTabModule
-          ),
-      }, */
       {
         path: '',
         redirectTo: DetailRoutePath.DetailsPath,

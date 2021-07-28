@@ -8,8 +8,8 @@
       #rla="routerLinkActive"
       [routerLink]="tab.link"
       [active]="rla.isActive"
-      [disabled]="tab.disabled$ | ngrxPush"
-      >{{ t(tab.label$) | uppercase }}
+      [disabled]="tab.disabled"
+      >{{ t(tab.label) | uppercase }}
     </a>
   </nav>
   <div class="flex-grow w-full p-4 bg-background">

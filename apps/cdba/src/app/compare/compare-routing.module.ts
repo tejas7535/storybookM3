@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CompareRoutePath } from './compare-route-path.enum';
 import { CompareComponent } from './compare.component';
+import { authConfig, RoleGuard } from '../core/auth';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
           import('./bom-compare-tab/bom-compare-tab.module').then(
             (m) => m.BomCompareTabModule
           ),
+        canActivateChild: [RoleGuard],
+        data: {
+          rolesWithAccess: authConfig.pricingRoles,
+        },
       },
       {
         path: '',

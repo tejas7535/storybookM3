@@ -16,6 +16,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
+  AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -42,14 +43,13 @@ import {
 import { CompareEffects } from './compare.effects';
 
 describe('CompareEffects', () => {
-  let effects: CompareEffects;
   let spectator: SpectatorService<CompareEffects>;
-  let store: MockStore;
-  let detailService: DetailService;
-  let router: Router;
-
-  let actions$: any;
   let action: any;
+  let actions$: any;
+  let effects: CompareEffects;
+  let detailService: DetailService;
+  let store: any;
+  let router: Router;
 
   const bomIdentifier = BOM_IDENTIFIER_MOCK;
 
@@ -58,18 +58,22 @@ describe('CompareEffects', () => {
     imports: [RouterTestingModule],
     providers: [
       mockProvider(DetailService),
-      provideMockStore({ initialState: { compare: COMPARE_STATE_MOCK } }),
       provideMockActions(() => actions$),
+      provideMockStore({
+        initialState: {
+          'azure-auth': AUTH_STATE_MOCK,
+          compare: COMPARE_STATE_MOCK,
+        },
+      }),
     ],
   });
 
   beforeEach(() => {
     spectator = createService();
-    effects = spectator.service;
-
     actions$ = spectator.inject(Actions);
-    store = spectator.inject(MockStore);
+    effects = spectator.inject(CompareEffects);
     detailService = spectator.inject(DetailService);
+    store = spectator.inject(MockStore);
     router = spectator.inject(Router);
   });
 
@@ -346,6 +350,73 @@ describe('CompareEffects', () => {
         m.expect(effects.triggerDataLoad$).toBeObservable(expected);
       })
     );
+  });
+
+  describe('check roles and rights', () => {
+    const actionPayloadMock = {
+      index: 3,
+      materialNumber: 'abc',
+      plant: 'def',
+    };
+
+    const stateWithoutRoles: any = {
+      ...AUTH_STATE_MOCK,
+      accountInfo: AUTH_STATE_MOCK.accountInfo,
+      idTokenClaims: {
+        ...AUTH_STATE_MOCK.accountInfo.idTokenClaims,
+        roles: [],
+      },
+    };
+    const result = loadCalculationHistoryFailure({
+      errorMessage: 'unauthorized',
+      index: actionPayloadMock.index,
+    });
+
+    beforeEach(() => {
+      store.dispatch = jest.fn();
+      store.setState(stateWithoutRoles);
+    });
+
+    test('before loading calculations', () => {
+      action = loadCalculationHistory(actionPayloadMock);
+
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
+        m.flush();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          loadCalculationHistoryFailure({
+            errorMessage: 'unauthorized',
+            index: actionPayloadMock.index,
+          })
+        );
+      });
+    });
+
+    test('before loading bom', () => {
+      action = loadBom({
+        bomIdentifier: BOM_IDENTIFIER_MOCK,
+        index: actionPayloadMock.index,
+      });
+
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
+        m.flush();
+        expect(store.dispatch).toHaveBeenCalledWith(
+          loadBomFailure({
+            errorMessage: 'unauthorized',
+            index: actionPayloadMock.index,
+          })
+        );
+      });
+    });
   });
 
   describe('mapQueryParams', () => {

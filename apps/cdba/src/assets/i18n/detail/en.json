@@ -5,8 +5,7 @@
   "tabs": {
     "detail": "Details",
     "billOfMaterial": "Bill of Material",
-    "calculations": "Calculations",
-    "drawings": "Drawings"
+    "calculations": "Calculations"
   },
   "detailTab": {
     "customer": {

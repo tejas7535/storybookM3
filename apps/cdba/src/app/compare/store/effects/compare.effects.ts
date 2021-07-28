@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RouterStateUrl } from '@cdba/core/store';
 import { ReferenceTypeResult } from '@cdba/core/store/reducers/detail/models';
+import { RoleFacade } from '@cdba/core/auth/role.facade';
 import {
   BomIdentifier,
   BomItem,
@@ -19,7 +20,7 @@ import {
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
-import { DetailService } from '../../../detail/service/detail.service';
+import { DetailService } from '@cdba/detail/service/detail.service';
 import {
   loadAllProductDetails,
   loadBom,
@@ -142,41 +143,55 @@ export class CompareEffects {
   public loadCalculationHistory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCalculationHistory),
-      mergeMap((action: any) =>
-        this.detailService
-          .calculations(action.materialNumber, action.plant)
-          .pipe(
-            map((items: Calculation[]) =>
-              loadCalculationHistorySuccess({ items, index: action.index })
-            ),
-            catchError((errorMessage) =>
-              of(
-                loadCalculationHistoryFailure({
-                  errorMessage,
-                  index: action.index,
-                })
+      concatLatestFrom(() => this.roleFacade.hasAnyPricingRole$),
+      mergeMap(([action, hasPricingRole]) => {
+        return hasPricingRole
+          ? this.detailService
+              .calculations(action.materialNumber, action.plant)
+              .pipe(
+                map((items: Calculation[]) =>
+                  loadCalculationHistorySuccess({ items, index: action.index })
+                ),
+                catchError((errorMessage) =>
+                  of(
+                    loadCalculationHistoryFailure({
+                      errorMessage,
+                      index: action.index,
+                    })
+                  )
+                )
               )
-            )
-          )
-      )
+          : of(
+              loadCalculationHistoryFailure({
+                errorMessage: 'unauthorized',
+                index: action.index,
+              })
+            );
+      })
     )
   );
 
   public loadBillOfMaterial$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBom),
-      map(
-        (action) =>
-          [action.index, action.bomIdentifier] as [number, BomIdentifier]
-      ),
-      mergeMap(([index, identifier]: [number, BomIdentifier]) =>
-        this.detailService.getBom(identifier).pipe(
-          map((items: BomItem[]) => loadBomSuccess({ items, index })),
-          catchError((errorMessage) =>
-            of(loadBomFailure({ errorMessage, index }))
-          )
-        )
-      )
+      concatLatestFrom(() => this.roleFacade.hasAnyPricingRole$),
+      mergeMap(([action, hasPricingRole]) => {
+        return hasPricingRole
+          ? this.detailService.getBom(action.bomIdentifier).pipe(
+              map((items: BomItem[]) =>
+                loadBomSuccess({ items, index: action.index })
+              ),
+              catchError((errorMessage) =>
+                of(loadBomFailure({ errorMessage, index: action.index }))
+              )
+            )
+          : of(
+              loadBomFailure({
+                errorMessage: 'unauthorized',
+                index: action.index,
+              })
+            );
+      })
     )
   );
 
@@ -209,6 +224,7 @@ export class CompareEffects {
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
     private readonly store: Store,
+    private readonly roleFacade: RoleFacade,
     private readonly router: Router
   ) {}
 
