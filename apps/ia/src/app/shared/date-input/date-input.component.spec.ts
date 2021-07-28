@@ -112,11 +112,8 @@ describe('DateInputComponent', () => {
       component.timePeriod = TimePeriod.LAST_12_MONTHS;
       component.updateStartEndDates(refDate);
 
-      expect(component.rangeInput.controls.start.value).toEqual(
-        new Date('10/24/2014')
-      );
       expect(component.rangeInput.controls.end.value).toEqual(
-        new Date('10/23/2015')
+        component.nowDate
       );
 
       setTimeout(() => {
