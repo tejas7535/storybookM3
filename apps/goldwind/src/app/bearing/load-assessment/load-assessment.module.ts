@@ -22,6 +22,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
 import { LoadAssessmentRoutingModule } from './load-assessment-routing.module';
 import { LoadAssessmentComponent } from './load-assessment.component';
+import { centerLoadReducer } from '../../core/store/reducers/center-load/center-load.reducer';
 
 @NgModule({
   declarations: [LoadAssessmentComponent],
@@ -50,6 +51,7 @@ import { LoadAssessmentComponent } from './load-assessment.component';
     // Store
     EffectsModule.forFeature([LoadAssessmentEffects]),
     StoreModule.forFeature('loadAssessment', loadAssessmentReducer),
+    StoreModule.forFeature('center-load', centerLoadReducer),
     ReactiveComponentModule,
   ],
 })

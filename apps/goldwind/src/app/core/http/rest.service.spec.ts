@@ -178,4 +178,39 @@ describe('Rest Service', () => {
       });
     });
   });
+
+  describe('getCenterLoad', () => {
+    it('should call GET for center-load', () => {
+      const mockDataParams = {
+        id: 'du1-bist2-flop3',
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
+      };
+      service.getCenterLoad(mockDataParams);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${mockDataParams.id}/analytics/center-load?&end=${mockDataParams.endDate}&start=${mockDataParams.startDate}&timebucketSeconds=0&aggregation=AVG`
+      );
+    });
+  });
+  describe('getStaticSafety', () => {
+    it('should call GET for center-load', () => {
+      service.getStaticSafety('FooID');
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/FooID/analytics/static-safety-factor`
+      );
+    });
+  });
+  describe('getShaft', () => {
+    it('should call GET for shaft', () => {
+      const mockDataParams = {
+        id: 'du1-bist2-flop3',
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
+      };
+      service.getShaft(mockDataParams);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${mockDataParams.id}/sensors/rotation-speed/telemetry?start=${mockDataParams.startDate}&end=${mockDataParams.endDate}&timebucketSeconds=3600&aggregation=AVG`
+      );
+    });
+  });
 });

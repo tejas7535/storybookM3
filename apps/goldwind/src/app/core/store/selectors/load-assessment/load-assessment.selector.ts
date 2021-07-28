@@ -1,10 +1,11 @@
 import { createSelector } from '@ngrx/store';
 
 import { LOAD_ASSESSMENT_CONTROLS } from '../../../../shared/constants';
-import { Type } from '../../../../shared/models';
+import { CenterLoadStatus, Type } from '../../../../shared/models';
 import { getLoadAssessmentState } from '../../reducers';
 import { GcmStatus } from '../../reducers/grease-status/models';
 import { LoadAssessmentState } from '../../reducers/load-assessment/load-assessment.reducer';
+import { getCenterLoadResult } from '../../selectors/center-load/center-load.selector';
 import { LoadAssessmentDisplay } from '../../reducers/load-assessment/models';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
@@ -12,7 +13,6 @@ import { GraphData, Interval } from '../../reducers/shared/models';
 import { getGreaseStatusResult } from '../grease-status/grease-status.selector';
 import { getBearingLoadResult } from '../load-sense/load-sense.selector';
 import { getShaftResult } from '../shaft/shaft.selector';
-
 type GreaseDisplayKeys = keyof LoadAssessmentDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
 
@@ -21,7 +21,8 @@ const analysisGraphDataSeries = (
   value: boolean,
   gcmStatus: GcmStatus[],
   shaftStatus: ShaftStatus[],
-  bearingLoad: LoadSense[]
+  bearingLoad: LoadSense[],
+  centerLoad: CenterLoadStatus[]
 ) => {
   let data: any[];
 
@@ -29,6 +30,22 @@ const analysisGraphDataSeries = (
     value &&
     LOAD_ASSESSMENT_CONTROLS.find(({ label }) => label === key).type
   ) {
+    case Type.centerload:
+      data = centerLoad?.map((measurement: CenterLoadStatus) => ({
+        value: [
+          new Date(measurement.timestamp),
+          (
+            measurement[
+              key
+                .replace('centerLoad', '')
+                .replace(/(^\w)/g, (m) =>
+                  m.toLowerCase()
+                ) as keyof CenterLoadStatus
+            ] as number
+          ).toFixed(2),
+        ],
+      }));
+      break;
     case Type.grease:
       data = gcmStatus?.map((measurement: GcmStatus) => {
         let measurementValue: number;
@@ -94,11 +111,13 @@ export const getAnalysisGraphData = createSelector(
   getGreaseStatusResult,
   getShaftResult,
   getBearingLoadResult,
+  getCenterLoadResult,
   getLoadAssessmentDisplay,
   (
     gcmStatus: GcmStatus[],
     shaftStatus: ShaftStatus[],
     bearingLoad: LoadSense[],
+    centerLoad: CenterLoadStatus[],
     display: LoadAssessmentDisplay
   ): GraphData => {
     const result = gcmStatus && {
@@ -116,7 +135,8 @@ export const getAnalysisGraphData = createSelector(
             value,
             gcmStatus,
             shaftStatus,
-            bearingLoad
+            bearingLoad,
+            centerLoad
           )
         ),
     };

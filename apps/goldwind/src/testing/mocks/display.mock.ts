@@ -1,4 +1,6 @@
-export const DISPLAY = {
+import { LoadAssessmentDisplay } from '../../app/core/store/reducers/load-assessment/models';
+
+export const DISPLAY: LoadAssessmentDisplay = {
   deterioration_1: true,
   waterContent_1: true,
   temperatureOptics_1: true,
@@ -6,7 +8,11 @@ export const DISPLAY = {
   waterContent_2: true,
   temperatureOptics_2: true,
   rsmShaftSpeed: true,
-  // centerLoad: true,
+  centerLoadFx: true,
+  centerLoadFy: true,
+  centerLoadFz: true,
+  centerLoadMz: true,
+  centerLoadMy: true,
   lsp01Strain: true,
   lsp02Strain: true,
   lsp03Strain: true,

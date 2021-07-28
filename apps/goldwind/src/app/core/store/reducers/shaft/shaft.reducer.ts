@@ -1,87 +1,27 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import * as U from '../../../../shared/store/utils.reducer';
+import { KPIState } from '../../../../shared/store/utils.selector';
 
-import {
-  getShaft,
-  getShaftFailure,
-  getShaftLatest,
-  getShaftLatestFailure,
-  getShaftLatestSuccess,
-  getShaftSuccess,
-} from '../../actions/shaft/shaft.actions';
+import * as A from '../../actions/shaft/shaft.actions';
 import { ShaftStatus } from './models';
 
-export interface ShaftState {
-  loading: boolean;
-  result: ShaftStatus[];
-  status: {
-    loading: boolean;
-    result: ShaftStatus;
-  };
-}
+export type ShaftState = KPIState<ShaftStatus>;
 
 export const initialState: ShaftState = {
   loading: false,
-  result: undefined,
   status: {
     loading: false,
-    result: undefined,
   },
 };
 
 export const shaftReducer = createReducer(
   initialState,
-  on(
-    getShaft,
-    (state: ShaftState): ShaftState => ({
-      ...state,
-      loading: true,
-    })
-  ),
-  on(
-    getShaftSuccess,
-    (state: ShaftState, { shaft }): ShaftState => ({
-      ...state,
-      result: shaft,
-      loading: false,
-    })
-  ),
-  on(
-    getShaftFailure,
-    (state: ShaftState): ShaftState => ({
-      ...state,
-      loading: false,
-    })
-  ),
-  on(
-    getShaftLatest,
-    (state: ShaftState): ShaftState => ({
-      ...state,
-      status: {
-        ...state.status,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    getShaftLatestSuccess,
-    (state: ShaftState, { shaft }): ShaftState => ({
-      ...state,
-      status: {
-        result: shaft,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    getShaftLatestFailure,
-    (state: ShaftState): ShaftState => ({
-      ...state,
-      status: {
-        ...state.status,
-        loading: false,
-      },
-    })
-  )
+  on(A.getShaft, U.getState),
+  on(A.getShaftSuccess, U.getStateSuccess('shaft')),
+  on(A.getShaftFailure, U.getStateFailure()),
+  on(A.getShaftLatest, U.getStateLatest()),
+  on(A.getShaftLatestSuccess, U.getStateLatestSuccess('shaft')),
+  on(A.getShaftLatestFailure, U.getStateLatestFailure())
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

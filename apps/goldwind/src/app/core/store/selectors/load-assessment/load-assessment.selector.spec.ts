@@ -1,11 +1,20 @@
 import { LOAD_SENSE } from '../../../../../testing/mocks';
+import { CenterLoadStatus } from '../../../../shared/models';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
   getAnalysisGraphData,
   getLoadAssessmentDisplay,
   getLoadAssessmentInterval,
 } from './load-assessment.selector';
-
+const MOCK = {
+  deviceId: 'foo',
+  timestamp: '2020-11-04T09:39:19.499Z',
+  fx: 1,
+  fy: 1,
+  fz: 1,
+  mz: 1,
+  my: 1,
+} as CenterLoadStatus;
 describe('Load Assessment Selector', () => {
   const fakeState = {
     greaseStatus: {
@@ -68,6 +77,14 @@ describe('Load Assessment Selector', () => {
         result: LOAD_SENSE,
       },
     },
+    'center-load': {
+      loading: false,
+      result: [MOCK],
+      status: {
+        loading: false,
+        result: MOCK,
+      },
+    },
     loadAssessment: {
       display: {
         deterioration_1: true,
@@ -79,6 +96,7 @@ describe('Load Assessment Selector', () => {
         rsmShaftSpeed: true,
         centerLoad: false,
         lsp01Strain: true,
+        centerLoadFx: true,
       },
       interval: {
         startDate: 123_456_789,
@@ -108,6 +126,7 @@ describe('Load Assessment Selector', () => {
             'temperatureOptics_2',
             'rsmShaftSpeed',
             'lsp01Strain',
+            'centerLoadFx',
           ],
         },
         series: [
@@ -181,6 +200,15 @@ describe('Load Assessment Selector', () => {
           },
           {
             name: 'lsp01Strain',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-11-04T09:39:19.499Z'), '1.00'],
+              },
+            ],
+          },
+          {
+            name: 'centerLoadFx',
             type: 'line',
             data: [
               {

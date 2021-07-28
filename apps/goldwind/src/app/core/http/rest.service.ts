@@ -12,12 +12,14 @@ import { GcmStatus } from '../store/reducers/grease-status/models';
 import { LoadSense } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
 import { StaticSafetyStatus } from '../store/reducers/static-safety/models';
+import { CenterLoadStatus } from '../../shared/models';
 
 export interface IotParams {
   id: string;
   startDate: number;
   endDate: number;
 }
+
 @Injectable({
   providedIn: 'root',
 })
@@ -95,7 +97,15 @@ export class RestService {
       `${deviceID}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}&timebucketSeconds=-1`
     );
   }
-
+  public getCenterLoad({
+    id,
+    startDate,
+    endDate,
+  }: IotParams): Observable<CenterLoadStatus[]> {
+    return this.getIot(
+      `${id}/analytics/center-load?&end=${endDate}&start=${startDate}&timebucketSeconds=0&aggregation=AVG`
+    );
+  }
   public getData({
     id,
     startDate,

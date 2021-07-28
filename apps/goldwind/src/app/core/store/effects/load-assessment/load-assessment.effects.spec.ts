@@ -30,6 +30,7 @@ import { LoadSense } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { getLoadAssessmentInterval } from '../../selectors';
 import { LoadAssessmentEffects } from './load-assessment.effects';
+import { getCenterLoad, getCenterLoadSuccess } from '../../actions';
 
 /* eslint-disable max-lines */
 describe('LoadAssessmentEffects', () => {
@@ -54,6 +55,7 @@ describe('LoadAssessmentEffects', () => {
         useValue: {
           getGreaseStatus: jest.fn(),
           getBearingLoad: jest.fn(),
+          getCenterLoad: jest.fn(),
         },
       },
     ],
@@ -117,6 +119,36 @@ describe('LoadAssessmentEffects', () => {
     );
   });
 
+  describe('loadCenterLoad$', () => {
+    it(
+      'should do something',
+      marbles((m) => {
+        action = getCenterLoad({ deviceId });
+        const mock = [
+          {
+            deviceId,
+            timestamp: new Date().toISOString(),
+            fx: 1,
+            fy: 1,
+            fz: 1,
+            my: 1,
+            mz: 1,
+          },
+        ];
+        const result = getCenterLoadSuccess({ centerLoad: mock });
+
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: mock });
+        const expected = m.cold('--b', { b: result });
+        restService.getCenterLoad = jest.fn(() => response);
+        m.expect(effects.loadCenterLoad$).toBeObservable(expected);
+        m.flush();
+        expect(restService.getCenterLoad).toHaveBeenCalled();
+      })
+    );
+  });
+
   describe('loadAssessmentId$', () => {
     it(
       'should return many actions',
@@ -125,11 +157,12 @@ describe('LoadAssessmentEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcde)', {
+        const expected = m.cold('-(bcdef)', {
           b: getGreaseStatus({ deviceId }),
           c: getLoadAverage({ deviceId }),
-          d: getBearingLoad({ deviceId }),
-          e: getShaft({ deviceId }),
+          d: getCenterLoad({ deviceId }),
+          e: getBearingLoad({ deviceId }),
+          f: getShaft({ deviceId }),
         });
 
         m.expect(effects.loadAssessmentId$).toBeObservable(expected);

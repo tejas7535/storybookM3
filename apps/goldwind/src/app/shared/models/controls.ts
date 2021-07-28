@@ -10,6 +10,7 @@ export enum Type {
   load,
   edm,
   rsm,
+  centerload,
 }
 
 export interface Control {

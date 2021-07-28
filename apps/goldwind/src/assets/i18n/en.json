@@ -1,32 +1,37 @@
 {
   "app": {
-    "imprint": "Imprint",
     "dataPrivacy": "Data Privacy",
+    "imprint": "Imprint",
     "termsOfUse": "Terms of Use"
   },
-  "overview": {
-    "details": "Details",
-    "version": "Version",
-    "noDevices": "There are no devices"
-  },
   "bearing": {
-    "overview": "Dashboard",
-    "loadAssessment": "Load Assessment",
+    "bearingLoading": "Bearing loading...",
     "dataView": "Download Manager",
     "live": "Live",
-    "offline": "Offline",
+    "loadAssessment": "Load Assessment",
     "mainBearing": "Main Bearing",
     "noMeasurements": "There are no measurements for the selected daterange",
-    "bearingLoading": "Bearing loading..."
+    "offline": "Offline",
+    "overview": "Dashboard"
   },
   "conditionMonitoring": {
+    "centerLoad": {
+      "bearingCenterLoad": "Bearing Center Load",
+      "bearingTemperature": "Bearing Temperature",
+      "generator": "Generator",
+      "generatorAverage": "Generator Average",
+      "rotor": "Rotor",
+      "rotorAverage": "Rotor Average",
+      "time": "Time",
+      "title": "Bearing center load",
+      "updateFrequency": "Update frequency"
+    },
     "conditionMeasuringEquipment": {
       "benefit": "Benefit:",
       "benefitEdge": "Schaeffler software can process and enrich sensor data, to provide a wide range of services and applications.",
       "benefitEdm": "Transparency about grounding system and electrical discharges in bearing. Turbine operator can apply direct changes to grounding system to minimize risk of electricity-induced bearing failures.",
       "benefitGrease": "Optimized grease quantities and relubrication intervals, early detection of sealing failures, Lower maintenance and lubricant costs.",
       "benefitLoad": "Detailled analysis of operating loads on wind turbine can be used for optimizing the turbine and bearing design as well as the turbine control strategy.",
-      "title": "Equipment meta data",
       "description": "Description",
       "edgeDevice": "Edge Device",
       "edm": "Electric Discharge Monitor (EDM)",
@@ -38,60 +43,68 @@
       "greaseStatus": "Grease Status",
       "interfaces": "Interfaces:",
       "interfacesEdge": "Sensors (CAN, digital, analogue 4-20mA), Schaeffler Cloud, customer data collecting device / control unit (EAP)",
-      "name": "Name",
-      "manufacturer": "Manufacturer",
-      "measurementPoints": "Measurement Points:",
-      "measurementPointsGrease": "Grease Temperature, Grease Water Content, Grease Deterioration",
-      "measurementPointsLoad": "Temperature, Bearing Load",
-      "measurementPointsEdm": "Number of electric discharges between components of the main bearing.",
-      "metaData": "Meta data",
       "loadSensePin": "Load Sense Pin",
       "locationLatitude": "Location Latitude",
       "locationLongitude": "Location Longitude",
+      "manufacturer": "Manufacturer",
+      "measurementPoints": "Measurement Points:",
+      "measurementPointsEdm": "Number of electric discharges between components of the main bearing.",
+      "measurementPointsGrease": "Grease Temperature, Grease Water Content, Grease Deterioration",
+      "measurementPointsLoad": "Temperature, Bearing Load",
+      "metaData": "Meta data",
+      "name": "Name",
+      "title": "Equipment meta data",
       "type": "Type"
     },
     "edmMonitor": {
-      "title": "EDM Monitor",
+      "peakValues": "Peak values",
       "relativeAmountOfEvents": "Relative amount of events",
-      "peakValues": "Peak values"
-    },
-    "centerLoad": {
-      "title": "Bearing center load",
-      "updateFrequency": "Update frequency",
-      "bearingTemperature": "Bearing Temperature",
-      "bearingCenterLoad": "Bearing Center Load",
-      "time": "Time",
-      "generator": "Generator",
-      "generatorAverage": "Generator Average",
-      "rotor": "Rotor",
-      "rotorAverage": "Rotor Average"
+      "title": "EDM Monitor"
     },
     "shaft": {
-      "title": "Rotor - Rotation Speed",
-      "updateFrequency": "Update frequency",
+      "rotorRotationSpeed": "Rotor Rotation Speed",
       "rpmRotor": "RPM Rotor",
-      "rotorRotationSpeed": "Rotor Rotation Speed"
+      "title": "Rotor - Rotation Speed",
+      "updateFrequency": "Update frequency"
     },
     "static-saftey-factor-monitor": {
+      "factor": "Factor",
       "title": "Static Safety Factor",
-      "updateFrequency": "Update frequency",
-      "factor": "Factor"
+      "updateFrequency": "Update frequency"
     }
   },
+  "dataView": {
+    "abreviation": "Abreviation",
+    "actualValue": "Actual Value",
+    "description": "Description",
+    "designValue": "Design Value",
+    "export": "Export",
+    "frequency": "Frequency",
+    "maxValue": "Max. Value",
+    "minValue": "Min. Value",
+    "notification": "Notification",
+    "pleaseChooseAFrequency": "Please choose a frequency",
+    "title": "Data View"
+  },
+  "dateRange": {
+    "enterDateRange": "Enter a date range",
+    "invalidEndDate": "Invalid end date",
+    "invalidStartDate": "Invalid start date",
+    "title": "Date Range"
+  },
   "greaseStatus": {
-    "title": "Grease Status",
+    "centerLoadFx": "Center Load Fx",
+    "centerLoadFy": "Center Load Fy",
+    "centerLoadFz": "Center Load Fz",
+    "centerLoadMy": "Center Load My",
+    "centerLoadMz": "Center Load Mz",
     "datePicker": "DatePicker",
-    "temperatureOptics": "Grease Temperatur",
-    "waterContent": "Water Content",
     "deterioration": "Deterioration",
-    "temperatureOptics_1": "Grease Temperatur 1",
-    "waterContent_1": "Water Content 1",
     "deterioration_1": "Deterioration 1",
-    "temperatureOptics_2": "Grease Temperatur 2",
-    "waterContent_2": "Water Content 2",
     "deterioration_2": "Deterioration 2",
-    "rsmShaftSpeed": "Rotor Rotation Speed",
-    "centerLoad": "Center Load",
+    "edmMonitor": "Electric Discharge Monitor",
+    "greaseMonitor": "Grease Monitor",
+    "loadMonitor": "Load Monitor",
     "lsp01Strain": "Load Sense Pin 1 (Rotor)",
     "lsp02Strain": "Load Sense Pin 2 (Generator)",
     "lsp03Strain": "Load Sense Pin 3 (Rotor)",
@@ -109,35 +122,26 @@
     "lsp15Strain": "Load Sense Pin 15 (Rotor)",
     "lsp16Strain": "Load Sense Pin 16 (Generator)",
     "pleaseSelectTrendsToShow": "Sensor Channels",
-    "greaseMonitor": "Grease Monitor",
-    "loadMonitor": "Load Monitor",
-    "edmMonitor": "Electric Discharge Monitor",
-    "rotorRotationSpeedMonitor": "Rotor Rotation Speed"
+    "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
+    "rsmShaftSpeed": "Rotor Rotation Speed",
+    "temperatureOptics": "Grease Temperatur",
+    "temperatureOptics_1": "Grease Temperatur 1",
+    "temperatureOptics_2": "Grease Temperatur 2",
+    "title": "Grease Status",
+    "waterContent": "Water Content",
+    "waterContent_1": "Water Content 1",
+    "waterContent_2": "Water Content 2"
   },
-  "dataView": {
-    "title": "Data View",
-    "frequency": "Frequency",
-    "pleaseChooseAFrequency": "Please choose a frequency",
-    "export": "Export",
-    "description": "Description",
-    "abreviation": "Abreviation",
-    "designValue": "Design Value",
-    "actualValue": "Actual Value",
-    "minValue": "Min. Value",
-    "maxValue": "Max. Value",
-    "notification": "Notification"
-  },
-  "dateRange": {
-    "title": "Date Range",
-    "enterDateRange": "Enter a date range",
-    "invalidStartDate": "Invalid start date",
-    "invalidEndDate": "Invalid end date"
-  },
-  "statusIndicator": {
-    "noNotifications": "no notifications"
+  "overview": {
+    "details": "Details",
+    "noDevices": "There are no devices",
+    "version": "Version"
   },
   "sensor": {
     "antenna": "Antenna",
     "gc": "GC"
+  },
+  "statusIndicator": {
+    "noNotifications": "no notifications"
   }
 }
