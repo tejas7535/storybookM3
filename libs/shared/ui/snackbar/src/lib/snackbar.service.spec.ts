@@ -122,6 +122,23 @@ describe('SnackBarService', () => {
         expectedConfig
       );
     });
+
+    test('should have infinite duration if shouldStay is set', () => {
+      snackBarService['showMessage'] = jest.fn();
+
+      message = 'Error';
+      expectedConfig = {
+        panelClass: 'error-message',
+        data: new SnackBarData('Error', undefined, SnackBarType.ERROR),
+        duration: Number.POSITIVE_INFINITY,
+      };
+
+      snackBarService.showErrorMessage(message, undefined, true);
+
+      expect(snackBarService['showMessage']).toHaveBeenCalledWith(
+        expectedConfig
+      );
+    });
   });
 
   describe('#showInfoMessage()', () => {

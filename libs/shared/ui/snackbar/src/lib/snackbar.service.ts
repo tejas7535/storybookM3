@@ -60,7 +60,7 @@ export class SnackBarService {
     const snackBarConfig: MatSnackBarConfig = {
       panelClass: 'error-message',
       data: new SnackBarData(message, action, SnackBarType.ERROR),
-      ...(shouldStay && { duration: Infinity }),
+      ...(shouldStay && { duration: Number.POSITIVE_INFINITY }),
     };
 
     return this.showMessage(snackBarConfig);
