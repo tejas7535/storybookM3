@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+library 'shared-cluster-jenkins-library'
 
 // Imports
 import groovy.transform.Field
@@ -7,14 +8,6 @@ import java.text.SimpleDateFormat
 /****************************************************************/
 
 // Variables
-def builds
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
-def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
-def appReleaseBuilds = ['Preparation', 'Install', 'Pre-Release', 'Build', 'Build:Projects', 'Release ', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
-def libReleaseBuilds = ['Preparation', 'Install', 'Pre-Release', 'Build', 'Build:Projects', 'Release ', 'Deliver', 'Deliver:Packages']
-def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
-
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
 
 def customVersionDefault = 'No custom version (e.g. 1.0.0)'
@@ -144,7 +137,7 @@ def ciSkip() {
 
 def setGitUser() {
     // Set Config for Sir Henry
-    sh 'git config user.email a1173595@schaeffler.com'
+    sh 'git config user.email adp-jenkins@schaeffler.com'
     sh 'git config user.name "Sir Henry"'
 }
 
@@ -162,7 +155,7 @@ def getPackageVersion() {
 
 // returns codeowners e.g. [kauppfbi, herpisef] for helloworld-azure
 def getCodeOwners(appName) {
-    def codeOwnersFile = readFile(file: 'CODEOWNERS').trim().split('\n')
+    def codeOwnersFile = readFile(file: '.github/CODEOWNERS').trim().split('\n')
 
     def appString
 
@@ -199,9 +192,9 @@ def getBuildTriggerUser() {
 def getAgentLabel() {
     def label = '(docker && linux && extratools)'
 
-    if (!isAppRelease() && !isLibsRelease() && !isNightly()) {
-        label += ' || monorepo'
-    }
+    // if (!isAppRelease() && !isLibsRelease() && !isNightly()) {
+    //     label += ' || monorepo'
+    // }
 
     return label
 }
@@ -233,23 +226,6 @@ def getNxRunnerConfig() {
     }
 }
 
-// define builds (stages), which are reported back to GitLab
-builds = featureBuilds
-
-if (isMaster()) {
-    builds = masterBuilds
-
-    if (isNightly()) {
-        builds = nightlyBuilds
-    } else if (params.APP_RELEASE ) {
-        builds = appReleaseBuilds
-    } else if (params.LIBS_RELEASE){
-        builds = libReleaseBuilds
-    }
-} else if (isBugfix()) {
-    builds = bugfixBuilds
-}
-
 /****************************************************************/
 pipeline {
     agent {
@@ -260,8 +236,6 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         disableConcurrentBuilds()
         timeout(time: 1, unit: 'HOURS')
-        gitLabConnection('GitLab HZA')
-        gitlabBuilds(builds: builds)
         timestamps()
         ansiColor('xterm')
 
@@ -269,9 +243,6 @@ pipeline {
     }
 
     triggers {
-        gitlab(
-            triggerOnPush: true
-        )
         cron(isMaster() ? '@midnight' : '')
     }
 
@@ -298,71 +269,68 @@ pipeline {
     stages {
         stage('Install') {
             steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    echo 'Install NPM Dependencies'
+                echo 'Install NPM Dependencies'
 
-                    sh 'npm ci'
-                }
+                sh 'npm ci'
             }
         }
 
         stage('Preparation') {
             steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    echo 'Preparation of some variables'
+                echo 'Preparation of some variables'
 
-                    ciSkip()
+                ciSkip()
 
-                    script {
-                        if (params.APP_RELEASE && params.LIBS_RELEASE) {
-                            // simultanous releases of apps and libs should not be possible
-                            currentBuild.result = 'ABORTED'
-                            error('Build failed because APP_RELEASE and LIBS_RELEASE have both been checked -> not allowed')
-                        }
-
-                        if (isAppRelease()) {
-                            def aborted = false
-                            def deployments = readJSON file: 'deployments.json'
-                            def apps = deployments.keySet()
-
-                            try {
-                                timeout(time: 5, unit: 'MINUTES') {
-                                    env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
-                                        parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join('\n'), description: 'What is the release scope?')]
-                                }
-
-                                def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
-                                def userWhoTriggeredBuild = getBuildTriggerUser()
-
-                                // first check if user is the app code owner
-                                if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
-                                    // if not check if user is workspace owner
-                                    def workSpaceOwners = getCodeOwners('workspace')
-                                    if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
-                                        error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
-                                    }
-                                }
-                            } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
-                                aborted = true
-                            }
-
-                            if (aborted) {
-                                currentBuild.result = 'ABORTED'
-                                skipBuild = true
-                            }
-                        } else if (isLibsRelease()) {
-                            def userWhoTriggeredBuild = getBuildTriggerUser()
-                            def workSpaceOwners = getCodeOwners('workspace')
-                            if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
-                                error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
-                            }
-                        }
+                script {
+                    if (params.APP_RELEASE && params.LIBS_RELEASE) {
+                        // simultanous releases of apps and libs should not be possible
+                        currentBuild.result = 'ABORTED'
+                        error('Build failed because APP_RELEASE and LIBS_RELEASE have both been checked -> not allowed')
                     }
 
-                    defineBuildBase()
-                    defineAffectedAppsAndLibs()
-                    setGitUser()
+                    if (isAppRelease()) {
+                        def aborted = false
+                        def deployments = readJSON file: 'deployments.json'
+                        def apps = deployments.keySet()
+
+                        try {
+                            timeout(time: 5, unit: 'MINUTES') {
+                                env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
+                                    parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join('\n'), description: 'What is the release scope?')]
+                            }
+
+                            // def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
+                            // def userWhoTriggeredBuild = getBuildTriggerUser()
+
+                            // first check if user is the app code owner
+                            // if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
+                            //     // if not check if user is workspace owner
+                            //     def workSpaceOwners = getCodeOwners('workspace')
+                            //     if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                            //         error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
+                            //     }
+                            // }
+                        } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
+                            aborted = true
+                        }
+
+                        if (aborted) {
+                            currentBuild.result = 'ABORTED'
+                            skipBuild = true
+                        }
+                    }
+                    //  else if (isLibsRelease()) {
+                    //     def userWhoTriggeredBuild = getBuildTriggerUser()
+                    //     def workSpaceOwners = getCodeOwners('workspace')
+                    //     if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                    //         error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
+                    //     }
+                    // }
                 }
+
+                defineBuildBase()
+                defineAffectedAppsAndLibs()
+                setGitUser()
             }
         }
 
@@ -376,22 +344,24 @@ pipeline {
             parallel {
                 stage('OWASP') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run OWASP Dependency Check'
-                        }
+                        echo 'Run OWASP Dependency Check'
                     }
                 }
 
+                // TODO migrate for github
                 stage('Renovate') {
+                    when {
+                        expression {
+                            return false
+                        }
+                    }
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run Renovate for dependency updates'
+                        echo 'Run Renovate for dependency updates'
 
-                            script {
-                                withCredentials([string(credentialsId: 'GITLAB_API_TOKEN', variable: 'ACCESS_TOKEN')]) {
-                                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_COM_TOKEN')]) {
-                                        sh "npx renovate --token=${ACCESS_TOKEN} --platform=gitlab --endpoint=https://gitlab.schaeffler.com/api/v4 frontend-schaeffler/schaeffler-frontend"
-                                    }
+                        script {
+                            withCredentials([string(credentialsId: 'GITLAB_API_TOKEN', variable: 'ACCESS_TOKEN')]) {
+                                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_COM_TOKEN')]) {
+                                    sh "npx renovate --token=${ACCESS_TOKEN} --platform=gitlab --endpoint=https://gitlab.schaeffler.com/api/v4 frontend-schaeffler/schaeffler-frontend"
                                 }
                             }
                         }
@@ -400,13 +370,11 @@ pipeline {
 
                 stage('Audit') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run NPM Audit'
+                        echo 'Run NPM Audit'
 
-                            script {
-                                sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html"'
-                                sh 'npm audit --json | node ./tools/npm-scripts/transform-audit.js > ./reports/npm-audit.json'
-                            }
+                        script {
+                            sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html"'
+                            sh 'npm audit --json | node ./tools/npm-scripts/transform-audit.js > ./reports/npm-audit.json'
                         }
                     }
 
@@ -420,43 +388,31 @@ pipeline {
 
                 stage('Cleanup Artifactory') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            script {
-                                withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-                                    def jsonString = sh (
-                                        script: "curl --insecure --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
-                                        returnStdout: true
-                                    )
-                                    def artifactoryResponse = readJSON text: jsonString
+                        script {
+                            withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
+                                def jsonString = sh (
+                                    script: "curl --insecure --silent -H X-JFrog-Art-Api:${API_KEY} -X GET \"https://artifactory.schaeffler.com/artifactory/api/storage/${artifactoryBasePath}?list&deep=1&depth=10&listFolders=1&mdTimestamps=1&includeRootPath=1\"",
+                                    returnStdout: true
+                                )
+                                def artifactoryResponse = readJSON text: jsonString
 
-                                    def dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
-                                    def currentDate = new Date()
+                                def dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
+                                def currentDate = new Date()
 
-                                    for (artifactoryFile in artifactoryResponse.files) {
-                                        if (artifactoryFileCanBeRemoved(artifactoryFile)) {
-                                            def lastModifiedDate = dateFormat.parse(artifactoryFile.lastModified)
-                                            def daysBetween = currentDate - lastModifiedDate
-                                            if (daysBetween > 60) {
-                                                echo "${artifactoryFile}"
-                                                echo 'IS GOING TO GET DELETED'
-                                                sh "curl --insecure --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
-                                            }
+                                for (artifactoryFile in artifactoryResponse.files) {
+                                    if (artifactoryFileCanBeRemoved(artifactoryFile)) {
+                                        def lastModifiedDate = dateFormat.parse(artifactoryFile.lastModified)
+                                        def daysBetween = currentDate - lastModifiedDate
+                                        if (daysBetween > 60) {
+                                            echo "${artifactoryFile}"
+                                            echo 'IS GOING TO GET DELETED'
+                                            sh "curl --insecure --silent -H X-JFrog-Art-Api:${API_KEY} -X DELETE \"https://artifactory.schaeffler.com/artifactory/${artifactoryBasePath}${artifactoryFile.uri}\""
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            }
-
-            post {
-                success {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
-                }
-
-                failure {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'failed'
                 }
             }
         }
@@ -471,24 +427,20 @@ pipeline {
             parallel {
                 stage('Format:Check') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run Format Check with prettier'
+                        echo 'Run Format Check with prettier'
 
-                            script {
-                                sh "npm run format:check -- --base=${buildBase}"
-                            }
+                        script {
+                            sh "npm run format:check -- --base=${buildBase}"
                         }
                     }
                 }
 
                 stage('Lint:TS') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run TS Lint'
+                        echo 'Run TS Lint'
 
-                            script {
-                                sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci ${getNxRunnerConfig()}"
-                            }
+                        script {
+                            sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci ${getNxRunnerConfig()}"
                         }
                     }
                     post {
@@ -500,38 +452,32 @@ pipeline {
 
                 stage('Lint:HTML') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run HTML Lint'
+                        echo 'Run HTML Lint'
 
-                            // no checkstyle output
-                            script { 
-                                sh 'npm run lint:html'
-                            }
+                        // no checkstyle output
+                        script { 
+                            sh 'npm run lint:html'
                         }
                     }
                 }
 
                 stage('Lint:SCSS') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run SCSS Lint'
+                        echo 'Run SCSS Lint'
 
-                            // no checkstyle output
-                            script {
-                                sh 'npm run lint:scss'
-                            }
+                        // no checkstyle output
+                        script {
+                            sh 'npm run lint:scss'
                         }
                     }
                 }
 
                 stage('Test:Unit') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run Unit Tests'
+                        echo 'Run Unit Tests'
 
-                            script {
-                                sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2 ${getNxRunnerConfig()}"
-                            }
+                        script {
+                            sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2 ${getNxRunnerConfig()}"
                         }
                     }
                     post {
@@ -550,14 +496,12 @@ pipeline {
                         }
                     }
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
-                            lock(resource: "lock-cypress-${env.NODE_NAME}", quantity: 1) {
-                                echo 'Run E2E Tests'
+                        // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
+                        lock(resource: "lock-cypress-${env.NODE_NAME}", quantity: 1) {
+                            echo 'Run E2E Tests'
 
-                                script {
-                                    sh "npm run affected:e2e:headless -- --base=${buildBase} ${getNxRunnerConfig()}"
-                                }
+                            script {
+                                sh "npm run affected:e2e:headless -- --base=${buildBase} ${getNxRunnerConfig()}"
                             }
                         }
                     }
@@ -572,16 +516,6 @@ pipeline {
                     }
                 }
             }
-
-            post {
-                success {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
-                }
-
-                failure {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'failed'
-                }
-            }
         }
 
         stage('Pre-Release') {
@@ -591,54 +525,50 @@ pipeline {
                 }
             }
             steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    echo 'Preparing Release'
+                echo 'Preparing Release'
 
-                    sshagent(['GITLAB_USER_SSH_KEY']) {
-                        script {
-                            def targetBranch = 'master'
+                script {
+                    def targetBranch = 'master'
 
-                            // Generate Changelog, update Readme
-                            sh 'git fetch --all'
-                            sh "git checkout ${targetBranch}"
+                    // Generate Changelog, update Readme
+                    executeAsGithubUser('github-jenkins-access-token','git fetch --all')
+                    sh "git checkout ${targetBranch}"
 
-                            // generate project specific changelog
-                            if (isAppRelease()) {
-                                def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version"
+                    // generate project specific changelog
+                    if (isAppRelease()) {
+                        def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
+                        def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version"
 
-                                if (!exists) {
-                                    //first version
-                                    standardVersionCommand += " --params='--first-release'"
-                                } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
-                                    standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
-                                }
-
-                                sh standardVersionCommand
-                            } else if (isLibsRelease()) {
-                                sh "npx nx run-many --target=standard-version --projects=${affectedLibs.join(',')}"
-                            }
-
-                            sh 'npm run release' // only bump the workspace version
-                            sh 'npm run generate-readme'
-
-                            // generate root changelog
-                            if (isAppRelease()) {
-                                sh "npm run generate-changelog -- --app ${env.RELEASE_SCOPE}"
-                            } else if (isLibsRelease()) {
-                                sh 'npm run generate-changelog -- --libs'
-                            }
-
-                            sh 'git add .'
-                            sh 'git commit -m "chore(docs): update docs [ci skip]"'
-
-                            if (isLibsRelease()) {
-                                // add new Workspace Release Tag
-                                def version = getPackageVersion()
-
-                                sh "git tag -a ${version} -m 'Release of Version ${version}'"
-                            }
+                        if (!exists) {
+                            //first version
+                            standardVersionCommand += " --params='--first-release'"
+                        } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
+                            standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
                         }
+
+                        sh standardVersionCommand
+                    } else if (isLibsRelease()) {
+                        sh "npx nx run-many --target=standard-version --projects=${affectedLibs.join(',')}"
+                    }
+
+                    sh 'npm run release' // only bump the workspace version
+                    sh 'npm run generate-readme'
+
+                    // generate root changelog
+                    if (isAppRelease()) {
+                        sh "npm run generate-changelog -- --app ${env.RELEASE_SCOPE}"
+                    } else if (isLibsRelease()) {
+                        sh 'npm run generate-changelog -- --libs'
+                    }
+
+                    sh 'git add .'
+                    sh 'git commit -m "chore(docs): update docs [ci skip]"'
+
+                    if (isLibsRelease()) {
+                        // add new Workspace Release Tag
+                        def version = getPackageVersion()
+
+                        sh "git tag -a ${version} -m 'Release of Version ${version}'"
                     }
                 }
             }
@@ -654,31 +584,29 @@ pipeline {
             parallel {
                 stage('Build:Projects') {
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Build Projects'
+                        echo 'Build Projects'
 
-                            script {
-                                lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
-                                    if (isAppRelease()) {
-                                        sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production"
-                                        try {
-                                            sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
-                                        } catch (error) {
-                                            echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
-                                        }
-                                    } else if (isLibsRelease()) {
-                                        sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
+                        script {
+                            lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
+                                if (isAppRelease()) {
+                                    sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production"
+                                    try {
+                                        sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
+                                    } catch (error) {
+                                        echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
+                                    }
+                                } else if (isLibsRelease()) {
+                                    sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
+                                } else {
+                                    if (isMaster()) {
+                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel"
                                     } else {
-                                        if (isMaster()) {
-                                            sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel"
-                                        } else {
-                                            sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel"
-                                        }
+                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel"
+                                    }
 
-                                        for (app in affectedApps) {
-                                            sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
-                                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
-                                        }
+                                    for (app in affectedApps) {
+                                        sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
+                                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
                                     }
                                 }
                             }
@@ -693,26 +621,14 @@ pipeline {
                         }
                     }
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Build Storybooks for Shared Libraries'
+                        echo 'Build Storybooks for Shared Libraries'
 
-                            script {
-                                sh "npx nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
+                        script {
+                            sh "npx nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
 
-                                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
-                            }
+                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
                         }
                     }
-                }
-            }
-
-            post {
-                success {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
-                }
-
-                failure {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'failed'
                 }
             }
         }
@@ -732,43 +648,41 @@ pipeline {
                         }
                     }
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Deliver Apps to Artifactory'
+                        echo 'Deliver Apps to Artifactory'
 
-                            script {
-                                sh 'mkdir -p dist/zips'
-                                def appsToDeploy = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+                        script {
+                            sh 'mkdir -p dist/zips'
+                            def appsToDeploy = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
 
-                                // loop over apps and publish them
-                                for (app in appsToDeploy) {
-                                    echo "publish ${app} to Artifactory"
+                            // loop over apps and publish them
+                            for (app in appsToDeploy) {
+                                echo "publish ${app} to Artifactory"
 
-                                    zip dir: "dist/apps/${app}",  glob: '', zipFile: "dist/zips/${app}/next.zip"
-                                    uploadFile = "dist/zips/${app}/next.zip"
-                                    checksum = sh (
-                                        script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
-                                        returnStdout: true
-                                    ).trim()
+                                zip dir: "dist/apps/${app}",  glob: '', zipFile: "dist/zips/${app}/next.zip"
+                                uploadFile = "dist/zips/${app}/next.zip"
+                                checksum = sh (
+                                    script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
+                                    returnStdout: true
+                                ).trim()
 
-                                    if (isAppRelease()) {
-                                        def version = getPackageVersion()
-                                        target1 = "${artifactoryBasePath}/${app}/latest.zip"
+                                if (isAppRelease()) {
+                                    def version = getPackageVersion()
+                                    target1 = "${artifactoryBasePath}/${app}/latest.zip"
 
-                                        deployPackages(target1, uploadFile, checksum)
+                                    deployPackages(target1, uploadFile, checksum)
 
-                                        target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
+                                    target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
 
-                                        deployPackages(target2, uploadFile, checksum)
-                                    } else if (isMaster()) {
-                                        target = "${artifactoryBasePath}/${app}/next.zip"
+                                    deployPackages(target2, uploadFile, checksum)
+                                } else if (isMaster()) {
+                                    target = "${artifactoryBasePath}/${app}/next.zip"
 
-                                        deployPackages(target, uploadFile, checksum)
-                                    } else if (!isNightly()) {
-                                        def fileName = getFilteredBranchName()
-                                        target = "${artifactoryBasePath}/${app}/${fileName}.zip"
+                                    deployPackages(target, uploadFile, checksum)
+                                } else if (!isNightly()) {
+                                    def fileName = getFilteredBranchName()
+                                    target = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
-                                        deployPackages(target, uploadFile, checksum)
-                                    }
+                                    deployPackages(target, uploadFile, checksum)
                                 }
                             }
                         }
@@ -782,16 +696,14 @@ pipeline {
                         }
                     }
                     steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Deliver Libraries as npm packages to Artifactory'
+                        echo 'Deliver Libraries as npm packages to Artifactory'
 
-                            script {
-                                withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-                                    sh "echo 'email=${USERNAME}' > ~/.npmrc"
-                                    sh "echo '//artifactory.schaeffler.com/artifactory/api/npm/npm/:_authToken=${API_KEY}' > ~/.npmrc"
+                        script {
+                            withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
+                                sh "echo 'email=${USERNAME}' > ~/.npmrc"
+                                sh "echo '//artifactory.schaeffler.com/artifactory/api/npm/npm/:_authToken=${API_KEY}' > ~/.npmrc"
 
-                                    sh "npx nx affected --base=${buildBase} --target=publish"
-                                }
+                                sh "npx nx affected --base=${buildBase} --target=publish"
                             }
                         }
                     }
@@ -800,16 +712,10 @@ pipeline {
 
             post {
                 success {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
-
                     script {
                         def version = getPackageVersion()
                         currentBuild.description = "Version: ${version}"
                     }
-                }
-
-                failure {
-                    updateGitlabCommitStatus name: STAGE_NAME, state: 'failed'
                 }
             }
         }
@@ -821,14 +727,10 @@ pipeline {
                 }
             }
             steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    echo 'Release new version'
+                echo 'Release new version'
 
-                    sshagent(['GITLAB_USER_SSH_KEY']) {
-                        script {
-                            sh 'git push --follow-tags'
-                        }
-                    }
+                script {
+                    executeAsGithubUser('github-jenkins-access-token','git push --follow-tags')
                 }
             }
         }
@@ -840,32 +742,30 @@ pipeline {
                 }
             }
             steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    script {
-                        def deployments = readJSON file: 'deployments.json'
-                        def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+                script {
+                    def deployments = readJSON file: 'deployments.json'
+                    def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
 
-                        for (app in appsToBuild) {
-                            def url = deployments[app]
+                    for (app in appsToBuild) {
+                        def url = deployments[app]
 
-                            def version = getPackageVersion()
-                            def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
+                        def version = getPackageVersion()
+                        def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
 
-                            // prod/release = latest, master = next, feature build = branch name
-                            def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
-                            def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
+                        // prod/release = latest, master = next, feature build = branch name
+                        def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
+                        def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
-                            try {
-                                build job: "${url}",
-                                    parameters: [
-                                            string(name: 'VERSION', value: "${version}"),
-                                            string(name: 'CONFIGURATION', value: "${configuration}"),
-                                            string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
-                                    ], wait: false
-                            } catch (error) {
-                                println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
-                                println(error)
-                            }
+                        try {
+                            build job: "${url}",
+                                parameters: [
+                                        string(name: 'VERSION', value: "${version}"),
+                                        string(name: 'CONFIGURATION', value: "${configuration}"),
+                                        string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
+                                ], wait: false
+                        } catch (error) {
+                            println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
+                            println(error)
                         }
                     }
                 }
@@ -876,11 +776,6 @@ pipeline {
     post {
         always {
             script {
-                if (skipBuild) {
-                    masterBuilds.each {
-                        build -> updateGitlabCommitStatus name: build, state: 'success'
-                    }
-                }
                 sh 'chmod -R 777 .' // set rights so that the cleanup job can do its work
                 cleanWs(disableDeferredWipeout: true)
             }
