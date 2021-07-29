@@ -22,7 +22,7 @@ import { DataPoint } from './data-point.model';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BomChartComponent implements OnChanges {
-  @Input('data') public set chartData(data: BomItem[]) {
+  @Input() public set data(data: BomItem[]) {
     this.barChartData = [];
     this.lineChartData = [];
 

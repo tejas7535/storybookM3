@@ -13,7 +13,7 @@ import {
   IdValue,
 } from './models';
 
-export interface FilterItemState extends EntityState<FilterItem> {}
+export type FilterItemState = EntityState<FilterItem>;
 
 export const resetFilterItems: EntityMap<FilterItem> = (item: FilterItem) => {
   if (item.type === FilterItemType.ID_VALUE) {
@@ -34,10 +34,9 @@ export const resetFilterItems: EntityMap<FilterItem> = (item: FilterItem) => {
   };
 };
 
-export const selectFilterItemId = (f: FilterItem): string => {
+export const selectFilterItemId = (f: FilterItem): string =>
   // the name of the filter is the unique identifier
-  return f.name;
-};
+  f.name;
 
 export const filterItemAdapter: EntityAdapter<FilterItem> =
   createEntityAdapter<FilterItem>({

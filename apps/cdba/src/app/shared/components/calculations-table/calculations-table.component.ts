@@ -122,7 +122,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
       const selected = node.isSelected();
 
       const newSelectedRows = selected
-        ? Array.from(new Set(this.selectedNodeIds).add(id))
+        ? [...new Set(this.selectedNodeIds).add(id)]
         : previouslySelectedRows.filter((entry: string) => entry !== id);
 
       if (newSelectedRows.length > maxLength) {

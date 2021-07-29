@@ -1,4 +1,7 @@
+import { ValueGetterParams } from '@ag-grid-community/all-modules';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
+import { ValueGetterFunction } from '@cdba/testing/types';
 
 import * as utils from '../../table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
@@ -26,8 +29,9 @@ describe('ColumnDefinitions', () => {
 
     Object.keys(columnDefinitions).forEach((column) => {
       if (columnDefinitions[column].valueGetter) {
-        const valueGetter = columnDefinitions[column].valueGetter as Function;
-        valueGetter({ data: {} });
+        const valueGetter = columnDefinitions[column]
+          .valueGetter as ValueGetterFunction;
+        valueGetter({ data: {} } as ValueGetterParams);
       }
     });
 

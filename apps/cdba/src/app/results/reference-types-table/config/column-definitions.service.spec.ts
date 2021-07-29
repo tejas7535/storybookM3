@@ -1,6 +1,15 @@
+import {
+  ValueFormatterParams,
+  ValueGetterParams,
+} from '@ag-grid-community/all-modules';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import {
+  ValueFormatterFunction,
+  ValueGetterFunction,
+} from '@cdba/testing/types';
 
 import * as utils from '../../../shared/components/table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
@@ -33,13 +42,13 @@ describe('ColumnDefinitions', () => {
 
     columnDefinitions.forEach((column) => {
       if (column.valueGetter) {
-        const valueGetter = column.valueGetter as Function;
-        valueGetter({ data: {} });
+        const valueGetter = column.valueGetter as ValueGetterFunction;
+        valueGetter({ data: {} } as ValueGetterParams);
       }
 
       if (column.valueFormatter) {
-        const valueFormatter = column.valueFormatter as Function;
-        valueFormatter({ data: {} });
+        const valueFormatter = column.valueFormatter as ValueFormatterFunction;
+        valueFormatter({ data: {} } as ValueFormatterParams);
       }
     });
 
