@@ -201,7 +201,7 @@ describe('CreateColumnService', () => {
     test('should render Date for empty data', () => {
       const data = {};
       const res = ColumnUtilityService.dateFormatter(data);
-      expect(res).toEqual('');
+      expect(res).toEqual('-');
     });
   });
 

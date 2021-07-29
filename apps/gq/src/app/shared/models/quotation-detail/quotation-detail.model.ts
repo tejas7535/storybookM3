@@ -1,3 +1,4 @@
+import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
 import { Plant } from './plant.model';
 
@@ -32,6 +33,7 @@ export class QuotationDetail {
   public coefficient2: number;
   public relocationCost: number;
   public relocatedProductionPlant: Plant;
+  public lastOfferDetail: LastOfferDetail;
 
   // properties added in GQ application
   public netValue: number;

@@ -103,7 +103,7 @@ export class ColumnUtilityService {
     return data.value || '-';
   }
   static dateFormatter(data: any): string {
-    return data.value ? new Date(data.value).toLocaleDateString() : '';
+    return data.value ? new Date(data.value).toLocaleDateString() : '-';
   }
 
   static idFormatter(data: any): string {

@@ -142,7 +142,22 @@ export class ColumnDefService {
       field: 'percentDifference',
       valueFormatter: ColumnUtilityService.percentageFormatter,
     },
-
+    {
+      headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),
+      field: 'lastOfferDetail.lastOfferPrice',
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
+      field: 'lastOfferDetail.lastOfferDate',
+      valueFormatter: ColumnUtilityService.dateFormatter,
+      filterParams: ColumnUtilityService.dateFilterParams,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.reasonForRejection'),
+      field: 'lastOfferDetail.reasonForRejection',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
     {
       headerName: translate('shared.quotationDetailsTable.rlt'),
       field: 'rlt',
@@ -164,21 +179,6 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
     },
     {
-      headerName: translate('shared.quotationDetailsTable.customerMaterial'),
-      field: 'customerMaterial',
-      valueFormatter: ColumnUtilityService.basicTransform,
-    },
-    {
-      headerName: translate('shared.quotationDetailsTable.productLine'),
-      field: 'material.productLineId',
-      valueFormatter: ColumnUtilityService.basicTransform,
-    },
-    {
-      headerName: translate('shared.quotationDetailsTable.gpsd'),
-      field: 'material.gpsdGroupId',
-      valueFormatter: ColumnUtilityService.basicTransform,
-    },
-    {
       headerName: translate('shared.quotationDetailsTable.relocPlant'),
       field: 'relocatedProductionPlant.plantNumber',
       valueFormatter: ColumnUtilityService.basicTransform,
@@ -191,6 +191,21 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.relocCountry'),
       field: 'relocatedProductionPlant.country',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.customerMaterial'),
+      field: 'customerMaterial',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.productLine'),
+      field: 'material.productLineId',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.gpsd'),
+      field: 'material.gpsdGroupId',
       valueFormatter: ColumnUtilityService.basicTransform,
     },
   ];

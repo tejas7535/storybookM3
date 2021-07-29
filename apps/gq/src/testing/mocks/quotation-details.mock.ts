@@ -3,6 +3,7 @@ import {
   PriceSource,
   QuotationDetail,
 } from '../../app/shared/models/quotation-detail';
+import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { PLANT_MOCK } from './plant.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
@@ -44,4 +45,5 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   relocationCost: 24.5,
   relocatedProductionPlant: PLANT_MOCK,
   rlm: 0.65,
+  lastOfferDetail: LAST_OFFER_DETAIL_MOCK,
 };

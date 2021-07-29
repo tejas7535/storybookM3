@@ -4,3 +4,4 @@ export * from './plant.model';
 export * from './price-source.enum';
 export * from './update-price.model';
 export * from './coefficients.model';
+export * from './last-offer-detail.model';
