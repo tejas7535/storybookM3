@@ -6,17 +6,17 @@
     "decimalSeparatorPoint": "Точка"
   },
   "form": {
-    "select": "Select {{fieldname}} ru",
-    "calculateResults": "Calculate Results ru",
-    "searchManually": "or configure manually ru",
-    "chooseOption": "Choose an option ru",
-    "searchLoading": "Fetching data... ru",
-    "searchNoResults": "No Results ru"
+    "select": "{{fieldname}} выбрать",
+    "calculateResults": "Начать расчет",
+    "searchManually": "или настроить вручную",
+    "chooseOption": "Выбрать подшипник",
+    "searchLoading": "Загрузка данных...",
+    "searchNoResults": "Нет результатов"
   },
   "languageDialog": {
-    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input. ru",
-    "confirm": "confirm ru",
-    "cancel": "cancel ru"
+    "content": "Обратите внимание, что при изменении языка страница будет перезагружена и изменения будут потеряны.",
+    "confirm": "подтвердить",
+    "cancel": "отменить"
   },
   "dialog": {
     "bearing": "Подшипник",
@@ -70,9 +70,22 @@
     "report": "Отчет"
   },
   "result": {
-    "title": "Report ru",
-    "downloadReport": "Download Report ru",
-    "startNewCalculation": "Start new Calculation ru"
+    "title": "Отчёт",
+    "downloadReport": "Скачать отчёт",
+    "startNewCalculation": "Начать новый расчет"
   },
-  "settings": "Settings ru"
+  "error": {
+    "content": "Произошла ошибка. Пожалуйста, повторите попытку позже.",
+    "confirm": "Понятно",
+    "retry": "Попробовать снова"
+  },
+  "settings": "Настройки",
+  "legal": {
+    "goToHome": "Назад к началу",
+    "imprint": "Импрессум",
+    "dataPrivacy": "Защита данных",
+    "termsOfUse": "Условия пользования",
+    "cookiePolicy": "Нормы cookie",
+    "cookieSettings": "Настройки cookie"
+  }
 }
