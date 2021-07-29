@@ -8,7 +8,7 @@
       "info": "Info",
       "item": "Position",
       "lastCustomerPrice": "Letzter Kundenpreis",
-      "lastCustomerPriceDate": "Letzer Kundenpreis Datum",
+      "lastCustomerPriceDate": "Datum letzer Kundenpreis",
       "materialDescription": "Materialbezeichnung",
       "materialNumber": "Material",
       "netValue": "Nettowert",
@@ -30,7 +30,10 @@
       "relocCost": " Zukünftige Kosten",
       "relocPlant": "Zukünftiges Produktionswerk",
       "relocCity": "Stadt Produktionswerk",
-      "relocCountry": "Land Produktionswerk"
+      "relocCountry": "Land Produktionswerk",
+      "lastOfferPrice": "Letzter Angebotspreis",
+      "lastOfferDate": "Datum letztes Angebot",
+      "reasonForRejection": "Absagegrund"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
