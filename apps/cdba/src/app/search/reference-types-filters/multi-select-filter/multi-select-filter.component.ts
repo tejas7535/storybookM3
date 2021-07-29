@@ -162,16 +162,14 @@ export class MultiSelectFilterComponent
     search: string,
     selectedValues: string[]
   ): IdValue[] {
-    const result = this.filter.items
-      .slice()
-      .filter(
-        (item: IdValue) =>
-          !search ||
-          search.length === 0 ||
-          item.value.toLowerCase().includes(search.toLowerCase()) ||
-          item.id.includes(search.toLowerCase()) ||
-          selectedValues.includes(item.id)
-      );
+    const result = [...this.filter.items].filter(
+      (item: IdValue) =>
+        !search ||
+        search.length === 0 ||
+        item.value.toLowerCase().includes(search.toLowerCase()) ||
+        item.id.includes(search.toLowerCase()) ||
+        selectedValues.includes(item.id)
+    );
 
     return result;
   }
@@ -260,7 +258,7 @@ export class MultiSelectFilterComponent
   private emitUpdate(values: IdValue[]): void {
     this.updateFilter.emit({
       ...this.filter,
-      items: this.filter.items.slice().map((it) => {
+      items: [...this.filter.items].map((it) => {
         const tmp = { ...it };
         const item = values.find((i: IdValue) => i.id && i.id === it.id);
 

@@ -74,9 +74,15 @@ const sortFilterItem = (item: FilterItem) => {
   const tmp = { ...item };
 
   if (tmp.type === FilterItemType.ID_VALUE) {
-    (tmp as FilterItemIdValue).items = (tmp as FilterItemIdValue).items
-      .slice()
-      .sort((a, b) => (a.selected === b.selected ? 0 : a.selected ? -1 : 1));
+    (tmp as FilterItemIdValue).items = [
+      ...(tmp as FilterItemIdValue).items,
+    ].sort((a, b) => {
+      if (a.selected === b.selected) {
+        return 0;
+      } else {
+        return a.selected ? -1 : 1;
+      }
+    });
   }
 
   return tmp;
@@ -239,7 +245,12 @@ export const searchReducer = createReducer(
       filters: {
         ...state.filters,
         dirty: false,
-        items: filterItemAdapter.map(resetFilterItems, state.filters.items),
+        items: filterItemAdapter.map(
+          (element) => resetFilterItems(element),
+          // eslint thinks it is the Array.map method but it is the method from the filterItemAdapter
+          // eslint-disable-next-line unicorn/no-array-method-this-argument
+          state.filters.items
+        ),
       },
       referenceTypes: {
         ...state.referenceTypes,

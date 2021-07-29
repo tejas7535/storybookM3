@@ -40,7 +40,7 @@ describe('BomChartComponent', () => {
   beforeEach(() => {
     specatator = createComponent();
     component = specatator.component;
-    component.chartData = data;
+    component.data = data;
 
     specatator.detectChanges();
   });

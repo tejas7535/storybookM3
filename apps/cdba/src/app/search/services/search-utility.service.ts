@@ -16,9 +16,8 @@ export class SearchUtilityService {
     const currentSelections: IdValue[] = [];
     let newItems = options.map((it: IdValue) => ({
       ...it,
-      selected: selectedOptions.find((item) => item.id === it.id)
-        ? true
-        : it.selected,
+      selected:
+        selectedOptions.some((item) => item.id === it.id) || it.selected,
     }));
 
     selectedOptions.forEach((option: IdValue) => {
@@ -28,7 +27,7 @@ export class SearchUtilityService {
       }
     });
 
-    newItems = newItems.concat(currentSelections);
+    newItems = [...newItems, ...currentSelections];
 
     return newItems;
   }

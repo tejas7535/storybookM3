@@ -1,6 +1,6 @@
 {
   "extends": ["../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*", "src/polyfills.ts"],
+  "ignorePatterns": ["!**/*", "src/polyfills.ts", "src/environments/*"],
   "overrides": [
     {
       "files": ["*.ts"],
