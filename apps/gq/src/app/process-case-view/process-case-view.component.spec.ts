@@ -23,6 +23,7 @@ import { AddItemsButtonComponent } from '../shared/custom-status-bar/add-items-b
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { ExportToExcelButtonComponent } from '../shared/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
+import { TotalRowCountComponent } from '../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
@@ -51,6 +52,7 @@ describe('ProcessCaseViewComponent', () => {
         UploadSelectionToSapButtonComponent,
         AddItemsButtonComponent,
         ExportToExcelButtonComponent,
+        TotalRowCountComponent,
       ]),
       BrowserAnimationsModule,
       CaseHeaderModule,

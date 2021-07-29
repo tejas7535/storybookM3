@@ -110,6 +110,10 @@
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update prices in SAP Quotation"
       },
+      "totalRowCount": {
+        "total": "Total",
+        "selected": "Selected"
+      },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
         "selectedAverageGPM": "Selected Weigh. Avg. GPM %",

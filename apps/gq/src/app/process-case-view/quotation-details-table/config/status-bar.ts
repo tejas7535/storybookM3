@@ -7,6 +7,7 @@ export const STATUS_BAR_CONFIG: {
     { statusPanel: 'uploadSelectionToSapButtonComponent', align: 'left' },
     { statusPanel: 'addItemsButtonComponent', align: 'left' },
     { statusPanel: 'exportToExcelButtonComponent', align: 'left' },
+    { statusPanel: 'totalRowCountComponent', align: 'left' },
     { statusPanel: 'quotationDetailsStatusComponent', align: 'right' },
     { statusPanel: 'deleteItemsButtonComponent', align: 'right' },
   ],
