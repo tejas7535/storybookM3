@@ -9,6 +9,7 @@ import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case
 import { PriceSource } from '../../models/quotation-detail';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 @Injectable({
   providedIn: 'root',
@@ -58,12 +59,10 @@ export class ColumnDefService {
       cellEditor: 'editingPriceComponent',
       valueSetter: (params: ValueSetterParams) => {
         if (params.newValue) {
-          const parsedNewValue = Number.parseFloat(params.newValue);
-          const { priceUnit } = params.data.material;
           this.selectManualPrice(
-            parsedNewValue,
+            Number.parseFloat(params.newValue),
             params.data.gqPositionId,
-            priceUnit
+            params.data.material.priceUnit
           );
         }
 
@@ -196,13 +195,23 @@ export class ColumnDefService {
     },
   ];
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly snackBarService: SnackBarService
+  ) {}
 
   public selectManualPrice(
     newPrice: number,
     gqPositionId: string,
     priceUnit: number
   ): void {
+    if (newPrice === 0) {
+      this.snackBarService.showErrorMessage(
+        translate('shared.snackBarMessages.priceShouldBeHigherThanZero')
+      );
+
+      return;
+    }
     const price = newPrice / priceUnit;
 
     const updateQuotationDetailList: UpdateQuotationDetail[] = [

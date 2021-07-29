@@ -165,7 +165,8 @@
       "updateSelectedPrice": "Price selection was saved",
       "updateQuantity": "Quantity change was saved",
       "uploadSelectionSuccess": "The item selection was saved in SAP",
-      "wrongPriceEditInput": "Please enter a numeric price value"
+      "wrongPriceEditInput": "Please enter a numeric price value",
+      "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00"
     }
   }
 }
