@@ -8,10 +8,12 @@ import { AddItemsButtonComponent } from '../../../shared/custom-status-bar/add-i
 import { DeleteItemsButtonComponent } from '../../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { ExportToExcelButtonComponent } from '../../../shared/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { QuotationDetailsStatusComponent } from '../../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
+import { TotalRowCountComponent } from '../../../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../../../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 
 export const FRAMEWORK_COMPONENTS = {
   quotationDetailsStatusComponent: QuotationDetailsStatusComponent,
+  totalRowCountComponent: TotalRowCountComponent,
   deleteItemsButtonComponent: DeleteItemsButtonComponent,
   addItemsButtonComponent: AddItemsButtonComponent,
   gqRatingComponent: GqRatingComponent,

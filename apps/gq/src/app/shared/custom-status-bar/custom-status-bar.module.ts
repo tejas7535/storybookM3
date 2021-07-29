@@ -22,6 +22,7 @@ import { DeleteItemsButtonComponent } from './delete-items-button/delete-items-b
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
 import { MaterialValidationStatusComponent } from './material-validation-status/material-validation-status.component';
 import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
+import { TotalRowCountComponent } from './total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 
 @NgModule({
@@ -40,6 +41,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CreateManualCaseButtonComponent,
     CreateCustomerCaseButtonComponent,
     AddItemsButtonComponent,
+    TotalRowCountComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +67,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CreateManualCaseButtonComponent,
     CreateCustomerCaseButtonComponent,
     AddItemsButtonComponent,
+    TotalRowCountComponent,
   ],
 })
 export class CustomStatusBarModule {}

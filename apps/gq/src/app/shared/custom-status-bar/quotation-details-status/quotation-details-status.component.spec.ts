@@ -29,7 +29,6 @@ describe('QuotationDetailsStatusComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QuotationDetailsStatusComponent,
-    declarations: [QuotationDetailsStatusComponent],
     imports: [
       MatButtonModule,
       MatIconModule,
