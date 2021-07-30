@@ -192,9 +192,9 @@ def getBuildTriggerUser() {
 def getAgentLabel() {
     def label = '(docker && linux && extratools)'
 
-    // if (!isAppRelease() && !isLibsRelease() && !isNightly()) {
-    //     label += ' || monorepo'
-    // }
+    if (!isAppRelease() && !isLibsRelease() && !isNightly()) {
+        label += ' || monorepo'
+    }
 
     return label
 }
