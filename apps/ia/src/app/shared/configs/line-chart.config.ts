@@ -6,10 +6,17 @@ export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
   xAxis: {
     type: 'category',
     data: [],
+    axisTick: {
+      show: true,
+      alignWithLabel: true,
+    },
   },
   yAxis: {
     type: 'value',
     minInterval: 1,
+    axisPointer: {
+      snap: true,
+    },
   },
   color: [Color.GREEN, Color.BLUE],
   backgroundColor: 'white',

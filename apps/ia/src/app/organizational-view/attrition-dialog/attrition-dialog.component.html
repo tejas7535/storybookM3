@@ -25,5 +25,7 @@
   align="end"
   *transloco="let t; read: 'organizationalView.attritionDialog'"
 >
-  <button mat-button mat-dialog-close color="primary">{{ t('close') }}</button>
+  <button mat-button mat-dialog-close color="primary">
+    {{ t('close') | uppercase }}
+  </button>
 </mat-dialog-actions>

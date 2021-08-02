@@ -169,5 +169,17 @@ describe('OverviewChartComponent', () => {
         }
       );
     });
+
+    it('should not open the dialog when no employee left', () => {
+      const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
+
+      component['dialog'].open = jest.fn();
+      data['2020'].employees = [[], [], []];
+
+      component.data = data;
+      component.onChartClick(event);
+
+      expect(component['dialog'].open).not.toHaveBeenCalled();
+    });
   });
 });

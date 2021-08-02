@@ -44,7 +44,10 @@
     "unforcedLeavers": "Unforced leavers",
     "terminationReceived": "Termination received",
     "employeesAdded": "Employees added",
-    "openPositions": "Open positions"
+    "openPositions": "Open positions",
+    "attritionQuota": "Attrition Quota",
+    "pastAttritionQuota": "Past Attrition Quota",
+    "futureAttritionQuota": "Future Attrition Quota"
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

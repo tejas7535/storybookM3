@@ -105,12 +105,14 @@ export class OverviewChartComponent {
   public onChartClick(event: any): void {
     const employees = this.data[event.seriesName].employees[event.dataIndex];
 
-    this.dialog.open(TerminatedEmployeesDialogComponent, {
-      data: {
-        employees,
-        title: `${event.seriesName} - ${event.name}:`,
-      },
-      width: '600px',
-    });
+    if (employees && employees.length > 0) {
+      this.dialog.open(TerminatedEmployeesDialogComponent, {
+        data: {
+          employees,
+          title: `${event.seriesName} - ${event.name}:`,
+        },
+        width: '600px',
+      });
+    }
   }
 }

@@ -17,6 +17,7 @@
             color="primary"
             class="flex mt-2"
             [disabled]="!openApplications || openApplications.length === 0"
+            [ngClass]="{ 'cursor-not-allowed': openApplications?.length === 0 }"
           >
             <mat-icon class="pl-2">group_add</mat-icon>
           </button>

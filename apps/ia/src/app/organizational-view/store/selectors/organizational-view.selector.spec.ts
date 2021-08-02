@@ -1,6 +1,7 @@
 import { initialState, OrganizationalViewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { AttritionOverTime } from '../../../shared/models';
+import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { ChartType } from '../../models/chart-type.enum';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -104,8 +105,41 @@ describe('Organizational View Selector', () => {
     test('should return data', () => {
       const data = { data: {} } as unknown as AttritionOverTime;
 
-      expect(getAttritionOverTimeOrgChartData.projector(data)).toEqual({
+      const result = getAttritionOverTimeOrgChartData.projector(data);
+      delete result.visualMap.formatter;
+
+      expect(result).toEqual({
         series: [],
+        visualMap: {
+          show: true,
+          dimension: 0,
+          pieces: [
+            {
+              gte: 0,
+              lte: 2,
+              color: Color.GREEN,
+            },
+            {
+              gt: 2,
+              lte: 5,
+              color: Color.BLUE,
+            },
+          ],
+          orient: 'horizontal',
+        },
+        legend: {
+          show: false,
+        },
+        yAxis: {
+          type: 'value',
+          minInterval: 1,
+          axisPointer: {
+            label: {
+              precision: 0,
+            },
+            snap: true,
+          },
+        },
       });
     });
   });

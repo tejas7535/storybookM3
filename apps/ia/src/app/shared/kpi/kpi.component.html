@@ -8,6 +8,7 @@
     *ngIf="employees"
     [disabled]="employees.length === 0"
     (click)="openTeamMemberDialog()"
+    [ngClass]="{ 'cursor-not-allowed': employees.length === 0 }"
   >
     <mat-icon class="pl-2">people</mat-icon>
   </button>
