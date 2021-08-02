@@ -23,7 +23,8 @@
     "bearingType": "Tipo de rodamiento",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Rodamientos de rodillos oscilantes",
-      "selfAligningBallBearing": "Rodamiento oscilante de bolas"
+      "selfAligningBallBearing": "Rodamiento oscilante de bolas",
+      "radialRollerBearing": "Rodamiento radial de rodillos"
     },
     "bearingSeries": "Serie",
     "bearingSeat": "Asiento",

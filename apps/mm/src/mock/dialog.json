@@ -42,6 +42,11 @@
                   "id": 2,
                   "text": "dialog.bearingTypeListValues.selfAligningBallBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp"
+                },
+                {
+                  "id": 4,
+                  "text": "dialog.bearingTypeListValues.radialRollerBearing",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/zyro_unknown.bmp"
                 }
               ]
             }

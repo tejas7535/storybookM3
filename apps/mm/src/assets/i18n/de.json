@@ -23,7 +23,8 @@
     "bearingType": "Lager-Art",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Pendelkugellager",
-      "selfAligningBallBearing": "Pendelrollenlager"
+      "selfAligningBallBearing": "Pendelrollenlager",
+      "radialRollerBearing": "Radialrollenlager"
     },
     "bearingSeries": "Lager-Baureihe",
     "bearingSeat": "Lagersitz",

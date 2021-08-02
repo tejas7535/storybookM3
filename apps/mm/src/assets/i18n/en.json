@@ -23,7 +23,8 @@
     "bearingType": "Bearing type",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Radial self aligning roller bearing",
-      "selfAligningBallBearing": "Self aligning ball bearing"
+      "selfAligningBallBearing": "Self aligning ball bearing",
+      "radialRollerBearing": "Radial roller bearing"
     },
     "bearingSeries": "Bearing series",
     "bearingSeat": "Bearing seat",

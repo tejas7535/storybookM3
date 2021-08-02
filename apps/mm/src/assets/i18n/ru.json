@@ -23,7 +23,8 @@
     "bearingType": "Тип подшипника",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Радиальные сферические роликоподшипники",
-      "selfAligningBallBearing": "Радиальные сферические шарикоподшипники"
+      "selfAligningBallBearing": "Радиальные сферические шарикоподшипники",
+      "radialRollerBearing": "Радиальные роликоподшипники"
     },
     "bearingSeries": "Серия подшипника",
     "bearingSeat": "Гнездо подшипника",

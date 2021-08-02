@@ -23,7 +23,8 @@
     "bearingType": "Type de roulement",
     "bearingTypeListValues": {
       "radialSelfAligningRollerBearing": "Roulement à rotule sur deux rangées de rouleaux",
-      "selfAligningBallBearing": "Roulement à rotule sur billes"
+      "selfAligningBallBearing": "Roulement à rotule sur billes",
+      "radialRollerBearing": "Roulement radial à rouleaux"
     },
     "bearingSeries": "Série de roulement",
     "bearingSeat": "Portée du roulement",
