@@ -87,6 +87,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
 
   public object = this.model.rootObject;
+  public manualBearing = false;
 
   public readonly pagedMetas$ = this.homeStore.pagedMetas$;
   public readonly activePageId$ = this.homeStore.activePageId$;
@@ -129,6 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public selectBearing(id: string): void {
     this.getBearingRelations(id);
+    this.handleActivePageIdChange(PAGE_MOUNTING_MANAGER_SEAT);
   }
 
   public dynamicFormLoaded({ nestedMetas, form }: DynamicFormTemplateContext) {

@@ -1,4 +1,4 @@
-<div class="flex items-center">
+<div class="flex items-center gap-4">
   <div
     class="h-px w-full bg-lightBg mr-4"
     [class.md:hidden]="!alwaysCentered"
@@ -10,11 +10,11 @@
       text-light
       uppercase
       font-medium
-      mr-4
       text-center text-overline
     "
   >
     {{ text }}
   </span>
+  <ng-content></ng-content>
   <div class="h-px w-full bg-lightBg"></div>
 </div>

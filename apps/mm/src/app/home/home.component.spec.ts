@@ -16,6 +16,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX } from '../../testing/mocks/rest.service.mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
 import { PagesStepperModule } from '../core/components/pages-stepper/pages-stepper.module';
 import { MMLocales, RestService } from '../core/services';
@@ -26,8 +27,6 @@ import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
 import { ResultPageModule } from './result-page/result-page.module';
-
-// import { HttpTestingController } from '@angular/common/http/testing';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -100,6 +99,7 @@ describe('HomeComponent', () => {
         useValue: {
           getBearingRelations: jest.fn(() => of(mockBearingRelationsResponse)),
           setCurrentLanguage: jest.fn(() => {}),
+          getLoadOptions: jest.fn(() => of(LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX)),
         },
       },
     ],
@@ -164,12 +164,14 @@ describe('HomeComponent', () => {
   describe('#selectBearing', () => {
     it('should call getBearingRelations at selectBearing', () => {
       component['getBearingRelations'] = jest.fn(() => {});
+      component['handleActivePageIdChange'] = jest.fn(() => {});
       const mockId = 'mockId';
 
       component.selectBearing(mockId);
 
       expect(component['getBearingRelations']).toHaveBeenCalledTimes(1);
       expect(component['getBearingRelations']).toHaveBeenCalledWith(mockId);
+      expect(component['handleActivePageIdChange']).toHaveBeenCalledTimes(1);
     });
   });
 

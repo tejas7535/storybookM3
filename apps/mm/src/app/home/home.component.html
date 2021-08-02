@@ -37,17 +37,22 @@
             ></mm-bearing-search>
           </div>
           <div class="mb-4">
-            <schaeffler-horizontal-separator
-              [text]="t('form.searchManually')"
+            <schaeffler-horizontal-separator [text]="t('form.searchManually')">
+              <mat-slide-toggle
+                color="primary"
+                [(ngModel)]="manualBearing"
+              ></mat-slide-toggle
             ></schaeffler-horizontal-separator>
           </div>
         </ng-container>
-
         <ng-container
           *ngFor="let pagedMeta of pagedMetas$ | ngrxPush; index as pageIndex"
         >
           <ng-container
-            *ngIf="pagedMeta.page.id === (activePageId$ | ngrxPush)"
+            *ngIf="
+              pagedMeta.page.id === (activePageId$ | ngrxPush) &&
+              (manualBearing || pagedMeta.page.id !== RSY_PAGE_BEARING_TYPE)
+            "
           >
             <ng-container *ngFor="let meta of pagedMeta.metas">
               <div

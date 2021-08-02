@@ -46,7 +46,9 @@ Use like:
 <schaeffler-horizontal-separator 
     [text]="separator text"
     [alwaysCentered]="true"
-></schaeffler-horizontal-separator>
+>
+<!-- <div>other content can be displayed next to the text<div> -->
+</schaeffler-horizontal-separator>
 ```
 
 ## Running unit tests

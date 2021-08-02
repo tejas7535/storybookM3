@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 
 @NgModule({
@@ -24,6 +25,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatExpansionModule,
     MatIconModule,
     MatDialogModule,
+    MatSlideToggleModule,
   ],
   exports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatExpansionModule,
     MatIconModule,
     MatDialogModule,
+    MatSlideToggleModule,
   ],
 })
 export class MaterialModule {}
