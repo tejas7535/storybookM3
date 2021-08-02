@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v1.17.0...gq-v1.16.0) (2021-08-02)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed lint rules ([d0d448f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0d448f9097d0b259ab8421b4677fdcb564528fd))
+* **gq:** fixed Price Difference % not correct concerning Price Unit > 1  (GQUOTE-775 ) ([8bd23be](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8bd23be509c73095e9c2f41f7cc7a1e25c4d76bb))
+
+
+### 🎸 Features
+
+* **gq:** add position counter to work area (GQUOTE-565) ([8611832](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8611832403dd254ddcfc95d51971cecd7c501b4c))
+* **gq:** added last offer data to workarea (GQUOTE-629) ([a4e423c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a4e423cb0e78fd4f27e8c53381d11465ef3f2073))
+* **gq:** added lastCustomerPriceDate as column on workarea ([2efda37](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2efda376560a860b252ba83ef92bfb23e5ab4d48))
+* **gq:** added summary page to excel export (GQUOTE-692) ([687124d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/687124d36114b8bab2c2d81cf54a6b720997211a))
+* **gq:** display notification on reimported quotation (GQUOTE-747) ([aa2cae3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/aa2cae3be0720b98494d89c3447a3bfac6277acc))
+* **gq:** displayed relocation cost and plant data (GQUOTE-615) ([ca0d57a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca0d57a141bd9f76d6d40f748c9a829ee5d5813d))
+* **gq:** removed limit for create manual case (GQUOTE-767) ([038f3e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/038f3e8e689157d6b866475ffa6ccd4de16e9369))
+
 ## [1.16.0](///compare/gq-v1.16.0...gq-v1.15.1) (2021-06-30)
 
 
