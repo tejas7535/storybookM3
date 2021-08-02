@@ -24,6 +24,10 @@ export const IDMM_MODULUS_OF_ELASTICITY = 'IDMM_MODULUS_OF_ELASTICITY';
 export const IDMM_POISSON_RATIO = 'IDMM_POISSON_RATIO';
 export const IDMM_MEASSURING_METHOD = 'IDMM_MEASSURING_METHOD';
 export const IDMM_MOUNTING_METHOD = 'IDMM_MOUNTING_METHOD';
+export const IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS =
+  'IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS';
+export const IDMM_CLEARANCE_REDUCTION_INPUT = 'IDMM_CLEARANCE_REDUCTION_INPUT';
+export const IDMM_INNER_SHAFT_DIAMETER = 'IDMM_INNER_SHAFT_DIAMETER';
 
 /* member types */
 export enum MemberTypes {
@@ -37,3 +41,23 @@ export enum MemberTypes {
 /* runtime tables */
 export const TBL_BEARING_PREFLIGHT = 'TBL_BEARING_PREFLIGHT';
 export const TBL_SHAFT_MATERIAL = 'TBL_SHAFT_MATERIAL';
+
+/* members by page */
+export const bearingMembers: string[] = [
+  RSY_BEARING_TYPE,
+  RSY_BEARING_SERIES,
+  RSY_BEARING,
+];
+export const bearingSeatMembers: string[] = [IDMM_BEARING_SEAT];
+export const measuringAndMountingMembers: string[] = [
+  IDMM_MEASSURING_METHOD,
+  IDMM_MOUNTING_METHOD,
+];
+export const calculationOptionsMembers: string[] = [
+  IDMM_HYDRAULIC_NUT_TYPE,
+  IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS,
+  IDMM_CLEARANCE_REDUCTION_INPUT,
+  IDMM_RADIAL_CLEARANCE_REDUCTION,
+  IDMM_INNER_SHAFT_DIAMETER,
+  IDMM_SHAFT_MATERIAL,
+];

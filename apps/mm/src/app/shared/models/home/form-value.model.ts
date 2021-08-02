@@ -2,6 +2,8 @@ export interface FormValue {
   objects: [
     {
       properties: FormValueProperty[];
+      requiresInitialization?: boolean;
+      requiresUpdate?: boolean;
     }
   ];
 }

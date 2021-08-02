@@ -132,6 +132,7 @@ describe('HomeComponent', () => {
     });
 
     it('should reset form on languageSwitch', () => {
+      component['resetFormValue'] = jest.fn(() => {});
       component.resetForm = jest.fn();
       component['form'] = new FormGroup({});
 
@@ -273,75 +274,291 @@ describe('HomeComponent', () => {
     });
   });
 
-  describe('#getResetedFormValue', () => {
+  describe('#resetFormValue', () => {
     const control1: FormValueProperty = {
       name: 'control1',
-      value: 'value1',
-      initialValue: 'initValue1',
+      value: 'initial',
+      initialValue: 'initial',
       dimension1: undefined,
     };
+
     const control2: FormValueProperty = {
       name: 'control2',
-      value: 'value2',
-      initialValue: 'initValue2',
+      value: 'initial',
+      initialValue: 'initial',
       dimension1: undefined,
     };
+
+    let mockFormGroupBearing: any;
+    let mockFormGroupBearingSeat: any;
+    let mockFormGroupMeasuringAndMounting: any;
+    let mockFormGroupCalculationOptions: any;
+
     beforeEach(() => {
-      component['initialFormValue'] = {
+      mockFormGroupBearing = {
+        name: { value: 'RSY_BEARING_TYPE' },
+        initialValue: { value: 'initial' },
+        value: {
+          value: 'initial',
+          patchValue: jest.fn(),
+          markAsPristine: jest.fn(),
+          markAsUntouched: jest.fn(),
+        },
+        get: jest.fn(
+          (property: string) => mockFormGroupBearing[property] || undefined
+        ),
+      };
+
+      mockFormGroupBearingSeat = {
+        name: { value: 'IDMM_BEARING_SEAT' },
+        initialValue: { value: 'initial' },
+        value: {
+          value: 'initial',
+          patchValue: jest.fn(),
+          markAsPristine: jest.fn(),
+          markAsUntouched: jest.fn(),
+        },
+        get: jest.fn(
+          (property: string) => mockFormGroupBearingSeat[property] || undefined
+        ),
+      };
+
+      mockFormGroupMeasuringAndMounting = {
+        name: { value: 'IDMM_MEASSURING_METHOD' },
+        initialValue: { value: 'initial' },
+        value: {
+          value: 'initial',
+          patchValue: jest.fn(),
+          markAsPristine: jest.fn(),
+          markAsUntouched: jest.fn(),
+        },
+        get: jest.fn(
+          (property: string) =>
+            mockFormGroupMeasuringAndMounting[property] || undefined
+        ),
+      };
+
+      mockFormGroupCalculationOptions = {
+        name: { value: 'IDMM_HYDRAULIC_NUT_TYPE' },
+        initialValue: { value: 'initial' },
+        value: {
+          value: 'initial',
+          patchValue: jest.fn(),
+          markAsPristine: jest.fn(),
+          markAsUntouched: jest.fn(),
+        },
+        get: jest.fn(
+          (property: string) =>
+            mockFormGroupCalculationOptions[property] || undefined
+        ),
+      };
+
+      const mockFormArray = {
+        controls: [
+          mockFormGroupBearing,
+          mockFormGroupBearingSeat,
+          mockFormGroupCalculationOptions,
+          mockFormGroupMeasuringAndMounting,
+        ],
+      };
+      component['form'].get = jest.fn(() => mockFormArray as any);
+    });
+
+    it('should do nothing if not property has changed', () => {
+      const unchangedValue: FormValue = {
+        objects: [
+          {
+            properties: [control1, control2],
+          },
+        ],
+      };
+
+      component['resetFormValue'](unchangedValue, unchangedValue);
+
+      expect(component['form'].get).not.toHaveBeenCalled();
+    });
+
+    it('should reset following controls after change in bearingMembers', () => {
+      const prev: FormValue = {
         objects: [
           {
             properties: [
-              { ...control1, value: control1.initialValue },
-              { ...control2, value: control2.initialValue },
+              { ...control1, name: 'RSY_BEARING_TYPE' },
+              { ...control2, name: 'IDMM_BEARING_SEAT' },
             ],
           },
         ],
       };
+      const next: FormValue = {
+        objects: [
+          {
+            properties: [
+              { ...control1, name: 'RSY_BEARING_TYPE', value: 'new value' },
+              { ...control2, name: 'IDMM_BEARING_SEAT' },
+            ],
+          },
+        ],
+      };
+
+      component['resetFormValue'](prev, next);
+
+      expect(component['form'].get).toHaveBeenCalledWith(
+        'objects.0.properties'
+      );
+
+      expect(mockFormGroupBearing.value.patchValue).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsPristine).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsUntouched).not.toHaveBeenCalled();
+
+      expect(mockFormGroupBearingSeat.value.patchValue).toHaveBeenCalled();
+      expect(mockFormGroupBearingSeat.value.markAsPristine).toHaveBeenCalled();
+      expect(mockFormGroupBearingSeat.value.markAsUntouched).toHaveBeenCalled();
+
+      expect(
+        mockFormGroupMeasuringAndMounting.value.patchValue
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupMeasuringAndMounting.value.markAsPristine
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupMeasuringAndMounting.value.markAsUntouched
+      ).toHaveBeenCalled();
+
+      expect(
+        mockFormGroupCalculationOptions.value.patchValue
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupCalculationOptions.value.markAsPristine
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupCalculationOptions.value.markAsUntouched
+      ).toHaveBeenCalled();
     });
-    it('should reset all following controls', () => {
+
+    it('should reset following controls after change in bearingSeatMembers', () => {
       const prev: FormValue = {
         objects: [
           {
-            properties: [control1, control2],
+            properties: [
+              { ...control1, name: 'IDMM_BEARING_SEAT' },
+              { ...control2, name: 'IDMM_MEASSURING_METHOD' },
+            ],
           },
         ],
       };
-
       const next: FormValue = {
         objects: [
           {
-            properties: [{ ...control1, value: 'new value' }, control2],
+            properties: [
+              { ...control1, name: 'IDMM_BEARING_SEAT', value: 'new value' },
+              { ...control2, name: 'IDMM_MEASSURING_METHOD' },
+            ],
           },
         ],
       };
 
-      const resetedFormValue = component['getResetedFormValue'](prev, next);
+      component['resetFormValue'](prev, next);
 
-      expect(resetedFormValue.objects[0].properties[0].value).toEqual(
-        'new value'
+      expect(component['form'].get).toHaveBeenCalledWith(
+        'objects.0.properties'
       );
-      expect(resetedFormValue.objects[0].properties[1].value).toEqual(
-        'initValue2'
-      );
+
+      expect(mockFormGroupBearing.value.patchValue).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsPristine).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsUntouched).not.toHaveBeenCalled();
+
+      expect(mockFormGroupBearingSeat.value.patchValue).not.toHaveBeenCalled();
+      expect(
+        mockFormGroupBearingSeat.value.markAsPristine
+      ).not.toHaveBeenCalled();
+      expect(
+        mockFormGroupBearingSeat.value.markAsUntouched
+      ).not.toHaveBeenCalled();
+
+      expect(
+        mockFormGroupMeasuringAndMounting.value.patchValue
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupMeasuringAndMounting.value.markAsPristine
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupMeasuringAndMounting.value.markAsUntouched
+      ).toHaveBeenCalled();
+
+      expect(
+        mockFormGroupCalculationOptions.value.patchValue
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupCalculationOptions.value.markAsPristine
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupCalculationOptions.value.markAsUntouched
+      ).toHaveBeenCalled();
     });
 
-    it('should return next if nothing has changed', () => {
+    it('should reset following controls after change in measuringAndMountingMembers', () => {
+      const prev: FormValue = {
+        objects: [
+          {
+            properties: [
+              { ...control1, name: 'IDMM_MEASSURING_METHOD' },
+              { ...control2, name: 'IDMM_HYDRAULIC_NUT_TYPE' },
+            ],
+          },
+        ],
+      };
       const next: FormValue = {
         objects: [
           {
-            properties: [control1, control2],
+            properties: [
+              {
+                ...control1,
+                name: 'IDMM_MEASSURING_METHOD',
+                value: 'new value',
+              },
+              { ...control2, name: 'IDMM_HYDRAULIC_NUT_TYPE' },
+            ],
           },
         ],
       };
 
-      const resetedFormValue = component['getResetedFormValue'](next, next);
+      component['resetFormValue'](prev, next);
 
-      expect(resetedFormValue.objects[0].properties[0].value).toEqual(
-        control1.value
+      expect(component['form'].get).toHaveBeenCalledWith(
+        'objects.0.properties'
       );
-      expect(resetedFormValue.objects[0].properties[1].value).toEqual(
-        control2.value
-      );
+
+      expect(mockFormGroupBearing.value.patchValue).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsPristine).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsUntouched).not.toHaveBeenCalled();
+
+      expect(mockFormGroupBearingSeat.value.patchValue).not.toHaveBeenCalled();
+      expect(
+        mockFormGroupBearingSeat.value.markAsPristine
+      ).not.toHaveBeenCalled();
+      expect(
+        mockFormGroupBearingSeat.value.markAsUntouched
+      ).not.toHaveBeenCalled();
+
+      expect(
+        mockFormGroupMeasuringAndMounting.value.patchValue
+      ).not.toHaveBeenCalled();
+      expect(
+        mockFormGroupMeasuringAndMounting.value.markAsPristine
+      ).not.toHaveBeenCalled();
+      expect(
+        mockFormGroupMeasuringAndMounting.value.markAsUntouched
+      ).not.toHaveBeenCalled();
+
+      expect(
+        mockFormGroupCalculationOptions.value.patchValue
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupCalculationOptions.value.markAsPristine
+      ).toHaveBeenCalled();
+      expect(
+        mockFormGroupCalculationOptions.value.markAsUntouched
+      ).toHaveBeenCalled();
     });
   });
 

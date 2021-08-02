@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Subject } from 'rxjs';
@@ -34,8 +34,12 @@ import {
   RestService,
 } from '../core/services';
 import {
+  bearingMembers,
+  bearingSeatMembers,
+  calculationOptionsMembers,
   IDMM_MEASSURING_METHOD,
   IDMM_MOUNTING_METHOD,
+  measuringAndMountingMembers,
   PAGE_MOUNTING_MANAGER_SEAT,
   PAGE_RESULT,
   PROPERTY_PAGE_MOUNTING,
@@ -137,15 +141,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         ([[prev, next], activePageId]: [[FormValue, FormValue], any]) => {
           if (
             activePageId === PROPERTY_PAGE_MOUNTING_SITUATION ||
-            activePageId === PAGE_RESULT
+            activePageId === PAGE_RESULT ||
+            prev === next ||
+            !prev ||
+            !next
           ) {
             return;
           }
-          if (!prev || !next) {
-            return;
-          }
-          const actualNext = this.getResetedFormValue(prev, next);
-          this.form.reset(actualNext, { onlySelf: true, emitEvent: false });
+          this.resetFormValue(prev, next);
         }
       );
 
@@ -184,34 +187,59 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.homeStore.setActivePageId(this.initialPageId);
   }
 
-  private getResetedFormValue(prev: FormValue, next: FormValue): FormValue {
+  private resetFormValue(prev: FormValue, next: FormValue): void {
     const prevProperties = prev.objects[0].properties;
     const nextProperties = next.objects[0].properties;
-    const startIndex = nextProperties.findIndex(
-      (property: FormValueProperty, index: number) =>
-        property.value !== prevProperties[index].value
+    const changedProperty = nextProperties.find(
+      (property: FormValueProperty) => {
+        const prevValue = prevProperties.find(
+          (prevProperty) => prevProperty.name === property.name
+        );
+
+        return prevValue && property.value !== prevValue.value;
+      }
     );
 
-    if (startIndex > -1 && startIndex < nextProperties.length) {
-      const actualNextProperties = nextProperties.map(
-        (property: FormValueProperty, index: number) =>
-          index > startIndex
-            ? this.initialFormValue.objects[0].properties[index]
-            : property
-      );
+    const resetMembers: string[] = [];
 
-      return {
-        ...next,
-        objects: [
-          {
-            ...next.objects[0],
-            properties: [...actualNextProperties],
-          },
-        ],
-      };
+    if (!changedProperty) {
+      return;
     }
 
-    return next;
+    switch (true) {
+      case bearingMembers.includes(changedProperty.name):
+        resetMembers.push(
+          ...bearingSeatMembers,
+          ...measuringAndMountingMembers,
+          ...calculationOptionsMembers
+        );
+        break;
+      case bearingSeatMembers.includes(changedProperty.name):
+        resetMembers.push(
+          ...measuringAndMountingMembers,
+          ...calculationOptionsMembers
+        );
+        break;
+      case measuringAndMountingMembers.includes(changedProperty.name):
+        resetMembers.push(...calculationOptionsMembers);
+        break;
+      default:
+        break;
+    }
+
+    (this.form.get('objects.0.properties') as FormArray).controls
+      .map((control) => control as FormGroup)
+      .map((control: FormGroup) => {
+        const initialValue = control.get('initialValue').value;
+        const name = control.get('name');
+        if (resetMembers.includes(name.value)) {
+          control
+            .get('value')
+            .patchValue(initialValue, { onlySelf: false, emitEvent: false });
+          control.get('value').markAsPristine();
+          control.get('value').markAsUntouched();
+        }
+      });
   }
 
   private handleRouteParams(): void {
