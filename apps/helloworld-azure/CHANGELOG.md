@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v2.2.1...hellworld-azure-v2.2.0) (2021-08-02)
+
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
 ## [2.2.0](///compare/hellworld-azure-v2.2.0...hellworld-azure-v2.1.0) (2021-04-22)
 
 
