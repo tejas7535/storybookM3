@@ -1,47 +1,40 @@
-<div class="flex flex-row overflow-hidden border-b border-border">
-  <mat-form-field
-    matAutocompleteOrigin
-    #origin="matAutocompleteOrigin"
-    class="w-full px-4 border-primary"
-    (keydown.Tab)="$event.preventDefault()"
-  >
-    <input
-      *ngIf="!attachToCustomElement; else attachedPanelInput"
-      type="text"
-      matInput
-      [formControl]="searchControl"
-      #searchInput
-    />
-    <ng-template #attachedPanelInput>
-      <input type="text" matInput [formControl]="searchControl" #searchInput />
-    </ng-template>
-    <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
-  </mat-form-field>
-  <div class="my-auto mx-4">
-    <button
-      mat-button
-      *ngIf="searchControl.value; else searchIcon"
-      mat-icon-button
-      type="button"
-      (click)="$event.stopPropagation(); $event.preventDefault(); focusInput()"
+<div class="flex flex-col">
+  <div class="flex border-b border-border">
+    <mat-form-field
+      class="w-full px-4 border-primary"
+      (keydown.Tab)="$event.preventDefault()"
     >
-      <mat-icon class="text-light">cancel</mat-icon>
-    </button>
-    <ng-template #searchIcon>
-      <mat-icon class="text-light">search</mat-icon>
-    </ng-template>
+      <input type="text" matInput [formControl]="searchControl" #searchInput />
+      <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+    </mat-form-field>
+    <div class="my-auto mx-4">
+      <button
+        mat-button
+        *ngIf="searchControl.value; else searchIcon"
+        mat-icon-button
+        type="button"
+        (click)="
+          $event.stopPropagation(); $event.preventDefault(); focusInput()
+        "
+      >
+        <mat-icon class="text-light">cancel</mat-icon>
+      </button>
+      <ng-template #searchIcon>
+        <mat-icon class="text-light">search</mat-icon>
+      </ng-template>
+    </div>
   </div>
-</div>
-<div class="custom-scrollbar max-h-48 overflow-auto">
-  <mat-option
-    *ngFor="let option of filteredOptions$ | ngrxPush"
-    [value]="option.value"
-    (click)="select(option)"
-    (onSelectionChange)="onOptionSelect($event)"
-    [ngClass]="{
-      'mat-selected': option === selectedItem
-    }"
-  >
-    {{ option.value }}
-  </mat-option>
+  <div class="custom-scrollbar max-h-48 overflow-auto">
+    <mat-option
+      *ngFor="let option of filteredOptions$ | ngrxPush"
+      [value]="option.value"
+      (click)="select(option)"
+      (onSelectionChange)="onOptionSelect($event)"
+      [ngClass]="{
+        'mat-selected': option === selectedItem
+      }"
+    >
+      {{ option.value }}
+    </mat-option>
+  </div>
 </div>

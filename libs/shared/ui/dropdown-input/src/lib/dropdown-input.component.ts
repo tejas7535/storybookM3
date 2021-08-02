@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   Output,
 } from '@angular/core';
@@ -42,7 +43,26 @@ export class DropdownInputComponent implements ControlValueAccessor {
   public selectionControl = new FormControl();
   public selectedItem?: DropdownInputOption;
 
-  public constructor(private readonly cdRef: ChangeDetectorRef) {}
+  public isMobile = false;
+
+  public selectPanel: ElementRef | undefined = undefined;
+
+  public constructor(private readonly cdRef: ChangeDetectorRef) {
+    this.isMobile = /android/i.test(window.navigator.userAgent);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  public onResize() {
+    setTimeout(() => {
+      if (this.selectPanel && this.isMobile) {
+        const overlayContainerStyle =
+          this.selectPanel.nativeElement.parentElement.parentElement.style;
+        const bottom = overlayContainerStyle.bottom;
+        overlayContainerStyle.bottom = bottom > 0 ? bottom : '10px';
+        overlayContainerStyle.top = 'auto';
+      }
+    }, 50);
+  }
 
   public onOpenedChange(
     open: boolean,
@@ -50,10 +70,13 @@ export class DropdownInputComponent implements ControlValueAccessor {
     selectPanel: ElementRef
   ) {
     if (open) {
-      selectPanel.nativeElement.parentElement.parentElement.parentElement.classList.add(
-        'select-overlay'
-      );
-      autocomplete.focusInput();
+      this.selectPanel = selectPanel;
+
+      if (!this.isMobile) {
+        autocomplete.focusInput();
+      }
+    } else {
+      this.selectPanel = undefined;
     }
   }
 

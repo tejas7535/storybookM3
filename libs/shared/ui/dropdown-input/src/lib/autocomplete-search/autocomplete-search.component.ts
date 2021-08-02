@@ -2,18 +2,12 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Host,
   Input,
   OnInit,
-  Optional,
   Output,
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  MatAutocompleteOrigin,
-  MatAutocompleteTrigger,
-} from '@angular/material/autocomplete';
 import { MatOptionSelectionChange } from '@angular/material/core/option';
 
 import { Observable } from 'rxjs';
@@ -29,24 +23,15 @@ import { DropdownInputOption } from '../dropdown-input-option.model';
 export class AutocompleteSearchComponent implements OnInit {
   @Input() public options: DropdownInputOption[] = [];
   @Input() public hint!: string;
-  @Input() public attachToCustomElement = false;
   @Input() public selectedItem?: DropdownInputOption;
 
   @Output() public optionSelected = new EventEmitter<DropdownInputOption>();
   @Output() public updateSearch = new EventEmitter<string>();
 
   @ViewChild('searchInput') public searchInput!: ElementRef;
-  @ViewChild(MatAutocompleteTrigger, { read: MatAutocompleteTrigger })
-  public _autocompleteTriggerElement!: MatAutocompleteTrigger;
 
   public filteredOptions$!: Observable<DropdownInputOption[]>;
   public searchControl = new FormControl('');
-
-  public constructor(
-    @Host()
-    @Optional()
-    public readonly _autocompletePanelElement: MatAutocompleteOrigin
-  ) {}
 
   public ngOnInit(): void {
     this.filteredOptions$ = this.searchControl.valueChanges.pipe(

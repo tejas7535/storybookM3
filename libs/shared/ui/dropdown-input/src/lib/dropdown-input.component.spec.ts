@@ -64,10 +64,6 @@ describe('DropdownInputComponent', () => {
       );
 
       expect(mockAutocomplete.focusInput).toHaveBeenCalled();
-      expect(
-        mockSelectPanel.nativeElement.parentElement.parentElement.parentElement
-          .classList.add
-      ).toHaveBeenCalledWith('select-overlay');
     });
 
     it('should do nothing when panel is closed', () => {
@@ -95,10 +91,36 @@ describe('DropdownInputComponent', () => {
       );
 
       expect(mockAutocomplete.focusInput).not.toHaveBeenCalled();
-      expect(
-        mockSelectPanel.nativeElement.parentElement.parentElement.parentElement
-          .classList.add
-      ).not.toHaveBeenCalled();
+      expect(component.selectPanel).toBe(undefined);
+    });
+
+    it('should not focus on mobile', () => {
+      component.isMobile = true;
+      const mockAutocomplete = {
+        focusInput: jest.fn(),
+      };
+      const mockSelectPanel = {
+        nativeElement: {
+          parentElement: {
+            parentElement: {
+              parentElement: {
+                classList: {
+                  add: jest.fn(),
+                },
+              },
+            },
+          },
+        },
+      };
+
+      component.onOpenedChange(
+        true,
+        mockAutocomplete as unknown as AutocompleteSearchComponent,
+        mockSelectPanel
+      );
+
+      expect(mockAutocomplete.focusInput).not.toHaveBeenCalled();
+      expect(component.selectPanel).toEqual(mockSelectPanel);
     });
   });
 
@@ -156,5 +178,59 @@ describe('DropdownInputComponent', () => {
     expect(component.value).toEqual(mockValue.id);
     expect(changeSpy).toHaveBeenCalledWith(mockValue.id);
     expect(touchSpy).toHaveBeenCalledTimes(1);
+  });
+
+  test('onResize', (done) => {
+    const style = {
+      bottom: 20,
+      top: 20,
+    };
+
+    component.isMobile = true;
+    component.selectPanel = {
+      nativeElement: {
+        parentElement: {
+          parentElement: {
+            style,
+          },
+        },
+      },
+    };
+
+    component.onResize();
+
+    setTimeout(() => {
+      expect(
+        component.selectPanel?.nativeElement.parentElement.parentElement.style
+      ).toEqual({ bottom: 20, top: 'auto' });
+      done();
+    }, 200);
+  });
+
+  test('onResize with negative bot', (done) => {
+    const style = {
+      bottom: -20,
+      top: 20,
+    };
+
+    component.isMobile = true;
+    component.selectPanel = {
+      nativeElement: {
+        parentElement: {
+          parentElement: {
+            style,
+          },
+        },
+      },
+    };
+
+    component.onResize();
+
+    setTimeout(() => {
+      expect(
+        component.selectPanel?.nativeElement.parentElement.parentElement.style
+      ).toEqual({ bottom: '10px', top: 'auto' });
+      done();
+    }, 200);
   });
 });
