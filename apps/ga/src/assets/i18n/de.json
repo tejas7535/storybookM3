@@ -3,12 +3,12 @@
     "greaseApp": "Grease App",
     "greaseCalculator": "Grease Calculator",
     "startCalc": "Start",
-    "lubricators": "Lubricators",
-    "concept": "Concept",
+    "lubricators": "Schmierstoffgeber",
+    "concept": "Konzept",
     "placeholderText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum ornare bibendum. Duis imperdiet lacinia magna, ut tempor ligula molestie ut. Pellentesque ac suscipit nisi, eu fermentum magna. Nullam sit amet justo maximus, ultricies sem molestie, faucibus diam. Duis facilisis consectetur orci. Cras sollicitudin consectetur mi, sit amet scelerisque quam tincidunt nec. Vestibulum at suscipit velit.",
     "faqs": "FAQs",
-    "catalog": "Product Catalog",
-    "greases": "Greases",
-    "learnMore": "Learn More"
+    "catalog": "Produktkatalog",
+    "greases": "Fette",
+    "learnMore": "Mehr erfahren"
   }
 }
