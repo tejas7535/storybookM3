@@ -34,6 +34,7 @@ export class QuotationDetail {
   public relocationCost: number;
   public relocatedProductionPlant: Plant;
   public lastOfferDetail: LastOfferDetail;
+  public comment: string;
 
   // properties added in GQ application
   public netValue: number;

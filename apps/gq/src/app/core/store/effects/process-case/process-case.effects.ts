@@ -357,11 +357,12 @@ export class ProcessCaseEffect {
 
   private showUpdateQuotationDetailToast(update: UpdateQuotationDetail): void {
     let translateString = `shared.snackBarMessages.`;
-
     if (update.price) {
       translateString += 'updateSelectedPrice';
     } else if (update.orderQuantity) {
       translateString += 'updateQuantity';
+    } else {
+      translateString += 'updateComment';
     }
     this.snackBarService.showSuccessMessage(translate(translateString));
   }

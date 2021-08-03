@@ -33,7 +33,8 @@
       "relocCountry": "Reloc. Country",
       "lastOfferPrice": "Last Offer Price",
       "lastOfferDate": "Last Offer Date",
-      "reasonForRejection": "Reason For Rejection"
+      "reasonForRejection": "Reason For Rejection",
+      "comment": "Comment"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",
@@ -171,6 +172,7 @@
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedPrice": "Price selection was saved",
       "updateQuantity": "Quantity change was saved",
+      "updateComment": "Comment change was saved",
       "uploadSelectionSuccess": "The item selection was saved in SAP",
       "wrongPriceEditInput": "Please enter a numeric price value",
       "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00"

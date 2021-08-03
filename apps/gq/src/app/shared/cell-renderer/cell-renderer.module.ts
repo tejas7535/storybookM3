@@ -9,6 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { CreateCaseActionCellComponent } from './action-cells/create-case-action-cell/create-case-action-cell.component';
 import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
+import { EditCommentComponent } from './edit-comment/edit-comment.component';
 import { EditPriceComponent } from './edit-price/edit-price.component';
 import { EditQuantityComponent } from './edit-quantity/edit-quantity.component';
 import { EditingPriceComponent } from './editing-price/editing-price.component';
@@ -30,6 +31,7 @@ import { PositionIdComponent } from './position-id/position-id.component';
     EditingQuantityComponent,
     PositionIdComponent,
     GqIdComponent,
+    EditCommentComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +52,7 @@ import { PositionIdComponent } from './position-id/position-id.component';
     EditingQuantityComponent,
     PositionIdComponent,
     GqIdComponent,
+    EditCommentComponent,
   ],
 })
 export class CellRendererModule {}

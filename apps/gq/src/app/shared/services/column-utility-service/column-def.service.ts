@@ -4,12 +4,13 @@ import { ColDef, ValueSetterParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { SnackBarService } from '@schaeffler/snackbar';
+
 import { updateQuotationDetails } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
 import { PriceSource } from '../../models/quotation-detail';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 @Injectable({
   providedIn: 'root',
@@ -207,6 +208,12 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpsd'),
       field: 'material.gpsdGroupId',
       valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.comment'),
+      field: 'comment',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      cellRenderer: 'editCommentComponent',
     },
   ];
 

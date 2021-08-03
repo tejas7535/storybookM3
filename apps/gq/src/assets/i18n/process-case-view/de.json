@@ -23,5 +23,10 @@
     "subtitle1": "Es kann etwas länger dauern, bis alle Daten gezogen sind und der Case verfügbar wird.",
     "subtitle2": " Bitte beachten Sie, dass die Bearbeitungszeit variieren kann, je nachdem wie viele Positionen enthalten sind.",
     "refreshText": "Bitte aktualisieren Sie die Seite, um zu prüfen, ob Ihr Case verfügbar ist."
+  },
+  "editingCommentModal": {
+    "title": "Kommentar bearbeiten für Position {{id}}",
+    "confirm": "Bestätigen",
+    "cancel": "Zurück"
   }
 }

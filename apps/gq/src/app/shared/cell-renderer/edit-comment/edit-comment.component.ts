@@ -1,0 +1,28 @@
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { CellClassParams } from '@ag-grid-community/all-modules';
+
+import { EditingCommentModalComponent } from '../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
+import { QuotationDetail } from '../../models/quotation-detail';
+
+@Component({
+  selector: 'gq-edit-comment',
+  templateUrl: './edit-comment.component.html',
+})
+export class EditCommentComponent {
+  public detail: QuotationDetail;
+
+  constructor(public dialog: MatDialog) {}
+  agInit(params: CellClassParams): void {
+    this.detail = params.data;
+  }
+  onIconClick(): void {
+    this.dialog.open(EditingCommentModalComponent, {
+      width: '50%',
+      height: '300px',
+      data: this.detail,
+      disableClose: true,
+    });
+  }
+}

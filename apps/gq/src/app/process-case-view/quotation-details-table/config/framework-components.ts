@@ -1,3 +1,4 @@
+import { EditCommentComponent } from '../../../shared/cell-renderer/edit-comment/edit-comment.component';
 import { EditPriceComponent } from '../../../shared/cell-renderer/edit-price/edit-price.component';
 import { EditQuantityComponent } from '../../../shared/cell-renderer/edit-quantity/edit-quantity.component';
 import { EditingPriceComponent } from '../../../shared/cell-renderer/editing-price/editing-price.component';
@@ -24,4 +25,5 @@ export const FRAMEWORK_COMPONENTS = {
   uploadSelectionToSapButtonComponent: UploadSelectionToSapButtonComponent,
   exportToExcelButtonComponent: ExportToExcelButtonComponent,
   positionIdComponent: PositionIdComponent,
+  editCommentComponent: EditCommentComponent,
 };

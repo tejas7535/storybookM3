@@ -46,4 +46,5 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   relocatedProductionPlant: PLANT_MOCK,
   rlm: 0.65,
   lastOfferDetail: LAST_OFFER_DETAIL_MOCK,
+  comment: 'testcomment',
 };
