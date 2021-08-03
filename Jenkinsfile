@@ -194,6 +194,16 @@ def getBuildTriggerUser() {
     }
 }
 
+def getAgentLabel() {
+    def label = '(docker && linux && extratools) || monorepo'
+
+    if (isNightly()) {
+        label = 'monorepo'
+    }
+
+    return label
+}
+
 def deployPackages(target, uploadFile, checksum) {
     withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
         sh "curl --insecure -v -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target}\" -T ${uploadFile}"
@@ -224,7 +234,7 @@ def getNxRunnerConfig() {
 /****************************************************************/
 pipeline {
     agent {
-        label '(docker && linux && extratools) || monorepo'
+        label getAgentLabel()
     }
 
     options {
@@ -406,6 +416,24 @@ pipeline {
                                         }
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+
+                stage('Cleanup Nx-Cache') {
+                    steps {
+                        script {
+                            // get disk space used
+                            def diskUsagePercentString = sh (
+                                script: """df -h --output=pcent /dev/sdb1  | awk 'NR>1 {print \$1 | "sort -r -k3 -n"}' | awk '{print substr(\$1, 1, length(\$1)-1)}'""",
+                                returnStdout: true
+                            )
+
+                            // delete nx-cache only when disk usage is over 80%
+                            if (diskUsagePercentString.toInteger() > 80) {
+                                sh "rm -rf /home/adp-jenkins/temp/nx-cache"
+                                sh "mkdir /home/adp-jenkins/temp/nx-cache"
                             }
                         }
                     }
