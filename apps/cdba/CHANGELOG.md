@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.28.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v1.28.0...cdba-v1.27.1) (2021-08-03)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** better AG Grid filtering options for decimal values (DSCDA-2538) ([fbd1628](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fbd16280e9f46166f652732d543dec16dd662722))
+
+
+### 🎸 Features
+
+* **cdba:** improve role related behaviour (DSCDA-2454) ([996b8d4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/996b8d480db9c3a17ebce807d075357860d7524d))
+
 ### [1.27.1](///compare/cdba-v1.27.1...cdba-v1.27.0) (2021-07-21)
 
 
