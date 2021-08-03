@@ -64,7 +64,13 @@ export class PagesStepperComponent implements OnChanges {
   }
 
   public activate(event: StepperSelectionEvent): void {
-    this.activePageIdChange.emit(event.selectedStep.label);
+    setTimeout(() => {
+      if (event.selectedStep.ariaLabelledby === 'disabled') {
+        event.previouslySelectedStep.select();
+      } else {
+        this.activePageIdChange.emit(event.selectedStep.label);
+      }
+    }, 0);
   }
 
   public prev(): void {

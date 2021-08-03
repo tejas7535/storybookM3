@@ -1,4 +1,4 @@
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { CdkStep, StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 
@@ -28,144 +28,192 @@ describe('PagesStepperComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  test('hasNext should return true if there is another page', () => {
-    component.activePageId = 'mockPageId1';
-    component.pages = [
-      {
-        id: 'mockPageId1',
-        visible: true,
-      },
-      {
-        id: 'mockPageId2',
-        visible: true,
-      },
-    ] as PageMetaStatus[];
+  describe('#hasNext', () => {
+    it('should return true if there is another page', () => {
+      component.activePageId = 'mockPageId1';
+      component.pages = [
+        {
+          id: 'mockPageId1',
+          visible: true,
+        },
+        {
+          id: 'mockPageId2',
+          visible: true,
+        },
+      ] as PageMetaStatus[];
 
-    expect(component.hasNext).toBeTruthy();
+      expect(component.hasNext).toBeTruthy();
+    });
   });
 
-  test('hasResultNext should return true if the next page is the result page', () => {
-    component.activePageId = 'mockPageId2';
-    component.pages = [
-      {
-        id: 'mockPageId1',
-        visible: true,
-      },
-      {
-        id: 'mockPageId2',
-        visible: true,
-      },
-      {
-        id: 'PAGE_RESULT',
-        visible: true,
-      },
-    ] as PageMetaStatus[];
+  describe('#hasResultNext', () => {
+    it('should return true if the next page is the result page', () => {
+      component.activePageId = 'mockPageId2';
+      component.pages = [
+        {
+          id: 'mockPageId1',
+          visible: true,
+        },
+        {
+          id: 'mockPageId2',
+          visible: true,
+        },
+        {
+          id: 'PAGE_RESULT',
+          visible: true,
+        },
+      ] as PageMetaStatus[];
 
-    expect(component.hasResultNext).toBeTruthy();
+      expect(component.hasResultNext).toBeTruthy();
+    });
   });
 
-  test('hasPrev should return true if there are one or more page before', () => {
-    component.activePageId = 'mockPageId2';
-    component.pages = [
-      {
-        id: 'mockPageId1',
-        visible: true,
-      },
-      {
-        id: 'mockPageId2',
-        visible: true,
-      },
-    ] as PageMetaStatus[];
+  describe('#hasPrev', () => {
+    test('hasPrev should return true if there are one or more page before', () => {
+      component.activePageId = 'mockPageId2';
+      component.pages = [
+        {
+          id: 'mockPageId1',
+          visible: true,
+        },
+        {
+          id: 'mockPageId2',
+          visible: true,
+        },
+      ] as PageMetaStatus[];
 
-    expect(component.hasPrev).toBeTruthy();
+      expect(component.hasPrev).toBeTruthy();
+    });
   });
 
-  test('ngOnChanges filter down the pages to the parent ones', () => {
-    component.pages = [
-      {
-        id: 'mockPageIdParent',
-        visible: true,
-        isParent: true,
-      },
-      {
-        id: 'mockPageIdChildren',
-        visible: true,
-      },
-    ] as PageMetaStatus[];
+  describe('#ngOnChanges', () => {
+    it('should filter down the pages to the parent ones', () => {
+      component.pages = [
+        {
+          id: 'mockPageIdParent',
+          visible: true,
+          isParent: true,
+        },
+        {
+          id: 'mockPageIdChildren',
+          visible: true,
+        },
+      ] as PageMetaStatus[];
 
-    component.ngOnChanges();
-    expect(component.pages).toEqual([
-      {
-        id: 'mockPageIdParent',
-        visible: true,
-        isParent: true,
-      },
-    ]);
+      component.ngOnChanges();
+      expect(component.pages).toEqual([
+        {
+          id: 'mockPageIdParent',
+          visible: true,
+          isParent: true,
+        },
+      ]);
+    });
   });
 
-  test('activate should emit a activePageChange', () => {
-    const spy = jest.spyOn(component.activePageIdChange, 'emit');
-    const mockPage = {
-      selectedStep: { label: 'MOCK_PAGE_ID' },
-    } as StepperSelectionEvent;
+  describe('#activate', () => {
+    it('should emit a activePageChange for enabled pages', (done) => {
+      const spy = jest.spyOn(component.activePageIdChange, 'emit');
+      const selectSpy = jest.fn(() => {});
+      const mockPage = {
+        selectedStep: { label: 'MOCK_PAGE_ID', ariaLabelledby: 'very enabled' },
+        previouslySelectedStep: {
+          label: 'ANOTHER_PAGE_ID',
+          select: selectSpy,
+        } as unknown as CdkStep,
+      } as StepperSelectionEvent;
 
-    component.activate(mockPage);
-    expect(spy).toBeCalledTimes(1);
+      component.activate(mockPage);
+
+      setTimeout(() => {
+        expect(spy).toBeCalledTimes(1);
+        expect(selectSpy).not.toHaveBeenCalled();
+        done();
+      }, 100);
+    });
+
+    it('should select the previous page for diabled pages', (done) => {
+      const spy = jest.spyOn(component.activePageIdChange, 'emit');
+      const selectSpy = jest.fn(() => {});
+      const mockPage = {
+        selectedStep: { label: 'MOCK_PAGE_ID', ariaLabelledby: 'disabled' },
+        previouslySelectedStep: {
+          label: 'ANOTHER_PAGE_ID',
+          select: selectSpy,
+        } as unknown as CdkStep,
+      } as StepperSelectionEvent;
+
+      component.activate(mockPage);
+
+      setTimeout(() => {
+        expect(spy).not.toHaveBeenCalled();
+        expect(selectSpy).toHaveBeenCalledTimes(1);
+        done();
+      }, 100);
+    });
   });
 
-  test('prev', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const spy = jest.spyOn(component, 'navigatePage');
+  describe('#prev', () => {
+    it('should call navigatePage with -1', () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const spy = jest.spyOn(component, 'navigatePage');
 
-    component.prev();
-    expect(spy).toHaveBeenCalledWith(-1);
+      component.prev();
+      expect(spy).toHaveBeenCalledWith(-1);
+    });
   });
 
-  test('next', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const spy = jest.spyOn(component, 'navigatePage');
+  describe('#next', () => {
+    it('should call navigatePage with 1', () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const spy = jest.spyOn(component, 'navigatePage');
 
-    component.next();
-    expect(spy).toBeCalledWith(1);
+      component.next();
+      expect(spy).toBeCalledWith(1);
+    });
   });
 
-  test('navigatePage should emit activePageIdChange', () => {
-    component.activePageId = 'mockPageId1';
-    component.pages = [
-      {
-        id: 'mockPageId1',
-        visible: true,
-      },
-      {
-        id: 'mockPageId2',
-        visible: true,
-      },
-    ] as PageMetaStatus[];
-    const spy = jest.spyOn(component.activePageIdChange, 'emit');
+  describe('#navigatePage', () => {
+    it('should emit activePageIdChange', () => {
+      component.activePageId = 'mockPageId1';
+      component.pages = [
+        {
+          id: 'mockPageId1',
+          visible: true,
+        },
+        {
+          id: 'mockPageId2',
+          visible: true,
+        },
+      ] as PageMetaStatus[];
+      const spy = jest.spyOn(component.activePageIdChange, 'emit');
 
-    component['navigatePage'](1);
-    expect(spy).toBeCalledTimes(1);
+      component['navigatePage'](1);
+      expect(spy).toBeCalledTimes(1);
+    });
   });
 
-  test('getVisiblePages should return an array of visble pages', () => {
-    component.pages = [
-      {
-        id: 'mockPageId1',
-        visible: true,
-      },
-      {
-        id: 'mockPageId2',
-        visible: false,
-      },
-    ] as PageMetaStatus[];
+  describe('#getVisiblePages', () => {
+    it('should return an array of visble pages', () => {
+      component.pages = [
+        {
+          id: 'mockPageId1',
+          visible: true,
+        },
+        {
+          id: 'mockPageId2',
+          visible: false,
+        },
+      ] as PageMetaStatus[];
 
-    expect(component['getVisiblePages']()).toEqual([
-      {
-        id: 'mockPageId1',
-        visible: true,
-      },
-    ]);
+      expect(component['getVisiblePages']()).toEqual([
+        {
+          id: 'mockPageId1',
+          visible: true,
+        },
+      ]);
+    });
   });
 });
