@@ -6,17 +6,17 @@
     "decimalSeparatorPoint": "Point"
   },
   "form": {
-    "select": "Select {{fieldname}} fr",
-    "calculateResults": "Calculate Results fr",
-    "searchManually": "or configure manually fr",
-    "chooseOption": "Choose an option fr",
-    "searchLoading": "Fetching data... fr",
-    "searchNoResults": "No Results fr"
+    "select": "Sélectionner le {{fieldname}}",
+    "calculateResults": "Calculer les résultats",
+    "searchManually": "ou configurer manuellement",
+    "chooseOption": "Choisissez une option",
+    "searchLoading": "Récupération des données...",
+    "searchNoResults": "Aucun résultat"
   },
   "languageDialog": {
-    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input. fr",
-    "confirm": "confirm fr",
-    "cancel": "cancel fr"
+    "content": "Veuillez noter que le changement de langue entraînera un rafraîchissement de la page et que vous perdrez toutes vos données.",
+    "confirm": "confirmer",
+    "cancel": "annuler"
   },
   "dialog": {
     "bearing": "Roulement",
@@ -71,9 +71,9 @@
     "report": "Rapport"
   },
   "result": {
-    "title": "Report fr",
-    "downloadReport": "Download Report fr",
-    "startNewCalculation": "Start new Calculation fr"
+    "title": "Rapport",
+    "downloadReport": "Télécharger le rapport",
+    "startNewCalculation": "Commencer un nouveau calcul"
   },
-  "settings": "Settings fr"
+  "settings": "Paramètres"
 }
