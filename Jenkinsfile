@@ -173,8 +173,8 @@ def getCodeOwners(appName) {
             for (int i = 0; i < splitted.size(); i++) {
                 // dont push first element this would be the app name "apps/helloworld-azure" and we just want the codeowners
                 if (i != 0) {
-                    // currently codeowners are strings like "@userId" -> we want to remove the @ -> "userId"
-                    codeOwners.push(splitted[i].replaceAll('@', '').toLowerCase())
+                    // currently codeowners are strings like "@userId_SGGIT" -> we want to remove the @ and the postfix SGGIT -> "userId"
+                    codeOwners.push(splitted[i].replace('@', '').replace('_SGGIT', '').toLowerCase())
                 }
             }
         }
@@ -184,9 +184,14 @@ def getCodeOwners(appName) {
 }
 
 def getBuildTriggerUser() {
-    // currentbuild.... returns "[userId@schaeffler.com]" -> remove first [ then split at @ and get first element -> userId
-    def userId = "${currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause').userId}".replaceAll('\\[', '').split('@')[0].toLowerCase()
-    return userId
+    def jenkinsUserId = "${currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause').userId}".replace('[', '').replace(']', '').toLowerCase()
+
+    if (jenkinsUserId.contains("schaeffler")) {
+        return jenkinsUserId.split('@')[0]
+    } else {
+        // for non schaeffler users / external developers
+        return jenkinsUserId.replace('.', '').replace('_', '').replace('-', '').replace('@', '')
+    }
 }
 
 def deployPackages(target, uploadFile, checksum) {
@@ -205,7 +210,7 @@ def artifactoryFileCanBeRemoved(artifactoryFile) {
 // remove @ because frontend deployment pipelines add docker tags with BRANCH_NAME as value and '@' is not allowed in docker tags
 // example: depeendency update branch 'renovate/@nrwlnx' will get a docker tag of 'renovate-@nrwlnx' -> remove the @
 def getFilteredBranchName() {
-    return "${BRANCH_NAME}".replaceAll('@', '')
+    return "${BRANCH_NAME}".replace('@', '')
 }
 
 def getNxRunnerConfig() {
@@ -289,17 +294,19 @@ pipeline {
                                     parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join('\n'), description: 'What is the release scope?')]
                             }
 
-                            // def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
-                            // def userWhoTriggeredBuild = getBuildTriggerUser()
+                            def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
+                            def userWhoTriggeredBuild = getBuildTriggerUser()
 
                             // first check if user is the app code owner
-                            // if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
-                            //     // if not check if user is workspace owner
-                            //     def workSpaceOwners = getCodeOwners('workspace')
-                            //     if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
-                            //         error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
-                            //     }
-                            // }
+                            if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
+                                // if not check if user is workspace owner
+                                def workSpaceOwners = getCodeOwners('workspace')
+                                if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                                    error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
+                                }
+                            }
+                            println("User ${userWhoTriggeredBuild} passed codeowner check for ${env.RELEASE_SCOPE}")
+
                         } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
                             aborted = true
                         }
@@ -308,14 +315,13 @@ pipeline {
                             currentBuild.result = 'ABORTED'
                             skipBuild = true
                         }
+                    } else if (isLibsRelease()) {
+                        def userWhoTriggeredBuild = getBuildTriggerUser()
+                        def workSpaceOwners = getCodeOwners('workspace')
+                        if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                            error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
+                        }
                     }
-                    //  else if (isLibsRelease()) {
-                    //     def userWhoTriggeredBuild = getBuildTriggerUser()
-                    //     def workSpaceOwners = getCodeOwners('workspace')
-                    //     if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
-                    //         error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
-                    //     }
-                    // }
                 }
 
                 defineBuildBase()
