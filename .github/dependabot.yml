@@ -10,9 +10,9 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - 'Dependency Update'
-    commit_message:
+    commit-message:
       prefix: 'chore'
-      include_scope: true
+      include: 'scope'
     ignore:
       - dependency-name: '@angular/*'
       - dependency-name: '@nrwl/*'
