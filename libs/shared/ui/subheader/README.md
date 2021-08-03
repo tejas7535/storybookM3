@@ -55,6 +55,11 @@ Use like:
       place your own custom back button here
     <ng-container>
   -->
+  <!-- 
+    <ng-container titleContent>
+      place your own custom addtional title content here
+    <ng-container>
+  -->
   <ng-container header>
     place content here
   <ng-container>

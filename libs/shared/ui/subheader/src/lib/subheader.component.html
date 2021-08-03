@@ -15,6 +15,7 @@
     >
     <h4 class="!text-[22px] sm:!text-h4 ml-5 flex-auto font-body truncate">
       {{ title }}
+      <ng-content select="[titleContent]"></ng-content>
     </h4>
     <div class="flex-none ml-5">
       <ng-content select="[header]"></ng-content>
