@@ -1,0 +1,25 @@
+# Specify the number of open pull requests allowed
+
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    # Disable version updates for npm dependencies
+    open-pull-requests-limit: 5
+    labels:
+      - 'Dependency Update'
+    commit_message:
+      prefix: 'chore'
+      include_scope: true
+    ignore:
+      - dependency-name: '@angular/*'
+      - dependency-name: '@nrwl/*'
+      - dependency-name: '@ngrx/*'
+      - dependency-name: '@storybook/*'
+      - dependency-name: '@ag-grid-*'
+      - dependency-name: '@angular-eslint/*'
+      - dependency-name: '@typescript-eslint/*'
+      - dependency-name: 'eslint'
+      - dependency-name: 'eslint-*'
