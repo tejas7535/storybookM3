@@ -78,6 +78,10 @@ export class SnackBarService {
     return this.showMessage(snackBarConfig);
   }
 
+  public dismiss(): void {
+    this.snackBar.dismiss();
+  }
+
   /**
    * opens the snackbar with the given config
    */

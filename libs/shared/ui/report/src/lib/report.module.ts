@@ -5,6 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ReportComponent } from './report.component';
@@ -18,8 +20,10 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     MatButtonModule,
     MatExpansionModule,
     ReactiveComponentModule,
+    SnackBarModule,
   ],
   declarations: [ReportComponent, SafeHtmlPipe],
+  providers: [SnackBarService],
   exports: [ReportComponent],
 })
 export class ReportModule {}

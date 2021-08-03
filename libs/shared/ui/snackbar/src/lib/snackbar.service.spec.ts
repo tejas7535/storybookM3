@@ -162,6 +162,15 @@ describe('SnackBarService', () => {
     });
   });
 
+  describe('#dismiss()', () => {
+    test('should call MatSnackBar dismiss', () => {
+      const spy = jest.spyOn(snackBar, 'dismiss');
+      snackBarService.dismiss();
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
   describe('#showMessage()', () => {
     test('should call openComponent with SnackBarComponent and given config', () => {
       const spy = jest.spyOn(snackBar, 'openFromComponent');

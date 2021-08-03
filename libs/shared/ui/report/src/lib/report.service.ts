@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 interface Content {
   title: string;
@@ -52,7 +52,8 @@ export class ReportService {
           }, []);
 
         return structuredContent;
-      })
+      }),
+      catchError(() => throwError(() => new Error('Unexpected error')))
     );
   }
 }

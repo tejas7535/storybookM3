@@ -9,6 +9,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { IconsModule } from '@schaeffler/icons';
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { throwError, of } from 'rxjs';
 
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
@@ -17,6 +19,8 @@ describe('ReportComponent', () => {
   let component: ReportComponent;
   let spectator: Spectator<ReportComponent>;
   let reportService: ReportService;
+  let snackbarService: SnackBarService;
+  let shouldThrowAnError = false;
 
   const createComponent = createComponentFactory({
     component: ReportComponent,
@@ -32,21 +36,36 @@ describe('ReportComponent', () => {
       MatIconModule,
       MatButtonModule,
       MatExpansionModule,
+      SnackBarModule,
     ],
     providers: [
       {
         provide: ReportService,
         useValue: {
-          getReport: jest.fn(() => {}),
+          getReport: jest.fn(() =>
+            shouldThrowAnError
+              ? throwError(() => new Error('sometext'))
+              : of({})
+          ),
         },
       },
     ],
   });
 
   beforeEach(() => {
+    shouldThrowAnError = false;
+    Object.defineProperty(window, 'matchMedia', {
+      value: () => ({
+        matches: false,
+        addListener: () => {},
+        removeListener: () => {},
+      }),
+    });
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     reportService = spectator.inject(ReportService);
+    snackbarService = spectator.inject(SnackBarService);
+    snackbarService.showErrorMessage = jest.fn();
 
     component.displayReport = 'mockDisplayReportUrl';
     component.title = 'mockTitle';
@@ -62,6 +81,15 @@ describe('ReportComponent', () => {
     component.result$.subscribe(() => {
       expect(reportService.getReport).toBeCalledTimes(1);
       expect(reportService.getReport).toBeCalledWith('mockDisplayReportUrl');
+    });
+  });
+
+  it('getReport should call snackbar service if report service throws an error', () => {
+    shouldThrowAnError = true;
+    component.getReport();
+
+    component.result$.subscribe(() => {
+      expect(snackbarService.showErrorMessage).toBeCalledTimes(1);
     });
   });
 });

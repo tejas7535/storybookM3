@@ -39,6 +39,8 @@ API of Report Component:
   @Input() public subtitle?: string;
   @Input() public displayReport: string;
   @Input() public downloadReport?: string;
+  @Input() public errorMsg: string = 'Unfortunately an error occured. Please try again later.';
+  @Input() public actionText: string = 'Retry';
 ```
 
 Use like:
@@ -52,6 +54,8 @@ Use like:
     [subtitle]="'Report ID (todo)'"
     [displayReport]="result.htmlReportUrl"
     [downloadReport]="result.pdfReportUrl"
+    [errorMsg]="translatedErrorMsg"
+    [actionText]="translatedActionText"
   >
   <div>Any content you want to show under the report in the card</div>
 <schaeffler-report>
@@ -64,5 +68,7 @@ public title = 'my title';
 public img = 'my subtitle';
 public displayReport = 'url-to-html-repo.rt'
 public downloadReport = 'url-to-pdf-repo.rt'
+public errorMsg = 'some error message'
+public actionText = 'some action text'
 ```
 

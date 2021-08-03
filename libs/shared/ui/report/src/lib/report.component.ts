@@ -1,6 +1,14 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { SnackBarService } from '@schaeffler/snackbar';
 
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { ReportService } from './report.service';
 
@@ -11,21 +19,44 @@ import { ReportService } from './report.service';
   providers: [ReportService],
   encapsulation: ViewEncapsulation.None,
 })
-export class ReportComponent implements OnInit {
+export class ReportComponent implements OnInit, OnDestroy {
   @Input() public title!: string;
   @Input() public subtitle?: string;
   @Input() public displayReport!: string;
   @Input() public downloadReport?: string;
+  @Input() public errorMsg =
+    'Unfortunately an error occured. Please try again later.';
+  @Input() public actionText = 'Retry';
 
-  public result$!: Observable<string>;
+  public result$ = new Subject<string>();
+  private readonly destroy$ = new Subject<void>();
 
-  public constructor(private readonly reportService: ReportService) {}
+  public constructor(
+    private readonly reportService: ReportService,
+    private readonly snackbarService: SnackBarService
+  ) {}
 
   public ngOnInit(): void {
     this.getReport();
   }
 
+  public ngOnDestroy(): void {
+    this.snackbarService.dismiss();
+    this.destroy$.next();
+  }
+
   public getReport(): void {
-    this.result$ = this.reportService.getReport(this.displayReport);
+    this.reportService
+      .getReport(this.displayReport)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => this.result$.next(result),
+        error: () => {
+          this.snackbarService
+            .showErrorMessage(this.errorMsg, this.actionText, true)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.getReport());
+        },
+      });
   }
 }
