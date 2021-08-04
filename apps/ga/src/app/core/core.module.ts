@@ -1,21 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { StoreModule } from './store/store.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [SidebarComponent],
   imports: [
     CommonModule,
+    StoreModule,
 
     // UI Modules
+    HeaderModule,
     FooterTailwindModule,
     IconsModule,
+
+    // Material Modules
+    MatSidenavModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
@@ -36,6 +45,6 @@ import { environment } from '../../environments/environment';
     // HTTP
     HttpClientModule,
   ],
-  exports: [FooterTailwindModule],
+  exports: [FooterTailwindModule, HeaderModule, SidebarComponent, StoreModule],
 })
 export class CoreModule {}
