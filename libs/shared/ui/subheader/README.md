@@ -35,31 +35,23 @@ import { SubheaderModule } from '@schaeffler/subheader';
 API of Subheader Component:
 
 ```typescript
-  @Input() showBackButton = true // true by default, can be disabled if you want to pass in your own custom backButton via `ng-container`
+  @Input() showBackButton: boolean; // true on default, can be disabled if no back button is needed
+
+  @Input() breadcrumbs: Breadcrumb[] // list of breadcrumbs for schaeffler-breadcrumbs. If this input is provided, the backButton automatically navigates to second to last breadcrumb 
 
   @Input() title = '' // title of the subheader
 
-  @Output() backButtonClicked // event that is triggered when the default backButton is clicked, only emitted if @Input() showBackButton = true
+  @Output() backButtonClicked // only is emitted if there are no breadcrumbs as input or breadcrumb.length < 2
 ```
 
 Use like:
 
 ```html
 <!-- comp-xy.component.html -->
-<schaeffler-subheader title="Search Results | 69 Findings" (backButtonClicked)="navigate()">
-  <ng-container breadcrumbs>
-    <schaeffler-breadcrumbs [breadcrumbs]="breadcrumbs"></schaeffler-breadcrumbs>
+<schaeffler-subheader title="Search Results | 69 Findings" [breadcrumbs]="breadcrumbs">  
+  <ng-container titleContent>
+    place your own custom addtional title content here
   </ng-container>
-  <!-- 
-    <ng-container backButton>
-      place your own custom back button here
-    <ng-container>
-  -->
-  <!-- 
-    <ng-container titleContent>
-      place your own custom addtional title content here
-    <ng-container>
-  -->
   <ng-container header>
     place content here
   <ng-container>
@@ -75,9 +67,6 @@ Use like:
 
   public breadcrumbs: BreadCrumbs[] = [
     {label: 'Label', url: '/page', queryParams: {queryParam: 'value'}}
+    {label: 'Label2', url: '/page2', queryParams: {queryParam: 'value2'}}
   ]
-
-  public navigate():void {
-    // execute navigation logic
-  }
 ```

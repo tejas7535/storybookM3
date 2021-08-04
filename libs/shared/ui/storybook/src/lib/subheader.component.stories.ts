@@ -1,4 +1,5 @@
-import { CommonModule } from '@angular/common';
+import { APP_BASE_HREF, CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { object } from '@storybook/addon-knobs';
 
@@ -9,7 +10,14 @@ import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 import READMEMd from '../../../sidebar/README.md';
 
 const moduleMetadata = {
-  imports: [HeaderModule, CommonModule, SubheaderModule, BreadcrumbsModule],
+  imports: [
+    HeaderModule,
+    CommonModule,
+    SubheaderModule,
+    BreadcrumbsModule,
+    RouterModule.forRoot([{ path: 'base', component: SubheaderComponent }]),
+  ],
+  providers: [{ provide: APP_BASE_HREF, useValue: 'base' }],
   component: SubheaderComponent,
 };
 
@@ -41,9 +49,7 @@ export const primary = () => ({
   template: `
     <schaeffler-subheader
       title="Search Results | 69 Findings"
+      [breadcrumbs]="breadcrumbs"
     >
-      <ng-container breadcrumbs>
-        <schaeffler-breadcrumbs [breadcrumbs]="breadcrumbs"></schaeffler-breadcrumbs>
-      </ng-container>
     </schaeffler-subheader>`,
 });
