@@ -15,7 +15,8 @@ export const appRoutePaths: Routes = [
   },
   {
     path: '**',
-    redirectTo: RoutePath.BasePath,
+    loadChildren: async () =>
+      import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];
 
