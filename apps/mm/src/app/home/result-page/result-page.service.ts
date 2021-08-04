@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@ngneat/transloco';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { Report, Result } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 
 @Injectable()
 export class ResultPageService {
-  public constructor(private readonly restService: RestService) {}
+  public constructor(
+    private readonly restService: RestService,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   public getResult(formProperties: any): Observable<Result> {
     return this.restService.getBearingCalculationResult(formProperties).pipe(
@@ -23,7 +27,12 @@ export class ResultPageService {
           .pop().href;
 
         return { htmlReportUrl, pdfReportUrl };
-      })
+      }),
+      catchError(() =>
+        throwError(
+          () => new Error(this.translocoService.translate('error.content'))
+        )
+      )
     );
   }
 }

@@ -75,6 +75,11 @@
     "downloadReport": "Bericht herunterladen",
     "startNewCalculation": "Neue Berechnung starten"
   },
+  "error": {
+    "content": "Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+    "confirm": "Verstanden",
+    "retry": "Erneut versuchen"
+  },
   "settings": "Einstellungen",
   "legal": {
     "goToHome": "Zurück zu Home",

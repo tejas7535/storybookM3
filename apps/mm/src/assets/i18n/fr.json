@@ -75,5 +75,10 @@
     "downloadReport": "Télécharger le rapport",
     "startNewCalculation": "Commencer un nouveau calcul"
   },
-  "settings": "Paramètres"
+  "settings": "Paramètres",
+  "error": {
+    "content": "Malheureusement, une erreur s'est produite. Veuillez réessayer plus tard.",
+    "confirm": "Confirmer",
+    "retry": "Réessayer"
+  }
 }

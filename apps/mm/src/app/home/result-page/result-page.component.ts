@@ -1,7 +1,16 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { TranslocoService } from '@ngneat/transloco';
+import { SnackBarService } from '@schaeffler/snackbar';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { RawValue, RawValueContent, Result } from '../../shared/models';
 import { ResultPageService } from './result-page.service';
@@ -11,15 +20,40 @@ import { ResultPageService } from './result-page.service';
   templateUrl: './result-page.component.html',
   providers: [ResultPageService],
 })
-export class ResultPageComponent {
+export class ResultPageComponent implements OnDestroy, OnChanges {
   @Input() public active? = false;
   @Input() public bearing? = '';
 
-  public result$: Observable<Result>;
+  public result$ = new BehaviorSubject<Result>(undefined);
+  public error$ = new BehaviorSubject<boolean>(false);
+  private readonly inactive$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
+  private lastFormData?: FormGroup;
 
-  public constructor(private readonly resultPageService: ResultPageService) {}
+  public constructor(
+    private readonly resultPageService: ResultPageService,
+    private readonly snackbarService: SnackBarService,
+    private readonly translocoService: TranslocoService
+  ) {}
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (!changes.active?.currentValue) {
+      this.inactive$.next();
+      this.snackbarService.dismiss();
+    }
+    if (changes.active?.currentValue && this.error$.value) {
+      this.send(this.lastFormData);
+    }
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   public send(form: FormGroup): void {
+    this.error$.next(false);
+    this.lastFormData = form;
     // TODO: check lint rules
     const formProperties = form
       .getRawValue()
@@ -39,11 +73,38 @@ export class ResultPageComponent {
         {}
       );
 
-    this.result$ = this.resultPageService.getResult(formProperties);
+    this.resultPageService
+      .getResult(formProperties)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this.result$.next(result);
+        },
+        error: (err) => {
+          this.error$.next(true);
+          this.snackbarService
+            .showErrorMessage(
+              err,
+              this.translocoService.translate('error.retry'),
+              true
+            )
+            .pipe(takeUntil(this.inactive$))
+            .subscribe(() => {
+              this.send(form);
+            });
+        },
+      });
+  }
+
+  public get errorMsg(): string {
+    return this.translocoService.translate('error.content');
+  }
+
+  public get actionText(): string {
+    return this.translocoService.translate('error.retry');
   }
 
   public resetWizard(): void {
-    // eslint-disable-next-line no-console
-    console.log('go to step first possible step');
+    window.location.reload();
   }
 }

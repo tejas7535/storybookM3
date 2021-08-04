@@ -75,6 +75,11 @@
     "downloadReport": "Download Report",
     "startNewCalculation": "Start new Calculation"
   },
+  "error": {
+    "content": "Unfortunately an error occured. Please try again later.",
+    "confirm": "Confirm",
+    "retry": "Retry"
+  },
   "settings": "Settings",
   "legal": {
     "goToHome": "Back to Home",

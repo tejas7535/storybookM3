@@ -4,6 +4,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { RestService } from '../../core/services';
 import { ResultPageService } from './result-page.service';
+import { TranslocoService } from '@ngneat/transloco';
 
 describe('ResultPageService testing', () => {
   let spectator: SpectatorService<ResultPageService>;
@@ -37,6 +38,12 @@ describe('ResultPageService testing', () => {
         provide: RestService,
         useValue: {
           getBearingCalculationResult: jest.fn(() => of(mockResponse)),
+        },
+      },
+      {
+        provide: TranslocoService,
+        useValue: {
+          translate: jest.fn(() => 'some text'),
         },
       },
     ],
