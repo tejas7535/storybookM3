@@ -12,8 +12,8 @@
     </mm-sidebar>
   </schaeffler-header>
 
-  <div *ngIf="embedded" class="h-full w-full">
-    <div class="w-full fixed z-10 bg-white">
+  <div *ngIf="embedded" class="h-full w-full fixed">
+    <div class="fixed z-10 bg-white">
       <button
         (click)="sidebar.toggle()"
         mat-icon-button
@@ -37,7 +37,10 @@
       [ngClass]="embedded ? 'bg-white' : 'bg-background'"
       class="min-h-full flex flex-col"
     >
-      <div class="flex-auto md:m-4 px-4 pb-4 bg-white">
+      <div
+        [ngClass]="embedded ? 'mt-5 pt-5 m-0 p-0' : 'md:m-4 px-4 pb-4'"
+        class="flex-auto bg-white"
+      >
         <router-outlet></router-outlet>
         <div
           class="mx-auto max-w-screen-md w-full"

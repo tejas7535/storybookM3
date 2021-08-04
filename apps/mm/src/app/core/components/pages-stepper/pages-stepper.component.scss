@@ -25,15 +25,15 @@
 }
 
 ::ng-deep .mat-horizontal-stepper-header-container {
-  :first-child {
+  mat-step-header {
     @apply pl-4;
+  }
 
-    mat-icon {
-      @apply pl-0;
-    }
+  .mat-stepper-horizontal-line {
+    @apply -ml-4 -mr-1;
   }
 
   :last-child {
-    @apply pr-4;
+    @apply pr-0;
   }
 }
