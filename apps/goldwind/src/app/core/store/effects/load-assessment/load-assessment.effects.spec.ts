@@ -10,10 +10,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { LOAD_SENSE } from '../../../../../testing/mocks';
 import { RestService } from '../../../http/rest.service';
 import {
-  getGreaseStatus,
-  getGreaseStatusSuccess,
-} from '../../actions/grease-status/grease-status.actions';
-import {
   getLoadAssessmentId,
   setLoadAssessmentInterval,
 } from '../../actions/load-assessment/load-assessment.actions';
@@ -25,7 +21,6 @@ import {
 } from '../../actions/load-sense/load-sense.actions';
 import { getShaft, getShaftSuccess } from '../../actions/shaft/shaft.actions';
 import * as fromRouter from '../../reducers';
-import { GcmStatus } from '../../reducers/grease-status/models';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { getLoadAssessmentInterval } from '../../selectors';
@@ -157,74 +152,14 @@ describe('LoadAssessmentEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcdef)', {
-          b: getGreaseStatus({ deviceId }),
-          c: getLoadAverage({ deviceId }),
-          d: getCenterLoad({ deviceId }),
-          e: getBearingLoad({ deviceId }),
-          f: getShaft({ deviceId }),
+        const expected = m.cold('-(bcde)', {
+          b: getLoadAverage({ deviceId }),
+          c: getCenterLoad({ deviceId }),
+          d: getBearingLoad({ deviceId }),
+          e: getShaft({ deviceId }),
         });
 
         m.expect(effects.loadAssessmentId$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('greaseStatus$', () => {
-    beforeEach(() => {
-      action = getGreaseStatus({ deviceId });
-    });
-
-    it(
-      'should return getGreaseStatusSuccess action when REST call is successful',
-      marbles((m) => {
-        const mockGcmStatus: GcmStatus[] = [
-          {
-            deviceId: '1',
-            gcm01TemperatureOptics: 500,
-            gcm01TemperatureOpticsMin: 1,
-            gcm01TemperatureOpticsMax: 1000,
-            gcm01Deterioration: 19,
-            gcm01DeteriorationMin: 22,
-            gcm01DeteriorationMax: 33,
-            gcm01WaterContent: 0,
-            gcm01WaterContentMin: 0,
-            gcm01WaterContentMax: 1,
-            gcm02TemperatureOptics: 0,
-            gcm02TemperatureOpticsMin: 0,
-            gcm02TemperatureOpticsMax: 0,
-            gcm02Deterioration: 0,
-            gcm02DeteriorationMin: 0,
-            gcm02DeteriorationMax: 0,
-            gcm02WaterContent: 0,
-            gcm02WaterContentMin: 0,
-            gcm02WaterContentMax: 0,
-            timestamp: '2020-08-02T16:18:59Z',
-          },
-        ];
-
-        const result = getGreaseStatusSuccess({
-          gcmStatus: mockGcmStatus,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: mockGcmStatus,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        restService.getGreaseStatus = jest.fn(() => response);
-
-        m.expect(effects.greaseStatus$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
-        expect(restService.getGreaseStatus).toHaveBeenCalledWith({
-          id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
-        });
       })
     );
   });

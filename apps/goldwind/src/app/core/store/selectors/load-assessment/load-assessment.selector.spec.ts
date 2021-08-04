@@ -87,14 +87,7 @@ describe('Load Assessment Selector', () => {
     },
     loadAssessment: {
       display: {
-        deterioration_1: true,
-        waterContent_1: true,
-        temperatureOptics_1: true,
-        deterioration_2: true,
-        waterContent_2: true,
-        temperatureOptics_2: true,
         rsmShaftSpeed: true,
-        centerLoad: false,
         lsp01Strain: true,
         centerLoadFx: true,
       },
@@ -117,90 +110,24 @@ describe('Load Assessment Selector', () => {
     it('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
-          data: [
-            'deterioration_1',
-            'waterContent_1',
-            'temperatureOptics_1',
-            'deterioration_2',
-            'waterContent_2',
-            'temperatureOptics_2',
-            'rsmShaftSpeed',
-            'lsp01Strain',
-            'centerLoadFx',
-          ],
+          data: ['rsmShaftSpeed', 'lsp01Strain', 'centerLoadFx'],
         },
         series: [
           {
-            name: 'deterioration_1',
-            type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '12.12'],
-              },
-            ],
-          },
-          {
-            name: 'waterContent_1',
-            type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '69.00'],
-              },
-            ],
-          },
-          {
-            name: 'temperatureOptics_1',
-            type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '99.99'],
-              },
-            ],
-          },
-          {
-            name: 'deterioration_2',
-            type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '22.00'],
-              },
-            ],
-          },
-          {
-            name: 'waterContent_2',
-            type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '11.11'],
-              },
-            ],
-          },
-          {
-            name: 'temperatureOptics_2',
-            type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '33.33'],
-              },
-            ],
-          },
-          {
             name: 'rsmShaftSpeed',
             type: 'line',
+            symbol: 'none',
             data: [
               {
                 value: [new Date('2020-11-12T18:31:56.954Z'), '3.00'],
               },
             ],
           },
-          {
-            name: 'centerLoad',
-            type: 'line',
-            data: [],
-          },
+
           {
             name: 'lsp01Strain',
             type: 'line',
+            symbol: 'none',
             data: [
               {
                 value: [new Date('2020-11-04T09:39:19.499Z'), '1.00'],
@@ -210,6 +137,7 @@ describe('Load Assessment Selector', () => {
           {
             name: 'centerLoadFx',
             type: 'line',
+            symbol: 'none',
             data: [
               {
                 value: [new Date('2020-11-04T09:39:19.499Z'), '1.00'],

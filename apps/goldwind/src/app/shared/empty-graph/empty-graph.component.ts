@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-import { GraphData } from '../../core/store/reducers/shared/models';
+import { EChartsOption, LegendComponentOption, SeriesOption } from 'echarts';
 
 @Component({
   selector: 'goldwind-empty-graph',
@@ -8,12 +7,12 @@ import { GraphData } from '../../core/store/reducers/shared/models';
   styleUrls: ['./empty-graph.component.scss'],
 })
 export class EmptyGraphComponent {
-  @Input() graphData: GraphData;
+  @Input() graphData: EChartsOption;
 
   emptyGraphData(): boolean {
     return (
-      this.graphData?.legend.data.length !== 0 &&
-      (this.graphData?.series as any)?.filter(
+      (this.graphData?.legend as LegendComponentOption)?.data.length > 0 &&
+      (this.graphData?.series as SeriesOption[])?.filter(
         (series: any) => series?.data?.length > 0
       ).length === 0
     );

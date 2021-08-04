@@ -18,6 +18,7 @@ import * as fromLoadSense from './load-sense/load-sense.reducer';
 import * as fromCenterLoad from './center-load/center-load.reducer';
 import * as fromShaft from './shaft/shaft.reducer';
 import * as fromStaticSafety from './static-safety/static-safety.reducer';
+import { ChartState } from '../../../shared/chart/chart.state';
 
 export interface RouterStateUrl {
   url: string;
@@ -62,6 +63,10 @@ export const getGreaseStatusState =
 
 export const getLoadAssessmentState =
   createFeatureSelector<fromLoadAssement.LoadAssessmentState>('loadAssessment');
+
+export const getMaintenanceAssessmentState = createFeatureSelector<ChartState>(
+  'maintenanceAssessment'
+);
 
 export const getShaftState =
   createFeatureSelector<fromShaft.ShaftState>('shaft');

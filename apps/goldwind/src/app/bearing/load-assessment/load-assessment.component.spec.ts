@@ -1,22 +1,16 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTreeModule } from '@angular/material/tree';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { DISPLAY } from '../../../testing/mocks';
 import {
   setLoadAssessmentDisplay,
   setLoadAssessmentInterval,
-} from '../../core/store/actions/load-assessment/load-assessment.actions';
+} from '../../core/store';
 import { BearingMetadata } from '../../core/store/reducers/bearing/models';
-import { DATE_FORMAT } from '../../shared/constants';
-import { DateRangeModule } from '../../shared/date-range/date-range.module';
-import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
+import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
 import { LoadAssessmentComponent } from './load-assessment.component';
 
@@ -57,20 +51,11 @@ describe('LoadAssessmentComponent', () => {
     component: LoadAssessmentComponent,
     imports: [
       ReactiveFormsModule,
-      DateRangeModule,
-      EmptyGraphModule,
+      AssessmentLinechartModule,
       CenterLoadModule,
 
       // Material Modules
       MatCardModule,
-      MatCheckboxModule,
-      MatTreeModule,
-      MatIconModule,
-
-      // ECharts
-      NgxEchartsModule.forRoot({
-        echarts: async () => import('echarts'),
-      }),
     ],
     providers: [
       provideMockStore({
@@ -142,109 +127,6 @@ describe('LoadAssessmentComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         setLoadAssessmentInterval({ interval: mockInterval })
       );
-    });
-  });
-
-  describe('chartOptions', () => {
-    it('should call legend formatter method', () => {
-      const mockLabelName = 'waterContent_1';
-      component.formatLegend = jest.fn();
-
-      const legendFormatter = (component.chartOptions.legend as any).formatter;
-      legendFormatter(mockLabelName);
-
-      expect(component.formatLegend).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call tooltip formatter method', () => {
-      const mockParams = [
-        {
-          seriesName: 'waterContent_1',
-          data: {
-            value: [new Date(), 123],
-          },
-        },
-      ];
-      component.formatTooltip = jest.fn();
-
-      const tooltipFormatter = (component.chartOptions.tooltip as any)
-        .formatter;
-      tooltipFormatter(mockParams);
-
-      expect(component.formatTooltip).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('formatLegend', () => {
-    it('should return a translated text with physical symbol', () => {
-      const mockLabelName = 'waterContent_1';
-      const formattedMockLabel = 'greaseStatus.waterContent_1 (%)';
-
-      expect(component.formatLegend(mockLabelName)).toBe(formattedMockLabel);
-    });
-  });
-
-  describe('checkChannels', () => {
-    it('should do sth with the channels', () => {
-      component.displayForm.setValue(DISPLAY);
-
-      component.checkChannels();
-
-      component.dataSource.data[1].formControl.markAsDirty();
-      component.dataSource.data[1].formControl.patchValue(false);
-
-      expect(component.displayForm.value).toEqual({
-        waterContent_1: true,
-        deterioration_1: true,
-        temperatureOptics_1: true,
-        waterContent_2: true,
-        deterioration_2: true,
-        temperatureOptics_2: true,
-        rsmShaftSpeed: true,
-        centerLoadFx: false,
-        centerLoadFy: false,
-        centerLoadFz: false,
-        centerLoadMy: false,
-        centerLoadMz: false,
-        lsp01Strain: false,
-        lsp02Strain: false,
-        lsp03Strain: false,
-        lsp04Strain: false,
-        lsp05Strain: false,
-        lsp06Strain: false,
-        lsp07Strain: false,
-        lsp08Strain: false,
-        lsp09Strain: false,
-        lsp10Strain: false,
-        lsp11Strain: false,
-        lsp12Strain: false,
-        lsp13Strain: false,
-        lsp14Strain: false,
-        lsp15Strain: false,
-        lsp16Strain: false,
-      });
-    });
-  });
-
-  describe('formatTooltip', () => {
-    it('should return a translated texts with physical symbols and date', () => {
-      const mockDate = new Date(1_466_424_490_000);
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
-      const mockParams = [
-        {
-          seriesName: 'waterContent_1',
-          data: {
-            value: [new Date(), 123],
-          },
-        },
-      ];
-      const formattedMockTooltip = `greaseStatus.waterContent_1: 123 %<br>${mockDate.toLocaleString(
-        DATE_FORMAT.local,
-        DATE_FORMAT.options
-      )} ${mockDate.toLocaleTimeString(DATE_FORMAT.local)}`;
-
-      expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
-      jest.resetAllMocks();
     });
   });
 });

@@ -10,6 +10,7 @@
     "live": "Live",
     "loadAssessment": "Load Assessment",
     "mainBearing": "Main Bearing",
+    "maintenanceAssessment": "Maintenance Assessment",
     "noMeasurements": "There are no measurements for the selected daterange",
     "offline": "Offline",
     "overview": "Dashboard"
@@ -23,7 +24,7 @@
       "rotor": "Rotor",
       "rotorAverage": "Rotor Average",
       "time": "Time",
-      "title": "Bearing center load",
+      "title": "Bearing Load Distribution",
       "updateFrequency": "Update frequency"
     },
     "conditionMeasuringEquipment": {
@@ -121,13 +122,26 @@
     "lsp14Strain": "Load Sense Pin 14 (Generator)",
     "lsp15Strain": "Load Sense Pin 15 (Rotor)",
     "lsp16Strain": "Load Sense Pin 16 (Generator)",
-    "pleaseSelectTrendsToShow": "Sensor Channels",
+    "pleaseSelectTrendsToShow": "Sensor Panels & Channels",
     "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
     "rsmShaftSpeed": "Rotor Rotation Speed",
     "temperatureOptics": "Grease Temperatur",
     "temperatureOptics_1": "Grease Temperatur 1",
     "temperatureOptics_2": "Grease Temperatur 2",
     "title": "Grease Status",
+    "waterContent": "Water Content",
+    "waterContent_1": "Water Content 1",
+    "waterContent_2": "Water Content 2"
+  },
+  "maintenanceAssessment": {
+    "deterioration": "Deterioration",
+    "deterioration_1": "Deterioration 1",
+    "deterioration_2": "Deterioration 2",
+    "greaseMonitor": "Grease Monitor",
+    "pleaseSelectTrendsToShow": "Sensor Panels & Channels",
+    "temperatureOptics": "Grease Temperatur",
+    "temperatureOptics_1": "Grease Temperatur 1",
+    "temperatureOptics_2": "Grease Temperatur 2",
     "waterContent": "Water Content",
     "waterContent_1": "Water Content 1",
     "waterContent_2": "Water Content 2"

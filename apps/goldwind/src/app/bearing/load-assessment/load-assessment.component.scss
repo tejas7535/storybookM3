@@ -3,36 +3,3 @@
 :host {
   width: 100%;
 }
-
-.chart {
-  min-height: 55vh;
-}
-
-ul {
-  list-style-type: none;
-}
-
-::ng-deep mat-checkbox .mat-checkbox-label {
-  color: $schaeffler-carbon-gray;
-}
-
-.grid-container {
-  display: grid;
-  grid-column-gap: 16px;
-  grid-row-gap: 16px;
-  grid-template-columns: 3fr 1fr;
-  height: 100%;
-}
-
-.sensor-tree .mat-tree-node {
-  min-height: 30px;
-}
-
-// TODO replace with tailwind
-.card-title {
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 20px;
-  font-weight: 500;
-  margin-block-end: 8px;
-  margin-block-start: 16px;
-}

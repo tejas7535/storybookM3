@@ -3,8 +3,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { EChartsOption } from 'echarts';
 
-import { GraphData } from '../../core/store/reducers/shared/models';
 import { EmptyGraphComponent } from './empty-graph.component';
 
 describe('StatusIndicatorComponent', () => {
@@ -28,7 +28,7 @@ describe('StatusIndicatorComponent', () => {
 
   describe('emptyGreaseStatusGraphData', () => {
     it('should return true if none of the grease status graph datas contain data but legends exist', () => {
-      const mockgraphData: GraphData = {
+      const mockgraphData: EChartsOption = {
         legend: {
           data: ['deteriorationPercent', 'temperatureOptics'],
         },
@@ -51,7 +51,7 @@ describe('StatusIndicatorComponent', () => {
     });
 
     it('should return false if none of the grease status graph datas contain but also no legend is active', () => {
-      const mockgraphData: GraphData = {
+      const mockgraphData: EChartsOption = {
         legend: {
           data: [],
         },

@@ -1,0 +1,252 @@
+import { FlatTreeControl } from '@angular/cdk/tree';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
+import { translate } from '@ngneat/transloco';
+import { EChartsOption } from 'echarts';
+import { DATE_FORMAT } from '../../constants';
+import { Control, SensorNode, ExampleFlatNode } from '../../models';
+import { axisChartOptions } from '../chart';
+import {
+  MatTree,
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
+import { filter, Observable, of, Subscription } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Interval } from '../../../core/store/reducers/shared/models';
+@Component({
+  selector: 'goldwind-assessment-linechart',
+  templateUrl: './assessment-linechart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AssessmentLinechartComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  /**
+   * The Tree with contains the tree elements
+   */
+  @ViewChild('tree') tree: MatTree<any>;
+  /**
+   * Some elements with name and label informations
+   */
+  @Input() ASSESSMENT_CONTROLS: Control[] = [];
+  /**
+   * a translate object from transloco
+   */
+  @Input() translate: any = translate;
+  /**
+   *
+   */
+  @Input() displayForm: FormGroup = new FormGroup({
+    default: new FormControl(''),
+  });
+  /**
+   * Input Tree Data from used component
+   */
+  @Input() TREE_DATA: SensorNode[] = [];
+  /**
+   * The graph content
+   */
+  @Input() graphData$: Observable<EChartsOption>;
+  /**
+   * the interval / date range to display
+   */
+  @Input() interval$: Observable<Interval> = of({
+    startDate: Date.now() * 1000,
+    endDate: Date.now() * 1000,
+  } as Interval);
+  /**
+   * the current display state observable typically from store
+   */
+  @Input() displayNodes$: Observable<any> = of();
+  /**
+   * a emitter to pass a chosen interval to the parent to refresh the data
+   */
+  @Output() interval: EventEmitter<Interval> = new EventEmitter();
+  /**
+   * Used to push changes in the ui to the parent
+   */
+  @Output() displayChange: EventEmitter<any> = new EventEmitter();
+
+  /**
+   * TODO:
+   */
+  treeControl = new FlatTreeControl<ExampleFlatNode>(
+    (node) => node.level,
+    (node) => node.expandable
+  );
+  /*
+   * Default configuration for the line chart
+   */
+  chartOptions: EChartsOption = {
+    ...axisChartOptions,
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '10%',
+      containLabel: true,
+    },
+    legend: {
+      ...axisChartOptions.legend,
+      type: 'scroll',
+      itemHeight: 2,
+      itemWidth: 16,
+      bottom: 0,
+      formatter: (name: string) => this.formatLegend(name),
+    },
+    tooltip: {
+      ...axisChartOptions.tooltip,
+      formatter: (params: any) => this.formatTooltip(params),
+    },
+  };
+  /**
+   * A data source to render the tree
+   */
+  dataSource: MatTreeFlatDataSource<SensorNode, ExampleFlatNode>;
+  /**
+   *
+   * @param display property to display certain fields
+   */
+  updateNode(display: any) {
+    this.displayForm.markAsPristine();
+    this.displayForm.setValue(display);
+    this.dataSource.data.forEach((sensorNode: SensorNode, index: number) => {
+      const sensorNodeValues = sensorNode.children.map(
+        ({ formControl }) => this.displayForm.controls[formControl].value
+      );
+      const indeterminate = [...new Set(sensorNodeValues)].length > 1;
+
+      sensorNode.formControl.setValue(sensorNodeValues.every((value) => value));
+      sensorNode.formControl.markAsPristine();
+
+      this.dataSource.data[index].indeterminate = indeterminate;
+    });
+  }
+  /**
+   * Formates the legend with found control name
+   */
+  formatLegend(name: string): string {
+    const { label, unit } = this.ASSESSMENT_CONTROLS.find(
+      ({ formControl }) => formControl === name
+    );
+
+    return `${translate(`greaseStatus.${label}`)} (${unit})`;
+  }
+  /* eslint-disable @typescript-eslint/member-ordering */
+  private readonly _transformer = (node: SensorNode, level: number) => {
+    const { children, name, ...rest } = node;
+
+    return {
+      expandable: !!children && children.length > 0,
+      level,
+      name,
+      ...rest,
+    } as ExampleFlatNode;
+  };
+  /**
+   *
+   */
+  treeFlattener = new MatTreeFlattener(
+    this._transformer,
+    (node: any) => node.level,
+    (node: any) => node.expandable,
+    (node: any) => node.children
+  );
+  private readonly subscription: Subscription = new Subscription();
+
+  /**
+   * Formates the tooltip
+   */
+  formatTooltip(params: any): string {
+    return (
+      Array.isArray(params) &&
+      // eslint-disable-next-line unicorn/no-array-reduce
+      params.reduce((acc, param, index) => {
+        const { label, unit } = this.ASSESSMENT_CONTROLS.find(
+          ({ formControl }) => formControl === param.seriesName
+        );
+
+        const result = `${acc}${translate(`greaseStatus.${label}`)}: ${
+          param.data.value[1]
+        } ${unit}<br>`;
+
+        return index === params.length - 1
+          ? `${result}${new Date(param.data.value[0]).toLocaleString(
+              DATE_FORMAT.local,
+              DATE_FORMAT.options
+            )} ${new Date(param.data.value[0]).toLocaleTimeString(
+              DATE_FORMAT.local
+            )}`
+          : `${result}`;
+      }, '')
+    );
+  }
+  ngOnInit(): void {
+    this.dataSource = new MatTreeFlatDataSource(
+      this.treeControl,
+      this.treeFlattener
+    );
+    this.dataSource.data = this.TREE_DATA;
+
+    this.subscription.add(
+      this.displayForm.valueChanges
+        .pipe(filter(() => this.displayForm.dirty))
+        .subscribe((AssessmentDisplay: any) =>
+          this.displayChange.emit(AssessmentDisplay)
+        )
+    );
+    this.subscription.add(
+      this.displayNodes$.subscribe((display) => this.updateNode(display))
+    );
+    this.checkChannels();
+  }
+  ngAfterViewInit() {
+    this.tree.treeControl.expandAll();
+  }
+  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  /**
+   * Passes an interval selection to the parent to get data for the selected interval
+   */
+  setInterval = (interval: Interval) => this.interval.emit(interval);
+  /**
+   * triggers on component destroy
+   * unsubscribes open subs
+   */
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  getIndeterminate = (name: string) =>
+    this.dataSource.data.find(
+      (sensorNode: SensorNode) => sensorNode.name === name
+    )?.indeterminate;
+  /**
+   * Interates over each parent node and capture cahnges of every dirty form control passed
+   * only triggeres when parent checkboxes are changed
+   */
+  checkChannels(): void {
+    this.dataSource.data.forEach((sensorNode: SensorNode) => {
+      sensorNode.formControl.valueChanges
+        .pipe(filter(() => sensorNode.formControl.dirty))
+        .subscribe((value: any) => {
+          // eslint-disable-next-line unicorn/no-array-reduce
+          const nodeValues = sensorNode.children.reduce(
+            (acc, { formControl }) => ({ ...acc, [formControl]: value }),
+            {}
+          );
+
+          this.displayForm.markAsDirty();
+          this.displayForm.patchValue(nodeValues);
+        });
+    });
+  }
+}

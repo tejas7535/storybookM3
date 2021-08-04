@@ -1,101 +1,20 @@
 import { createSelector } from '@ngrx/store';
 
+import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-sereies-converter';
 import { LOAD_ASSESSMENT_CONTROLS } from '../../../../shared/constants';
-import { CenterLoadStatus, Type } from '../../../../shared/models';
+import { CenterLoadStatus } from '../../../../shared/models';
 import { getLoadAssessmentState } from '../../reducers';
-import { GcmStatus } from '../../reducers/grease-status/models';
 import { LoadAssessmentState } from '../../reducers/load-assessment/load-assessment.reducer';
 import { getCenterLoadResult } from '../../selectors/center-load/center-load.selector';
 import { LoadAssessmentDisplay } from '../../reducers/load-assessment/models';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
-import { GraphData, Interval } from '../../reducers/shared/models';
-import { getGreaseStatusResult } from '../grease-status/grease-status.selector';
+import { Interval } from '../../reducers/shared/models';
 import { getBearingLoadResult } from '../load-sense/load-sense.selector';
 import { getShaftResult } from '../shaft/shaft.selector';
+import { EChartsOption } from 'echarts';
 type GreaseDisplayKeys = keyof LoadAssessmentDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
-
-const analysisGraphDataSeries = (
-  key: keyof LoadAssessmentDisplay,
-  value: boolean,
-  gcmStatus: GcmStatus[],
-  shaftStatus: ShaftStatus[],
-  bearingLoad: LoadSense[],
-  centerLoad: CenterLoadStatus[]
-) => {
-  let data: any[];
-
-  switch (
-    value &&
-    LOAD_ASSESSMENT_CONTROLS.find(({ label }) => label === key).type
-  ) {
-    case Type.centerload:
-      data = centerLoad?.map((measurement: CenterLoadStatus) => ({
-        value: [
-          new Date(measurement.timestamp),
-          (
-            measurement[
-              key
-                .replace('centerLoad', '')
-                .replace(/(^\w)/g, (m) =>
-                  m.toLowerCase()
-                ) as keyof CenterLoadStatus
-            ] as number
-          ).toFixed(2),
-        ],
-      }));
-      break;
-    case Type.grease:
-      data = gcmStatus?.map((measurement: GcmStatus) => {
-        let measurementValue: number;
-        if (key.endsWith('_1')) {
-          measurementValue = (measurement as any)[
-            `gcm01${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
-          ];
-        } else if (key.endsWith('_2')) {
-          measurementValue = (measurement as any)[
-            `gcm02${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
-          ];
-        }
-
-        return measurementValue
-          ? {
-              value: [
-                new Date(measurement.timestamp),
-                measurementValue.toFixed(2),
-              ],
-            }
-          : { value: [] };
-      });
-      break;
-    case Type.rsm:
-      data = shaftStatus?.map((measurement: ShaftStatus) => ({
-        value: [
-          new Date(measurement.timestamp),
-          measurement.rsm01ShaftSpeed.toFixed(2),
-        ],
-      }));
-      break;
-    case Type.load:
-      data = bearingLoad?.map((measurement: LoadSense) => ({
-        value: [
-          new Date(measurement.timestamp),
-          (measurement as any)[key].toFixed(2),
-        ],
-      }));
-      break;
-    default:
-      data = [];
-      break;
-  }
-
-  return {
-    name: key,
-    type: 'line',
-    data,
-  };
-};
 
 export const getLoadAssessmentDisplay = createSelector(
   getLoadAssessmentState,
@@ -108,19 +27,17 @@ export const getLoadAssessmentInterval = createSelector(
 );
 
 export const getAnalysisGraphData = createSelector(
-  getGreaseStatusResult,
   getShaftResult,
   getBearingLoadResult,
   getCenterLoadResult,
   getLoadAssessmentDisplay,
   (
-    gcmStatus: GcmStatus[],
     shaftStatus: ShaftStatus[],
     bearingLoad: LoadSense[],
     centerLoad: CenterLoadStatus[],
     display: LoadAssessmentDisplay
-  ): GraphData => {
-    const result = gcmStatus && {
+  ): EChartsOption => {
+    const result = {
       legend: {
         data: Object.entries(display)
           .map(([key, value]) => [key, value] as DisplayOption)
@@ -130,14 +47,11 @@ export const getAnalysisGraphData = createSelector(
       series: Object.entries(display)
         .map(([key, value]) => [key, value] as DisplayOption)
         .map(([key, value]: DisplayOption) =>
-          analysisGraphDataSeries(
-            key,
-            value,
-            gcmStatus,
+          new DataToChartSeriesConverter(key, value, LOAD_ASSESSMENT_CONTROLS, {
             shaftStatus,
             bearingLoad,
-            centerLoad
-          )
+            centerLoad,
+          }).getData()
         ),
     };
 

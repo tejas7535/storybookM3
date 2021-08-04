@@ -5,6 +5,7 @@ export * from './devices/devices.actions';
 export * from './edm-monitor/edm-monitor.actions';
 export * from './grease-status/grease-status.actions';
 export * from './load-assessment/load-assessment.actions';
+export * from './maintenance-assessment/maintenance-assessment.actions';
 export * from './shaft/shaft.actions';
 export * from './static-safety/static-safety.actions';
 export * from './center-load/center-load.actions';

@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
+import { EChartsOption, SeriesOption } from 'echarts';
 
 import { getEdmMonitorState } from '../../reducers';
 import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer';
 import { Antenna, AntennaName, Edm } from '../../reducers/edm-monitor/models';
-import { GraphData, Interval } from '../../reducers/shared/models';
+import { Interval } from '../../reducers/shared/models';
 
 export const getEdmLoading = createSelector(
   getEdmMonitorState,
@@ -27,7 +28,7 @@ const edmGraphSeries = [
 
 export const getEdmGraphData = createSelector(
   getEdmResult,
-  (edm: any, { sensorName }: Antenna): GraphData =>
+  (edm: any, { sensorName }: Antenna): EChartsOption =>
     edm && {
       legend: {
         data: edmGraphSeries.map(({ name }) =>
@@ -46,7 +47,7 @@ export const getEdmGraphData = createSelector(
               (measurement as any)[seriesName],
             ],
           })),
-        };
+        } as SeriesOption;
       }),
     }
 );

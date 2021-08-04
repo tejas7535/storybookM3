@@ -1,7 +1,7 @@
 <schaeffler-header
   *ngIf="isLoggedIn$ | ngrxPush; else loading"
   [platformTitle]="title"
-  class="full-height"
+  class="h-full max-h-screen"
 >
   <schaeffler-user-menu
     user-menu
@@ -9,9 +9,9 @@
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
   <div class="page-container">
-    <div class="site-content">
-      <div class="router-content">
-        <router-outlet></router-outlet>
+    <div class="h-full">
+      <div class="h-full w-full flex flex-1">
+        <router-outlet class="h-full"></router-outlet>
       </div>
     </div>
     <schaeffler-footer-tailwind

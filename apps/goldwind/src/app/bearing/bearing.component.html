@@ -1,5 +1,8 @@
-<div fxLayout="column" class="container" *transloco="let t; read: 'bearing'">
-  <div fxLayout="row" fxLayoutAlign="start center" id="bearing-page-header">
+<div
+  class="flex flex-col w-full h-full max-h-full"
+  *transloco="let t; read: 'bearing'"
+>
+  <div class="flex items-center" id="bearing-page-header">
     <mat-icon
       fontSet="schaeffler-icons"
       fontIcon="icon-arrow-west"
@@ -27,7 +30,7 @@
       {{ t(tabLink.name) | uppercase }}
     </a>
   </nav>
-  <div id="tab-content">
+  <div class="bg-background box-border flex p-4 h-full w-full">
     <router-outlet></router-outlet>
   </div>
 </div>

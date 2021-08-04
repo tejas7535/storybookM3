@@ -36,6 +36,10 @@ export class BearingComponent implements OnInit {
       link: BearingRoutePath.LoadAssessmentPath,
     },
     {
+      name: 'maintenanceAssessment',
+      link: BearingRoutePath.MaintenanceAsseesmentPath,
+    },
+    {
       name: 'dataView',
       link: BearingRoutePath.DataViewPath,
     },
@@ -45,7 +49,9 @@ export class BearingComponent implements OnInit {
     this.bearing$ = this.store.select(getBearingResult);
     this.loading$ = this.store.select(getBearingLoading);
   }
-
+  /**
+   *
+   */
   public trackByFn(index: number, _item: any): number {
     return index;
   }

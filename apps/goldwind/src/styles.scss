@@ -1,6 +1,11 @@
 @use '~@angular/material' as mat;
 @import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
 @import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @import 'libs/shared/ui/styles/src/lib/material-theme';
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'colors';
@@ -104,4 +109,8 @@ label {
 .mat-card-subtitle,
 .mat-card-content {
   line-height: 20px !important;
+}
+
+.mat-tree-node {
+  min-height: 32px !important;
 }

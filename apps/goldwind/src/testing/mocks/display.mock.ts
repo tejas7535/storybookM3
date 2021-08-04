@@ -1,18 +1,12 @@
 import { LoadAssessmentDisplay } from '../../app/core/store/reducers/load-assessment/models';
 
 export const DISPLAY: LoadAssessmentDisplay = {
-  deterioration_1: true,
-  waterContent_1: true,
-  temperatureOptics_1: true,
-  deterioration_2: true,
-  waterContent_2: true,
-  temperatureOptics_2: true,
-  rsmShaftSpeed: true,
   centerLoadFx: true,
   centerLoadFy: true,
   centerLoadFz: true,
   centerLoadMz: true,
   centerLoadMy: true,
+  rsmShaftSpeed: true,
   lsp01Strain: true,
   lsp02Strain: true,
   lsp03Strain: true,

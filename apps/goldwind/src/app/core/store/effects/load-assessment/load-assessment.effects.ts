@@ -17,11 +17,6 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { IotParams, RestService } from '../../../http/rest.service';
 import {
-  getGreaseStatus,
-  getGreaseStatusFailure,
-  getGreaseStatusSuccess,
-} from '../../actions/grease-status/grease-status.actions';
-import {
   getLoadAssessmentId,
   setLoadAssessmentInterval,
 } from '../../actions/load-assessment/load-assessment.actions';
@@ -86,29 +81,11 @@ export class LoadAssessmentEffects {
         deviceId: routerState.state.params.id,
       })),
       mergeMap(({ deviceId }) => [
-        getGreaseStatus({ deviceId }),
         getLoadAverage({ deviceId }),
         getCenterLoad({ deviceId }),
         getBearingLoad({ deviceId }),
         getShaft({ deviceId }),
       ])
-    );
-  });
-
-  /**
-   * Load Grease Status
-   */
-  greaseStatus$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getGreaseStatus),
-      withLatestFrom(this.store.select(getLoadAssessmentInterval)),
-      map(actionInterval()),
-      mergeMap((greaseParams) =>
-        this.restService.getGreaseStatus(greaseParams).pipe(
-          map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
-          catchError((_e) => of(getGreaseStatusFailure()))
-        )
-      )
     );
   });
 

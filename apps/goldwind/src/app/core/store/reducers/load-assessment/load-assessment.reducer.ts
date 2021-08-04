@@ -16,12 +16,6 @@ export interface LoadAssessmentState {
 
 export const initialState: LoadAssessmentState = {
   display: {
-    deterioration_1: true,
-    waterContent_1: true,
-    temperatureOptics_1: true,
-    deterioration_2: true,
-    waterContent_2: true,
-    temperatureOptics_2: true,
     rsmShaftSpeed: true,
     centerLoadFx: true,
     centerLoadFy: true,

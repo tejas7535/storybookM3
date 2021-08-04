@@ -1,12 +1,10 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.centerLoad'"
-    class="full-height-card"
-    fxFill
-    fxLayout="column"
+    class="flex-col"
   >
     <mat-card-header>
-      <mat-card-title fxLayout="row" layout-align="center center">
+      <mat-card-title class="flex items-center justify-center">
         <mat-icon fontSet="schaeffler-icons" fontIcon="icon-load"></mat-icon>
         <span>{{ t('title') }}</span>
       </mat-card-title>
@@ -17,13 +15,9 @@
         >
       </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content
-      fxFlex
-      fxLayout="column"
-      fxLayoutAlign="space-between end"
-    >
+    <mat-card-content class="flex-col space-between items-end">
       <div
-        fxFlex
+        class="flex"
         echarts
         [options]="chartOptions"
         [merge]="loadSenseGraphData$ | ngrxPush"
@@ -34,5 +28,5 @@
 </ng-container>
 
 <ng-template #loading>
-  <mat-card class="full-height-card placeholder-item"></mat-card>
+  <mat-card class="placeholder-item"></mat-card>
 </ng-template>

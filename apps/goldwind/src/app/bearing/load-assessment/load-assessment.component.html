@@ -1,86 +1,23 @@
-<div class="grid-container">
-  <mat-card *transloco="let t; read: 'greaseStatus'">
-    <h5 class="card-title">{{ t('datePicker') }}</h5>
-    <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
-      <goldwind-date-range
-        [interval]="interval$ | ngrxPush"
-        (rangeChange)="setInterval($event)"
-      ></goldwind-date-range>
-      <ng-container *ngrxLet="greaseStatusGraphData$ as graphData">
-        <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
-      </ng-container>
-      <div
-        fxFill
-        fxLayout="column"
-        fxLayout.gt-sm="row"
-        fxLayoutAlign="space-between"
-        fxLayoutGap="30px"
-      >
-        <div fxFlex="20">
-          <h5 class="card-title">{{ t('pleaseSelectTrendsToShow') }}</h5>
-          <mat-tree
-            #tree
-            [dataSource]="dataSource"
-            [treeControl]="treeControl"
-            class="sensor-tree"
-            [formGroup]="displayForm"
-          >
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-              <mat-checkbox
-                [formControlName]="node.formControl"
-                [color]="'primary'"
-              >
-                {{ t(node.label) }}
-              </mat-checkbox>
-            </mat-tree-node>
-            <mat-tree-node
-              *matTreeNodeDef="let node; when: hasChild"
-              matTreeNodePadding
-            >
-              <mat-checkbox
-                [color]="'primary'"
-                [formControl]="node.formControl"
-                [indeterminate]="getIndeterminate(node.name)"
-              >
-                <button
-                  mat-icon-button
-                  matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.name"
-                >
-                  <mat-icon class="mat-icon-rtl-mirror">
-                    {{
-                      treeControl.isExpanded(node)
-                        ? 'expand_more'
-                        : 'chevron_right'
-                    }}
-                  </mat-icon>
-                </button>
-                {{ t(node.name) }}
-              </mat-checkbox>
-            </mat-tree-node>
-          </mat-tree>
-        </div>
-
-        <ng-container
-          *ngIf="
-            greaseStatusGraphData$ | ngrxPush as greaseStatusGraphData;
-            else loading
-          "
-        >
-          <div
-            class="chart"
-            fxFlex
-            echarts
-            [options]="chartOptions"
-            [merge]="greaseStatusGraphData"
-          ></div>
-        </ng-container>
-        <ng-template #loading>
-          <div fxFlex class="chart placeholder-item"></div>
-        </ng-template>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-  <goldwind-center-load [averageLoad]="true"></goldwind-center-load>
+<div class="w-full h-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+  <div
+    *transloco="let t; read: 'greaseStatus'"
+    class="w-full sm:col-span-3 lg:col-span-4"
+  >
+    <goldwind-assessment-linechart
+      id="loadAssessmentChart"
+      [TREE_DATA]="this.TREE_DATA"
+      [ASSESSMENT_CONTROLS]="this.checkBoxes"
+      [displayForm]="this.displayForm"
+      [translate]="t"
+      [graphData$]="graphData$"
+      [displayNodes$]="this.displayNodes$"
+      [interval$]="this.interval$"
+      (interval)="this.setInterval($event)"
+      (displayChange)="this.dispatchDisplay($event)"
+    ></goldwind-assessment-linechart>
+  </div>
+  <goldwind-center-load
+    class="sm:col-span-3 lg:col-span-2 h-full"
+    [averageLoad]="true"
+  ></goldwind-center-load>
 </div>

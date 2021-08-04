@@ -9,10 +9,7 @@ import { EChartsOption } from 'echarts';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
-import {
-  GraphData,
-  Interval,
-} from '../../../core/store/reducers/shared/models';
+import { Interval } from '../../../core/store/reducers/shared/models';
 import {
   getEdmGraphData,
   getEdmInterval,
@@ -28,7 +25,7 @@ import { Sensor } from '../../../shared/sensor/sensor.enum';
   styleUrls: ['./edm-monitor.component.scss'],
 })
 export class EdmMonitorComponent implements OnInit {
-  edmGraphData$: Observable<GraphData>;
+  edmGraphData$: Observable<EChartsOption>;
   interval$: Observable<Interval>;
   sensor = false;
   loading$: Observable<boolean>;

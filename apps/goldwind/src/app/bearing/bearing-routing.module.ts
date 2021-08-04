@@ -37,6 +37,13 @@ const routes: Routes = [
                 (m) => m.DataViewModule
               ),
           },
+          {
+            path: BearingRoutePath.MaintenanceAsseesmentPath,
+            loadChildren: async () =>
+              import(
+                './maintenance-assessment/maintenance-assessment.module'
+              ).then((m) => m.MaintenanceAssessmentModule),
+          },
         ],
       },
     ],
