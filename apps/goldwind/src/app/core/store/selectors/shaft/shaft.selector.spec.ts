@@ -1,3 +1,4 @@
+import { GaugeSeriesOption, SeriesOption } from 'echarts';
 import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { initialState, ShaftState } from '../../reducers/shaft/shaft.reducer';
 import {
@@ -65,11 +66,19 @@ describe('Shaft Selector', () => {
 
   describe('getShaftLatestGraphData', () => {
     it('should return the latest shaft latest graph data', () => {
-      expect(getShaftLatestGraphData(fakeState)).toHaveProperty('series');
-      // reducing test complexity to the fact that the seperate gauge class has it's own tests
+      const state = getShaftLatestGraphData(fakeState) as any;
       expect(
-        (getShaftLatestGraphData(fakeState).series as any).length
-      ).toBeGreaterThan(0);
+        state.series
+          .filter((s: GaugeSeriesOption) => s.data && s.data.length > 0)
+          .map((d: GaugeSeriesOption) => d.data[0])
+      ).toEqual(
+        expect.arrayContaining([
+          {
+            name: 'conditionMonitoring.shaft.rotorRotationSpeed',
+            value: fakeState.shaft.status.result.rsm01ShaftSpeed.toFixed(1),
+          },
+        ])
+      );
     });
   });
 

@@ -5,7 +5,7 @@ describe('Load Sense Selector', () => {
     greaseStatus: {
       result: [
         {
-          timestamp: '2020-07-30T11:02:35',
+          timestamp: '2020-07-30T11:02:35.000Z',
           gcm01TemperatureOptics: 99.991,
           gcm01Deterioration: 12.121,
           gcm01WaterContent: 69,
@@ -17,7 +17,7 @@ describe('Load Sense Selector', () => {
       loading: false,
       status: {
         result: {
-          timestamp: '2020-07-31T11:02:35',
+          timestamp: '2020-07-31T11:02:35.000Z',
           gcm01TemperatureOptics: 99.99,
           gcm01Deterioration: 55.55,
           gcm01WaterContent: 12.55,
@@ -45,7 +45,7 @@ describe('Load Sense Selector', () => {
         legend: { data: ['waterContent_1'] },
         series: [
           {
-            data: [{ value: [new Date('2020-07-30T09:02:35.000Z'), '69.00'] }],
+            data: [{ value: [new Date('2020-07-30T11:02:35.000Z'), '69.00'] }],
             name: 'waterContent_1',
             symbol: 'none',
             type: 'line',
