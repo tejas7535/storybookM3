@@ -6,10 +6,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../../shared';
-import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
+import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
+import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { DetailViewComponent } from './detail-view.component';
@@ -19,7 +22,6 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
 @NgModule({
   declarations: [DetailViewComponent],
   imports: [
-    CaseHeaderModule,
     DetailViewRoutingModule,
     FilterPricingModule,
     MatButtonModule,
@@ -31,6 +33,10 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     SharedModule,
     PricingDetailsModule,
     LoadingSpinnerModule,
+    SubheaderModule,
+    BreadcrumbsModule,
+    CustomerHeaderModule,
+    ShareButtonModule,
   ],
 })
 export class DetailViewModule {}

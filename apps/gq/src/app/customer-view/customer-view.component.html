@@ -4,10 +4,14 @@
     else loading
   "
 >
-  <mat-card class="!p-0">
-    <gq-case-header [breadcrumbs]="breadcrumbs">
-      <span *ngIf="customer$ | ngrxPush as customer">{{ customer.name }}</span>
-    </gq-case-header>
+  <mat-card class="!pt-0">
+    <schaeffler-subheader
+      *ngIf="customer$ | ngrxPush as customer"
+      [breadcrumbs]="breadcrumbs"
+      [title]="customer.name"
+    >
+      <ng-container header> <gq-share-button></gq-share-button> </ng-container>
+    </schaeffler-subheader>
   </mat-card>
   <gq-customer-information
     [customer]="customer$ | ngrxPush"

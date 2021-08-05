@@ -8,10 +8,12 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
-import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
+import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewComponent } from './customer-view.component';
 
@@ -29,13 +31,15 @@ describe('CustomerViewComponent', () => {
     detectChanges: false,
     imports: [
       BrowserAnimationsModule,
-      CaseHeaderModule,
       CustomerInformationModule,
       MatCardModule,
       MatSidenavModule,
       LoadingSpinnerModule,
       ReactiveComponentModule,
       RouterTestingModule,
+      BreadcrumbsModule,
+      SubheaderModule,
+      ShareButtonModule,
     ],
     providers: [
       provideMockStore({

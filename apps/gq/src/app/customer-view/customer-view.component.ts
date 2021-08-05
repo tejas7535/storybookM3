@@ -5,6 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { DetailViewQueryParams } from '../app-routing.module';
 import {
   getCustomer,
@@ -12,7 +14,6 @@ import {
   isCustomerLoading,
   isQuotationLoading,
 } from '../core/store';
-import { Breadcrumb } from '../shared/header/case-header/breadcrumbs/breadcrumb.model';
 import { Customer } from '../shared/models/customer';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
 

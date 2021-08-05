@@ -5,10 +5,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../shared';
-import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
+import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewRoutingModule } from './customer-view-routing.module';
 import { CustomerViewComponent } from './customer-view.component';
@@ -16,7 +18,6 @@ import { CustomerViewComponent } from './customer-view.component';
 @NgModule({
   declarations: [CustomerViewComponent],
   imports: [
-    CaseHeaderModule,
     CommonModule,
     CustomerInformationModule,
     CustomerViewRoutingModule,
@@ -25,6 +26,9 @@ import { CustomerViewComponent } from './customer-view.component';
     SharedModule,
     LoadingSpinnerModule,
     ReactiveComponentModule,
+    BreadcrumbsModule,
+    SubheaderModule,
+    ShareButtonModule,
   ],
   exports: [CustomerViewComponent],
 })

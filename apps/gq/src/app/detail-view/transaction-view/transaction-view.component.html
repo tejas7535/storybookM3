@@ -2,14 +2,24 @@
   class="flex flex-1 flex-col h-full bg-lightBg"
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
-  <mat-card class="!p-0">
-    <gq-case-header [breadcrumbs]="breadcrumbs">
-      <gq-transaction-view-header-content
-        [quotationDetail]="quotationDetail$ | ngrxPush"
-        [currency]="currency$ | ngrxPush"
-      >
-      </gq-transaction-view-header-content>
-    </gq-case-header>
+  <mat-card class="!pt-0" *transloco="let t; read: 'transactionView.header'">
+    <schaeffler-subheader
+      [breadcrumbs]="breadcrumbs"
+      [title]="
+        t('title', {
+          price: (quotationDetail$ | ngrxPush)?.recommendedPrice,
+          currency: currency$ | ngrxPush
+        })
+      "
+    >
+      <ng-container titleContent>
+        <gq-transaction-view-header-content
+          [quotationDetail]="quotationDetail$ | ngrxPush"
+        >
+        </gq-transaction-view-header-content>
+      </ng-container>
+      <ng-container header> <gq-share-button></gq-share-button> </ng-container>
+    </schaeffler-subheader>
   </mat-card>
   <gq-saving-in-progress
     *ngIf="

@@ -28,7 +28,7 @@ describe('BreadcrumbsServiceService', () => {
 
       expect(result).toEqual({
         label: 'translate it',
-        link: `/${AppRoutePath.CaseViewPath}`,
+        url: `/${AppRoutePath.CaseViewPath}`,
       });
     });
   });
@@ -48,13 +48,13 @@ describe('BreadcrumbsServiceService', () => {
         {
           queryParams,
           label: `GQ${queryParams.quotation_number}`,
-          link: `/${AppRoutePath.ProcessCaseViewPath}`,
+          url: `/${AppRoutePath.ProcessCaseViewPath}`,
         },
       ]);
     });
   });
   describe('getQuotationBreadcrumbsForProcessCaseView', () => {
-    test('should return quotationBreadcrumb without link', () => {
+    test('should return quotationBreadcrumb without url', () => {
       service.getCaseViewBreadcrumb = jest.fn().mockReturnValue({});
 
       const result = service.getQuotationBreadcrumbsForProcessCaseView(1);
@@ -64,7 +64,7 @@ describe('BreadcrumbsServiceService', () => {
   });
 
   describe('getDetailViewBreadcrumbs', () => {
-    test('should return breadcrumbs with link', () => {
+    test('should return breadcrumbs with url', () => {
       const queryParams: DetailViewQueryParams = {
         customer_number: '825663',
         quotation_number: 123,
@@ -80,11 +80,11 @@ describe('BreadcrumbsServiceService', () => {
         {
           queryParams,
           label: `translate it ${10}`,
-          link: `/${AppRoutePath.DetailViewPath}`,
+          url: `/${AppRoutePath.DetailViewPath}`,
         },
       ]);
     });
-    test('should return breadcrumbs without link', () => {
+    test('should return breadcrumbs without url', () => {
       const queryParams: DetailViewQueryParams = {
         customer_number: '825663',
         quotation_number: 123,

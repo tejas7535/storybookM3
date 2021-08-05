@@ -12,7 +12,9 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
@@ -25,7 +27,9 @@ import { DeleteItemsButtonComponent } from '../shared/custom-status-bar/delete-i
 import { ExportToExcelButtonComponent } from '../shared/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { TotalRowCountComponent } from '../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
-import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
+import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
+import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
+import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
@@ -55,7 +59,6 @@ describe('ProcessCaseViewComponent', () => {
         TotalRowCountComponent,
       ]),
       BrowserAnimationsModule,
-      CaseHeaderModule,
       CustomStatusBarModule,
       MatCardModule,
       MatDialogModule,
@@ -70,6 +73,12 @@ describe('ProcessCaseViewComponent', () => {
       LoadingSpinnerModule,
       ReactiveComponentModule,
       MatSnackBarModule,
+      CustomerHeaderModule,
+      MatCardModule,
+      SubheaderModule,
+      BreadcrumbsModule,
+      SharedPipesModule,
+      ShareButtonModule,
     ],
     declarations: [CalculationInProgressComponent],
     providers: [

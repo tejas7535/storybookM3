@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { AppRoutePath } from '../../../app-route-path.enum';
 import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,
 } from '../../../app-routing.module';
-import { Breadcrumb } from '../../header/case-header/breadcrumbs/breadcrumb.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ import { Breadcrumb } from '../../header/case-header/breadcrumbs/breadcrumb.mode
 export class BreadcrumbsService {
   caseViewBreadcrumb: Breadcrumb = {
     label: translate('shared.breadcrumbs.caseView'),
-    link: `/${AppRoutePath.CaseViewPath}`,
+    url: `/${AppRoutePath.CaseViewPath}`,
   };
 
   getCaseViewBreadcrumb(): Breadcrumb {
@@ -28,7 +29,7 @@ export class BreadcrumbsService {
     const quotationBreadCrumb: Breadcrumb = {
       queryParams,
       label: `GQ${queryParams.quotation_number}`,
-      link: `/${AppRoutePath.ProcessCaseViewPath}`,
+      url: `/${AppRoutePath.ProcessCaseViewPath}`,
     };
 
     return [this.getCaseViewBreadcrumb(), quotationBreadCrumb];
@@ -50,7 +51,7 @@ export class BreadcrumbsService {
       label: `${translate('shared.breadcrumbs.position')} ${itemId}`,
     };
     if (includeLink) {
-      detailBreadcrumb.link = `/${AppRoutePath.DetailViewPath}`;
+      detailBreadcrumb.url = `/${AppRoutePath.DetailViewPath}`;
       detailBreadcrumb.queryParams = queryParams;
     }
 

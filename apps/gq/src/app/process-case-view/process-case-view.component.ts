@@ -4,6 +4,8 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import {
   getGqId,
   getQuotation,
@@ -11,7 +13,6 @@ import {
   isCustomerLoading,
   isQuotationLoading,
 } from '../core/store/selectors';
-import { Breadcrumb } from '../shared/header/case-header/breadcrumbs/breadcrumb.model';
 import { Quotation } from '../shared/models';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
 

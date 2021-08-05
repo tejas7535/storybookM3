@@ -5,11 +5,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SnackBarService } from '@schaeffler/snackbar';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
-import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
+import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
@@ -24,7 +27,6 @@ describe('TransactionViewComponent', () => {
     component: TransactionViewComponent,
     imports: [
       ComparableTransactionsModule,
-      CaseHeaderModule,
       TransparencyGraphModule,
       MatCardModule,
       LoadingSpinnerModule,
@@ -32,6 +34,9 @@ describe('TransactionViewComponent', () => {
       ReactiveComponentModule,
       TransactionViewHeaderContentModule,
       RouterTestingModule,
+      SubheaderModule,
+      BreadcrumbsModule,
+      ShareButtonModule,
     ],
     declarations: [SavingInProgressComponent],
     providers: [
@@ -47,6 +52,10 @@ describe('TransactionViewComponent', () => {
           },
         },
       }),
+      {
+        provide: SnackBarService,
+        useValue: {},
+      },
     ],
   });
 

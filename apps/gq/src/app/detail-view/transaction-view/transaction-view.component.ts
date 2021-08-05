@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import {
   getCoefficients,
   getCustomerCurrency,
@@ -17,7 +19,6 @@ import {
   isQuotationLoading,
 } from '../../core/store';
 import { Transaction } from '../../core/store/reducers/transactions/models/transaction.model';
-import { Breadcrumb } from '../../shared/header/case-header/breadcrumbs/breadcrumb.model';
 import {
   Coefficients,
   QuotationDetail,

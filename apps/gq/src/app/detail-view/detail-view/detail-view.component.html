@@ -1,17 +1,22 @@
 <div *ngIf="!(quotationLoading$ | ngrxPush); else loading">
-  <mat-card class="!p-0 !pb-2">
-    <gq-case-header
-      [showCustomerHeader]="true"
+  <mat-card class="!pt-0 !pb-9" *ngIf="quotation$ | ngrxPush as quotation">
+    <schaeffler-subheader
+      [title]="quotation.gqId | gqQuotation"
       [breadcrumbs]="breadcrumbs"
-      *ngIf="quotation$ | ngrxPush as quotation"
     >
-      <span>{{ quotation.gqId | gqQuotation }} </span>
-      <span *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
-        >{{ material | materialInfo }}
-      </span>
-    </gq-case-header>
+      <ng-container
+        titleContent
+        *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
+      >
+        {{ material | materialInfo }}
+      </ng-container>
+      <ng-container header> <gq-share-button></gq-share-button> </ng-container>
+      <ng-container content>
+        <gq-customer-header [customer]="quotation.customer">
+        </gq-customer-header>
+      </ng-container>
+    </schaeffler-subheader>
   </mat-card>
-
   <div class="flex flex-row">
     <div class="w-1/2">
       <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">

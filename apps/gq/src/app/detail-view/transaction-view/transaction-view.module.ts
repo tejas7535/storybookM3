@@ -4,10 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../../shared';
-import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
+import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
@@ -20,7 +22,6 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
   imports: [
     TranslocoModule,
     TransactionViewRoutingModule,
-    CaseHeaderModule,
     ComparableTransactionsModule,
     TransparencyGraphModule,
     MatCardModule,
@@ -28,6 +29,9 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     ReactiveComponentModule,
     LoadingSpinnerModule,
     TransactionViewHeaderContentModule,
+    SubheaderModule,
+    BreadcrumbsModule,
+    ShareButtonModule,
   ],
   providers: [
     {

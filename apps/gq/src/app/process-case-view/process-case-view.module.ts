@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
@@ -7,25 +8,27 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effects';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { SharedModule } from '../shared';
-import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
+import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
+import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
+import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
-import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 
 @NgModule({
   declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],
   imports: [
-    CaseHeaderModule,
     EffectsModule.forFeature([ProcessCaseEffect]),
     MatSidenavModule,
     HeaderContentModule,
@@ -38,6 +41,11 @@ import { CalculationInProgressComponent } from './calculation-in-progress/calcul
     LoadingSpinnerModule,
     ReactiveComponentModule,
     SharedTranslocoModule,
+    SubheaderModule,
+    BreadcrumbsModule,
+    CustomerHeaderModule,
+    MatCardModule,
+    ShareButtonModule,
   ],
   providers: [
     {

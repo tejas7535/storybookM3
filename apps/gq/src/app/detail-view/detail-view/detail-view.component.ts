@@ -4,13 +4,14 @@ import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import {
   getDetailViewQueryParams,
   getQuotation,
   getSelectedQuotationDetail,
   isQuotationLoading,
 } from '../../core/store';
-import { Breadcrumb } from '../../shared/header/case-header/breadcrumbs/breadcrumb.model';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';

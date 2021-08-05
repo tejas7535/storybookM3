@@ -1,29 +1,21 @@
-<div *transloco="let t; read: 'transactionView.header'">
-  <div *ngIf="quotationDetail && currency">
-    <span
-      >{{ t('title') }} {{ quotationDetail.recommendedPrice }}
-      {{ currency }}</span
-    >
-    <span class="ml-[5px]">
-      <gq-info-icon>
-        <div fxLayout="column" class="p-1 text-[14px]">
-          <span>
-            <span class="font-semibold opacity-60">
-              {{ t('icon-hover.materialDescription') }}: </span
-            ><span>
-              {{ quotationDetail.material.materialDescription }}
-            </span>
-          </span>
-          <span>
-            <span class="font-semibold opacity-60">
-              {{ t('icon-hover.quantity') }}:
-            </span>
-            <span>
-              {{ quotationDetail.orderQuantity }}
-            </span>
-          </span>
-        </div>
-      </gq-info-icon>
-    </span>
-  </div>
-</div>
+<span *ngIf="quotationDetail">
+  <gq-info-icon *transloco="let t; read: 'transactionView.header'">
+    <div fxLayout="column" class="p-2 text-subtitle-2">
+      <span>
+        <span class="font-semibold font-body">
+          {{ t('icon-hover.materialDescription') }}: </span
+        ><span class="font-body">
+          {{ quotationDetail.material.materialDescription }}
+        </span>
+      </span>
+      <span>
+        <span class="font-semibold font-body">
+          {{ t('icon-hover.quantity') }}:
+        </span>
+        <span class="font-body">
+          {{ quotationDetail.orderQuantity }}
+        </span>
+      </span>
+    </div>
+  </gq-info-icon>
+</span>
