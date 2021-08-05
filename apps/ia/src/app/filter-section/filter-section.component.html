@@ -47,6 +47,7 @@
           [placeholderEnd]="t('timeRangePlaceholderEnd')"
           [disabled]="disabledTimeRangeFilter"
           (selected)="timeRangeSelected($event)"
+          [selectedTime]="selectedTime$ | ngrxPush"
         ></ia-date-input>
       </div>
     </div>

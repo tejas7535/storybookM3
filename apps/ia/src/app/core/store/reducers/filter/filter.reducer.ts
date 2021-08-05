@@ -10,7 +10,7 @@ import {
   timePeriodSelected,
   timeRangeSelected,
 } from '../../actions/filter/filter.action';
-import { filterAdapter } from './selected-filter.entity';
+import { filterAdapter } from '../filter/selected-filter.entity';
 
 export const filterKey = 'filter';
 export interface FilterState {

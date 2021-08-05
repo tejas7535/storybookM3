@@ -30,16 +30,29 @@ export class AutocompleteInputComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   private _filter: Filter;
+  private _disabled: boolean;
   @Input() label: string;
   @Input() hint: string;
-  @Input() set filter(filter: Filter) {
-    this._filter = filter;
-    if (this._filter.options.length === 0) {
+  @Input() set disabled(disable: boolean) {
+    this._disabled = disable;
+    if (disable) {
       this.inputControl.disable();
     } else {
       this.inputControl.enable();
     }
-    this.errorStateMatcher = new InputErrorStateMatcher(this.filter.options);
+  }
+  @Input() set filter(filter: Filter) {
+    this._filter = filter;
+    if (
+      this._filter === undefined ||
+      this._filter.options.length === 0 ||
+      this._disabled
+    ) {
+      this.inputControl.disable();
+    } else {
+      this.inputControl.enable();
+    }
+    this.errorStateMatcher = new InputErrorStateMatcher(this.filter?.options);
   }
   get filter(): Filter {
     return this._filter;

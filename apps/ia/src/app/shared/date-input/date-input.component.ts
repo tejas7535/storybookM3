@@ -39,6 +39,17 @@ export class DateInputComponent {
     return this._timePeriod;
   }
 
+  @Input() set selectedTime(time: string) {
+    if (time !== undefined) {
+      const times = time.split('|');
+
+      const start = new Date(+times[0]);
+      this.rangeInput.controls.start.setValue(start, { emitEvent: false });
+      const end = new Date(+times[1]);
+      this.rangeInput.controls.end.setValue(end, { emitEvent: false });
+    }
+  }
+
   @Input() set disabled(disable: boolean) {
     if (disable) {
       this.rangeInput.controls.start.disable();

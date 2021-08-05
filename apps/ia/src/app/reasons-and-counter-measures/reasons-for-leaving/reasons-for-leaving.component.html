@@ -1,0 +1,31 @@
+<mat-card class="!flex pb-2 w-full">
+  <div
+    class="grid grid-cols-3 gap-4 bg-white p-4 w-full"
+    *transloco="let t; read: 'reasonsAndCounterMeasures'"
+  >
+    <h5 class="col-span-3 font-bold mb-5">{{ t('topFiveReasons.title') }}</h5>
+    <div>
+      <ia-reasons-for-leaving-table
+        [orgUnits]="orgUnits$ | ngrxPush"
+        [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
+        [timePeriods]="timePeriods$ | ngrxPush"
+        [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
+        [selectedTime]="selectedTime$ | ngrxPush"
+        [disableFilters]="true"
+      >
+      </ia-reasons-for-leaving-table>
+    </div>
+    <div>Doughnut Chart</div>
+    <div>
+      <ia-reasons-for-leaving-table
+        [orgUnits]="orgUnits$ | ngrxPush"
+        [timePeriods]="timePeriods$ | ngrxPush"
+        [selectedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"
+        [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
+        [selectedTime]="comparedSelectedTime$ | ngrxPush"
+        [disableFilters]="false"
+      >
+      </ia-reasons-for-leaving-table>
+    </div>
+  </div>
+</mat-card>

@@ -80,30 +80,6 @@ describe('FilterSectionComponent', () => {
     });
   });
 
-  describe('setTimeRangeHint', () => {
-    test('set correct hint value - year', () => {
-      component.setTimeRangeHint(TimePeriod.YEAR);
-
-      expect(component.timeRangeHintValue).toEqual('year');
-    });
-
-    test('set correct hint value - month', () => {
-      component.setTimeRangeHint(TimePeriod.MONTH);
-
-      expect(component.timeRangeHintValue).toEqual('month');
-    });
-    test('set correct hint value - last 12 month', () => {
-      component.setTimeRangeHint(TimePeriod.LAST_12_MONTHS);
-
-      expect(component.timeRangeHintValue).toEqual('reference date');
-    });
-    test('set correct hint value - custom', () => {
-      component.setTimeRangeHint(TimePeriod.CUSTOM);
-
-      expect(component.timeRangeHintValue).toEqual('time range');
-    });
-  });
-
   describe('orgUnitInvalid', () => {
     test('should set disabledTimeRangeFilter', () => {
       component.orgUnitInvalid(false);

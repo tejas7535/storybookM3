@@ -31,6 +31,13 @@ export const appRoutePaths: Routes = [
             (m) => m.LossOfSkillModule
           ),
       },
+      {
+        path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+        loadChildren: async () =>
+          import(
+            './reasons-and-counter-measures/reasons-and-counter-measures.module'
+          ).then((m) => m.ReasonsAndCounterMeasuresModule),
+      },
     ],
   },
   {

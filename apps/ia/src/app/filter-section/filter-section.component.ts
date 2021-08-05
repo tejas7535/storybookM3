@@ -14,9 +14,11 @@ import {
   getOrgUnits,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
+  getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
 import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
+import { getTimeRangeHint } from '../shared/utils/utilities';
 
 @Component({
   selector: 'ia-filter-section',
@@ -27,6 +29,7 @@ export class FilterSectionComponent implements OnInit {
   selectedOrgUnit$: Observable<string>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
+  selectedTime$: Observable<string>;
 
   timeRangeHintValue = 'time range';
   disabledTimeRangeFilter = true;
@@ -36,38 +39,21 @@ export class FilterSectionComponent implements OnInit {
   ngOnInit(): void {
     this.orgUnits$ = this.store.select(getOrgUnits);
     this.timePeriods$ = this.store.select(getTimePeriods);
-    this.selectedTimePeriod$ = this.store
-      .select(getSelectedTimePeriod)
-      .pipe(tap((timePeriod) => this.setTimeRangeHint(timePeriod)));
+    this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod).pipe(
+      tap((timePeriod) => {
+        this.timeRangeHintValue = getTimeRangeHint(timePeriod);
+      })
+    );
     this.selectedOrgUnit$ = this.store
       .select(getSelectedOrgUnit)
       .pipe(
         tap((value) => (this.disabledTimeRangeFilter = value === undefined))
       );
+    this.selectedTime$ = this.store.select(getSelectedTimeRange);
   }
 
   optionSelected(filter: SelectedFilter): void {
     this.store.dispatch(filterSelected({ filter }));
-  }
-
-  setTimeRangeHint(timePeriod: TimePeriod): void {
-    switch (timePeriod) {
-      case TimePeriod.YEAR: {
-        this.timeRangeHintValue = 'year';
-        break;
-      }
-      case TimePeriod.MONTH: {
-        this.timeRangeHintValue = 'month';
-        break;
-      }
-      case TimePeriod.LAST_12_MONTHS: {
-        this.timeRangeHintValue = 'reference date';
-        break;
-      }
-      default: {
-        this.timeRangeHintValue = 'time range';
-      }
-    }
   }
 
   timePeriodSelected(idValue: IdValue): void {

@@ -44,12 +44,12 @@ export class AppComponent implements OnInit {
     {
       label: 'lossOfSkill',
       path: AppRoutePath.LossOfSkillPath,
-      disabled: true,
+      disabled: false,
     },
     {
       label: 'reasonsAndCounterMeasures',
-      path: AppRoutePath.ReasonsPath,
-      disabled: true,
+      path: AppRoutePath.ReasonsAndCounterMeasuresPath,
+      disabled: false,
     },
     {
       label: 'attritionAnalytics',

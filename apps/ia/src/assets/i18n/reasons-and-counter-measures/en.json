@@ -1,0 +1,11 @@
+{
+  "topFiveReasons": {
+    "title": "Top 5 reasons why people left",
+    "table": {
+      "position": "#",
+      "job": "Job",
+      "percentage": "%",
+      "leavers": "Leavers"
+    }
+  }
+}
