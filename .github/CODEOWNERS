@@ -1,7 +1,14 @@
 # Codeowners for schaeffler-frontend
 
 # Default codeowners for the whole monorepository
-* @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT
+* @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT
+
+# Jenkinsfile
+Jenkinsfile @kauppfbi_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT
+
+# package.json and package-lock.json for dependency updates
+package.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT @juskibry_SGGIT
+package-lock.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT @juskibry_SGGIT
 
 ############
 ### Apps ###
@@ -12,8 +19,8 @@ apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @pelzesen_SGGIT
 apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @pelzesen_SGGIT
 
 # CDBA
-apps/cdba @kauppfbi_SGGIT @mailphilipriecksde_SGGIT @tgoetzcissolutionseu_SGGIT
-apps/cdba-e2e @kauppfbi_SGGIT @mailphilipriecksde_SGGIT @tgoetzcissolutionseu_SGGIT
+apps/cdba @kauppfbi_SGGIT @mailphilipriecksde_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
+apps/cdba-e2e @kauppfbi_SGGIT @mailphilipriecksde_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
 
 # GOLDWIND
 apps/goldwind @krausrbe_SGGIT @gerlitm_SGGIT @geissbnj_SGGIT
