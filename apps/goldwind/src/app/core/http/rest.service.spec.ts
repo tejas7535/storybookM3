@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService } from '@schaeffler/http';
+import { IAGGREGATIONTYPE } from '../../shared/models';
 
 import { IotParams, RestService } from './rest.service';
 
@@ -31,12 +32,19 @@ describe('Rest Service', () => {
     dataService = spectator.inject(DataService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getIot', () => {
     it('should call DataService getAll method for given path', () => {
       const mockPath = 'many/paths/should/be/handled';
 
       service.getIot(mockPath);
-      expect(dataService.getAll).toHaveBeenCalledWith(`things/${mockPath}`);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${mockPath}`,
+        undefined
+      );
     });
   });
 
@@ -46,7 +54,8 @@ describe('Rest Service', () => {
 
       service.getBearing(mockBearingId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockBearingId}`
+        `things/${mockBearingId}`,
+        undefined
       );
     });
   });
@@ -61,7 +70,15 @@ describe('Rest Service', () => {
 
       service.getEdm(mockEdmDevice);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockEdmDevice.id}/sensors/electric-discharge/telemetry?start=${mockEdmDevice.startDate}&end=${mockEdmDevice.endDate}`
+        `things/${mockEdmDevice.id}/sensors/electric-discharge/telemetry`,
+        {
+          params: {
+            start: mockEdmDevice.startDate.toString(),
+            end: mockEdmDevice.endDate.toString(),
+            aggregation: IAGGREGATIONTYPE.AVG,
+            timebucketSeconds: '-1',
+          },
+        }
       );
     });
   });
@@ -76,7 +93,15 @@ describe('Rest Service', () => {
 
       service.getGreaseStatus(mockGreaseDevice);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockGreaseDevice.id}/sensors/grease-status/telemetry?start=${mockGreaseDevice.startDate}&end=${mockGreaseDevice.endDate}`
+        `things/${mockGreaseDevice.id}/sensors/grease-status/telemetry`,
+        {
+          params: {
+            start: mockGreaseDevice.startDate.toString(),
+            end: mockGreaseDevice.endDate.toString(),
+            aggregation: undefined,
+            timebucketSeconds: undefined,
+          },
+        }
       );
     });
   });
@@ -87,7 +112,8 @@ describe('Rest Service', () => {
 
       service.getShaftLatest(mockShaftDeviceID);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockShaftDeviceID}/sensors/rotation-speed/telemetry`
+        `things/${mockShaftDeviceID}/sensors/rotation-speed/telemetry`,
+        undefined
       );
     });
   });
@@ -98,7 +124,8 @@ describe('Rest Service', () => {
 
       service.getGreaseStatusLatest(mockBearingId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockBearingId}/sensors/grease-status/telemetry`
+        `things/${mockBearingId}/sensors/grease-status/telemetry`,
+        undefined
       );
     });
   });
@@ -120,7 +147,15 @@ describe('Rest Service', () => {
 
       service.getBearingLoad(mockLoadSenseParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockLoadSenseParams.id}/sensors/bearing-load/telemetry?start=${mockLoadSenseParams.startDate}&end=${mockLoadSenseParams.endDate}&timebucketSeconds=3600&aggregation=AVG`
+        `things/${mockLoadSenseParams.id}/sensors/bearing-load/telemetry`,
+        {
+          params: {
+            start: mockLoadSenseParams.startDate.toString(),
+            end: mockLoadSenseParams.endDate.toString(),
+            timebucketSeconds: '3600',
+            aggregation: IAGGREGATIONTYPE.AVG,
+          },
+        }
       );
     });
   });
@@ -131,7 +166,8 @@ describe('Rest Service', () => {
 
       service.getBearingLoadLatest(deviceId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/sensors/bearing-load/telemetry`
+        `things/${deviceId}/sensors/bearing-load/telemetry`,
+        undefined
       );
     });
   });
@@ -139,8 +175,8 @@ describe('Rest Service', () => {
   describe('getBearingLoadAverage', () => {
     it('should call dataService', () => {
       const deviceId = 'du1-bist2-flop3';
-      const startDate = 123;
-      const endDate = 456;
+      const startDate = 610_952_400;
+      const endDate = 610_952_401;
 
       const iotParams: IotParams = {
         id: deviceId,
@@ -150,7 +186,15 @@ describe('Rest Service', () => {
 
       service.getBearingLoadAverage(iotParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}&timebucketSeconds=-1`
+        `things/${deviceId}/sensors/bearing-load/telemetry`,
+        {
+          params: {
+            start: startDate.toString(),
+            end: endDate.toString(),
+            timebucketSeconds: '-1',
+            aggregation: IAGGREGATIONTYPE.AVG,
+          },
+        }
       );
     });
   });
@@ -188,7 +232,15 @@ describe('Rest Service', () => {
       };
       service.getCenterLoad(mockDataParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockDataParams.id}/analytics/center-load?&end=${mockDataParams.endDate}&start=${mockDataParams.startDate}&timebucketSeconds=0&aggregation=AVG`
+        `things/${mockDataParams.id}/analytics/center-load`,
+        {
+          params: {
+            start: mockDataParams.startDate.toString(),
+            end: mockDataParams.endDate.toString(),
+            timebucketSeconds: '0',
+            aggregation: IAGGREGATIONTYPE.AVG,
+          },
+        }
       );
     });
   });
@@ -196,7 +248,8 @@ describe('Rest Service', () => {
     it('should call GET for center-load', () => {
       service.getStaticSafety('FooID');
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/FooID/analytics/static-safety-factor`
+        `things/FooID/analytics/static-safety-factor`,
+        undefined
       );
     });
   });
@@ -209,7 +262,15 @@ describe('Rest Service', () => {
       };
       service.getShaft(mockDataParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockDataParams.id}/sensors/rotation-speed/telemetry?start=${mockDataParams.startDate}&end=${mockDataParams.endDate}&timebucketSeconds=3600&aggregation=AVG`
+        `things/${mockDataParams.id}/sensors/rotation-speed/telemetry`,
+        {
+          params: {
+            start: mockDataParams.startDate.toString(),
+            end: mockDataParams.endDate.toString(),
+            timebucketSeconds: '3600',
+            aggregation: IAGGREGATIONTYPE.AVG,
+          },
+        }
       );
     });
   });
