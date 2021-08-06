@@ -80,5 +80,9 @@
     "content": "Malheureusement, une erreur s'est produite. Veuillez réessayer plus tard.",
     "confirm": "Confirmer",
     "retry": "Réessayer"
+  },
+  "meta": {
+    "title": "Schaeffler Mounting Manager",
+    "description": "Le programme Schaeffler Mounting Manager vous aide à sélectionner le montage approprié de roulements en toute facilité et offre les possibilités suivantes: Il propose plusieurs procédures mécaniques et hydrauliques, Il calcule les paramètres de montage nécessaires, Il donne de précieux conseils pour le montage, Il établit une liste des accessoires et outils nécessaires."
   }
 }

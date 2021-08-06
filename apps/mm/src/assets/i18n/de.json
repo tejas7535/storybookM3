@@ -81,6 +81,10 @@
     "retry": "Erneut versuchen"
   },
   "settings": "Einstellungen",
+  "meta": {
+    "title": "Schaeffler Mounting Manager",
+    "description": "Der Schaeffler Mounting Manager unterstützt Sie komfortabel bei der Auswahl der richtigen Lager-Montage und bietet folgende Möglichkeiten: zeigt einige mechanische und hydraulische Vorgehensweisen, berechnet erforderliche Montage-Parameter, gibt hilfreiche Montage-Hinweise, erstellt eine Liste mit erforderlichem Zubehör und Werkzeug"
+  },
   "legal": {
     "goToHome": "Zurück zu Home",
     "imprint": "Impressum",

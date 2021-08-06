@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
@@ -45,7 +46,23 @@ export class AppComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public constructor(private readonly router: Router) {}
+  metaTags: MetaDefinition[] = [
+    { name: 'title', content: translate('meta.title') },
+    { name: 'description', content: translate('meta.description') },
+    // Open Graph / Facebook
+    { name: 'og:title', content: translate('meta.title') },
+    { name: 'og:description', content: translate('meta.description') },
+    // Twitter
+    { name: 'twitter:title', content: translate('meta.title') },
+    { name: 'twitter:description', content: translate('meta.description') },
+  ];
+
+  public constructor(
+    private readonly router: Router,
+    private readonly meta: Meta
+  ) {
+    this.meta.addTags(this.metaTags);
+  }
 
   public ngOnInit(): void {
     this.checkIframe();

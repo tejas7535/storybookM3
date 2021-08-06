@@ -81,6 +81,10 @@
     "retry": "Retry"
   },
   "settings": "Settings",
+  "meta": {
+    "title": "Schaeffler Mounting Manager",
+    "description": "The Schaeffler Mounting Manager comfortably assists in selecting the right bearing installation and offers following possibilities: shows various mechanical and hydraulic procedures, calculates required installation parameters, gives useful installation hints, creates a list of required accessories and tools"
+  },
   "legal": {
     "goToHome": "Back to Home",
     "imprint": "Imprint",
