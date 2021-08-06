@@ -22,7 +22,7 @@
       "key_account": "Beispielwert: VW",
       "material_short_description": "Beispielwert: SLH",
       "project_name": "Beispielwert: Mazda J59Y",
-      "rfq": "Beispielwert: 000031144313"
+      "rfq": "Beispielwert: 000031144313 oder 80061259-01"
     },
     "tooltips": {
       "disabledBudgetQuantity": "Um den Filter für die Budgetierte Menge zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",

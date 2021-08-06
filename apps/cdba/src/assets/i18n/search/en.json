@@ -22,7 +22,7 @@
       "key_account": "Example Value: VW",
       "material_short_description": "Example Value: SLH",
       "project_name": "Example Value: Mazda J59Y",
-      "rfq": "Example Value: 000031144313"
+      "rfq": "Example Value: 000031144313 or 80061259-01"
     },
     "tooltips": {
       "disabledBudgetQuantity": "To activate the budget quantity filter, please first use another filter and click on the search button.",
