@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   devToolsEnabled: true,
   baseUrl: 'https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1',
-  oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6-test',
+  oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6',
   preflightPath: 'bearing-preflight',
   materialsPath: 'materialdata/id/',
   bearingRelationsPath: 'bearing-relations/',
