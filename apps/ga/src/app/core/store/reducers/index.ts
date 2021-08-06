@@ -8,6 +8,8 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import * as fromBearing from './bearing/bearing.reducer';
+import * as fromParameter from './parameter/parameter.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -31,6 +33,12 @@ export const getRouterState =
   createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
     'router'
   );
+
+export const getBearingState =
+  createFeatureSelector<fromBearing.BearingState>('bearing');
+
+export const getParameterState =
+  createFeatureSelector<fromParameter.ParameterState>('parameter');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

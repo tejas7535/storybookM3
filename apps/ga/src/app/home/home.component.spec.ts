@@ -1,6 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoTestingModule } from '@ngneat/transloco';
@@ -15,6 +16,7 @@ describe('HomeComponent', () => {
     component: HomeComponent,
     declarations: [HomeComponent],
     imports: [
+      RouterTestingModule,
       MatCardModule,
       MatIconModule,
       MatButtonModule,

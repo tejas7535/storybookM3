@@ -1,5 +1,5 @@
 {
-  "landing": {
+  "home": {
     "greaseApp": "Grease App",
     "greaseCalculator": "Grease Calculator",
     "startCalc": "Start",
@@ -10,5 +10,8 @@
     "catalog": "Produktkatalog",
     "greases": "Fette",
     "learnMore": "Mehr erfahren"
+  },
+  "bearing": {
+    "bearingSelection": "Lagerauswahl"
   }
 }

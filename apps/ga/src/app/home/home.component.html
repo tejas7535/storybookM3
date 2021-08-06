@@ -1,4 +1,4 @@
-<div class="md:bg-background h-full" *transloco="let t; read: 'landing'">
+<div class="md:bg-background h-full" *transloco="let t; read: 'home'">
   <div
     class="
       grid-container grid
@@ -43,6 +43,7 @@
           mat-button
           color="primary"
           class="uppercase relative right-2 md:right-1 text-button mb-4"
+          [routerLink]="bearingLink"
         >
           <div class="flex justify-between">
             <h4 class="text-primary font-normal mr-3">{{ t('startCalc') }}</h4>

@@ -1,21 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-export enum RoutePath {
-  BasePath = 'app',
-}
+import { AppRoutePath } from './app-route-path.enum';
 
 export const appRoutePaths: Routes = [
   {
-    path: RoutePath.BasePath,
+    path: AppRoutePath.BasePath,
     loadChildren: async () =>
       import('./home/home.module').then((m) => m.HomeModule),
+  },
+  {
+    path: AppRoutePath.BearingPath,
+    loadChildren: async () =>
+      import('./bearing/bearing.module').then((m) => m.BearingModule),
     pathMatch: 'full',
   },
   {
     path: '**',
-    loadChildren: async () =>
-      import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
+    redirectTo: AppRoutePath.BasePath,
   },
 ];
 

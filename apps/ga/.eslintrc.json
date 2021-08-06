@@ -28,7 +28,12 @@
             "style": "kebab-case"
           }
         ]
-      }
+      },
+      "plugins": [
+        "@angular-eslint/eslint-plugin",
+        "eslint-plugin-import",
+        "@typescript-eslint"
+      ]
     },
     {
       "files": ["*.spec.ts"],
