@@ -7,7 +7,7 @@ import {
   PageNotFoundComponent,
   PageNotFoundModule,
 } from '@schaeffler/empty-states';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { StorybookTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
 
@@ -26,7 +26,7 @@ export const primary = () => ({
         useHash: true,
       }),
       HttpClientModule,
-      provideTranslocoTestingModule({ en: {} }),
+      StorybookTranslocoModule,
       TranslocoModule,
     ],
   },

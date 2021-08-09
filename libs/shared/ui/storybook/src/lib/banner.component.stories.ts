@@ -7,7 +7,7 @@ import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/bann
 
 import { BannerTextComponent } from '@schaeffler/banner';
 import { IconsModule } from '@schaeffler/icons';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { StorybookTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../banner/README.md';
 
@@ -15,7 +15,7 @@ const moduleMetadata = {
   imports: [
     CommonModule,
     BannerTextModule,
-    provideTranslocoTestingModule({ en: {} }),
+    StorybookTranslocoModule,
     TranslocoModule,
     IconsModule,
   ],
