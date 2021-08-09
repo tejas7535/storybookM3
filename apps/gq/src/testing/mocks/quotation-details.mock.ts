@@ -48,3 +48,33 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   lastOfferDetail: LAST_OFFER_DETAIL_MOCK,
   comment: 'testcomment',
 };
+
+export const QUATATION_DETAILS_MOCK = [
+  {
+    gpi: 43.28,
+    gpm: 25.37,
+    netValue: 13.4,
+    orderQuantity: 10,
+    material: {
+      materialNumber15: '093328702000010',
+    } as MaterialDetails,
+  } as QuotationDetail,
+  {
+    gpi: 24.75,
+    gpm: 0.99,
+    netValue: 2020,
+    orderQuantity: 2000,
+    material: {
+      materialNumber15: '093328702000010',
+    } as MaterialDetails,
+  } as QuotationDetail,
+  {
+    gpi: -19,
+    gpm: 0,
+    netValue: 0.4,
+    orderQuantity: 20,
+    material: {
+      materialNumber15: '093328702000020',
+    } as MaterialDetails,
+  } as QuotationDetail,
+];

@@ -1,4 +1,5 @@
 import {
+  QUATATION_DETAILS_MOCK,
   QUOTATION_DETAIL_MOCK,
   TRANSACTION_MOCK,
 } from '../../../../testing/mocks';
@@ -89,16 +90,38 @@ describe('PriceService', () => {
     });
   });
 
-  describe('calculateStatusBarValues', () => {
-    test('should return calculatedValues', () => {
+  describe('calculateStatusBarValues should', () => {
+    test('return calculatedValues', () => {
       const details = [QUOTATION_DETAIL_MOCK];
+
       const result = PriceService.calculateStatusBarValues(details);
 
       expect(result).toEqual({
-        netValue: QUOTATION_DETAIL_MOCK.netValue,
-        weightedGPI: QUOTATION_DETAIL_MOCK.gpi,
-        weightedGPM: QUOTATION_DETAIL_MOCK.gpm,
+        totalNetValue: QUOTATION_DETAIL_MOCK.netValue,
+        totalWeightedGPI: QUOTATION_DETAIL_MOCK.gpi,
+        totalWeightedGPM: QUOTATION_DETAIL_MOCK.gpm,
       });
+    });
+    test('only use max quantity to calculate StatusBarCalculation, if same materialNumber15 appear', () => {
+      const result = PriceService.calculateStatusBarValues(
+        QUATATION_DETAILS_MOCK
+      );
+
+      expect(result).toEqual({
+        totalNetValue: 2020.4,
+        totalWeightedGPI: 24.74,
+        totalWeightedGPM: 0.99,
+      });
+    });
+  });
+
+  describe('keepMaxQuantityIfDuplicate should', () => {
+    test('only use max quantity to calculate StatusBarCalculation, if same materialNumber15 appear', () => {
+      const result = PriceService.keepMaxQuantityIfDuplicate(
+        QUATATION_DETAILS_MOCK
+      );
+
+      expect(result.length).toEqual(2);
     });
   });
 

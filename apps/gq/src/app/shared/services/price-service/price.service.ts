@@ -85,18 +85,23 @@ export class PriceService {
     return undefined;
   }
 
+  /**
+   * https://confluence.schaeffler.com/display/PARS/Implementation+Prices
+   * @param details
+   */
   static calculateStatusBarValues(
     details: QuotationDetail[]
   ): StatusBarCalculation {
-    let netValue = 0;
+    let totalNetValue = 0;
     let netValueGPM = 0;
-    // sum of (gpi% * netValue) of each line
     let sumGPINetValue = 0;
     let sumGPMNetValue = 0;
+    let totalWeightedGPI = 0;
+    let totalWeightedGPM = 0;
 
-    details.forEach((row: QuotationDetail) => {
+    this.keepMaxQuantityIfDuplicate(details).forEach((row: QuotationDetail) => {
       if (row.netValue) {
-        netValue += row.netValue;
+        totalNetValue += row.netValue;
         if (row.gpi) {
           sumGPINetValue += row.gpi * row.netValue;
         }
@@ -106,19 +111,19 @@ export class PriceService {
         }
       }
     });
-    let weightedGPI = 0;
-    let weightedGPM = 0;
     if (netValueGPM !== 0) {
-      weightedGPM = PriceService.roundToTwoDecimals(
+      totalWeightedGPM = PriceService.roundToTwoDecimals(
         sumGPMNetValue / netValueGPM
       );
     }
-    if (netValue !== 0) {
-      weightedGPI = PriceService.roundToTwoDecimals(sumGPINetValue / netValue);
-      netValue = PriceService.roundToTwoDecimals(netValue);
+    if (totalNetValue !== 0) {
+      totalWeightedGPI = PriceService.roundToTwoDecimals(
+        sumGPINetValue / totalNetValue
+      );
+      totalNetValue = PriceService.roundToTwoDecimals(totalNetValue);
     }
 
-    return { netValue, weightedGPI, weightedGPM };
+    return { totalNetValue, totalWeightedGPI, totalWeightedGPM };
   }
 
   static roundPercentageToTwoDecimals(number: number): number {
@@ -137,5 +142,23 @@ export class PriceService {
       ...transaction,
       price: PriceService.multiplyAndRoundValues(transaction.price, priceUnit),
     }));
+  }
+
+  static keepMaxQuantityIfDuplicate(
+    quotationDetails: QuotationDetail[]
+  ): QuotationDetail[] {
+    const filtered = new Map<string, QuotationDetail>();
+    quotationDetails.forEach((quotationDetail: QuotationDetail) => {
+      const key = quotationDetail.material.materialNumber15;
+      if (filtered.has(key)) {
+        if (filtered.get(key).orderQuantity < quotationDetail.orderQuantity) {
+          filtered.set(key, quotationDetail);
+        }
+      } else {
+        filtered.set(key, quotationDetail);
+      }
+    });
+
+    return [...filtered.values()];
   }
 }

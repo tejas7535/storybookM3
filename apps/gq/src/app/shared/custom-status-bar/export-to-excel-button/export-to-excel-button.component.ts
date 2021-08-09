@@ -166,11 +166,11 @@ export class ExportToExcelButtonComponent {
   }
 
   addQuotationSummary(quotation: Quotation): ExcelCell[][] {
-    const kpis = PriceService.calculateStatusBarValues(
+    const statusBarCalculation = PriceService.calculateStatusBarValues(
       quotation.quotationDetails
     );
 
-    const result: ExcelCell[][] = [
+    return [
       [
         {
           data: {
@@ -231,7 +231,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: kpis.netValue.toString(),
+            value: statusBarCalculation.totalNetValue.toString(),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -249,7 +249,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: `${kpis.weightedGPM}%`,
+            value: `${statusBarCalculation.totalWeightedGPM}%`,
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -267,7 +267,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: `${kpis.weightedGPI}%`,
+            value: `${statusBarCalculation.totalWeightedGPI}%`,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -292,8 +292,6 @@ export class ExportToExcelButtonComponent {
       ],
       [],
     ];
-
-    return result;
   }
 
   addCustomerOverview(quotation: Quotation): ExcelCell[][] {

@@ -57,9 +57,9 @@ export class QuotationDetailsStatusComponent implements OnInit {
     const details: QuotationDetail[] = [];
     this.params.api.forEachNode((row: RowNode) => details.push(row.data));
     const allRows = PriceService.calculateStatusBarValues(details);
-    this.totalNetValue = allRows.netValue;
-    this.totalAverageGPI = allRows.weightedGPI;
-    this.totalAverageGPM = allRows.weightedGPM;
+    this.totalNetValue = allRows.totalNetValue;
+    this.totalAverageGPI = allRows.totalWeightedGPI;
+    this.totalAverageGPM = allRows.totalWeightedGPM;
   }
 
   onSelectionChange(): void {
@@ -68,8 +68,8 @@ export class QuotationDetailsStatusComponent implements OnInit {
       this.selections
     );
 
-    this.selectedNetValue = selectedDetails.netValue;
-    this.selectedAverageGPI = selectedDetails.weightedGPI;
-    this.selectedAverageGPM = selectedDetails.weightedGPM;
+    this.selectedNetValue = selectedDetails.totalNetValue;
+    this.selectedAverageGPI = selectedDetails.totalWeightedGPI;
+    this.selectedAverageGPM = selectedDetails.totalWeightedGPM;
   }
 }

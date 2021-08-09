@@ -86,9 +86,9 @@ describe('QuotationDetailsStatusComponent', () => {
         },
       };
       PriceService.calculateStatusBarValues = jest.fn(() => ({
-        netValue: QUOTATION_DETAIL_MOCK.netValue,
-        weightedGPI: QUOTATION_DETAIL_MOCK.gpi,
-        weightedGPM: QUOTATION_DETAIL_MOCK.gpm,
+        totalNetValue: QUOTATION_DETAIL_MOCK.netValue,
+        totalWeightedGPI: QUOTATION_DETAIL_MOCK.gpi,
+        totalWeightedGPM: QUOTATION_DETAIL_MOCK.gpm,
       }));
       component['params'].api.forEachNode = jest.fn((callback) =>
         callback(rowNode as any, 1)
