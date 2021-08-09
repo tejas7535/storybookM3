@@ -12,7 +12,7 @@ import { MockComponent } from 'ng-mocks';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { LineChartComponent } from '../../shared/line-chart/line-chart.component';
+import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';
 import {
   getAttritionOverTimeOrgChartData,

@@ -15,7 +15,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ChartLegendModule } from '../../shared/chart-legend/chart-legend.module';
+import { ChartLegendModule } from '../../shared/charts/chart-legend/chart-legend.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { WorldMapComponent } from './world-map.component';

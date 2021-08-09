@@ -2,20 +2,20 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { EChartsOption, SeriesOption } from 'echarts';
 
-import { Color } from '../../../shared/models/color.enum';
+import { Color } from '../../models/color.enum';
+import { DoughnutConfig } from '../models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../models/doughnut-series-config.model';
 import {
   createPieChartBaseOptions,
   createPieChartSeries,
-} from './doughnut-chart.config';
-import { DoughnutConfig } from './models/doughnut-config.model';
-import { DoughnutSeriesConfig } from './models/doughnut-series-config.model';
+} from './loose-doughnut-chart.config';
 
 @Component({
-  selector: 'ia-doughnut-chart',
-  templateUrl: './doughnut-chart.component.html',
+  selector: 'ia-loose-doughnut-chart',
+  templateUrl: './loose-doughnut-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DoughnutChartComponent {
+export class LooseDoughnutChartComponent {
   options: EChartsOption;
   mergeOptions: EChartsOption;
 
@@ -23,13 +23,13 @@ export class DoughnutChartComponent {
 
   @Input() set initialConfig(configs: DoughnutSeriesConfig[]) {
     const baseOptions = createPieChartBaseOptions(
-      configs.map((serie) => serie.name) ?? [],
+      configs.map((serie) => serie.title) ?? [],
       '-',
       ''
     );
 
     const seriesConfigs = configs.map(
-      (serie) => new DoughnutSeriesConfig(serie.value, serie.name, serie.color)
+      (serie) => new DoughnutSeriesConfig(serie.data, serie.title, serie.color)
     );
 
     const series = this.createSeriesOptions(
@@ -48,7 +48,7 @@ export class DoughnutChartComponent {
       let totalValue = 0;
 
       for (const serie of config.series) {
-        totalValue += serie.value;
+        totalValue += serie.data[0].value;
       }
 
       this.mergeOptions = {
@@ -71,16 +71,16 @@ export class DoughnutChartComponent {
       const radius = [`${radiusStart}%`, `${radiusStart + radiusStep}%`];
       let totalValue = 0;
       for (const serie of data.series) {
-        totalValue += serie.value;
+        totalValue += serie.data[0].value;
       }
 
       const pieChartSeries = createPieChartSeries(
         radius,
-        seriesObj.value,
+        seriesObj.data[0].value,
         totalValue,
         seriesObj.color ?? Color.BLACK,
         data.name,
-        seriesObj.name
+        seriesObj.title
       );
 
       radiusStart += radiusStep + radiusGap;

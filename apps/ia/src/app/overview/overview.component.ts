@@ -6,10 +6,10 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
+import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionSeries, Event, FluctuationKpi } from '../shared/models';
 import { Employee } from '../shared/models/employee.model';
-import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
 import { OpenApplication, ResignedEmployee } from './models';
 import {
   getAttritionOverTimeEvents,

@@ -7,7 +7,7 @@ import {
 } from '../../../core/store/selectors';
 import { AttritionOverTime } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
-import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
+import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
 import * as utils from './overview-selector-utils';
 
 export const getIsLoadingAttritionOverTimeOverview = createSelector(
@@ -140,7 +140,7 @@ export const getOverviewFluctuationEntriesCount = createSelector(
   getOverviewFluctuationEntriesDoughnutConfig,
   (doughnutConfig: DoughnutConfig) =>
     doughnutConfig?.series
-      .map((config) => config.value)
+      .map((config) => config.data[0].value)
       // eslint-disable-next-line unicorn/no-array-reduce
       .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
 );
@@ -149,7 +149,7 @@ export const getOverviewFluctuationExitsCount = createSelector(
   getOverviewFluctuationExitsDoughnutConfig,
   (doughnutConfig: DoughnutConfig) =>
     doughnutConfig?.series
-      .map((config) => config.value)
+      .map((config) => config.data[0].value)
       // eslint-disable-next-line unicorn/no-array-reduce
       .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
 );

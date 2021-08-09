@@ -1,10 +1,18 @@
+import { MatCardModule } from '@angular/material/card';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import {
+  provideTranslocoTestingModule,
+  SharedTranslocoModule,
+} from '@schaeffler/transloco';
 
+import { SolidDoughnutChartComponent } from '../shared/charts/solid-doughnut-chart/solid-doughnut-chart.component';
+import { SharedModule } from '../shared/shared.module';
 import { ReasonsAndCounterMeasuresComponent } from './reasons-and-counter-measures.component';
-import { ReasonsForLeavingModule } from './reasons-for-leaving/reasons-for-leaving.module';
+import { ReasonsForLeavingTableModule } from './reasons-for-leaving/reasons-for-leaving-table/reasons-for-leaving-table.module';
 
 describe('ReasonsAndCounterMeasuresComponent', () => {
   let component: ReasonsAndCounterMeasuresComponent;
@@ -14,9 +22,13 @@ describe('ReasonsAndCounterMeasuresComponent', () => {
     component: ReasonsAndCounterMeasuresComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      ReasonsForLeavingModule,
+      SharedModule,
+      MatCardModule,
+      SharedTranslocoModule,
+      ReasonsForLeavingTableModule,
     ],
     providers: [provideMockStore({})],
+    declarations: [MockComponent(SolidDoughnutChartComponent)],
   });
 
   beforeEach(() => {

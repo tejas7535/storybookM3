@@ -3,6 +3,7 @@ export enum Color {
   WHITE = '#fff',
   GREY = '#ebeef0',
   SHADOW_GREY = 'rgba(0, 0, 0, 0.2)',
+  LIGHT_GREY = '#90A4AE',
   RED = '#e62c27',
   LIGHT_GREEN = '#A1C861',
   DARK_GREEN = '#00893d',
@@ -10,4 +11,10 @@ export enum Color {
   LIGHT_BLUE = '#78909C',
   BLUE = '#1D9BB2',
   YELLOW = '#fccf46',
+  COLORFUL_CHART_0 = '#56D3ED',
+  COLORFUL_CHART_1 = LIGHT_GREEN,
+  COLORFUL_CHART_2 = LIGHT_GREY,
+  COLORFUL_CHART_3 = '#4DB6AC',
+  COLORFUL_CHART_4 = '#acb2ab',
+  COLORFUL_CHART_5 = '#CBD0CA',
 }

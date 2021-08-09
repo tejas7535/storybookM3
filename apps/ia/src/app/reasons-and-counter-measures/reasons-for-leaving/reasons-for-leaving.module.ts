@@ -6,6 +6,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
+import { ReasonsForLeavingChartModule } from './reasons-for-leaving-chart/reasons-for-leaving-chart.module';
 import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
 import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
 
@@ -16,6 +17,7 @@ import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
     MatCardModule,
     SharedTranslocoModule,
     ReasonsForLeavingTableModule,
+    ReasonsForLeavingChartModule,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'reasons-and-counter-measures' },

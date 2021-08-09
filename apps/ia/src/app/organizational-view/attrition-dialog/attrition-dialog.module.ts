@@ -11,7 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
 import { AttritionDialogComponent } from './attrition-dialog.component';
-import { LineChartModule } from '../../shared/line-chart/line-chart.module';
+import { LineChartModule } from '../../shared/charts/line-chart/line-chart.module';
 
 @NgModule({
   declarations: [AttritionDialogComponent, AttritionDialogMetaComponent],

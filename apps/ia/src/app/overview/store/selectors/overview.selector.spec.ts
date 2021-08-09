@@ -5,8 +5,8 @@ import { FilterState } from '../../../core/store/reducers/filter/filter.reducer'
 import { FilterKey, FluctuationKpi } from '../../../shared/models';
 import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
-import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
+import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
 import { OpenApplication, ResignedEmployee } from '../../models';
 import {
   getAttritionOverTimeEvents,
@@ -236,8 +236,16 @@ describe('Overview Selector', () => {
     it('should return config for doughnut chart with entries', () => {
       expect(getOverviewFluctuationEntriesDoughnutConfig(fakeState)).toEqual(
         new DoughnutConfig('Entries', [
-          new DoughnutSeriesConfig(1, 'internal', Color.LIGHT_GREEN),
-          new DoughnutSeriesConfig(2, 'external', Color.LIGHT_BLUE),
+          new DoughnutSeriesConfig(
+            [{ value: 1 }],
+            'internal',
+            Color.LIGHT_GREEN
+          ),
+          new DoughnutSeriesConfig(
+            [{ value: 2 }],
+            'external',
+            Color.LIGHT_BLUE
+          ),
         ])
       );
     });
@@ -247,8 +255,16 @@ describe('Overview Selector', () => {
     it('should return config for doughnut chart with exits', () => {
       expect(getOverviewFluctuationExitsDoughnutConfig(fakeState)).toEqual(
         new DoughnutConfig('Exits', [
-          new DoughnutSeriesConfig(1, 'internal', Color.LIGHT_GREEN),
-          new DoughnutSeriesConfig(2, 'external', Color.LIGHT_BLUE),
+          new DoughnutSeriesConfig(
+            [{ value: 1 }],
+            'internal',
+            Color.LIGHT_GREEN
+          ),
+          new DoughnutSeriesConfig(
+            [{ value: 2 }],
+            'external',
+            Color.LIGHT_BLUE
+          ),
         ])
       );
     });

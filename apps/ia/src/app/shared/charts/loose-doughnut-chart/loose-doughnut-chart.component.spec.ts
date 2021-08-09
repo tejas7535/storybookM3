@@ -3,25 +3,25 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { Color } from '../../../shared/models/color.enum';
-import { SharedModule } from '../../../shared/shared.module';
-import { DoughnutChartComponent } from './doughnut-chart.component';
-import * as doughnutChartConfig from './doughnut-chart.config';
-import { DoughnutConfig } from './models/doughnut-config.model';
-import { DoughnutSeriesConfig } from './models/doughnut-series-config.model';
+import { Color } from '../../models/color.enum';
+import { SharedModule } from '../../shared.module';
+import { DoughnutConfig } from '../models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../models/doughnut-series-config.model';
+import { LooseDoughnutChartComponent } from './loose-doughnut-chart.component';
+import * as doughnutChartConfig from './loose-doughnut-chart.config';
 
-jest.mock('./doughnut-chart.config', () => ({
-  ...(jest.requireActual('./doughnut-chart.config') as any),
+jest.mock('./loose-doughnut-chart.config', () => ({
+  ...(jest.requireActual('./loose-doughnut-chart.config') as any),
   createPieChartBaseOptions: jest.fn(() => ({})),
   createPieChartSeries: jest.fn(() => ({})),
 }));
 
-describe('DoughnutChartComponent', () => {
-  let component: DoughnutChartComponent;
-  let spectator: Spectator<DoughnutChartComponent>;
+describe('LooseDoughnutChartComponent', () => {
+  let component: LooseDoughnutChartComponent;
+  let spectator: Spectator<LooseDoughnutChartComponent>;
 
   const createComponent = createComponentFactory({
-    component: DoughnutChartComponent,
+    component: LooseDoughnutChartComponent,
     detectChanges: false,
     imports: [
       SharedModule,
@@ -43,7 +43,11 @@ describe('DoughnutChartComponent', () => {
   describe('set initialConfig', () => {
     test('should set correct initial config', () => {
       const series = [
-        new DoughnutSeriesConfig(99, 'demo data 1', Color.LIGHT_GREEN),
+        new DoughnutSeriesConfig(
+          [{ value: 99 }],
+          'demo data 1',
+          Color.LIGHT_GREEN
+        ),
       ];
 
       component.createSeriesOptions = jest.fn(() => series);
@@ -64,18 +68,18 @@ describe('DoughnutChartComponent', () => {
     test('should map correct series', () => {
       const color = Color.LIGHT_GREEN;
       const data = new DoughnutConfig('Demo', [
-        new DoughnutSeriesConfig(99, 'demo data 1', color),
+        new DoughnutSeriesConfig([{ value: 99 }], 'demo data 1', color),
       ]);
 
       const result = component.createSeriesOptions(data);
 
       expect(doughnutChartConfig.createPieChartSeries).toHaveBeenCalledWith(
         ['60%', '70%'],
-        data.series[0].value,
-        data.series[0].value,
+        data.series[0].data[0].value,
+        data.series[0].data[0].value,
         color,
         data.name,
-        data.series[0].name
+        data.series[0].title
       );
       expect(result).toEqual([{}]);
     });

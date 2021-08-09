@@ -1,10 +1,10 @@
-import { Color } from '../../../shared/models/color.enum';
+import { Color } from '../../models/color.enum';
 import {
   createPieChartBaseOptions,
   createPieChartSeries,
-} from './doughnut-chart.config';
+} from './loose-doughnut-chart.config';
 
-describe('doughnut-chart config', () => {
+describe('loose-doughnut-chart config', () => {
   describe('createPieChartBaseOptions', () => {
     let echartsOptions: any;
 

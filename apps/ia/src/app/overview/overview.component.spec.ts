@@ -5,7 +5,7 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
+import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { OverviewComponent } from './overview.component';
 import {
   getAttritionOverTimeEvents,

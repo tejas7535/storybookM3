@@ -11,10 +11,9 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../../shared/shared.module';
-import { DoughnutChartComponent } from './doughnut-chart.component';
+import { SharedModule } from '../../shared.module';
+import { SolidDoughnutChartComponent } from './solid-doughnut-chart.component';
 
 echarts.use([
   TitleComponent,
@@ -25,13 +24,12 @@ echarts.use([
 ]);
 
 @NgModule({
-  declarations: [DoughnutChartComponent],
+  declarations: [SolidDoughnutChartComponent],
   imports: [
     SharedModule,
     NgxEchartsModule.forRoot({ echarts }),
-    SharedTranslocoModule,
     LoadingSpinnerModule,
   ],
-  exports: [DoughnutChartComponent],
+  exports: [SolidDoughnutChartComponent],
 })
-export class DoughnutChartModule {}
+export class SolidDoughnutChartModule {}

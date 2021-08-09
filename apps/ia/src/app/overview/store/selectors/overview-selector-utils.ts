@@ -10,8 +10,8 @@ import {
 import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { FluctuationRate } from '../../../shared/models/fluctuation-rate.model';
-import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
+import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
 
 export function getExternalLeaversByOrgUnit(
   employees: Employee[],
@@ -124,12 +124,12 @@ export function createDoughnutConfig(
   return internal && external
     ? new DoughnutConfig(name, [
         new DoughnutSeriesConfig(
-          internal.length,
+          [{ value: internal.length }],
           labelInternal,
           Color.LIGHT_GREEN
         ),
         new DoughnutSeriesConfig(
-          external.length,
+          [{ value: external.length }],
           labelExternal,
           Color.LIGHT_BLUE
         ),

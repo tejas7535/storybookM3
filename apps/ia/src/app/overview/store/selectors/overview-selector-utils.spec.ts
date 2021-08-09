@@ -10,8 +10,8 @@ import {
 import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { FluctuationRate } from '../../../shared/models/fluctuation-rate.model';
-import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
+import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
 import * as utils from './overview-selector-utils';
 
 describe('OverviewSelectorUtils', () => {
@@ -195,12 +195,12 @@ describe('OverviewSelectorUtils', () => {
       expect(result).toEqual(
         new DoughnutConfig(name, [
           new DoughnutSeriesConfig(
-            internals.length,
+            [{ value: internals.length }],
             internalLabel,
             Color.LIGHT_GREEN
           ),
           new DoughnutSeriesConfig(
-            externals.length,
+            [{ value: externals.length }],
             externalLabel,
             Color.LIGHT_BLUE
           ),

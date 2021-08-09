@@ -13,9 +13,9 @@ import { Color } from '../../shared/models/color.enum';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';
-import { DoughnutChartComponent } from './doughnut-chart/doughnut-chart.component';
-import { DoughnutConfig } from './doughnut-chart/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from './doughnut-chart/models/doughnut-series-config.model';
+import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
+import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { EntriesExitsComponent } from './entries-exits.component';
 
 describe('EntriesExitsComponent', () => {
@@ -59,7 +59,7 @@ describe('EntriesExitsComponent', () => {
       KpiModule,
       SharedPipesModule,
     ],
-    declarations: [MockComponent(DoughnutChartComponent)],
+    declarations: [MockComponent(LooseDoughnutChartComponent)],
   });
 
   beforeEach(() => {
@@ -74,10 +74,10 @@ describe('EntriesExitsComponent', () => {
 
   it('should set data', () => {
     component.entriesDoughnutConfig = new DoughnutConfig('Demo Entries', [
-      new DoughnutSeriesConfig(23, 'entries', Color.WHITE),
+      new DoughnutSeriesConfig([{ value: 23 }], 'entries', Color.WHITE),
     ]);
     component.exitsDoughnutConfig = new DoughnutConfig('Demo Exits', [
-      new DoughnutSeriesConfig(23, 'exits', Color.BLACK),
+      new DoughnutSeriesConfig([{ value: 23 }], 'exits', Color.BLACK),
     ]);
     component.entriesCount = 65;
     component.exitsCount = 72;
@@ -88,7 +88,9 @@ describe('EntriesExitsComponent', () => {
     const kpiValues = fixture.debugElement
       .queryAll(By.css('h4'))
       .map((element) => element.nativeElement.textContent);
-    const charts = fixture.debugElement.queryAll(By.css('ia-doughnut-chart'));
+    const charts = fixture.debugElement.queryAll(
+      By.css('ia-loose-doughnut-chart')
+    );
 
     expect(kpiValues.length).toEqual(2);
     expect(kpiValues).toContain(component.entriesCount.toString());

@@ -1,4 +1,4 @@
-import { TailwindColor } from '../../models/taliwind-color.enum';
+import { TailwindColor } from '../../../models/taliwind-color.enum';
 
 export class ChartLegendItem {
   public constructor(
