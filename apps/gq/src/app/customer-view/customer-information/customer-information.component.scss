@@ -2,22 +2,18 @@ mat-card {
   margin: 16px;
   width: 400px;
 }
-h6 {
-  margin-bottom: 16px;
-  margin-top: 8px;
-}
 div {
   font-size: 14px;
-  font-weight: bold;
+  line-height: 20px;
   margin-bottom: 8px;
 }
 span {
-  opacity: 0.6;
+  color: rgba(0, 0, 0, 0.6);
 }
 .break {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.87);
   height: 1px;
   margin-bottom: 16px;
   margin-top: 16px;
-  opacity: 0.87;
+  opacity: 0.12;
 }

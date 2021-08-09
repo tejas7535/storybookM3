@@ -1,5 +1,7 @@
+import { ComponentFixture } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -11,6 +13,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
@@ -25,6 +28,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('CustomerViewComponent', () => {
   let component: CustomerViewComponent;
   let spectator: Spectator<CustomerViewComponent>;
+  let fixture: ComponentFixture<CustomerViewComponent>;
 
   const createComponent = createComponentFactory({
     component: CustomerViewComponent,
@@ -40,6 +44,8 @@ describe('CustomerViewComponent', () => {
       BreadcrumbsModule,
       SubheaderModule,
       ShareButtonModule,
+      MatSnackBarModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({
@@ -60,6 +66,7 @@ describe('CustomerViewComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    fixture = spectator.fixture;
     component = spectator.debugElement.componentInstance;
   });
 
@@ -110,10 +117,12 @@ describe('CustomerViewComponent', () => {
     test('should addGetSelectedQuotationDetailItemIdSubscription', () => {
       component['subscription'].add = jest.fn();
       component.params = {} as any;
+      fixture.detectChanges();
+      expect(component['subscription'].add).toHaveBeenCalledTimes(2);
 
       component.addGetSelectedQuotationDetailItemIdSubscription();
 
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
+      expect(component['subscription'].add).toHaveBeenCalledTimes(3);
     });
   });
 

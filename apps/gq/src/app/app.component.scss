@@ -6,3 +6,9 @@
   display: flex;
   flex: 1;
 }
+
+::ng-deep
+  .ag-theme-material
+  .ag-horizontal-left-spacer:not(.ag-scroller-corner) {
+  border-right: none;
+}

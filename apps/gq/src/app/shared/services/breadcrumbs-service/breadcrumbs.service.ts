@@ -9,6 +9,7 @@ import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,
 } from '../../../app-routing.module';
+import { Customer } from '../../models/customer';
 
 @Injectable({
   providedIn: 'root',
@@ -82,12 +83,11 @@ export class BreadcrumbsService {
 
   getCustomerBreadCrumbs(
     queryParams: DetailViewQueryParams,
+    customer: Customer,
     itemId?: number
   ): Breadcrumb[] {
     const customerBreadCrumbs: Breadcrumb = {
-      label: `${translate('shared.breadcrumbs.customerView')} ${
-        queryParams.customer_number
-      }`,
+      label: customer?.name,
     };
     if (queryParams.gqPositionId && itemId) {
       return [

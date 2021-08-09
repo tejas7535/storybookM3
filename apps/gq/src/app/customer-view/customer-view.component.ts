@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -23,6 +23,7 @@ import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/bread
   styleUrls: ['./customer-view.component.scss'],
 })
 export class CustomerViewComponent implements OnInit, OnDestroy {
+  public getSelectedQuotationDetailItemIdSubscription$: Observable<number>;
   public customer$: Observable<Customer>;
   public quotationLoading$: Observable<boolean>;
   public isCustomerLoading$: Observable<boolean>;
@@ -38,6 +39,9 @@ export class CustomerViewComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.getSelectedQuotationDetailItemIdSubscription$ = this.store.select(
+      getSelectedQuotationDetailItemId
+    );
     this.customer$ = this.store.select(getCustomer);
     this.quotationLoading$ = this.store.select(isQuotationLoading);
     this.isCustomerLoading$ = this.store.select(isCustomerLoading);
@@ -59,14 +63,18 @@ export class CustomerViewComponent implements OnInit, OnDestroy {
   }
 
   public addGetSelectedQuotationDetailItemIdSubscription(): void {
-    this.subscription.add(
-      this.store.select(getSelectedQuotationDetailItemId).subscribe((id) => {
-        this.breadcrumbs = this.breadCrumbsService.getCustomerBreadCrumbs(
-          this.params,
-          id
-        );
-      })
-    );
+    const subscription = combineLatest(
+      this.getSelectedQuotationDetailItemIdSubscription$,
+      this.customer$
+    ).subscribe(([id, customer]: [number, Customer]) => {
+      this.breadcrumbs = this.breadCrumbsService.getCustomerBreadCrumbs(
+        this.params,
+        customer,
+        id
+      );
+    });
+
+    this.subscription.add(subscription);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

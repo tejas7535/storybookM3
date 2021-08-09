@@ -1,15 +1,11 @@
 <div *ngIf="!(quotationLoading$ | ngrxPush); else loading">
   <mat-card class="!pt-0 !pb-9" *ngIf="quotation$ | ngrxPush as quotation">
     <schaeffler-subheader
-      [title]="quotation.gqId | gqQuotation"
+      *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
+      [title]="material | materialInfo"
       [breadcrumbs]="breadcrumbs"
     >
-      <ng-container
-        titleContent
-        *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
-      >
-        {{ material | materialInfo }}
-      </ng-container>
+      <ng-container titleContent> </ng-container>
       <ng-container header> <gq-share-button></gq-share-button> </ng-container>
       <ng-container content>
         <gq-customer-header [customer]="quotation.customer">

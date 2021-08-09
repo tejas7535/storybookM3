@@ -10,7 +10,7 @@ export class MaterialInfoPipe implements PipeTransform {
   transform(value: MaterialDetails): string {
     const materialPipe = new MaterialTransformPipe();
 
-    return `| ${materialPipe.transform(value.materialNumber15)} | ${
+    return `${materialPipe.transform(value.materialNumber15)} | ${
       value.materialDescription
     }`;
   }

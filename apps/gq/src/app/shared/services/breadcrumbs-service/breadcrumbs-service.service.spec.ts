@@ -6,10 +6,14 @@ import {
   ProcessCaseViewQueryParams,
 } from '../../../app-routing.module';
 import { BreadcrumbsService } from './breadcrumbs.service';
+import { Customer } from '../../models/customer';
 
 describe('BreadcrumbsServiceService', () => {
   let service: BreadcrumbsService;
   let spectator: SpectatorService<BreadcrumbsService>;
+  const customer = {
+    name: 'customer',
+  } as Customer;
 
   const createService = createServiceFactory({
     service: BreadcrumbsService,
@@ -129,12 +133,9 @@ describe('BreadcrumbsServiceService', () => {
       };
       service.getDetailViewBreadcrumbs = jest.fn().mockReturnValue([{}]);
 
-      const result = service.getCustomerBreadCrumbs(queryParams, 10);
+      const result = service.getCustomerBreadCrumbs(queryParams, customer, 10);
 
-      expect(result).toEqual([
-        {},
-        { label: `translate it ${queryParams.customer_number}` },
-      ]);
+      expect(result).toEqual([{}, { label: 'customer' }]);
     });
     test('should return customerBreadcrumbs for processCaseView', () => {
       const queryParams: DetailViewQueryParams = {
@@ -145,12 +146,9 @@ describe('BreadcrumbsServiceService', () => {
       };
       service['getQuotationBreadcrumbs'] = jest.fn().mockReturnValue([{}]);
 
-      const result = service.getCustomerBreadCrumbs(queryParams);
+      const result = service.getCustomerBreadCrumbs(queryParams, customer);
 
-      expect(result).toEqual([
-        {},
-        { label: `translate it ${queryParams.customer_number}` },
-      ]);
+      expect(result).toEqual([{}, { label: 'customer' }]);
     });
   });
 });
