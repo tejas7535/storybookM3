@@ -11,7 +11,7 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
-import { FooterLink } from '@schaeffler/footer-tailwind';
+import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';

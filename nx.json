@@ -140,10 +140,6 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-ui-footer-tailwind": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": []
-    },
     "shared-ui-header": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles", "shared-assets"]

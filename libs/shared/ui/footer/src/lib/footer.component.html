@@ -1,21 +1,13 @@
 <footer
-  id="footer"
-  fxLayout="row"
-  fxLayoutAlign="space-between center"
-  fxLayoutAlign.lt-md="start stretch"
-  fxLayout.lt-md="column"
-  fxLayoutGap="0px"
-  fxLayoutGap.lt-md="20px"
+  class="
+    flex flex-col
+    items-center
+    my-4
+    lg:ml-5 lg:mr-3 lg:my-0 lg:flex-row lg:justify-end lg:h-12
+  "
 >
-  <div
-    fxLayout="row"
-    fxLayout.lt-md="column"
-    fxLayoutAlign="start center"
-    fxLayoutAlign.lt-md="space-between stretch"
-  >
-    <div
-      class="footer-content"
-      fxLayoutAlign="start center"
+  <div class="flex flex-row">
+    <ng-container
       *ngFor="
         let footerLink of footerLinks;
         let index = index;
@@ -27,30 +19,35 @@
         [href]="footerLink.link"
         target="_blank"
         rel="noopener noreferrer"
+        class="text-light text-caption leading-4"
       >
         {{ footerLink.title }}
       </a>
       <div
         *ngIf="!footerLink.external"
         [routerLink]="footerLink.link"
-        class="footer-link-internal"
+        class="
+          footer-link-internal
+          cursor-pointer
+          inline-block
+          text-light text-caption
+          outline-none
+          leading-4
+        "
       >
         {{ footerLink.title }}
       </div>
-      <span *ngIf="index !== footerLinks.length - 1 || appVersion" fxHide.lt-md
-        >&nbsp;|&nbsp;</span
+      <span
+        class="separator text-light text-caption mx-1 leading-4"
+        *ngIf="index !== footerLinks.length - 1 || appVersion"
+        >|</span
       >
-    </div>
-    <div
-      *ngIf="appVersion"
-      class="footer-content"
-      id="version"
-      fxLayoutAlign="start center"
-    >
-      <span> {{ appVersion }} </span>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="appVersion">
+      <span id="version" class="text-light text-caption leading-4">
+        {{ appVersion }}
+      </span>
+    </ng-container>
   </div>
-  <div class="footer-content" fxLayoutAlign="start center">
-    &copy; Schaeffler Technologies AG & Co. KG
-  </div>
+  <div class="schaeffler-footer-logo m-3"></div>
 </footer>

@@ -1,36 +1,10 @@
-@import 'libs/shared/ui/styles/src/lib/colors';
-@import 'libs/shared/ui/styles/src/lib/fonts';
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
 
-#footer {
-  border-top: 1px solid $schaeffler-white;
-  color: $schaeffler-carbon-gray;
-  flex-shrink: 0;
-  font-size: 13px;
-  margin: 0 30px;
-
-  @media screen and (max-width: $screen-sm-max) {
-    margin-bottom: 20px;
-    margin-top: 20px;
-  }
-
-  a {
-    color: $schaeffler-carbon-gray;
-    text-decoration: none;
-  }
-}
-
-.footer-content {
-  height: 50px;
-
-  @media screen and (max-width: $screen-sm-max) {
-    height: 30px;
-  }
-
-  div {
-    flex: 1;
-  }
-}
-
-.footer-link-internal {
-  cursor: pointer;
+.schaeffler-footer-logo {
+  background: url('./img/schaeffler-footer-logo.svg') no-repeat center;
+  background-size: contain;
+  height: 12px;
+  width: 106px;
 }

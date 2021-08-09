@@ -2038,8 +2038,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/footer/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/footer/checkstyle.xml"
             }
           }
         },
@@ -2072,50 +2071,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-footer-tailwind": {
-      "projectType": "library",
-      "root": "libs/shared/ui/footer-tailwind",
-      "sourceRoot": "libs/shared/ui/footer-tailwind/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
-          "options": {
-            "tsConfig": "libs/shared/ui/footer-tailwind/tsconfig.lib.json",
-            "project": "libs/shared/ui/footer-tailwind/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/footer-tailwind/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/footer-tailwind/src/**/*.ts",
-              "libs/shared/ui/footer-tailwind/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/footer-tailwind/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/ui/footer-tailwind"],
-          "options": {
-            "jestConfig": "libs/shared/ui/footer-tailwind/jest.config.js",
-            "passWithNoTests": true
-          }
         }
       }
     },

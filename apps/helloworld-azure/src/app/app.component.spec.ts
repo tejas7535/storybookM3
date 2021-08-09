@@ -5,7 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
@@ -21,7 +21,7 @@ describe('AppComponent', () => {
       RouterTestingModule,
       HeaderModule,
       NoopAnimationsModule,
-      FooterTailwindModule,
+      FooterModule,
       ReactiveComponentModule,
     ],
     providers: [

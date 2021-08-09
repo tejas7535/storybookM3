@@ -18,7 +18,7 @@ import {
   ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
@@ -61,7 +61,7 @@ const azureConfig = new AzureConfig(
     // UI Modules
     IconsModule,
     HeaderModule,
-    FooterTailwindModule,
+    FooterModule,
     MatButtonModule,
     LoadingSpinnerModule,
 

@@ -40,9 +40,6 @@
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/file-drop": ["libs/shared/ui/file-drop/src/index.ts"],
       "@schaeffler/footer": ["libs/shared/ui/footer/src/index.ts"],
-      "@schaeffler/footer-tailwind": [
-        "libs/shared/ui/footer-tailwind/src/index.ts"
-      ],
       "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
       "@schaeffler/horizontal-separator": [
         "libs/shared/ui/horizontal-separator/src/index.ts"

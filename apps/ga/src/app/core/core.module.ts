@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -20,7 +20,7 @@ import { StoreModule } from './store/store.module';
 
     // UI Modules
     HeaderModule,
-    FooterTailwindModule,
+    FooterModule,
     IconsModule,
 
     // Material Modules
@@ -45,6 +45,6 @@ import { StoreModule } from './store/store.module';
     // HTTP
     HttpClientModule,
   ],
-  exports: [FooterTailwindModule, HeaderModule, SidebarComponent, StoreModule],
+  exports: [FooterModule, HeaderModule, SidebarComponent, StoreModule],
 })
 export class CoreModule {}

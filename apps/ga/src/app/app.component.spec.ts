@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -16,7 +16,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       NoopAnimationsModule,
-      FooterTailwindModule,
+      FooterModule,
       RouterTestingModule,
       CoreModule,
     ],

@@ -16,7 +16,7 @@ import {
   ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
@@ -94,7 +94,7 @@ if (window.self !== window.top) {
 
     // UI Modules
     HeaderModule,
-    FooterTailwindModule,
+    FooterModule,
     IconsModule,
 
     PagesStepperModule,

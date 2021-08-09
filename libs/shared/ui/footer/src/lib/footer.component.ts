@@ -8,7 +8,7 @@ import { FooterLink } from './footer-link.model';
   styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent {
-  @Input() public footerLinks: FooterLink[];
+  @Input() public footerLinks: FooterLink[] = [];
   @Input() public appVersion?: string;
 
   public trackByFn(index: number): number {

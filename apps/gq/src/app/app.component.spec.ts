@@ -9,7 +9,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -35,7 +35,7 @@ describe('AppComponent', () => {
       HeaderModule,
       MatIconModule,
       RoleDescModule,
-      FooterTailwindModule,
+      FooterModule,
       MatButtonModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),

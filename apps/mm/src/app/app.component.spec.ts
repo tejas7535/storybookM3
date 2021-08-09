@@ -6,7 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
@@ -22,7 +22,7 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       HeaderModule,
-      FooterTailwindModule,
+      FooterModule,
       RouterTestingModule,
       TranslocoTestingModule,
 

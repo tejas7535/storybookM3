@@ -6,7 +6,7 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getIsLoggedIn, getUsername } from '@schaeffler/azure-auth';
-import { FooterLink } from '@schaeffler/footer-tailwind';
+import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import packageJson from '../../package.json';

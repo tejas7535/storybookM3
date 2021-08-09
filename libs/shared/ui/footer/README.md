@@ -1,4 +1,20 @@
 # frontend@schaeffler Footer Documentation
+
+## Disclaimer
+This lib depends on the [tailwind](https://www.npmjs.com/package/tailwindcss), so please install it
+
+Afterwards replace the default `tailwind.config.js` with the most current version from the [frontend-schaeffler repo](https://github.com/Schaeffler-Group/frontend-schaeffler/blob/master/tailwind.config.js)
+
+Also import the tailwind styles in your app
+Example `styles.scss`
+``` scss
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+```
+
+## Usage
+
 Import into your project like:
 
 ```typescript
@@ -58,4 +74,4 @@ public footerLinks: FooterLink[] = [
   public appVersion = version;
 ```
 
-The footerLinks as well as the version input are not mandatory. When no version or footerLinks provided the footer will just not show it in the left corner.
+The footerLinks as well as the version input are not mandatory. When no version or footerLinks provided the footer will just not show it.

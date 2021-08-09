@@ -11,7 +11,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
 import { LoadingSpinnerModule } from '@cdba/shared/components';
@@ -31,7 +31,7 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       HeaderModule,
-      FooterTailwindModule,
+      FooterModule,
       MatButtonModule,
       LoadingSpinnerModule,
       RouterTestingModule,

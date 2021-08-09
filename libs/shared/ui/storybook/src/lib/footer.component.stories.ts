@@ -49,5 +49,6 @@ export const primary = () => ({
         external: true,
       },
     ],
+    appVersion: '0.0.1',
   },
 });

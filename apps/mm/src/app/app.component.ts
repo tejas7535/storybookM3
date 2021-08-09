@@ -7,7 +7,7 @@ import { filter, startWith, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
-import { FooterLink } from '@schaeffler/footer-tailwind';
+import { FooterLink } from '@schaeffler/footer';
 
 import { RoutePath } from './app-routing.module';
 import { LegalPath } from './legal/legal-route-path.enum';
