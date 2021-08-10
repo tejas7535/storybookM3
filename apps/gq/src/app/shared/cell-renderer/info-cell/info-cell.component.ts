@@ -12,8 +12,12 @@ import { ValidationDescription } from '../../models/table';
 export class InfoCellComponent {
   public valid: string;
   public toolTipText: string;
+  isLoading: boolean;
 
   agInit(params: CellClassParams): void {
+    this.isLoading = !!params?.data?.info?.description?.includes(
+      ValidationDescription.Not_Validated
+    );
     this.valid = params.value.valid;
     this.toolTipText = this.setToolTipText(params.data.info.description);
   }

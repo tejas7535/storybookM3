@@ -7,7 +7,7 @@ import {
   pasteRowDataItems,
   pasteRowDataItemsToAddMaterial,
 } from '../../../core/store';
-import { MaterialTableItem, ValidationDescription } from '../../models/table';
+import { ValidationDescription } from '../../models/table';
 
 @Injectable({
   providedIn: 'root',
@@ -17,31 +17,9 @@ export class PasteMaterialsService {
 
   public async onPasteStart(isCaseView: boolean): Promise<void> {
     const text = await navigator.clipboard.readText();
-    const linesArray = text
-      // split by lines
-      .split(/\r?\n/)
-      // split by tab
-      .map((el) => el.split('\t'))
-      // remove empty objects
-      .filter(
-        (el) => (el[0] && el[0].length > 0) || (el[1] && el[1].length > 0)
-      );
+    const linesArray = this.removeEmptyLines(text);
 
-    const tableArray = linesArray.map((el) => {
-      // Check for valid quantity
-      const parsedQuantity = el[1] ? Number.parseInt(el[1].trim(), 10) : 0;
-
-      const item: MaterialTableItem = {
-        materialNumber: el[0].trim(),
-        quantity: parsedQuantity > 0 ? parsedQuantity : 0,
-        info: {
-          valid: false,
-          description: [ValidationDescription.Not_Validated],
-        },
-      };
-
-      return item;
-    });
+    const tableArray = this.processInput(linesArray);
     isCaseView
       ? this.store.dispatch(
           pasteRowDataItems({
@@ -53,5 +31,38 @@ export class PasteMaterialsService {
             items: tableArray,
           })
         );
+  }
+
+  private processInput(linesArray: string[][]) {
+    return linesArray.map((el) => {
+      const parsedQuantity = this.checkForValidQuantity(el);
+
+      return {
+        materialNumber: el[0].trim(),
+        quantity: parsedQuantity > 0 ? parsedQuantity : 0,
+        info: {
+          valid: false,
+          description: [ValidationDescription.Not_Validated],
+        },
+      };
+    });
+  }
+
+  private checkForValidQuantity(el: string[]) {
+    return el[1] ? Number.parseInt(el[1].trim(), 10) : 0;
+  }
+
+  private removeEmptyLines(text: string): string[][] {
+    return this.splitByTabs(text).filter(
+      (el) => (el[0] && el[0].length > 0) || (el[1] && el[1].length > 0)
+    );
+  }
+
+  private splitByTabs(text: string): string[][] {
+    return this.splitByLines(text).map((el) => el.split('\t'));
+  }
+
+  private splitByLines(text: string): string[] {
+    return text.split(/\r?\n/);
   }
 }

@@ -1,16 +1,23 @@
-<div *ngIf="valid; else notValid">
+<div>
   <mat-icon
+    *ngIf="valid"
     fontSet="schaeffler-icons"
     fontIcon="icon-toast-success"
     class="text-primary"
     [matTooltip]="toolTipText"
   ></mat-icon>
-</div>
-<ng-template #notValid>
   <mat-icon
+    *ngIf="isLoading && !valid"
+    fontSet="schaeffler-icons"
+    fontIcon="icon-upload"
+    class="text-disabledPrimary"
+    [matTooltip]="toolTipText"
+  ></mat-icon>
+  <mat-icon
+    *ngIf="!isLoading && !valid"
     fontSet="schaeffler-icons"
     fontIcon="icon-toast-warning"
     class="text-error"
     [matTooltip]="toolTipText"
   ></mat-icon>
-</ng-template>
+</div>

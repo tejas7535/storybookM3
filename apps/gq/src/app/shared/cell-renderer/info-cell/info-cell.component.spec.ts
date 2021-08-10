@@ -6,6 +6,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { ValidationDescription } from '../../models/table';
 import { InfoCellComponent } from './info-cell.component';
+import { CellClassParams } from '@ag-grid-community/all-modules';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -32,18 +33,36 @@ describe('InfoCellComponent', () => {
   });
 
   describe('agInit', () => {
-    test('should set params', () => {
-      const params: any = {
-        value: { valid: true },
-        data: {
-          info: {
-            description: [ValidationDescription.MaterialNumberInValid],
-          },
+    const cellClassParams = {
+      value: { valid: true },
+      data: {
+        info: {
+          description: [ValidationDescription.Valid],
         },
-      };
-      component.agInit(params);
+      },
+    } as CellClassParams;
+    test('should set valid', () => {
+      component.agInit(cellClassParams);
 
       expect(component.valid).toBeTruthy();
+    });
+    test('should set invalid', () => {
+      const params: CellClassParams = cellClassParams;
+      params.data.info.description = [ValidationDescription.QuantityInValid];
+      params.value.valid = false;
+      component.agInit(cellClassParams);
+
+      expect(component.valid).toBeFalsy();
+    });
+    test('should set isLoading, if not validated yet', () => {
+      const params: CellClassParams = cellClassParams;
+      params.data.info.description = [ValidationDescription.Not_Validated];
+      params.value.valid = false;
+
+      component.agInit(params);
+
+      expect(component.isLoading).toBeTruthy();
+      expect(component.valid).toBeFalsy();
     });
   });
 });
