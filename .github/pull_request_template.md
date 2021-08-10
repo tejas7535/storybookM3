@@ -20,7 +20,7 @@ Please describe how the reviewer can test the new feature.
 
 - [ ] **Documentation** up to date (if necessary)
 - [ ] **Tests** (still) running (unit/integration/e2e tests)
-- [ ] **Test-Coverage** sufficent (Unit tests: 80%)
+- [ ] **Test-Coverage** sufficient (Unit tests: 80%)
 - [ ] **Feature** tested (if possible)
 - [ ] **Code Review** done
 - [ ] **Design Review** done
