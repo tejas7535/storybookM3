@@ -15,6 +15,16 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ),
       comparedSelectedTimePeriod: TimePeriod.YEAR,
       comparedSelectedTimeRange: '0|1',
+      reasons: {
+        data: undefined,
+        loading: false,
+        errorMessage: undefined,
+      },
+      comparedReasons: {
+        data: undefined,
+        loading: false,
+        errorMessage: undefined,
+      },
     },
   };
   describe('getComparedSelectedOrgUnit', () => {
