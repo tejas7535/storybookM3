@@ -117,7 +117,7 @@ describe('CompareViewButtonComponent', () => {
         ),
       } as unknown as GridApi;
     });
-    test('should add node id and should route to compare/bom for calc table', () => {
+    test('should add node id and should route to compare screen', () => {
       mockSelections = [
         {
           id: '0',
@@ -131,7 +131,7 @@ describe('CompareViewButtonComponent', () => {
 
       component.showCompareView(['0', '1']);
 
-      expect(router.navigate).toHaveBeenCalledWith(['compare', 'bom'], {
+      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
         queryParams: {
           material_number_item_1: '1234',
           plant_item_1: '0060',
@@ -143,7 +143,7 @@ describe('CompareViewButtonComponent', () => {
       });
     });
 
-    test('should add id hash and should route to compare/detail for reftypes table', () => {
+    test('should add id hash and should route to compare screen', () => {
       mockSelections = [
         {
           id: '0',
@@ -165,7 +165,7 @@ describe('CompareViewButtonComponent', () => {
 
       component.showCompareView(['0', '1']);
 
-      expect(router.navigate).toHaveBeenCalledWith(['compare', 'details'], {
+      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
         queryParams: {
           material_number_item_1: '1234',
           plant_item_1: '0060',

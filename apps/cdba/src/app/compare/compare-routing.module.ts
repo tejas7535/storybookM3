@@ -30,7 +30,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: CompareRoutePath.DetailsPath,
+        redirectTo: CompareRoutePath.BomPath,
         pathMatch: 'full',
       },
       {

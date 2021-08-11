@@ -11,7 +11,6 @@ import {
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
-import { CompareRoutePath } from '@cdba/compare/compare-route-path.enum';
 import {
   getSelectedCalculationNodeIds,
   getSelectedRefTypeNodeIds,
@@ -61,12 +60,6 @@ export class CompareViewButtonComponent implements OnInit {
           ? selection.id
           : undefined;
       });
-
-    if (queryParams.identification_hash_item_1) {
-      route.push(CompareRoutePath.DetailsPath);
-    } else {
-      route.push(CompareRoutePath.BomPath);
-    }
 
     this.router.navigate(route, {
       queryParams,
