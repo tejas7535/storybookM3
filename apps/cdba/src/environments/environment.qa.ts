@@ -1,4 +1,6 @@
-export const environment = {
+import { Environment } from './environment.model';
+
+export const environment: Environment = {
   production: false,
   devToolsEnabled: true,
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
@@ -16,4 +18,5 @@ export const environment = {
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*', 'Auth\b*'],
   },
+  scrambleMaterialIds: false,
 };

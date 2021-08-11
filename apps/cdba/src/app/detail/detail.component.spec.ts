@@ -17,11 +17,11 @@ import {
   TabsHeaderModule,
 } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { getReferenceType } from '@cdba/core/store';
+import { SharedModule } from '@cdba/shared';
 
 import { AUTH_STATE_MOCK, REFERENCE_TYPE_MOCK } from '../../testing/mocks';
-import { getReferenceType } from '../core/store/selectors/details/detail.selector';
-import { MaterialNumberModule } from '../shared/pipes';
-import { SharedModule } from '../shared/shared.module';
 import { DetailComponent } from './detail.component';
 
 describe('DetailComponent', () => {
@@ -34,13 +34,13 @@ describe('DetailComponent', () => {
       SharedModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      MaterialNumberModule,
       MockModule(TabsHeaderModule),
       MockModule(PageHeaderModule),
       MockModule(ShareButtonModule),
       MockModule(BreadcrumbsModule),
     ],
     providers: [
+      { provide: ENV, useValue: { ...getEnv() } },
       mockProvider(BreadcrumbsService),
       provideMockStore({
         initialState: {

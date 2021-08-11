@@ -1,7 +1,11 @@
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { formatDate, valueGetterDate } from '@cdba/shared/components/table';
+import {
+  formatDate,
+  scrambleMaterialDesignation,
+  valueGetterDate,
+} from '@cdba/shared/components/table';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -49,6 +53,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'number',
     colId: 'documentNumber',
     headerName: translate('drawings.headers.documentNumber'),
+    valueFormatter: (params) => scrambleMaterialDesignation(params, 0),
     flex: 2,
   },
   {

@@ -19,7 +19,6 @@ import {
   FilterItemIdValue,
   IdValue,
 } from '../../../core/store/reducers/search/models';
-import { MaterialNumberModule } from '../../../shared/pipes';
 import { SearchUtilityService } from '../../services/search-utility.service';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
 import { FormatValuePipe } from './pipes/format-value.pipe';
@@ -44,7 +43,6 @@ describe('MultiSelectFilterComponent', () => {
       MatTooltipModule,
       MatIconModule,
       MatProgressSpinnerModule,
-      MaterialNumberModule,
     ],
     declarations: [MultiSelectValuePipe, NoResultsFoundPipe, FormatValuePipe],
     providers: [SearchUtilityService],

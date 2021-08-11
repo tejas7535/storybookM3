@@ -5,6 +5,8 @@ import {
   OnChanges,
 } from '@angular/core';
 
+import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
+
 import { BomItem } from '../../models';
 import {
   COLOR_PLATTE,
@@ -22,6 +24,11 @@ import { DataPoint } from './data-point.model';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BomChartComponent implements OnChanges {
+  public constructor(
+    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
+  ) {}
+
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input() public set data(data: BomItem[]) {
     this.barChartData = [];
     this.lineChartData = [];
@@ -31,7 +38,7 @@ export class BomChartComponent implements OnChanges {
     this.hasNegativeCostValues = false;
 
     data.forEach((value: BomItem, index: number) => {
-      this.barChartData.push(BomChartComponent.createDataPoint(value, index));
+      this.barChartData.push(this.createDataPoint(value, index));
       totalCosts += value.totalPricePerPc;
 
       this.hasNegativeCostValues = this.hasNegativeCostValues
@@ -51,9 +58,11 @@ export class BomChartComponent implements OnChanges {
 
   options: any;
 
-  private static createDataPoint(bomItem: BomItem, index: number): DataPoint {
+  createDataPoint(bomItem: BomItem, index: number): DataPoint {
     return {
-      name: bomItem.materialDesignation,
+      name: this.scrambleMaterialDesignationPipe.transform(
+        bomItem.materialDesignation
+      ),
       value: bomItem.totalPricePerPc,
       itemStyle: { color: COLOR_PLATTE[index] },
     };

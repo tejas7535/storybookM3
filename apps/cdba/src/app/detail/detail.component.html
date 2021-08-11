@@ -3,9 +3,11 @@
     *transloco="let t; read: 'detail'"
     [title]="
       referenceType
-        ? referenceType.materialDesignation +
+        ? (referenceType.materialDesignation | scrambleMaterialDesignation: 0) +
           ' | ' +
-          (referenceType.materialNumber | materialNumber)
+          (referenceType.materialNumber
+            | materialNumber
+            | scrambleMaterialNumber: 0)
         : t('errorTitle')
     "
   >

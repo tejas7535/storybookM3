@@ -27,6 +27,7 @@ import {
   COMPARE_STATE_MOCK,
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BomItem, Calculation } from '../../models';
 import { SharedModule } from '../../shared.module';
@@ -64,6 +65,7 @@ describe('BomContainerComponent', () => {
       MockModule(LoadingSpinnerModule),
     ],
     providers: [
+      { provide: ENV, useValue: { ...getEnv() } },
       provideMockStore({
         initialState: {
           detail: DETAIL_STATE_MOCK,

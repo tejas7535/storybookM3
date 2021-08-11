@@ -8,11 +8,20 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { MaterialNumberPipe } from '../../pipes';
+import { getEnv } from '@cdba/environments/environment.provider';
+import {
+  MaterialNumberPipe,
+  ScrambleMaterialDesignationPipe,
+  ScrambleMaterialNumberPipe,
+} from '../../pipes';
 
 const decimalPipe = new DecimalPipe('de-DE');
 const datePipe = new DatePipe('de-DE');
 const materialNumberPipe = new MaterialNumberPipe();
+const scrambleMaterialNumberPipe = new ScrambleMaterialNumberPipe(getEnv());
+const scrambleMaterialDesignationPipe = new ScrambleMaterialDesignationPipe(
+  getEnv()
+);
 
 export const currentYear = new Date().getFullYear();
 
@@ -24,8 +33,15 @@ export const formatNumber = (
 export const formatDate = (params: ValueFormatterParams) =>
   datePipe.transform(params.value);
 
+export const scrambleMaterialDesignation = (
+  params: ValueFormatterParams,
+  mock?: 0 | 1
+) => scrambleMaterialDesignationPipe.transform(params.value, mock);
+
 export const formatMaterialNumber = (params: ValueFormatterParams) =>
-  formatMaterialNumberFromString(params.value);
+  scrambleMaterialNumberPipe.transform(
+    formatMaterialNumberFromString(params.value)
+  );
 
 export const formatMaterialNumberFromString = (value: string) =>
   materialNumberPipe.transform(value);

@@ -1,11 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { marbles } from 'rxjs-marbles/jest';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
+import { MaterialNumberModule } from '@cdba/shared';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BreadcrumbsService, BreadcrumbState } from './breadcrumbs.service';
 
@@ -15,8 +15,9 @@ describe('BreadcrumbsService', () => {
 
   const createService = createServiceFactory({
     service: BreadcrumbsService,
-    imports: [RouterTestingModule],
+    imports: [RouterTestingModule, MaterialNumberModule],
     providers: [
+      { provide: ENV, useValue: { ...getEnv() } },
       provideMockStore({
         initialState: {
           detail: DETAIL_STATE_MOCK,

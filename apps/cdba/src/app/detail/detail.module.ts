@@ -8,7 +8,6 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { MaterialNumberModule } from '@cdba/shared';
 import {
   PageHeaderModule,
   ShareButtonModule,
@@ -29,7 +28,6 @@ import { DetailComponent } from './detail.component';
     DetailRoutingModule,
     StoreModule.forFeature('detail', detailReducer),
     EffectsModule.forFeature([DetailEffects]),
-    MaterialNumberModule,
     SnackBarModule,
     PageHeaderModule,
     TabsHeaderModule,

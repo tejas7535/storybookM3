@@ -17,6 +17,8 @@ import {
   getMaterialDesignationOfSelectedRefType,
   getResultCount,
 } from '@cdba/core/store';
+import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
+import { SharedModule } from '@cdba/shared';
 
 export interface BreadcrumbState {
   search: Breadcrumb;
@@ -26,13 +28,14 @@ export interface BreadcrumbState {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: SharedModule,
 })
 export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
   public constructor(
     private readonly router: Router,
     private readonly store: Store,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
   ) {
     super({
       search: {
@@ -90,7 +93,12 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
       map(([{ url, queryParams }, materialDesignation]) => ({
         url,
         queryParams,
-        label: materialDesignation || translate('shared.breadcrumbs.detail'),
+        label: materialDesignation
+          ? this.scrambleMaterialDesignationPipe.transform(
+              materialDesignation,
+              0
+            )
+          : translate('shared.breadcrumbs.detail'),
       }))
     );
 
@@ -160,7 +168,10 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
         ...state,
         detail: {
           ...state.detail,
-          label: materialDesignation,
+          label: this.scrambleMaterialDesignationPipe.transform(
+            materialDesignation,
+            0
+          ),
         },
       };
     }

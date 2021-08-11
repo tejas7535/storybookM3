@@ -21,6 +21,11 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import {
+  ScrambleMaterialDesignationPipe,
+  ScrambleMaterialNumberPipe,
+} from '@cdba/shared/pipes';
+
 import { BomItem } from '../../models';
 import { formatMaterialNumberFromString, formatNumber } from '../table';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
@@ -36,6 +41,12 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomTableComponent implements OnChanges {
+  public constructor(
+    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
+    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe
+  ) {}
+
+  @Input() index: number;
   @Input() rowData: BomItem[];
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
@@ -108,6 +119,8 @@ export class BomTableComponent implements OnChanges {
       headerName: translate('shared.bom.headers.materialNumber'),
       valueGetter: (params) =>
         formatMaterialNumberFromString(params.data.materialNumber),
+      valueFormatter: (params) =>
+        this.scrambleMaterialNumberPipe.transform(params.value),
       cellClass: ['stringType', this.defaultCellClass],
     },
     {
@@ -266,9 +279,17 @@ export class BomTableComponent implements OnChanges {
     params.columnApi.autoSizeAllColumns(false);
   }
 
-  getDataPath(data: BomItem): string[] {
-    return data.predecessorsInTree;
-  }
+  getDataPath = (data: BomItem): string[] => {
+    const path: string[] = [];
+
+    data.predecessorsInTree.forEach((item) =>
+      path.push(
+        this.scrambleMaterialDesignationPipe.transform(item, this.index || 0)
+      )
+    );
+
+    return path;
+  };
 
   onRowGroupOpened(): void {
     this.gridColumnApi.autoSizeColumn('ag-Grid-AutoColumn');

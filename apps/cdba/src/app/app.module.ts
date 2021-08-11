@@ -10,6 +10,7 @@ import { SharedModule } from '@cdba/shared';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 @NgModule({
   imports: [
@@ -19,6 +20,12 @@ import { AppComponent } from './app.component';
     CoreModule,
     SharedModule,
     MatDialogModule,
+  ],
+  providers: [
+    {
+      provide: ENV,
+      useFactory: getEnv,
+    },
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

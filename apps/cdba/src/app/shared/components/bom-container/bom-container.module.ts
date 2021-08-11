@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,7 +17,6 @@ import { BomTableModule } from '../bom-table/bom-table.module';
 import { CalculationsTableModule } from '../calculations-table/calculations-table.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { BomContainerComponent } from './bom-container.component';
-import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [BomContainerComponent],

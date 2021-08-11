@@ -7,7 +7,11 @@
           {{ t('salesAndDescription.materialDesignation') }}:&nbsp;
         </label>
         <div>
-          {{ salesDetails?.materialDesignation | undefinedAttributeFallback }}
+          {{
+            salesDetails?.materialDesignation
+              | scrambleMaterialDesignation: 0
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -18,6 +22,7 @@
           {{
             salesDetails?.materialNumber
               | materialNumber
+              | scrambleMaterialNumber: 0
               | undefinedAttributeFallback
           }}
         </div>

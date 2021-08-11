@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
+import { ICellRendererParams } from '@ag-grid-community/core/dist/cjs/rendering/cellRenderers/iCellRenderer';
+
+import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 
 import { COLOR_PLATTE } from '../../bom-chart/bom-chart.config';
 
@@ -12,18 +15,27 @@ import { COLOR_PLATTE } from '../../bom-chart/bom-chart.config';
 export class MaterialDesignationCellRendererComponent
   implements ICellRendererAngularComp
 {
+  public constructor(
+    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
+  ) {}
+
   public materialDesignation: string;
   public color: string;
 
-  agInit(params: any): void {
-    this.materialDesignation = params.value;
-    this.color = COLOR_PLATTE[params.rowIndex];
+  agInit(params: Partial<ICellRendererParams>): void {
+    this.assignRenderParams(params);
   }
 
-  refresh(params: any): boolean {
-    this.materialDesignation = params.value;
-    this.color = COLOR_PLATTE[params.rowIndex];
+  refresh(params: Partial<ICellRendererParams>): boolean {
+    this.assignRenderParams(params);
 
     return true;
+  }
+
+  assignRenderParams(params: Partial<ICellRendererParams>): void {
+    this.materialDesignation = this.scrambleMaterialDesignationPipe.transform(
+      params.value
+    );
+    this.color = COLOR_PLATTE[params.rowIndex];
   }
 }

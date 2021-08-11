@@ -12,6 +12,7 @@ import {
   formatLongValue,
   formatMaterialNumber,
   formatNumber,
+  scrambleMaterialDesignation,
   valueGetterArray,
   valueGetterDate,
 } from '@cdba/shared/components/table';
@@ -51,6 +52,7 @@ export class ColumnDefinitionService {
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.materialDesignation'
       ),
+      valueFormatter: scrambleMaterialDesignation,
     },
     {
       field: columnDefinitionToReferenceTypeProp('materialNumber'),

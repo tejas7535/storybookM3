@@ -9,7 +9,12 @@
     *ngIf="materialDesignation$ | ngrxPush"
     fxFlex="40px"
   >
-    {{ t('title', { material: materialDesignation$ | ngrxPush }) }}
+    {{
+      t('title', {
+        material:
+          materialDesignation$ | ngrxPush | scrambleMaterialDesignation: 0
+      })
+    }}
   </h6>
   <div fxFlex class="widget-content">
     <cdba-loading-spinner *ngIf="loading$ | ngrxPush" [show]="true">

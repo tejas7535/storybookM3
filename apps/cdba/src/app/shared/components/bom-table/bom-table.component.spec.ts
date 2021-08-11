@@ -9,6 +9,7 @@ import {
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BomItem } from '../../models';
 import { SharedModule } from '../../shared.module';
@@ -32,6 +33,7 @@ describe('BomTableComponent', () => {
       ]),
       CustomOverlayModule,
     ],
+    providers: [{ provide: ENV, useValue: { ...getEnv() } }],
   });
 
   beforeEach(() => {

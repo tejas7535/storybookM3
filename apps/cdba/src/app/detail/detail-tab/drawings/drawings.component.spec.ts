@@ -7,6 +7,7 @@ import { SharedModule } from '@cdba/shared';
 import { Drawing } from '@cdba/shared/models';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -29,6 +30,7 @@ describe('DrawingsComponent', () => {
       UnderConstructionModule,
     ],
     providers: [
+      { provide: ENV, useValue: { ...getEnv() } },
       provideMockStore({
         initialState: {
           detail: DETAIL_STATE_MOCK,
