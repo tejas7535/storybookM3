@@ -1,3 +1,7 @@
+import {
+  IStatusPanelParams,
+  ValueFormatterParams,
+} from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
@@ -47,6 +51,45 @@ describe('ReasonsForLeavingTableComponent', () => {
 
       expect(component.selectedTimePeriod).toEqual(period);
       expect(getTimeRangeHint).toHaveBeenCalledWith(period);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    test('should set columnDefs', () => {
+      component.columnDefs = [];
+
+      component.ngOnInit();
+
+      expect(component.columnDefs.length).toEqual(4);
+    });
+  });
+
+  describe('onRowDataChanged', () => {
+    test('should autosize detailedReason column', () => {
+      const params = {
+        columnApi: {
+          autoSizeColumns: jest.fn(),
+        },
+      } as unknown as IStatusPanelParams;
+
+      component.onRowDataChanged(params);
+
+      expect(params.columnApi.autoSizeColumns).toHaveBeenCalledWith(
+        ['detailedReason'],
+        false
+      );
+    });
+  });
+
+  describe('formatNumberToPercentage', () => {
+    test('should convert number to percentage value', () => {
+      const params = {
+        value: 0.23,
+      } as unknown as ValueFormatterParams;
+
+      const result = component.formatNumberToPercentage(params);
+
+      expect(result).toEqual((params.value * 100).toString());
     });
   });
 });

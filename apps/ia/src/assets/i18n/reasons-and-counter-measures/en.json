@@ -3,7 +3,7 @@
     "title": "Top 5 reasons why people left",
     "table": {
       "position": "#",
-      "job": "Job",
+      "detailedReason": "Reason",
       "percentage": "%",
       "leavers": "Leavers"
     }

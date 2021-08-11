@@ -22,3 +22,15 @@ export const getComparedSelectedTimeRange = createSelector(
   (state: ReasonsAndCounterMeasuresState) =>
     state.reasonsForLeaving.comparedSelectedTimeRange
 );
+
+export const getReasonsData = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.reasons.data
+);
+
+export const getReasonsLoading = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.reasons.loading
+);

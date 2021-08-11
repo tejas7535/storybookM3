@@ -19,6 +19,8 @@ import {
   getComparedSelectedOrgUnit,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
+  getReasonsData,
+  getReasonsLoading,
 } from '../store/selectors/reasons-and-counter-measures.selector';
 import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
 import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
@@ -76,6 +78,8 @@ describe('ReasonsForLeavingComponent', () => {
       store.overrideSelector(getComparedSelectedOrgUnit, result);
       store.overrideSelector(getComparedSelectedTimePeriod, result);
       store.overrideSelector(getComparedSelectedTimeRange, result);
+      store.overrideSelector(getReasonsData, result);
+      store.overrideSelector(getReasonsLoading, result);
 
       component.ngOnInit();
 
@@ -115,6 +119,16 @@ describe('ReasonsForLeavingComponent', () => {
         })
       );
       m.expect(component.comparedSelectedTime$).toBeObservable(
+        m.cold('a', {
+          a: result,
+        })
+      );
+      m.expect(component.reasonsData$).toBeObservable(
+        m.cold('a', {
+          a: result,
+        })
+      );
+      m.expect(component.reasonsLoading$).toBeObservable(
         m.cold('a', {
           a: result,
         })

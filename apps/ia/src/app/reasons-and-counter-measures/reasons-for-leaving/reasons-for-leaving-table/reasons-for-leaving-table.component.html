@@ -40,6 +40,7 @@
     [columnDefs]="columnDefs"
     [modules]="modules"
     [frameworkComponents]="frameworkComponents"
+    (rowDataChanged)="onRowDataChanged($event)"
     valueCache
     animateRows
     suppressCsvExport

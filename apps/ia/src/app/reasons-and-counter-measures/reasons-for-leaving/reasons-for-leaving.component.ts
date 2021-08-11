@@ -12,10 +12,13 @@ import {
   getTimePeriods,
 } from '../../core/store/selectors/filter/filter.selector';
 import { Filter, IdValue, TimePeriod } from '../../shared/models';
+import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
   getComparedSelectedOrgUnit,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
+  getReasonsData,
+  getReasonsLoading,
 } from '../store/selectors/reasons-and-counter-measures.selector';
 
 @Component({
@@ -32,6 +35,9 @@ export class ReasonsForLeavingComponent implements OnInit {
   comparedSelectedOrgUnit$: Observable<string>;
   comparedSelectedTimePeriod$: Observable<TimePeriod>;
   comparedSelectedTime$: Observable<string>;
+
+  reasonsData$: Observable<ReasonForLeavingStats[]>;
+  reasonsLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
 
@@ -52,5 +58,8 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.comparedSelectedTime$ = this.store.select(
       getComparedSelectedTimeRange
     );
+
+    this.reasonsData$ = this.store.select(getReasonsData);
+    this.reasonsLoading$ = this.store.select(getReasonsLoading);
   }
 }
