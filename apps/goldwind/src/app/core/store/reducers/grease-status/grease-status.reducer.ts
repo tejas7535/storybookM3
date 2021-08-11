@@ -1,87 +1,31 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import {
-  getGreaseStatus,
-  getGreaseStatusFailure,
-  getGreaseStatusLatest,
-  getGreaseStatusLatestFailure,
-  getGreaseStatusLatestSuccess,
-  getGreaseStatusSuccess,
-} from '../../actions/grease-status/grease-status.actions';
+import * as U from '../../../../shared/store/utils.reducer';
+import { KPIState } from '../../../../shared/store/utils.selector';
+
+import * as A from '../../actions/grease-status/grease-status.actions';
 import { GcmStatus } from './models';
 
-export interface GreaseStatusState {
-  loading: boolean;
-  result: GcmStatus[];
-  status: {
-    loading: boolean;
-    result: GcmStatus;
-  };
-}
+export type GreaseStatusState = KPIState<GcmStatus>;
 
 export const initialState: GreaseStatusState = {
   loading: false,
-  result: undefined,
   status: {
     loading: false,
-    result: undefined,
   },
 };
 
 export const greaseStatusReducer = createReducer(
   initialState,
+  on(A.getGreaseStatus, U.getState),
+  on(A.getGreaseStatusSuccess, U.getStateSuccess('gcmStatus')),
+  on(A.getGreaseStatusFailure, U.getStateFailure()),
+  on(A.getGreaseStatusLatest, U.getStateLatest()),
   on(
-    getGreaseStatus,
-    (state: GreaseStatusState): GreaseStatusState => ({
-      ...state,
-      loading: true,
-    })
+    A.getGreaseStatusLatestSuccess,
+    U.getStateLatestSuccess('greaseStatusLatest')
   ),
-  on(
-    getGreaseStatusSuccess,
-    (state: GreaseStatusState, { gcmStatus }): GreaseStatusState => ({
-      ...state,
-      result: gcmStatus,
-      loading: false,
-    })
-  ),
-  on(
-    getGreaseStatusFailure,
-    (state: GreaseStatusState): GreaseStatusState => ({
-      ...state,
-      loading: false,
-    })
-  ),
-  on(
-    getGreaseStatusLatest,
-    (state: GreaseStatusState): GreaseStatusState => ({
-      ...state,
-      status: {
-        ...state.status,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    getGreaseStatusLatestSuccess,
-    (state: GreaseStatusState, { greaseStatusLatest }): GreaseStatusState => ({
-      ...state,
-      status: {
-        result: greaseStatusLatest,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    getGreaseStatusLatestFailure,
-    (state: GreaseStatusState): GreaseStatusState => ({
-      ...state,
-      status: {
-        ...state.status,
-        loading: false,
-      },
-    })
-  )
+  on(A.getGreaseStatusLatestFailure, U.getStateLatestFailure())
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

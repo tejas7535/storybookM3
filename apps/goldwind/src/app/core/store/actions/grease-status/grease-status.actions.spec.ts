@@ -24,7 +24,7 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         source,
-        type: '[Grease Status] Load Grease Sensor ID',
+        type: '[GreaseStatus] Load Grease Sensor ID',
       });
     });
 
@@ -33,7 +33,7 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         deviceId,
-        type: '[Grease Status] Load Grease Status',
+        type: '[GreaseStatus] Load GreaseStatus',
       });
     });
 
@@ -43,7 +43,7 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         gcmStatus,
-        type: '[Grease Status] Load Grease Status Success',
+        type: '[GreaseStatus] Load GreaseStatus Success',
       });
     });
 
@@ -51,7 +51,7 @@ describe('GreaseStatus Actions', () => {
       const action = getGreaseStatusFailure();
 
       expect(action).toEqual({
-        type: '[Grease Status] Load Grease Status Failure',
+        type: '[GreaseStatus] Load GreaseStatus Failure',
       });
     });
 
@@ -60,7 +60,7 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         deviceId,
-        type: '[Grease Status] Load Latest Grease Status',
+        type: '[GreaseStatus] Load Latest GreaseStatus',
       });
     });
 
@@ -68,7 +68,7 @@ describe('GreaseStatus Actions', () => {
       const action = stopGetGreaseStatusLatest();
 
       expect(action).toEqual({
-        type: '[Grease Status] Stop Load Latest Grease Status',
+        type: '[GreaseStatus] Stop Load Latest GreaseStatus',
       });
     });
 
@@ -78,7 +78,7 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         greaseStatusLatest,
-        type: '[Grease Status] Load Latest Grease Status Success',
+        type: '[GreaseStatus] Load Latest GreaseStatus Success',
       });
     });
 
@@ -86,7 +86,7 @@ describe('GreaseStatus Actions', () => {
       const action = getGreaseStatusLatestFailure();
 
       expect(action).toEqual({
-        type: '[Grease Status] Load Latest Grease Status Failure',
+        type: '[GreaseStatus] Load Latest GreaseStatus Failure',
       });
     });
   });

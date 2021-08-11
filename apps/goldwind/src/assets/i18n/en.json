@@ -137,6 +137,9 @@
     "deterioration": "Deterioration",
     "deterioration_1": "Deterioration 1",
     "deterioration_2": "Deterioration 2",
+    "gcm-heatmap": {
+      "title": "Grease Status Overview"
+    },
     "greaseMonitor": "Grease Monitor",
     "pleaseSelectTrendsToShow": "Sensor Panels & Channels",
     "temperatureOptics": "Grease Temperatur",

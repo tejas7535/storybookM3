@@ -1,0 +1,32 @@
+<ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+  <mat-card
+    *transloco="let t; read: 'maintenanceAssessment.gcm-heatmap'"
+    class="flex flex-col h-full"
+  >
+    <mat-card-header>
+      <mat-card-title class="flex items-center justify-center">
+        <span>{{ t('title') }}</span>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <!-- <ng-container *ngIf="!averageLoad">
+          {{ timeStamp$ | ngrxPush }} | {{ t('updateFrequency') }}:
+          {{ refresh }}s</ng-container
+        > -->
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content
+      class="flex flex-col h-5/6 max-h-full space-between items-center"
+    >
+      <div
+        class="flex"
+        echarts
+        [options]="this.chartOptions"
+        class="h-full w-full"
+      ></div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <mat-card class="placeholder-item"></mat-card>
+</ng-template>

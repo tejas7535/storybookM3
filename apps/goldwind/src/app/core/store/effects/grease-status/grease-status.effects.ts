@@ -1,3 +1,4 @@
+/* eslint-disable ngrx/avoid-mapping-selectors */
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
@@ -18,13 +19,7 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
-import {
-  getGreaseStatusId,
-  getGreaseStatusLatest,
-  getGreaseStatusLatestFailure,
-  getGreaseStatusLatestSuccess,
-  stopGetGreaseStatusLatest,
-} from '../../actions/grease-status/grease-status.actions';
+import * as A from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
 
 @Injectable()
@@ -42,8 +37,8 @@ export class GreaseStatusEffects {
       ),
       map((currentRoute) =>
         currentRoute === BearingRoutePath.ConditionMonitoringPath
-          ? getGreaseStatusId({ source: currentRoute })
-          : stopGetGreaseStatusLatest()
+          ? A.getGreaseStatusId({ source: currentRoute })
+          : A.stopGetGreaseStatusLatest()
       )
     );
   });
@@ -53,7 +48,7 @@ export class GreaseStatusEffects {
    */
   greaseStatusId$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(getGreaseStatusId),
+      ofType(A.getGreaseStatusId),
       filter((_) => !this.isPollingActive),
       withLatestFrom(this.store.select(fromRouter.getRouterState)),
       map(([action, routerState]) => ({
@@ -61,12 +56,20 @@ export class GreaseStatusEffects {
         source: action.source,
       })),
       filter(
-        ({ source }) => source === BearingRoutePath.ConditionMonitoringPath
+        ({ source }) =>
+          source === BearingRoutePath.ConditionMonitoringPath ||
+          source === BearingRoutePath.MaintenanceAsseesmentPath
       ),
-      map(({ deviceId }) => {
+      map(({ deviceId, source }) => {
         this.isPollingActive = true;
-
-        return getGreaseStatusLatest({ deviceId });
+        switch (source) {
+          case BearingRoutePath.ConditionMonitoringPath:
+            return A.getGreaseStatusLatest({ deviceId });
+          case BearingRoutePath.MaintenanceAsseesmentPath:
+            return A.getGreaseHeatMapLatest({ deviceId });
+          default:
+            return A.stopGetGreaseStatusLatest();
+        }
       })
     );
   });
@@ -76,12 +79,12 @@ export class GreaseStatusEffects {
    */
   continueGraseId$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(getGreaseStatusLatestSuccess, getGreaseStatusLatestFailure),
+      ofType(A.getGreaseStatusLatestSuccess, A.getGreaseStatusLatestFailure),
       delay(UPDATE_SETTINGS.grease.refresh * 1000),
       filter(() => this.isPollingActive),
       withLatestFrom(this.store.select(fromRouter.getRouterState)),
       map(([_action, routerState]) =>
-        getGreaseStatusLatest({ deviceId: routerState.state.params.id })
+        A.getGreaseStatusLatest({ deviceId: routerState.state.params.id })
       )
     );
   });
@@ -92,7 +95,7 @@ export class GreaseStatusEffects {
   stopGrease$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(stopGetGreaseStatusLatest),
+        ofType(A.stopGetGreaseStatusLatest),
         map(() => {
           this.isPollingActive = false;
         })
@@ -106,14 +109,14 @@ export class GreaseStatusEffects {
    */
   greaseStatusLatest$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(getGreaseStatusLatest),
+      ofType(A.getGreaseStatusLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
         this.restService.getGreaseStatusLatest(deviceId).pipe(
           map(([greaseStatusLatest]) =>
-            getGreaseStatusLatestSuccess({ greaseStatusLatest })
+            A.getGreaseStatusLatestSuccess({ greaseStatusLatest })
           ),
-          catchError((_e) => of(getGreaseStatusLatestFailure()))
+          catchError((_e) => of(A.getGreaseStatusLatestFailure()))
         )
       )
     );

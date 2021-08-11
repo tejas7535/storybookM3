@@ -14,6 +14,8 @@ import { ShaftStatus } from '../store/reducers/shaft/models';
 import { StaticSafetyStatus } from '../store/reducers/static-safety/models';
 import {
   CenterLoadStatus,
+  GCMHeatmapClassification,
+  GCMHeatmapEntry,
   GWParams,
   IAGGREGATIONTYPE,
 } from '../../shared/models';
@@ -167,6 +169,31 @@ export class RestService {
 
   public getStaticSafety(id: string): Observable<StaticSafetyStatus[]> {
     return this.getIot(`${id}/analytics/static-safety-factor`);
+  }
+
+  // TODO: realcall: public getGreaseHeatMap({ deviceId, end, start, channel }: any): any {
+  public getGreaseHeatMap(): Observable<GCMHeatmapEntry[]> {
+    return of([
+      {
+        timestamp: Date.now().toLocaleString(),
+        gcm01DeteriorationClassification: GCMHeatmapClassification.ERROR,
+        gcm01DeteriorationMax: 50,
+        gcm01TemperatureOpticsClassification: GCMHeatmapClassification.WARNING,
+        gcm01TemperatureOpticsMax: 20,
+        gcm01WaterContentClassification: GCMHeatmapClassification.OKAY,
+        gcm01WaterContentMax: 0,
+        gcm02DeteriorationClassification: GCMHeatmapClassification.ERROR,
+        gcm02DeteriorationMax: 50,
+        gcm02TemperatureOpticsClassification: GCMHeatmapClassification.WARNING,
+        gcm02TemperatureOpticsMax: 20,
+        gcm02WaterContentClassification: GCMHeatmapClassification.OKAY,
+        gcm02WaterContentMax: 0,
+      },
+    ] as GCMHeatmapEntry[]);
+    // return this.getIot(
+    //   // `${deviceId}/analytics/heatmap?start=${start}&end=${end}&channel=${channel}`
+    //   `${deviceId}/analytics/heatmap`
+    // );
   }
 
   public getParams({

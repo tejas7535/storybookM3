@@ -10,6 +10,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
+  getGreaseHeatMapLatest,
+  getGreaseHeatMapSuccess,
   getGreaseStatusId,
   getGreaseStatusLatest,
   getGreaseStatusLatestFailure,
@@ -18,6 +20,10 @@ import {
 } from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
 import { GreaseStatusEffects } from './grease-status.effects';
+import {
+  GCMHeatmapClassification,
+  GCMHeatmapEntry,
+} from '../../../../shared/models';
 
 /* eslint-disable max-lines */
 describe('Grease Status Effects', () => {

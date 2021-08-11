@@ -1,42 +1,68 @@
 import { createAction, props, union } from '@ngrx/store';
+import { GCMHeatmapEntry } from '../../../../shared/models';
 
 import { GcmStatus } from '../../reducers/grease-status/models';
 
+const TYPE = 'GreaseStatus';
+
 export const getGreaseStatusId = createAction(
-  '[Grease Status] Load Grease Sensor ID',
+  `[${TYPE}] Load Grease Sensor ID`,
   props<{ source: string }>()
 );
 
 export const getGreaseStatus = createAction(
-  '[Grease Status] Load Grease Status',
+  `[${TYPE}] Load ${TYPE}`,
   props<{ deviceId: string }>()
 );
 
 export const getGreaseStatusSuccess = createAction(
-  '[Grease Status] Load Grease Status Success',
+  `[${TYPE}] Load ${TYPE} Success`,
   props<{ gcmStatus: GcmStatus[] }>()
 );
 
 export const getGreaseStatusFailure = createAction(
-  '[Grease Status] Load Grease Status Failure'
+  `[${TYPE}] Load ${TYPE} Failure`
 );
 
 export const getGreaseStatusLatest = createAction(
-  '[Grease Status] Load Latest Grease Status',
+  `[${TYPE}] Load Latest ${TYPE}`,
   props<{ deviceId: string }>()
 );
 
 export const stopGetGreaseStatusLatest = createAction(
-  '[Grease Status] Stop Load Latest Grease Status'
+  `[${TYPE}] Stop Load Latest ${TYPE}`
+);
+
+export const getGreaseHeatMap = createAction(
+  `[${TYPE}] Load ${TYPE} Heatmap`,
+  props<{ deviceId: string }>()
+);
+
+export const getGreaseHeatMapLatest = createAction(
+  `[${TYPE}] Load Latest ${TYPE} Heatmap`,
+  props<{ deviceId: string }>()
+);
+
+export const getGreaseHeatMapSuccess = createAction(
+  `[${TYPE}] Load ${TYPE} Heatmap Success`,
+  props<{ gcmheatmap: GCMHeatmapEntry[] }>()
+);
+export const getGreaseHeatMapFailure = createAction(
+  `[${TYPE}] Load ${TYPE} Heatmap Failure`
 );
 
 export const getGreaseStatusLatestSuccess = createAction(
-  '[Grease Status] Load Latest Grease Status Success',
+  `[${TYPE}] Load Latest ${TYPE} Success`,
   props<{ greaseStatusLatest: GcmStatus }>()
 );
 
 export const getGreaseStatusLatestFailure = createAction(
-  '[Grease Status] Load Latest Grease Status Failure'
+  `[${TYPE}] Load Latest ${TYPE} Failure`
+);
+
+export const getGreaseHeatMapId = createAction(
+  `[${TYPE}] Load Grease Sensor ID`,
+  props<{ source: string }>()
 );
 
 const all = union({
@@ -45,6 +71,10 @@ const all = union({
   getGreaseStatusSuccess,
   getGreaseStatusFailure,
   stopGetGreaseStatusLatest,
+  getGreaseHeatMap,
+  getGreaseHeatMapLatest,
+  getGreaseHeatMapFailure,
+  getGreaseHeatMapSuccess,
 });
 
 export type GreaseStatusActions = typeof all;

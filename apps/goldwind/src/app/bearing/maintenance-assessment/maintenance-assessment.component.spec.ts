@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { setMaintenanceAssessmentDisplay } from '../../core/store';
 import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
-
+import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
 describe('MaintenanceAssessmentComponent', () => {
   let component: MaintenanceAssessmentComponent;
   let spectator: Spectator<MaintenanceAssessmentComponent>;
@@ -16,6 +16,7 @@ describe('MaintenanceAssessmentComponent', () => {
     imports: [
       ReactiveFormsModule,
       AssessmentLinechartModule,
+      GCMHeatmapCardModule,
       // Material Modules
       MatCardModule,
     ],
