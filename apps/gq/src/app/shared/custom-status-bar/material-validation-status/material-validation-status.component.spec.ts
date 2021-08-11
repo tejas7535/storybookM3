@@ -4,10 +4,40 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { MaterialValidationStatusComponent } from './material-validation-status.component';
+import { ValidationDescription } from '../../models/table';
 
 describe('MaterialValidationStatusComponent', () => {
   let component: MaterialValidationStatusComponent;
   let spectator: Spectator<MaterialValidationStatusComponent>;
+  const valid = {
+    data: {
+      materialNumber: '12356',
+      quantity: 2,
+      info: {
+        valid: true,
+      },
+    },
+  } as RowNode;
+  const notValidated = {
+    data: {
+      materialNumber: '777',
+      quantity: 12,
+      info: {
+        valid: false,
+        description: [ValidationDescription.Not_Validated],
+      },
+    },
+  } as RowNode;
+  const inValid = {
+    data: {
+      materialNumber: '777',
+      quantity: 12,
+      info: {
+        valid: false,
+        description: [ValidationDescription.QuantityInValid],
+      },
+    },
+  } as RowNode;
 
   const createComponent = createComponentFactory({
     component: MaterialValidationStatusComponent,
@@ -44,44 +74,7 @@ describe('MaterialValidationStatusComponent', () => {
 
   describe('rowValueChanges', () => {
     test('should count invalid and total combinations correctly', () => {
-      const nodes: RowNode[] = [
-        {
-          data: {
-            materialNumber: '123',
-            quantity: 5,
-            info: {
-              valid: true,
-            },
-          },
-        } as unknown as RowNode,
-        {
-          data: {
-            materialNumber: '1234',
-            quantity: 55,
-            info: {
-              valid: true,
-            },
-          },
-        } as unknown as RowNode,
-        {
-          data: {
-            materialNumber: '12356',
-            quantity: 2,
-            info: {
-              valid: true,
-            },
-          },
-        } as unknown as RowNode,
-        {
-          data: {
-            materialNumber: '777',
-            quantity: 12,
-            info: {
-              valid: false,
-            },
-          },
-        } as unknown as RowNode,
-      ];
+      const nodes: RowNode[] = [valid, inValid];
 
       const params = {
         api: {
@@ -97,7 +90,25 @@ describe('MaterialValidationStatusComponent', () => {
       component.rowValueChanges();
 
       expect(component.invalid).toEqual(1);
-      expect(component.amountDetails).toEqual(nodes.length);
+      expect(component.total).toEqual(nodes.length);
+    });
+    test('should not count invalid, if a row is not validated', () => {
+      const nodes: RowNode[] = [valid, notValidated];
+
+      const params = {
+        api: {
+          forEachNode: (callback: (row: RowNode) => void) =>
+            nodes.forEach((element) => {
+              callback(element);
+            }),
+        },
+      } as unknown as IStatusPanelParams;
+
+      component['params'] = params;
+
+      component.rowValueChanges();
+
+      expect(component.invalid).toEqual(0);
     });
   });
 });

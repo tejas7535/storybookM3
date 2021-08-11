@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 
 import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
-
-import { MaterialTableItem } from '../../models/table';
+import { ValidationDescription } from '../../models/table';
 
 @Component({
   selector: 'gq-material-validation-status',
@@ -10,7 +9,7 @@ import { MaterialTableItem } from '../../models/table';
 })
 export class MaterialValidationStatusComponent {
   invalid = 0;
-  amountDetails = 0;
+  total = 0;
 
   private params: IStatusPanelParams;
 
@@ -25,13 +24,18 @@ export class MaterialValidationStatusComponent {
 
   rowValueChanges(): void {
     this.invalid = 0;
-    this.amountDetails = 0;
+    this.total = 0;
 
     this.params.api.forEachNode((row: RowNode) => {
-      const tmpDetail: MaterialTableItem = row.data;
-
-      this.invalid += +!tmpDetail.info?.valid;
-      this.amountDetails += 1;
+      if (
+        row?.data?.info?.description?.includes(
+          ValidationDescription.Not_Validated
+        )
+      ) {
+        return;
+      }
+      this.invalid += +!row.data.info?.valid;
+      this.total += 1;
     });
   }
 }
