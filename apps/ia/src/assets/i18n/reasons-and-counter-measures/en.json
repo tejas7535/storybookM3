@@ -1,6 +1,10 @@
 {
   "topFiveReasons": {
     "title": "Top 5 reasons why people left",
+    "chart": {
+      "others": "Others",
+      "noData": "No data for selected filters"
+    },
     "table": {
       "position": "#",
       "detailedReason": "Reason",

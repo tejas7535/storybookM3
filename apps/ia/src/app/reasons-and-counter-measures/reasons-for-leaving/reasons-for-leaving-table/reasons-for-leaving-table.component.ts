@@ -91,5 +91,5 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   }
 
   formatNumberToPercentage = (params: ValueFormatterParams) =>
-    (params.value * 100).toPrecision(2).toString();
+    Number.parseFloat((params.value * 100).toPrecision(2)).toString();
 }

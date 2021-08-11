@@ -18,7 +18,11 @@
       </ia-reasons-for-leaving-table>
     </div>
     <div>
-      <ia-reasons-for-leaving-chart></ia-reasons-for-leaving-chart>
+      <ia-reasons-for-leaving-chart
+        [config]="reasonsChartConfig$ | ngrxPush"
+        [data]="reasonsChartData$ | ngrxPush"
+        [isLoading]="reasonsLoading$ | ngrxPush"
+      ></ia-reasons-for-leaving-chart>
     </div>
     <div>
       <ia-reasons-for-leaving-table

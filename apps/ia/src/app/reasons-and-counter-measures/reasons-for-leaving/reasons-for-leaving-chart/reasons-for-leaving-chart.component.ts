@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { translate } from '@ngneat/transloco';
+import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
+import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
 
 @Component({
   selector: 'ia-reasons-for-leaving-chart',
@@ -8,17 +9,7 @@ import { translate } from '@ngneat/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReasonsForLeavingChartComponent {
-  config = {
-    title: '2021',
-    subTitle: translate('reasonsAndCounterMeasures.topFiveReasons.title'),
-  };
-
-  data = [
-    { value: 15, name: 'Others' },
-    { value: 20, name: 'Team atmosphere' },
-    { value: 100, name: 'Lack of training' },
-    { value: 150, name: 'Volunteerprogram' },
-    { value: 60, name: 'Lack of oportunity' },
-    { value: 340, name: 'Lack of leadership' },
-  ] as { value: number; name: string }[];
+  @Input() config: SolidDoughnutChartConfig;
+  @Input() data: DoughnutChartData[];
+  @Input() isLoading: boolean;
 }

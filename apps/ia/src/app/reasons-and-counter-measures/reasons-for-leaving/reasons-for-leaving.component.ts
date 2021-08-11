@@ -11,12 +11,16 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors/filter/filter.selector';
+import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
+import { SolidDoughnutChartConfig } from '../../shared/charts/models/solid-doughnut-chart-config.model';
 import { Filter, IdValue, TimePeriod } from '../../shared/models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
   getComparedSelectedOrgUnit,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
+  getReasonsChartConfig,
+  getReasonsChartData,
   getReasonsData,
   getReasonsLoading,
 } from '../store/selectors/reasons-and-counter-measures.selector';
@@ -32,12 +36,14 @@ export class ReasonsForLeavingComponent implements OnInit {
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<string>;
 
+  reasonsChartConfig$: Observable<SolidDoughnutChartConfig>;
+  reasonsChartData$: Observable<DoughnutChartData[]>;
+  reasonsData$: Observable<ReasonForLeavingStats[]>;
+  reasonsLoading$: Observable<boolean>;
+
   comparedSelectedOrgUnit$: Observable<string>;
   comparedSelectedTimePeriod$: Observable<TimePeriod>;
   comparedSelectedTime$: Observable<string>;
-
-  reasonsData$: Observable<ReasonForLeavingStats[]>;
-  reasonsLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
 
@@ -47,6 +53,11 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
+
+    this.reasonsChartConfig$ = this.store.select(getReasonsChartConfig);
+    this.reasonsChartData$ = this.store.select(getReasonsChartData);
+    this.reasonsData$ = this.store.select(getReasonsData);
+    this.reasonsLoading$ = this.store.select(getReasonsLoading);
 
     this.comparedSelectedOrgUnit$ = this.store.select(
       getComparedSelectedOrgUnit
@@ -58,8 +69,5 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.comparedSelectedTime$ = this.store.select(
       getComparedSelectedTimeRange
     );
-
-    this.reasonsData$ = this.store.select(getReasonsData);
-    this.reasonsLoading$ = this.store.select(getReasonsLoading);
   }
 }

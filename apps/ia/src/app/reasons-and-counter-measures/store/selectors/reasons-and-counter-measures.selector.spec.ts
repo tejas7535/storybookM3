@@ -1,12 +1,21 @@
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { ReasonsAndCounterMeasuresState } from '..';
 import { SelectedFilter, TimePeriod } from '../../../shared/models';
 import {
   getComparedSelectedOrgUnit,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
+  getReasonsChartConfig,
+  getReasonsChartData,
   getReasonsData,
   getReasonsLoading,
 } from './reasons-and-counter-measures.selector';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((key) => key),
+}));
 
 describe('ReasonsAndCounterMeasures Selector', () => {
   const leaverStats = [
@@ -111,6 +120,58 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(getReasonsLoading.projector(fakeState)).toEqual(
         fakeState.reasonsForLeaving.reasons.loading
       );
+    });
+  });
+
+  describe('getReasonsChartData', () => {
+    test('should get data for chart', () => {
+      const expectedResult = [
+        { name: 'Family', value: 10 },
+        { name: 'Private', value: 5 },
+        { name: 'Opportunity', value: 4 },
+        { name: 'Leadership', value: 3 },
+        { name: 'Team spirit', value: 2 },
+        {
+          name: 'reasonsAndCounterMeasures.topFiveReasons.chart.others',
+          value: 2,
+        },
+      ];
+      expect(getReasonsChartData.projector(leaverStats)).toEqual(
+        expectedResult
+      );
+    });
+
+    test('should get undefined as data for chart when data not ready', () => {
+      expect(getReasonsChartData.projector(undefined as any)).toBeDefined();
+    });
+
+    test('should get empty array as data for chart when no data', () => {
+      expect(getReasonsChartData.projector([])).toEqual([]);
+    });
+  });
+
+  describe('getReasonsChartConfig', () => {
+    test('should return config for reasons chart', () => {
+      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+
+      expect(
+        getReasonsChartConfig.projector(
+          fakeState.reasonsForLeaving.reasons.data,
+          beutifiedTimeRange
+        )
+      ).toEqual({
+        title: beutifiedTimeRange,
+        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+      });
+    });
+
+    test('should return no data sub title when no data', () => {
+      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+
+      expect(getReasonsChartConfig.projector([], beutifiedTimeRange)).toEqual({
+        title: beutifiedTimeRange,
+        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
+      });
     });
   });
 });

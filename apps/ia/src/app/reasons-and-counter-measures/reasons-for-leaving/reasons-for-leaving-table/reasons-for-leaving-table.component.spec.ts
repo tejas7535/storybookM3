@@ -91,5 +91,15 @@ describe('ReasonsForLeavingTableComponent', () => {
 
       expect(result).toEqual((params.value * 100).toString());
     });
+
+    test('should convert number to percentage value when 1', () => {
+      const params = {
+        value: 1,
+      } as unknown as ValueFormatterParams;
+
+      const result = component.formatNumberToPercentage(params);
+
+      expect(result).toEqual('100');
+    });
   });
 });
