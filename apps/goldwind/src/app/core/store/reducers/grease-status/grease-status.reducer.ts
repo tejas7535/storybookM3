@@ -28,7 +28,6 @@ export const greaseStatusReducer = createReducer(
   on(A.getGreaseStatusLatestFailure, U.getStateLatestFailure())
 );
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(
   state: GreaseStatusState,
   action: Action

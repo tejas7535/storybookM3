@@ -81,7 +81,28 @@ describe('HeatmapStatusEffects', () => {
         m.expect(effects.router$).toBeObservable(expected);
       })
     );
+    it(
+      'should dispatch getGreaseStatusId on mainteance route',
+      marbles((m) => {
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: {
+              routerState: {
+                url: `/bearing/${deviceId}/${BearingRoutePath.MaintenanceAsseesmentPath}/`,
+              },
+            },
+          },
+        });
 
+        const result = getGreaseStatusId({
+          source: `${BearingRoutePath.MaintenanceAsseesmentPath}`,
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.router$).toBeObservable(expected);
+      })
+    );
     it(
       'should dispatch stopGetGreaseStatusLatest when leaving the condition monitoring route',
       marbles((m) => {

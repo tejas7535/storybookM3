@@ -16,6 +16,7 @@ import { maintenanceAssessmentReducer } from '../../core/store/reducers/maintena
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { greaseHeatmapStatusReducer } from '../../core/store/reducers/grease-status/heatmap.reducer';
 import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 @NgModule({
   declarations: [MaintenanceAssessmentComponent],
   imports: [
@@ -24,6 +25,7 @@ import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module
     AssessmentLinechartModule,
     ReactiveFormsModule,
     GCMHeatmapCardModule,
+    SharedTranslocoModule,
     // Store
     EffectsModule.forFeature([
       MaintenanceAssessmentEffects,

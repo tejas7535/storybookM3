@@ -20,4 +20,4 @@ export const getResult =
 export const getLoading =
   <DataReturnType>() =>
   <T extends KPIState<DataReturnType>>(state: T) =>
-    state?.status.loading;
+    state?.loading;

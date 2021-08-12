@@ -3,5 +3,5 @@ export enum BearingRoutePath {
   ConditionMonitoringPath = 'condition-monitoring',
   LoadAssessmentPath = 'load-assessment',
   DataViewPath = 'data-view',
-  MaintenanceAsseesmentPath = 'maintenance-asseesment',
+  MaintenanceAsseesmentPath = 'maintenance-assessment',
 }

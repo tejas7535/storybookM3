@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-sereies-converter';
+import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { LOAD_ASSESSMENT_CONTROLS } from '../../../../shared/constants';
 import { CenterLoadStatus } from '../../../../shared/models';
 import { getLoadAssessmentState } from '../../reducers';

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { getGreaseStatusResult } from '..';
-import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-sereies-converter';
+import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { MAINTENACE_ASSESSMENT_CONTROLS } from '../../../../shared/constants/maintenance-assessment-controls';
 // import { Type } from '../../../../shared/models';
 import { getMaintenanceAssessmentState } from '../../reducers';

@@ -20,6 +20,7 @@
       <div
         class="flex"
         echarts
+        [merge]="this.greaseHeatMapData$ | ngrxPush"
         [options]="this.chartOptions"
         class="h-full w-full"
       ></div>

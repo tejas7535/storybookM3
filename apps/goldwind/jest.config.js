@@ -1,5 +1,6 @@
 module.exports = {
   displayName: 'goldwind',
+  coverageReporters: ['text-summary', 'lcov', 'cobertura'],
   preset: '../../jest.preset.js',
   coverageDirectory: '../../coverage/apps/goldwind',
 

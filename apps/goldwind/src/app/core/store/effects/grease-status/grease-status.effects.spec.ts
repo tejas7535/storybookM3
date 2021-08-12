@@ -1,4 +1,4 @@
-import { marbles } from 'rxjs-marbles';
+import { Context, marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
@@ -11,7 +11,6 @@ import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
   getGreaseHeatMapLatest,
-  getGreaseHeatMapSuccess,
   getGreaseStatusId,
   getGreaseStatusLatest,
   getGreaseStatusLatestFailure,
@@ -20,10 +19,9 @@ import {
 } from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
 import { GreaseStatusEffects } from './grease-status.effects';
-import {
-  GCMHeatmapClassification,
-  GCMHeatmapEntry,
-} from '../../../../shared/models';
+
+import { TypedAction } from '@ngrx/store/src/models';
+import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 
 /* eslint-disable max-lines */
 describe('Grease Status Effects', () => {
@@ -69,7 +67,7 @@ describe('Grease Status Effects', () => {
 
   describe('router$', () => {
     it(
-      'should dispatch getGreaseStatusId',
+      'should dispatch getGreaseStatusId on bearing route',
       marbles((m) => {
         actions$ = m.hot('-a', {
           a: {
@@ -113,6 +111,25 @@ describe('Grease Status Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = getGreaseStatusLatest({ deviceId });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.greaseStatusId$).toBeObservable(expected);
+        m.flush();
+
+        expect(effects['isPollingActive']).toBe(true);
+      })
+    );
+    it(
+      'should return getGreaseHeatMapLatest',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        action = getGreaseStatusId({
+          source: BearingRoutePath.MaintenanceAsseesmentPath,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = getGreaseHeatMapLatest({ deviceId });
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.greaseStatusId$).toBeObservable(expected);
@@ -222,3 +239,28 @@ describe('Grease Status Effects', () => {
     );
   });
 });
+
+const expectEffectRest = (options: {
+  mock: any;
+  action: any & TypedAction<any>;
+  propname: string;
+  marble: Context;
+  marbleE: string;
+  marbleR: string;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  restMethod: Function;
+  effect: any;
+}) => {
+  const result = options.action({ [options.propname]: options.mock });
+  options.marble.hot(options.marbleE, { a: options.action });
+
+  const response = options.marble.cold(`${options.marbleE}|`, {
+    a: options.mock,
+  });
+  const expected = options.marble.cold(options.marbleR, { b: result });
+
+  options.restMethod = jest.fn(() => response);
+
+  options.marble.expect(options.effect).toBeObservable(expected);
+  options.marble.flush();
+};
