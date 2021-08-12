@@ -1,4 +1,5 @@
 import { HeatmapSeriesOption } from 'echarts';
+import { GaugeColors } from '../../../../shared/chart/chart';
 import {
   GCMHeatmapClassification,
   GCMHeatmapEntry,
@@ -14,7 +15,7 @@ export class HeatmapResponseConvert {
   private readonly baseconfig: HeatmapSeriesOption = {
     type: 'heatmap',
     coordinateSystem: 'calendar',
-    calendarIndex: 0, // TODO: has to be the correctt one according to the date
+    calendarIndex: 0,
     data: [],
   };
   CALENDER_SPLIT_COUNT = 4;
@@ -36,8 +37,62 @@ export class HeatmapResponseConvert {
       coordinateSystem: 'calendar',
       data: [],
       calendarIndex: i,
+      tooltip: {
+        borderWidth: 0,
+        formatter: (a: any) => this.getTooltipFormaterHTML(a),
+      },
     }));
   }
+  /**
+   * Converts a Entity object to a html string contains all classification badges
+   * @param a a object from the echarts tooltip formatter
+   * @returns
+   */
+  private getTooltipFormaterHTML(a: any) {
+    const item: GCMHeatmapEntry = JSON.parse(a.data.value[3]);
+
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const getBadge = (classification: GCMHeatmapClassification) => `
+            <div class="flex text-white h-5 w-max rounded p-1 text-center items-center" style="background: ${this.getClassificationColor(
+              classification
+            )}">${classification}</div>
+          `;
+
+    return `
+          <div class="flex flex-col space-y-1 h-12 w-96">
+          <div class="grid grid-cols-3 text-sm">
+            <div></div>
+            <div>GCM1</div>
+            <div>GCM2</div>
+          </div>
+          <div class="grid grid-cols-3 gap-1">
+            <span>Temperature:</span>
+            ${getBadge(item.gcm01TemperatureOpticsClassification)}
+            ${getBadge(item.gcm02TemperatureOpticsClassification)}
+            </div>
+            </div>
+            <div class="grid grid-cols-3 gap-1">
+            <span>Watercontent:</span>
+            ${getBadge(item.gcm01WaterContentClassification)}
+            ${getBadge(item.gcm02WaterContentClassification)}
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-1">
+            <span>Deterioration:</span>
+            ${getBadge(item.gcm01DeteriorationClassification)}
+            ${getBadge(item.gcm02DeteriorationClassification)}
+            </div>
+          </div>
+            </div>
+            <div class="grid grid-cols-3">
+            <div> Time:</div><div class="col-span-2"> ${item.timestamp} </div>
+            </div>
+
+          </div>
+
+          `;
+  }
+
   /**
    * will iterate through every data entry,
    * find the the correct calendar index and
@@ -52,6 +107,7 @@ export class HeatmapResponseConvert {
           e.timestamp,
           this.getHighestLevel(e),
           this.getHighestLevelEnum(e),
+          JSON.stringify(e),
         ],
       });
     });
@@ -147,5 +203,19 @@ export class HeatmapResponseConvert {
       Date.parse(timestamp) > Date.parse(_from) &&
       Date.parse(timestamp) < Date.parse(_to)
     );
+  }
+  getClassificationColor(
+    gcm01DeteriorationClassification: GCMHeatmapClassification
+  ) {
+    switch (gcm01DeteriorationClassification) {
+      case GCMHeatmapClassification.ERROR:
+        return GaugeColors.RED;
+      case GCMHeatmapClassification.WARNING:
+        return GaugeColors.YELLOW;
+      case GCMHeatmapClassification.OKAY:
+        return GaugeColors.GREEN;
+      default:
+        return GaugeColors.GREY;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   getGCHeatmapGraph,
   getGCHeatmapLoading,
@@ -69,7 +69,7 @@ export class GcmHeatmapCardComponent {
         range: ['2021-10-01', '2021-12-31'],
       },
     ],
-    tooltip: { show: true },
+    tooltip: { show: true, appendToBody: true },
   };
   greaseHeatMapData$: any;
 

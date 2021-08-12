@@ -51,7 +51,6 @@ export class HeatmapStatusEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
-    private readonly store: Store
+    private readonly restService: RestService
   ) {}
 }

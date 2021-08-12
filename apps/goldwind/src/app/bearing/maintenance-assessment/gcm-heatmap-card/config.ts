@@ -1,8 +1,8 @@
 import { CalendarComponentOption } from 'echarts';
 export const CALENDAR_OPTIONS: CalendarComponentOption = {
-  top: 50,
-  left: 30,
-  right: 30,
+  top: '10%',
+  left: '10%',
+  right: '10%',
   cellSize: ['auto', 13],
   range: ['2021-01-01', '2021-03-31'],
   dayLabel: {

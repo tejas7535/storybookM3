@@ -84,16 +84,36 @@ describe('HeatmapDataConverter', () => {
     expect(instance.series[2].data.length).toBe(1);
     expect(instance.series[3].data.length).toBe(1);
     expect(instance.series[0].data[0]).toEqual({
-      value: ['2021-01-09T08:52:23.001Z', 2, 'warning'],
+      value: [
+        '2021-01-09T08:52:23.001Z',
+        2,
+        GCMHeatmapClassification.WARNING,
+        JSON.stringify(data[1]),
+      ],
     });
     expect(instance.series[1].data[0]).toEqual({
-      value: ['2021-04-01T08:52:23.001Z', 3, 'error'],
+      value: [
+        '2021-04-01T08:52:23.001Z',
+        3,
+        GCMHeatmapClassification.ERROR,
+        JSON.stringify(data[0]),
+      ],
     });
     expect(instance.series[2].data[0]).toEqual({
-      value: ['2021-08-01T08:52:23.001Z', 1, 'okay'],
+      value: [
+        '2021-08-01T08:52:23.001Z',
+        1,
+        GCMHeatmapClassification.OKAY,
+        JSON.stringify(data[2]),
+      ],
     });
     expect(instance.series[3].data[0]).toEqual({
-      value: ['2021-12-01T08:52:23.001Z', 1, 'okay'],
+      value: [
+        '2021-12-01T08:52:23.001Z',
+        1,
+        GCMHeatmapClassification.OKAY,
+        JSON.stringify(data[4]),
+      ],
     });
   });
 

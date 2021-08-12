@@ -15,7 +15,7 @@ export interface GCMHeatmapEntry {
 }
 
 export enum GCMHeatmapClassification {
-  WARNING = 'warning',
-  OKAY = 'okay',
-  ERROR = 'error',
+  WARNING = 'Warning',
+  OKAY = 'Normal',
+  ERROR = 'Error',
 }

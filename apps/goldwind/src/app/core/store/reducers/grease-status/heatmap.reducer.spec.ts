@@ -13,7 +13,6 @@ describe('greaseHeatmapStatusReducer', () => {
       expect(state.loading).toBeTruthy();
     });
   });
-
   describe('getGreaseHeatMapLatest', () => {
     it('should return result', () => {
       const action = A.getGreaseHeatMapLatest({ deviceId: 'deathstar-mill' });
