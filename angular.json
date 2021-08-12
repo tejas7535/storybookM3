@@ -746,7 +746,10 @@
             ],
             "styles": [
               "apps/helloworld-azure/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
+              "node_modules/schaeffler-icons/style.css",
+              "node_modules/@fontsource/roboto/300.css",
+              "node_modules/@fontsource/roboto/400.css",
+              "node_modules/@fontsource/roboto/500.css"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
@@ -1094,7 +1097,10 @@
             "assets": ["apps/mac/src/favicon.ico", "apps/mac/src/assets"],
             "styles": [
               "apps/mac/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
+              "node_modules/schaeffler-icons/style.css",
+              "node_modules/@fontsource/roboto/300.css",
+              "node_modules/@fontsource/roboto/400.css",
+              "node_modules/@fontsource/roboto/500.css"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
@@ -1482,7 +1488,10 @@
             "assets": ["apps/sedo/src/favicon.ico", "apps/sedo/src/assets"],
             "styles": [
               "apps/sedo/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
+              "node_modules/schaeffler-icons/style.css",
+              "node_modules/@fontsource/roboto/300.css",
+              "node_modules/@fontsource/roboto/400.css",
+              "node_modules/@fontsource/roboto/500.css"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
@@ -2921,6 +2930,7 @@
           "options": {
             "uiFramework": "@storybook/angular",
             "port": 4400,
+            "staticDir": ["libs/shared/ui/storybook/src/assets"],
             "config": {
               "configFolder": "libs/shared/ui/storybook/.storybook"
             },
@@ -2936,6 +2946,7 @@
           "builder": "@nrwl/storybook:build",
           "options": {
             "uiFramework": "@storybook/angular",
+            "staticDir": ["libs/shared/ui/storybook/src/assets"],
             "outputPath": "dist/storybook/shared-ui-storybook",
             "config": {
               "configFolder": "libs/shared/ui/storybook/.storybook"

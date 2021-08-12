@@ -94,7 +94,7 @@ describe('HeaderComponent', () => {
       const platformTitle = 'Nebuchadnezzar Shipment';
       spectator.setInput('platformTitle', platformTitle);
       spectator.detectChanges();
-      const userMenu = spectator.query('.platform-title');
+      const userMenu = spectator.query('#platform-header');
       expect(userMenu.innerHTML).toContain(platformTitle);
     });
 

@@ -1,64 +1,76 @@
-<mat-toolbar
-  class="header"
-  fxLayout="row"
-  fxLayout.xs="column"
-  fxLayoutAlign="space-between"
->
-  <div fxShow.xs="true" fxHide.gt-xs="true">
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      class="platform-title-mobile pointer"
-      *ngIf="link"
-      [routerLink]="link"
-    >
-      {{ platformTitle }}
+<div class="flex flex-col h-full overflow-hidden">
+  <mat-toolbar class="sm:min-h-[60px] sm:h-[60px] p-0 static z-10">
+    <div class="flex flex-row flex-wrap-reverse flex-grow py-3">
+      <div class="flex flex-row items-center max-w-full">
+        <mat-icon
+          *ngIf="toggleEnabled"
+          id="burger-menu"
+          class="icon burger-menu cursor-pointer mr-4 sm:mr-8"
+          fontIcon="icon-menu"
+          (click)="toggleClicked()"
+        ></mat-icon>
+        <div class="sm:hidden">
+          <div class="relative inline-block">
+            <h6
+              class="outline-none h-[24px] mobile-title max-w-full"
+              [class.cursor-pointer]="link"
+              [routerLink]="link ? link : undefined"
+            >
+              {{ platformTitle }}
+            </h6>
+          </div>
+        </div>
+        <div class="flex-col items-center hidden sm:flex">
+          <h6
+            id="platform-header"
+            class="outline-none font-body font-normal text-mediumEmphasis"
+            [class.cursor-pointer]="link"
+            [routerLink]="link ? link : undefined"
+          >
+            {{ platformTitle }}
+          </h6>
+        </div>
+      </div>
+      <div
+        class="
+          min-h-[32px]
+          sm:h-auto
+          ml-2
+          py-0
+          flex flex-grow
+          justify-end
+          items-center
+        "
+      >
+        <div
+          class="flex items-center"
+          [class.order-first]="logo"
+          [class.sm:order-last]="logo"
+        >
+          <div class="sm:flex mr-2 sm:pt-1">
+            <ng-content select="[user-menu]"></ng-content>
+          </div>
+          <div *ngIf="logo" class="h-3 sm:h-[23px] self-center">
+            <img [src]="logo" class="h-3 sm:h-[23px]" />
+          </div>
+          <div
+            *ngIf="logo"
+            class="w-[1px] mx-1.5 sm:mx-3 h-4 sm:h-7 bg-highEmphasis"
+          ></div>
+          <div
+            class="
+              header-logo
+              h-3
+              w-[100px]
+              sm:h-[23px] sm:w-[200px]
+              self-center
+            "
+          ></div>
+        </div>
+      </div>
     </div>
-    <div
-      *ngIf="!link"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      class="platform-title-mobile"
-    >
-      {{ platformTitle }}
-    </div>
+  </mat-toolbar>
+  <div class="header-content overflow-auto flex-grow">
+    <ng-content></ng-content>
   </div>
-  <div
-    fxLayout="row"
-    fxLayoutAlign="start center"
-    fxLayoutGap="30px"
-    fxFlex
-    class="mobile-height-50"
-  >
-    <mat-icon
-      *ngIf="toggleEnabled"
-      id="burger-menu"
-      class="icon burger-menu"
-      fontIcon="icon-menu"
-      (click)="toggleClicked()"
-    ></mat-icon>
-
-    <div
-      fxLayout="column"
-      fxLayoutAlign="center"
-      fxHide.xs="true"
-      fxShow.gt-xs="true"
-    >
-      <h3 class="platform-title pointer" *ngIf="link" [routerLink]="link">
-        {{ platformTitle }}
-      </h3>
-      <h3 class="platform-title" *ngIf="!link">
-        {{ platformTitle }}
-      </h3>
-    </div>
-
-    <div fxFlex>
-      <ng-content select="[user-menu]"></ng-content>
-    </div>
-
-    <div class="header-logo"></div>
-  </div>
-</mat-toolbar>
-<div class="header-content">
-  <ng-content></ng-content>
 </div>

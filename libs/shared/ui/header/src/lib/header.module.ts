@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,7 +17,6 @@ import { UserMenuModule } from './user-menu/user-menu.module';
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
-    FlexLayoutModule,
     RouterModule,
     UserMenuModule,
   ],

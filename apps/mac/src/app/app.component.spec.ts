@@ -1,9 +1,9 @@
 import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ReplaySubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -14,13 +14,6 @@ import { HeaderModule } from '@schaeffler/header';
 
 import { RoutePath } from './app-routing.enum';
 import { AppComponent } from './app.component';
-
-const eventSubject = new ReplaySubject<RouterEvent>(1);
-const routerMock = {
-  navigate: jest.fn(),
-  events: eventSubject.asObservable(),
-  url: 'someUrl',
-};
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -49,10 +42,6 @@ describe('AppComponent', () => {
           },
         },
       }),
-      {
-        provide: Router,
-        useValue: routerMock,
-      },
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -95,7 +84,9 @@ describe('AppComponent', () => {
     });
 
     it('should get the link from router', () => {
-      eventSubject.next(new NavigationEnd(1, 'url', 'fullUrl'));
+      (component['router'].events as Subject<RouterEvent>).next(
+        new NavigationEnd(1, 'url', 'fullUrl')
+      );
 
       expect(component.url).toEqual('url');
     });

@@ -169,6 +169,7 @@ module.exports = {
       white: '#fff',
       disabled: lightGrey,
       error: baseColors.error,
+      ...emphasis,
     },
     screens: {
       sm: '600px',

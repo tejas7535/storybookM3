@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Input() public toggleEnabled = false;
   @Input() public platformTitle: string;
   @Input() public link?: string;
+  @Input() public logo?: string;
 
   @Output() public readonly toggle: EventEmitter<void> = new EventEmitter();
 
