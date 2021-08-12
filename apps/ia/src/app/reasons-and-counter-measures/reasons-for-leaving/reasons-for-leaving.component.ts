@@ -14,15 +14,15 @@ import {
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../../shared/charts/models/solid-doughnut-chart-config.model';
 import { Filter, IdValue, TimePeriod } from '../../shared/models';
-import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
+import { ReasonForLeavingRank } from '../models/reason-for-leaving-rank.model';
 import {
   getComparedSelectedOrgUnit,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
   getReasonsChartConfig,
   getReasonsChartData,
-  getReasonsData,
   getReasonsLoading,
+  getReasonsTableData,
 } from '../store/selectors/reasons-and-counter-measures.selector';
 
 @Component({
@@ -38,7 +38,7 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   reasonsChartConfig$: Observable<SolidDoughnutChartConfig>;
   reasonsChartData$: Observable<DoughnutChartData[]>;
-  reasonsData$: Observable<ReasonForLeavingStats[]>;
+  reasonsTableData$: Observable<ReasonForLeavingRank[]>;
   reasonsLoading$: Observable<boolean>;
 
   comparedSelectedOrgUnit$: Observable<string>;
@@ -56,7 +56,7 @@ export class ReasonsForLeavingComponent implements OnInit {
 
     this.reasonsChartConfig$ = this.store.select(getReasonsChartConfig);
     this.reasonsChartData$ = this.store.select(getReasonsChartData);
-    this.reasonsData$ = this.store.select(getReasonsData);
+    this.reasonsTableData$ = this.store.select(getReasonsTableData);
     this.reasonsLoading$ = this.store.select(getReasonsLoading);
 
     this.comparedSelectedOrgUnit$ = this.store.select(

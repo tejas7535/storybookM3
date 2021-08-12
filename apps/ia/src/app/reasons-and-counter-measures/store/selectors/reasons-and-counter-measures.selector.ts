@@ -6,6 +6,8 @@ import {
   selectReasonsAndCounterMeasuresState,
 } from '..';
 import { getBeautifiedSelectedTimeRange } from '../../../core/store/selectors';
+import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
+import { ReasonForLeavingRank } from '../../models/reason-for-leaving-rank.model';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 
 export const getComparedSelectedOrgUnit = createSelector(
@@ -32,6 +34,27 @@ export const getReasonsData = createSelector(
     state.reasonsForLeaving.reasons.data
 );
 
+export const getReasonsTableData = createSelector(
+  getReasonsData,
+  (data: ReasonForLeavingStats[]) => {
+    const totalLeavers = data
+      ?.map((reason) => reason.leavers)
+      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0);
+
+    const rankList = data?.map((d) => d.leavers).sort((a, b) => b - a);
+
+    return data?.map(
+      (reason) =>
+        new ReasonForLeavingRank(
+          rankList.indexOf(reason.leavers) + 1,
+          reason.detailedReason,
+          getPercentageValue(reason.leavers, totalLeavers),
+          reason.leavers
+        )
+    );
+  }
+);
+
 export const getReasonsLoading = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
@@ -56,7 +79,9 @@ export const getReasonsChartData = createSelector(
     reasons ? getTop5ReasonsForChart(reasons) : []
 );
 
-export function getTop5ReasonsForChart(data: ReasonForLeavingStats[]) {
+export function getTop5ReasonsForChart(
+  data: ReasonForLeavingStats[]
+): DoughnutChartData[] {
   if (data.length === 0) {
     return [];
   }
@@ -79,3 +104,11 @@ export function getTop5ReasonsForChart(data: ReasonForLeavingStats[]) {
 
   return top5Reasons;
 }
+
+export const getPercentageValue = (part: number, total: number) => {
+  if (part === 0 || total === 0) {
+    return 0;
+  }
+
+  return Number.parseFloat(((part / total) * 100).toFixed(1));
+};

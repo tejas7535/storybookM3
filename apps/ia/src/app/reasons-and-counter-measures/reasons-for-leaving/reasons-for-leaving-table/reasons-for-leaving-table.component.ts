@@ -4,7 +4,6 @@ import {
   ClientSideRowModelModule,
   ColDef,
   IStatusPanelParams,
-  ValueFormatterParams,
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
@@ -74,13 +73,16 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         headerName: translate(
           'reasonsAndCounterMeasures.topFiveReasons.table.percentage'
         ),
-        valueFormatter: this.formatNumberToPercentage,
+        type: 'numericColumn',
+        headerClass: 'bg-lightBg',
       },
       {
         field: 'leavers',
         headerName: translate(
           'reasonsAndCounterMeasures.topFiveReasons.table.leavers'
         ),
+        type: 'numericColumn',
+        headerClass: 'bg-lightBg',
       },
     ];
   }
@@ -89,7 +91,4 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     // autosize reason column to show full content
     params.columnApi.autoSizeColumns(['detailedReason'], false);
   }
-
-  formatNumberToPercentage = (params: ValueFormatterParams) =>
-    Number.parseFloat((params.value * 100).toPrecision(2)).toString();
 }

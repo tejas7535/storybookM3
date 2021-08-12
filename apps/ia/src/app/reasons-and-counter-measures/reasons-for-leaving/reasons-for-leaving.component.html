@@ -6,7 +6,7 @@
     <h5 class="col-span-3 font-bold mb-5">{{ t('topFiveReasons.title') }}</h5>
     <div>
       <ia-reasons-for-leaving-table
-        [data]="reasonsData$ | ngrxPush"
+        [data]="reasonsTableData$ | ngrxPush"
         [loading]="reasonsLoading$ | ngrxPush"
         [orgUnits]="orgUnits$ | ngrxPush"
         [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"

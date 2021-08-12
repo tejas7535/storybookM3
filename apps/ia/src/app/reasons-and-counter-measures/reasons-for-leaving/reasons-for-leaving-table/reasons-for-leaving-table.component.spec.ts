@@ -1,7 +1,4 @@
-import {
-  IStatusPanelParams,
-  ValueFormatterParams,
-} from '@ag-grid-community/all-modules';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
@@ -78,28 +75,6 @@ describe('ReasonsForLeavingTableComponent', () => {
         ['detailedReason'],
         false
       );
-    });
-  });
-
-  describe('formatNumberToPercentage', () => {
-    test('should convert number to percentage value', () => {
-      const params = {
-        value: 0.23,
-      } as unknown as ValueFormatterParams;
-
-      const result = component.formatNumberToPercentage(params);
-
-      expect(result).toEqual((params.value * 100).toString());
-    });
-
-    test('should convert number to percentage value when 1', () => {
-      const params = {
-        value: 1,
-      } as unknown as ValueFormatterParams;
-
-      const result = component.formatNumberToPercentage(params);
-
-      expect(result).toEqual('100');
     });
   });
 });

@@ -6,10 +6,12 @@ import {
   getComparedSelectedOrgUnit,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
+  getPercentageValue,
   getReasonsChartConfig,
   getReasonsChartData,
   getReasonsData,
   getReasonsLoading,
+  getReasonsTableData,
 } from './reasons-and-counter-measures.selector';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -120,6 +122,97 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(getReasonsLoading.projector(fakeState)).toEqual(
         fakeState.reasonsForLeaving.reasons.loading
       );
+    });
+  });
+
+  describe('getReasonsTableData', () => {
+    test('should return data for table', () => {
+      const expectedResult = [
+        {
+          detailedReason: 'Family',
+          leavers: 10,
+          percentage: 38.5,
+          position: 1,
+        },
+        {
+          detailedReason: 'Private',
+          leavers: 5,
+          percentage: 19.2,
+          position: 2,
+        },
+        {
+          detailedReason: 'Opportunity',
+          leavers: 4,
+          percentage: 15.4,
+          position: 3,
+        },
+        {
+          detailedReason: 'Leadership',
+          leavers: 3,
+          percentage: 11.5,
+          position: 4,
+        },
+        {
+          detailedReason: 'Team spirit',
+          leavers: 2,
+          percentage: 7.7,
+          position: 5,
+        },
+        {
+          detailedReason: 'Perspective',
+          leavers: 1,
+          percentage: 3.8,
+          position: 6,
+        },
+        {
+          detailedReason: 'Atmosphere',
+          leavers: 1,
+          percentage: 3.8,
+          position: 6,
+        },
+      ];
+
+      expect(getReasonsTableData.projector(leaverStats)).toEqual(
+        expectedResult
+      );
+    });
+  });
+
+  describe('getPercentageValue', () => {
+    test('should get percentage value', () => {
+      const part = 2;
+      const total = 11;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(18.2);
+    });
+
+    test('should not add decimal numbers for integer', () => {
+      const part = 1;
+      const total = 1;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(100);
+    });
+
+    test('should return 0 when total 0', () => {
+      const part = 1;
+      const total = 0;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(0);
+    });
+
+    test('should return 0 when part 0', () => {
+      const part = 0;
+      const total = 1;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(0);
     });
   });
 
