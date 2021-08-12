@@ -38,10 +38,8 @@ export class HeatmapStatusEffects {
     return this.actions$.pipe(
       ofType(A.getGreaseHeatMapLatest),
       map((action) => action.deviceId),
-      // TODO: mergeMap((deviceId) =>
-      mergeMap(() =>
-        // TODO: this.restService.getGreaseHeatMap({ deviceId }).pipe(
-        this.restService.getGreaseHeatMap().pipe(
+      mergeMap((deviceId) =>
+        this.restService.getGreaseHeatMap({ deviceId }).pipe(
           map((gcmheatmap) => A.getGreaseHeatMapSuccess({ gcmheatmap })),
           catchError((_e) => of(A.getGreaseHeatMapFailure()))
         )

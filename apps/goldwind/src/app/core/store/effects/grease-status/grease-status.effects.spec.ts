@@ -10,6 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
+  getGreaseHeatMapLatest,
   getGreaseStatusId,
   getGreaseStatusLatest,
   getGreaseStatusLatestFailure,

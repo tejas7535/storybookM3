@@ -1,4 +1,5 @@
 import { CalendarComponentOption } from 'echarts';
+
 export const CALENDAR_OPTIONS: CalendarComponentOption = {
   top: '10%',
   left: '10%',
