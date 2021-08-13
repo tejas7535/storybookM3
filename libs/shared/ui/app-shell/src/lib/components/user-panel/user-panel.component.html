@@ -1,0 +1,17 @@
+<div class="flex p-3" *transloco="let t; read: 'userPanel'">
+  <img
+    *ngIf="userImageUrl; else noImageUrl"
+    class="schaeffler-user-panel__avatar"
+    [src]="userImageUrl"
+    width="64"
+  />
+  <ng-template #noImageUrl>
+    <mat-icon class="schaeffler-user-panel__avatar">account_circle</mat-icon>
+  </ng-template>
+  <div class="overflow-hidden">
+    <div class="text-h6 truncate">{{ userName }}</div>
+    <a class="text-subtitle-2 text-primary" [href]="urlAccount" target="_blank">
+      {{ t('accountLink.label') }}
+    </a>
+  </div>
+</div>

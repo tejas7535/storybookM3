@@ -1,0 +1,34 @@
+:host {
+  height: 100%;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+}
+
+mat-toolbar {
+  @apply fixed;
+  @apply bg-white;
+}
+
+.mat-icon-button {
+  @apply absolute;
+  @apply left-1;
+
+  .mat-icon {
+    @apply absolute;
+    @apply top-2;
+    @apply left-2;
+  }
+}
+
+.schaeffler-logo {
+  @apply h-[12px];
+  @apply sm:h-[23px];
+  @apply w-[100px];
+  @apply sm:w-[200px];
+  @apply ml-2;
+  @apply sm:ml-3;
+  background: url('../../assets/schaeffler-logo.svg') no-repeat center;
+}

@@ -118,6 +118,9 @@
     "shared-cypress-utils": {
       "tags": ["scope:shared", "type:utils"]
     },
+    "shared-ui-app-shell": {
+      "tags": ["scope:shared", "type:ui"]
+    },
     "shared-ui-banner": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]

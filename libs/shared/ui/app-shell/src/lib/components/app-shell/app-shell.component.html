@@ -1,0 +1,69 @@
+<mat-toolbar
+  class="z-10 h-[60px] mat-elevation-z2"
+  *transloco="let t; read: 'shell'"
+>
+  <button
+    *ngIf="hasSidebarLeft"
+    type="button"
+    mat-icon-button
+    disableRipple
+    class="absolute text-mediumEmphasis"
+    (click)="drawer.toggle()"
+  >
+    <mat-icon *ngIf="sidenavOpen; else menuIcon" [@sidenavToggleAnimation]>
+      arrow_back
+    </mat-icon>
+    <ng-template #menuIcon>
+      <mat-icon [@sidenavToggleAnimation]>menu</mat-icon>
+    </ng-template>
+  </button>
+  <span
+    class="
+      text-subtitle-1
+      sm:text-h6
+      text-mediumEmphasis
+      pr-2
+      sm:pr-3
+      inline-block
+      truncate
+      outline-none
+    "
+    [class.ml-7]="hasSidebarLeft"
+    [class.cursor-pointer]="appTitleLink"
+    [routerLink]="appTitleLink ? appTitleLink : undefined"
+  >
+    <span *ngIf="sidenavOpen; else appTitleTemplate">{{
+      t('sidenav.heading')
+    }}</span>
+    <ng-template #appTitleTemplate>
+      <span>{{ appTitle }}</span>
+    </ng-template>
+  </span>
+  <div class="flex-auto"></div>
+  <ng-content select="[headerInlineContent]"></ng-content>
+  <div class="schaeffler-logo"></div>
+</mat-toolbar>
+<mat-sidenav-container
+  [hasBackdrop]="false"
+  class="flex flex-col h-full overflow-hidden"
+>
+  <mat-sidenav
+    #drawer
+    class="w-[400px] max-w-[90%] pt-[60px]"
+    fixedInViewport
+    mode="over"
+    [(opened)]="sidenavOpen"
+    [autoFocus]="false"
+  >
+    <schaeffler-user-panel
+      *ngIf="userName"
+      [userName]="userName"
+      [userImageUrl]="userImageUrl"
+    ></schaeffler-user-panel>
+    <mat-divider></mat-divider>
+    <ng-content select="[sidenavBody]"></ng-content>
+  </mat-sidenav>
+  <mat-sidenav-content class="pt-[60px]">
+    <ng-content select="[mainContent]"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

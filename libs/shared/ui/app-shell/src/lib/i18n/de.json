@@ -1,0 +1,12 @@
+{
+  "shell": {
+    "sidenav": {
+      "heading": "Einstellungen"
+    }
+  },
+  "userPanel": {
+    "accountLink": {
+      "label": "Mein Konto"
+    }
+  }
+}

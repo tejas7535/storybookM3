@@ -31,6 +31,7 @@
       "@schaeffler/application-insights": [
         "libs/shared/utils/application-insights/src/index.ts"
       ],
+      "@schaeffler/app-shell": ["libs/shared/ui/app-shell/src/index.ts"],
       "@schaeffler/azure-auth": ["libs/shared/utils/azure-auth/src/index.ts"],
       "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
       "@schaeffler/breadcrumbs": ["libs/shared/ui/breadcrumbs/src/index.ts"],
