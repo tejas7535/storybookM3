@@ -10,6 +10,8 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromBearing from './bearing/bearing.reducer';
 import * as fromParameter from './parameter/parameter.reducer';
+import * as fromResult from './result/result.reducer';
+import * as fromSettings from './settings/settings.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -39,6 +41,12 @@ export const getBearingState =
 
 export const getParameterState =
   createFeatureSelector<fromParameter.ParameterState>('parameter');
+
+export const getResultState =
+  createFeatureSelector<fromResult.ResultState>('result');
+
+export const getSettingsState =
+  createFeatureSelector<fromSettings.SettingsState>('settings');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>
