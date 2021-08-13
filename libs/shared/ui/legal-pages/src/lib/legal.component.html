@@ -1,0 +1,7 @@
+<div class="mx-auto max-w-screen-md w-full" *transloco="let t">
+  <schaeffler-subheader
+    [title]="t('goToHome')"
+    (backButtonClicked)="navigate()"
+  ></schaeffler-subheader>
+  <div [innerHTML]="t(legal, { responsible: responsible })"></div>
+</div>

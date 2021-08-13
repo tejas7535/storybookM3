@@ -11,7 +11,10 @@ import { ReplaySubject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 
+import { SubheaderModule } from '@schaeffler/subheader';
+
 import { LegalComponent } from './legal.component';
+import { PERSON_RESPONSIBLE } from './legal.model';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 const routerMock = {
@@ -26,7 +29,7 @@ describe('LegalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LegalComponent,
-    imports: [RouterTestingModule, TranslocoTestingModule],
+    imports: [RouterTestingModule, TranslocoTestingModule, SubheaderModule],
     providers: [
       {
         provide: ActivatedRoute,
@@ -39,6 +42,11 @@ describe('LegalComponent', () => {
       {
         provide: Router,
         useValue: routerMock,
+      },
+      {
+        provide: PERSON_RESPONSIBLE,
+        useValue:
+          'Jumbo Schreiner der gerne den besten Döner der Welt in Berlin isst',
       },
     ],
     declarations: [LegalComponent],
@@ -66,11 +74,27 @@ describe('LegalComponent', () => {
 
   describe('route subscribtion within ngOnInit', () => {
     it('should load the terms of use content if the route says so', () => {
-      eventSubject.next(
-        new NavigationEnd(undefined, '/terms-of-use', undefined)
-      );
+      eventSubject.next(new NavigationEnd(1, '/terms-of-use', ''));
 
       expect(component.legal).toEqual('content.termsOfUse');
+    });
+
+    it('should load the imprint content if the route says so', () => {
+      eventSubject.next(new NavigationEnd(1, '/imprint', ''));
+
+      expect(component.legal).toEqual('content.imprint');
+    });
+
+    it('should load the data privacy content if the route says so', () => {
+      eventSubject.next(new NavigationEnd(1, '/data-privacy', ''));
+
+      expect(component.legal).toEqual('content.dataPrivacy');
+    });
+
+    it('should load the cookie policy content if the route says so', () => {
+      eventSubject.next(new NavigationEnd(1, '/cookie-policy', ''));
+
+      expect(component.legal).toEqual('content.cookiePolicy');
     });
   });
 

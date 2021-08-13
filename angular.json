@@ -2278,6 +2278,54 @@
         }
       }
     },
+    "shared-ui-legal-pages": {
+      "projectType": "library",
+      "root": "libs/shared/ui/legal-pages",
+      "sourceRoot": "libs/shared/ui/legal-pages/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/shared/ui/legal-pages"],
+          "options": {
+            "project": "libs/shared/ui/legal-pages/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/legal-pages"],
+          "options": {
+            "jestConfig": "libs/shared/ui/legal-pages/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/legal-pages/src/**/*.ts",
+              "libs/shared/ui/legal-pages/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
+              "force": true
+            }
+          }
+        }
+      }
+    },
     "shared-ui-loading-spinner": {
       "projectType": "library",
       "root": "libs/shared/ui/loading-spinner",

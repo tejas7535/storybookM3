@@ -8,9 +8,7 @@ import { filter, startWith, takeUntil } from 'rxjs/operators';
 import { translate } from '@ngneat/transloco';
 
 import { FooterLink } from '@schaeffler/footer';
-
-import { RoutePath } from './app-routing.module';
-import { LegalPath } from './legal/legal-route-path.enum';
+import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 @Component({
   selector: 'mm-root',
@@ -25,22 +23,22 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public footerLinks: FooterLink[] = [
     {
-      link: `${RoutePath.LegalPath}/${LegalPath.ImprintPath}`,
+      link: `${LegalRoute}/${LegalPath.ImprintPath}`,
       title: translate('legal.imprint'),
       external: false,
     },
     {
-      link: `${RoutePath.LegalPath}/${LegalPath.DataprivacyPath}`,
+      link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
       title: translate('legal.dataPrivacy'),
       external: false,
     },
     {
-      link: `${RoutePath.LegalPath}/${LegalPath.TermsPath}`,
+      link: `${LegalRoute}/${LegalPath.TermsPath}`,
       title: translate('legal.termsOfUse'),
       external: false,
     },
     {
-      link: `${RoutePath.LegalPath}/${LegalPath.CookiePath}`,
+      link: `${LegalRoute}/${LegalPath.CookiePath}`,
       title: translate('legal.cookiePolicy'),
       external: false,
     },

@@ -84,5 +84,12 @@
   "meta": {
     "title": "Schaeffler Mounting Manager",
     "description": "El Schaeffler Mounting Manager le facilita la selección cómoda del montaje correcto de los rodamientos y ofrece las siguientes posibilidades: muestra algunos procedimientos mecánicos e hidráulicos, calcula los parámetros de montaje requeridos, ofrece instrucciones de montaje útiles, genera una lista con los accesorios y herramientas necesarios"
+  },
+  "legal": {
+    "imprint": "Impresión",
+    "dataPrivacy": "Privacidad de datos",
+    "termsOfUse": "Condiciones de uso",
+    "cookiePolicy": "Política de cookies",
+    "cookieSettings": "Configuración de cookies"
   }
 }

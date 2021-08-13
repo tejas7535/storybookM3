@@ -150,6 +150,9 @@
     "shared-ui-icons": {
       "tags": ["scope:shared", "type:ui"]
     },
+    "shared-ui-legal-pages": {
+      "tags": ["scope:shared", "type:ui"]
+    },
     "shared-ui-loading-spinner": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]

@@ -46,6 +46,7 @@
       ],
       "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"],
       "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
+      "@schaeffler/legal-pages": ["libs/shared/ui/legal-pages/src/index.ts"],
       "@schaeffler/loading-spinner": [
         "libs/shared/ui/loading-spinner/src/index.ts"
       ],

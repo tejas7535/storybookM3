@@ -1,27 +1,44 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { filter, startWith, takeUntil } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
+
 import { LegalPath } from './legal-route-path.enum';
+import { PERSON_RESPONSIBLE } from './legal.model';
 
 @Component({
-  selector: 'mm-legal',
+  selector: 'schaeffler-legal',
   templateUrl: './legal.component.html',
   styleUrls: ['./legal.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class LegalComponent implements OnInit, OnDestroy {
-  public legal: string;
+  public responsible?: string = undefined;
+  public legal?: string;
   public destroy$ = new Subject<void>();
 
   public constructor(
+    @Inject(PERSON_RESPONSIBLE) private readonly personResponsible: string,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
+    this.responsible =
+      this.personResponsible &&
+      translate('content.responsibleIntro', {
+        personResponsible: this.personResponsible,
+      });
+
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
@@ -55,7 +72,7 @@ export class LegalComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  navigate(): void {
+  public navigate(): void {
     this.router.navigate(['/']);
   }
 }

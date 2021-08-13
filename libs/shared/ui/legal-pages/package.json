@@ -1,0 +1,17 @@
+{
+  "name": "@schaeffler/legal-pages",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": ">=11.2.0<=13.0.0",
+    "@angular/core": ">=11.2.0<=13.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.1.0"
+  },
+  "i18n": [
+    {
+      "scope": "legalScope",
+      "path": "src/assets/i18n"
+    }
+  ]
+}

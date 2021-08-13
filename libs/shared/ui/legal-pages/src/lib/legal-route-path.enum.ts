@@ -4,3 +4,5 @@ export enum LegalPath {
   TermsPath = 'terms-of-use',
   CookiePath = 'cookie-policy',
 }
+
+export const LegalRoute = 'legal';

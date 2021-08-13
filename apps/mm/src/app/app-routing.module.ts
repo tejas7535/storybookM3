@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { LegalRoute } from '@schaeffler/legal-pages';
+
 export enum RoutePath {
   BasePath = '',
   HomePath = 'app',
@@ -9,9 +11,9 @@ export enum RoutePath {
 
 export const appRoutePaths: Routes = [
   {
-    path: RoutePath.LegalPath,
+    path: LegalRoute,
     loadChildren: async () =>
-      import('./legal/legal.module').then((m) => m.LegalModule),
+      import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {
     path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
