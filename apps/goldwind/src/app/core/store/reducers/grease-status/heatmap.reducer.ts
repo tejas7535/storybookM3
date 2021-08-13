@@ -2,7 +2,7 @@ import { GCMHeatmapEntry } from '../../../../shared/models';
 import { KPIState } from '../../../../shared/store/utils.selector';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as U from '../../../../shared/store/utils.reducer';
-import * as A from '../../actions/grease-status/grease-status.actions';
+import * as A from '../../actions/grease-status/gc-heatmap.actions';
 
 export type GreaseHeatmapState = KPIState<GCMHeatmapEntry>;
 
@@ -20,7 +20,6 @@ export const greaseHeatmapStatusReducer = createReducer(
   on(A.getGreaseHeatMapSuccess, U.getStateSuccess('gcmheatmap')),
   on(A.getGreaseHeatMapFailure, U.getStateFailure())
 );
-
 export function reducer(
   state: GreaseHeatmapState,
   action: Action

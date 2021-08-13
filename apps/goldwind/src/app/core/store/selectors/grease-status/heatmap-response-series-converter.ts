@@ -22,6 +22,11 @@ export class HeatmapResponseConvert {
   _data: GCMHeatmapEntry[];
 
   constructor(data: GCMHeatmapEntry[]) {
+    if (!data) {
+      this.series = [];
+
+      return;
+    }
     this._data = data;
     this.prepare();
     this.execute();
@@ -67,25 +72,25 @@ export class HeatmapResponseConvert {
           </div>
           <div class="grid grid-cols-3 gap-1">
             <span>Temperature:</span>
-            ${getBadge(item.gcm01TemperatureOpticsClassification)}
-            ${getBadge(item.gcm02TemperatureOpticsClassification)}
+            ${getBadge(item.gcm01TemperatureOpticsMaxClassification)}
+            ${getBadge(item.gcm02TemperatureOpticsMaxClassification)}
             </div>
             </div>
             <div class="grid grid-cols-3 gap-1">
             <span>Watercontent:</span>
-            ${getBadge(item.gcm01WaterContentClassification)}
-            ${getBadge(item.gcm02WaterContentClassification)}
+            ${getBadge(item.gcm01WaterContentMaxClassification)}
+            ${getBadge(item.gcm02WaterContentMaxClassification)}
             </div>
           </div>
           <div class="grid grid-cols-3 gap-1">
             <span>Deterioration:</span>
-            ${getBadge(item.gcm01DeteriorationClassification)}
-            ${getBadge(item.gcm02DeteriorationClassification)}
+            ${getBadge(item.gcm01DeteriorationMaxClassification)}
+            ${getBadge(item.gcm02DeteriorationMaxClassification)}
             </div>
           </div>
             </div>
             <div class="grid grid-cols-3">
-            <div> Time:</div><div class="col-span-2"> ${item.timestamp} </div>
+            <div> Time:</div><div class="col-span-2"> ${item.timeStamp} </div>
             </div>
 
           </div>
@@ -104,7 +109,7 @@ export class HeatmapResponseConvert {
 
       this.series[i].data.push({
         value: [
-          e.timestamp,
+          e.timeStamp,
           this.getHighestLevel(e),
           this.getHighestLevelEnum(e),
           JSON.stringify(e),
@@ -158,25 +163,25 @@ export class HeatmapResponseConvert {
   private getIndex(e: GCMHeatmapEntry) {
     switch (true) {
       case this.isBetween(
-        e.timestamp,
+        e.timeStamp,
         `${this.year}-01-01`,
         `${this.year}-03-31`
       ):
         return 0;
       case this.isBetween(
-        e.timestamp,
+        e.timeStamp,
         `${this.year}-04-01`,
         `${this.year}-06-30`
       ):
         return 1;
       case this.isBetween(
-        e.timestamp,
+        e.timeStamp,
         `${this.year}-07-01`,
         `${this.year}-10-31`
       ):
         return 2;
       case this.isBetween(
-        e.timestamp,
+        e.timeStamp,
         `${this.year}-10-01`,
         `${this.year}-12-31`
       ):

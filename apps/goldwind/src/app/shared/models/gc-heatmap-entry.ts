@@ -1,21 +1,21 @@
 export interface GCMHeatmapEntry {
-  timestamp: string;
+  timeStamp: string;
   gcm01TemperatureOpticsMax: number;
-  gcm01TemperatureOpticsClassification: GCMHeatmapClassification;
+  gcm01TemperatureOpticsMaxClassification: GCMHeatmapClassification;
   gcm01DeteriorationMax: number;
-  gcm01DeteriorationClassification: GCMHeatmapClassification;
+  gcm01DeteriorationMaxClassification: GCMHeatmapClassification;
   gcm01WaterContentMax: number;
-  gcm01WaterContentClassification: GCMHeatmapClassification;
+  gcm01WaterContentMaxClassification: GCMHeatmapClassification;
   gcm02TemperatureOpticsMax: number;
-  gcm02TemperatureOpticsClassification: GCMHeatmapClassification;
+  gcm02TemperatureOpticsMaxClassification: GCMHeatmapClassification;
   gcm02DeteriorationMax: number;
-  gcm02DeteriorationClassification: GCMHeatmapClassification;
+  gcm02DeteriorationMaxClassification: GCMHeatmapClassification;
   gcm02WaterContentMax: number;
-  gcm02WaterContentClassification: GCMHeatmapClassification;
+  gcm02WaterContentMaxClassification: GCMHeatmapClassification;
 }
 
 export enum GCMHeatmapClassification {
   WARNING = 'Warning',
   OKAY = 'Normal',
-  ERROR = 'Error',
+  ERROR = 'Critical',
 }

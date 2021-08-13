@@ -1,4 +1,4 @@
-import * as A from '../../actions/grease-status/grease-status.actions';
+import * as A from '../../actions/grease-status/gc-heatmap.actions';
 import {
   greaseHeatmapStatusReducer,
   initialState,

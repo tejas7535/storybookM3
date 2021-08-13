@@ -171,8 +171,17 @@ export class RestService {
     return this.getIot(`${id}/analytics/static-safety-factor`);
   }
 
-  public getGreaseHeatMap({ deviceId }: any): Observable<GCMHeatmapEntry[]> {
-    return this.getIot(`${deviceId}/analytics/heatmap`);
+  public getGreaseHeatMap({
+    deviceId,
+    startDate,
+  }: any): Observable<GCMHeatmapEntry[]> {
+    const requestedYear = new Date(startDate * 1000).getFullYear();
+    const yearStart = Date.parse(`${requestedYear}-01-01`) / 1000;
+    const yearEnd = Date.parse(`${requestedYear}-12-31`) / 1000;
+
+    return this.getIot(`${deviceId}/analytics/heatmap`, {
+      params: { start: yearStart.toString(), end: yearEnd.toString() },
+    });
   }
 
   public getParams({

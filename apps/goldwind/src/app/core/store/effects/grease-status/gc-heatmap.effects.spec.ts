@@ -9,8 +9,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { RestService } from '../../../http/rest.service';
 import {
-  getGreaseHeatMapLatest,
-  getGreaseHeatMapSuccess,
   getGreaseStatusId,
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
@@ -21,6 +19,11 @@ import {
 } from '../../../../shared/models';
 import { HeatmapStatusEffects } from './gc-heatmap.effects';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import {
+  getGreaseHeatMapLatest,
+  getGreaseHeatMapSuccess,
+} from '../../actions/grease-status/gc-heatmap.actions';
+import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
 
 /* eslint-disable max-lines */
 describe('HeatmapStatusEffects', () => {
@@ -61,6 +64,10 @@ describe('HeatmapStatusEffects', () => {
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
+    });
+    store.overrideSelector(getMaintenanceAssessmentInterval, {
+      startDate: 1_599_651_508,
+      endDate: 1_599_651_509,
     });
   });
 
@@ -130,19 +137,19 @@ describe('HeatmapStatusEffects', () => {
       marbles((m) => {
         const gcmheatmap: GCMHeatmapEntry[] = [
           {
-            timestamp: Date.now().toLocaleString(),
-            gcm01DeteriorationClassification: GCMHeatmapClassification.ERROR,
+            timeStamp: Date.now().toLocaleString(),
+            gcm01DeteriorationMaxClassification: GCMHeatmapClassification.ERROR,
             gcm01DeteriorationMax: 0,
-            gcm01WaterContentClassification: GCMHeatmapClassification.ERROR,
+            gcm01WaterContentMaxClassification: GCMHeatmapClassification.ERROR,
             gcm01WaterContentMax: 0,
-            gcm01TemperatureOpticsClassification:
+            gcm01TemperatureOpticsMaxClassification:
               GCMHeatmapClassification.ERROR,
             gcm01TemperatureOpticsMax: 0,
-            gcm02DeteriorationClassification: GCMHeatmapClassification.ERROR,
+            gcm02DeteriorationMaxClassification: GCMHeatmapClassification.ERROR,
             gcm02DeteriorationMax: 0,
-            gcm02WaterContentClassification: GCMHeatmapClassification.ERROR,
+            gcm02WaterContentMaxClassification: GCMHeatmapClassification.ERROR,
             gcm02WaterContentMax: 0,
-            gcm02TemperatureOpticsClassification:
+            gcm02TemperatureOpticsMaxClassification:
               GCMHeatmapClassification.ERROR,
             gcm02TemperatureOpticsMax: 0,
           },

@@ -10,7 +10,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
-  getGreaseHeatMapLatest,
   getGreaseStatusId,
   getGreaseStatusLatest,
   getGreaseStatusLatestFailure,
@@ -20,7 +19,6 @@ import {
 import * as fromRouter from '../../reducers';
 import { GreaseStatusEffects } from './grease-status.effects';
 import { TypedAction } from '@ngrx/store/src/models';
-import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 
 /* eslint-disable max-lines */
 describe('Grease Status Effects', () => {

@@ -56,20 +56,14 @@ export class GreaseStatusEffects {
         source: action.source,
       })),
       filter(
-        ({ source }) =>
-          source === BearingRoutePath.ConditionMonitoringPath ||
-          source === BearingRoutePath.MaintenanceAsseesmentPath
+        ({ source }) => source === BearingRoutePath.ConditionMonitoringPath
       ),
       map(({ deviceId, source }) => {
         this.isPollingActive = true;
-        switch (source) {
-          case BearingRoutePath.ConditionMonitoringPath:
-            return A.getGreaseStatusLatest({ deviceId });
-          case BearingRoutePath.MaintenanceAsseesmentPath:
-            return A.getGreaseHeatMapLatest({ deviceId });
-          default:
-            return A.stopGetGreaseStatusLatest();
-        }
+
+        return source === BearingRoutePath.ConditionMonitoringPath
+          ? A.getGreaseStatusLatest({ deviceId })
+          : A.stopGetGreaseStatusLatest();
       })
     );
   });
