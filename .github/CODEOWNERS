@@ -15,8 +15,8 @@ package-lock.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGI
 ############
 
 # helloworld-azure
-apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @pelzesen_SGGIT
-apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @pelzesen_SGGIT
+apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT
+apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT
 
 # CDBA
 apps/cdba @kauppfbi_SGGIT @mailphilipriecksde_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
@@ -27,16 +27,16 @@ apps/goldwind @krausrbe_SGGIT @gerlitm_SGGIT @geissbnj_SGGIT
 apps/goldwind-e2e @krausrbe_SGGIT @gerlitm_SGGIT @geissbnj_SGGIT
 
 # SEDO
-apps/sedo @birketho_SGGIT @soehnpsc_SGGIT @pelzesen_SGGIT
-apps/sedo-e2e @birketho_SGGIT @soehnpsc_SGGIT @pelzesen_SGGIT
+apps/sedo @birketho_SGGIT @soehnpsc_SGGIT @PELZESEN_SGGIT
+apps/sedo-e2e @birketho_SGGIT @soehnpsc_SGGIT @PELZESEN_SGGIT
 
 # GQ
 apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @yuqiugegmailcom_SGGIT
 apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @yuqiugegmailcom_SGGIT
 
 # MAC
-apps/mac @berndcri_SGGIT @birketho_SGGIT @pelzesen_SGGIT
-apps/mac-e2e @berndcri_SGGIT @birketho_SGGIT @pelzesen_SGGIT
+apps/mac @berndcri_SGGIT @birketho_SGGIT @PELZESEN_SGGIT
+apps/mac-e2e @berndcri_SGGIT @birketho_SGGIT @PELZESEN_SGGIT
 
 # IA
 apps/ia @herpisef_SGGIT @przybmci_SGGIT 
