@@ -469,7 +469,7 @@ pipeline {
                     }
                     post {
                         always {
-                            recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')])
+                            recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')], enabledForFailure: true)
                         }
                     }
                 }

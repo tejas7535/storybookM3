@@ -147,8 +147,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/cdba/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/cdba/checkstyle.xml"
             }
           }
         },
@@ -198,8 +197,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/cdba-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/cdba-e2e/checkstyle.xml"
             }
           }
         }
@@ -310,8 +308,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/ga/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/ga/checkstyle.xml"
             }
           }
         },
@@ -354,8 +351,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/ga-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/ga-e2e/checkstyle.xml"
             }
           }
         }
@@ -483,8 +479,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/goldwind/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/goldwind/checkstyle.xml"
             }
           }
         },
@@ -534,8 +529,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/goldwind-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/goldwind-e2e/checkstyle.xml"
             }
           }
         }
@@ -660,8 +654,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/gq/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/gq/checkstyle.xml"
             }
           }
         },
@@ -712,8 +705,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/gq-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/gq-e2e/checkstyle.xml"
             }
           }
         }
@@ -841,8 +833,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml"
             }
           }
         },
@@ -892,8 +883,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/helloworld-azure-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/helloworld-azure-e2e/checkstyle.xml"
             }
           }
         }
@@ -1015,8 +1005,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/ia/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/ia/checkstyle.xml"
             }
           }
         },
@@ -1066,8 +1055,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/ia-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/ia-e2e/checkstyle.xml"
             }
           }
         }
@@ -1192,8 +1180,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/mac/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/mac/checkstyle.xml"
             }
           }
         },
@@ -1243,8 +1230,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/mac-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/mac-e2e/checkstyle.xml"
             }
           }
         }
@@ -1406,8 +1392,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/mm/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/mm/checkstyle.xml"
             }
           }
         },
@@ -1457,8 +1442,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/mm-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/mm-e2e/checkstyle.xml"
             }
           }
         }
@@ -1583,8 +1567,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/sedo/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/sedo/checkstyle.xml"
             }
           }
         },
@@ -1634,8 +1617,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/sedo-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/sedo-e2e/checkstyle.xml"
             }
           }
         }
@@ -1674,8 +1656,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml"
             }
           }
         },
@@ -1719,8 +1700,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/banner/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/banner/checkstyle.xml"
             }
           }
         },
@@ -1797,8 +1777,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/breadcrumbs/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/breadcrumbs/checkstyle.xml"
             }
           }
         },
@@ -1850,8 +1829,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/dropdown-input/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/dropdown-input/checkstyle.xml"
             }
           }
         },
@@ -1912,8 +1890,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/empty-states/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/empty-states/checkstyle.xml"
             }
           }
         },
@@ -1980,8 +1957,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/file-drop/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/file-drop/checkstyle.xml"
             }
           }
         },
@@ -2113,8 +2089,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/header/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/header/checkstyle.xml"
             }
           }
         },
@@ -2179,8 +2154,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml"
             }
           }
         },
@@ -2241,8 +2215,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/icons/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/icons/checkstyle.xml"
             }
           }
         },
@@ -2356,8 +2329,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/loading-spinner/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/loading-spinner/checkstyle.xml"
             }
           }
         },
@@ -2417,8 +2389,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/picture-card/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/picture-card/checkstyle.xml"
             }
           }
         },
@@ -2478,8 +2449,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/report/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/report/checkstyle.xml"
             }
           }
         },
@@ -2540,8 +2510,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/scroll-to-top/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/scroll-to-top/checkstyle.xml"
             }
           }
         },
@@ -2606,8 +2575,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/search-autocomplete/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/search-autocomplete/checkstyle.xml"
             }
           }
         },
@@ -2668,8 +2636,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/settings-sidebar/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/settings-sidebar/checkstyle.xml"
             }
           }
         },
@@ -2735,8 +2702,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/sidebar/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/sidebar/checkstyle.xml"
             }
           }
         },
@@ -2802,8 +2768,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/snackbar/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/snackbar/checkstyle.xml"
             }
           }
         },
@@ -2869,8 +2834,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/speed-dial-fab/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/speed-dial-fab/checkstyle.xml"
             }
           }
         },
@@ -2935,8 +2899,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/stepper/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/stepper/checkstyle.xml"
             }
           }
         },
@@ -3045,8 +3008,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/apps/shared-ui-storybook-e2e/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/apps/shared-ui-storybook-e2e/checkstyle.xml"
             }
           }
         }
@@ -3079,8 +3041,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/styles/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/styles/checkstyle.xml"
             }
           }
         },
@@ -3146,8 +3107,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/subheader/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/ui/subheader/checkstyle.xml"
             }
           }
         },
@@ -3191,8 +3151,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/application-insights/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/utils/application-insights/checkstyle.xml"
             }
           }
         },
@@ -3253,8 +3212,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/azure-auth/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/utils/azure-auth/checkstyle.xml"
             }
           }
         },
@@ -3317,8 +3275,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/http/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/utils/http/checkstyle.xml"
             }
           }
         },
@@ -3384,8 +3341,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/responsive/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/utils/responsive/checkstyle.xml"
             }
           }
         },
@@ -3451,8 +3407,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/transloco/checkstyle.xml",
-              "force": true
+              "outputFile": "checkstyle/libs/shared/utils/transloco/checkstyle.xml"
             }
           }
         },

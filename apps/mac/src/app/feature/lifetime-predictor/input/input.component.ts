@@ -147,10 +147,8 @@ export class InputComponent implements OnInit {
     if (previousPredicionRequestControls.hv !== predictionRequestControls.hv) {
       predictionRequest = {
         ...predictionRequest,
-        ...{
-          hv_upper: predictionRequestControls.hv,
-          hv_lower: predictionRequestControls.hv,
-        },
+        hv_upper: predictionRequestControls.hv,
+        hv_lower: predictionRequestControls.hv,
       };
     }
 

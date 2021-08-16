@@ -88,13 +88,13 @@ export class DetailService {
         if (
           items
             .map((item) => item.predecessorsInTree)
-            .find(
+            .some(
               (materialDesignations: string[]) =>
                 materialDesignations.length === temp.length &&
                 materialDesignations.every(
                   (value: string, index: number) => value === temp[index]
                 )
-            ) !== undefined
+            )
         ) {
           currentMaterialDesignation += ' ';
         } else {
