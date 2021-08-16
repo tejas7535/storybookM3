@@ -53,8 +53,8 @@ export class AppComponent implements OnInit {
     },
     {
       label: 'attritionAnalytics',
-      path: AppRoutePath.AnalyticsPath,
-      disabled: true,
+      path: AppRoutePath.AttritionAnalyticsPath,
+      disabled: false,
     },
   ];
 

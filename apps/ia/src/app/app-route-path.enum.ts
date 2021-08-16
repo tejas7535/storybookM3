@@ -4,6 +4,6 @@ export enum AppRoutePath {
   OrganizationalView = 'organizational-view',
   LossOfSkillPath = 'loss-of-skill',
   ReasonsAndCounterMeasuresPath = 'reasons-and-counter-measures',
-  AnalyticsPath = 'analytics',
+  AttritionAnalyticsPath = 'attrition-analytics',
   Forbidden = 'forbidden',
 }

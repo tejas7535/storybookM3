@@ -38,6 +38,13 @@ export const appRoutePaths: Routes = [
             './reasons-and-counter-measures/reasons-and-counter-measures.module'
           ).then((m) => m.ReasonsAndCounterMeasuresModule),
       },
+      {
+        path: AppRoutePath.AttritionAnalyticsPath,
+        loadChildren: async () =>
+          import('./attrition-analytics/attrition-analytics.module').then(
+            (m) => m.AttritionAnalyticsModule
+          ),
+      },
     ],
   },
   {
