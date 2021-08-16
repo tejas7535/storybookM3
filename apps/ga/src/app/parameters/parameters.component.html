@@ -1,0 +1,61 @@
+<ng-container *transloco="let t; read: 'parameters'">
+  <schaeffler-subheader
+    class="flex-shrink flex"
+    [showBackButton]="true"
+    [title]="(selectedBearing$ | ngrxPush) || 'Title'"
+    (backButtonClicked)="navigateBack()"
+  >
+    <ng-container content>
+      <div class="flex flex-col">
+        <div class="flex flex-row">
+          <span class="text-subtitle-1">some bearing description</span>
+        </div>
+        <div class="flex flex-row">
+          <span class="text-subtitle-1">some more bearing description</span>
+        </div>
+        <div class="flex flex-row -ml-4 -mt-1">
+          <button
+            mat-button
+            color="primary"
+            [disableRipple]="true"
+            class="focus:outline-none tracking-wider"
+          >
+            {{ t('showDetails') }}
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </schaeffler-subheader>
+  <div class="flex flex-col sm:flex-row sm:gap-16 sm:pt-2">
+    <div class="flex flex-col flex-grow max-w-sm">
+      <div class="flex flex-row justify-between items-center mb-4">
+        <h5>{{ t('loads') }}</h5>
+        <span class="text-caption font-medium tracking-wide">{{
+          t('requiredInformation')
+        }}</span>
+      </div>
+      <ga-input
+        type="number"
+        [control]="radial"
+        [label]="t('radialLoad')"
+        [unit]="t('loadUnit')"
+      ></ga-input>
+      <ga-input
+        type="number"
+        [control]="axial"
+        [label]="t('axialLoad')"
+        [unit]="t('loadUnit')"
+      ></ga-input>
+      <div class="flex flex-row -ml-4 -mt-3">
+        <button
+          mat-button
+          color="primary"
+          [disableRipple]="true"
+          class="focus:outline-none tracking-wider"
+        >
+          {{ t('enterRadialAndAxialLoad') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

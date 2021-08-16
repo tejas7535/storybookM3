@@ -10,10 +10,11 @@ export const appRoutePaths: Routes = [
       import('./home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: AppRoutePath.BearingPath,
+    path: AppRoutePath.GreaseCalculationPath,
     loadChildren: async () =>
-      import('./bearing/bearing.module').then((m) => m.BearingModule),
-    pathMatch: 'full',
+      import('./grease-calculation/grease-calculation.module').then(
+        (m) => m.GreaseCalculationModule
+      ),
   },
   {
     path: '**',

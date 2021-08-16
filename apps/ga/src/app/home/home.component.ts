@@ -8,5 +8,5 @@ import { AppRoutePath } from '../app-route-path.enum';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  bearingLink = `/${AppRoutePath.BearingPath}`;
+  greaseCalculationLink = `/${AppRoutePath.GreaseCalculationPath}`;
 }

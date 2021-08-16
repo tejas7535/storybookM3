@@ -13,5 +13,31 @@
   },
   "bearing": {
     "bearingSelection": "Lagerauswahl"
+  },
+  "parameters": {
+    "showDetails": "Details anzeigen",
+    "requiredInformation": "Pflichtangabe",
+    "loads": "Lasten",
+    "load": "Belastung",
+    "radialLoad": "Radiallast",
+    "axialLoad": "Axiallast",
+    "loadUnit": "N",
+    "loadsUnknown": "Lasten nicht exakt bekannt?",
+    "enterRadialAndAxialLoad": "Radial- und Axiallast eingeben?",
+    "motionInfluences": "Bewegungseinflüsse",
+    "kindOfMotion": "Art der Bewegung",
+    "relativeRotationalSpeed": "Relativdrehzahl",
+    "otherInfluences": "Andere Einflüsse",
+    "operatingTemperature": "Betriebstemperatur",
+    "environmentTemperature": "Umgebungstemperatur",
+    "environmentalImpactOnGreaseDuration": "Umgebungseinfluss auf Fettgebrauchsdauer",
+    "greaseSelection": "Fettauswahl",
+    "selectGrease": "Fett auswählen",
+    "showResults": "Ergebnisse anzeigen",
+    "errors": {
+      "min": "Der eingegebene Wert ist zu niedrig",
+      "max": "Der eingegebene Wert ist zu hoch",
+      "required": "Dieses Feld ist eine Pflichteingabe"
+    }
   }
 }

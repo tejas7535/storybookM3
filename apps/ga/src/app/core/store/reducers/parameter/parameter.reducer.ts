@@ -1,8 +1,10 @@
-import { Action, createReducer } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 
 import { Movement } from '../../../../shared/models';
+import * as ParametersActions from '../../actions/parameters/parameters.action';
+import { RecursivePartial } from './../../../../shared/types/rescursive-partial.type';
 
-export interface ParameterState {
+export interface FullParameterState {
   loads: {
     radial: number;
     axial: number;
@@ -29,6 +31,10 @@ export interface ParameterState {
     nlgiClass: number;
   };
 }
+
+export type ParameterState =
+  | FullParameterState
+  | RecursivePartial<FullParameterState>;
 
 export const initialState: ParameterState = {
   loads: {
@@ -58,7 +64,16 @@ export const initialState: ParameterState = {
   },
 };
 
-export const parameterReducer = createReducer(initialState);
+export const parameterReducer = createReducer(
+  initialState,
+  on(
+    ParametersActions.patchParameters,
+    (state, { parameters }): ParameterState => ({
+      ...state,
+      ...parameters,
+    })
+  )
+);
 
 export function reducer(state: ParameterState, action: Action): ParameterState {
   return parameterReducer(state, action);

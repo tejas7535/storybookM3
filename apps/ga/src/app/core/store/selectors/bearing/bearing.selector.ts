@@ -7,3 +7,8 @@ export const getBearingLoading = createSelector(
   getBearingState,
   (state: BearingState): boolean => state.loading
 );
+
+export const getSelectedBearing = createSelector(
+  getBearingState,
+  (state: BearingState): string => state.selectedBearing
+);
