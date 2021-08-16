@@ -38,6 +38,7 @@
                 *ngFor="let unit of unitList; trackBy: trackByFn"
                 [value]="unit"
                 >{{ unit }}
+                <ng-container *ngIf="unit === 'MPa'"> (UTS)</ng-container>
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -60,7 +61,14 @@
           <span class="value" [ngClass]="{ warning: result.warning }">{{
             getValue(result)
           }}</span>
-          <span class="unit">{{ result.unit }}</span>
+          <span class="unit" *ngIf="result.unit !== 'MPa'; else withTooltip">{{
+            result.unit
+          }}</span>
+          <ng-template #withTooltip>
+            <span class="unit" matTooltip="Ultimate Tensile Strength">{{
+              result.unit
+            }}</span>
+          </ng-template>
         </mat-card>
       </div>
       <mat-error *ngIf="error" [@inOutAnimation]>{{ error }}</mat-error>
