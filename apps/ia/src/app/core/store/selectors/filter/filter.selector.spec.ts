@@ -62,7 +62,9 @@ describe('Filter Selector', () => {
 
   describe('getSelectedTimePeriod', () => {
     test('should return selected time period', () => {
-      expect(getSelectedTimePeriod(fakeState)).toEqual(TimePeriod.YEAR);
+      expect(getSelectedTimePeriod(fakeState)).toEqual(
+        TimePeriod.LAST_12_MONTHS
+      );
     });
   });
 

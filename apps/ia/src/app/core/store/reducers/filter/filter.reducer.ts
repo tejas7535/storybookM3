@@ -46,7 +46,7 @@ export const initialState: FilterState = {
   loading: false,
   errorMessage: undefined,
   selectedFilters: filterAdapter.getInitialState(),
-  selectedTimePeriod: TimePeriod.YEAR,
+  selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
   selectedTimeRange: undefined,
 };
 
