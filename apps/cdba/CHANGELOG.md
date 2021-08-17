@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.0.0...cdba-v1.28.0) (2021-08-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** This lib now depends on tailwind. See `Readme` for more details.
+
+* refactor(footer): move footer-tailwind implementation to footer
+
+* refactor: use footer instead of footer tailwind
+
+* refactor: remove footer tailwind entirely
+
+* fix(footer): add missing logo
+
+* chore: dont pass lint in case of errors
+
+* test(footer): fix unit tests of footer
+
+Co-authored-by: Fabian Kaupp <kauppfbi@schaeffler.com>
+
+### 📈 Improvements
+
+* **cdba:** simplify tab logic in compare screens (DSCDA-2526) ([#2718](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2718)) ([2c69e58](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c69e58bce17f9697aafe4e963b81bda16208a25))
+
+
+### 🎸 Features
+
+* **cdba:** scramble material-designations and -numbers for screencast (DSCDA-2531 & DSCDA-2534) ([#2711](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2711)) ([753ec30](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/753ec3012b8624b8d0d1976b987260b869f96f9d))
+* **footer:** reimplement footer based on tailwind (UFTABI-4632) ([#2700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2700)) ([e54c88d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54c88d08e472f2915bc0ce1770eac5b4e9cca07))
+* **workspace:** make eslint in CI pipeline mandatory (UFTABI-4967) ([#2732](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2732)) ([0fdd5c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0fdd5c56215b49f91a90dd66d4ed031a43e3839f))
+
 ## [1.28.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v1.28.0...cdba-v1.27.1) (2021-08-03)
 
 
