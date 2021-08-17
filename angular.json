@@ -96,6 +96,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -105,6 +106,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/cdba/src/environments/environment.ts",
@@ -263,6 +265,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -272,6 +275,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/ga/src/environments/environment.ts",
@@ -428,6 +432,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -437,6 +442,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/goldwind/src/environments/environment.ts",
@@ -594,6 +600,7 @@
               "namedChunks": true
             },
             "dev": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "extractLicenses": false,
               "sourceMap": true,
@@ -606,6 +613,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -615,6 +623,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/gq/src/environments/environment.ts",
@@ -957,6 +966,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -966,6 +976,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/ia/src/environments/environment.ts",
@@ -1129,6 +1140,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -1138,6 +1150,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/mac/src/environments/environment.ts",
@@ -1324,6 +1337,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -1343,6 +1357,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/mm/src/environments/environment.ts",
@@ -1516,6 +1531,7 @@
               ]
             },
             "qa": {
+              "outputHashing": "bundles",
               "statsJson": true,
               "fileReplacements": [
                 {
@@ -1525,6 +1541,7 @@
               ]
             },
             "production": {
+              "outputHashing": "bundles",
               "fileReplacements": [
                 {
                   "replace": "apps/sedo/src/environments/environment.ts",
