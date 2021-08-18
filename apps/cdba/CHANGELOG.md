@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.0.1...cdba-v2.0.0) (2021-08-18)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** disable caching for index.html and configure outputHashing (GQUOTE-685) (DSCDA-2362) ([#2727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2727)) ([5400d16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5400d16ed0f1cab1caf7c3760724148ff996922f))
+
 ## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.0.0...cdba-v1.28.0) (2021-08-17)
 
 
