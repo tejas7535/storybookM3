@@ -21,28 +21,28 @@ def affectedApps
 def affectedLibs
 
 @Field
-def skipBuild = false
+boolean skipBuild = false
 
 /****************************************************************/
 
 // Functions
-def isBugfix() {
+boolean isBugfix() {
     return "${BRANCH_NAME}".startsWith('bugfix/')
 }
 
-def isMaster() {
+boolean isMaster() {
     return "${BRANCH_NAME}" == 'master'
 }
 
-def isAppRelease() {
+boolean isAppRelease() {
     return params.APP_RELEASE && "${BRANCH_NAME}" == 'master'
 }
 
-def isLibsRelease() {
+boolean isLibsRelease() {
     return params.LIBS_RELEASE && "${BRANCH_NAME}" == 'master'
 }
 
-def isNightly() {
+boolean isNightly() {
     def buildCauses = "${currentBuild.buildCauses}"
     boolean isStartedByTimer = false
     if (buildCauses != null && buildCauses.contains('Started by timer')) {
@@ -125,8 +125,8 @@ def defineAffectedAppsAndLibs() {
     }
 }
 
-def ciSkip() {
-    ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
+boolean ciSkip() {
+    Integer ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
 
     if (ciSkip == 0 && isMaster()) {
         currentBuild.description = 'CI SKIP'
@@ -135,7 +135,7 @@ def ciSkip() {
     }
 }
 
-def setGitUser() {
+void setGitUser() {
     // Set Config for Sir Henry
     sh 'git config user.email adp-jenkins@schaeffler.com'
     sh 'git config user.name "Sir Henry"'
@@ -204,7 +204,7 @@ def getAgentLabel() {
     return label
 }
 
-def deployPackages(target, uploadFile, checksum) {
+void deployPackages(target, uploadFile, checksum) {
     withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
         sh "curl --insecure -v -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target}\" -T ${uploadFile}"
     }
@@ -213,7 +213,7 @@ def deployPackages(target, uploadFile, checksum) {
 // 1. Only delete files -> do not delete whole folders (e.g. dont delete the whole cdba folder)
 // 2. Only delete files in the bugfix, feature, hotfix and renovate folders
 // Do not delete files in the release folder and in the root (e.g. latest.zip & next.zip)
-def artifactoryFileCanBeRemoved(artifactoryFile) {
+boolean artifactoryFileCanBeRemoved(artifactoryFile) {
     return !artifactoryFile.folder && (artifactoryFile.uri.contains('bugfix/') || artifactoryFile.uri.contains('feature/') || artifactoryFile.uri.contains('hotfix/') || artifactoryFile.uri.contains('renovate/'))
 }
 
@@ -294,7 +294,7 @@ pipeline {
                     }
 
                     if (isAppRelease()) {
-                        def aborted = false
+                        boolean aborted = false
                         def deployments = readJSON file: 'deployments.json'
                         def apps = deployments.keySet()
 
@@ -479,7 +479,7 @@ pipeline {
                         echo 'Run HTML Lint'
 
                         // no checkstyle output
-                        script { 
+                        script {
                             sh 'npm run lint:html'
                         }
                     }
