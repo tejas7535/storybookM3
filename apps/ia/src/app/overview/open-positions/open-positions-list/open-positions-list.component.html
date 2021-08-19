@@ -1,16 +1,39 @@
-<h6
-  class="mb-3.5"
-  (click)="$event.stopPropagation()"
-  *transloco="let t; read: 'overview.openPositions'"
->
-  {{ t('title') }}
-</h6>
-<p
-  class="uppercase opacity-60 mb-4"
-  *transloco="let t; read: 'overview.openPositions'"
->
-  {{ t('openForApplications') }}
-</p>
+<div class="grid grid-cols-2 gap-4">
+  <div>
+    <h6
+      class="mb-3.5"
+      (click)="$event.stopPropagation()"
+      *transloco="let t; read: 'overview.openPositions'"
+    >
+      {{ t('title') }}
+    </h6>
+    <p
+      class="uppercase opacity-60 mb-4"
+      *transloco="let t; read: 'overview.openPositions'"
+    >
+      {{ t('openForApplications') }}
+    </p>
+  </div>
+  <div class="justify-self-end gap-4 pr-[16px]">
+    <div class="flex flex-row gap-2 justify-center items-center">
+      <mat-icon
+        class="text-[16px] !w-[16px] !h-[16px]"
+        [ngStyle]="{ color: colors.GREEN }"
+        >south</mat-icon
+      >
+      <p>internal</p>
+    </div>
+    <div class="flex flex-row gap-2 justify-center items-center">
+      <mat-icon
+        class="text-[16px] !w-[16px] !h-[16px] ml-[3px]"
+        [ngStyle]="{ color: colors.BLUE }"
+        >north</mat-icon
+      >
+      <p>external</p>
+    </div>
+  </div>
+</div>
+
 <mat-list (click)="$event.stopPropagation()">
   <mat-list-item
     *ngFor="let application of openApplications; trackBy: trackByFn"
@@ -20,20 +43,35 @@
       [matBadge]="application.count"
       matBadgeOverlap="false"
       matBadgeColor="primary"
-      class="flex flex-row w-full"
+      class="flex flex-row w-full content-center h-full"
     >
       <span class="ml-1 mr-2 flex self-center">
         {{ application.name }}
       </span>
-      <mat-chip-list class="mr-8">
-        <mat-chip
-          *ngFor="let recruitmentSource of application.recruitmentSources"
-          selected="true"
-          color="accent"
+      <ng-container *ngIf="application.recruitmentSources.length > 0">
+        <mat-icon
+          class="text-[16px] !w-[16px] !h-[16px] self-center"
+          [ngClass]="{ 'mr-8': last }"
+          [ngStyle]="{
+            color:
+              recruitmentSource.toUpperCase() ===
+              recruitmentSources.INTERNAL.toUpperCase()
+                ? colors.GREEN
+                : colors.BLUE
+          }"
+          *ngFor="
+            let recruitmentSource of application.recruitmentSources;
+            let last = last
+          "
+          >{{
+            recruitmentSource.toUpperCase() ===
+            recruitmentSources.INTERNAL.toUpperCase()
+              ? 'south'
+              : 'north'
+          }}</mat-icon
         >
-          {{ recruitmentSource | lowercase }}
-        </mat-chip>
-      </mat-chip-list>
+      </ng-container>
+
       <span class="flex self-center justify-end ml-auto">
         {{ application.approvalDate | date: 'dd.MM.yyyy' }}
       </span>

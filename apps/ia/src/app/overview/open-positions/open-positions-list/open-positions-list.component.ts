@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+import { Color } from '../../../shared/models/color.enum';
 import { OpenApplication } from '../../models/open-application.model';
+import { RecruitmentSource } from '../../models/recruitment-source.enum';
 
 @Component({
   selector: 'ia-open-positions-list',
@@ -9,13 +11,16 @@ import { OpenApplication } from '../../models/open-application.model';
   styles: [
     `
       .mat-badge-medium.mat-badge-above .mat-badge-content {
-        top: 5px;
+        top: 12px;
       }
     `,
   ],
 })
 export class OpenPositionsListComponent {
   @Input() openApplications: OpenApplication[];
+
+  recruitmentSources = RecruitmentSource;
+  colors = Color;
 
   trackByFn(index: number): number {
     return index;
