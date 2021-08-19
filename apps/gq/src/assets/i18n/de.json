@@ -164,7 +164,7 @@
     },
     "roleModal": {
       "menuTitle": "Rollen",
-      "contactInformation": "Bei Fragen bezüglich den zugewiesenen Rollen kontaktieren Sie bitte: <a href='mailto:{mailAdress}?subject=Category: Assigned User Roles'>OR-SWE-Global-Pricing-Industry</a>"
+      "contactInformation": "Kontaktieren Sie bitte: <a href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.\nBitte wählen Sie <strong>Software</strong> und dann <strong>GQ – Guided Quoting<strong/> aus."
     },
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",

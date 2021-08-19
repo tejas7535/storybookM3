@@ -17,7 +17,13 @@
       </div>
     </div>
   </div>
-  <div class="m-t-20" [innerHTML]="contactInfo"></div>
+  <div
+    *transloco="let tr; read: 'shared.roleModal'"
+    class="m-t-20"
+    [innerHTML]="
+      tr('contactInformation', { serivceNowAdress: serivceNowAdress })
+    "
+  ></div>
   <ng-template #noRoles>
     <div>{{ t('noRoles') }}</div>
   </ng-template>
