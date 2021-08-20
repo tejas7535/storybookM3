@@ -1,0 +1,169 @@
+import { EChartsOption } from 'echarts';
+import { CallbackDataParams } from 'echarts/types/dist/shared';
+import {
+  OrdinalRawValue,
+  TextCommonOption,
+} from 'echarts/types/src/util/types';
+
+import {
+  getPercentageValue,
+  getPercentageValueSigned,
+} from '../../../overview/store/selectors/overview-selector-utils';
+import { BarChartConfig } from '../models/bar-chart-config.model';
+
+export function createBarChartOption(config: BarChartConfig): EChartsOption {
+  const option: EChartsOption = {
+    title: {
+      text: config.title,
+      padding: [20, 30, 40, 29],
+    },
+    tooltip: {
+      axisPointer: {
+        type: 'none',
+      },
+    },
+    grid: { left: '29%' },
+    xAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.1],
+    },
+    yAxis: {
+      type: 'category',
+      axisLine: {
+        show: false,
+      },
+      axisTick: { show: false },
+      data: formatCategories(config),
+      axisLabel: {
+        show: true,
+        overflow: 'break',
+        width: 90,
+        formatter: (value: any) => `{a|${value}}`,
+        rich: {
+          a: { align: 'left', fontWeight: 'bold' },
+        },
+      } as any,
+    },
+  };
+  addSeries(config, option);
+  addVisualMap(config, option);
+  addSlider(config, option);
+
+  return option;
+}
+
+export function addSeries(config: BarChartConfig, option: EChartsOption): void {
+  option.series = config.series.map((serie) => ({
+    name: serie.names[0],
+    color: serie.color,
+    type: 'bar',
+    barCategoryGap: '60%',
+    barWidth: 14,
+    data: serie.values.map((value) => getPercentageValue(value[0])),
+    dimensions: serie.names,
+    itemStyle: {
+      borderRadius: [0, 100, 100, 0],
+    },
+    markLine: {
+      symbol: 'none',
+      label: {
+        show: false,
+      },
+      data: [
+        {
+          xAxis: config.average,
+          lineStyle: {
+            color: 'grey',
+          },
+        },
+      ],
+      tooltip: {
+        formatter: `<b>{c0}%</b>&emsp;Avg.
+        ${serie.names[config.series.indexOf(serie)]}`,
+      },
+    },
+    tooltip: {
+      formatter: (param: CallbackDataParams) => {
+        const values = config.series[param.seriesIndex].values[param.dataIndex];
+
+        return `
+        <div>
+          <b>${getPercentageValueSigned(values[0])}</b>&emsp;
+          ${param.dimensionNames[0]}<br>
+          <b>${values[1]}</b>&emsp;${param.dimensionNames[1]}
+        </div>
+        `;
+      },
+      textStyle: {
+        fontSize: 12,
+      },
+    },
+  }));
+}
+
+export function addVisualMap(
+  config: BarChartConfig,
+  option: EChartsOption
+): void {
+  option.visualMap = config.series.map((serie) => ({
+    show: true,
+    dimension: 0,
+    itemSymbol: 'circle',
+    showLabel: true,
+    pieces: [
+      {
+        label: config.belowAverageText,
+        colorAlpha: 0.3,
+        color: serie.color,
+        lte: config.average,
+      },
+      {
+        label: config.aboveAverageText,
+        colorAlpha: 1,
+        color: serie.color,
+        gt: config.average,
+      },
+    ],
+    orient: 'horizontal',
+  }));
+}
+
+export function addSlider(config: BarChartConfig, option: EChartsOption): void {
+  if (config.series[0].values.length > 10) {
+    option.dataZoom = [
+      {
+        type: 'slider',
+        show: true,
+        yAxisIndex: [0],
+        left: '97%',
+        start: 100,
+        width: 0,
+        handleSize: 0,
+        fillerColor: 'transparent',
+        borderColor: 'transparent',
+        backgroundColor: 'white',
+        showDataShadow: false,
+        showDetail: false,
+        minValueSpan: 9,
+      },
+      {
+        type: 'inside',
+        yAxisIndex: 0,
+        filterMode: 'weakFilter',
+        zoomOnMouseWheel: false,
+        moveOnMouseMove: true,
+        moveOnMouseWheel: true,
+      },
+    ];
+  }
+}
+
+export function formatCategories(config: BarChartConfig): {
+  value: OrdinalRawValue;
+  textStyle?: TextCommonOption;
+}[] {
+  return config.categories.map((category) => ({
+    value: category,
+    textStyle: { fontWeight: 'bold' },
+  }));
+}

@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '../shared/shared.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { AttritionAnalyticsRoutingModule } from './attrition-analytics.routing.module';
+import { EmployeeAnalyticsModule } from './employee-analytics/employee-analytics.module';
 import * as fromAttritionAnalytics from './store';
 import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.effects';
 
@@ -20,6 +21,7 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
       fromAttritionAnalytics.reducer
     ),
     EffectsModule.forFeature([AttritionAnalyticsEffects]),
+    EmployeeAnalyticsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'attrition-analytics' }],
 })
