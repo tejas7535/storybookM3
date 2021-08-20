@@ -25,12 +25,12 @@
               >
                 <mat-tab>
                   <ng-template mat-tab-label>
-                    <h4>{{ t('woehler') }}</h4>
+                    <h6>{{ t('woehler') }}</h6>
                   </ng-template>
                 </mat-tab>
                 <mat-tab>
                   <ng-template mat-tab-label>
-                    <h4>{{ t('haigh') }}</h4>
+                    <h6>{{ t('haigh') }}</h6>
                   </ng-template>
                 </mat-tab>
               </mat-tab-group>
@@ -196,9 +196,9 @@
                 fxLayoutAlign.lt-sm="space-around center"
                 *transloco="let t; read: 'ltp.prediction.kpi'"
               >
-                <h4 class="ltp-prediction-kpi-headline">
+                <h6 class="ltp-prediction-kpi-headline">
                   {{ t('headline') }}
-                </h4>
+                </h6>
                 <mac-ltp-kpi
                   *ngIf="showWoehler()"
                   [value]="

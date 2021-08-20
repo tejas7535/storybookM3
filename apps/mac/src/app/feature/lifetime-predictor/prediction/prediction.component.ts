@@ -77,6 +77,10 @@ export class PredictionComponent implements OnInit {
         display.chartType === ChartType.Woehler
           ? CHART_SETTINGS_WOEHLER
           : CHART_SETTINGS_HAIGH;
+      this.mergeData$ = this.store.select(
+        fromStore.getPredictionResultGraphDataMapped(this.chartOptions)
+      );
+
       (this.chartOptions.xAxis as any).name = translate(
         (this.chartOptions.xAxis as any).name
       );
@@ -105,10 +109,6 @@ export class PredictionComponent implements OnInit {
 
       return res.data;
     });
-
-    this.mergeData$ = this.store.select(
-      fromStore.getPredictionResultGraphDataMapped(this.chartOptions)
-    );
 
     registerLocaleData(localeDe, 'de');
 

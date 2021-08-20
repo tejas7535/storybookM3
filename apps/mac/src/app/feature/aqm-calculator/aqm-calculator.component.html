@@ -8,9 +8,11 @@
       <mac-breadcrumbs
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
       ></mac-breadcrumbs>
-      <mat-card-title><h2>AQM Calculator</h2></mat-card-title>
+      <!-- <mat-card-title> -->
+      <h5>AQM Calculator</h5>
+      <!-- </mat-card-title> -->
       <mat-card-content class="aqm-calculator-card-content">
-        <h4>Alloy configuration</h4>
+        <h6>Alloy configuration</h6>
         <div class="spinner-wrapper" [ngClass]="{ hidden: materials }">
           <mat-spinner></mat-spinner>
         </div>
@@ -105,7 +107,7 @@
             </div>
             <!-- results aqm -->
             <div fxLayout="column">
-              <h4>Results</h4>
+              <h6>Results</h6>
               <div
                 fxLayout="row"
                 fxLayoutAlign="space-between start"
@@ -150,7 +152,7 @@
             </div>
             <!-- results limits -->
             <div fxLayout="column" class="aqm-limits">
-              <h4 class="aqm-limits-title">Limits</h4>
+              <h6 class="aqm-limits-title">Limits</h6>
               <p class="aqm-limits-minor-title">Sum limits reached for</p>
               <mat-chip-list>
                 <mat-chip

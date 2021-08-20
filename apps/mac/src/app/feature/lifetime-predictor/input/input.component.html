@@ -12,7 +12,9 @@
       >
         <mat-expansion-panel-header>
           <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-            <h6>{{ t(controlGroup.name) }}</h6>
+            <span class="text-body-1 font-semibold">{{
+              t(controlGroup.name)
+            }}</span>
             <mac-tooltip
               (click)="$event.stopPropagation()"
               [content]="t(controlGroup.description)"
