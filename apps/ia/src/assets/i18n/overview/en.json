@@ -26,7 +26,9 @@
   "openPositions": {
     "title": "Open positions",
     "openForApplications": "Open for applications",
-    "internalMatches": "Internal matches"
+    "internalMatches": "Internal matches",
+    "internal": "internal",
+    "external": "external"
   },
   "resignationsReceived": {
     "title": "Resignations received",

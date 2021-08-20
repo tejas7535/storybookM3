@@ -1,4 +1,7 @@
-<div class="grid grid-cols-2 gap-4">
+<div
+  class="grid grid-cols-2 gap-4"
+  *transloco="let t; read: 'overview.openPositions'"
+>
   <div>
     <h6
       class="mb-3.5"
@@ -21,7 +24,7 @@
         [ngStyle]="{ color: colors.GREEN }"
         >south</mat-icon
       >
-      <p>internal</p>
+      <p>{{ t('internal') }}</p>
     </div>
     <div class="flex flex-row gap-2 justify-center items-center">
       <mat-icon
@@ -29,7 +32,7 @@
         [ngStyle]="{ color: colors.BLUE }"
         >north</mat-icon
       >
-      <p>external</p>
+      <p>{{ t('external') }}</p>
     </div>
   </div>
 </div>
