@@ -464,7 +464,7 @@ pipeline {
                         echo 'Run TS Lint'
 
                         script {
-                            sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci ${getNxRunnerConfig()}"
+                            sh "npm run affected:lint -- --base=${buildBase} --configuration=ci --parallel --max-parallel=2 ${getNxRunnerConfig()}"
                         }
                     }
                     post {
