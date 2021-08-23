@@ -210,6 +210,16 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.materialStatus'),
+      field: 'material.materialStatus',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.followingType'),
+      field: 'material.followingType',
+      valueFormatter: ColumnUtilityService.basicTransform,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.comment'),
       field: 'comment',
       valueFormatter: ColumnUtilityService.basicTransform,

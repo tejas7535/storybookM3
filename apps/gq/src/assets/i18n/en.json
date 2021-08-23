@@ -35,6 +35,8 @@
       "lastOfferDate": "Last Offer Date",
       "reasonForRejection": "Reason For Rejection",
       "comment": "Comment",
+      "followingType": "Following Type",
+      "materialStatus": "Material Status",
       "sidebar": {
         "columns": "Columns",
         "filters": "Filters"

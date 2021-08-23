@@ -35,6 +35,8 @@
       "lastOfferDate": "Datum letztes Angebot",
       "reasonForRejection": "Absagegrund",
       "comment": "Kommentar",
+      "followingType": "Folgetyp",
+      "materialStatus": "Materialstatus",
       "sidebar": {
         "columns": "Spalten",
         "filters": "Filter"
