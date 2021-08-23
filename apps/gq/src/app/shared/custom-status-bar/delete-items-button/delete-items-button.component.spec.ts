@@ -50,6 +50,10 @@ describe('DeleteItemsButtonComponent', () => {
     params = {
       api: {
         getSelectedRows: jest.fn(),
+        getOpenedToolPanel: jest
+          .fn()
+          .mockReturnValueOnce(true)
+          .mockReturnValueOnce(false),
       },
     } as unknown as IStatusPanelParams;
     store = spectator.inject(MockStore);
@@ -69,7 +73,7 @@ describe('DeleteItemsButtonComponent', () => {
 
       component.agInit(statusPanelParams);
       expect(component['params']).toBeDefined();
-      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(2);
+      expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(3);
     });
   });
   describe('onGridReady', () => {
@@ -87,6 +91,20 @@ describe('DeleteItemsButtonComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
+    });
+  });
+
+  describe('onToolPanelVisibleChanged', () => {
+    test('should set toolPanelOpened', () => {
+      component['params'] = params;
+
+      component.onToolPanelVisibleChanged();
+      expect(params.api.getOpenedToolPanel).toHaveBeenCalled();
+      expect(component.toolPanelOpened).toBeTruthy();
+
+      component.onToolPanelVisibleChanged();
+      expect(params.api.getOpenedToolPanel).toHaveBeenCalled();
+      expect(component.toolPanelOpened).toBeFalsy();
     });
   });
 

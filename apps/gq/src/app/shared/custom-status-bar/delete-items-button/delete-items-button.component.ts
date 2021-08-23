@@ -16,6 +16,7 @@ import { QuotationDetail } from '../../models/quotation-detail';
 })
 export class DeleteItemsButtonComponent implements OnInit {
   selections: any[] = [];
+  toolPanelOpened: boolean;
 
   private params: IStatusPanelParams;
   sap: boolean;
@@ -39,6 +40,10 @@ export class DeleteItemsButtonComponent implements OnInit {
       'selectionChanged',
       this.onSelectionChange.bind(this)
     );
+    this.params.api.addEventListener(
+      'toolPanelVisibleChanged',
+      this.onToolPanelVisibleChanged.bind(this)
+    );
   }
 
   onGridReady(): void {
@@ -47,6 +52,10 @@ export class DeleteItemsButtonComponent implements OnInit {
 
   onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
+  }
+
+  onToolPanelVisibleChanged(): void {
+    this.toolPanelOpened = !!this.params.api.getOpenedToolPanel();
   }
 
   deletePositions(): void {

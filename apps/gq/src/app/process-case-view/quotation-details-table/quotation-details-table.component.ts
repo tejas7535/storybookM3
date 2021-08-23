@@ -6,7 +6,6 @@ import {
   ColDef,
   ColumnApi,
   ColumnEvent,
-  ColumnState,
   ExcelStyle,
   GridReadyEvent,
   IStatusPanelParams,
@@ -27,6 +26,7 @@ import {
   STATUS_BAR_CONFIG,
 } from './config';
 import { TableContext } from './config/tablecontext.model';
+import { translate } from '@ngneat/transloco';
 
 @Component({
   selector: 'gq-quotation-details-table',
@@ -37,6 +37,29 @@ export class QuotationDetailsTableComponent implements OnInit {
   private readonly TABLE_KEY = 'processCase';
 
   rowData: QuotationDetail[];
+  sideBar = {
+    toolPanels: [
+      {
+        id: 'columns',
+        labelDefault: translate('shared.quotationDetailsTable.sidebar.columns'),
+        labelKey: 'columns',
+        iconKey: 'columns',
+        toolPanel: 'agColumnsToolPanel',
+        toolPanelParams: {
+          suppressPivotMode: true,
+          suppressRowGroups: true,
+          suppressValues: true,
+        },
+      },
+      {
+        id: 'filters',
+        labelDefault: translate('shared.quotationDetailsTable.sidebar.filters'),
+        labelKey: 'filters',
+        iconKey: 'filter',
+        toolPanel: 'agFiltersToolPanel',
+      },
+    ],
+  };
 
   tableContext: TableContext = {
     quotation: undefined,
@@ -72,9 +95,10 @@ export class QuotationDetailsTableComponent implements OnInit {
   }
 
   public onColumnChange(event: ColumnEvent): void {
-    const columnState: ColumnState[] = event.columnApi.getColumnState();
-
-    this.agGridStateService.setColumnState(this.TABLE_KEY, columnState);
+    this.agGridStateService.setColumnState(
+      this.TABLE_KEY,
+      event.columnApi.getColumnState()
+    );
   }
 
   public onGridReady(event: GridReadyEvent): void {

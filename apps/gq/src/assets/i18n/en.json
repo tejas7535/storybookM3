@@ -34,7 +34,11 @@
       "lastOfferPrice": "Last Offer Price",
       "lastOfferDate": "Last Offer Date",
       "reasonForRejection": "Reason For Rejection",
-      "comment": "Comment"
+      "comment": "Comment",
+      "sidebar": {
+        "columns": "Columns",
+        "filters": "Filters"
+      }
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",
