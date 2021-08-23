@@ -1,19 +1,18 @@
-<schaeffler-header
-  [platformTitle]="platformTitle"
-  [toggleEnabled]="false"
-  class="h-full"
+<schaeffler-app-shell
+  [appTitle]="platformTitle"
+  [hasSidebarLeft]="true"
+  [userName]="username$ | ngrxPush"
+  [userImageUrl]="profileImage$ | ngrxPush"
 >
-  <schaeffler-user-menu
-    user-menu
-    [user]="username$ | ngrxPush"
-    [profileImage]="profileImage$ | ngrxPush"
-  ></schaeffler-user-menu>
-  <div class="h-full flex flex-col fullscreen-bg">
-    <div class="flex-auto">
-      <router-outlet></router-outlet>
+  <ng-container sidenavBody> </ng-container>
+  <ng-container mainContent>
+    <div class="flex flex-col h-full fullscreen-bg">
+      <div class="flex-grow overflow-y-auto">
+        <router-outlet></router-outlet>
+      </div>
+      <schaeffler-footer
+        class="flex-shrink-0 bg-white md:bg-background"
+      ></schaeffler-footer>
     </div>
-    <schaeffler-footer
-      class="flex-shrink-0 bg-white md:bg-background"
-    ></schaeffler-footer>
-  </div>
-</schaeffler-header>
+  </ng-container>
+</schaeffler-app-shell>

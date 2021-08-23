@@ -1,6 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 
@@ -36,7 +35,6 @@ const azureConfig = new AzureConfig(
     HttpClientModule,
     CoreModule,
     SharedAzureAuthModule.forRoot(azureConfig),
-    FlexLayoutModule,
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

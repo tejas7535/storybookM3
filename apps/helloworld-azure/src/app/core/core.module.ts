@@ -4,8 +4,8 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -22,13 +22,13 @@ import { StoreModule } from './store/store.module';
     RouterModule,
 
     // UI Modules
-    HeaderModule,
+    AppShellModule,
     FooterModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      ['en'],
+      ['en', 'de'],
       'en', // default -> undefined would lead to browser detection
       'en',
       true

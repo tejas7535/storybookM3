@@ -5,8 +5,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
 
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       RouterTestingModule,
-      HeaderModule,
+      AppShellModule,
       NoopAnimationsModule,
       FooterModule,
       ReactiveComponentModule,
