@@ -10,9 +10,9 @@ import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
 import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 
 import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { BrowserDetectionService } from '@cdba/shared/services';
@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       NoopAnimationsModule,
-      HeaderModule,
+      AppShellModule,
       FooterModule,
       MatButtonModule,
       LoadingSpinnerModule,

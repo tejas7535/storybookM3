@@ -1,7 +1,6 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
 import { Environment } from './environment.model';
 
 export const environment: Environment = {
@@ -10,8 +9,8 @@ export const environment: Environment = {
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   clientId: 'd8bf880a-2d95-4358-a846-b2ca465c9e06',
   appScope: 'api://2d05baed-6678-4607-a84e-42301ff9f56f/cdbaapi',
-  baseUrl: 'http://localhost:8080/api/v1', // using local server
-  // baseUrl: 'https://cdba-d.dev.dp.schaeffler/api/v1', // using local dev,
+  //baseUrl: 'http://localhost:8080/api/v1', // using local server
+  baseUrl: 'https://cdba-d.dev.dp.schaeffler/api/v1', // using local dev,
   envName: 'https://cdba-d.dev.dp.schaeffler (dev)',
   applicationInsights: {
     applicationInsightsConfig: {

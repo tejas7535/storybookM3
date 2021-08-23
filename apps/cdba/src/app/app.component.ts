@@ -18,14 +18,15 @@ import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-s
 import { BrowserDetectionService } from '@cdba/shared/services';
 
 import packageJson from '../../package.json';
+import { AppRoutePath } from './app-route-path.enum';
 
 @Component({
   selector: 'cdba-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   title = 'Cost Database Analytics';
+  titleLink = AppRoutePath.SearchPath;
 
   public appVersion = packageJson.version;
   public footerLinks: FooterLink[] = [

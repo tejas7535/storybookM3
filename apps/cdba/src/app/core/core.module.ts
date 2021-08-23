@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import {
   AzureConfig,
@@ -19,7 +20,6 @@ import {
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
 import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
@@ -60,7 +60,7 @@ const azureConfig = new AzureConfig(
 
     // UI Modules
     IconsModule,
-    HeaderModule,
+    AppShellModule,
     FooterModule,
     MatButtonModule,
     LoadingSpinnerModule,
