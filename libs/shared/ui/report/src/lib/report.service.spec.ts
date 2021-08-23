@@ -4,7 +4,7 @@ import {
   SpectatorHttp,
 } from '@ngneat/spectator';
 
-import { report } from '../mocks/report';
+import { reportBodyMock } from '../mocks/report';
 import { ReportService } from './report.service';
 
 describe('ReportService testing', () => {
@@ -18,7 +18,7 @@ describe('ReportService testing', () => {
   test('getReport triggers a GET call', () => {
     const mockRefHtml = 'fakeRefHtml';
 
-    const mock = report;
+    const mock = reportBodyMock;
 
     spectator.service.getReport(mockRefHtml).subscribe((response) => {
       expect(response).toEqual(mock);

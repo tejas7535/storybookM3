@@ -20,7 +20,9 @@ export class ReportService {
       map((report: string) => {
         const parser = new DOMParser();
         const htmlDoc = parser.parseFromString(report, 'text/html');
-        const bodyContent = htmlDoc.querySelector('.content')?.children;
+        // with the new api caeonlinecalculation-q --> querySelector('.content')
+        // with the new api mountingmanager-cae --> querySelector('body')
+        const bodyContent = htmlDoc.querySelector('body')?.children;
 
         const structuredContent =
           bodyContent &&
