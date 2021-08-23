@@ -1,8 +1,9 @@
 <div
-  class="flex items-center h-full"
+  class="flex items-center text-center h-full"
+  [ngClass]="{ 'mt-2': selections.length }"
   *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
 >
-  <div class="ml-6" *ngIf="selections.length">
+  <div class="ml-6 flex flex-col" *ngIf="selections.length">
     <span class="font-body text-disabled"
       >{{ t('selectedNetValue') }}:&nbsp;</span
     >
@@ -13,19 +14,25 @@
       {{ selectedNetValue | number: '.2' }} {{ currency }}
     </span>
   </div>
-  <div class="ml-6" *ngIf="selections.length && (showGPI$ | ngrxPush)">
+  <div
+    class="ml-6 flex flex-col"
+    *ngIf="selections.length && (showGPI$ | ngrxPush)"
+  >
     <span class="font-body text-disabled"
       >{{ t('selectedAverageGPI') }}:&nbsp;</span
     >
     <span class="font-body text-dark"> {{ selectedAverageGPI }} % </span>
   </div>
-  <div class="ml-6" *ngIf="selections.length && (showGPM$ | ngrxPush)">
+  <div
+    class="ml-6 flex flex-col"
+    *ngIf="selections.length && (showGPM$ | ngrxPush)"
+  >
     <span class="font-body text-disabled"
       >{{ t('selectedAverageGPM') }}:&nbsp;
     </span>
     <span class="font-body text-dark">{{ selectedAverageGPM }} %</span>
   </div>
-  <div class="ml-6">
+  <div class="ml-6 flex flex-col">
     <span class="font-body text-disabled">
       {{ t('totalNetValue') }}:&nbsp;
     </span>
@@ -35,13 +42,13 @@
       >{{ totalNetValue | number: '.2' }} {{ currency }}</span
     >
   </div>
-  <div class="ml-6" *ngIf="showGPM$ | ngrxPush">
+  <div class="ml-6 flex flex-col" *ngIf="showGPM$ | ngrxPush">
     <span class="font-body text-disabled">
       {{ t('totalAverageGPM') }}:&nbsp;
     </span>
     <span class="font-body text-dark"> {{ totalAverageGPM }} % </span>
   </div>
-  <div class="ml-6" *ngIf="showGPI$ | ngrxPush">
+  <div class="ml-6 flex flex-col" *ngIf="showGPI$ | ngrxPush">
     <span class="font-body text-disabled">
       {{ t('totalAverageGPI') }}:&nbsp;
     </span>

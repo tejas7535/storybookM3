@@ -119,11 +119,11 @@
         "selected": "Ausgewählt"
       },
       "quotationDetailsStatus": {
-        "selectedAverageGPI": "Ausgewählter gew. ø GPI%",
-        "selectedAverageGPM": "Ausgewählter gew. ø GPM%",
+        "selectedAverageGPI": "Ausgewählter gew. ø GPI",
+        "selectedAverageGPM": "Ausgewählter gew. ø GPM",
         "selectedNetValue": "Ausgewählter Nettowert",
-        "totalAverageGPI": "Gesamt gew. ø GPI%",
-        "totalAverageGPM": "Gesamt gew. ø GPM%",
+        "totalAverageGPI": "Gesamt gew. ø GPI",
+        "totalAverageGPM": "Gesamt gew. ø GPM",
         "totalNetValue": "Gesamt Nettowert"
       },
       "materialValidationStatus": {
