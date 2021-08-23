@@ -12,7 +12,6 @@ import {
   getUsername,
 } from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer';
-import { UserMenuEntry } from '@schaeffler/header';
 
 import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';
 import { BrowserDetectionService } from '@cdba/shared/services';
@@ -44,7 +43,6 @@ export class AppComponent implements OnInit {
 
   username$: Observable<string>;
   profileImage$: Observable<string>;
-  userMenuEntries: UserMenuEntry[] = [];
   isLoggedIn$: Observable<boolean>;
 
   public constructor(
