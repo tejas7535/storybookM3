@@ -910,7 +910,7 @@
       "prefix": "ia",
       "architect": {
         "build": {
-          "builder": "@nrwl/angular:webpack-browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/ia",
@@ -988,7 +988,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@nrwl/angular:webpack-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "ia:build"
           },
