@@ -857,7 +857,6 @@ pipeline {
                             executeAsGithubUser('github-jenkins-access-token','git fetch --all')
                             sh "git checkout gh-pages"
                             sh "rm -rf *"
-                            sh "rm -rf .[a-zA-Z_-]*" // also delete hidden files and directories
 
                             // download latest storybook bundle
                             String target = "${artifactoryBasePath}/storybook/next.zip"
@@ -865,7 +864,8 @@ pipeline {
                             downloadArtifact(target, output)
 
                             // unzip bundle
-                            fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './')])
+                            sh "mkdir storybook"
+                            fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './storybook')])
                             sh "rm storybook.zip"
 
                             // commit and push back to remote
