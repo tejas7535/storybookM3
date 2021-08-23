@@ -21,6 +21,9 @@ def affectedApps
 def affectedLibs
 
 @Field
+boolean storybookAffected = false
+
+@Field
 boolean skipBuild = false
 
 /****************************************************************/
@@ -50,6 +53,14 @@ boolean isNightly() {
     }
 
     return isStartedByTimer && isMaster()
+}
+
+def buildStorybook() {
+    return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
+}
+
+def publishStorybook() {
+    return isMaster () && buildStorybook() && storybookAffected
 }
 
 def defineBuildBase() {
@@ -111,7 +122,14 @@ def defineAffectedAppsAndLibs() {
     )
 
     affectedApps = mapAffectedStringToArray(apps)
+
+
     affectedLibs = mapAffectedStringToArray(libs)
+    
+    if (affectedLibs.contains('shared-ui-storybook')) {
+        storybookAffected = true
+    }
+    
     affectedLibs -= 'shared-ui-storybook'
 
     if (isAppRelease()) {
@@ -128,7 +146,7 @@ def defineAffectedAppsAndLibs() {
 boolean ciSkip() {
     Integer ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
 
-    if (ciSkip == 0 && isMaster()) {
+    if ((ciSkip == 0 && isMaster()) || "${BRANCH_NAME}" == 'gh-pages') {
         currentBuild.description = 'CI SKIP'
         currentBuild.result = 'SUCCESS'
         skipBuild = true
@@ -204,10 +222,14 @@ def getAgentLabel() {
     return label
 }
 
-void deployPackages(target, uploadFile, checksum) {
+void deployArtifact(target, uploadFile, checksum) {
     withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
-        sh "curl --insecure -v -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target}\" -T ${uploadFile}"
+        sh "curl --insecure -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target}\" -T ${uploadFile}"
     }
+}
+
+void downloadArtifact(target, output) {
+    sh "curl -X GET \"https://artifactory.schaeffler.com:443/artifactory/${target}\" --output ${output}"
 }
 
 // 1. Only delete files -> do not delete whole folders (e.g. dont delete the whole cdba folder)
@@ -641,7 +663,7 @@ pipeline {
                 stage('Build:Storybook') {
                     when {
                         expression {
-                            return false
+                            return buildStorybook()
                         }
                     }
                     steps {
@@ -693,20 +715,20 @@ pipeline {
                                     def version = getPackageVersion()
                                     target1 = "${artifactoryBasePath}/${app}/latest.zip"
 
-                                    deployPackages(target1, uploadFile, checksum)
+                                    deployArtifact(target1, uploadFile, checksum)
 
                                     target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
 
-                                    deployPackages(target2, uploadFile, checksum)
+                                    deployArtifact(target2, uploadFile, checksum)
                                 } else if (isMaster()) {
                                     target = "${artifactoryBasePath}/${app}/next.zip"
 
-                                    deployPackages(target, uploadFile, checksum)
+                                    deployArtifact(target, uploadFile, checksum)
                                 } else if (!isNightly()) {
                                     def fileName = getFilteredBranchName()
                                     target = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
-                                    deployPackages(target, uploadFile, checksum)
+                                    deployArtifact(target, uploadFile, checksum)
                                 }
                             }
                         }
@@ -729,6 +751,29 @@ pipeline {
 
                                 sh "npx nx affected --base=${buildBase} --target=publish"
                             }
+                        }
+                    }
+                }
+
+                stage('Deliver:Storybook') {
+                    when {
+                        expression {
+                            return publishStorybook()
+                        }
+                    }
+                    steps {
+                        echo 'Deliver Storybook to Artifactory'
+
+                        script {
+                            zip dir: "dist/storybook/shared-ui-storybook",  glob: '', zipFile: "dist/zips/storybook/next.zip"
+                            uploadFile = "dist/zips/storybook/next.zip"
+                            checksum = sh (
+                                script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
+                                returnStdout: true
+                            ).trim()
+
+                            target = "${artifactoryBasePath}/storybook/next.zip"
+                            deployArtifact(target, uploadFile, checksum)
                         }
                     }
                 }
@@ -759,37 +804,74 @@ pipeline {
             }
         }
 
-        stage('Trigger Deployments') {
-            when {
-                expression {
-                    return !skipBuild && !isNightly() && !isLibsRelease()
+        stage('Deployments') {
+            parallel {
+                stage('Trigger App Deployments') {
+                    when {
+                        expression {
+                            return !skipBuild && !isNightly() && !isLibsRelease()
+                        }
+                    }
+                    steps {
+                        script {
+                            def deployments = readJSON file: 'deployments.json'
+                            def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+
+                            for (app in appsToBuild) {
+                                def url = deployments[app]
+
+                                def version = getPackageVersion()
+                                def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
+
+                                // prod/release = latest, master = next, feature build = branch name
+                                def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
+                                def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
+
+                                try {
+                                    build job: "${url}",
+                                        parameters: [
+                                                string(name: 'VERSION', value: "${version}"),
+                                                string(name: 'CONFIGURATION', value: "${configuration}"),
+                                                string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
+                                        ], wait: false
+                                } catch (error) {
+                                    println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
+                                    println(error)
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-            steps {
-                script {
-                    def deployments = readJSON file: 'deployments.json'
-                    def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
 
-                    for (app in appsToBuild) {
-                        def url = deployments[app]
+                stage ('Storybook Deployment') {
+                    when {
+                        expression {
+                            return publishStorybook()
+                        }
+                    }
+                    steps {
+                        echo "Deploy Storybook to GH-Pages"
 
-                        def version = getPackageVersion()
-                        def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
+                        script {
+                            // Checkout gh-pages branch and clean folder
+                            executeAsGithubUser('github-jenkins-access-token','git fetch --all')
+                            sh "git checkout gh-pages"
+                            sh "rm -rf *"
+                            sh "rm -rf .[a-zA-Z_-]*" // also delete hidden files and directories
 
-                        // prod/release = latest, master = next, feature build = branch name
-                        def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
-                        def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
+                            // download latest storybook bundle
+                            String target = "${artifactoryBasePath}/storybook/next.zip"
+                            String output = "storybook.zip"
+                            downloadArtifact(target, output)
 
-                        try {
-                            build job: "${url}",
-                                parameters: [
-                                        string(name: 'VERSION', value: "${version}"),
-                                        string(name: 'CONFIGURATION', value: "${configuration}"),
-                                        string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
-                                ], wait: false
-                        } catch (error) {
-                            println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
-                            println(error)
+                            // unzip bundle
+                            fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './')])
+                            sh "rm storybook.zip"
+
+                            // commit and push back to remote
+                            sh "git add -A"
+                            sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]'"
+                            executeAsGithubUser('github-jenkins-access-token','git push')
                         }
                     }
                 }
