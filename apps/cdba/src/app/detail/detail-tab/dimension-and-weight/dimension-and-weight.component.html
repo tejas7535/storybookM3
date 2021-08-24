@@ -4,15 +4,15 @@
     <div class="widget-group" *ngIf="dimensionAndWeight && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.height') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.length') }}:&nbsp;</label
         >
         <div>
           {{
-            dimensionAndWeight?.height
+            dimensionAndWeight?.length
               | number: '':'de-DE'
               | undefinedAttributeFallback
           }}&nbsp;{{
-            dimensionAndWeight?.height
+            dimensionAndWeight?.length
               ? dimensionAndWeight?.unitOfDimension
               : ''
           }}
@@ -34,15 +34,15 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.length') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.height') }}:&nbsp;</label
         >
         <div>
           {{
-            dimensionAndWeight?.length
+            dimensionAndWeight?.height
               | number: '':'de-DE'
               | undefinedAttributeFallback
           }}&nbsp;{{
-            dimensionAndWeight?.length
+            dimensionAndWeight?.height
               ? dimensionAndWeight?.unitOfDimension
               : ''
           }}

@@ -42,7 +42,7 @@ describe('DimensionsWidgetComponent', () => {
     const data: DimensionAndWeightDetails = {
       height: 7.568_79,
       width: 10,
-      length: 10,
+      length: 5,
       unitOfDimension: 'mm',
       weight: 10_000,
       weightUnit: 'gramm',
@@ -57,9 +57,9 @@ describe('DimensionsWidgetComponent', () => {
       .map((element) => element.textContent);
 
     const expectedValues = [
+      '5 mm',
       '10 mm',
       '7,569 mm',
-      '10 mm',
       '10.000 gramm',
       'n.a.',
     ];
