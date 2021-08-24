@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.0.6...azure-auth-v0.0.5) (2021-08-24)
+
+
+### 🎸 Features
+
+* **azure-auth:** implement parametrizable role selectors ([8110ddd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8110dddbf9c08c65ae29f38b0b880b1eb82f99fe))
+* **cdba:** improve role related behaviour (DSCDA-2454) ([996b8d4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/996b8d480db9c3a17ebce807d075357860d7524d))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
 ### [0.0.5](///compare/azure-auth-v0.0.5...azure-auth-v0.0.4) (2021-05-20)
 
 
