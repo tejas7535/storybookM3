@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.0.8...application-insights-v0.0.7) (2021-08-24)
+
+
+### 🎸 Features
+
+* **mm:** tracking opt in based on consent (UFTABI-4827) ([539d331](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/539d3319b5694c97d3eb71e2cc6483ec487fe121))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
+
+### 🐛 Bug Fixes
+
+* **application-insights:** delete cookies on opt out (UFTABI-4888) ([96dd692](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/96dd692139fca44610643601d9a10ab44dd2a546))
+
 ### [0.0.7](///compare/application-insights-v0.0.7...application-insights-v0.0.6) (2021-05-20)
 
 ### [0.0.6](///compare/application-insights-v0.0.6...application-insights-v0.0.5) (2021-04-29)
