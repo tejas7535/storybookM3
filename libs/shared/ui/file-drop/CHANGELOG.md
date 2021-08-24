@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.6.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/file-drop-v1.6.3...file-drop-v1.6.2) (2021-08-24)
+
 ### [1.6.2](///compare/file-drop-v1.6.2...file-drop-v1.6.1) (2021-05-20)
 
 
