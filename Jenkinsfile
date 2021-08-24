@@ -620,65 +620,60 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build:Storybook') {
+            when {
+                expression {
+                    return buildStorybook()
+                }
+            }
+            steps {
+                echo 'Build Storybooks for Shared Libraries'
+
+                script {
+                    sh "npx nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
+
+                    publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
+                }
+            }
+        }
+
+        stage('Build Projects') {
             when {
                 expression {
                     return !skipBuild && !isNightly()
                 }
             }
-            failFast true
-            parallel {
-                stage('Build:Projects') {
-                    steps {
-                        echo 'Build Projects'
+            steps {
+                echo 'Build Projects'
 
-                        script {
-                            lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
-                                if (isAppRelease()) {
-                                    sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production"
-                                    try {
-                                        sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
-                                    } catch (error) {
-                                        echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
-                                    }
-                                } else if (isLibsRelease()) {
-                                    sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
-                                } else {
-                                    if (isMaster()) {
-                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel"
-                                    } else {
-                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel"
-                                    }
-
-                                    for (app in affectedApps) {
-                                        sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
-                                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
-                                    }
-                                }
+                script {
+                    lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
+                        if (isAppRelease()) {
+                            sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production"
+                            try {
+                                sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
+                            } catch (error) {
+                                echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
                             }
-                        }
-                    }
-                }
+                        } else if (isLibsRelease()) {
+                            sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
+                        } else {
+                            if (isMaster()) {
+                                sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel"
+                            } else {
+                                sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel"
+                            }
 
-                stage('Build:Storybook') {
-                    when {
-                        expression {
-                            return buildStorybook()
-                        }
-                    }
-                    steps {
-                        echo 'Build Storybooks for Shared Libraries'
-
-                        script {
-                            sh "npx nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
-
-                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
+                            for (app in affectedApps) {
+                                sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
+                                publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
+                            }
                         }
                     }
                 }
             }
         }
-
+            
         stage('Deliver') {
             when {
                 expression {
@@ -864,13 +859,13 @@ pipeline {
                             downloadArtifact(target, output)
 
                             // unzip bundle
-                            sh "mkdir storybook"
-                            fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './storybook')])
+                            sh "mkdir docs"
+                            fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './docs')])
                             sh "rm storybook.zip"
 
                             // commit and push back to remote
                             sh "git add -A"
-                            sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]'"
+                            sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
                             executeAsGithubUser('github-jenkins-access-token','git push')
                         }
                     }
