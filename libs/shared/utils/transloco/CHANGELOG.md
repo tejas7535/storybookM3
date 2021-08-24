@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v2.5.0...transloco-v2.4.1) (2021-08-24)
+
+
+### 🎸 Features
+
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
+
+### 🐛 Bug Fixes
+
+* **storybook:** fix transloco usage ([#2705](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2705)) ([463eb94](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/463eb9486fca3c66236f4e0a1b38c4c52d8e5f9a))
+
 ### [2.4.1](///compare/transloco-v2.4.1...transloco-v2.4.0) (2021-05-20)
 
 ## [2.4.0](///compare/transloco-v2.4.0...transloco-v2.3.0) (2021-04-29)
