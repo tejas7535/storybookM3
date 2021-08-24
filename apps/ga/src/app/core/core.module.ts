@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
@@ -9,6 +9,7 @@ import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StoreModule } from './store/store.module';
 
@@ -37,13 +38,20 @@ import { StoreModule } from './store/store.module';
         { id: 'ru', label: 'русский' },
         { id: 'zh', label: '中国' },
       ],
-      'en', // default -> undefined would lead to browser detection
+      'de', // default -> undefined would lead to browser detection
       'en',
       true
     ),
 
     // HTTP
     HttpClientModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpGreaseInterceptor,
+      multi: true,
+    },
   ],
   exports: [FooterModule, HeaderModule, SidebarComponent, StoreModule],
 })

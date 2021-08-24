@@ -2,12 +2,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.action';
@@ -24,7 +24,7 @@ describe('ParametersComponent', () => {
       RouterTestingModule,
       SharedModule,
       ReactiveComponentModule,
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
 
       // UI Modules
       SubheaderModule,
@@ -109,12 +109,14 @@ describe('ParametersComponent', () => {
   });
 
   describe('navigateBack', () => {
-    it('should navigate to /bearing', () => {
+    it('should navigate to bearing selection', () => {
       component['router'].navigate = jest.fn();
 
       component.navigateBack();
 
-      expect(component['router'].navigate).toHaveBeenCalledWith(['/bearing']);
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        '/greaseCalculation/bearing',
+      ]);
     });
   });
 });

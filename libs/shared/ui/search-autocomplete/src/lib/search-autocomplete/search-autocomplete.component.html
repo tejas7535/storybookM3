@@ -1,5 +1,5 @@
 <mat-form-field floatLabel="never" class="max-w-full">
-  <mat-label class="ml-2">{{ label }}</mat-label>
+  <mat-label class="ml-2 divide-veryLight">{{ label }}</mat-label>
   <input
     type="text"
     [matAutocomplete]="auto"
@@ -69,7 +69,7 @@
     [class.clear-icon]="searchStringDeletable"
     [class.search-icon]="!searchStringDeletable"
   >
-    <mat-icon class="icon search" fontIcon="icon-search"></mat-icon>
+    <mat-icon class="icon search text-light" fontIcon="icon-search"></mat-icon>
     <mat-icon
       class="icon clear cursor-pointer"
       fontIcon="icon-cross"

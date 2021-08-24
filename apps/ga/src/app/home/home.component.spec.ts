@@ -4,7 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { TranslocoTestingModule } from '@ngneat/transloco';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { HomeComponent } from './home.component';
 
@@ -20,7 +21,7 @@ describe('HomeComponent', () => {
       MatCardModule,
       MatIconModule,
       MatButtonModule,
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

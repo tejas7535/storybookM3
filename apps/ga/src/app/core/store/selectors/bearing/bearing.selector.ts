@@ -12,3 +12,12 @@ export const getSelectedBearing = createSelector(
   getBearingState,
   (state: BearingState): string => state.selectedBearing
 );
+
+export const getBearingResultList = createSelector(
+  getBearingState,
+  (state: BearingState): any =>
+    state?.search?.resultList.map((bearing) => ({
+      id: bearing,
+      title: bearing,
+    }))
+);

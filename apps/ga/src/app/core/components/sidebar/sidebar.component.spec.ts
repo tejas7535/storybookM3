@@ -1,7 +1,8 @@
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { TranslocoTestingModule } from '@ngneat/transloco';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SidebarComponent } from './sidebar.component';
 
@@ -12,7 +13,7 @@ describe('SidebarComponent', () => {
   const createComponent = createComponentFactory({
     component: SidebarComponent,
     declarations: [SidebarComponent],
-    imports: [MatSidenavModule, TranslocoTestingModule],
+    imports: [MatSidenavModule, provideTranslocoTestingModule({ en: {} })],
   });
 
   beforeEach(() => {

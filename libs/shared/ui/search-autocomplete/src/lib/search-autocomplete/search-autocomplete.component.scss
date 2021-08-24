@@ -70,3 +70,7 @@
     @apply text-[24px];
   }
 }
+
+::ng-deep .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.38) !important;
+}

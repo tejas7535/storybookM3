@@ -1,17 +1,20 @@
-<schaeffler-breadcrumbs
-  class="hidden sm:block m-4 mb-2"
-  [breadcrumbs]="breadcrumbs"
-></schaeffler-breadcrumbs>
-<div class="flex flex-col h-full bg-white p-4 mx-auto sm:m-4 sm:mt-0">
-  <div class="flex flex-row justify-between">
-    <span>step1</span>
-    <span>--</span>
-    <span>step2</span>
-    <span>--</span>
-    <span>step3</span>
-    <span>--</span>
-    <span>step4</span>
-    <span>--</span>
+<div class="flex h-full flex-col">
+  <schaeffler-breadcrumbs
+    class="hidden sm:block m-4 mb-2"
+    [breadcrumbs]="breadcrumbs"
+  ></schaeffler-breadcrumbs>
+  <div class="flex flex-col flex-grow bg-white p-4 sm:m-4 sm:mt-0 max-w-full">
+    <div class="flex flex-row justify-between my-2">
+      <span>step1</span>
+      <span>--</span>
+      <span>step2</span>
+      <span>--</span>
+      <span>step3</span>
+      <span>--</span>
+      <span>step4</span>
+    </div>
+    <div class="flex-1">
+      <router-outlet></router-outlet>
+    </div>
   </div>
-  <router-outlet></router-outlet>
 </div>

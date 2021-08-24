@@ -81,16 +81,8 @@ export class AppComponent {
     loading = new BehaviorSubject<boolean>(false);
     error = new BehaviorSubject<boolean>(false);
 
-    handleNewSearch(searchString: string) {
-      this.getData(searchString);
-    }
-
     handleSelection(selectionId: string) {
       (...)
-    }
-
-    handleNewSearch(searchString: string) {
-        this.getData(searchString);
     }
 
     getData(searchString: string): void {

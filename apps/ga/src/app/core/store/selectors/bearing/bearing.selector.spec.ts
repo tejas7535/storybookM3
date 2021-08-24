@@ -2,12 +2,20 @@ import {
   BearingState,
   initialState,
 } from '../../reducers/bearing/bearing.reducer';
-import { getBearingLoading, getSelectedBearing } from './bearing.selector';
+import {
+  getBearingLoading,
+  getBearingResultList,
+  getSelectedBearing,
+} from './bearing.selector';
 
 describe('Bearing Selector', () => {
   const mockState: { bearing: BearingState } = {
     bearing: {
       ...initialState,
+      search: {
+        ...initialState.search,
+        resultList: ['greatBearing', 'evenGreaterBearing'],
+      },
     },
   };
 
@@ -25,6 +33,20 @@ describe('Bearing Selector', () => {
           selectedBearing: 'a selected bearing',
         })
       ).toEqual('a selected bearing');
+    });
+  });
+  describe('getBearingResultList', () => {
+    it('should return the result list', () => {
+      expect(getBearingResultList(mockState)).toEqual([
+        {
+          id: 'greatBearing',
+          title: 'greatBearing',
+        },
+        {
+          id: 'evenGreaterBearing',
+          title: 'evenGreaterBearing',
+        },
+      ]);
     });
   });
 });

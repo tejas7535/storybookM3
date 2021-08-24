@@ -12,7 +12,11 @@
     "learnMore": "Learn More"
   },
   "bearing": {
-    "bearingSelection": "Bearing Selection"
+    "bearingSelection": "Bearing Selection",
+    "subtitle": "For which bearing should the calculation be done?",
+    "searchPlaceholder": "Search for bearing...",
+    "narrowDownSelection": "Narrow down bearing selection?",
+    "noResults": "No results"
   },
   "parameters": {
     "showDetails": "Show details",

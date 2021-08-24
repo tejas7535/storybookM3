@@ -5,8 +5,6 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { BEARING_SEARCH_RESULT_MOCK } from './../../../../testing/mocks/rest.service.mock';
 import { RestService } from './rest.service';
 
@@ -18,21 +16,7 @@ describe('RestService', () => {
   const createService = createServiceFactory({
     service: RestService,
     imports: [HttpClientTestingModule],
-    providers: [
-      RestService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-            preflightPath: 'bearing-preflight',
-            materialsPath: 'materialdata/id/',
-            bearingRelationsPath: 'bearing-relations/',
-            bearingCalculationPath: 'bearing-calculation',
-          },
-        },
-      },
-    ],
+    providers: [RestService],
   });
 
   beforeEach(() => {
@@ -52,7 +36,9 @@ describe('RestService', () => {
         done();
       });
 
-      const req = httpMock.expectOne(`/bearings/search?pattern=theQuery`);
+      const req = httpMock.expectOne(
+        `${service['baseUrl']}/bearings/search?pattern=theQuery`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
     });

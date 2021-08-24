@@ -1,19 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-
-import { DataService } from '@schaeffler/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestService {
-  public constructor(private readonly dataService: DataService) {}
+  private readonly baseUrl =
+    'https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.1/greaseservice';
 
-  public getBearingSearch(searchQuery: string): Observable<string[]> {
-    return this.dataService.getAll<string[]>(`bearings/search`, {
+  public constructor(private readonly httpClient: HttpClient) {}
+
+  public getBearingSearch(query: string): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/bearings/search`, {
       params: {
-        pattern: searchQuery,
+        pattern: query,
       },
     });
   }

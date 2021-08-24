@@ -63,6 +63,6 @@ export class ParametersComponent implements OnInit, OnDestroy {
   }
 
   public navigateBack(): void {
-    this.router.navigate(['/bearing']);
+    this.router.navigate(['/greaseCalculation/bearing']);
   }
 }
