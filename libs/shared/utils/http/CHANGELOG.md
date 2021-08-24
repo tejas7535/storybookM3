@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/http-v0.0.9...http-v0.0.8) (2021-08-24)
+
+
+### 🎸 Features
+
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
 ### [0.0.8](///compare/http-v0.0.8...http-v0.0.7) (2021-05-20)
 
 ### [0.0.7](///compare/http-v0.0.7...http-v0.0.6) (2021-04-29)
