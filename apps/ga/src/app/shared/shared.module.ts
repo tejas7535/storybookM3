@@ -4,13 +4,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InputComponent } from './components/input/input/input.component';
+import { SelectComponent } from './components/select/select.component';
 
 @NgModule({
-  declarations: [InputComponent],
+  declarations: [InputComponent, SelectComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -19,10 +21,11 @@ import { InputComponent } from './components/input/input/input.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatSelectModule,
 
     // Translation
     SharedTranslocoModule,
   ],
-  exports: [InputComponent],
+  exports: [InputComponent, SelectComponent],
 })
 export class SharedModule {}

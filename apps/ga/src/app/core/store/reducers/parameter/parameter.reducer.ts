@@ -30,6 +30,7 @@ export interface FullParameterState {
     viscosity: number;
     nlgiClass: number;
   };
+  valid: boolean;
 }
 
 export type ParameterState =
@@ -62,6 +63,7 @@ export const initialState: ParameterState = {
     viscosity: undefined,
     nlgiClass: undefined,
   },
+  valid: false,
 };
 
 export const parameterReducer = createReducer(

@@ -1,24 +1,26 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { InputComponent } from './input.component';
+import { SelectComponent } from './select.component';
 
-describe('InputComponent', () => {
-  let component: InputComponent;
-  let spectator: Spectator<InputComponent>;
+describe('SelectComponent', () => {
+  let component: SelectComponent;
+  let spectator: Spectator<SelectComponent>;
 
   const createComponent = createComponentFactory({
-    component: InputComponent,
+    component: SelectComponent,
     imports: [
+      NoopAnimationsModule,
       ReactiveFormsModule,
       MatFormFieldModule,
-      MatInputModule,
+      MatSelectModule,
       MatIconModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -27,7 +29,9 @@ describe('InputComponent', () => {
   beforeEach(() => {
     const control = new FormControl('');
     spectator = createComponent({
-      props: { control },
+      props: {
+        control,
+      },
     });
     component = spectator.debugElement.componentInstance;
   });

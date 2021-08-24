@@ -1,7 +1,9 @@
+import { Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { translate } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -9,8 +11,10 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { initialState } from '../core/store/reducers/parameter/parameter.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.action';
+import { Movement } from './../shared/models/parameters/movement.model';
 import { ParametersComponent } from './parameters.component';
 
 describe('ParametersComponent', () => {
@@ -42,13 +46,14 @@ describe('ParametersComponent', () => {
             selectedBearing: 'selected bearing',
           },
           parameter: {
-            loads: {
-              axial: 0,
-              radial: 0,
-            },
+            ...initialState,
           },
         },
       }),
+      {
+        provide: translate,
+        useValue: jest.fn(),
+      },
     ],
   });
 
@@ -74,7 +79,7 @@ describe('ParametersComponent', () => {
       component.ngOnInit();
     });
 
-    it('should dispatch on valid form change', () => {
+    it('should dispatch with valid false on invalid form change', () => {
       component.radial.patchValue(500);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -84,15 +89,120 @@ describe('ParametersComponent', () => {
               axial: 0,
               radial: 500,
             },
+            movements: {
+              type: Movement.rotating,
+              // eslint-disable-next-line unicorn/no-null
+              rotationalSpeed: null,
+              // eslint-disable-next-line unicorn/no-null
+              shiftFrequency: null,
+              // eslint-disable-next-line unicorn/no-null
+              shiftAngle: null,
+            },
+            valid: false,
           },
         })
       );
     });
 
-    it('should not dispatch on invalid form change', () => {
-      component.radial.patchValue(5_000_000_000_000_000);
+    it('should dispatch with valid on valid form change', () => {
+      component.rotationalSpeed.patchValue(1);
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        patchParameters({
+          parameters: {
+            loads: {
+              radial: 0,
+              axial: 0,
+            },
+            movements: {
+              type: Movement.rotating,
+              rotationalSpeed: 1,
+              // eslint-disable-next-line unicorn/no-null
+              shiftFrequency: null,
+              // eslint-disable-next-line unicorn/no-null
+              shiftAngle: null,
+            },
+            valid: true,
+          },
+        })
+      );
+    });
+
+    it('should select movement type and set validators for rotational', () => {
+      component.rotationalSpeed.addValidators = jest.fn();
+      component.shiftFrequency.removeValidators = jest.fn();
+      component.shiftAngle.removeValidators = jest.fn();
+      component.rotationalSpeed.updateValueAndValidity = jest.fn();
+      component.shiftFrequency.updateValueAndValidity = jest.fn();
+      component.shiftAngle.updateValueAndValidity = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.rotationalSpeed.addValidators).toHaveBeenCalledWith([
+        // eslint-disable-next-line jest/unbound-method
+        Validators.required,
+      ]);
+      expect(component.shiftFrequency.removeValidators).toHaveBeenCalledWith([
+        // eslint-disable-next-line jest/unbound-method
+        Validators.required,
+      ]);
+      expect(component.shiftAngle.removeValidators).toHaveBeenCalledWith([
+        // eslint-disable-next-line jest/unbound-method
+        Validators.required,
+      ]);
+      expect(
+        component.rotationalSpeed.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(
+        component.shiftFrequency.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(component.shiftAngle.updateValueAndValidity).toHaveBeenCalled();
+    });
+
+    it('should select movement type and set validators for oscillating', () => {
+      store.setState({
+        bearing: {
+          loading: false,
+          result: undefined,
+          selectedBearing: 'selected bearing',
+        },
+        parameter: {
+          ...initialState,
+          movements: {
+            ...initialState.movements,
+            type: Movement.oscillating,
+          },
+        },
+      });
+
+      component.rotationalSpeed.removeValidators = jest.fn();
+      component.shiftFrequency.addValidators = jest.fn();
+      component.shiftAngle.addValidators = jest.fn();
+      component.rotationalSpeed.updateValueAndValidity = jest.fn();
+      component.shiftFrequency.updateValueAndValidity = jest.fn();
+      component.shiftAngle.updateValueAndValidity = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.rotationalSpeed.removeValidators).toHaveBeenCalledWith([
+        // eslint-disable-next-line jest/unbound-method
+        Validators.required,
+      ]);
+      expect(component.shiftFrequency.addValidators).toHaveBeenCalledWith([
+        // eslint-disable-next-line jest/unbound-method
+        Validators.required,
+      ]);
+      expect(component.shiftAngle.addValidators).toHaveBeenCalledWith([
+        // eslint-disable-next-line jest/unbound-method
+        Validators.required,
+      ]);
+      expect(
+        component.rotationalSpeed.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(
+        component.shiftFrequency.updateValueAndValidity
+      ).toHaveBeenCalled();
+      expect(component.shiftAngle.updateValueAndValidity).toHaveBeenCalled();
     });
   });
 

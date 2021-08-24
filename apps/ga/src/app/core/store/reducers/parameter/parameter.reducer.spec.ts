@@ -48,6 +48,7 @@ describe('Parameter Reducer', () => {
           viscosity: 10,
           nlgiClass: 1,
         },
+        valid: true,
       };
 
       const newState = parameterReducer(

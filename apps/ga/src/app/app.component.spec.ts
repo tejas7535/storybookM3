@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { FooterModule } from '@schaeffler/footer';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -19,6 +20,7 @@ describe('AppComponent', () => {
       FooterModule,
       RouterTestingModule,
       CoreModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [AppComponent],
   });

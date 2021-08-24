@@ -26,7 +26,7 @@
       </div>
     </ng-container>
   </schaeffler-subheader>
-  <div class="flex flex-col sm:flex-row sm:gap-16 sm:pt-2">
+  <div class="flex flex-col sm:flex-row gap-5 sm:gap-16 sm:pt-2">
     <div class="flex flex-col flex-grow max-w-sm">
       <div class="flex flex-row justify-between items-center mb-4">
         <h5>{{ t('loads') }}</h5>
@@ -56,6 +56,46 @@
           {{ t('enterRadialAndAxialLoad') }}
         </button>
       </div>
+    </div>
+    <div class="flex flex-col flex-grow max-w-sm">
+      <div class="flex flex-row justify-between items-center mb-4">
+        <h5>{{ t('motionInfluences') }}</h5>
+        <span class="text-caption font-medium tracking-wide">{{
+          t('requiredInformation')
+        }}</span>
+      </div>
+      <ga-select
+        [control]="type"
+        [label]="t('kindOfMotion')"
+        [options]="typeOptions"
+      ></ga-select>
+      <ng-container *ngIf="selectedMovementType$ | ngrxPush">
+        <ga-input
+          *ngIf="
+            (selectedMovementType$ | ngrxPush) === movement.rotating;
+            else oscillatingFields
+          "
+          type="number"
+          [control]="rotationalSpeed"
+          [label]="t('relativeRotationalSpeed')"
+          [unit]="t('onePerMinute')"
+        ></ga-input>
+      </ng-container>
+
+      <ng-template #oscillatingFields>
+        <ga-input
+          type="number"
+          [control]="shiftFrequency"
+          [label]="t('shiftFrequency')"
+          [unit]="t('onePerMinute')"
+        ></ga-input>
+        <ga-input
+          type="number"
+          [control]="shiftAngle"
+          [label]="t('shiftAngle')"
+          [unit]="t('degree')"
+        ></ga-input>
+      </ng-template>
     </div>
   </div>
 </ng-container>
