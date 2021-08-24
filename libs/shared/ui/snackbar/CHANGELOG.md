@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/snackbar-v1.8.0...snackbar-v1.7.2) (2021-08-24)
+
+
+### 🐛 Bug Fixes
+
+* **snackbar:** fix type error (UFTABI-4814) ([d6d91e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6d91e09ddc82fe9c6b43cce6f01267cf216f04d))
+
+
+### 🎸 Features
+
+* **mm:** show snackbar on error (UFTABI-4814) ([#2635](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2635)) ([154e93d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/154e93deba9f42703aeaf4cb810a0ccba8f181e0))
+* **snackbar:** update icon, control duration (UFTABI-4814) ([31ca6a8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31ca6a8fced8a71304b6d02321e89cf0bc48bfc8))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
 ### [1.7.2](///compare/snackbar-v1.7.2...snackbar-v1.7.1) (2021-05-20)
 
 ### [1.7.1](///compare/snackbar-v1.7.1...snackbar-v1.7.0) (2021-04-29)
