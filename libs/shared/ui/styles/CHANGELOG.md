@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.2.1...styles-v1.2.0) (2021-08-24)
+
+
+### 🐛 Bug Fixes
+
+* **tabs:** set opacity correctly ([c077022](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0770222b68717f65efeb5a0d22e2b8bba246844))
+
 ## [1.2.0](///compare/styles-v1.2.0...styles-v1.1.1) (2021-05-20)
 
 
