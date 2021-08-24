@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/header-v2.5.0...header-v2.4.1) (2021-08-24)
+
+
+### 🎸 Features
+
+* **header:** reimplement header with tailwindr ([#2712](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2712)) ([8b9b0bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b9b0bb36137d5d2518754a74292afe269f12cc7))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** prevent layout break due to css class name overlapse (DSCDA-2460) ([bd7a99a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bd7a99a739e4c0ca661c213207116bddcba57dc4))
+* **header:** fix header padding ([#2797](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2797)) ([1c9f34b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c9f34b67d49c820d60872eafde55cb9d318b0a0))
+* **workspace:** move from tailwind to actual inline styles ([#2731](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2731)) ([551c77f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/551c77fbcf76390117631bf669fd7456880d014e))
+
 ### [2.4.1](///compare/header-v2.4.1...header-v2.4.0) (2021-05-20)
 
 
