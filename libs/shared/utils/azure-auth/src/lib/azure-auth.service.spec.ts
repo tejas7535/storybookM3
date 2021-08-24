@@ -219,7 +219,7 @@ describe('Azure Auth Service', () => {
       });
 
       const req = httpMock.expectOne(
-        'https://graph.microsoft.com/v1.0/me/photos/48x48/$value'
+        'https://graph.microsoft.com/v1.0/me/photos/64x64/$value'
       );
       expect(req.request.method).toBe('GET');
       req.flush(blob);

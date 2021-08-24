@@ -20,7 +20,7 @@ import {
 import { AccountInfo } from './models';
 
 const GRAPH_PROFILE_IMAGE_ENDPOINT =
-  'https://graph.microsoft.com/v1.0/me/photos/48x48/$value';
+  'https://graph.microsoft.com/v1.0/me/photos/64x64/$value';
 
 @Injectable({
   providedIn: 'root',
