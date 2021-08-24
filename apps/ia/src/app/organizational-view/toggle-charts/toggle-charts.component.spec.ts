@@ -27,7 +27,6 @@ describe('ToggleChartsComponent', () => {
       MatTooltipModule,
     ],
     providers: [],
-    declarations: [ToggleChartsComponent],
   });
 
   beforeEach(() => {

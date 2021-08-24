@@ -19,7 +19,7 @@ describe('AutocompleteInputComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AutocompleteInputComponent,
-    declarations: [AutocompleteInputComponent, InputValidatorDirective],
+    declarations: [InputValidatorDirective],
     imports: [
       MatAutocompleteModule,
       MatInputModule,
@@ -136,7 +136,8 @@ describe('AutocompleteInputComponent', () => {
 
       component.ngAfterViewInit();
       component.inputControl.setValue('test');
-      spectator.blur(component['matInput']);
+      const input = spectator.query('input');
+      input.dispatchEvent(new Event('blur'));
 
       tick(250);
 
@@ -150,7 +151,8 @@ describe('AutocompleteInputComponent', () => {
 
       component.ngAfterViewInit();
       component.inputControl.setValue('3');
-      spectator.blur(component['matInput']);
+      const input = spectator.query('input');
+      input.dispatchEvent(new Event('blur'));
 
       tick(250);
 
@@ -165,7 +167,8 @@ describe('AutocompleteInputComponent', () => {
 
       component.ngAfterViewInit();
       component.inputControl.setValue('3');
-      spectator.blur(component['matInput']);
+      const input = spectator.query('input');
+      input.dispatchEvent(new Event('blur'));
 
       tick(250);
 
