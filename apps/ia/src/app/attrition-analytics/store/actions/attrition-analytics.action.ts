@@ -8,7 +8,7 @@ export const loadEmployeeAnalytics = createAction(
 
 export const loadEmployeeAnalyticsSuccess = createAction(
   '[AttritionAnalytics] Load Employee Analytics Success',
-  props<{ data: EmployeeAnalytics[] }>()
+  props<{ data: EmployeeAnalytics }>()
 );
 
 export const loadEmployeeAnalyticsFailure = createAction(

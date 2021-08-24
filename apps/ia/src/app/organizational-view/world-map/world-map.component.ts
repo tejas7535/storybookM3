@@ -161,7 +161,7 @@ export class WorldMapComponent implements OnInit {
   getAreaColorFromHeatType(heatType: HeatType): string {
     switch (heatType) {
       case HeatType.GREEN_HEAT:
-        return Color.LIGHT_GREEN;
+        return Color.LIME;
       case HeatType.ORANGE_HEAT:
         return Color.YELLOW;
       case HeatType.RED_HEAT:

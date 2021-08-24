@@ -30,7 +30,7 @@ describe('Attrition Analytics Reducer', () => {
 
   describe('loadEmployeeAnalyticsSuccess', () => {
     test('should set loading true', () => {
-      const data: EmployeeAnalytics[] = [];
+      const data: EmployeeAnalytics = {} as EmployeeAnalytics;
       const action = loadEmployeeAnalyticsSuccess({ data });
 
       const state = attritionAnalyticsReducer(initialState, action);

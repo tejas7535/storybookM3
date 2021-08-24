@@ -218,7 +218,7 @@ describe('WorldMapComponent', () => {
   describe('getAreaColorFromHeatType', () => {
     test('should return green for green heat', () => {
       expect(component.getAreaColorFromHeatType(HeatType.GREEN_HEAT)).toEqual(
-        Color.LIGHT_GREEN
+        Color.LIME
       );
     });
     test('should return yellow for orange heat', () => {

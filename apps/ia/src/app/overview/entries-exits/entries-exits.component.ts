@@ -19,7 +19,7 @@ export class EntriesExitsComponent {
     new DoughnutSeriesConfig(
       [new DoughnutChartData(0)],
       translate('overview.internal'),
-      Color.LIGHT_GREEN
+      Color.LIME
     ),
     new DoughnutSeriesConfig(
       [new DoughnutChartData(0)],

@@ -53,7 +53,7 @@ describe('Attrition Anayltics Effects', () => {
 
     test('should return employeeAnalyticsSuccess when REST call is successful', () => {
       marbles((m) => {
-        const employeeAnalytics: EmployeeAnalytics[] = [];
+        const employeeAnalytics: EmployeeAnalytics = {} as EmployeeAnalytics;
         const result = loadEmployeeAnalyticsSuccess({
           data: employeeAnalytics,
         });

@@ -17,7 +17,7 @@ describe('Attrition Analytics Actions', () => {
   });
 
   test('loadEmployeeAnalyticsSuccess', () => {
-    const data: EmployeeAnalytics[] = [];
+    const data: EmployeeAnalytics = {} as EmployeeAnalytics;
     const action = loadEmployeeAnalyticsSuccess({ data });
 
     expect(action).toEqual({

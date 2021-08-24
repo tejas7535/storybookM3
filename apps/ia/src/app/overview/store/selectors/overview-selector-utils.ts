@@ -126,7 +126,7 @@ export function createDoughnutConfig(
         new DoughnutSeriesConfig(
           [{ value: internal.length }],
           labelInternal,
-          Color.LIGHT_GREEN
+          Color.LIME
         ),
         new DoughnutSeriesConfig(
           [{ value: external.length }],

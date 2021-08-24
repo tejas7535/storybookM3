@@ -1,6 +1,6 @@
 export interface EmployeeAnalyticsFeature {
   name: string;
-  values: number[];
+  values: string[];
   attritionCount: number[];
   employeeCount: number[];
 }

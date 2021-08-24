@@ -5,10 +5,6 @@ import {
   TextCommonOption,
 } from 'echarts/types/src/util/types';
 
-import {
-  getPercentageValue,
-  getPercentageValueSigned,
-} from '../../../overview/store/selectors/overview-selector-utils';
 import { BarChartConfig } from '../models/bar-chart-config.model';
 
 export function createBarChartOption(config: BarChartConfig): EChartsOption {
@@ -26,6 +22,9 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
     xAxis: {
       type: 'value',
       boundaryGap: [0, 0.1],
+      axisLabel: {
+        formatter: '{value}%',
+      },
     },
     yAxis: {
       type: 'category',
@@ -59,7 +58,7 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
     type: 'bar',
     barCategoryGap: '60%',
     barWidth: 14,
-    data: serie.values.map((value) => getPercentageValue(value[0])),
+    data: serie.values.map((value) => value[0]),
     dimensions: serie.names,
     itemStyle: {
       borderRadius: [0, 100, 100, 0],
@@ -88,7 +87,7 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
 
         return `
         <div>
-          <b>${getPercentageValueSigned(values[0])}</b>&emsp;
+          <b>${values[0]}%</b>&emsp;
           ${param.dimensionNames[0]}<br>
           <b>${values[1]}</b>&emsp;${param.dimensionNames[1]}
         </div>

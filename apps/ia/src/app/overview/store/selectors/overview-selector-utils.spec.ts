@@ -197,7 +197,7 @@ describe('OverviewSelectorUtils', () => {
           new DoughnutSeriesConfig(
             [{ value: internals.length }],
             internalLabel,
-            Color.LIGHT_GREEN
+            Color.LIME
           ),
           new DoughnutSeriesConfig(
             [{ value: externals.length }],

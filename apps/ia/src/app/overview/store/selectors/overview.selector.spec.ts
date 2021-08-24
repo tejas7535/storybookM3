@@ -236,11 +236,7 @@ describe('Overview Selector', () => {
     it('should return config for doughnut chart with entries', () => {
       expect(getOverviewFluctuationEntriesDoughnutConfig(fakeState)).toEqual(
         new DoughnutConfig('Entries', [
-          new DoughnutSeriesConfig(
-            [{ value: 1 }],
-            'internal',
-            Color.LIGHT_GREEN
-          ),
+          new DoughnutSeriesConfig([{ value: 1 }], 'internal', Color.LIME),
           new DoughnutSeriesConfig(
             [{ value: 2 }],
             'external',
@@ -255,11 +251,7 @@ describe('Overview Selector', () => {
     it('should return config for doughnut chart with exits', () => {
       expect(getOverviewFluctuationExitsDoughnutConfig(fakeState)).toEqual(
         new DoughnutConfig('Exits', [
-          new DoughnutSeriesConfig(
-            [{ value: 1 }],
-            'internal',
-            Color.LIGHT_GREEN
-          ),
+          new DoughnutSeriesConfig([{ value: 1 }], 'internal', Color.LIME),
           new DoughnutSeriesConfig(
             [{ value: 2 }],
             'external',

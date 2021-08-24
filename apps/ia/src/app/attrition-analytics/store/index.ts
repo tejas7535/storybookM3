@@ -11,7 +11,7 @@ export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
 
 export interface AttritionAnalyticsState {
   employeeAnalytics: {
-    data: EmployeeAnalytics[];
+    data: EmployeeAnalytics;
     loading: boolean;
     errorMessage: string;
   };

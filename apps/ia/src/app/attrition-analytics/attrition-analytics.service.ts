@@ -16,10 +16,9 @@ export class AttritionAnalyticsService {
 
   constructor(private readonly dataService: DataService) {}
 
-  getEmployeeAnalytics(): Observable<EmployeeAnalytics[]> {
-    return this.dataService.getAll<EmployeeAnalytics[]>(
-      this.EMPLOYEE_ANALYTICS,
-      { context: withCache() }
-    );
+  getEmployeeAnalytics(): Observable<EmployeeAnalytics> {
+    return this.dataService.getAll<EmployeeAnalytics>(this.EMPLOYEE_ANALYTICS, {
+      context: withCache(),
+    });
   }
 }

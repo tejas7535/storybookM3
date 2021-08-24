@@ -43,11 +43,7 @@ describe('LooseDoughnutChartComponent', () => {
   describe('set initialConfig', () => {
     test('should set correct initial config', () => {
       const series = [
-        new DoughnutSeriesConfig(
-          [{ value: 99 }],
-          'demo data 1',
-          Color.LIGHT_GREEN
-        ),
+        new DoughnutSeriesConfig([{ value: 99 }], 'demo data 1', Color.LIME),
       ];
 
       component.createSeriesOptions = jest.fn(() => series);
@@ -66,7 +62,7 @@ describe('LooseDoughnutChartComponent', () => {
 
   describe('createSeriesOptions', () => {
     test('should map correct series', () => {
-      const color = Color.LIGHT_GREEN;
+      const color = Color.LIME;
       const data = new DoughnutConfig('Demo', [
         new DoughnutSeriesConfig([{ value: 99 }], 'demo data 1', color),
       ]);

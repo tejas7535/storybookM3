@@ -14,6 +14,8 @@ export class BarChartComponent {
   options: EChartsOption;
 
   @Input() set config(config: BarChartConfig) {
-    this.options = createBarChartOption(config);
+    if (config) {
+      this.options = createBarChartOption(config);
+    }
   }
 }
