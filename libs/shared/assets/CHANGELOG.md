@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.11.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.11.5...assets-v1.11.4) (2021-08-24)
+
 ### [1.11.4](///compare/assets-v1.11.4...assets-v1.11.3) (2021-05-20)
 
 ### [1.11.3](///compare/assets-v1.11.3...assets-v1.11.2) (2021-04-29)
