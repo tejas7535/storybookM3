@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.1.2...mac-v0.1.1) (2021-08-24)
+
+
+### 🎸 Features
+
+* **header:** reimplement header with tailwindr ([#2712](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2712)) ([8b9b0bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b9b0bb36137d5d2518754a74292afe269f12cc7))
+* **mac:** fix lint issues (UFTABI-4833) ([a3e6d50](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a3e6d50c6762826de6b01b634d90100ac4b0fa06))
+* **mac:** more tooltips for hardness converter ([#2739](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2739)) ([fba4c41](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fba4c412599410cc95338ab45ff8a89dbd3a03c7))
+* **mac:** specify tension type for mpa in hc ([94c5443](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/94c5443ed672f4c91bfcea280af97c8de8d4451f))
+* **msd:** add msd route (UFTABI-4674) ([c9c2ec6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c9c2ec6eb2242e52b47e0593962b4e1c3bd4d7a6))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+* **workspace:** make eslint in CI pipeline mandatory (UFTABI-4967) ([#2732](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2732)) ([0fdd5c5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0fdd5c56215b49f91a90dd66d4ed031a43e3839f))
+
+
+### 🐛 Bug Fixes
+
+* **mac:** fix tailwind issues ([#2775](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2775)) ([89451b0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/89451b0a89c412faa7dc1ccf1938a74ae2396fb4))
+* **workspace:** disable caching for index.html and configure outputHashing (GQUOTE-685) (DSCDA-2362) ([#2727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2727)) ([5400d16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5400d16ed0f1cab1caf7c3760724148ff996922f))
+
 ### [0.1.1](///compare/mac-v0.1.1...mac-v0.1.0) (2021-05-31)
 
 
