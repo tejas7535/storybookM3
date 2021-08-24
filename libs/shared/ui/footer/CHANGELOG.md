@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/footer-v2.0.0...footer-v1.7.2) (2021-08-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** This lib now depends on tailwind. See `Readme` for more details.
+
+* refactor(footer): move footer-tailwind implementation to footer
+
+* refactor: use footer instead of footer tailwind
+
+* refactor: remove footer tailwind entirely
+
+* fix(footer): add missing logo
+
+* chore: dont pass lint in case of errors
+
+* test(footer): fix unit tests of footer
+
+Co-authored-by: Fabian Kaupp <kauppfbi@schaeffler.com>
+
+### 🎸 Features
+
+* **footer:** reimplement footer based on tailwind (UFTABI-4632) ([#2700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2700)) ([e54c88d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54c88d08e472f2915bc0ce1770eac5b4e9cca07))
+
 ### [1.7.2](///compare/footer-v1.7.2...footer-v1.7.1) (2021-05-20)
 
 ### [1.7.1](///compare/footer-v1.7.1...footer-v1.7.0) (2021-04-29)
