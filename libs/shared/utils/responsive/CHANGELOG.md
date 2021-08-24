@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/responsive-v2.3.0...responsive-v2.2.2) (2021-08-24)
+
+
+### 🎸 Features
+
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
 ### [2.2.2](///compare/responsive-v2.2.2...responsive-v2.2.1) (2021-05-20)
 
 ### [2.2.1](///compare/responsive-v2.2.1...responsive-v2.2.0) (2021-04-29)
