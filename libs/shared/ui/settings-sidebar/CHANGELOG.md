@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/settings-sidebar-v1.7.0...settings-sidebar-v1.6.2) (2021-08-24)
+
+
+### 🎸 Features
+
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
 ### [1.6.2](///compare/settings-sidebar-v1.6.2...settings-sidebar-v1.6.1) (2021-05-20)
 
 

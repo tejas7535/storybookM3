@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/settings-sidebar",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "dependencies": {
     "tslib": "^2.1.0"
   },
