@@ -69,8 +69,10 @@ export class MultiSelectFilterComponent
           tap(() => (this.debounceIsActive = true)),
           debounce(() => this.getDebounceTimer())
         )
-        .subscribe((val) => {
-          this.searchFieldChange(val);
+
+        .subscribe((val: string) => {
+          // when user resets input, val will be null
+          this.searchFieldChange(val?.trim());
           this.debounceIsActive = false;
         })
     );

@@ -102,6 +102,26 @@ describe('MultiSelectFilterComponent', () => {
         done();
       }, component.DEBOUNCE_TIME_ONE_CHAR);
     });
+
+    it('should trim the input value', (done) => {
+      component.searchFieldChange = jest.fn();
+      component.filter.autocomplete = true;
+      component.searchForm.setValue('S');
+      const spy = jest.spyOn(rxjs, 'timer');
+
+      component.ngOnInit();
+
+      const testVal = 'SLH  ';
+      component.searchForm.setValue(testVal);
+
+      expect(component.searchFieldChange).not.toHaveBeenCalledWith(testVal);
+
+      setTimeout(() => {
+        expect(component.searchFieldChange).toHaveBeenCalledWith('SLH');
+        expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_ONE_CHAR);
+        done();
+      }, component.DEBOUNCE_TIME_ONE_CHAR);
+    });
   });
 
   describe('ngOnChanges', () => {
