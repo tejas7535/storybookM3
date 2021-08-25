@@ -361,6 +361,31 @@ describe('SalesRowDetailsComponent', () => {
     });
   });
 
+  describe('edoValidator', () => {
+    it('should return undefined', () => {
+      SalesRowDetailsComponent['convertToIsoDateString'] = jest
+        .fn()
+        .mockReturnValueOnce('2021-08-25T11:43:01.067Z')
+        .mockReturnValueOnce('2021-08-25T11:44:18.877Z');
+
+      const validation = component['edoValidator']();
+
+      expect(validation).toBeUndefined();
+    });
+
+    it('should return validation error', () => {
+      SalesRowDetailsComponent['convertToIsoDateString'] = jest
+        .fn()
+        .mockReturnValueOnce('2021-08-25T11:44:18.877Z')
+        .mockReturnValueOnce('2021-08-25T11:43:01.067Z');
+
+      const validation = component['edoValidator']();
+      const expected = { disallowedEdo: true };
+
+      expect(validation).toEqual(expected);
+    });
+  });
+
   describe('iconEnter', () => {
     it('should open the menu', () => {
       const menuTrigger: any = { openMenu: jest.fn() };

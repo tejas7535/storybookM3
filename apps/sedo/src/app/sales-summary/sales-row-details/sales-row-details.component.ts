@@ -1,5 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Subscription } from 'rxjs';
@@ -113,6 +118,10 @@ export class SalesRowDetailsComponent
   }
 
   private setInitialFormValues(): void {
+    this.datesFormGroup
+      .get('edoDateControl')
+      .addValidators(this.edoValidator.bind(this));
+
     this.datesFormGroup.setValue({
       eopDateControl:
         this.rowData.eopDateTemp !== null
@@ -139,6 +148,21 @@ export class SalesRowDetailsComponent
     ) {
       this.datesFormGroup.disable();
     }
+  }
+
+  private edoValidator(): ValidationErrors {
+    const eopTimestamp = new Date(
+      SalesRowDetailsComponent.convertToIsoDateString(
+        this.datesFormGroup.get('eopDateControl').value
+      )
+    ).getTime();
+    const edoTimestamp = new Date(
+      SalesRowDetailsComponent.convertToIsoDateString(
+        this.datesFormGroup.get('edoDateControl').value
+      )
+    ).getTime();
+
+    return edoTimestamp < eopTimestamp ? { disallowedEdo: true } : undefined;
   }
 
   public iconEnter(trigger: MatMenuTrigger): void {

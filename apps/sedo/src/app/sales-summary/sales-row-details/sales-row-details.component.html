@@ -91,6 +91,12 @@
         *ngIf="datesFormGroup.controls['edoDateControl'].hasError('required')"
         >Please choose a valid date. (MM/DD/YYYY)</mat-error
       >
+      <mat-error
+        *ngIf="
+          datesFormGroup.controls['edoDateControl'].hasError('disallowedEdo')
+        "
+        >EDO before EOP is not allowed.</mat-error
+      >
     </mat-form-field>
 
     <button
