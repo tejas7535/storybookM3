@@ -1,5 +1,6 @@
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import {
+  changeSelectedFeatures,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
@@ -32,6 +33,16 @@ describe('Attrition Analytics Actions', () => {
     expect(action).toEqual({
       type: '[AttritionAnalytics] Load Employee Analytics Failure',
       errorMessage,
+    });
+  });
+
+  test('changeSelectedFeatures', () => {
+    const features: string[] = [];
+    const action = changeSelectedFeatures({ features });
+
+    expect(action).toEqual({
+      type: '[AttritionAnalytics] Change Selected Features',
+      features,
     });
   });
 });

@@ -2,6 +2,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import {
+  changeSelectedFeatures,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
@@ -15,6 +16,9 @@ export interface AttritionAnalyticsState {
     loading: boolean;
     errorMessage: string;
   };
+  selectedByUser: {
+    features: string[];
+  };
 }
 
 export const initialState: AttritionAnalyticsState = {
@@ -22,6 +26,9 @@ export const initialState: AttritionAnalyticsState = {
     data: undefined,
     loading: false,
     errorMessage: undefined,
+  },
+  selectedByUser: {
+    features: undefined,
   },
 };
 
@@ -60,6 +67,19 @@ export const attritionAnalyticsReducer = createReducer(
         data: undefined,
         loading: false,
         errorMessage,
+      },
+    })
+  ),
+  on(
+    changeSelectedFeatures,
+    (
+      state: AttritionAnalyticsState,
+      { features: employeeAnalyticsFeatures }
+    ): AttritionAnalyticsState => ({
+      ...state,
+      selectedByUser: {
+        ...state.selectedByUser,
+        features: employeeAnalyticsFeatures,
       },
     })
   )

@@ -15,3 +15,8 @@ export const loadEmployeeAnalyticsFailure = createAction(
   '[AttritionAnalytics] Load Employee Analytics Failure',
   props<{ errorMessage: string }>()
 );
+
+export const changeSelectedFeatures = createAction(
+  '[AttritionAnalytics] Change Selected Features',
+  props<{ features: string[] }>()
+);

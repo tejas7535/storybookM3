@@ -23,6 +23,9 @@ export function createFakeState(): AttritionAnalyticsState {
       errorMessage: undefined,
       loading: false,
     },
+    selectedByUser: {
+      features: undefined,
+    },
   };
 }
 

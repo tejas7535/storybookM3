@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { attritionAnalyticsReducer, initialState, reducer } from '.';
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import {
+  changeSelectedFeatures,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
@@ -49,6 +50,20 @@ describe('Attrition Analytics Reducer', () => {
       expect(state.employeeAnalytics.loading).toBeFalsy();
       expect(state.employeeAnalytics.data).toBeUndefined();
       expect(state.employeeAnalytics.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('changeSelectedFeatures', () => {
+    test('should set features', () => {
+      const features: string[] = ['Age', 'Position'];
+      const action = changeSelectedFeatures({
+        features,
+      });
+
+      const state = attritionAnalyticsReducer(initialState, action);
+
+      expect(state.selectedByUser.features).toBeDefined();
+      expect(state.selectedByUser.features).toEqual(features);
     });
   });
 });
