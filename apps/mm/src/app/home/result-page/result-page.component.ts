@@ -6,11 +6,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { TranslocoService } from '@ngneat/transloco';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { TranslocoService } from '@ngneat/transloco';
+
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { RawValue, RawValueContent, Result } from '../../shared/models';
 import { ResultPageService } from './result-page.service';
@@ -72,6 +74,9 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
         },
         {}
       );
+
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    this.result$.next(undefined);
 
     this.resultPageService
       .getResult(formProperties)

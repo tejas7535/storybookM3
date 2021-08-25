@@ -48,7 +48,9 @@ export class RestService {
       data: any;
       state: boolean;
       _links: Report[];
-    }>(`${environment.bearingCalculationPath}`, formProperties);
+    }>(`${environment.bearingCalculationPath}`, formProperties, {
+      context: withCache({ version: JSON.stringify(formProperties) }),
+    });
   }
 
   public getBearingPreflightResponse(
