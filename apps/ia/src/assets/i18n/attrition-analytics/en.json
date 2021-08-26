@@ -1,5 +1,12 @@
 {
   "addAnalysis": {
-    "buttonText": "Add analysis"
+    "buttonText": "Add analysis",
+    "featuresDialog": {
+      "title": "Choose analysis features",
+      "availableFeatures": "Available Features",
+      "selectedFeatures": "Selected Features",
+      "close": "close",
+      "amountSelected": "{{ selected }} of {{ total }} selected"
+    }
   }
 }

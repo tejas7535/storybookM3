@@ -1,6 +1,13 @@
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { AddAnalysisComponent } from './add-analysis.component';
+import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
+import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 
 describe('AddAnalysisComponent', () => {
   let component: AddAnalysisComponent;
@@ -8,7 +15,12 @@ describe('AddAnalysisComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AddAnalysisComponent,
-    imports: [],
+    imports: [
+      MatIconModule,
+      FeaturesDialogModule,
+      MatDialogModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [],
   });
 
@@ -23,13 +35,14 @@ describe('AddAnalysisComponent', () => {
 
   describe('openDialog', () => {
     test('should open dialog', () => {
-      global.console = {
-        log: jest.fn(),
-      } as unknown as Console;
+      component['dialog'].open = jest.fn();
 
       component.openDialog();
-      // eslint-disable-next-line no-console
-      expect(console.log).toHaveBeenCalled();
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        FeaturesDialogComponent,
+        expect.objectContaining({ data: expect.anything() })
+      );
     });
   });
 });

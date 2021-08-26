@@ -1,0 +1,58 @@
+<h2
+  mat-dialog-title
+  *transloco="let t; read: 'attritionAnalytics.addAnalysis.featuresDialog'"
+>
+  {{ t('title') }}
+</h2>
+<mat-dialog-content class="h-[500px]">
+  <div
+    class="flex flex-row gap-4"
+    *transloco="let t; read: 'attritionAnalytics.addAnalysis.featuresDialog'"
+  >
+    <div class="drag-list-wrapper">
+      <h6>{{ t('availableFeatures') }}</h6>
+
+      <div
+        cdkDropList
+        #unselectedList="cdkDropList"
+        [cdkDropListData]="unselected"
+        [cdkDropListConnectedTo]="[selectedList]"
+        class="drag-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="drag-list-item" *ngFor="let item of unselected" cdkDrag>
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+
+    <div class="drag-list-wrapper">
+      <h6>{{ t('selectedFeatures') }}</h6>
+
+      <div
+        cdkDropList
+        #selectedList="cdkDropList"
+        [cdkDropListData]="selected"
+        [cdkDropListConnectedTo]="[unselectedList]"
+        [cdkDropListEnterPredicate]="maxSelectedFeaturesPredicate"
+        class="drag-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="drag-list-item" *ngFor="let item of selected" cdkDrag>
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions
+  align="end"
+  *transloco="let t; read: 'attritionAnalytics.addAnalysis.featuresDialog'"
+>
+  <p class="mr-auto text-labels text-caption">
+    {{ t('amountSelected', { selected: selected.length, total: data.length }) }}
+  </p>
+  <button mat-button mat-dialog-close color="primary">
+    {{ t('close') | uppercase }}
+  </button>
+</mat-dialog-actions>
