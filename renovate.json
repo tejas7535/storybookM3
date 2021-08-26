@@ -106,6 +106,7 @@
     {
       "packageNames": [
         "@ngneat/transloco",
+        "@ngneat/transloco-persist-lang",
         "@ngneat/transloco-keys-manager",
         "@ngneat/transloco-optimize",
         "@ngneat/transloco-validator"
