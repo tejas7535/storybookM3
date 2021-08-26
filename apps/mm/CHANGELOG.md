@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.2...mm-v0.1.1) (2021-08-26)
+
+
+### 🐛 Bug Fixes
+
+* **mm:** fixed wrong result page content ([#2805](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2805)) ([ed7cc26](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ed7cc26545b0a63812549cdea6aa199398c853c3))
+
 ### [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.1...mm-v0.1.0) (2021-08-24)
 
 ## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.0...mm-v0.0.1) (2021-08-23)
