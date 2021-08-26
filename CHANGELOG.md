@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 8/26/2021
+* mm: [0.1.2](./apps/mm/CHANGELOG.md)
+
 ## 8/24/2021
 * assets: [1.11.5](libs/shared/assets/CHANGELOG.md)
 * cypress-utils: [1.12.0](libs/shared/cypress-utils/CHANGELOG.md)

@@ -1,12 +1,12 @@
 # Frontend@Schaeffler
 
-![version](https://img.shields.io/badge/version-v7.0.0-green.svg)
+![version](https://img.shields.io/badge/version-v8.0.0-green.svg)
 ![@nrwl/workspace: 12.7.2](https://img.shields.io/badge/%40nrwl%2Fworkspace-12.7.2-brightgreen)
 ![typescript: 4.3.5](https://img.shields.io/badge/typescript-4.3.5-brightgreen)
-![@angular/core: 12.2.2](https://img.shields.io/badge/%40angular%2Fcore-12.2.2-brightgreen)
+![@angular/core: 12.2.3](https://img.shields.io/badge/%40angular%2Fcore-12.2.3-brightgreen)
 ![@angular/cli: 12.2.2](https://img.shields.io/badge/%40angular%2Fcli-12.2.2-brightgreen)
-![@angular/cdk: 12.2.2](https://img.shields.io/badge/%40angular%2Fcdk-12.2.2-brightgreen)
-![@angular/material: 12.2.2](https://img.shields.io/badge/%40angular%2Fmaterial-12.2.2-brightgreen)
+![@angular/cdk: 12.2.3](https://img.shields.io/badge/%40angular%2Fcdk-12.2.3-brightgreen)
+![@angular/material: 12.2.3](https://img.shields.io/badge/%40angular%2Fmaterial-12.2.3-brightgreen)
 ![@ngrx/store: 12.4.0](https://img.shields.io/badge/%40ngrx%2Fstore-12.4.0-brightgreen)
 ![jest: 27.0.6](https://img.shields.io/badge/jest-27.0.6-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
