@@ -42,15 +42,9 @@
                   fxLayoutAlign="space-between center"
                   fxLayoutGap="5px"
                 >
-                  <mat-icon
-                    fontSet="schaeffler-icons"
-                    fontIcon="icon-upload"
-                  ></mat-icon>
+                  <mat-icon>publish</mat-icon>
                   <span fxHide.lt-sm>{{ t('upload') }}</span>
-                  <mat-icon
-                    fontSet="schaeffler-icons"
-                    fontIcon="icon-arrow-down"
-                  ></mat-icon>
+                  <mat-icon>expand_more</mat-icon>
                 </span>
               </button>
               <mat-menu #uploadMenu="matMenu">
@@ -85,15 +79,9 @@
                   fxLayoutAlign="space-between center"
                   fxLayoutGap="5px"
                 >
-                  <mat-icon
-                    fontSet="schaeffler-icons"
-                    fontIcon="icon-export"
-                  ></mat-icon>
+                  <mat-icon>download</mat-icon>
                   <span fxHide.lt-sm>{{ t('export') }}</span>
-                  <mat-icon
-                    fontSet="schaeffler-icons"
-                    fontIcon="icon-arrow-down"
-                  ></mat-icon>
+                  <mat-icon>expand_more</mat-icon>
                 </span>
               </button>
               <mat-menu #exportMenu="matMenu">
@@ -153,7 +141,7 @@
                               (click)="$event.stopPropagation()"
                               [content]="t('legendDescription')"
                               manualcolor="#1d9bb2"
-                              icon="icon-toast-information"
+                              icon="info"
                             ></mac-tooltip>
                           </mat-panel-description>
                         </div>
@@ -181,7 +169,7 @@
                       (click)="$event.stopPropagation()"
                       [content]="t('legendDescription')"
                       manualcolor="#1d9bb2"
-                      icon="icon-toast-information"
+                      icon="info"
                     ></mac-tooltip>
                   </div>
                   <mac-ltp-legend [graphs]="legendGraphs"></mac-ltp-legend>

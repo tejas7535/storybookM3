@@ -4,10 +4,10 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { SnackBarData } from './snackbar-data.model';
 
 const iconMap: Map<string, string> = new Map([
-  ['success', 'icon-toast-success'],
-  ['error', 'icon-toast-warning'],
-  ['warning', 'icon-toast-warning'],
-  ['information', 'icon-toast-information'],
+  ['success', 'check_circle'],
+  ['error', 'warning'],
+  ['warning', 'warning'],
+  ['information', 'info'],
 ]);
 
 @Component({
@@ -18,7 +18,7 @@ const iconMap: Map<string, string> = new Map([
 export class SnackBarComponent {
   public readonly action: EventEmitter<void> = new EventEmitter();
 
-  public icon = 'icon-toast-information';
+  public icon = 'info';
 
   public constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {
     this.icon = iconMap.get(data.type) ?? this.icon;

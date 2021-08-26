@@ -106,7 +106,6 @@ describe('HeaderComponent', () => {
       spectator.detectChanges();
 
       burgerMenu = spectator.query('#burger-menu');
-      expect(burgerMenu).toHaveClass('icon-menu');
     });
   });
 });

@@ -21,7 +21,6 @@ import {
 } from '@schaeffler/azure-auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
-import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -59,7 +58,6 @@ const azureConfig = new AzureConfig(
     ReactiveComponentModule,
 
     // UI Modules
-    IconsModule,
     AppShellModule,
     FooterModule,
     MatButtonModule,

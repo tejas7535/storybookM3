@@ -23,7 +23,7 @@ import { speedDialFabAnimations } from './speed-dial-fab.animations';
 export class SpeedDialFabComponent implements OnChanges {
   @Input() public primaryButton: SpeedDialFabItem = {
     key: 'add',
-    icon: new Icon('icon-plus', false),
+    icon: new Icon('add', true),
     color: 'primary',
     label: true,
     title: 'Edit',
@@ -31,7 +31,7 @@ export class SpeedDialFabComponent implements OnChanges {
 
   public primaryButtonOpen: SpeedDialFabItem = {
     key: 'cancel',
-    icon: new Icon('icon-cross', false),
+    icon: new Icon('close', true),
     color: 'primary',
     label: true,
     title: 'Cancel',

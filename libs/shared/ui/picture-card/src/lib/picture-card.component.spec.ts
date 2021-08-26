@@ -5,8 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { IconsModule } from '@schaeffler/icons';
-
 import { PictureCardActionComponent } from './picture-card-action/picture-card-action.component';
 import { PictureCardComponent } from './picture-card.component';
 
@@ -17,13 +15,7 @@ describe('PictureCardComponent', () => {
   const createComponent = createComponentFactory({
     component: PictureCardComponent,
     declarations: [PictureCardComponent, PictureCardActionComponent],
-    imports: [
-      CommonModule,
-      MatCardModule,
-      IconsModule,
-      MatIconModule,
-      MatButtonModule,
-    ],
+    imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
   });
 
   beforeEach(() => {

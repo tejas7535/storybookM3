@@ -7,7 +7,6 @@ import { MatListModule } from '@angular/material/list';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { Employee } from '../models/employee.model';
@@ -23,7 +22,6 @@ describe('EmployeeListDialogComponent', () => {
     imports: [
       MatDialogModule,
       MatButtonModule,
-      IconsModule,
       MatIconModule,
       MatDividerModule,
       MatListModule,

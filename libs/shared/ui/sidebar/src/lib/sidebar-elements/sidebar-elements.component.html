@@ -14,11 +14,10 @@
     [ngClass]="{ minified: (mode$ | ngrxPush) === 1 }"
   >
     <mat-icon
-      [fontSet]="!element.icon.materialIcon ? 'icon' : null"
-      [fontIcon]="!element.icon.materialIcon ? element.icon.icon : null"
+      [svgIcon]="element.svgIcon ? element.icon : null"
       class="sidebar-item-icon"
     >
-      {{ element.icon.materialIcon ? element.icon.icon : '' }}
+      {{ !element.svgIcon ? element.icon : '' }}
     </mat-icon>
     <h4 class="sidebar-item-text">
       {{ element.text }}

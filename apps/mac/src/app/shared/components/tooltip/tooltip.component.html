@@ -4,10 +4,7 @@
   [color]="color"
   [style.color]="manualcolor"
 >
-  <mat-icon
-    [fontSet]="!materialIcon ? 'schaeffler-icons' : null"
-    [fontIcon]="!materialIcon ? icon : null"
-  >
-    {{ materialIcon ? icon : '' }}
+  <mat-icon>
+    {{ icon }}
   </mat-icon>
 </button>

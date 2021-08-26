@@ -7,8 +7,6 @@ import { MatListModule } from '@angular/material/list';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 
-import { IconsModule } from '@schaeffler/icons';
-
 import { SharedModule } from '../../../shared/shared.module';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog.component';
 
@@ -25,7 +23,6 @@ describe('TerminatedEmployeesDialogComponent', () => {
       MatButtonModule,
       MatDividerModule,
       MatListModule,
-      IconsModule,
       MatIconModule,
       TranslocoTestingModule,
     ],

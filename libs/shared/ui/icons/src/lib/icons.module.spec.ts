@@ -5,12 +5,12 @@ describe('IconsModule', () => {
   describe('iconsFactory', () => {
     test('should call iconsService.registerFontClassAlias', () => {
       const iconsService = {
-        registerFontClassAlias: jest.fn(),
+        registerSchaefflerIconSet: jest.fn(),
       };
 
       const func = iconsFactory(iconsService as unknown as IconsService);
       func();
-      expect(iconsService.registerFontClassAlias).toHaveBeenCalledTimes(1);
+      expect(iconsService.registerSchaefflerIconSet).toHaveBeenCalledTimes(1);
     });
   });
 });

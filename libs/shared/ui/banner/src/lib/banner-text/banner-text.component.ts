@@ -7,15 +7,6 @@ import {
   Output,
 } from '@angular/core';
 
-import { Icon } from '@schaeffler/icons';
-
-enum BannerIconTypes {
-  info = 'icon-toast-information',
-  warning = 'icon-toast-warning',
-  error = 'icon-toast-error',
-  success = 'icon-toast-success',
-}
-
 @Component({
   selector: 'schaeffler-banner-text',
   templateUrl: './banner-text.component.html',
@@ -28,7 +19,7 @@ export class BannerTextComponent implements OnInit {
   @Input() public bannerIcon: string;
   @Input() public truncateSize: number;
   @Input() public buttonText: string;
-  public icon: Icon;
+  public icon: string;
 
   @Output()
   public readonly closeBanner: EventEmitter<void> = new EventEmitter<void>();
@@ -43,16 +34,16 @@ export class BannerTextComponent implements OnInit {
   public setBannerIcon(): void {
     switch (this.bannerIcon) {
       case 'info':
-        this.icon = new Icon(BannerIconTypes.info);
+        this.icon = 'info';
         break;
       case 'warning':
-        this.icon = new Icon(BannerIconTypes.warning);
+        this.icon = 'warning';
         break;
       case 'error':
-        this.icon = new Icon(BannerIconTypes.error);
+        this.icon = 'cancel';
         break;
       case 'success':
-        this.icon = new Icon(BannerIconTypes.success);
+        this.icon = 'check_circle';
         break;
       default:
         this.icon = undefined;

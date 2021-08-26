@@ -1,23 +1,28 @@
 import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { IconsService } from './icons.service';
 
 describe('IconsService', () => {
   describe('registerFontClassAlias', () => {
-    test('should register fontClassAlias', () => {
+    it('should register fontClassAlias', () => {
       const matIconRegistryMock = {
-        registerFontClassAlias: jest.fn(),
+        addSvgIconSet: jest.fn(),
       } as unknown as MatIconRegistry;
+      const sanitizerMock = {
+        bypassSecurityTrustResourceUrl: jest.fn(() => 'mockUrl'),
+      } as unknown as DomSanitizer;
 
-      const service = new IconsService(matIconRegistryMock);
-      service.registerFontClassAlias();
-      expect(matIconRegistryMock.registerFontClassAlias).toHaveBeenCalledTimes(
-        1
+      const service = new IconsService(matIconRegistryMock, sanitizerMock);
+      service.registerSchaefflerIconSet();
+      expect(
+        sanitizerMock.bypassSecurityTrustResourceUrl
+      ).toHaveBeenCalledTimes(1);
+      expect(sanitizerMock.bypassSecurityTrustResourceUrl).toHaveBeenCalledWith(
+        '../assets/schaeffler-icon-set.svg'
       );
-      expect(matIconRegistryMock.registerFontClassAlias).toHaveBeenCalledWith(
-        'schaeffler-icons',
-        'icon'
-      );
+      expect(matIconRegistryMock.addSvgIconSet).toHaveBeenCalledTimes(1);
+      expect(matIconRegistryMock.addSvgIconSet).toHaveBeenCalledWith('mockUrl');
     });
   });
 });

@@ -3,5 +3,6 @@
   "dest": "../../../../dist/libs/shared/ui/icons",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["assets/schaeffler-icons/schaeffler-icon-set.svg"]
 }

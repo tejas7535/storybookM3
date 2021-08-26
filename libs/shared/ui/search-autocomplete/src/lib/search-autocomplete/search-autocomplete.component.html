@@ -39,10 +39,7 @@
         *ngIf="error"
         class="h-20 flex items-center justify-center pointer-events-none"
       >
-        <mat-icon
-          class="text-error icon"
-          fontIcon="icon-toast-error"
-        ></mat-icon>
+        <mat-icon class="text-error icon">cancel</mat-icon>
         <span>Error. Please try again</span>
       </mat-option>
       <div [hidden]="loading && !error">
@@ -69,11 +66,9 @@
     [class.clear-icon]="searchStringDeletable"
     [class.search-icon]="!searchStringDeletable"
   >
-    <mat-icon class="icon search text-light" fontIcon="icon-search"></mat-icon>
-    <mat-icon
-      class="icon clear cursor-pointer"
-      fontIcon="icon-cross"
-      (click)="clearSearchString()"
-    ></mat-icon>
+    <mat-icon class="icon search">search</mat-icon>
+    <mat-icon class="icon clear cursor-pointer" (click)="clearSearchString()"
+      >clear</mat-icon
+    >
   </div>
 </mat-form-field>

@@ -14,10 +14,7 @@
         <mat-icon>{{ primaryButton.icon.icon }}</mat-icon>
       </ng-container>
       <ng-template #schaefflerIconBtnClose>
-        <mat-icon
-          fontSet="schaeffler-icons"
-          [fontIcon]="primaryButton.icon.icon"
-        ></mat-icon>
+        <mat-icon [svgIcon]="primaryButton.icon.icon"></mat-icon>
       </ng-template>
     </button>
 
@@ -38,8 +35,7 @@
       </ng-container>
       <ng-template #schaefflerIconBtnOpen>
         <mat-icon
-          fontSet="schaeffler-icons"
-          [fontIcon]="primaryButton.icon.icon"
+          [svgIcon]="primaryButton.icon.icon"
           [@fabToggler]="{ value: open ? 'active' : 'inactive' }"
         ></mat-icon>
       </ng-template>
@@ -60,10 +56,7 @@
         <mat-icon>{{ primaryButton.icon.icon }}</mat-icon>
       </ng-container>
       <ng-template #schaefflerIconBtn>
-        <mat-icon
-          fontSet="schaeffler-icons"
-          [fontIcon]="button.icon.icon"
-        ></mat-icon>
+        <mat-icon [svgIcon]="button.icon.icon"></mat-icon>
       </ng-template>
       <span class="btn-title" *ngIf="button.label">{{
         button.title ? button.title : ''

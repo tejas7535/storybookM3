@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-  <mat-icon class="icon" [fontIcon]="icon"></mat-icon>
+  <mat-icon class="icon">{{ icon }}</mat-icon>
   <span fxFlex class="snackbar-msg">{{ data.message }}</span>
   <button *ngIf="data.action" mat-button (click)="clickActionButton()">
     {{ data.action | uppercase }}

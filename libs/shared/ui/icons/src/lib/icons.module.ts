@@ -7,7 +7,7 @@ import { IconsService } from './icons.service';
 export function iconsFactory(iconsService: IconsService): () => void {
   // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   const func = function (): void {
-    iconsService.registerFontClassAlias();
+    iconsService.registerSchaefflerIconSet();
   };
 
   return func;

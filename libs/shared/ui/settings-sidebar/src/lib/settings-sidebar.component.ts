@@ -9,7 +9,6 @@ import {
 
 import { Subscription } from 'rxjs';
 
-import { Icon } from '@schaeffler/icons';
 import { BreakpointService } from '@schaeffler/responsive';
 
 @Component({
@@ -27,7 +26,8 @@ export class SettingsSidebarComponent implements OnInit, OnDestroy {
   @Input() public openSidebarBtn = false;
   @Input() public closeSidebarBtn = false;
   @Input() public width = '400px';
-  @Input() public triggerBtnIcon: Icon = new Icon('icon-filter');
+  @Input() public triggerBtnIcon = 'tune';
+  @Input() public isSvgIcon = false;
 
   @Output()
   private readonly openedChange: EventEmitter<boolean> = new EventEmitter();

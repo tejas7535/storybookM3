@@ -19,7 +19,6 @@ import {
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
-import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -95,7 +94,6 @@ if (window.self !== window.top) {
     // UI Modules
     HeaderModule,
     FooterModule,
-    IconsModule,
 
     PagesStepperModule,
 

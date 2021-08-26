@@ -8,7 +8,6 @@ import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
-import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -28,7 +27,6 @@ import { StoreModule } from './store';
 
     // UI Modules
     HeaderModule,
-    IconsModule,
     MatButtonModule,
     FooterModule,
 

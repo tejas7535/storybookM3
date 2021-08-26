@@ -19,13 +19,8 @@
           mat-icon-button
           aria-label="Filter"
         >
-          <mat-icon
-            [fontSet]="!triggerBtnIcon.materialIcon ? 'icon' : null"
-            [fontIcon]="
-              !triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : null
-            "
-          >
-            {{ triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : '' }}
+          <mat-icon [svgIcon]="isSvgIcon ? triggerBtnIcon : null">
+            {{ !isSvgIcon ? triggerBtnIcon : '' }}
           </mat-icon>
         </button>
       </div>
@@ -42,11 +37,8 @@
       aria-label="Filter"
       (click)="sidebar.toggle()"
     >
-      <mat-icon
-        [fontSet]="!triggerBtnIcon.materialIcon ? 'icon' : null"
-        [fontIcon]="!triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : null"
-      >
-        {{ triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : '' }}
+      <mat-icon [svgIcon]="isSvgIcon ? triggerBtnIcon : null">
+        {{ !isSvgIcon ? triggerBtnIcon : '' }}
       </mat-icon>
     </button>
     <ng-content select="[container]"></ng-content>

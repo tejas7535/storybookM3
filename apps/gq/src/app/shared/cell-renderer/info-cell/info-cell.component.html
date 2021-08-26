@@ -1,23 +1,20 @@
 <div>
   <mat-icon
     *ngIf="valid"
-    fontSet="schaeffler-icons"
-    fontIcon="icon-toast-success"
-    class="text-primary"
+    class="text-primary align-middle !text-[16px]"
     [matTooltip]="toolTipText"
-  ></mat-icon>
+    >check_circle</mat-icon
+  >
   <mat-icon
     *ngIf="isLoading && !valid"
-    fontSet="schaeffler-icons"
-    fontIcon="icon-upload"
     class="text-disabledPrimary"
     [matTooltip]="toolTipText"
-  ></mat-icon>
+    >publish</mat-icon
+  >
   <mat-icon
     *ngIf="!isLoading && !valid"
-    fontSet="schaeffler-icons"
-    fontIcon="icon-toast-warning"
     class="text-error"
     [matTooltip]="toolTipText"
-  ></mat-icon>
+    >warning</mat-icon
+  >
 </div>

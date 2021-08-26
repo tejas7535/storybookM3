@@ -1,6 +1,6 @@
 <div *ngIf="rating; else showdash">
   <ng-container *ngFor="let i of [].constructor(rating); trackBy: trackByFn">
-    <mat-icon fontSet="schaeffler-icons" fontIcon="icon-star"></mat-icon>
+    <mat-icon class="!text-[16px]">star</mat-icon>
   </ng-container>
 </div>
 <ng-template #showdash>-</ng-template>

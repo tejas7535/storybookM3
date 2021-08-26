@@ -20,7 +20,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { BannerModule } from '@schaeffler/banner';
-import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared/shared.module';
@@ -37,7 +36,6 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     ReactiveComponentModule,
     ChartModule,
     MatTabsModule,
-    IconsModule,
     MatIconModule,
     MatMenuModule,
     MatExpansionModule,

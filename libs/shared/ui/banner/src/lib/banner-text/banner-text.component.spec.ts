@@ -3,7 +3,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { Icon } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../i18n/en.json';
@@ -39,31 +38,25 @@ describe('BannerTextComponent', () => {
 
       component.setBannerIcon();
 
-      expect(component.icon).toStrictEqual(
-        new Icon('icon-toast-information', false)
-      );
+      expect(component.icon).toStrictEqual('info');
 
       component.bannerIcon = 'warning';
 
       component.setBannerIcon();
 
-      expect(component.icon).toStrictEqual(
-        new Icon('icon-toast-warning', false)
-      );
+      expect(component.icon).toStrictEqual('warning');
 
       component.bannerIcon = 'error';
 
       component.setBannerIcon();
 
-      expect(component.icon).toStrictEqual(new Icon('icon-toast-error', false));
+      expect(component.icon).toStrictEqual('cancel');
 
       component.bannerIcon = 'success';
 
       component.setBannerIcon();
 
-      expect(component.icon).toStrictEqual(
-        new Icon('icon-toast-success', false)
-      );
+      expect(component.icon).toStrictEqual('check_circle');
     });
   });
 

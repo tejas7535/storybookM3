@@ -3,12 +3,7 @@
   *transloco="let t; read: 'bearing'"
 >
   <div class="flex items-center" id="bearing-page-header">
-    <mat-icon
-      fontSet="schaeffler-icons"
-      fontIcon="icon-arrow-west"
-      color="secondary"
-      routerLink="/overview"
-    ></mat-icon>
+    <mat-icon color="secondary" routerLink="/overview">arrow_back</mat-icon>
     <div *ngIf="!(loading$ | ngrxPush); else bearing_loading">
       <h1 *ngIf="bearing$ | ngrxPush as bearing">
         {{ bearing.name }}

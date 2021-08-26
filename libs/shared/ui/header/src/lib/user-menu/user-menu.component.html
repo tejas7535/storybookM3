@@ -6,9 +6,10 @@
 >
   <mat-icon
     data-cy="user-menu-mobile"
-    class="head-icon icon icon-user"
+    class="head-icon"
     [matMenuTriggerFor]="appMenu"
-  ></mat-icon>
+    >person</mat-icon
+  >
 </div>
 
 <div
@@ -30,18 +31,19 @@
       alt
     />
     <ng-template #defaultAvatar>
-      <mat-icon class="head-icon icon icon-user"></mat-icon>
+      <mat-icon class="head-icon">person</mat-icon>
     </ng-template>
 
     <p class="user-menu-text" fxHide.sm="true">{{ user }}</p>
   </div>
   <mat-icon
     *ngIf="entries.length > 0"
-    class="user-menu-icon icon icon-arrow-down"
+    class="user-menu-icon"
     fxLayout="column"
     fxLayoutAlign="center"
     fxHide.sm="true"
-  ></mat-icon>
+    >expand_more</mat-icon
+  >
 </div>
 
 <mat-menu

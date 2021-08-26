@@ -54,7 +54,7 @@ describe('SnackBarComponent', () => {
       test('should define the properties', () => {
         expect(component.data).toBeDefined();
         expect(component.action).toBeDefined();
-        expect(component.icon).toEqual('icon-toast-success');
+        expect(component.icon).toEqual('check_circle');
       });
     });
 
@@ -79,7 +79,7 @@ describe('SnackBarComponent', () => {
       test('should have correct icon', () => {
         const matIcon = spectator.query('mat-icon');
 
-        expect(matIcon).toHaveClass('icon-toast-success');
+        expect(matIcon).toHaveTextContent('check_circle');
       });
     });
 
@@ -93,7 +93,7 @@ describe('SnackBarComponent', () => {
       test('should have correct icon', () => {
         const matIcon = spectator.query('mat-icon');
 
-        expect(matIcon).toHaveClass('icon-toast-warning');
+        expect(matIcon).toHaveTextContent('warning');
       });
     });
 
@@ -107,7 +107,7 @@ describe('SnackBarComponent', () => {
       test('should have correct icon', () => {
         const matIcon = spectator.query('mat-icon');
 
-        expect(matIcon).toHaveClass('icon-toast-warning');
+        expect(matIcon).toHaveTextContent('warning');
       });
     });
 
@@ -121,7 +121,7 @@ describe('SnackBarComponent', () => {
       test('should have correct icon', () => {
         const matIcon = spectator.query('mat-icon');
 
-        expect(matIcon).toHaveClass('icon-toast-information');
+        expect(matIcon).toHaveTextContent('info');
       });
     });
   });

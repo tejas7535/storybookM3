@@ -10,5 +10,4 @@ export class TooltipComponent {
   @Input() color: string;
   @Input() manualcolor: string;
   @Input() icon: string;
-  @Input() materialIcon = false;
 }

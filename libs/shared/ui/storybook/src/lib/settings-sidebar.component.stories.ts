@@ -6,7 +6,6 @@ import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
 import { HeaderModule } from '@schaeffler/header';
-import { IconsModule } from '@schaeffler/icons';
 import {
   SettingsSidebarComponent,
   SettingsSidebarModule,
@@ -21,7 +20,6 @@ const moduleMetadata = {
     BrowserAnimationsModule,
     StoreModule.forRoot({}),
     SettingsSidebarModule,
-    IconsModule,
   ],
 };
 

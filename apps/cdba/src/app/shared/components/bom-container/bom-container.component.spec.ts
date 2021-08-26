@@ -1,33 +1,31 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { marbles } from 'rxjs-marbles';
 
+import { GridApi } from '@ag-grid-enterprise/all-modules';
 import {
   createComponentFactory,
-  Spectator,
   mockProvider,
+  Spectator,
 } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { GridApi } from '@ag-grid-enterprise/all-modules';
-
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as compareActions from '@cdba/compare/store/actions/compare.actions';
 import * as detailActions from '@cdba/core/store/actions/detail/detail.actions';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import {
   BOM_MOCK,
   COMPARE_STATE_MOCK,
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BomItem, Calculation } from '../../models';
 import { SharedModule } from '../../shared.module';
@@ -54,7 +52,6 @@ describe('BomContainerComponent', () => {
       MatCardModule,
       MatIconModule,
       MatMenuModule,
-      IconsModule,
       MatButtonModule,
       MatSidenavModule,
       BomOverlayModule,

@@ -29,7 +29,6 @@ import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BannerModule, BannerState } from '@schaeffler/banner';
-import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
@@ -80,7 +79,6 @@ describe('PredictionComponent', () => {
       MatDividerModule,
       TooltipModule,
       MatIconModule,
-      IconsModule,
       ReactiveFormsModule,
       ReactiveComponentModule,
       MatFormFieldModule,

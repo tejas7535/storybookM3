@@ -5,12 +5,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 
+import { of, throwError } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
-import { throwError, of } from 'rxjs';
 
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
@@ -32,7 +32,6 @@ describe('ReportComponent', () => {
       ReactiveComponentModule,
 
       MatCardModule,
-      IconsModule,
       MatIconModule,
       MatButtonModule,
       MatExpansionModule,

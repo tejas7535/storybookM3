@@ -5,7 +5,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
-import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared/shared.module';
@@ -19,7 +18,6 @@ import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialo
     MatButtonModule,
     MatDividerModule,
     MatListModule,
-    IconsModule,
     MatIconModule,
     SharedTranslocoModule,
   ],

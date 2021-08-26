@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { UndefinedAttributeFallbackModule } from '../../pipes';
@@ -25,7 +24,6 @@ import { BomContainerComponent } from './bom-container.component';
     SharedTranslocoModule,
     MatCardModule,
     MatIconModule,
-    IconsModule,
     MatButtonModule,
     MatMenuModule,
     MatSidenavModule,

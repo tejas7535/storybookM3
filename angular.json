@@ -224,7 +224,6 @@
             "assets": ["apps/ga/src/favicon.ico", "apps/ga/src/assets"],
             "styles": [
               "apps/ga/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"
@@ -384,11 +383,15 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "apps/goldwind/src/favicon.ico",
-              "apps/goldwind/src/assets"
+              "apps/goldwind/src/assets",
+              {
+                "glob": "schaeffler-icon-set.svg",
+                "input": "./libs/shared/ui/icons/assets/schaeffler-icons",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "apps/goldwind/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"
@@ -565,7 +568,6 @@
             "assets": ["apps/gq/src/favicon.ico", "apps/gq/src/assets"],
             "styles": [
               "apps/gq/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"
@@ -747,7 +749,6 @@
             ],
             "styles": [
               "apps/helloworld-azure/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"
@@ -920,10 +921,7 @@
             "tsConfig": "apps/ia/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["apps/ia/src/favicon.ico", "apps/ia/src/assets"],
-            "styles": [
-              "apps/ia/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
-            ],
+            "styles": ["apps/ia/src/styles.scss"],
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
@@ -1096,7 +1094,6 @@
             "assets": ["apps/mac/src/favicon.ico", "apps/mac/src/assets"],
             "styles": [
               "apps/mac/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"
@@ -1273,7 +1270,6 @@
             ],
             "styles": [
               "apps/mm/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"
@@ -1487,7 +1483,6 @@
             "assets": ["apps/sedo/src/favicon.ico", "apps/sedo/src/assets"],
             "styles": [
               "apps/sedo/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css",
               "node_modules/@fontsource/roboto/300.css",
               "node_modules/@fontsource/roboto/400.css",
               "node_modules/@fontsource/roboto/500.css"

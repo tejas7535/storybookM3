@@ -4,7 +4,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ToggleChartsComponent } from './toggle-charts.component';
@@ -14,7 +13,6 @@ import { ToggleChartsComponent } from './toggle-charts.component';
   imports: [
     CommonModule,
     MatButtonToggleModule,
-    IconsModule,
     MatIconModule,
     MatTooltipModule,
     SharedTranslocoModule,

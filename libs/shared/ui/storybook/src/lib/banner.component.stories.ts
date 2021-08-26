@@ -6,7 +6,6 @@ import { boolean, number, text } from '@storybook/addon-knobs';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
 import { BannerTextComponent } from '@schaeffler/banner';
-import { IconsModule } from '@schaeffler/icons';
 import { StorybookTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../banner/README.md';
@@ -17,7 +16,6 @@ const moduleMetadata = {
     BannerTextModule,
     StorybookTranslocoModule,
     TranslocoModule,
-    IconsModule,
   ],
 };
 

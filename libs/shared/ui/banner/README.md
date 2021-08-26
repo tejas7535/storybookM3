@@ -25,7 +25,6 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BannerModule } from '@schaeffler/banner';
-import { IconsModule } from '@schaeffler/icons';
 
 
 @NgModule({
@@ -35,7 +34,6 @@ import { IconsModule } from '@schaeffler/icons';
     StoreModule,
     SharedTranslocoModule.forRoot(...)
     BannerModule,
-    IconsModule
     ...
   ]
   ...
