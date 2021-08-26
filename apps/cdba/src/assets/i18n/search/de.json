@@ -4,11 +4,11 @@
       "plant": "Werk",
       "product_line": "Produktlinie",
       "material_number": "Materialnummer",
-      "material_designation": "Material Designation",
+      "material_designation": "Materialbezeichnung",
       "key_account": "Key Account",
       "customer": "Kunde",
-      "material_short_description": "Material Kurzbeschreibung",
-      "budget_quantity": "Budgetierte Menge",
+      "material_short_description": "Materialkurzbezeichnung",
+      "budget_quantity": "Budgetierte Stückzahl",
       "length": "Länge",
       "width": "Breite",
       "height": "Höhe",
@@ -25,12 +25,13 @@
       "rfq": "Beispielwert: 000031144313 oder 80061259-01"
     },
     "tooltips": {
-      "disabledBudgetQuantity": "Um den Filter für die Budgetierte Menge zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",
-      "disabledDimensionFilter": "Um die Längen-, Breiten- und Höhenfilter zu aktivieren, verwenden Sie bitte zunächst den Material Kurzbeschreibungsfilter und klicken Sie anschließend auf 'Suchen'."
+      "disabledBudgetQuantity": "Um den Filter für die Budgetierte Stückzahl zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",
+      "disabledDimensionFilter": "Um die Längen-, Breiten- und Höhenfilter zu aktivieren, verwenden Sie bitte zunächst den Filter Materialkurzbezeichnung und klicken Sie anschließend auf 'Suchen'."
     },
-    "search": "Suche",
+    "search": "Suchen",
     "searchPlaceholder": "Suche...",
     "selectAll": "Alle auswählen",
+    "selected": "gewählt",
     "resetFilter": "Filter zurücksetzen"
   },
   "tooManyResults": {

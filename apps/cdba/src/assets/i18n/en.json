@@ -100,5 +100,12 @@
       "actions": "Actions",
       "filetype": "Format"
     }
+  },
+  "userSettings": {
+    "language": {
+      "title": "Language Setting",
+      "selectLabel": "Select language",
+      "selectHint": "Please select the language for the application"
+    }
   }
 }

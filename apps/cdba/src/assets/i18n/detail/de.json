@@ -11,56 +11,56 @@
     "customer": {
       "title": "Kunde",
       "customers": "Kunden",
-      "customerGroup": "Kundengrupppe"
+      "customerGroup": "Key Accounts"
     },
     "dimensionAndWeight": {
       "title": "Abmessungen & Gewicht",
-      "height": "Höhe (H)",
       "length": "Länge (L)",
+      "width": "Breite (B)",
+      "height": "Höhe (H)",
       "volumeCubic": "Kubikvolumen",
-      "weight": "Net. Gewicht",
-      "width": "Breite (B)"
+      "weight": "Nettogewicht"
     },
     "pricing": {
-      "title": "Preisgestaltung",
-      "pcmSqv": "SQV PCM",
-      "pcmCalculationDate": "SQV PCM Berechnungsdatum",
-      "sqvSapLatestMonth": "SQV SAP",
-      "sqvDate": "SQV Datum",
-      "gpcLatestYear": "GPC",
-      "gpcDate": "GPC Datum",
-      "puUm": "PU / UM",
+      "title": "Herstellkosten & Durchschnittspreis",
+      "pcmSqv": "SAW PCM",
+      "pcmCalculationDate": "SAW PCM Kalkulationsdatum",
+      "sqvSapLatestMonth": "SAW SAP",
+      "sqvDate": "SAW Datum",
+      "gpcLatestYear": "KHK",
+      "gpcDate": "KHK Datum",
+      "puUm": "Mengeneinheit",
       "pricePerUnit": "{{currency}}/ST",
       "averagePrice": "Durchschnittspreis"
     },
     "production": {
-      "title": "Production",
-      "false": "no",
-      "manufacturingProcess": "Manufacturing process",
-      "plant": "Plant",
-      "procurementType": "Procurement Type",
-      "productionTechnology": "Production technology",
-      "purchasePriceValidFrom": "Purchase price valid from",
-      "purchasePriceValidUntil": "Purchase Price valid until",
-      "saleableItem": "Saleable Item",
-      "specialProcurement": "Special Procurement",
-      "supplier": "Supplier",
-      "true": "yes"
+      "title": "Produktion",
+      "false": "nein",
+      "manufacturingProcess": "Herstellungsprozess",
+      "plant": "Werk",
+      "procurementType": "Beschaffungstyp",
+      "productionTechnology": "Produktionstechnologie",
+      "purchasePriceValidFrom": "Einkaufspreis gültig von",
+      "purchasePriceValidUntil": "Einkaufspreis gültig bist",
+      "saleableItem": "Verkaufbares Produkt",
+      "specialProcurement": "Sonderbeschaffung",
+      "supplier": "Lieferant",
+      "true": "ja"
     },
-    "quantities ": {
-      "title": "Quantities",
-      "actualQuantity": "Quantity {{year}}",
-      "budgetQuantity": "Budget Quantity {{year}}",
-      "budgetQuantitySoco": "Budget Quantity {{year}} Soco",
-      "netSales": "Net Sales {{year}}",
-      "pcmQuantity": "PCM Quantity",
-      "plannedQuantity": "Planned Quantity {{year}}"
+    "quantities": {
+      "title": "Stückzahlen",
+      "actualQuantity": "Stückzahl {{year}}",
+      "budgetQuantity": "Budgetierte Stückzahl {{year}}",
+      "budgetQuantitySoco": "Budgetierte Stückzahl {{year}} Soco",
+      "netSales": "Umsatz {{year}}",
+      "pcmQuantity": "PCM Stückzahl",
+      "plannedQuantity": "Geplante Stückzahl {{year}}"
     },
-    "sales_and_description": {
-      "title": "Sales & Description",
+    "salesAndDescription": {
+      "title": "Vertriebsinformationen",
       "materialDesignation": "Materialbezeichnung",
       "materialNumber": "Materialnummer",
-      "materialShortDescription": "Materialkurzbeschreibung",
+      "materialShortDescription": "Materialkurzbezeichnung",
       "productLine": "Produktlinie",
       "rfq": "RFQ-Nummer",
       "salesOrganization": "Verkaufsorganisation",

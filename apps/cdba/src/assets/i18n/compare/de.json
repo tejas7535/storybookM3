@@ -1,8 +1,8 @@
 {
-  "title": "Detail Vergleich",
+  "title": "Detailvergleich",
   "tabs": {
-    "details": "DETAILS",
-    "billOfMaterial": "STÜCKLISTE"
+    "details": "Details",
+    "billOfMaterial": "Stückliste"
   },
   "details": {
     "dimensions": {
@@ -16,7 +16,7 @@
     "additionalInformation": {
       "title": "Weitere Informationen",
       "plant": "Werk",
-      "procurementType": "Procurement Type",
+      "procurementType": "Beschaffungstyp",
       "salesOrganization": "Vertriebsorganisation",
       "plannedQuantity": "Geplante Stückzahl {{year}}",
       "actualQuantity": "Stückzahl {{year}}"
