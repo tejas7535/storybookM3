@@ -28,11 +28,11 @@
       "disabledBudgetQuantity": "Um den Filter für die Budgetierte Stückzahl zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",
       "disabledDimensionFilter": "Um die Längen-, Breiten- und Höhenfilter zu aktivieren, verwenden Sie bitte zunächst den Filter Materialkurzbezeichnung und klicken Sie anschließend auf 'Suchen'."
     },
-    "search": "Suchen",
+    "searchButton": "Suchen",
     "searchPlaceholder": "Suche...",
-    "selectAll": "Alle auswählen",
-    "selected": "gewählt",
-    "resetFilter": "Filter zurücksetzen"
+    "selectAllCheckbox": "Alle auswählen",
+    "selectedCountLabel": "{{count}} gewählt",
+    "resetFilterButton": "Filter zurücksetzen"
   },
   "tooManyResults": {
     "message": "Zu viele Ergebnisse ({{resultCount}})",

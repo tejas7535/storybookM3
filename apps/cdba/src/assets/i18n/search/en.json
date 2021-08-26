@@ -28,11 +28,11 @@
       "disabledBudgetQuantity": "To activate the budget quantity filter, please first use another filter and click on the search button.",
       "disabledDimensionFilter": "To activate the length, width, and height filters, please use the material short description filter and click on the search button."
     },
-    "search": "Search",
+    "searchButton": "Search",
     "searchPlaceholder": "Search...",
-    "selectAll": "Select all",
-    "selected": "selected",
-    "resetFilter": "Reset Filters"
+    "selectAllCheckbox": "Select all",
+    "selectedCountLabel": "{{count}} selected",
+    "resetFilterButton": "Reset Filters"
   },
   "tooManyResults": {
     "message": "Too many results ({{resultCount}})",

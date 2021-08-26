@@ -30,7 +30,7 @@
       (click)="search()"
     >
       <mat-icon>filter_list</mat-icon>
-      {{ t('search') }}
+      {{ t('searchButton') }}
     </button>
     <button
       fxFlex="nogrow"
@@ -39,7 +39,7 @@
       [disabled]="!(showResetButton$ | ngrxPush)"
       (click)="resetFilters()"
     >
-      {{ t('resetFilter') }}
+      {{ t('resetFilterButton') }}
     </button>
   </div>
 </div>

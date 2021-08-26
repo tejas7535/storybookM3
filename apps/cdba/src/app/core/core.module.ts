@@ -7,6 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import {
+  TRANSLOCO_PERSIST_LANG_STORAGE,
+  TranslocoPersistLangModule,
+} from '@ngneat/transloco-persist-lang';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -26,7 +30,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { environment } from '@cdba/environments/environment';
-import { LoadingSpinnerModule } from '@cdba/shared/components';
+import {
+  LoadingSpinnerModule,
+  UserSettingsModule,
+} from '@cdba/shared/components';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
@@ -62,16 +69,27 @@ const azureConfig = new AzureConfig(
     FooterModule,
     MatButtonModule,
     LoadingSpinnerModule,
+    UserSettingsModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      ['en'],
-      'en', // default -> undefined would lead to browser detection
+      [
+        { id: 'de', label: 'Deutsch' },
+        { id: 'en', label: 'English' },
+      ],
+      undefined, // default -> undefined would lead to browser detection
       'en',
       true,
       i18nChecksumsJson
     ),
+    TranslocoPersistLangModule.init({
+      storageKey: 'language',
+      storage: {
+        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
+        useValue: localStorage,
+      },
+    }),
 
     // HTTP
     HttpModule.forRoot({ environment }),

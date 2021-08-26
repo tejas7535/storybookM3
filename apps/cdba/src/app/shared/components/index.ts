@@ -9,3 +9,4 @@ export { BrowserSupportDialogComponent } from './browser-support-dialog/browser-
 export { BrowserSupportDialogModule } from './browser-support-dialog/browser-support-dialog.module';
 export { PageHeaderModule } from './page-header/page-header.module';
 export { ShareButtonModule } from './share-button/share-button.module';
+export { UserSettingsModule } from './user-settings/user-settings.module';

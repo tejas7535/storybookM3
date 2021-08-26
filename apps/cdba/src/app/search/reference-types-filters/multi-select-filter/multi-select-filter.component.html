@@ -63,8 +63,10 @@
       [disabled]="filterOptions.length === 0"
       (change)="selectAllChange($event.checked)"
     >
-      {{ t('selectAll') }}
-      <span class="label">{{ form.value.length }} selected</span>
+      {{ t('selectAllCheckbox') }}
+      <span class="label">
+        {{ t('selectedCountLabel', { count: form.value.length }) }}</span
+      >
     </mat-checkbox>
 
     <div class="divider" *ngIf="filterOptions.length > 0">
@@ -96,19 +98,5 @@
         </ng-container>
       </ng-container>
     </div>
-
-    <!--    <p
-      class="no-results-found"
-      *ngIf="
-        filterOptions
-          | noResultsFound
-            : form.value
-            : searchForm.value
-            : autocompleteLoading
-            : debounceIsActive
-      "
-    >
-      {{ t('noResultsFound') }}
-    </p> -->
   </mat-select>
 </mat-form-field>
