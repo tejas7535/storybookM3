@@ -49,6 +49,7 @@ import {
   importCaseSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
+  setSelectedAutocompleteOption,
   validateFailure,
   validateSuccess,
 } from '../../actions';
@@ -58,6 +59,7 @@ import {
   SalesOrg,
 } from '../../reducers/create-case/models';
 import {
+  getAutoSelectMaterial,
   getCaseRowData,
   getCreateCaseData,
   getCreateCustomerCasePayload,
@@ -105,6 +107,19 @@ export class CreateCaseEffects {
           ),
           catchError((_e) => of(validateFailure()))
         )
+      )
+    );
+  });
+
+  autoSelectMaterial$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(autocompleteSuccess.type),
+      withLatestFrom(this.store.select(getAutoSelectMaterial)),
+      map(([_action, caseFilterItem]) =>
+        setSelectedAutocompleteOption({
+          filter: caseFilterItem.filter,
+          option: caseFilterItem.options[0],
+        })
       )
     );
   });

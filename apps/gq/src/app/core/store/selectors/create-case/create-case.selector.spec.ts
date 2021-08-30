@@ -87,7 +87,7 @@ describe('Create Case Selector', () => {
         createSelectors.getCaseMaterialNumber.projector(fakeState.case)
       ).toEqual(
         fakeState.case.autocompleteItems.find(
-          (elm) => elm.filter === FilterNames.MATERIAL
+          (elm) => elm.filter === FilterNames.MATERIAL_NUMBER
         )
       );
     });

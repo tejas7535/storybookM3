@@ -1,4 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -168,10 +168,10 @@ describe('InputbarComponent', () => {
           valid: true,
         },
       };
-      component.materialNumber = item.materialNumber;
       component.quantity = item.quantity;
       mockStore.dispatch = jest.fn();
       component.matNumberInput = {
+        searchFormControl: new FormControl(item.materialNumber),
         clearInput: jest.fn(),
       } as any;
       component.matDescInput = {

@@ -9,7 +9,7 @@ import {
 import { CreateCustomerCase } from '../../../../shared/services/rest-services/search-service/models/create-customer-case.model';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import { getCaseState } from '../../reducers';
-import { CaseState } from '../../reducers/create-case/create-case.reducer';
+import { CreateCaseState } from '../../reducers/create-case/create-case.reducer';
 import {
   CaseFilterItem,
   CreateCase,
@@ -20,7 +20,7 @@ import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.m
 
 export const getCaseQuotation = createSelector(
   getCaseState,
-  (state: CaseState): CaseFilterItem =>
+  (state: CreateCaseState): CaseFilterItem =>
     state.autocompleteItems.find(
       (it) => it.filter === FilterNames.SAP_QUOTATION
     )
@@ -28,7 +28,7 @@ export const getCaseQuotation = createSelector(
 
 export const getSelectedQuotation = createSelector(
   getCaseState,
-  (state: CaseState): IdValue => {
+  (state: CreateCaseState): IdValue => {
     const quotationOptions = state.autocompleteItems.find(
       (it) => it.filter === FilterNames.SAP_QUOTATION
     )?.options;
@@ -44,18 +44,20 @@ export const getSelectedQuotation = createSelector(
 
 export const getCaseCustomer = createSelector(
   getCaseState,
-  (state: CaseState): CaseFilterItem =>
+  (state: CreateCaseState): CaseFilterItem =>
     state.autocompleteItems.find((it) => it.filter === FilterNames.CUSTOMER)
 );
 export const getCaseMaterialNumber = createSelector(
   getCaseState,
-  (state: CaseState): CaseFilterItem =>
-    state.autocompleteItems.find((it) => it.filter === FilterNames.MATERIAL)
+  (state: CreateCaseState): CaseFilterItem =>
+    state.autocompleteItems.find(
+      (it) => it.filter === FilterNames.MATERIAL_NUMBER
+    )
 );
 
 export const getCaseMaterialDesc = createSelector(
   getCaseState,
-  (state: CaseState): CaseFilterItem =>
+  (state: CreateCaseState): CaseFilterItem =>
     state.autocompleteItems.find(
       (it) => it.filter === FilterNames.MATERIAL_DESCRIPTION
     )
@@ -63,17 +65,22 @@ export const getCaseMaterialDesc = createSelector(
 
 export const getCaseAutocompleteLoading = createSelector(
   getCaseState,
-  (state: CaseState, autocompleteItem: string): boolean =>
+  (state: CreateCaseState, autocompleteItem: string): boolean =>
     state.autocompleteLoading === autocompleteItem
 );
 export const getCaseRowData = createSelector(
   getCaseState,
-  (state: CaseState): MaterialTableItem[] => state.rowData
+  (state: CreateCaseState): MaterialTableItem[] => state.rowData
+);
+
+export const getAutoSelectMaterial = createSelector(
+  getCaseState,
+  (state: CreateCaseState): CaseFilterItem => state.autoSelectMaterial
 );
 
 export const getCustomerConditionsValid = createSelector(
   getCaseState,
-  (state: CaseState): boolean => {
+  (state: CreateCaseState): boolean => {
     const rowData = state ? [...state.rowData] : [];
     let rowDataValid = rowData.length > 0;
     for (const row of rowData) {
@@ -102,7 +109,7 @@ export const getCustomerConditionsValid = createSelector(
 );
 export const getCreateCaseData = createSelector(
   getCaseState,
-  (state: CaseState): CreateCase => {
+  (state: CreateCaseState): CreateCase => {
     const { customerId, salesOrgs } = state.customer;
     const salesOrg = salesOrgs.find((org) => org.selected)?.id;
 
@@ -121,43 +128,43 @@ export const getCreateCaseData = createSelector(
 
 export const getCreatedCase = createSelector(
   getCaseState,
-  (state: CaseState): CreateCaseResponse => state.createdCase
+  (state: CreateCaseState): CreateCaseResponse => state.createdCase
 );
 
 export const getSalesOrgs = createSelector(
   getCaseState,
-  (state: CaseState): SalesOrg[] => state.customer.salesOrgs
+  (state: CreateCaseState): SalesOrg[] => state.customer.salesOrgs
 );
 
 export const getSelectedSalesOrg = createSelector(
   getCaseState,
-  (state: CaseState): SalesOrg =>
+  (state: CreateCaseState): SalesOrg =>
     state.customer.salesOrgs.find((salesOrg) => salesOrg.selected)
 );
 
 export const getCreateCaseLoading = createSelector(
   getCaseState,
-  (state: CaseState): boolean => state.createCaseLoading
+  (state: CreateCaseState): boolean => state.createCaseLoading
 );
 
 export const getSelectedCustomerId = createSelector(
   getCaseState,
-  (state: CaseState): string => state.customer.customerId
+  (state: CreateCaseState): string => state.customer.customerId
 );
 
 export const getProductLinesAndSeries = createSelector(
   getCaseState,
-  (state: CaseState): PLsAndSeries => state.plSeries.plsAndSeries
+  (state: CreateCaseState): PLsAndSeries => state.plSeries.plsAndSeries
 );
 
 export const getProductLinesAndSeriesLoading = createSelector(
   getCaseState,
-  (state: CaseState): boolean => state.plSeries.loading
+  (state: CreateCaseState): boolean => state.plSeries.loading
 );
 
 export const getCreateCustomerCaseDisabled = createSelector(
   getCaseState,
-  (state: CaseState): boolean => {
+  (state: CreateCaseState): boolean => {
     const customer =
       state.customer.customerId &&
       state.customer.salesOrgs.find((salesOrg) => salesOrg.selected) !== null;
@@ -177,7 +184,7 @@ export const getCreateCustomerCaseDisabled = createSelector(
 
 export const getCreateCustomerCasePayload = createSelector(
   getCaseState,
-  (state: CaseState): CreateCustomerCase => ({
+  (state: CreateCaseState): CreateCustomerCase => ({
     customer: {
       customerId: state.customer.customerId,
       salesOrg: state.customer.salesOrgs.find((salesOrg) => salesOrg.selected)

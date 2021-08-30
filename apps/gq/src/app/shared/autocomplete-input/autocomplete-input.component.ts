@@ -35,6 +35,12 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   @Input() set options(itemOptions: IdValue[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
+    if (
+      this.unselectedOptions.length === 1 &&
+      this.filterName === FilterNames.MATERIAL_NUMBER
+    ) {
+      this.unselectedOptions = [];
+    }
     if (this.selectedIdValue) {
       this.debounceIsActive = true;
       this.setFormControlValue();
@@ -112,7 +118,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     let value = this.selectedIdValue.id;
 
     if (
-      this.filterName === FilterNames.MATERIAL ||
+      this.filterName === FilterNames.MATERIAL_NUMBER ||
       this.filterName === FilterNames.MATERIAL_DESCRIPTION
     ) {
       id = this.selectedIdValue.id;
@@ -135,7 +141,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   }
 
   onPaste(event: ClipboardEvent): void {
-    if (this.filterName === FilterNames.MATERIAL) {
+    if (this.filterName === FilterNames.MATERIAL_NUMBER) {
       event.preventDefault();
       const data = this.formatMaterialNumber(
         event.clipboardData.getData('text')

@@ -48,9 +48,10 @@ import { CaseFilterItem } from './models/case-filter-item.model';
 import { PLsAndSeries } from './models/pls-and-series.model';
 
 /* eslint-disable max-lines */
-export interface CaseState {
+export interface CreateCaseState {
   autocompleteLoading: string;
   autocompleteItems: CaseFilterItem[];
+  autoSelectMaterial: CaseFilterItem;
   customer: {
     customerId: string;
     salesOrgsLoading: boolean;
@@ -72,8 +73,9 @@ export interface CaseState {
   rowData: MaterialTableItem[];
   validationLoading: boolean;
 }
-export const initialState: CaseState = {
+export const initialState: CreateCaseState = {
   autocompleteLoading: undefined,
+  autoSelectMaterial: undefined,
   autocompleteItems: [
     {
       filter: FilterNames.SAP_QUOTATION,
@@ -84,7 +86,7 @@ export const initialState: CaseState = {
       options: [],
     },
     {
-      filter: FilterNames.MATERIAL,
+      filter: FilterNames.MATERIAL_NUMBER,
       options: [],
     },
     {
@@ -114,27 +116,35 @@ export const initialState: CaseState = {
   validationLoading: false,
 };
 
+const isOnlyOptionForMaterial = (options: any, filter: any): boolean =>
+  options.length === 1 &&
+  (filter === FilterNames.MATERIAL_NUMBER ||
+    filter === FilterNames.MATERIAL_DESCRIPTION);
+
 export const createCaseReducer = createReducer(
   initialState,
   on(
     autocomplete,
-    (state: CaseState, { autocompleteSearch }): CaseState => ({
+    (state: CreateCaseState, { autocompleteSearch }): CreateCaseState => ({
       ...state,
       autocompleteLoading: autocompleteSearch.filter,
     })
   ),
   on(
     autocompleteFailure,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       autocompleteLoading: initialState.autocompleteLoading,
     })
   ),
   on(
     autocompleteSuccess,
-    (state: CaseState, { options, filter }): CaseState => ({
+    (state: CreateCaseState, { options, filter }): CreateCaseState => ({
       ...state,
       autocompleteLoading: initialState.autocompleteLoading,
+      autoSelectMaterial: isOnlyOptionForMaterial(options, filter)
+        ? { options, filter }
+        : undefined,
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const tmp = { ...it };
         let itemOptions = [...options];
@@ -142,7 +152,7 @@ export const createCaseReducer = createReducer(
           const mergedOptions: IdValue[] = [];
 
           const materialPipe = new MaterialTransformPipe();
-          if (tmp.filter === FilterNames.MATERIAL) {
+          if (tmp.filter === FilterNames.MATERIAL_NUMBER) {
             itemOptions = itemOptions.map((opt) => ({
               ...opt,
               id: materialPipe.transform(opt.id),
@@ -180,7 +190,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     selectAutocompleteOption,
-    (state: CaseState, { option, filter }): CaseState => ({
+    (state: CreateCaseState, { option, filter }): CreateCaseState => ({
       ...state,
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
@@ -202,14 +212,14 @@ export const createCaseReducer = createReducer(
   ),
   on(
     setSelectedAutocompleteOption,
-    (state: CaseState, { filter, option }): CaseState => ({
+    (state: CreateCaseState, { filter, option }): CreateCaseState => ({
       ...state,
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
         const setFor =
-          filter === FilterNames.MATERIAL
+          filter === FilterNames.MATERIAL_NUMBER
             ? FilterNames.MATERIAL_DESCRIPTION
-            : FilterNames.MATERIAL;
+            : FilterNames.MATERIAL_NUMBER;
 
         if (temp.filter === filter) {
           return { ...temp, options: selectOption(temp.options, option) };
@@ -230,7 +240,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     unselectAutocompleteOptions,
-    (state: CaseState, { filter }): CaseState => ({
+    (state: CreateCaseState, { filter }): CreateCaseState => ({
       ...state,
       autocompleteItems: [...state.autocompleteItems].map((it) => {
         const temp = { ...it };
@@ -254,39 +264,42 @@ export const createCaseReducer = createReducer(
       },
     })
   ),
-  on(addRowDataItem, (state: CaseState, { items }) => ({
+  on(addRowDataItem, (state: CreateCaseState, { items }) => ({
     ...state,
     rowData: [
       ...state.rowData,
       ...TableService.removeDashesFromTableItems(items),
     ],
   })),
-  on(pasteRowDataItems, (state: CaseState, { items }) => ({
+  on(pasteRowDataItems, (state: CreateCaseState, { items }) => ({
     ...state,
     rowData: TableService.pasteItems(items, [...state.rowData]),
     validationLoading: true,
   })),
   on(
     clearCreateCaseRowData,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       rowData: initialState.rowData,
     })
   ),
-  on(deleteRowDataItem, (state: CaseState, { materialNumber, quantity }) => ({
-    ...state,
-    rowData: TableService.deleteItem(materialNumber, quantity, [
-      ...state.rowData,
-    ]),
-  })),
-  on(validateSuccess, (state: CaseState, { materialValidations }) => ({
+  on(
+    deleteRowDataItem,
+    (state: CreateCaseState, { materialNumber, quantity }) => ({
+      ...state,
+      rowData: TableService.deleteItem(materialNumber, quantity, [
+        ...state.rowData,
+      ]),
+    })
+  ),
+  on(validateSuccess, (state: CreateCaseState, { materialValidations }) => ({
     ...state,
     rowData: [...state.rowData].map((el) =>
       TableService.validateData({ ...el }, materialValidations)
     ),
     validationLoading: false,
   })),
-  on(validateFailure, (state: CaseState) => ({
+  on(validateFailure, (state: CreateCaseState) => ({
     ...state,
     rowData: [...state.rowData].map((el) => {
       if (el.info.description[0] === ValidationDescription.Valid) {
@@ -305,14 +318,14 @@ export const createCaseReducer = createReducer(
   })),
   on(
     createCase,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       createCaseLoading: true,
     })
   ),
   on(
     createCaseSuccess,
-    (state: CaseState, { createdCase }): CaseState => ({
+    (state: CreateCaseState, { createdCase }): CreateCaseState => ({
       ...state,
       createdCase,
       createCaseLoading: false,
@@ -323,7 +336,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     createCaseFailure,
-    (state: CaseState, { errorMessage }): CaseState => ({
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       errorMessage,
       createCaseLoading: false,
@@ -331,7 +344,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     importCase,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       createCaseLoading: true,
       errorMessage: initialState.errorMessage,
@@ -339,7 +352,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     importCaseSuccess,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       createCaseLoading: false,
       autocompleteItems: initialState.autocompleteItems,
@@ -347,7 +360,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     importCaseFailure,
-    (state: CaseState, { errorMessage }): CaseState => ({
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       errorMessage,
       createCaseLoading: false,
@@ -355,7 +368,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     getSalesOrgsSuccess,
-    (state: CaseState, { salesOrgs }): CaseState => ({
+    (state: CreateCaseState, { salesOrgs }): CreateCaseState => ({
       ...state,
       customer: {
         ...state.customer,
@@ -366,7 +379,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     getSalesOrgsFailure,
-    (state: CaseState, { errorMessage }): CaseState => ({
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       customer: {
         ...state.customer,
@@ -377,7 +390,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     selectSalesOrg,
-    (state: CaseState, { salesOrgId }): CaseState => ({
+    (state: CreateCaseState, { salesOrgId }): CreateCaseState => ({
       ...state,
       customer: {
         ...state.customer,
@@ -390,7 +403,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     getPLsAndSeries,
-    (state: CaseState, { customerFilters }): CaseState => ({
+    (state: CreateCaseState, { customerFilters }): CreateCaseState => ({
       ...state,
       plSeries: {
         errorMessage: initialState.plSeries.errorMessage,
@@ -405,7 +418,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     getPLsAndSeriesSuccess,
-    (state: CaseState, { plsAndSeries }): CaseState => ({
+    (state: CreateCaseState, { plsAndSeries }): CreateCaseState => ({
       ...state,
       plSeries: {
         ...state.plSeries,
@@ -416,7 +429,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     getPLsAndSeriesFailure,
-    (state: CaseState, { errorMessage }): CaseState => ({
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       plSeries: {
         ...state.plSeries,
@@ -427,7 +440,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     setSelectedProductLines,
-    (state: CaseState, { selectedProductLines }): CaseState => ({
+    (state: CreateCaseState, { selectedProductLines }): CreateCaseState => ({
       ...state,
       plSeries: {
         ...state.plSeries,
@@ -443,7 +456,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     setSelectedSeries,
-    (state: CaseState, { selectedSeries }): CaseState => ({
+    (state: CreateCaseState, { selectedSeries }): CreateCaseState => ({
       ...state,
       plSeries: {
         ...state.plSeries,
@@ -459,21 +472,21 @@ export const createCaseReducer = createReducer(
   ),
   on(
     resetProductLineAndSeries,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       plSeries: initialState.plSeries,
     })
   ),
   on(
     createCustomerCase,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       createCaseLoading: true,
     })
   ),
   on(
     createCustomerCaseSuccess,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       createCaseLoading: false,
       autocompleteItems: initialState.autocompleteItems,
@@ -483,7 +496,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     createCustomerCaseFailure,
-    (state: CaseState, { errorMessage }): CaseState => ({
+    (state: CreateCaseState, { errorMessage }): CreateCaseState => ({
       ...state,
       createCaseLoading: false,
       errorMessage,
@@ -491,7 +504,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     resetCustomerFilter,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       customer: initialState.customer,
       autocompleteItems: initialState.autocompleteItems,
@@ -499,7 +512,7 @@ export const createCaseReducer = createReducer(
   ),
   on(
     resetPLsAndSeries,
-    (state: CaseState): CaseState => ({
+    (state: CreateCaseState): CreateCaseState => ({
       ...state,
       plSeries: initialState.plSeries,
     })
@@ -522,6 +535,9 @@ const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
   return itemOptions;
 };
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-export function reducer(state: CaseState, action: Action): CaseState {
+export function reducer(
+  state: CreateCaseState,
+  action: Action
+): CreateCaseState {
   return createCaseReducer(state, action);
 }

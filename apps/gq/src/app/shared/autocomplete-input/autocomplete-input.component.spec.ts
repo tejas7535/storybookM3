@@ -72,12 +72,11 @@ describe('AutocompleteInputComponent', () => {
       component.options = [new IdValue('1', 'test', false)];
       component.filterName = FilterNames.SAP_QUOTATION;
       component['autocomplete'].emit = jest.fn();
-
       const spy = jest.spyOn(rxjs, 'timer');
+      const testVal = 'test1';
 
       component.ngOnInit();
 
-      const testVal = 'test1';
       component.searchFormControl.setValue(testVal);
 
       setTimeout(() => {
@@ -90,7 +89,7 @@ describe('AutocompleteInputComponent', () => {
       }, component['DEBOUNCE_TIME_DEFAULT']);
     });
   });
-  describe('set options', () => {
+  describe('setter options', () => {
     test('should set test options', () => {
       const options = [
         new IdValue('1', 'test', true),
@@ -101,6 +100,7 @@ describe('AutocompleteInputComponent', () => {
       component.valueInput = {
         nativeElement: { value: 'test' },
       } as unknown as any;
+
       component.options = options;
 
       expect(component.selectedIdValue).toEqual(options[0]);
@@ -119,6 +119,7 @@ describe('AutocompleteInputComponent', () => {
       component.valueInput = {
         nativeElement: { value: 'test | 1' },
       } as unknown as any;
+
       component.options = options;
 
       expect(component.selectedIdValue).toEqual(options[0]);
@@ -135,11 +136,25 @@ describe('AutocompleteInputComponent', () => {
       component.valueInput = {
         nativeElement: { value: 'customerName | 1' },
       } as unknown as any;
+
       component.options = options;
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
       expect(component.setFormControlValue).toHaveBeenCalledTimes(1);
+    });
+
+    test('should clear unselectedOptions, if filterName equals MATERIAL_NUMBER', () => {
+      component.valueInput = {
+        nativeElement: { value: '009003843000001' },
+      } as any;
+      component.filterName = FilterNames.MATERIAL_NUMBER;
+
+      component.options = [
+        new IdValue('F-234517.DKLFA#E', '009003843000001', false),
+      ];
+
+      expect(component.unselectedOptions.length).toBe(0);
     });
   });
   describe('setFormControlValue', () => {
@@ -173,7 +188,7 @@ describe('AutocompleteInputComponent', () => {
         value: '2123',
       } as any;
       const transformresult = `f-a123`;
-      component.filterName = FilterNames.MATERIAL;
+      component.filterName = FilterNames.MATERIAL_NUMBER;
       component.transformFormValue = jest.fn(() => transformresult);
       component.searchFormControl = {
         setValue: jest.fn(),
@@ -216,7 +231,7 @@ describe('AutocompleteInputComponent', () => {
 
   describe('onPaste', () => {
     test('should set input value', () => {
-      component.filterName = FilterNames.MATERIAL;
+      component.filterName = FilterNames.MATERIAL_NUMBER;
       const string = '000001562-6063-1111';
       const expectedString = '000001562-6063-11';
       const event = {

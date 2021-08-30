@@ -1,7 +1,8 @@
-import { CaseState } from '../../app/core/store/reducers/create-case/create-case.reducer';
+import { CreateCaseState } from '../../app/core/store/reducers/create-case/create-case.reducer';
 
-export const CREATE_CASE_STORE_STATE_MOCK: CaseState = {
+export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
   autocompleteLoading: undefined,
+  autoSelectMaterial: undefined,
   autocompleteItems: [],
   customer: {
     customerId: undefined,

@@ -31,10 +31,10 @@ import { PasteMaterialsService } from '../../services/paste-materials-service/pa
 export class AddEntryComponent implements OnInit, OnDestroy {
   public materialNumber$: Observable<CaseFilterItem>;
   public materialDesc$: Observable<CaseFilterItem>;
+  autoSelectMaterial$: Observable<CaseFilterItem>;
   public materialNumberAutocompleteLoading$: Observable<boolean>;
   public materialDescAutocompleteLoading$: Observable<boolean>;
 
-  public materialNumber: string;
   public materialNumberInput: boolean;
   public quantity: number;
   public materialInputIsValid = false;
@@ -60,7 +60,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.materialDesc$ = this.store.select(getCaseMaterialDesc);
     this.materialNumberAutocompleteLoading$ = this.store.select(
       getCaseAutocompleteLoading,
-      FilterNames.MATERIAL
+      FilterNames.MATERIAL_NUMBER
     );
     this.materialNumberAutocompleteLoading$ = this.store.select(
       getCaseAutocompleteLoading,
@@ -68,20 +68,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     );
     this.addSubscriptions();
   }
-  addSubscriptions(): void {
-    this.subscription.add(
-      this.store
-        .select(getCaseMaterialNumber)
-        .subscribe((res: CaseFilterItem) => {
-          if (res?.options.length > 0) {
-            const idValueItem = res.options.find(
-              (opt: IdValue) => opt.selected
-            );
-            this.materialNumber = idValueItem ? idValueItem.id : undefined;
-          }
-        })
-    );
 
+  addSubscriptions(): void {
     this.quantityFormControl.setValidators([this.quantityValidator.bind(this)]);
   }
 
@@ -100,9 +88,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
+
   selectOption(option: IdValue, filter: string): void {
     this.store.dispatch(
       setSelectedAutocompleteOption({
@@ -111,18 +101,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       })
     );
   }
+
   unselectOptions(filter: string): void {
     const filterName =
-      filter === FilterNames.MATERIAL
+      filter === FilterNames.MATERIAL_NUMBER
         ? FilterNames.MATERIAL_DESCRIPTION
-        : FilterNames.MATERIAL;
+        : FilterNames.MATERIAL_NUMBER;
     this.store.dispatch(unselectAutocompleteOptions({ filter: filterName }));
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
+
   materialInputValid(isValid: boolean): void {
     this.materialInputIsValid = isValid;
     this.rowInputValid();
   }
+
   materialHasInput(hasInput: boolean): void {
     this.materialNumberInput = hasInput;
     this.rowInputValid();
@@ -139,7 +132,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   addRow(): void {
     const items: MaterialTableItem[] = [
       {
-        materialNumber: this.materialNumber,
+        materialNumber: this.matNumberInput.searchFormControl.value,
         quantity: this.quantity,
         info: { valid: true, description: [ValidationDescription.Valid] },
       },
@@ -156,6 +149,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.quantityFormControl.reset();
     this.materialInputIsValid = false;
   }
+
   onQuantityKeyPress(event: KeyboardEvent): void {
     HelperService.validateQuantityInputKeyPress(event);
   }

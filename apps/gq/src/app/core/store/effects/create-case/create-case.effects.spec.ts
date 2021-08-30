@@ -48,11 +48,13 @@ import {
   importCaseSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
+  setSelectedAutocompleteOption,
   validateFailure,
   validateSuccess,
 } from '../../actions';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import {
+  CaseFilterItem,
   CreateCase,
   CreateCaseResponse,
   SalesOrg,
@@ -60,6 +62,7 @@ import {
 import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import {
+  getAutoSelectMaterial,
   getCaseRowData,
   getCreateCaseData,
   getCreateCustomerCasePayload,
@@ -262,6 +265,35 @@ describe('Create Case Effects', () => {
       })
     );
   });
+
+  describe('autoSelectMaterial$', () => {
+    const caseFilterItem = {
+      filter: FilterNames.MATERIAL_NUMBER,
+      options: [{} as IdValue],
+    } as CaseFilterItem;
+    beforeEach(() => {
+      action = autocompleteSuccess(caseFilterItem);
+      store.overrideSelector(getAutoSelectMaterial, caseFilterItem);
+    });
+
+    it(
+      'should trigger setSelectedAutocompleteOption Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const result = setSelectedAutocompleteOption({
+          filter: FilterNames.MATERIAL_NUMBER,
+          option: {} as IdValue,
+        });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.autoSelectMaterial$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
   describe('createCase', () => {
     const createCaseData: CreateCase = {
       customer: {

@@ -22,7 +22,7 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  case: fromCase.CaseState;
+  case: fromCase.CreateCaseState;
   processCase: fromProcessCase.ProcessCaseState;
   viewCases: fromViewCases.ViewCasesState;
   transactions: fromTransactions.TransactionsState;
@@ -51,7 +51,8 @@ export const getRouterState =
 export const getProcessCaseState =
   createFeatureSelector<fromProcessCase.ProcessCaseState>('processCase');
 
-export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
+export const getCaseState =
+  createFeatureSelector<fromCase.CreateCaseState>('case');
 
 export const getViewCasesState =
   createFeatureSelector<fromViewCases.ViewCasesState>('viewCases');
