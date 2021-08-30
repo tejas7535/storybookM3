@@ -54,6 +54,12 @@
       "sqv": "SQV",
       "productionPlant": "Production Plant"
     },
+    "materialAlternativeCostDetails": {
+      "label": "Alternative Cost",
+      "gpc": "GPC",
+      "sqv": "SQV",
+      "productionPlant": "Production Plant"
+    },
     "supplyChainDetails": {
       "label": "Supply Chain Information",
       "supplyPlant": "Delivery Plant",

@@ -54,6 +54,12 @@
       "sqv": "SAW",
       "productionPlant": "Produktionswerk"
     },
+    "materialAlternativeCostDetails": {
+      "label": "Alternative Kosten",
+      "gpc": "GPC",
+      "sqv": "SQV",
+      "productionPlant": "Produktionswerk"
+    },
     "supplyChainDetails": {
       "label": "Supply Chain Informationen",
       "supplyPlant": "Lieferwerk",

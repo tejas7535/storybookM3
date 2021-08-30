@@ -14,12 +14,15 @@ import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
+import { MaterialAlternativeCostDetailsComponent } from './material-material-cost-details/material-alternative-cost-details.component';
+import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
 
 @NgModule({
   declarations: [
     PricingDetailsComponent,
     SupplyChainDetailsComponent,
     ProductionCostDetailsComponent,
+    MaterialAlternativeCostDetailsComponent,
     RelocationCostDetailsComponent,
   ],
   imports: [
@@ -30,6 +33,7 @@ import { RelocationCostDetailsComponent } from './relocation-cost-details/reloca
     SharedTranslocoModule,
     ReactiveComponentModule,
     SharedPipesModule,
+    HorizontalSeparatorModule,
   ],
   providers: [
     {

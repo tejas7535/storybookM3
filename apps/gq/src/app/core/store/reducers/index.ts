@@ -12,6 +12,7 @@ import * as fromCase from './create-case/create-case.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
+import * as fromMaterialAlternativeCosts from './material-alternative-costs/material-alternative-costs.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -25,6 +26,7 @@ export interface AppState {
   processCase: fromProcessCase.ProcessCaseState;
   viewCases: fromViewCases.ViewCasesState;
   transactions: fromTransactions.TransactionsState;
+  materialAlternativeCosts: fromMaterialAlternativeCosts.MaterialAlternativeCostsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -33,6 +35,8 @@ export const reducers: ActionReducerMap<AppState> = {
   processCase: fromProcessCase.processCaseReducer,
   viewCases: fromViewCases.viewCasesReducer,
   transactions: fromTransactions.transactionsReducer,
+  materialAlternativeCosts:
+    fromMaterialAlternativeCosts.materialAlternativeCostsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -53,6 +57,10 @@ export const getViewCasesState =
   createFeatureSelector<fromViewCases.ViewCasesState>('viewCases');
 export const getTransactionsState =
   createFeatureSelector<fromTransactions.TransactionsState>('transactions');
+export const getMaterialAlternativeCostsState =
+  createFeatureSelector<fromMaterialAlternativeCosts.MaterialAlternativeCostsState>(
+    'materialAlternativeCosts'
+  );
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

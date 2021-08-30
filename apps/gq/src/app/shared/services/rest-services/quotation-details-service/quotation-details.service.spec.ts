@@ -127,4 +127,19 @@ describe('QuotationDetailsService', (): void => {
       req.flush(gqPositionId);
     });
   });
+
+  describe('getMaterialAlternativeCosts', () => {
+    test('should fetch Material Alternative Costs', () => {
+      const gqPositionId = '1234';
+      service
+        .getMaterialAlternativeCosts(gqPositionId)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_MATERIAL_ALTERNATIVE_COSTS']}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(gqPositionId);
+    });
+  });
 });

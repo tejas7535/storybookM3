@@ -12,6 +12,7 @@ import {
 import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
 import { Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
+import { MaterialAlternativeCost } from '../../../models/quotation-detail/material-alternative-cost.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ import { QuotationDetail } from '../../../models/quotation-detail';
 export class QuotationDetailsService {
   private readonly PATH_QUOTATION_DETAILS = 'quotation-details';
   private readonly PATH_TRANSACTIONS = 'comparable-transactions';
+  private readonly PATH_MATERIAL_ALTERNATIVE_COSTS =
+    'material-alternative-costs';
 
   constructor(private readonly dataService: DataService) {}
 
@@ -29,14 +32,12 @@ export class QuotationDetailsService {
   }
 
   public removeMaterial(qgPositionIds: string[]): Observable<Quotation> {
-    const options = {
+    return this.dataService.delete(this.PATH_QUOTATION_DETAILS, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
       body: qgPositionIds,
-    };
-
-    return this.dataService.delete(this.PATH_QUOTATION_DETAILS, options);
+    });
   }
 
   public updateMaterial(
@@ -46,8 +47,16 @@ export class QuotationDetailsService {
   }
 
   public getTransactions(gqPositionId: string): Observable<Transaction[]> {
-    const path = `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_TRANSACTIONS}`;
+    return this.dataService.getAll(
+      `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_TRANSACTIONS}`
+    );
+  }
 
-    return this.dataService.getAll(path);
+  getMaterialAlternativeCosts(
+    gqPositionId: string
+  ): Observable<MaterialAlternativeCost[]> {
+    return this.dataService.getAll(
+      `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_MATERIAL_ALTERNATIVE_COSTS}`
+    );
   }
 }

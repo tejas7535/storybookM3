@@ -40,6 +40,16 @@
         <mat-expansion-panel class="border border-lightBg" expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title class="font-bold opacity-60">
+              {{ t('materialAlternativeCostDetails.label') }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <gq-material-alternative-cost-details
+            [currency]="currency"
+          ></gq-material-alternative-cost-details>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="border border-lightBg" expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="font-bold opacity-60">
               {{ t('relocationCostDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
