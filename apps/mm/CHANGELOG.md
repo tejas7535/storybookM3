@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.3...mm-v0.1.2) (2021-08-30)
+
 ### [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.2...mm-v0.1.1) (2021-08-26)
 
 
