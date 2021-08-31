@@ -1,4 +1,5 @@
 import { DecimalPipe } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -67,6 +68,7 @@ describe('HomeComponent', () => {
       DynamicFormsModule.forRoot(),
 
       ReactiveComponentModule,
+      HttpClientTestingModule,
 
       PagesStepperModule,
       BearingSearchModule,
