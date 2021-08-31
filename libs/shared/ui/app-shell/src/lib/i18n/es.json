@@ -1,7 +1,4 @@
 {
-  "shell": {
-    "sidenav": {
-      "heading": "Configuración"
-    }
-  }
+  "shellSidenavHeading": "Configuración",
+  "userPanelAccountLinkLabel": "Mi cuenta"
 }

@@ -1,7 +1,4 @@
 {
-  "shell": {
-    "sidenav": {
-      "heading": "Настройки"
-    }
-  }
+  "shellSidenavHeading": "Настройки",
+  "userPanelAccountLinkLabel": "Мой счет"
 }

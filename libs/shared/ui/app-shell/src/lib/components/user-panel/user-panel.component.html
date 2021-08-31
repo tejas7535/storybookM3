@@ -1,4 +1,4 @@
-<div class="flex p-3" *transloco="let t; read: 'userPanel'">
+<div class="flex p-3" *transloco="let t">
   <img
     *ngIf="userImageUrl; else noImageUrl"
     class="schaeffler-user-panel__avatar"
@@ -11,7 +11,7 @@
   <div class="overflow-hidden">
     <div class="text-h6 truncate">{{ userName }}</div>
     <a class="text-subtitle-2 text-primary" [href]="urlAccount" target="_blank">
-      {{ t('accountLink.label') }}
+      {{ t('userPanelAccountLinkLabel') }}
     </a>
   </div>
 </div>
