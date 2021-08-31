@@ -3,9 +3,9 @@
 ## Disclaimer
 This lib is based on ValueControlAccessor. As such, you can treat the resulting component as a run-of-the-mill ReactiveForms component. A more in-depth explanation can be found here: [https://indepth.dev/posts/1055/never-again-be-confused-when-implementing-controlvalueaccessor-in-angular-forms]
 
-This lib depends on the [ngneat/https://github.com/ngneat/tailwind](https://github.com/ngneat/tailwind), so please install it
+This lib depends on the [tailwind](https://www.npmjs.com/package/tailwindcss), so please install it
 
-Afterwards replace the default `tailwind.config.js` with the most current version from the [schaeffler-frontend repo](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/master/tailwind.config.js)
+Afterwards replace the default `tailwind.config.js` with the most current version from the [frontend-schaeffler repo](https://github.com/Schaeffler-Group/frontend-schaeffler/blob/master/tailwind.config.js)
 
 It also depends on `@schaeffler/styles` which can be installed with npm:
 

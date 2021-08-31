@@ -1,9 +1,9 @@
 # frontend@schaeffler Horizontal Separator Documentation
 
 ## Disclaimer
-This lib depends on the [ngneat/https://github.com/ngneat/tailwind](https://github.com/ngneat/tailwind), so please install it
+This lib depends on the [tailwind](https://www.npmjs.com/package/tailwindcss), so please install it
 
-Afterwards replace the default `tailwind.config.js` with the most current version from the [schaeffler-frontend repo](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/master/tailwind.config.js)
+Afterwards replace the default `tailwind.config.js` with the most current version from the [frontend-schaeffler repo](https://github.com/Schaeffler-Group/frontend-schaeffler/blob/master/tailwind.config.js)
 
 Also import the tailwind styles in your app
 Example `styles.scss`
