@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.1.1...cdba-v2.1.0) (2021-08-31)
+
 ## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.1.0...cdba-v2.0.1) (2021-08-31)
 
 
