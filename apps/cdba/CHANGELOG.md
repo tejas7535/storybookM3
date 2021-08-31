@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.1.0...cdba-v2.0.1) (2021-08-31)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** sort dimensions (l/w/h) on detail and compare page correctly (DSCDA-2527) ([#2791](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2791)) ([57495f1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/57495f15f1795421ec8df823a91a17ef8957e462))
+* **cdba:** trim search inputs before executing search (DSCDA-2656) ([#2803](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2803)) ([be4073c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/be4073cbbb7668f84e3da5373f31f42466d06042))
+
+
+### 🎸 Features
+
+* **cdba:** implement language switch in user settings ([c287759](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c287759ec14a906dcb0050ea34afa8e51d459ae2))
+* **cdba:** integrate app-shell lib in cdba (DSCDA-2437) ([5fc29c8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5fc29c82d6fed7f2e128d2ae6389aab721897d10))
+* **cdba:** proofread and improve translations (DSCDA-2672) ([8bde72f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8bde72fe3ff04a33e6354c19b9e2349e4036b732))
+
 ### [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.0.1...cdba-v2.0.0) (2021-08-18)
 
 
