@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.0.0...hellworld-azure-v2.2.2) (2021-08-31)
+
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** This lib now depends on tailwind. See `Readme` for more details.
+
+* refactor(footer): move footer-tailwind implementation to footer
+
+* refactor: use footer instead of footer tailwind
+
+* refactor: remove footer tailwind entirely
+
+* fix(footer): add missing logo
+
+* chore: dont pass lint in case of errors
+
+* test(footer): fix unit tests of footer
+
+Co-authored-by: Fabian Kaupp <kauppfbi@schaeffler.com>
+
+### 🎸 Features
+
+* **footer:** reimplement footer based on tailwind (UFTABI-4632) ([#2700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2700)) ([e54c88d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54c88d08e472f2915bc0ce1770eac5b4e9cca07))
+* **helloworld:** integrate app-shell lib in helloworld ([dc1b06e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dc1b06e41576429c7278625d79eac3b8dc6e6134))
+
 ### [2.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v2.2.2...hellworld-azure-v2.2.1) (2021-08-02)
 
 ### [2.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v2.2.1...hellworld-azure-v2.2.0) (2021-08-02)
