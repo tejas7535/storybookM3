@@ -76,25 +76,25 @@ describe('LegalComponent', () => {
     it('should load the terms of use content if the route says so', () => {
       eventSubject.next(new NavigationEnd(1, '/terms-of-use', ''));
 
-      expect(component.legal).toEqual('content.termsOfUse');
+      expect(component.legal).toEqual('termsOfUse');
     });
 
     it('should load the imprint content if the route says so', () => {
       eventSubject.next(new NavigationEnd(1, '/imprint', ''));
 
-      expect(component.legal).toEqual('content.imprint');
+      expect(component.legal).toEqual('imprint');
     });
 
     it('should load the data privacy content if the route says so', () => {
       eventSubject.next(new NavigationEnd(1, '/data-privacy', ''));
 
-      expect(component.legal).toEqual('content.dataPrivacy');
+      expect(component.legal).toEqual('dataPrivacy');
     });
 
     it('should load the cookie policy content if the route says so', () => {
       eventSubject.next(new NavigationEnd(1, '/cookie-policy', ''));
 
-      expect(component.legal).toEqual('content.cookiePolicy');
+      expect(component.legal).toEqual('cookiePolicy');
     });
   });
 

@@ -1,11 +1,11 @@
 import { TranslocoService } from '@ngneat/transloco';
 
-import deJson from '../assets/i18n/de.json';
-import enJson from '../assets/i18n/en.json';
-import esJson from '../assets/i18n/es.json';
-import frJson from '../assets/i18n/fr.json';
-import ruJson from '../assets/i18n/ru.json';
-import zhJson from '../assets/i18n/zh.json';
+import deJson from './i18n/de.json';
+import enJson from './i18n/en.json';
+import esJson from './i18n/es.json';
+import frJson from './i18n/fr.json';
+import ruJson from './i18n/ru.json';
+import zhJson from './i18n/zh.json';
 import { LegalModule } from './legal.module';
 
 describe('LegalModule', () => {

@@ -23,7 +23,7 @@ export const appRoutePaths: Routes = [
   {
     path: RoutePath.BasePath,
     redirectTo: `/${RoutePath.HomePath}`,
-    pathMatch: 'prefix',
+    pathMatch: 'full',
   },
   {
     path: RoutePath.HomePath,

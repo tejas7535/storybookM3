@@ -50,16 +50,16 @@ export class LegalComponent implements OnInit, OnDestroy {
 
         switch (url) {
           case LegalPath.ImprintPath:
-            this.legal = 'content.imprint';
+            this.legal = 'imprint';
             break;
           case LegalPath.DataprivacyPath:
-            this.legal = 'content.dataPrivacy';
+            this.legal = 'dataPrivacy';
             break;
           case LegalPath.TermsPath:
-            this.legal = 'content.termsOfUse';
+            this.legal = 'termsOfUse';
             break;
           case LegalPath.CookiePath:
-            this.legal = 'content.cookiePolicy';
+            this.legal = 'cookiePolicy';
             break;
           default:
             break;
