@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.5...mm-v0.1.4) (2021-08-31)
+
+
+### 🐛 Bug Fixes
+
+* **legal-pages:** fix translations in app prod builds ([#2821](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2821)) ([e76baf1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e76baf1c098e6a1065c4d401b633898ce42d97f9))
+
 ### [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.4...mm-v0.1.3) (2021-08-30)
 
 
