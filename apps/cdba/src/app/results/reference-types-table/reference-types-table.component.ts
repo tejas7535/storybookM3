@@ -12,12 +12,11 @@ import {
   ClientSideRowModelModule,
   ClipboardModule,
   ColDef,
-  ColumnEvent,
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
+  FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
-  IStatusPanelParams,
   MenuModule,
   RangeSelectionModule,
   RowGroupingModule,
@@ -25,6 +24,7 @@ import {
   SetFilterModule,
   SideBarDef,
   SideBarModule,
+  SortChangedEvent,
   StatusBarModule,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
@@ -132,7 +132,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   /**
    * Column change listener for table.
    */
-  public columnChange(event: ColumnEvent): void {
+  public columnChange(event: SortChangedEvent): void {
     const columnState = event.columnApi.getColumnState();
 
     this.agGridStateService.setColumnState(
@@ -159,7 +159,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   /**
    * Autosize columns width when data is loaded.
    */
-  public onFirstDataRendered(params: IStatusPanelParams): void {
+  public onFirstDataRendered(params: FirstDataRenderedEvent): void {
     params.columnApi.autoSizeAllColumns(false);
     params.columnApi.setColumnVisible('identificationHash', false);
 

@@ -15,13 +15,13 @@
   [rowGroupPanelShow]="rowGroupPanelShow"
   [enableRangeSelection]="enableRangeSelection"
   [rowSelection]="rowSelection"
-  rowHeight="30"
-  valueCache
-  animateRows
-  suppressCsvExport
-  suppressExcelExport
-  suppressCellSelection
-  rowMultiSelectWithClick
+  [rowHeight]="30"
+  [valueCache]="true"
+  [animateRows]="true"
+  [suppressCsvExport]="true"
+  [suppressExcelExport]="true"
+  [suppressCellSelection]="true"
+  [rowMultiSelectWithClick]="true"
   (columnMoved)="columnChange($event)"
   (columnVisible)="columnChange($event)"
   (columnPinned)="columnChange($event)"

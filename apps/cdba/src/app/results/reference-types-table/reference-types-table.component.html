@@ -13,12 +13,12 @@
     [noRowsOverlayComponent]="noRowsOverlayComponent"
     [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
     rowGroupPanelShow="always"
-    valueCache
-    enableRangeSelection
-    animateRows
-    suppressCsvExport
-    suppressExcelExport
-    rowMultiSelectWithClick
+    [valueCache]="true"
+    [enableRangeSelection]="true"
+    [animateRows]="true"
+    [suppressCsvExport]="true"
+    [suppressExcelExport]="true"
+    [rowMultiSelectWithClick]="true"
     (columnMoved)="columnChange($event)"
     (columnVisible)="columnChange($event)"
     (columnPinned)="columnChange($event)"

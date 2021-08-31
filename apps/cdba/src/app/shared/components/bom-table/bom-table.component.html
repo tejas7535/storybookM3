@@ -17,10 +17,10 @@
   [noRowsOverlayComponent]="noRowsOverlayComponent"
   [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
   [excelStyles]="excelStyles"
-  rowHeight="30"
+  [rowHeight]="30"
   rowSelection="single"
-  suppressCellSelection
-  suppressCsvExport
+  [suppressCellSelection]="true"
+  [suppressCsvExport]="true"
   (gridReady)="onGridReady($event)"
   (rowClicked)="onRowClicked($event)"
   (firstDataRendered)="onFirstDataRendered($event)"

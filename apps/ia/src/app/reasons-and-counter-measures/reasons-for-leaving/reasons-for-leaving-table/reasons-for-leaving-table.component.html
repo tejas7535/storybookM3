@@ -41,11 +41,10 @@
     [modules]="modules"
     [frameworkComponents]="frameworkComponents"
     (rowDataChanged)="onRowDataChanged($event)"
-    valueCache
-    animateRows
-    suppressCsvExport
-    suppressExcelExport
-    suppressCellSelection
+    [animateRows]="true"
+    [suppressCsvExport]="true"
+    [suppressExcelExport]="true"
+    [suppressCellSelection]="true"
   >
   </ag-grid-angular>
 </div>

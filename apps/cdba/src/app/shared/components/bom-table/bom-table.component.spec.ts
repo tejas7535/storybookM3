@@ -3,12 +3,14 @@ import { SimpleChange } from '@angular/core';
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnApi,
+  FirstDataRenderedEvent,
   GridApi,
-  IStatusPanelParams,
+  GridReadyEvent,
   RowClickedEvent,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BomItem } from '../../models';
@@ -123,13 +125,13 @@ describe('BomTableComponent', () => {
     });
 
     it('should set api and event listener', () => {
-      const params: IStatusPanelParams = {
+      const params: GridReadyEvent = {
         api: {
           addEventListener: jest.fn(),
           showLoadingOverlay: jest.fn(),
         } as unknown as GridApi,
         columnApi: {} as unknown as ColumnApi,
-        context: {},
+        type: '',
       };
       component.isLoading = true;
 
@@ -146,7 +148,7 @@ describe('BomTableComponent', () => {
           addEventListener: jest.fn(),
           showNoRowsOverlay: jest.fn(),
         },
-      } as unknown as IStatusPanelParams;
+      } as unknown as GridReadyEvent;
       component.isLoading = false;
 
       component.onGridReady(params);
@@ -160,7 +162,7 @@ describe('BomTableComponent', () => {
           addEventListener: jest.fn(),
           showNoRowsOverlay: jest.fn(),
         },
-      } as unknown as IStatusPanelParams;
+      } as unknown as GridReadyEvent;
       component.isLoading = false;
 
       component.onGridReady(params);
@@ -175,7 +177,7 @@ describe('BomTableComponent', () => {
         columnApi: {
           autoSizeAllColumns: jest.fn(),
         },
-      } as unknown as IStatusPanelParams;
+      } as unknown as FirstDataRenderedEvent;
 
       component.onFirstDataRendered(params);
 

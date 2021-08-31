@@ -13,8 +13,9 @@ import {
   ColDef,
   ColumnApi,
   ExcelExportModule,
+  FirstDataRenderedEvent,
   GridApi,
-  IStatusPanelParams,
+  GridReadyEvent,
   RowClickedEvent,
   RowGroupingModule,
   RowNode,
@@ -259,7 +260,7 @@ export class BomTableComponent implements OnChanges {
     }
   }
 
-  onGridReady(params: IStatusPanelParams): void {
+  onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
@@ -275,7 +276,7 @@ export class BomTableComponent implements OnChanges {
     this.gridReady.emit(this.gridApi);
   }
 
-  onFirstDataRendered(params: IStatusPanelParams): void {
+  onFirstDataRendered(params: FirstDataRenderedEvent): void {
     params.columnApi.autoSizeAllColumns(false);
   }
 

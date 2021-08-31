@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 import {
-  ColumnEvent,
   ColumnState,
+  FirstDataRenderedEvent,
   GridReadyEvent,
-  IStatusPanelParams,
+  SortChangedEvent,
 } from '@ag-grid-community/all-modules';
 
 import { Transaction } from '../../../core/store/reducers/transactions/models/transaction.model';
@@ -39,7 +39,7 @@ export class ComparableTransactionsComponent {
     private readonly agGridStateService: AgGridStateService
   ) {}
 
-  public onColumnChange(event: ColumnEvent): void {
+  public onColumnChange(event: SortChangedEvent): void {
     const columnState: ColumnState[] = event.columnApi.getColumnState();
 
     this.agGridStateService.setColumnState(this.TABLE_KEY, columnState);
@@ -52,11 +52,11 @@ export class ComparableTransactionsComponent {
     }
   }
 
-  public onFirstDataRendered(params: IStatusPanelParams): void {
-    const colIds = params.columnApi.getAllColumns().map((el) => el.getColId());
+  public onFirstDataRendered(event: FirstDataRenderedEvent): void {
+    const colIds = event.columnApi.getAllColumns().map((el) => el.getColId());
 
     colIds.forEach((colId) => {
-      params.columnApi.autoSizeColumn(colId, colId === 'customerId');
+      event.columnApi.autoSizeColumn(colId, colId === 'customerId');
     });
   }
 }

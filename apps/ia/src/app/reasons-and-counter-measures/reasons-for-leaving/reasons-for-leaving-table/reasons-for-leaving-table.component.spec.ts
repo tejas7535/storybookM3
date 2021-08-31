@@ -1,4 +1,4 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { RowDataChangedEvent } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
@@ -67,7 +67,7 @@ describe('ReasonsForLeavingTableComponent', () => {
         columnApi: {
           autoSizeColumns: jest.fn(),
         },
-      } as unknown as IStatusPanelParams;
+      } as unknown as RowDataChangedEvent;
 
       component.onRowDataChanged(params);
 

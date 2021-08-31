@@ -16,10 +16,10 @@
     (columnVisible)="onColumnChange($event)"
     (gridReady)="onGridReady($event)"
     [sideBar]="sideBar"
-    rowHeight="40"
-    valueCache
-    animateRows
-    suppressContextMenu
+    [rowHeight]="40"
+    [valueCache]="true"
+    [animateRows]="true"
+    [suppressContextMenu]="true"
   >
   </ag-grid-angular>
 </div>

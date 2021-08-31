@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   ClientSideRowModelModule,
   ColDef,
-  IStatusPanelParams,
+  RowDataChangedEvent,
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
@@ -87,8 +87,8 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     ];
   }
 
-  onRowDataChanged(params: IStatusPanelParams): void {
+  onRowDataChanged(event: RowDataChangedEvent): void {
     // autosize reason column to show full content
-    params.columnApi.autoSizeColumns(['detailedReason'], false);
+    event.columnApi.autoSizeColumns(['detailedReason'], false);
   }
 }

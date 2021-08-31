@@ -1,4 +1,3 @@
-import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -10,6 +9,7 @@ import {
 import { StatusBarConfig } from '../../models/table';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 import { HelperService } from './helper-service.service';
+import { Keyboard } from '../../models/keyboard.enum';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -155,7 +155,7 @@ describe('HelperServiceService', () => {
     });
 
     test('should not prevent Default when delete key is pressed', () => {
-      const event = { key: KeyName.DELETE, preventDefault: jest.fn() } as any;
+      const event = { key: Keyboard.DELETE, preventDefault: jest.fn() } as any;
       const manualPriceInput = { value: 20.022 } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
@@ -221,7 +221,7 @@ describe('HelperServiceService', () => {
     });
     test('should not prevent default when input is delete key', () => {
       const event = {
-        key: KeyName.BACKSPACE,
+        key: Keyboard.BACKSPACE,
         preventDefault: jest.fn(),
       } as any;
       HelperService.validateQuantityInputKeyPress(event);

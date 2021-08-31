@@ -5,12 +5,13 @@ import { Observable } from 'rxjs';
 import {
   ColDef,
   ColumnApi,
-  ColumnEvent,
   ExcelStyle,
+  FirstDataRenderedEvent,
   GridReadyEvent,
-  IStatusPanelParams,
+  SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getColumnDefsForRoles } from '../../core/store';
@@ -26,7 +27,6 @@ import {
   STATUS_BAR_CONFIG,
 } from './config';
 import { TableContext } from './config/tablecontext.model';
-import { translate } from '@ngneat/transloco';
 
 @Component({
   selector: 'gq-quotation-details-table',
@@ -94,7 +94,7 @@ export class QuotationDetailsTableComponent implements OnInit {
     );
   }
 
-  public onColumnChange(event: ColumnEvent): void {
+  public onColumnChange(event: SortChangedEvent): void {
     this.agGridStateService.setColumnState(
       this.TABLE_KEY,
       event.columnApi.getColumnState()
@@ -108,8 +108,8 @@ export class QuotationDetailsTableComponent implements OnInit {
     }
   }
 
-  public onFirstDataRendered(params: IStatusPanelParams): void {
-    const gridColumnApi: ColumnApi = params.columnApi;
+  public onFirstDataRendered(event: FirstDataRenderedEvent): void {
+    const gridColumnApi: ColumnApi = event.columnApi;
     gridColumnApi.autoSizeAllColumns(false);
   }
 }

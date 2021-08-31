@@ -11,12 +11,12 @@ import {
 import {
   ColDef,
   Column,
-  ColumnEvent,
+  FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
-  IStatusPanelParams,
   RowSelectedEvent,
   SideBarDef,
+  SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
 
@@ -143,9 +143,9 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  public onFirstDataRendered(params: IStatusPanelParams): void {
-    params.columnApi.autoSizeColumns(
-      params.columnApi
+  public onFirstDataRendered(event: FirstDataRenderedEvent): void {
+    event.columnApi.autoSizeColumns(
+      event.columnApi
         .getAllColumns()
         .filter((column: Column) => column.getId() !== 'checkbox'),
       this.minified
@@ -157,7 +157,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   /**
    * Column change listener for table.
    */
-  public columnChange(event: ColumnEvent): void {
+  public columnChange(event: SortChangedEvent): void {
     const columnState = event.columnApi.getColumnState();
 
     this.agGridStateService.setColumnState(

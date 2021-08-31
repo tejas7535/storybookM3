@@ -2,12 +2,12 @@ import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { StatusBarConfig } from '../../models/table';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
+import { Keyboard } from '../../models/keyboard.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -78,8 +78,8 @@ export class HelperService {
     const parsedInput = Number.parseInt(event.key, 10);
     const isValidNumber = parsedInput === 0 || !Number.isNaN(parsedInput);
     const inputIsAllowedSpecialKey = [
-      KeyName.BACKSPACE,
-      KeyName.DELETE,
+      Keyboard.BACKSPACE,
+      Keyboard.DELETE,
       '.',
     ].includes(event.key);
 
@@ -142,10 +142,8 @@ export class HelperService {
   }
 
   static validateQuantityInputKeyPress(event: KeyboardEvent): void {
-    const inputIsAllowedSpecialKey = [
-      KeyName.BACKSPACE,
-      KeyName.DELETE,
-    ].includes(event.key);
+    const inputIsAllowedSpecialKey =
+      Keyboard.BACKSPACE === event.key || Keyboard.DELETE === event.key;
     const isPaste = event.ctrlKey && event.key === 'v';
 
     if (

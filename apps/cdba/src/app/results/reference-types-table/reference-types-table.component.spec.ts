@@ -5,11 +5,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnApi,
-  ColumnEvent,
+  FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
-  IStatusPanelParams,
   RowSelectedEvent,
+  SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
 import {
   createComponentFactory,
@@ -119,7 +119,7 @@ describe('ReferenceTypesTableComponent', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = {
         columnApi: { getColumnState: jest.fn(() => []) },
-      } as unknown as ColumnEvent;
+      } as unknown as SortChangedEvent;
 
       component.columnChange(mockEvent);
 
@@ -179,7 +179,7 @@ describe('ReferenceTypesTableComponent', () => {
       api: {
         setFilterModel: jest.fn(),
       },
-    } as unknown as IStatusPanelParams;
+    } as unknown as FirstDataRenderedEvent;
 
     beforeEach(() => {
       jest.spyOn(component as any, 'selectNodes');

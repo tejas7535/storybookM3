@@ -6,12 +6,12 @@
   [modules]="modules"
   [frameworkComponents]="frameworkComponents"
   rowSelection="single"
-  rowHeight="30"
-  valueCache
-  animateRows
-  suppressCsvExport
-  suppressExcelExport
-  suppressCellSelection
+  [rowHeight]="30"
+  [valueCache]="true"
+  [animateRows]="true"
+  [suppressCsvExport]="true"
+  [suppressExcelExport]="true"
+  [suppressCellSelection]="true"
   (rowSelected)="onRowSelected($event)"
 >
 </ag-grid-angular>
