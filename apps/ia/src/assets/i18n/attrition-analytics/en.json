@@ -5,8 +5,14 @@
       "title": "Choose analysis features",
       "availableFeatures": "Available Features",
       "selectedFeatures": "Selected Features",
-      "close": "close",
+      "confirm": "Confirm",
       "amountSelected": "{{ selected }} of {{ total }} selected"
     }
+  },
+  "barChart": {
+    "belowAverage": "Below average",
+    "aboveAverage": "Above average",
+    "attrRate": "Attr. Rate",
+    "numEmployees": "num. Employees"
   }
 }

@@ -1,45 +1,101 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, mergeMap, Observable } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
-import { Color } from '../shared/models/color.enum';
-import { loadEmployeeAnalytics } from './store/actions/attrition-analytics.action';
-import { getEmployeeAnalyticsBarChartConfig } from './store/selectors/attrition-analytics.selector';
+import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
+import { FeatureSelector } from './models/feature-selector.model';
+import {
+  changeSelectedFeatures,
+  initializeSelectedFeatures,
+  loadEmployeeAnalytics,
+} from './store/actions/attrition-analytics.action';
+import {
+  getBarChartConfigsForSelectedFeatures,
+  getFeatureSelectors,
+} from './store/selectors/attrition-analytics.selector';
 
 @Component({
   selector: 'ia-attrition-analytics',
   templateUrl: './attrition-analytics.component.html',
 })
 export class AttritionAnalyticsComponent implements OnInit {
+  readonly NUMBER_OF_TILES = 4;
   readonly AGE_FEATURE_NAME = 'Age';
   readonly EDUCATION_FEATURE_NAME = 'Education';
   readonly POSITION_FEATURE_NAME = 'Position';
 
-  ageChartConfig$: Observable<BarChartConfig>;
-  educationChartConfig$: Observable<BarChartConfig>;
-  positionChartConfig$: Observable<BarChartConfig>;
+  barChartConfigs$: Observable<BarChartConfig[]>;
 
-  constructor(private readonly store: Store) {}
+  selectedFeatures$: Observable<FeatureSelector[]>;
+
+  constructor(
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(loadEmployeeAnalytics());
-    this.ageChartConfig$ = this.store.select(
-      getEmployeeAnalyticsBarChartConfig(this.AGE_FEATURE_NAME, Color.LIME)
+    this.selectDefaultFeatures();
+
+    this.selectedFeatures$ = this.store.select(getFeatureSelectors);
+
+    this.barChartConfigs$ = this.store
+      .select(getBarChartConfigsForSelectedFeatures)
+      .pipe(
+        mergeMap((configs) =>
+          this.translocoService
+            .selectTranslateObject('barChart', {}, 'attrition-analytics')
+            .pipe(
+              map((translations: EmployeeAnalyticsTranslations) =>
+                this.mapConfigsWithTranslations(configs, translations)
+              )
+            )
+        )
+      );
+  }
+
+  mapConfigsWithTranslations(
+    configs: BarChartConfig[],
+    translations: EmployeeAnalyticsTranslations
+  ): BarChartConfig[] {
+    configs?.forEach((config) => {
+      config.belowAverageText = translations.belowAverage;
+      config.aboveAverageText = translations.aboveAverage;
+      config.series.forEach(
+        (serie) =>
+          (serie.names = [translations.attrRate, translations.numEmployees])
+      );
+    });
+
+    return configs;
+  }
+
+  selectDefaultFeatures() {
+    this.store.dispatch(
+      initializeSelectedFeatures({
+        features: [
+          this.EDUCATION_FEATURE_NAME,
+          this.AGE_FEATURE_NAME,
+          this.POSITION_FEATURE_NAME,
+        ],
+      })
     );
-    this.educationChartConfig$ = this.store.select(
-      getEmployeeAnalyticsBarChartConfig(
-        this.EDUCATION_FEATURE_NAME,
-        Color.LIGHT_BLUE
-      )
-    );
-    this.positionChartConfig$ = this.store.select(
-      getEmployeeAnalyticsBarChartConfig(
-        this.POSITION_FEATURE_NAME,
-        Color.PICTON_BLUE
-      )
-    );
+  }
+
+  onSelectedFeatures(featureSelectors: FeatureSelector[]): void {
+    const features = featureSelectors.map((selector) => selector.name);
+    this.store.dispatch(changeSelectedFeatures({ features }));
+  }
+
+  anySelectedFeature(selectedFeatures: FeatureSelector[]): boolean {
+    return selectedFeatures?.filter((feature) => feature.selected).length > 0;
+  }
+
+  trackByFn(index: number): number {
+    return index;
   }
 }

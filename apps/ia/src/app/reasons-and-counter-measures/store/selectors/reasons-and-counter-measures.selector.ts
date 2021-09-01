@@ -13,7 +13,7 @@ import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.mod
 export const getComparedSelectedOrgUnit = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving?.comparedSelectedOrgUnit.value?.toString()
+    state.reasonsForLeaving.comparedSelectedOrgUnit?.value?.toString()
 );
 
 export const getComparedSelectedTimePeriod = createSelector(

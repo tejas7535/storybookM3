@@ -2,36 +2,52 @@ import { getPercentageValue } from '../../../overview/store/selectors/overview-s
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
 import { EmployeeAnalyticsFeature } from '../../models/employee-analytics-feature.model';
+import { FeatureSelector } from '../../models/feature-selector.model';
 
 export function mapEmployeeAnalyticsFeatureToBarChartConfig(
-  feature: EmployeeAnalyticsFeature,
+  features: EmployeeAnalyticsFeature[],
   average: number,
   color: string
 ): BarChartConfig {
-  const values: number[][] = [];
+  let values: number[][] = [];
+  const barChartSerie: BarChartSerie = new BarChartSerie([], [], color);
+  for (const feature of features) {
+    for (let index = 0; index < feature.values.length; index += 1) {
+      const attrition =
+        feature.employeeCount[index] !== 0
+          ? feature.attritionCount[index] / feature.employeeCount[index]
+          : 0;
+      values.push([
+        getPercentageValue(attrition),
+        feature.employeeCount[index],
+      ]);
+    }
 
-  for (let index = 0; index < feature.values.length; index += 1) {
-    const attrition =
-      feature.employeeCount[index] !== 0
-        ? feature.attritionCount[index] / feature.employeeCount[index]
-        : 0;
-    values.push([getPercentageValue(attrition), feature.employeeCount[index]]);
+    barChartSerie.values.push(...values);
+    values = [];
   }
 
-  const barChartSerie: BarChartSerie = new BarChartSerie(
-    ['Attr. Rate', 'num. Employees'],
-    values,
-    color
-  );
+  let categories: string[] = [];
+  features.forEach((feat) => {
+    categories = [...categories, ...feat.values];
+  });
 
-  return feature
-    ? new BarChartConfig(
-        feature.name,
-        [barChartSerie],
-        feature.values,
-        average,
-        'Below average',
-        'Above average'
-      )
+  return features
+    ? new BarChartConfig(features[0].name, [barChartSerie], categories, average)
     : undefined;
+}
+
+export function mapToFeatureSelectors(
+  all: string[],
+  selected: string[]
+): FeatureSelector[] {
+  const unselectedFeatures = all
+    .filter((feature) => !selected || !selected.includes(feature))
+    .map((feature) => new FeatureSelector(feature, false));
+
+  const selectedFeatures = selected
+    ? selected?.map((feature) => new FeatureSelector(feature, true))
+    : [];
+
+  return [...unselectedFeatures, ...selectedFeatures];
 }

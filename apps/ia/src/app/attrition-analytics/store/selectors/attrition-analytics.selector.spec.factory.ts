@@ -24,36 +24,39 @@ export function createFakeState(): AttritionAnalyticsState {
       loading: false,
     },
     selectedByUser: {
-      features: undefined,
+      features: ['Position'],
     },
   };
 }
-
-export function createAgeFeature(): EmployeeAnalyticsFeature {
+export function createDummyFeature(name: string): EmployeeAnalyticsFeature {
   return {
-    name: 'Age',
+    name,
     employeeCount: [50, 49, 59],
     values: ['18', '19', '20'],
     attritionCount: [2, 5, 7],
   };
 }
 
+export function createAgeFeature(): EmployeeAnalyticsFeature {
+  return createDummyFeature('Age');
+}
+
+export function createDummyBarchartConfig(
+  name: string,
+  serie: BarChartSerie
+): BarChartConfig {
+  return new BarChartConfig(name, [serie], ['18', '19', '20'], 0.45);
+}
+
 export function createBarchartConfigForAge(
   serie: BarChartSerie
 ): BarChartConfig {
-  return new BarChartConfig(
-    'Age',
-    [serie],
-    ['18', '19', '20'],
-    0.45,
-    'Below average',
-    'Above average'
-  );
+  return createDummyBarchartConfig('Age', serie);
 }
 
-export function createBarChartSerieForAge(color: string): BarChartSerie {
+export function createDummyBarChartSerie(color: string): BarChartSerie {
   return new BarChartSerie(
-    ['Attr. Rate', 'num. Employees'],
+    [],
     [
       [4, 50],
       [10.2, 49],

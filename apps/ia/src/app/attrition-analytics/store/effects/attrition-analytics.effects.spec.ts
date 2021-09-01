@@ -8,6 +8,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import {
+  changeSelectedFeatures,
+  initializeSelectedFeatures,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
@@ -33,7 +35,7 @@ describe('Attrition Anayltics Effects', () => {
       {
         provide: AttritionAnalyticsService,
         useValue: {
-          getInitialFilters: jest.fn(),
+          getEmployeeAnalytics: jest.fn(),
         },
       },
     ],
@@ -96,6 +98,24 @@ describe('Attrition Anayltics Effects', () => {
         expect(
           employeeAnalyticsService.getEmployeeAnalytics
         ).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe('initializeSelectedFeatures$', () => {
+    beforeEach(() => {
+      action = initializeSelectedFeatures({ features: ['Age', 'Position'] });
+    });
+
+    test('should initialize selected features when selected features undefined', () => {
+      marbles((m) => {
+        const result = changeSelectedFeatures({
+          features: ['Education', 'Age', 'Position'],
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.initializeSelectedFeatures$).toBeObservable(expected);
       });
     });
   });

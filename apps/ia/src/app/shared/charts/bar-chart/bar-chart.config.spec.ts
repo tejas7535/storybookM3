@@ -86,6 +86,7 @@ describe('Bar Chart Config', () => {
           }[]
         ).map((item) => item.value)
       ).toEqual(config.categories);
+      expect((result.yAxis as YAXisOption).inverse).toBeTruthy();
       expect((result.visualMap as PiecewiseVisualMapOption[]).length).toEqual(
         1
       );
@@ -192,7 +193,8 @@ describe('Bar Chart Config', () => {
           show: true,
           yAxisIndex: [0],
           left: '97%',
-          start: 100,
+          start: 0,
+          end: 0,
           width: 0,
           handleSize: 0,
           fillerColor: 'transparent',

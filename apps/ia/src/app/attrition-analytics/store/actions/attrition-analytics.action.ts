@@ -20,3 +20,8 @@ export const changeSelectedFeatures = createAction(
   '[AttritionAnalytics] Change Selected Features',
   props<{ features: string[] }>()
 );
+
+export const initializeSelectedFeatures = createAction(
+  '[AttritionAnalytics] Initialize Selected Features',
+  props<{ features: string[] }>()
+);

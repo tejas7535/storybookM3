@@ -31,6 +31,7 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
       axisLine: {
         show: false,
       },
+      inverse: true,
       axisTick: { show: false },
       data: formatCategories(config),
       axisLabel: {
@@ -135,7 +136,8 @@ export function addSlider(config: BarChartConfig, option: EChartsOption): void {
         show: true,
         yAxisIndex: [0],
         left: '97%',
-        start: 100,
+        start: 0,
+        end: 0,
         width: 0,
         handleSize: 0,
         fillerColor: 'transparent',
