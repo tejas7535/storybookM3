@@ -3023,7 +3023,7 @@
             "config": {
               "configFolder": "libs/shared/ui/storybook/.storybook"
             },
-            "projectBuildConfig": "mm"
+            "projectBuildConfig": "helloworld-azure"
           },
           "configurations": {
             "ci": {
