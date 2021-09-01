@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
@@ -12,9 +10,6 @@ import {
   getUsername,
 } from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer';
-
-import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';
-import { BrowserDetectionService } from '@cdba/shared/services';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
@@ -45,25 +40,11 @@ export class AppComponent implements OnInit {
   profileImage$: Observable<string>;
   isLoggedIn$: Observable<boolean>;
 
-  public constructor(
-    private readonly browserDetectionService: BrowserDetectionService,
-    private readonly store: Store,
-    private readonly dialog: MatDialog
-  ) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
-    this.isLoggedIn$ = this.store.select(getIsLoggedIn).pipe(
-      tap((loggedIn) => {
-        if (loggedIn && this.browserDetectionService.isUnsupportedBrowser()) {
-          this.dialog.open(BrowserSupportDialogComponent, {
-            hasBackdrop: true,
-            disableClose: true,
-            maxWidth: 400,
-          });
-        }
-      })
-    );
+    this.isLoggedIn$ = this.store.select(getIsLoggedIn);
   }
 }

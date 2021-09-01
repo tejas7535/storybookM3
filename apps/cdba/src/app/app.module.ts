@@ -1,12 +1,18 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import { SharedModule } from '@cdba/shared';
+import {
+  LoadingSpinnerModule,
+  BrowserSupportModule,
+  UserSettingsModule,
+} from '@cdba/shared/components';
 
 import { CoreModule } from '@cdba/core';
-import { SharedModule } from '@cdba/shared';
+import { AppShellModule } from '@schaeffler/app-shell';
+import { FooterModule } from '@schaeffler/footer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,10 +23,17 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
     AppRoutingModule,
     HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
+
     CoreModule,
     SharedModule,
-    MatDialogModule,
+
+    LoadingSpinnerModule,
+    BrowserSupportModule,
+    AppShellModule,
+    FooterModule,
+    UserSettingsModule,
   ],
+  declarations: [AppComponent],
   providers: [
     {
       provide: ENV,
