@@ -82,6 +82,35 @@
         "guidanceMessage": "Please use Google Chrome or the latest version of Microsoft Edge. Contact your IV coordinator if you need support with installing a new browser.",
         "confirm": "Use CDBA anyways"
       }
+    },
+    "chargeableSoon": {
+      "badge": {
+        "label": "Trial ends soon"
+      },
+      "dialog": {
+        "title": {
+          "main": "Trial ending soon"
+        },
+        "content": {
+          "main": "We’d like to inform you that CDBA has officially become a Schaeffler product \uD83C\uDF89 \uD83C\uDF8A \uD83C\uDF7E . <span class=\"font-bold\">You have until the 1st of October before we start charging your department.</span> If you don’t want to continue using CDBA, you can delete account using the button below."
+        },
+        "action": {
+          "primary": "Close",
+          "secondary": "Delete account"
+        }
+      },
+      "confirmation": {
+        "title": {
+          "main": "Delete account"
+        },
+        "content": {
+          "main": "Are you sure you want to delete your account? You will loose all access to CDBA and its functionality starting 1st of October."
+        },
+        "action": {
+          "primary": "Cancel",
+          "secondary": "Confirm"
+        }
+      }
     }
   },
   "drawings": {
