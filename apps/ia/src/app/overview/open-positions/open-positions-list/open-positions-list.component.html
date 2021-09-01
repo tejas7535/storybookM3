@@ -22,7 +22,7 @@
       <mat-icon
         class="text-[16px] !w-[16px] !h-[16px]"
         [ngStyle]="{ color: colors.GREEN }"
-        >south</mat-icon
+        >west</mat-icon
       >
       <p>{{ t('internal') }}</p>
     </div>
@@ -30,7 +30,7 @@
       <mat-icon
         class="text-[16px] !w-[16px] !h-[16px] ml-[3px]"
         [ngStyle]="{ color: colors.BLUE }"
-        >north</mat-icon
+        >east</mat-icon
       >
       <p>{{ t('external') }}</p>
     </div>
@@ -51,29 +51,22 @@
       <span class="ml-1 mr-2 flex self-center">
         {{ application.name }}
       </span>
-      <ng-container *ngIf="application.recruitmentSources.length > 0">
-        <mat-icon
-          class="text-[16px] !w-[16px] !h-[16px] self-center"
-          [ngClass]="{ 'mr-8': last }"
-          [ngStyle]="{
-            color:
-              recruitmentSource.toUpperCase() ===
-              recruitmentSources.INTERNAL.toUpperCase()
-                ? colors.GREEN
-                : colors.BLUE
-          }"
-          *ngFor="
-            let recruitmentSource of application.recruitmentSources;
-            let last = last
-          "
-          >{{
-            recruitmentSource.toUpperCase() ===
-            recruitmentSources.INTERNAL.toUpperCase()
-              ? 'south'
-              : 'north'
-          }}</mat-icon
-        >
-      </ng-container>
+      <mat-icon
+        class="text-[16px] !w-[16px] !h-[16px] self-center"
+        [ngStyle]="{
+          color: colors.BLUE
+        }"
+        *ngIf="application.isExternal"
+        >east</mat-icon
+      >
+      <mat-icon
+        class="text-[16px] !w-[16px] !h-[16px] self-center"
+        [ngStyle]="{
+          color: colors.GREEN
+        }"
+        *ngIf="application.isInternal"
+        >west</mat-icon
+      >
 
       <span class="flex self-center justify-end ml-auto">
         {{ application.approvalDate | date: 'dd.MM.yyyy' }}

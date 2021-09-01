@@ -9,7 +9,6 @@ import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { EmployeesRequest, FluctuationRatesChartData } from '../shared/models';
 import { OpenApplication, ResignedEmployeesResponse } from './models';
-import { RecruitmentSource } from './models/recruitment-source.enum';
 import { OverviewService } from './overview.service';
 
 describe('OverviewService', () => {
@@ -107,7 +106,8 @@ describe('OverviewService', () => {
           count: 3,
           name: 'Developer',
           approvalDate: '123',
-          recruitmentSources: [RecruitmentSource.EXTERNAL],
+          isExternal: true,
+          isInternal: false,
         } as OpenApplication,
       ];
       const orgUnit = 'ABC123';
