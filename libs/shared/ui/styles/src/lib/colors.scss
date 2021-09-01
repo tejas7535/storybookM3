@@ -1,3 +1,15 @@
+/*Schaeffler-contrast-colors*/
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
 /*Schaeffler-GREENS*/
 $schaeffler-green-1: #00893d; //Primary / Popular / Highlight-Color / Toasts / Notifications
 $schaeffler-green-2: #005f14; //Secondary / Highlight-Color
@@ -35,7 +47,9 @@ $schaeffler-carbon-gray: #646464; //text / secondary button
 $schaeffler-carbon-gray-10: #efefef; //10% opacity carbon gray
 $schaeffler-carbon-gray-40: #c1c1c1; //40% opacity carbon gray
 
-//http://mcg.mbitson.com/
+/*custom material color palettes, see: http://mcg.mbitson.com */
+
+// palette based on $schaeffler-green-1
 $mat-schaeffler-primary: (
   50: #e0f1e8,
   100: #b3dcc5,
@@ -52,23 +66,24 @@ $mat-schaeffler-primary: (
   A400: #25ff4e,
   A700: #0bff3a,
   contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
   ),
 );
 
+// palette based on $schaeffler-blue
 $mat-schaeffler-accent: (
   50: #e4f3f6,
   100: #bbe1e8,
@@ -85,52 +100,53 @@ $mat-schaeffler-accent: (
   A400: #52d4ff,
   A700: #39ceff,
   contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
   ),
 );
 
+// palette based on $schaeffler-yellow
 $mat-schaeffler-warn: (
-  50: #fce6e5,
-  100: #f8c0be,
-  200: #f39693,
-  300: #ee6b68,
-  400: #ea4c47,
-  500: #e62c27,
-  600: #e32723,
-  700: #df211d,
-  800: #db1b17,
-  900: #d5100e,
+  50: #fff9e9,
+  100: #fef1c8,
+  200: #fee7a3,
+  300: #fddd7e,
+  400: #fcd662,
+  500: #fccf46,
+  600: #fcca3f,
+  700: #fbc337,
+  800: #fbbd2f,
+  900: #fab220,
   A100: #ffffff,
-  A200: #ffcece,
-  A400: #ff9c9b,
-  A700: #ff8281,
+  A200: #fffefd,
+  A400: #ffecca,
+  A700: #ffe3b1,
   contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000,
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $dark-primary-text,
+    700: $dark-primary-text,
+    800: $dark-primary-text,
+    900: $dark-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
   ),
 );
