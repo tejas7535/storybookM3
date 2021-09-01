@@ -231,7 +231,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: statusBarCalculation.totalNetValue.toString(),
+            value: statusBarCalculation?.totalNetValue?.toString() || '-',
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -299,7 +299,7 @@ export class ExportToExcelButtonComponent {
     const lastYear = HelperService.getLastYear();
     const currentYear = HelperService.getCurrentYear();
 
-    const result: ExcelCell[][] = [
+    return [
       [
         {
           data: {
@@ -378,7 +378,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: customer.marginDetail?.netSalesLastYear.toString() || '-',
+            value: customer.marginDetail?.netSalesLastYear?.toString() || '-',
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -396,7 +396,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: `${customer.marginDetail?.gpiLastYear.toString() || '-'}%`,
+            value: `${customer.marginDetail?.gpiLastYear?.toString() || '-'}%`,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -414,7 +414,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: customer.marginDetail?.currentNetSales.toString() || '-',
+            value: customer.marginDetail?.currentNetSales?.toString() || '-',
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -432,7 +432,7 @@ export class ExportToExcelButtonComponent {
         {
           data: {
             type,
-            value: `${customer.marginDetail?.currentGpi.toString() || '-'}%`,
+            value: `${customer.marginDetail?.currentGpi?.toString() || '-'}%`,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -474,7 +474,5 @@ export class ExportToExcelButtonComponent {
         },
       ],
     ];
-
-    return result;
   }
 }
