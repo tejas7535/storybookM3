@@ -13,6 +13,7 @@ import {
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
   MasterDetailModule,
+  MenuModule,
   MultiFilterModule,
   SetFilterModule,
   SideBarModule,
@@ -42,6 +43,7 @@ export class SalesTableComponent implements OnInit {
     ColumnsToolPanelModule,
     SetFilterModule,
     SideBarModule,
+    MenuModule,
   ];
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;

@@ -1,9 +1,18 @@
-import { ColDef } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 
+import { IGNORE_FLAG_DESCRIPTIONS } from '../constants/ignore-flag-descriptions.const';
 import { FILTER_PARAMS } from './filter-params';
 
 export const dateFormatter = (data: any): string =>
   data.value ? new Date(data.value).toLocaleDateString() : '';
+
+export const warningFormatter = (data: any): string =>
+  data.value === 'true' ? 'Warning' : 'No Warning';
+
+export const ignoreFlagFormatter = (data: any): string =>
+  IGNORE_FLAG_DESCRIPTIONS[data.value]
+    ? IGNORE_FLAG_DESCRIPTIONS[data.value]
+    : `No ignore flag description for ${data.value}`;
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -15,11 +24,39 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'timeoutWarning',
     headerName: 'Warnings',
-    filterParams: FILTER_PARAMS,
+    filterParams: {
+      ...FILTER_PARAMS,
+      valueFormatter: warningFormatter,
+    },
     cellRenderer: 'warningsCellrenderer',
     cellStyle: {
       display: 'flex ',
       'justify-content': 'center',
+    },
+  },
+  {
+    field: 'lastModifier',
+    headerName: 'Last SOCO Planner',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'eopDateVerified',
+    headerName: 'EOP',
+    filter: 'agDateColumnFilter',
+    valueFormatter: dateFormatter,
+    filterParams: {
+      ...FILTER_PARAMS,
+      filterOptions: ['equals', 'inRange'],
+    },
+  },
+  {
+    field: 'edoDate',
+    headerName: 'EDO',
+    filter: 'agDateColumnFilter',
+    valueFormatter: dateFormatter,
+    filterParams: {
+      ...FILTER_PARAMS,
+      filterOptions: ['equals', 'inRange'],
     },
   },
   {
@@ -103,33 +140,17 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
+    field: 'ignoreFlag',
+    headerName: 'Ignore flag',
+    valueFormatter: ignoreFlagFormatter,
+    filterParams: {
+      ...FILTER_PARAMS,
+      valueFormatter: ignoreFlagFormatter,
+    },
+  },
+  {
     field: 'categoryNetSales',
     headerName: 'Net Sales Category',
     filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'lastModifier',
-    headerName: 'Last SOCO Planner',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'eopDateVerified',
-    headerName: 'EOP',
-    filter: 'agDateColumnFilter',
-    valueFormatter: dateFormatter,
-    filterParams: {
-      ...FILTER_PARAMS,
-      filterOptions: ['equals', 'inRange'],
-    },
-  },
-  {
-    field: 'edoDate',
-    headerName: 'EDO',
-    filter: 'agDateColumnFilter',
-    valueFormatter: dateFormatter,
-    filterParams: {
-      ...FILTER_PARAMS,
-      filterOptions: ['equals', 'inRange'],
-    },
   },
 ];

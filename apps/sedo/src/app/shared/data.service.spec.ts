@@ -11,8 +11,10 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { environment } from '../../environments/environment';
 import { salesSummaryMock } from '../../testing/mocks/sales-summary.mock';
+import { IgnoreFlag } from '../sales-summary/sales-row-details/enums/ignore-flag.enum';
 import { DataService } from './data.service';
 import { UpdateDatesParams } from './models/dates-update.model';
+import { UpdateIgnoreFlagParams } from './models/ignore-flag-update.model';
 
 describe('DataService', () => {
   let dataService: DataService;
@@ -64,6 +66,22 @@ describe('DataService', () => {
 
       expect(httpClient.put).toHaveBeenCalledTimes(1);
       expect(httpClient.put).toHaveBeenCalledWith(url, updateDates);
+    });
+  });
+
+  describe('updateIgnoreFlag', () => {
+    it('should resolve', async () => {
+      const updateIgnoreFlagParams = new UpdateIgnoreFlagParams(
+        '123',
+        IgnoreFlag.CustomerNumberChange
+      );
+      httpClient.put = jest.fn().mockReturnValue(of({}));
+
+      const url = `${environment.apiBaseUrl}/sales/update-ignore-flag`;
+      await dataService.updateIgnoreFlag(updateIgnoreFlagParams);
+
+      expect(httpClient.put).toHaveBeenCalledTimes(1);
+      expect(httpClient.put).toHaveBeenCalledWith(url, updateIgnoreFlagParams);
     });
   });
 });

@@ -1,3 +1,5 @@
+import { IgnoreFlag } from '../../sales-summary/sales-row-details/enums/ignore-flag.enum';
+
 export enum SalesCategory {
   A = 'A',
   B = 'B',
@@ -23,6 +25,7 @@ export class SalesSummary {
     public productLineKey: string,
     public salesorgName: string,
     public salesorgKey: string,
+    public ignoreFlag: IgnoreFlag,
     public lastUpdated: string,
     public eopDateTemp: string,
     public lastEopCalculated: string,

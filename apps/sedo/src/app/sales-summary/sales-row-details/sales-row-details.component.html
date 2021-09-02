@@ -98,14 +98,22 @@
         >EDO before EOP is not allowed.</mat-error
       >
     </mat-form-field>
-
-    <button
-      *ngIf="!datesFormGroup.disabled"
-      mat-raised-button
-      color="primary"
-      (click)="sendUpdatedDates()"
-    >
-      CONFIRM
-    </button>
+    <div>
+      <button
+        *ngIf="!datesFormGroup.disabled"
+        mat-raised-button
+        (click)="openIgnoreDialog()"
+      >
+        SET IGNORE
+      </button>
+      <button
+        *ngIf="!datesFormGroup.disabled"
+        mat-raised-button
+        color="primary"
+        (click)="sendUpdatedDates()"
+      >
+        CONFIRM DATES
+      </button>
+    </div>
   </div>
 </div>

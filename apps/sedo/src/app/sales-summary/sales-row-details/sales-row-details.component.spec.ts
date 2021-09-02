@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -12,6 +13,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { of } from 'rxjs';
 
 import { RowNode } from '@ag-grid-community/core';
+import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -21,7 +23,10 @@ import { APP_STATE_MOCK } from '../../../testing/mocks/app-state-mock';
 import { salesSummaryMock } from '../../../testing/mocks/sales-summary.mock';
 import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
+import { UpdateIgnoreFlagParams } from '../../shared/models/ignore-flag-update.model';
 import { SalesSummary } from '../../shared/models/sales-summary.model';
+import { IgnoreFlag } from './enums/ignore-flag.enum';
+import { IgnoreFlagDialogComponent } from './ignore-flag-dialog/ignore-flag-dialog.component';
 import { SalesRowDetailsComponent } from './sales-row-details.component';
 
 describe('SalesRowDetailsComponent', () => {
@@ -29,6 +34,7 @@ describe('SalesRowDetailsComponent', () => {
   let spectator: Spectator<SalesRowDetailsComponent>;
   let dataService: DataService;
   let snackBarService: SnackBarService;
+  let matDialog: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
     component: SalesRowDetailsComponent,
@@ -41,11 +47,18 @@ describe('SalesRowDetailsComponent', () => {
       MatDatepickerModule,
       MatNativeDateModule,
       MatButtonModule,
+      MatDialogModule,
       BrowserDynamicTestingModule,
       HttpClientTestingModule,
       SnackBarModule,
     ],
     providers: [
+      {
+        provide: MatDialog,
+        useValue: {
+          open: jest.fn(),
+        },
+      },
       provideMockStore({
         initialState: APP_STATE_MOCK,
       }),
@@ -57,6 +70,11 @@ describe('SalesRowDetailsComponent', () => {
     component = spectator.debugElement.componentInstance;
     dataService = spectator.inject(DataService);
     snackBarService = spectator.inject(SnackBarService);
+    matDialog = spectator.inject(MatDialog);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should create', () => {
@@ -358,6 +376,137 @@ describe('SalesRowDetailsComponent', () => {
       expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
         'Cannot update with invalid or empty EDO Date field'
       );
+    });
+  });
+
+  describe('sendUpdatedIgnoreFlag', () => {
+    it(
+      'should send update, update grid and show success message',
+      waitForAsync(() => {
+        component['rowNode'] = {
+          setDataValue: jest.fn(),
+        } as unknown as RowNode;
+
+        dataService.updateIgnoreFlag = jest.fn().mockResolvedValue({});
+        snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
+        snackBarService.showErrorMessage = jest.fn();
+        snackBarService.showWarningMessage = jest.fn();
+
+        component.rowData = {
+          combinedKey: salesSummaryMock.combinedKey,
+        } as unknown as SalesSummary;
+
+        const mockIgnoreFlag = IgnoreFlag.CustomerNumberChange;
+
+        component.sendUpdatedIgnoreFlag(mockIgnoreFlag).then(() => {
+          const expectedUpdateParams = new UpdateIgnoreFlagParams(
+            salesSummaryMock.combinedKey,
+            mockIgnoreFlag
+          );
+
+          expect(dataService.updateIgnoreFlag).toHaveBeenCalledTimes(1);
+          expect(dataService.updateIgnoreFlag).toHaveBeenCalledWith(
+            expectedUpdateParams
+          );
+
+          expect(component['rowNode'].setDataValue).toHaveBeenCalledTimes(1);
+          expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
+            'ignoreFlag',
+            mockIgnoreFlag
+          );
+
+          expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+          expect(snackBarService.showSuccessMessage).toHaveBeenCalledWith(
+            'Update successful'
+          );
+
+          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(0);
+          expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(0);
+        });
+      })
+    );
+
+    it(
+      'should show an error message on error',
+      waitForAsync(() => {
+        dataService.updateIgnoreFlag = jest.fn().mockRejectedValue({});
+        snackBarService.showSuccessMessage = jest.fn();
+        snackBarService.showErrorMessage = jest.fn().mockReturnValue(of());
+
+        component.rowData = {
+          combinedKey: salesSummaryMock.combinedKey,
+        } as unknown as SalesSummary;
+
+        const mockIgnoreFlag = IgnoreFlag.CustomerNumberChange;
+
+        component.sendUpdatedIgnoreFlag(mockIgnoreFlag).then(() => {
+          const expectedUpdateParams = new UpdateIgnoreFlagParams(
+            salesSummaryMock.combinedKey,
+            mockIgnoreFlag
+          );
+
+          expect(dataService.updateIgnoreFlag).toHaveBeenCalledTimes(1);
+          expect(dataService.updateIgnoreFlag).toHaveBeenCalledWith(
+            expectedUpdateParams
+          );
+
+          expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(0);
+
+          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(1);
+          expect(snackBarService.showErrorMessage).toHaveBeenCalledWith(
+            'Update failed'
+          );
+        });
+      })
+    );
+  });
+
+  describe('openIgnoreDialog', () => {
+    it('should open ignore flag dialog', () => {
+      component.rowData = {
+        ignoreFlag: IgnoreFlag.None,
+      } as SalesSummary;
+
+      const mockDialogRef = {
+        afterClosed: jest.fn(() => of(IgnoreFlag.CustomerNumberChange)),
+      } as any;
+
+      matDialog.open = jest.fn(() => mockDialogRef) as any;
+
+      component.sendUpdatedIgnoreFlag = jest.fn();
+
+      component.openIgnoreDialog();
+      expect(matDialog.open).toHaveBeenCalledTimes(1);
+      expect(matDialog.open).toHaveBeenCalledWith(IgnoreFlagDialogComponent, {
+        data: IgnoreFlag.None,
+      });
+
+      expect(component.sendUpdatedIgnoreFlag).toHaveBeenCalledTimes(1);
+      expect(component.sendUpdatedIgnoreFlag).toHaveBeenCalledWith(
+        IgnoreFlag.CustomerNumberChange
+      );
+    });
+
+    it('should do nothing if ignoreFlag is undefined', () => {
+      component.rowData = {
+        ignoreFlag: IgnoreFlag.None,
+      } as SalesSummary;
+
+      const mockDialogRef = {
+        afterClosed: jest.fn(() => of(undefined)),
+      } as any;
+
+      matDialog.open = jest.fn(() => mockDialogRef) as any;
+
+      component.sendUpdatedIgnoreFlag = jest.fn();
+
+      component.openIgnoreDialog();
+      expect(matDialog.open).toHaveBeenCalledTimes(1);
+      expect(matDialog.open).toHaveBeenCalledWith(IgnoreFlagDialogComponent, {
+        data: IgnoreFlag.None,
+      });
+
+      expect(component.sendUpdatedIgnoreFlag).toHaveBeenCalledTimes(0);
     });
   });
 

@@ -1,3 +1,4 @@
+import { IgnoreFlag } from '../../app/sales-summary/sales-row-details/enums/ignore-flag.enum';
 import { SalesSummary } from '../../app/shared/models/sales-summary.model';
 
 export const salesSummaryMock = new SalesSummary(
@@ -19,6 +20,7 @@ export const salesSummaryMock = new SalesSummary(
   'product line key',
   '0205',
   'FAS',
+  IgnoreFlag.None,
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',

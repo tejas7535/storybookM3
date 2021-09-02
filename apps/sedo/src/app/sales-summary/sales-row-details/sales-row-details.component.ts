@@ -5,6 +5,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Subscription } from 'rxjs';
@@ -18,7 +19,10 @@ import { SnackBarService } from '@schaeffler/snackbar';
 
 import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
+import { UpdateIgnoreFlagParams } from '../../shared/models/ignore-flag-update.model';
 import { SalesSummary } from '../../shared/models/sales-summary.model';
+import { IgnoreFlag } from './enums/ignore-flag.enum';
+import { IgnoreFlagDialogComponent } from './ignore-flag-dialog/ignore-flag-dialog.component';
 
 @Component({
   selector: 'sedo-sales-row-details',
@@ -42,7 +46,8 @@ export class SalesRowDetailsComponent
   constructor(
     private readonly store: Store,
     private readonly dataService: DataService,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBarService: SnackBarService,
+    private readonly dialog: MatDialog
   ) {}
 
   private static convertToIsoDateString(date: string | Date): string {
@@ -117,6 +122,32 @@ export class SalesRowDetailsComponent
     });
   }
 
+  public async sendUpdatedIgnoreFlag(ignoreFlag: IgnoreFlag): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const updateIgnoreFlagParams: UpdateIgnoreFlagParams = {
+        combinedKey: this.rowData.combinedKey,
+        ignoreFlag,
+      };
+      this.dataService
+        .updateIgnoreFlag(updateIgnoreFlagParams)
+        .then(() => {
+          this.rowNode.setDataValue(
+            'ignoreFlag',
+            updateIgnoreFlagParams.ignoreFlag
+          );
+
+          this.snackBarService.showSuccessMessage('Update successful');
+
+          resolve();
+        })
+        .catch(() => {
+          this.snackBarService.showErrorMessage('Update failed');
+
+          resolve();
+        });
+    });
+  }
+
   private setInitialFormValues(): void {
     this.datesFormGroup
       .get('edoDateControl')
@@ -176,5 +207,17 @@ export class SalesRowDetailsComponent
     this.timedOutCloser = window.setTimeout(() => {
       trigger.closeMenu();
     }, 1500);
+  }
+
+  public openIgnoreDialog(): void {
+    const dialogRef = this.dialog.open(IgnoreFlagDialogComponent, {
+      data: this.rowData.ignoreFlag,
+    });
+
+    dialogRef.afterClosed().subscribe((ignoreFlag: IgnoreFlag) => {
+      if (ignoreFlag !== undefined) {
+        this.sendUpdatedIgnoreFlag(ignoreFlag);
+      }
+    });
   }
 }
