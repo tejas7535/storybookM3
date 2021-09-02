@@ -3,12 +3,34 @@
     class="shadow w-full flex flex-col"
     *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
   >
-    <ia-employee-analytics [config]="config"></ia-employee-analytics>
+    <ia-employee-analytics
+      [config]="config"
+      (editClick)="openFeaturesDialog()"
+    ></ia-employee-analytics>
   </div>
-  <ia-add-analysis
+  <div
     *ngIf="(barChartConfigs$ | ngrxPush)?.length < NUMBER_OF_TILES"
     class="w-full h-[520px] flex items-center justify-center shadow"
-    [data]="selectedFeatures$ | ngrxPush"
-    (selectedFeatures)="onSelectedFeatures($event)"
-  ></ia-add-analysis>
+  >
+    <div
+      class="
+        text-center
+        w-[190px]
+        h-[190px]
+        rounded-full
+        bg-[#F5F7FA]
+        flex flex-col
+        justify-center
+        items-center
+      "
+      *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
+    >
+      <div class="cursor-pointer" (click)="openFeaturesDialog()">
+        <mat-icon class="text-light text-[48px] !w-[48px] !h-[48px]"
+          >add_circle_outline</mat-icon
+        >
+        <h6 class="text-light">{{ t('buttonText') }}</h6>
+      </div>
+    </div>
+  </div>
 </div>

@@ -8,6 +8,8 @@ import {
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { FeatureSelector } from '../models/feature-selector.model';
+
 @Component({
   selector: 'ia-features-dialog',
   templateUrl: './features-dialog.component.html',
@@ -19,7 +21,7 @@ export class FeaturesDialogComponent implements OnInit {
   selected: any[] = [];
   unselected: any[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any[]) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: FeatureSelector[]) {}
 
   ngOnInit() {
     for (const entry of this.data) {

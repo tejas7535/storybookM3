@@ -57,6 +57,8 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   ) {}
 
   ngrxOnInitEffects(): Action {
+    this.store.dispatch(loadEmployeeAnalytics());
+
     return triggerLoad();
   }
 }

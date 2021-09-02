@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { map, mergeMap, Observable } from 'rxjs';
+import { map, mergeMap, Observable, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
+import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
 import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
 import { FeatureSelector } from './models/feature-selector.model';
 import {
   changeSelectedFeatures,
   initializeSelectedFeatures,
-  loadEmployeeAnalytics,
 } from './store/actions/attrition-analytics.action';
 import {
   getBarChartConfigsForSelectedFeatures,
@@ -22,7 +23,7 @@ import {
   selector: 'ia-attrition-analytics',
   templateUrl: './attrition-analytics.component.html',
 })
-export class AttritionAnalyticsComponent implements OnInit {
+export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   readonly NUMBER_OF_TILES = 4;
   readonly AGE_FEATURE_NAME = 'Age';
   readonly EDUCATION_FEATURE_NAME = 'Education';
@@ -30,18 +31,26 @@ export class AttritionAnalyticsComponent implements OnInit {
 
   barChartConfigs$: Observable<BarChartConfig[]>;
 
-  selectedFeatures$: Observable<FeatureSelector[]>;
+  selectedFeatures: FeatureSelector[] = [];
+
+  private readonly subscription: Subscription = new Subscription();
 
   constructor(
     private readonly store: Store,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(loadEmployeeAnalytics());
     this.selectDefaultFeatures();
 
-    this.selectedFeatures$ = this.store.select(getFeatureSelectors);
+    this.subscription.add(
+      this.store
+        .select(getFeatureSelectors)
+        .subscribe(
+          (selectedFeatures) => (this.selectedFeatures = selectedFeatures)
+        )
+    );
 
     this.barChartConfigs$ = this.store
       .select(getBarChartConfigsForSelectedFeatures)
@@ -97,5 +106,25 @@ export class AttritionAnalyticsComponent implements OnInit {
 
   trackByFn(index: number): number {
     return index;
+  }
+
+  openFeaturesDialog(): void {
+    const dialogRef = this.dialog.open(FeaturesDialogComponent, {
+      data: this.selectedFeatures,
+    });
+
+    this.dispatchResultOnClose(dialogRef);
+  }
+
+  dispatchResultOnClose(dialogRef: MatDialogRef<FeaturesDialogComponent>) {
+    this.subscription.add(
+      dialogRef
+        .afterClosed()
+        .subscribe((result) => this.onSelectedFeatures(result))
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

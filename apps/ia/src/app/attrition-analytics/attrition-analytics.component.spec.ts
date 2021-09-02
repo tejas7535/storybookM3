@@ -1,3 +1,7 @@
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+
+import { of } from 'rxjs';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -11,12 +15,14 @@ import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.componen
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { EmployeeAnalyticsComponent } from './employee-analytics/employee-analytics.component';
+import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
+import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
 import { FeatureSelector } from './models/feature-selector.model';
 import { initialState } from './store';
 import {
+  changeSelectedFeatures,
   initializeSelectedFeatures,
-  loadEmployeeAnalytics,
 } from './store/actions/attrition-analytics.action';
 import {
   createBarchartConfigForAge,
@@ -33,6 +39,9 @@ describe('AttritionAnalyticsComponent', () => {
     imports: [
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
+      FeaturesDialogModule,
+      MatDialogModule,
+      MatIconModule,
     ],
     providers: [
       provideMockStore({
@@ -69,24 +78,20 @@ describe('AttritionAnalyticsComponent', () => {
       })
     );
 
-    test(
-      'should set possible features',
-      marbles((m) => {
-        const expected = m.cold('a', [
-          new FeatureSelector('Position', false),
-          new FeatureSelector('Age', true),
-        ]);
+    test('should set default features', () => {
+      component.selectDefaultFeatures = jest.fn();
 
-        component.ngOnInit();
-
-        m.expect(component.selectedFeatures$).toBeObservable(expected);
-      })
-    );
-
-    test('should dispatch action loadEmployeeAnalytics', () => {
       component.ngOnInit();
 
-      expect(store.dispatch).toHaveBeenCalledWith(loadEmployeeAnalytics());
+      expect(component.selectDefaultFeatures).toHaveBeenCalled();
+    });
+
+    test('should add subscription', () => {
+      component['subscription'].add = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -132,6 +137,105 @@ describe('AttritionAnalyticsComponent', () => {
           translations.numEmployees,
         ])
       );
+    });
+  });
+
+  describe('onSelectedFeatures', () => {
+    test('should dispatch selected features', () => {
+      const featureSelectors = [
+        { name: 'test 1', selected: true },
+        { name: 'test 2', selected: true },
+      ];
+
+      component.onSelectedFeatures(featureSelectors);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        changeSelectedFeatures({ features: ['test 1', 'test 2'] })
+      );
+    });
+  });
+
+  describe('anySelectedFeature', () => {
+    test('should return true if any selected', () => {
+      const featureSelectors = [
+        { name: 'test 1', selected: true },
+        { name: 'test 2', selected: true },
+      ];
+
+      const result = component.anySelectedFeature(featureSelectors);
+
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false if no selections', () => {
+      const featureSelectors = [
+        { name: 'test 1', selected: false },
+        { name: 'test 2', selected: false },
+      ];
+
+      const result = component.anySelectedFeature(featureSelectors);
+
+      expect(result).toBeFalsy();
+    });
+    test('should return false if undefined', () => {
+      const features: FeatureSelector[] = undefined;
+      const result = component.anySelectedFeature(features);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('trackByFn', () => {
+    test('should return index', () => {
+      const result = component.trackByFn(3);
+
+      expect(result).toEqual(3);
+    });
+  });
+
+  describe('openFeaturesDialog', () => {
+    test('should open dialog', () => {
+      component.selectedFeatures = [];
+      component['dialog'].open = jest.fn();
+      component.dispatchResultOnClose = jest.fn();
+
+      component.openFeaturesDialog();
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        FeaturesDialogComponent,
+        expect.objectContaining({ data: [] })
+      );
+      expect(component.dispatchResultOnClose).toHaveBeenCalledWith(
+        component['dialog'].open(FeaturesDialogComponent, {
+          data: component.selectedFeatures,
+        })
+      );
+    });
+  });
+
+  describe('dispatchResultOnClose', () => {
+    test('should emit result on close', () => {
+      component.onSelectedFeatures = jest.fn();
+      component['subscription'].add = jest.fn();
+      const result = [new FeatureSelector('Age', true)];
+      const dialogRef = {
+        afterClosed: () => of(result),
+      } as MatDialogRef<FeaturesDialogComponent>;
+
+      component.dispatchResultOnClose(dialogRef);
+
+      expect(component['subscription'].add).toHaveBeenCalled();
+      expect(component.onSelectedFeatures).toHaveBeenCalledWith(result);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component['subscription'].unsubscribe = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toBeCalledTimes(1);
     });
   });
 });

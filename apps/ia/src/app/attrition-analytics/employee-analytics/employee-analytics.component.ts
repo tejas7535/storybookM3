@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { BarChartConfig } from '../../shared/charts/models/bar-chart-config.model';
 
@@ -9,4 +15,10 @@ import { BarChartConfig } from '../../shared/charts/models/bar-chart-config.mode
 })
 export class EmployeeAnalyticsComponent {
   @Input() config: BarChartConfig;
+
+  @Output() readonly editClick: EventEmitter<void> = new EventEmitter();
+
+  edit(): void {
+    this.editClick.emit();
+  }
 }
