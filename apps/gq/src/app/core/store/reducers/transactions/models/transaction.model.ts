@@ -1,4 +1,5 @@
 import { SalesIndication } from './sales-indication.enum';
+import { AbcClassification } from '../../../../../shared/models/customer';
 
 export interface Transaction {
   identifier: number;
@@ -11,4 +12,7 @@ export interface Transaction {
   profitMargin: number;
   salesIndication: SalesIndication;
   year: string;
+  abcClassification: AbcClassification;
+  region: string;
+  sectorManagement: string;
 }

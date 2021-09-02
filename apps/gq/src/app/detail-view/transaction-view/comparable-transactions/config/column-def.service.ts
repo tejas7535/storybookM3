@@ -52,5 +52,21 @@ export class ColumnDefService {
       headerName: translate('transactionView.transactions.table.country'),
       field: 'country',
     },
+    {
+      headerName: translate(
+        'transactionView.transactions.table.abcClassification'
+      ),
+      field: 'abcClassification',
+    },
+    {
+      headerName: translate('transactionView.transactions.table.region'),
+      field: 'region',
+    },
+    {
+      headerName: translate(
+        'transactionView.transactions.table.sectorManagement'
+      ),
+      field: 'sectorManagement',
+    },
   ];
 }

@@ -17,7 +17,10 @@
       "salesIndication": "Datenquelle",
       "year": "Jahr",
       "country": "Land",
-      "customerId": "Kundennummer"
+      "customerId": "Kundennummer",
+      "abcClassification": "Kundenklassifizierung",
+      "region": "Kundenregion",
+      "sectorManagement": "Sector-Management"
     },
     "info-hover": "Vergleichbare Transaktionen mit negativem GPI (%) werden bei der Kalkulation der Guided Quoting Preisempfehlung nicht berücksichtigt. Deshalb werden diese Transaktionen nicht im Graph angezeigt, sind jedoch in der Tabelle verfügbar."
   },
