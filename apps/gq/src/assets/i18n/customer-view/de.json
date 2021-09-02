@@ -1,18 +1,28 @@
 {
-  "country": "Land",
-  "customer": "Kunde",
-  "customerId": "Kundennummer",
-  "abcClassification": "Kunden-Klassifizierung (A,B,C)",
-  "netSales": "Umsatz",
-  "gpi": "GPI",
-  "incoterms": "Incoterms",
-  "keyAccount": "Key-Account",
-  "paymentTerms": "Zahlungsbedingungen",
-  "region": "Region",
-  "salesOrg": "VkOrg",
-  "sectorManagement": "Sektormanagement",
-  "subKeyAccount": "Sub-Key-Account",
-  "subRegion": "Sub-Region",
-  "subSector": "Teilbranche",
-  "title": "Kunde"
+  "basicInformation": {
+    "country": "Land",
+    "customer": "Kunde",
+    "customerId": "Kundennummer",
+    "abcClassification": "Kunden-Klassifizierung (A,B,C)",
+    "netSales": "Umsatz",
+    "gpi": "GPI",
+    "incoterms": "Incoterms",
+    "keyAccount": "Key-Account",
+    "paymentTerms": "Zahlungsbedingungen",
+    "region": "Region",
+    "salesOrg": "VkOrg",
+    "sectorManagement": "Sektormanagement",
+    "subKeyAccount": "Sub-Key-Account",
+    "subRegion": "Sub-Region",
+    "subSector": "Teilbranche",
+    "title": "Kunde"
+  },
+  "salesforce": {
+    "title": "Salesforce",
+    "accountPotential": "Account-Potential",
+    "keyAccountPotential": "Key-Account-Potential",
+    "subKeyAccountPotential": "Sub-Key-Account-Potential",
+    "accountOwner": "Accountinhaber",
+    "accountOwnerContact": "Accountinhaberkontakt"
+  }
 }

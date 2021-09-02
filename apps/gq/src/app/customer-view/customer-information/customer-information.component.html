@@ -1,86 +1,127 @@
-<mat-card>
-  <div *transloco="let t; read: 'customerView'">
-    <h3 class="mb-4 leading-6">{{ t('title') }}</h3>
-    <div>
+<div class="flex flex-col sm:flex-row">
+  <mat-card>
+    <div *transloco="let t; read: 'customerView.basicInformation'">
+      <h3 class="mb-4 leading-6">{{ t('title') }}</h3>
       <div>
-        <span>{{ t('customerId') }}: </span>{{ customer.identifier.customerId }}
-      </div>
-      <div>
-        <span>{{ t('customer') }}: </span>{{ customer.name }}
-      </div>
-      <div>
-        <span>{{ t('salesOrg') }}: </span>{{ customer.identifier.salesOrg }}
-      </div>
-      <div>
-        <span>{{ t('abcClassification') }}: </span
-        >{{ customer.abcClassification }}
-      </div>
-      <div>
-        <span>{{ currentYear }} {{ t('netSales') }}: </span
-        >{{
-          customer.marginDetail.currentNetSales
-            | numberCurrency: customer.currency
-        }}
-      </div>
-      <div>
-        <span>{{ currentYear }} {{ t('gpi') }}: </span
-        >{{ customer.marginDetail.currentGpi | percentage }}
-      </div>
-      <div>
-        <span>{{ lastYear }} {{ t('netSales') }}: </span
-        >{{
-          customer.marginDetail.netSalesLastYear
-            | numberCurrency: customer.currency
-        }}
-      </div>
-      <div>
-        <span>{{ lastYear }} {{ t('gpi') }}: </span
-        >{{ customer.marginDetail.gpiLastYear | percentage }}
-      </div>
+        <div>
+          <span>{{ t('customerId') }}: </span
+          >{{ customer.identifier.customerId }}
+        </div>
+        <div>
+          <span>{{ t('customer') }}: </span>{{ customer.name }}
+        </div>
+        <div>
+          <span>{{ t('salesOrg') }}: </span>{{ customer.identifier.salesOrg }}
+        </div>
+        <div>
+          <span>{{ t('abcClassification') }}: </span
+          >{{ customer.abcClassification }}
+        </div>
+        <div>
+          <span>{{ currentYear }} {{ t('netSales') }}: </span
+          >{{
+            customer.marginDetail.currentNetSales
+              | numberCurrency: customer.currency
+          }}
+        </div>
+        <div>
+          <span>{{ currentYear }} {{ t('gpi') }}: </span
+          >{{ customer.marginDetail.currentGpi | percentage }}
+        </div>
+        <div>
+          <span>{{ lastYear }} {{ t('netSales') }}: </span
+          >{{
+            customer.marginDetail.netSalesLastYear
+              | numberCurrency: customer.currency
+          }}
+        </div>
+        <div>
+          <span>{{ lastYear }} {{ t('gpi') }}: </span
+          >{{ customer.marginDetail.gpiLastYear | percentage }}
+        </div>
 
-      <div class="break"></div>
+        <div class="break"></div>
+      </div>
+      <div>
+        <div>
+          <span>{{ t('keyAccount') }}: </span>{{ customer.keyAccountId }} |
+          {{ customer.keyAccount }}
+        </div>
+        <div>
+          <span>{{ t('subKeyAccount') }}:</span>
+          {{ customer.subKeyAccountId }} |
+          {{ customer.subKeyAccount }}
+        </div>
+        <div class="break"></div>
+      </div>
+      <div>
+        <div>
+          <span>{{ t('subSector') }}: </span>{{ customer.subSector }} |
+          {{ customer.subSectorId }}
+        </div>
+        <div>
+          <span>{{ t('sectorManagement') }}: </span
+          >{{ customer.sectorManagement }}
+        </div>
+        <div class="break"></div>
+      </div>
+      <div>
+        <div>
+          <span>{{ t('country') }}: </span>{{ customer.country }}
+        </div>
+        <div>
+          <span>{{ t('subRegion') }}: </span>{{ customer.subRegion }}
+        </div>
+        <div>
+          <span>{{ t('region') }}: </span>{{ customer.region }}
+        </div>
+        <div class="break"></div>
+      </div>
+      <div>
+        <div>
+          <span>{{ t('incoterms') }}: </span>{{ customer.incoterms }}
+        </div>
+        <div>
+          <span>{{ t('paymentTerms') }}:</span> {{ customer.paymentTerms }}
+        </div>
+      </div>
     </div>
-    <div>
+  </mat-card>
+  <mat-card *ngIf="customer.accountPotential">
+    <div *transloco="let t; read: 'customerView.salesforce'">
+      <h3 class="mb-4 leading-6">{{ t('title') }}</h3>
       <div>
-        <span>{{ t('keyAccount') }}: </span>{{ customer.keyAccountId }} |
-        {{ customer.keyAccount }}
-      </div>
-      <div>
-        <span>{{ t('subKeyAccount') }}:</span> {{ customer.subKeyAccountId }} |
-        {{ customer.subKeyAccount }}
-      </div>
-      <div class="break"></div>
-    </div>
-    <div>
-      <div>
-        <span>{{ t('subSector') }}: </span>{{ customer.subSector }} |
-        {{ customer.subSectorId }}
-      </div>
-      <div>
-        <span>{{ t('sectorManagement') }}: </span
-        >{{ customer.sectorManagement }}
-      </div>
-      <div class="break"></div>
-    </div>
-    <div>
-      <div>
-        <span>{{ t('country') }}: </span>{{ customer.country }}
-      </div>
-      <div>
-        <span>{{ t('subRegion') }}: </span>{{ customer.subRegion }}
-      </div>
-      <div>
-        <span>{{ t('region') }}: </span>{{ customer.region }}
-      </div>
-      <div class="break"></div>
-    </div>
-    <div>
-      <div>
-        <span>{{ t('incoterms') }}: </span>{{ customer.incoterms }}
-      </div>
-      <div>
-        <span>{{ t('paymentTerms') }}:</span> {{ customer.paymentTerms }}
+        <div>
+          <span>{{ t('accountPotential') }}: </span
+          >{{
+            customer.accountPotential.accountPotentialValue
+              | numberCurrency: customer.currency
+          }}
+        </div>
+        <div>
+          <span>{{ t('keyAccountPotential') }}: </span
+          >{{
+            customer.accountPotential.keyAccountPotentialValue
+              | numberCurrency: customer.currency
+          }}
+        </div>
+        <div>
+          <span>{{ t('subKeyAccountPotential') }}: </span
+          >{{
+            customer.accountPotential.subkeyAccountPotentialValue
+              | numberCurrency: customer.currency
+          }}
+        </div>
+        <div class="break"></div>
+        <div>
+          <span>{{ t('accountOwner') }}: </span
+          >{{ customer.accountPotential.accountOwner }}
+        </div>
+        <div>
+          <span>{{ t('accountOwnerContact') }}: </span
+          >{{ customer.accountPotential.accountOwnerEmail }}
+        </div>
       </div>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
+</div>

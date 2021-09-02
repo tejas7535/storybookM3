@@ -6,6 +6,13 @@ export const CUSTOMER_MOCK: Customer = {
     customerId: '123',
     salesOrg: '0267',
   },
+  accountPotential: {
+    accountOwner: 'GE, YUQIU',
+    accountOwnerEmail: 'YUQIU.GE@gmail.com',
+    subkeyAccountPotentialValue: 1001,
+    keyAccountPotentialValue: 1001,
+    accountPotentialValue: 1001,
+  },
   name: 'mock customer',
   subSector: '123',
   subSectorId: '1234',

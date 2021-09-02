@@ -1,18 +1,28 @@
 {
-  "country": "Country",
-  "customer": "Customer",
-  "customerId": "Customer Number",
-  "abcClassification": "Customer Classification (A,B,C)",
-  "netSales": "Net Sales",
-  "gpi": "GPI",
-  "incoterms": "Incoterms",
-  "keyAccount": "Key Account",
-  "paymentTerms": "Payment Terms",
-  "region": "Region",
-  "salesOrg": "Sales Org",
-  "sectorManagement": "Sector Management",
-  "subKeyAccount": "Sub Key Account",
-  "subRegion": "Sub-Region",
-  "subSector": "Subsector",
-  "title": "Customer"
+  "basicInformation": {
+    "title": "Customer",
+    "country": "Country",
+    "customer": "Customer",
+    "customerId": "Customer Number",
+    "abcClassification": "Customer Classification (A,B,C)",
+    "netSales": "Net Sales",
+    "gpi": "GPI",
+    "incoterms": "Incoterms",
+    "keyAccount": "Key Account",
+    "paymentTerms": "Payment Terms",
+    "region": "Region",
+    "salesOrg": "Sales Org",
+    "sectorManagement": "Sector Management",
+    "subKeyAccount": "Sub Key Account",
+    "subRegion": "Sub-Region",
+    "subSector": "Subsector"
+  },
+  "salesforce": {
+    "title": "Salesforce",
+    "accountPotential": "Account Potential",
+    "keyAccountPotential": "Key Account Potential",
+    "subKeyAccountPotential": "Sub Key Account Potential",
+    "accountOwner": "Account Owner",
+    "accountOwnerContact": "Account Owner Contact"
+  }
 }
