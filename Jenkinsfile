@@ -38,11 +38,11 @@ boolean isMaster() {
 }
 
 boolean isAppRelease() {
-    return params.APP_RELEASE && "${BRANCH_NAME}" == 'master'
+    return params.RELASE_SCOPE == 'APP' && isMaster()
 }
 
 boolean isLibsRelease() {
-    return params.LIBS_RELEASE && "${BRANCH_NAME}" == 'master'
+    return params.RELASE_SCOPE == 'LIBS' && isMaster()
 }
 
 boolean isNightly() {
@@ -219,6 +219,7 @@ def getAgentLabel() {
         label = 'monorepo'
     }
 
+
     return label
 }
 
@@ -274,14 +275,11 @@ pipeline {
     }
 
     parameters {
-        booleanParam(
-            name: 'APP_RELEASE',
-            defaultValue: false,
-            description: 'Set "true" to trigger a production release for an app.')
-        booleanParam(
-            name: 'LIBS_RELEASE',
-            defaultValue: false,
-            description: 'Set "true" to trigger a production release for all libs.')
+        choice(
+          name: 'RELASE_SCOPE',
+          choices: ['NOTHING', 'APP', 'LIBS'],
+          description: 'Use to trigger a production release of either an single app or for all libs.'
+        )
         string(
             name: 'CUSTOM_VERSION',
             defaultValue: "${customVersionDefault}",
@@ -309,12 +307,6 @@ pipeline {
                 ciSkip()
 
                 script {
-                    if (params.APP_RELEASE && params.LIBS_RELEASE) {
-                        // simultanous releases of apps and libs should not be possible
-                        currentBuild.result = 'ABORTED'
-                        error('Build failed because APP_RELEASE and LIBS_RELEASE have both been checked -> not allowed')
-                    }
-
                     if (isAppRelease()) {
                         boolean aborted = false
                         def deployments = readJSON file: 'deployments.json'
