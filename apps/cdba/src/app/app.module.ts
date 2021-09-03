@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-import { SharedModule } from '@cdba/shared';
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import {
   LoadingSpinnerModule,
   BrowserSupportModule,
@@ -21,13 +23,17 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 @NgModule({
   imports: [
-    AppRoutingModule,
+    // angular modules
     HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
+    ReactiveComponentModule,
+    CommonModule,
 
+    // core and routing modules
+    AppRoutingModule,
     CoreModule,
-    SharedModule,
 
+    // ui and app root modules
     LoadingSpinnerModule,
     BrowserSupportModule,
     AppShellModule,
