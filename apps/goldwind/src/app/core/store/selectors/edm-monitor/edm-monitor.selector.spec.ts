@@ -1,8 +1,8 @@
 import { initialState } from '../../reducers/edm-monitor/edm-monitor.reducer';
-import { AntennaName } from '../../reducers/edm-monitor/models';
+import { AntennaName, EdmStatus } from '../../reducers/edm-monitor/models';
 import {
-  getEdmGraphData,
   getEdmInterval,
+  getEdmLoading,
   getEdmResult,
 } from './edm-monitor.selector';
 
@@ -13,12 +13,13 @@ describe('EdmMonitor Selector', () => {
       loading: false,
       measurements: [
         {
-          startDate: '2020-07-30T11:02:25',
-          edmValue1Counter: 100,
-          edmValue2Counter: 200,
-          edmValue1CounterMax: 300,
-          edmValue2CounterMax: 400,
-        },
+          deviceId: 'B-Wing',
+          timestamp: '2020-07-30T11:02:25',
+          endTimestamp: '2020-07-30T11:02:25',
+          startTimestamp: '2020-07-30T11:02:25',
+          edm01Ai01Counter: 100,
+          edm01Ai02Counter: 100,
+        } as EdmStatus,
       ],
       interval: {
         startDate: 123_456_789,
@@ -34,28 +35,9 @@ describe('EdmMonitor Selector', () => {
       );
     });
   });
-
-  describe('getEdmGraphData', () => {
-    it('should return graph series data value tupels', () => {
-      const expectedResult = {
-        legend: { data: ['edmValue1Counter', 'edmValue1CounterMax'] },
-        series: [
-          {
-            name: 'edmValue1Counter',
-            type: 'bar',
-            data: [{ value: [new Date('2020-07-30T11:02:25'), 100] }],
-          },
-          {
-            name: 'edmValue1CounterMax',
-            type: 'line',
-            data: [{ value: [new Date('2020-07-30T11:02:25'), 300] }],
-          },
-        ],
-      };
-
-      expect(
-        getEdmGraphData(fakeState, { sensorName: AntennaName.Antenna1 })
-      ).toEqual(expectedResult);
+  describe('getEdmLoading', () => {
+    it('should return getEdmLoading', () => {
+      expect(getEdmLoading(fakeState)).toEqual(fakeState.edmMonitor.loading);
     });
   });
 

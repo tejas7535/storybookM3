@@ -17,6 +17,7 @@ import {
 import * as fromRouter from '../../reducers';
 import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
+import { EdmStatus } from '../../reducers/edm-monitor/models';
 
 describe('Edm Monitor Effects', () => {
   let spectator: SpectatorService<EdmMonitorEffects>;
@@ -128,13 +129,14 @@ describe('Edm Monitor Effects', () => {
     it(
       'should return getEdmSuccess action when REST call is successful',
       marbles((m) => {
-        const mockMeasurements = [
+        const mockMeasurements: EdmStatus[] = [
           {
-            startDate: '2020-07-30T11:02:25',
-            edmValue1Counter: 100,
-            edmValue2Counter: 200,
-            edmValue1CounterMax: 300,
-            edmValue2CounterMax: 400,
+            deviceId: 'Y-Wing',
+            timestamp: '2020-07-30T11:02:25',
+            startTimestamp: '2020-07-30T11:02:25',
+            endTimestamp: '2020-07-30T11:02:25',
+            edm01Ai01Counter: 100,
+            edm01Ai02Counter: 200,
           },
         ];
 

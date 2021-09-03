@@ -46,6 +46,7 @@ describe('MaintenanceAssessmentComponent', () => {
               endDate: 987_654_321,
             },
           },
+          edmMonitor: {},
           maintenanceAssessment: {
             display: {
               waterContent_1: true,
@@ -55,6 +56,8 @@ describe('MaintenanceAssessmentComponent', () => {
               deterioration_2: true,
               temperatureOptics_2: true,
               rsmShaftSpeed: true,
+              edm01Ai01Counter: true,
+              edm01Ai02Counter: true,
             },
             interval: {
               startDate: 123_456_789,
@@ -95,6 +98,8 @@ describe('MaintenanceAssessmentComponent', () => {
             deterioration_2: true,
             temperatureOptics_2: true,
             rsmShaftSpeed: true,
+            edm01Ai01Counter: true,
+            edm01Ai02Counter: true,
           },
         })
       );

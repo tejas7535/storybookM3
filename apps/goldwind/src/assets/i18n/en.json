@@ -94,17 +94,31 @@
     "title": "Date Range"
   },
   "greaseStatus": {
-    "centerLoadFx": "Center Load Fx",
-    "centerLoadFy": "Center Load Fy",
-    "centerLoadFz": "Center Load Fz",
-    "centerLoadMy": "Center Load My",
-    "centerLoadMz": "Center Load Mz",
     "datePicker": "DatePicker",
     "deterioration": "Deterioration",
     "deterioration_1": "Deterioration 1",
     "deterioration_2": "Deterioration 2",
     "edmMonitor": "Electric Discharge Monitor",
     "greaseMonitor": "Grease Monitor",
+    "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
+    "rsmShaftSpeed": "Rotor Rotation Speed",
+    "temperatureOptics": "Grease Temperatur",
+    "temperatureOptics_1": "Grease Temperatur 1",
+    "temperatureOptics_2": "Grease Temperatur 2",
+    "title": "Grease Status",
+    "waterContent": "Water Content",
+    "waterContent_1": "Water Content 1",
+    "waterContent_2": "Water Content 2"
+  },
+  "linechart": {
+    "pleaseSelectTrendsToShow": "Sensor Panels & Channels"
+  },
+  "loadAssessment": {
+    "centerLoadFx": "Center Load Fx",
+    "centerLoadFy": "Center Load Fy",
+    "centerLoadFz": "Center Load Fz",
+    "centerLoadMy": "Center Load My",
+    "centerLoadMz": "Center Load Mz",
     "loadMonitor": "Load Monitor",
     "lsp01Strain": "Load Sense Pin 1 (Rotor)",
     "lsp02Strain": "Load Sense Pin 2 (Generator)",
@@ -122,26 +136,20 @@
     "lsp14Strain": "Load Sense Pin 14 (Generator)",
     "lsp15Strain": "Load Sense Pin 15 (Rotor)",
     "lsp16Strain": "Load Sense Pin 16 (Generator)",
-    "pleaseSelectTrendsToShow": "Sensor Panels & Channels",
-    "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
-    "rsmShaftSpeed": "Rotor Rotation Speed",
-    "temperatureOptics": "Grease Temperatur",
-    "temperatureOptics_1": "Grease Temperatur 1",
-    "temperatureOptics_2": "Grease Temperatur 2",
-    "title": "Grease Status",
-    "waterContent": "Water Content",
-    "waterContent_1": "Water Content 1",
-    "waterContent_2": "Water Content 2"
+    "rsmShaftSpeed": "Rotor Rotation Speed"
   },
   "maintenanceAssessment": {
     "deterioration": "Deterioration",
     "deterioration_1": "Deterioration 1",
     "deterioration_2": "Deterioration 2",
+    "edm01Ai01Counter": "Antenna 1",
+    "edm01Ai02Counter": "Antenna 2",
+    "edmMonitor": "Eletrical Discharge Monitor",
     "gcm-heatmap": {
       "title": "Grease Status Overview"
     },
     "greaseMonitor": "Grease Monitor",
-    "pleaseSelectTrendsToShow": "Sensor Panels & Channels",
+    "rsmShaftSpeed": "Rotor Rotation Speed",
     "temperatureOptics": "Grease Temperatur",
     "temperatureOptics_1": "Grease Temperatur 1",
     "temperatureOptics_2": "Grease Temperatur 2",

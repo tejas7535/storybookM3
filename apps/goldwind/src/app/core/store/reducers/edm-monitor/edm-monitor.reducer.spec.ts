@@ -11,7 +11,7 @@ import {
   initialState,
   reducer,
 } from './edm-monitor.reducer';
-import { Edm } from './models';
+import { EdmStatus } from './models';
 
 describe('Condition Monitoring Reducer', () => {
   describe('getEdm', () => {
@@ -25,13 +25,14 @@ describe('Condition Monitoring Reducer', () => {
 
   describe('getEdmSuccess', () => {
     it('should unset loading and set measurements', () => {
-      const mockMeasurements: Edm[] = [
+      const mockMeasurements: EdmStatus[] = [
         {
-          startDate: '2020-07-30T11:02:25',
-          edmValue1Counter: 100,
-          edmValue2Counter: 200,
-          edmValue1CounterMax: 300,
-          edmValue2CounterMax: 400,
+          deviceId: 'A-Wing',
+          timestamp: '2020-07-30T11:02:25',
+          startTimestamp: '2020-07-30T11:02:25',
+          endTimestamp: '2020-07-30T11:02:25',
+          edm01Ai01Counter: 100,
+          edm01Ai02Counter: 100,
         },
       ];
       const action = getEdmSuccess({ measurements: mockMeasurements });

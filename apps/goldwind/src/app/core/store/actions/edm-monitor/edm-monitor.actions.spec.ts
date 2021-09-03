@@ -5,7 +5,7 @@ import {
   getEdmSuccess,
   setEdmInterval,
 } from '..';
-import { Edm } from '../../reducers/edm-monitor/models';
+import { EdmStatus } from '../../reducers/edm-monitor/models';
 
 describe('EdmMonitor Actions', () => {
   let deviceId: string;
@@ -33,13 +33,14 @@ describe('EdmMonitor Actions', () => {
     });
 
     it('getEdmSuccess', () => {
-      const measurements: Edm[] = [
+      const measurements: EdmStatus[] = [
         {
-          startDate: '2020-07-30T11:02:25',
-          edmValue1Counter: 100,
-          edmValue2Counter: 200,
-          edmValue1CounterMax: 300,
-          edmValue2CounterMax: 400,
+          deviceId: 'starkillerbase',
+          timestamp: '2020-07-30T11:02:25',
+          startTimestamp: '2020-07-30T11:02:25',
+          endTimestamp: '2020-07-30T11:02:25',
+          edm01Ai01Counter: 100,
+          edm01Ai02Counter: 100,
         },
       ];
       const action = getEdmSuccess({ measurements });

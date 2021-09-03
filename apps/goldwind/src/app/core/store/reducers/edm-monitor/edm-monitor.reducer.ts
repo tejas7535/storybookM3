@@ -1,16 +1,15 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
 import {
   getEdm,
   getEdmFailure,
   getEdmSuccess,
   setEdmInterval,
 } from '../../actions/edm-monitor/edm-monitor.actions';
-import { Edm } from './models';
+import { EdmStatus } from './models';
 
 export interface EdmMonitorState {
   loading: boolean;
-  measurements: Edm[];
+  measurements: EdmStatus[];
   interval: {
     startDate: number;
     endDate: number;

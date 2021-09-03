@@ -1,3 +1,4 @@
+import { EdmStatus } from '../../reducers/edm-monitor/models';
 import { getAnalysisGraphDataM } from './maintenance-assessment.selector';
 
 describe('Load Sense Selector', () => {
@@ -28,9 +29,22 @@ describe('Load Sense Selector', () => {
         loading: false,
       },
     },
+    edmMonitor: {
+      measurements: [
+        {
+          deviceId: 'Tie-Fighter',
+          timestamp: '2020-07-31T11:02:35.000Z',
+          startTimestamp: '2020-07-31T11:02:35.000Z',
+          endTimestamp: '2020-07-31T11:02:35.000Z',
+          edm01Ai01Counter: 1,
+          edm01Ai02Counter: 2,
+        } as EdmStatus,
+      ],
+    },
     maintenanceAssessment: {
       display: {
         waterContent_1: true,
+        edm01Ai02Counter: true,
       },
       interval: {
         startDate: 123_456_789,
@@ -42,11 +56,17 @@ describe('Load Sense Selector', () => {
   describe('getAnalysisGraphDataM', () => {
     it('should return', () => {
       const expected = {
-        legend: { data: ['waterContent_1'] },
+        legend: { data: ['waterContent_1', 'edm01Ai02Counter'] },
         series: [
           {
             data: [{ value: [new Date('2020-07-30T11:02:35.000Z'), '69.00'] }],
             name: 'waterContent_1',
+            symbol: 'none',
+            type: 'line',
+          },
+          {
+            data: [{ value: [new Date('2020-07-31T11:02:35.000Z'), 2] }],
+            name: 'edm01Ai02Counter',
             symbol: 'none',
             type: 'line',
           },

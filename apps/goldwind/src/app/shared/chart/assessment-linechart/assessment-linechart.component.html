@@ -10,7 +10,7 @@
     </ng-container>
     <div class="flex flex-col h-14 max-h-full">
       <h6 class="font-medium text-2xl leading-6 text-dark mb-4 mt-8">
-        {{ translate('pleaseSelectTrendsToShow') }}
+        {{ translate('linechart.pleaseSelectTrendsToShow') }}
       </h6>
       <mat-tree
         #tree
@@ -24,7 +24,7 @@
             [formControlName]="node.formControl"
             [color]="'primary'"
           >
-            {{ translate(node.label) }}
+            {{ translate(this.translateKey + '.' + node.label) }}
           </mat-checkbox>
         </mat-tree-node>
         <mat-tree-node
@@ -47,7 +47,7 @@
                 }}
               </mat-icon>
             </button>
-            {{ translate(node.name) }}
+            {{ translate(this.translateKey + '.' + node.name) }}
           </mat-checkbox>
         </mat-tree-node>
       </mat-tree>

@@ -2,13 +2,15 @@ import { createSelector } from '@ngrx/store';
 import { getGreaseStatusResult } from '..';
 import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { MAINTENACE_ASSESSMENT_CONTROLS } from '../../../../shared/constants/maintenance-assessment-controls';
-// import { Type } from '../../../../shared/models';
 import { getMaintenanceAssessmentState } from '../../reducers';
 import { GcmStatus } from '../../reducers/grease-status/models';
 import { ChartState } from '../../../../shared/chart/chart.state';
 import { MaintenanceAssessmentDisplay } from '../../reducers/maintenance-assessment/maintenance.assessment.model';
 import { Interval } from '../../reducers/shared/models';
 import { EChartsOption } from 'echarts';
+import { getEdmResult } from '../edm-monitor/edm-monitor.selector';
+import { EdmStatus } from '../../reducers/edm-monitor/models';
+
 type DisplayOption = [any, boolean];
 
 export const getMaintenanceAssessmentDisplay = createSelector(
@@ -23,9 +25,11 @@ export const getMaintenanceAssessmentInterval = createSelector(
 
 export const getAnalysisGraphDataM = createSelector(
   getGreaseStatusResult,
+  getEdmResult,
   getMaintenanceAssessmentDisplay,
   (
     gcmStatus: GcmStatus[],
+    edm: EdmStatus[],
     display: MaintenanceAssessmentDisplay | any
   ): EChartsOption => {
     const result = gcmStatus && {
@@ -44,6 +48,7 @@ export const getAnalysisGraphDataM = createSelector(
             MAINTENACE_ASSESSMENT_CONTROLS,
             {
               gcmStatus,
+              edm,
             }
           ).getData()
         ),

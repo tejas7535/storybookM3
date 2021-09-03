@@ -7,7 +7,7 @@ import { DataService, GetOptions } from '@schaeffler/http';
 import { BearingMetadata } from '../store/reducers/bearing/models';
 import { SensorData } from '../store/reducers/data-view/models';
 import { Device } from '../store/reducers/devices/models';
-import { Edm } from '../store/reducers/edm-monitor/models';
+import { EdmStatus } from '../store/reducers/edm-monitor/models';
 import { GcmStatus } from '../store/reducers/grease-status/models';
 import { LoadSense } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
@@ -42,7 +42,11 @@ export class RestService {
     return this.getIot(`${id}`);
   }
 
-  public getEdm({ id, startDate, endDate }: IotParams): Observable<Edm[]> {
+  public getEdm({
+    id,
+    startDate,
+    endDate,
+  }: IotParams): Observable<EdmStatus[]> {
     return this.getIot(
       `${id}/sensors/electric-discharge/telemetry`,
       this.getParams({

@@ -43,4 +43,16 @@ export const MAINTENACE_ASSESSMENT_CONTROLS: Control[] = [
     unit: Unit.rotationSpeed,
     type: Type.rsm,
   },
+  {
+    label: 'edm01Ai01Counter',
+    formControl: 'edm01Ai01Counter',
+    unit: Unit.percent,
+    type: Type.edm,
+  },
+  {
+    label: 'edm01Ai02Counter',
+    formControl: 'edm01Ai02Counter',
+    unit: Unit.percent,
+    type: Type.edm,
+  },
 ];

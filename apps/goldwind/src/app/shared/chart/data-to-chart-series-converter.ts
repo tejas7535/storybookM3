@@ -3,6 +3,7 @@ import { GcmStatus } from '../../core/store/reducers/grease-status/models/grease
 import { LoadSense } from '../../core/store/reducers/load-sense/models';
 import { ShaftStatus } from '../../core/store/reducers/shaft/models';
 import { SeriesOption } from 'echarts';
+import { EdmStatus } from '../../core/store/reducers/edm-monitor/models';
 
 export class DataToChartSeriesConverter {
   /**
@@ -61,6 +62,9 @@ export class DataToChartSeriesConverter {
       case Type.centerload:
         this.data = this.convertCenterLoad();
         break;
+      case Type.edm:
+        this.data = this.convertEDM();
+        break;
       default:
         this.data = [];
     }
@@ -82,6 +86,14 @@ export class DataToChartSeriesConverter {
               ) as keyof CenterLoadStatus
           ] as number
         ).toFixed(2),
+      ],
+    }));
+  }
+  convertEDM(): any[] {
+    return this.dataArr['edm']?.map((measurement: EdmStatus) => ({
+      value: [
+        new Date(measurement.timestamp),
+        measurement[this.key as keyof EdmStatus],
       ],
     }));
   }

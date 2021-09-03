@@ -19,6 +19,8 @@ describe('Maintenance Reducer', () => {
           temperatureOptics_2: true,
           waterContent_1: false,
           waterContent_2: false,
+          edm01Ai01Counter: true,
+          edm01Ai02Counter: true,
         },
       });
       const state = maintenanceAssessmentReducer(initialState, action);

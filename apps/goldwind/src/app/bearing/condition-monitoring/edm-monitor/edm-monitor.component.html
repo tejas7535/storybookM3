@@ -15,11 +15,7 @@
           {{ t('mainBearing') }}
         </mat-card-subtitle>
       </mat-card-header>
-      <goldwind-sensor
-        [type]="type"
-        [sensor]="sensor"
-        (sensorToggle)="getEdmGraphData($event)"
-      ></goldwind-sensor>
+      <goldwind-sensor [type]="type" [sensor]="sensor"></goldwind-sensor>
     </div>
     <mat-card-content
       fxFlex

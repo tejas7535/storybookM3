@@ -69,6 +69,7 @@ describe('AssessmentLinechartComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    spectator.setInput('translateKey', 'maintenanceAssessment');
     spectator.setInput('ASSESSMENT_CONTROLS', [
       {
         label: 'waterContent_1',
@@ -139,7 +140,7 @@ describe('AssessmentLinechartComponent', () => {
   describe('formatLegend', () => {
     it('should return a translated text with physical symbol', () => {
       const mockLabelName = 'waterContent_1';
-      const formattedMockLabel = 'greaseStatus.waterContent_1 (%)';
+      const formattedMockLabel = `${component.translateKey}.waterContent_1 (%)`;
 
       expect(component.formatLegend(mockLabelName)).toBe(formattedMockLabel);
     });
@@ -174,7 +175,9 @@ describe('AssessmentLinechartComponent', () => {
           },
         },
       ];
-      const formattedMockTooltip = `greaseStatus.waterContent_1: 123 %<br>${mockDate.toLocaleString(
+      const formattedMockTooltip = `${
+        component.translateKey
+      }.waterContent_1: 123 %<br>${mockDate.toLocaleString(
         DATE_FORMAT.local,
         DATE_FORMAT.options
       )} ${mockDate.toLocaleTimeString(DATE_FORMAT.local)}`;

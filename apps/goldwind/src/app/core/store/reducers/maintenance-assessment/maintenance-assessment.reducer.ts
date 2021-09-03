@@ -15,6 +15,8 @@ export const initialState: ChartState = {
     waterContent_2: true,
     temperatureOptics_2: true,
     rsmShaftSpeed: true,
+    edm01Ai01Counter: true,
+    edm01Ai02Counter: true,
   },
   interval: {
     startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),

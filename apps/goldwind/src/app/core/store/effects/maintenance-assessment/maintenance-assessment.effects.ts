@@ -17,6 +17,10 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
 import {
+  getEdm,
+  getEdmFailure,
+  getEdmMainteance,
+  getEdmSuccess,
   getGreaseStatus,
   getGreaseStatusFailure,
   getGreaseStatusSuccess,
@@ -26,7 +30,6 @@ import {
 import { of } from 'rxjs';
 import { Interval } from '../../reducers/shared/models';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
-// import * as fromRouter from '../../reducers';
 
 @Injectable()
 export class MaintenanceAssessmentEffects {
@@ -75,6 +78,23 @@ export class MaintenanceAssessmentEffects {
       )
     );
   });
+
+  edm$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getEdmMainteance),
+      withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.deviceId,
+        ...interval,
+      })),
+      mergeMap((edmParams) =>
+        this.restService.getEdm(edmParams).pipe(
+          map((measurements) => getEdmSuccess({ measurements })),
+          catchError((_e) => of(getEdmFailure()))
+        )
+      )
+    );
+  });
   /**
    * Load Load Maintenance Id
    */
@@ -85,7 +105,10 @@ export class MaintenanceAssessmentEffects {
       map(([_action, routerState]) => ({
         deviceId: routerState.state.params.id,
       })),
-      mergeMap(({ deviceId }) => [getGreaseStatus({ deviceId })])
+      mergeMap(({ deviceId }) => [
+        getGreaseStatus({ deviceId }),
+        getEdmMainteance({ deviceId }),
+      ])
     );
   });
   constructor(

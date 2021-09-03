@@ -11,7 +11,6 @@ import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-moni
 import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
 import { Interval } from '../../../core/store/reducers/shared/models';
 import {
-  getEdmGraphData,
   getEdmInterval,
   getEdmLoading,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
@@ -49,17 +48,8 @@ export class EdmMonitorComponent implements OnInit {
   public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.getEdmGraphData({ sensor: this.sensor });
     this.interval$ = this.store.select(getEdmInterval);
     this.loading$ = this.store.select(getEdmLoading).pipe(take(2));
-  }
-
-  getEdmGraphData({ sensor }: { sensor: boolean }): void {
-    const antenna = sensor ? AntennaName.Antenna2 : AntennaName.Antenna1;
-
-    this.edmGraphData$ = this.store.select(getEdmGraphData, {
-      sensorName: antenna,
-    });
   }
 
   setInterval(interval: Interval): void {

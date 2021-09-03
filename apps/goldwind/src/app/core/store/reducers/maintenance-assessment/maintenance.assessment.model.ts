@@ -6,4 +6,6 @@ export interface MaintenanceAssessmentDisplay {
   deterioration_2: boolean;
   temperatureOptics_2: boolean;
   rsmShaftSpeed: boolean;
+  edm01Ai01Counter: boolean;
+  edm01Ai02Counter: boolean;
 }

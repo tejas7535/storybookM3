@@ -42,7 +42,7 @@ export class AssessmentLinechartComponent
   /**
    * a translate object from transloco
    */
-  @Input() translate: any = translate;
+  translate: any = translate;
   /**
    *
    */
@@ -68,6 +68,10 @@ export class AssessmentLinechartComponent
    * the current display state observable typically from store
    */
   @Input() displayNodes$: Observable<any> = of();
+  /**
+   * a key of a toplevel key in en.json to group translations for views
+   */
+  @Input() translateKey: string;
   /**
    * a emitter to pass a chosen interval to the parent to refresh the data
    */
@@ -112,6 +116,7 @@ export class AssessmentLinechartComponent
    * A data source to render the tree
    */
   dataSource: MatTreeFlatDataSource<SensorNode, ExampleFlatNode>;
+
   /**
    *
    * @param display property to display certain fields
@@ -139,7 +144,7 @@ export class AssessmentLinechartComponent
       ({ formControl }) => formControl === name
     );
 
-    return `${translate(`greaseStatus.${label}`)} (${unit})`;
+    return `${translate(`${this.translateKey}.${label}`)} (${unit})`;
   }
   /* eslint-disable @typescript-eslint/member-ordering */
   private readonly _transformer = (node: SensorNode, level: number) => {
@@ -175,7 +180,7 @@ export class AssessmentLinechartComponent
           ({ formControl }) => formControl === param.seriesName
         );
 
-        const result = `${acc}${translate(`greaseStatus.${label}`)}: ${
+        const result = `${acc}${translate(`${this.translateKey}.${label}`)}: ${
           param.data.value[1]
         } ${unit}<br>`;
 

@@ -39,18 +39,16 @@ export class MaintenanceAssessmentComponent
   TREE_DATA: SensorNode[] = [
     {
       name: 'greaseMonitor',
-      children: this.checkBoxes.filter(
-        (control) => control.type === Type.grease
-      ),
+      children: this.checkBoxes.filter(({ type }) => type === Type.grease),
       formControl: new FormControl(''),
       indeterminate: false,
     },
-    // {
-    //   name: 'edmMonitor',
-    //   children: this.checkBoxes.filter((control) => control.type === Type.edm),
-    //   formControl: new FormControl(''),
-    //   indeterminate: false,
-    // },
+    {
+      name: 'edmMonitor',
+      children: this.checkBoxes.filter(({ type }) => type === Type.edm),
+      formControl: new FormControl(''),
+      indeterminate: false,
+    },
   ];
   displayNodes$: Observable<MaintenanceAssessmentDisplay>;
 
