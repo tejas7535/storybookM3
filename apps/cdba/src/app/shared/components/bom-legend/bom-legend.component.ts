@@ -5,7 +5,7 @@ import {
   ColDef,
 } from '@ag-grid-enterprise/all-modules';
 
-import { formatNumber } from '@cdba/shared/components/table';
+import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { BomItem } from '@cdba/shared/models';
 
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer/material-designation-cell-renderer.component';
@@ -18,6 +18,8 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
 })
 export class BomLegendComponent {
   @Input() data: BomItem[];
+
+  constructor(private readonly columnUtilsService: ColumnUtilsService) {}
 
   public modules = [ClientSideRowModelModule];
   public columnDefs: ColDef[] = [
@@ -33,7 +35,11 @@ export class BomLegendComponent {
       field: 'totalPricePerPc',
       headerName: 'Cost (EUR)',
       flex: 1,
-      valueFormatter: (params) => formatNumber(params, '1.5-5'),
+      valueFormatter: (params) =>
+        this.columnUtilsService.formatNumber(params, {
+          minimumFractionDigits: 5,
+          maximumFractionDigits: 5,
+        }),
     },
   ];
 

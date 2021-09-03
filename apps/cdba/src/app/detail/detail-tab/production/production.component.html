@@ -65,7 +65,7 @@
         <div>
           {{
             productionDetails?.purchasePriceValidFrom
-              | date: 'mediumDate':'':'de-DE'
+              | translocoDate
               | undefinedAttributeFallback
           }}
         </div>
@@ -77,7 +77,7 @@
         <div>
           {{
             productionDetails?.purchasePriceValidUntil
-              | date: 'mediumDate':'':'de-DE'
+              | translocoDate
               | undefinedAttributeFallback
           }}
         </div>

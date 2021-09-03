@@ -6,7 +6,11 @@
       *transloco="let t; read: 'search.tooManyResults'"
     >
       <h4 class="font-body">
-        {{ t('message', { resultCount: resultCount$ | ngrxPush }) }}
+        {{
+          t('message', {
+            resultCount: resultCount$ | ngrxPush | translocoDecimal
+          })
+        }}
       </h4>
       <h6 class="text-light font-body whitespace-pre-line text-center">
         {{ t('hint', { tooManyResultsThreshold: tooManyResultsThreshold }) }}

@@ -3,11 +3,16 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { RowSelectedEvent } from '@ag-grid-enterprise/all-modules';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedModule } from '@cdba/shared';
 
+import { ColumnDefinitionService } from './config';
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
 import { DrawingsTableComponent } from './drawings-table.component';
 
@@ -24,6 +29,9 @@ describe('DrawingsTableComponent', () => {
       MatIconModule,
       AgGridModule.withComponents([ActionsCellRendererComponent]),
       ReactiveComponentModule,
+    ],
+    providers: [
+      mockProvider(ColumnDefinitionService, { COLUMN_DEFINITIONS: [] }),
     ],
   });
 

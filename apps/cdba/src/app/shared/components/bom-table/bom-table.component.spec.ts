@@ -9,8 +9,13 @@ import {
   RowClickedEvent,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
+import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BomItem } from '../../models';
@@ -35,7 +40,12 @@ describe('BomTableComponent', () => {
       ]),
       CustomOverlayModule,
     ],
-    providers: [{ provide: ENV, useValue: { ...getEnv() } }],
+    providers: [
+      { provide: ENV, useValue: { ...getEnv() } },
+      mockProvider(ColumnUtilsService, {
+        formatNumber: jest.fn(() => ''),
+      }),
+    ],
   });
 
   beforeEach(() => {

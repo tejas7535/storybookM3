@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { NumberFormatOptions } from '@ngneat/transloco-locale/lib/transloco-locale.types';
+
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
 import { Filter } from '../filter';
 import { InputType } from './input-type.enum';
@@ -24,8 +26,9 @@ import { TranslocoService } from '@ngneat/transloco';
 export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   public form = new FormControl();
   public inputType = InputType;
-  public decimals = '1.2-2';
   public disabledFilterHint: string;
+
+  decimalNumberFormat: NumberFormatOptions = { maximumFractionDigits: 2 };
 
   @Input() public filter: FilterItemRange;
 
@@ -56,8 +59,6 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
     } else {
       this.form.reset();
     }
-
-    this.decimals = this.filter?.name === 'budget_quantity' ? '1.0-0' : '1.2-2';
   }
 
   /**
@@ -79,10 +80,10 @@ export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   }
 
   /**
-   * Change listener for min/max slider.
+   * Change listener for min/max slider and manual text input
    */
   public update(input: InputType, newValue: number | string): void {
-    const value = +newValue;
+    const value = Number.parseFloat(newValue.toString().replace(',', '.'));
 
     if (input === InputType.Min) {
       if (value === this.filter.min) {

@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -19,7 +19,6 @@ describe('AdditionalInformationWidgetComponent', () => {
       UndefinedAttributeFallbackModule,
       provideTranslocoTestingModule({}),
     ],
-    providers: [DecimalPipe],
   });
   beforeEach(() => {
     spectator = createComponent();

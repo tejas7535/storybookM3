@@ -1,8 +1,6 @@
 import { PlatformModule } from '@angular/cdk/platform';
-import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import de from '@angular/common/locales/de';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -25,14 +23,12 @@ import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
 import { environment } from '@cdba/environments/environment';
+import { AppRoutePath } from '@cdba/app-route-path.enum';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { StoreModule } from './store/store.module';
-
-const locale = 'de-DE';
-registerLocaleData(de, locale);
 
 const azureConfig = new AzureConfig(
   new MsalInstanceConfig(
@@ -58,12 +54,9 @@ const azureConfig = new AzureConfig(
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      [
-        { id: 'de', label: 'Deutsch' },
-        { id: 'en', label: 'English' },
-      ],
+      AVAILABLE_LANGUAGES,
       undefined, // default -> undefined would lead to browser detection
-      'en',
+      FALLBACK_LANGUAGE.id,
       true,
       i18nChecksumsJson
     ),
@@ -96,7 +89,6 @@ const azureConfig = new AzureConfig(
       useClass: HttpErrorInterceptor,
       multi: true,
     },
-    { provide: LOCALE_ID, useValue: locale },
   ],
 })
 export class CoreModule {}

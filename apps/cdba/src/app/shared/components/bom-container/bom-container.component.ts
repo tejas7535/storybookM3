@@ -5,19 +5,22 @@ import {
   OnInit,
 } from '@angular/core';
 
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+
+import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
+
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
+import { MaterialNumberPipe } from '@cdba/shared/pipes';
 
 import { BomItem, Calculation } from '../../models';
-import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
-import { tap } from 'rxjs/operators';
-import { formatDate } from '@angular/common';
-import { MaterialNumberPipe } from '@cdba/shared/pipes';
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 @Component({
   selector: 'cdba-bom-container',
@@ -50,7 +53,8 @@ export class BomContainerComponent implements OnInit {
 
   public constructor(
     private readonly store: Store,
-    private readonly applicationInsights: ApplicationInsightsService
+    private readonly applicationInsights: ApplicationInsightsService,
+    private readonly localeService: TranslocoLocaleService
   ) {}
 
   public ngOnInit(): void {
@@ -237,10 +241,8 @@ export class BomContainerComponent implements OnInit {
 
     prependedMetadata[1][2] = {
       data: {
-        value: `Calculation Date: ${formatDate(
-          this.selectedCalculation.calculationDate,
-          'shortDate',
-          'de-DE'
+        value: `Calculation Date: ${this.localeService.localizeDate(
+          this.selectedCalculation.calculationDate
         )}`,
         type: 'String',
       },

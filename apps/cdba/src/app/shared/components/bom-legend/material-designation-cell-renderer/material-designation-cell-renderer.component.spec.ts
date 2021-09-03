@@ -3,7 +3,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MaterialNumberModule } from '@cdba/shared';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
-import { COLOR_PLATTE } from '../../bom-chart/bom-chart.config';
+import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer.component';
 
 describe('MaterialDesignationCellRendererComponent', () => {

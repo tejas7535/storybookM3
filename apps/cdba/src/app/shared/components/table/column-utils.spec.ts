@@ -1,6 +1,3 @@
-import { registerLocaleData } from '@angular/common';
-import de from '@angular/common/locales/de';
-
 import {
   GetMainMenuItemsParams,
   MenuItemDef,
@@ -11,56 +8,19 @@ import {
 import {
   currentYear,
   filterParamsForDecimalValues,
-  formatDate,
   formatLongValue,
   formatMaterialNumber,
   formatMaterialNumberFromString,
-  formatNumber,
   getMainMenuItems,
   matchAllFractionsForIntegerValue,
   valueGetterArray,
   valueGetterDate,
 } from './column-utils';
 
-registerLocaleData(de);
-
 describe('ColumnUtils', () => {
   describe('currentYear', () => {
     it('should have type number', () => {
       expect(typeof currentYear).toEqual('number');
-    });
-  });
-
-  describe('formatNumber', () => {
-    const params = { value: undefined } as unknown as ValueFormatterParams;
-    let result: string;
-
-    it('should cut decimals, if number does not have decimals', () => {
-      params.value = 10_000;
-
-      result = formatNumber(params);
-
-      expect(result).toEqual('10.000');
-    });
-
-    it('should round value to three decimals', () => {
-      params.value = 10.3571;
-
-      result = formatNumber(params);
-
-      expect(result).toEqual('10,357');
-    });
-  });
-
-  describe('formatDate', () => {
-    it('should transform to medium output format', () => {
-      const params = {
-        value: new Date(1_591_354_306_000),
-      } as unknown as ValueFormatterParams;
-
-      const result = formatDate(params);
-
-      expect(result).toEqual('05.06.2020');
     });
   });
 

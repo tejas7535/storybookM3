@@ -1,5 +1,11 @@
 import { MatIconModule } from '@angular/material/icon';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -12,14 +18,14 @@ import { SharedModule } from '../../shared.module';
 import { BomChartComponent } from './bom-chart.component';
 import {
   COLOR_PLATTE,
-  getXAxisConfig,
   TOOLTIP_CONFIG,
   Y_AXIS_CONFIG,
-} from './bom-chart.config';
+} from './bom-chart.constants';
 
 describe('BomChartComponent', () => {
   let specatator: Spectator<BomChartComponent>;
   let component: BomChartComponent;
+  let configService: BomChartConfigService;
 
   const data: BomItem[] = [BOM_MOCK[0], BOM_MOCK[1]];
 
@@ -33,13 +39,21 @@ describe('BomChartComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
     ],
-    providers: [{ provide: ENV, useValue: { ...getEnv() } }],
+    providers: [
+      { provide: ENV, useValue: { ...getEnv() } },
+      mockProvider(BomChartConfigService, {
+        getXAxisConfig: jest.fn(() => [{}]),
+        getChartSeries: jest.fn(() => [{}]),
+      }),
+      mockProvider(TranslocoLocaleService),
+    ],
     disableAnimations: true,
     detectChanges: false,
   });
 
   beforeEach(() => {
     specatator = createComponent();
+    configService = specatator.inject(BomChartConfigService);
     component = specatator.component;
     component.data = data;
 
@@ -48,6 +62,7 @@ describe('BomChartComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(configService).toBeTruthy();
   });
 
   describe('data input', () => {
@@ -74,13 +89,10 @@ describe('BomChartComponent', () => {
 
   describe('ngOnChanges', () => {
     it('should set chart options properly', () => {
-      const xAxisConfig = getXAxisConfig(false);
-
       component.ngOnChanges();
 
       expect(component.options.tooltip).toEqual(TOOLTIP_CONFIG);
       expect(component.options.yAxis).toEqual(Y_AXIS_CONFIG);
-      expect(component.options.xAxis).toEqual(xAxisConfig);
       expect(component.options.series[0].type).toEqual('bar');
       expect(component.options.series[1].type).toEqual('line');
     });

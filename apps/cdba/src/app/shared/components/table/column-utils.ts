@@ -1,5 +1,3 @@
-import { DatePipe, DecimalPipe } from '@angular/common';
-
 import {
   GetMainMenuItemsParams,
   MenuItemDef,
@@ -15,8 +13,6 @@ import {
   ScrambleMaterialNumberPipe,
 } from '../../pipes';
 
-const decimalPipe = new DecimalPipe('de-DE');
-const datePipe = new DatePipe('de-DE');
 const materialNumberPipe = new MaterialNumberPipe();
 const scrambleMaterialNumberPipe = new ScrambleMaterialNumberPipe(getEnv());
 const scrambleMaterialDesignationPipe = new ScrambleMaterialDesignationPipe(
@@ -24,14 +20,6 @@ const scrambleMaterialDesignationPipe = new ScrambleMaterialDesignationPipe(
 );
 
 export const currentYear = new Date().getFullYear();
-
-export const formatNumber = (
-  params: ValueFormatterParams,
-  digitsInfo: string = '1.0-3'
-) => decimalPipe.transform(params.value, digitsInfo);
-
-export const formatDate = (params: ValueFormatterParams) =>
-  datePipe.transform(params.value);
 
 export const scrambleMaterialDesignation = (
   params: ValueFormatterParams,

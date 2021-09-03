@@ -1,4 +1,4 @@
-import { CommonModule, DecimalPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,7 +16,6 @@ import { DimensionsWidgetComponent } from './dimensions-widget.component';
     LabelValueModule,
     UndefinedAttributeFallbackModule,
   ],
-  providers: [DecimalPipe],
   exports: [DimensionsWidgetComponent],
 })
 export class DimensionsWidgetModule {}

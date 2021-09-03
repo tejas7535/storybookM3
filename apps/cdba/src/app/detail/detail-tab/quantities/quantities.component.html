@@ -9,7 +9,7 @@
         <div>
           {{
             quantitiesDetails.pcmQuantity
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}
         </div>
@@ -23,7 +23,7 @@
         <div>
           {{
             quantitiesDetails.netSales[0]
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}&nbsp;{{ quantitiesDetails.currency }}
         </div>
@@ -37,7 +37,7 @@
         <div>
           {{
             quantitiesDetails.budgetQuantityCurrentYear
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}
         </div>
@@ -51,7 +51,7 @@
         <div>
           {{
             quantitiesDetails.budgetQuantitySoco
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}
         </div>
@@ -78,7 +78,7 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ actualQuantity | number: '':'de-DE' | undefinedAttributeFallback }}
+          {{ actualQuantity | translocoDecimal | undefinedAttributeFallback }}
         </div>
       </div>
     </div>
@@ -103,9 +103,7 @@
           }}:&nbsp;</label
         >
         <div>
-          {{
-            plannedQuantity | number: '':'de-DE' | undefinedAttributeFallback
-          }}
+          {{ plannedQuantity | translocoDecimal | undefinedAttributeFallback }}
         </div>
       </div>
     </div>

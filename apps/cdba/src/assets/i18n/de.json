@@ -132,9 +132,19 @@
   },
   "userSettings": {
     "language": {
-      "title": "Spracheinstellung",
-      "selectLabel": "Sprache wählen",
-      "selectHint": "Bitte wähle eine Sprache für die Applikation"
+      "title": {
+        "main": "Spracheinstellung",
+        "sub": "Die Anwendung wird neu geladen."
+      },
+      "languageSelect": {
+        "label": "Sprache wählen",
+        "hint": "Bitte wähle eine Sprache für die Applikation"
+      },
+      "localizationSelect": {
+        "label": "Lokalisierung wählen",
+        "hint": "Beeinflusst Nummerntrennzeichen und Datumsformat",
+        "tooltip": "Beispiel Deutsche Lokalisierung:\nDatum: 22.01.2021, Große Zahlen: 2.893,32€\n\nBeispiel US Lokalisierung:\nDatum: 01/22/2021, Große Zahlen: 2,893.32€"
+      }
     }
   }
 }

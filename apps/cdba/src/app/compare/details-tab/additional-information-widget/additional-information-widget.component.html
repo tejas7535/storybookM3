@@ -21,36 +21,28 @@
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 4 })"
       [value]="
-        data.actualQuantities[3]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
+        data.actualQuantities[3] | translocoDecimal | undefinedAttributeFallback
       "
     ></cdba-label-value>
     <cdba-label-value
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 3 })"
       [value]="
-        data.actualQuantities[2]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
+        data.actualQuantities[2] | translocoDecimal | undefinedAttributeFallback
       "
     ></cdba-label-value>
     <cdba-label-value
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 2 })"
       [value]="
-        data.actualQuantities[1]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
+        data.actualQuantities[1] | translocoDecimal | undefinedAttributeFallback
       "
     ></cdba-label-value>
     <cdba-label-value
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 1 })"
       [value]="
-        data.actualQuantities[0]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
+        data.actualQuantities[0] | translocoDecimal | undefinedAttributeFallback
       "
     ></cdba-label-value>
     <cdba-label-value
@@ -58,7 +50,7 @@
       [label]="t('plannedQuantity', { year: currentYear })"
       [value]="
         data.plannedQuantities[0]
-          | number: '':'de-DE'
+          | translocoDecimal
           | undefinedAttributeFallback
       "
     ></cdba-label-value>
@@ -67,7 +59,7 @@
       [label]="t('plannedQuantity', { year: currentYear + 1 })"
       [value]="
         data.plannedQuantities[1]
-          | number: '':'de-DE'
+          | translocoDecimal
           | undefinedAttributeFallback
       "
     ></cdba-label-value>
@@ -76,7 +68,7 @@
       [label]="t('plannedQuantity', { year: currentYear + 2 })"
       [value]="
         data.plannedQuantities[2]
-          | number: '':'de-DE'
+          | translocoDecimal
           | undefinedAttributeFallback
       "
     ></cdba-label-value>
@@ -85,7 +77,7 @@
       [label]="t('plannedQuantity', { year: currentYear + 3 })"
       [value]="
         data.plannedQuantities[3]
-          | number: '':'de-DE'
+          | translocoDecimal
           | undefinedAttributeFallback
       "
     ></cdba-label-value>

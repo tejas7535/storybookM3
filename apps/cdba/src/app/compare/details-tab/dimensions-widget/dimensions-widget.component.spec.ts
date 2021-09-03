@@ -1,8 +1,9 @@
-import { CommonModule, DecimalPipe, registerLocaleData } from '@angular/common';
-import de from '@angular/common/locales/de';
-import { LOCALE_ID } from '@angular/core';
-
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -14,23 +15,26 @@ import * as sharedEnJson from '../../../../assets/i18n/en.json';
 import { LabelValueModule } from '../label-value/label-value.module';
 import { DimensionsWidgetComponent } from './dimensions-widget.component';
 
-const locale = 'de-DE';
-registerLocaleData(de, locale);
-
 describe('DimensionsWidgetComponent', () => {
   let spectator: Spectator<DimensionsWidgetComponent>;
+  const localizeNumber = jest.fn();
+  const numberInput = 1_234_567.891_011;
+  const numberOutput = '1.234.567,89';
 
   const createComponent = createComponentFactory({
     component: DimensionsWidgetComponent,
     imports: [
-      CommonModule,
       UndefinedAttributeFallbackModule,
       provideTranslocoTestingModule({
         en: { compare: compareEnJson, ...sharedEnJson },
       }),
       LabelValueModule,
     ],
-    providers: [{ provide: LOCALE_ID, useValue: locale }, DecimalPipe],
+    providers: [mockProvider(TranslocoLocaleService, { localizeNumber })],
+  });
+
+  beforeEach(() => {
+    localizeNumber.mockReturnValue(numberOutput);
   });
 
   it('should create', () => {
@@ -40,11 +44,11 @@ describe('DimensionsWidgetComponent', () => {
 
   it('should properly format values in template', () => {
     const data: DimensionAndWeightDetails = {
-      height: 7.568_79,
-      width: 10,
-      length: 5,
+      height: numberInput,
+      width: numberInput,
+      length: numberInput,
       unitOfDimension: 'mm',
-      weight: 10_000,
+      weight: numberInput,
       weightUnit: 'gramm',
       volumeCubic: undefined,
       volumeUnit: undefined,
@@ -57,10 +61,10 @@ describe('DimensionsWidgetComponent', () => {
       .map((element) => element.textContent);
 
     const expectedValues = [
-      '5 mm',
-      '10 mm',
-      '7,569 mm',
-      '10.000 gramm',
+      `${numberOutput} mm`,
+      `${numberOutput} mm`,
+      `${numberOutput} mm`,
+      `${numberOutput} gramm`,
       'n.a.',
     ];
 

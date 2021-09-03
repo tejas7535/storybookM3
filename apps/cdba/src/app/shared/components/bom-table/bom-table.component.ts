@@ -28,7 +28,7 @@ import {
 } from '@cdba/shared/pipes';
 
 import { BomItem } from '../../models';
-import { formatMaterialNumberFromString, formatNumber } from '../table';
+import { ColumnUtilsService, formatMaterialNumberFromString } from '../table';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import {
   CustomNoRowsOverlayComponent,
@@ -44,7 +44,8 @@ import {
 export class BomTableComponent implements OnChanges {
   public constructor(
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
-    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe
+    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe,
+    private readonly columnUtilsService: ColumnUtilsService
   ) {}
 
   @Input() index: number;
@@ -108,8 +109,12 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'totalPricePerPc',
       headerName: translate('shared.bom.headers.totalPricePerPc'),
-      valueFormatter: (params) => formatNumber(params, '1.5-5'),
-      cellClass: ['floatingNumberType', this.defaultCellClass],
+      type: 'numericColumn',
+      valueFormatter: (params) =>
+        this.columnUtilsService.formatNumber(params, {
+          minimumFractionDigits: 4,
+          maximumFractionDigits: 4,
+        }),
     },
     {
       field: 'currency',
@@ -131,7 +136,8 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'lotsize',
       headerName: translate('shared.bom.headers.lotsize'),
-      valueFormatter: formatNumber,
+      type: 'numericColumn',
+      valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
       field: 'setupTime',
@@ -150,7 +156,8 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'quantityPerParent',
       headerName: translate('shared.bom.headers.quantityPerParent'),
-      cellClass: ['floatingNumberType', this.defaultCellClass],
+      type: 'numericColumn',
+      valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
       field: 'unitOfMeasure',

@@ -15,7 +15,7 @@ import {
 import { Drawing } from '@cdba/shared/models';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
-import { COLUMN_DEFINITIONS, DEFAULT_COLUMN_DEFINITION } from './config';
+import { ColumnDefinitionService, DEFAULT_COLUMN_DEFINITION } from './config';
 
 @Component({
   selector: 'cdba-drawings-table',
@@ -32,11 +32,15 @@ export class DrawingsTableComponent {
     drawing: Drawing;
   }> = new EventEmitter();
 
+  public constructor(
+    private readonly columnDefinitionService: ColumnDefinitionService
+  ) {}
+
   public modules: any[] = [ClientSideRowModelModule];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
 
-  public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
+  public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
 
   public frameworkComponents = {
     actionsCellRenderer: ActionsCellRendererComponent,

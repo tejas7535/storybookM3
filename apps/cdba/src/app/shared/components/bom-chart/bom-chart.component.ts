@@ -4,17 +4,16 @@ import {
   Input,
   OnChanges,
 } from '@angular/core';
+import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
 
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 
 import { BomItem } from '../../models';
 import {
   COLOR_PLATTE,
-  getChartSeries,
-  getXAxisConfig,
   TOOLTIP_CONFIG,
   Y_AXIS_CONFIG,
-} from './bom-chart.config';
+} from './bom-chart.constants';
 import { DataPoint } from './data-point.model';
 
 @Component({
@@ -22,9 +21,11 @@ import { DataPoint } from './data-point.model';
   templateUrl: './bom-chart.component.html',
   styleUrls: ['./bom-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
+  providers: [BomChartConfigService],
 })
 export class BomChartComponent implements OnChanges {
   public constructor(
+    protected bomChartConfigService: BomChartConfigService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
   ) {}
 
@@ -73,8 +74,13 @@ export class BomChartComponent implements OnChanges {
       color: ['black', '#B00020'],
       tooltip: TOOLTIP_CONFIG,
       yAxis: Y_AXIS_CONFIG,
-      xAxis: getXAxisConfig(this.hasNegativeCostValues),
-      series: getChartSeries(this.barChartData, this.lineChartData),
+      xAxis: this.bomChartConfigService.getXAxisConfig(
+        this.hasNegativeCostValues
+      ),
+      series: this.bomChartConfigService.getChartSeries(
+        this.barChartData,
+        this.lineChartData
+      ),
     };
   }
 }

@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { formatDate, formatNumber, valueGetterDate } from '../../table';
+import { ColumnUtilsService, valueGetterDate } from '../../table';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
+  constructor(private readonly columnUtilsService: ColumnUtilsService) {}
+
   COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     checkbox: {
       suppressMovable: true,
@@ -31,7 +33,7 @@ export class ColumnDefinitionService {
       headerName: translate('shared.calculations.table.calculationDate'),
       headerTooltip: translate('shared.calculations.table.calculationDate'),
       valueGetter: (params) => valueGetterDate(params, 'calculationDate'),
-      valueFormatter: formatDate,
+      valueFormatter: this.columnUtilsService.formatDate,
       filter: 'agDateColumnFilter',
     },
     costType: {
@@ -44,6 +46,11 @@ export class ColumnDefinitionService {
       headerName: translate('shared.calculations.table.price'),
       headerTooltip: translate('shared.calculations.table.price'),
       filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: (params) =>
+        this.columnUtilsService.formatNumber(params, {
+          minimumFractionDigits: 3,
+        }),
     },
     currency: {
       field: 'currency',
@@ -64,15 +71,17 @@ export class ColumnDefinitionService {
       field: 'quantity',
       headerName: translate('shared.calculations.table.quantity'),
       headerTooltip: translate('shared.calculations.table.quantity'),
-      valueFormatter: formatNumber,
       filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: this.columnUtilsService.formatNumber,
     },
     lotSize: {
       field: 'lotSize',
       headerName: translate('shared.calculations.table.lotSize'),
       headerTooltip: translate('shared.calculations.table.lotSize'),
-      valueFormatter: formatNumber,
       filter: 'agNumberColumnFilter',
+      type: 'numericColumn',
+      valueFormatter: this.columnUtilsService.formatNumber,
     },
     bomCostingVersion: {
       field: 'bomCostingVersion',

@@ -1,5 +1,6 @@
-import { DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 
@@ -18,7 +19,7 @@ interface DimensionData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DimensionsWidgetComponent {
-  public constructor(private readonly decimalPipe: DecimalPipe) {}
+  public constructor(private readonly localeService: TranslocoLocaleService) {}
 
   @Input()
   public set data(data: DimensionAndWeightDetails) {
@@ -26,24 +27,34 @@ export class DimensionsWidgetComponent {
       this.dimensionData = undefined;
     } else {
       const height = data.height
-        ? `${this.decimalPipe.transform(data.height)} ${data.unitOfDimension}`
+        ? `${this.localeService.localizeNumber(data.height, 'decimal')} ${
+            data.unitOfDimension
+          }`
         : undefined;
 
       const width = data.width
-        ? `${this.decimalPipe.transform(data.width)} ${data.unitOfDimension}`
+        ? `${this.localeService.localizeNumber(data.width, 'decimal')} ${
+            data.unitOfDimension
+          }`
         : undefined;
 
       // eslint-disable-next-line unicorn/explicit-length-check
       const length = data.length
-        ? `${this.decimalPipe.transform(data.length)} ${data.unitOfDimension}`
+        ? `${this.localeService.localizeNumber(data.length, 'decimal')} ${
+            data.unitOfDimension
+          }`
         : undefined;
 
       const weight = data.weight
-        ? `${this.decimalPipe.transform(data.weight)} ${data.weightUnit}`
+        ? `${this.localeService.localizeNumber(data.weight, 'decimal')} ${
+            data.weightUnit
+          }`
         : undefined;
 
       const volume = data.volumeCubic
-        ? `${this.decimalPipe.transform(data.volumeCubic)} ${data.volumeUnit}`
+        ? `${this.localeService.localizeNumber(data.volumeCubic, 'decimal')} ${
+            data.volumeUnit
+          }`
         : undefined;
 
       this.dimensionData = {

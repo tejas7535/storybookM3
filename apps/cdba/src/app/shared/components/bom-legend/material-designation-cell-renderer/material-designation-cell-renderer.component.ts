@@ -5,7 +5,7 @@ import { ICellRendererParams } from '@ag-grid-community/core/dist/cjs/rendering/
 
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 
-import { COLOR_PLATTE } from '../../bom-chart/bom-chart.config';
+import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';
 
 @Component({
   selector: 'cdba-material-designation-cell-renderer',

@@ -71,9 +71,7 @@
                 [class.ghost-line]="calculationsLoading$ | ngrxPush"
                 [class.w-20]="calculationsLoading$ | ngrxPush"
               >
-                {{
-                  calculation?.calculationDate | date: 'shortDate':'':'de-DE'
-                }}
+                {{ calculation?.calculationDate | translocoDate }}
               </div>
             </div>
           </div>

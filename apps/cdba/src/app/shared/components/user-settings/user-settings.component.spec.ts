@@ -9,6 +9,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
@@ -19,7 +20,10 @@ describe('UserSettingsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
-    providers: [mockProvider(TranslocoService)],
+    providers: [
+      mockProvider(TranslocoService),
+      mockProvider(TranslocoLocaleService),
+    ],
     imports: [
       SharedModule,
       ReactiveFormsModule,
@@ -38,13 +42,25 @@ describe('UserSettingsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('setLanguage', () => {
+  describe('onLanguageSelectionChange', () => {
     it('should propagate selected language to transloco service', () => {
       component['transloco'].setActiveLang = jest.fn();
 
-      component.setLanguage('de');
+      component.onLanguageSelectionChange('de');
 
       expect(component['transloco'].setActiveLang).toHaveBeenCalledWith('de');
+    });
+  });
+
+  describe('onLocaleSelectionChange', () => {
+    it('should propagate selected language to transloco service', () => {
+      component['localeService'].setLocale = jest.fn();
+
+      component.onLocaleSelectionChange('de-DE');
+
+      expect(component['localeService'].setLocale).toHaveBeenCalledWith(
+        'de-DE'
+      );
     });
   });
 });

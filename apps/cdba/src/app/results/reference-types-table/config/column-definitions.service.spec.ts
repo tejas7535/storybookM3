@@ -2,7 +2,12 @@ import {
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-community/all-modules';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { ColumnUtilsService } from '@cdba/shared/components/table';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -29,16 +34,29 @@ describe('ColumnDefinitions', () => {
   const createService = createServiceFactory({
     service: ColumnDefinitionService,
     imports: [provideTranslocoTestingModule({ en: {} })],
-    providers: [ColumnDefinitionService],
+    providers: [
+      mockProvider(ColumnUtilsService, {
+        formatNumber: jest.fn(() => ''),
+        formatDate: jest.fn(() => ''),
+      }),
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
-    service = spectator.inject(ColumnDefinitionService);
+    service = spectator.service;
+  });
+
+  it('should be created', () => {
+    expect(service).toBeDefined();
   });
 
   it('should call value getter and format methods', () => {
     const columnDefinitions = service.COLUMN_DEFINITIONS;
+    const formatNumberSpy = jest.spyOn(
+      service['columnUtilsService'],
+      'formatNumber'
+    );
 
     columnDefinitions.forEach((column) => {
       if (column.valueGetter) {
@@ -54,6 +72,6 @@ describe('ColumnDefinitions', () => {
 
     expect(utils.valueGetterArray).toHaveBeenCalledTimes(10);
     expect(utils.valueGetterDate).toHaveBeenCalledTimes(5);
-    expect(utils.formatNumber).toHaveBeenCalledTimes(22);
+    expect(formatNumberSpy).toHaveBeenCalledTimes(23);
   });
 });

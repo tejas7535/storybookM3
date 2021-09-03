@@ -7,7 +7,7 @@
         <div>
           {{
             salesPrice?.averagePrice
-              | number: '1.3-3':'de-DE'
+              | translocoDecimal: { minimumFractionDigits: 3 }
               | undefinedAttributeFallback
           }}&nbsp;{{
             salesPrice?.averagePrice
@@ -23,7 +23,7 @@
         <div>
           {{
             salesPrice?.pcmSqv
-              | number: '1.3-3':'de-DE'
+              | translocoDecimal: { minimumFractionDigits: 3 }
               | undefinedAttributeFallback
           }}&nbsp;{{
             salesPrice?.pcmSqv
@@ -41,7 +41,7 @@
         <div>
           {{
             salesPrice?.pcmCalculationDate
-              | date: 'shortDate':'':'de-DE'
+              | translocoDate
               | undefinedAttributeFallback
           }}
         </div>
@@ -55,7 +55,7 @@
         <div>
           {{
             salesPrice?.sqvSapLatestMonth
-              | number: '1.3-3':'de-DE'
+              | translocoDecimal: { minimumFractionDigits: 3 }
               | undefinedAttributeFallback
           }}&nbsp;{{
             salesPrice?.sqvSapLatestMonth
@@ -69,11 +69,7 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.sqvDate') }}:&nbsp;</label>
         <div>
-          {{
-            salesPrice?.sqvDate
-              | date: 'mediumDate':'':'de-DE'
-              | undefinedAttributeFallback
-          }}
+          {{ salesPrice?.sqvDate | translocoDate | undefinedAttributeFallback }}
         </div>
       </div>
     </div>
@@ -83,7 +79,7 @@
         <div>
           {{
             salesPrice?.gpcLatestYear
-              | number: '1.3-3':'de-DE'
+              | translocoDecimal: { minimumFractionDigits: 3 }
               | undefinedAttributeFallback
           }}&nbsp;{{
             salesPrice?.gpcLatestYear
@@ -97,11 +93,7 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.gpcDate') }}:&nbsp;</label>
         <div>
-          {{
-            salesPrice?.gpcDate
-              | date: 'mediumDate':'':'de-DE'
-              | undefinedAttributeFallback
-          }}
+          {{ salesPrice?.gpcDate | translocoDate | undefinedAttributeFallback }}
         </div>
       </div>
     </div>

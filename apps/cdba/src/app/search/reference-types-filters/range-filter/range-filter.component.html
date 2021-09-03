@@ -27,9 +27,12 @@
             <input
               #minInput
               matInput
-              type="number"
               autocomplete="off"
-              [value]="filter.minSelected ? filter.minSelected : filter.min"
+              [value]="
+                filter.minSelected
+                  ? (filter.minSelected | translocoDecimal: decimalNumberFormat)
+                  : (filter.min | translocoDecimal: decimalNumberFormat)
+              "
               [max]="filter.max"
               [min]="filter.min"
               (change)="update(inputType.Min, minInput.value)"
@@ -62,9 +65,12 @@
             <input
               #maxInput
               matInput
-              type="number"
               autocomplete="off"
-              [value]="filter.maxSelected ? filter.maxSelected : filter.max"
+              [value]="
+                filter.maxSelected
+                  ? (filter.maxSelected | translocoDecimal: decimalNumberFormat)
+                  : (filter.max | translocoDecimal: decimalNumberFormat)
+              "
               [max]="filter.max"
               [min]="filter.min"
               (change)="update(inputType.Max, maxInput.value)"

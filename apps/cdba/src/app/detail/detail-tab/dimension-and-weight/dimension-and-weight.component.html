@@ -9,7 +9,7 @@
         <div>
           {{
             dimensionAndWeight?.length
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}&nbsp;{{
             dimensionAndWeight?.length
@@ -25,7 +25,7 @@
         <div>
           {{
             dimensionAndWeight?.width
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}&nbsp;{{
             dimensionAndWeight?.width ? dimensionAndWeight?.unitOfDimension : ''
@@ -39,7 +39,7 @@
         <div>
           {{
             dimensionAndWeight?.height
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}&nbsp;{{
             dimensionAndWeight?.height
@@ -57,7 +57,7 @@
         <div>
           {{
             dimensionAndWeight?.weight
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}&nbsp;{{
             dimensionAndWeight?.weight ? dimensionAndWeight?.weightUnit : ''
@@ -71,7 +71,7 @@
         <div>
           {{
             dimensionAndWeight?.volumeCubic
-              | number: '':'de-DE'
+              | translocoDecimal
               | undefinedAttributeFallback
           }}&nbsp;{{
             dimensionAndWeight?.volumeCubic

@@ -1,7 +1,13 @@
 import { ValueGetterParams } from '@ag-grid-community/all-modules';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
 import { ValueGetterFunction } from '@cdba/testing/types';
+import { ColumnUtilsService } from '@cdba/shared/components/table';
 
 import * as utils from '../../table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
@@ -17,7 +23,15 @@ describe('ColumnDefinitions', () => {
   let service: ColumnDefinitionService;
   let spectator: SpectatorService<ColumnDefinitionService>;
 
-  const createService = createServiceFactory(ColumnDefinitionService);
+  const createService = createServiceFactory({
+    service: ColumnDefinitionService,
+    providers: [
+      mockProvider(ColumnUtilsService, {
+        formatNumber: jest.fn(() => ''),
+        formatDate: jest.fn(() => ''),
+      }),
+    ],
+  });
 
   beforeEach(() => {
     spectator = createService();
