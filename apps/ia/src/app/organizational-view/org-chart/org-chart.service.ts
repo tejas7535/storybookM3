@@ -107,7 +107,7 @@ export class OrgChartService {
               <tbody>
                 <tr>
                   <td class="row-title">
-                    <span class="icon icon-user green"></span>
+                    <span class="icon icon-small icon-user green"></span>
                     <span>${rowEmployees}</span>
                   </td>
                   <td>${directSubordinates}</td>
@@ -115,7 +115,7 @@ export class OrgChartService {
                 </tr>
                 <tr>
                   <td class="row-title">
-                    <span class="icon icon-bars green">
+                    <span class="icon icon-small icon-bars green">
                     </span> <span>${rowAttrition}</span>
                   </td>
                   <td>${directAttrition}</td>

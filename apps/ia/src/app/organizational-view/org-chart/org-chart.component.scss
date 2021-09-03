@@ -107,8 +107,34 @@
           color: $schaeffler-gray-7;
           cursor: pointer;
           font-size: 24px;
+          font-style: normal;
           height: 24px;
+          line-height: 24px;
           width: 24px;
+        }
+
+        .icon-small {
+          font-size: 16px;
+          height: 16px;
+          line-height: 16px;
+          margin-right: 5px;
+          width: 16px;
+        }
+
+        // Google Material Icon Points
+        .icon-user::before {
+          content: '\e7fd';
+          font-family: 'Material Icons';
+        }
+
+        .icon-bars::before {
+          content: '\e801';
+          font-family: 'Material Icons';
+        }
+
+        .icon-users::before {
+          content: '\e7fb';
+          font-family: 'Material Icons';
         }
 
         .bottom-bar {
@@ -117,12 +143,12 @@
           width: 100%;
 
           .left {
+            margin-left: 17px;
             margin-right: auto;
-            padding: 0 0 15px 17px;
           }
 
           .right {
-            padding-right: 17px;
+            margin-right: 17px;
           }
         }
       }
