@@ -110,7 +110,7 @@ if (window.self !== window.top) {
         { id: 'ru', label: 'русский' },
         { id: 'zh', label: '中国' },
       ],
-      'en', // default -> undefined would lead to browser detection
+      undefined, // default -> undefined would lead to browser detection
       'en',
       true
     ),
