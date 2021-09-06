@@ -1,3 +1,5 @@
+import { Component, DebugElement } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -6,6 +8,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { FooterLink } from './footer-link.model';
 import { FooterComponent } from './footer.component';
 
+@Component({
+  template: `<schaeffler-footer><div>Hello World</div></schaeffler-footer>`,
+})
+class TestHostComponent {}
+
 describe('FooterComponent', () => {
   let spectator: Spectator<FooterComponent>;
   let component: FooterComponent;
@@ -13,6 +20,7 @@ describe('FooterComponent', () => {
 
   const createComponent = createComponentFactory({
     component: FooterComponent,
+    declarations: [TestHostComponent],
     imports: [RouterTestingModule],
   });
 
@@ -121,6 +129,11 @@ describe('FooterComponent', () => {
       expect(
         spectator.debugElement.query(By.css('.footer-link-internal'))
       ).toBeTruthy();
+    });
+    it('should render a custom element with the ng-content area', () => {
+      const dummyComponent = TestBed.createComponent(TestHostComponent);
+      const el: DebugElement = dummyComponent.debugElement.query(By.css('div'));
+      expect(el.nativeElement.textContent).toEqual('Hello World');
     });
   });
 

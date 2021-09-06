@@ -12,6 +12,7 @@ import { UserMenuEntry } from '@schaeffler/header';
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
 import { LegalPath } from './legal/legal-route-path.enum';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'goldwind-root',
@@ -21,6 +22,10 @@ import { LegalPath } from './legal/legal-route-path.enum';
 export class AppComponent implements OnInit {
   title = 'Smart Wind Solutions';
 
+  public metadata = {
+    icpnumber: environment.icpnumber,
+    publicSecurityBureauNumber: environment.publicSecurityBureauNumber,
+  };
   public footerLinks: FooterLink[] = [
     {
       link: `${AppRoutePath.LegalPath}/${LegalPath.ImprintPath}`,

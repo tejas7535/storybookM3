@@ -52,3 +52,26 @@ export const primary = () => ({
     appVersion: '0.0.1',
   },
 });
+
+export const withCustomContent = () => ({
+  ...baseComponent,
+  template: `<schaeffler-footer
+      [footerLinks]="footerLinks"
+      [appVersion]="appVersion">
+        <span class="text-light leading-4 text-caption">Custom Content Here</span></schaeffler-footer>`,
+  props: {
+    footerLinks: [
+      {
+        link: text('link', '/data-security', internalGroupId),
+        title: text('title', 'Data Security', internalGroupId),
+        external: false,
+      },
+      {
+        link: text('link', 'https://www.schaeffler.com', externalGroupId),
+        title: text('title', 'Schaefffler Homepage', externalGroupId),
+        external: true,
+      },
+    ],
+    appVersion: '0.0.1',
+  },
+});

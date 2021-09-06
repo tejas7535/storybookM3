@@ -93,6 +93,10 @@
     "invalidStartDate": "Invalid start date",
     "title": "Date Range"
   },
+  "footer": {
+    "icpnumber": "ICP Number",
+    "publicSecurityBureauNumber": "Public Security Bureau number"
+  },
   "greaseStatus": {
     "datePicker": "DatePicker",
     "deterioration": "Deterioration",

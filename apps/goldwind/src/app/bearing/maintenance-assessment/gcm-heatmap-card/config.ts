@@ -27,5 +27,5 @@ export const CALENDAR_OPTIONS: CalendarComponentOption = {
     },
   },
   monthLabel: { show: true },
-  yearLabel: { show: true },
+  yearLabel: { show: false },
 };

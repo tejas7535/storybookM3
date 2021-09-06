@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   devToolsEnabled: true,
+  publicSecurityBureauNumber: '沪公网安备31011402009389号',
+  icpnumber: '沪ICP备16014076号',
   baseUrl: 'https://smartwindsolutions-dev.schaefflercn.com/api',
   tenantId: '5526d4ee-cae5-4c8e-ab8e-835b8be314f3',
   clientId: 'aba84ac1-d4d3-4a24-a2a9-79ce04c0f4e6',
