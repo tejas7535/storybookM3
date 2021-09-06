@@ -2,7 +2,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -22,7 +21,6 @@ describe('EmployeeListDialogComponent', () => {
     imports: [
       MatDialogModule,
       MatButtonModule,
-      MatIconModule,
       MatDividerModule,
       MatListModule,
       provideTranslocoTestingModule({ en: {} }),
