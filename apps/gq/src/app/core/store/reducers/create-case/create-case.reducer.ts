@@ -295,7 +295,12 @@ export const createCaseReducer = createReducer(
   on(validateSuccess, (state: CreateCaseState, { materialValidations }) => ({
     ...state,
     rowData: [...state.rowData].map((el) =>
-      TableService.validateData({ ...el }, materialValidations)
+      TableService.validateData(
+        { ...el },
+        materialValidations.find(
+          (item) => item.materialNumber15 === el.materialNumber
+        )
+      )
     ),
     validationLoading: false,
   })),

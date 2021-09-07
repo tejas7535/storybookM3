@@ -5,16 +5,22 @@ import { ColumnUtilityService } from '../../../services/column-utility-service/c
 
 export const BASE_COLUMN_DEFS: ColDef[] = [
   {
+    headerName: translate('shared.caseMaterial.table.materialDescription'),
+    field: 'materialDescription',
+    flex: 0.3,
+    sortable: true,
+  },
+  {
     headerName: translate('shared.caseMaterial.table.materialNumber'),
     field: 'materialNumber',
-    flex: 0.4,
+    flex: 0.3,
     sortable: true,
     valueFormatter: ColumnUtilityService.transformMaterial,
   },
   {
     headerName: translate('shared.caseMaterial.table.quantity'),
     field: 'quantity',
-    flex: 0.4,
+    flex: 0.2,
     sortable: true,
   },
   {

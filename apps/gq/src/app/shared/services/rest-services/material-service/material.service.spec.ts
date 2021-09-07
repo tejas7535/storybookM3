@@ -13,7 +13,7 @@ import {
 } from '../../../models/table';
 import { MaterialService } from './material.service';
 
-describe('ValidationService', () => {
+describe('MaterialService', () => {
   let httpMock: HttpTestingController;
   let spectator: SpectatorService<MaterialService>;
   let service: MaterialService;
@@ -43,7 +43,7 @@ describe('ValidationService', () => {
     httpMock.verify();
   });
 
-  describe('validate', () => {
+  describe('validateMaterials', () => {
     test('should call', () => {
       const mockTable: MaterialTableItem[] = [
         {
@@ -61,6 +61,26 @@ describe('ValidationService', () => {
       const req = httpMock.expectOne('/materials/validation');
       expect(req.request.method).toBe('POST');
       req.flush(mockTable);
+    });
+    test('should extract materialNumbers', () => {
+      const mockTable: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+      ];
+      service['dataService'].post = jest.fn();
+
+      service.validateMaterials(mockTable);
+
+      expect(service['dataService'].post).toHaveBeenCalledWith(
+        service['PATH_VALIDATION'],
+        [mockTable[0].materialNumber]
+      );
     });
   });
 });

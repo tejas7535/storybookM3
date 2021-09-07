@@ -99,7 +99,7 @@
             "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
           }
         },
-        "matDesc": "Material Beschreibung",
+        "materialDescription": "Material Beschreibung",
         "materialNumber": "Material Nummer (15-stellig)",
         "quantity": "Menge"
       }

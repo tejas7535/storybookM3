@@ -305,7 +305,13 @@ export const processCaseReducer = createReducer(
         ...state.addMaterials,
         errorMessage: undefined,
         addMaterialRowData: [...state.addMaterials.addMaterialRowData].map(
-          (el) => TableService.validateData({ ...el }, materialValidations)
+          (el) =>
+            TableService.validateData(
+              { ...el },
+              materialValidations.find(
+                (item) => item.materialNumber15 === el.materialNumber
+              )
+            )
         ),
         validationLoading: false,
       },

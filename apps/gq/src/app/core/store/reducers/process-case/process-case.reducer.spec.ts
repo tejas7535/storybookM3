@@ -376,7 +376,11 @@ describe('Quotation Reducer', () => {
     describe('validateAddMaterialsSuccess', () => {
       test('should validate AddMaterials Successful', () => {
         const materialValidations: MaterialValidation[] = [
-          { materialNumber15: '123465', valid: true },
+          {
+            materialNumber15: '123465',
+            materialDescription: 'desc',
+            valid: true,
+          },
         ];
         const action = validateAddMaterialsSuccess({ materialValidations });
 
@@ -386,6 +390,7 @@ describe('Quotation Reducer', () => {
             ...QUOTATION_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
+                materialDescription: 'desc',
                 materialNumber: '123465',
                 quantity: 100,
               },
@@ -401,6 +406,7 @@ describe('Quotation Reducer', () => {
             addMaterialRowData: [
               {
                 materialNumber: '123465',
+                materialDescription: 'desc',
                 quantity: 100,
                 info: {
                   description: ['valid'],

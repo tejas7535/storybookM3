@@ -83,14 +83,16 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: true },
-      ];
-
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+      };
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
         info: { description: [ValidationDescription.Valid], valid: true },
-        materialNumber: '23457',
+        materialDescription: rowData.materialDescription,
+        materialNumber: rowData.materialNumber15,
         quantity: 100,
       });
     });
@@ -104,17 +106,19 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: false },
-      ];
-
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: false,
+      };
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
         info: {
           description: [ValidationDescription.MaterialNumberInValid],
           valid: false,
         },
-        materialNumber: '23457',
+        materialDescription: rowData.materialDescription,
+        materialNumber: rowData.materialNumber15,
         quantity: 100,
       });
     });
@@ -128,9 +132,11 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: false },
-      ];
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: false,
+      };
 
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
@@ -138,7 +144,8 @@ describe('TableService', () => {
           description: [ValidationDescription.MaterialNumberInValid],
           valid: false,
         },
-        materialNumber: '23457',
+        materialDescription: rowData.materialDescription,
+        materialNumber: rowData.materialNumber15,
         quantity: 100,
       });
     });
@@ -151,9 +158,7 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: true },
-      ];
+      const rowData: MaterialValidation = undefined;
 
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
@@ -175,9 +180,11 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: true },
-      ];
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+      };
 
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
@@ -185,7 +192,8 @@ describe('TableService', () => {
           description: [ValidationDescription.QuantityInValid],
           valid: false,
         },
-        materialNumber: '23457',
+        materialDescription: rowData.materialDescription,
+        materialNumber: rowData.materialNumber15,
         quantity: -10,
       });
     });
@@ -199,14 +207,17 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: true },
-      ];
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+      };
 
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
         info: { description: [ValidationDescription.Valid], valid: true },
-        materialNumber: '23457',
+        materialDescription: rowData.materialDescription,
+        materialNumber: rowData.materialNumber15,
         quantity: 10,
       });
     });
@@ -220,9 +231,11 @@ describe('TableService', () => {
           valid: false,
         },
       };
-      const rowData: MaterialValidation[] = [
-        { materialNumber15: '23457', valid: true },
-      ];
+      const rowData: MaterialValidation = {
+        materialNumber15: '23457',
+        materialDescription: 'desc',
+        valid: true,
+      };
 
       const result = TableService.validateData(materialNumber, rowData);
       expect(result).toEqual({
@@ -230,7 +243,8 @@ describe('TableService', () => {
           description: [ValidationDescription.QuantityInValid],
           valid: false,
         },
-        materialNumber: '23457',
+        materialDescription: rowData.materialDescription,
+        materialNumber: rowData.materialNumber15,
         quantity: undefined,
       });
     });

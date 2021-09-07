@@ -133,6 +133,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     const items: MaterialTableItem[] = [
       {
         materialNumber: this.matNumberInput.searchFormControl.value,
+        materialDescription: this.matDescInput.searchFormControl.value,
         quantity: this.quantity,
         info: { valid: true, description: [ValidationDescription.Valid] },
       },

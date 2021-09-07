@@ -162,6 +162,7 @@ describe('InputbarComponent', () => {
     test('should dispatch action', () => {
       const item: MaterialTableItem = {
         materialNumber: '1234',
+        materialDescription: 'desc',
         quantity: 10,
         info: {
           description: [ValidationDescription.Valid],
@@ -175,6 +176,7 @@ describe('InputbarComponent', () => {
         clearInput: jest.fn(),
       } as any;
       component.matDescInput = {
+        searchFormControl: new FormControl(item.materialDescription),
         clearInput: jest.fn(),
       } as any;
 

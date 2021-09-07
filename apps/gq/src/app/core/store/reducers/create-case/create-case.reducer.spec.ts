@@ -394,12 +394,13 @@ describe('Create Case Reducer', () => {
     describe('validateSuccess', () => {
       test('should validate rowData', () => {
         const materialValidations: MaterialValidation[] = [
-          { materialNumber15: '20', valid: true },
-          { materialNumber15: '30', valid: false },
+          { materialNumber15: '20', materialDescription: 'desc', valid: true },
+          { materialNumber15: '30', materialDescription: 'desc', valid: false },
         ];
         const fakeData: MaterialTableItem[] = [
           {
             materialNumber: '20',
+            materialDescription: 'desc',
             quantity: 10,
             info: {
               valid: false,
@@ -408,6 +409,7 @@ describe('Create Case Reducer', () => {
           },
           {
             materialNumber: '30',
+            materialDescription: 'desc',
             quantity: -10,
             info: {
               valid: false,

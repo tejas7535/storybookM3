@@ -9,9 +9,6 @@ import { MaterialTableItem, MaterialValidation } from '../../../models/table';
 @Injectable({
   providedIn: 'root',
 })
-/**
- *  Material Service
- */
 export class MaterialService {
   private readonly PATH_VALIDATION = 'materials/validation';
 
@@ -20,7 +17,7 @@ export class MaterialService {
   public validateMaterials(
     tableData: MaterialTableItem[]
   ): Observable<MaterialValidation[]> {
-    const body = tableData.map((el) => el.materialNumber);
+    const body = [...new Set(tableData.map((el) => el.materialNumber))];
 
     return this.dataService.post(this.PATH_VALIDATION, body);
   }

@@ -10,9 +10,6 @@ import { MaterialTableItem } from '../../models/table/material-table-item-model'
 @Injectable({
   providedIn: 'root',
 })
-/**
- *  Table Service
- */
 export class TableService {
   static pasteItems(
     items: MaterialTableItem[],
@@ -60,15 +57,12 @@ export class TableService {
 
   static validateData(
     el: MaterialTableItem,
-    materialValidations: MaterialValidation[]
+    materialValidation: MaterialValidation
   ): MaterialTableItem {
     const updatedRow = { ...el };
+    updatedRow.materialDescription = materialValidation?.materialDescription;
 
-    // Check for valid materialNumber
-    const validation = materialValidations.find(
-      (item) => item.materialNumber15 === el.materialNumber
-    );
-    const valid = validation ? validation.valid : false;
+    const valid = materialValidation ? materialValidation.valid : false;
     updatedRow.info = {
       valid,
       description: valid
