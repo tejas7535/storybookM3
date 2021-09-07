@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.0.0...banner-v2.4.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **banner:** update peer dependencies
+
+### 🎸 Features
+
+* **banner:** update peer dependencies ([db9981b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db9981b997a3dd5b1ad1d6121d79e57bdb17c9f7))
+* **libs:** adjust rxjs and ngrx versions ([f6c92d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6c92d81ace947127362bd322283a8ac925ab998))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ## [2.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v2.4.0...banner-v2.3.1) (2021-08-24)
 
 
