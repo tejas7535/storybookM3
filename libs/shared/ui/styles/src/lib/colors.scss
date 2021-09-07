@@ -39,10 +39,10 @@ $schaeffler-gray-13: #2d3031;
 /*Schaeffler-OTHERS*/
 $schaeffler-black: #000;
 $schaeffler-white: #fff; //For background
-$schaeffler-red: #e62c27; //Toasts / Error
-$schaeffler-yellow: #fccf46; //Toasts / Warning
-$schaeffler-blue: #1d9bb2; //accent color for information
-$schaeffler-green-success: #0ebc5b; //Toasts / Success
+$schaeffler-red: #e62c27; // Error / Warning
+$schaeffler-yellow: #fccf46; // Accent
+$schaeffler-blue: #1d9bb2;
+$schaeffler-green-success: #0ebc5b; // Success
 $schaeffler-carbon-gray: #646464; //text / secondary button
 $schaeffler-carbon-gray-10: #efefef; //10% opacity carbon gray
 $schaeffler-carbon-gray-40: #c1c1c1; //40% opacity carbon gray
@@ -83,28 +83,28 @@ $mat-schaeffler-primary: (
   ),
 );
 
-// palette based on $schaeffler-blue
-$mat-schaeffler-accent: (
-  50: #e4f3f6,
-  100: #bbe1e8,
-  200: #8ecdd9,
-  300: #61b9c9,
-  400: #3faabe,
-  500: #1d9bb2,
-  600: #1a93ab,
-  700: #1589a2,
-  800: #117f99,
-  900: #0a6d8a,
-  A100: #b8edff,
-  A200: #85e1ff,
-  A400: #52d4ff,
-  A700: #39ceff,
+// palette based on $schaeffler-red
+$mat-schaeffler-warn: (
+  50: #fce6e5,
+  100: #f8c0be,
+  200: #f39693,
+  300: #ee6b68,
+  400: #ea4c47,
+  500: #e62c27,
+  600: #e32723,
+  700: #df211d,
+  800: #db1b17,
+  900: #d5100e,
+  A100: #ffc6cf,
+  A200: #ff899a,
+  A400: #ff7085,
+  A700: #ff6077,
   contrast: (
     50: $dark-primary-text,
     100: $dark-primary-text,
     200: $dark-primary-text,
     300: $dark-primary-text,
-    400: $dark-primary-text,
+    400: $light-primary-text,
     500: $light-primary-text,
     600: $light-primary-text,
     700: $light-primary-text,
@@ -118,7 +118,7 @@ $mat-schaeffler-accent: (
 );
 
 // palette based on $schaeffler-yellow
-$mat-schaeffler-warn: (
+$mat-schaeffler-accent: (
   50: #fff9e9,
   100: #fef1c8,
   200: #fee7a3,
