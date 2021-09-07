@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.0.0...icons-v1.8.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **icons:** update peer dependencies
+
+### 🎸 Features
+
+* **icons:** update peer dependencies ([f30fbe2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f30fbe2635d0f01473530989ed372530b7113127))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v1.8.0...icons-v1.7.2) (2021-08-24)
 
 
