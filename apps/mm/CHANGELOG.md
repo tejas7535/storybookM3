@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.6...mm-v0.1.5) (2021-09-07)
+
+
+### 🎸 Features
+
+* **mm:** enable automatic language detection ([#2840](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2840)) ([5124ed6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5124ed6393a9ba8c35ea316e152c033968681183))
+
 ### [0.1.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.5...mm-v0.1.4) (2021-08-31)
 
 
