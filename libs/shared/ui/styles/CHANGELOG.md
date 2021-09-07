@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.3.1...styles-v1.3.0) (2021-09-07)
+
+
+### 🐛 Bug Fixes
+
+* **styles:** switch theme color names "warn" and "accent" ([#2866](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2866)) ([8918afc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8918afcd5a3561f19abc86d84d232961c234c81b))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.3.0...styles-v1.2.1) (2021-09-07)
 
 
