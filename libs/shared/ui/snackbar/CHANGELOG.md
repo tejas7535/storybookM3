@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/snackbar-v2.0.0...snackbar-v1.8.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **snackbar:** update peer dependencies
+
+### 🎸 Features
+
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+* **snackbar:** update peer dependencies ([387881a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/387881a25bb5eeb6ee7e9c4797f3094c66bb550f))
+
 ## [1.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/snackbar-v1.8.0...snackbar-v1.7.2) (2021-08-24)
 
 
