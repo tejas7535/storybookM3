@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.0...azure-auth-v0.0.6) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **azure-auth:** update peer dependencies
+
+### 🎸 Features
+
+* **azure-auth:** load 64x64 profile image ([#2801](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2801)) ([b5371da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b5371da6d8eca49fa1f8d20e3fc3dc1077b03788))
+* **azure-auth:** update peer dependencies ([a73d832](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a73d8321d631cae50307bef48d1cca43556c5a55))
+* **libs:** adjust rxjs and ngrx versions ([f6c92d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6c92d81ace947127362bd322283a8ac925ab998))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ### [0.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.0.6...azure-auth-v0.0.5) (2021-08-24)
 
 
