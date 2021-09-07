@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.0.0...empty-states-v1.11.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **empty-states:** update peer dependencies
+
+### 🎸 Features
+
+* **empty-states:** update peer dependencies ([103636a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/103636a25852fe91a461ef601e146b5c6716bcf7))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ## [1.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v1.11.0...empty-states-v1.10.0) (2021-08-24)
 
 
