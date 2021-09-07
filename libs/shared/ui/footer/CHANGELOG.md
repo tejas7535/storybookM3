@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/footer-v3.0.0...footer-v2.0.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** update peer dependencies
+
+### 🎸 Features
+
+* **footer:** update peer dependencies ([8fb7e43](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fb7e4384d34fe7da177f4b2a4a1c576fd66e963))
+* **goldwind:** add china bureaucracy metadata to footer (DIGDTGW-2613) ([#2832](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2832)) ([e755a64](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e755a641fd739e3baeb8b3def3ddd395fff7995a))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/footer-v2.0.0...footer-v1.7.2) (2021-08-24)
 
 
