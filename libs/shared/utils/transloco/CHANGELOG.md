@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.0...transloco-v2.5.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **transloco:** update peer dependencies
+
+### 🎸 Features
+
+* **libs:** adjust rxjs and ngrx versions ([f6c92d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6c92d81ace947127362bd322283a8ac925ab998))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+* **transloco:** update peer dependencies ([3646d5c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3646d5c91091e3683a1d588a38fb5faa07e9dfe9))
+
 ## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v2.5.0...transloco-v2.4.1) (2021-08-24)
 
 
