@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/speed-dial-fab",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "dependencies": {
     "tslib": "^2.1.0"
   },

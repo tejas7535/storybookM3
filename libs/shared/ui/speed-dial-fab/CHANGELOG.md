@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/speed-dial-fab-v3.0.0...speed-dial-fab-v2.3.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **speed-dial-fab:** update peer dependencies
+
+### 🎸 Features
+
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+* **speed-dial-fab:** update peer dependencies ([7f358f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7f358f32f860ea70f2720a4d9eeed45a35d789a9))
+
 ## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/speed-dial-fab-v2.3.0...speed-dial-fab-v2.2.2) (2021-08-24)
 
 
