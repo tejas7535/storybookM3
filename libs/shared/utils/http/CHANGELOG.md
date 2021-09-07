@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/http-v0.1.0...http-v0.0.9) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **http:** update peer dependencies
+
+### 🎸 Features
+
+* **http:** update peer dependencies ([850ed1b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/850ed1be626cd85a7ea5583641ea1724f11a331e))
+* **libs:** adjust rxjs and ngrx versions ([f6c92d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6c92d81ace947127362bd322283a8ac925ab998))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ### [0.0.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/http-v0.0.9...http-v0.0.8) (2021-08-24)
 
 
