@@ -1,7 +1,3 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -9,13 +5,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
-import { RoleDescModule } from './shared/role-modal/role-desc/role-desc.module';
-import { RoleModalComponent } from './shared/role-modal/role-modal.component';
+import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -30,16 +26,13 @@ describe('AppComponent', () => {
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
-      NoopAnimationsModule,
-      MatDialogModule,
-      HeaderModule,
-      MatIconModule,
-      RoleDescModule,
       FooterModule,
-      MatButtonModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
+      AppShellModule,
+      LoadingSpinnerModule,
+      UserSettingsModule,
     ],
     providers: [
       provideMockStore({
@@ -56,7 +49,6 @@ describe('AppComponent', () => {
       }),
     ],
     declarations: [AppComponent],
-    entryComponents: [RoleModalComponent],
   });
 
   beforeEach(() => {
@@ -76,14 +68,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
-    });
-  });
-  describe('userMenuClicked', () => {
-    test('should open dialog', () => {
-      jest.spyOn(component['dialog'], 'open');
-
-      component.userMenuClicked();
-      expect(component['dialog'].open).toHaveBeenCalled();
     });
   });
 });

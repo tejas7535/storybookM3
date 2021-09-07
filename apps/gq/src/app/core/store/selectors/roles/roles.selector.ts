@@ -3,7 +3,7 @@ import { createSelector } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
-import { RoleGroup } from '../../../../shared/role-modal/models/role-group.model';
+import { RoleGroup } from '../../../../shared/models';
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
 import { ColumnUtilityService } from '../../../../shared/services/column-utility-service/column-utility.service';
 

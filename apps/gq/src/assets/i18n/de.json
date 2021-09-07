@@ -168,10 +168,7 @@
       "netSalesLastYear": "Umsatz",
       "gpiLastYear": "GPI"
     },
-    "roleModal": {
-      "menuTitle": "Rollen",
-      "contactInformation": "Kontaktieren Sie bitte: <a href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.\nBitte wählen Sie <strong>Software</strong> und dann <strong>GQ – Guided Quoting<strong/> aus."
-    },
+
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",

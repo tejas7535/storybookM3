@@ -168,10 +168,6 @@
       "netSalesLastYear": "Net Sales",
       "gpiLastYear": "GPI"
     },
-    "roleModal": {
-      "menuTitle": "User Roles",
-      "contactInformation": "Please contact <a href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a> if you have questions about your user roles or need access to additional user roles. \nPlease choose <strong>Software</strong> then choose <strong>GQ – Guided Quoting<strong/>."
-    },
     "snackBarMessages": {
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",

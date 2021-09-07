@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
+import {
+  getIsLoggedIn,
+  getProfileImage,
+  getUsername,
+} from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer';
-import { UserMenuEntry } from '@schaeffler/header';
 
 import packageJson from '../../package.json';
-import { RoleModalComponent } from './shared/role-modal/role-modal.component';
+import { AppRoutePath } from './app-route-path.enum';
 
 @Component({
   selector: 'gq-root',
@@ -20,10 +21,7 @@ import { RoleModalComponent } from './shared/role-modal/role-modal.component';
 })
 export class AppComponent implements OnInit {
   title = 'Guided Quoting';
-  username$: Observable<string>;
-  userMenuEntries: UserMenuEntry[] = [
-    new UserMenuEntry('roles', translate('shared.roleModal.menuTitle')),
-  ];
+  titleLink = AppRoutePath.CaseViewPath;
 
   public appVersion = packageJson.version;
   public footerLinks: FooterLink[] = [
@@ -38,22 +36,16 @@ export class AppComponent implements OnInit {
       external: true,
     },
   ];
-  public profileImage$: Observable<string>;
 
-  public constructor(
-    private readonly dialog: MatDialog,
-    private readonly store: Store
-  ) {}
+  profileImage$: Observable<string>;
+  username$: Observable<string>;
+  isLoggedIn$: Observable<boolean>;
+
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
-  }
-
-  public userMenuClicked(): void {
-    this.dialog.open(RoleModalComponent, {
-      width: '50%',
-      height: '70%',
-    });
+    this.isLoggedIn$ = this.store.select(getIsLoggedIn);
   }
 }

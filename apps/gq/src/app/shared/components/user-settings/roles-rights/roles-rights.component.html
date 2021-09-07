@@ -1,0 +1,16 @@
+<div>
+  <div
+    *transloco="let t; read: 'userSettings.rolesRights'"
+    class="text-subtitle-2 mb-3"
+  >
+    {{ t('title') }}
+  </div>
+  <div *ngIf="allRoles$ | ngrxPush as allRoles">
+    <div class="mb-4" *ngFor="let groupRoles of allRoles; trackBy: trackByFn">
+      <gq-roles-description
+        [roles]="groupRoles.roles"
+        [key]="groupRoles.key"
+      ></gq-roles-description>
+    </div>
+  </div>
+</div>

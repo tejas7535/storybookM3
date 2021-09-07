@@ -1,0 +1,13 @@
+<div class="py-4 px-5">
+  <gq-language-setting> </gq-language-setting>
+  <div class="pt-4">
+    <gq-roles-rights></gq-roles-rights>
+  </div>
+  <div
+    *transloco="let tr; read: 'userSettings'"
+    class="font-body"
+    [innerHTML]="
+      tr('contactInformation', { serivceNowAdress: serivceNowAdress })
+    "
+  ></div>
+</div>

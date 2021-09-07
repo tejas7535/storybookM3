@@ -1,18 +1,27 @@
-<schaeffler-header [platformTitle]="title" class="full-height">
-  <schaeffler-user-menu
-    user-menu
-    [user]="username$ | async"
-    [entries]="userMenuEntries"
-    [profileImage]="profileImage$ | async"
-    (clicked)="userMenuClicked()"
-  ></schaeffler-user-menu>
-  <div class="site-content">
-    <div class="router-content">
-      <router-outlet></router-outlet>
+<schaeffler-app-shell
+  *ngIf="isLoggedIn$ | ngrxPush; else loading"
+  [appTitle]="title"
+  [appTitleLink]="titleLink"
+  [hasSidebarLeft]="true"
+  [userName]="username$ | ngrxPush"
+  [userImageUrl]="profileImage$ | ngrxPush"
+>
+  <ng-container sidenavBody>
+    <gq-user-settings></gq-user-settings>
+  </ng-container>
+  <ng-container mainContent>
+    <div class="flex flex-col h-full">
+      <div class="flex-grow overflow-y-auto">
+        <router-outlet></router-outlet>
+      </div>
+      <schaeffler-footer
+        [appVersion]="appVersion"
+        [footerLinks]="footerLinks"
+      ></schaeffler-footer>
     </div>
-    <schaeffler-footer
-      [appVersion]="appVersion"
-      [footerLinks]="footerLinks"
-    ></schaeffler-footer>
-  </div>
-</schaeffler-header>
+  </ng-container>
+</schaeffler-app-shell>
+
+<ng-template #loading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+</ng-template>
