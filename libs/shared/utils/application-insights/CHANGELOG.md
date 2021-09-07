@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.0...application-insights-v0.0.8) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **application-insights:** update peer deps
+
+### 🎸 Features
+
+* **application-insights:** update peer deps ([682bc6d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/682bc6df164ed77bb56187dc2d2cfe685ae27bb3))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ### [0.0.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.0.8...application-insights-v0.0.7) (2021-08-24)
 
 
