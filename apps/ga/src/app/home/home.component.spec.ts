@@ -1,5 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -22,6 +23,12 @@ describe('HomeComponent', () => {
       MatIconModule,
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -14,6 +15,12 @@ describe('SidebarComponent', () => {
     component: SidebarComponent,
     declarations: [SidebarComponent],
     imports: [MatSidenavModule, provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

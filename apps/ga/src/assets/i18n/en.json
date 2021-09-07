@@ -49,5 +49,12 @@
       "max": "The value is too high",
       "required": "This field is required"
     }
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Bearing Selection",
+      "parameters": "Parameters",
+      "report": "Report"
+    }
   }
 }

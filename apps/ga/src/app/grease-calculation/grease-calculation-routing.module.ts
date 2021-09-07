@@ -14,12 +14,12 @@ const routes: Routes = [
         redirectTo: GreaseCalculationPath.BearingPath,
       },
       {
-        path: GreaseCalculationPath.BearingPath,
+        path: `${GreaseCalculationPath.BearingPath}`,
         loadChildren: async () =>
           import('../bearing/bearing.module').then((m) => m.BearingModule),
       },
       {
-        path: GreaseCalculationPath.ParametersPath,
+        path: `${GreaseCalculationPath.ParametersPath}`,
         loadChildren: async () =>
           import('../parameters/parameters.module').then(
             (m) => m.ParametersModule

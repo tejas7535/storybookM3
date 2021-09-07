@@ -1,4 +1,5 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,6 +24,12 @@ describe('SelectComponent', () => {
       MatSelectModule,
       MatIconModule,
       provideTranslocoTestingModule({ en: {} }),
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

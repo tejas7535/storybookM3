@@ -1,5 +1,6 @@
 import { Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -14,6 +15,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { initialState } from '../core/store/reducers/parameter/parameter.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.action';
+import { previousStep } from './../core/store/actions/settings/settings.action';
 import { Movement } from './../shared/models/parameters/movement.model';
 import { ParametersComponent } from './parameters.component';
 
@@ -53,6 +55,10 @@ describe('ParametersComponent', () => {
       {
         provide: translate,
         useValue: jest.fn(),
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });
@@ -220,13 +226,9 @@ describe('ParametersComponent', () => {
 
   describe('navigateBack', () => {
     it('should navigate to bearing selection', () => {
-      component['router'].navigate = jest.fn();
-
       component.navigateBack();
 
-      expect(component['router'].navigate).toHaveBeenCalledWith([
-        '/greaseCalculation/bearing',
-      ]);
+      expect(store.dispatch).toHaveBeenCalledWith(previousStep());
     });
   });
 });

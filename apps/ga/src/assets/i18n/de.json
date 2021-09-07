@@ -49,5 +49,12 @@
       "max": "Der eingegebene Wert ist zu hoch",
       "required": "Dieses Feld ist eine Pflichteingabe"
     }
+  },
+  "settings": {
+    "stepper": {
+      "bearingSelection": "Lagerauswahl",
+      "parameters": "Eingaben",
+      "report": "Report"
+    }
   }
 }

@@ -21,10 +21,12 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  settings: fromSettings.SettingsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
+  settings: fromSettings.settingsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production

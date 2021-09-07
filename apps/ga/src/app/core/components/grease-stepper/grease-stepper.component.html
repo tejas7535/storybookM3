@@ -1,0 +1,25 @@
+<ng-container *transloco="let t; read: 'settings.stepper'">
+  <mat-horizontal-stepper
+    schaefflerSeperatedSteps
+    *ngrxLet="steps$; let steps"
+    [selectedIndex]="currentStep$ | ngrxPush"
+    (selectionChange)="selectStep($event)"
+    #stepper
+  >
+    <mat-step
+      *ngFor="let step of steps"
+      state="number"
+      [aria-labelledby]="
+        step.enabled
+          ? step.index === (currentStep$ | ngrxPush)
+            ? 'active'
+            : 'enabled'
+          : 'disabled'
+      "
+      ><ng-template matStepLabel>{{ t(step.name) }}</ng-template></mat-step
+    >
+    <ng-template matStepperIcon="edit" let-index="index">
+      {{ index + 1 }}
+    </ng-template>
+  </mat-horizontal-stepper>
+</ng-container>

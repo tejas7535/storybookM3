@@ -11,8 +11,8 @@ import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BearingEffects } from '../core/store/effects/bearing/bearing.effects';
-import { bearingReducer } from '../core/store/reducers/bearing/bearing.reducer';
+import { BearingEffects } from '../core/store';
+import { bearingReducer } from './../core/store/reducers/bearing/bearing.reducer';
 import { BearingRoutingModule } from './bearing-routing.module';
 import { BearingComponent } from './bearing.component';
 
@@ -33,10 +33,10 @@ import { BearingComponent } from './bearing.component';
     // Transloco
     SharedTranslocoModule,
 
-    // Store
-    EffectsModule.forFeature([BearingEffects]),
-    StoreModule.forFeature('bearing', bearingReducer),
     ReactiveComponentModule,
+
+    StoreModule.forFeature('bearing', bearingReducer),
+    EffectsModule.forFeature([BearingEffects]),
   ],
 })
 export class BearingModule {}

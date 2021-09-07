@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -21,6 +22,12 @@ describe('AppComponent', () => {
       RouterTestingModule,
       CoreModule,
       provideTranslocoTestingModule({ en: {} }),
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [AppComponent],
   });

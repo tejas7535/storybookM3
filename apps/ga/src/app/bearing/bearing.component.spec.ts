@@ -1,4 +1,6 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -9,6 +11,7 @@ import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { completeStep } from '../core/store/actions/settings/settings.action';
 import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
 import { BearingComponent } from './bearing.component';
 
@@ -22,6 +25,7 @@ describe('BearingComponent', () => {
     imports: [
       RouterTestingModule,
       SearchAutocompleteModule,
+      ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
       SubheaderModule,
       ReactiveComponentModule,
@@ -51,6 +55,10 @@ describe('BearingComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [BearingComponent],
   });
@@ -69,27 +77,21 @@ describe('BearingComponent', () => {
 
   describe('handleBearingSelection', () => {
     it('should dispatch select bearing and navigate to parameters', () => {
-      component['router'].navigate = jest.fn();
-
       component.handleBearingSelection('some bearing');
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: 'some bearing' })
       );
-      expect(component['router'].navigate).toHaveBeenCalledWith([
-        '/greaseCalculation/parameters',
-      ]);
+      expect(store.dispatch).toHaveBeenCalledWith(completeStep());
     });
 
     it('should dispatch undefined bearing', () => {
-      component['router'].navigate = jest.fn();
-
       component.handleBearingSelection(undefined);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: undefined })
       );
-      expect(component['router'].navigate).not.toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalledWith(completeStep());
     });
   });
 
@@ -99,7 +101,7 @@ describe('BearingComponent', () => {
 
       component.navigateBack();
 
-      expect(component['router'].navigate).toHaveBeenCalledWith(['/app']);
+      expect(component['router'].navigate).toHaveBeenCalledWith(['app']);
     });
   });
 });

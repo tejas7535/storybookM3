@@ -10,7 +10,7 @@ export const getBearingLoading = createSelector(
 
 export const getSelectedBearing = createSelector(
   getBearingState,
-  (state: BearingState): string => state.selectedBearing
+  (state: BearingState): string => state?.selectedBearing
 );
 
 export const getBearingResultList = createSelector(

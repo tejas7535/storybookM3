@@ -4,4 +4,5 @@ export interface Step {
   enabled: boolean;
   editable: boolean;
   completed: boolean;
+  link: string;
 }

@@ -15,10 +15,13 @@ export const selectBearing = createAction(
   props<{ bearing: string }>()
 );
 
+export const updateRouteParams = createAction('[Bearing] Update Route Params');
+
 const all = union({
   searchBearing,
   bearingSearchSuccess,
   selectBearing,
+  updateRouteParams,
 });
 
 export type BearingActions = typeof all;

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,6 +8,7 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { patchParameters } from './../core/store/actions/parameters/parameters.action';
+import { previousStep } from './../core/store/actions/settings/settings.action';
 import { ParameterState } from './../core/store/reducers/parameter/parameter.reducer';
 import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
 import { getSelectedMovementType } from './../core/store/selectors/parameter/parameter.selector';
@@ -80,10 +80,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  public constructor(
-    private readonly store: Store,
-    private readonly router: Router
-  ) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.selectedBearing$ = this.store.select(getSelectedBearing);
@@ -123,6 +120,6 @@ export class ParametersComponent implements OnInit, OnDestroy {
   }
 
   public navigateBack(): void {
-    this.router.navigate(['/greaseCalculation/bearing']);
+    this.store.dispatch(previousStep());
   }
 }
