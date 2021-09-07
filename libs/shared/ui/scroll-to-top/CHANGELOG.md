@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/scroll-to-top-v2.0.0...scroll-to-top-v1.7.0) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **scroll-to-top:** update peer dependencies
+
+### 🎸 Features
+
+* **libs:** adjust rxjs and ngrx versions ([f6c92d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6c92d81ace947127362bd322283a8ac925ab998))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+* **scroll-to-top:** update peer dependencies ([dca15cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dca15cfc98d280829b9fe51934702df106cb8245))
+
 ## [1.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/scroll-to-top-v1.7.0...scroll-to-top-v1.6.2) (2021-08-24)
 
 
