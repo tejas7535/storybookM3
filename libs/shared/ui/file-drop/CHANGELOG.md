@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/file-drop-v2.0.0...file-drop-v1.6.3) (2021-09-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **file-drop:** update peer dependencies
+
+### 🎸 Features
+
+* **file-drop:** update peer dependencies ([0bc7ae3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0bc7ae30bc28678a4a520496526cf843a2cc7503))
+* **libs:** use partial compilation (UFTABI-4907) ([#2835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2835)) ([27829ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/27829ff96da6ccc3a4ee0b98bc6f766a8c4a5057))
+
 ### [1.6.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/file-drop-v1.6.3...file-drop-v1.6.2) (2021-08-24)
 
 ### [1.6.2](///compare/file-drop-v1.6.2...file-drop-v1.6.1) (2021-05-20)
