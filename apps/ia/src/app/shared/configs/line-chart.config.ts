@@ -18,7 +18,7 @@ export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
       snap: true,
     },
   },
-  color: [Color.GREEN, Color.BLUE],
+  color: [Color.DARK_GREY, Color.GREEN, Color.BLUE],
   backgroundColor: 'white',
   legend: {
     show: true,
