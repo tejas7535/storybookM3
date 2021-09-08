@@ -1,5 +1,6 @@
 import { IGNORE_FLAG_DESCRIPTIONS } from '../constants/ignore-flag-descriptions.const';
 import {
+  dateComparator,
   dateFormatter,
   ignoreFlagFormatter,
   warningFormatter,
@@ -67,5 +68,43 @@ describe('ignoreFlagFormatter', () => {
 
     const expected = `No ignore flag description for ${data.value}`;
     expect(result).toEqual(expected);
+  });
+});
+
+describe('dateComparator', () => {
+  it('should return 0 when columnDateString is undefined or null', () => {
+    const filterDate = new Date();
+
+    expect(dateComparator(filterDate, undefined)).toEqual(0);
+    // eslint-disable-next-line unicorn/no-null
+    expect(dateComparator(filterDate, null)).toEqual(0);
+  });
+
+  it('should return 0 when filterDate and columnDateString are the same date', () => {
+    const filterDate = new Date();
+    filterDate.setHours(0, 0, 0, 0);
+    const columnDateString = filterDate.toISOString();
+
+    expect(dateComparator(filterDate, columnDateString)).toEqual(0);
+  });
+
+  it('should return 1 when filterDate < columnDate', () => {
+    const filterDate = new Date();
+
+    const columnDate = new Date();
+    columnDate.setMonth(filterDate.getMonth() + 1);
+    const columnDateString = columnDate.toISOString();
+
+    expect(dateComparator(filterDate, columnDateString)).toEqual(1);
+  });
+
+  it('should return -1 when filterDate > columnDate', () => {
+    const filterDate = new Date();
+
+    const columnDate = new Date();
+    columnDate.setMonth(filterDate.getMonth() - 1);
+    const columnDateString = columnDate.toISOString();
+
+    expect(dateComparator(filterDate, columnDateString)).toEqual(-1);
   });
 });

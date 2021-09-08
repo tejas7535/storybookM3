@@ -14,6 +14,29 @@ export const ignoreFlagFormatter = (data: any): string =>
     ? IGNORE_FLAG_DESCRIPTIONS[data.value]
     : `No ignore flag description for ${data.value}`;
 
+export const dateComparator = (
+  filterDate: Date,
+  columnDateString: string
+): number => {
+  if (columnDateString === null || columnDateString === undefined) {
+    return 0;
+  }
+
+  const filterDateTimestamp = filterDate.getTime();
+
+  const columnDate = new Date(columnDateString);
+  columnDate.setHours(0, 0, 0, 0);
+  const columnDateTimestamp = new Date(columnDate).getTime();
+
+  if (filterDateTimestamp === columnDateTimestamp) {
+    return 0;
+  } else if (filterDateTimestamp < columnDateTimestamp) {
+    return 1;
+  } else {
+    return -1;
+  }
+};
+
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'combinedKey',
@@ -47,6 +70,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: {
       ...FILTER_PARAMS,
       filterOptions: ['equals', 'inRange'],
+      comparator: dateComparator,
     },
   },
   {
@@ -57,6 +81,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: {
       ...FILTER_PARAMS,
       filterOptions: ['equals', 'inRange'],
+      comparator: dateComparator,
     },
   },
   {
