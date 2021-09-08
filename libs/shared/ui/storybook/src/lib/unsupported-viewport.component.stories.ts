@@ -7,30 +7,34 @@ import {
   UnsupportedViewportModule,
 } from '@schaeffler/empty-states';
 import { StorybookTranslocoModule } from '@schaeffler/transloco';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
 
-const moduleMetadata = {
-  imports: [
-    UnsupportedViewportModule,
-    HttpClientModule,
-    StorybookTranslocoModule,
-    TranslocoModule,
-  ],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: UnsupportedViewportComponent,
-};
-
 export default {
   title: 'Unsupported Viewport',
+  component: UnsupportedViewportComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        UnsupportedViewportModule,
+        HttpClientModule,
+        StorybookTranslocoModule,
+        TranslocoModule,
+      ],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEmd },
   },
-};
+} as Meta<UnsupportedViewportComponent>;
 
-export const primary = () => ({
-  ...baseComponent,
+const Template: Story<UnsupportedViewportComponent> = (
+  args: UnsupportedViewportComponent
+) => ({
+  component: UnsupportedViewportComponent,
+  props: args,
 });
+
+export const Primary = Template.bind({});
+Primary.args = {};

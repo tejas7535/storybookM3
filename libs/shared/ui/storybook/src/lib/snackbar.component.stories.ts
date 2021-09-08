@@ -2,28 +2,30 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SnackBarModule } from '@schaeffler/snackbar';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../snackbar/README.md';
 import { SnackbarLauncherComponent } from './snackbar/snackbar-launcher.component';
 
-const moduleMetadata = {
-  imports: [BrowserAnimationsModule, SnackBarModule, MatButtonModule],
-  entryComponents: [SnackbarLauncherComponent],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: SnackbarLauncherComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'Snackbar',
+  component: SnackbarLauncherComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [BrowserAnimationsModule, SnackBarModule, MatButtonModule],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
+} as Meta<SnackbarLauncherComponent>;
 
-export const primary = () => ({
-  ...baseComponent,
+const Template: Story<SnackbarLauncherComponent> = (
+  args: SnackbarLauncherComponent
+) => ({
+  component: SnackbarLauncherComponent,
+  props: args,
 });
+
+export const Primary = Template.bind({});
+Primary.args = {};

@@ -2,6 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import READMEMd from '../../../breadcrumbs/README.md';
 
 import {
   BreadcrumbsComponent,
@@ -16,6 +17,9 @@ export default {
       imports: [BreadcrumbsModule, MatIconModule, RouterTestingModule],
     }),
   ],
+  parameters: {
+    notes: { markdown: READMEMd },
+  },
 } as Meta<BreadcrumbsComponent>;
 
 const Template: Story<BreadcrumbsComponent> = (args: BreadcrumbsComponent) => ({

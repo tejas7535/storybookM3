@@ -3,31 +3,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreModule } from '@ngrx/store';
-import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
 import { UserMenuModule } from 'libs/shared/ui/header/src/lib/user-menu/user-menu.module';
 
-import { HeaderComponent, HeaderModule } from '@schaeffler/header';
+import {
+  HeaderComponent,
+  HeaderModule,
+  UserMenuComponent,
+} from '@schaeffler/header';
 
 import READMEMd from '../../../header/README.md';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-const moduleMetadata = {
-  imports: [
-    HeaderModule,
-    CommonModule,
-    BrowserAnimationsModule,
-    StoreModule.forRoot({}),
-    RouterTestingModule,
-    UserMenuModule,
-  ],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: HeaderComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'Header',
   parameters: {
@@ -37,100 +23,156 @@ export default {
     },
     notes: { markdown: READMEMd },
   },
+  component: HeaderComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        HeaderModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        StoreModule.forRoot({}),
+        RouterTestingModule,
+        UserMenuModule,
+      ],
+    }),
+  ],
+} as Meta<HeaderComponent>;
+
+const Template: Story<HeaderComponent> = (args: HeaderComponent) => ({
+  component: HeaderComponent,
+  props: args,
+});
+
+export const Primary = Template.bind({});
+Primary.args = {
+  platformTitle: 'Storybook Demo',
 };
 
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-  },
+export const WithToggle = Template.bind({});
+WithToggle.args = {
+  platformTitle: 'Storybook Demo',
+  toggleEnabled: true,
+};
+WithToggle.argTypes = {
+  toggle: { action: 'toggle' },
+};
+
+const TemplateWithUserName: Story<HeaderComponent> = (
+  args: HeaderComponent
+) => ({
+  component: HeaderComponent,
+  props: args,
+  template: `
+    <schaeffler-header platformTitle="Storybook Demo">
+      <schaeffler-user-menu 
+          user-menu 
+          [user]="userName"
+      ></schaeffler-user-menu> 
+    </schaeffler-header>
+  `,
 });
 
-export const withToggle = () => ({
-  ...baseComponent,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-    toggleEnabled: boolean('toggleEnabled', true),
-    toggle: action('toggle'),
-  },
+export const WithUserName = TemplateWithUserName.bind({});
+WithUserName.args = {
+  platformTitle: 'Storybook Demo',
+  userName: 'User Name',
+} as Partial<HeaderComponent & UserMenuComponent>;
+
+const TemplateWithUserMenu: Story<HeaderComponent> = (
+  args: HeaderComponent
+) => ({
+  component: HeaderComponent,
+  props: args,
+  template: `
+    <schaeffler-header platformTitle="Storybook Demo">
+      <schaeffler-user-menu
+          user-menu 
+          [user]="userName"
+          [entries]="menuEntries"
+          (clicked)="clicked($event)"
+      ></schaeffler-user-menu> 
+    </schaeffler-header>
+  `,
 });
 
-export const withUserName = () => ({
-  ...baseComponent,
-  template: `<schaeffler-header platformTitle="Storybook Demo">
-                <schaeffler-user-menu 
-                    user-menu 
-                    [user]="userName"
-                ></schaeffler-user-menu> 
-                </schaeffler-header>`,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-    userName: text('userName', 'User Name'),
-  },
+export const WithUserMenu = TemplateWithUserMenu.bind({});
+WithUserMenu.args = {
+  platformTitle: 'Storybook Demo',
+  userName: 'User Name',
+  menuEntries: [
+    { key: 'profile', label: 'Profile' },
+    { key: 'logout', label: 'Logout' },
+  ],
+} as Partial<HeaderComponent & UserMenuComponent>;
+
+const TemplateWithLink: Story<HeaderComponent> = (args: HeaderComponent) => ({
+  component: HeaderComponent,
+  props: args,
+  template: `
+    <schaeffler-header platformTitle="Storybook Demo" [link]="link">
+    </schaeffler-header>
+  `,
 });
 
-export const withUserMenu = () => ({
-  ...baseComponent,
-  template: `<schaeffler-header platformTitle="Storybook Demo">
-                <schaeffler-user-menu
-                    user-menu 
-                    [user]="userName"
-                    [entries]="menuEntries"
-                    (clicked)="clicked($event)"
-                ></schaeffler-user-menu> 
-                </schaeffler-header>`,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-    userName: text('userName', 'User Name'),
-    menuEntries: [
-      { key: text('key1', 'profile'), label: text('label1', 'Profile') },
-      { key: text('key2', 'logout'), label: text('label2', 'Logout') },
-    ],
-    clicked: action('clicked'),
-  },
+export const WithLink = TemplateWithLink.bind({});
+WithLink.args = {
+  link: '/parentRoute',
+};
+
+const TemplateWithPageContent: Story<HeaderComponent> = (
+  args: HeaderComponent
+) => ({
+  component: HeaderComponent,
+  props: args,
+  template: `
+    <schaeffler-header platformTitle="Storybook Demo">
+      <ng-container content>
+        PAGE CONTENT
+      </ng-container>
+    </schaeffler-header>
+  `,
 });
 
-export const withLink = () => ({
-  ...baseComponent,
-  template: `<schaeffler-header platformTitle="Storybook Demo" [link]="link">
-                </schaeffler-header>`,
-  props: {
-    link: text('link', '/parentRoute'),
-  },
+export const WithPageContent = TemplateWithPageContent.bind({});
+WithPageContent.args = {
+  platformTitle: 'Storybook Demo',
+};
+
+const TemplateWithSecondaryLogo: Story<HeaderComponent> = (
+  args: HeaderComponent
+) => ({
+  component: HeaderComponent,
+  props: args,
+  template: `
+    <schaeffler-header platformTitle="Storybook Demo" logo="../logo-rubix-main.png">
+      <ng-container content>
+        PAGE CONTENT
+      </ng-container>
+    </schaeffler-header>
+  `,
 });
 
-export const withPageContent = () => ({
-  ...baseComponent,
-  template: `<schaeffler-header platformTitle="Storybook Demo">
-                <ng-container content>
-                  PAGE CONTENT
-                </ng-container>
-              </schaeffler-header>`,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-  },
+export const WithSecondaryLogo = TemplateWithSecondaryLogo.bind({});
+WithSecondaryLogo.args = {
+  platformTitle: 'Storybook Demo',
+};
+
+const TemplateWithToggleAndSecondaryLogo: Story<HeaderComponent> = (
+  args: HeaderComponent
+) => ({
+  component: HeaderComponent,
+  props: args,
+  template: `
+    <schaeffler-header platformTitle="Storybook Demo" [toggleEnabled]="true" logo="../logo-rubix-main.png">
+      <ng-container content>
+        PAGE CONTENT
+      </ng-container>
+    </schaeffler-header>
+  `,
 });
 
-export const withSecondaryLogo = () => ({
-  ...baseComponent,
-  template: `<schaeffler-header platformTitle="Storybook Demo" logo="../logo-rubix-main.png">
-                <ng-container content>
-                  PAGE CONTENT
-                </ng-container>
-              </schaeffler-header>`,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-  },
-});
-
-export const withToggleAndSecondaryLogo = () => ({
-  ...baseComponent,
-  template: `<schaeffler-header platformTitle="Storybook Demo" [toggleEnabled]="true" logo="../logo-rubix-main.png">
-                <ng-container content>
-                  PAGE CONTENT
-                </ng-container>
-              </schaeffler-header>`,
-  props: {
-    platformTitle: text('platformTitle', 'Storybook Demo'),
-  },
-});
+export const WithToggleAndSecondaryLogo =
+  TemplateWithToggleAndSecondaryLogo.bind({});
+WithToggleAndSecondaryLogo.args = {
+  platformTitle: 'Storybook Demo',
+};

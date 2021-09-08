@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { action } from '@storybook/addon-actions';
-import { boolean, number, text } from '@storybook/addon-knobs';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
 import { BannerTextComponent } from '@schaeffler/banner';
@@ -10,23 +9,19 @@ import { StorybookTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../banner/README.md';
 
-const moduleMetadata = {
-  imports: [
-    CommonModule,
-    BannerTextModule,
-    StorybookTranslocoModule,
-    TranslocoModule,
-  ],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: BannerTextComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'Banner',
+  component: BannerTextComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        CommonModule,
+        BannerTextModule,
+        StorybookTranslocoModule,
+        TranslocoModule,
+      ],
+    }),
+  ],
   parameters: {
     backgrounds: {
       default: 'Schaeffler',
@@ -34,52 +29,62 @@ export default {
     },
     notes: { markdown: READMEMd },
   },
-};
+} as Meta<BannerTextComponent>;
+
+const Template: Story<BannerTextComponent> = (args: BannerTextComponent) => ({
+  component: BannerTextComponent,
+  props: args,
+});
 
 const props = (icon: string, fullText = false) => ({
-  text: text(
-    'text',
-    'This text can be modified to be longer. At a certain length it makes sense to use the "showFullText" and "truncateSize" parameter to prevent the banner from taking up to much sceenspace.'
-  ),
-  showFullText: boolean('showFullText', fullText),
-  bannerIcon: text('bannerIcon', icon),
-  truncateSize: number('truncateSize', 180),
-  buttonText: text('buttonText', 'Okay'),
-  closeBanner: action('closeBanner'),
-  toggleFullText: action('toggleFullText'),
+  text: 'This text can be modified to be longer. At a certain length it makes sense to use the "showFullText" and "truncateSize" parameter to prevent the banner from taking up to much sceenspace.',
+  showFullText: fullText,
+  bannerIcon: icon,
+  truncateSize: 180,
+  buttonText: 'Okay',
 });
 
-export const info = () => ({
-  ...baseComponent,
-  props: {
-    ...props('info'),
-  },
-});
+const actions = {
+  closeBanner: { action: 'closeBanner' },
+  toggleFullText: { action: 'toggleFullText' },
+};
 
-export const warning = () => ({
-  ...baseComponent,
-  props: {
-    ...props('warning'),
-  },
-});
+export const Info = Template.bind({});
+Info.args = {
+  ...props('info'),
+};
+Info.argTypes = {
+  ...actions,
+};
 
-export const error = () => ({
-  ...baseComponent,
-  props: {
-    ...props('error'),
-  },
-});
+export const Warning = Template.bind({});
+Warning.args = {
+  ...props('warning'),
+};
+Warning.argTypes = {
+  ...actions,
+};
 
-export const success = () => ({
-  ...baseComponent,
-  props: {
-    ...props('success'),
-  },
-});
+export const Error = Template.bind({});
+Error.args = {
+  ...props('error'),
+};
+Error.argTypes = {
+  ...actions,
+};
 
-export const expanded = () => ({
-  ...baseComponent,
-  props: {
-    ...props('info', true),
-  },
-});
+export const Success = Template.bind({});
+Success.args = {
+  ...props('success'),
+};
+Success.argTypes = {
+  ...actions,
+};
+
+export const Expanded = Template.bind({});
+Expanded.args = {
+  ...props('info', true),
+};
+Expanded.argTypes = {
+  ...actions,
+};

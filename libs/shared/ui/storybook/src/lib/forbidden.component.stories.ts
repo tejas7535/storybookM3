@@ -5,31 +5,34 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { ForbiddenComponent, ForbiddenModule } from '@schaeffler/empty-states';
 import { StorybookTranslocoModule } from '@schaeffler/transloco';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../empty-states/src/lib/forbidden/README.md';
 
-const moduleMetadata = {
-  imports: [
-    ForbiddenModule,
-    HttpClientModule,
-    RouterTestingModule,
-    StorybookTranslocoModule,
-    TranslocoModule,
-  ],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: ForbiddenComponent,
-};
-
 export default {
   title: 'Forbidden',
+  component: ForbiddenComponent,
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
+  decorators: [
+    moduleMetadata({
+      imports: [
+        ForbiddenModule,
+        HttpClientModule,
+        RouterTestingModule,
+        StorybookTranslocoModule,
+        TranslocoModule,
+      ],
+    }),
+  ],
+} as Meta<ForbiddenComponent>;
 
-export const primary = () => ({
-  ...baseComponent,
+export const Template: Story<ForbiddenComponent> = (
+  args: ForbiddenComponent
+) => ({
+  component: ForbiddenComponent,
+  props: args,
 });
+
+export const Primary = Template.bind({});

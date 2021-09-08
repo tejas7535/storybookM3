@@ -1,32 +1,44 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { object } from '@storybook/addon-knobs';
-
 import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { HeaderModule } from '@schaeffler/header';
 import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 
 import READMEMd from '../../../sidebar/README.md';
-
-const moduleMetadata = {
-  imports: [
-    HeaderModule,
-    CommonModule,
-    SubheaderModule,
-    BreadcrumbsModule,
-    RouterModule.forRoot([{ path: 'base', component: SubheaderComponent }]),
-  ],
-  providers: [{ provide: APP_BASE_HREF, useValue: 'base' }],
-  component: SubheaderComponent,
-};
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
   title: 'Subheader',
+  component: SubheaderComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        HeaderModule,
+        CommonModule,
+        SubheaderModule,
+        BreadcrumbsModule,
+        RouterModule.forRoot([{ path: 'base', component: SubheaderComponent }]),
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: 'base' }],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
+} as Meta<SubheaderComponent>;
+
+const Template: Story<SubheaderComponent> = (args: SubheaderComponent) => ({
+  component: SubheaderComponent,
+  props: args,
+  template: `
+    <schaeffler-subheader
+      title="Search Results | 69 Findings"
+      [breadcrumbs]="breadcrumbs"
+    >
+    </schaeffler-subheader>
+  `,
+});
 
 const breadcrumbs: Breadcrumb[] = [
   {
@@ -36,20 +48,7 @@ const breadcrumbs: Breadcrumb[] = [
   { label: 'Results (250)' },
 ];
 
-const baseComponent = {
-  moduleMetadata,
-  component: SubheaderComponent,
+export const Primary = Template.bind({});
+Primary.args = {
+  breadcrumbs,
 };
-
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    breadcrumbs: object('breadcrumbs', breadcrumbs),
-  },
-  template: `
-    <schaeffler-subheader
-      title="Search Results | 69 Findings"
-      [breadcrumbs]="breadcrumbs"
-    >
-    </schaeffler-subheader>`,
-});

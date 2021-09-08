@@ -13,21 +13,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { StepperModule } from '@schaeffler/stepper';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../stepper/README.md';
-
-const moduleMetadata = {
-  imports: [
-    StepperModule,
-    CommonModule,
-    BrowserAnimationsModule,
-    MatStepperModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    ReactiveFormsModule,
-  ],
-};
 
 @Component({
   selector: 'wrapper',
@@ -93,18 +81,34 @@ class WrapperComponentForStepper implements OnInit {
   }
 }
 
-const baseComponent = {
-  moduleMetadata,
-  component: WrapperComponentForStepper,
-};
-
 export default {
   title: 'Stepper',
+  component: WrapperComponentForStepper,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        StepperModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        MatStepperModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        ReactiveFormsModule,
+      ],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
+} as Meta<WrapperComponentForStepper>;
 
-export const primary = () => ({
-  ...baseComponent,
+const Template: Story<WrapperComponentForStepper> = (
+  args: WrapperComponentForStepper
+) => ({
+  component: WrapperComponentForStepper,
+  props: args,
 });
+
+export const Primary = Template.bind({});
+Primary.args = {};

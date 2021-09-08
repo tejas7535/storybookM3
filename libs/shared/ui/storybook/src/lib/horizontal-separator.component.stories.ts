@@ -1,34 +1,33 @@
 import { CommonModule } from '@angular/common';
-
-import { boolean, text } from '@storybook/addon-knobs';
-
 import {
   HorizontalSeparatorComponent,
   HorizontalSeparatorModule,
 } from '@schaeffler/horizontal-separator';
-
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEMd from '../../../horizontal-separator/README.md';
 
-const moduleMetadata = {
-  imports: [CommonModule, HorizontalSeparatorModule],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: HorizontalSeparatorComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'Horizontal separator',
+  component: HorizontalSeparatorComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [CommonModule, HorizontalSeparatorModule],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    text: text('Separator text', 'Sample Separator Text'),
-    alwaysCentered: boolean('Always center', true),
-  },
+} as Meta<HorizontalSeparatorComponent>;
+
+const Template: Story<HorizontalSeparatorComponent> = (
+  args: HorizontalSeparatorComponent
+) => ({
+  component: HorizontalSeparatorComponent,
+  props: args,
 });
+
+export const Primary = Template.bind({});
+Primary.args = {
+  text: 'Sample Separator Text',
+  alwaysCentered: true,
+};

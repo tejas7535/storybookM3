@@ -2,76 +2,73 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { text } from '@storybook/addon-knobs';
-
 import { FooterComponent, FooterModule } from '@schaeffler/footer';
 
 import READMEMd from '../../../footer/README.md';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-const moduleMetadata = {
-  imports: [
-    CommonModule,
-    FooterModule,
-    RouterModule.forRoot([{ path: '**', redirectTo: '/', pathMatch: 'full' }]),
-    MatIconModule,
-  ],
-  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: FooterComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'Footer',
+  component: FooterComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        CommonModule,
+        FooterModule,
+        RouterModule.forRoot([
+          { path: '**', redirectTo: '/', pathMatch: 'full' },
+        ]),
+        MatIconModule,
+      ],
+      providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
+} as Meta<FooterComponent>;
+
+const Template: Story<FooterComponent> = (args: FooterComponent) => ({
+  component: FooterComponent,
+  props: args,
+});
+
+// TODO: bring back groups once they're supported in controls
+// const externalGroupId = 'External Link';
+// const internalGroupId = 'Internal Link';
+
+const baseProps = {
+  footerLinks: [
+    {
+      link: '/data-security',
+      title: 'Data Security',
+      external: false,
+    },
+    {
+      link: 'https://www.schaeffler.com',
+      title: 'Schaefffler Homepage',
+      external: true,
+    },
+  ],
+  appVersion: '0.0.1',
 };
 
-const externalGroupId = 'External Link';
-const internalGroupId = 'Internal Link';
+export const primary = Template.bind({});
+primary.args = baseProps;
 
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    footerLinks: [
-      {
-        link: text('link', '/data-security', internalGroupId),
-        title: text('title', 'Data Security', internalGroupId),
-        external: false,
-      },
-      {
-        link: text('link', 'https://www.schaeffler.com', externalGroupId),
-        title: text('title', 'Schaefffler Homepage', externalGroupId),
-        external: true,
-      },
-    ],
-    appVersion: '0.0.1',
-  },
-});
-
-export const withCustomContent = () => ({
-  ...baseComponent,
-  template: `<schaeffler-footer
+const TemplateWithCustomContent: Story<FooterComponent> = (
+  args: FooterComponent
+) => ({
+  component: FooterComponent,
+  props: args,
+  template: `
+    <schaeffler-footer
       [footerLinks]="footerLinks"
       [appVersion]="appVersion">
-        <span class="text-light leading-4 text-caption">Custom Content Here</span></schaeffler-footer>`,
-  props: {
-    footerLinks: [
-      {
-        link: text('link', '/data-security', internalGroupId),
-        title: text('title', 'Data Security', internalGroupId),
-        external: false,
-      },
-      {
-        link: text('link', 'https://www.schaeffler.com', externalGroupId),
-        title: text('title', 'Schaefffler Homepage', externalGroupId),
-        external: true,
-      },
-    ],
-    appVersion: '0.0.1',
-  },
+        <span class="text-light leading-4 text-caption">Custom Content Here</span>
+    </schaeffler-footer>
+  `,
 });
+
+export const withCustomContent = TemplateWithCustomContent.bind({});
+withCustomContent.args = baseProps;

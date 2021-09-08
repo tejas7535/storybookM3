@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 
-import { boolean, number, object, text } from '@storybook/addon-knobs';
-
 import {
   SearchAutocompleteComponent,
   SearchAutocompleteModule,
@@ -17,26 +15,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-
-const moduleMetadata = {
-  imports: [
-    CommonModule,
-    SearchAutocompleteModule,
-    BrowserAnimationsModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatProgressSpinnerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveComponentModule,
-    MatIconModule,
-  ],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: SearchAutocompleteComponent,
-};
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 const options: SearchAutocompleteOption[] = [
   { title: 'Bearing A1', id: 'A1' },
@@ -50,46 +29,62 @@ const options: SearchAutocompleteOption[] = [
   { title: 'Bearing XX', id: 'XX' },
 ];
 
-// eslint-disable-next-line
 export default {
   title: 'Search Autocomplete',
+  components: SearchAutocompleteComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        CommonModule,
+        SearchAutocompleteModule,
+        BrowserAnimationsModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatProgressSpinnerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveComponentModule,
+        MatIconModule,
+      ],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
+} as Meta<SearchAutocompleteComponent>;
+
+const Template: Story<SearchAutocompleteComponent> = (
+  args: SearchAutocompleteComponent
+) => ({
+  component: SearchAutocompleteComponent,
+  props: args,
+});
+
+export const Primary = Template.bind({});
+Primary.args = {
+  minimumChars: 3,
+  label: 'Type in bearing',
+  options,
 };
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    minimumChars: number('How many characters to start showing options', 3),
-    label: text('Placeholder text', 'Type in bearings'),
-    options: object('Options', options),
-  },
-});
 
-export const loading = () => ({
-  ...baseComponent,
-  props: {
-    loading: boolean('Loading options?', true),
-    loadingMessage: text('Loading Message', 'Fetching data...'),
-    minimumChars: number('How many characters to start showing options', 3),
-    label: text('Placeholder text', 'Type in bearings'),
-    options: object('Options', options),
-  },
-});
+export const Loading = Template.bind({});
+Loading.args = {
+  loading: true,
+  loadingMessage: 'Fetching data...',
+  minimumChars: 3,
+  label: 'Type in bearing',
+  options,
+};
 
-export const noResults = () => ({
-  ...baseComponent,
-  props: {
-    label: text('Placeholder text', 'Type in anything'),
-    options: object('Options', []),
-  },
-});
+export const NoResults = Template.bind({});
+NoResults.args = {
+  label: 'Type in anything',
+  options: [],
+};
 
-export const error = () => ({
-  ...baseComponent,
-  props: {
-    label: text('Placeholder text', 'Type in anything'),
-    options: object('Options', options),
-    error: boolean('Error?', true),
-  },
-});
+export const Error = Template.bind({});
+Error.args = {
+  label: 'Type in anything',
+  options,
+  error: true,
+};

@@ -1,33 +1,34 @@
 import { CommonModule } from '@angular/common';
 
-import { text } from '@storybook/addon-knobs';
-
 import {
   LoadingSpinnerComponent,
   LoadingSpinnerModule,
 } from '@schaeffler/loading-spinner';
 
 import READMEMd from '../../../loading-spinner/README.md';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-const moduleMetadata = {
-  imports: [CommonModule, LoadingSpinnerModule],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: LoadingSpinnerComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'Loading Spinner',
+  component: LoadingSpinnerComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [CommonModule, LoadingSpinnerModule],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    backgroundColor: text('BackgroundColor', undefined),
-  },
+} as Meta<LoadingSpinnerComponent>;
+
+const Template: Story<LoadingSpinnerComponent> = (
+  args: LoadingSpinnerComponent
+) => ({
+  component: LoadingSpinnerComponent,
+  props: args,
 });
+
+export const Primary = Template.bind({});
+Primary.args = {
+  backgroundColor: '',
+};

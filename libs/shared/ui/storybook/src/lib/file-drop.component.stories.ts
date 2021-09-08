@@ -1,53 +1,42 @@
 import { CommonModule } from '@angular/common';
 
-import { action } from '@storybook/addon-actions';
-import { array, boolean } from '@storybook/addon-knobs';
-
 import { FileDropComponent, FileDropModule } from '@schaeffler/file-drop';
 
-import READMEMd from '../../../file-drop/README.md';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-const moduleMetadata = {
-  imports: [FileDropModule, CommonModule],
-};
+import READMEMd from '../../../dropdown-input/README.md';
 
-const baseComponent = {
-  moduleMetadata,
-  component: FileDropComponent,
-  filesAdded: action('filesAdded'),
-  fileOver: action('fileOver'),
-  fileLeave: action('fileLeave'),
-};
-
-// eslint-disable-next-line
 export default {
   title: 'File Drop',
+  component: FileDropComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [FileDropModule, CommonModule],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
+} as Meta<FileDropComponent>;
+
+const Template: Story<FileDropComponent> = (args: FileDropComponent) => ({
+  component: FileDropComponent,
+  props: args,
+});
+
+export const Primary = Template.bind({});
+
+export const Multiple = Template.bind({});
+Multiple.args = {
+  multiple: true,
 };
 
-export const primary = () => ({
-  ...baseComponent,
-});
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true,
+};
 
-export const multiple = () => ({
-  ...baseComponent,
-  props: {
-    multiple: boolean('multiple', true),
-  },
-});
-
-export const disabled = () => ({
-  ...baseComponent,
-  props: {
-    disabled: boolean('disabled', true),
-  },
-});
-
-export const acceptSpecificFileTypes = () => ({
-  ...baseComponent,
-  props: {
-    accept: array('accept', ['.docx', '.pdf', '.txt']),
-  },
-});
+export const AcceptSpecificFileTypes = Template.bind({});
+AcceptSpecificFileTypes.args = {
+  accept: ['.docx', '.pdf', '.txt'],
+};

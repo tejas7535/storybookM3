@@ -1,113 +1,119 @@
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
-import { action } from '@storybook/addon-actions';
-import { boolean, text } from '@storybook/addon-knobs';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { Icon } from '@schaeffler/icons';
+import { Icon, IconsModule } from '@schaeffler/icons';
 import {
   SpeedDialFabComponent,
   SpeedDialFabModule,
 } from '@schaeffler/speed-dial-fab';
 
 import READMEMd from '../../../speed-dial-fab/README.md';
+import { MatIconModule } from '@angular/material/icon';
 
-const moduleMetadata = {
-  imports: [
-    SpeedDialFabModule,
-    CommonModule,
-    MatButtonModule,
-    BrowserAnimationsModule,
-  ],
-};
-
-const baseComponent = {
-  moduleMetadata,
-  component: SpeedDialFabComponent,
-};
-
-// eslint-disable-next-line
 export default {
   title: 'SpeedDialFabButton',
+  component: SpeedDialFabComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        SpeedDialFabModule,
+        CommonModule,
+        MatButtonModule,
+        BrowserAnimationsModule,
+        IconsModule,
+        MatIconModule,
+        HttpClientModule,
+      ],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
+} as Meta<SpeedDialFabComponent>;
+
+const Template: Story<SpeedDialFabComponent> = (
+  args: SpeedDialFabComponent
+) => ({
+  component: SpeedDialFabComponent,
+  props: args,
+});
+
+export const Primary = Template.bind({});
+Primary.args = {};
+Primary.argTypes = {
+  clicked: { action: 'clicked' },
 };
 
-export const primary = () => ({
-  ...baseComponent,
-  props: {
-    clicked: action('clicked'),
+export const CustomButton = Template.bind({});
+CustomButton.args = {
+  primaryButton: {
+    key: 'edit',
+    icon: new Icon('icon-draft', false),
+    color: 'warn',
+    label: true,
+    title: 'Edit',
   },
-});
+};
+CustomButton.argTypes = {
+  clicked: { actions: 'clicked' },
+};
 
-export const customButton = () => ({
-  ...baseComponent,
-  props: {
-    clicked: action('clicked'),
-    primaryButton: {
-      key: text('key', 'edit'),
-      icon: new Icon(text('icon', 'icon-draft'), false),
-      color: text('color', 'warn'),
-      label: boolean('label', true),
-      title: text('title', 'Edit'),
-    },
+export const WithSecondaryButtons = Template.bind({});
+WithSecondaryButtons.args = {
+  open: true,
+  primaryButton: {
+    key: 'conversation',
+    icon: new Icon('icon-bubbles', false),
+    color: 'primary',
+    label: true,
+    title: 'new conversation',
   },
-});
-
-export const withSecondaryButtons = () => ({
-  ...baseComponent,
-  props: {
-    clicked: action('clicked'),
-    open: boolean('open', true),
-    primaryButton: {
-      key: 'conversation',
-      icon: new Icon('icon-bubbles', false),
-      color: 'primary',
+  secondaryButtons: [
+    {
+      key: 'mail',
+      icon: new Icon('icon-mail'),
+      color: 'accent',
       label: true,
-      title: 'new conversation',
+      title: 'New Mail',
     },
-    secondaryButtons: [
-      {
-        key: text('key', 'mail', 'button1'),
-        icon: new Icon(text('icon', 'icon-mail', 'button1'), false),
-        color: text('color', 'accent', 'button1'),
-        label: boolean('label', true, 'button1'),
-        title: text('title', 'New Mail', 'button1'),
-      },
-      {
-        key: text('key', 'phone', 'button2'),
-        icon: new Icon(text('icon', 'icon-phone', 'button2'), false),
-        color: text('color', 'accent', 'button2'),
-        label: boolean('label', true, 'button2'),
-        title: text('title', 'New Call', 'button2'),
-      },
-    ],
-  },
-});
+    {
+      key: 'phone',
+      icon: new Icon('icon-phone', false),
+      color: 'accent',
+      label: true,
+      title: 'New Call',
+    },
+  ],
+};
+WithSecondaryButtons.argTypes = {
+  clicked: { actions: 'clicked' },
+};
 
-export const disabledSecondaryButtons = () => ({
-  ...baseComponent,
-  props: {
-    clicked: action('clicked'),
-    open: boolean('open', true),
-    primaryButton: {
-      key: 'edit',
-      icon: new Icon('icon-draft', false),
-      color: 'primary',
-      label: false,
-      title: 'Start edit mode',
-    },
-    secondaryButtons: [
-      {
-        key: 'save',
-        icon: new Icon('icon-disk', false),
-        color: 'accent',
-        label: false,
-        title: 'Save changes',
-      },
-    ],
-    disableSecondary: boolean('Disable the secondary button', false),
+export const DisabledSecondaryButtons = Template.bind({});
+DisabledSecondaryButtons.args = {
+  open: true,
+  primaryButton: {
+    key: 'edit',
+    icon: new Icon('icon-draft', false),
+    color: 'primary',
+    label: false,
+    title: 'Start edit mode',
   },
-});
+  secondaryButtons: [
+    {
+      key: 'save',
+      icon: new Icon('icon-disk', false),
+      color: 'accent',
+      label: false,
+      title: 'Save changes',
+    },
+  ],
+  disabled: [false],
+};
+DisabledSecondaryButtons.argTypes = {
+  clicked: { actions: 'clicked' },
+};

@@ -8,28 +8,37 @@ import {
   PageNotFoundModule,
 } from '@schaeffler/empty-states';
 import { StorybookTranslocoModule } from '@schaeffler/transloco';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
 
 export default {
   title: 'Page Not Found',
+  component: PageNotFoundComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [
+        PageNotFoundModule,
+        RouterModule.forRoot([], {
+          useHash: true,
+        }),
+        HttpClientModule,
+        StorybookTranslocoModule,
+        TranslocoModule,
+      ],
+    }),
+  ],
   parameters: {
     notes: { markdown: READMEMd },
   },
-};
+} as Meta<PageNotFoundComponent>;
 
-export const primary = () => ({
-  moduleMetadata: {
-    imports: [
-      PageNotFoundModule,
-      RouterModule.forRoot([], {
-        useHash: true,
-      }),
-      HttpClientModule,
-      StorybookTranslocoModule,
-      TranslocoModule,
-    ],
-  },
+const Template: Story<PageNotFoundComponent> = (
+  args: PageNotFoundComponent
+) => ({
   component: PageNotFoundComponent,
-  props: {},
+  props: args,
 });
+
+export const Primary = Template.bind({});
+Primary.args = {};
