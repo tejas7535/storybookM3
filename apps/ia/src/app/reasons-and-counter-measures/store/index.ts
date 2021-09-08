@@ -1,8 +1,14 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { SelectedFilter, TimePeriod } from '../../shared/models';
+import { TimePeriod } from '../../shared/models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
+  changeComparedFilter,
+  changeComparedTimePeriod,
+  changeComparedTimeRange,
+  loadComparedReasonsWhyPeopleLeft,
+  loadComparedReasonsWhyPeopleLeftFailure,
+  loadComparedReasonsWhyPeopleLeftSuccess,
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
@@ -12,7 +18,7 @@ export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
 
 export interface ReasonsAndCounterMeasuresState {
   reasonsForLeaving: {
-    comparedSelectedOrgUnit: SelectedFilter; // currently selected filters
+    comparedSelectedOrgUnit: string; // currently selected filters
     comparedSelectedTimePeriod: TimePeriod;
     comparedSelectedTimeRange: string;
     reasons: {
@@ -31,7 +37,7 @@ export interface ReasonsAndCounterMeasuresState {
 export const initialState: ReasonsAndCounterMeasuresState = {
   reasonsForLeaving: {
     comparedSelectedOrgUnit: undefined,
-    comparedSelectedTimePeriod: TimePeriod.YEAR,
+    comparedSelectedTimePeriod: TimePeriod.LAST_12_MONTHS,
     comparedSelectedTimeRange: undefined,
     reasons: {
       data: undefined,
@@ -91,6 +97,95 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
         ...state.reasonsForLeaving,
         reasons: {
           ...state.reasonsForLeaving.reasons,
+          data: undefined,
+          errorMessage,
+          loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    changeComparedFilter,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { comparedSelectedOrgUnit }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedSelectedOrgUnit,
+      },
+    })
+  ),
+  on(
+    changeComparedTimePeriod,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { comparedSelectedTimePeriod }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedSelectedTimePeriod,
+      },
+    })
+  ),
+  on(
+    changeComparedTimeRange,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { comparedSelectedTimeRange }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedSelectedTimeRange,
+      },
+    })
+  ),
+  on(
+    loadComparedReasonsWhyPeopleLeft,
+    (
+      state: ReasonsAndCounterMeasuresState
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedReasons: {
+          ...state.reasonsForLeaving.comparedReasons,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedReasonsWhyPeopleLeftSuccess,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { data }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedReasons: {
+          ...state.reasonsForLeaving.comparedReasons,
+          data,
+          loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedReasonsWhyPeopleLeftFailure,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { errorMessage }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedReasons: {
+          ...state.reasonsForLeaving.comparedReasons,
           data: undefined,
           errorMessage,
           loading: false,

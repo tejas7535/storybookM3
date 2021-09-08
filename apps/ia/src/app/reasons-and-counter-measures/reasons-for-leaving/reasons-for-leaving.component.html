@@ -5,33 +5,47 @@
   >
     <h5 class="col-span-3 font-bold mb-5">{{ t('topFiveReasons.title') }}</h5>
     <div>
-      <ia-reasons-for-leaving-table
-        [data]="reasonsTableData$ | ngrxPush"
-        [loading]="reasonsLoading$ | ngrxPush"
+      <ia-filter
         [orgUnits]="orgUnits$ | ngrxPush"
         [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
+        [disableFilters]="true"
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
         [selectedTime]="selectedTime$ | ngrxPush"
-        [disableFilters]="true"
+      >
+      </ia-filter>
+      <ia-reasons-for-leaving-table
+        [data]="reasonsTableData$ | ngrxPush"
+        [loading]="reasonsLoading$ | ngrxPush"
       >
       </ia-reasons-for-leaving-table>
     </div>
     <div>
       <ia-reasons-for-leaving-chart
+        [isLoading]="reasonsLoading$ | ngrxPush"
         [config]="reasonsChartConfig$ | ngrxPush"
         [data]="reasonsChartData$ | ngrxPush"
-        [isLoading]="reasonsLoading$ | ngrxPush"
+        [comparedConfig]="comparedReasonsChartConfig$ | ngrxPush"
+        [comparedData]="comparedReasonsChartData$ | ngrxPush"
       ></ia-reasons-for-leaving-chart>
     </div>
     <div>
-      <ia-reasons-for-leaving-table
+      <ia-filter
         [orgUnits]="orgUnits$ | ngrxPush"
-        [timePeriods]="timePeriods$ | ngrxPush"
         [selectedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"
+        [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
         [selectedTime]="comparedSelectedTime$ | ngrxPush"
-        [disableFilters]="false"
+        [disabledTimeRangeFilter]="comparedDisabledTimeRangeFilter"
+        (orgUnitInvalid)="orgUnitInvalid($event)"
+        (optionSelected)="comparedOptionSelected($event)"
+        (timePeriodSelected)="comparedTimePeriodSelected($event)"
+        (timeRangeSelected)="comparedTimeRangeSelected($event)"
+        (orgUnitInvalid)="orgUnitInvalid($event)"
+      >
+      </ia-filter>
+      <ia-reasons-for-leaving-table
+        [data]="comparedReasonsTableData$ | ngrxPush"
       >
       </ia-reasons-for-leaving-table>
     </div>

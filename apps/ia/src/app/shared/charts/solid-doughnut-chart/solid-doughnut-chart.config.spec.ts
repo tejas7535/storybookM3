@@ -14,7 +14,7 @@ describe('solid-doughnut-chart config', () => {
         text: config.title,
         textStyle: {
           color: Color.BLACK,
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: 'normal',
         },
         subtext: config.subTitle,
@@ -51,6 +51,7 @@ describe('solid-doughnut-chart config', () => {
           formatter: '{d}%',
           position: 'inside',
           color: Color.WHITE,
+          fontSize: 10,
         },
       },
     ];

@@ -59,7 +59,7 @@ export const getSelectedTimeRange = createSelector(
 export const getBeautifiedSelectedTimeRange = createSelector(
   getSelectedTimeRange,
   (timeRange: string) => {
-    const dates = timeRange.split('|');
+    const dates = timeRange?.split('|');
 
     return `${new Date(+dates[0]).toLocaleDateString()} - ${new Date(
       +dates[1]

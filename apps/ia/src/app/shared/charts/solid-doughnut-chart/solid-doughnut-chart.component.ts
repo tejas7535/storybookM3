@@ -42,11 +42,33 @@ export class SolidDoughnutChartComponent {
             .sort((a, b) => a.value - b.value)
             .map((value) => value.name)
             .reverse(),
-          bottom: 50,
-          height: 74,
+          bottom: 0,
+          padding: [20, 0, 0, 0],
           orient: 'vertical',
         },
       };
     }
+  }
+
+  @Input() set titlePosition(position: string | number) {
+    if (position) {
+      this.mergeOptions = {
+        ...this.mergeOptions,
+        title: {
+          ...this.mergeOptions.title,
+          top: position,
+        },
+      };
+    }
+  }
+
+  @Input() set legendHeight(height: string | number) {
+    this.mergeOptions = {
+      ...this.mergeOptions,
+      legend: {
+        ...this.mergeOptions.legend,
+        height,
+      },
+    };
   }
 }

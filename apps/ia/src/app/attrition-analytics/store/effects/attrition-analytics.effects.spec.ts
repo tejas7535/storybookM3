@@ -119,4 +119,16 @@ describe('Attrition Anayltics Effects', () => {
       });
     });
   });
+
+  describe('ngrxOnInitEffects', () => {
+    test('should dispatch loadEmployeeAnalytics action', () => {
+      effects['store'].dispatch = jest.fn();
+
+      effects.ngrxOnInitEffects();
+
+      expect(effects['store'].dispatch).toHaveBeenCalledWith(
+        loadEmployeeAnalytics()
+      );
+    });
+  });
 });

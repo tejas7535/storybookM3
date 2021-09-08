@@ -1,5 +1,17 @@
-<ia-solid-doughnut-chart
-  [initialConfig]="config"
-  [data]="data"
-  [isLoading]="isLoading"
-></ia-solid-doughnut-chart>
+<div class="grid" [ngClass]="comparedData ? 'grid-cols-2' : undefined">
+  <ia-solid-doughnut-chart
+    [initialConfig]="config"
+    [data]="data"
+    [isLoading]="isLoading"
+    [titlePosition]="comparedData ? TOP_TITLE_POSITION : CENTER_TITLE_POSITION"
+    [legendHeight]="comparedData ? FULL_HEIGHT_LEGEND : SHORT_HEIGHT_LEGEND"
+  ></ia-solid-doughnut-chart>
+  <ia-solid-doughnut-chart
+    *ngIf="comparedData"
+    [initialConfig]="comparedConfig"
+    [data]="comparedData"
+    [isLoading]="isLoading"
+    [titlePosition]="TOP_TITLE_POSITION"
+    [legendHeight]="FULL_HEIGHT_LEGEND"
+  ></ia-solid-doughnut-chart>
+</div>

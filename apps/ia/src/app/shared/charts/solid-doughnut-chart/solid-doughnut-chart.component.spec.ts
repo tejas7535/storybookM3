@@ -44,7 +44,7 @@ describe('SolidDoughnutChartComponent', () => {
         text: config.title,
         textStyle: {
           color: Color.BLACK,
-          fontSize: 24,
+          fontSize: 20,
           fontWeight: 'normal',
         },
         subtext: config.subTitle,
@@ -111,6 +111,30 @@ describe('SolidDoughnutChartComponent', () => {
       expect((component.mergeOptions.legend as any).data).toContain(
         data[1].name
       );
+    });
+  });
+
+  describe('set titlePosition', () => {
+    test('should set title position', () => {
+      component.mergeOptions = { title: { top: 0 } };
+      const position = 40;
+      component.titlePosition = position;
+
+      expect(
+        (component.mergeOptions.title as { top: string | number }).top
+      ).toEqual(position);
+    });
+  });
+
+  describe('set legendHeight', () => {
+    test('should set legend height', () => {
+      component.mergeOptions = { legend: { height: 0 } };
+      const height = 40;
+      component.legendHeight = height;
+
+      expect(
+        (component.mergeOptions.legend as { height: string | number }).height
+      ).toEqual(height);
     });
   });
 });

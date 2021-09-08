@@ -1,38 +1,4 @@
 <div class="flex flex-col w-full">
-  <div class="flex flex-col" *transloco="let t; read: 'filters'">
-    <ia-autocomplete-input
-      [filter]="orgUnits"
-      [label]="t('organization.organizationLabel')"
-      [hint]="disableFilters ? undefined : t('organization.organizationHint')"
-      [value]="selectedOrgUnit"
-      [disabled]="disableFilters"
-    ></ia-autocomplete-input>
-    <div class="flex flex-row gap-2">
-      <ia-select-input
-        class="flex-1"
-        [options]="timePeriods"
-        [selectedOption]="selectedTimePeriod"
-        [label]="t('periodOfTime.timePeriodLabel')"
-        [hint]="disableFilters ? undefined : t('periodOfTime.timePeriodHint')"
-        [disabled]="disableFilters"
-      ></ia-select-input>
-      <ia-date-input
-        class="flex-1"
-        [timePeriod]="selectedTimePeriod"
-        [label]="t('periodOfTime.timeRangeLabel')"
-        [hint]="
-          disableFilters
-            ? undefined
-            : t('periodOfTime.timeRangeHint', { value: timeRangeHintValue })
-        "
-        [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
-        [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
-        [disabled]="disableFilters"
-        [selectedTime]="selectedTime"
-      ></ia-date-input>
-    </div>
-  </div>
-
   <ag-grid-angular
     class="ag-theme-material h-[592px]"
     [rowData]="data"

@@ -5,15 +5,18 @@ import {
   ReasonsAndCounterMeasuresState,
   selectReasonsAndCounterMeasuresState,
 } from '..';
-import { getBeautifiedSelectedTimeRange } from '../../../core/store/selectors';
-import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
-import { ReasonForLeavingRank } from '../../models/reason-for-leaving-rank.model';
+import {
+  getBeautifiedSelectedTimeRange,
+  getSelectedTimePeriod,
+} from '../../../core/store/selectors';
+import { EmployeesRequest, TimePeriod } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import * as utils from './reasons-and-counter-measures.selector.utils';
 
 export const getComparedSelectedOrgUnit = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedOrgUnit?.value?.toString()
+    state.reasonsForLeaving.comparedSelectedOrgUnit
 );
 
 export const getComparedSelectedTimePeriod = createSelector(
@@ -36,23 +39,7 @@ export const getReasonsData = createSelector(
 
 export const getReasonsTableData = createSelector(
   getReasonsData,
-  (data: ReasonForLeavingStats[]) => {
-    const totalLeavers = data
-      ?.map((reason) => reason.leavers)
-      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0);
-
-    const rankList = data?.map((d) => d.leavers).sort((a, b) => b - a);
-
-    return data?.map(
-      (reason) =>
-        new ReasonForLeavingRank(
-          rankList.indexOf(reason.leavers) + 1,
-          reason.detailedReason,
-          getPercentageValue(reason.leavers, totalLeavers),
-          reason.leavers
-        )
-    );
-  }
+  (data: ReasonForLeavingStats[]) => utils.mapReasonsToTableData(data)
 );
 
 export const getReasonsLoading = createSelector(
@@ -64,8 +51,13 @@ export const getReasonsLoading = createSelector(
 export const getReasonsChartConfig = createSelector(
   getReasonsData,
   getBeautifiedSelectedTimeRange,
-  (stats: ReasonForLeavingStats[], timeRange: string) => ({
-    title: timeRange,
+  getSelectedTimePeriod,
+  (
+    stats: ReasonForLeavingStats[],
+    timeRange: string,
+    timePeriod: TimePeriod
+  ) => ({
+    title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
       stats?.length > 0
         ? translate('reasonsAndCounterMeasures.topFiveReasons.title')
@@ -76,34 +68,86 @@ export const getReasonsChartConfig = createSelector(
 export const getReasonsChartData = createSelector(
   getReasonsData,
   (reasons: ReasonForLeavingStats[]) =>
-    reasons ? getTop5ReasonsForChart(reasons) : []
+    reasons ? utils.getTop5ReasonsForChart(reasons) : []
 );
 
-export function getTop5ReasonsForChart(
-  data: ReasonForLeavingStats[]
-): DoughnutChartData[] {
-  if (data.length === 0) {
-    return [];
+export const getSelectedComparedTimeRange = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedSelectedTimeRange
+);
+
+export const getSelectedComparedFilters = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedSelectedOrgUnit
+);
+
+export const getCurrentComparedFiltersAndTime = createSelector(
+  getSelectedComparedTimeRange,
+  getSelectedComparedFilters,
+  (timeRange: string, orgUnit: string) =>
+    ({ orgUnit, timeRange } as EmployeesRequest)
+);
+
+export const getComparedReasonsData = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedReasons.data
+);
+
+export const getComparedReasonsTableData = createSelector(
+  getComparedReasonsData,
+  (data: ReasonForLeavingStats[]) => utils.mapReasonsToTableData(data)
+);
+
+export const getComparedReasonsLoading = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedReasons.loading
+);
+
+export const getComparedBeautifiedSelectedTimeRange = createSelector(
+  getSelectedComparedTimeRange,
+  (timeRange: string) => {
+    const dates = timeRange?.split('|');
+
+    return timeRange
+      ? `${new Date(+dates[0]).toLocaleDateString('en-US')} - ${new Date(
+          +dates[1]
+        ).toLocaleDateString('en-US')}`
+      : undefined;
   }
-  const top5Reasons = data
-    .slice(0, 5)
-    .map((reason) => ({ value: reason.leavers, name: reason.detailedReason }));
+);
 
-  if (data.length > 5) {
-    const otherCount = data
-      .slice(5)
-      .map((reason) => reason.leavers)
-      // eslint-disable-next-line unicorn/no-array-reduce
-      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0);
+export const getComparedTimePeriod = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedSelectedTimePeriod
+);
 
-    top5Reasons.push({
-      value: otherCount,
-      name: translate('reasonsAndCounterMeasures.topFiveReasons.chart.others'),
-    });
-  }
+export const getComparedReasonsChartConfig = createSelector(
+  getComparedReasonsData,
+  getComparedBeautifiedSelectedTimeRange,
+  getComparedTimePeriod,
+  (
+    stats: ReasonForLeavingStats[],
+    timeRange: string,
+    timePeriod: TimePeriod
+  ) => ({
+    title: getTimeRangeTitle(timePeriod, timeRange),
+    subTitle:
+      stats?.length > 0
+        ? translate('reasonsAndCounterMeasures.topFiveReasons.title')
+        : translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData'),
+  })
+);
 
-  return top5Reasons;
-}
+export const getComparedReasonsChartData = createSelector(
+  getComparedReasonsData,
+  (reasons: ReasonForLeavingStats[]) =>
+    reasons ? utils.getTop5ReasonsForChart(reasons) : undefined
+);
 
 export const getPercentageValue = (part: number, total: number) => {
   if (part === 0 || total === 0) {
@@ -112,3 +156,8 @@ export const getPercentageValue = (part: number, total: number) => {
 
   return Number.parseFloat(((part / total) * 100).toFixed(1));
 };
+function getTimeRangeTitle(timePeriod: TimePeriod, timeRange: string): any {
+  return timePeriod === TimePeriod.LAST_12_MONTHS
+    ? translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`)
+    : timeRange;
+}

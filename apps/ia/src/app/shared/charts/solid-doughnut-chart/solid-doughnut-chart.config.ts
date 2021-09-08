@@ -13,7 +13,7 @@ export function createSolidDoughnutChartBaseOptions(config: {
       text: config.title,
       textStyle: {
         color: Color.BLACK,
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'normal',
       },
       subtext: config.subTitle,
@@ -45,6 +45,7 @@ export function createSolidDoughnutChartSeries(title: string): SeriesOption[] {
         formatter: '{d}%',
         position: 'inside',
         color: Color.WHITE,
+        fontSize: 10,
       },
     },
   ];

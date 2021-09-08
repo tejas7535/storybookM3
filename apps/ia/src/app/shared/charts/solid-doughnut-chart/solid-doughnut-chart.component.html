@@ -3,12 +3,12 @@
     echarts
     [options]="options"
     [merge]="mergeOptions"
-    class="w-full h-[750px] min-w-[270px]"
+    class="w-full h-[750px] min-w-[250px]"
     *ngIf="!isLoading; else loading"
   ></div>
   <ng-template #loading>
     <schaeffler-loading-spinner
-      class="w-full h-[750px] min-w-[270px]"
+      class="w-full h-[750px] min-w-[250px]"
       [diameter]="40"
       [strokeWidth]="4"
       [relative]="false"

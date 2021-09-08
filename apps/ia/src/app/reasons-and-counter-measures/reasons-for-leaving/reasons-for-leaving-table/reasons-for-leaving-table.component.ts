@@ -7,8 +7,6 @@ import {
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { Filter, IdValue, TimePeriod } from '../../../shared/models';
-import { getTimeRangeHint } from '../../../shared/utils/utilities';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 
 @Component({
@@ -16,25 +14,8 @@ import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.mod
   templateUrl: './reasons-for-leaving-table.component.html',
 })
 export class ReasonsForLeavingTableComponent implements OnInit {
-  private _selectedTimePeriod: TimePeriod;
-
   @Input() loading: boolean; // not used at the moment
   @Input() data: ReasonForLeavingStats[];
-  @Input() disableFilters: boolean;
-
-  @Input() orgUnits: Filter;
-  @Input() selectedOrgUnit: string;
-  @Input() timePeriods: IdValue[];
-  @Input() set selectedTimePeriod(period: TimePeriod) {
-    this._selectedTimePeriod = period;
-    this.timeRangeHintValue = getTimeRangeHint(period);
-  }
-
-  get selectedTimePeriod(): TimePeriod {
-    return this._selectedTimePeriod;
-  }
-
-  @Input() selectedTime: string;
 
   modules: any[] = [ClientSideRowModelModule];
   frameworkComponents = {};
@@ -85,6 +66,9 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         headerClass: 'bg-lightBg',
       },
     ];
+    if (!this.data) {
+      this.data = [];
+    }
   }
 
   onRowDataChanged(event: RowDataChangedEvent): void {
