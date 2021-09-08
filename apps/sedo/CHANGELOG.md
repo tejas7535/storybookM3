@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.13.0...sedo-v1.12.0) (2021-09-08)
+
+
+### 🎸 Features
+
+* **header:** reimplement header with tailwindr ([#2712](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2712)) ([8b9b0bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b9b0bb36137d5d2518754a74292afe269f12cc7))
+* **sedo:** add ignore flag input (UFTABI-4980) ([#2834](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2834)) ([2804a45](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2804a451098612a9235207ed4f693c78c2b39781))
+* **sedo:** disallow edo before eop ([#2806](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2806)) ([24ff20f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/24ff20f3ca60935c687e5bd7b8fa67b6d2279cb9))
+* **sedo:** fix lint rules (UFTABI-4830) ([d9b45af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9b45afe976277d45e718ca2e13a39282bcadcf1))
+
+
+### 🐛 Bug Fixes
+
+* **sedo:** fix date column filter ([#2861](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2861)) ([cf19cf1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cf19cf1149b0863be30a3d34a25515dd8cc50bbd))
+* **workspace:** disable caching for index.html and configure outputHashing (GQUOTE-685) (DSCDA-2362) ([#2727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2727)) ([5400d16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5400d16ed0f1cab1caf7c3760724148ff996922f))
+
 ## [1.12.0](///compare/sedo-v1.12.0...sedo-v1.11.1) (2021-07-12)
 
 
