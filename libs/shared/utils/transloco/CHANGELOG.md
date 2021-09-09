@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [3.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.2...transloco-v3.0.0) (2021-09-09)
+
 ### [3.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.1...transloco-v3.0.0) (2021-09-07)
 
 ## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.0...transloco-v2.5.0) (2021-09-07)
