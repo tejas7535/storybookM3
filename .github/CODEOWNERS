@@ -39,8 +39,8 @@ apps/mac @berndcri_SGGIT @birketho_SGGIT @PELZESEN_SGGIT
 apps/mac-e2e @berndcri_SGGIT @birketho_SGGIT @PELZESEN_SGGIT
 
 # IA
-apps/ia @herpisef_SGGIT @przybmci_SGGIT 
-apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT 
+apps/ia @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
+apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 
 # MM
 apps/mm @juskibry_SGGIT @birketho_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
