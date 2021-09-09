@@ -71,7 +71,7 @@
     "@angular/platform-browser": "12.2.4",
     "@angular/platform-browser-dynamic": "12.2.4",
     "@angular/router": "12.2.4",
-    "@azure/msal-angular": "2.0.2",
+    "@azure/msal-angular": "2.0.3",
     "@azure/msal-browser": "2.16.1",
     "@caeonline/dynamic-forms": "0.3.7",
     "@fontsource/roboto": "4.5.0",
