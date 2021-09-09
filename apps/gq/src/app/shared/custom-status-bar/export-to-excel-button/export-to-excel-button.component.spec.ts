@@ -14,6 +14,9 @@ import {
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
+import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
+import { MatDialogModule } from '@angular/material/dialog';
+import { of } from 'rxjs';
 
 describe('ExportToExcelButtonComponent', () => {
   let component: ExportToExcelButtonComponent;
@@ -26,6 +29,7 @@ describe('ExportToExcelButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
+      MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
   });
@@ -71,7 +75,7 @@ describe('ExportToExcelButtonComponent', () => {
       }-${today.getDate()}`;
       const time = `${today.getHours()}-${today.getMinutes()}`;
 
-      component.exportToExcel();
+      component.exportToExcel(ExportExcel.BASIC_DOWNLOAD);
 
       expect(mockParams.api.exportMultipleSheetsAsExcel).toHaveBeenCalledWith({
         data: ['1', '2'],
@@ -79,6 +83,38 @@ describe('ExportToExcelButtonComponent', () => {
       });
       expect(mockParams.api.getSheetDataForExcel).toHaveBeenCalledTimes(1);
       expect(component.getSummarySheet).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('openExportToExcelDialog should', () => {
+    beforeEach(() => {
+      component['matDialog'].open = jest
+        .fn()
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        .mockReturnValue({ afterClosed: () => of(undefined) });
+      component.exportToExcel = jest.fn();
+    });
+    test('open modal for choosing exporting excel option', () => {
+      component.openExportToExcelDialog();
+
+      expect(component['matDialog'].open).toHaveBeenCalledTimes(1);
+    });
+
+    test('export to excel after dialog is closed', () => {
+      const exportExcel = ExportExcel.BASIC_DOWNLOAD;
+      component['matDialog'].open = jest
+        .fn()
+        .mockReturnValue({ afterClosed: () => of(exportExcel) });
+
+      component.openExportToExcelDialog();
+
+      expect(component.exportToExcel).toHaveBeenCalledWith(exportExcel);
+    });
+
+    test('does not export to excel after dialog is canceled', () => {
+      component.openExportToExcelDialog();
+
+      expect(component.exportToExcel).not.toHaveBeenCalled();
     });
   });
 

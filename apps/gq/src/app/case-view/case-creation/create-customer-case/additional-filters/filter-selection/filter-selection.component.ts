@@ -58,10 +58,9 @@ export class FilterSelectionComponent implements OnInit, OnChanges {
   }
 
   toggleAllSelection(): void {
-    const selectedList = this.allSelected.selected
-      ? this.items.map((i) => i.value)
-      : [];
-    this.emitSelection(selectedList);
+    this.emitSelection(
+      this.allSelected.selected ? this.items.map((i) => i.value) : []
+    );
   }
 
   selectList(): void {

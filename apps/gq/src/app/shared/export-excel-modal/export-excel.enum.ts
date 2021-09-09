@@ -1,0 +1,4 @@
+export enum ExportExcel {
+  BASIC_DOWNLOAD = 'BASIC_DOWNLOAD',
+  DETAILED_DOWNLOAD = 'DETAILED_DOWNLOAD',
+}

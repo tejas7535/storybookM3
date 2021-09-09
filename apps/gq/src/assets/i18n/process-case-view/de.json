@@ -28,5 +28,20 @@
     "title": "Kommentar bearbeiten für Position {{id}}",
     "confirm": "Bestätigen",
     "cancel": "Zurück"
+  },
+  "exportExcelModal": {
+    "title": "Wählen Sie Ihr Download-Format",
+    "chooseColumn": {
+      "title": "Wählen Sie Ihren Download aus",
+      "basicDownload": "Basis Download",
+      "detailedDownload": "Ausführlicher Download"
+    },
+    "descriptionColumn": {
+      "title": "Eingeschlossen",
+      "basicDownload": "Übersichtsseite & Angebotspositionen",
+      "detailedDownload": "Basis Download + Vergleichbare Transaktionen"
+    },
+    "confirm": "Herunterladen",
+    "cancel": "Abbrechen"
   }
 }

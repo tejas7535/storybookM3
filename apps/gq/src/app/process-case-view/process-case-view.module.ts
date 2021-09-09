@@ -25,6 +25,7 @@ import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
+import { ExportExcelModalModule } from '../shared/export-excel-modal/export-excel-modal.module';
 
 @NgModule({
   declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],
@@ -46,6 +47,7 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
     CustomerHeaderModule,
     MatCardModule,
     ShareButtonModule,
+    ExportExcelModalModule,
   ],
   providers: [
     {

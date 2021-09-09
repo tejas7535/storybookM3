@@ -15,7 +15,10 @@ import { ConfirmationModalComponent } from '../../confirmation-modal/confirmatio
 export class DeleteCaseButtonComponent {
   selections: any[] = [];
   private params: IStatusPanelParams;
-  constructor(private readonly store: Store, public dialog: MatDialog) {}
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {}
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -42,8 +45,8 @@ export class DeleteCaseButtonComponent {
     const cancelButton = translate('caseView.confirmDeleteCases.cancelButton');
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-      width: '30%',
-      height: '30%',
+      width: '80%',
+      maxHeight: '80%',
       data: { displayText, confirmButton, cancelButton, list },
     });
 

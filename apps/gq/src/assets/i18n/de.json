@@ -133,7 +133,9 @@
         "total": "Gesamt"
       },
       "excelExport": {
+        "guidedQuoting": "Guided Quoting",
         "summary": "Zusammenfassung",
+        "comparableTransactions": "Vergleichbare Transaktionen",
         "sapQuote": "SAP Angebot:",
         "gqCase": "GQ Case:",
         "quotationSummary": {

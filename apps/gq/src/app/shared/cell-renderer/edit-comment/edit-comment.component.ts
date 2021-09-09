@@ -13,7 +13,7 @@ import { QuotationDetail } from '../../models/quotation-detail';
 export class EditCommentComponent {
   public detail: QuotationDetail;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {}
   agInit(params: CellClassParams): void {
     this.detail = params.data;
   }

@@ -1,22 +1,23 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-
-import { of } from 'rxjs';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DeleteCaseButtonComponent } from './delete-case-button.component';
+import { of } from 'rxjs';
 
 describe('DeleteCaseButtonComponent', () => {
   let component: DeleteCaseButtonComponent;
   let spectator: Spectator<DeleteCaseButtonComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
+  let matDialogSpyObject: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
     component: DeleteCaseButtonComponent,
@@ -28,24 +29,23 @@ describe('DeleteCaseButtonComponent', () => {
     ],
     providers: [provideMockStore({})],
     declarations: [DeleteCaseButtonComponent],
+    mocks: [MatDialog],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    matDialogSpyObject = spectator.inject(MatDialog);
+    matDialogSpyObject.open.andReturn({
+      afterClosed: jest.fn(() => of(true)),
+    });
     params = {
       api: {
         addEventListener: jest.fn(),
         getSelectedRows: jest.fn(),
       },
     } as unknown as IStatusPanelParams;
-    const dialogRef = {
-      afterClosed: jest.fn(() => of(true)),
-    };
-    component.dialog = {
-      open: jest.fn(() => dialogRef),
-    } as any;
   });
 
   test('should create', () => {
@@ -75,7 +75,7 @@ describe('DeleteCaseButtonComponent', () => {
       component.selections = [{ customer: { name: '1' }, gqId: '123' }];
       component.deleteCase();
 
-      expect(component.dialog.open).toHaveBeenCalledTimes(1);
+      expect(matDialogSpyObject.open).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });

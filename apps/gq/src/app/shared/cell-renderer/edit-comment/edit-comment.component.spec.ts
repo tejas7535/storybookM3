@@ -1,24 +1,30 @@
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { EditingCommentModalComponent } from '../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
 import { EditCommentComponent } from './edit-comment.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('EditCommentComponent', () => {
   let component: EditCommentComponent;
   let spectator: Spectator<EditCommentComponent>;
+  let matDialogSpyObject: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
     component: EditCommentComponent,
     imports: [MatIconModule, MatDialogModule],
+    mocks: [MatDialog],
+    providers: [provideMockStore()],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
+    matDialogSpyObject = spectator.inject(MatDialog);
   });
 
   test('should create', () => {
@@ -37,13 +43,10 @@ describe('EditCommentComponent', () => {
   describe('onIconClick', () => {
     test('should open dialog', () => {
       component.detail = QUOTATION_DETAIL_MOCK;
-      component['dialog'] = {
-        open: jest.fn(),
-      } as any;
 
       component.onIconClick();
 
-      expect(component['dialog'].open).toHaveBeenCalledWith(
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditingCommentModalComponent,
         {
           width: '50%',

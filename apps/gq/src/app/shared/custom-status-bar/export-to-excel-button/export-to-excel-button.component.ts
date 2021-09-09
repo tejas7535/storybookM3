@@ -1,9 +1,9 @@
 /* eslint-disable max-lines */
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import {
   ExcelCell,
-  ExcelExportMultipleSheetParams,
   ExcelExportParams,
   IStatusPanelParams,
   ProcessCellForExportParams,
@@ -12,6 +12,8 @@ import {
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
+import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import { Quotation } from '../../models';
 import {
   ColumnFields,
@@ -22,6 +24,7 @@ import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
 
 const type = 'String';
+
 @Component({
   selector: 'gq-export-excel-button',
   templateUrl: './export-to-excel-button.component.html',
@@ -29,22 +32,54 @@ const type = 'String';
 export class ExportToExcelButtonComponent {
   private params: IStatusPanelParams;
 
+  constructor(private readonly matDialog: MatDialog) {}
+
   agInit(params: IStatusPanelParams): void {
     this.params = params;
   }
 
-  exportToExcel(): void {
-    const gridColumnApi = this.params.columnApi;
-    const columnKeys = gridColumnApi
-      .getAllColumns()
-      .map((col) => col.getColId())
-      .filter((id) => id !== '0');
+  openExportToExcelDialog(): void {
+    this.matDialog
+      .open(ExportExcelModalComponent, {
+        width: '80%',
+        maxHeight: '80%',
+      })
+      .afterClosed()
+      .subscribe((exportExcel: ExportExcel) => {
+        if (exportExcel) {
+          this.exportToExcel(exportExcel);
+        }
+      });
+  }
 
+  exportToExcel(exportExcel: ExportExcel): void {
     const today = new Date();
     const date = `${today.getFullYear()}-${
       today.getMonth() + 1
     }-${today.getDate()}`;
     const time = `${today.getHours()}-${today.getMinutes()}`;
+
+    this.params.api.exportMultipleSheetsAsExcel({
+      data: this.setData(exportExcel),
+      fileName: `GQ_Case_${this.params.context.quotation.gqId}_${date}_${time}`,
+    });
+  }
+
+  private setData(exportExcel: ExportExcel) {
+    return exportExcel === ExportExcel.BASIC_DOWNLOAD
+      ? [this.getSummarySheet(), this.getProcessCaseSheet()]
+      : [
+          this.getSummarySheet(),
+          this.getProcessCaseSheet(),
+          this.getComparableTransactions(),
+        ];
+  }
+
+  private getProcessCaseSheet(): string {
+    const columnKeys = this.params.columnApi
+      .getAllColumns()
+      .map((col) => col.getColId());
+
     const excelParams: ExcelExportParams = {
       columnKeys,
       allColumns: false,
@@ -56,14 +91,7 @@ export class ExportToExcelButtonComponent {
         this.processHeaderCallback(params),
     };
 
-    const summarySheet = this.getSummarySheet();
-    const dataSheet = this.params.api.getSheetDataForExcel(excelParams);
-
-    const multipleSheetsExcel: ExcelExportMultipleSheetParams = {
-      data: [summarySheet, dataSheet],
-      fileName: `GQ_Case_${this.params.context.quotation.gqId}_${date}_${time}`,
-    };
-    this.params.api.exportMultipleSheetsAsExcel(multipleSheetsExcel);
+    return this.params.api.getSheetDataForExcel(excelParams);
   }
 
   processHeaderCallback(params: ProcessHeaderForExportParams): string {
@@ -143,7 +171,7 @@ export class ExportToExcelButtonComponent {
     ];
 
     if (quotation.sapId) {
-      const rowData: ExcelCell[] = [
+      result.unshift([
         {
           data: {
             type,
@@ -158,8 +186,7 @@ export class ExportToExcelButtonComponent {
           },
           styleId: excelStyleObjects.excelText.id,
         },
-      ];
-      result.unshift(rowData);
+      ]);
     }
 
     return result;
@@ -474,5 +501,9 @@ export class ExportToExcelButtonComponent {
         },
       ],
     ];
+  }
+
+  private getComparableTransactions(): string {
+    return '';
   }
 }

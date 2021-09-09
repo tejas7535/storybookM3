@@ -1,0 +1,65 @@
+<div
+  class="h-full flex flex-col"
+  *transloco="let t; read: 'processCaseView.exportExcelModal'"
+>
+  <h1 class="text-dark !text-[24px]" mat-dialog-title>{{ t('title') }}</h1>
+  <mat-dialog-content>
+    <mat-radio-group
+      [(ngModel)]="exportExcelOption"
+      aria-labelledby="example-radio-group-label"
+      class="grid grid-cols-1 divide-y !divide-light text-[12px]"
+    >
+      <div class="grid grid-cols-2 pb-[20px]">
+        <div class="text-light ml-6">{{ t('chooseColumn.title') }}</div>
+        <div class="text-light">{{ t('descriptionColumn.title') }}</div>
+      </div>
+      <div class="grid grid-cols-2 py-3">
+        <div class="ml-6">
+          <mat-radio-button
+            color="primary"
+            [value]="ExportExcel.BASIC_DOWNLOAD"
+          ></mat-radio-button>
+          <span class="!text-dark">
+            {{ t('chooseColumn.basicDownload') }}
+          </span>
+        </div>
+        <div class="text-dark">{{ t('descriptionColumn.basicDownload') }}</div>
+      </div>
+      <div class="grid grid-cols-2 py-3">
+        <div class="ml-6">
+          <mat-radio-button
+            disabled
+            color="primary"
+            [value]="ExportExcel.DETAILED_DOWNLOAD"
+          ></mat-radio-button>
+          <span class="!text-dark">
+            {{
+              t('chooseColumn.detailedDownload') + ' will be in next release'
+            }}
+          </span>
+        </div>
+        <div class="text-dark">
+          {{ t('descriptionColumn.detailedDownload') }}
+        </div>
+      </div>
+    </mat-radio-group>
+  </mat-dialog-content>
+  <mat-dialog-actions class="!mb-2">
+    <button
+      class="!text-button font-medium !mr-6 !mt-10"
+      mat-raised-button
+      color="primary"
+      (click)="closeDialog()"
+    >
+      <mat-icon class="!text-[20px]">download</mat-icon>
+      {{ t('confirm') | uppercase }}
+    </button>
+    <button
+      class="!text-primary text-button font-medium border-lightBg !mt-10"
+      mat-raised-button
+      mat-dialog-close
+    >
+      {{ t('cancel') | uppercase }}
+    </button>
+  </mat-dialog-actions>
+</div>
