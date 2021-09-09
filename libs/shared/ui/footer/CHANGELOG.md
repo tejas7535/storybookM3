@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [3.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/footer-v3.0.2...footer-v3.0.0) (2021-09-09)
+
 ### [3.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/footer-v3.0.1...footer-v3.0.0) (2021-09-07)
 
 ## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/footer-v3.0.0...footer-v2.0.0) (2021-09-07)
