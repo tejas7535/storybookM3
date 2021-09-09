@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.2...azure-auth-v0.1.0) (2021-09-09)
+
 ### [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.1...azure-auth-v0.1.0) (2021-09-07)
 
 ## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.0...azure-auth-v0.0.6) (2021-09-07)
