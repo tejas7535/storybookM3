@@ -43,6 +43,7 @@ export class ResignationsComponent {
     {
       field: 'employeeName',
       headerName: translate('overview.resignationsReceived.table.name'),
+      tooltipField: 'employeeName',
     },
   ];
 }
