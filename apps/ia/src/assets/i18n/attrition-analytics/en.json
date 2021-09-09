@@ -6,7 +6,8 @@
       "availableFeatures": "Available Features",
       "selectedFeatures": "Selected Features",
       "confirm": "Confirm",
-      "amountSelected": "{{ selected }} of {{ total }} selected"
+      "amountSelected": "{{ selected }} of {{ total }} selected",
+      "selectedFeaturesMaxInfo": "You can select max. {{ selectedFeaturesMax }} features"
     }
   },
   "barChart": {

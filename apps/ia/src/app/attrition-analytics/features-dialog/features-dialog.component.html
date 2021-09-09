@@ -20,7 +20,12 @@
         class="drag-list"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="drag-list-item" *ngFor="let item of unselected" cdkDrag>
+        <div
+          class="drag-list-item"
+          *ngFor="let item of unselected"
+          cdkDrag
+          (cdkDragReleased)="itemReleased()"
+        >
           {{ item.name }}
         </div>
       </div>
@@ -50,7 +55,12 @@
   *transloco="let t; read: 'attritionAnalytics.addAnalysis.featuresDialog'"
 >
   <p class="mr-auto text-labels text-caption">
-    {{ t('amountSelected', { selected: selected.length, total: data.length }) }}
+    {{
+      t('amountSelected', {
+        selected: selected.length,
+        total: SELECTED_FEATURES_MAX
+      })
+    }}
   </p>
   <button
     mat-button

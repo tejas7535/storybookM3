@@ -1,18 +1,15 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
-import { FeaturesDialogComponent } from './features-dialog.component';
-
 import * as dragAndDrop from '@angular/cdk/drag-drop';
 import {
   CdkDragDrop,
   CdkDropList,
   DragDropModule,
 } from '@angular/cdk/drag-drop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { FeaturesDialogComponent } from './features-dialog.component';
 
 jest.mock('@angular/cdk/drag-drop', () => ({
   ...(jest.requireActual('@angular/cdk/drag-drop') as any),
@@ -23,6 +20,7 @@ jest.mock('@angular/cdk/drag-drop', () => ({
 describe('FeaturesDialogComponent', () => {
   let component: FeaturesDialogComponent;
   let spectator: Spectator<FeaturesDialogComponent>;
+  let snackBarService: SnackBarService;
 
   const data = [
     {
@@ -42,18 +40,21 @@ describe('FeaturesDialogComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,
       DragDropModule,
+      SnackBarModule,
     ],
     providers: [
       {
         provide: MAT_DIALOG_DATA,
         useValue: data,
       },
+      SnackBarService,
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    snackBarService = spectator.inject(SnackBarService);
   });
 
   it('should create', () => {
@@ -139,6 +140,35 @@ describe('FeaturesDialogComponent', () => {
       );
 
       expect(result).toBeFalsy();
+    });
+  });
+
+  describe('itemReleased', () => {
+    test('should display snack bar when max features selected', () => {
+      component.selected = [1, 2, 3, 4];
+      snackBarService.showInfoMessage = jest.fn();
+
+      component.itemReleased();
+
+      expect(snackBarService.showInfoMessage).toHaveBeenCalled();
+    });
+
+    test('should display snack bar when more than max features selected', () => {
+      component.selected = [1, 2, 3, 4, 5];
+      snackBarService.showInfoMessage = jest.fn();
+
+      component.itemReleased();
+
+      expect(snackBarService.showInfoMessage).toHaveBeenCalled();
+    });
+
+    test('should not display snack bar when less than max features selected', () => {
+      component.selected = [1, 2, 3];
+      snackBarService.showInfoMessage = jest.fn();
+
+      component.itemReleased();
+
+      expect(snackBarService.showInfoMessage).not.toHaveBeenCalled();
     });
   });
 });

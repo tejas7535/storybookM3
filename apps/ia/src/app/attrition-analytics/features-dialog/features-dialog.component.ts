@@ -8,6 +8,10 @@ import {
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import { translate } from '@ngneat/transloco';
+
+import { SnackBarService } from '@schaeffler/snackbar';
+
 import { FeatureSelector } from '../models/feature-selector.model';
 
 @Component({
@@ -16,12 +20,15 @@ import { FeatureSelector } from '../models/feature-selector.model';
   styleUrls: ['./features-dialog.component.scss'],
 })
 export class FeaturesDialogComponent implements OnInit {
-  static SELECTED_FEATURES_MAX = 4;
+  readonly SELECTED_FEATURES_MAX = 4;
 
   selected: any[] = [];
   unselected: any[] = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: FeatureSelector[]) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: FeatureSelector[],
+    private readonly snackBarService: SnackBarService
+  ) {}
 
   ngOnInit() {
     for (const entry of this.data) {
@@ -50,7 +57,17 @@ export class FeaturesDialogComponent implements OnInit {
     }
   }
 
-  maxSelectedFeaturesPredicate(_drag: CdkDrag, drop: CdkDropList) {
-    return drop.data.length < FeaturesDialogComponent.SELECTED_FEATURES_MAX;
+  maxSelectedFeaturesPredicate = (_drag: CdkDrag, drop: CdkDropList) =>
+    drop.data.length < this.SELECTED_FEATURES_MAX;
+
+  itemReleased() {
+    if (this.selected.length >= this.SELECTED_FEATURES_MAX) {
+      this.snackBarService.showInfoMessage(
+        translate(
+          'attritionAnalytics.addAnalysis.featuresDialog.selectedFeaturesMaxInfo',
+          { selectedFeaturesMax: this.SELECTED_FEATURES_MAX }
+        )
+      );
+    }
   }
 }
