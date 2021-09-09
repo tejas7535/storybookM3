@@ -166,18 +166,15 @@ describe('DropdownInputComponent', () => {
   });
 
   test('setValue should trigger multiple things', () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const changeSpy = jest.spyOn(component, 'onChange');
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const touchSpy = jest.spyOn(component, 'onTouched');
-
+    component['onChange'] = jest.fn();
+    component['onTouched'] = jest.fn();
     const mockValue = { id: 'mockString', value: 'mockValue' };
+
     component.setValue(mockValue);
+
     expect(component.value).toEqual(mockValue.id);
-    expect(changeSpy).toHaveBeenCalledWith(mockValue.id);
-    expect(touchSpy).toHaveBeenCalledTimes(1);
+    expect(component.onChange).toHaveBeenCalledWith(mockValue.id);
+    expect(component.onTouched).toHaveBeenCalledTimes(1);
   });
 
   test('onResize', (done) => {

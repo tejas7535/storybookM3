@@ -163,20 +163,16 @@ describe('SearchAutocompleteComponent', () => {
     });
 
     it('should do a number of things through setValue', () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const changeSpy = jest.spyOn(component, 'onChange');
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      const touchSpy = jest.spyOn(component, 'onTouched');
+      component['onChange'] = jest.fn();
+      component['onTouched'] = jest.fn();
 
       const mockValue = {
         option: { value: { id: 'mockId', title: 'mockTitle' } },
       };
       component.setValue(mockValue);
       expect(component.control.value).toEqual(mockValue.option.value);
-      expect(changeSpy).toHaveBeenCalledTimes(1);
-      expect(touchSpy).toHaveBeenCalledTimes(1);
+      expect(component.onTouched).toHaveBeenCalledTimes(1);
+      expect(component.onChange).toHaveBeenCalledTimes(1);
     });
   });
 

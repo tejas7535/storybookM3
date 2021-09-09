@@ -112,7 +112,7 @@ export class DropdownInputComponent implements ControlValueAccessor {
     }
   }
 
-  private onChange: (value: string | number) => void = () => {};
+  onChange: (value: string | number) => void = () => {};
 
-  private onTouched: () => void = () => {};
+  onTouched: () => void = () => {};
 }

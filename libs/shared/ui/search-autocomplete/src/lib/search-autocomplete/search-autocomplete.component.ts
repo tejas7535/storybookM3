@@ -171,7 +171,7 @@ export class SearchAutocompleteComponent
     return val.length > this.minimumChars - 1;
   }
 
-  public onChange: (value: string) => void = () => {};
+  onChange: (value: string) => void = () => {};
 
-  public onTouched: () => void = () => {};
+  onTouched: () => void = () => {};
 }
