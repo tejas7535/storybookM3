@@ -152,11 +152,10 @@ describe('LoadAssessmentEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcde)', {
+        const expected = m.cold('-(bcd)', {
           b: getLoadAverage({ deviceId }),
           c: getCenterLoad({ deviceId }),
           d: getBearingLoad({ deviceId }),
-          e: getShaft({ deviceId }),
         });
 
         m.expect(effects.loadAssessmentId$).toBeObservable(expected);
@@ -192,49 +191,6 @@ describe('LoadAssessmentEffects', () => {
 
         expect(restService.getBearingLoad).toHaveBeenCalledTimes(1);
         expect(restService.getBearingLoad).toHaveBeenCalledWith({
-          id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
-        });
-      })
-    );
-  });
-
-  describe('shaft$', () => {
-    beforeEach(() => {
-      action = getShaft({ deviceId });
-    });
-
-    it(
-      'should return getShaftSuccess action when REST call is successful',
-      marbles((m) => {
-        const SHAFT_MOCK: ShaftStatus[] = [
-          {
-            deviceId: 'fakedeviceid',
-            timestamp: '2020-11-12T18:31:56.954003Z',
-            rsm01ShaftSpeed: 3,
-            rsm01Shaftcountervalue: 666,
-          },
-        ];
-
-        const result = getShaftSuccess({
-          shaft: SHAFT_MOCK,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: SHAFT_MOCK,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        restService.getShaft = jest.fn(() => response);
-
-        m.expect(effects.shaft$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getShaft).toHaveBeenCalledTimes(1);
-        expect(restService.getShaft).toHaveBeenCalledWith({
           id: deviceId,
           startDate: 1_599_651_508,
           endDate: 1_599_651_509,

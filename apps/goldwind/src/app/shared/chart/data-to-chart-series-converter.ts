@@ -49,7 +49,7 @@ export class DataToChartSeriesConverter {
    * set the data field to the accourding founds measurements
    */
   findMethodAndConvert() {
-    switch (this.controls.find(({ label }) => label === this.key).type) {
+    switch (this.controls.find(({ label }) => label === this.key)?.type) {
       case Type.grease:
         this.data = this.convertGrease();
         break;

@@ -44,27 +44,7 @@ describe('Load Assessment Selector', () => {
         loading: false,
       },
     },
-    shaft: {
-      ...initialState,
-      result: [
-        {
-          deviceId: 'fakedeviceid',
-          timestamp: '2020-11-12T18:31:56.954003Z',
-          rsm01ShaftSpeed: 3,
-          rsm01Shaftcountervalue: 666,
-        },
-      ],
-      loading: false,
-      status: {
-        result: {
-          deviceId: 'fakedeviceid',
-          timestamp: '2020-11-12T18:31:56.954003Z',
-          rsm01ShaftSpeed: 3,
-          rsm01Shaftcountervalue: 666,
-        },
-        loading: false,
-      },
-    },
+
     loadSense: {
       loading: false,
       result: [LOAD_SENSE],
@@ -87,7 +67,6 @@ describe('Load Assessment Selector', () => {
     },
     loadAssessment: {
       display: {
-        rsmShaftSpeed: true,
         lsp01Strain: true,
         centerLoadFx: true,
       },
@@ -110,20 +89,9 @@ describe('Load Assessment Selector', () => {
     it('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
-          data: ['rsmShaftSpeed', 'lsp01Strain', 'centerLoadFx'],
+          data: ['lsp01Strain', 'centerLoadFx'],
         },
         series: [
-          {
-            name: 'rsmShaftSpeed',
-            type: 'line',
-            symbol: 'none',
-            data: [
-              {
-                value: [new Date('2020-11-12T18:31:56.954Z'), '3.00'],
-              },
-            ],
-          },
-
           {
             name: 'lsp01Strain',
             type: 'line',

@@ -49,6 +49,12 @@ export class MaintenanceAssessmentComponent
       formControl: new FormControl(''),
       indeterminate: false,
     },
+    {
+      name: 'rotorRotationSpeedMonitor',
+      children: this.checkBoxes.filter(({ type }) => type === Type.rsm),
+      formControl: new FormControl(''),
+      indeterminate: false,
+    },
   ];
   displayNodes$: Observable<MaintenanceAssessmentDisplay>;
 

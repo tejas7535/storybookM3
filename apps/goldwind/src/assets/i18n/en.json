@@ -104,7 +104,6 @@
     "deterioration_2": "Deterioration 2",
     "edmMonitor": "Electric Discharge Monitor",
     "greaseMonitor": "Grease Monitor",
-    "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
     "rsmShaftSpeed": "Rotor Rotation Speed",
     "temperatureOptics": "Grease Temperatur",
     "temperatureOptics_1": "Grease Temperatur 1",
@@ -139,8 +138,7 @@
     "lsp13Strain": "Load Sense Pin 13 (Rotor)",
     "lsp14Strain": "Load Sense Pin 14 (Generator)",
     "lsp15Strain": "Load Sense Pin 15 (Rotor)",
-    "lsp16Strain": "Load Sense Pin 16 (Generator)",
-    "rsmShaftSpeed": "Rotor Rotation Speed"
+    "lsp16Strain": "Load Sense Pin 16 (Generator)"
   },
   "maintenanceAssessment": {
     "deterioration": "Deterioration",
@@ -153,6 +151,7 @@
       "title": "Grease Status Overview"
     },
     "greaseMonitor": "Grease Monitor",
+    "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
     "rsmShaftSpeed": "Rotor Rotation Speed",
     "temperatureOptics": "Grease Temperatur",
     "temperatureOptics_1": "Grease Temperatur 1",

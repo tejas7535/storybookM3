@@ -1,4 +1,5 @@
 import { EdmStatus } from '../../reducers/edm-monitor/models';
+import { initialState } from '../../reducers/shaft/shaft.reducer';
 import { getAnalysisGraphDataM } from './maintenance-assessment.selector';
 
 describe('Load Sense Selector', () => {
@@ -25,6 +26,27 @@ describe('Load Sense Selector', () => {
           gcm02TemperatureOptics: 33.333,
           gcm02Deterioration: 22,
           gcm02WaterContent: 11.111,
+        },
+        loading: false,
+      },
+    },
+    shaft: {
+      ...initialState,
+      result: [
+        {
+          deviceId: 'fakedeviceid',
+          timestamp: '2020-11-12T18:31:56.954003Z',
+          rsm01ShaftSpeed: 3,
+          rsm01Shaftcountervalue: 666,
+        },
+      ],
+      loading: false,
+      status: {
+        result: {
+          deviceId: 'fakedeviceid',
+          timestamp: '2020-11-12T18:31:56.954003Z',
+          rsm01ShaftSpeed: 3,
+          rsm01Shaftcountervalue: 666,
         },
         loading: false,
       },

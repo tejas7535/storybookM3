@@ -2,12 +2,6 @@ import { Control, Type, Unit } from '../models';
 
 export const LOAD_ASSESSMENT_CONTROLS: Control[] = [
   {
-    label: 'rsmShaftSpeed',
-    formControl: 'rsmShaftSpeed',
-    unit: Unit.rotationSpeed,
-    type: Type.rsm,
-  },
-  {
     label: 'centerLoadFx',
     formControl: 'centerLoadFx',
     unit: Unit.load,

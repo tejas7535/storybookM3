@@ -10,6 +10,8 @@ import { Interval } from '../../reducers/shared/models';
 import { EChartsOption } from 'echarts';
 import { getEdmResult } from '../edm-monitor/edm-monitor.selector';
 import { EdmStatus } from '../../reducers/edm-monitor/models';
+import { getShaftResult } from '../shaft/shaft.selector';
+import { ShaftStatus } from '../../reducers/shaft/models';
 
 type DisplayOption = [any, boolean];
 
@@ -26,10 +28,12 @@ export const getMaintenanceAssessmentInterval = createSelector(
 export const getAnalysisGraphDataM = createSelector(
   getGreaseStatusResult,
   getEdmResult,
+  getShaftResult,
   getMaintenanceAssessmentDisplay,
   (
     gcmStatus: GcmStatus[],
     edm: EdmStatus[],
+    shaftStatus: ShaftStatus[],
     display: MaintenanceAssessmentDisplay | any
   ): EChartsOption => {
     const result = gcmStatus && {
@@ -49,6 +53,7 @@ export const getAnalysisGraphDataM = createSelector(
             {
               gcmStatus,
               edm,
+              shaftStatus,
             }
           ).getData()
         ),

@@ -17,7 +17,6 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
 import {
-  getEdm,
   getEdmFailure,
   getEdmMainteance,
   getEdmSuccess,
@@ -25,11 +24,16 @@ import {
   getGreaseStatusFailure,
   getGreaseStatusSuccess,
   getMaintenanceAssessmentId,
+  getShaft,
+  getShaftFailure,
+  getShaftSuccess,
   setMaintenanceAssessmentInterval,
 } from '../../actions';
 import { of } from 'rxjs';
 import { Interval } from '../../reducers/shared/models';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
+import { getLoadAssessmentInterval } from '../..';
+import { actionInterval } from '../utils';
 
 @Injectable()
 export class MaintenanceAssessmentEffects {
@@ -95,6 +99,23 @@ export class MaintenanceAssessmentEffects {
       )
     );
   });
+
+  /**
+   * Load Shaft
+   */
+  shaft$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getShaft),
+      withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
+      map(actionInterval()),
+      mergeMap((deviceId) =>
+        this.restService.getShaft(deviceId).pipe(
+          map((shaft) => getShaftSuccess({ shaft })),
+          catchError((_e) => of(getShaftFailure()))
+        )
+      )
+    );
+  });
   /**
    * Load Load Maintenance Id
    */
@@ -108,6 +129,7 @@ export class MaintenanceAssessmentEffects {
       mergeMap(({ deviceId }) => [
         getGreaseStatus({ deviceId }),
         getEdmMainteance({ deviceId }),
+        getShaft({ deviceId }),
       ])
     );
   });

@@ -8,10 +8,8 @@ import { LoadAssessmentState } from '../../reducers/load-assessment/load-assessm
 import { getCenterLoadResult } from '../../selectors/center-load/center-load.selector';
 import { LoadAssessmentDisplay } from '../../reducers/load-assessment/models';
 import { LoadSense } from '../../reducers/load-sense/models';
-import { ShaftStatus } from '../../reducers/shaft/models';
 import { Interval } from '../../reducers/shared/models';
 import { getBearingLoadResult } from '../load-sense/load-sense.selector';
-import { getShaftResult } from '../shaft/shaft.selector';
 import { EChartsOption } from 'echarts';
 type GreaseDisplayKeys = keyof LoadAssessmentDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
@@ -27,12 +25,10 @@ export const getLoadAssessmentInterval = createSelector(
 );
 
 export const getAnalysisGraphData = createSelector(
-  getShaftResult,
   getBearingLoadResult,
   getCenterLoadResult,
   getLoadAssessmentDisplay,
   (
-    shaftStatus: ShaftStatus[],
     bearingLoad: LoadSense[],
     centerLoad: CenterLoadStatus[],
     display: LoadAssessmentDisplay
@@ -48,7 +44,6 @@ export const getAnalysisGraphData = createSelector(
         .map(([key, value]) => [key, value] as DisplayOption)
         .map(([key, value]: DisplayOption) =>
           new DataToChartSeriesConverter(key, value, LOAD_ASSESSMENT_CONTROLS, {
-            shaftStatus,
             bearingLoad,
             centerLoad,
           }).getData()

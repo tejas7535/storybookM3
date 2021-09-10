@@ -14,7 +14,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { IotParams, RestService } from '../../../http/rest.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getLoadAssessmentId,
   setLoadAssessmentInterval,
@@ -27,11 +27,6 @@ import {
   getLoadAverageFailure,
   getLoadAverageSuccess,
 } from '../../actions/load-sense/load-sense.actions';
-import {
-  getShaft,
-  getShaftFailure,
-  getShaftSuccess,
-} from '../../actions/shaft/shaft.actions';
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getLoadAssessmentInterval } from '../../selectors/load-assessment/load-assessment.selector';
@@ -40,7 +35,7 @@ import {
   getCenterLoadFailure,
   getCenterLoadSuccess,
 } from '../../actions';
-
+import { actionInterval } from '../utils';
 @Injectable()
 export class LoadAssessmentEffects {
   router$ = createEffect(() => {
@@ -83,7 +78,6 @@ export class LoadAssessmentEffects {
         getLoadAverage({ deviceId }),
         getCenterLoad({ deviceId }),
         getBearingLoad({ deviceId }),
-        getShaft({ deviceId }),
       ])
     );
   });
@@ -103,23 +97,6 @@ export class LoadAssessmentEffects {
         this.restService.getBearingLoad(greaseParams).pipe(
           map((bearingLoad) => getBearingLoadSuccess({ bearingLoad })),
           catchError((_e) => of(getBearingLoadFailure()))
-        )
-      )
-    );
-  });
-
-  /**
-   * Load Shaft
-   */
-  shaft$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getShaft),
-      withLatestFrom(this.store.select(getLoadAssessmentInterval)),
-      map(actionInterval()),
-      mergeMap((deviceId) =>
-        this.restService.getShaft(deviceId).pipe(
-          map((shaft) => getShaftSuccess({ shaft })),
-          catchError((_e) => of(getShaftFailure()))
         )
       )
     );
@@ -158,17 +135,4 @@ export class LoadAssessmentEffects {
     private readonly restService: RestService,
     private readonly store: Store
   ) {}
-}
-
-/**
- * helper funtion for interval actions to reduce complexity above
- */
-function actionInterval(): (
-  value: [any, Interval],
-  index: number
-) => IotParams {
-  return ([action, interval]: [any, Interval]) => ({
-    id: action.deviceId,
-    ...interval,
-  });
 }

@@ -11,12 +11,16 @@ import {
   getGreaseStatus,
   getGreaseStatusSuccess,
   setMaintenanceAssessmentInterval,
+  getShaft,
+  getShaftSuccess,
+  getEdmMainteance,
 } from '../..';
 import { RestService } from '../../../http/rest.service';
 import { GcmStatus } from '../../reducers/grease-status/models';
 import * as fromRouter from '../../reducers';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import { ShaftStatus } from '../../reducers/shaft/models';
 
 describe('MaintenanceAssessmentEffects', () => {
   let spectator: SpectatorService<MaintenanceAssessmentEffects>;
@@ -40,6 +44,7 @@ describe('MaintenanceAssessmentEffects', () => {
         useValue: {
           getGreaseStatus: jest.fn(),
           getBearingLoad: jest.fn(),
+          getShaft: jest.fn(),
         },
       },
     ],
@@ -80,6 +85,23 @@ describe('MaintenanceAssessmentEffects', () => {
       })
     );
   });
+  describe('loadAssessmentId$', () => {
+    it(
+      'should return many actions',
+      marbles((m) => {
+        action = getMaintenanceAssessmentId();
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bcd)', {
+          b: getGreaseStatus({ deviceId }),
+          c: getEdmMainteance({ deviceId }),
+          d: getShaft({ deviceId }),
+        });
+
+        m.expect(effects.maintenanceAssessmentId$).toBeObservable(expected);
+      })
+    );
+  });
   describe('setMaintenanceAssessmentInterval$', () => {
     it(
       'should return return setMaintenanceAssessmentInterval',
@@ -98,6 +120,48 @@ describe('MaintenanceAssessmentEffects', () => {
         });
 
         m.expect(effects.interval$).toBeObservable(expected);
+      })
+    );
+  });
+  describe('shaft$', () => {
+    beforeEach(() => {
+      action = getShaft({ deviceId });
+    });
+
+    it(
+      'should return getShaftSuccess action when REST call is successful',
+      marbles((m) => {
+        const SHAFT_MOCK: ShaftStatus[] = [
+          {
+            deviceId: 'fakedeviceid',
+            timestamp: '2020-11-12T18:31:56.954003Z',
+            rsm01ShaftSpeed: 3,
+            rsm01Shaftcountervalue: 666,
+          },
+        ];
+
+        const result = getShaftSuccess({
+          shaft: SHAFT_MOCK,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: SHAFT_MOCK,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        restService.getShaft = jest.fn(() => response);
+
+        m.expect(effects.shaft$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getShaft).toHaveBeenCalledTimes(1);
+        expect(restService.getShaft).toHaveBeenCalledWith({
+          id: deviceId,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
+        });
       })
     );
   });

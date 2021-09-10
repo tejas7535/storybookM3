@@ -40,13 +40,6 @@ export class LoadAssessmentComponent
       formControl: new FormControl(''),
       indeterminate: false,
     },
-
-    {
-      name: 'rotorRotationSpeedMonitor',
-      children: this.checkBoxes.filter(({ type }) => type === Type.rsm),
-      formControl: new FormControl(''),
-      indeterminate: false,
-    },
   ];
 
   loading$: Observable<boolean>;
