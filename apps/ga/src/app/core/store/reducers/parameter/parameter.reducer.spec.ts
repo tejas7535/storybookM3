@@ -38,7 +38,7 @@ describe('Parameter Reducer', () => {
         environment: {
           operatingTemperature: 170,
           environmentTemperature: 120,
-          environmentImpact: 'much',
+          environmentImpact: 1,
         },
         greaseEnabled: true,
         grease: {

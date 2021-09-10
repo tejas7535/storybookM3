@@ -20,7 +20,7 @@ export interface FullParameterState {
   environment: {
     operatingTemperature: number;
     environmentTemperature: number;
-    environmentImpact: string;
+    environmentImpact: number;
   };
   greaseEnabled: boolean;
   grease: {
@@ -53,7 +53,7 @@ export const initialState: ParameterState = {
   environment: {
     operatingTemperature: 70,
     environmentTemperature: 20,
-    environmentImpact: undefined,
+    environmentImpact: 0.8,
   },
   greaseEnabled: false,
   grease: {

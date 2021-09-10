@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'ga-select',
   templateUrl: './select.component.html',
+  styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent {
   @Input() public control: FormControl;
@@ -11,4 +12,5 @@ export class SelectComponent {
   @Input() public hint?: string;
   @Input() public label?: string;
   @Input() public options: any[] = [];
+  @Input() public customErrors?: { name: string; message: string }[];
 }

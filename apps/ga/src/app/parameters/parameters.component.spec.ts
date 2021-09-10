@@ -1,4 +1,4 @@
-import { Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -91,18 +91,22 @@ describe('ParametersComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         patchParameters({
           parameters: {
+            environment: {
+              environmentImpact: 0.8,
+              environmentTemperature: 20,
+              operatingTemperature: 70,
+            },
             loads: {
               axial: 0,
               radial: 500,
+              exact: true,
+              loadRatio: undefined,
             },
             movements: {
               type: Movement.rotating,
-              // eslint-disable-next-line unicorn/no-null
-              rotationalSpeed: null,
-              // eslint-disable-next-line unicorn/no-null
-              shiftFrequency: null,
-              // eslint-disable-next-line unicorn/no-null
-              shiftAngle: null,
+              rotationalSpeed: undefined,
+              shiftFrequency: undefined,
+              shiftAngle: undefined,
             },
             valid: false,
           },
@@ -116,17 +120,22 @@ describe('ParametersComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         patchParameters({
           parameters: {
+            environment: {
+              environmentImpact: 0.8,
+              environmentTemperature: 20,
+              operatingTemperature: 70,
+            },
             loads: {
               radial: 0,
               axial: 0,
+              exact: true,
+              loadRatio: undefined,
             },
             movements: {
               type: Movement.rotating,
               rotationalSpeed: 1,
-              // eslint-disable-next-line unicorn/no-null
-              shiftFrequency: null,
-              // eslint-disable-next-line unicorn/no-null
-              shiftAngle: null,
+              shiftFrequency: undefined,
+              shiftAngle: undefined,
             },
             valid: true,
           },
@@ -229,6 +238,25 @@ describe('ParametersComponent', () => {
       component.navigateBack();
 
       expect(store.dispatch).toHaveBeenCalledWith(previousStep());
+    });
+  });
+
+  describe('operatingTemperatureValidator', () => {
+    it('should return the error if operatingTemperature < environmentTemperature', () => {
+      const mockControl = new FormControl(10);
+
+      const result = component['operatingTemperatureValidator']()(mockControl);
+
+      expect(result).toEqual({
+        lowerThanEnvironmentTemperature: true,
+      });
+    });
+    it('should return undefined if operatingTemperature < environmentTemperature', () => {
+      const mockControl = new FormControl(70);
+
+      const result = component['operatingTemperatureValidator']()(mockControl);
+
+      expect(result).toEqual(undefined);
     });
   });
 });

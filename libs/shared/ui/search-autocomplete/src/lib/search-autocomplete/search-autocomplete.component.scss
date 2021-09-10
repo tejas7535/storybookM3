@@ -71,6 +71,14 @@
   }
 }
 
-::ng-deep .mat-form-field-label {
-  color: rgba(0, 0, 0, 0.38) !important;
+::ng-deep
+  schaeffler-search-autocomplete
+  .mat-form-field-label.mat-form-field-empty {
+  color: rgba(0, 0, 0, 0.38);
+}
+::ng-deep
+  schaeffler-search-autocomplete
+  .mat-form-field.mat-focused
+  .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.38);
 }

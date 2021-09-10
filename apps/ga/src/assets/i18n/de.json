@@ -37,17 +37,22 @@
     "shiftFrequency": "Schwenkfrequenz",
     "shiftAngle": "Schwenkwinkel",
     "degree": "°",
-    "otherInfluences": "Andere Einflüsse",
+    "otherInfluences": "Weitere Randbedingungen",
     "operatingTemperature": "Betriebstemperatur",
     "environmentTemperature": "Umgebungstemperatur",
     "environmentalImpactOnGreaseDuration": "Umgebungseinfluss auf Fettgebrauchsdauer",
+    "low": "gering",
+    "moderate": "mittel",
+    "high": "stark",
+    "degreeCelsius": "°C",
     "greaseSelection": "Fettauswahl",
     "selectGrease": "Fett auswählen",
     "showResults": "Ergebnisse anzeigen",
     "errors": {
       "min": "Der eingegebene Wert ist zu niedrig",
       "max": "Der eingegebene Wert ist zu hoch",
-      "required": "Dieses Feld ist eine Pflichteingabe"
+      "required": "Dieses Feld ist eine Pflichteingabe",
+      "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur"
     }
   },
   "settings": {

@@ -1,17 +1,32 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { getParameterState } from '../core/store';
 import { patchParameters } from './../core/store/actions/parameters/parameters.action';
 import { previousStep } from './../core/store/actions/settings/settings.action';
-import { ParameterState } from './../core/store/reducers/parameter/parameter.reducer';
+import {
+  initialState,
+  ParameterState,
+} from './../core/store/reducers/parameter/parameter.reducer';
 import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
-import { getSelectedMovementType } from './../core/store/selectors/parameter/parameter.selector';
+import {
+  getEnvironmentTemperatures,
+  getLoadsInputType,
+  getSelectedMovementType,
+} from './../core/store/selectors/parameter/parameter.selector';
+import { EnvironmentImpact } from './../shared/models/parameters/environment-impact.model';
 import { Movement } from './../shared/models/parameters/movement.model';
 
 @Component({
@@ -31,10 +46,16 @@ export class ParametersComponent implements OnInit, OnDestroy {
     Validators.min(0),
     Validators.required,
   ]);
+  // TODO: fill with values
+  public exact = new FormControl(true);
+  public loadRatio = new FormControl();
+  public loadRatioOptions: any[] = [];
 
   public loadsForm = new FormGroup({
     radial: this.radial,
     axial: this.axial,
+    exact: this.exact,
+    loadRatio: this.loadRatio,
   });
 
   public type = new FormControl(Movement.rotating, [Validators.required]);
@@ -70,13 +91,60 @@ export class ParametersComponent implements OnInit, OnDestroy {
     shiftAngle: this.shiftAngle,
   });
 
+  public environmentTemperature = new FormControl(20, [
+    Validators.required,
+    Validators.max(300),
+    Validators.min(-100),
+  ]);
+
+  public operatingTemperature = new FormControl(70, [
+    Validators.required,
+    Validators.max(230),
+    Validators.min(-40),
+    this.operatingTemperatureValidator(),
+  ]);
+  public operatingTemperatureErrors: { name: string; message: string }[] = [
+    {
+      name: 'lowerThanEnvironmentTemperature',
+      message: 'lowerThanEnvironmentTemperature',
+    },
+  ];
+
+  public environmentImpact = new FormControl(0.8, [Validators.required]);
+  public environmentImpactOptions: any[] = [
+    {
+      id: EnvironmentImpact.low,
+      value: 1,
+      text: translate('parameters.low'),
+    },
+    {
+      id: EnvironmentImpact.moderate,
+      value: 0.8,
+      text: translate('parameters.moderate'),
+      default: true,
+    },
+    {
+      id: EnvironmentImpact.high,
+      value: 0.5,
+      text: translate('parameters.high'),
+    },
+  ];
+
+  public environmentForm = new FormGroup({
+    operatingTemperature: this.operatingTemperature,
+    environmentTemperature: this.environmentTemperature,
+    environmentImpact: this.environmentImpact,
+  });
+
   form = new FormGroup({
     loads: this.loadsForm,
     movements: this.movementsForm,
+    environment: this.environmentForm,
   });
 
   public selectedBearing$: Observable<string>;
   public selectedMovementType$: Observable<string>;
+  public loadsInputType$: Observable<boolean>;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -85,6 +153,18 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedMovementType$ = this.store.select(getSelectedMovementType);
+    this.loadsInputType$ = this.store.select(getLoadsInputType);
+
+    this.store
+      .select(getParameterState)
+      .pipe(take(1))
+      .subscribe((value: ParameterState) => {
+        if (value !== initialState) {
+          this.form.patchValue(value, { onlySelf: false, emitEvent: true });
+          this.form.markAllAsTouched();
+          this.form.updateValueAndValidity({ emitEvent: true });
+        }
+      });
 
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -94,6 +174,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
             parameters: { ...formValue, valid: this.form.valid },
           })
         );
+        this.form.updateValueAndValidity({ emitEvent: false });
       });
 
     this.selectedMovementType$
@@ -112,6 +193,13 @@ export class ParametersComponent implements OnInit, OnDestroy {
         this.shiftFrequency.updateValueAndValidity();
         this.shiftAngle.updateValueAndValidity();
       });
+
+    this.store
+      .select(getEnvironmentTemperatures)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.operatingTemperature.updateValueAndValidity({ emitEvent: false });
+      });
   }
 
   public ngOnDestroy(): void {
@@ -121,5 +209,21 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   public navigateBack(): void {
     this.store.dispatch(previousStep());
+  }
+
+  private operatingTemperatureValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (
+        control.value &&
+        this.environmentTemperature.value &&
+        control.value < this.environmentTemperature.value
+      ) {
+        return {
+          lowerThanEnvironmentTemperature: true,
+        };
+      }
+
+      return undefined;
+    };
   }
 }

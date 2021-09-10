@@ -41,13 +41,18 @@
     "operatingTemperature": "Operating temperature",
     "environmentTemperature": "Environment temperature",
     "environmentalImpactOnGreaseDuration": "Environmental impact on grease usage duration",
+    "low": "low",
+    "moderate": "moderate",
+    "high": "high",
+    "degreeCelsius": "°C",
     "greaseSelection": "Grease selection",
     "selectGrease": "Select grease",
     "showResults": "Show results",
     "errors": {
       "min": "The value is too low",
       "max": "The value is too high",
-      "required": "This field is required"
+      "required": "This field is required",
+      "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature"
     }
   },
   "settings": {

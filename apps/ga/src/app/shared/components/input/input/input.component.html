@@ -4,13 +4,14 @@
 >
   <mat-form-field
     appearance="outline"
-    class="flex-grow flex flex-row"
+    class="flex-grow flex flex-row pb-4"
     floatLabel="always"
+    [ngClass]="control.touched && control.errors ? 'pb-[3px]' : 'pb-4'"
   >
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <input
       matInput
-      [type]="type"
+      type="number"
       [formControl]="control"
       [placeholder]="placeholder"
     />
@@ -23,6 +24,11 @@
     <mat-error *ngIf="control.hasError('required')">{{
       t('required')
     }}</mat-error>
+    <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
+      <mat-error *ngIf="control.hasError(error.name)">{{
+        t(error.message)
+      }}</mat-error>
+    </ng-container>
   </mat-form-field>
   <mat-icon color="primary">info_outline</mat-icon>
 </div>
