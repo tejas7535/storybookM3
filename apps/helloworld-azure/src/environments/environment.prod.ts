@@ -1,5 +1,4 @@
 export const environment = {
-  apiBaseUrl: '',
   production: true,
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   clientId: '7421bc7b-30e5-4660-aac6-fb9382b3c365',

@@ -8,7 +8,6 @@ import { of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { environment } from '../environments/environment';
 import { GreetingService } from './greeting.service';
 
 describe('GreetingService', () => {
@@ -61,16 +60,14 @@ describe('GreetingService', () => {
     test('should return greeting message', (done) => {
       const mockResponse = { greeting: 'Hello, World' };
 
-      service['getGreetingFromAPI'](
-        `${environment.apiBaseUrl}/admin/api/hello`
-      ).subscribe((response) => {
-        expect(response).toEqual('Hello, World');
-        done();
-      });
-
-      const call = backend.expectOne(
-        `${environment.apiBaseUrl}/admin/api/hello`
+      service['getGreetingFromAPI'](`/admin/api/hello`).subscribe(
+        (response) => {
+          expect(response).toEqual('Hello, World');
+          done();
+        }
       );
+
+      const call = backend.expectOne(`/admin/api/hello`);
 
       call.flush(mockResponse);
     });
@@ -81,16 +78,12 @@ describe('GreetingService', () => {
         .mockImplementation(() => of('test'));
       const mockErrorResponse = { message: 'failed' };
 
-      service['getGreetingFromAPI'](
-        `${environment.apiBaseUrl}/admin/api/hello`
-      ).subscribe((_) => {
+      service['getGreetingFromAPI'](`/admin/api/hello`).subscribe((_) => {
         expect(GreetingService['handleError']).toHaveBeenCalledTimes(1);
         done();
       });
 
-      const call = backend.expectOne(
-        `${environment.apiBaseUrl}/admin/api/hello`
-      );
+      const call = backend.expectOne(`/admin/api/hello`);
 
       call.flush(
         { message: mockErrorResponse.message },

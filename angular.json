@@ -818,6 +818,7 @@
           },
           "configurations": {
             "local": {
+              "proxyConfig": "apps/helloworld-azure/proxy.conf.js",
               "browserTarget": "helloworld-azure:build:local"
             },
             "dev": {
