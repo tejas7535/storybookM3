@@ -842,6 +842,7 @@ pipeline {
                         script {
                             // Checkout gh-pages branch and clean folder
                             executeAsGithubUser('github-jenkins-access-token','git fetch --all')
+                            sh "git checkout -- ."
                             sh "git checkout gh-pages"
                             sh "rm -rf *"
 
