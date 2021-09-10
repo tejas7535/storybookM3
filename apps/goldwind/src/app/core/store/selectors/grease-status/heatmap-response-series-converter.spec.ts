@@ -7,7 +7,7 @@ import { HeatmapResponseConvert } from './heatmap-response-series-converter';
 describe('HeatmapDataConverter', () => {
   const data: GCMHeatmapEntry[] = [
     {
-      timeStamp: '2021-04-01T08:52:23.001Z',
+      timestamp: '2021-04-01T08:52:23.001Z',
       gcm01DeteriorationMaxClassification: GCMHeatmapClassification.ERROR,
       gcm01DeteriorationMax: 0,
       gcm01WaterContentMaxClassification: GCMHeatmapClassification.ERROR,
@@ -22,7 +22,7 @@ describe('HeatmapDataConverter', () => {
       gcm02TemperatureOpticsMax: 0,
     },
     {
-      timeStamp: '2021-01-09T08:52:23.001Z',
+      timestamp: '2021-01-09T08:52:23.001Z',
       gcm01DeteriorationMaxClassification: GCMHeatmapClassification.WARNING,
       gcm01DeteriorationMax: 0,
       gcm01WaterContentMaxClassification: GCMHeatmapClassification.WARNING,
@@ -37,7 +37,7 @@ describe('HeatmapDataConverter', () => {
       gcm02TemperatureOpticsMax: 0,
     },
     {
-      timeStamp: '2021-08-01T08:52:23.001Z',
+      timestamp: '2021-08-01T08:52:23.001Z',
       gcm01DeteriorationMaxClassification: GCMHeatmapClassification.OKAY,
       gcm01DeteriorationMax: 0,
       gcm01WaterContentMaxClassification: GCMHeatmapClassification.OKAY,
@@ -52,10 +52,10 @@ describe('HeatmapDataConverter', () => {
       gcm02TemperatureOpticsMax: 0,
     },
     {
-      timeStamp: 'mess-12-01T08:52:23.001Z',
+      timestamp: 'mess-12-01T08:52:23.001Z',
     } as GCMHeatmapEntry,
     {
-      timeStamp: '2021-12-01T08:52:23.001Z',
+      timestamp: '2021-12-01T08:52:23.001Z',
       gcm01DeteriorationMaxClassification: GCMHeatmapClassification.OKAY,
       gcm01DeteriorationMax: 0,
       gcm01WaterContentMaxClassification: GCMHeatmapClassification.OKAY,
@@ -118,7 +118,7 @@ describe('HeatmapDataConverter', () => {
   });
 
   describe('get year', () => {
-    it('return a year from passed timeStamp', () => {
+    it('return a year from passed timestamp', () => {
       instance = new HeatmapResponseConvert(data);
       expect(instance.year).toBe(2021);
     });

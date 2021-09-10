@@ -1,5 +1,5 @@
 export interface GCMHeatmapEntry {
-  timeStamp: string;
+  timestamp: string;
   gcm01TemperatureOpticsMax: number;
   gcm01TemperatureOpticsMaxClassification: GCMHeatmapClassification;
   gcm01DeteriorationMax: number;

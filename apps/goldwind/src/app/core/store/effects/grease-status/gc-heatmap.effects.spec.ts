@@ -137,7 +137,7 @@ describe('HeatmapStatusEffects', () => {
       marbles((m) => {
         const gcmheatmap: GCMHeatmapEntry[] = [
           {
-            timeStamp: Date.now().toLocaleString(),
+            timestamp: Date.now().toLocaleString(),
             gcm01DeteriorationMaxClassification: GCMHeatmapClassification.ERROR,
             gcm01DeteriorationMax: 0,
             gcm01WaterContentMaxClassification: GCMHeatmapClassification.ERROR,
