@@ -138,7 +138,8 @@
     "lsp13Strain": "Load Sense Pin 13 (Rotor)",
     "lsp14Strain": "Load Sense Pin 14 (Generator)",
     "lsp15Strain": "Load Sense Pin 15 (Rotor)",
-    "lsp16Strain": "Load Sense Pin 16 (Generator)"
+    "lsp16Strain": "Load Sense Pin 16 (Generator)",
+    "title": "Bearing Load Run Chart"
   },
   "maintenanceAssessment": {
     "deterioration": "Deterioration",

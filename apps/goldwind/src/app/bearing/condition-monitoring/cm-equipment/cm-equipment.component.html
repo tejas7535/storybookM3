@@ -24,9 +24,7 @@
           <ng-template mat-tab-label>
             <mat-icon
               svgIcon="icon-bearing"
-              [ngClass]="
-                greaseTab.isActive && 'fill-current stroke-current text-primary'
-              "
+              [ngClass]="greaseTab.isActive && 'text-primary'"
             ></mat-icon>
           </ng-template>
           <ng-template matTabContent>
@@ -78,9 +76,7 @@
           <ng-template mat-tab-label>
             <mat-icon
               svgIcon="icon-load"
-              [ngClass]="
-                loadTab.isActive && 'fill-current stroke-current text-primary'
-              "
+              [ngClass]="loadTab.isActive && 'text-primary'"
             ></mat-icon>
           </ng-template>
           <ng-template matTabContent>
@@ -108,9 +104,7 @@
           <ng-template mat-tab-label>
             <mat-icon
               svgIcon="icon-vibration"
-              [ngClass]="
-                edmTab.isActive && 'stroke-current stroke-1 text-primary'
-              "
+              [ngClass]="edmTab.isActive && 'text-primary'"
             ></mat-icon>
           </ng-template>
           <ng-template matTabContent>
@@ -138,8 +132,7 @@
 
         <mat-tab #routerTab>
           <ng-template mat-tab-label>
-            <mat-icon
-              [ngClass]="routerTab.isActive && 'stroke-current text-primary'"
+            <mat-icon [ngClass]="routerTab.isActive && 'text-primary'"
               >router</mat-icon
             >
           </ng-template>
