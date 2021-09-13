@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.3.0...cdba-v2.2.0) (2021-09-13)
+
+
+### 🐛 Bug Fixes
+
+* **styles:** switch theme color names "warn" and "accent" ([#2866](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2866)) ([8918afc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8918afcd5a3561f19abc86d84d232961c234c81b))
+
+
+### 🎸 Features
+
+* **cdba:** implement "locale selection" feature (DSCDA-2698) ([9d364bd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d364bd2a504b8107453b6f4189ad0ef35cd38bb))
+
 ## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.2.0...cdba-v2.1.1) (2021-09-06)
 
 
