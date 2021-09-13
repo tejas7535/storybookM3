@@ -10,6 +10,7 @@ import {
   TranslocoModule,
   TranslocoService,
 } from '@ngneat/transloco';
+import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
 
 import {
   DEFAULT_LANGUAGE,
@@ -47,8 +48,22 @@ export const preLoad = {
  *
  */
 @NgModule({
-  imports: [CommonModule, TranslocoModule],
-  exports: [TranslocoModule],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    TranslocoLocaleModule.init({
+      localeConfig: {
+        global: {
+          date: {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          },
+        },
+      },
+    }),
+  ],
+  exports: [TranslocoModule, TranslocoLocaleModule],
 })
 export class SharedTranslocoModule {
   public static forRoot(

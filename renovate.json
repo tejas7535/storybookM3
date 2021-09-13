@@ -108,6 +108,7 @@
         "@ngneat/transloco",
         "@ngneat/transloco-persist-lang",
         "@ngneat/transloco-keys-manager",
+        "@ngneat/transloco-locale",
         "@ngneat/transloco-optimize",
         "@ngneat/transloco-validator"
       ],
