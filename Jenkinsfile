@@ -159,7 +159,7 @@ void setGitUser() {
     sh 'git config user.name "Sir Henry"'
 }
 
-def getPackageVersion(app) {
+def getPackageVersion(app = null) {
     def file = app ? "apps/${app}/package.json" : 'package.json'
     def packageJSON = readJSON file: file
 
