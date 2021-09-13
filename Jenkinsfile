@@ -159,14 +159,9 @@ void setGitUser() {
     sh 'git config user.name "Sir Henry"'
 }
 
-def getPackageVersion() {
-    def packageJSON
-
-    if (isAppRelease()) {
-        packageJSON = readJSON file: "apps/${env.RELEASE_SCOPE}/package.json"
-    } else {
-        packageJSON = readJSON file: 'package.json'
-    }
+def getPackageVersion(app) {
+    def file = app ? "apps/${app}/package.json" : 'package.json'
+    def packageJSON = readJSON file: file
 
     return packageJSON.version
 }
@@ -698,14 +693,13 @@ pipeline {
                                     returnStdout: true
                                 ).trim()
 
-                                if (isAppRelease()) {
-                                    def version = getPackageVersion()
-                                    target1 = "${artifactoryBasePath}/${app}/latest.zip"
+                                if (isAppRelease()) { 
+                                    def version = getPackageVersion(app)
 
+                                    target1 = "${artifactoryBasePath}/${app}/latest.zip"
                                     deployArtifact(target1, uploadFile, checksum)
 
                                     target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
-
                                     deployArtifact(target2, uploadFile, checksum)
                                 } else if (isMaster()) {
                                     target = "${artifactoryBasePath}/${app}/next.zip"
@@ -769,7 +763,7 @@ pipeline {
             post {
                 success {
                     script {
-                        def version = getPackageVersion()
+                        def version = isAppRelease() ? getPackageVersion(env.RELEASE_SCOPE) : getPackageVersion()
                         currentBuild.description = "Version: ${version}"
                     }
                 }
@@ -807,7 +801,7 @@ pipeline {
                             for (app in appsToBuild) {
                                 def url = deployments[app]
 
-                                def version = getPackageVersion()
+                                def version = getPackageVersion(app)
                                 def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
 
                                 // prod/release = latest, master = next, feature build = branch name
