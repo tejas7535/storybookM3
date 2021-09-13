@@ -114,3 +114,13 @@ label {
 .mat-tree-node {
   min-height: 32px !important;
 }
+
+// Solution the match contain in the view
+// calculate the height by subtracting the header and the footer from the viewport
+.header-content {
+  height: calc(100vh - 60px - 48px);
+
+  .site-content {
+    min-height: calc(100vh - 60px - 48px);
+  }
+}

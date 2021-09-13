@@ -17,7 +17,7 @@ import { CALENDAR_OPTIONS } from './config';
 })
 export class GcmHeatmapCardComponent {
   loading$: Observable<boolean>;
-  private readonly CalGap = 120;
+  private readonly CalGap = (window.innerHeight / 100) * 3;
 
   chartOptions: EChartsOption = {
     visualMap: {
@@ -50,22 +50,22 @@ export class GcmHeatmapCardComponent {
     calendar: [
       {
         ...CALENDAR_OPTIONS,
-        top: 50,
+        top: this.CalGap * 4,
         range: ['2021-01-01', '2021-03-31'],
       },
       {
         ...CALENDAR_OPTIONS,
-        top: 50 + this.CalGap,
+        top: this.CalGap * 8,
         range: ['2021-04-01', '2021-06-30'],
       },
       {
         ...CALENDAR_OPTIONS,
-        top: 50 + this.CalGap * 2,
+        top: this.CalGap * 12,
         range: ['2021-07-01', '2021-09-30'],
       },
       {
         ...CALENDAR_OPTIONS,
-        top: 50 + this.CalGap * 3,
+        top: this.CalGap * 16,
         range: ['2021-10-01', '2021-12-31'],
       },
     ],

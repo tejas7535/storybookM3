@@ -1,7 +1,7 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.centerLoad'"
-    class="flex-col"
+    class="flex flex-col h-full"
   >
     <mat-card-header>
       <mat-card-title class="flex items-center justify-center">
@@ -15,18 +15,18 @@
         >
       </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content class="flex-col space-between items-end">
+    <mat-card-content class="h-full flex flex-col justify-center">
       <div
-        class="flex"
+        class="flex h-full w-full"
         echarts
         [options]="chartOptions"
         [merge]="loadSenseGraphData$ | ngrxPush"
-        class="dashboard-echart center-load-chart"
+        class="dashboard-echart center-load-chart h-5/6 w-full"
       ></div>
     </mat-card-content>
   </mat-card>
 </ng-container>
 
 <ng-template #loading>
-  <mat-card class="placeholder-item"></mat-card>
+  <mat-card class="h-full placeholder-item"></mat-card>
 </ng-template>

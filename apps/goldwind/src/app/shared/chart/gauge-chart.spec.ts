@@ -81,7 +81,20 @@ describe('GaugeChart', () => {
           min: 0,
           max: 100,
           name: 'tst',
-          thresholds,
+          thresholds: [
+            {
+              value: 0,
+              color: GaugeColors.GREEN,
+            },
+            {
+              value: 80,
+              color: GaugeColors.YELLOW,
+            },
+            {
+              value: 100,
+              color: GaugeColors.RED,
+            },
+          ],
         });
 
         const inner = (config.series as GaugeSeriesOption[]).find(
@@ -94,25 +107,36 @@ describe('GaugeChart', () => {
         );
       });
 
-      test('set the progress color according to the threshold - red', () => {
-        const value = 26;
+      it('set the progress color according to the threshold - red', () => {
+        const value = 90;
         happyGauge = new GaugeEchartConfig({
           value,
           min: 0,
           max: 100,
           name: 'tst',
-          thresholds,
+          thresholds: [
+            {
+              value: 0,
+              color: GaugeColors.GREEN,
+            },
+            {
+              value: 80,
+              color: GaugeColors.YELLOW,
+            },
+            {
+              value: 100,
+              color: GaugeColors.RED,
+            },
+          ],
+          reverse: false,
         });
         config = happyGauge.extandedSeries();
-
         const inner = (config.series as GaugeSeriesOption[]).find(
-          (i) =>
-            i.progress && i.progress.itemStyle && i.progress.itemStyle.color
+          ({ progress }) =>
+            progress && progress.itemStyle && progress.itemStyle.color
         );
 
-        expect(inner.progress.itemStyle.color.toString()).toBe(
-          GaugeColors.YELLOW
-        );
+        expect(inner.progress.itemStyle.color.toString()).toBe(GaugeColors.RED);
       });
     });
   });

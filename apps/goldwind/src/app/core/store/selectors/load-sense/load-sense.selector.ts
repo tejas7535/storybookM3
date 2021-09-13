@@ -31,7 +31,7 @@ export const getBearingLoadLatestResult = createSelector(
 
 export const getLoadAverageResult = createSelector(
   getBearingLoadState,
-  (state: BearingLoadState) => state.averageResult.result
+  (state: BearingLoadState) => state?.averageResult.result
 );
 
 export const getBearingLoadLatestTimeStamp = createSelector(

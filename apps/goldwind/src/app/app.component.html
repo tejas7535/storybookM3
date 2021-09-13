@@ -1,36 +1,34 @@
 <schaeffler-header
   *ngIf="isLoggedIn$ | ngrxPush; else loading"
   [platformTitle]="title"
-  class="h-full max-h-screen"
+  class="h-full"
 >
   <schaeffler-user-menu
     user-menu
     [user]="username$ | ngrxPush"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
-  <div class="page-container">
-    <div class="h-full">
-      <div class="h-full w-full flex flex-1">
-        <router-outlet class="h-full"></router-outlet>
-      </div>
+  <div class="site-content">
+    <div class="router-content h-1">
+      <router-outlet></router-outlet>
     </div>
-    <schaeffler-footer
-      *transloco="let t; read: 'footer'"
-      [footerLinks]="footerLinks"
-      [appVersion]="appVersion"
-    >
-      <span class="text-light leading-4 text-caption flex-1 mr-2">
-        <span id="icpnumber"
-          >{{ t('icpnumber') }}: {{ this.metadata.icpnumber }}</span
-        >
-        |
-        <span id="publicSecurityBureauNumber"
-          >{{ t('publicSecurityBureauNumber') }}:
-          {{ this.metadata.publicSecurityBureauNumber }}</span
-        ></span
-      >
-    </schaeffler-footer>
   </div>
+  <schaeffler-footer
+    *transloco="let t; read: 'footer'"
+    [footerLinks]="footerLinks"
+    [appVersion]="appVersion"
+  >
+    <span class="text-light leading-4 text-caption flex-1 mr-2">
+      <span id="icpnumber"
+        >{{ t('icpnumber') }}: {{ this.metadata.icpnumber }}</span
+      >
+      |
+      <span id="publicSecurityBureauNumber"
+        >{{ t('publicSecurityBureauNumber') }}:
+        {{ this.metadata.publicSecurityBureauNumber }}</span
+      ></span
+    >
+  </schaeffler-footer>
 </schaeffler-header>
 
 <ng-template #loading>

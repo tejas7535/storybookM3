@@ -1,18 +1,15 @@
-<div
-  fxLayout="row"
-  fxLayoutAlign="space-between center"
-  fxLayoutGap="10px"
-  *transloco="let t; read: 'sensor'"
->
-  <label (click)="toggleSensor()" class="toggle-label">
-    {{ t(type).toUpperCase() }} 1
-  </label>
-  <mat-slide-toggle
-    [checked]="sensor"
-    (change)="toggleSensor()"
+<div class="" *transloco="let t; read: 'sensor'">
+  <mat-radio-group
+    class="flex justify-between text-center gap-3"
     color="primary"
-    class="sensor-toggle"
+    (change)="toggleSensor()"
+    [selected]="first"
   >
-    {{ t(type).toUpperCase() }} 2
-  </mat-slide-toggle>
+    <mat-radio-button value="1" #first>
+      {{ t(type).toUpperCase() }} 1</mat-radio-button
+    >
+    <mat-radio-button value="2">
+      {{ t(type).toUpperCase() }} 2</mat-radio-button
+    >
+  </mat-radio-group>
 </div>

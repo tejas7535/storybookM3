@@ -120,7 +120,11 @@ function getValueFromSensorType(
   sensorName: GreaseSensorName,
   type: GreaseType
 ): number {
+  if (!gcmProcessed) {
+    return 0;
+  }
+
   return gcmProcessed[
-    `${sensorName}${type.replace(/^./, (s) => s.toUpperCase())}`
+    `${sensorName}${type.replace(/^./, (firstChar) => firstChar.toUpperCase())}`
   ] as number;
 }

@@ -151,7 +151,7 @@ export class GaugeEchartConfig {
       max: this.REVERSE ? this.GAUGE_MIN_VALUE : this.GAUGE_MAX_VALUE,
       data: [
         {
-          value: this.value.toFixed(1),
+          value: this.value?.toFixed(1),
           name: translate(this.name),
         },
       ],
@@ -221,8 +221,11 @@ export class GaugeEchartConfig {
    */
   private getProgressColor(): string {
     return (
-      this.thresholds.find((threshold) => threshold.value <= this.value)
-        ?.color || GaugeColors.GREEN
+      this.thresholds.find((threshold) =>
+        this.REVERSE
+          ? threshold.value <= this.value
+          : threshold.value >= this.value
+      )?.color || GaugeColors.GREEN
     );
   }
 }

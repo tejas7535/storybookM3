@@ -31,7 +31,7 @@ export const getShaftLatestGraphData = createSelector(
   getShaftLatestResult,
   (state: ShaftStatus) => {
     const gaubeConfig = new GaugeEchartConfig({
-      value: state.rsm01ShaftSpeed,
+      value: state.rsm01ShaftSpeed || 0,
       min: 0,
       max: 20,
       unit: 'rpm',

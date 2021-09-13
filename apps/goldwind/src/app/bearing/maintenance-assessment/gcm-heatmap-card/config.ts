@@ -4,7 +4,7 @@ export const CALENDAR_OPTIONS: CalendarComponentOption = {
   top: '10%',
   left: '10%',
   right: '10%',
-  cellSize: ['auto', 13],
+  cellSize: ['auto', (window.innerHeight / 100) * 1.5],
   range: ['2021-01-01', '2021-03-31'],
   dayLabel: {
     firstDay: 1, // start on Monday,

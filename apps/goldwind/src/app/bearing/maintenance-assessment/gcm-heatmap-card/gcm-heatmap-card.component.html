@@ -12,11 +12,10 @@
       class="flex flex-col h-full overflow-y-scroll space-between items-center"
     >
       <div
-        class="flex"
         echarts
         [merge]="this.greaseHeatMapData$ | ngrxPush"
         [options]="this.chartOptions"
-        class="h-[600px] w-auto md:h-full md:w-full"
+        class="h-full w-auto"
       ></div>
     </mat-card-content>
   </mat-card>

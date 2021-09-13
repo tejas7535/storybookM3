@@ -32,7 +32,7 @@ export const getStaticSafetyLatestGraphData = createSelector(
   getStaticSafetyLatestResult,
   (state: StaticSafetyStatus) => {
     const gaubeConfig = new GaugeEchartConfig({
-      value: state.value,
+      value: state?.value || 0,
       min: STATIC_STAFETY_SETTINGS.MIN,
       max: STATIC_STAFETY_SETTINGS.MAX,
       name: STATIC_STAFETY_SETTINGS.TITLE_KEY,

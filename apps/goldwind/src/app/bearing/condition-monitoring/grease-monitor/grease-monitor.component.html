@@ -1,11 +1,9 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'greaseStatus'"
-    class="full-height-card"
-    fxFill
-    fxLayout="column"
+    class="full-height-card flex flex-col h-full w-full"
   >
-    <div fxLayout="row" fxLayoutAlign="space-between start">
+    <div class="flex justify-between">
       <mat-card-header>
         <mat-card-title fxLayout="row" layout-align="center center">
           <mat-icon>opacity</mat-icon>
@@ -22,54 +20,63 @@
         (sensorToggle)="getGreaseStatusLatestGraphData($event)"
       ></goldwind-sensor>
     </div>
-    <mat-card-content
-      fxFlex
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutGap="8px"
-      fxLayoutAlign="center"
-    >
-      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
-        <div class="gauge_title">
-          <span>{{ t('waterContent') }}</span>
+    <mat-card-content>
+      <div
+        class="
+          flex flex-col
+          md:flex-row
+          gap-2
+          items-center
+          text-center
+          justify-center
+        "
+      >
+        <div class="flex flex-col w-1/3 justify-between text-center">
+          <div class="gauge_title">
+            <span>{{ t('waterContent') }}</span>
+          </div>
+          <div
+            fxFlex
+            echarts
+            [options]="chartOptions"
+            [merge]="
+              this.getGreaseStatusLatestWaterContentGraphData$ | ngrxPush
+            "
+            class="grease-monitor-chart dashboard-echart"
+          ></div>
         </div>
-        <div
-          fxFlex
-          echarts
-          [options]="chartOptions"
-          [merge]="this.getGreaseStatusLatestWaterContentGraphData$ | ngrxPush"
-          class="grease-monitor-chart dashboard-echart"
-        ></div>
-      </div>
-      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
-        <div class="gauge_title">
-          <span
-            ><span>{{ t('temperatureOptics') }}</span></span
-          >
+        <div class="flex w-1/3 flex-col justify-between text-center">
+          <div class="gauge_title">
+            <span
+              ><span>{{ t('temperatureOptics') }}</span></span
+            >
+          </div>
+          <div
+            fxFlex
+            echarts
+            [options]="chartOptions"
+            [merge]="
+              this.getGreaseStatusLatestTemperatureOpticsGraphData$ | ngrxPush
+            "
+            class="grease-monitor-chart dashboard-echart"
+          ></div>
         </div>
-        <div
-          fxFlex
-          echarts
-          [options]="chartOptions"
-          [merge]="
-            this.getGreaseStatusLatestTemperatureOpticsGraphData$ | ngrxPush
-          "
-          class="grease-monitor-chart dashboard-echart"
-        ></div>
-      </div>
-      <div fxFlex fxLayout="column" fxLayoutAlign="space-between center">
-        <div class="gauge_title">
-          <span
-            ><span>{{ t('deterioration') }}</span></span
-          >
+        <div class="flex w-1/3 flex-col justify-between text-center">
+          <div class="gauge_title">
+            <span
+              ><span>{{ t('deterioration') }}</span></span
+            >
+          </div>
+          <div
+            fxFlex
+            echarts
+            [options]="chartOptions"
+            [merge]="
+              this.getGreaseStatusLatestDeteriorationGraphData$ | ngrxPush
+            "
+            class="grease-monitor-chart dashboard-echart"
+          ></div>
         </div>
-        <div
-          fxFlex
-          echarts
-          [options]="chartOptions"
-          [merge]="this.getGreaseStatusLatestDeteriorationGraphData$ | ngrxPush"
-          class="grease-monitor-chart dashboard-echart"
-        ></div>
       </div>
     </mat-card-content>
   </mat-card>

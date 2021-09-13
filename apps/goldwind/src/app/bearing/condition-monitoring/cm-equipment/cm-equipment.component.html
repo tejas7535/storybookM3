@@ -8,27 +8,26 @@
     </mat-card-header>
 
     <mat-card-content>
-      <div
-        class="equipment-image"
-        fxLayout="row"
-        fxLayoutAlign="center"
-        [ngSwitch]="selectedTab"
-      >
+      <div class="equipment-image flex justify-center" [ngSwitch]="selectedTab">
         <img *ngSwitchCase="0" src="/assets/images/Bearing.png" />
         <img *ngSwitchCase="1" src="/assets/images/Grease.png" />
         <img *ngSwitchCase="2" src="/assets/images/Load.png" />
         <img *ngSwitchCase="3" src="/assets/images/EDM.png" />
         <img *ngSwitchCase="4" src="/assets/images/EdgeDevice.png" />
       </div>
-
       <mat-tab-group
         animationDuration="0ms"
         [selectedIndex]="selectedTab"
         (selectedIndexChange)="handleSelectedTabChange($event)"
       >
-        <mat-tab>
+        <mat-tab #greaseTab>
           <ng-template mat-tab-label>
-            <mat-icon svgIcon="icon-bearing"></mat-icon>
+            <mat-icon
+              svgIcon="icon-bearing"
+              [ngClass]="
+                greaseTab.isActive && 'fill-current stroke-current text-primary'
+              "
+            ></mat-icon>
           </ng-template>
           <ng-template matTabContent>
             <div class="meta-info-header">{{ t('metaData') }}</div>
@@ -75,9 +74,14 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab #loadTab>
           <ng-template mat-tab-label>
-            <mat-icon svgIcon="icon-load"></mat-icon>
+            <mat-icon
+              svgIcon="icon-load"
+              [ngClass]="
+                loadTab.isActive && 'fill-current stroke-current text-primary'
+              "
+            ></mat-icon>
           </ng-template>
           <ng-template matTabContent>
             <div class="meta-info-header">{{ t('loadSensePin') }}</div>
@@ -100,9 +104,14 @@
           </ng-template>
         </mat-tab>
 
-        <mat-tab>
+        <mat-tab #edmTab>
           <ng-template mat-tab-label>
-            <mat-icon svgIcon="icon-vibration"></mat-icon>
+            <mat-icon
+              svgIcon="icon-vibration"
+              [ngClass]="
+                edmTab.isActive && 'stroke-current stroke-1 text-primary'
+              "
+            ></mat-icon>
           </ng-template>
           <ng-template matTabContent>
             <div class="meta-info-header">{{ t('edm') }}</div>
@@ -127,9 +136,12 @@
           </ng-template>
         </mat-tab>
 
-        <mat-tab>
+        <mat-tab #routerTab>
           <ng-template mat-tab-label>
-            <mat-icon>router</mat-icon>
+            <mat-icon
+              [ngClass]="routerTab.isActive && 'stroke-current text-primary'"
+              >router</mat-icon
+            >
           </ng-template>
           <ng-template matTabContent>
             <div class="meta-info-header">{{ t('edgeDevice') }}</div>

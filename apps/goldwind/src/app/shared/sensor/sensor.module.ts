@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
 import { SensorComponent } from './sensor.component';
-
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [SensorComponent],
   imports: [
@@ -16,8 +15,7 @@ import { SensorComponent } from './sensor.component';
     ReactiveFormsModule,
 
     // UI Modules
-    MatSlideToggleModule,
-
+    MatRadioModule,
     // Translation
     SharedTranslocoModule,
   ],
