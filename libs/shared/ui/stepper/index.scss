@@ -4,7 +4,7 @@
   ::ng-deep {
     .mat-step {
       &-icon {
-        @apply bg-disabled text-disabled;
+        @apply bg-lowEmphasis text-disabled;
 
         &-state-done,
         &-state-edit {

@@ -32,7 +32,8 @@ const greys = {
 const emphasis = {
   highEmphasis: darkGrey,
   mediumEmphasis: mediumGrey,
-  disabled: veryLightGrey,
+  lowEmphasis: veryLightGrey,
+  disabled: lightGrey,
 };
 
 const scrollSnapUtilities = {
