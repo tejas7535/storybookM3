@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.3.1...cdba-v2.3.0) (2021-09-14)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** change support email address (DSCDA-2620) ([#2935](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2935)) ([bc71e18](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc71e181460e3f36175dd27bb81c4ee89a726fe2))
+
 ## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.3.0...cdba-v2.2.0) (2021-09-13)
 
 
