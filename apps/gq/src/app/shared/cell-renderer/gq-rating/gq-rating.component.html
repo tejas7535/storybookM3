@@ -2,5 +2,10 @@
   <ng-container *ngFor="let i of [].constructor(rating); trackBy: trackByFn">
     <mat-icon class="!text-[16px]">star</mat-icon>
   </ng-container>
+  <ng-container
+    *ngFor="let i of [].constructor(3 - rating); trackBy: trackByFn"
+  >
+    <mat-icon class="!text-[16px]">star_border</mat-icon>
+  </ng-container>
 </div>
 <ng-template #showdash>-</ng-template>

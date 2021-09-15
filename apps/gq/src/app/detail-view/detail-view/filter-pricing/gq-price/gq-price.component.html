@@ -45,6 +45,14 @@
         >
           <mat-icon class="rating-icon">star</mat-icon>
         </ng-container>
+        <ng-container
+          *ngFor="
+            let i of [].constructor(3 - quotationDetail.gqRating);
+            trackBy: trackByFn
+          "
+        >
+          <mat-icon class="rating-icon">star_border</mat-icon>
+        </ng-container>
       </div>
     </div>
   </div>
