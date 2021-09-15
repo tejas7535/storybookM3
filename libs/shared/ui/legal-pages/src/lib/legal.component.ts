@@ -35,7 +35,7 @@ export class LegalComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.responsible =
       this.personResponsible &&
-      translate('content.responsibleIntro', {
+      translate('responsibleIntro', {
         personResponsible: this.personResponsible,
       });
 
