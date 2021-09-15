@@ -835,7 +835,7 @@ pipeline {
 
                         script {
                             // Checkout gh-pages branch and clean folder
-                            executeAsGithubUser('github-jenkins-access-token','git fetch --all')
+                            executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
                             sh "git checkout -- ."
                             sh "git checkout gh-pages"
                             sh "rm -rf *"
@@ -850,10 +850,15 @@ pipeline {
                             fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './docs')])
                             sh "rm storybook.zip"
 
-                            // commit and push back to remote
-                            sh "git add -A"
-                            sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
-                            executeAsGithubUser('github-jenkins-access-token','git push')
+                            try {
+                                // commit and push back to remote
+                                sh 'git add -A'
+                                sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
+                                executeAsGithubUser('github-jenkins-access-token', 'git push')
+                            } catch (error) {
+                                echo 'No changes to commit for storybook deployment'
+                                println(error)
+                            }
                         }
                     }
                 }
