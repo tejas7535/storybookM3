@@ -59,8 +59,24 @@ table {
     @apply bg-primary bg-opacity-8 text-right;
   }
 
+  thead tr th:first-child {
+    @apply w-24 sm:w-48;
+  }
+
+  thead tr th {
+    @apply min-w-[96px];
+  }
+
+  th.mat-header-cell,
+  td.mat-cell,
+  td.mat-footer-cell {
+    @apply p-3;
+  }
+
   colgroup col:first-child,
   tbody tr td:first-child {
+    @apply w-48;
+
     @screen sm {
       @apply w-24;
     }

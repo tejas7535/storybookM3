@@ -3,7 +3,7 @@
     <schaeffler-report
       *ngIf="result$ | ngrxPush as result"
       [title]="bearing"
-      [displayReport]="result.htmlReportUrl"
+      [htmlReport]="result.htmlReportUrl"
       [downloadReport]="result.pdfReportUrl"
       [errorMsg]="errorMsg"
       [actionText]="actionText"

@@ -5,11 +5,14 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { SnackBarService } from '@schaeffler/snackbar';
 
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { SnackBarService } from '@schaeffler/snackbar';
+
+import { Subordinate } from './models/subordinate.model';
+import { TableItem } from './models/table-item.model';
 import { ReportService } from './report.service';
 
 @Component({
@@ -22,13 +25,15 @@ import { ReportService } from './report.service';
 export class ReportComponent implements OnInit, OnDestroy {
   @Input() public title!: string;
   @Input() public subtitle?: string;
-  @Input() public displayReport!: string;
+  @Input() public htmlReport?: string;
+  @Input() public jsonReport?: string;
   @Input() public downloadReport?: string;
   @Input() public errorMsg =
     'Unfortunately an error occured. Please try again later.';
   @Input() public actionText = 'Retry';
 
-  public result$ = new Subject<string>();
+  public htmlResult$ = new ReplaySubject<string>();
+  public jsonResult$ = new ReplaySubject<Subordinate[]>();
   private readonly destroy$ = new Subject<void>();
 
   public constructor(
@@ -37,26 +42,54 @@ export class ReportComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.getReport();
+    if (this.htmlReport) {
+      this.getHtmlReport();
+    } else if (this.jsonReport) {
+      this.getJsonReport();
+    }
   }
 
   public ngOnDestroy(): void {
     this.snackbarService.dismiss();
     this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  public getReport(): void {
+  public getHtmlReport(): void {
     this.reportService
-      .getReport(this.displayReport)
+      .getHtmlReport(this.htmlReport as string)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (result) => this.result$.next(result),
+        next: (result: string) => this.htmlResult$.next(result),
         error: () => {
           this.snackbarService
             .showErrorMessage(this.errorMsg, this.actionText, true)
             .pipe(takeUntil(this.destroy$))
-            .subscribe(() => this.getReport());
+            .subscribe(() => this.getHtmlReport());
         },
       });
+  }
+
+  public getJsonReport(): void {
+    this.reportService
+      .getJsonReport(this.jsonReport as string)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result: Subordinate[]) => this.jsonResult$.next(result),
+        error: () => {
+          this.snackbarService
+            .showErrorMessage(this.errorMsg, this.actionText, true)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.getJsonReport());
+        },
+      });
+  }
+
+  public getItem(row: TableItem[], field: string): TableItem | undefined {
+    return row.find((element: TableItem) => element.field === field);
+  }
+
+  public getHeaders(fields: string[]): string[] {
+    return fields.map((field: string, index: number) => `${field}${index}`);
   }
 }

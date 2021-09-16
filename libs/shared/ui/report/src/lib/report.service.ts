@@ -1,20 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-interface Content {
-  title: string;
-  content: any[];
-  defaultOpen?: boolean;
-}
+import { jsonReport } from '../mocks/json-report';
+import { Content, Subordinate } from './models';
 
 @Injectable()
 export class ReportService {
   public constructor(private readonly http: HttpClient) {}
 
-  public getReport(htmlReportUrl: string): Observable<any> {
+  public getHtmlReport(htmlReportUrl: string): Observable<any> {
     return this.http.get<{ data: string }>(htmlReportUrl).pipe(
       map((response: { data: string }) => response.data),
       map((report: string) => {
@@ -57,5 +54,11 @@ export class ReportService {
       }),
       catchError(() => throwError(() => new Error('Unexpected error')))
     );
+  }
+
+  public getJsonReport(_jsonReportUrl: string): Observable<Subordinate[]> {
+    const structuredContent = jsonReport.subordinates;
+
+    return of(structuredContent);
   }
 }

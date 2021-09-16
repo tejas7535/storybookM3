@@ -38,7 +38,10 @@
     {
       "files": ["*.html"],
       "extends": ["plugin:@nrwl/nx/angular-template"],
-      "plugins": ["@angular-eslint/eslint-plugin-template"]
+      "plugins": ["@angular-eslint/eslint-plugin-template"],
+      "rules": {
+        "@angular-eslint/template/cyclomatic-complexity": "off"
+      }
     }
   ]
 }

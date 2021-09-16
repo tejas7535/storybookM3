@@ -4,10 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { MatTableModule } from '@angular/material/table';
 
 import { ReactiveComponentModule } from '@ngrx/component';
+
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { ReportComponent } from './report.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
@@ -21,6 +22,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     MatExpansionModule,
     ReactiveComponentModule,
     SnackBarModule,
+    MatTableModule,
   ],
   declarations: [ReportComponent, SafeHtmlPipe],
   providers: [SnackBarService],

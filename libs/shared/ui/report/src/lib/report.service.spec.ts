@@ -4,6 +4,7 @@ import {
   SpectatorHttp,
 } from '@ngneat/spectator';
 
+import { jsonReport } from '../mocks/json-report';
 import { reportBodyMock } from '../mocks/report';
 import { ReportService } from './report.service';
 
@@ -15,17 +16,35 @@ describe('ReportService testing', () => {
     spectator = createHttp();
   });
 
-  test('getReport triggers a GET call', () => {
-    const mockRefHtml = 'fakeRefHtml';
+  describe('getHtmlReport', () => {
+    it('should trigger a GET call', () => {
+      const mockRefHtml = 'fakeRefHtml';
 
-    const mock = reportBodyMock;
+      const mock = reportBodyMock;
 
-    spectator.service.getReport(mockRefHtml).subscribe((response) => {
-      expect(response).toEqual(mock);
+      spectator.service
+        .getHtmlReport(mockRefHtml)
+        .subscribe((response: any) => {
+          expect(response).toEqual(mock);
+        });
+
+      const req = spectator.expectOne('fakeRefHtml', HttpMethod.GET);
+
+      req.flush(mock);
     });
+  });
 
-    const req = spectator.expectOne('fakeRefHtml', HttpMethod.GET);
+  describe('getJsonReport', () => {
+    it('getReport triggers a GET call', () => {
+      const mockRefJson = 'fakeRefJson';
 
-    req.flush(mock);
+      const mock = jsonReport.subordinates;
+
+      spectator.service
+        .getJsonReport(mockRefJson)
+        .subscribe((response: any) => {
+          expect(response).toEqual(mock);
+        });
+    });
   });
 });
