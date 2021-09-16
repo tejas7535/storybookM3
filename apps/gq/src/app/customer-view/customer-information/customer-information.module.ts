@@ -6,6 +6,8 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { HorizontalDividerModule } from '../../shared/components/horizontal-divider/horizontal-divider.module';
+import { LabelTextModule } from '../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { CustomerInformationComponent } from './customer-information.component';
 
@@ -16,6 +18,8 @@ import { CustomerInformationComponent } from './customer-information.component';
     MatCardModule,
     SharedTranslocoModule,
     SharedPipesModule,
+    HorizontalDividerModule,
+    LabelTextModule,
   ],
   providers: [
     {

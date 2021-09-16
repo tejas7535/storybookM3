@@ -1,7 +1,7 @@
 import { AbcClassification } from './abc-classification.enum';
+import { AccountPotential } from './account-potential.model';
 import { CustomerIds } from './customer-ids.model';
 import { MarginDetail } from './margin-detail.model';
-import { AccountPotential } from './account-potential.model';
 
 export class Customer {
   public identifier: CustomerIds;
@@ -16,6 +16,7 @@ export class Customer {
   public subKeyAccountId: string;
   public subKeyAccount: string;
   public paymentTerms: string;
+  public paymentTermsDescription: string;
   public sectorManagement: string;
   public sector: string;
   public sectorId: string;

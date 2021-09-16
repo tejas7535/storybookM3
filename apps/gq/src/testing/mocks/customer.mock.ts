@@ -24,6 +24,7 @@ export const CUSTOMER_MOCK: Customer = {
   subKeyAccountId: '100412',
   subKeyAccount: 'subKeyAccount',
   paymentTerms: '0201',
+  paymentTermsDescription: 'paymentTermDescription',
   sectorManagement: 'ID',
   sector: 'testsektor',
   sectorId: 'V220',

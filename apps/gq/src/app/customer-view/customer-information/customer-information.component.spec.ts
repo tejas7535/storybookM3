@@ -5,6 +5,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
+import { HorizontalDividerModule } from '../../shared/components/horizontal-divider/horizontal-divider.module';
+import { LabelTextModule } from '../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { CustomerInformationComponent } from './customer-information.component';
 
@@ -18,6 +20,8 @@ describe('CustomerDetailsComponent', () => {
     imports: [
       MatCardModule,
       SharedPipesModule,
+      HorizontalDividerModule,
+      LabelTextModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [CustomerInformationComponent],

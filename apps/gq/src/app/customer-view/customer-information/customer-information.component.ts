@@ -6,7 +6,6 @@ import { HelperService } from '../../shared/services/helper-service/helper-servi
 @Component({
   selector: 'gq-customer-information',
   templateUrl: './customer-information.component.html',
-  styleUrls: ['./customer-information.component.scss'],
 })
 export class CustomerInformationComponent implements OnInit {
   public currentYear: number;

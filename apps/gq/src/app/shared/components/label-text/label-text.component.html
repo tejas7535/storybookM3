@@ -1,0 +1,11 @@
+<div>
+  <p
+    class="text-body-2 flex flex-wrap flex-row"
+    [ngClass]="{ 'mb-2': marginBottom }"
+  >
+    <span class="pr-2"><ng-content select="[label]"></ng-content>:</span>
+    <span class="text-highEmphasis"
+      ><ng-content select="[text]"></ng-content
+    ></span>
+  </p>
+</div>

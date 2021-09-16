@@ -1,125 +1,158 @@
-<div class="flex flex-col sm:flex-row">
-  <mat-card>
+<div class="flex flex-col sm:flex-row m-4">
+  <mat-card class="sm:mr-4">
     <div *transloco="let t; read: 'customerView.basicInformation'">
-      <h3 class="mb-4 leading-6">{{ t('title') }}</h3>
+      <p class="text-h6 font-body text-mediumEmphasis font-medium mb-4">
+        {{ t('title') }}
+      </p>
       <div>
         <div>
-          <span>{{ t('customerId') }}: </span
-          >{{ customer.identifier.customerId }}
+          <gq-label-text>
+            <span label>{{ t('customerId') }}</span>
+            <span text>{{ customer.identifier.customerId }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('customer') }}</span>
+            <span text>{{ customer.name }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('salesOrg') }}</span>
+            <span text>{{ customer.identifier.salesOrg }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('abcClassification') }}</span>
+            <span text>{{ customer.abcClassification }}</span>
+          </gq-label-text>
+          <gq-horizontal-divider></gq-horizontal-divider>
         </div>
         <div>
-          <span>{{ t('customer') }}: </span>{{ customer.name }}
+          <gq-label-text>
+            <span label>{{ currentYear }} {{ t('netSales') }}</span>
+            <span text>{{
+              customer.marginDetail.currentNetSales
+                | numberCurrency: customer.currency
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ currentYear }} {{ t('gpi') }}</span>
+            <span text>{{
+              customer.marginDetail.currentGpi | percentage
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ lastYear }} {{ t('netSales') }}</span>
+            <span text>{{
+              customer.marginDetail.netSalesLastYear
+                | numberCurrency: customer.currency
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ lastYear }} {{ t('gpi') }}</span>
+            <span text>{{
+              customer.marginDetail.gpiLastYear | percentage
+            }}</span>
+          </gq-label-text>
+          <gq-horizontal-divider></gq-horizontal-divider>
         </div>
-        <div>
-          <span>{{ t('salesOrg') }}: </span>{{ customer.identifier.salesOrg }}
-        </div>
-        <div>
-          <span>{{ t('abcClassification') }}: </span
-          >{{ customer.abcClassification }}
-        </div>
-        <div>
-          <span>{{ currentYear }} {{ t('netSales') }}: </span
-          >{{
-            customer.marginDetail.currentNetSales
-              | numberCurrency: customer.currency
-          }}
-        </div>
-        <div>
-          <span>{{ currentYear }} {{ t('gpi') }}: </span
-          >{{ customer.marginDetail.currentGpi | percentage }}
-        </div>
-        <div>
-          <span>{{ lastYear }} {{ t('netSales') }}: </span
-          >{{
-            customer.marginDetail.netSalesLastYear
-              | numberCurrency: customer.currency
-          }}
-        </div>
-        <div>
-          <span>{{ lastYear }} {{ t('gpi') }}: </span
-          >{{ customer.marginDetail.gpiLastYear | percentage }}
-        </div>
-
-        <div class="break"></div>
       </div>
       <div>
-        <div>
-          <span>{{ t('keyAccount') }}: </span>{{ customer.keyAccountId }} |
-          {{ customer.keyAccount }}
-        </div>
-        <div>
-          <span>{{ t('subKeyAccount') }}:</span>
-          {{ customer.subKeyAccountId }} |
-          {{ customer.subKeyAccount }}
-        </div>
-        <div class="break"></div>
+        <gq-label-text>
+          <span label>{{ t('keyAccount') }}</span>
+          <span text
+            >{{ customer.keyAccountId }} | {{ customer.keyAccount }}</span
+          >
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('subKeyAccount') }}</span>
+          <span text
+            >{{ customer.subKeyAccountId }} | {{ customer.subKeyAccount }}</span
+          >
+        </gq-label-text>
+        <gq-horizontal-divider></gq-horizontal-divider>
       </div>
       <div>
-        <div>
-          <span>{{ t('subSector') }}: </span>{{ customer.subSector }} |
-          {{ customer.subSectorId }}
-        </div>
-        <div>
-          <span>{{ t('sectorManagement') }}: </span
-          >{{ customer.sectorManagement }}
-        </div>
-        <div class="break"></div>
+        <gq-label-text>
+          <span label>{{ t('subSector') }}</span>
+          <span text
+            >{{ customer.subSector }} | {{ customer.subSectorId }}</span
+          >
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('sectorManagement') }}</span>
+          <span text>{{ customer.sectorManagement }}</span>
+        </gq-label-text>
+        <gq-horizontal-divider></gq-horizontal-divider>
       </div>
       <div>
-        <div>
-          <span>{{ t('country') }}: </span>{{ customer.country }}
-        </div>
-        <div>
-          <span>{{ t('subRegion') }}: </span>{{ customer.subRegion }}
-        </div>
-        <div>
-          <span>{{ t('region') }}: </span>{{ customer.region }}
-        </div>
-        <div class="break"></div>
+        <gq-label-text>
+          <span label>{{ t('country') }}</span>
+          <span text>{{ customer.country }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('subRegion') }}</span>
+          <span text>{{ customer.subRegion }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('region') }}</span>
+          <span text>{{ customer.region }}</span>
+        </gq-label-text>
+        <gq-horizontal-divider></gq-horizontal-divider>
       </div>
       <div>
-        <div>
-          <span>{{ t('incoterms') }}: </span>{{ customer.incoterms }}
-        </div>
-        <div>
-          <span>{{ t('paymentTerms') }}:</span> {{ customer.paymentTerms }}
-        </div>
+        <gq-label-text>
+          <span label>{{ t('incoterms') }}</span>
+          <span text>{{ customer.incoterms }}</span>
+        </gq-label-text>
+        <gq-label-text [marginBottom]="false">
+          <span label>{{ t('paymentTerms') }}</span>
+          <span text
+            >{{ customer.paymentTerms
+            }}<span *ngIf="customer.paymentTermsDescription"
+              >| {{ customer.paymentTermsDescription }}</span
+            ></span
+          >
+        </gq-label-text>
       </div>
     </div>
   </mat-card>
-  <mat-card *ngIf="customer.accountPotential">
+  <mat-card class="mt-4 sm:mt-0" *ngIf="customer.accountPotential">
     <div *transloco="let t; read: 'customerView.salesforce'">
-      <h3 class="mb-4 leading-6">{{ t('title') }}</h3>
+      <p class="text-h6 font-body text-mediumEmphasis font-medium mb-4">
+        {{ t('title') }}
+      </p>
       <div>
         <div>
-          <span>{{ t('accountPotential') }}: </span
-          >{{
-            customer.accountPotential.accountPotentialValue
-              | numberCurrency: customer.currency
-          }}
+          <gq-label-text>
+            <span label>{{ t('accountPotential') }}</span>
+            <span text>{{
+              customer.accountPotential.accountPotentialValue
+                | numberCurrency: customer.currency
+            }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('keyAccountPotential') }}</span>
+            <span text>{{
+              customer.accountPotential.keyAccountPotentialValue
+                | numberCurrency: customer.currency
+            }}</span>
+          </gq-label-text>
+          <gq-label-text [marginBottom]="false">
+            <span label>{{ t('subKeyAccountPotential') }}</span>
+            <span text>{{
+              customer.accountPotential.subkeyAccountPotentialValue
+                | numberCurrency: customer.currency
+            }}</span>
+          </gq-label-text>
+          <gq-horizontal-divider></gq-horizontal-divider>
         </div>
         <div>
-          <span>{{ t('keyAccountPotential') }}: </span
-          >{{
-            customer.accountPotential.keyAccountPotentialValue
-              | numberCurrency: customer.currency
-          }}
-        </div>
-        <div>
-          <span>{{ t('subKeyAccountPotential') }}: </span
-          >{{
-            customer.accountPotential.subkeyAccountPotentialValue
-              | numberCurrency: customer.currency
-          }}
-        </div>
-        <div class="break"></div>
-        <div>
-          <span>{{ t('accountOwner') }}: </span
-          >{{ customer.accountPotential.accountOwner }}
-        </div>
-        <div>
-          <span>{{ t('accountOwnerContact') }}: </span
-          >{{ customer.accountPotential.accountOwnerEmail }}
+          <gq-label-text>
+            <span label>{{ t('accountOwner') }}</span>
+            <span text>{{ customer.accountPotential.accountOwner }}</span>
+          </gq-label-text>
+          <gq-label-text>
+            <span label>{{ t('accountOwnerContact') }}</span>
+            <span text>{{ customer.accountPotential.accountOwnerEmail }}</span>
+          </gq-label-text>
         </div>
       </div>
     </div>
