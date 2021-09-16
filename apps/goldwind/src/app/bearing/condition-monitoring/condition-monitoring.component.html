@@ -34,6 +34,8 @@
     class="grid-element"
     [ngClass]="{ highlight: equipment.selectedTab === 2 }"
   >
-    <goldwind-edm-monitor></goldwind-edm-monitor>
+    <goldwind-preview-container>
+      <goldwind-edm-monitor></goldwind-edm-monitor>
+    </goldwind-preview-container>
   </div>
 </div>

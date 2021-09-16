@@ -14,6 +14,7 @@ import { BearingRoutePath } from './bearing-route-path.enum';
 interface TabLinks {
   name: string;
   link: string;
+  disabled?: boolean;
 }
 @Component({
   selector: 'goldwind-bearing',
@@ -42,6 +43,7 @@ export class BearingComponent implements OnInit {
     {
       name: 'dataView',
       link: BearingRoutePath.DataViewPath,
+      disabled: true,
     },
   ];
 

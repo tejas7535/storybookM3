@@ -5,6 +5,10 @@
   @apply h-full;
 }
 
+.mat-tab-link.mat-tab-disabled {
+  @apply text-disabled;
+}
+
 #bearing-page-header {
   padding: 0 1em;
 

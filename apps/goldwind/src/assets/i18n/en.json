@@ -7,6 +7,7 @@
   "bearing": {
     "bearingLoading": "Bearing loading...",
     "dataView": "Download Manager",
+    "featureWip": "This feature is currently in development",
     "live": "Live",
     "loadAssessment": "Load Assessment",
     "mainBearing": "Main Bearing",

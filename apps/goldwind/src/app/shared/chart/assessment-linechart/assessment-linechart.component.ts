@@ -1,28 +1,32 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  Input,
-  ViewChild,
-  Output,
-  EventEmitter,
   AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
   OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
-import { translate } from '@ngneat/transloco';
-import { EChartsOption } from 'echarts';
-import { DATE_FORMAT } from '../../constants';
-import { Control, SensorNode, ExampleFlatNode } from '../../models';
-import { axisChartOptions } from '../chart';
+import { FormControl, FormGroup } from '@angular/forms';
 import {
   MatTree,
   MatTreeFlatDataSource,
   MatTreeFlattener,
 } from '@angular/material/tree';
+
 import { filter, Observable, of, Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
+
+import { translate } from '@ngneat/transloco';
+import { EChartsOption } from 'echarts';
+
 import { Interval } from '../../../core/store/reducers/shared/models';
+import { DATE_FORMAT } from '../../constants';
+import { Control, ExampleFlatNode, SensorNode } from '../../models';
+import { axisChartOptions } from '../chart';
+
 @Component({
   selector: 'goldwind-assessment-linechart',
   templateUrl: './assessment-linechart.component.html',

@@ -19,6 +19,7 @@
       *ngFor="let tabLink of tabLinks; trackBy: trackByFn"
       [routerLink]="tabLink.link"
       routerLinkActive
+      [disabled]="tabLink.disabled"
       #rla="routerLinkActive"
       [active]="rla.isActive"
     >
