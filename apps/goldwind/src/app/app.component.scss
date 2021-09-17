@@ -20,3 +20,6 @@
     stroke: $schaeffler-green-1;
   }
 }
+::ng-deep schaeffler-footer > footer > div {
+  margin-top: 0 !important;
+}

@@ -14,7 +14,6 @@ import { getBearingResult } from '../../core/store/selectors';
 })
 export class ConditionMonitoringComponent implements OnInit {
   mainBearing$: Observable<BearingMetadata>;
-
   public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {

@@ -10,8 +10,10 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { TAB_TYPE } from './tabtype.enum';
 import { getBearingLoading } from '../../../core/store';
 import { BearingMetadata } from '../../../core/store/reducers/bearing/models';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 interface BearingProperties {
   name: string;
@@ -36,8 +38,7 @@ export class CmEquipmentComponent implements OnInit {
     { name: 'locationLatitude', property: 'locationLatitude' },
     { name: 'locationLongitude', property: 'locationLongitude' },
   ];
-
-  selectedTab = 0;
+  selectedTab: TAB_TYPE;
 
   loading$: Observable<boolean>;
 
@@ -50,8 +51,8 @@ export class CmEquipmentComponent implements OnInit {
     this.loading$ = this.store.select(getBearingLoading);
   }
 
-  handleSelectedTabChange(event: number): void {
-    this.selectedTab = event;
+  handleSelectedTabChange(event: MatTabChangeEvent): void {
+    this.selectedTab = event.tab.textLabel as TAB_TYPE;
     this.change.markForCheck();
   }
 

@@ -13,8 +13,10 @@
     "mainBearing": "Main Bearing",
     "maintenanceAssessment": "Maintenance Assessment",
     "noMeasurements": "There are no measurements for the selected daterange",
+    "noTimestampAvailable": "No timestamp Available",
     "offline": "Offline",
-    "overview": "Dashboard"
+    "overview": "Dashboard",
+    "updateFrequency": "Update frequency"
   },
   "conditionMonitoring": {
     "centerLoad": {
@@ -22,6 +24,7 @@
       "bearingTemperature": "Bearing Temperature",
       "generator": "Generator",
       "generatorAverage": "Generator Average",
+      "noTimestampAvailable": "No timestamp available",
       "rotor": "Rotor",
       "rotorAverage": "Rotor Average",
       "time": "Time",
@@ -64,6 +67,7 @@
       "title": "EDM Monitor"
     },
     "shaft": {
+      "noTimestampAvailable": "No timestamp Available",
       "rotorRotationSpeed": "Rotor Rotation Speed",
       "rpmRotor": "RPM Rotor",
       "title": "Rotor - Rotation Speed",
@@ -71,6 +75,7 @@
     },
     "static-saftey-factor-monitor": {
       "factor": "Factor",
+      "noTimestampAvailable": "No timestamp Available",
       "title": "Static Safety Factor",
       "updateFrequency": "Update frequency"
     }

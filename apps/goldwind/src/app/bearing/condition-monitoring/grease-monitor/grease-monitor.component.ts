@@ -16,6 +16,7 @@ import {
 } from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
+import { UPDATE_SETTINGS } from '../../../shared/constants';
 
 @Component({
   selector: 'goldwind-grease-monitor',
@@ -37,6 +38,7 @@ export class GreaseMonitorComponent implements OnInit {
       show: false,
     },
   };
+  refresh = UPDATE_SETTINGS.grease.refresh;
 
   constructor(private readonly store: Store) {}
 

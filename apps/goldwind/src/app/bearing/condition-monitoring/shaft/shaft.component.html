@@ -4,25 +4,33 @@
     class="flex flex-col h-full w-full"
   >
     <mat-card-header>
-      <mat-card-title class="flex items-center" layout-align="center center">
+      <mat-card-title class="flex items-center">
         <mat-icon>speed</mat-icon>
         <span>{{ t('title') }}</span>
       </mat-card-title>
       <mat-card-subtitle class="card-subtitle">
-        {{ shaftTimeStamp$ | ngrxPush }} <br />
-        {{ t('updateFrequency') }}: {{ refresh }}s
+        <div class="flex flex-col">
+          <span>
+            {{
+              (shaftTimeStamp$ | ngrxPush) || t('noTimestampAvailable')
+            }}</span
+          >
+          <span> {{ t('updateFrequency') }}: {{ refresh }}s</span>
+        </div>
       </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content class="flex flex-col space-between items-center">
-      <div class="gauge_title">
-        <span>{{ t('title') }}</span>
+    <mat-card-content>
+      <div class="flex flex-col items-center">
+        <div class="gauge_title">
+          <span>{{ t('title') }}</span>
+        </div>
+        <div
+          echarts
+          [options]="chartOptions"
+          [merge]="shaftLatestGraphData$ | ngrxPush"
+          class="flex dashboard-echart shaft-chart"
+        ></div>
       </div>
-      <div
-        echarts
-        [options]="chartOptions"
-        [merge]="shaftLatestGraphData$ | ngrxPush"
-        class="flex dashboard-echart shaft-chart"
-      ></div>
     </mat-card-content>
   </mat-card>
 </ng-container>

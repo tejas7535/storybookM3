@@ -1,13 +1,11 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.edmMonitor'"
-    class="full-height-card"
-    fxFill
-    fxLayout="column"
+    class="full-height-card flex flex-col"
   >
-    <div fxLayout="row" fxLayoutAlign="space-between start">
+    <div class="flex" fxLayoutAlign="space-between start">
       <mat-card-header>
-        <mat-card-title fxLayout="row" layout-align="center center">
+        <mat-card-title>
           <mat-icon svgIcon="icon-vibration"></mat-icon>
           <span>{{ t('title') }}</span>
         </mat-card-title>
@@ -17,25 +15,23 @@
       </mat-card-header>
       <goldwind-sensor [type]="type" [sensor]="sensor"></goldwind-sensor>
     </div>
-    <mat-card-content
-      fxFlex
-      fxLayout="column"
-      fxLayoutAlign="space-between end"
-    >
-      <goldwind-date-range
-        [interval]="interval$ | ngrxPush"
-        (rangeChange)="setInterval($event)"
-      ></goldwind-date-range>
-      <ng-container *ngrxLet="edmGraphData$ as graphData">
-        <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
-      </ng-container>
-      <div
-        fxFlex
-        echarts
-        [options]="chartOptions"
-        [merge]="edmGraphData$ | ngrxPush"
-        class="dashboard-echart edm-chart"
-      ></div>
+    <mat-card-content>
+      <div class="flex flex-col space-between">
+        <goldwind-date-range
+          [interval]="interval$ | ngrxPush"
+          (rangeChange)="setInterval($event)"
+        ></goldwind-date-range>
+        <ng-container *ngrxLet="edmGraphData$ as graphData">
+          <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
+        </ng-container>
+        <div
+          fxFlex
+          echarts
+          [options]="chartOptions"
+          [merge]="edmGraphData$ | ngrxPush"
+          class="dashboard-echart edm-chart"
+        ></div>
+      </div>
     </mat-card-content>
   </mat-card>
 </ng-container>

@@ -11,28 +11,24 @@
   <div
     id="grease-status"
     class="grid-element"
-    [ngClass]="{ highlight: equipment.selectedTab === 1 }"
+    [ngClass]="{ highlight: equipment.selectedTab === 'grease' }"
   >
     <goldwind-grease-monitor></goldwind-grease-monitor>
   </div>
   <div
     id="center-load"
     class="grid-element"
-    [ngClass]="{ highlight: equipment.selectedTab === 2 }"
+    [ngClass]="{ highlight: equipment.selectedTab === 'load' }"
   >
     <goldwind-center-load></goldwind-center-load>
   </div>
-  <div
-    id="static-saftey-factor-monitoring"
-    class="grid-element"
-    [ngClass]="{ highlight: equipment.selectedTab === 3 }"
-  >
+  <div id="static-saftey-factor-monitoring" class="grid-element">
     <goldwind-static-saftey-factor-monitor></goldwind-static-saftey-factor-monitor>
   </div>
   <div
     id="edm-monitoring"
     class="grid-element"
-    [ngClass]="{ highlight: equipment.selectedTab === 2 }"
+    [ngClass]="{ highlight: equipment.selectedTab === 'edm' }"
   >
     <goldwind-preview-container>
       <goldwind-edm-monitor></goldwind-edm-monitor>

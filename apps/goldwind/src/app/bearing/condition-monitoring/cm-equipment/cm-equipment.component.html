@@ -17,10 +17,9 @@
       </div>
       <mat-tab-group
         animationDuration="0ms"
-        [selectedIndex]="selectedTab"
-        (selectedIndexChange)="handleSelectedTabChange($event)"
+        (selectedTabChange)="this.handleSelectedTabChange($event)"
       >
-        <mat-tab #greaseTab>
+        <mat-tab #greaseTab label="meta">
           <ng-template mat-tab-label>
             <mat-icon
               svgIcon="icon-bearing"
@@ -46,7 +45,7 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab>
+        <mat-tab label="grease">
           <ng-template mat-tab-label>
             <mat-icon>opacity</mat-icon>
           </ng-template>
@@ -72,7 +71,7 @@
             </div>
           </ng-template>
         </mat-tab>
-        <mat-tab #loadTab>
+        <mat-tab #loadTab label="load">
           <ng-template mat-tab-label>
             <mat-icon
               svgIcon="icon-load"
@@ -100,7 +99,7 @@
           </ng-template>
         </mat-tab>
 
-        <mat-tab #edmTab>
+        <mat-tab #edmTab label="edm">
           <ng-template mat-tab-label>
             <mat-icon
               svgIcon="icon-vibration"
@@ -130,7 +129,7 @@
           </ng-template>
         </mat-tab>
 
-        <mat-tab #routerTab>
+        <mat-tab #routerTab label="router">
           <ng-template mat-tab-label>
             <mat-icon [ngClass]="routerTab.isActive && 'text-primary'"
               >router</mat-icon
