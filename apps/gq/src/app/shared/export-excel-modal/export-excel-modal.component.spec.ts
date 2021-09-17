@@ -1,6 +1,11 @@
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { ExportExcelModalComponent } from './export-excel-modal.component';
 import { ExportExcel } from './export-excel.enum';
@@ -11,6 +16,13 @@ describe('ConfirmationModalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ExportExcelModalComponent,
+    imports: [
+      MatRadioModule,
+      MatDialogModule,
+      FormsModule,
+      MatIconModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       {
         provide: MatDialogRef,

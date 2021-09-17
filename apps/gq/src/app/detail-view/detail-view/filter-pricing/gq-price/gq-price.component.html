@@ -1,31 +1,33 @@
-<gq-filter-pricing-card
-  *transloco="let t; read: 'detailView.filterPricing.gqPrice'"
-  [title]="title$ | ngrxPush"
-  [isSelected]="quotationDetail.price === quotationDetail.recommendedPrice"
-  (selectManualPrice)="selectPrice()"
-  [isLoading]="isLoading"
->
-  <div content class="mt-[10px] w-full flex">
-    <div class="flex-grow max-w-[25%]">
-      <div class="mb-1 text-body-1">{{ t('priceLabel') }}:</div>
-      <div>
+<div class="mt-4">
+  <gq-filter-pricing-card
+    *transloco="let t; read: 'detailView.filterPricing.gqPrice'"
+    [title]="title$ | ngrxPush"
+    [isSelected]="quotationDetail.price === quotationDetail.recommendedPrice"
+    (selectManualPrice)="selectPrice()"
+    [isLoading]="isLoading"
+  >
+    <div content class="mt-[10px] w-full flex">
+      <div class="flex-grow max-w-[25%]">
+        <div class="mb-1 text-body-1">{{ t('priceLabel') }}:</div>
         <div>
-          <span class="font-bold">{{
-            quotationDetail.recommendedPrice | numberCurrency: currency
-          }}</span>
+          <div>
+            <span class="font-bold">{{
+              quotationDetail.recommendedPrice | numberCurrency: currency
+            }}</span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="flex-1" *ngIf="userHasGPCRole">
-      <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
-      <div>
-        <span class="font-bold">{{ gpi || '-' }} %</span>
+      <div class="flex-1" *ngIf="userHasGPCRole">
+        <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
+        <div>
+          <span class="font-bold">{{ gpi || '-' }} %</span>
+        </div>
       </div>
-    </div>
-    <div class="flex-1" *ngIf="userHasSQVRole">
-      <div class="mb-1 text-body-1">{{ t('gpm') }}:</div>
-      <div>
-        <span class="font-bold">{{ gpm || '-' }} %</span>
+      <div class="flex-1" *ngIf="userHasSQVRole">
+        <div class="mb-1 text-body-1">{{ t('gpm') }}:</div>
+        <div>
+          <span class="font-bold">{{ gpm || '-' }} %</span>
+        </div>
       </div>
     </div>
     <div class="flex-1">
@@ -55,14 +57,14 @@
         </ng-container>
       </div>
     </div>
-  </div>
-  <div
-    *ngIf="!quotationDetail.strategicPrice"
-    link
-    class="m-t-10 link flex flex-row"
-    (click)="navigateClick()"
-  >
-    <mat-icon class="mr-2 text-h5">arrow_forward</mat-icon>
-    {{ t('details') | uppercase }}
-  </div>
-</gq-filter-pricing-card>
+    <div
+      *ngIf="!quotationDetail.strategicPrice"
+      link
+      class="m-t-10 link flex flex-row"
+      (click)="navigateClick()"
+    >
+      <mat-icon class="mr-2 text-h5">arrow_forward</mat-icon>
+      {{ t('details') | uppercase }}
+    </div>
+  </gq-filter-pricing-card>
+</div>

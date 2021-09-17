@@ -1,64 +1,35 @@
 <div *transloco="let t; read: 'detailView.pricingDetails'">
-  <mat-card *ngIf="quotationDetail" class="!m-4 !ml-2">
-    <mat-card-title class="!text-h6 !font-bold opacity-60">
-      {{ t('label') }}
-    </mat-card-title>
-    <mat-card-content *ngIf="customerCurrency$ | ngrxPush as currency">
-      <mat-accordion multi="true">
-        <mat-expansion-panel class="border border-lightBg" expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="font-bold opacity-60">
-              {{ t('materialDetails.label') }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <gq-material-details
-            [materialDetails]="quotationDetail?.material"
-            [customerMaterial]="quotationDetail?.customerMaterial"
-          ></gq-material-details>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="border border-lightBg" expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="font-bold opacity-60">
-              {{ t('supplyChainDetails.label') }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <gq-supply-chain-details
-            [quotationDetail]="quotationDetail"
-          ></gq-supply-chain-details>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="border border-lightBg" expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="font-bold opacity-60">
-              {{ t('productionCostDetails.label') }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <gq-production-cost-details
-            [currency]="currency"
-            [quotationDetail]="quotationDetail"
-          ></gq-production-cost-details>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="border border-lightBg" expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="font-bold opacity-60">
-              {{ t('materialAlternativeCostDetails.label') }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <gq-material-alternative-cost-details
-            [currency]="currency"
-          ></gq-material-alternative-cost-details>
-        </mat-expansion-panel>
-        <mat-expansion-panel class="border border-lightBg" expanded="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="font-bold opacity-60">
-              {{ t('relocationCostDetails.label') }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <gq-relocation-cost-details
-            [quotationDetail]="quotationDetail"
-            [currency]="currency"
-          ></gq-relocation-cost-details>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-card-content>
-  </mat-card>
+  <div *ngIf="quotationDetail">
+    <div *ngIf="customerCurrency$ | ngrxPush as currency">
+      <div *ngIf="!(materialAlternativeCostsLoading$ | ngrxPush); else loading">
+        <div class="flex flex-col md:flex-row mb-4">
+          <div class="w-full md:w-1/2 md:mr-4">
+            <gq-production-cost-details
+              [currency]="currency"
+              [quotationDetail]="quotationDetail"
+            ></gq-production-cost-details
+            ><gq-material-alternative-cost-details
+              [currency]="currency"
+            ></gq-material-alternative-cost-details
+            ><gq-relocation-cost-details
+              [quotationDetail]="quotationDetail"
+              [currency]="currency"
+            ></gq-relocation-cost-details
+            ><gq-supply-chain-details
+              [quotationDetail]="quotationDetail"
+            ></gq-supply-chain-details>
+          </div>
+          <div class="w-full md:w-1/2 mt-4 md:mt-0">
+            <gq-material-details
+              [materialDetails]="quotationDetail?.material"
+              [customerMaterial]="quotationDetail?.customerMaterial"
+            ></gq-material-details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+<ng-template #loading>
+  <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
+</ng-template>

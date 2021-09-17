@@ -1,115 +1,107 @@
-<div *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
-  <div class="flex flex-row w-full" *ngIf="materialDetails">
-    <div class="w-1/2">
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('materialDescription') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.materialDescription }}
+<mat-card *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
+  <p class="text-h6 font-body text-mediumEmphasis font-medium mb-4">
+    {{ t('title') }}
+  </p>
+  <div *ngIf="materialDetails">
+    <div>
+      <gq-label-text>
+        <span label>{{ t('materialDescription') }}</span>
+        <span text
+          >{{ materialDetails.materialDescription | nullableString }}
         </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('15digit') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.materialNumber15 | materialTransform }}
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('materialNumber') }}</span>
+        <span text
+          >{{ materialDetails.materialNumber15 | materialTransform }}
         </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('materialStatus') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.materialStatus }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('productLine') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.productLine }} |
-          {{ materialDetails.productLineId }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('productHierarchy') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.productHierarchy }} |
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('materialStatus') }}</span>
+        <span text>{{ materialDetails.materialStatus | nullableString }}</span>
+      </gq-label-text>
+      <gq-horizontal-divider></gq-horizontal-divider>
+    </div>
+    <div>
+      <gq-label-text>
+        <span label>{{ t('productHierarchy') }}</span>
+        <span text
+          >{{ materialDetails.productHierarchy }} |
           {{ materialDetails.productHierarchyId }}
         </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('gpsdGroup') }}: </span>
-        <span *ngIf="materialDetails.gpsdGroup"
-          >{{ materialDetails.gpsdGroup }} |</span
-        >
-        <span class="text-dark">
-          {{ materialDetails.gpsdGroupId }}
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('productLine') }}</span>
+        <span text
+          >{{ materialDetails.productLine }} |
+          {{ materialDetails.productLineId }}
         </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('series') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.series || '-' }}
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('gpsdGroup') }}</span>
+        <span text>
+          <span *ngIf="materialDetails.gpsdGroup"
+            >{{ materialDetails.gpsdGroup }} |</span
+          >
+          <span>{{ materialDetails.gpsdGroupId | nullableString }}</span>
         </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('followingType') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.followingType || '-' }}
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('series') }}</span>
+        <span text>
+          {{ materialDetails.series | nullableString }}
         </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('customerMaterial') }}: </span>
-        <span class="text-dark">
-          {{ customerMaterial || '-' }}
-        </span>
-      </p>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('followingType') }}</span>
+        <span text> {{ materialDetails.followingType | nullableString }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('customerMaterial') }}</span>
+        <span text>{{ customerMaterial | nullableString }}</span>
+      </gq-label-text>
+      <gq-horizontal-divider></gq-horizontal-divider>
     </div>
-    <div class="w-1/2">
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('dimension') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.dimensions || '-' }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('innerDiameter') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.innerDiameter }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('outerDiameter') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.outerDiameter }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('width') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.width }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('grossWeight') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.grossWeight }} [{{ materialDetails.weightUnit }}]
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('baseUoM') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.baseUoM }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('materialType') }}: </span
-        ><span class="text-dark">
-          {{ materialDetails.materialType }}
-        </span>
-      </p>
-      <p class="m-2 text-caption">
-        <span class="text-light">{{ t('ean11') }}: </span>
-        <span class="text-dark">
-          {{ materialDetails.ean11 || '-' }}
-        </span>
-      </p>
+    <div>
+      <gq-label-text>
+        <span label>{{ t('dimensions') }}</span>
+        <span text>{{ materialDetails.dimensions | nullableString }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('outerDiameter') }}</span>
+        <span text>{{ materialDetails.outerDiameter | millimeterUnit }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('innerDiameter') }}</span>
+        <span text>{{ materialDetails.innerDiameter | millimeterUnit }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('width') }}</span>
+        <span text>{{ materialDetails.width | millimeterUnit }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('grossWeight') }}</span>
+        <span text
+          >{{ materialDetails.grossWeight }} [{{
+            materialDetails.weightUnit
+          }}]</span
+        >
+      </gq-label-text>
+      <gq-horizontal-divider></gq-horizontal-divider>
+    </div>
+    <div>
+      <gq-label-text>
+        <span label>{{ t('baseUoM') }}</span>
+        <span text>{{ materialDetails.baseUoM | nullableString }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('materialType') }}</span>
+        <span text>{{ materialDetails.materialType | nullableString }}</span>
+      </gq-label-text>
+      <gq-label-text [marginBottom]="false">
+        <span label>{{ t('ean11') }}</span>
+        <span text>{{ materialDetails.ean11 | nullableString }}</span>
+      </gq-label-text>
     </div>
   </div>
-</div>
+</mat-card>

@@ -1,9 +1,13 @@
+import { MatCardModule } from '@angular/material/card';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { MaterialTransformPipe } from '../../../../shared/pipes/material-transform/material-transform.pipe';
+import { HorizontalDividerModule } from '../../../../shared/components/horizontal-divider/horizontal-divider.module';
+import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
+import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsComponent } from './material-details.component';
 
 describe('MaterialDetailsComponent', () => {
@@ -13,9 +17,14 @@ describe('MaterialDetailsComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialDetailsComponent,
     detectChanges: false,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      MatCardModule,
+      SharedPipesModule,
+      LabelTextModule,
+      HorizontalDividerModule,
+    ],
     providers: [provideMockStore({})],
-    declarations: [MaterialTransformPipe],
   });
 
   beforeEach(() => {

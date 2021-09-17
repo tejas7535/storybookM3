@@ -7,11 +7,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
+import { MaterialAlternativeCostDetailsComponent } from './material-alternative-cost-details/material-alternative-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
-import { MaterialAlternativeCostDetailsComponent } from './material-material-cost-details/material-alternative-cost-details.component';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
@@ -33,6 +35,8 @@ describe('PricingDetailsComponent', () => {
       SharedPipesModule,
       ReactiveComponentModule,
       HorizontalSeparatorModule,
+      LoadingSpinnerModule,
+      LabelTextModule,
     ],
     providers: [provideMockStore({})],
     declarations: [

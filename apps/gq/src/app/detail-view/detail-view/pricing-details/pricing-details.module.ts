@@ -6,16 +6,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
+import { MaterialAlternativeCostDetailsComponent } from './material-alternative-cost-details/material-alternative-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
-import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
-import { MaterialAlternativeCostDetailsComponent } from './material-material-cost-details/material-alternative-cost-details.component';
-import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
+import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
     ReactiveComponentModule,
     SharedPipesModule,
     HorizontalSeparatorModule,
+    LoadingSpinnerModule,
+    LabelTextModule,
   ],
   providers: [
     {

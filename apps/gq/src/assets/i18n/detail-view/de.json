@@ -27,9 +27,8 @@
     "selected": "ausgewählt"
   },
   "pricingDetails": {
-    "label": "Detailinformationen",
     "materialDetails": {
-      "15digit": "Material",
+      "15digit": "Materialnummer (15-stellig)",
       "baseUoM": "Mengeneinheit",
       "customerMaterial": "Kundenmaterialnummer",
       "dimension": "Abmessungen",
@@ -38,36 +37,36 @@
       "gpsdGroup": "GPSD-Gruppe",
       "grossWeight": "Bruttogewicht",
       "innerDiameter": "Innendurchmesser",
-      "label": "Material",
       "materialDescription": "Materialbezeichnung",
       "materialType": "Materialtyp",
       "materialStatus": "Material Status Werk",
       "outerDiameter": "Außendurchmesser",
-      "productHierarchy": "Prod. Hierarchie",
-      "productLine": "Prod. Linie",
+      "productHierarchy": "Produkt Hierarchie",
+      "productLine": "Produkt Linie",
       "series": "Serie",
+      "title": "Materialbezeichnung",
       "width": "Breite"
     },
     "productionCostDetails": {
-      "label": "Produktion und Kosten",
+      "title": "Produktion und Kosten",
       "gpc": "KHK",
       "sqv": "SAW",
       "productionPlant": "Produktionswerk"
     },
     "materialAlternativeCostDetails": {
-      "label": "Alternative Kosten",
+      "title": "Alternative Kosten #{{number}}",
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Produktionswerk"
     },
     "supplyChainDetails": {
-      "label": "Supply Chain Informationen",
+      "title": "Supply Chain Informationen",
       "supplyPlant": "Lieferwerk",
       "productionPlant": "Produktionswerk",
       "productionPlantRlt": "Produktionswerk WBZ"
     },
     "relocationCostDetails": {
-      "label": "Zukünftige Kosten",
+      "title": "Zukünftige Kosten",
       "relocationPlant": "Zukünftiges Prod.Werk",
       "relocationCost": "Zukünftige Kosten"
     }

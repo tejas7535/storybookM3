@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getCustomerCurrency } from '../../../core/store';
+import {
+  getCustomerCurrency,
+  getMaterialAlternativeCostsLoading,
+} from '../../../core/store';
 import { QuotationDetail } from '../../../shared/models/quotation-detail';
 
 @Component({
@@ -14,10 +17,13 @@ import { QuotationDetail } from '../../../shared/models/quotation-detail';
 export class PricingDetailsComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
   customerCurrency$: Observable<string>;
-
+  materialAlternativeCostsLoading$: Observable<boolean>;
   public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.materialAlternativeCostsLoading$ = this.store.select(
+      getMaterialAlternativeCostsLoading
+    );
   }
 }

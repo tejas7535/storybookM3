@@ -1,8 +1,11 @@
+import { MatCardModule } from '@angular/material/card';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { RelocationCostDetailsComponent } from './relocation-cost-details.component';
 
@@ -16,6 +19,8 @@ describe('RelocationCostDetailsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       SharedPipesModule,
+      MatCardModule,
+      LabelTextModule,
     ],
   });
 

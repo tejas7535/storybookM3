@@ -1,24 +1,21 @@
-<div
+<mat-card
   *transloco="let t; read: 'detailView.pricingDetails.productionCostDetails'"
 >
+  <p class="text-h6 font-body text-mediumEmphasis font-medium mb-4">
+    {{ t('title') }}
+  </p>
   <div *ngIf="quotationDetail">
-    <p class="m-2 text-caption">
-      <span class="text-light">{{ t('gpc') }}: </span>
-      <span class="text-dark">{{
-        quotationDetail.gpc | numberCurrency: currency
-      }}</span>
-    </p>
-    <p class="m-2 text-caption">
-      <span class="text-light">{{ t('sqv') }}: </span>
-      <span class="text-dark"
-        >{{ quotationDetail.sqv | numberCurrency: currency }}
-      </span>
-    </p>
-    <p class="m-2 text-caption">
-      <span class="text-light">{{ t('productionPlant') }}: </span>
-      <span class="text-dark">
-        {{ quotationDetail.productionPlant | plantDisplay }}</span
-      >
-    </p>
+    <gq-label-text>
+      <span label>{{ t('gpc') }}</span>
+      <span text>{{ quotationDetail.gpc | numberCurrency: currency }}</span>
+    </gq-label-text>
+    <gq-label-text>
+      <span label>{{ t('sqv') }}</span>
+      <span text>{{ quotationDetail.sqv | numberCurrency: currency }}</span>
+    </gq-label-text>
+    <gq-label-text [marginBottom]="false">
+      <span label>{{ t('productionPlant') }}</span>
+      <span text> {{ quotationDetail.productionPlant | plantDisplay }}</span>
+    </gq-label-text>
   </div>
-</div>
+</mat-card>

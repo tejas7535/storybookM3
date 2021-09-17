@@ -1,0 +1,38 @@
+<div
+  *transloco="
+    let t;
+    read: 'detailView.pricingDetails.materialAlternativeCostDetails'
+  "
+>
+  <ng-container
+    *ngFor="
+      let materialAlternativeCost of materialAlternativeCosts$ | ngrxPush;
+      let i = index;
+      trackBy: trackByFn
+    "
+  >
+    <mat-card class="mt-4" *ngIf="materialAlternativeCost">
+      <p class="text-h6 font-body text-mediumEmphasis font-medium mb-4">
+        {{ t('title', { number: i + 1 }) }}
+      </p>
+      <div>
+        <gq-label-text>
+          <span label>{{ t('gpc') }}</span>
+          <span text>{{
+            materialAlternativeCost.gpc | numberCurrency: currency
+          }}</span>
+        </gq-label-text>
+        <gq-label-text>
+          <span label>{{ t('sqv') }}</span>
+          <span text>{{
+            materialAlternativeCost.sqv | numberCurrency: currency
+          }}</span>
+        </gq-label-text>
+        <gq-label-text [marginBottom]="false">
+          <span label>{{ t('productionPlant') }}</span>
+          <span text>{{ materialAlternativeCost | plantDisplay }}</span>
+        </gq-label-text>
+      </div>
+    </mat-card>
+  </ng-container>
+</div>

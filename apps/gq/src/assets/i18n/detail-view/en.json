@@ -27,47 +27,46 @@
     "selected": "selected"
   },
   "pricingDetails": {
-    "label": "General Information",
     "materialDetails": {
-      "15digit": "Material",
+      "materialNumber": "Material Nr. (15-Digit)",
       "baseUoM": "Base UoM",
       "customerMaterial": "Customer Material",
-      "dimension": "Dimensions",
+      "dimensions": "Dimensions",
       "ean11": "EAN Code",
       "followingType": "Following Type",
       "gpsdGroup": "GPSD-Group",
       "grossWeight": "Gross Weight",
-      "innerDiameter": "Inner Diameter",
-      "label": "Material",
-      "materialDescription": "Description",
+      "innerDiameter": "Inner Diameter (d)",
+      "materialDescription": "Material  Description",
       "materialType": "Material Type",
       "materialStatus": "X-Plant-Material Status",
-      "outerDiameter": "Outer Diameter",
-      "productHierarchy": "Prod. Hierarchy",
-      "productLine": "Prod. Line",
+      "outerDiameter": "Outer Diameter (D)",
+      "productHierarchy": "Product Hierarchy",
+      "productLine": "Product Line",
       "series": "Series",
-      "width": "Width"
+      "title": "Material Description",
+      "width": "Overall width (B)"
     },
     "productionCostDetails": {
-      "label": "Production and Cost",
+      "title": "Production & Cost",
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Production Plant"
     },
     "materialAlternativeCostDetails": {
-      "label": "Alternative Cost",
+      "title": "Alternative Cost #{{number}}",
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Production Plant"
     },
     "supplyChainDetails": {
-      "label": "Supply Chain Information",
+      "title": "Supply Chain Information",
       "supplyPlant": "Delivery Plant",
       "productionPlant": "Production Plant",
       "productionPlantRlt": "Production Plant RLT"
     },
     "relocationCostDetails": {
-      "label": "Relocation Cost",
+      "title": "Relocation Cost",
       "relocationPlant": "Relocation Plant",
       "relocationCost": "Relocation Cost"
     }

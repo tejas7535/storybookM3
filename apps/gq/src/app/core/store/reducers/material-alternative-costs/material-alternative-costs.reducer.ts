@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import { MaterialAlternativeCost } from '../../../../shared/models/quotation-detail/material-alternative-cost.model';
 import {
   loadMaterialAlternativeCosts,
@@ -30,6 +31,7 @@ export const materialAlternativeCostsReducer = createReducer(
     ): MaterialAlternativeCostsState => ({
       ...state,
       gqPositionId,
+      materialAlternativeCosts: [],
       materialAlternativeCostsLoading: true,
     })
   ),
