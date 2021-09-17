@@ -67,7 +67,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ],
             "customWebpackConfig": {
@@ -238,7 +238,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ]
           },
@@ -409,7 +409,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ]
           },
@@ -585,7 +585,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ],
             "customWebpackConfig": {
@@ -766,7 +766,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ]
           },
@@ -936,7 +936,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ],
             "customWebpackConfig": {
@@ -1112,7 +1112,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ]
           },
@@ -1288,7 +1288,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ]
           },
@@ -1501,7 +1501,7 @@
               {
                 "type": "anyComponentStyle",
                 "maximumWarning": "6kb",
-                "maximumError": "25kb"
+                "maximumError": "30kb"
               }
             ]
           },
