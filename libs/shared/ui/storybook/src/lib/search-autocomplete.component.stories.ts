@@ -30,7 +30,7 @@ const options: SearchAutocompleteOption[] = [
 ];
 
 export default {
-  title: 'Search Autocomplete',
+  title: 'Components/Search Autocomplete',
   components: SearchAutocompleteComponent,
   decorators: [
     moduleMetadata({

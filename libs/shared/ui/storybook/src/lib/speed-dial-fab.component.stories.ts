@@ -15,7 +15,7 @@ import READMEMd from '../../../speed-dial-fab/README.md';
 import { MatIconModule } from '@angular/material/icon';
 
 export default {
-  title: 'SpeedDialFabButton',
+  title: 'Components/SpeedDialFabButton',
   component: SpeedDialFabComponent,
   decorators: [
     moduleMetadata({

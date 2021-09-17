@@ -82,7 +82,7 @@ class WrapperComponentForStepper implements OnInit {
 }
 
 export default {
-  title: 'Stepper',
+  title: 'Components/Stepper',
   component: WrapperComponentForStepper,
   decorators: [
     moduleMetadata({

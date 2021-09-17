@@ -26,7 +26,7 @@ const routerMock = {
 };
 
 export default {
-  title: 'Legal Pages',
+  title: 'Components/Legal Pages',
   decorators: [
     moduleMetadata({
       imports: [StorybookTranslocoModule, LegalModule, RouterModule],

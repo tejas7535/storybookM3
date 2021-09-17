@@ -9,7 +9,7 @@ import READMEMd from '../../../loading-spinner/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'Loading Spinner',
+  title: 'Components/Loading Spinner',
   component: LoadingSpinnerComponent,
   decorators: [
     moduleMetadata({

@@ -7,7 +7,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEMd from '../../../dropdown-input/README.md';
 
 export default {
-  title: 'File Drop',
+  title: 'Components/File Drop',
   component: FileDropComponent,
   decorators: [
     moduleMetadata({

@@ -12,7 +12,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
 
 export default {
-  title: 'Unsupported Viewport',
+  title: 'Components/Unsupported Viewport',
   component: UnsupportedViewportComponent,
   decorators: [
     moduleMetadata({

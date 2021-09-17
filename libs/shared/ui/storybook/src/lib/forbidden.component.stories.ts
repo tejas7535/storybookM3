@@ -10,7 +10,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEMd from '../../../empty-states/src/lib/forbidden/README.md';
 
 export default {
-  title: 'Forbidden',
+  title: 'Components/Forbidden',
   component: ForbiddenComponent,
   parameters: {
     notes: { markdown: READMEMd },

@@ -15,7 +15,7 @@ import READMEMd from '../../../header/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'Header',
+  title: 'Components/Header',
   parameters: {
     backgrounds: {
       default: 'Schaeffler',
@@ -64,10 +64,10 @@ const TemplateWithUserName: Story<HeaderComponent> = (
   props: args,
   template: `
     <schaeffler-header platformTitle="Storybook Demo">
-      <schaeffler-user-menu 
-          user-menu 
+      <schaeffler-user-menu
+          user-menu
           [user]="userName"
-      ></schaeffler-user-menu> 
+      ></schaeffler-user-menu>
     </schaeffler-header>
   `,
 });
@@ -86,11 +86,11 @@ const TemplateWithUserMenu: Story<HeaderComponent> = (
   template: `
     <schaeffler-header platformTitle="Storybook Demo">
       <schaeffler-user-menu
-          user-menu 
+          user-menu
           [user]="userName"
           [entries]="menuEntries"
           (clicked)="clicked($event)"
-      ></schaeffler-user-menu> 
+      ></schaeffler-user-menu>
     </schaeffler-header>
   `,
 });

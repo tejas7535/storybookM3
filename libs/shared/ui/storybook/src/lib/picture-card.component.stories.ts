@@ -9,7 +9,7 @@ import READMEMd from '../../../picture-card/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'PictureCard',
+  title: 'Components/PictureCard',
   component: PictureCardComponent,
   decorators: [
     moduleMetadata({
@@ -28,7 +28,7 @@ const Template: Story<PictureCardComponent> = (args: PictureCardComponent) => ({
     <div style="width: 400px">
       <schaeffler-picture-card
         [title]="title"
-        [img]="img"   
+        [img]="img"
       ></schaeffler-picture-card>
     </div>
   `,

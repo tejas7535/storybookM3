@@ -38,7 +38,7 @@ export default {
       ],
     }),
   ],
-  title: 'App Shell',
+  title: 'Components/App Shell',
   parameters: {
     backgrounds: {
       default: 'Schaeffler',

@@ -14,7 +14,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { RouterModule } from '@angular/router';
 
 export default {
-  title: 'Settings Sidebar',
+  title: 'Components/Settings Sidebar',
   component: SettingsSidebarComponent,
   decorators: [
     moduleMetadata({

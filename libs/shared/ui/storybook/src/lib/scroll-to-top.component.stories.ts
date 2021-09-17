@@ -11,7 +11,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEMd from '../../../scroll-to-top/README.md';
 
 export default {
-  title: 'ScrollToTop',
+  title: 'Components/ScrollToTop',
   component: ScrollToTopComponent,
   decorators: [
     moduleMetadata({

@@ -8,7 +8,7 @@ import READMEMd from '../../../snackbar/README.md';
 import { SnackbarLauncherComponent } from './snackbar/snackbar-launcher.component';
 
 export default {
-  title: 'Snackbar',
+  title: 'Components/Snackbar',
   component: SnackbarLauncherComponent,
   decorators: [
     moduleMetadata({

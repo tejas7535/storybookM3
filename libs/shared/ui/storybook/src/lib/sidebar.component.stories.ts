@@ -18,7 +18,7 @@ import {
 import READMEMd from '../../../sidebar/README.md';
 
 export default {
-  title: 'Sidebar',
+  title: 'Components/Sidebar',
   component: SidebarComponent,
   decorators: [
     moduleMetadata({
@@ -48,7 +48,7 @@ const Template: Story<SidebarComponent> = (args: SidebarComponent) => ({
             <ng-container sidebar>
                 SIDEBAR CONTENT
             </ng-container>
-        
+
             <ng-container content>
                 PAGE CONTENT
             </ng-container>
@@ -77,7 +77,7 @@ const TemplateWithSidebarElements: Story<SidebarComponent> = (
           <ng-container sidebar>
               <schaeffler-sidebar-elements [elements]="elements"></schaeffler-sidebar-elements>
           </ng-container>
-      
+
           <ng-container content>
               PAGE CONTENT
           </ng-container>

@@ -10,7 +10,7 @@ import { StorybookTranslocoModule } from '@schaeffler/transloco';
 import READMEMd from '../../../banner/README.md';
 
 export default {
-  title: 'Banner',
+  title: 'Components/Banner',
   component: BannerTextComponent,
   decorators: [
     moduleMetadata({

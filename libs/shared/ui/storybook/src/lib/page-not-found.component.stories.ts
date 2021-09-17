@@ -13,7 +13,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
 
 export default {
-  title: 'Page Not Found',
+  title: 'Components/Page Not Found',
   component: PageNotFoundComponent,
   decorators: [
     moduleMetadata({

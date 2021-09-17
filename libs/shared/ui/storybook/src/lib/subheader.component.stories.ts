@@ -9,7 +9,7 @@ import READMEMd from '../../../sidebar/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'Subheader',
+  title: 'Components/Subheader',
   component: SubheaderComponent,
   decorators: [
     moduleMetadata({

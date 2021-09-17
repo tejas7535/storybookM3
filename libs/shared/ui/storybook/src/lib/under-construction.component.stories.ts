@@ -12,7 +12,7 @@ import READMEMd from '../../../empty-states/src/lib/under-construction/README.md
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'Under Construction',
+  title: 'Components/Under Construction',
   component: UnderConstructionComponent,
   decorators: [
     moduleMetadata({

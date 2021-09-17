@@ -9,7 +9,7 @@ import READMEMd from '../../../dropdown-input/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'DropdownInput',
+  title: 'Components/DropdownInput',
   component: DropdownInputComponent,
   decorators: [
     moduleMetadata({

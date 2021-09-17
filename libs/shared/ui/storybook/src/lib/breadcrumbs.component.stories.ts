@@ -10,7 +10,7 @@ import {
 } from '@schaeffler/breadcrumbs';
 
 export default {
-  title: 'Breadcrumbs',
+  title: 'Components/Breadcrumbs',
   component: BreadcrumbsComponent,
   decorators: [
     moduleMetadata({

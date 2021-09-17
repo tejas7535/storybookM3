@@ -7,7 +7,7 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import READMEMd from '../../../horizontal-separator/README.md';
 
 export default {
-  title: 'Horizontal separator',
+  title: 'Components/Horizontal separator',
   component: HorizontalSeparatorComponent,
   decorators: [
     moduleMetadata({

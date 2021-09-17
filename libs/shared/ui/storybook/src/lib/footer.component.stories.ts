@@ -8,7 +8,7 @@ import READMEMd from '../../../footer/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 export default {
-  title: 'Footer',
+  title: 'Components/Footer',
   component: FooterComponent,
   decorators: [
     moduleMetadata({

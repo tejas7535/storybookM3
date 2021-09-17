@@ -9,7 +9,7 @@ import { ReportComponent, ReportModule } from '@schaeffler/report';
 import READMEMd from '../../../picture-card/README.md';
 
 export default {
-  title: 'Report',
+  title: 'Components/Report',
   component: ReportComponent,
   decorators: [
     moduleMetadata({
