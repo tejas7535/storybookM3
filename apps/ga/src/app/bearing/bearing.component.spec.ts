@@ -11,7 +11,7 @@ import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { completeStep } from '../core/store/actions/settings/settings.action';
+import { completeStep } from '../core/store/actions/settings/settings.actions';
 import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
 import { BearingComponent } from './bearing.component';
 

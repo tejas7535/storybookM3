@@ -6,6 +6,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -14,8 +15,12 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getParameterState } from '../core/store';
-import { patchParameters } from './../core/store/actions/parameters/parameters.action';
-import { previousStep } from './../core/store/actions/settings/settings.action';
+import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
+import {
+  completeStep,
+  previousStep,
+} from './../core/store/actions/settings/settings.actions';
 import {
   initialState,
   ParameterState,
@@ -148,7 +153,10 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.selectedBearing$ = this.store.select(getSelectedBearing);
@@ -205,6 +213,11 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public completeStep(): void {
+    this.store.dispatch(completeStep());
+    this.router.navigate([GreaseCalculationPath.ResultPath]);
   }
 
   public navigateBack(): void {

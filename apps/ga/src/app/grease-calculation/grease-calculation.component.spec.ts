@@ -13,7 +13,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { selectBearing } from '../core/store';
-import { updateStep } from '../core/store/actions/settings/settings.action';
+import { updateStep } from '../core/store/actions/settings/settings.actions';
 import { initialState } from '../core/store/reducers/settings/settings.reducer';
 import { GreaseStepperModule } from './../core/components/grease-stepper/grease-stepper.module';
 import { GreaseCalculationComponent } from './grease-calculation.component';

@@ -55,6 +55,9 @@
       "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur"
     }
   },
+  "report": {
+    "title": "Ergebnisse"
+  },
   "settings": {
     "stepper": {
       "bearingSelection": "Lagerauswahl",

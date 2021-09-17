@@ -19,13 +19,13 @@ import {
   searchBearing,
   selectBearing,
 } from '../core/store/actions/bearing/bearing.actions';
-import { setCurrentStep } from '../core/store/actions/settings/settings.action';
+import { setCurrentStep } from '../core/store/actions/settings/settings.actions';
 import {
   getBearingLoading,
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
 import { updateRouteParams } from './../core/store/actions/bearing/bearing.actions';
-import { completeStep } from './../core/store/actions/settings/settings.action';
+import { completeStep } from './../core/store/actions/settings/settings.actions';
 import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
 
 @Component({

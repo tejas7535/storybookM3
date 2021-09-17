@@ -1,16 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import * as SettingsAction from '../../actions/settings/settings.action';
+import { setStepper } from '../../actions/settings/settings.actions';
 import { GreaseCalculationPath } from './../../../../grease-calculation/grease-calculation-path.enum';
-import { Step } from './../../../../shared/models';
+import { Step, Stepper } from './../../../../shared/models';
 
 export interface SettingsState {
-  stepper: {
-    steps: Step[];
-    currentStep: number;
-    previousStep: number;
-    nextStep: number;
-  };
+  stepper: Stepper;
   language: string;
   units: string;
   decimalSeparator: string;
@@ -39,7 +34,7 @@ const initialSteps: Step[] = [
     editable: false,
     completed: false,
     enabled: false,
-    link: 'tbd',
+    link: `${GreaseCalculationPath.ResultPath}`,
   },
 ];
 
@@ -58,12 +53,10 @@ export const initialState: SettingsState = {
 export const settingsReducer = createReducer(
   initialState,
   on(
-    SettingsAction.setStepper,
-    (state, newStepperState): SettingsState => ({
+    setStepper,
+    (state, { stepper }): SettingsState => ({
       ...state,
-      stepper: {
-        ...newStepperState,
-      },
+      stepper,
     })
   )
 );

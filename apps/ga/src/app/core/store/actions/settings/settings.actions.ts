@@ -1,5 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { Stepper } from '../../../../shared/models';
 import { Step } from './../../../../shared/models/settings/step.model';
 
 export const updateStep = createAction(
@@ -9,12 +10,7 @@ export const updateStep = createAction(
 
 export const setStepper = createAction(
   '[Settings] Set Steps',
-  props<{
-    steps: Step[];
-    currentStep: number;
-    previousStep: number;
-    nextStep: number;
-  }>()
+  props<{ stepper: Stepper }>()
 );
 
 export const completeStep = createAction('[Settings] Complete Step');

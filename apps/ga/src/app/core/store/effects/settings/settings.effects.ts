@@ -17,7 +17,7 @@ import {
   setCurrentStep,
   setStepper,
   updateStep,
-} from './../../actions/settings/settings.action';
+} from './../../actions/settings/settings.actions';
 import { getStepperState } from './../../selectors/settings/settings.selector';
 
 @Injectable()
@@ -30,8 +30,10 @@ export class SettingsEffects {
         const updatedSteps = this.getNewSteps(stepperState.steps, action.step);
 
         return setStepper({
-          ...stepperState,
-          steps: updatedSteps,
+          stepper: {
+            ...stepperState,
+            steps: updatedSteps,
+          },
         });
       })
     );
@@ -64,15 +66,17 @@ export class SettingsEffects {
           )?.index;
 
           return setStepper({
-            ...stepperState,
-            steps: updatedSteps,
-            currentStep: stepperState.nextStep,
-            previousStep: stepperState.currentStep,
-            nextStep: newNext,
+            stepper: {
+              ...stepperState,
+              steps: updatedSteps,
+              currentStep: stepperState.nextStep,
+              previousStep: stepperState.currentStep,
+              nextStep: newNext,
+            },
           });
         }
 
-        return setStepper({ ...stepperState });
+        return setStepper({ stepper: { ...stepperState } });
       })
     );
   });
@@ -102,10 +106,12 @@ export class SettingsEffects {
         );
 
         return setStepper({
-          ...stepperState,
-          currentStep: newCurrentStep.index,
-          previousStep: newPrevious,
-          nextStep: newNext,
+          stepper: {
+            ...stepperState,
+            currentStep: newCurrentStep.index,
+            previousStep: newPrevious,
+            nextStep: newNext,
+          },
         });
       })
     );
@@ -132,10 +138,12 @@ export class SettingsEffects {
         );
 
         return setStepper({
-          ...stepperState,
-          currentStep: stepperState.previousStep,
-          nextStep: stepperState.currentStep,
-          previousStep: newPrevious,
+          stepper: {
+            ...stepperState,
+            currentStep: stepperState.previousStep,
+            nextStep: stepperState.currentStep,
+            previousStep: newPrevious,
+          },
         });
       })
     );

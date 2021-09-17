@@ -3,20 +3,32 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { environment } from '../../../../environments/environment';
+import { CalculationParamters } from '../../../shared/models';
+
 @Injectable({
   providedIn: 'root',
 })
 export class RestService {
-  private readonly baseUrl =
-    'https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.1/greaseservice';
-
   public constructor(private readonly httpClient: HttpClient) {}
 
   public getBearingSearch(query: string): Observable<string[]> {
-    return this.httpClient.get<string[]>(`${this.baseUrl}/bearings/search`, {
-      params: {
-        pattern: query,
-      },
-    });
+    return this.httpClient.get<string[]>(
+      `${environment.baseUrl}/bearings/search`,
+      {
+        params: {
+          pattern: query,
+        },
+      }
+    );
+  }
+
+  public postGreaseCalculation(
+    options: CalculationParamters
+  ): Observable<string> {
+    return this.httpClient.post<string>(
+      `${environment.baseUrl}/calculate`,
+      options
+    );
   }
 }

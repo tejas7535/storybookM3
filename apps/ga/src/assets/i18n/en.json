@@ -55,6 +55,9 @@
       "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature"
     }
   },
+  "report": {
+    "title": "Report"
+  },
   "settings": {
     "stepper": {
       "bearingSelection": "Bearing Selection",

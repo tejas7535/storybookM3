@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { setCurrentStep } from '../../store/actions/settings/settings.action';
+import { setCurrentStep } from '../../store/actions/settings/settings.actions';
 import { Step } from './../../../shared/models/settings/step.model';
 import {
   getCurrentStep,

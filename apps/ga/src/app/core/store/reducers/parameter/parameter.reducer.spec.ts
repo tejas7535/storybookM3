@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { Movement } from './../../../../shared/models/parameters/movement.model';
-import { patchParameters } from './../../actions/parameters/parameters.action';
+import { patchParameters } from './../../actions/parameters/parameters.actions';
 import {
   initialState,
   parameterReducer,

@@ -20,7 +20,7 @@ import {
   setCurrentStep,
   setStepper,
   updateStep,
-} from './../../actions/settings/settings.action';
+} from './../../actions/settings/settings.actions';
 import { SettingsEffects } from './settings.effects';
 
 const getStep = (index: number, steps: Step[]): Step =>
@@ -82,8 +82,10 @@ describe('Settings Effects', () => {
         ].sort((a, b) => a.index - b.index);
 
         const result = setStepper({
-          ...initialState.stepper,
-          steps: [...expectedSteps],
+          stepper: {
+            ...initialState.stepper,
+            steps: [...expectedSteps],
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -108,8 +110,10 @@ describe('Settings Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = setStepper({
-          ...initialState.stepper,
-          nextStep: undefined,
+          stepper: {
+            ...initialState.stepper,
+            nextStep: undefined,
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -141,10 +145,12 @@ describe('Settings Effects', () => {
         ];
 
         const result = setStepper({
-          steps: expectedSteps,
-          currentStep: 1,
-          previousStep: 0,
-          nextStep: 2,
+          stepper: {
+            steps: expectedSteps,
+            currentStep: 1,
+            previousStep: 0,
+            nextStep: 2,
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -181,10 +187,12 @@ describe('Settings Effects', () => {
         ];
 
         const result = setStepper({
-          steps: expectedSteps,
-          currentStep: 2,
-          previousStep: 1,
-          nextStep: undefined,
+          stepper: {
+            steps: expectedSteps,
+            currentStep: 2,
+            previousStep: 1,
+            nextStep: undefined,
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -204,10 +212,12 @@ describe('Settings Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = setStepper({
-          ...initialState.stepper,
-          currentStep: 0,
-          nextStep: 1,
-          previousStep: undefined,
+          stepper: {
+            ...initialState.stepper,
+            currentStep: 0,
+            nextStep: 1,
+            previousStep: undefined,
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -224,10 +234,12 @@ describe('Settings Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = setStepper({
-          ...initialState.stepper,
-          currentStep: 2,
-          nextStep: undefined,
-          previousStep: 1,
+          stepper: {
+            ...initialState.stepper,
+            currentStep: 2,
+            nextStep: undefined,
+            previousStep: 1,
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -251,10 +263,12 @@ describe('Settings Effects', () => {
         actions$ = m.cold('-a', { a: action });
 
         const result = setStepper({
-          ...initialState.stepper,
-          previousStep: 0,
-          currentStep: 1,
-          nextStep: 2,
+          stepper: {
+            ...initialState.stepper,
+            previousStep: 0,
+            currentStep: 1,
+            nextStep: 2,
+          },
         });
         const expected = m.cold('-b', { b: result });
 
@@ -282,7 +296,9 @@ describe('Settings Effects', () => {
         actions$ = m.cold('-a', { a: action });
 
         const result = setStepper({
-          ...initialState.stepper,
+          stepper: {
+            ...initialState.stepper,
+          },
         });
         const expected = m.cold('-b', { b: result });
 

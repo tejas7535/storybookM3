@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 import { ReactiveComponentModule } from '@ngrx/component';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ResultEffects } from '../core/store/effects/result/result.effects';
 import { parameterReducer } from './../core/store/reducers/parameter/parameter.reducer';
 import { SharedModule } from './../shared/shared.module';
 import { ParametersRoutingModule } from './parameters-routing.module';
@@ -34,6 +36,7 @@ import { ParametersComponent } from './parameters.component';
 
     // Store
     StoreModule.forFeature('parameter', parameterReducer),
+    EffectsModule.forFeature([ResultEffects]),
   ],
 })
 export class ParametersModule {}

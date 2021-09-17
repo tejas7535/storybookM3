@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { Movement } from '../../../../shared/models';
-import * as ParametersActions from '../../actions/parameters/parameters.action';
+import * as ParametersActions from '../../actions/parameters/parameters.actions';
 import { RecursivePartial } from './../../../../shared/types/rescursive-partial.type';
 
 export interface FullParameterState {

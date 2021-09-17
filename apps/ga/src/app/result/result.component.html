@@ -1,0 +1,14 @@
+<ng-container *transloco="let t; read: 'report'">
+  <schaeffler-subheader
+    class="flex-shrink flex"
+    [showBackButton]="true"
+    [title]="t('title')"
+    (backButtonClicked)="navigateBack()"
+  >
+    <ng-container content> </ng-container>
+  </schaeffler-subheader>
+  <div>
+    <pre>{{ resultId$ | ngrxPush | json }}</pre>
+    <pre>{{ resultState$ | ngrxPush | json }}</pre>
+  </div>
+</ng-container>

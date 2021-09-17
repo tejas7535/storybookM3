@@ -5,7 +5,12 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { BEARING_SEARCH_RESULT_MOCK } from './../../../../testing/mocks/rest.service.mock';
+import { environment } from '../../../../environments/environment';
+import {
+  BEARING_SEARCH_RESULT_MOCK,
+  CALCULATION_PARAMETERS_MOCK,
+  CALCULATION_RESULT_MOCK,
+} from './../../../../testing/mocks/rest.service.mock';
 import { RestService } from './rest.service';
 
 describe('RestService', () => {
@@ -37,10 +42,25 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${service['baseUrl']}/bearings/search?pattern=theQuery`
+        `${environment.baseUrl}/bearings/search?pattern=theQuery`
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
+    });
+  });
+
+  describe('#postGreaseCalculation', () => {
+    it('should send a calculation post request with given params', (done) => {
+      service
+        .postGreaseCalculation(CALCULATION_PARAMETERS_MOCK)
+        .subscribe((result: string) => {
+          expect(result).toEqual(CALCULATION_RESULT_MOCK);
+          done();
+        });
+
+      const req = httpMock.expectOne(`${environment.baseUrl}/calculate`);
+      expect(req.request.method).toBe('POST');
+      req.flush(CALCULATION_RESULT_MOCK);
     });
   });
 });

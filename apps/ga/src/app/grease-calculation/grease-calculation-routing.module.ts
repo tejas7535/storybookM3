@@ -25,6 +25,11 @@ const routes: Routes = [
             (m) => m.ParametersModule
           ),
       },
+      {
+        path: GreaseCalculationPath.ResultPath,
+        loadChildren: async () =>
+          import('../result/result.module').then((m) => m.ResultModule),
+      },
     ],
   },
 ];

@@ -10,7 +10,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { StepperModule } from '@schaeffler/stepper';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { setCurrentStep } from '../../store/actions/settings/settings.action';
+import { setCurrentStep } from '../../store/actions/settings/settings.actions';
 import { initialState } from './../../store/reducers/settings/settings.reducer';
 import {
   getCurrentStep,

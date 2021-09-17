@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { selectBearing } from '../core/store';
-import { updateStep } from '../core/store/actions/settings/settings.action';
+import { updateStep } from '../core/store/actions/settings/settings.actions';
 
 @Component({
   selector: 'ga-grease-calculation',
