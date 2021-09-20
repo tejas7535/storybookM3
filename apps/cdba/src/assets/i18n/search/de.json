@@ -9,11 +9,15 @@
       "customer": "Kunde",
       "material_short_description": "Materialkurzbezeichnung",
       "budget_quantity": "Budgetierte Stückzahl",
-      "length": "Länge",
-      "width": "Breite",
-      "height": "Höhe",
+      "length": "Hauptabmessung 1",
+      "width": "Hauptabmessung 2",
+      "height": "Hauptabmessung 3",
       "project_name": "Projektname",
       "rfq": "RFQ"
+    },
+    "units": {
+      "mm": "mm",
+      "pc": "St"
     },
     "formatHints": {
       "material_number": "Beispielwert: 012618918-0000",
@@ -26,7 +30,7 @@
     },
     "tooltips": {
       "disabledBudgetQuantity": "Um den Filter für die Budgetierte Stückzahl zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",
-      "disabledDimensionFilter": "Um die Längen-, Breiten- und Höhenfilter zu aktivieren, verwenden Sie bitte zunächst den Filter Materialkurzbezeichnung und klicken Sie anschließend auf 'Suchen'."
+      "disabledDimensionFilter": "Um die Hauptabmessungsfilter zu aktivieren, verwenden Sie bitte zunächst den Filter Materialkurzbezeichnung und klicken Sie anschließend auf 'Suchen'."
     },
     "searchButton": "Suchen",
     "searchPlaceholder": "Suche...",

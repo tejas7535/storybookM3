@@ -9,11 +9,15 @@
       "customer": "Customer",
       "material_short_description": "Material Short Description",
       "budget_quantity": "Budget Quantity",
-      "length": "Length",
-      "width": "Width",
-      "height": "Height",
+      "length": "Main Dimension 1",
+      "width": "Main Dimension 2",
+      "height": "Main Dimension 3",
       "project_name": "Project Name",
       "rfq": "RFQ"
+    },
+    "units": {
+      "mm": "mm",
+      "pc": "pc"
     },
     "formatHints": {
       "material_number": "Example Value: 012618918-0000",
@@ -26,7 +30,7 @@
     },
     "tooltips": {
       "disabledBudgetQuantity": "To activate the budget quantity filter, please first use another filter and click on the search button.",
-      "disabledDimensionFilter": "To activate the length, width, and height filters, please use the material short description filter and click on the search button."
+      "disabledDimensionFilter": "To activate the main dimensions filters, please use the material short description filter and click on the search button."
     },
     "searchButton": "Search",
     "searchPlaceholder": "Search...",

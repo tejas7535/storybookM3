@@ -15,11 +15,11 @@
     },
     "dimensionAndWeight": {
       "title": "Dimensions & Weight",
-      "height": "Height (H)",
-      "length": "Length (L)",
+      "length": "Main Dimension 1",
+      "width": "Main Dimension 2",
+      "height": "Main Dimension 3",
       "volumeCubic": "Cubic Volume",
-      "weight": "Net. weight",
-      "width": "Width (W)"
+      "weight": "Net. weight"
     },
     "pricing": {
       "title": "Pricing",

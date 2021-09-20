@@ -16,30 +16,28 @@ export class RangeFilterValuePipe implements PipeTransform {
 
   transform(filter: FilterItemRange): string {
     let value: string;
-    let filterTranslation: string;
 
-    filterTranslation = ` ${this.transloco.translate<string>(
-      `search.referenceTypesFilters.names.${filter.name}`
-    )}`;
-    const unit = filter.unit ? filter.unit : '';
-
-    if (filter.name === 'budget_quantity') {
-      filterTranslation = ''; // because it is too long to be displayed in the form field
-    }
+    const unitTranslation: string = filter.unit
+      ? this.getTranslationOrMissing(
+          `search.referenceTypesFilters.units.${filter.unit}`
+        )
+      : '';
 
     if (filter.minSelected && !filter.maxSelected) {
-      value = `Min.${filterTranslation}: ${this.formatRangeNumber(
+      value = `Min. ${this.formatRangeNumber(
         filter.minSelected
-      )}${unit}`;
+      )}${unitTranslation}`;
     } else if (!filter.minSelected && filter.maxSelected) {
-      value = `Max.${filterTranslation}: ${this.formatRangeNumber(
+      value = `Max. ${this.formatRangeNumber(
         filter.maxSelected
-      )}${unit}`;
+      )}${unitTranslation}`;
     } else {
       // filter.minSelected && filter.maxSelected
       value = `${this.formatRangeNumber(
         filter.minSelected
-      )}${unit} - ${this.formatRangeNumber(filter.maxSelected)}${unit}`;
+      )}${unitTranslation} - ${this.formatRangeNumber(
+        filter.maxSelected
+      )}${unitTranslation}`;
     }
 
     return value;
@@ -56,5 +54,11 @@ export class RangeFilterValuePipe implements PipeTransform {
       undefined,
       numberFormatOptions
     );
+  }
+
+  private getTranslationOrMissing(key: string): string {
+    const translation = this.transloco.translate<string>(key);
+
+    return translation === key ? '' : translation;
   }
 }

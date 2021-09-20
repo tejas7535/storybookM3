@@ -15,9 +15,9 @@
     },
     "dimensionAndWeight": {
       "title": "Abmessungen & Gewicht",
-      "length": "Länge (L)",
-      "width": "Breite (B)",
-      "height": "Höhe (H)",
+      "length": "Hauptabmessung 1",
+      "width": "Hauptabmessung 2",
+      "height": "Hauptabmessung 3",
       "volumeCubic": "Kubikvolumen",
       "weight": "Nettogewicht"
     },

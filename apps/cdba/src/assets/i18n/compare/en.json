@@ -7,9 +7,9 @@
   "details": {
     "dimensions": {
       "title": "Dimensions & Weight",
-      "height": "Height",
-      "width": "Width",
-      "length": "Length",
+      "length": "Main Dimension 1",
+      "width": "Main Dimension 2",
+      "height": "Main Dimension 3",
       "weight": "Weight",
       "volume": "Volume"
     },

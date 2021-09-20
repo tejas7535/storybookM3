@@ -7,9 +7,9 @@
   "details": {
     "dimensions": {
       "title": "Dimensionen & Gewicht",
-      "height": "Höhe",
-      "width": "Breite",
-      "length": "Länge",
+      "length": "Hauptabmessung 1",
+      "width": "Hauptabmessung 2",
+      "height": "Hauptabmessung 3",
       "weight": "Gewicht",
       "volume": "Volumen"
     },
