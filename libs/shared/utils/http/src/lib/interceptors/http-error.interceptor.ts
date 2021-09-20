@@ -6,15 +6,34 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { translate, TranslocoService } from '@ngneat/transloco';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { SnackBarService } from '@schaeffler/snackbar';
+import { URL_SUPPORT } from '../constants/urls';
+import deJson from '../i18n/de.json';
+import enJson from '../i18n/en.json';
+import esJson from '../i18n/es.json';
+import frJson from '../i18n/fr.json';
+import ruJson from '../i18n/ru.json';
+import zhJson from '../i18n/zh.json';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  public constructor(private readonly snackBarService: SnackBarService) {}
+  public constructor(
+    private readonly snackBar: MatSnackBar,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.translocoService.setTranslation(enJson, 'en');
+    this.translocoService.setTranslation(deJson, 'de');
+    this.translocoService.setTranslation(esJson, 'es');
+    this.translocoService.setTranslation(frJson, 'fr');
+    this.translocoService.setTranslation(ruJson, 'ru');
+    this.translocoService.setTranslation(zhJson, 'zh');
+  }
 
   public intercept(
     request: HttpRequest<any>,
@@ -47,7 +66,15 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           'https://graph.microsoft.com',
         ];
         if (!authUrls.some((authUrl) => error.url.startsWith(authUrl))) {
-          this.snackBarService.showErrorMessage(errorMessage);
+          this.snackBar
+            .open(
+              translate('errorInterceptorMessageDefault'),
+              translate('errorInterceptorActionDefault')
+            )
+            .onAction()
+            .subscribe(() => {
+              window.open(URL_SUPPORT, '_blank').focus();
+            });
         }
 
         return throwError(errorMessage);

@@ -5,13 +5,14 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
 
@@ -34,11 +35,16 @@ describe(`HttpErrorInterceptor`, () => {
   let service: ExampleService;
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
     service: ExampleService,
-    imports: [HttpClientTestingModule, NoopAnimationsModule, SnackBarModule],
+    imports: [
+      HttpClientTestingModule,
+      NoopAnimationsModule,
+      MatSnackBarModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       ExampleService,
       {
@@ -53,7 +59,7 @@ describe(`HttpErrorInterceptor`, () => {
     spectator = createService();
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
     console.error = jest.fn();
   });
 
@@ -75,8 +81,6 @@ describe(`HttpErrorInterceptor`, () => {
         lineno: 402,
         filename: 'closet.html',
       });
-
-      snackBarService.showErrorMessage = jest.fn();
     });
 
     afterEach(() => {
@@ -151,7 +155,7 @@ describe(`HttpErrorInterceptor`, () => {
           expect(true).toEqual(false);
         },
         (_response) => {
-          expect(snackBarService.showErrorMessage).toHaveBeenCalled();
+          expect(snackBar.open).toHaveBeenCalled();
         }
       );
 
@@ -175,7 +179,7 @@ describe(`HttpErrorInterceptor`, () => {
           expect(true).toEqual(false);
         },
         (_response) => {
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
         }
       );
 

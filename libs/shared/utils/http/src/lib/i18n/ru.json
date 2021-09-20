@@ -1,0 +1,4 @@
+{
+  "errorInterceptorMessageDefault": "У нас возникли проблемы с сервером. Пожалуйста, повторите попытку позже.",
+  "errorInterceptorActionDefault": "Контактная поддержка"
+}

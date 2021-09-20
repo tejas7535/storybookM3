@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, MatSnackBarModule],
 })
 export class HttpModule {
   public static forRoot(
