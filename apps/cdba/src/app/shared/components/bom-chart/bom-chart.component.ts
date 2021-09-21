@@ -19,7 +19,6 @@ import { DataPoint } from './data-point.model';
 @Component({
   selector: 'cdba-bom-chart',
   templateUrl: './bom-chart.component.html',
-  styleUrls: ['./bom-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
   providers: [BomChartConfigService],
 })

@@ -249,7 +249,7 @@ export const getDrawingsErrorMessage = createSelector(
     }
 
     if (!state.drawings.loading && state.drawings.items?.length === 0) {
-      return translate('detail.drawings.notFoundErrorMessage');
+      return translate('detail.drawings.noDrawingsText');
     }
 
     return undefined;

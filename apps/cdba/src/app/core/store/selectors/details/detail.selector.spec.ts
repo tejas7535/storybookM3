@@ -270,7 +270,7 @@ describe('Detail Selector', () => {
         expect(getDrawingsErrorMessage(fakeState)).toEqual('404');
       });
 
-      it('should return notFoundErrorMessage if loading false and drawing items empty', () => {
+      it('should return noDrawingsText if loading false and drawing items empty', () => {
         const notFoundState: { detail: DetailState } = {
           ...initialDetailState,
           detail: {
@@ -284,7 +284,7 @@ describe('Detail Selector', () => {
         };
 
         expect(getDrawingsErrorMessage(notFoundState)).toEqual(
-          'detail.drawings.notFoundErrorMessage'
+          'detail.drawings.noDrawingsText'
         );
       });
 

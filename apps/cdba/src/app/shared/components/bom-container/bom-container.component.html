@@ -22,7 +22,7 @@
           (selectionChange)="selectCalculation($event)"
         ></cdba-calculations-table>
       </ng-container>
-      <div chart>
+      <ng-container chart>
         <ng-container *ngIf="childrenOfSelectedBomItem$ | ngrxPush as children">
           <cdba-bom-chart [data]="children"></cdba-bom-chart>
           <cdba-bom-legend
@@ -35,7 +35,7 @@
           *ngIf="bomLoading$ | ngrxPush"
           [show]="true"
         ></cdba-loading-spinner>
-      </div>
+      </ng-container>
     </cdba-bom-overlay>
   </mat-sidenav>
 
