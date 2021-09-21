@@ -1,5 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -24,7 +25,7 @@ import {
 import {
   getAutocompleteLoading,
   getFilters,
-  getIsDirty,
+  getSelectedFilters,
   getTooManyResults,
 } from '../../core/store/selectors/search/search.selector';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
@@ -64,6 +65,7 @@ describe('ReferenceTypesFiltersComponent', () => {
       SharedModule,
       MatButtonModule,
       MatIconModule,
+      MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [
@@ -79,7 +81,7 @@ describe('ReferenceTypesFiltersComponent', () => {
           { selector: getFilters, value: filters },
           { selector: getAutocompleteLoading, value: true },
           { selector: getTooManyResults, value: false },
-          { selector: getIsDirty, value: true },
+          { selector: getSelectedFilters, value: [] },
         ],
       }),
     ],

@@ -12,20 +12,21 @@ import { Store } from '@ngrx/store';
 
 import {
   autocomplete,
+  getAutocompleteLoading,
+  getFilters,
+  getSelectedFilters,
   resetFilters,
   search,
   updateFilter,
 } from '../../core/store';
 import {
   FilterItem,
+  FilterItemIdValueUpdate,
+  FilterItemRangeUpdate,
   FilterItemType,
   TextSearch,
 } from '../../core/store/reducers/search/models';
-import {
-  getAutocompleteLoading,
-  getFilters,
-  getIsDirty,
-} from '../../core/store/selectors/search/search.selector';
+import { TOO_MANY_RESULTS_THRESHOLD } from '../../core/store/reducers/search/search.reducer';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 
@@ -43,8 +44,11 @@ export class ReferenceTypesFiltersComponent implements OnInit {
 
   // can be used for all filters for now since only one filter can be opened anyway
   autocompleteLoading$: Observable<boolean>;
-  showResetButton$: Observable<boolean>;
+  selectedFilters$: Observable<
+    (FilterItemIdValueUpdate | FilterItemRangeUpdate)[]
+  >;
 
+  tooManyResultsThreshold: number = TOO_MANY_RESULTS_THRESHOLD;
   filterType = FilterItemType;
 
   trackByFn: TrackByFunction<FilterItem> = (
@@ -57,7 +61,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   public ngOnInit(): void {
     this.filters$ = this.store.select(getFilters);
     this.autocompleteLoading$ = this.store.select(getAutocompleteLoading);
-    this.showResetButton$ = this.store.select(getIsDirty);
+    this.selectedFilters$ = this.store.select(getSelectedFilters);
   }
 
   /**

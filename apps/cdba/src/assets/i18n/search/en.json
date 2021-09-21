@@ -33,6 +33,7 @@
       "disabledDimensionFilter": "To activate the main dimensions filters, please use the material short description filter and click on the search button."
     },
     "searchButton": "Search",
+    "searchButtonTooltip": "Please use filters to reduce the number of results to {{tooManyResultsThreshold}}",
     "searchPlaceholder": "Search...",
     "selectAllCheckbox": "Select all",
     "selectedCountLabel": "{{count}} selected",

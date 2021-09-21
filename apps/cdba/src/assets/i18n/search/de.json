@@ -33,6 +33,7 @@
       "disabledDimensionFilter": "Um die Hauptabmessungsfilter zu aktivieren, verwenden Sie bitte zunächst den Filter Materialkurzbezeichnung und klicken Sie anschließend auf 'Suchen'."
     },
     "searchButton": "Suchen",
+    "searchButtonTooltip": "Bitte verwenden Sie Filter, um die Anzahl der Ergebnisse auf {{tooManyResultsThreshold}} zu reduzieren",
     "searchPlaceholder": "Suche...",
     "selectAllCheckbox": "Alle auswählen",
     "selectedCountLabel": "{{count}} gewählt",

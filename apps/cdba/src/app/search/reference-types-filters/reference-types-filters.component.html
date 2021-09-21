@@ -27,6 +27,14 @@
       mat-flat-button
       color="primary"
       class="text-button"
+      [disabled]="(selectedFilters$ | ngrxPush).length === 0"
+      [matTooltip]="
+        t('searchButtonTooltip', {
+          tooManyResultsThreshold: tooManyResultsThreshold
+        })
+      "
+      [matTooltipDisabled]="(selectedFilters$ | ngrxPush).length > 0"
+      matTooltipPosition="below"
       (click)="search()"
     >
       <mat-icon>filter_list</mat-icon>
@@ -36,7 +44,7 @@
       fxFlex="nogrow"
       mat-stroked-button
       class="text-button"
-      [disabled]="!(showResetButton$ | ngrxPush)"
+      [disabled]="(selectedFilters$ | ngrxPush).length === 0"
       (click)="resetFilters()"
     >
       {{ t('resetFilterButton') }}
