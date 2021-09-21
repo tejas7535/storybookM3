@@ -41,6 +41,7 @@ API of Report Component:
   @Input() public downloadReport?: string;
   @Input() public errorMsg: string = 'Unfortunately an error occured. Please try again later.';
   @Input() public actionText: string = 'Retry';
+  @Input() public reportSelector: string = 'body';
 ```
 
 Use like:
@@ -56,6 +57,7 @@ Use like:
     [downloadReport]="result.pdfReportUrl"
     [errorMsg]="translatedErrorMsg"
     [actionText]="translatedActionText"
+    [reportSelector]=".content"
   >
   <div>Any content you want to show under the report in the card</div>
 <schaeffler-report>

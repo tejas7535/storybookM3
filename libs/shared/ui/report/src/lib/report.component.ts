@@ -27,6 +27,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   @Input() public subtitle?: string;
   @Input() public htmlReport?: string;
   @Input() public jsonReport?: string;
+  @Input() public reportSelector?: string;
   @Input() public downloadReport?: string;
   @Input() public errorMsg =
     'Unfortunately an error occured. Please try again later.';
@@ -57,7 +58,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   public getHtmlReport(): void {
     this.reportService
-      .getHtmlReport(this.htmlReport as string)
+      .getHtmlReport(this.htmlReport as string, this.reportSelector)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (result: string) => this.htmlResult$.next(result),

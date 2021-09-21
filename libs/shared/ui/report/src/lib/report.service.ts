@@ -11,15 +11,16 @@ import { Content, Subordinate } from './models';
 export class ReportService {
   public constructor(private readonly http: HttpClient) {}
 
-  public getHtmlReport(htmlReportUrl: string): Observable<any> {
+  public getHtmlReport(
+    htmlReportUrl: string,
+    reportSelector = 'body'
+  ): Observable<any> {
     return this.http.get<{ data: string }>(htmlReportUrl).pipe(
       map((response: { data: string }) => response.data),
       map((report: string) => {
         const parser = new DOMParser();
         const htmlDoc = parser.parseFromString(report, 'text/html');
-        // with the new api caeonlinecalculation-q --> querySelector('.content')
-        // with the new api mountingmanager-cae --> querySelector('body')
-        const bodyContent = htmlDoc.querySelector('body')?.children;
+        const bodyContent = htmlDoc.querySelector(reportSelector)?.children;
 
         const structuredContent =
           bodyContent &&

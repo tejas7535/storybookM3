@@ -14,6 +14,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
+import { environment } from '../../../environments/environment';
 import { RawValue, RawValueContent, Result } from '../../shared/models';
 import { ResultPageService } from './result-page.service';
 
@@ -31,6 +32,7 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   private readonly inactive$ = new Subject<void>();
   private readonly destroy$ = new Subject<void>();
   private lastFormData?: FormGroup;
+  public reportSelector = environment.reportSelector;
 
   public constructor(
     private readonly resultPageService: ResultPageService,

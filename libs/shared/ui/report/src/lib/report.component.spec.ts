@@ -103,6 +103,7 @@ describe('ReportComponent', () => {
   describe('getHtmlReport', () => {
     beforeEach(() => {
       component.htmlReport = 'mockDisplayReportUrl';
+      component.reportSelector = 'mockReportSelector';
     });
     it('getHtmlReport should call getReport from reportService', (done) => {
       component['reportService'].getHtmlReport = jest
@@ -112,7 +113,8 @@ describe('ReportComponent', () => {
       component.htmlResult$.subscribe(() => {
         expect(component['reportService'].getHtmlReport).toBeCalledTimes(1);
         expect(component['reportService'].getHtmlReport).toBeCalledWith(
-          'mockDisplayReportUrl'
+          'mockDisplayReportUrl',
+          'mockReportSelector'
         );
         done();
       });
