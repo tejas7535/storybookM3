@@ -23,9 +23,7 @@ describe('UnderConstructionComponent', () => {
 
   it('should create component with default title and message', () => {
     expect(component).toBeTruthy();
-    expect(spectator.query('.schaeffler-text')).toHaveTextContent(
-      'underConstructionMessage'
-    );
+    expect(spectator.query('p')).toHaveTextContent('underConstructionMessage');
     expect(spectator.query('h4')).toHaveTextContent('underConstruction');
   });
 
@@ -35,7 +33,7 @@ describe('UnderConstructionComponent', () => {
     spectator.detectChanges();
 
     expect(component).toBeTruthy();
-    expect(spectator.query('.schaeffler-text')).toHaveTextContent(
+    expect(spectator.query('p')).toHaveTextContent(
       'This feature will come soon.'
     );
     expect(spectator.query('h4')).toHaveTextContent('Upcoming feature!');
