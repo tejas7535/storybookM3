@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.7...mm-v0.1.6) (2021-09-21)
+
+
+### 🎸 Features
+
+* **mm:** remove next step buttons (UFTABI-4853) ([#2959](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2959)) ([62a6ecb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/62a6ecb9efd0d2b33170a6eec6d83109680ef111))
+* **report:** add json parsing (UFTABI-5021) ([#2825](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2825)) ([4a934e9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a934e9ef4edf32ba9302682895f49e06235d0c4))
+
 ### [0.1.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.6...mm-v0.1.5) (2021-09-07)
 
 
