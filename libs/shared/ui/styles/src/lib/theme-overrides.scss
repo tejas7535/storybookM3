@@ -1,0 +1,7 @@
+@use '~@angular/material' as mat;
+@mixin schaeffler-theme-overrides($theme) {
+  // button overrides
+  .mat-button-base {
+    text-transform: uppercase;
+  }
+}

@@ -1,6 +1,8 @@
 // https://material.angular.io/guide/theming
 // https://glitch.com/~material-theme-builder
 @use '~@angular/material' as mat;
+@use './theme-overrides' as overrides;
+
 @import './colors.scss';
 // Plus imports for other components in your app.
 
@@ -17,3 +19,5 @@ $schaeffler-theme: mat.define-light-theme(
   $schaeffler-accent,
   $schaeffler-warn
 );
+
+@include overrides.schaeffler-theme-overrides($schaeffler-theme);
