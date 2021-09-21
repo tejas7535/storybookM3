@@ -17,6 +17,11 @@ export const appRoutePaths: Routes = [
       ),
   },
   {
+    path: AppRoutePath.LegalPath,
+    loadChildren: async () =>
+      import('@schaeffler/legal-pages').then((m) => m.LegalModule),
+  },
+  {
     path: '**',
     redirectTo: AppRoutePath.BasePath,
   },

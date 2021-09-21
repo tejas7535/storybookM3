@@ -64,5 +64,12 @@
       "parameters": "Parameters",
       "report": "Report"
     }
+  },
+  "legal": {
+    "imprint": "Imprint",
+    "dataPrivacy": "Data Privacy",
+    "termsOfUse": "Terms of Use",
+    "cookiePolicy": "Cookie Policy",
+    "cookieSettings": "Cookie Settings"
   }
 }

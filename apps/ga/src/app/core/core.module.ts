@@ -9,6 +9,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
+import { SharedModule } from '../shared/shared.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StoreModule } from './store/store.module';
 
@@ -21,6 +22,7 @@ import { StoreModule } from './store/store.module';
     // UI Modules
     HeaderModule,
     FooterModule,
+    SharedModule,
 
     // Material Modules
     MatSidenavModule,

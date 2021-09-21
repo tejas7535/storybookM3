@@ -64,5 +64,12 @@
       "parameters": "Eingaben",
       "report": "Report"
     }
+  },
+  "legal": {
+    "imprint": "Impressum",
+    "dataPrivacy": "Datenschutzerklärung",
+    "termsOfUse": "Nutzungsbedingungen",
+    "cookiePolicy": "Cookie-Richtlinie",
+    "cookieSettings": "Cookie Einstellungen"
   }
 }
