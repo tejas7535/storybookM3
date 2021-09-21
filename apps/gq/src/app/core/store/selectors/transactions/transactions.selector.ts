@@ -1,12 +1,13 @@
 import { createSelector } from '@ngrx/store';
 
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { getTransactionsState } from '../../reducers';
 import { TransactionsState } from '../../reducers/transactions/transactions.reducer';
 
 export const getTransactions = createSelector(
   getTransactionsState,
-  (state: TransactionsState): Transaction[] => state.transactions
+  (state: TransactionsState): ComparableLinkedTransaction[] =>
+    state.transactions
 );
 
 export const getTransactionsLoading = createSelector(
@@ -16,7 +17,7 @@ export const getTransactionsLoading = createSelector(
 
 export const getGraphTransactions = createSelector(
   getTransactionsState,
-  (state: TransactionsState): Transaction[] =>
+  (state: TransactionsState): ComparableLinkedTransaction[] =>
     state.transactions.filter(
       (transaction) =>
         transaction.profitMargin > 0 && transaction.profitMargin < 100

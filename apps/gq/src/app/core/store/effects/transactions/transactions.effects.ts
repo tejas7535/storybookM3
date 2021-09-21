@@ -14,7 +14,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
@@ -28,9 +28,6 @@ import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()
 export class TransactionsEffect {
-  /**
-   * trigger loadTransactions for quotationDetail
-   */
   triggerLoadTransactions$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
@@ -47,9 +44,7 @@ export class TransactionsEffect {
       )
     );
   });
-  /**
-   * loadTransactions for quotationDetail
-   */
+
   loadTransactions$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadComparableTransactions.type),
@@ -59,17 +54,26 @@ export class TransactionsEffect {
           withLatestFrom(
             this.store.select(getPriceUnitOfSelectedQuotationDetail)
           ),
-          map(([transactions, priceUnit]: [Transaction[], number]) => ({
-            transactions,
-            priceUnit,
-          })),
-          map((object: { transactions: Transaction[]; priceUnit: number }) =>
-            PriceService.multiplyTransactionsWithPriceUnit(
-              object.transactions,
-              object.priceUnit
-            )
+          map(
+            ([transactions, priceUnit]: [
+              ComparableLinkedTransaction[],
+              number
+            ]) => ({
+              transactions,
+              priceUnit,
+            })
           ),
-          map((transactions: Transaction[]) =>
+          map(
+            (object: {
+              transactions: ComparableLinkedTransaction[];
+              priceUnit: number;
+            }) =>
+              PriceService.multiplyTransactionsWithPriceUnit(
+                object.transactions,
+                object.priceUnit
+              )
+          ),
+          map((transactions: ComparableLinkedTransaction[]) =>
             loadComparableTransactionsSuccess({ transactions })
           ),
           catchError((errorMessage) =>

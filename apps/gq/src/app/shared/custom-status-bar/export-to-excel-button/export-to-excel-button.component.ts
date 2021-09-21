@@ -1,6 +1,8 @@
 /* eslint-disable max-lines */
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
+import { Observable, Subscription } from 'rxjs';
 
 import {
   ExcelCell,
@@ -10,13 +12,19 @@ import {
   ProcessHeaderForExportParams,
   ValueFormatterParams,
 } from '@ag-grid-community/all-modules';
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 
+import { SnackBarService } from '@schaeffler/snackbar';
+
+import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import { getExtendedComparableLinkedTransactions } from '../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
 import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import { Quotation } from '../../models';
 import {
   ColumnFields,
+  PercentColumns,
   PriceColumns,
 } from '../../services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
@@ -29,10 +37,23 @@ const type = 'String';
   selector: 'gq-export-excel-button',
   templateUrl: './export-to-excel-button.component.html',
 })
-export class ExportToExcelButtonComponent {
+export class ExportToExcelButtonComponent implements OnInit {
   private params: IStatusPanelParams;
+  transactions$: Observable<ExtendedComparableLinkedTransaction[]>;
+  transactions: ExtendedComparableLinkedTransaction[];
 
-  constructor(private readonly matDialog: MatDialog) {}
+  constructor(
+    private readonly matDialog: MatDialog,
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService,
+    private readonly snackbarService: SnackBarService
+  ) {}
+
+  ngOnInit(): void {
+    this.transactions$ = this.store.select(
+      getExtendedComparableLinkedTransactions
+    );
+  }
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -42,14 +63,45 @@ export class ExportToExcelButtonComponent {
     this.matDialog
       .open(ExportExcelModalComponent, {
         width: '80%',
-        maxHeight: '80%',
+        maxWidth: '863px',
+        height: 'auto',
+        minHeight: '350px',
       })
       .afterClosed()
       .subscribe((exportExcel: ExportExcel) => {
-        if (exportExcel) {
-          this.exportToExcel(exportExcel);
-        }
+        this.shouldLoadTransactions(exportExcel);
       });
+  }
+
+  shouldLoadTransactions(exportExcel: ExportExcel) {
+    if (exportExcel) {
+      if (exportExcel === ExportExcel.DETAILED_DOWNLOAD) {
+        this.subscribeToTransactions(exportExcel);
+      } else {
+        this.exportToExcel(exportExcel);
+      }
+    }
+  }
+
+  subscribeToTransactions(exportExcel: ExportExcel.DETAILED_DOWNLOAD) {
+    const subscription = this.transactions$.subscribe((transactions) => {
+      if (transactions?.length > 0) {
+        this.transactions = transactions;
+        this.exportToExcel(exportExcel);
+      } else {
+        this.snackbarService.showWarningMessage(
+          translate(
+            'shared.customStatusBar.excelExport.noComparableTransactionsWarning'
+          )
+        );
+        this.exportToExcel(ExportExcel.BASIC_DOWNLOAD);
+      }
+    });
+    this.unsubscribe(subscription);
+  }
+
+  unsubscribe(subscription: Subscription) {
+    subscription.unsubscribe();
   }
 
   exportToExcel(exportExcel: ExportExcel): void {
@@ -59,13 +111,13 @@ export class ExportToExcelButtonComponent {
     }-${today.getDate()}`;
     const time = `${today.getHours()}-${today.getMinutes()}`;
 
-    this.params.api.exportMultipleSheetsAsExcel({
+    this.params?.api.exportMultipleSheetsAsExcel({
       data: this.setData(exportExcel),
       fileName: `GQ_Case_${this.params.context.quotation.gqId}_${date}_${time}`,
     });
   }
 
-  private setData(exportExcel: ExportExcel) {
+  setData(exportExcel: ExportExcel): string[] {
     return exportExcel === ExportExcel.BASIC_DOWNLOAD
       ? [this.getSummarySheet(), this.getProcessCaseSheet()]
       : [
@@ -83,7 +135,7 @@ export class ExportToExcelButtonComponent {
     const excelParams: ExcelExportParams = {
       columnKeys,
       allColumns: false,
-      sheetName: `Guided Quoting`,
+      sheetName: translate('shared.customStatusBar.excelExport.guidedQuoting'),
       skipHeader: false,
       processCellCallback: (params: ProcessCellForExportParams) =>
         this.processCellCallback(params),
@@ -152,44 +204,37 @@ export class ExportToExcelButtonComponent {
   addSummaryHeader(quotation: Quotation): ExcelCell[][] {
     const result: ExcelCell[][] = [
       [
-        {
-          data: {
-            type,
-            value: translate('shared.customStatusBar.excelExport.gqCase'),
-          },
-          styleId: excelStyleObjects.excelText.id,
-        },
-        {
-          data: {
-            type,
-            value: quotation.gqId.toString(),
-          },
-          styleId: excelStyleObjects.excelText.id,
-        },
+        this.getExcelCell(
+          translate('shared.customStatusBar.excelExport.gqCase')
+        ),
+        this.getExcelCell(quotation.gqId.toString()),
       ],
       [],
     ];
 
     if (quotation.sapId) {
       result.unshift([
-        {
-          data: {
-            type,
-            value: translate('shared.customStatusBar.excelExport.sapQuote'),
-          },
-          styleId: excelStyleObjects.excelText.id,
-        },
-        {
-          data: {
-            type,
-            value: quotation.sapId,
-          },
-          styleId: excelStyleObjects.excelText.id,
-        },
+        this.getExcelCell(
+          translate('shared.customStatusBar.excelExport.sapQuote')
+        ),
+        this.getExcelCell(quotation.sapId),
       ]);
     }
 
     return result;
+  }
+
+  getExcelCell(
+    value: string,
+    defaultStyle: string = excelStyleObjects.excelText.id
+  ): ExcelCell {
+    return {
+      data: {
+        type,
+        value,
+      },
+      styleId: defaultStyle,
+    };
   }
 
   addQuotationSummary(quotation: Quotation): ExcelCell[][] {
@@ -199,26 +244,20 @@ export class ExportToExcelButtonComponent {
 
     return [
       [
-        {
-          data: {
-            type,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.title'
-            ),
-          },
-          styleId: excelStyleObjects.excelTextBold.id,
-        },
+        this.getExcelCell(
+          translate(
+            'shared.customStatusBar.excelExport.quotationSummary.title'
+          ),
+          excelStyleObjects.excelTextBold.id
+        ),
       ],
       [
-        {
-          data: {
-            type,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.customerNumber'
-            ),
-          },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
+        this.getExcelCell(
+          translate(
+            'shared.customStatusBar.excelExport.quotationSummary.customerNumber'
+          ),
+          excelStyleObjects.excelQuotationSummaryLabel.id
+        ),
         {
           data: {
             type,
@@ -503,7 +542,69 @@ export class ExportToExcelButtonComponent {
     ];
   }
 
-  private getComparableTransactions(): string {
-    return '';
+  getComparableTransactions(): string {
+    return this.params.api.getSheetDataForExcel({
+      prependContent: this.addComparableTransactions(),
+      columnKeys: [''],
+      sheetName: translate(
+        'shared.customStatusBar.excelExport.comparableTransactions'
+      ),
+      columnWidth: 250,
+    });
+  }
+
+  addComparableTransactions(): ExcelCell[][] {
+    const headersTranslations: { [key: string]: string } =
+      this.translocoService.translateObject(
+        'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions',
+        {},
+        ''
+      );
+
+    return [
+      this.addComparableTransactionsHeader(headersTranslations),
+      ...this.addComparableTransactionsRows(headersTranslations),
+    ];
+  }
+
+  addComparableTransactionsRows(headersTranslations: {
+    [key: string]: string;
+  }): ExcelCell[][] {
+    return this.transactions.map((t) => {
+      const row: ExcelCell[] = [];
+      for (const key in headersTranslations) {
+        const value = t[key as keyof ExtendedComparableLinkedTransaction];
+        row.push(
+          this.getExcelCell(
+            PercentColumns.includes(key as ColumnFields)
+              ? PriceService.roundToTwoDecimals(Number(value))?.toString()
+              : value?.toString()
+          )
+        );
+      }
+
+      return row;
+    });
+  }
+
+  addComparableTransactionsHeader(headersTranslations: {
+    [key: string]: string;
+  }): ExcelCell[] {
+    const header: ExcelCell[] = [];
+    for (const [key, value] of Object.entries(headersTranslations)) {
+      header.push(
+        this.getExcelCell(
+          PriceColumns.includes(key as ColumnFields)
+            ? this.appendCurrency(value)
+            : value
+        )
+      );
+    }
+
+    return header;
+  }
+
+  appendCurrency(key: string): string {
+    return `${key} [${this.params.context.quotation.currency}]`;
   }
 }

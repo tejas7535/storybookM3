@@ -19,7 +19,7 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
-import { Transaction } from '../../reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 import { TransactionsEffect } from './transactions.effects';
 
@@ -86,7 +86,7 @@ describe('TransactionsEffect', () => {
 
   describe('transactions$', () => {
     const gqPositionId = '5678';
-    const transactions: Transaction[] = [];
+    const transactions: ComparableLinkedTransaction[] = [];
 
     beforeEach(() => {
       PriceService.multiplyTransactionsWithPriceUnit = jest.fn(
@@ -100,22 +100,15 @@ describe('TransactionsEffect', () => {
       'should return loadComparableTransactionsSuccess',
       marbles((m) => {
         action = loadComparableTransactions({ gqPositionId });
-
         const result = loadComparableTransactionsSuccess({ transactions });
-
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', { a: transactions });
         quotationDetailsService.getTransactions = jest.fn(() => response);
-
         const expected$ = m.cold('--b', { b: result });
 
         m.expect(effects.loadTransactions$).toBeObservable(expected$);
-
         m.flush();
 
-        expect(
-          PriceService.multiplyTransactionsWithPriceUnit
-        ).toHaveBeenCalledTimes(1);
         expect(
           PriceService.multiplyTransactionsWithPriceUnit
         ).toHaveBeenCalledWith(transactions, 1);
@@ -132,9 +125,7 @@ describe('TransactionsEffect', () => {
       'should return loadComparableTransactionsFailure',
       marbles((m) => {
         action = loadComparableTransactions({ gqPositionId });
-
         const result = loadComparableTransactionsFailure({ errorMessage });
-
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });

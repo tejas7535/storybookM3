@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { Transaction } from '../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { StatusBarCalculation } from './models/status-bar-calculation.model';
+import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import { PriceUnitForQuotationItemId } from '../../models/quotation-detail/price-units-for-quotation-item-ids.model';
 
 @Injectable({
   providedIn: 'root',
@@ -135,12 +137,28 @@ export class PriceService {
   }
 
   static multiplyTransactionsWithPriceUnit(
-    transactions: Transaction[],
+    transactions: ComparableLinkedTransaction[],
     priceUnit: number
-  ): Transaction[] {
+  ): ComparableLinkedTransaction[] {
     return transactions.map((transaction) => ({
       ...transaction,
       price: PriceService.multiplyAndRoundValues(transaction.price, priceUnit),
+    }));
+  }
+
+  static multiplyExtendedComparableLinkedTransactionsWithPriceUnit(
+    transactions: ExtendedComparableLinkedTransaction[],
+    priceUnitsForQuotationItemIds: PriceUnitForQuotationItemId[]
+  ): ExtendedComparableLinkedTransaction[] {
+    return transactions.map((transaction) => ({
+      ...transaction,
+      price: PriceService.multiplyAndRoundValues(
+        transaction.price,
+        priceUnitsForQuotationItemIds.find(
+          (priceUnitsForQuotationItemId: PriceUnitForQuotationItemId) =>
+            transaction.itemId === priceUnitsForQuotationItemId.quotationItemId
+        ).priceUnit
+      ),
     }));
   }
 

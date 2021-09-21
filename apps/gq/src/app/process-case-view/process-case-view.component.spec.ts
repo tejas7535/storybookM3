@@ -111,7 +111,6 @@ describe('ProcessCaseViewComponent', () => {
     test('should add subscriptions', () => {
       component['subscription'].add = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
       expect(component['subscription'].add).toHaveBeenCalledTimes(1);
@@ -121,7 +120,6 @@ describe('ProcessCaseViewComponent', () => {
     test('should unsubscribe subscription', () => {
       component['subscription'].unsubscribe = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);

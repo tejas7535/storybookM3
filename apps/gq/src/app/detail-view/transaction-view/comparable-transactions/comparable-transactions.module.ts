@@ -7,6 +7,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 
 @NgModule({
   declarations: [ComparableTransactionsComponent],
@@ -17,5 +18,11 @@ import { ComparableTransactionsComponent } from './comparable-transactions.compo
     AgGridModule.withComponents({}),
   ],
   exports: [ComparableTransactionsComponent],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: 'transaction-view',
+    },
+  ],
 })
 export class ComparableTransactionsModule {}

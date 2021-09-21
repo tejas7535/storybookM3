@@ -1,7 +1,10 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import {
+  IStatusPanelParams,
+  ProcessHeaderForExportParams,
+} from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -17,20 +20,38 @@ import { ExportToExcelButtonComponent } from './export-to-excel-button.component
 import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
+import { provideMockStore } from '@ngrx/store/testing';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
+import { PriceService } from '../../services/price-service/price.service';
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 describe('ExportToExcelButtonComponent', () => {
   let component: ExportToExcelButtonComponent;
   let spectator: Spectator<ExportToExcelButtonComponent>;
   let mockParams: IStatusPanelParams;
+  let snackBarService: SnackBarService;
 
   const createComponent = createComponentFactory({
     component: ExportToExcelButtonComponent,
     declarations: [ExportToExcelButtonComponent],
+    providers: [
+      provideMockStore({
+        initialState: {
+          extendedComparableLinkedTransactions: {
+            errorMessage: '',
+          },
+        },
+      }),
+      SnackBarService,
+    ],
     imports: [
       MatButtonModule,
       MatIconModule,
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
+      ReactiveComponentModule,
+      SnackBarModule,
     ],
   });
 
@@ -50,6 +71,7 @@ describe('ExportToExcelButtonComponent', () => {
         quotation: QUOTATION_MOCK,
       },
     } as unknown as IStatusPanelParams;
+    snackBarService = spectator.inject(SnackBarService);
   });
 
   test('should create', () => {
@@ -93,6 +115,7 @@ describe('ExportToExcelButtonComponent', () => {
         // eslint-disable-next-line unicorn/no-useless-undefined
         .mockReturnValue({ afterClosed: () => of(undefined) });
       component.exportToExcel = jest.fn();
+      component.shouldLoadTransactions = jest.fn();
     });
     test('open modal for choosing exporting excel option', () => {
       component.openExportToExcelDialog();
@@ -108,13 +131,71 @@ describe('ExportToExcelButtonComponent', () => {
 
       component.openExportToExcelDialog();
 
-      expect(component.exportToExcel).toHaveBeenCalledWith(exportExcel);
+      expect(component.shouldLoadTransactions).toHaveBeenCalledWith(
+        exportExcel
+      );
+    });
+  });
+
+  describe('shouldLoadTransactions', () => {
+    beforeEach(() => {
+      component.exportToExcel = jest.fn();
     });
 
-    test('does not export to excel after dialog is canceled', () => {
-      component.openExportToExcelDialog();
+    test('does not export to excel after dialog is canceled (exportExcel is not defined)', () => {
+      component.shouldLoadTransactions(undefined as any);
 
       expect(component.exportToExcel).not.toHaveBeenCalled();
+    });
+
+    test('does not dispatch, if exportExcel is basic download', () => {
+      component.shouldLoadTransactions(ExportExcel.BASIC_DOWNLOAD);
+
+      expect(component.exportToExcel).toHaveBeenCalledWith(
+        ExportExcel.BASIC_DOWNLOAD
+      );
+    });
+
+    test('calls dispatch and exportToExcel, if exportExcel is detailed download', () => {
+      component['params'] = mockParams;
+      component.transactions$ = of([
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+      ]);
+
+      component.shouldLoadTransactions(ExportExcel.DETAILED_DOWNLOAD);
+
+      expect(component.transactions[0]).toEqual(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK
+      );
+      expect(component.exportToExcel).toHaveBeenCalledWith(
+        ExportExcel.DETAILED_DOWNLOAD
+      );
+    });
+
+    test('calls dispatch and exportToExcel with BASIC_DOWNLOAD option, if no comparable transactions are available', () => {
+      component['params'] = mockParams;
+      component.transactions$ = of([]);
+      snackBarService.showWarningMessage = jest.fn();
+
+      component.shouldLoadTransactions(ExportExcel.DETAILED_DOWNLOAD);
+
+      expect(component.transactions).toEqual(undefined);
+      expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
+        'translate it'
+      );
+      expect(component.exportToExcel).toHaveBeenCalledWith(
+        ExportExcel.BASIC_DOWNLOAD
+      );
+    });
+  });
+
+  describe('subscribeToTransactions', () => {
+    test('unsubscribe directly after to avoid downloading excel multiple times, if user clicks second time on download button', () => {
+      component.unsubscribe = jest.fn();
+
+      component.subscribeToTransactions(ExportExcel.DETAILED_DOWNLOAD);
+
+      expect(component.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -128,10 +209,11 @@ describe('ExportToExcelButtonComponent', () => {
         column: {
           getColDef: () => colDef,
         },
-      } as any;
+      } as ProcessHeaderForExportParams;
       const result = component.processHeaderCallback(params);
       expect(result).toEqual(colDef.headerName);
     });
+
     test('should return headerName and currency', () => {
       const colDef = {
         field: PriceColumns[0],
@@ -552,6 +634,158 @@ describe('ExportToExcelButtonComponent', () => {
         ],
       ];
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getExcelCell returns', () => {
+    test('excel cell without defining a default style', () => {
+      const value = 'yes';
+
+      const excelCell = component.getExcelCell(value);
+
+      expect(excelCell).toEqual({
+        data: {
+          type: 'String',
+          value: 'yes',
+        },
+        styleId: excelStyleObjects.excelText.id,
+      });
+    });
+
+    test('excel cell while defining style', () => {
+      const value = 'yes';
+
+      const excelCell = component.getExcelCell(
+        value,
+        excelStyleObjects.excelTextBold.id
+      );
+
+      expect(excelCell).toEqual({
+        data: {
+          type: 'String',
+          value: 'yes',
+        },
+        styleId: excelStyleObjects.excelTextBold.id,
+      });
+    });
+  });
+
+  describe('export excel for comparable transactions', () => {
+    beforeEach(() => {
+      component['params'] = mockParams;
+    });
+
+    describe('setData', () => {
+      beforeEach(() => {
+        component['getComparableTransactions'] = jest.fn();
+      });
+      test(`calls get comparable transactions, if exportExcel is ${ExportExcel.DETAILED_DOWNLOAD}`, () => {
+        component.setData(ExportExcel.DETAILED_DOWNLOAD);
+
+        expect(component.getComparableTransactions).toHaveBeenCalledTimes(1);
+      });
+
+      test(`does not call get comparable transactions, if exportExcel is ${ExportExcel.BASIC_DOWNLOAD}`, () => {
+        component.setData(ExportExcel.BASIC_DOWNLOAD);
+
+        expect(component.getComparableTransactions).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('getComparableTransactions', () => {
+      test('calls getSheetDataForExcel', () => {
+        component.addComparableTransactions = jest.fn(() => []);
+
+        component.getComparableTransactions();
+
+        expect(component.addComparableTransactions).toHaveBeenCalledTimes(1);
+        expect(
+          component['params'].api.getSheetDataForExcel
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          component['params'].api.getSheetDataForExcel
+        ).toHaveBeenLastCalledWith({
+          prependContent: [],
+          columnKeys: [''],
+          sheetName: 'translate it',
+          columnWidth: 250,
+        });
+      });
+    });
+
+    describe('addComparableTransactions', () => {
+      let translations: { [key: string]: string };
+      beforeEach(() => {
+        translations = {
+          itemId: 'Item',
+          inputMaterialDescription: 'Input Material Description',
+          inputMaterialNumber: 'Input Material Number',
+          inputQuantity: 'Input Quantity',
+          customerId: 'Customer Number',
+          customerName: 'Customer Name',
+          abcClassification: 'Customer Classification',
+          keyAccount: 'Customer Key Account',
+          subKeyAccount: 'Customer Subkey Account',
+          sector: 'Customer Sector',
+          subSector: 'Customer Subsector',
+          price: 'Price',
+          quantity: 'Quantity',
+          profitMargin: 'GPI%',
+          salesIndication: 'Order Type',
+          year: 'Year',
+          country: 'Country',
+          region: 'Region',
+        };
+      });
+      test('header and body gets added', () => {
+        component.transactions = [];
+        component.addComparableTransactionsHeader = jest.fn(() => []);
+        component.addComparableTransactionsRows = jest.fn(() => []);
+
+        component.addComparableTransactions();
+
+        expect(component.addComparableTransactionsHeader).toHaveBeenCalledWith(
+          'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions'
+        );
+        expect(component.addComparableTransactionsRows).toHaveBeenCalledWith(
+          'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions'
+        );
+      });
+
+      test('rows rounds up profitMargin', () => {
+        component.transactions = [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK];
+        PriceService.roundToTwoDecimals = jest.fn();
+        component['getExcelCell'] = jest.fn();
+
+        component.addComparableTransactionsRows(translations);
+
+        expect(component.getExcelCell).toHaveBeenCalledTimes(
+          Object.values(translations).length
+        );
+        expect(PriceService.roundToTwoDecimals).toHaveBeenCalledWith(
+          EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
+        );
+      });
+
+      test('header calls appendCurrency', () => {
+        component['getExcelCell'] = jest.fn();
+        component['appendCurrency'] = jest.fn();
+
+        component.addComparableTransactionsHeader(translations);
+
+        expect(component.getExcelCell).toHaveBeenCalledTimes(
+          Object.values(translations).length
+        );
+        expect(component.appendCurrency).toHaveBeenCalledWith(
+          translations.price
+        );
+      });
+
+      test('appendCurrency returns headerField with customer price unit', () => {
+        const headerField = component.appendCurrency(translations.price);
+
+        expect(headerField).toEqual('Price [EUR]');
+      });
     });
   });
 });

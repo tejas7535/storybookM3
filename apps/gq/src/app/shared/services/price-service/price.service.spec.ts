@@ -4,6 +4,7 @@ import {
   TRANSACTION_MOCK,
 } from '../../../../testing/mocks';
 import { PriceService } from './price.service';
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
 
 describe('PriceService', () => {
   describe('addCalculationForDetail', () => {
@@ -131,21 +132,50 @@ describe('PriceService', () => {
       expect(result).toEqual(55.55);
     });
   });
-  describe('roundToTwoDecimals', () => {
-    test('should round to two decimals', () => {
+  describe('roundToTwoDecimals should round to', () => {
+    test('two decimals', () => {
       const result = PriceService.roundToTwoDecimals(1.2222);
       expect(result).toEqual(1.22);
     });
+    test('undefined', () => {
+      const result = PriceService.roundToTwoDecimals(undefined as any);
+      // eslint-disable-next-line unicorn/prefer-number-properties
+      expect(result).toEqual(NaN);
+    });
   });
   describe('multiplyTransactionsWithPriceUnit', () => {
-    test('shouldreturn multipliedTransacitons', () => {
+    test('should return multipliedTransacitons', () => {
       const transactions = [TRANSACTION_MOCK];
+
       const result = PriceService.multiplyTransactionsWithPriceUnit(
         transactions,
         100
       );
 
       expect(result).toEqual([{ ...TRANSACTION_MOCK, price: 1000 }]);
+    });
+  });
+
+  describe('multiplyExtendedComparableLinkedTransactionsWithPriceUnit', () => {
+    test('should return multiplied ExtendedComparableLinkedTransactions', () => {
+      const transactions = [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK];
+      const priceUnit = 100;
+      const priceUnitsForQuotationItemIds = [
+        { priceUnit, quotationItemId: 60 },
+      ];
+
+      const result =
+        PriceService.multiplyExtendedComparableLinkedTransactionsWithPriceUnit(
+          transactions,
+          priceUnitsForQuotationItemIds
+        );
+
+      expect(result).toEqual([
+        {
+          ...EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+          price: EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price * priceUnit,
+        },
+      ]);
     });
   });
 });

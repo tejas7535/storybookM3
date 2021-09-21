@@ -66,7 +66,6 @@ describe('QuotationDetailsService', (): void => {
           },
         ],
       };
-
       const mock = {
         quotationDetails: [CUSTOMER_MOCK],
       };
@@ -75,8 +74,9 @@ describe('QuotationDetailsService', (): void => {
       });
 
       const req = httpMock.expectOne(`/${service['PATH_QUOTATION_DETAILS']}`);
-      expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mock);
+
+      expect(req.request.method).toBe(HttpMethod.POST);
     });
   });
   describe('removeMaterial', () => {
@@ -91,8 +91,9 @@ describe('QuotationDetailsService', (): void => {
       });
 
       const req = httpMock.expectOne(`/${service['PATH_QUOTATION_DETAILS']}`);
-      expect(req.request.method).toBe(HttpMethod.DELETE);
       req.flush(mock);
+
+      expect(req.request.method).toBe(HttpMethod.DELETE);
     });
   });
 
@@ -109,12 +110,13 @@ describe('QuotationDetailsService', (): void => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(`/${service['PATH_QUOTATION_DETAILS']}`);
-      expect(req.request.method).toBe(HttpMethod.PUT);
       req.flush(quotationDetails);
+
+      expect(req.request.method).toBe(HttpMethod.PUT);
     });
   });
-  describe('getTransactions', () => {
-    test('should call', () => {
+  describe('get Transactions', () => {
+    test('with limit should call', () => {
       const gqPositionId = '1234';
       service
         .getTransactions(gqPositionId)
@@ -123,8 +125,23 @@ describe('QuotationDetailsService', (): void => {
       const req = httpMock.expectOne(
         `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_TRANSACTIONS']}`
       );
-      expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqPositionId);
+
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+
+    test('with no limit should call', () => {
+      const quotationNumber = 410;
+      service
+        .getAllTransactions(quotationNumber)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `/${service['PATH_QUOTATIONS']}/${quotationNumber}/${service['PATH_TRANSACTIONS']}`
+      );
+      req.flush(quotationNumber);
+
+      expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
 
@@ -138,8 +155,9 @@ describe('QuotationDetailsService', (): void => {
       const req = httpMock.expectOne(
         `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_MATERIAL_ALTERNATIVE_COSTS']}`
       );
-      expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqPositionId);
+
+      expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
 });

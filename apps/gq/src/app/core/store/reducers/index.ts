@@ -13,6 +13,7 @@ import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
 import * as fromMaterialAlternativeCosts from './material-alternative-costs/material-alternative-costs.reducer';
+import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -26,6 +27,7 @@ export interface AppState {
   processCase: fromProcessCase.ProcessCaseState;
   viewCases: fromViewCases.ViewCasesState;
   transactions: fromTransactions.TransactionsState;
+  extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialAlternativeCosts: fromMaterialAlternativeCosts.MaterialAlternativeCostsState;
 }
 
@@ -35,6 +37,8 @@ export const reducers: ActionReducerMap<AppState> = {
   processCase: fromProcessCase.processCaseReducer,
   viewCases: fromViewCases.viewCasesReducer,
   transactions: fromTransactions.transactionsReducer,
+  extendedComparableLinkedTransactions:
+    fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
   materialAlternativeCosts:
     fromMaterialAlternativeCosts.materialAlternativeCostsReducer,
 };
@@ -58,6 +62,11 @@ export const getViewCasesState =
   createFeatureSelector<fromViewCases.ViewCasesState>('viewCases');
 export const getTransactionsState =
   createFeatureSelector<fromTransactions.TransactionsState>('transactions');
+export const getExtendedComparableLinkedTransactionsState =
+  createFeatureSelector<fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState>(
+    'extendedComparableLinkedTransactions'
+  );
+
 export const getMaterialAlternativeCostsState =
   createFeatureSelector<fromMaterialAlternativeCosts.MaterialAlternativeCostsState>(
     'materialAlternativeCosts'
@@ -66,9 +75,6 @@ export const getMaterialAlternativeCostsState =
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>
 {
-  /**
-   * Serialize the router state
-   */
   public serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     let route = routerState.root;
 

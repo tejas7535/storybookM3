@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from './models/comparable-linked-transaction.model';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,
@@ -9,7 +9,7 @@ import {
 
 export interface TransactionsState {
   gqPositionId: string;
-  transactions: Transaction[];
+  transactions: ComparableLinkedTransaction[];
   transactionsLoading: boolean;
   errorMessage: string;
 }

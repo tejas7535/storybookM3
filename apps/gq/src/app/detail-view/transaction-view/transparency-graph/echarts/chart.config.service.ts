@@ -9,7 +9,7 @@ import {
 } from 'echarts';
 
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
@@ -199,7 +199,7 @@ export class ChartConfigService {
   };
 
   buildDataPoints = (
-    transactions: Transaction[],
+    transactions: ComparableLinkedTransaction[],
     currency: string
   ): DataPoint[] => {
     const dataPoints: DataPoint[] = [];

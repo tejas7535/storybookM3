@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { EChartsOption } from 'echarts';
 
-import { Transaction } from '../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Coefficients } from '../../../shared/models/quotation-detail';
 import { DATA_ZOOM, GRID_CONFIG, LEGEND } from './echarts/chart.config';
 import { ChartConfigService } from './echarts/chart.config.service';
@@ -20,7 +20,7 @@ export class TransparencyGraphComponent implements OnInit {
     private readonly regressionService: RegressionService
   ) {}
 
-  @Input() transactions: Transaction[];
+  @Input() transactions: ComparableLinkedTransaction[];
   @Input() coefficients: Coefficients;
   @Input() currency: string;
 

@@ -7,7 +7,7 @@ import {
   SortChangedEvent,
 } from '@ag-grid-community/all-modules';
 
-import { Transaction } from '../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
@@ -20,7 +20,7 @@ import { ColumnDefService } from './config/column-def.service';
   styleUrls: ['./comparable-transactions.component.scss'],
 })
 export class ComparableTransactionsComponent {
-  @Input() rowData: Transaction[];
+  @Input() rowData: ComparableLinkedTransaction[];
   @Input() set currency(currency: string) {
     this.tableContext.quotation.currency = currency;
   }

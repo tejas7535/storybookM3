@@ -1,19 +1,19 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 
 export const loadComparableTransactions = createAction(
-  '[Process Case] Load Comparable Transactions for QuotationDetail',
+  '[Transactions] Load Comparable Transactions for QuotationDetail',
   props<{ gqPositionId: string }>()
 );
 
 export const loadComparableTransactionsSuccess = createAction(
-  '[Process Case] Load Comparable Transactions for QuotationDetail Success',
-  props<{ transactions: Transaction[] }>()
+  '[Transactions] Load Comparable Transactions for QuotationDetail Success',
+  props<{ transactions: ComparableLinkedTransaction[] }>()
 );
 
 export const loadComparableTransactionsFailure = createAction(
-  '[Process Case] Load Comparable Transactions for QuotationDetail Failure',
+  '[Transactions] Load Comparable Transactions for QuotationDetail Failure',
   props<{ errorMessage: string }>()
 );
 

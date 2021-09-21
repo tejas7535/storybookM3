@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Coefficients } from '../../../../shared/models/quotation-detail';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class RegressionService {
    */
   buildRegressionPoints = (
     coefficients: Coefficients,
-    transactions: Transaction[]
+    transactions: ComparableLinkedTransaction[]
   ): number[][] => {
     const { coefficient1, coefficient2 } = coefficients;
     // Get max quantity

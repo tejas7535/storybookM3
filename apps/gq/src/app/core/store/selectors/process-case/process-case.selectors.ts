@@ -19,6 +19,7 @@ import {
   QuotationIdentifier,
 } from '../../reducers/process-case/models';
 import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
+import { PriceUnitForQuotationItemId } from '../../../../shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
 
 export const getCustomer = createSelector(
   getProcessCaseState,
@@ -125,12 +126,16 @@ export const getSelectedQuotationDetailId = createSelector(
 export const getSelectedQuotationDetail = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): QuotationDetail =>
-    state.quotation.item
-      ? state.quotation.item.quotationDetails.find(
-          (detail: QuotationDetail) =>
-            detail.gqPositionId === state.quotation.selectedQuotationDetail
-        )
-      : undefined
+    state.quotation.item?.quotationDetails.find(
+      (detail: QuotationDetail) =>
+        detail.gqPositionId === state.quotation.selectedQuotationDetail
+    )
+);
+
+export const getQuotationDetails = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): QuotationDetail[] =>
+    state.quotation.item?.quotationDetails
 );
 
 export const getCustomerCurrency = createSelector(
@@ -146,6 +151,15 @@ export const getMaterialOfSelectedQuotationDetail = createSelector(
 export const getPriceUnitOfSelectedQuotationDetail = createSelector(
   getSelectedQuotationDetail,
   (detail: QuotationDetail): number => detail?.material?.priceUnit
+);
+
+export const getPriceUnitsForQuotationItemIds = createSelector(
+  getQuotationDetails,
+  (quotationDetails: QuotationDetail[]): PriceUnitForQuotationItemId[] =>
+    quotationDetails.map((quotationDetail: QuotationDetail) => ({
+      quotationItemId: quotationDetail.quotationItemId,
+      priceUnit: quotationDetail.material.priceUnit,
+    }))
 );
 
 export const getUpdateLoading = createSelector(

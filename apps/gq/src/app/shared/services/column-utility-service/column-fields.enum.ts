@@ -1,6 +1,7 @@
 export enum ColumnFields {
   MATERIAL_NUMBER_15 = 'material.materialNumber15',
   GPI = 'gpi',
+  PROFIT_MARGIN = 'profitMargin',
   GPM = 'gpm',
   RLM = 'rlm',
   PRICE_UNIT = 'priceUnit',
@@ -20,4 +21,11 @@ export const PriceColumns = [
   ColumnFields.GPC,
   ColumnFields.SQV,
   ColumnFields.LAST_CUSTOMER_PRICE,
+];
+
+export const PercentColumns = [
+  ColumnFields.PROFIT_MARGIN,
+  ColumnFields.GPI,
+  ColumnFields.GPM,
+  ColumnFields.RLM,
 ];

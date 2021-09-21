@@ -8,6 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { DialogHeaderModule } from '../header/dialog-header/dialog-header.module';
 
 @NgModule({
   declarations: [ExportExcelModalComponent],
@@ -19,6 +22,9 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatRadioModule,
     FormsModule,
+    LoadingSpinnerModule,
+    ReactiveComponentModule,
+    DialogHeaderModule,
   ],
   exports: [ExportExcelModalComponent],
 })

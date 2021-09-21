@@ -9,16 +9,18 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '../../../../core/store/reducers/process-case/models';
-import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 import { MaterialAlternativeCost } from '../../../models/quotation-detail/material-alternative-cost.model';
+import { ExtendedComparableLinkedTransaction } from '../../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuotationDetailsService {
   private readonly PATH_QUOTATION_DETAILS = 'quotation-details';
+  private readonly PATH_QUOTATIONS = 'quotations';
   private readonly PATH_TRANSACTIONS = 'comparable-transactions';
   private readonly PATH_MATERIAL_ALTERNATIVE_COSTS =
     'material-alternative-costs';
@@ -46,9 +48,19 @@ export class QuotationDetailsService {
     return this.dataService.put(this.PATH_QUOTATION_DETAILS, quotationDetails);
   }
 
-  public getTransactions(gqPositionId: string): Observable<Transaction[]> {
+  public getTransactions(
+    gqPositionId: string
+  ): Observable<ComparableLinkedTransaction[]> {
     return this.dataService.getAll(
       `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_TRANSACTIONS}`
+    );
+  }
+
+  public getAllTransactions(
+    quotationNumber: number
+  ): Observable<ExtendedComparableLinkedTransaction[]> {
+    return this.dataService.getAll(
+      `${this.PATH_QUOTATIONS}/${quotationNumber}/${this.PATH_TRANSACTIONS}`
     );
   }
 

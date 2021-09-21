@@ -1,7 +1,7 @@
 import { SalesIndication } from './sales-indication.enum';
 import { AbcClassification } from '../../../../../shared/models/customer';
 
-export interface Transaction {
+export interface ComparableLinkedTransaction {
   identifier: number;
   customerName: string;
   customerId: string;

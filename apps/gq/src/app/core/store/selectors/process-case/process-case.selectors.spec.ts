@@ -230,6 +230,22 @@ describe('Process Case Selector', () => {
     });
   });
 
+  describe('getQuotationDetails', () => {
+    test('should return quotation details', () => {
+      expect(
+        quotationSelectors.getQuotationDetails.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item.quotationDetails);
+    });
+
+    test('should return undefined', () => {
+      expect(
+        quotationSelectors.getQuotationDetails.projector({
+          quotation: {},
+        })
+      ).toEqual(undefined);
+    });
+  });
+
   describe('getCustomerCurrency', () => {
     test('should return customer currency', () => {
       expect(
@@ -286,6 +302,20 @@ describe('Process Case Selector', () => {
       ).toEqual(QUOTATION_DETAIL_MOCK.material.priceUnit);
     });
   });
+
+  describe('getPriceUnitsForQuotationItemIds', () => {
+    test('should return a list of PriceUnitsForQuotationItemId', () => {
+      expect(
+        quotationSelectors.getPriceUnitsForQuotationItemIds(fakeState)
+      ).toEqual([
+        {
+          priceUnit: QUOTATION_DETAIL_MOCK.material.priceUnit,
+          quotationItemId: QUOTATION_DETAIL_MOCK.quotationItemId,
+        },
+      ]);
+    });
+  });
+
   describe('getCoefficients', () => {
     test('should return coefficients', () => {
       expect(quotationSelectors.getCoefficients(fakeState)).toEqual({

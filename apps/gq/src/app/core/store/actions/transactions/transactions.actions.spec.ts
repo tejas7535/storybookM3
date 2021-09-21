@@ -1,4 +1,4 @@
-import { Transaction } from '../../reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,
@@ -21,17 +21,17 @@ describe('TransactionsActions', () => {
       action = loadComparableTransactions({ gqPositionId });
       expect(action).toEqual({
         gqPositionId,
-        type: '[Process Case] Load Comparable Transactions for QuotationDetail',
+        type: '[Transactions] Load Comparable Transactions for QuotationDetail',
       });
     });
   });
   describe('loadComparableTransactionsSuccess', () => {
     test('loadComparableTransactionsSuccess', () => {
-      const transactions: Transaction[] = [];
+      const transactions: ComparableLinkedTransaction[] = [];
       action = loadComparableTransactionsSuccess({ transactions });
       expect(action).toEqual({
         transactions,
-        type: '[Process Case] Load Comparable Transactions for QuotationDetail Success',
+        type: '[Transactions] Load Comparable Transactions for QuotationDetail Success',
       });
     });
   });
@@ -40,7 +40,7 @@ describe('TransactionsActions', () => {
       action = loadComparableTransactionsFailure({ errorMessage });
       expect(action).toEqual({
         errorMessage,
-        type: '[Process Case] Load Comparable Transactions for QuotationDetail Failure',
+        type: '[Transactions] Load Comparable Transactions for QuotationDetail Failure',
       });
     });
   });

@@ -18,7 +18,7 @@ import {
   getTransactionsLoading,
   isQuotationLoading,
 } from '../../core/store';
-import { Transaction } from '../../core/store/reducers/transactions/models/transaction.model';
+import { ComparableLinkedTransaction } from '../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import {
   Coefficients,
   QuotationDetail,
@@ -34,10 +34,10 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
   quotationDetail$: Observable<QuotationDetail>;
   quotationLoading$: Observable<boolean>;
   currency$: Observable<string>;
-  transactions$: Observable<Transaction[]>;
+  transactions$: Observable<ComparableLinkedTransaction[]>;
   transactionsLoading$: Observable<boolean>;
   translationsLoaded$: Observable<boolean>;
-  graphTransactions$: Observable<Transaction[]>;
+  graphTransactions$: Observable<ComparableLinkedTransaction[]>;
   coefficients$: Observable<Coefficients>;
 
   public breadcrumbs: Breadcrumb[];
