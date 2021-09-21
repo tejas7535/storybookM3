@@ -6,8 +6,10 @@
     <div class="flex" fxLayoutAlign="space-between start">
       <mat-card-header>
         <mat-card-title>
-          <mat-icon svgIcon="icon-vibration"></mat-icon>
-          <span>{{ t('title') }}</span>
+          <div class="inline-flex items-center">
+            <mat-icon svgIcon="icon-vibration"></mat-icon>
+            <span>{{ t('title') }}</span>
+          </div>
         </mat-card-title>
         <mat-card-subtitle *transloco="let t; read: 'bearing'">
           {{ t('mainBearing') }}

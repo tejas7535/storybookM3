@@ -13,7 +13,7 @@ import { CALENDAR_OPTIONS } from './config';
 @Component({
   selector: 'goldwind-gcm-heatmap-card',
   templateUrl: './gcm-heatmap-card.component.html',
-  styleUrls: ['./gcm-heatmap-card.component.css'],
+  styleUrls: ['./gcm-heatmap-card.component.scss'],
 })
 export class GcmHeatmapCardComponent {
   loading$: Observable<boolean>;
@@ -50,17 +50,17 @@ export class GcmHeatmapCardComponent {
     calendar: [
       {
         ...CALENDAR_OPTIONS,
-        top: this.CalGap * 4,
+        top: this.CalGap,
         range: ['2021-01-01', '2021-03-31'],
       },
       {
         ...CALENDAR_OPTIONS,
-        top: this.CalGap * 8,
+        top: this.CalGap * 6,
         range: ['2021-04-01', '2021-06-30'],
       },
       {
         ...CALENDAR_OPTIONS,
-        top: this.CalGap * 12,
+        top: this.CalGap * 11,
         range: ['2021-07-01', '2021-09-30'],
       },
       {

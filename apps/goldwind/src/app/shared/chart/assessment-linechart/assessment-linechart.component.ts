@@ -100,12 +100,11 @@ export class AssessmentLinechartComponent
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '10%',
+      bottom: '20%',
       containLabel: true,
     },
     legend: {
       ...axisChartOptions.legend,
-      type: 'scroll',
       itemHeight: 2,
       itemWidth: 16,
       bottom: 0,

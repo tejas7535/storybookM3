@@ -47,7 +47,7 @@ export const axisChartOptions: EChartsOption = {
       type: 'inside',
     },
     {
-      bottom: '5%',
+      bottom: '10%',
     }, // for slider zoom
   ],
 };
