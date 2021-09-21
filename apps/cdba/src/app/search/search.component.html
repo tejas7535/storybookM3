@@ -2,17 +2,17 @@
   <img src="/assets/images/logo.png" alt="Logo" class="w-[124px] h-[50px]" />
   <ng-container *ngIf="tooManyResults$ | ngrxPush">
     <div
-      class="flex flex-col items-center justify-center"
+      class="flex flex-col items-center justify-center text-center"
       *transloco="let t; read: 'search.tooManyResults'"
     >
-      <h4 class="font-body">
+      <h4 class="text-h4 text-highEmphasis mb-4">
         {{
           t('message', {
             resultCount: resultCount$ | ngrxPush | translocoDecimal
           })
         }}
       </h4>
-      <h6 class="text-light font-body whitespace-pre-line text-center">
+      <h6 class="text-subtitle-1 text-mediumEmphasis whitespace-pre-line">
         {{ t('hint', { tooManyResultsThreshold: tooManyResultsThreshold }) }}
       </h6>
     </div>
@@ -20,13 +20,13 @@
 
   <ng-container *ngIf="noResultsFound$ | ngrxPush">
     <div
-      class="flex flex-col items-center justify-center"
+      class="flex flex-col items-center justify-center text-center"
       *transloco="let t; read: 'search.noResults'"
     >
-      <h4 class="font-body">
+      <h4 class="text-h4 text-highEmphasis mb-4">
         {{ t('message') }}
       </h4>
-      <h6 class="text-light font-body whitespace-pre-line text-center">
+      <h6 class="text-subtitle-1 text-mediumEmphasis whitespace-pre-line">
         {{ t('hint') }}
       </h6>
     </div>

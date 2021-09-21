@@ -77,10 +77,9 @@
     },
     "browserSupport": {
       "unsupportedBrowser": {
-        "title": "Nicht unterstützter Browser",
-        "message": "CDBA unterstützt Ihren Browser nicht. Einige Funktionalitäten werden nicht funktionieren.",
-        "guidanceMessage": "Bitte nutzen Sie Google Chrome oder eine aktuelle Version des Microsoft Edge. Bei Fragen rund um die Installation eines neuen Browsers können Sie sich an Ihren IV-Koordinator wenden.",
-        "confirm": "CDBA trotzem verwenden"
+        "title": "Ihr Browser wird nicht unterstützt",
+        "message": "CDBA unterstützt Ihren Browser nicht. Einige Funktionen funktionieren möglicherweise nicht richtig. Bitte verwenden Sie die neuesten Versionen von <a class=\"text-primary\" href=\"https://www.google.com/intl/de/chrome\" target=\"blank\">Chrome</a> oder <a class=\"text-primary\" href=\"https://www.microsoft.com/de-de/edge\" target=\"blank\">Microsoft Edge</a>.\n\nWenden Sie sich an Ihren IV-Koordinator, wenn Sie Unterstützung/administrative Rechte für die Installation eines neuen Browsers benötigen.",
+        "confirm": "Auf jeden Fall verwenden"
       }
     },
     "chargeableSoon": {

@@ -23,7 +23,7 @@ describe('BrowserDetectionService', () => {
   });
 
   describe('isUnsupportedBrowser', () => {
-    it('should detect Internet Explorer as not supported browser', () => {
+    it('should detect others than Chrome or Edge as not supported browser', () => {
       mockedPlatform.BLINK = false;
       mockedPlatform.TRIDENT = true;
 

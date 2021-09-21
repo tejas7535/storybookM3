@@ -77,10 +77,9 @@
     },
     "browserSupport": {
       "unsupportedBrowser": {
-        "title": "Unsupported browser",
-        "message": "CDBA doesn't support your browser. Most of the functionality won't work.",
-        "guidanceMessage": "Please use Google Chrome or the latest version of Microsoft Edge. Contact your IV coordinator if you need support with installing a new browser.",
-        "confirm": "Use CDBA anyways"
+        "title": "Your browser is not supported",
+        "message": "CDBA does not support your browser. Some features might not work properly. Please use the latest versions of <a class=\"text-primary\" href=\"https://www.google.com/intl/en/chrome\" target=\"blank\">Chrome</a> or <a class=\"text-primary\" href=\"https://www.microsoft.com/en-us/edge\" target=\"blank\">Microsoft Edge</a>.\n\nContact your IV coordinator if you need support/ admin rights to install a new browser.",
+        "confirm": "Use anyways"
       }
     },
     "chargeableSoon": {

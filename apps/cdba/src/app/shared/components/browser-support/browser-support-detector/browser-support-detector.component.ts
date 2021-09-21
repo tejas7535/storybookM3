@@ -20,7 +20,8 @@ export class BrowserSupportDetectorComponent implements OnInit {
       this.dialog.open(BrowserSupportDialogComponent, {
         hasBackdrop: true,
         disableClose: true,
-        maxWidth: 400,
+        maxWidth: 520,
+        autoFocus: false,
       });
     }
   }

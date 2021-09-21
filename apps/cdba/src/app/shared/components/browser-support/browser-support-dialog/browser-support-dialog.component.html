@@ -1,23 +1,14 @@
 <div *transloco="let t; read: 'shared.browserSupport.unsupportedBrowser'">
-  <div>
-    <h2 mat-dialog-title class="m-b-10">
-      <mat-icon>warning_amber</mat-icon>
-      {{ t('title') }}
-    </h2>
-  </div>
+  <h6 class="text-h6 flex items-center">
+    <mat-icon class="mr-2">warning_amber</mat-icon>
+    {{ t('title') }}
+  </h6>
   <mat-dialog-content class="mat-typography">
-    <p>
-      {{ t('message') }}
-    </p>
-    <p>
-      {{ t('guidanceMessage') }}
-    </p>
+    <p [innerHTML]="t('message')" class="whitespace-pre-line"></p>
   </mat-dialog-content>
-  <div>
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close color="primary">
-        {{ t('confirm') }}
-      </button>
-    </mat-dialog-actions>
-  </div>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close color="primary" class="w-full">
+      {{ t('confirm') }}
+    </button>
+  </mat-dialog-actions>
 </div>
