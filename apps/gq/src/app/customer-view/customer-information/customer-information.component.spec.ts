@@ -8,7 +8,10 @@ import { CUSTOMER_MOCK } from '../../../testing/mocks';
 import { HorizontalDividerModule } from '../../shared/components/horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
+import { BasicCustomerComponent } from './basic-customer/basic-customer.component';
 import { CustomerInformationComponent } from './customer-information.component';
+import { KeyaccountComponent } from './keyaccount/keyaccount.component';
+import { SalesforceComponent } from './salesforce/salesforce.component';
 
 describe('CustomerDetailsComponent', () => {
   let component: CustomerInformationComponent;
@@ -24,7 +27,11 @@ describe('CustomerDetailsComponent', () => {
       LabelTextModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    declarations: [CustomerInformationComponent],
+    declarations: [
+      SalesforceComponent,
+      KeyaccountComponent,
+      BasicCustomerComponent,
+    ],
   });
 
   beforeEach(() => {

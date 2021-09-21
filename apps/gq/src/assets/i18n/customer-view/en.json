@@ -24,5 +24,12 @@
     "subKeyAccountPotential": "Sub Key Account Potential",
     "accountOwner": "Account Owner",
     "accountOwnerContact": "Account Owner Contact"
+  },
+  "keyaccount": {
+    "title": "Key Account",
+    "keyAccount": "Key Account",
+    "subKeyAccount": "Sub Key Account",
+    "netSales": "Net Sales",
+    "gpi": "GPI"
   }
 }

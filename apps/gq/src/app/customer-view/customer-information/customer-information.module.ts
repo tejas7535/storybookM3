@@ -10,9 +10,17 @@ import { HorizontalDividerModule } from '../../shared/components/horizontal-divi
 import { LabelTextModule } from '../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { CustomerInformationComponent } from './customer-information.component';
+import { BasicCustomerComponent } from './basic-customer/basic-customer.component';
+import { SalesforceComponent } from './salesforce/salesforce.component';
+import { KeyaccountComponent } from './keyaccount/keyaccount.component';
 
 @NgModule({
-  declarations: [CustomerInformationComponent],
+  declarations: [
+    CustomerInformationComponent,
+    BasicCustomerComponent,
+    SalesforceComponent,
+    KeyaccountComponent,
+  ],
   imports: [
     CommonModule,
     MatCardModule,
