@@ -6,10 +6,10 @@ import {
   BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
 } from '../../case-material/input-table/config';
+import { Keyboard } from '../../models/keyboard.enum';
 import { StatusBarConfig } from '../../models/table';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 import { HelperService } from './helper-service.service';
-import { Keyboard } from '../../models/keyboard.enum';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -66,6 +66,13 @@ describe('HelperServiceService', () => {
 
       expect(HelperService.transformNumberCurrency).toHaveBeenCalledTimes(1);
       expect(HelperService.transformNumber).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('transformPercentage', () => {
+    test('should transformPercentage', () => {
+      const result = HelperService.transformPercentage(25.711_234);
+
+      expect(result).toEqual('25.71 %');
     });
   });
 

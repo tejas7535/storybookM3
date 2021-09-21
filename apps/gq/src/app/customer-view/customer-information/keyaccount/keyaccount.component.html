@@ -20,8 +20,7 @@
       <gq-label-text>
         <span label>{{ currentYear }} {{ t('gpi') }}</span>
         <span text>{{
-          customer.marginDetail.keyAccountCurrentGpi
-            | numberCurrency: customer.currency
+          customer.marginDetail.keyAccountCurrentGpi | percentage
         }}</span>
       </gq-label-text>
       <gq-label-text>
@@ -34,8 +33,7 @@
       <gq-label-text>
         <span label>{{ lastYear }} {{ t('gpi') }}</span>
         <span text>{{
-          customer.marginDetail.keyAccountCurrentGpi
-            | numberCurrency: customer.currency
+          customer.marginDetail.keyAccountCurrentGpi | percentage
         }}</span>
       </gq-label-text>
       <gq-horizontal-divider></gq-horizontal-divider>
@@ -57,8 +55,7 @@
       <gq-label-text>
         <span label>{{ currentYear }} {{ t('gpi') }}</span>
         <span text>{{
-          customer.marginDetail.subKeyAccountCurrentGpi
-            | numberCurrency: customer.currency
+          customer.marginDetail.subKeyAccountCurrentGpi | percentage
         }}</span>
       </gq-label-text>
       <gq-label-text>
@@ -71,8 +68,7 @@
       <gq-label-text [marginBottom]="false">
         <span label>{{ lastYear }} {{ t('gpi') }}</span>
         <span text>{{
-          customer.marginDetail.subKeyAccountCurrentGpi
-            | numberCurrency: customer.currency
+          customer.marginDetail.subKeyAccountCurrentGpi | percentage
         }}</span>
       </gq-label-text>
     </div>

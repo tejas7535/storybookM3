@@ -77,7 +77,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     if (exportExcel) {
       if (exportExcel === ExportExcel.DETAILED_DOWNLOAD) {
         this.subscribeToTransactions(exportExcel);
-      } else {
+      } else if (exportExcel === ExportExcel.BASIC_DOWNLOAD) {
         this.exportToExcel(exportExcel);
       }
     }

@@ -4,7 +4,10 @@
 >
   <div *ngIf="!(transactionsLoading$ | ngrxPush); else loading" class="h-full">
     <div class="h-full">
-      <gq-dialog-header [title]="t('title')"></gq-dialog-header>
+      <gq-dialog-header
+        [title]="t('title')"
+        (closeDialog)="cancelDownload()"
+      ></gq-dialog-header>
       <mat-radio-group
         [(ngModel)]="exportExcelOption"
         aria-labelledby="example-radio-group-label"

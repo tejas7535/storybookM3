@@ -5,9 +5,10 @@ import { FormControl } from '@angular/forms';
 import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
-import { StatusBarConfig } from '../../models/table';
-import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 import { Keyboard } from '../../models/keyboard.enum';
+import { StatusBarConfig } from '../../models/table';
+import { PriceService } from '../price-service/price.service';
+import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +38,9 @@ export class HelperService {
     return HelperService.transformNumberCurrency(transformedNumber, currency);
   }
   static transformPercentage(percentage: number): string {
-    return percentage ? `${percentage} %` : '-';
+    return percentage
+      ? `${PriceService.roundToTwoDecimals(percentage)} %`
+      : '-';
   }
 
   static initStatusBar(

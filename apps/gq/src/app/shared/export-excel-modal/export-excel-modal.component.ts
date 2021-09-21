@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ExportExcel } from './export-excel.enum';
+
 import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, pairwise } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+
+import { getGqId } from '../../core/store';
+import { loadExtendedComparableLinkedTransaction } from '../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import {
   getExtendedComparableLinkedTransactionsErrorMessage,
   getExtendedComparableLinkedTransactionsLoading,
 } from '../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
-import { Store } from '@ngrx/store';
-import { map, pairwise } from 'rxjs/operators';
-import { loadExtendedComparableLinkedTransaction } from '../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
-import { getGqId } from '../../core/store';
+import { ExportExcel } from './export-excel.enum';
 
 @Component({
   templateUrl: './export-excel-modal.component.html',
@@ -27,6 +30,9 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<ExportExcelModalComponent>
   ) {}
 
+  cancelDownload() {
+    this.dialogRef.close();
+  }
   closeDialog() {
     this.dialogRef.close(this.exportExcelOption);
   }
