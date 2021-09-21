@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
@@ -12,7 +13,6 @@ import {
 } from '@schaeffler/speed-dial-fab';
 
 import READMEMd from '../../../speed-dial-fab/README.md';
-import { MatIconModule } from '@angular/material/icon';
 
 export default {
   title: 'Components/SpeedDialFabButton',
@@ -52,7 +52,7 @@ export const CustomButton = Template.bind({});
 CustomButton.args = {
   primaryButton: {
     key: 'edit',
-    icon: new Icon('icon-draft', false),
+    icon: new Icon('edit', true),
     color: 'warn',
     label: true,
     title: 'Edit',
@@ -67,7 +67,7 @@ WithSecondaryButtons.args = {
   open: true,
   primaryButton: {
     key: 'conversation',
-    icon: new Icon('icon-bubbles', false),
+    icon: new Icon('question_answer', true),
     color: 'primary',
     label: true,
     title: 'new conversation',
@@ -75,14 +75,14 @@ WithSecondaryButtons.args = {
   secondaryButtons: [
     {
       key: 'mail',
-      icon: new Icon('icon-mail'),
+      icon: new Icon('email', true),
       color: 'accent',
       label: true,
       title: 'New Mail',
     },
     {
       key: 'phone',
-      icon: new Icon('icon-phone', false),
+      icon: new Icon('phone', true),
       color: 'accent',
       label: true,
       title: 'New Call',
@@ -98,7 +98,7 @@ DisabledSecondaryButtons.args = {
   open: true,
   primaryButton: {
     key: 'edit',
-    icon: new Icon('icon-draft', false),
+    icon: new Icon('edit', true),
     color: 'primary',
     label: false,
     title: 'Start edit mode',
@@ -106,7 +106,7 @@ DisabledSecondaryButtons.args = {
   secondaryButtons: [
     {
       key: 'save',
-      icon: new Icon('icon-disk', false),
+      icon: new Icon('save', true),
       color: 'accent',
       label: false,
       title: 'Save changes',

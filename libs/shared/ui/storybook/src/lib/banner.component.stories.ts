@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 import { TranslocoModule } from '@ngneat/transloco';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
@@ -19,6 +20,7 @@ export default {
         BannerTextModule,
         StorybookTranslocoModule,
         TranslocoModule,
+        MatIconModule,
       ],
     }),
   ],

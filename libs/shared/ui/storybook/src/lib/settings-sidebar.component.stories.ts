@@ -1,7 +1,9 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { HeaderModule } from '@schaeffler/header';
 import {
@@ -10,8 +12,6 @@ import {
 } from '@schaeffler/settings-sidebar';
 
 import READMEMd from '../../../settings-sidebar/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import { RouterModule } from '@angular/router';
 
 export default {
   title: 'Components/Settings Sidebar',
@@ -68,7 +68,7 @@ Primary.args = {
   open: true,
   openSidebarBtn: true,
   closeSidebarBtn: true,
-  triggerBtnIcon: 'icon-filter',
+  triggerBtnIcon: 'tune',
 };
 Primary.argTypes = {
   openedChange: { action: 'openedChange' },

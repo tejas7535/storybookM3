@@ -53,7 +53,7 @@
       class="fab-button-secondary"
     >
       <ng-container *ngIf="button.icon.materialIcon; else schaefflerIconBtn">
-        <mat-icon>{{ primaryButton.icon.icon }}</mat-icon>
+        <mat-icon>{{ button.icon.icon }}</mat-icon>
       </ng-container>
       <ng-template #schaefflerIconBtn>
         <mat-icon [svgIcon]="button.icon.icon"></mat-icon>

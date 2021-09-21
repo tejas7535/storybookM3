@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MatIconModule } from '@angular/material/icon';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { HeaderModule } from '@schaeffler/header';
@@ -92,18 +91,12 @@ WithSidebarElements.args = {
     {
       text: 'Home',
       link: '/home',
-      icon: {
-        icon: 'icon-house',
-        materialIcon: false,
-      },
+      icon: 'home',
     },
     {
       text: 'Cart',
       link: '/cart',
-      icon: {
-        icon: 'icon-cart',
-        materialIcon: false,
-      },
+      icon: 'shopping_cart',
     },
   ],
 } as Partial<SidebarComponent & SidebarElementsComponent>;

@@ -1,5 +1,5 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
-@import 'libs/shared/ui/styles/src/lib/fonts';
+@import 'libs/shared/ui/styles/src/lib/mediaqueries';
 
 .sidebar-navigation-content {
   ::ng-deep schaeffler-sidebar-element:nth-of-type(odd) > div > div,
@@ -134,7 +134,6 @@ mat-icon {
   border-radius: 0;
   box-shadow: 0 0 10px 0 $schaeffler-gray-9;
   color: $schaeffler-gray-12;
-  font-size: $schaeffler-text;
   margin-left: 3px;
   overflow: visible;
 

@@ -1,5 +1,5 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
-@import 'libs/shared/ui/styles/src/lib/fonts';
+@import 'libs/shared/ui/styles/src/lib/mediaqueries';
 
 #banner-container {
   background-color: $schaeffler-white;
@@ -12,7 +12,8 @@
   }
 
   p {
-    letter-spacing: 0.04em;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.03em;
     margin: 0;
     text-align: justify;
   }
