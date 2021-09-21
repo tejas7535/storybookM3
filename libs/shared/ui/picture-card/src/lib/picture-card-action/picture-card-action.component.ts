@@ -7,7 +7,8 @@ import { Component, Input } from '@angular/core';
 export class PictureCardActionComponent {
   @Input() public text!: string;
   @Input() public disabled!: boolean;
-  @Input() public click!: void;
+  @Input() public click!: (event?: any) => void;
   @Input() public toggleAction = false;
   @Input() public selectAction = false;
+  @Input() public selected = false;
 }

@@ -11,6 +11,7 @@ import {
   DynamicFormTemplateContext,
   LazyListLoaderService,
   NestedPropertyMeta,
+  PageMetaStatus,
   RuntimeRequestService,
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -24,6 +25,10 @@ import { MMLocales, RestService } from '../core/services';
 import { LocaleService } from '../core/services/locale/locale.service';
 import { FormValue, FormValueProperty } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
+import {
+  PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
+  PAGE_MOUNTING_MANAGER_SEAT,
+} from './../shared/constants/dialog-constant';
 import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
@@ -228,6 +233,99 @@ describe('HomeComponent', () => {
 
       expect(component['homeStore'].setPageMetas).toHaveBeenCalledWith(
         mockNestedMeta
+      );
+    });
+  });
+
+  describe('#checkTriggerNext', () => {
+    it('should do nothing if not on page 2 or 3', () => {
+      component.next = jest.fn();
+      Object.defineProperty(component['resultPage'], 'send', {
+        value: jest.fn(),
+      });
+
+      const mockedPageId = 'another page';
+      const mockedPagedMetas: PagedMeta[] = [];
+
+      component.checkTriggerNext(mockedPageId, mockedPagedMetas);
+
+      expect(component.next).not.toHaveBeenCalled();
+      expect(component['resultPage'].send).not.toHaveBeenCalled();
+    });
+    it('should do nothing if currentPageMeta is not defined', () => {
+      component.next = jest.fn();
+      Object.defineProperty(component['resultPage'], 'send', {
+        value: jest.fn(),
+      });
+
+      const mockedPageId = PAGE_MOUNTING_MANAGER_SEAT;
+      const mockedPagedMetas: PagedMeta[] = [];
+
+      component.checkTriggerNext(mockedPageId, mockedPagedMetas);
+
+      expect(component.next).not.toHaveBeenCalled();
+      expect(component['resultPage'].send).not.toHaveBeenCalled();
+    });
+
+    it('should call next if currentPage 2 or 3 is valid', () => {
+      component.next = jest.fn();
+      Object.defineProperty(component['resultPage'], 'send', {
+        value: jest.fn(),
+      });
+
+      const mockedPageId = PAGE_MOUNTING_MANAGER_SEAT;
+      const mockedPagedMetas: PagedMeta[] = [
+        {
+          metas: [],
+          controls: [],
+          valid$: of(true),
+          page: {
+            id: PAGE_MOUNTING_MANAGER_SEAT,
+          } as PageMetaStatus,
+          children: [],
+        },
+      ];
+
+      component.checkTriggerNext(mockedPageId, mockedPagedMetas);
+
+      expect(component.next).toHaveBeenCalledWith(
+        mockedPageId,
+        mockedPagedMetas,
+        component['stepper']
+      );
+      expect(component['resultPage'].send).not.toHaveBeenCalled();
+    });
+    it('should call next and fetch the result if currentPage 2 or 3 is valid and result is next', () => {
+      component.next = jest.fn();
+      Object.defineProperty(component['stepper'], 'hasResultNext', {
+        value: true,
+      });
+      Object.defineProperty(component['resultPage'], 'send', {
+        value: jest.fn(),
+      });
+
+      const mockedPageId = PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS;
+      const mockedPagedMetas: PagedMeta[] = [
+        {
+          metas: [],
+          controls: [],
+          valid$: of(true),
+          page: {
+            id: PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
+          } as PageMetaStatus,
+          children: [],
+        },
+      ];
+
+      component.checkTriggerNext(mockedPageId, mockedPagedMetas);
+
+      expect(component.next).toHaveBeenCalledWith(
+        mockedPageId,
+        mockedPagedMetas,
+        component['stepper']
+      );
+      expect(component['resultPage'].send).toHaveBeenCalledWith(
+        component['form']
       );
     });
   });

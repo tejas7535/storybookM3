@@ -24,8 +24,10 @@
     <ng-template matStepLabel>{{ t(page.page.text) }}</ng-template>
     <h5 class="-mt-2">{{ t(page.page.text) }}</h5>
   </mat-step>
+  <ng-template matStepperIcon="done" let-index="index">
+    {{ index + 1 }}
+  </ng-template>
+  <ng-template matStepperIcon="edit" let-index="index">
+    {{ index + 1 }}
+  </ng-template>
 </mat-horizontal-stepper>
-
-<ng-template matStepperIcon="done">
-  <mat-icon>done</mat-icon>
-</ng-template>

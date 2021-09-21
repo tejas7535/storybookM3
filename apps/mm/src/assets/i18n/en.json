@@ -5,7 +5,8 @@
     "searchManually": "or configure manually",
     "chooseOption": "Choose an option",
     "searchLoading": "Fetching data...",
-    "searchNoResults": "No Results"
+    "searchNoResults": "No Results",
+    "selected": "selected"
   },
   "languageDialog": {
     "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input.",

@@ -3,7 +3,8 @@
     "languageSelectLabel": "Idioma",
     "decimalSeparatorSelectLabel": "Separador decimal",
     "decimalSeparatorComma": "Coma",
-    "decimalSeparatorPoint": "Punto"
+    "decimalSeparatorPoint": "Punto",
+    "selected": "seleccionado"
   },
   "form": {
     "select": "Seleccione el {{fieldname}}",

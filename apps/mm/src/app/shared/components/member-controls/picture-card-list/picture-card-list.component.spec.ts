@@ -73,4 +73,23 @@ describe('PictureCardListComponent', () => {
       expect(touchSpy).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('#triggerChange', () => {
+    it('should call onChange and onTouched', () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const changeSpy = jest.spyOn(component, 'onChange');
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const touchSpy = jest.spyOn(component, 'onTouched');
+      const expectedValue = 'joa';
+
+      component.value = expectedValue;
+
+      component.triggerChange();
+
+      expect(changeSpy).toHaveBeenCalledWith(expectedValue);
+      expect(touchSpy).toHaveBeenCalledTimes(1);
+    });
+  });
 });

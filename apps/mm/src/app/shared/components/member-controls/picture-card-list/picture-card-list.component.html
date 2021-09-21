@@ -15,13 +15,17 @@
         [img]="option.imageUrl"
         [toggleEnabled]="false"
         [selected]="option.id === value"
+        [isClickable]="true"
+        (click)="option.id !== value ? setValue(option.id) : triggerChange()"
       >
         <ng-container card-actions>
           <schaeffler-picture-card-action
-            [text]="t('form.select')"
-            [disabled]="disabled || option.id === value"
+            [text]="option.id === value ? t('form.selected') : t('form.select')"
             [selectAction]="true"
-            (click)="setValue(option.id)"
+            [selected]="option.id === value"
+            (click)="
+              option.id !== value ? setValue(option.id) : triggerChange()
+            "
           ></schaeffler-picture-card-action>
         </ng-container>
       </schaeffler-picture-card>

@@ -11,7 +11,8 @@
     "searchManually": "或手动配置",
     "chooseOption": "选择选项",
     "searchLoading": "正在获取数据...",
-    "searchNoResults": "没有结果"
+    "searchNoResults": "没有结果",
+    "selected": "选中"
   },
   "languageDialog": {
     "content": "请注意更改语言会导致页面刷新而使得您的输入丢失.",

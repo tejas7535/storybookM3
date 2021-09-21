@@ -5,7 +5,8 @@
     "searchManually": "oder manuell konfigurieren",
     "chooseOption": "Lager auswählen",
     "searchLoading": "Lade Daten...",
-    "searchNoResults": "Keine Ergebnisse"
+    "searchNoResults": "Keine Ergebnisse",
+    "selected": "ausgewählt"
   },
   "sidebar": {
     "languageSelectLabel": "Sprache",

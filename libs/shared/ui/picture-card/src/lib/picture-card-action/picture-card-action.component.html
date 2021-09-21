@@ -8,13 +8,26 @@
   {{ text }}
 </button>
 <ng-template #defaultButton>
-  <button
-    mat-button
-    (click)="(click)"
-    [disabled]="disabled"
-    color="primary"
-    class="focus:outline-none"
-  >
-    {{ text }}
-  </button>
+  <ng-container *ngIf="selected; else notSelected">
+    <button
+      mat-flat-button
+      (click)="(click)"
+      [disabled]="disabled"
+      color="primary"
+      class="focus:outline-none z-10"
+    >
+      {{ text }}
+    </button>
+  </ng-container>
+  <ng-template #notSelected>
+    <button
+      mat-button
+      (click)="(click)"
+      [disabled]="disabled"
+      color="primary"
+      class="focus:outline-none"
+    >
+      {{ text }}
+    </button>
+  </ng-template>
 </ng-template>

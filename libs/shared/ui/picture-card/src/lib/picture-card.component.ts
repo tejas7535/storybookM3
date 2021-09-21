@@ -14,6 +14,7 @@ export class PictureCardComponent {
   @Input() public selected = false;
   @Input() public hideActionsOnActive = false;
   @Input() public actions!: PictureCardAction[];
+  @Input() public isClickable = false;
 
   public active = false;
 

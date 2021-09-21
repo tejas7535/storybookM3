@@ -1,5 +1,8 @@
 <div class="h-full relative">
-  <mat-card class="h-full">
+  <mat-card
+    class="h-full"
+    (click)="isClickable ? toggle(false, true) : undefined"
+  >
     <img mat-card-image [src]="img" class="max-w-none" />
     <div class="absolute right-0 top-0">
       <button

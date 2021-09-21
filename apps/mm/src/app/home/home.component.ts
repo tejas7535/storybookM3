@@ -4,6 +4,9 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -13,6 +16,7 @@ import {
   map,
   pairwise,
   startWith,
+  take,
   takeUntil,
   tap,
   withLatestFrom,
@@ -40,6 +44,7 @@ import {
   IDMM_MEASSURING_METHOD,
   IDMM_MOUNTING_METHOD,
   measuringAndMountingMembers,
+  PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
   PAGE_MOUNTING_MANAGER_SEAT,
   PAGE_RESULT,
   PROPERTY_PAGE_MOUNTING,
@@ -56,6 +61,7 @@ import {
 } from './../shared/models/home/form-value.model';
 import { HomeStore } from './home.component.store';
 import { PagedMeta } from './home.model';
+import { ResultPageComponent } from './result-page/result-page.component';
 
 // TODO use ComponentStore
 @Component({
@@ -69,8 +75,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
   public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
+  public readonly RSY_BEARING_SERIES = RSY_BEARING_SERIES;
+  public readonly RSY_BEARING = RSY_BEARING;
   public readonly IDMM_MEASSURING_METHOD = IDMM_MEASSURING_METHOD;
   public readonly IDMM_MOUNTING_METHOD = IDMM_MOUNTING_METHOD;
+  public readonly PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS =
+    PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS;
 
   public readonly PROPERTY_PAGE_MOUNTING_SITUATION_SUB =
     PROPERTY_PAGE_MOUNTING_SITUATION_SUB;
@@ -105,6 +115,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   private initialPageId: string = RSY_PAGE_BEARING_TYPE;
   private form: FormGroup;
 
+  @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
+  @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
+  @ViewChildren('inBoxControl')
+  public readonly inBoxTemplates: TemplateRef<any>[];
+
   public constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
@@ -138,23 +153,53 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.form = form;
     this.initialFormValue = form.value;
     this.form.valueChanges
-      .pipe(startWith(false), pairwise(), withLatestFrom(this.activePageId$))
+      .pipe(
+        startWith(false),
+        pairwise(),
+        withLatestFrom(this.activePageId$, this.pagedMetas$)
+      )
       .subscribe(
-        ([[prev, next], activePageId]: [[FormValue, FormValue], any]) => {
+        ([[prev, next], activePageId, pagedMetas]: [
+          [FormValue, FormValue],
+          any,
+          PagedMeta[]
+        ]) => {
           if (
             activePageId === PROPERTY_PAGE_MOUNTING_SITUATION ||
             activePageId === PAGE_RESULT ||
-            prev === next ||
             !prev ||
             !next
           ) {
             return;
           }
           this.resetFormValue(prev, next);
+          this.checkTriggerNext(activePageId, pagedMetas);
         }
       );
 
     this.homeStore.setPageMetas(nestedMetas);
+  }
+
+  public checkTriggerNext(activePageId: string, pagedMetas: PagedMeta[]): void {
+    const currentPagedMeta: PagedMeta = pagedMetas.find(
+      (pagedMeta: PagedMeta) => pagedMeta.page.id === activePageId
+    );
+
+    if (
+      currentPagedMeta &&
+      (currentPagedMeta.page.id === PAGE_MOUNTING_MANAGER_SEAT ||
+        currentPagedMeta.page.id ===
+          PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS)
+    ) {
+      currentPagedMeta.valid$.pipe(take(1)).subscribe((valid: any) => {
+        if (valid) {
+          this.next(currentPagedMeta.page.id, pagedMetas, this.stepper);
+          if (this.stepper.hasResultNext) {
+            this.resultPage.send(this.form);
+          }
+        }
+      });
+    }
   }
 
   public next(
@@ -190,6 +235,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private resetFormValue(prev: FormValue, next: FormValue): void {
+    if (prev === next) {
+      return;
+    }
     const prevProperties = prev.objects[0].properties;
     const nextProperties = next.objects[0].properties;
     const changedProperty = nextProperties.find(

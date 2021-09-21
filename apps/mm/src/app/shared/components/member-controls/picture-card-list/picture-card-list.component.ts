@@ -57,6 +57,11 @@ export class PictureCardListComponent implements ControlValueAccessor {
     this.onTouched();
   }
 
+  public triggerChange(): void {
+    this.onChange(this.value);
+    this.onTouched();
+  }
+
   private onChange: (value: string) => void = () => {};
   private onTouched: () => void = () => {};
 }
