@@ -1,11 +1,11 @@
 import { EChartsOption, SeriesOption } from 'echarts';
 
 import { Color } from '../../models/color.enum';
+import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
 
-export function createSolidDoughnutChartBaseOptions(config: {
-  title: string;
-  subTitle: string;
-}): EChartsOption {
+export function createSolidDoughnutChartBaseOptions(
+  config: SolidDoughnutChartConfig
+): EChartsOption {
   return {
     type: 'pie',
     backgroundColor: Color.WHITE,
@@ -13,16 +13,14 @@ export function createSolidDoughnutChartBaseOptions(config: {
       text: config.title,
       textStyle: {
         color: Color.BLACK,
-        fontSize: 20,
+        fontSize: '1.5rem',
         fontWeight: 'normal',
       },
       subtext: config.subTitle,
       subtextStyle: {
         color: Color.LIGHT_GREY,
-        fontSize: 14,
+        fontSize: '1rem',
       },
-      left: 'center',
-      top: 'center',
     },
     color: [
       Color.COLORFUL_CHART_5,
@@ -40,12 +38,13 @@ export function createSolidDoughnutChartSeries(title: string): SeriesOption[] {
     {
       name: title,
       type: 'pie',
-      radius: ['55%', '80%'],
+      radius: ['65%', '95%'],
+      height: '80%',
       label: {
         formatter: '{d}%',
         position: 'inside',
         color: Color.WHITE,
-        fontSize: 10,
+        fontSize: '0.6rem',
       },
     },
   ];

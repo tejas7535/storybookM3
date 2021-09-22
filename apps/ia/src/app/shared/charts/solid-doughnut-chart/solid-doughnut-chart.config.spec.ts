@@ -14,16 +14,14 @@ describe('solid-doughnut-chart config', () => {
         text: config.title,
         textStyle: {
           color: Color.BLACK,
-          fontSize: 20,
+          fontSize: '1.5rem',
           fontWeight: 'normal',
         },
         subtext: config.subTitle,
         subtextStyle: {
           color: Color.LIGHT_GREY,
-          fontSize: 14,
+          fontSize: '1rem',
         },
-        left: 'center',
-        top: 'center',
       },
       color: [
         Color.COLORFUL_CHART_5,
@@ -45,13 +43,14 @@ describe('solid-doughnut-chart config', () => {
     const expectedResult = [
       {
         name: title,
+        height: '80%',
         type: 'pie',
-        radius: ['55%', '80%'],
+        radius: ['65%', '95%'],
         label: {
           formatter: '{d}%',
           position: 'inside',
           color: Color.WHITE,
-          fontSize: 10,
+          fontSize: '0.6rem',
         },
       },
     ];

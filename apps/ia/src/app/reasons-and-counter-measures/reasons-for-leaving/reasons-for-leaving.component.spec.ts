@@ -15,6 +15,12 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors';
+import { IdValue, SelectedFilter, TimePeriod } from '../../shared/models';
+import {
+  changeComparedFilter,
+  changeComparedTimePeriod,
+  changeComparedTimeRange,
+} from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
@@ -170,4 +176,58 @@ describe('ReasonsForLeavingComponent', () => {
       );
     })
   );
+
+  describe('orgUnitInvalid', () => {
+    test('should set comparedDisabledTimeRangeFilter', () => {
+      component.orgUnitInvalid(true);
+
+      expect(component.comparedDisabledTimeRangeFilter).toBeTruthy();
+    });
+  });
+
+  describe('comparedOptionSelected', () => {
+    test('should dispatch changeComparedFilter action', () => {
+      store.dispatch = jest.fn();
+      const selectedFilter = {
+        name: 'orgUnit',
+        value: 'Schaeffler_HR',
+      } as SelectedFilter;
+
+      component.comparedOptionSelected(selectedFilter);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        changeComparedFilter({
+          comparedSelectedOrgUnit: selectedFilter.value.toString(),
+        })
+      );
+    });
+  });
+
+  describe('comparedTimePeriodSelected', () => {
+    test('should dispatch changeComparedTimePeriod action', () => {
+      store.dispatch = jest.fn();
+      const idValue: IdValue = { id: '1', value: 'orgUnit' };
+
+      component.comparedTimePeriodSelected(idValue);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        changeComparedTimePeriod({
+          comparedSelectedTimePeriod: '1' as unknown as TimePeriod,
+        })
+      );
+    });
+  });
+
+  describe('comparedTimeRangeSelected', () => {
+    test('should dispatch changeComparedTimeRange action', () => {
+      store.dispatch = jest.fn();
+      const comparedSelectedTimeRange = '123-321';
+
+      component.comparedTimeRangeSelected(comparedSelectedTimeRange);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        changeComparedTimeRange({ comparedSelectedTimeRange })
+      );
+    });
+  });
 });

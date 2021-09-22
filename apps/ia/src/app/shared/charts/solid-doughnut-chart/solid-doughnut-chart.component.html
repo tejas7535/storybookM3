@@ -1,14 +1,14 @@
-<div class="flex flex-col relative h-full">
+<div class="flex flex-col relative h-full items-center">
   <div
     echarts
     [options]="options"
     [merge]="mergeOptions"
-    class="w-full h-[750px] min-w-[250px]"
-    *ngIf="!isLoading; else loading"
+    class="w-full h-full"
+    *ngIf="!isLoading || data; else loading"
   ></div>
   <ng-template #loading>
     <schaeffler-loading-spinner
-      class="w-full h-[750px] min-w-[250px]"
+      class="w-full h-full"
       [diameter]="40"
       [strokeWidth]="4"
       [relative]="false"

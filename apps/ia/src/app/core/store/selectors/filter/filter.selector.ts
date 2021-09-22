@@ -61,9 +61,11 @@ export const getBeautifiedSelectedTimeRange = createSelector(
   (timeRange: string) => {
     const dates = timeRange?.split('|');
 
-    return `${new Date(+dates[0]).toLocaleDateString()} - ${new Date(
-      +dates[1]
-    ).toLocaleDateString()}`;
+    return timeRange
+      ? `${new Date(+dates[0]).toLocaleDateString()} - ${new Date(
+          +dates[1]
+        ).toLocaleDateString()}`
+      : undefined;
   }
 );
 
