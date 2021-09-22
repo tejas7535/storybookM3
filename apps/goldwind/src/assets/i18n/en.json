@@ -1,5 +1,6 @@
 {
   "app": {
+    "contact": "Contact",
     "dataPrivacy": "Data Privacy",
     "imprint": "Imprint",
     "termsOfUse": "Terms of Use"

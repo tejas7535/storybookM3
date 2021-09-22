@@ -28,6 +28,11 @@ export class AppComponent implements OnInit {
   };
   public footerLinks: FooterLink[] = [
     {
+      link: `mailto:smartwindsolutions@schaeffler.com?subject=Support%20Request&body=Dear%20Smart%20Wind%20Solutions%20Support%2C%0Ai%20have%20the%20following%20request...%0A%0AAttached%20you%27ll%20find%20a%20screenshot%0A%0AKind%20regards`,
+      title: translate('app.contact'),
+      external: true,
+    },
+    {
       link: `${AppRoutePath.LegalPath}/${LegalPath.ImprintPath}`,
       title: translate('app.imprint'),
       external: false,
