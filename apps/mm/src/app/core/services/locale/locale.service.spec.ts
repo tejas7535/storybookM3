@@ -1,3 +1,4 @@
+import { OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
@@ -10,6 +11,7 @@ describe('LocaleService', () => {
   let spectator: SpectatorService<LocaleService>;
   let service: LocaleService;
   let translocoService: TranslocoService;
+  let onetrustService: OneTrustService;
 
   const createService = createServiceFactory({
     service: LocaleService,
@@ -22,6 +24,12 @@ describe('LocaleService', () => {
           setActiveLang: jest.fn(() => {}),
         },
       },
+      {
+        provide: OneTrustService,
+        useValue: {
+          translateBanner: jest.fn(() => {}),
+        },
+      },
     ],
   });
 
@@ -29,6 +37,7 @@ describe('LocaleService', () => {
     spectator = createService();
     service = spectator.inject(LocaleService);
     translocoService = spectator.inject(TranslocoService);
+    onetrustService = spectator.inject(OneTrustService);
   });
 
   it('should be created', () => {
@@ -61,6 +70,7 @@ describe('LocaleService', () => {
     service.setLocale(MMLocales.en);
 
     expect(translocoService.setActiveLang).toHaveBeenCalledWith('en');
+    expect(onetrustService.translateBanner).toHaveBeenCalledWith('en', true);
     expect(service['separator'].next).not.toHaveBeenCalled();
   });
 

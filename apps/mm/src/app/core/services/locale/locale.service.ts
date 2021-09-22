@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { OneTrustService } from '@altack/ngx-onetrust';
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
 import { locales, MMLocales } from './locale.enum';
@@ -20,7 +21,10 @@ export class LocaleService {
 
   private manualSeparator = false;
 
-  constructor(private readonly translocoService: TranslocoService) {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly onetrustService: OneTrustService
+  ) {
     this.registerLocales();
 
     const lang = this.translocoService.getActiveLang();
@@ -42,6 +46,7 @@ export class LocaleService {
   public setLocale(locale: MMLocales): void {
     this.language.next(locale);
     this.translocoService.setActiveLang(locale);
+    this.onetrustService.translateBanner(locale, true);
     if (!this.manualSeparator) {
       this.separator.next(locales[locale].defaultSeparator);
     }

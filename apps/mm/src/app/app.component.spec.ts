@@ -2,13 +2,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './core/components/sidebar/sidebar.component';
 import { MaterialModule } from './shared/material.module';
@@ -25,6 +28,10 @@ describe('AppComponent', () => {
       FooterModule,
       RouterTestingModule,
       TranslocoTestingModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
 
       // TOOD: remove when sidebar component has its module
       ReactiveFormsModule,
