@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -16,6 +17,12 @@ describe('ChargeableSoonDialogComponent', () => {
   const createComponent = createComponentFactory({
     component: ChargeableSoonDialogComponent,
     imports: [MatIconModule, provideTranslocoTestingModule({ en: {} })],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
     mocks: [MatDialog],
   });
 

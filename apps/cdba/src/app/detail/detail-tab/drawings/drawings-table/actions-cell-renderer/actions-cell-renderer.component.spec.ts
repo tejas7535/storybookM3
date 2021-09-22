@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
@@ -21,7 +22,13 @@ describe('ActionsCellRendererComponent', () => {
   const createComponent = createComponentFactory({
     component: ActionsCellRendererComponent,
     imports: [SharedModule, MatIconModule, MatButtonModule],
-    providers: [mockProvider(ApplicationInsightsService)],
+    providers: [
+      mockProvider(ApplicationInsightsService),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

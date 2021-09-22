@@ -1,4 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,6 +24,10 @@ describe('UserSettingsComponent', () => {
     providers: [
       mockProvider(TranslocoService),
       mockProvider(TranslocoLocaleService),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     imports: [
       SharedModule,

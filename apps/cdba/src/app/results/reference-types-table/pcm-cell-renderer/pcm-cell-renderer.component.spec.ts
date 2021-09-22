@@ -1,5 +1,6 @@
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatChipsModule } from '@angular/material/chips';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
@@ -19,6 +20,12 @@ describe('PcmCellRendererComponent', () => {
       MatTooltipModule,
       FlexLayoutModule,
       TranslocoTestingModule,
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [PcmCellRendererComponent],
   });

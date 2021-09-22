@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -32,6 +33,10 @@ describe('DrawingsTableComponent', () => {
     ],
     providers: [
       mockProvider(ColumnDefinitionService, { COLUMN_DEFINITIONS: [] }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

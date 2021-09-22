@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { marbles } from 'rxjs-marbles/marbles';
@@ -35,6 +36,10 @@ describe('MaterialCardComponent', () => {
     ],
     providers: [
       provideMockStore({ initialState: { compare: COMPARE_STATE_MOCK } }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

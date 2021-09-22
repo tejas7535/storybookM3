@@ -1,5 +1,6 @@
 import { SimpleChange } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -53,6 +54,10 @@ describe('CalculationsTableComponent', () => {
       ColumnDefinitionService,
       mockProvider(AgGridStateService),
       provideMockStore(),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

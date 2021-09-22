@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
 import {
@@ -46,6 +47,10 @@ describe('BomChartComponent', () => {
         getChartSeries: jest.fn(() => [{}]),
       }),
       mockProvider(TranslocoLocaleService),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     disableAnimations: true,
     detectChanges: false,

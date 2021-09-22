@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
@@ -50,6 +51,10 @@ describe('DetailViewButtonComponent', () => {
         useValue: {
           navigate: jest.fn(),
         },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

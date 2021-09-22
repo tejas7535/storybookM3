@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -13,6 +14,12 @@ describe('BlockUiComponent', () => {
   const createComponent = createComponentFactory({
     component: BlockUiComponent,
     imports: [provideTranslocoTestingModule({ en: {} }), MatProgressBarModule],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {
