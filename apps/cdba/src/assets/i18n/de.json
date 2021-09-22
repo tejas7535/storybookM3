@@ -18,7 +18,10 @@
     "statusBar": {
       "detail": "Details anzeigen",
       "compare": "Details vergleichen",
-      "loadBom": "Stückliste laden"
+      "loadBom": "Stückliste laden",
+      "hints": {
+        "notAvailableForRfq": "Nicht verfügbar für RFQs"
+      }
     },
     "table": {
       "columnMenu": {

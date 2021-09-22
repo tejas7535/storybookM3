@@ -1,7 +1,10 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
+import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -14,51 +17,67 @@ import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { LoadBomButtonComponent } from './load-bom-button.component';
 
+const getSelectedNodes = jest.fn();
+
 describe('LoadBomButtonComponent', () => {
   let spectator: Spectator<LoadBomButtonComponent>;
   let component: LoadBomButtonComponent;
   let store: MockStore;
+  let params: IStatusPanelParams;
 
-  const params: IStatusPanelParams = {
-    api: {
-      getSelectedNodes: jest.fn(() => [{ id: '1', data: { foo: 'bar' } }]),
-    },
-  } as unknown as IStatusPanelParams;
+  const mockRowNodeDefault: Partial<RowNode> = {
+    id: '1',
+    data: { foo: 'bar' },
+  };
+
+  const mockRowNodeRfq: Partial<RowNode> = {
+    id: '1',
+    data: { foo: 'bar', costType: 'RFQ' },
+  };
 
   const createComponent = createComponentFactory({
     component: LoadBomButtonComponent,
     imports: [
       SharedModule,
       MatButtonModule,
+      MatTooltipModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({ initialState: { detail: DETAIL_STATE_MOCK } }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    component['gridApi'] = {} as unknown as GridApi;
 
     store = spectator.inject(MockStore);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('default calculation', () => {
+    beforeEach(() => {
+      getSelectedNodes.mockReturnValue([mockRowNodeDefault]);
+      params = {
+        api: {
+          getSelectedNodes,
+        },
+      } as unknown as IStatusPanelParams;
+    });
 
-  describe('agInit', () => {
-    test('should set params and add listeners', () => {
+    test('agInit should set params and add listeners', () => {
       component.agInit(params as unknown as IStatusPanelParams);
 
       expect(component['gridApi']).toEqual(params.api);
     });
-  });
 
-  describe('loadBom', () => {
-    test('should dispatch selectCalculation action', () => {
+    test('should dispatch selectCalculation action on loadBom call', () => {
       store.dispatch = jest.fn();
 
       component['gridApi'] = params.api;
@@ -66,10 +85,26 @@ describe('LoadBomButtonComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectCalculation({
-          nodeId: '1',
-          calculation: { foo: 'bar' } as unknown as Calculation,
+          nodeId: mockRowNodeDefault.id,
+          calculation: mockRowNodeDefault.data as unknown as Calculation,
         })
       );
+    });
+  });
+
+  describe('RFQ calculation', () => {
+    getSelectedNodes.mockReturnValue([mockRowNodeRfq]);
+    params = {
+      api: {
+        getSelectedNodes,
+      },
+    } as unknown as IStatusPanelParams;
+
+    test('should cause a disabled button', () => {
+      component['gridApi'] = params.api;
+
+      expect(spectator.query('button')).toBeDisabled();
+      expect(spectator.query('button')).toHaveClass('mat-tooltip-trigger');
     });
   });
 });

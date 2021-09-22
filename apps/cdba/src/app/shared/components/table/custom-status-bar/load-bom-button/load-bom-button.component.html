@@ -3,7 +3,9 @@
     mat-raised-button
     color="primary"
     *transloco="let t; read: 'shared.statusBar'"
-    [disabled]="nodeIds?.length !== 1"
+    [disabled]="buttonDisabled()"
+    [matTooltip]="t('hints.notAvailableForRfq')"
+    [matTooltipDisabled]="tooltipDisabled()"
     [routerLink]="['/detail', 'bom']"
     queryParamsHandling="merge"
     (click)="loadBom()"

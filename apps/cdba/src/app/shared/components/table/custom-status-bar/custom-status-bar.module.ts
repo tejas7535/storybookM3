@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,7 +17,13 @@ import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.compon
     LoadBomButtonComponent,
     CompareViewButtonComponent,
   ],
-  imports: [SharedModule, SharedTranslocoModule, MatButtonModule, RouterModule],
+  imports: [
+    RouterModule,
+    SharedModule,
+    SharedTranslocoModule,
+    MatButtonModule,
+    MatTooltipModule,
+  ],
   exports: [
     DetailViewButtonComponent,
     LoadBomButtonComponent,

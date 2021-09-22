@@ -18,7 +18,10 @@
     "statusBar": {
       "detail": "Show Details",
       "compare": "Compare Details",
-      "loadBom": "Load Bill of Material"
+      "loadBom": "Load Bill of Material",
+      "hints": {
+        "notAvailableForRfq": "Not available for RFQs"
+      }
     },
     "table": {
       "columnMenu": {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
 import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { Store } from '@ngrx/store';
 
@@ -33,13 +34,36 @@ export class LoadBomButtonComponent implements OnInit {
   }
 
   loadBom(): void {
-    const selectedNode = this.gridApi.getSelectedNodes()[0];
+    const nodeSelected = this.selectedNodes()[0];
 
     this.store.dispatch(
       selectCalculation({
-        nodeId: selectedNode.id,
-        calculation: selectedNode.data,
+        nodeId: nodeSelected.id,
+        calculation: nodeSelected.data,
       })
     );
   }
+
+  public buttonDisabled(): boolean {
+    const nodesSelected = this.selectedNodes();
+
+    if (nodesSelected.length !== 1) {
+      return true;
+    }
+
+    return nodesSelected[0]?.data?.costType === 'RFQ';
+  }
+
+  public tooltipDisabled(): boolean {
+    const nodesSelected = this.selectedNodes();
+
+    if (nodesSelected.length !== 1) {
+      return true;
+    }
+
+    return nodesSelected[0]?.data?.costType !== 'RFQ';
+  }
+
+  private readonly selectedNodes = (): RowNode[] =>
+    this.gridApi ? this.gridApi.getSelectedNodes() || [] : [];
 }
