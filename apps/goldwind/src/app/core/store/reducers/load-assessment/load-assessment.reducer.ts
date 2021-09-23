@@ -16,7 +16,6 @@ export interface LoadAssessmentState {
 
 export const initialState: LoadAssessmentState = {
   display: {
-    rsmShaftSpeed: true,
     centerLoadFx: true,
     centerLoadFy: true,
     centerLoadFz: true,

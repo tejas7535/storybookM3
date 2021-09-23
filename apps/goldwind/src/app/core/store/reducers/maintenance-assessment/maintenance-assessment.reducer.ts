@@ -5,8 +5,9 @@ import {
 } from '../../actions';
 
 import { ChartState } from '../../../../shared/chart/chart.state';
+import { MaintenanceAssessmentDisplay } from './maintenance.assessment.model';
 
-export const initialState: ChartState = {
+export const initialState: ChartState<MaintenanceAssessmentDisplay> = {
   display: {
     deterioration_1: true,
     waterContent_1: true,
@@ -29,14 +30,20 @@ export const maintenanceAssessmentReducer = createReducer(
 
   on(
     setMaintenanceAssessmentDisplay,
-    (state: ChartState, { maintenanceAssessmentDisplay }): ChartState => ({
+    (
+      state: ChartState<MaintenanceAssessmentDisplay>,
+      { maintenanceAssessmentDisplay }
+    ): ChartState<MaintenanceAssessmentDisplay> => ({
       ...state,
       display: maintenanceAssessmentDisplay,
     })
   ),
   on(
     setMaintenanceAssessmentInterval,
-    (state: ChartState, { interval }): ChartState => ({
+    (
+      state: ChartState<MaintenanceAssessmentDisplay>,
+      { interval }
+    ): ChartState<MaintenanceAssessmentDisplay> => ({
       ...state,
       interval,
     })

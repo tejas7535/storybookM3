@@ -1,5 +1,4 @@
 export interface LoadAssessmentDisplay {
-  rsmShaftSpeed: boolean;
   centerLoadFx: boolean;
   centerLoadFy: boolean;
   centerLoadFz: boolean;

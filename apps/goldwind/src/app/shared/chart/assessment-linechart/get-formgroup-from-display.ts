@@ -5,7 +5,9 @@ import { ChartState } from '../chart.state';
  * @param _initialState a state of a display chart
  * @returns a FormGroup used by tree components
  */
-export const getFormGroupFromDisplay = (_initialState: ChartState): FormGroup =>
+export const getFormGroupFromDisplay = (
+  _initialState: ChartState<any>
+): FormGroup =>
   new FormGroup(
     // eslint-disable-next-line unicorn/no-array-reduce
     Object.keys(_initialState.display).reduce<any>((acc, curr) => {

@@ -6,7 +6,6 @@ export const DISPLAY: LoadAssessmentDisplay = {
   centerLoadFz: true,
   centerLoadMz: true,
   centerLoadMy: true,
-  rsmShaftSpeed: true,
   lsp01Strain: true,
   lsp02Strain: true,
   lsp03Strain: true,

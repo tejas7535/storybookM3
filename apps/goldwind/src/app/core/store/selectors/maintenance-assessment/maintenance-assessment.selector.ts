@@ -17,12 +17,12 @@ type DisplayOption = [any, boolean];
 
 export const getMaintenanceAssessmentDisplay = createSelector(
   getMaintenanceAssessmentState,
-  (state: ChartState) => state.display as MaintenanceAssessmentDisplay
+  (state: ChartState<MaintenanceAssessmentDisplay>) => state.display
 );
 
 export const getMaintenanceAssessmentInterval = createSelector(
   getMaintenanceAssessmentState,
-  (state: ChartState): Interval => state.interval
+  (state: ChartState<MaintenanceAssessmentDisplay>): Interval => state.interval
 );
 
 export const getAnalysisGraphDataM = createSelector(

@@ -20,6 +20,7 @@ import * as fromCenterLoad from './center-load/center-load.reducer';
 import * as fromShaft from './shaft/shaft.reducer';
 import * as fromStaticSafety from './static-safety/static-safety.reducer';
 import { ChartState } from '../../../shared/chart/chart.state';
+import { MaintenanceAssessmentDisplay } from './maintenance-assessment/maintenance.assessment.model';
 
 export interface RouterStateUrl {
   url: string;
@@ -69,9 +70,9 @@ export const getGreaseHeatmapStatusState =
 export const getLoadAssessmentState =
   createFeatureSelector<fromLoadAssement.LoadAssessmentState>('loadAssessment');
 
-export const getMaintenanceAssessmentState = createFeatureSelector<ChartState>(
-  'maintenanceAssessment'
-);
+export const getMaintenanceAssessmentState = createFeatureSelector<
+  ChartState<MaintenanceAssessmentDisplay>
+>('maintenanceAssessment');
 
 export const getShaftState =
   createFeatureSelector<fromShaft.ShaftState>('shaft');
