@@ -147,7 +147,7 @@
           "abcClassification": "Customer Classification",
           "keyAccount": "Customer Key Account",
           "subKeyAccount": "Customer Subkey Account",
-          "sector": "Customer Sector",
+          "sectorManagement": "Sector Management",
           "subSector": "Customer Subsector",
           "price": "Price",
           "quantity": "Quantity",
