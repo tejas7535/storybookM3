@@ -5,29 +5,22 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
-import { RoleGuard } from './role.guard';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { BasicRoleGuard } from './basic-role.guard';
 
-describe('RoleGuard', () => {
-  let spectator: SpectatorService<RoleGuard>;
-  let guard: RoleGuard;
+describe('BasicRoleGuard', () => {
+  let spectator: SpectatorService<BasicRoleGuard>;
+  let guard: BasicRoleGuard;
   let store: MockStore;
 
   const createService = createServiceFactory({
-    service: RoleGuard,
+    service: BasicRoleGuard,
     imports: [RouterTestingModule],
     providers: [provideMockStore({})],
   });
 
-  const mockRoute: ActivatedRouteSnapshot = {
-    data: {
-      rolesWithAccess: [],
-    },
-  } as unknown as ActivatedRouteSnapshot;
-
   beforeEach(() => {
     spectator = createService();
-    guard = spectator.inject(RoleGuard);
+    guard = spectator.inject(BasicRoleGuard);
     store = spectator.inject(MockStore);
   });
 
@@ -40,7 +33,7 @@ describe('RoleGuard', () => {
       store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), true);
 
       guard
-        .canActivateChild(mockRoute)
+        .canActivateChild()
         .subscribe((granted) => expect(granted).toBeTruthy());
     });
 
@@ -49,7 +42,7 @@ describe('RoleGuard', () => {
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard
-        .canActivateChild(mockRoute)
+        .canActivateChild()
         .subscribe((granted) => expect(granted).toBeFalsy());
     });
 
@@ -57,7 +50,7 @@ describe('RoleGuard', () => {
       store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), false);
       guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard.canActivateChild(mockRoute).subscribe((granted) => {
+      guard.canActivateChild().subscribe((granted) => {
         expect(granted).toBeFalsy();
         expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
       });

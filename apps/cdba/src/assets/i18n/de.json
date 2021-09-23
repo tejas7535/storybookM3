@@ -124,5 +124,16 @@
         "tooltip": "Beispiel Deutsche Lokalisierung:\nDatum: 22.01.2021, Große Zahlen: 2.893,32€\n\nBeispiel US Lokalisierung:\nDatum: 01/22/2021, Große Zahlen: 2,893.32€"
       }
     }
+  },
+  "forbidden": {
+    "noBasicAccess": {
+      "heading": "Kein Zugang zu CDBA",
+      "message": "Es tut uns leid, Sie haben keinen Zugriff auf diese Anwendung"
+    },
+    "noFeatureAccess": {
+      "heading": "Kein Zugang zur Seite",
+      "message": "Es tut uns leid, Sie haben keinen Zugang zu dieser Seite oder diesem Material.\nSie haben keine Rechte für ein Teilgebiet oder eine Produktlinie.",
+      "homeButton": "Neue Suche starten"
+    }
   }
 }

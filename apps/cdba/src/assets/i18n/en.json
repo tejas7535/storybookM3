@@ -124,5 +124,16 @@
         "tooltip": "Example German localization:\nDates: 22.01.2021, Large numbers: 2.893,32€\n\nExample US localization:\nDates: 01/22/2021, Large numbers: 2,893.32€"
       }
     }
+  },
+  "forbidden": {
+    "noBasicAccess": {
+      "heading": "No access to CDBA",
+      "message": "We are sorry, you don’t have access to this application"
+    },
+    "noFeatureAccess": {
+      "heading": "Forbidden page",
+      "message": "We are sorry, you don’t have access to this page or material.\nYou are missing subregion or product line rights.",
+      "homeButton": "Start new search"
+    }
   }
 }

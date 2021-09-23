@@ -5,4 +5,5 @@ export enum AppRoutePath {
   DetailPath = 'detail',
   ComparePath = 'compare',
   ForbiddenPath = 'forbidden',
+  NoAccessToFeaturePath = 'no-access',
 }
