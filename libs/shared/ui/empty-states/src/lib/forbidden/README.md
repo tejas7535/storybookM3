@@ -1,90 +1,108 @@
-# frontend@schaeffler Forbidden
+# frontend@schaeffler Forbidden Page Documentation
 
-This lib depends on the `@schaeffler/styles`, which can be installed with npm:
+The unified but flexible UI component Forbidden Page comes with a strongly typed `RouteData` interface, ready-to-use defaults and multi-language support.
 
-`npm i @schaeffler/styles`
+## Usage
 
-```css
-/* styles.scss */
+### Prerequisites
 
-@import '@schaffler/styles/src/lib/material-theme';  
-@include mat-core();
-@include angular-material-theme($schaeffler-theme);
-```
+As this lib depends on [Angular Material](https://material.angular.io) and [Tailwind](https://tailwindcss.com/docs), it is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
 
-Import into your project like:
+``` scss
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
+ 
+/*
+ * Angular Material, material design components
+ * see https://material.angular.io
+ * and material icons, see https://fonts.google.com/icons
+ */
+@use '~@angular/material' as mat;
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-```typescript
-// app-routing.module.ts
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+@include mat.core();
+@include mat.all-component-themes($schaeffler-theme);
 
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-import { environment } from '../environments/environment';
-
-export enum RoutePath {
-  BasePath = '',
-  ForbiddenPath = 'forbidden',
-}
-
-export const appRoutePaths: Routes = [
-  {
-    ...
-  },
-  {
-    path: RoutePath.ForbiddenPath,
-    loadChildren: () =>
-      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
-  }
-];
-
-@NgModule({
-  imports: [
-    HttpClientModule,
-    RouterModule.forRoot(appRoutePaths, {
-      useHash: true
-    }),
-    SharedTranslocoModule.forRoot(
-      environment.production,
-      ['en'],
-      'en',
-      'en',
-      true
-    ),
-  ],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
-
-```
-
-Pass an action to the `Forbidden` Page. This will show an additional button `request access`, which opens a predefined email:
-
-```typescript
-// app-routing.module.ts
+/*
+ * further / custom components
+ */
 ...
 
-export enum RoutePath {
-  BasePath = '',
-  ForbiddenPath = 'forbidden',
-}
+/***************************************************************************************************
+ * UTILITIES
+ */
 
-export const appRoutePaths: Routes = [
-  {
-    ...
-  },
-  {
-    path: RoutePath.ForbiddenPath,
-    loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then((m) => m.ForbiddenModule),
-    data: { 
-        action: 'href email opener' // see https://wiki.selfhtml.org/wiki/HTML/Tutorials/Links/Verweise_auf_Mailadressen for further information
+/*
+ * TailwindCSS, utility-first css framework
+ * see https://tailwindcss.com/docs
+ */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/*
+ * further / custom utilities
+ */
+...
+
+/***************************************************************************************************
+ * OVERRIDES
+ */ 
+...
+```
+
+### Activate the Module for a "forbidden" route
+
+In your app- or feature-routing-module:
+
+```typescript
+import { Routes } from '@angular/router';
+import { ForbiddenRoute } from '@schaeffler/empty-states';
+
+const forbiddenRoute: ForbiddenRoute = {
+    path: 'forbidden-path',
+    loadChildren: async () => import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+    data: {
+      headingText: 'some.translation.key',
+      messageText: 'Some clear text',
+      action: 'mailto:it-support-sg@schaeffler.com',
+      actionButtonText: 'fsome.translation.key',
+      hideHomeButton: true, // default is false
+      homeButtonText: 'some.translation.key',
     }
-  },
-  ...
-];
-...
+  };
 
+export const routes: Routes = [
+  // ... all other routes,
+  forbiddenRoute
+]
 ```
+
+### API
+
+| Name              | Description                                                   |
+| ------------------| --------------------------------------------------------------|
+| headingText       | (optional) Change the text of the heading*                    |
+| messageText       | (optional) Change the text of the message*                    |
+| action            | (optional) Define action for the primary button.              |
+| actionButtonText  | (optional) Change the text of the primary button*             |
+| hideHomeButton    | (optional) hideHomeButton --> default is false                |
+| homeButtonText    | (optional) Change the text of the secondary (home) button*    |
+
+> *applies to all text props: 
+> Use a translation key or clear text. 
+> When using a translation key, make sure to provide the necessary translation.
+> The Lib comes with a default translation.
+
+### i18n
+
+The lib comes with translation support and default translations for the following languages:
+
+* de (german 🇩🇪)
+* en (english 🇬🇧)
+* es (spanish 🇪🇸)
+* fr (french 🇫🇷)
+* ru (russian 🇷🇺)
+* zh (chinese 🇨🇳)

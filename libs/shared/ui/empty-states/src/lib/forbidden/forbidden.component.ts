@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ForbiddenRouteData } from './models/forbidden-route-data.model';
 
 @Component({
   selector: 'schaeffler-forbidden',
@@ -7,9 +8,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./forbidden.component.scss'],
 })
 export class ForbiddenComponent {
-  public action: string;
+  public routeData: ForbiddenRouteData;
 
   public constructor(private readonly activatedRoute: ActivatedRoute) {
-    this.action = this.activatedRoute.snapshot.data.action;
+    this.routeData = this.activatedRoute.snapshot.data;
   }
 }

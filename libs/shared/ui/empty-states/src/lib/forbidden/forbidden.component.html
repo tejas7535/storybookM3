@@ -1,28 +1,33 @@
 <div
-  class="container m-t-30"
-  fxLayout="column"
-  fxLayoutAlign="space-between center"
+  class="w-full h-full flex flex-col items-center justify-center text-center"
   data-cy="forbidden"
   *transloco="let t"
 >
-  <h4 class="m-b-30">
-    {{ t('forbidden') }}
+  <div class="forbidden"></div>
+  <h4 class="text-highEmphasis mb-4">
+    {{ t(routeData.headingText || 'forbiddenHeadingDefault') }}
   </h4>
-  <div class="forbidden m-b-30"></div>
-  <p class="schaeffler-text">
-    {{ t('forbiddenMessage') }}
+  <p class="text-subtitle-1 text-mediumEmphasis whitespace-pre-line">
+    {{ t(routeData.messageText || 'forbiddenMessageDefault') }}
   </p>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" class="m-t-25">
-    <button
+  <div class="p-8 flex justify-center gap-4">
+    <a
+      *ngIf="routeData.action"
+      [href]="routeData.action"
       mat-raised-button
       color="primary"
+      data-cy="requestAccess"
+    >
+      {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
+    </a>
+    <button
+      *ngIf="!routeData.hideHomeButton"
+      mat-raised-button
+      [color]="routeData.action ? undefined : 'primary'"
       routerLink="/"
       data-cy="visitHome"
     >
-      {{ t('visitHomepage') | uppercase }}
+      {{ t(routeData.homeButtonText || 'homeButtonTextDefault') }}
     </button>
-    <a *ngIf="action" mat-raised-button data-cy="requestAccess" [href]="action">
-      {{ t('requestAccess') | uppercase }}
-    </a>
   </div>
 </div>

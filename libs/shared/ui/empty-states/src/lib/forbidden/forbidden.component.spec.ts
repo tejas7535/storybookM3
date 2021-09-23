@@ -1,5 +1,5 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -18,8 +18,13 @@ describe('ForbiddenComponent', () => {
     imports: [
       provideTranslocoTestingModule({ 'forbidden/en': en }),
       MatButtonModule,
-      FlexLayoutModule,
       RouterTestingModule,
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

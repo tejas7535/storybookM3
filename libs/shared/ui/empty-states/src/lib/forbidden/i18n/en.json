@@ -1,6 +1,6 @@
 {
-  "forbidden": "Forbidden",
-  "forbiddenMessage": "We are sorry, you don't have access to this application or page.",
-  "visitHomepage": "VISIT HOMEPAGE",
-  "requestAccess": "Request Access"
+  "forbiddenHeadingDefault": "Forbidden",
+  "forbiddenMessageDefault": "We are sorry, you don't have access to this application or page.",
+  "homeButtonTextDefault": "Visit home page",
+  "actionButtonTextDefault": "Request access"
 }

@@ -1,6 +1,6 @@
 {
-  "forbidden": "Zugriff verweigert",
-  "forbiddenMessage": "Sie haben keinen Zugriff auf die von Ihnen angeforderte Seite oder Applikation.",
-  "visitHomepage": "Zur Startseite",
-  "requestAccess": "Zugriff beantragen"
+  "forbiddenHeadingDefault": "Zugriff verweigert",
+  "forbiddenMessageDefault": "Sie haben keinen Zugriff auf die von Ihnen angeforderte Seite oder Applikation.",
+  "homeButtonTextDefault": "Zur Startseite",
+  "actionButtonTextDefault": "Zugriff beantragen"
 }
