@@ -22,7 +22,7 @@
     [formControl]="bearingSearchFormControl"
     [minimumChars]="minimumChars"
     (selection)="handleBearingSelection($event)"
-    [label]="(selectedBearing$ | ngrxPush) || t('searchPlaceholder')"
+    [label]="t('searchPlaceholder')"
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
   <div class="flex flex-row -ml-4 -mt-2 mb-4">

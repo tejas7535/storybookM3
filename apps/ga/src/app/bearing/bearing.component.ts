@@ -9,6 +9,7 @@ import {
   Observable,
   of,
   Subject,
+  take,
   takeUntil,
 } from 'rxjs';
 
@@ -52,13 +53,20 @@ export class BearingComponent implements OnInit, OnDestroy {
     this.loading$ = this.store.select(getBearingLoading);
     this.bearingResultList$ = this.store.select(getBearingResultList);
     this.selectedBearing$ = this.store.select(getSelectedBearing);
+    this.selectedBearing$
+      .pipe(take(1))
+      .subscribe((bearing: string) =>
+        this.bearingSearchFormControl.setValue({ id: bearing, title: bearing })
+      );
 
     this.bearingSearchFormControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
         filter((value: string) => value.length >= this.minimumChars),
-        map((query: string) => this.store.dispatch(searchBearing({ query })))
+        map((query: string) => {
+          this.store.dispatch(searchBearing({ query }));
+        })
       )
       .subscribe();
 
