@@ -58,4 +58,8 @@ describe('ConditionMeasuringEquipmentComponent', () => {
       );
     });
   });
+
+  it('a picture should be visible', () => {
+    expect(spectator.query('.equipment-image > img')).toBeVisible();
+  });
 });

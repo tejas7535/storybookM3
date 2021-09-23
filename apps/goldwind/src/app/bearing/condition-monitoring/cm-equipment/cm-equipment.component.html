@@ -9,11 +9,11 @@
 
     <mat-card-content>
       <div class="equipment-image flex justify-center" [ngSwitch]="selectedTab">
-        <img *ngSwitchCase="0" src="/assets/images/Bearing.png" />
-        <img *ngSwitchCase="1" src="/assets/images/Grease.png" />
-        <img *ngSwitchCase="2" src="/assets/images/Load.png" />
-        <img *ngSwitchCase="3" src="/assets/images/EDM.png" />
-        <img *ngSwitchCase="4" src="/assets/images/EdgeDevice.png" />
+        <img *ngSwitchCase="'meta'" src="/assets/images/Bearing.png" />
+        <img *ngSwitchCase="'grease'" src="/assets/images/Grease.png" />
+        <img *ngSwitchCase="'load'" src="/assets/images/Load.png" />
+        <img *ngSwitchCase="'edm'" src="/assets/images/EDM.png" />
+        <img *ngSwitchCase="'router'" src="/assets/images/EdgeDevice.png" />
       </div>
       <mat-tab-group
         animationDuration="0ms"

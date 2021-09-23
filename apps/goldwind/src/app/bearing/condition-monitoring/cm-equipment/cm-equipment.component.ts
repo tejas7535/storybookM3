@@ -38,8 +38,7 @@ export class CmEquipmentComponent implements OnInit {
     { name: 'locationLatitude', property: 'locationLatitude' },
     { name: 'locationLongitude', property: 'locationLongitude' },
   ];
-  selectedTab: TAB_TYPE;
-
+  selectedTab: TAB_TYPE = TAB_TYPE.META;
   loading$: Observable<boolean>;
 
   public constructor(
