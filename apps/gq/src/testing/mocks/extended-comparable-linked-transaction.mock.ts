@@ -26,4 +26,6 @@ export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLink
     abcClassification: AbcClassification.A,
     region: 'EU',
     sectorManagement: 'PT',
+    competitor: 'competitor',
+    relativeCompetitorPrice: 'relative competitor price',
   };

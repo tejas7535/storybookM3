@@ -140,6 +140,7 @@ describe('ExportToExcelButtonComponent', () => {
   describe('shouldLoadTransactions', () => {
     beforeEach(() => {
       component.exportToExcel = jest.fn();
+      snackBarService.showWarningMessage = jest.fn();
     });
 
     test('does not export to excel after dialog is canceled (exportExcel is not defined)', () => {
@@ -167,6 +168,7 @@ describe('ExportToExcelButtonComponent', () => {
       expect(component.transactions[0]).toEqual(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK
       );
+      expect(snackBarService.showWarningMessage).not.toHaveBeenCalled();
       expect(component.exportToExcel).toHaveBeenCalledWith(
         ExportExcel.DETAILED_DOWNLOAD
       );
@@ -175,7 +177,6 @@ describe('ExportToExcelButtonComponent', () => {
     test('calls dispatch and exportToExcel with BASIC_DOWNLOAD option, if no comparable transactions are available', () => {
       component['params'] = mockParams;
       component.transactions$ = of([]);
-      snackBarService.showWarningMessage = jest.fn();
 
       component.shouldLoadTransactions(ExportExcel.DETAILED_DOWNLOAD);
 

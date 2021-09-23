@@ -84,20 +84,21 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   subscribeToTransactions(exportExcel: ExportExcel.DETAILED_DOWNLOAD) {
-    const subscription = this.transactions$.subscribe((transactions) => {
-      if (transactions?.length > 0) {
-        this.transactions = transactions;
-        this.exportToExcel(exportExcel);
-      } else {
-        this.snackbarService.showWarningMessage(
-          translate(
-            'shared.customStatusBar.excelExport.noComparableTransactionsWarning'
-          )
-        );
-        this.exportToExcel(ExportExcel.BASIC_DOWNLOAD);
-      }
-    });
-    this.unsubscribe(subscription);
+    this.unsubscribe(
+      this.transactions$.subscribe((transactions) => {
+        if (transactions?.length > 0) {
+          this.transactions = transactions;
+          this.exportToExcel(exportExcel);
+        } else {
+          this.snackbarService.showWarningMessage(
+            translate(
+              'shared.customStatusBar.excelExport.noComparableTransactionsWarning'
+            )
+          );
+          this.exportToExcel(ExportExcel.BASIC_DOWNLOAD);
+        }
+      })
+    );
   }
 
   unsubscribe(subscription: Subscription) {

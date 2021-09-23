@@ -68,5 +68,15 @@ export class ColumnDefService {
       ),
       field: 'sectorManagement',
     },
+    {
+      headerName: translate('transactionView.transactions.table.competitor'),
+      field: 'competitor',
+    },
+    {
+      headerName: translate(
+        'transactionView.transactions.table.relativeCompetitorPrice'
+      ),
+      field: 'relativeCompetitorPrice',
+    },
   ];
 }

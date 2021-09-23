@@ -155,7 +155,9 @@
           "salesIndication": "Auftragstyp",
           "year": "Jahr",
           "country": "Land",
-          "region": "Region"
+          "region": "Region",
+          "competitor": "Wettbewerber",
+          "relativeCompetitorPrice": "Verlässlichkeit Wettbewerber-Preis"
         },
         "sapQuote": "SAP Angebot:",
         "gqCase": "GQ Case:",

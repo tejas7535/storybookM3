@@ -16,4 +16,6 @@ export const TRANSACTION_MOCK: ComparableLinkedTransaction = {
   abcClassification: AbcClassification.A,
   region: 'EU',
   sectorManagement: 'PT',
+  competitor: 'competitor',
+  relativeCompetitorPrice: 'relative competitor price',
 };

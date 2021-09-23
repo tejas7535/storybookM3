@@ -15,4 +15,6 @@ export interface ComparableLinkedTransaction {
   abcClassification: AbcClassification;
   region: string;
   sectorManagement: string;
+  competitor: string;
+  relativeCompetitorPrice: string;
 }

@@ -155,7 +155,9 @@
           "salesIndication": "Order Type",
           "year": "Year",
           "country": "Country",
-          "region": "Region"
+          "region": "Region",
+          "competitor": "Competitor",
+          "relativeCompetitorPrice": "Relative Competitor Price"
         },
         "sapQuote": "SAP Quote:",
         "gqCase": "GQ Case:",
