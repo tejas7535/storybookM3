@@ -33,7 +33,7 @@
       <gq-label-text>
         <span label>{{ lastYear }} {{ t('gpi') }}</span>
         <span text>{{
-          customer.marginDetail.keyAccountCurrentGpi | percentage
+          customer.marginDetail.keyAccountGpiLastYear | percentage
         }}</span>
       </gq-label-text>
       <gq-horizontal-divider></gq-horizontal-divider>
@@ -68,7 +68,7 @@
       <gq-label-text [marginBottom]="false">
         <span label>{{ lastYear }} {{ t('gpi') }}</span>
         <span text>{{
-          customer.marginDetail.subKeyAccountCurrentGpi | percentage
+          customer.marginDetail.subKeyAccountGpiLastYear | percentage
         }}</span>
       </gq-label-text>
     </div>
