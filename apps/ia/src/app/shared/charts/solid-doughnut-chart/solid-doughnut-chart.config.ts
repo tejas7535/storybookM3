@@ -6,7 +6,7 @@ import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.
 export function createSolidDoughnutChartBaseOptions(
   config: SolidDoughnutChartConfig
 ): EChartsOption {
-  return {
+  const option: EChartsOption = {
     type: 'pie',
     backgroundColor: Color.WHITE,
     title: {
@@ -31,6 +31,18 @@ export function createSolidDoughnutChartBaseOptions(
       Color.COLORFUL_CHART_0,
     ],
   };
+  setTooltipFormatter(option, config.tooltipFormatter);
+
+  return option;
+}
+
+export function setTooltipFormatter(option: EChartsOption, formatter: string) {
+  if (formatter) {
+    option.tooltip = {
+      show: true,
+      formatter,
+    };
+  }
 }
 
 export function createSolidDoughnutChartSeries(title: string): SeriesOption[] {

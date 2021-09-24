@@ -62,6 +62,7 @@ export const getReasonsChartConfig = createSelector(
       stats?.length > 0
         ? translate('reasonsAndCounterMeasures.topFiveReasons.title')
         : translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData'),
+    tooltipFormatter: utils.getTooltipFormatter(),
   })
 );
 
@@ -140,6 +141,7 @@ export const getComparedReasonsChartConfig = createSelector(
       stats?.length > 0
         ? translate('reasonsAndCounterMeasures.topFiveReasons.title')
         : translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData'),
+    tooltipFormatter: utils.getTooltipFormatter(),
   })
 );
 

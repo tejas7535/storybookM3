@@ -1,3 +1,7 @@
 export class SolidDoughnutChartConfig {
-  constructor(public title: string, public subTitle: string) {}
+  constructor(
+    public title: string,
+    public subTitle: string,
+    public tooltipFormatter?: string
+  ) {}
 }

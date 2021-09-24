@@ -1,7 +1,11 @@
+import { EChartsOption } from 'echarts';
+import { TooltipOption } from 'echarts/types/src/component/tooltip/TooltipModel';
+
 import { Color } from '../../models/color.enum';
 import {
   createSolidDoughnutChartBaseOptions,
   createSolidDoughnutChartSeries,
+  setTooltipFormatter,
 } from './solid-doughnut-chart.config';
 
 describe('solid-doughnut-chart config', () => {
@@ -58,5 +62,27 @@ describe('solid-doughnut-chart config', () => {
     const result = createSolidDoughnutChartSeries(title);
 
     expect(result).toEqual(expectedResult);
+  });
+
+  describe('setTooltipFormatter', () => {
+    test('should set tooltip formatter', () => {
+      const option: EChartsOption = {};
+      const tooltipFormatter = 'a';
+
+      setTooltipFormatter(option, tooltipFormatter);
+
+      expect((option.tooltip as TooltipOption).formatter).toEqual(
+        tooltipFormatter
+      );
+      expect((option.tooltip as TooltipOption).show).toBeTruthy();
+    });
+
+    test('should not set tooltip formatter if formatter undefined', () => {
+      const option: EChartsOption = {};
+
+      setTooltipFormatter(option, undefined as string);
+
+      expect(option.tooltip).toBeUndefined();
+    });
   });
 });

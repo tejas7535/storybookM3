@@ -89,6 +89,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       },
     },
   };
+  const tooltipFormatter = '{b}<br><b>{c}</b> employees - <b>{d}%</b>';
 
   describe('getComparedSelectedOrgUnit', () => {
     test('should return selected org unit', () => {
@@ -249,6 +250,10 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   });
 
   describe('getReasonsChartConfig', () => {
+    beforeAll(() => {
+      (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
+    });
+
     test('should return config for reasons chart', () => {
       const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
 
@@ -260,6 +265,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        tooltipFormatter,
       });
     });
 
@@ -275,6 +281,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ).toEqual({
         title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        tooltipFormatter,
       });
     });
 
@@ -284,6 +291,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(getReasonsChartConfig.projector([], beutifiedTimeRange)).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
+        tooltipFormatter,
       });
     });
   });
@@ -348,6 +356,10 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   });
 
   describe('getComparedReasonsChartConfig', () => {
+    beforeAll(() => {
+      (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
+    });
+
     test('should return config for reasons chart', () => {
       const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
 
@@ -360,6 +372,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        tooltipFormatter,
       });
     });
 
@@ -375,6 +388,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ).toEqual({
         title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        tooltipFormatter,
       });
     });
 
@@ -386,6 +400,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
+        tooltipFormatter,
       });
     });
   });

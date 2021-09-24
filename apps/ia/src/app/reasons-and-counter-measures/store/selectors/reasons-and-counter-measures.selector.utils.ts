@@ -48,3 +48,11 @@ export function getTop5ReasonsForChart(
 
   return top5Reasons;
 }
+
+export function getTooltipFormatter(): string {
+  const leavers = translate(
+    'reasonsAndCounterMeasures.topFiveReasons.chart.tooltip.leavers'
+  );
+
+  return `{b}<br><b>{c}</b> ${leavers} - <b>{d}%</b>`;
+}
