@@ -16,7 +16,7 @@ import {
   LegalRoute,
   PERSON_RESPONSIBLE,
 } from '@schaeffler/legal-pages';
-import { StorybookTranslocoModule } from '@schaeffler/transloco';
+import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 const routerMock = {
   events: of(

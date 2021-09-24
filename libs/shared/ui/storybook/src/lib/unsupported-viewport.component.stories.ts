@@ -6,10 +6,10 @@ import {
   UnsupportedViewportComponent,
   UnsupportedViewportModule,
 } from '@schaeffler/empty-states';
-import { StorybookTranslocoModule } from '@schaeffler/transloco';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
+import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
   title: 'Components/Unsupported Viewport',

@@ -11,11 +11,11 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
-import { StorybookTranslocoModule } from '@schaeffler/transloco';
 import { AppShellComponent } from '@schaeffler/app-shell';
 
 import { UserPanelComponent } from '../../../app-shell/src/lib/components/user-panel/user-panel.component';
 import READMEMd from '../../../app-shell/README.md';
+import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
   component: AppShellComponent,

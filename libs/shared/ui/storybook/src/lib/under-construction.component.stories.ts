@@ -6,10 +6,10 @@ import {
   UnderConstructionComponent,
   UnderConstructionModule,
 } from '@schaeffler/empty-states';
-import { StorybookTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../empty-states/src/lib/under-construction/README.md';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
   title: 'Components/Under Construction',

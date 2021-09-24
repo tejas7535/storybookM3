@@ -8,6 +8,7 @@ import { StorybookTranslocoModule } from '@schaeffler/transloco';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../empty-states/src/lib/forbidden/README.md';
+import { getMultiLanguageStoryTemplate } from '../../.storybook/storybook-transloco.module';
 
 export default {
   title: 'Components/Forbidden',

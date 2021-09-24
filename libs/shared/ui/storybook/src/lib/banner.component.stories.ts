@@ -6,9 +6,9 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
 import { BannerTextComponent } from '@schaeffler/banner';
-import { StorybookTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../banner/README.md';
+import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
   title: 'Components/Banner',
@@ -39,7 +39,7 @@ const Template: Story<BannerTextComponent> = (args: BannerTextComponent) => ({
 });
 
 const props = (icon: string, fullText = false) => ({
-  text: 'This text can be modified to be longer. At a certain length it makes sense to use the "showFullText" and "truncateSize" parameter to prevent the banner from taking up to much sceenspace.',
+  text: 'This text can be modified to be longer.',
   showFullText: fullText,
   bannerIcon: icon,
   truncateSize: 180,

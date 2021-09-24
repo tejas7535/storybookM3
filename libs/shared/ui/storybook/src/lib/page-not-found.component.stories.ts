@@ -7,10 +7,10 @@ import {
   PageNotFoundComponent,
   PageNotFoundModule,
 } from '@schaeffler/empty-states';
-import { StorybookTranslocoModule } from '@schaeffler/transloco';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
+import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
   title: 'Components/Page Not Found',
