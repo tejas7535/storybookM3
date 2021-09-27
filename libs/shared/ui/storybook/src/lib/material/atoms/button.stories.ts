@@ -17,28 +17,29 @@ export default {
   },
 } as Meta;
 
-const Template: Story = () => ({
+const Template: Story = (args) => ({
+  props: args,
   template: `
     <section>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-raised-button>Button</button>
-        <button mat-raised-button color="primary">Button</button>
-        <button mat-raised-button disabled>disabled</button>
+        <button mat-raised-button>{{ buttonText }}</button>
+        <button mat-raised-button color="primary">{{ buttonText }}</button>
+        <button mat-raised-button disabled>{{ buttonText }}</button>
       </div>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-raised-button><mat-icon inline=true>add</mat-icon> Button</button>
-        <button mat-raised-button color="primary"><mat-icon inline=true>add</mat-icon> Button</button>
-        <button mat-raised-button disabled><mat-icon inline=true>add</mat-icon> disabled</button>
+        <button mat-raised-button><mat-icon>add</mat-icon>{{ buttonText }}</button>
+        <button mat-raised-button color="primary"><mat-icon>add</mat-icon>{{ buttonText }}</button>
+        <button mat-raised-button disabled><mat-icon>add</mat-icon>{{ buttonText }}</button>
       </div>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-stroked-button>Button</button>
-        <button mat-stroked-button color="primary">Button</button>
-        <button mat-stroked-button disabled>disabled</button>
+        <button mat-stroked-button>{{ buttonText }}</button>
+        <button mat-stroked-button color="primary">{{ buttonText }}</button>
+        <button mat-stroked-button disabled>{{ buttonText }}</button>
       </div>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-button>Button</button>
-        <button mat-button color="primary">Button</button>
-        <button mat-button disabled>disabled</button>
+        <button mat-button>{{ buttonText }}</button>
+        <button mat-button color="primary">{{ buttonText }}</button>
+        <button mat-button disabled>{{ buttonText }}</button>
       </div> 
       <div>
         <button mat-icon-button aria-label="Example icon button with a globe icon">
@@ -78,4 +79,6 @@ const Template: Story = () => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  buttonText: 'Button',
+};
