@@ -1,0 +1,66 @@
+name: Bug Report
+description: Report a bug within the frontend-schaeffler Monorepository
+
+body:
+  - type: dropdown
+    id: affected-scopes
+    attributes:
+      label: Which scopes are the source of the bug?
+      options:
+        - General / Workspace
+        - Build Pipeline
+        - Shared User Interface Library
+        - Shared Utility Library
+        - Don't known / other
+      multiple: true
+    validations:
+      required: true
+
+  - type: dropdown
+    id: is-regression
+    attributes:
+      label: Is this a regression?
+      options:
+        - Yes
+        - No
+        - Don't know
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected Behaviour
+    validations:
+      required: true
+
+  - type: input
+    id: reproduction
+    attributes:
+      label: Please provide a minimal reproduction of the bug
+
+  - type: textarea
+    id: exception-or-error
+    attributes:
+      label: Please provide the exception or error you saw
+      render: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Please provide the environment you discovered this bug in
+      render: true
+      placeholder: |
+        Please run `nx report` and copy the output here
+
+  - type: textarea
+    id: other
+    attributes:
+      label: Anything else?
