@@ -72,6 +72,14 @@ export const getSelectedFilters = createSelector(
   mapSelectedFilters
 );
 
+export const getSelectedIdValueFilters = createSelector(
+  getSelectedFilters,
+  (filters: (FilterItemIdValueUpdate | FilterItemRangeUpdate)[]) =>
+    filters.filter(
+      (filter: FilterItem) => filter.type === FilterItemType.ID_VALUE
+    )
+);
+
 const getSelectedOptionsByName = (
   filterItemEntities: Dictionary<FilterItem>,
   props: any

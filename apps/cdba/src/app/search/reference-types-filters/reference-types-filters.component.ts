@@ -15,6 +15,7 @@ import {
   getAutocompleteLoading,
   getFilters,
   getSelectedFilters,
+  getSelectedIdValueFilters,
   resetFilters,
   search,
   updateFilter,
@@ -47,6 +48,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   selectedFilters$: Observable<
     (FilterItemIdValueUpdate | FilterItemRangeUpdate)[]
   >;
+  selectedIdValueFilters$: Observable<FilterItem[]>;
 
   tooManyResultsThreshold: number = TOO_MANY_RESULTS_THRESHOLD;
   filterType = FilterItemType;
@@ -62,6 +64,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
     this.filters$ = this.store.select(getFilters);
     this.autocompleteLoading$ = this.store.select(getAutocompleteLoading);
     this.selectedFilters$ = this.store.select(getSelectedFilters);
+    this.selectedIdValueFilters$ = this.store.select(getSelectedIdValueFilters);
   }
 
   /**

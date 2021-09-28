@@ -27,13 +27,13 @@
       mat-flat-button
       color="primary"
       class="text-button"
-      [disabled]="(selectedFilters$ | ngrxPush).length === 0"
+      [disabled]="(selectedIdValueFilters$ | ngrxPush).length === 0"
       [matTooltip]="
         t('searchButtonTooltip', {
           tooManyResultsThreshold: tooManyResultsThreshold
         })
       "
-      [matTooltipDisabled]="(selectedFilters$ | ngrxPush).length > 0"
+      [matTooltipDisabled]="(selectedIdValueFilters$ | ngrxPush).length > 0"
       matTooltipPosition="below"
       (click)="search()"
     >

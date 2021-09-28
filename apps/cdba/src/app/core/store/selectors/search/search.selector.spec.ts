@@ -22,6 +22,7 @@ import {
   getSearchText,
   getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
+  getSelectedIdValueFilters,
   getSelectedRefTypeNodeIds,
   getTooManyResults,
 } from './search.selector';
@@ -104,6 +105,27 @@ describe('Search Selector', () => {
       expect(getSelectedFilters.projector(items)).toEqual([
         new FilterItemIdValueUpdate('plant', ['32']),
         new FilterItemRangeUpdate('length', 0, 200),
+      ]);
+    });
+  });
+
+  describe('getSelectedIdValueFilters', () => {
+    test('should return selected IdValue filters', () => {
+      const plant = new FilterItemIdValue(
+        'plant',
+        [new IdValue('32', 'Nice Plant', true)],
+        false
+      );
+      const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
+      const items = [plant, range];
+
+      expect(getSelectedIdValueFilters.projector(items)).toEqual([
+        new FilterItemIdValue(
+          'plant',
+          [new IdValue('32', 'Nice Plant', true)],
+          false,
+          false
+        ),
       ]);
     });
   });
