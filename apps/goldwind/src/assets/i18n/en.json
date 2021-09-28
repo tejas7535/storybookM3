@@ -1,8 +1,12 @@
 {
   "app": {
+    "back": "back to the last page",
+    "currentPage": "Current Page",
     "contact": "Contact",
     "dataPrivacy": "Data Privacy",
-    "imprint": "Imprint",
+    "home": "Home",
+    "legal": "Legal",
+    "legalnotice": "Legal Notice",
     "termsOfUse": "Terms of Use"
   },
   "bearing": {

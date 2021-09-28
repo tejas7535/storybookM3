@@ -1,5 +1,5 @@
 export enum LegalPath {
-  ImprintPath = 'imprint',
+  LegalNoticePath = 'legal-notice',
   DataprivacyPath = 'data-privacy',
   TermsPath = 'terms-of-use',
 }

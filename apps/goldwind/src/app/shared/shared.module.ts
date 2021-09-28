@@ -7,7 +7,12 @@ import { PreviewContainerComponent } from './preview-container/preview-container
 
 @NgModule({
   imports: [CommonModule, FlexLayoutModule, SharedTranslocoModule],
-  exports: [CommonModule, FlexLayoutModule, PreviewContainerComponent],
+  exports: [
+    CommonModule,
+    FlexLayoutModule,
+    PreviewContainerComponent,
+    SharedTranslocoModule,
+  ],
   declarations: [PreviewContainerComponent],
 })
 export class SharedModule {}

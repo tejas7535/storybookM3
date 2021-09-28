@@ -33,8 +33,8 @@ export class AppComponent implements OnInit {
       external: true,
     },
     {
-      link: `${AppRoutePath.LegalPath}/${LegalPath.ImprintPath}`,
-      title: translate('app.imprint'),
+      link: `${AppRoutePath.LegalPath}/${LegalPath.LegalNoticePath}`,
+      title: translate('app.legalnotice'),
       external: false,
     },
     {

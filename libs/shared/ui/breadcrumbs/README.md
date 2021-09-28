@@ -1,4 +1,5 @@
 # frontend@schaeffler Breadcrumbs Documentation
+
 ## Usage
 
 Import into your project like:
@@ -6,12 +7,12 @@ Import into your project like:
 ```typescript
 // *.module.ts
 
-import { BreadcrumbModule } from '@schaeffler/breadcrumbs';
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 
 @NgModule({
   ...
   imports: [
-    BreadcrumbModule,
+    BreadcrumbsModule,
     ...
   ]
   ...
@@ -37,9 +38,9 @@ Use like:
 ```typescript
 // comp-xy.component.ts
 
-import { Breadcrumbs } from '@schaeffler/breadcrumbs';
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-public breadcrumbs: Breadcrumbs[] = [
+public breadcrumbs: Breadcrumb[] = [
   {
     label: 'Home',
     url: '/',
