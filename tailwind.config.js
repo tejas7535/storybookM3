@@ -1,4 +1,6 @@
 // const defaultTheme = require('tailwindcss/defaultTheme'); // will be used as soon as the theme is extended
+const fontSizes = require('./tailwind/fontSizes.ts');
+
 const plugin = require('tailwindcss/plugin');
 
 const darkGrey = 'rgba(0,0,0,0.87)';
@@ -93,74 +95,9 @@ module.exports = {
       light: 'rgba(0,0,0,0.60)',
       veryLight: 'rgba(0,0,0,0.38)',
     }),
-    fontSize: {
-      h1: ['96px', { letterSpacing: '-1.5px' }],
-      h2: [
-        '60px',
-        {
-          letterSpacing: '-0.5px',
-        },
-      ],
-      h3: ['48px'],
-      h4: [
-        '34px',
-        {
-          letterSpacing: '0.25px',
-        },
-      ],
-      h5: ['24px'],
-      h6: [
-        '20px',
-        {
-          letterSpacing: '0.25px',
-        },
-      ],
-      'body-1': [
-        '16px',
-        {
-          letterSpacing: '0.5px',
-        },
-      ],
-      'body-2': [
-        '14px',
-        {
-          letterSpacing: '0.25px',
-        },
-      ],
-      'subtitle-1': [
-        '16px',
-        {
-          letterSpacing: '0.15px',
-        },
-      ],
-      'subtitle-2': [
-        '14px',
-        {
-          letterSpacing: '0.1px',
-        },
-      ],
-      button: [
-        '14px',
-        {
-          letterSpacing: '1.25px',
-        },
-      ],
-      caption: [
-        '12px',
-        {
-          letterSpacing: '0.4px',
-        },
-      ],
-      overline: [
-        '12px',
-
-        {
-          letterSpacing: '2px',
-        },
-      ],
-      icon: ['24px'],
-    },
+    fontSize: fontSizes,
     fontFamily: {
+      display: ['Roboto', 'sans-serif'],
       body: ['Roboto', 'sans-serif'],
     },
     textColor: {
@@ -195,33 +132,68 @@ module.exports = {
   },
   plugins: [
     plugin(function ({ addBase, theme }) {
+      const sm = theme('screens.sm', {});
+
       addBase({
         h1: {
-          fontSize: theme('fontSize.h1'),
+          fontSize: theme('fontSize.h1-mobile'),
           fontWeight: theme('fontWeight.light'),
-          color: theme('textColor.dark'),
+          letterSpacing: fontSizes['h1-mobile'][1].letterSpacing,
+          lineHeight: fontSizes['h1-mobile'][1].lineHeight,
+          [`@media (min-width: ${sm})`]: {
+            fontSize: theme('fontSize.h1'),
+            letterSpacing: fontSizes['h1'][1].letterSpacing,
+          },
         },
         h2: {
-          fontSize: theme('fontSize.h2'),
+          fontSize: theme('fontSize.h2-mobile'),
           fontWeight: theme('fontWeight.light'),
           color: theme('textColor.dark'),
+          letterSpacing: fontSizes['h2-mobile'][1].letterSpacing,
+          lineHeight: fontSizes['h2-mobile'][1].lineHeight,
+          [`@media (min-width: ${sm})`]: {
+            fontSize: theme('fontSize.h2'),
+            lineHeight: fontSizes['h2'][1].lineHeight,
+          },
         },
         h3: {
-          fontSize: theme('fontSize.h3'),
+          fontSize: theme('fontSize.h3-mobile'),
           color: theme('textColor.dark'),
+          lineHeight: fontSizes['h3-mobile'][1].lineHeight,
+          [`@media (min-width: ${sm})`]: {
+            fontSize: theme('fontSize.h3'),
+            lineHeight: fontSizes['h3'][1].lineHeight,
+          },
         },
         h4: {
-          fontSize: theme('fontSize.h4'),
+          fontSize: theme('fontSize.h4-mobile'),
           color: theme('textColor.dark'),
+          letterSpacing: fontSizes['h4-mobile'][1].letterSpacing,
+          lineHeight: fontSizes['h4-mobile'][1].lineHeight,
+          [`@media (min-width: ${sm})`]: {
+            fontSize: theme('fontSize.h4'),
+            lineHeight: fontSizes['h4'][1].lineHeight,
+          },
         },
         h5: {
-          fontSize: theme('fontSize.h5'),
+          fontSize: theme('fontSize.h5-mobile'),
           color: theme('textColor.dark'),
+          lineHeight: fontSizes['h5-mobile'][1].lineHeight,
+          [`@media (min-width: ${sm})`]: {
+            fontSize: theme('fontSize.h5'),
+            lineHeight: fontSizes['h5'][1].lineHeight,
+          },
         },
         h6: {
-          fontSize: theme('fontSize.h6'),
+          fontSize: theme('fontSize.h6-mobile'),
           fontWeight: theme('fontWeight.medium'),
           color: theme('textColor.dark'),
+          letterSpacing: fontSizes['h6-mobile'][1].letterSpacing,
+          lineHeight: fontSizes['h6-mobile'][1].lineHeight,
+          [`@media (min-width: ${sm})`]: {
+            fontSize: theme('fontSize.h6'),
+            lineHeight: fontSizes['h6'][1].lineHeight,
+          },
         },
       });
     }),
@@ -237,7 +209,11 @@ module.exports = {
           color: theme('textColor.light'),
         },
         '.text-subtitle-2': {
+          fontWeight: theme('fontWeight.medium'),
           color: theme('textColor.light'),
+        },
+        '.text-button': {
+          fontWeight: theme('fontWeight.medium'),
         },
         '.text-caption': {
           color: theme('textColor.light'),
