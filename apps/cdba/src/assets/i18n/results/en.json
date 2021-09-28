@@ -93,7 +93,6 @@
       "purchasePriceValidFrom": "Purchase Price valid from",
       "purchasePriceValidUntil": "Purchase Price valid until"
     },
-    "noRowsMessage": "We are sorry, we could not find any search results for your provided filters",
-    "pcmRowHint": "This is a PCM row. As it is only a calculation, you won't see production relevant information."
+    "noRowsMessage": "We are sorry, we could not find any search results for your provided filters"
   }
 }

@@ -1,8 +1,14 @@
 {
   "shared": {
+    "basic": {
+      "learnMore": "Learn More",
+      "dismissMessage": "Dismiss"
+    },
     "blockUi": {
       "inProgress": "Your request is being processed!"
     },
+    "learnMore": "Learn More",
+    "dismissMessage": "Dismiss",
     "breadcrumbs": {
       "search": "Search",
       "results": "Results",
@@ -11,9 +17,8 @@
     },
     "shareUrl": {
       "button": "Share",
-      "tooltipMessage": "Share the page link with your colleagues. Be aware, that your colleague needs the correct access rights to see the page.",
-      "toastSuccessMessage": "Link copied to clipboard. Be aware, that your colleague needs the correct access rights to see the page.",
-      "toastConfirmMessage": "ok"
+      "tooltipMessage": "Share the page link with your colleagues. Be aware that your colleague needs to have the correct access rights to view the page.",
+      "successMessage": "Link copied to clipboard. Be aware that your colleague needs to have the correct access rights to view the page."
     },
     "statusBar": {
       "detail": "Show Details",
@@ -65,6 +70,7 @@
       }
     },
     "calculations": {
+      "pcmRowHint": "PCM materials are calculations only without relevant production information",
       "table": {
         "calculationDate": "Calculation Date",
         "costType": "Cost Type",

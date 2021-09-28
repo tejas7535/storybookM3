@@ -93,7 +93,6 @@
       "purchasePriceValidFrom": "Zeigt das Startdatum der Gültigkeit des Zukaufteilpreises",
       "purchasePriceValidUntil": "Zeigt das Enddatum der Gültigkeit des Zukaufteilpreises"
     },
-    "noRowsMessage": "Leider konnten keine Referenztypen für die getroffenen Filtereinstellungen gefunden werden",
-    "pcmRowHint": "Dies ist nur eine Kalkulation. Dieses Produkt wird noch nicht hergestellt. Deshalb sind  keine produktionrelevanten Informationen verfügbar."
+    "noRowsMessage": "Leider konnten keine Referenztypen für die getroffenen Filtereinstellungen gefunden werden"
   }
 }

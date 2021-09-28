@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -7,7 +8,6 @@ import {
 } from '@ngneat/spectator/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { ShareButtonDirective } from './share-button.directive';
 
@@ -19,7 +19,7 @@ describe('ShareButtonDirective', () => {
     directive: ShareButtonDirective,
     imports: [RouterTestingModule],
     providers: [
-      mockProvider(SnackBarService),
+      mockProvider(MatSnackBar),
       mockProvider(ApplicationInsightsService),
     ],
   });
@@ -56,11 +56,9 @@ describe('ShareButtonDirective', () => {
     it('should show toast message', () => {
       spectator.dispatchMouseEvent(spectator.element, 'click');
 
-      expect(
-        spectator.directive['snackbarService'].showSuccessMessage
-      ).toHaveBeenCalledWith(
-        'shared.shareUrl.toastSuccessMessage',
-        'shared.shareUrl.toastConfirmMessage'
+      expect(spectator.directive['snackbar'].open).toHaveBeenCalledWith(
+        'shared.shareUrl.successMessage',
+        'shared.basic.dismissMessage'
       );
     });
 

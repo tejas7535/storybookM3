@@ -20,7 +20,6 @@ import {
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
-import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
@@ -73,9 +72,6 @@ const azureConfig = new AzureConfig(
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
-
-    // Notifications
-    SnackBarModule,
 
     // Platform required for detecting the browser engine
     PlatformModule,

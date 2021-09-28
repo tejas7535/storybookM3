@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -28,7 +28,7 @@ import { DetailComponent } from './detail.component';
     DetailRoutingModule,
     StoreModule.forFeature('detail', detailReducer),
     EffectsModule.forFeature([DetailEffects]),
-    SnackBarModule,
+    MatSnackBarModule,
     PageHeaderModule,
     TabsHeaderModule,
     ShareButtonModule,

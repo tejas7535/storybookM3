@@ -11,6 +11,8 @@ import {
 } from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer';
 
+import { URL_FAQ, URL_S_CONNECT } from '@cdba/shared/constants/urls';
+
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
 
@@ -25,12 +27,12 @@ export class AppComponent implements OnInit {
   public appVersion = packageJson.version;
   public footerLinks: FooterLink[] = [
     {
-      link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics/pages/faq',
+      link: URL_FAQ,
       title: 'FAQs',
       external: true,
     },
     {
-      link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics',
+      link: URL_S_CONNECT,
       title: 'CDBA@SConnect',
       external: true,
     },

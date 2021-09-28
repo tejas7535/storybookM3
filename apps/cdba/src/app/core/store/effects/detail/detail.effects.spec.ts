@@ -1,4 +1,5 @@
 /* eslint-disable max-lines */
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -13,8 +14,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
@@ -59,16 +58,15 @@ describe('Detail Effects', () => {
   let detailService: DetailService;
   let store: MockStore;
   let router: Router;
-  let snackbarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const errorMessage = 'An error occured';
 
   const createService = createServiceFactory({
     service: DetailEffects,
-    imports: [RouterTestingModule],
+    imports: [RouterTestingModule, MatSnackBarModule],
     providers: [
       mockProvider(DetailService),
-      mockProvider(SnackBarService),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -85,7 +83,7 @@ describe('Detail Effects', () => {
     detailService = spectator.inject(DetailService);
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
-    snackbarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   describe('loadReferenceType$', () => {
@@ -109,6 +107,7 @@ describe('Detail Effects', () => {
           a: item,
         });
         detailService.getDetails = jest.fn(() => response);
+        const openSnackBar = jest.spyOn(snackBar, 'open');
 
         const result = loadReferenceTypeSuccess({ item });
         const expected = m.cold('--b', { b: result });
@@ -117,7 +116,7 @@ describe('Detail Effects', () => {
         m.flush();
 
         expect(detailService.getDetails).toHaveBeenCalled();
-        expect(snackbarService.showInfoMessage).not.toHaveBeenCalled();
+        expect(openSnackBar).not.toHaveBeenCalled();
       })
     );
 
@@ -135,13 +134,14 @@ describe('Detail Effects', () => {
           a: item,
         });
         detailService.getDetails = jest.fn(() => response);
+        const openSnackBar = jest.spyOn(snackBar, 'open');
 
         const result = loadReferenceTypeSuccess({ item });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadReferenceType$).toBeObservable(expected);
         m.flush();
-        expect(snackbarService.showInfoMessage).toHaveBeenCalled();
+        expect(openSnackBar).toHaveBeenCalled();
       })
     );
 

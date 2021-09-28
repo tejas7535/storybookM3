@@ -1,8 +1,14 @@
 {
   "shared": {
+    "basic": {
+      "learnMore": "Weiter",
+      "dismissMessage": "Schließen"
+    },
     "blockUi": {
       "inProgress": "Ihre Anfrage wird bearbeitet!"
     },
+    "learnMore": "Weiter",
+    "dismissMessage": "Schließen",
     "breadcrumbs": {
       "search": "Suche",
       "results": "Ergebnisse",
@@ -12,8 +18,7 @@
     "shareUrl": {
       "button": "Teilen",
       "tooltipMessage": "Teile die Seite mit deinen Kolleg:innen. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
-      "toastSuccessMessage": "Link in Zwischenablage kopiert. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
-      "toastConfirmMessage": "ok"
+      "successMessage": "Link in Zwischenablage kopiert. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen."
     },
     "statusBar": {
       "detail": "Details anzeigen",
@@ -65,6 +70,7 @@
       }
     },
     "calculations": {
+      "pcmRowHint": "PCM-Materialien sind nur Kalkulationen ohne relevante Produktionsinformationen",
       "table": {
         "calculationDate": "Kalulationsdatum",
         "costType": "Kostentyp",

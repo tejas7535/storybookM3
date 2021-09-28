@@ -1,7 +1,4 @@
 {
-  "shared": {
-    "pcmRowHint": "Dies ist nur eine Kalkulation. Dieses Produkt wird noch nicht hergestellt. Deshalb sind  keine produktionrelevanten Informationen verfügbar."
-  },
   "tabs": {
     "detail": "Details",
     "billOfMaterial": "Stückliste",

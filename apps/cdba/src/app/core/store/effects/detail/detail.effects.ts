@@ -1,6 +1,7 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 /* eslint-disable no-invalid-this */
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Params, Router } from '@angular/router';
 
 import { exhaustMap, of } from 'rxjs';
@@ -11,8 +12,6 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
-import { SnackBarService } from '@schaeffler/snackbar';
-
 import {
   BomItem,
   Calculation,
@@ -20,6 +19,7 @@ import {
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
+import { URL_FAQ } from '@cdba/shared/constants/urls';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
@@ -58,9 +58,15 @@ export class DetailEffects {
         this.detailService.getDetails(refTypeIdentifier).pipe(
           tap((item) =>
             item.referenceTypeDto.isPcmRow
-              ? this.snackbarService.showInfoMessage(
-                  translate('detail.shared.pcmRowHint')
-                )
+              ? this.snackbar
+                  .open(
+                    translate('shared.calculations.pcmRowHint'),
+                    translate('shared.basic.learnMore')
+                  )
+                  .onAction()
+                  .subscribe(() => {
+                    window.open(URL_FAQ, '_blank').focus();
+                  })
               : undefined
           ),
           map((item: ReferenceTypeResult) =>
@@ -193,7 +199,7 @@ export class DetailEffects {
     private readonly store: Store,
     private readonly roleFacade: RoleFacade,
     private readonly router: Router,
-    private readonly snackbarService: SnackBarService
+    private readonly snackbar: MatSnackBar
   ) {}
 
   private static mapQueryParamsToIdentifier(
