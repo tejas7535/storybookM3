@@ -10,6 +10,7 @@ import {
   BEARING_SEARCH_RESULT_MOCK,
   CALCULATION_PARAMETERS_MOCK,
   CALCULATION_RESULT_MOCK,
+  CALCULATION_RESULT_MOCK_ID,
 } from './../../../../testing/mocks/rest.service.mock';
 import { RestService } from './rest.service';
 
@@ -54,7 +55,7 @@ describe('RestService', () => {
       service
         .postGreaseCalculation(CALCULATION_PARAMETERS_MOCK)
         .subscribe((result: string) => {
-          expect(result).toEqual(CALCULATION_RESULT_MOCK);
+          expect(result).toEqual(CALCULATION_RESULT_MOCK_ID);
           done();
         });
 

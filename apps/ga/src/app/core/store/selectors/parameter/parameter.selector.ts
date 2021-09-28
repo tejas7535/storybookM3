@@ -30,21 +30,26 @@ export const getParameterValidity = createSelector(
   (state: ParameterState): boolean => state?.valid
 );
 
-export const getCalculationParamters = createSelector(
+export const getCalculationParameters = createSelector(
   getParameterState,
   getSelectedBearing,
   (state: ParameterState, bearing: string): CalculationParamters =>
     state &&
+    state.valid &&
     bearing && {
       idcO_DESIGNATION: `${bearing}`,
       idlC_TYPE_OF_MOVEMENT: state.movements.type,
-      idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed}`,
-      idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle}`,
-      idlC_MOVEMENT_FREQUENCY: `${state.movements.shiftFrequency}`,
-      idcO_RADIAL_LOAD: `${state.loads.radial}`,
-      idcO_AXIAL_LOAD: `${state.loads.axial}`,
-      idscO_OILTEMP: `${state.environment.operatingTemperature}`,
-      idslC_TEMPERATURE: `${state.environment.environmentTemperature}`,
-      idscO_INFLUENCE_OF_AMBIENT: `${state.environment.environmentImpact}`,
+      idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed.toFixed(
+        2
+      )}`,
+      idcO_RADIAL_LOAD: `${state.loads.radial.toFixed(2)}`,
+      idcO_AXIAL_LOAD: `${state.loads.axial.toFixed(2)}`,
+      idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(2)}`,
+      idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
+        2
+      )}`,
+      idscO_INFLUENCE_OF_AMBIENT: state.environment.environmentImpact,
+      // idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle.toFixed(2)}` ,
+      // idlC_MOVEMENT_FREQUENCY: `${state.movements.shiftFrequency.toFixed(2)}`,
     }
 );

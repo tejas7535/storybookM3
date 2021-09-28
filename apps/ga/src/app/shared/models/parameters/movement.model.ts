@@ -1,4 +1,4 @@
 export enum Movement {
-  rotating = 'rotating',
-  oscillating = 'oscillating',
+  rotating = 'LB_ROTATING',
+  oscillating = 'LB_OSCILLATING',
 }

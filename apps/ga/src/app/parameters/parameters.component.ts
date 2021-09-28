@@ -112,22 +112,21 @@ export class ParametersComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public environmentImpact = new FormControl(0.8, [Validators.required]);
+  public environmentImpact = new FormControl(EnvironmentImpact.moderate, [
+    Validators.required,
+  ]);
   public environmentImpactOptions: any[] = [
     {
       id: EnvironmentImpact.low,
-      value: 1,
       text: translate('parameters.low'),
     },
     {
       id: EnvironmentImpact.moderate,
-      value: 0.8,
       text: translate('parameters.moderate'),
       default: true,
     },
     {
       id: EnvironmentImpact.high,
-      value: 0.5,
       text: translate('parameters.high'),
     },
   ];

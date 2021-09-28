@@ -1,4 +1,4 @@
-import { CALCULATION_RESULT_MOCK } from '../../../../../testing/mocks/rest.service.mock';
+import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
   calculationError,
   calculationSuccess,
@@ -16,7 +16,7 @@ describe('Result Actions', () => {
     });
 
     it('calculationSuccess', () => {
-      const resultId = CALCULATION_RESULT_MOCK;
+      const resultId = CALCULATION_RESULT_MOCK_ID;
       const action = calculationSuccess({ resultId });
 
       expect(action).toEqual({

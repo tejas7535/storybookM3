@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 
+import { EnvironmentImpact } from '../../../../shared/models';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import { patchParameters } from './../../actions/parameters/parameters.actions';
 import {
@@ -38,7 +39,7 @@ describe('Parameter Reducer', () => {
         environment: {
           operatingTemperature: 170,
           environmentTemperature: 120,
-          environmentImpact: 1,
+          environmentImpact: EnvironmentImpact.moderate,
         },
         greaseEnabled: true,
         grease: {

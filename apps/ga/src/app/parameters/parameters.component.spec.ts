@@ -15,6 +15,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { AppRoutePath } from '../app-route-path.enum';
 import { initialState } from '../core/store/reducers/parameter/parameter.reducer';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { EnvironmentImpact } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
 import { Movement } from './../shared/models/parameters/movement.model';
@@ -93,7 +94,7 @@ describe('ParametersComponent', () => {
         patchParameters({
           parameters: {
             environment: {
-              environmentImpact: 0.8,
+              environmentImpact: EnvironmentImpact.moderate,
               environmentTemperature: 20,
               operatingTemperature: 70,
             },
@@ -122,7 +123,7 @@ describe('ParametersComponent', () => {
         patchParameters({
           parameters: {
             environment: {
-              environmentImpact: 0.8,
+              environmentImpact: EnvironmentImpact.moderate,
               environmentTemperature: 20,
               operatingTemperature: 70,
             },

@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { Movement } from '../../../../shared/models';
+import { EnvironmentImpact, Movement } from '../../../../shared/models';
 import * as ParametersActions from '../../actions/parameters/parameters.actions';
 import { RecursivePartial } from './../../../../shared/types/rescursive-partial.type';
 
@@ -20,7 +20,7 @@ export interface FullParameterState {
   environment: {
     operatingTemperature: number;
     environmentTemperature: number;
-    environmentImpact: number;
+    environmentImpact: EnvironmentImpact;
   };
   greaseEnabled: boolean;
   grease: {
@@ -53,7 +53,7 @@ export const initialState: ParameterState = {
   environment: {
     operatingTemperature: 70,
     environmentTemperature: 20,
-    environmentImpact: 0.8,
+    environmentImpact: EnvironmentImpact.moderate,
   },
   greaseEnabled: false,
   grease: {

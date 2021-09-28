@@ -9,7 +9,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { CALCULATION_RESULT_MOCK } from '../../../../../testing/mocks/rest.service.mock';
+import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
 import {
   calculationSuccess,
@@ -78,7 +78,7 @@ describe('Bearing Effects', () => {
     it(
       'should fetch grease calculation',
       marbles((m) => {
-        const resultId = CALCULATION_RESULT_MOCK;
+        const resultId = CALCULATION_RESULT_MOCK_ID;
         const result = calculationSuccess({ resultId });
 
         action = getCalculation();

@@ -6,10 +6,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../app-route-path.enum';
-import {
-  getResult,
-  getResultId,
-} from '../core/store/selectors/result/result.selector';
+import { getResultId } from '../core/store/selectors/result/result.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 
 @Component({
@@ -27,7 +24,6 @@ export class ResultComponent implements OnInit {
 
   public ngOnInit(): void {
     this.resultId$ = this.store.select(getResultId);
-    this.resultState$ = this.store.select(getResult);
   }
 
   public navigateBack(): void {

@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CALCULATION_RESULT_MOCK } from '../../../../../testing/mocks/rest.service.mock';
+import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
   calculationError,
   calculationSuccess,
@@ -30,7 +30,7 @@ describe('Result Reducer', () => {
 
   describe('on calculationSuccess', () => {
     it('should set resultId and loading', () => {
-      const mockResultId = CALCULATION_RESULT_MOCK;
+      const mockResultId = CALCULATION_RESULT_MOCK_ID;
       const action: Action = calculationSuccess({
         resultId: mockResultId,
       });

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
-import { CalculationParamters } from '../../../shared/models';
+import { CalculationParamters, Result } from '../../../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +26,8 @@ export class RestService {
   public postGreaseCalculation(
     options: CalculationParamters
   ): Observable<string> {
-    return this.httpClient.post<string>(
-      `${environment.baseUrl}/calculate`,
-      options
-    );
+    return this.httpClient
+      .post<Result>(`${environment.baseUrl}/calculate`, options)
+      .pipe(map((res: Result) => res._links[1].href.split('/').pop()));
   }
 }

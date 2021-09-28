@@ -5,7 +5,7 @@ import {
   ParameterState,
 } from './../../reducers/parameter/parameter.reducer';
 import {
-  getCalculationParamters,
+  getCalculationParameters,
   getEnvironmentTemperatures,
   getLoadsInputType,
   getParameterValidity,
@@ -51,19 +51,35 @@ describe('Parameter Selector', () => {
     });
   });
 
-  describe('getCalculationParamters', () => {
+  describe('getCalculationParameters', () => {
     it('should return an object with all calculation parms', () => {
-      expect(getCalculationParamters(mockState)).toEqual({
+      const validMockState = {
+        ...mockState,
+        parameter: {
+          ...mockState.parameter,
+          movements: {
+            ...mockState.parameter.movements,
+            rotationalSpeed: 9000,
+          },
+          valid: true,
+        },
+      };
+
+      expect(getCalculationParameters(validMockState)).toEqual({
         idcO_DESIGNATION: 'mockBearing',
         idlC_TYPE_OF_MOVEMENT: initialState.movements.type,
-        idL_RELATIVE_SPEED_WITHOUT_SIGN: `${initialState.movements.rotationalSpeed}`,
-        idlC_OSCILLATION_ANGLE: `${initialState.movements.shiftAngle}`,
-        idlC_MOVEMENT_FREQUENCY: `${initialState.movements.shiftFrequency}`,
-        idcO_RADIAL_LOAD: `${initialState.loads.radial}`,
-        idcO_AXIAL_LOAD: `${initialState.loads.axial}`,
-        idscO_OILTEMP: `${initialState.environment.operatingTemperature}`,
-        idslC_TEMPERATURE: `${initialState.environment.environmentTemperature}`,
-        idscO_INFLUENCE_OF_AMBIENT: `${initialState.environment.environmentImpact}`,
+        idL_RELATIVE_SPEED_WITHOUT_SIGN: `${validMockState.parameter.movements.rotationalSpeed.toFixed(
+          2
+        )}`,
+        idcO_RADIAL_LOAD: `${initialState.loads.radial.toFixed(2)}`,
+        idcO_AXIAL_LOAD: `${initialState.loads.axial.toFixed(2)}`,
+        idscO_OILTEMP: `${initialState.environment.operatingTemperature.toFixed(
+          2
+        )}`,
+        idslC_TEMPERATURE: `${initialState.environment.environmentTemperature.toFixed(
+          2
+        )}`,
+        idscO_INFLUENCE_OF_AMBIENT: initialState.environment.environmentImpact,
       });
     });
   });
