@@ -56,7 +56,7 @@ describe(`HttpGreaseInterceptor`, () => {
   });
 
   describe('intercept', () => {
-    test(
+    it(
       'should adjust header attributes',
       waitForAsync(() => {
         service.getPosts().subscribe((response: any) => {

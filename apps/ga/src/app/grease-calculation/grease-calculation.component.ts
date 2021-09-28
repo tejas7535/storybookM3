@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { selectBearing } from '../core/store';
-import { updateStep } from '../core/store/actions/settings/settings.actions';
 
 @Component({
   selector: 'ga-grease-calculation',
@@ -38,23 +37,6 @@ export class GreaseCalculationComponent implements OnInit {
           if (params.has('bearing')) {
             this.store.dispatch(
               selectBearing({ bearing: params.get('bearing') })
-            );
-            this.store.dispatch(
-              updateStep({
-                step: {
-                  index: 0,
-                  completed: true,
-                  editable: true,
-                },
-              })
-            );
-            this.store.dispatch(
-              updateStep({
-                step: {
-                  index: 1,
-                  enabled: true,
-                },
-              })
             );
           }
         })

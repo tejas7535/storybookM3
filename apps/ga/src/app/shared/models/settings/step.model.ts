@@ -1,8 +1,9 @@
 export interface Step {
   name: string;
   index: number;
-  enabled: boolean;
-  editable: boolean;
-  completed: boolean;
   link: string;
+}
+
+export interface EnabledStep extends Step {
+  enabled: boolean;
 }

@@ -11,8 +11,9 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CALCULATION_RESULT_MOCK } from '../../testing/mocks/rest.service.mock';
-import { previousStep } from '../core/store/actions/settings/settings.actions';
+import { AppRoutePath } from '../app-route-path.enum';
 import { initialState } from '../core/store/reducers/result/result.reducer';
+import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { SharedModule } from '../shared/shared.module';
 import { ResultComponent } from './result.component';
 
@@ -41,6 +42,9 @@ describe('ResultComponent', () => {
           result: {
             ...initialState,
             resultId: CALCULATION_RESULT_MOCK,
+          },
+          bearing: {
+            selectedBearing: 'testBearing',
           },
         },
       }),
@@ -80,9 +84,13 @@ describe('ResultComponent', () => {
 
   describe('navigateBack', () => {
     it('should navigate to bearing selection', () => {
+      component['router'].navigate = jest.fn();
+
       component.navigateBack();
 
-      expect(store.dispatch).toHaveBeenCalledWith(previousStep());
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
+      ]);
     });
   });
 });

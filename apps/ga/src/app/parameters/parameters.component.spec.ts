@@ -12,14 +12,11 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { AppRoutePath } from '../app-route-path.enum';
 import { initialState } from '../core/store/reducers/parameter/parameter.reducer';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
-import {
-  completeStep,
-  previousStep,
-} from './../core/store/actions/settings/settings.actions';
 import { Movement } from './../shared/models/parameters/movement.model';
 import { ParametersComponent } from './parameters.component';
 
@@ -243,18 +240,21 @@ describe('ParametersComponent', () => {
 
       component.completeStep();
 
-      expect(store.dispatch).toHaveBeenCalledWith(completeStep());
       expect(component['router'].navigate).toHaveBeenCalledWith([
-        GreaseCalculationPath.ResultPath,
+        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ResultPath}`,
       ]);
     });
   });
 
   describe('navigateBack', () => {
     it('should navigate to bearing selection', () => {
+      component['router'].navigate = jest.fn();
+
       component.navigateBack();
 
-      expect(store.dispatch).toHaveBeenCalledWith(previousStep());
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.BearingPath}`,
+      ]);
     });
   });
 

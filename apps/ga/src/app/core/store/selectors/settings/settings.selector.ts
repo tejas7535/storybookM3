@@ -1,47 +1,36 @@
 import { createSelector } from '@ngrx/store';
 
-import { Step } from './../../../../shared/models/settings/step.model';
+import { getSelectedBearing } from '..';
+import { steps } from '../../../../shared/constants';
+import { EnabledStep } from '../../../../shared/models';
+import { getParameterValidity } from '../parameter/parameter.selector';
 import { getSettingsState } from './../../reducers';
 import { SettingsState } from './../../reducers/settings/settings.reducer';
 
 export const getStepperState = createSelector(
   getSettingsState,
-  (
-    state: SettingsState
-  ): {
-    steps: Step[];
-    currentStep: number;
-    previousStep: number;
-    nextStep: number;
-  } => state.stepper
+  (state: SettingsState): { currentStep: number } => state.stepper
 );
 
-export const getSteps = createSelector(
-  getStepperState,
-  (stepper: {
-    steps: Step[];
-    currentStep: number;
-    previousStep: number;
-    nextStep: number;
-  }): Step[] => stepper.steps
-);
-
-export const hasNext = createSelector(
-  getStepperState,
-  (stepper: {
-    steps: Step[];
-    currentStep: number;
-    previousStep: number;
-    nextStep: number;
-  }): boolean => (stepper.nextStep ? true : false)
+export const getEnabledSteps = createSelector(
+  getSelectedBearing,
+  getParameterValidity,
+  (bearing: string, valid: boolean): EnabledStep[] =>
+    (steps as EnabledStep[]).map((step) => {
+      switch (step.name) {
+        case 'bearingSelection':
+          return { ...step, enabled: true };
+        case 'parameters':
+          return { ...step, enabled: !!bearing };
+        case 'report':
+          return { ...step, enabled: !!bearing && valid };
+        default:
+          return step;
+      }
+    })
 );
 
 export const getCurrentStep = createSelector(
   getStepperState,
-  (stepper: {
-    steps: Step[];
-    currentStep: number;
-    previousStep: number;
-    nextStep: number;
-  }): number => stepper.currentStep
+  (stepper: { currentStep: number }): number => stepper.currentStep
 );

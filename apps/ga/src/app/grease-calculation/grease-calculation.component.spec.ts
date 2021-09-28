@@ -13,7 +13,6 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { selectBearing } from '../core/store';
-import { updateStep } from '../core/store/actions/settings/settings.actions';
 import { initialState } from '../core/store/reducers/settings/settings.reducer';
 import { GreaseStepperModule } from './../core/components/grease-stepper/grease-stepper.module';
 import { GreaseCalculationComponent } from './grease-calculation.component';
@@ -72,23 +71,6 @@ describe('GreaseCalculationComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: 'some bearing' })
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        updateStep({
-          step: {
-            index: 0,
-            completed: true,
-            editable: true,
-          },
-        })
-      );
-      expect(store.dispatch).toHaveBeenCalledWith(
-        updateStep({
-          step: {
-            index: 1,
-            enabled: true,
-          },
-        })
       );
     });
   });

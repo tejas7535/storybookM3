@@ -1,16 +1,20 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { setCurrentStep } from '../../store/actions/settings/settings.actions';
-import { Step } from './../../../shared/models/settings/step.model';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { steps } from '../../../shared/constants';
+import {
+  EnabledStep,
+  Step,
+} from './../../../shared/models/settings/step.model';
 import {
   getCurrentStep,
-  getSteps,
-  hasNext,
+  getEnabledSteps,
 } from './../../store/selectors/settings/settings.selector';
 
 @Component({
@@ -20,19 +24,21 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GreaseStepperComponent implements OnInit {
-  public steps$: Observable<Step[]>;
+  public enabledSteps$: Observable<EnabledStep[]>;
   public hasNext$: Observable<boolean>;
   public currentStep$: Observable<number>;
 
-  constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store, private readonly router: Router) {}
 
   ngOnInit(): void {
-    this.steps$ = this.store.select(getSteps);
-    this.hasNext$ = this.store.select(hasNext);
+    this.enabledSteps$ = this.store.select(getEnabledSteps);
     this.currentStep$ = this.store.select(getCurrentStep);
   }
 
   selectStep(event: StepperSelectionEvent): void {
-    this.store.dispatch(setCurrentStep({ step: event.selectedIndex }));
+    const newRoute = steps.find(
+      ({ index }: Step) => index === event.selectedIndex
+    ).link;
+    this.router.navigate([`${AppRoutePath.GreaseCalculationPath}/${newRoute}`]);
   }
 }

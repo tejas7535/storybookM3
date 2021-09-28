@@ -1,5 +1,5 @@
 export enum AppRoutePath {
   BasePath = 'app',
-  GreaseCalculationPath = 'greaseCalculation',
+  GreaseCalculationPath = 'grease-calculation',
   LegalPath = 'legal',
 }

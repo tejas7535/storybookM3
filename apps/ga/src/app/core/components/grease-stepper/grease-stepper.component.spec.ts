@@ -2,6 +2,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -10,12 +11,12 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { StepperModule } from '@schaeffler/stepper';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { setCurrentStep } from '../../store/actions/settings/settings.actions';
+import { AppRoutePath } from '../../../app-route-path.enum';
+import { GreaseCalculationPath } from '../../../grease-calculation/grease-calculation-path.enum';
 import { initialState } from './../../store/reducers/settings/settings.reducer';
 import {
   getCurrentStep,
-  getSteps,
-  hasNext,
+  getEnabledSteps,
 } from './../../store/selectors/settings/settings.selector';
 import { GreaseStepperComponent } from './grease-stepper.component';
 
@@ -32,6 +33,7 @@ describe('StepperComponent', () => {
       StepperModule,
       ReactiveComponentModule,
       MatIconModule,
+      RouterTestingModule,
     ],
     providers: [
       provideMockStore({
@@ -66,17 +68,20 @@ describe('StepperComponent', () => {
 
       component.ngOnInit();
 
-      expect(store.select).toHaveBeenCalledWith(getSteps);
-      expect(store.select).toHaveBeenCalledWith(hasNext);
+      expect(store.select).toHaveBeenCalledWith(getEnabledSteps);
       expect(store.select).toHaveBeenCalledWith(getCurrentStep);
     });
   });
 
   describe('selectStep', () => {
     it('should dispatch setCurrentStep', () => {
+      component['router'].navigate = jest.fn();
+
       component.selectStep({ selectedIndex: 1 } as StepperSelectionEvent);
 
-      expect(store.dispatch).toHaveBeenCalledWith(setCurrentStep({ step: 1 }));
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
+      ]);
     });
   });
 });

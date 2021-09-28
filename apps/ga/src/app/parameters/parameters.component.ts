@@ -14,13 +14,10 @@ import { take, takeUntil } from 'rxjs/operators';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../app-route-path.enum';
 import { getParameterState } from '../core/store';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
-import {
-  completeStep,
-  previousStep,
-} from './../core/store/actions/settings/settings.actions';
 import {
   initialState,
   ParameterState,
@@ -216,12 +213,15 @@ export class ParametersComponent implements OnInit, OnDestroy {
   }
 
   public completeStep(): void {
-    this.store.dispatch(completeStep());
-    this.router.navigate([GreaseCalculationPath.ResultPath]);
+    this.router.navigate([
+      `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ResultPath}`,
+    ]);
   }
 
   public navigateBack(): void {
-    this.store.dispatch(previousStep());
+    this.router.navigate([
+      `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.BearingPath}`,
+    ]);
   }
 
   private operatingTemperatureValidator(): ValidatorFn {

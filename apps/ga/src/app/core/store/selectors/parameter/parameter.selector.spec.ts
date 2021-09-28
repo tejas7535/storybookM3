@@ -8,6 +8,7 @@ import {
   getCalculationParamters,
   getEnvironmentTemperatures,
   getLoadsInputType,
+  getParameterValidity,
   getSelectedMovementType,
 } from './parameter.selector';
 
@@ -41,6 +42,12 @@ describe('Parameter Selector', () => {
   describe('getLoadsInputType', () => {
     it('should return loads input type', () => {
       expect(getLoadsInputType(mockState)).toEqual(true);
+    });
+  });
+
+  describe('getParameterValidity', () => {
+    it('should return validity of parameters', () => {
+      expect(getParameterValidity(mockState)).toEqual(false);
     });
   });
 

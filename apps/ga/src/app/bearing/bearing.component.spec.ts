@@ -11,7 +11,8 @@ import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { completeStep } from '../core/store/actions/settings/settings.actions';
+import { AppRoutePath } from '../app-route-path.enum';
+import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
 import { BearingComponent } from './bearing.component';
 
@@ -77,12 +78,16 @@ describe('BearingComponent', () => {
 
   describe('handleBearingSelection', () => {
     it('should dispatch select bearing and navigate to parameters', () => {
+      component['router'].navigate = jest.fn();
+
       component.handleBearingSelection('some bearing');
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: 'some bearing' })
       );
-      expect(store.dispatch).toHaveBeenCalledWith(completeStep());
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
+      ]);
     });
 
     it('should dispatch undefined bearing', () => {
@@ -91,7 +96,6 @@ describe('BearingComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: undefined })
       );
-      expect(store.dispatch).not.toHaveBeenCalledWith(completeStep());
     });
   });
 
@@ -101,7 +105,9 @@ describe('BearingComponent', () => {
 
       component.navigateBack();
 
-      expect(component['router'].navigate).toHaveBeenCalledWith(['app']);
+      expect(component['router'].navigate).toHaveBeenCalledWith([
+        `${AppRoutePath.BasePath}`,
+      ]);
     });
   });
 });

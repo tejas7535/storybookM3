@@ -1,19 +1,28 @@
+import { BearingState } from '../../reducers/bearing/bearing.reducer';
+import { ParameterState } from '../../reducers/parameter/parameter.reducer';
 import {
   initialState,
   SettingsState,
 } from '../../reducers/settings/settings.reducer';
 import {
   getCurrentStep,
+  getEnabledSteps,
   getStepperState,
-  getSteps,
-  hasNext,
 } from './settings.selector';
 
 describe('Settings Selector', () => {
-  let mockState: { settings: SettingsState };
+  let mockState: {
+    settings: SettingsState;
+    bearing: BearingState;
+    parameter: ParameterState;
+  };
 
   beforeEach(() => {
-    mockState = { settings: { ...initialState } };
+    mockState = {
+      settings: { ...initialState },
+      bearing: { selectedBearing: 'testBearing' } as BearingState,
+      parameter: { valid: true } as ParameterState,
+    };
   });
 
   describe('getStepperState', () => {
@@ -22,29 +31,25 @@ describe('Settings Selector', () => {
     });
   });
 
-  describe('getSteps', () => {
-    it('should return steps', () => {
-      expect(getSteps(mockState)).toEqual(initialState.stepper.steps);
-    });
-  });
+  describe('getEnabledSteps', () => {
+    it('should return enabeld steps', () => {
+      const expectedSteps = [
+        { enabled: true, index: 0, link: 'bearing', name: 'bearingSelection' },
+        {
+          enabled: true,
+          index: 1,
+          link: 'parameters',
+          name: 'parameters',
+        },
+        {
+          enabled: true,
+          index: 2,
+          link: 'result',
+          name: 'report',
+        },
+      ];
 
-  describe('hasNext', () => {
-    it('shoudl return true if there is a next step', () => {
-      expect(hasNext(mockState)).toEqual(true);
-    });
-    it('shoudl return false if there is no next step', () => {
-      expect(
-        hasNext({
-          ...mockState,
-          settings: {
-            ...mockState.settings,
-            stepper: {
-              ...mockState.settings.stepper,
-              nextStep: undefined,
-            },
-          },
-        })
-      ).toEqual(false);
+      expect(getEnabledSteps(mockState)).toEqual(expectedSteps);
     });
   });
 

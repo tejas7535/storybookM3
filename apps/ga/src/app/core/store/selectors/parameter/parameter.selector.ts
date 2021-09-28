@@ -25,6 +25,11 @@ export const getLoadsInputType = createSelector(
   (state: ParameterState): boolean => state.loads.exact
 );
 
+export const getParameterValidity = createSelector(
+  getParameterState,
+  (state: ParameterState): boolean => state?.valid
+);
+
 export const getCalculationParamters = createSelector(
   getParameterState,
   getSelectedBearing,

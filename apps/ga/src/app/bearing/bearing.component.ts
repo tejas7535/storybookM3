@@ -25,8 +25,7 @@ import {
   getBearingLoading,
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
-import { updateRouteParams } from './../core/store/actions/bearing/bearing.actions';
-import { completeStep } from './../core/store/actions/settings/settings.actions';
+import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
 
 @Component({
@@ -69,8 +68,6 @@ export class BearingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-
-    this.store.dispatch(updateRouteParams());
   }
 
   ngOnDestroy() {
@@ -80,8 +77,11 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   public handleBearingSelection(bearing: string) {
     this.store.dispatch(selectBearing({ bearing }));
+
     if (bearing) {
-      this.store.dispatch(completeStep());
+      this.router.navigate([
+        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
+      ]);
     }
   }
 
