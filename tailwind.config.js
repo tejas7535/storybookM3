@@ -142,6 +142,7 @@ module.exports = {
           lineHeight: fontSizes['h1-mobile'][1].lineHeight,
           [`@media (min-width: ${sm})`]: {
             fontSize: theme('fontSize.h1'),
+            lineHeight: fontSizes['h1'][1].lineHeight,
             letterSpacing: fontSizes['h1'][1].letterSpacing,
           },
         },
