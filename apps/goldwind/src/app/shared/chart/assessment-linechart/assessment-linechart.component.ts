@@ -30,6 +30,7 @@ import { axisChartOptions } from '../chart';
 @Component({
   selector: 'goldwind-assessment-linechart',
   templateUrl: './assessment-linechart.component.html',
+  styleUrls: ['./assessment-linechart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssessmentLinechartComponent

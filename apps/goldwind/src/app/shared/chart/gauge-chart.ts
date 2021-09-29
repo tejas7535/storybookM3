@@ -160,8 +160,13 @@ export class GaugeEchartConfig {
         fontWeight: '500',
         fontSize: 20,
         color: 'rgba(0,0,0,0.91)',
-        formatter: (v: any) =>
-          `${v.toFixed(1).toString().replace('.', ',')} ${this.unit}`,
+        formatter: (v: any) => {
+          if (Number.isNaN(v)) {
+            return translate('app.no_data');
+          }
+
+          return `${v.toFixed(1).toString().replace('.', ',')} ${this.unit}`;
+        },
       },
       axisLine: {
         lineStyle: {
