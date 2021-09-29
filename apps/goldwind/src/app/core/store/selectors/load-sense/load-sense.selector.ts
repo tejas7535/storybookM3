@@ -178,7 +178,7 @@ export const generateRotorSeries = (
   name: string,
   loadSenseResult: LoadSense
 ) => ({
-  ...polarSeries(GaugeColors.YELLOW, name),
+  ...polarSeries('#854B85', name),
   data: rotorSideValues(loadSenseResult),
 });
 
@@ -186,7 +186,7 @@ export const generateGeneratorSeries = (
   name: string,
   loadSenseResult: LoadSense
 ) => ({
-  ...polarSeries(GaugeColors.GREEN, name),
+  ...polarSeries('#1D9BB2', name),
   data: generatorSideValues(loadSenseResult),
 });
 
@@ -212,7 +212,7 @@ export const getLoadGraphData = createSelector(
 
 export const getAverageLoadGraphData = createSelector(
   getLoadAverageResult,
-  (loadSenseResult: LoadSense): GraphData =>
+  (loadSenseResult: LoadSense): any =>
     loadSenseResult && {
       tooltip: {
         formatter: (params: any) => tooltipFormatter(params, loadSenseResult),

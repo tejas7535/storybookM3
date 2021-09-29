@@ -1,7 +1,7 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.static-saftey-factor-monitor'"
-    class="full-height-card flex flex-col"
+    class="h-full flex flex-col"
   >
     <mat-card-header>
       <mat-card-title>
@@ -30,7 +30,7 @@
           echarts
           [options]="chartOptions"
           [merge]="this.staticSafetyLatestGraphData$ | ngrxPush"
-          class="flex dashboard-echart shaft-chart"
+          class="flex dashboard-echart shaft-chart w-full h-full"
         ></div>
       </div>
     </mat-card-content>

@@ -90,7 +90,7 @@ describe('Load Sense Selector', () => {
               opacity: 0.5,
             },
             itemStyle: {
-              color: GaugeColors.GREEN,
+              color: '#1D9BB2',
             },
             data: [
               [2, 22.5],
@@ -114,7 +114,7 @@ describe('Load Sense Selector', () => {
               opacity: 0.5,
             },
             itemStyle: {
-              color: GaugeColors.YELLOW,
+              color: '#854B85',
             },
             data: [
               [1, 0],
@@ -158,7 +158,7 @@ describe('Load Sense Selector', () => {
               opacity: 0.5,
             },
             itemStyle: {
-              color: GaugeColors.GREEN,
+              color: '#1D9BB2',
             },
             data: [
               [2, 22.5],
@@ -183,7 +183,7 @@ describe('Load Sense Selector', () => {
               opacity: 0.5,
             },
             itemStyle: {
-              color: GaugeColors.YELLOW,
+              color: '#854B85',
             },
             data: [
               [1, 0],

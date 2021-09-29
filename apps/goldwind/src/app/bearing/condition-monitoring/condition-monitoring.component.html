@@ -1,37 +1,51 @@
-<div *transloco="let t; read: 'conditionMonitoring'" class="grid-container">
-  <div id="ms-equipment" class="grid-element">
+<div
+  *transloco="let t; read: 'conditionMonitoring'"
+  class="
+    h-full
+    gap-4
+    grid grid-cols-1
+    sm:grid-cols-2
+    md:grid-rows-3
+    lg:grid-cols-12 lg:grid-rows-2
+  "
+>
+  <div
+    id="ms-equipment"
+    class="sm:col-span-2 md:col-auto lg:col-span-3 lg:row-span-2"
+  >
     <goldwind-cm-equipment
       #equipment
       [mainBearing]="mainBearing$ | ngrxPush"
     ></goldwind-cm-equipment>
   </div>
-  <div id="rotor-speed" class="grid-element">
+  <div id="rotor-speed" class="sm:col-span-2 md:col-auto lg:col-span-3">
     <goldwind-shaft></goldwind-shaft>
   </div>
   <div
     id="grease-status"
-    class="grid-element"
+    class="sm:col-span-2 lg:col-span-6"
     [ngClass]="{ highlight: equipment.selectedTab === 'grease' }"
   >
     <goldwind-grease-monitor></goldwind-grease-monitor>
   </div>
   <div
     id="center-load"
-    class="grid-element"
+    class="sm:col-span-2 md:col-auto lg:col-span-3"
     [ngClass]="{ highlight: equipment.selectedTab === 'load' }"
   >
     <goldwind-center-load></goldwind-center-load>
   </div>
-  <div id="static-saftey-factor-monitoring" class="grid-element">
+  <div
+    id="static-saftey-factor-monitoring"
+    class="sm:col-span-2 md:col-auto lg:col-span-2"
+  >
     <goldwind-static-saftey-factor-monitor></goldwind-static-saftey-factor-monitor>
   </div>
   <div
     id="edm-monitoring"
-    class="grid-element"
+    class="sm:col-span-2 lg:col-span-4"
     [ngClass]="{ highlight: equipment.selectedTab === 'edm' }"
   >
-    <goldwind-preview-container>
-      <goldwind-edm-monitor></goldwind-edm-monitor>
-    </goldwind-preview-container>
+    <goldwind-edm-monitor></goldwind-edm-monitor>
   </div>
 </div>

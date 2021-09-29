@@ -5,17 +5,19 @@
   >
     <div class="flex" fxLayoutAlign="space-between start">
       <mat-card-header>
-        <mat-card-title>
-          <div class="inline-flex items-center">
-            <mat-icon svgIcon="icon-vibration"></mat-icon>
-            <span>{{ t('title') }}</span>
+        <mat-card-title
+          ><div class="flex flex-wrap">
+            <div class="inline-flex items-center">
+              <mat-icon svgIcon="icon-vibration"></mat-icon>
+              <span>{{ t('title') }}</span>
+            </div>
+            <goldwind-sensor [type]="type" [sensor]="sensor"></goldwind-sensor>
           </div>
         </mat-card-title>
         <mat-card-subtitle *transloco="let t; read: 'bearing'">
           {{ t('mainBearing') }}
         </mat-card-subtitle>
       </mat-card-header>
-      <goldwind-sensor [type]="type" [sensor]="sensor"></goldwind-sensor>
     </div>
     <mat-card-content>
       <div class="flex flex-col space-between">

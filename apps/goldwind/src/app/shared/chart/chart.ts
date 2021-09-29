@@ -20,16 +20,7 @@ export const chartOptions: EChartsOption = {
     textStyle: { color: '#646464' },
     padding: 10,
   },
-  color: [
-    '#73a195',
-    '#c0c6bf',
-    '#878787',
-    '#1d9bb2',
-    '#b6bac2',
-    '#a1c861',
-    '#43635b',
-    '#707b6e',
-  ],
+  color: ['#854B85', '#1D9BB2'],
 };
 
 export const axisChartOptions: EChartsOption = {
@@ -54,7 +45,10 @@ export const axisChartOptions: EChartsOption = {
 
 export const polarChartOptions: EChartsOption = {
   ...chartOptions,
-  legend: {},
+
+  legend: {
+    bottom: '0%',
+  },
   tooltip: {
     trigger: 'axis',
   },
