@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.0.0...gq-v1.17.0) (2021-09-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** This lib now depends on tailwind. See `Readme` for more details.
+
+* refactor(footer): move footer-tailwind implementation to footer
+
+* refactor: use footer instead of footer tailwind
+
+* refactor: remove footer tailwind entirely
+
+* fix(footer): add missing logo
+
+* chore: dont pass lint in case of errors
+
+* test(footer): fix unit tests of footer
+
+Co-authored-by: Fabian Kaupp <kauppfbi@schaeffler.com>
+
+### 📈 Improvements
+
+* **gq:** prevent jumping left and right for status row under table (GQUOTE-802)  ([#2786](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2786)) ([9ec0e8f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ec0e8f9d1d777d93b0bfa2719609bc0c562ee1a))
+
+
+### 🎸 Features
+
+* **footer:** reimplement footer based on tailwind (UFTABI-4632) ([#2700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2700)) ([e54c88d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54c88d08e472f2915bc0ce1770eac5b4e9cca07))
+* **gq:** add 2 columns in transaction table (feature/GQUOTE-876) ([#2987](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2987)) ([c71ddc1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c71ddc110fc51f3d24458f9e07ba48b7742bae64))
+* **gq:** add 3 additional columns in comparable transaction table (GQUOTE-871) ([#2828](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2828)) ([4694766](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4694766883b0ea4be52f8bad554bb02fd82de00b))
+* **gq:** add alternative cost material accordion in detail quotation view (GQUOTE-671) ([#2780](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2780)) ([6f252a4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f252a4c2b2cfc6fed8db763e1d1348a594118b8))
+* **gq:** add empty stars for rating (GQUOTE-406) ([#2901](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2901)) ([ad0502f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ad0502faa6a0dd8a60b9b8b844c79ef23f078969))
+* **gq:** add key account margins to customer view (GQUOTE-846) ([#2974](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2974)) ([250f757](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/250f757c49cf7fd781d69973ade5146dffe0118e))
+* **gq:** add material status and following type to quotation table (GQUOTE-832) ([#2784](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2784)) ([d2997bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d2997bb7084ac2c0ed1e263eda99987430cc26c4))
+* **gq:** add materialDescription to validation table (GQUOTE-728) ([#2863](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2863)) ([6cab345](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6cab34589b5a077fa78b6a5d70a098c8d1c272c2))
+* **gq:** add paymentTerms to customer-information (GQUOTE-852) ([#2957](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2957)) ([81cf820](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/81cf8200b2a2244e2237e11281b4ad2d7cd2a287))
+* **gq:** add popup for selecting data to export to excel in process case component(GQUOTE-696) ([#2865](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2865)) ([42103ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/42103ea6eb941e261e7dbba2420e4121d77cf66f))
+* **gq:** add quotation detail cards to detail page (GQUOTE-837) ([#2948](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2948)) ([62c54b6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/62c54b63fd9240f4670f76347ae374034f9459b5))
+* **gq:** add responsive salesforce info card (GQUOTE-848) ([#2817](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2817)) ([69759d8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/69759d8eaa42b24eb2821031e71583bc674c58a3))
+* **gq:** add service now link into footer (GQUOTE-798) ([#2742](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2742)) ([754963f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/754963f168462e4d48ef8e679390c26c4a4c1ab6))
+* **gq:** add share button (GQUOTE-722) ([#2677](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2677)) ([2ce262c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2ce262c1f150f428a7c6ffbc5dddbb44976fdab4))
+* **gq:** add sidebar for process case quotation table (GQUOTE-709) ([#2741](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2741)) ([b68d712](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b68d712d93589965d24b893ce22268478456c3c1))
+* **gq:** added comment column and comment editing (GQUOTE-706) ([#2657](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2657)) ([efa8a4f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/efa8a4f5e492c7e261550909015f424518faee13))
+* **gq:** adjust frontend to ux/ui review (GQUOTE-789) ([#2675](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2675)) ([83dbd40](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/83dbd40b25de6c1ef349e1cc53f9f5b2a33c62aa))
+* **gq:** change calculation logic for sum line if scaled offers are present (GQUOTE-736) ([#2697](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2697)) ([2533693](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25336933b28cbaacf017d836da9b68b1e074f9c9))
+* **gq:** download excel including comparable transactions if detailed download is selected on process-case view (GQUOTE-695) ([#2904](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2904)) ([60b5ce1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/60b5ce19d76b5c6ec81600f7a4483976b8af8c93))
+* **gq:** trigger autocompletion if material number or material description has only 1 suggestion for autocompletion when creating new case manually (GQUOTE-507) ([#2795](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2795)) ([4de4b96](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4de4b962c4641d122977c18252b991bb7896b30b))
+* **gq:** use shared appshell component (GQUOTE-697) ([#2842](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2842)) ([1ad489f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ad489f0102330f872de9673f98dd3388abccb27))
+
+
+### 🐛 Bug Fixes
+
+* **gp:** do not count notValidated into invalid for a short time (GQUOTE-797) ([#2717](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2717)) ([8ee48a5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8ee48a52048b66b0f1cc49c13a06b34d0af311a3))
+* **gq:** adjust border emphasis (GQUOTE-899) ([#2936](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2936)) ([6d2ebc0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6d2ebc0edbd47f22b1c67a116ff6caf65dce832c))
+* **gq:** display upload icon if still loading (feature/GQUOTE-797) ([#2706](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2706)) ([33abcd5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/33abcd53c3b385cd267aa0588d7e3ddd05962ff8))
+* **gq:** fix frontend bugs (GQUOTE-950) ([#2982](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2982)) ([1b6f50e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1b6f50e576866edfd62e3507c54ffeba7f486ecd))
+* **gq:** fix keyAccountGpiLastYear (feature/GQUOTE-958) ([#2995](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2995)) ([8842cec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8842cec962d3f50af41f266b25dc352c0425059c))
+* **gq:** fix nullable values for customer (GQUOTE-901) ([#2826](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2826)) ([1ac6813](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1ac6813ab77644a0ec141be6add358fde9e9c18d))
+* **gq:** remove roboto from style.scss ([#2903](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2903)) ([a13333a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a13333a4e727b8a51098418cead485dae553cfac))
+* **gq:** replace sector with Sector Management (GQUOTE-957) ([#2994](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2994)) ([557d6c1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/557d6c112d2d43a8f93a3b326e0a4b2f0b840447))
+* **workspace:** disable caching for index.html and configure outputHashing (GQUOTE-685) (DSCDA-2362) ([#2727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2727)) ([5400d16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5400d16ed0f1cab1caf7c3760724148ff996922f))
+
 ## [1.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v1.17.0...gq-v1.16.0) (2021-08-02)
 
 
