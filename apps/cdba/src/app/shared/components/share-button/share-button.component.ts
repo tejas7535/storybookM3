@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'cdba-share-button',
   template: ` <ng-container header *transloco="let t; read: 'shared.shareUrl'">
     <button
-      class="text-button"
+      class=""
       mat-raised-button
       cdbaShareButton
       matTooltip="{{ t('tooltipMessage') }}"

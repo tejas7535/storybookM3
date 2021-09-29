@@ -44,16 +44,14 @@ const template = `
         <a
         mat-raised-button
         color="primary"
-        class="text-button uppercase flex-grow m-2"
+        class="flex-grow m-2"
         [href]="downloadReport"
         >
             Download Report
         </a>
         <button
         mat-button
-        class="
-          text-button uppercase text-primary flex-grow m-2
-        ">
+        class="flex-grow m-2">
             Do Something Else
         </button>
     </div>
