@@ -1,19 +1,22 @@
-import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { BearingComponent } from './bearing.component';
 
 describe('BearingComponent', () => {
   let component: BearingComponent;
   let spectator: Spectator<BearingComponent>;
+  let router: Router;
 
   const createComponent = createComponentFactory({
     component: BearingComponent,
-    imports: [RouterTestingModule, MatTabsModule, MatIconModule],
+    imports: [RouterTestingModule, MatTabsModule, SubheaderModule],
     providers: [
       provideMockStore({
         initialState: {
@@ -30,6 +33,7 @@ describe('BearingComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    router = spectator.inject(Router);
   });
 
   it('should create', () => {
@@ -43,6 +47,17 @@ describe('BearingComponent', () => {
       const result = component.trackByFn(idx, {});
 
       expect(result).toEqual(idx);
+    });
+  });
+
+  describe('navigateBack', () => {
+    it('should navigate to overview', () => {
+      router.navigate = jest.fn();
+
+      component.navigateBack();
+
+      expect(router.navigate).toHaveBeenCalledTimes(1);
+      expect(router.navigate).toHaveBeenCalledWith(['/overview']);
     });
   });
 });

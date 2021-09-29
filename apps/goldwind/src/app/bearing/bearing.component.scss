@@ -1,21 +1,7 @@
-@import 'libs/shared/ui/styles/src/lib/colors';
-@import 'libs/shared/ui/styles/src/lib/mediaqueries.scss';
-
 :host {
   @apply h-full;
 }
 
 .mat-tab-link.mat-tab-disabled {
   @apply text-disabled;
-}
-
-#bearing-page-header {
-  padding: 0 1em;
-
-  mat-icon {
-    color: $schaeffler-carbon-gray;
-    cursor: pointer;
-    font-size: 24px;
-    margin-right: 10px;
-  }
 }

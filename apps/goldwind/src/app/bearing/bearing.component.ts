@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
@@ -25,7 +26,10 @@ export class BearingComponent implements OnInit {
   bearing$: Observable<BearingMetadata>;
   loading$: Observable<boolean>;
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly router: Router
+  ) {}
 
   tabLinks: TabLinks[] = [
     {
@@ -50,6 +54,10 @@ export class BearingComponent implements OnInit {
   ngOnInit(): void {
     this.bearing$ = this.store.select(getBearingResult);
     this.loading$ = this.store.select(getBearingLoading);
+  }
+
+  navigateBack(): void {
+    this.router.navigate(['/overview']);
   }
   /**
    *

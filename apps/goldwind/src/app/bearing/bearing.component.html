@@ -2,17 +2,12 @@
   class="flex flex-col w-full h-full max-h-full"
   *transloco="let t; read: 'bearing'"
 >
-  <div class="flex items-center" id="bearing-page-header">
-    <mat-icon color="secondary" routerLink="/overview">arrow_back</mat-icon>
-    <div *ngIf="!(loading$ | ngrxPush); else bearing_loading">
-      <h1 *ngIf="bearing$ | ngrxPush as bearing">
-        {{ bearing.name }}
-      </h1>
-    </div>
-    <ng-template #bearing_loading>
-      <h1>{{ t('bearingLoading') }}</h1>
-    </ng-template>
-  </div>
+  <schaeffler-subheader
+    [title]="(bearing$ | ngrxPush)?.name || t('bearingLoading')"
+    (backButtonClicked)="navigateBack()"
+    class="p-4"
+  >
+  </schaeffler-subheader>
   <nav mat-tab-nav-bar mat-stretch-tabs>
     <a
       mat-tab-link
