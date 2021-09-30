@@ -69,7 +69,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           this.snackBar
             .open(
               translate('errorInterceptorMessageDefault'),
-              translate('errorInterceptorActionDefault')
+              translate('errorInterceptorActionDefault'),
+              { duration: 5000 }
             )
             .onAction()
             .subscribe(() => {
