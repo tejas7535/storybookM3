@@ -255,6 +255,12 @@ pipeline {
         label getAgentLabel()
     }
 
+    environment {
+        NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
+        // todo cypress download doesnt work on docker dind agent. on monoagent it should work
+        CYPRESS_INSTALL_BINARY = 0
+    }
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         disableConcurrentBuilds()
