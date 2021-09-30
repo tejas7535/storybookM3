@@ -1,6 +1,5 @@
 <button
   *transloco="let t; read: 'shared.shareUrl'"
-  class=""
   mat-stroked-button
   (click)="shareUrl()"
   matTooltip="{{ t('tooltipMessage') }}"
@@ -9,6 +8,6 @@
     >group</mat-icon
   >
   <span class="hidden sm:inline font-body text-dark text-subtitle-2">
-    {{ t('button') | uppercase }}
+    {{ t('button') }}
   </span>
 </button>

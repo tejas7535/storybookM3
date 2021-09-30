@@ -2,6 +2,6 @@
   <mat-icon class="icon">{{ icon }}</mat-icon>
   <span fxFlex class="snackbar-msg">{{ data.message }}</span>
   <button *ngIf="data.action" mat-button (click)="clickActionButton()">
-    {{ data.action | uppercase }}
+    {{ data.action }}
   </button>
 </div>

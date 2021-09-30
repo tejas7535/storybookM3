@@ -26,7 +26,6 @@
       fxFlex="nogrow"
       mat-flat-button
       color="primary"
-      class=""
       [disabled]="(selectedIdValueFilters$ | ngrxPush).length === 0"
       [matTooltip]="
         t('searchButtonTooltip', {
@@ -43,7 +42,6 @@
     <button
       fxFlex="nogrow"
       mat-stroked-button
-      class=""
       [disabled]="(selectedFilters$ | ngrxPush).length === 0"
       (click)="resetFilters()"
     >

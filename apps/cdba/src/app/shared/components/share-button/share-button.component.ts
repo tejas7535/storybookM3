@@ -4,13 +4,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'cdba-share-button',
   template: ` <ng-container header *transloco="let t; read: 'shared.shareUrl'">
     <button
-      class=""
       mat-raised-button
       cdbaShareButton
       matTooltip="{{ t('tooltipMessage') }}"
     >
       <mat-icon class="text-[20px]">group</mat-icon>
-      {{ t('button') | uppercase }}
+      {{ t('button') }}
     </button>
   </ng-container>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

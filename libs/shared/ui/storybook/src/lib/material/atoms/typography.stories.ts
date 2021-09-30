@@ -59,10 +59,6 @@ const Template: Story = (args) => ({
         <span class="text-body-2">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 flex-shrink-0">Button</span>
-        <span class="text-button uppercase">{{ typographyText }}</span>
-      </div>
-      <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-24 flex-shrink-0">Caption</span>
         <span class="text-caption">{{ typographyText }}</span>
       </div>

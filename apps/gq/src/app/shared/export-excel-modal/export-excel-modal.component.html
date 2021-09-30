@@ -50,20 +50,20 @@
     </div>
     <div class="mt-[75px]">
       <button
-        class="! font-medium !mr-[16px]"
+        class="font-medium !mr-[16px]"
         mat-raised-button
         color="primary"
         (click)="fetchTransactions()"
       >
         <mat-icon class="!text-[20px]">download</mat-icon>
-        {{ t('confirm') | uppercase }}
+        {{ t('confirm') }}
       </button>
       <button
         class="!text-primary font-medium border-lightBg"
         mat-raised-button
         mat-dialog-close
       >
-        {{ t('cancel') | uppercase }}
+        {{ t('cancel') }}
       </button>
     </div>
   </div>

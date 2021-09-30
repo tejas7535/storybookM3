@@ -18,7 +18,7 @@
           *ngIf="isSelected; else select"
         >
           <mat-icon>check_circle</mat-icon>
-          {{ t('selected') | uppercase }}
+          {{ t('selected') }}
         </button>
         <ng-template #select>
           <button
@@ -29,7 +29,7 @@
             [disabled]="isDisabled"
           >
             <mat-icon>check_circle</mat-icon>
-            {{ t('select') | uppercase }}
+            {{ t('select') }}
           </button>
         </ng-template>
       </div>
