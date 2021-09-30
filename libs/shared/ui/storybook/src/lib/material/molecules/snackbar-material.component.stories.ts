@@ -82,7 +82,9 @@ import READMEMd from './snackbar/README.md';
         }}</span>
         <span *ngIf="action.value" class="flex-grow"></span>
         <div *ngIf="action.value" class="flex-shrink-0">
-          <button mat-button>{{ action.value }}</button>
+          <button mat-button (click)="onActionClick()">
+            {{ action.value }}
+          </button>
         </div>
       </div>
     </ng-template>
@@ -122,6 +124,10 @@ class SnackbarExampleComponent {
           console.log('Snackbar Action');
         });
     }
+  }
+
+  public onActionClick(): void {
+    this.snackBar.dismiss();
   }
 }
 
