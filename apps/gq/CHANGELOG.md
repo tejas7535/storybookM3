@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.0.2...gq-v2.0.1) (2021-10-01)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** change translation key (GQUOTE-969) ([#3038](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3038)) ([f5e550a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f5e550a149a919a17a06941c83f569b161cd8027))
+
 ### [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.0.1...gq-v2.0.0) (2021-10-01)
 
 
