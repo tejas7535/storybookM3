@@ -6,7 +6,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -35,7 +34,6 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     SharedTranslocoModule,
     ReactiveComponentModule,
     SharedPipesModule,
-    HorizontalSeparatorModule,
     LoadingSpinnerModule,
     LabelTextModule,
   ],

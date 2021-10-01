@@ -42,9 +42,6 @@
       "@schaeffler/file-drop": ["libs/shared/ui/file-drop/src/index.ts"],
       "@schaeffler/footer": ["libs/shared/ui/footer/src/index.ts"],
       "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
-      "@schaeffler/horizontal-separator": [
-        "libs/shared/ui/horizontal-separator/src/index.ts"
-      ],
       "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"],
       "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
       "@schaeffler/legal-pages": ["libs/shared/ui/legal-pages/src/index.ts"],

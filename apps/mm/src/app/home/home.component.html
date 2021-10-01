@@ -35,12 +35,12 @@
             ></mm-bearing-search>
           </div>
           <div class="mb-4">
-            <schaeffler-horizontal-separator [text]="t('form.searchManually')">
+            <mm-horizontal-separator [text]="t('form.searchManually')">
               <mat-slide-toggle
                 color="primary"
                 [(ngModel)]="manualBearing"
               ></mat-slide-toggle
-            ></schaeffler-horizontal-separator>
+            ></mm-horizontal-separator>
           </div>
         </ng-container>
         <ng-container
@@ -89,14 +89,14 @@
                         *ngIf="meta.member.id === IDMM_MOUNTING_METHOD"
                         class="mt-4"
                       >
-                        <schaeffler-horizontal-separator
+                        <mm-horizontal-separator
                           *ngIf="measuringMethodSet()"
                           [text]="
                             t('form.select', {
                               fieldname: meta.member.text | transloco
                             })
                           "
-                        ></schaeffler-horizontal-separator>
+                        ></mm-horizontal-separator>
                       </div>
                       <cae-member-control
                         [class.wide]="!meta.member.text"

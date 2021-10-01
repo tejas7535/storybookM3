@@ -6,7 +6,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -34,7 +33,6 @@ describe('PricingDetailsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       SharedPipesModule,
       ReactiveComponentModule,
-      HorizontalSeparatorModule,
       LoadingSpinnerModule,
       LabelTextModule,
     ],

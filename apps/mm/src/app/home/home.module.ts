@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
 
-import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import {
   LazyListLoaderService,
   RuntimeRequesterService,
 } from '../core/services';
+import { HorizontalSeparatorModule } from '../shared/components/horizontal-seperator/horizontal-separator.module';
 import {
   ListMemberComponent,
   StringNumberMemberComponent,

@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'schaeffler-horizontal-separator',
+  selector: 'mm-horizontal-separator',
   templateUrl: './horizontal-separator.component.html',
-  styleUrls: ['./horizontal-separator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HorizontalSeparatorComponent {

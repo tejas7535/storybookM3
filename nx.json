@@ -147,9 +147,6 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles", "shared-assets"]
     },
-    "shared-ui-horizontal-separator": {
-      "tags": ["scope:shared", "type:ui"]
-    },
     "shared-ui-icons": {
       "tags": ["scope:shared", "type:ui"]
     },
