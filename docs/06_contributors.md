@@ -13,8 +13,8 @@ Made with ❤️ by
 - [Sven Pelzer](https://github.com/PELZESEN_SGGIT) 🤙
 - [Jan Meiswinkel](https://github.com/meiswjn_SGGIT) 💻
 - [Philip Riecks (ext.)](https://github.com/mailphilipriecksde_SGGIT) 🎩
-- [Yuqiu Ge](https://github.com/yuqiugegmailcom_SGGIT)
-- [Tino Götz](https://github.com/tgoetzcissolutionseu_SGGIT)
+- [Yuqiu Ge](https://github.com/yuqiugegmailcom_SGGIT) 🧑‍💻
+- [Tino Götz](https://github.com/tgoetzcissolutionseu_SGGIT) 🐸
 - [Stefan Spieker](https://github.com/SPIEKSEF_SGGIT) 🏸
-- [Benjamin Geissler](https://github.com/geissbnj_SGGIT)
-- [Maciej Przybysz](https://github.com/przybmci_SGGIT)
+- [Benjamin Geissler](https://github.com/geissbnj_SGGIT) 🧬
+- [Maciej Przybysz](https://github.com/przybmci_SGGIT) 🐙
