@@ -34,7 +34,7 @@
       "lastOfferPrice": "Letzter Angebotspreis",
       "lastOfferDate": "Datum letztes Angebot",
       "reasonForRejection": "Absagegrund",
-      "comment": "Kommentar",
+      "itemComment": "Kommentar",
       "followingType": "Folgetyp",
       "materialStatus": "Materialstatus",
       "sidebar": {

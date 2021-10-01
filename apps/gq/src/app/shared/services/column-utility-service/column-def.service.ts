@@ -220,7 +220,7 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
     },
     {
-      headerName: translate('shared.quotationDetailsTable.comment'),
+      headerName: translate('shared.quotationDetailsTable.itemComment'),
       field: 'comment',
       valueFormatter: ColumnUtilityService.basicTransform,
       cellRenderer: 'editCommentComponent',
