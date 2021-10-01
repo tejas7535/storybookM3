@@ -133,6 +133,7 @@
     "noFeatureAccess": {
       "heading": "Kein Zugang zur Seite",
       "message": "Es tut uns leid, Sie haben keinen Zugang zu dieser Seite oder diesem Material.\nSie haben keine Rechte für ein Teilgebiet oder eine Produktlinie.",
+      "actionButton": "Rechteverwaltung",
       "homeButton": "Neue Suche starten"
     }
   }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
+import { NO_ACCESS_ACTION } from '@cdba/shared/constants/forbidden-action';
 
 import { ForbiddenRoute } from '@schaeffler/empty-states';
 
@@ -36,7 +37,8 @@ const forbiddenRouteFeature: ForbiddenRoute = {
   data: {
     headingText: 'forbidden.noFeatureAccess.heading',
     messageText: 'forbidden.noFeatureAccess.message',
-    action: encodeURI(FORBIDDEN_ACTION),
+    action: encodeURI(NO_ACCESS_ACTION),
+    actionButtonText: 'forbidden.noFeatureAccess.actionButton',
     homeButtonText: 'forbidden.noFeatureAccess.homeButton',
   },
   canActivate: [MsalGuard],

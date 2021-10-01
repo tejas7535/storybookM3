@@ -133,6 +133,7 @@
     "noFeatureAccess": {
       "heading": "Forbidden page",
       "message": "We are sorry, you don’t have access to this page or material.\nYou are missing subregion or product line rights.",
+      "actionButton": "Rights Management",
       "homeButton": "Start new search"
     }
   }
