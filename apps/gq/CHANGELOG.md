@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.0.1...gq-v2.0.0) (2021-10-01)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** correct style button and font regressions ([93b8427](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93b8427b40554a19024ea30d765c546965d2f0e9))
+* **workspace:** style button and font regressions cleanup ([#3015](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3015)) ([85f704c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85f704c9d644da7e3f30b5d6c90a91b42a5226e1))
+
 ## [2.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.0.0...gq-v1.17.0) (2021-09-29)
 
 
