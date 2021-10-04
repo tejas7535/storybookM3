@@ -1,7 +1,12 @@
-mat-chip-list {
-  height: 30px;
+:host {
+  @apply flex;
+  @apply justify-center;
+  @apply items-center;
+  @apply h-[30px];
 
   .mat-standard-chip {
-    min-height: unset;
+    @apply min-h-[16px];
+    @apply mt-0;
+    @apply text-caption;
   }
 }

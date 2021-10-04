@@ -8,7 +8,7 @@ import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
   styleUrls: ['./pcm-cell-renderer.component.scss'],
 })
 export class PcmCellRendererComponent {
-  public isPcmRow: boolean;
+  public isPcmRow: boolean | 'true' | 'false'; // boolean gets stringified when rows are grouped
 
   agInit(params: ICellRendererParams): void {
     this.isPcmRow = params.value;
