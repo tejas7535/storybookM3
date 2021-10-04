@@ -193,7 +193,6 @@
       "netSalesLastYear": "Umsatz",
       "gpiLastYear": "GPI"
     },
-
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
@@ -209,6 +208,10 @@
       "tooltipMessage": "Teile die Seite mit deinen Kolleg:innen. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
       "toastSuccessMessage": "Link in Zwischenablage kopiert. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
       "toastConfirmMessage": "ok"
+    },
+    "maintenance": {
+      "header": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar",
+      "subtitle1": "Vielen Dank für Ihre Geduld, wir sind bald wieder für Sie da. Bitte aktualisieren sie die Seite in einigen Minuten."
     }
   }
 }

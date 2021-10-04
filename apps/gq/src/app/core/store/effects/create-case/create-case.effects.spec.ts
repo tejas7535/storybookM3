@@ -109,7 +109,6 @@ describe('Create Case Effects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    actions$ = spectator.inject(Actions);
     effects = spectator.inject(CreateCaseEffects);
     router = spectator.inject(Router);
     store = spectator.inject(MockStore);

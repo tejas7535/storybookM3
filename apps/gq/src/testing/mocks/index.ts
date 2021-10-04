@@ -1,3 +1,4 @@
+export * from './health-check-state.mock';
 export * from './create-case-store-state.mock';
 export * from './customer.mock';
 export * from './detail-case.mock';

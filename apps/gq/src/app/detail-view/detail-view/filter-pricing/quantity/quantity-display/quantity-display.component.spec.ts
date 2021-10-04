@@ -14,7 +14,15 @@ describe('QuantityDisplayComponent', () => {
   const createComponent = createComponentFactory({
     component: QuantityDisplayComponent,
     imports: [MatIconModule, MatDialogModule, ReactiveComponentModule],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: {
+            quotation: {},
+          },
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {

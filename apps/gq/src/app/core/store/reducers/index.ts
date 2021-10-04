@@ -9,11 +9,12 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
+import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
+import * as fromHealthCheck from './health-check/health-check.reducer';
+import * as fromMaterialAlternativeCosts from './material-alternative-costs/material-alternative-costs.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
-import * as fromMaterialAlternativeCosts from './material-alternative-costs/material-alternative-costs.reducer';
-import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -29,6 +30,7 @@ export interface AppState {
   transactions: fromTransactions.TransactionsState;
   extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialAlternativeCosts: fromMaterialAlternativeCosts.MaterialAlternativeCostsState;
+  healthCheck: fromHealthCheck.HealthCheckState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -41,6 +43,7 @@ export const reducers: ActionReducerMap<AppState> = {
     fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
   materialAlternativeCosts:
     fromMaterialAlternativeCosts.materialAlternativeCostsReducer,
+  healthCheck: fromHealthCheck.healthCheckReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -71,6 +74,9 @@ export const getMaterialAlternativeCostsState =
   createFeatureSelector<fromMaterialAlternativeCosts.MaterialAlternativeCostsState>(
     'materialAlternativeCosts'
   );
+
+export const getHealthCheckState =
+  createFeatureSelector<fromHealthCheck.HealthCheckState>('healthCheck');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

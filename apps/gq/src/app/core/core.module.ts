@@ -22,6 +22,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
+import { MaintenanceModule } from '../shared/components/maintenance/maintenance.module';
 import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
 import { StoreModule } from './store';
 
@@ -42,6 +43,7 @@ import { StoreModule } from './store';
     FooterModule,
     UserSettingsModule,
     LoadingSpinnerModule,
+    MaintenanceModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

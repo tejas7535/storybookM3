@@ -11,6 +11,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
+import { MaintenanceModule } from './shared/components/maintenance/maintenance.module';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -33,6 +34,7 @@ describe('AppComponent', () => {
       AppShellModule,
       LoadingSpinnerModule,
       UserSettingsModule,
+      MaintenanceModule,
     ],
     providers: [
       provideMockStore({
@@ -45,6 +47,7 @@ describe('AppComponent', () => {
               url: 'img',
             },
           },
+          healthCheck: {},
         },
       }),
     ],

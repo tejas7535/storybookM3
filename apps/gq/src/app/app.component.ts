@@ -13,6 +13,10 @@ import { FooterLink } from '@schaeffler/footer';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
+import {
+  getHealthCheckAvailable,
+  getHealthCheckLoading,
+} from './core/store/selectors';
 
 @Component({
   selector: 'gq-root',
@@ -40,6 +44,8 @@ export class AppComponent implements OnInit {
   profileImage$: Observable<string>;
   username$: Observable<string>;
   isLoggedIn$: Observable<boolean>;
+  healthCheckLoading$: Observable<boolean>;
+  isHealthCheckAvailable$: Observable<boolean>;
 
   public constructor(private readonly store: Store) {}
 
@@ -47,5 +53,7 @@ export class AppComponent implements OnInit {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
+    this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
+    this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
   }
 }

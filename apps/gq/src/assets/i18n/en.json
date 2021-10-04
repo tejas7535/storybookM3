@@ -208,6 +208,10 @@
       "tooltipMessage": "Share the page link with your colleagues. Be aware, that your colleague needs the correct access rights to see the page.",
       "toastSuccessMessage": "Link copied to clipboard. Be aware, that your colleague needs the correct access rights to see the page.",
       "toastConfirmMessage": "ok"
+    },
+    "maintenance": {
+      "header": "Guided Quoting is currently down for maintenance",
+      "subtitle1": "We expect to be back soon. Please refresh the page in a few minutes. Thanks for your patience."
     }
   }
 }

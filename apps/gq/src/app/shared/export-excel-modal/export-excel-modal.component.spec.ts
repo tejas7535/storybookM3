@@ -3,19 +3,22 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
-import { ExportExcelModalComponent } from './export-excel-modal.component';
-import { ExportExcel } from './export-excel.enum';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { loadExtendedComparableLinkedTransaction } from '../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks/extended-comparable-linked-transaction.mock';
 import { from, of } from 'rxjs';
 
-describe('ConfirmationModalComponent', () => {
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks/extended-comparable-linked-transaction.mock';
+import { loadExtendedComparableLinkedTransaction } from '../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
+import { DialogHeaderModule } from '../header/dialog-header/dialog-header.module';
+import { ExportExcelModalComponent } from './export-excel-modal.component';
+import { ExportExcel } from './export-excel.enum';
+
+describe('ExportExcelModalComponent', () => {
   let component: ExportExcelModalComponent;
   let spectator: Spectator<ExportExcelModalComponent>;
   let store: MockStore;
@@ -28,6 +31,8 @@ describe('ConfirmationModalComponent', () => {
       FormsModule,
       MatIconModule,
       ReactiveComponentModule,
+      LoadingSpinnerModule,
+      DialogHeaderModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

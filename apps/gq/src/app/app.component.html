@@ -1,5 +1,8 @@
 <schaeffler-app-shell
-  *ngIf="isLoggedIn$ | ngrxPush; else loading"
+  *ngIf="
+    (isLoggedIn$ | ngrxPush) && !(healthCheckLoading$ | ngrxPush);
+    else loading
+  "
   [appTitle]="title"
   [appTitleLink]="titleLink"
   [hasSidebarLeft]="true"
@@ -11,9 +14,15 @@
   </ng-container>
   <ng-container mainContent>
     <div class="flex flex-col h-full">
-      <div class="flex-grow overflow-y-auto">
+      <div
+        *ngIf="isHealthCheckAvailable$ | ngrxPush; else maintenance"
+        class="flex-grow overflow-y-auto"
+      >
         <router-outlet></router-outlet>
       </div>
+      <ng-template class="flex-grow overflow-y-auto h-full" #maintenance>
+        <gq-maintenance class="h-full"></gq-maintenance>
+      </ng-template>
       <schaeffler-footer
         [appVersion]="appVersion"
         [footerLinks]="footerLinks"
