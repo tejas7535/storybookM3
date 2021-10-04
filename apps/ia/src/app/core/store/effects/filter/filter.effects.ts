@@ -43,7 +43,10 @@ export class FilterEffects {
             filterSelected({
               filter: {
                 name: FilterKey.ORG_UNIT,
-                value: filters?.orgUnits[0]?.value,
+                value:
+                  filters?.orgUnits.find(
+                    (elem) => elem.value === 'Schaeffler_IT'
+                  )?.value ?? filters?.orgUnits[0]?.value,
               },
             })
           )

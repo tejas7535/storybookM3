@@ -122,6 +122,26 @@ describe('Filter Effects', () => {
         m.expect(effects.setInitialFilters$).toBeObservable(expected);
       })
     );
+
+    test(
+      'should set initial org unit filter Schaeffler_IT',
+      marbles((m) => {
+        filters.orgUnits.push(new IdValue('Schaeffler_IT', 'Schaeffler_IT'));
+        const result = filterSelected({
+          filter: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+        });
+        actions$ = m.hot('-a', { a: loadInitialFiltersSuccess({ filters }) });
+
+        const response = m.cold('-a|', {
+          a: filters,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getInitialFilters = jest.fn(() => response);
+
+        m.expect(effects.setInitialFilters$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loginSuccessful$', () => {
