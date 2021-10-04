@@ -41,6 +41,7 @@ export class LineChartComponent implements OnInit {
       ...LINE_CHART_BASE_OPTIONS,
       xAxis: {
         ...LINE_CHART_BASE_OPTIONS.xAxis,
+        type: 'category',
         data: this.getXAxisData(),
       },
       ...this.config,

@@ -11,6 +11,7 @@ import {
   TitleOption,
   YAXisOption,
 } from 'echarts/types/dist/shared';
+import { CategoryAxisBaseOption } from 'echarts/types/src/coord/axisCommonTypes';
 import {
   OrdinalRawValue,
   TextCommonOption,
@@ -75,12 +76,12 @@ describe('Bar Chart Config', () => {
         7, 9, 35, 10, 60, 7, 9, 35, 10, 60, 60,
       ]);
       expect((result.yAxis as YAXisOption).type).toEqual('category');
-      expect((result.yAxis as YAXisOption).data.length).toEqual(
+      expect((result.yAxis as CategoryAxisBaseOption).data.length).toEqual(
         config.categories.length
       );
       expect(
         (
-          (result.yAxis as YAXisOption).data as {
+          (result.yAxis as CategoryAxisBaseOption).data as {
             value: OrdinalRawValue;
             textStyle?: TextCommonOption;
           }[]

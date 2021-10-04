@@ -47,6 +47,7 @@ export class OverviewChartComponent {
       ...LINE_CHART_BASE_OPTIONS,
       xAxis: {
         ...LINE_CHART_BASE_OPTIONS.xAxis,
+        type: 'category',
         data: [
           'JAN',
           'FEB',
