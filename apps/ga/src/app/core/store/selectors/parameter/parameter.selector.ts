@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { getSelectedBearing } from '..';
+import { getModelId, getSelectedBearing } from '..';
 import { CalculationParamters } from '../../../../shared/models';
 import { getParameterState } from './../../reducers';
 import { ParameterState } from './../../reducers/parameter/parameter.reducer';
@@ -33,23 +33,32 @@ export const getParameterValidity = createSelector(
 export const getCalculationParameters = createSelector(
   getParameterState,
   getSelectedBearing,
-  (state: ParameterState, bearing: string): CalculationParamters =>
+  getModelId,
+  (
+    state: ParameterState,
+    bearing: string,
+    modelId: string
+  ): { modelId: string; options: CalculationParamters } =>
     state &&
-    state.valid &&
-    bearing && {
-      idcO_DESIGNATION: `${bearing}`,
-      idlC_TYPE_OF_MOVEMENT: state.movements.type,
-      idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed.toFixed(
-        2
-      )}`,
-      idcO_RADIAL_LOAD: `${state.loads.radial.toFixed(2)}`,
-      idcO_AXIAL_LOAD: `${state.loads.axial.toFixed(2)}`,
-      idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(2)}`,
-      idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
-        2
-      )}`,
-      idscO_INFLUENCE_OF_AMBIENT: state.environment.environmentImpact,
-      // idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle.toFixed(2)}` ,
-      // idlC_MOVEMENT_FREQUENCY: `${state.movements.shiftFrequency.toFixed(2)}`,
+    state?.valid &&
+    bearing &&
+    modelId && {
+      modelId,
+      options: {
+        idcO_DESIGNATION: `${bearing}`,
+        idlC_TYPE_OF_MOVEMENT: state.movements.type,
+        idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed.toFixed(
+          1
+        )}`,
+        idcO_RADIAL_LOAD: `${state.loads.radial.toFixed(1)}`,
+        idcO_AXIAL_LOAD: `${state.loads.axial.toFixed(1)}`,
+        idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(1)}`,
+        idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
+          1
+        )}`,
+        idscO_INFLUENCE_OF_AMBIENT: state.environment.environmentImpact,
+        // idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle.toFixed(1)}` ,
+        // idlC_MOVEMENT_FREQUENCY: `${state.movements.shiftFrequency.toFixed(1)}`,
+      },
     }
 );

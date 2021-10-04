@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
 
-import { getSelectedBearing } from '..';
 import { steps } from '../../../../shared/constants';
 import { EnabledStep } from '../../../../shared/models';
+import { getSelectedBearing } from '../bearing/bearing.selector';
 import { getParameterValidity } from '../parameter/parameter.selector';
 import { getSettingsState } from './../../reducers';
 import { SettingsState } from './../../reducers/settings/settings.reducer';

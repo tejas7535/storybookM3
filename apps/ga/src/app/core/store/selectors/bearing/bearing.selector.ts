@@ -13,6 +13,11 @@ export const getSelectedBearing = createSelector(
   (state: BearingState): string => state?.selectedBearing
 );
 
+export const getModelId = createSelector(
+  getBearingState,
+  (state: BearingState): string => state?.modelId
+);
+
 export const getBearingResultList = createSelector(
   getBearingState,
   (state: BearingState): any =>

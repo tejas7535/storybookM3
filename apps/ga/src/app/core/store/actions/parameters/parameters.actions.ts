@@ -7,6 +7,10 @@ export const patchParameters = createAction(
   props<{ parameters: ParameterState }>()
 );
 
+export const modelUpdateSuccess = createAction(
+  '[Parameters] Model Update Success'
+);
+
 const all = union({
   patchParameters,
 });

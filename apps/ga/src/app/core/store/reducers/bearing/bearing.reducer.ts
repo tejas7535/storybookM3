@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   bearingSearchSuccess,
+  modelCreateSuccess,
   searchBearing,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
@@ -23,7 +24,8 @@ export interface BearingState {
     resultList: string[];
   };
   loading: boolean;
-  selectedBearing: any;
+  selectedBearing: string;
+  modelId: string;
 }
 
 export const initialState: BearingState = {
@@ -44,6 +46,7 @@ export const initialState: BearingState = {
   },
   loading: false,
   selectedBearing: undefined,
+  modelId: undefined,
 };
 
 export const bearingReducer = createReducer(
@@ -68,6 +71,13 @@ export const bearingReducer = createReducer(
         resultList,
       },
       loading: false,
+    })
+  ),
+  on(
+    modelCreateSuccess,
+    (state: BearingState, { modelId }): BearingState => ({
+      ...state,
+      modelId,
     })
   ),
   on(

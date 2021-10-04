@@ -89,12 +89,12 @@ describe('Bearing Effects', () => {
 
         const expected = m.cold('--b', { b: result });
 
-        restService.postGreaseCalculation = jest.fn(() => response);
+        restService.getGreaseCalculation = jest.fn(() => response);
 
         m.expect(effects.calculation$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.postGreaseCalculation).toHaveBeenCalled();
+        expect(restService.getGreaseCalculation).toHaveBeenCalled();
       })
     );
   });

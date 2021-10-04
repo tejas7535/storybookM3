@@ -5,12 +5,16 @@ import { marbles } from 'rxjs-marbles';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { getSelectedBearing } from '../..';
+import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
 import {
   bearingSearchSuccess,
+  modelCreateSuccess,
   searchBearing,
+  selectBearing,
 } from './../../actions/bearing/bearing.actions';
 import { BearingEffects } from './bearing.effects';
 
@@ -20,6 +24,7 @@ describe('Bearing Effects', () => {
   let effects: BearingEffects;
   let spectator: SpectatorService<BearingEffects>;
   let restService: RestService;
+  let store: MockStore;
 
   const createService = createServiceFactory({
     service: BearingEffects,
@@ -40,6 +45,7 @@ describe('Bearing Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(BearingEffects);
+    store = spectator.inject(MockStore);
     restService = spectator.inject(RestService);
   });
 
@@ -63,6 +69,32 @@ describe('Bearing Effects', () => {
         m.flush();
 
         expect(restService.getBearingSearch).toHaveBeenCalledWith('the query');
+      })
+    );
+  });
+
+  describe('createModel$', () => {
+    it(
+      'should fetch modelId',
+      marbles((m) => {
+        const mockBearing = 'mockBearing';
+        store.overrideSelector(getSelectedBearing, mockBearing);
+
+        action = selectBearing({ bearing: mockBearing });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: MODEL_MOCK_ID });
+        restService.putModelCreate = jest.fn(() => response);
+
+        const result = modelCreateSuccess({ modelId: MODEL_MOCK_ID });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.createModel$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.putModelCreate).toHaveBeenCalledTimes(1);
+        expect(restService.putModelCreate).toHaveBeenCalledWith(mockBearing);
       })
     );
   });

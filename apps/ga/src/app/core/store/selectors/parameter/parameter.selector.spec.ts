@@ -1,3 +1,4 @@
+import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {
@@ -19,6 +20,7 @@ describe('Parameter Selector', () => {
     mockState = {
       bearing: {
         selectedBearing: 'mockBearing',
+        modelId: MODEL_MOCK_ID,
       } as BearingState,
       parameter: { ...initialState },
     };
@@ -66,20 +68,24 @@ describe('Parameter Selector', () => {
       };
 
       expect(getCalculationParameters(validMockState)).toEqual({
-        idcO_DESIGNATION: 'mockBearing',
-        idlC_TYPE_OF_MOVEMENT: initialState.movements.type,
-        idL_RELATIVE_SPEED_WITHOUT_SIGN: `${validMockState.parameter.movements.rotationalSpeed.toFixed(
-          2
-        )}`,
-        idcO_RADIAL_LOAD: `${initialState.loads.radial.toFixed(2)}`,
-        idcO_AXIAL_LOAD: `${initialState.loads.axial.toFixed(2)}`,
-        idscO_OILTEMP: `${initialState.environment.operatingTemperature.toFixed(
-          2
-        )}`,
-        idslC_TEMPERATURE: `${initialState.environment.environmentTemperature.toFixed(
-          2
-        )}`,
-        idscO_INFLUENCE_OF_AMBIENT: initialState.environment.environmentImpact,
+        modelId: MODEL_MOCK_ID,
+        options: {
+          idcO_DESIGNATION: 'mockBearing',
+          idlC_TYPE_OF_MOVEMENT: initialState.movements.type,
+          idL_RELATIVE_SPEED_WITHOUT_SIGN: `${validMockState.parameter.movements.rotationalSpeed.toFixed(
+            1
+          )}`,
+          idcO_RADIAL_LOAD: `${initialState.loads.radial.toFixed(1)}`,
+          idcO_AXIAL_LOAD: `${initialState.loads.axial.toFixed(1)}`,
+          idscO_OILTEMP: `${initialState.environment.operatingTemperature.toFixed(
+            1
+          )}`,
+          idslC_TEMPERATURE: `${initialState.environment.environmentTemperature.toFixed(
+            1
+          )}`,
+          idscO_INFLUENCE_OF_AMBIENT:
+            initialState.environment.environmentImpact,
+        },
       });
     });
   });

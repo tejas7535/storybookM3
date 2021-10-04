@@ -23,11 +23,26 @@ export class RestService {
     );
   }
 
-  public postGreaseCalculation(
+  public putModelCreate(bearing: string): Observable<string> {
+    return this.httpClient.put<string>(
+      `${environment.baseUrl}/create?designation=${bearing}`,
+      {}
+    );
+  }
+
+  public putModelUpdate(
+    modelId: string,
     options: CalculationParamters
   ): Observable<string> {
+    return this.httpClient.put<string>(
+      `${environment.baseUrl}/${modelId}/update`,
+      options
+    );
+  }
+
+  public getGreaseCalculation(modelId: string): Observable<string> {
     return this.httpClient
-      .post<Result>(`${environment.baseUrl}/calculate`, options)
+      .get<Result>(`${environment.baseUrl}/${modelId}/calculate`)
       .pipe(map((res: Result) => res._links[1].href.split('/').pop()));
   }
 }

@@ -10,18 +10,28 @@ export const bearingSearchSuccess = createAction(
   props<{ resultList: string[] }>()
 );
 
+// todo bearingSearchFailure
+
+export const modelCreateSuccess = createAction(
+  '[Bearing] Model Create Success',
+  props<{ modelId: string }>()
+);
+
+export const modelCreateFailure = createAction(
+  '[Bearing] Model Create Failure'
+);
+
 export const selectBearing = createAction(
   '[Bearing] Select Bearing',
   props<{ bearing: string }>()
 );
 
-export const updateRouteParams = createAction('[Bearing] Update Route Params');
-
 const all = union({
   searchBearing,
   bearingSearchSuccess,
   selectBearing,
-  updateRouteParams,
+  modelCreateSuccess,
+  modelCreateFailure,
 });
 
 export type BearingActions = typeof all;

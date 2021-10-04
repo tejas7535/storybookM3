@@ -1,7 +1,9 @@
 import { Action } from '@ngrx/store';
 
+import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
   bearingSearchSuccess,
+  modelCreateSuccess,
   searchBearing,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
@@ -38,6 +40,15 @@ describe('Bearing Reducer', () => {
 
       expect(state.loading).toBe(false);
       expect(state.search.resultList).toEqual(mockResultList);
+    });
+  });
+
+  describe('on modelCreateSuccess', () => {
+    it('should set selectedBearing', () => {
+      const action: Action = modelCreateSuccess({ modelId: MODEL_MOCK_ID });
+      const state = bearingReducer(initialState, action);
+
+      expect(state.modelId).toEqual(MODEL_MOCK_ID);
     });
   });
 

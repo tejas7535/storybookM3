@@ -13,7 +13,7 @@ import {
   calculationSuccess,
   getCalculation,
 } from '../../actions/result/result.actions';
-import { getCalculationParameters } from '../../selectors/parameter/parameter.selector';
+import { getModelId } from '../../selectors/bearing/bearing.selector';
 
 @Injectable()
 export class ResultEffects {
@@ -37,10 +37,10 @@ export class ResultEffects {
   calculation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getCalculation),
-      withLatestFrom(this.store.select(getCalculationParameters)),
-      map(([_action, options]) => options),
-      mergeMap((options) =>
-        this.restService.postGreaseCalculation(options).pipe(
+      withLatestFrom(this.store.select(getModelId)),
+      map(([_action, modelId]) => modelId),
+      mergeMap((modelId) =>
+        this.restService.getGreaseCalculation(modelId).pipe(
           map((resultId) => calculationSuccess({ resultId })),
           catchError((_e) => of(calculationError()))
         )

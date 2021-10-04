@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -7,13 +8,20 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ReportModule } from '@schaeffler/report';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CALCULATION_RESULT_MOCK } from '../../testing/mocks/rest.service.mock';
+import {
+  CALCULATION_RESULT_MOCK_ID,
+  MODEL_MOCK_ID,
+  REPORT_URLS_MOCK,
+} from '../../testing/mocks/rest.service.mock';
 import { AppRoutePath } from '../app-route-path.enum';
 import { initialState } from '../core/store/reducers/result/result.reducer';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { ReportUrls } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { ResultComponent } from './result.component';
 
@@ -28,11 +36,14 @@ describe('ResultComponent', () => {
       RouterTestingModule,
       SharedModule,
       ReactiveComponentModule,
+      HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
 
       // UI Modules
       SubheaderModule,
       BreadcrumbsModule,
+      ReportModule,
+      LoadingSpinnerModule,
 
       // Material Modules
     ],
@@ -41,10 +52,11 @@ describe('ResultComponent', () => {
         initialState: {
           result: {
             ...initialState,
-            resultId: CALCULATION_RESULT_MOCK,
+            resultId: CALCULATION_RESULT_MOCK_ID,
           },
           bearing: {
             selectedBearing: 'testBearing',
+            modelId: MODEL_MOCK_ID,
           },
         },
       }),
@@ -73,8 +85,8 @@ describe('ResultComponent', () => {
 
   describe('ngOnInit', () => {
     it('should get resultId from store', (done) => {
-      component.resultId$.subscribe((bearing: string) => {
-        expect(bearing).toEqual(CALCULATION_RESULT_MOCK);
+      component.reportUrls$.subscribe((reportUrls: ReportUrls) => {
+        expect(reportUrls).toEqual(REPORT_URLS_MOCK);
         done();
       });
 

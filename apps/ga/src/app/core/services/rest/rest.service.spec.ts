@@ -11,6 +11,7 @@ import {
   CALCULATION_PARAMETERS_MOCK,
   CALCULATION_RESULT_MOCK,
   CALCULATION_RESULT_MOCK_ID,
+  MODEL_MOCK_ID,
 } from './../../../../testing/mocks/rest.service.mock';
 import { RestService } from './rest.service';
 
@@ -50,17 +51,53 @@ describe('RestService', () => {
     });
   });
 
-  describe('#postGreaseCalculation', () => {
-    it('should send a calculation post request with given params', (done) => {
+  describe('#putModelCreate', () => {
+    it('should send model create put request with a bearing', (done) => {
+      const mockBearing = 'mockBearing';
+
+      service.putModelCreate(mockBearing).subscribe((result: string) => {
+        expect(result).toEqual(MODEL_MOCK_ID);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/create?designation=${mockBearing}`
+      );
+      expect(req.request.method).toBe('PUT');
+      req.flush(MODEL_MOCK_ID);
+    });
+  });
+
+  describe('#putModelUpdate', () => {
+    it('should send model update put request with modelId and greaseParams', (done) => {
       service
-        .postGreaseCalculation(CALCULATION_PARAMETERS_MOCK)
+        .putModelUpdate(MODEL_MOCK_ID, CALCULATION_PARAMETERS_MOCK)
         .subscribe((result: string) => {
-          expect(result).toEqual(CALCULATION_RESULT_MOCK_ID);
+          expect(result).toEqual(CALCULATION_PARAMETERS_MOCK);
           done();
         });
 
-      const req = httpMock.expectOne(`${environment.baseUrl}/calculate`);
-      expect(req.request.method).toBe('POST');
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${MODEL_MOCK_ID}/update`
+      );
+      expect(req.request.method).toBe('PUT');
+      req.flush(CALCULATION_PARAMETERS_MOCK);
+    });
+  });
+
+  describe('#getGreaseCalculation', () => {
+    it('should send a calculation get request with given params', (done) => {
+      const mockModelId = 'mockModelId';
+
+      service.getGreaseCalculation(mockModelId).subscribe((result: string) => {
+        expect(result).toEqual(CALCULATION_RESULT_MOCK_ID);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${mockModelId}/calculate`
+      );
+      expect(req.request.method).toBe('GET');
       req.flush(CALCULATION_RESULT_MOCK);
     });
   });

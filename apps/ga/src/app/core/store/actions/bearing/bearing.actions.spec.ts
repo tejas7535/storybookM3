@@ -1,9 +1,11 @@
+import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
   bearingSearchSuccess,
+  modelCreateFailure,
+  modelCreateSuccess,
   searchBearing,
   selectBearing,
-  updateRouteParams,
-} from '..';
+} from './bearing.actions';
 
 describe('Bearing Actions', () => {
   describe('Search Bearing', () => {
@@ -30,6 +32,27 @@ describe('Bearing Actions', () => {
     });
   });
 
+  describe('Model Create Success', () => {
+    it('modelCreateSuccess', () => {
+      const action = modelCreateSuccess({ modelId: MODEL_MOCK_ID });
+
+      expect(action).toEqual({
+        modelId: MODEL_MOCK_ID,
+        type: '[Bearing] Model Create Success',
+      });
+    });
+  });
+
+  describe('Model Create Failure', () => {
+    it('modelCreateFailure', () => {
+      const action = modelCreateFailure();
+
+      expect(action).toEqual({
+        type: '[Bearing] Model Create Failure',
+      });
+    });
+  });
+
   describe('Select Bearing', () => {
     it('selectBearing', () => {
       const bearing = 'bearingName';
@@ -38,16 +61,6 @@ describe('Bearing Actions', () => {
       expect(action).toEqual({
         bearing,
         type: '[Bearing] Select Bearing',
-      });
-    });
-  });
-
-  describe('Update Route Params', () => {
-    it('updateRouteParams', () => {
-      const action = updateRouteParams();
-
-      expect(action).toEqual({
-        type: '[Bearing] Update Route Params',
       });
     });
   });

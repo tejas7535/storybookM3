@@ -1,3 +1,4 @@
+import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
   BearingState,
   initialState,
@@ -5,6 +6,7 @@ import {
 import {
   getBearingLoading,
   getBearingResultList,
+  getModelId,
   getSelectedBearing,
 } from './bearing.selector';
 
@@ -35,6 +37,18 @@ describe('Bearing Selector', () => {
       ).toEqual('a selected bearing');
     });
   });
+
+  describe('getModelId', () => {
+    it('should return the the modelId', () => {
+      expect(
+        getModelId.projector({
+          ...initialState,
+          modelId: MODEL_MOCK_ID,
+        })
+      ).toEqual(MODEL_MOCK_ID);
+    });
+  });
+
   describe('getBearingResultList', () => {
     it('should return the result list', () => {
       expect(getBearingResultList(mockState)).toEqual([
