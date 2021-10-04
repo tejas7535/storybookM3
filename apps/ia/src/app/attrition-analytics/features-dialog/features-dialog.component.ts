@@ -7,10 +7,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { translate } from '@ngneat/transloco';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { FeatureSelector } from '../models/feature-selector.model';
 
@@ -27,7 +26,7 @@ export class FeaturesDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: FeatureSelector[],
-    private readonly snackBarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -62,7 +61,7 @@ export class FeaturesDialogComponent implements OnInit {
 
   itemReleased() {
     if (this.selected.length >= this.SELECTED_FEATURES_MAX) {
-      this.snackBarService.showInfoMessage(
+      this.snackBar.open(
         translate(
           'attritionAnalytics.addAnalysis.featuresDialog.selectedFeaturesMaxInfo',
           { selectedFeaturesMax: this.SELECTED_FEATURES_MAX }

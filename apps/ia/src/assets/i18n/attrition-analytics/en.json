@@ -7,7 +7,7 @@
       "selectedFeatures": "Selected Features",
       "confirm": "Confirm",
       "amountSelected": "{{ selected }} of {{ total }} selected",
-      "selectedFeaturesMaxInfo": "You can select max. {{ selectedFeaturesMax }} features"
+      "selectedFeaturesMaxInfo": "You may only select up to {{ selectedFeaturesMax }} features"
     }
   },
   "barChart": {
