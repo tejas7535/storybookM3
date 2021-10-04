@@ -45,7 +45,9 @@
       "productLine": "Produkt Linie",
       "series": "Serie",
       "title": "Materialbezeichnung",
-      "width": "Breite"
+      "width": "Breite",
+      "dchainMaterialStatus": "VkOrg. spez. Status",
+      "minimumOrderQuantity": "Min. Auftragsmenge"
     },
     "productionCostDetails": {
       "title": "Produktion und Kosten",

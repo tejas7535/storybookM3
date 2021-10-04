@@ -5,7 +5,7 @@ import {
   loadMaterialAlternativeCostsFailure,
   loadMaterialAlternativeCostsSuccess,
 } from '../../actions';
-import { materialAlternativeCost } from '../../../../../testing/mocks/material-alternative-cost.mock';
+import { MATERIAL_ALTERNATIVE_COST_MOCK } from '../../../../../testing/mocks/material-alternative-cost.mock';
 
 describe('materialAlternativeCostsReducer', () => {
   describe('loadMaterialAlternativeCosts', () => {
@@ -26,7 +26,7 @@ describe('materialAlternativeCostsReducer', () => {
   });
   describe('loadMaterialAlternativeCostsSuccess', () => {
     test('should set materialAlternativeCosts', () => {
-      const materialAlternativeCosts = [materialAlternativeCost];
+      const materialAlternativeCosts = [MATERIAL_ALTERNATIVE_COST_MOCK];
 
       expect(
         materialAlternativeCostsReducer(

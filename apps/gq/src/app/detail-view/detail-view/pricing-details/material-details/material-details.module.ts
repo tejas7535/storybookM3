@@ -8,9 +8,11 @@ import { HorizontalDividerModule } from '../../../../shared/components/horizonta
 import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsComponent } from './material-details.component';
+import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/material-sales-org-details.component';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
-  declarations: [MaterialDetailsComponent],
+  declarations: [MaterialDetailsComponent, MaterialSalesOrgDetailsComponent],
   imports: [
     MatCardModule,
     SharedModule,
@@ -18,6 +20,7 @@ import { MaterialDetailsComponent } from './material-details.component';
     SharedPipesModule,
     LabelTextModule,
     HorizontalDividerModule,
+    ReactiveComponentModule,
   ],
   exports: [MaterialDetailsComponent],
 })

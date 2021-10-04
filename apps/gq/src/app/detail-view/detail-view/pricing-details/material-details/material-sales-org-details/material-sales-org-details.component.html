@@ -1,0 +1,14 @@
+<div *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
+  <div *ngIf="materialSalesOrg$ | ngrxPush as materialSalesOrg">
+    <gq-label-text>
+      <span label>{{ t('dchainMaterialStatus') }}</span>
+      <span text>
+        {{ materialSalesOrg.materialStatus | nullableString }}
+      </span>
+    </gq-label-text>
+    <gq-label-text [marginBottom]="false">
+      <span label>{{ t('minimumOrderQuantity') }}</span>
+      <span text>{{ materialSalesOrg.minimumOrderQuantity }}</span>
+    </gq-label-text>
+  </div>
+</div>

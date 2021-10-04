@@ -45,7 +45,9 @@
       "productLine": "Product Line",
       "series": "Series",
       "title": "Material Description",
-      "width": "Overall width (B)"
+      "width": "Overall width (B)",
+      "dchainMaterialStatus": "DChain-Material-Status",
+      "minimumOrderQuantity": "Minimum Order Quantity"
     },
     "productionCostDetails": {
       "title": "Production & Cost",

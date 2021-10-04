@@ -160,4 +160,20 @@ describe('QuotationDetailsService', (): void => {
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
+
+  describe('get Material Status', () => {
+    test('should fetch Material Status', () => {
+      const gqPositionId = '1234';
+      service
+        .getMaterialStatus(gqPositionId)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_MATERIAL_STATUS']}`
+      );
+      req.flush(gqPositionId);
+
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
 });

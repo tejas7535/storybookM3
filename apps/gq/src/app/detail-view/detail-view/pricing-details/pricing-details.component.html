@@ -1,21 +1,27 @@
 <div *transloco="let t; read: 'detailView.pricingDetails'">
   <div *ngIf="quotationDetail">
     <div *ngIf="customerCurrency$ | ngrxPush as currency">
-      <div *ngIf="!(materialAlternativeCostsLoading$ | ngrxPush); else loading">
+      <div
+        *ngIf="
+          !(materialAlternativeCostsLoading$ | ngrxPush) &&
+            !(materialSalesOrgLoading$ | ngrxPush);
+          else loading
+        "
+      >
         <div class="flex flex-col md:flex-row mb-4">
           <div class="w-full md:w-1/2 md:mr-4">
             <gq-production-cost-details
               [currency]="currency"
               [quotationDetail]="quotationDetail"
-            ></gq-production-cost-details
-            ><gq-material-alternative-cost-details
+            ></gq-production-cost-details>
+            <gq-material-alternative-cost-details
               [currency]="currency"
-            ></gq-material-alternative-cost-details
-            ><gq-relocation-cost-details
+            ></gq-material-alternative-cost-details>
+            <gq-relocation-cost-details
               [quotationDetail]="quotationDetail"
               [currency]="currency"
-            ></gq-relocation-cost-details
-            ><gq-supply-chain-details
+            ></gq-relocation-cost-details>
+            <gq-supply-chain-details
               [quotationDetail]="quotationDetail"
             ></gq-supply-chain-details>
           </div>

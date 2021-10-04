@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '@schaeffler/http';
 
+import { ExtendedComparableLinkedTransaction } from '../../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
@@ -13,7 +14,7 @@ import { ComparableLinkedTransaction } from '../../../../core/store/reducers/tra
 import { Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 import { MaterialAlternativeCost } from '../../../models/quotation-detail/material-alternative-cost.model';
-import { ExtendedComparableLinkedTransaction } from '../../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import { MaterialSalesOrg } from '../../../models/quotation-detail/material-sales-org.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class QuotationDetailsService {
   private readonly PATH_TRANSACTIONS = 'comparable-transactions';
   private readonly PATH_MATERIAL_ALTERNATIVE_COSTS =
     'material-alternative-costs';
+  private readonly PATH_MATERIAL_STATUS = 'material-status';
 
   constructor(private readonly dataService: DataService) {}
 
@@ -69,6 +71,12 @@ export class QuotationDetailsService {
   ): Observable<MaterialAlternativeCost[]> {
     return this.dataService.getAll(
       `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_MATERIAL_ALTERNATIVE_COSTS}`
+    );
+  }
+
+  getMaterialStatus(gqPositionId: string): Observable<MaterialSalesOrg> {
+    return this.dataService.getAll(
+      `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_MATERIAL_STATUS}`
     );
   }
 }

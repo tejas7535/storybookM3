@@ -5,6 +5,7 @@ import { MaterialAlternativeCostEffect } from './material-alternative-costs/mate
 import { ProcessCaseEffect } from './process-case/process-case.effects';
 import { TransactionsEffect } from './transactions/transactions.effects';
 import { ViewCasesEffect } from './view-cases/view-cases.effects';
+import { MaterialSalesOrgEffect } from './material-sales-org/material-sales-org.effects';
 
 export const effects = [
   CreateCaseEffects,
@@ -12,6 +13,7 @@ export const effects = [
   ViewCasesEffect,
   TransactionsEffect,
   MaterialAlternativeCostEffect,
+  MaterialSalesOrgEffect,
   ExtendedComparableLinkedTransactionsEffect,
   HealthCheckEffects,
 ];

@@ -10,8 +10,9 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
 import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
-import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromMaterialAlternativeCosts from './material-alternative-costs/material-alternative-costs.reducer';
+import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
+import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
@@ -30,6 +31,7 @@ export interface AppState {
   transactions: fromTransactions.TransactionsState;
   extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
   materialAlternativeCosts: fromMaterialAlternativeCosts.MaterialAlternativeCostsState;
+  materialSalesOrg: fromMaterialSalesOrg.MaterialSalesOrgsState;
   healthCheck: fromHealthCheck.HealthCheckState;
 }
 
@@ -43,6 +45,7 @@ export const reducers: ActionReducerMap<AppState> = {
     fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
   materialAlternativeCosts:
     fromMaterialAlternativeCosts.materialAlternativeCostsReducer,
+  materialSalesOrg: fromMaterialSalesOrg.materialSalesOrgReducer,
   healthCheck: fromHealthCheck.healthCheckReducer,
 };
 
@@ -75,6 +78,10 @@ export const getMaterialAlternativeCostsState =
     'materialAlternativeCosts'
   );
 
+export const getMaterialSalesOrgsState =
+  createFeatureSelector<fromMaterialSalesOrg.MaterialSalesOrgsState>(
+    'materialSalesOrg'
+  );
 export const getHealthCheckState =
   createFeatureSelector<fromHealthCheck.HealthCheckState>('healthCheck');
 
