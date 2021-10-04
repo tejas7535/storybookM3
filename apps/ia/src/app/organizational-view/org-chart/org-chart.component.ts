@@ -69,7 +69,6 @@ export class OrgChartComponent implements AfterViewInit {
       const data = new EmployeeListDialogMeta(
         new EmployeeListDialogMetaHeadings(
           `${employee.employeeName} (${employee.orgUnit})`,
-          undefined,
           this.translocoService.translate(
             'employeeListDialog.contentTitle',
             {},

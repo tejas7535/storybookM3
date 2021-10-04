@@ -8,7 +8,8 @@
       "dialog": {
         "close": "Close",
         "orgUnit": "Organizational Unit",
-        "position": "Position"
+        "position": "Position",
+        "total": "Total: {{total}}"
       }
     }
   },

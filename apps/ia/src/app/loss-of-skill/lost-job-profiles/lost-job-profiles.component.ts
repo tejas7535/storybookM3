@@ -84,20 +84,14 @@ export class LostJobProfilesComponent {
     const title = translate(
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
-    const total = translate(`lossOfSkill.employeeListDialog.headerRight`, {
-      total: params.value,
-    });
+
     const employees: string[] =
       key === 'workforce' ? params.data.employees : params.data.leavers;
 
-    this.openEmployeeListDialog(title, total, employees);
+    this.openEmployeeListDialog(title, employees);
   }
 
-  private openEmployeeListDialog(
-    title: string,
-    total: string,
-    employees: string[]
-  ): void {
+  private openEmployeeListDialog(title: string, employees: string[]): void {
     // TODO: extend REST API to get full employee not just the name? may be useful later anyway
     const convertedEmployees = employees.map(
       (employee) => ({ employeeName: employee } as unknown as Employee)
@@ -106,7 +100,6 @@ export class LostJobProfilesComponent {
     const data = new EmployeeListDialogMeta(
       new EmployeeListDialogMetaHeadings(
         title,
-        total,
         translate('lossOfSkill.employeeListDialog.contentTitle')
       ),
       convertedEmployees

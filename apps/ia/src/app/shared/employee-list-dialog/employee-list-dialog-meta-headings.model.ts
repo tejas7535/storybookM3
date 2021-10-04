@@ -1,7 +1,3 @@
 export class EmployeeListDialogMetaHeadings {
-  public constructor(
-    public headerLeft: string,
-    public headerRight: string,
-    public contentTitle: string
-  ) {}
+  public constructor(public header: string, public contentTitle: string) {}
 }

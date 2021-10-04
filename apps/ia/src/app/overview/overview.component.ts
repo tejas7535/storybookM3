@@ -85,11 +85,7 @@ export class OverviewComponent implements OnInit {
       .pipe(
         map(
           (contentTitle: string) =>
-            new EmployeeListDialogMetaHeadings(
-              undefined,
-              undefined,
-              contentTitle
-            )
+            new EmployeeListDialogMetaHeadings(undefined, contentTitle)
         )
       );
   }

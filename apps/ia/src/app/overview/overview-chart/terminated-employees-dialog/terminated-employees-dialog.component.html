@@ -46,5 +46,12 @@
   align="end"
   *transloco="let t; read: 'overview.attritionQuotaDetails.chart.dialog'"
 >
+  <p class="mr-auto text-labels text-caption">
+    {{
+      t('total', {
+        total: data.employees.length
+      })
+    }}
+  </p>
   <button mat-button mat-dialog-close color="primary">{{ t('close') }}</button>
 </mat-dialog-actions>
