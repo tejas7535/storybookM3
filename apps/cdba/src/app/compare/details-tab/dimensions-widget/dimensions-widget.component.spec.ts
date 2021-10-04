@@ -70,4 +70,33 @@ describe('DimensionsWidgetComponent', () => {
 
     expect(valuesFromTemplate).toEqual(expectedValues);
   });
+
+  it('should show fallbacks for missing units', () => {
+    const data: DimensionAndWeightDetails = {
+      height: numberInput,
+      width: numberInput,
+      length: numberInput,
+      unitOfDimension: undefined,
+      weight: numberInput,
+      weightUnit: undefined,
+      volumeCubic: numberInput,
+      volumeUnit: undefined,
+    };
+
+    spectator = createComponent({ props: { data } });
+
+    const valuesFromTemplate = spectator
+      .queryAll('[data-cy="value"]')
+      .map((element) => element.textContent);
+
+    const expectedValues = [
+      `${numberOutput} `,
+      `${numberOutput} `,
+      `${numberOutput} `,
+      `${numberOutput} `,
+      `${numberOutput} `,
+    ];
+
+    expect(valuesFromTemplate).toEqual(expectedValues);
+  });
 });

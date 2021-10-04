@@ -28,32 +28,32 @@ export class DimensionsWidgetComponent {
     } else {
       const height = data.height
         ? `${this.localeService.localizeNumber(data.height, 'decimal')} ${
-            data.unitOfDimension
+            data.unitOfDimension || ''
           }`
         : undefined;
 
       const width = data.width
         ? `${this.localeService.localizeNumber(data.width, 'decimal')} ${
-            data.unitOfDimension
+            data.unitOfDimension || ''
           }`
         : undefined;
 
       // eslint-disable-next-line unicorn/explicit-length-check
       const length = data.length
         ? `${this.localeService.localizeNumber(data.length, 'decimal')} ${
-            data.unitOfDimension
+            data.unitOfDimension || ''
           }`
         : undefined;
 
       const weight = data.weight
         ? `${this.localeService.localizeNumber(data.weight, 'decimal')} ${
-            data.weightUnit
+            data.weightUnit || ''
           }`
         : undefined;
 
       const volume = data.volumeCubic
         ? `${this.localeService.localizeNumber(data.volumeCubic, 'decimal')} ${
-            data.volumeUnit
+            data.volumeUnit || ''
           }`
         : undefined;
 
