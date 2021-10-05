@@ -13,7 +13,6 @@ import {
   testHeaderWithBurgerMenu,
   testHeaderWithUserMenu,
 } from '../support/header.po';
-import { testScrollToTop } from '../support/scroll-to-top.po';
 import { testSettingsSidebar } from '../support/settings-sidebar.po';
 import { testSidebar } from '../support/sidebar.po';
 import {
@@ -79,12 +78,6 @@ describe('Mobile View', () => {
 
     it('should have user menu', () => {
       testHeaderWithUserMenu(true);
-    });
-  });
-
-  context('Scroll To Top', () => {
-    it('should scroll back to top', () => {
-      testScrollToTop();
     });
   });
 

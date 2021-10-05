@@ -165,10 +165,6 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-ui-scroll-to-top": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
     "shared-ui-search-autocomplete": {
       "tags": ["scope:shared", "type:ui"]
     },

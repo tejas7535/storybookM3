@@ -53,4 +53,3 @@ This section contains reusable specs, so that you don't have to write & maintain
 
 - login
 - page not found
-- scroll to top

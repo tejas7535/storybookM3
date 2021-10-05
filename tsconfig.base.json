@@ -51,9 +51,6 @@
       "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
       "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
       "@schaeffler/responsive": ["libs/shared/utils/responsive/src/index.ts"],
-      "@schaeffler/scroll-to-top": [
-        "libs/shared/ui/scroll-to-top/src/index.ts"
-      ],
       "@schaeffler/search-autocomplete": [
         "libs/shared/ui/search-autocomplete/src/index.ts"
       ],
