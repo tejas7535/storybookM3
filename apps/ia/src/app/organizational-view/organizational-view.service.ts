@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -6,10 +6,9 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
-import { DataService } from '@schaeffler/http';
-
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
+  ApiVersion,
   AttritionOverTime,
   EmployeesRequest,
   OrgChartResponse,
@@ -32,7 +31,7 @@ export class OrganizationalViewService {
   readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
   constructor(
-    private readonly dataService: DataService,
+    private readonly http: HttpClient,
     private readonly paramsCreator: ParamsCreatorService
   ) {}
 
@@ -42,8 +41,8 @@ export class OrganizationalViewService {
       employeesRequest.timeRange
     );
 
-    return this.dataService
-      .getAll<OrgChartResponse>(this.ORG_CHART, {
+    return this.http
+      .get<OrgChartResponse>(`${ApiVersion.V1}/${this.ORG_CHART}`, {
         params,
         context: withCache(),
       })
@@ -56,8 +55,8 @@ export class OrganizationalViewService {
       employeesRequest.timeRange
     );
 
-    return this.dataService
-      .getAll<WorldMapResponse>(this.WORLD_MAP, {
+    return this.http
+      .get<WorldMapResponse>(`${ApiVersion.V1}/${this.WORLD_MAP}`, {
         params,
         context: withCache(),
       })
@@ -70,8 +69,8 @@ export class OrganizationalViewService {
       childEmployeeId
     );
 
-    return this.dataService
-      .getAll<ParentEmployeeResponse>(this.EMPLOYEE, {
+    return this.http
+      .get<ParentEmployeeResponse>(`${ApiVersion.V1}/${this.EMPLOYEE}`, {
         params,
         context: withCache(),
       })
@@ -89,9 +88,12 @@ export class OrganizationalViewService {
         timePeriod
       );
 
-    return this.dataService.getAll<AttritionOverTime>(
-      this.ATTRITION_OVER_TIME,
-      { params, context: withCache() }
+    return this.http.get<AttritionOverTime>(
+      `${ApiVersion.V1}/${this.ATTRITION_OVER_TIME}`,
+      {
+        params,
+        context: withCache(),
+      }
     );
   }
 }

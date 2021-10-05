@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -5,10 +6,9 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
-import { DataService } from '@schaeffler/http';
-
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
+  ApiVersion,
   EmployeesRequest,
   FluctuationRatesChartData,
   OverviewFluctuationRates,
@@ -31,7 +31,7 @@ export class OverviewService {
   readonly OPEN_APPLICATIONS = 'open-applications';
 
   constructor(
-    private readonly dataService: DataService,
+    private readonly http: HttpClient,
     private readonly paramsCreator: ParamsCreatorService
   ) {}
 
@@ -43,8 +43,8 @@ export class OverviewService {
       employeesRequest.timeRange
     );
 
-    return this.dataService.getAll<OverviewFluctuationRates>(
-      this.OVERVIEW_FLUCTUATION_RATES,
+    return this.http.get<OverviewFluctuationRates>(
+      `${ApiVersion.V1}/${this.OVERVIEW_FLUCTUATION_RATES}`,
       { params, context: withCache() }
     );
   }
@@ -56,8 +56,8 @@ export class OverviewService {
       employeesRequest.orgUnit
     );
 
-    return this.dataService.getAll<FluctuationRatesChartData>(
-      this.FLUCTUATION_RATES_CHART,
+    return this.http.get<FluctuationRatesChartData>(
+      `${ApiVersion.V1}/${this.FLUCTUATION_RATES_CHART}`,
       { params, context: withCache() }
     );
   }
@@ -69,8 +69,8 @@ export class OverviewService {
       employeesRequest.orgUnit
     );
 
-    return this.dataService.getAll<FluctuationRatesChartData>(
-      this.UNFORCED_FLUCTUATION_RATES_CHART,
+    return this.http.get<FluctuationRatesChartData>(
+      `${ApiVersion.V1}/${this.UNFORCED_FLUCTUATION_RATES_CHART}`,
       { params, context: withCache() }
     );
   }
@@ -78,20 +78,26 @@ export class OverviewService {
   getResignedEmployees(orgUnit: string): Observable<ResignedEmployee[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnit(orgUnit);
 
-    return this.dataService
-      .getAll<ResignedEmployeesResponse>(this.RESIGNED_EMPLOYEES, {
-        params,
-        context: withCache(),
-      })
+    return this.http
+      .get<ResignedEmployeesResponse>(
+        `${ApiVersion.V1}/${this.RESIGNED_EMPLOYEES}`,
+        {
+          params,
+          context: withCache(),
+        }
+      )
       .pipe(map((response) => response.employees));
   }
 
   getOpenApplications(orgUnit: string): Observable<OpenApplication[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnit(orgUnit);
 
-    return this.dataService.getAll<OpenApplication[]>(this.OPEN_APPLICATIONS, {
-      params,
-      context: withCache(),
-    });
+    return this.http.get<OpenApplication[]>(
+      `${ApiVersion.V1}/${this.OPEN_APPLICATIONS}`,
+      {
+        params,
+        context: withCache(),
+      }
+    );
   }
 }

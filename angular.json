@@ -989,7 +989,8 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "ia:build"
+            "browserTarget": "ia:build",
+            "proxyConfig": "apps/ia/proxy.conf.js"
           },
           "configurations": {
             "local": {

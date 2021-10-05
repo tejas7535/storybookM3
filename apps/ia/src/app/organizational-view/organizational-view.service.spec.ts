@@ -5,8 +5,6 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import {
   AttritionOverTime,
   EmployeesRequest,
@@ -26,18 +24,6 @@ describe('OrganizationalViewService', () => {
   const createService = createServiceFactory({
     service: OrganizationalViewService,
     imports: [HttpClientTestingModule],
-    providers: [
-      OrganizationalViewService,
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -66,7 +52,7 @@ describe('OrganizationalViewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/org-chart?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/org-chart?org_unit=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -85,7 +71,7 @@ describe('OrganizationalViewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/world-map?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/world-map?org_unit=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -103,7 +89,9 @@ describe('OrganizationalViewService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/parent-employee?child_employee_id=123');
+      const req = httpMock.expectOne(
+        'api/v1/parent-employee?child_employee_id=123'
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
@@ -131,7 +119,7 @@ describe('OrganizationalViewService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/attrition-over-time?org_unit=${orgUnit}&time_range=${timeRange}&time_period=${TimePeriod.LAST_THREE_YEARS}`
+        `api/v1/attrition-over-time?org_unit=${orgUnit}&time_range=${timeRange}&time_period=${TimePeriod.LAST_THREE_YEARS}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

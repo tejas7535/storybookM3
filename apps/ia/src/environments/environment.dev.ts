@@ -2,9 +2,6 @@ export const environment = {
   production: false,
   devToolsEnabled: true,
 
-  // HTTP
-  baseUrl: '/api/v1',
-
   // AAD auth
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   clientId: 'ec90df0f-30ee-4e9a-9819-3b417a33fb0b',

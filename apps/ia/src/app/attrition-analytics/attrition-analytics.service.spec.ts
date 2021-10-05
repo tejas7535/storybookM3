@@ -5,8 +5,6 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import { AttritionAnalyticsService } from './attrition-analytics.service';
 import { EmployeeAnalytics } from './models/employee-analytics.model';
 
@@ -18,18 +16,6 @@ describe('AttritionAnalyticsService', () => {
   const createService = createServiceFactory({
     service: AttritionAnalyticsService,
     imports: [HttpClientTestingModule],
-    providers: [
-      AttritionAnalyticsService,
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -53,7 +39,7 @@ describe('AttritionAnalyticsService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne(`/employee-analytics`);
+      const req = httpMock.expectOne(`api/v1/employee-analytics`);
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

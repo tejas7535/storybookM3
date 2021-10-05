@@ -5,8 +5,6 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import { EmployeesRequest, FluctuationRatesChartData } from '../shared/models';
 import { OpenApplication, ResignedEmployeesResponse } from './models';
 import { OverviewService } from './overview.service';
@@ -19,17 +17,6 @@ describe('OverviewService', () => {
   const createService = createServiceFactory({
     service: OverviewService,
     imports: [HttpClientTestingModule],
-    providers: [
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -54,7 +41,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/fluctuation-rates-chart?org_unit=${orgUnit}`
+        `api/v1/fluctuation-rates-chart?org_unit=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);
@@ -75,7 +62,7 @@ describe('OverviewService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/unforced-fluctuation-rates-chart?org_unit=${orgUnit}`
+        `api/v1/unforced-fluctuation-rates-chart?org_unit=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);
@@ -93,7 +80,9 @@ describe('OverviewService', () => {
         expect(response).toEqual(mock.employees);
       });
 
-      const req = httpMock.expectOne(`/resigned-employees?org_unit=${orgUnit}`);
+      const req = httpMock.expectOne(
+        `api/v1/resigned-employees?org_unit=${orgUnit}`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
@@ -116,7 +105,9 @@ describe('OverviewService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne(`/open-applications?org_unit=${orgUnit}`);
+      const req = httpMock.expectOne(
+        `api/v1/open-applications?org_unit=${orgUnit}`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

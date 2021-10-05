@@ -5,8 +5,6 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import { EmployeesRequest } from '../shared/models';
 import { LossOfSkillService } from './loss-of-skill.service';
 import { LostJobProfile } from './models';
@@ -19,18 +17,6 @@ describe('LossOfSkillService', () => {
   const createService = createServiceFactory({
     service: LossOfSkillService,
     imports: [HttpClientTestingModule],
-    providers: [
-      LossOfSkillService,
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -59,7 +45,7 @@ describe('LossOfSkillService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/lost-job-profiles?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/lost-job-profiles?org_unit=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

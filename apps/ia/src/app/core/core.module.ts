@@ -1,6 +1,10 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -17,7 +21,6 @@ import {
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpModule } from '@schaeffler/http';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -25,6 +28,7 @@ import { environment } from '../../environments/environment';
 import { AppRoutePath } from '../app-route-path.enum';
 import { AppComponent } from '../app.component';
 import { FilterSectionModule } from '../filter-section/filter-section.module';
+import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
 
 const azureConfig = new AzureConfig(
@@ -48,15 +52,18 @@ const azureConfig = new AzureConfig(
     StoreModule,
     ReactiveComponentModule,
     RouterModule,
+    LoadingSpinnerModule,
 
     // UI Modules
     HeaderModule,
     MatButtonModule,
+    MatTabsModule,
+    MatSnackBarModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      ['en'],
+      [{ id: 'en', label: 'English' }],
       'en', // default -> undefined would lead to browser detection
       'en',
       true
@@ -65,22 +72,18 @@ const azureConfig = new AzureConfig(
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
 
-    // http
-    HttpModule.forRoot({ environment }),
-
     // filter section at the top
     FilterSectionModule,
 
-    // Tabs
-    MatTabsModule,
-
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
-
-    // Loading Spinner
-    LoadingSpinnerModule,
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseHttpInterceptor,
+      multi: true,
+    },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
   ],
   exports: [AppComponent],

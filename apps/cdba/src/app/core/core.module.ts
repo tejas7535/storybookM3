@@ -22,9 +22,9 @@ import {
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
-import { environment } from '@cdba/environments/environment';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { environment } from '@cdba/environments/environment';
+import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { StoreModule } from './store/store.module';

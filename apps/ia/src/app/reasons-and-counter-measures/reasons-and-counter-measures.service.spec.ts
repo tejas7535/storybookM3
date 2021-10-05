@@ -6,8 +6,6 @@ import {
 import { SpectatorService } from '@ngneat/spectator';
 import { createServiceFactory } from '@ngneat/spectator/jest';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import { EmployeesRequest } from '../shared/models';
 import { ReasonForLeavingStats } from './models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from './reasons-and-counter-measures.service';
@@ -20,17 +18,6 @@ describe('ReasonsAndCounterMeasuresService', () => {
   const createService = createServiceFactory({
     service: ReasonsAndCounterMeasuresService,
     imports: [HttpClientTestingModule],
-    providers: [
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -60,7 +47,7 @@ describe('ReasonsAndCounterMeasuresService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/reasons-why-people-left?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/reasons-why-people-left?org_unit=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);

@@ -1,12 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { DataService } from '@schaeffler/http';
-
-import { InitialFiltersResponse } from '../shared/models';
+import { ApiVersion, InitialFiltersResponse } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +13,14 @@ import { InitialFiltersResponse } from '../shared/models';
 export class FilterService {
   readonly INITIAL_FILTERS = 'initial-filters';
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly http: HttpClient) {}
 
   getInitialFilters(): Observable<InitialFiltersResponse> {
-    return this.dataService.getAll<InitialFiltersResponse>(
-      this.INITIAL_FILTERS,
-      { context: withCache() }
+    return this.http.get<InitialFiltersResponse>(
+      `${ApiVersion.V1}/${this.INITIAL_FILTERS}`,
+      {
+        context: withCache(),
+      }
     );
   }
 }

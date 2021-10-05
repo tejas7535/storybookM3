@@ -5,8 +5,6 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import { InitialFiltersResponse } from '../shared/models';
 import { FilterService } from './filter-service.service';
 
@@ -18,18 +16,6 @@ describe('FilterService', () => {
   const createService = createServiceFactory({
     service: FilterService,
     imports: [HttpClientTestingModule],
-    providers: [
-      FilterService,
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -54,7 +40,7 @@ describe('FilterService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/initial-filters');
+      const req = httpMock.expectOne('api/v1/initial-filters');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

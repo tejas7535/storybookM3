@@ -1,13 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { DataService } from '@schaeffler/http';
-
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
-import { EmployeesRequest } from '../shared/models';
+import { ApiVersion, EmployeesRequest } from '../shared/models';
 import { ReasonForLeavingStats } from './models/reason-for-leaving-stats.model';
 
 @Injectable({
@@ -17,7 +16,7 @@ export class ReasonsAndCounterMeasuresService {
   readonly REASONS_WHY_PEOPLE_LEFT = 'reasons-why-people-left';
 
   constructor(
-    private readonly dataService: DataService,
+    private readonly http: HttpClient,
     private readonly paramsCreator: ParamsCreatorService
   ) {}
 
@@ -29,8 +28,8 @@ export class ReasonsAndCounterMeasuresService {
       employeesRequest.timeRange
     );
 
-    return this.dataService.getAll<ReasonForLeavingStats[]>(
-      this.REASONS_WHY_PEOPLE_LEFT,
+    return this.http.get<ReasonForLeavingStats[]>(
+      `${ApiVersion.V1}/${this.REASONS_WHY_PEOPLE_LEFT}`,
       { params, context: withCache() }
     );
   }

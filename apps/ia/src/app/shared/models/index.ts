@@ -15,3 +15,4 @@ export * from './fluctuation-rates-chart-data.model';
 export * from './fluctuation-kpi.model';
 export * from './percentage-fluctuation-rate.model';
 export * from './overview-fluctuation-rates.model';
+export * from './api-version.enum';
