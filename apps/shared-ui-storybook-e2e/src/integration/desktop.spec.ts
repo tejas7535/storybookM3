@@ -22,10 +22,6 @@ import {
   testSuccessToast,
   testWarningToast,
 } from '../support/snackbar.po';
-import {
-  testSpeedDialFabPrimary,
-  testSpeedDialFabWithSecondaryButtons,
-} from '../support/speed-dial-fab.po';
 
 describe('Mobile View', () => {
   context('Banner', () => {
@@ -117,16 +113,6 @@ describe('Mobile View', () => {
 
     it('should display a error toast on button click', () => {
       testErrorToast();
-    });
-  });
-
-  context('Speed Dial Fab', () => {
-    it('should show primary button', () => {
-      testSpeedDialFabPrimary();
-    });
-
-    it('should show fab with secondary buttons', () => {
-      testSpeedDialFabWithSecondaryButtons();
     });
   });
 });

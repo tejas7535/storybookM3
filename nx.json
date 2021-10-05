@@ -184,10 +184,6 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-ui-speed-dial-fab": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
     "shared-ui-stepper": {
       "tags": ["scope:shared", "type:ui"]
     },

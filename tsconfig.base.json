@@ -68,9 +68,7 @@
       ],
       "@schaeffler/sidebar": ["libs/shared/ui/sidebar/src/index.ts"],
       "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],
-      "@schaeffler/speed-dial-fab": [
-        "libs/shared/ui/speed-dial-fab/src/index.ts"
-      ],
+
       "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],
       "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],
       "@schaeffler/subheader": ["libs/shared/ui/subheader/src/index.ts"],
