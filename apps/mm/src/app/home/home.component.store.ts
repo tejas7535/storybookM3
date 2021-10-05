@@ -8,6 +8,7 @@ import { ComponentStore, tapResponse } from '@ngrx/component-store';
 
 import { LazyListLoaderService } from '../core/services/lazy-list-loader';
 import { RSY_PAGE_BEARING_TYPE } from '../shared/constants/dialog-constant';
+import { BearingOption } from '../shared/models';
 import { BearingParams, PagedMeta } from './home.model';
 import { HomeService } from './home.service';
 
@@ -61,6 +62,22 @@ export class HomeStore extends ComponentStore<HomeState> {
   public readonly inactivePageId$: Observable<string> = this.select(
     (state) => state.inactivePageId
   );
+
+  public readonly bearing$: Observable<string> = this.select(
+    (state) => state.bearing
+  );
+
+  public readonly selectedBearingOption$: Observable<BearingOption> =
+    this.select(
+      this.bearing$,
+      this.bearingParams$,
+      (bearing: string, bearingParams: BearingParams) =>
+        bearing &&
+        bearingParams?.id && {
+          id: bearingParams.id.toString(),
+          title: bearing,
+        }
+    );
 
   public readonly maxPageId$: Observable<string> = this.select((state) => {
     let result: string;

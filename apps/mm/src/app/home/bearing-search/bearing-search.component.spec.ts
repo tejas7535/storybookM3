@@ -44,6 +44,20 @@ describe('BearingSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('#ngOnInit', () => {
+    it('should set value if selectedBearing is set', () => {
+      component.myControl.setValue = jest.fn();
+      component.selectedBearing = { id: 'id', title: 'bearing' };
+
+      component.ngOnInit();
+
+      expect(component.myControl.setValue).toHaveBeenCalledWith({
+        id: 'id',
+        title: 'bearing',
+      });
+    });
+  });
+
   describe('#getBearings', () => {
     it('should call getBearings at restService', () => {
       const mockSearchQuery = 'irgendNQuatsch';

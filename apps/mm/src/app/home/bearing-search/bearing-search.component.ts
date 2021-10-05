@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -26,6 +27,8 @@ import { RestService } from './../../core/services/rest/rest.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BearingSearchComponent implements OnInit {
+  @Input() public selectedBearing?: BearingOption;
+
   @Output() public bearing = new EventEmitter<string | undefined>();
 
   public myControl = new FormControl('');
@@ -43,6 +46,10 @@ export class BearingSearchComponent implements OnInit {
       filter((value) => value.length > 1),
       switchMap((value) => this.getBearings(value))
     );
+
+    if (this.selectedBearing) {
+      this.myControl.setValue(this.selectedBearing);
+    }
   }
 
   public getBearings(searchQuery: string): Observable<BearingOption[]> {

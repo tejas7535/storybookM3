@@ -192,6 +192,26 @@ describe('HomeStore', () => {
     });
   });
 
+  describe('selectedBearingOption selector', () => {
+    it('should return undefined as initial selected option', () => {
+      homeStore.selectedBearingOption$.subscribe((selectedOption) => {
+        expect(selectedOption).toBe(undefined);
+      });
+    });
+
+    it('should return the selected option', () => {
+      const mockSelectedOption = { id: 'myId', title: 'myTitle' };
+      homeStore['homeService'].getBearingParams = jest.fn(
+        () => ({ id: 'myId' } as unknown as BearingParams)
+      );
+
+      homeStore.setBearing('myTitle');
+      homeStore.selectedBearingOption$.subscribe((selectedOption) => {
+        expect(selectedOption).toBe(mockSelectedOption);
+      });
+    });
+  });
+
   // Todo fix unit test "of(true)" is not right
   describe('maxPageId$ selector', () => {
     it.skip('should return the Id of the maxPage', () => {

@@ -106,6 +106,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public readonly inactivePageId$ = this.homeStore.inactivePageId$;
   public readonly activeBearing$ = this.homeStore.activeBearing$;
   public readonly bearingParams$ = this.homeStore.bearingParams$;
+  public readonly selectedBearingOption$ =
+    this.homeStore.selectedBearingOption$;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -144,6 +146,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public selectBearing(id: string): void {
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    this.homeStore.setBearing(undefined);
     this.getBearingRelations(id);
     this.handleActivePageIdChange(PAGE_MOUNTING_MANAGER_SEAT);
   }
