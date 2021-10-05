@@ -9,7 +9,7 @@ updates:
     # Disable version updates for npm dependencies
     open-pull-requests-limit: 5
     labels:
-      - 'Dependency Update'
+      - 'type:dep-update'
     commit-message:
       prefix: 'chore'
       include: 'scope'

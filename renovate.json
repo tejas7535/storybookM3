@@ -1,6 +1,6 @@
 {
   "semanticCommits": true,
-  "labels": ["Dependency Update"],
+  "labels": ["type:dep-update"],
   "lockFileMaintenance": {
     "enabled": false
   },
