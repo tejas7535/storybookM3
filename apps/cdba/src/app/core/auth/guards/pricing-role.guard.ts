@@ -20,7 +20,7 @@ export class PricingRoleGuard implements CanActivateChild {
     return this.roleFacade.hasAnyPricingRole$.pipe(
       tap(async (hasAnyPricingRole) => {
         if (!hasAnyPricingRole) {
-          await this.router.navigate([AppRoutePath.NoAccessToFeaturePath]);
+          await this.router.navigate([AppRoutePath.ForbiddenPath]);
         }
       })
     );

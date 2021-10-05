@@ -20,7 +20,7 @@ export class BasicRoleGuard implements CanActivateChild {
     return this.roleFacade.hasBasicRole$.pipe(
       tap(async (hasBasicRole) => {
         if (!hasBasicRole) {
-          await this.router.navigate([AppRoutePath.ForbiddenPath]);
+          await this.router.navigate([AppRoutePath.NoAccessToFeaturePath]);
         }
       })
     );

@@ -2,26 +2,25 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
-import { NO_ACCESS_ACTION } from '@cdba/shared/constants/forbidden-action';
 
 import { ForbiddenRoute } from '@schaeffler/empty-states';
 
 import { BasicRoleGuard } from './core/auth';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { FORBIDDEN_ACTION } from './shared/constants';
+import { NO_ACCESS_ACTION, FORBIDDEN_ACTION } from './shared/constants';
 
 /**
  * Show this page when the user does not have the basic access rights for the app
  */
 const forbiddenRouteBasic: ForbiddenRoute = {
-  path: AppRoutePath.ForbiddenPath,
+  path: AppRoutePath.NoAccessToFeaturePath,
   loadChildren: async () =>
     import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   data: {
     headingText: 'forbidden.noBasicAccess.heading',
     messageText: 'forbidden.noBasicAccess.message',
-    action: encodeURI(FORBIDDEN_ACTION),
+    action: encodeURI(NO_ACCESS_ACTION),
     hideHomeButton: true,
   },
   canActivate: [MsalGuard],
@@ -31,13 +30,13 @@ const forbiddenRouteBasic: ForbiddenRoute = {
  * Show this page when the user does not have access rights for specific feature
  */
 const forbiddenRouteFeature: ForbiddenRoute = {
-  path: AppRoutePath.NoAccessToFeaturePath,
+  path: AppRoutePath.ForbiddenPath,
   loadChildren: async () =>
     import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   data: {
     headingText: 'forbidden.noFeatureAccess.heading',
     messageText: 'forbidden.noFeatureAccess.message',
-    action: encodeURI(NO_ACCESS_ACTION),
+    action: encodeURI(FORBIDDEN_ACTION),
     actionButtonText: 'forbidden.noFeatureAccess.actionButton',
     homeButtonText: 'forbidden.noFeatureAccess.homeButton',
   },
