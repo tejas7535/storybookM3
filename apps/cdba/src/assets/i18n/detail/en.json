@@ -33,10 +33,8 @@
     "production": {
       "title": "Production",
       "false": "no",
-      "manufacturingProcess": "Manufacturing process",
       "plant": "Plant",
       "procurementType": "Procurement Type",
-      "productionTechnology": "Production technology",
       "purchasePriceValidFrom": "Purchase price valid from",
       "purchasePriceValidUntil": "Purchase Price valid until",
       "saleableItem": "Saleable Item",

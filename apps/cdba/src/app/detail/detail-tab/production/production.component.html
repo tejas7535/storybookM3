@@ -28,28 +28,6 @@
     <div class="widget-group" *ngIf="productionDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('production.productionTechnology') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            productionDetails?.productionTechnology | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('production.manufacturingProcess') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            productionDetails?.manufacturingProcess | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="productionDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
           >{{ t('production.specialProcurement') }}:&nbsp;</label
         >
         <div>

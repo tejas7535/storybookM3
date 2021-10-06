@@ -125,8 +125,6 @@ export const getProductionDetails = createSelector(
           referenceType.procurementType,
           referenceType.plant,
           referenceType.saleableItem,
-          '', // TODO add productionTechnology and manufacturingProcess
-          '',
           referenceType.specialProcurement,
           referenceType.purchasePriceValidFrom,
           referenceType.purchasePriceValidUntil,
