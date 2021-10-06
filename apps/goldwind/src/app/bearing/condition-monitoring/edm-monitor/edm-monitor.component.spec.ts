@@ -1,6 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -26,6 +27,7 @@ describe('EdmMonitorComponent', () => {
       SensorModule,
       MatCardModule,
       MatIconModule,
+      RouterTestingModule,
       MatSlideToggleModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
@@ -64,34 +66,6 @@ describe('EdmMonitorComponent', () => {
   });
 
   describe('chartOptions', () => {
-    it('should call legend formatter method', () => {
-      const mockLabelName = 'edmValue1CounterMax';
-      component.formatLegend = jest.fn();
-
-      const legendFormatter = (component.chartOptions.legend as any).formatter;
-      legendFormatter(mockLabelName);
-
-      expect(component.formatLegend).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call tooltip formatter method', () => {
-      const mockParams = [
-        {
-          seriesName: 'edmValue1CounterMax',
-          data: {
-            value: [new Date(), 123],
-          },
-        },
-      ];
-      component.formatTooltip = jest.fn();
-
-      const tooltipFormatter = (component.chartOptions.tooltip as any)
-        .formatter;
-      tooltipFormatter(mockParams);
-
-      expect(component.formatTooltip).toHaveBeenCalledTimes(1);
-    });
-
     describe('formatLegend', () => {
       it('should return a translated text with physical symbol', () => {
         const mockLabelName = 'edmValue1CounterMax';
@@ -139,6 +113,39 @@ describe('EdmMonitorComponent', () => {
         expect(component.getAntennaLabel(mockAntennaName)).toBe(
           formattedMockAntennaName
         );
+      });
+    });
+
+    describe('getIncidentsDescribishString', () => {
+      it('should return a string matching the class description', () => {
+        expect(component.getIncidentsDescribishString(50)).toBe(
+          'edm.histogram.classes.a_lot'
+        );
+        expect(component.getIncidentsDescribishString(500)).toBe(
+          'edm.histogram.classes.few'
+        );
+        expect(component.getIncidentsDescribishString(5000)).toBe(
+          'edm.histogram.classes.more_than_few'
+        );
+        expect(component.getIncidentsDescribishString(50_000)).toBe(
+          'edm.histogram.classes.a_lot'
+        );
+        expect(component.getIncidentsDescribishString(500_000)).toBe(
+          'edm.histogram.classes.to_much'
+        );
+        expect(component.getIncidentsDescribishString(-1)).toBe(
+          'edm.histogram.classes.n_a'
+        );
+      });
+    });
+    describe('getClassificationString', () => {
+      it('should return a string matching the class description', () => {
+        expect(component.getClassificationString(0)).toBe('0 - 100');
+        expect(component.getClassificationString(1)).toBe('100 - 1000');
+        expect(component.getClassificationString(2)).toBe('1000 - 10000');
+        expect(component.getClassificationString(3)).toBe('10000 - 100000');
+        expect(component.getClassificationString(4)).toBe('> 100000');
+        expect(component.getClassificationString(-1)).toBe('n.A.');
       });
     });
   });

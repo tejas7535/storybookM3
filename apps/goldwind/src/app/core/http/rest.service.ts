@@ -14,11 +14,11 @@ import { ShaftStatus } from '../store/reducers/shaft/models';
 import { StaticSafetyStatus } from '../store/reducers/static-safety/models';
 import {
   CenterLoadStatus,
-  GCMHeatmapClassification,
   GCMHeatmapEntry,
   GWParams,
   IAGGREGATIONTYPE,
 } from '../../shared/models';
+import { EdmHistogram } from '../store/reducers/edm-monitor/edm-histogram.reducer';
 
 export interface IotParams {
   id: string;
@@ -55,6 +55,21 @@ export class RestService {
         timebucketSeconds: -1,
         aggregation: IAGGREGATIONTYPE.AVG,
       })
+    );
+  }
+  public getEdmHistogram(
+    { id, startDate, endDate }: IotParams,
+    channel: string
+  ): Observable<EdmHistogram[]> {
+    return this.getIot(
+      `${id}/analytics/histogram`,
+      this.getParams(
+        {
+          startDate,
+          endDate,
+        },
+        { channel }
+      )
     );
   }
 
@@ -188,12 +203,10 @@ export class RestService {
     });
   }
 
-  public getParams({
-    endDate,
-    startDate,
-    aggregation,
-    timebucketSeconds,
-  }: GWParams): GetOptions {
+  public getParams(
+    { endDate, startDate, aggregation, timebucketSeconds }: GWParams,
+    extra?: any
+  ): GetOptions {
     return {
       params: {
         ...(endDate && { end: String(endDate) }),
@@ -202,6 +215,7 @@ export class RestService {
         ...(timebucketSeconds !== undefined && {
           timebucketSeconds: String(timebucketSeconds),
         }),
+        ...extra,
       },
     };
   }

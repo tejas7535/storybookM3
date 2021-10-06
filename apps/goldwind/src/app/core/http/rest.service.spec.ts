@@ -82,6 +82,52 @@ describe('Rest Service', () => {
       );
     });
   });
+  describe('getEdmHistogram', () => {
+    it('should call DataService getAll with all edm histogram params', () => {
+      const mockEdmDevice = {
+        id: 'windpark_device_1',
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
+      };
+
+      service.getEdmHistogram(mockEdmDevice, 'edm-1');
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${mockEdmDevice.id}/analytics/histogram`,
+        {
+          params: {
+            channel: 'edm-1',
+            start: mockEdmDevice.startDate.toString(),
+            end: mockEdmDevice.endDate.toString(),
+          },
+        }
+      );
+    });
+  });
+
+  describe('getGreaseHeatMap', () => {
+    it('should call DataService getAll with all edm histogram params', () => {
+      const req_params = {
+        deviceId: 'windpark_device_1',
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
+      };
+      const expectedStart = new Date(req_params.startDate * 1000).getFullYear();
+      const expectedyearStart = Date.parse(`${expectedStart}-01-01`) / 1000;
+      const expectedyearEnd = Date.parse(`${expectedStart}-12-31`) / 1000;
+
+      service.getGreaseHeatMap(req_params);
+
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${req_params.deviceId}/analytics/heatmap`,
+        {
+          params: {
+            start: expectedyearStart.toString(),
+            end: expectedyearEnd.toString(),
+          },
+        }
+      );
+    });
+  });
 
   describe('getGreaseStatus', () => {
     it('should call dataService getAll with all grease params', () => {

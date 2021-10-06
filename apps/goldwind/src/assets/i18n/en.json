@@ -106,6 +106,18 @@
     "invalidStartDate": "Invalid start date",
     "title": "Date Range"
   },
+  "edm": {
+    "histogram": {
+      "classes": {
+        "a_lot": "A Lot",
+        "few": "Few",
+        "more_than_few": "More than few",
+        "n_a": "not available",
+        "some": "Some",
+        "too_much": "too much"
+      }
+    }
+  },
   "footer": {
     "icpnumber": "ICP Number",
     "publicSecurityBureauNumber": "Public Security Bureau number"

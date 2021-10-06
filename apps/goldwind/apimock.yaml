@@ -1,0 +1,2196 @@
+---
+openapi: 3.0.1
+info:
+  title: Schaeffler Goldwind API
+  contact:
+    name: Mark Tao & Tim Gerlicher
+  version: 0.1.0
+servers:
+  - url: https://smartwindsolutions-dev.schaefflercn.com/api
+    description: Generated server url
+security:
+  - bearerAuth: []
+paths:
+  '/things/{id}/sensors/rotation-speed/telemetry':
+    get:
+      tags:
+        - Rotation speed API
+      description: Get Lsp Strain Processed Telemetry data by device ID
+      operationId: getLatest_1_1_1_1_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description:
+            'Sorting criteria in the format: property(,asc|desc). Default
+            sort order is ascending. Multiple sort criteria are supported.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: timestampParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimestampParams'
+        - name: timerangeParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: aggregationParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: timebucketParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimebucketParams'
+        - name: requestParamsLatest
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/RsmShaft'
+  '/things/{id}/sensors/grease-status/telemetry':
+    get:
+      tags:
+        - GCM API
+      description: Get grease check info by device id
+      operationId: getLatest_1_1_1_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description:
+            'Sorting criteria in the format: property(,asc|desc). Default
+            sort order is ascending. Multiple sort criteria are supported.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: timerangeParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: aggregationParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: filter
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: timebucketParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimebucketParams'
+        - name: requestParamsLatest
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/GcmProcessed'
+  '/things/{id}/sensors/electric-discharge/telemetry':
+    get:
+      tags:
+        - EDM API
+      description: 'Get electric discharge info by device id '
+      operationId: getLatest_1_1_1_2
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: timerangeParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: aggregationParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: filter
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: timebucketParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimebucketParams'
+        - name: requestParamsLatest
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/EdmProcessed'
+  '/things/{id}/sensors/bearing-temperature/telemetry':
+    get:
+      tags:
+        - Lsp Temperature API
+      description: Get latest x LSP temperature info by device ID
+      operationId: getLatest_1_1_1_3
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: timerangeParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: aggregationParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: filter
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: timebucketParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimebucketParams'
+        - name: requestParamsLatest
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/LspTemperatureProcessed'
+  '/things/{id}/sensors/bearing-load/telemetry':
+    get:
+      tags:
+        - Bearing load API
+      description: Get Lsp Strain Processed Telemetry data by device ID
+      operationId: getLatest_1_1_1_4_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: timestampParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimestampParams'
+        - name: timerangeParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: aggregationParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: filter
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: timebucketParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimebucketParams'
+        - name: requestParamsLatest
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/LspStrainProcessed'
+  '/things/{id}/analytics/static-safety-factor':
+    get:
+      tags:
+        - GenericData API
+      operationId: getLatestDataForStaticSafetyFactor_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description:
+            'Sorting criteria in the format: property(,asc|desc). Default
+            sort order is ascending. Multiple sort criteria are supported.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: requestParamsLatest
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    deviceId:
+                      type: string
+                      format: model
+                      example: edge-goldwind-dev-001
+                    timestamp:
+                      type: string
+                      format: date-time
+                    property:
+                      type: string
+                      format: company
+                    value:
+                      type: number
+                      format: double
+                      minimum: 0
+                      maximum: 50
+                      example: 13
+  '/things/{id}/analytics/rul':
+    get:
+      tags:
+        - GenericData API
+      operationId: getLatestDataForRul_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: requestParamsLatest
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/GenericData'
+  '/things/{id}/analytics/load-distribution':
+    get:
+      tags:
+        - Lss Distribution API
+      description: Get Load Distribution data by device ID
+      operationId: getDataInTimeRange_1_1_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: timerangeParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: allParams
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: row
+          in: query
+          required: true
+          schema:
+            maximum: 2
+            minimum: 1
+            type: integer
+            format: int32
+        - name: aggregationParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: requestParamsLatest
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/LoadDistributionDaoRow'
+  '/things/{id}/analytics/histogram':
+    get:
+      tags:
+        - History API
+      operationId: getDataForTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: timerangeParams
+          in: query
+          required: false
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: channel
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/EdmHistory'
+  '/things/{id}/analytics/heatmap':
+    get:
+      tags:
+        - HeatMap API
+      operationId: getGcmDataForTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: timerangeParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/GcmHeatMap'
+  '/things/{id}/analytics/center-load':
+    get:
+      tags:
+        - CenterLoad API
+      operationId: getLatest_1_1_1_4
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: allParams
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: timerangeParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description:
+            'Sorting criteria in the format: property(,asc|desc). Default
+            sort order is ascending. Multiple sort criteria are supported.'
+          schema:
+            type: array
+            items:
+              type: string
+        - name: aggregationParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/AggregationParams'
+        - name: filter
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimerangeParams'
+        - name: timebucketParams
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/TimebucketParams'
+        - name: requestParamsLatest
+          in: query
+          required: true
+          schema:
+            '$ref': '#/components/schemas/RequestParamsLatest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/CenterLoad'
+  '/things/{id}':
+    get:
+      tags:
+        - Windturbine API
+      description: Get metadata for windturbine by edge device name
+      operationId: getWindturbineMetadata
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/WindTurbine'
+  '/device/listedgedevices':
+    get:
+      tags:
+        - Edge Device API
+      description: Export data from cold storage with date range
+      operationId: listDevices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    capabilities:
+                      type: object
+                      properties:
+                        iotEdge:
+                          type: boolean
+                    iotEdge:
+                      type: boolean
+                      default: true
+                    # configurations: null
+                    connectionState:
+                      type: string
+                      default: 'DISCONNECTED'
+                    # desiredProperties:
+                    # desiredPropertiesVersion: null
+                    deviceId:
+                      type: string
+                      example: 'edge-goldwind-qa-001'
+                    etag:
+                      type: string
+                      example: 'AAAAAAAAAAI='
+                    modelId:
+                      type: string
+                      default: ''
+                  # moduleId: null
+                  # reportedProperties: []
+                  # reportedPropertiesVersion: null
+                  # tags: [{key: "location", value: "schweifurt"}, {key: "environment", value: "qa"}]
+                  # tagsVersion: null
+
+components:
+  schemas:
+    RsmShaft:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        rsm01Shaftcountervalue:
+          type: integer
+          format: int32
+        rsm01ShaftSpeed:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 20
+          example: 14
+        rsm01ShaftSpeedMin:
+          type: number
+          format: double
+          minimum: 0
+        rsm01ShaftSpeedMax:
+          type: number
+          format: double
+          maximum: 20
+    TimestampParams:
+      required:
+        - timestamp
+      type: object
+      properties:
+        timestamp:
+          minimum: 1
+          type: integer
+          format: int64
+    TimerangeParams:
+      required:
+        - end
+        - size
+        - start
+      type: object
+      properties:
+        sortProperty:
+          type: string
+        pageNumber:
+          type: integer
+          format: int32
+        start:
+          minimum: 999999999
+          type: integer
+          description: Epoch Timestamp Seconds
+          format: int64
+        end:
+          minimum: 999999999
+          type: integer
+          description: Epoch Timestamp Seconds
+          format: int64
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sortDirection:
+          type: string
+          enum:
+            - ASC
+            - DESC
+    AggregationParams:
+      required:
+        - aggregation
+        - end
+        - size
+        - start
+      type: object
+      properties:
+        sortProperty:
+          type: string
+        pageNumber:
+          type: integer
+          format: int32
+        start:
+          minimum: 999999999
+          type: integer
+          description: Epoch Timestamp Seconds
+          format: int64
+        end:
+          minimum: 999999999
+          type: integer
+          description: Epoch Timestamp Seconds
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sortDirection:
+          type: string
+          enum:
+            - ASC
+            - DESC
+        aggregation:
+          type: string
+          description: Aggregation function for result calculation
+          example: AVG
+          enum:
+            - AVG
+            - MIN
+            - MAX
+    TimebucketParams:
+      required:
+        - aggregation
+        - end
+        - size
+        - start
+        - timebucketSeconds
+      type: object
+      properties:
+        sortProperty:
+          type: string
+        pageNumber:
+          type: integer
+          format: int32
+        start:
+          minimum: 999999999
+          type: integer
+          description: Epoch Timestamp Seconds
+          format: int64
+        end:
+          minimum: 999999999
+          type: integer
+          description: Epoch Timestamp Seconds
+          format: int64
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sortDirection:
+          type: string
+          enum:
+            - ASC
+            - DESC
+        aggregation:
+          type: string
+          description: Aggregation function for result calculation
+          example: AVG
+          enum:
+            - AVG
+            - MIN
+            - MAX
+        timebucketSeconds:
+          minimum: -1
+          type: integer
+          description: Timebucket window in seconds. Set to -1 for default windowing
+          format: int32
+          example: 5
+    RequestParamsLatest:
+      required:
+        - size
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sortDirection:
+          type: string
+          enum:
+            - ASC
+            - DESC
+        sortProperty:
+          type: string
+    GcmProcessed:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        gcm01TemperatureOptics:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm01TemperatureOpticsMin:
+          type: integer
+          format: int32
+          minimum: 0
+        gcm01TemperatureOpticsMax:
+          type: integer
+          format: int32
+          maximum: 120
+        gcm01Deterioration:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01DeteriorationMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01DeteriorationMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01WaterContent:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01WaterContentMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01WaterContentMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02TemperatureOptics:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+        gcm02TemperatureOpticsMin:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+        gcm02TemperatureOpticsMax:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+        gcm02Deterioration:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02DeteriorationMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02DeteriorationMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02WaterContent:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02WaterContentMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02WaterContentMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        timestamp:
+          type: string
+          format: date-time
+    EdmProcessed:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        edm01Ai01Counter:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        edm01Ai01CounterMin:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        edm01Ai01CounterMax:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        edm01Ai02Counter:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        edm01Ai02CounterMin:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        edm01Ai02CounterMax:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        startTimestamp:
+          type: string
+          format: date-time
+        timestamp:
+          type: string
+          format: date-time
+    LspTemperatureProcessed:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        lsp01Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp01Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp01Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp01Temp2Zsc:
+          type: integer
+          format: int32
+        lsp01Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp01Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp01Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp01Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp01Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp02Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp02Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp02Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp02Temp2Zsc:
+          type: integer
+          format: int32
+        lsp02Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp02Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp02Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp02Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp02Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp03Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp03Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp03Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp03Temp2Zsc:
+          type: integer
+          format: int32
+        lsp03Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp03Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp03Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp03Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp03Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp04Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp04Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp04Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp04Temp2Zsc:
+          type: integer
+          format: int32
+        lsp04Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp04Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp04Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp04Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp04Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp05Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp05Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp05Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp05Temp2Zsc:
+          type: integer
+          format: int32
+        lsp05Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp05Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp05Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp05Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp05Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp06Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp06Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp06Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp06Temp2Zsc:
+          type: integer
+          format: int32
+        lsp06Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp06Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp06Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp06Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp06Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp07Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp07Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp07Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp07Temp2Zsc:
+          type: integer
+          format: int32
+        lsp07Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp07Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp07Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp07Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp07Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp08Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp08Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp08Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp08Temp2Zsc:
+          type: integer
+          format: int32
+        lsp08Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp08Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp08Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp08Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp08Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp09Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp09Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp09Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp09Temp2Zsc:
+          type: integer
+          format: int32
+        lsp09Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp09Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp09Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp09Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp09Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp10Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp10Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp10Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp10Temp2Zsc:
+          type: integer
+          format: int32
+        lsp10Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp10Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp10Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp10Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp10Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp11Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp11Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp11Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp11Temp2Zsc:
+          type: integer
+          format: int32
+        lsp11Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp11Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp11Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp11Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp11Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp12Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp12Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp12Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp12Temp2Zsc:
+          type: integer
+          format: int32
+        lsp12Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp12Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp12Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp12Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp12Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp13Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp13Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp13Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp13Temp2Zsc:
+          type: integer
+          format: int32
+        lsp13Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp13Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp13Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp13Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp13Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp14Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp14Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp14Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp14Temp2Zsc:
+          type: integer
+          format: int32
+        lsp14Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp14Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp14Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp14Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp14Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp15Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp15Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp15Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp15Temp2Zsc:
+          type: integer
+          format: int32
+        lsp15Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp15Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp15Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp15Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp15Temp3Pt1000Max:
+          type: integer
+          format: int32
+        lsp16Temp1Microcontroller:
+          type: integer
+          format: int32
+        lsp16Temp1MicrocontrollerMin:
+          type: integer
+          format: int32
+        lsp16Temp1MicrocontrollerMax:
+          type: integer
+          format: int32
+        lsp16Temp2Zsc:
+          type: integer
+          format: int32
+        lsp16Temp2ZscMin:
+          type: integer
+          format: int32
+        lsp16Temp2ZscMax:
+          type: integer
+          format: int32
+        lsp16Temp3Pt1000:
+          type: integer
+          format: int32
+        lsp16Temp3Pt1000Min:
+          type: integer
+          format: int32
+        lsp16Temp3Pt1000Max:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+    LspStrainProcessed:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        lsp01Strain:
+          type: number
+          format: double
+        lsp01StrainMin:
+          type: number
+          format: double
+        lsp01StrainMax:
+          type: number
+          format: double
+        lsp02Strain:
+          type: number
+          format: double
+        lsp02StrainMin:
+          type: number
+          format: double
+        lsp02StrainMax:
+          type: number
+          format: double
+        lsp03Strain:
+          type: number
+          format: double
+        lsp03StrainMin:
+          type: number
+          format: double
+        lsp03StrainMax:
+          type: number
+          format: double
+        lsp04Strain:
+          type: number
+          format: double
+        lsp04StrainMin:
+          type: number
+          format: double
+        lsp04StrainMax:
+          type: number
+          format: double
+        lsp05Strain:
+          type: number
+          format: double
+        lsp05StrainMin:
+          type: number
+          format: double
+        lsp05StrainMax:
+          type: number
+          format: double
+        lsp06Strain:
+          type: number
+          format: double
+        lsp06StrainMin:
+          type: number
+          format: double
+        lsp06StrainMax:
+          type: number
+          format: double
+        lsp07Strain:
+          type: number
+          format: double
+        lsp07StrainMin:
+          type: number
+          format: double
+        lsp07StrainMax:
+          type: number
+          format: double
+        lsp08Strain:
+          type: number
+          format: double
+        lsp08StrainMin:
+          type: number
+          format: double
+        lsp08StrainMax:
+          type: number
+          format: double
+        lsp09Strain:
+          type: number
+          format: double
+        lsp09StrainMin:
+          type: number
+          format: double
+        lsp09StrainMax:
+          type: number
+          format: double
+        lsp10Strain:
+          type: number
+          format: double
+        lsp10StrainMin:
+          type: number
+          format: double
+        lsp10StrainMax:
+          type: number
+          format: double
+        lsp11Strain:
+          type: number
+          format: double
+        lsp11StrainMin:
+          type: number
+          format: double
+        lsp11StrainMax:
+          type: number
+          format: double
+        lsp12Strain:
+          type: number
+          format: double
+        lsp12StrainMin:
+          type: number
+          format: double
+        lsp12StrainMax:
+          type: number
+          format: double
+        lsp13Strain:
+          type: number
+          format: double
+        lsp13StrainMin:
+          type: number
+          format: double
+        lsp13StrainMax:
+          type: number
+          format: double
+        lsp14Strain:
+          type: number
+          format: double
+        lsp14StrainMin:
+          type: number
+          format: double
+        lsp14StrainMax:
+          type: number
+          format: double
+        lsp15Strain:
+          type: number
+          format: double
+        lsp15StrainMin:
+          type: number
+          format: double
+        lsp15StrainMax:
+          type: number
+          format: double
+        lsp16Strain:
+          type: number
+          format: double
+        lsp16StrainMin:
+          type: number
+          format: double
+        lsp16StrainMax:
+          type: number
+          format: double
+    GenericData:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        property:
+          type: string
+        value:
+          type: number
+          format: double
+    LoadDistributionDaoRow:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        deviceId:
+          type: string
+        rollingElement1:
+          type: number
+          format: double
+        rollingElement2:
+          type: number
+          format: double
+        rollingElement3:
+          type: number
+          format: double
+        rollingElement4:
+          type: number
+          format: double
+        rollingElement5:
+          type: number
+          format: double
+        rollingElement6:
+          type: number
+          format: double
+        rollingElement7:
+          type: number
+          format: double
+        rollingElement8:
+          type: number
+          format: double
+        rollingElement9:
+          type: number
+          format: double
+        rollingElement10:
+          type: number
+          format: double
+        rollingElement11:
+          type: number
+          format: double
+        rollingElement12:
+          type: number
+          format: double
+        rollingElement13:
+          type: number
+          format: double
+        rollingElement14:
+          type: number
+          format: double
+        rollingElement15:
+          type: number
+          format: double
+        rollingElement16:
+          type: number
+          format: double
+        rollingElement17:
+          type: number
+          format: double
+        rollingElement18:
+          type: number
+          format: double
+        rollingElement19:
+          type: number
+          format: double
+        rollingElement20:
+          type: number
+          format: double
+        rollingElement21:
+          type: number
+          format: double
+        rollingElement22:
+          type: number
+          format: double
+        rollingElement23:
+          type: number
+          format: double
+        rollingElement24:
+          type: number
+          format: double
+        rollingElement25:
+          type: number
+          format: double
+        rollingElement26:
+          type: number
+          format: double
+        rollingElement27:
+          type: number
+          format: double
+        rollingElement28:
+          type: number
+          format: double
+        rollingElement29:
+          type: number
+          format: double
+        rollingElement30:
+          type: number
+          format: double
+        rollingElement31:
+          type: number
+          format: double
+        rollingElement32:
+          type: number
+          format: double
+        rollingElement33:
+          type: number
+          format: double
+        rollingElement34:
+          type: number
+          format: double
+        rollingElement35:
+          type: number
+          format: double
+        rollingElement36:
+          type: number
+          format: double
+        rollingElement37:
+          type: number
+          format: double
+        rollingElement38:
+          type: number
+          format: double
+        rollingElement39:
+          type: number
+          format: double
+        rollingElement40:
+          type: number
+          format: double
+        rollingElement41:
+          type: number
+          format: double
+        rollingElement42:
+          type: number
+          format: double
+        rollingElement43:
+          type: number
+          format: double
+        rollingElement44:
+          type: number
+          format: double
+        rollingElement45:
+          type: number
+          format: double
+        rollingElement46:
+          type: number
+          format: double
+        rollingElement47:
+          type: number
+          format: double
+        rollingElement48:
+          type: number
+          format: double
+        rollingElement49:
+          type: number
+          format: double
+        rollingElement50:
+          type: number
+          format: double
+        rollingElement51:
+          type: number
+          format: double
+        rollingElement52:
+          type: number
+          format: double
+        rollingElement53:
+          type: number
+          format: double
+        rollingElement54:
+          type: number
+          format: double
+        rollingElement55:
+          type: number
+          format: double
+        rollingElement56:
+          type: number
+          format: double
+        rollingElement57:
+          type: number
+          format: double
+        rollingElement58:
+          type: number
+          format: double
+        rollingElement59:
+          type: number
+          format: double
+        rollingElement60:
+          type: number
+          format: double
+        rollingElement61:
+          type: number
+          format: double
+        rollingElement62:
+          type: number
+          format: double
+        rollingElement63:
+          type: number
+          format: double
+        rollingElement64:
+          type: number
+          format: double
+        rollingElement65:
+          type: number
+          format: double
+        rollingElement66:
+          type: number
+          format: double
+        rollingElement67:
+          type: number
+          format: double
+        rollingElement68:
+          type: number
+          format: double
+        rollingElement69:
+          type: number
+          format: double
+        rollingElement70:
+          type: number
+          format: double
+        rollingElement71:
+          type: number
+          format: double
+        rollingElement72:
+          type: number
+          format: double
+        rollingElement73:
+          type: number
+          format: double
+        rollingElement74:
+          type: number
+          format: double
+        rollingElement75:
+          type: number
+          format: double
+        rollingElement76:
+          type: number
+          format: double
+        rollingElement77:
+          type: number
+          format: double
+        rollingElement78:
+          type: number
+          format: double
+        rollingElement79:
+          type: number
+          format: double
+        rollingElement80:
+          type: number
+          format: double
+        rollingElement81:
+          type: number
+          format: double
+        rollingElement82:
+          type: number
+          format: double
+        rollingElement83:
+          type: number
+          format: double
+        rollingElement84:
+          type: number
+          format: double
+        rollingElement85:
+          type: number
+          format: double
+        rollingElement86:
+          type: number
+          format: double
+        rollingElement87:
+          type: number
+          format: double
+        rollingElement88:
+          type: number
+          format: double
+        rollingElement89:
+          type: number
+          format: double
+        rollingElement90:
+          type: number
+          format: double
+        rollingElement91:
+          type: number
+          format: double
+        rollingElement92:
+          type: number
+          format: double
+        rollingElement93:
+          type: number
+          format: double
+        rollingElement94:
+          type: number
+          format: double
+        rollingElement95:
+          type: number
+          format: double
+        rollingElement96:
+          type: number
+          format: double
+        rollingElement97:
+          type: number
+          format: double
+        rollingElement98:
+          type: number
+          format: double
+        rollingElement99:
+          type: number
+          format: double
+        rollingElement100:
+          type: number
+          format: double
+        rollingElement101:
+          type: number
+          format: double
+        rollingElement102:
+          type: number
+          format: double
+        rollingElement103:
+          type: number
+          format: double
+        rollingElement104:
+          type: number
+          format: double
+        rollingElement105:
+          type: number
+          format: double
+        rollingElement106:
+          type: number
+          format: double
+        rollingElement107:
+          type: number
+          format: double
+        rollingElement108:
+          type: number
+          format: double
+        rollingElement109:
+          type: number
+          format: double
+        rollingElement110:
+          type: number
+          format: double
+        rollingElement111:
+          type: number
+          format: double
+        rollingElement112:
+          type: number
+          format: double
+        rollingElement113:
+          type: number
+          format: double
+        rollingElement114:
+          type: number
+          format: double
+        rollingElement115:
+          type: number
+          format: double
+        rollingElement116:
+          type: number
+          format: double
+        rollingElement117:
+          type: number
+          format: double
+        rollingElement118:
+          type: number
+          format: double
+        rollingElement119:
+          type: number
+          format: double
+        rollingElement120:
+          type: number
+          format: double
+        rollingElement121:
+          type: number
+          format: double
+        rollingElement122:
+          type: number
+          format: double
+        rollingElement123:
+          type: number
+          format: double
+    EdmHistory:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        clazz0:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        clazz1:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        clazz2:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        clazz3:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        clazz4:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 10000
+        channel:
+          type: string
+          example: Anntena 1
+    GcmHeatMap:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        gcm01TemperatureOpticsMax:
+          type: integer
+          format: int32
+        gcm01TemperatureOpticsMaxClassification:
+          type: string
+        gcm01DeteriorationMax:
+          type: number
+          format: double
+        gcm01DeteriorationMaxClassification:
+          type: string
+        gcm01WaterContentMax:
+          type: number
+          format: double
+        gcm01WaterContentMaxClassification:
+          type: string
+        gcm02TemperatureOpticsMax:
+          type: integer
+          format: int32
+        gcm02TemperatureOpticsMaxClassification:
+          type: string
+        gcm02DeteriorationMax:
+          type: number
+          format: double
+        gcm02DeteriorationMaxClassification:
+          type: string
+        gcm02WaterContentMax:
+          type: number
+          format: double
+        gcm02WaterContentMaxClassification:
+          type: string
+    CenterLoad:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        fx:
+          type: number
+          format: double
+        fxMin:
+          type: number
+          format: double
+        fxMax:
+          type: number
+          format: double
+        fy:
+          type: number
+          format: double
+        fyMin:
+          type: number
+          format: double
+        fyMax:
+          type: number
+          format: double
+        fz:
+          type: number
+          format: double
+        fzMin:
+          type: number
+          format: double
+        fzMax:
+          type: number
+          format: double
+        my:
+          type: number
+          format: double
+        myMin:
+          type: number
+          format: double
+        myMax:
+          type: number
+          format: double
+        mz:
+          type: number
+          format: double
+        mzMin:
+          type: number
+          format: double
+        mzMax:
+          type: number
+          format: double
+    EdgeDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        manufacturer:
+          type: string
+          format: manufacturer
+        serialNumber:
+          type: string
+    WindFarm:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          format: vehicle
+        description:
+          type: string
+          format: sentence
+        country:
+          type: string
+          format: country
+        owner:
+          type: string
+          format: companyName
+        locationLatitude:
+          type: string
+          format: latitude
+
+        locationLongitude:
+          type: string
+          format: longitude
+    WindTurbine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        edgeDevice:
+          '$ref': '#/components/schemas/EdgeDevice'
+        windFarm:
+          '$ref': '#/components/schemas/WindFarm'
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        manufacturer:
+          type: string
+          format: manufacturer
+        locationLatitude:
+          type: number
+          format: latitude
+        locationLongitude:
+          type: number
+          format: longitude
+  # securitySchemes:
+  #   bearerAuth:
+  #     type: http
+  #     name: bearerAuth
+  #     scheme: bearer
+  #     bearerFormat: JWT

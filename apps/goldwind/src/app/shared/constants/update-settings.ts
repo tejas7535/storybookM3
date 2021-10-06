@@ -1,4 +1,7 @@
 export interface UpdateSettings {
+  edmhistorgram: {
+    refresh: number;
+  };
   shaft: {
     refresh: number;
   };
@@ -25,5 +28,8 @@ export const UPDATE_SETTINGS: UpdateSettings = {
   },
   staticSafety: {
     refresh: 60,
+  },
+  edmhistorgram: {
+    refresh: 3600,
   },
 };

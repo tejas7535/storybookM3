@@ -12,6 +12,7 @@ import * as fromBearing from './bearing/bearing.reducer';
 import * as fromDataView from './data-view/data-view.reducer';
 import * as fromDevices from './devices/devices.reducer';
 import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
+import * as fromEdmHistogram from './edm-monitor/edm-histogram.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromGreaseHeatmapStatus from './grease-status/heatmap.reducer';
 import * as fromLoadAssement from './load-assessment/load-assessment.reducer';
@@ -21,6 +22,7 @@ import * as fromShaft from './shaft/shaft.reducer';
 import * as fromStaticSafety from './static-safety/static-safety.reducer';
 import { ChartState } from '../../../shared/chart/chart.state';
 import { MaintenanceAssessmentDisplay } from './maintenance-assessment/maintenance.assessment.model';
+import { EdmHistogramState } from './edm-monitor/edm-histogram.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -59,6 +61,8 @@ export const getDevicesState =
 
 export const getEdmMonitorState =
   createFeatureSelector<fromEdmMonitor.EdmMonitorState>('edmMonitor');
+export const getEdmHistogramState =
+  createFeatureSelector<fromEdmHistogram.EdmHistogramState>('edmHistogram');
 
 export const getGreaseStatusState =
   createFeatureSelector<fromGreaseStatus.GreaseStatusState>('greaseStatus');

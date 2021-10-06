@@ -25,6 +25,7 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getEdmInterval } from '../../selectors';
+import { getEdmHistogram, getEdmHistogramSuccess } from '../../actions';
 
 @Injectable()
 export class EdmMonitorEffects {
@@ -81,6 +82,25 @@ export class EdmMonitorEffects {
         this.restService.getEdm(edmParams).pipe(
           map((measurements) => getEdmSuccess({ measurements })),
           catchError((_e) => of(getEdmFailure()))
+        )
+      )
+    );
+  });
+
+  edmHistogram$ = createEffect(() => {
+    // eslint-disable-next-line ngrx/avoid-cyclic-effects
+    return this.actions$.pipe(
+      ofType(getEdmHistogram),
+      withLatestFrom(this.store.select(getEdmInterval)),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.deviceId,
+        channel: action.channel,
+        ...interval,
+      })),
+      mergeMap((edmParams) =>
+        this.restService.getEdmHistogram(edmParams, edmParams.channel).pipe(
+          map((histogram) => getEdmHistogramSuccess({ histogram })),
+          catchError((_e) => of(getEdmHistogram))
         )
       )
     );

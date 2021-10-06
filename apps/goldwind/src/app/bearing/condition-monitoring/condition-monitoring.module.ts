@@ -18,6 +18,7 @@ import {
   ShaftEffects,
   StaticSafetyEffects,
 } from '../../core/store/effects';
+import { edmHistogramReducer } from '../../core/store/reducers/edm-monitor/edm-histogram.reducer';
 import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
@@ -65,6 +66,7 @@ import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/
     StoreModule.forFeature('loadSense', loadSenseReducer),
     StoreModule.forFeature('greaseStatus', greaseStatusReducer),
     StoreModule.forFeature('edmMonitor', edmMonitorReducer),
+    StoreModule.forFeature('edmHistogram', edmHistogramReducer),
     StoreModule.forFeature('shaft', shaftReducer),
     StoreModule.forFeature('staticSafety', staticSafetyReducer),
     ReactiveComponentModule,

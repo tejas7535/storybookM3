@@ -1,6 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { EChartsOption, SeriesOption } from 'echarts';
-
 import { getEdmMonitorState } from '../../reducers';
 import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer';
 import { EdmStatus } from '../../reducers/edm-monitor/models';

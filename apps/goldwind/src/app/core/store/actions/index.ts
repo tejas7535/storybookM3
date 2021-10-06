@@ -3,6 +3,7 @@ export * from './load-sense/load-sense.actions';
 export * from './data-view/data-view.actions';
 export * from './devices/devices.actions';
 export * from './edm-monitor/edm-monitor.actions';
+export * from './edm-monitor/edm-histogram.actions';
 export * from './grease-status/grease-status.actions';
 export * from './grease-status/gc-heatmap.actions';
 export * from './load-assessment/load-assessment.actions';

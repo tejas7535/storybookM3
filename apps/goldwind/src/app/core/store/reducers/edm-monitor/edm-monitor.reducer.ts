@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { sub } from 'date-fns';
 import {
   getEdm,
   getEdmFailure,
@@ -20,9 +21,7 @@ export const initialState: EdmMonitorState = {
   loading: false,
   measurements: undefined,
   interval: {
-    startDate: Math.floor(
-      +new Date().setFullYear(new Date().getFullYear() - 1) / 1000
-    ),
+    startDate: Math.floor(+sub(new Date(), { days: 2 }) / 1000),
     endDate: Math.floor(Date.now() / 1000),
   },
 };

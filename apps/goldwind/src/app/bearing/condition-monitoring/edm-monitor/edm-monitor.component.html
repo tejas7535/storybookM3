@@ -1,42 +1,51 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.edmMonitor'"
-    class="full-height-card flex flex-col"
+    class="h-full"
   >
-    <div class="flex" fxLayoutAlign="space-between start">
-      <mat-card-header>
-        <mat-card-title
-          ><div class="flex flex-wrap">
+    <div class="flex flex-col h-full">
+      <div class="flex justify-between">
+        <mat-card-header class="h-auto">
+          <mat-card-title>
             <div class="inline-flex items-center">
               <mat-icon svgIcon="icon-vibration"></mat-icon>
               <span>{{ t('title') }}</span>
             </div>
-            <goldwind-sensor [type]="type" [sensor]="sensor"></goldwind-sensor>
-          </div>
-        </mat-card-title>
-        <mat-card-subtitle *transloco="let t; read: 'bearing'">
-          {{ t('mainBearing') }}
-        </mat-card-subtitle>
-      </mat-card-header>
-    </div>
-    <mat-card-content>
-      <div class="flex flex-col space-between">
-        <goldwind-date-range
-          [interval]="interval$ | ngrxPush"
-          (rangeChange)="setInterval($event)"
-        ></goldwind-date-range>
-        <ng-container *ngrxLet="edmGraphData$ as graphData">
-          <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
-        </ng-container>
-        <div
-          fxFlex
-          echarts
-          [options]="chartOptions"
-          [merge]="edmGraphData$ | ngrxPush"
-          class="dashboard-echart edm-chart"
-        ></div>
+          </mat-card-title>
+          <mat-card-subtitle *transloco="let t; read: 'bearing'">
+            <div class="flex flex-col">
+              <span *ngIf="interval$ | ngrxPush as interval; else notime">
+                {{ interval.startDate * 1000 | date }} -
+                {{ interval.endDate * 1000 | date }}</span
+              >
+              <ng-template #notime
+                ><span>t('noTimestampAvailable')</span></ng-template
+              >
+              <span> {{ t('updateFrequency') }}: {{ refresh / 60 }}m</span>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <goldwind-sensor
+          [type]="type"
+          [sensor]="sensor"
+          (sensorToggle)="switchSensor($event)"
+        ></goldwind-sensor>
       </div>
-    </mat-card-content>
+      <mat-card-content class="flex-grow">
+        <div class="flex flex-col space-between">
+          <ng-container *ngrxLet="edmGraphData$ as graphData">
+            <goldwind-empty-graph
+              [graphData]="graphData"
+            ></goldwind-empty-graph>
+          </ng-container>
+          <div
+            echarts
+            [options]="chartOptions"
+            [merge]="edmGraphData$ | ngrxPush"
+          ></div>
+        </div>
+      </mat-card-content>
+    </div>
   </mat-card>
 </ng-container>
 

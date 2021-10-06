@@ -12,10 +12,16 @@ export class SensorComponent {
   @Input() sensor: boolean;
   @Output() readonly sensorToggle: EventEmitter<{
     sensor: boolean;
+    type: Sensor;
+    value?: any;
   }> = new EventEmitter();
 
-  toggleSensor(): void {
+  toggleSensor(event: any): void {
     this.sensor = !this.sensor;
-    this.sensorToggle.emit({ sensor: this.sensor });
+    this.sensorToggle.emit({
+      sensor: this.sensor,
+      type: this.type,
+      value: event.value,
+    });
   }
 }

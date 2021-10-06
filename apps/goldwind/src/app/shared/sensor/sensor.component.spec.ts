@@ -30,12 +30,14 @@ describe('DateRangeComponent', () => {
 
       component.sensor = true;
 
-      component.toggleSensor();
+      component.toggleSensor({ value: 1 });
       expect(component.sensor).toBe(false);
 
       expect(component['sensorToggle'].emit).toHaveBeenCalledTimes(1);
       expect(component['sensorToggle'].emit).toHaveBeenCalledWith({
         sensor: false,
+        type: undefined,
+        value: 1,
       });
     });
   });

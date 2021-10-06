@@ -80,7 +80,8 @@ export const tooltipFormatter = (
   const digits = { maximumFractionDigits: 0 };
 
   if (
-    seriesName === `${translate(`conditionMonitoring.centerLoad.rotor`)}` ||
+    (loadSense &&
+      seriesName === `${translate(`conditionMonitoring.centerLoad.rotor`)}`) ||
     seriesName === `${translate(`conditionMonitoring.centerLoad.rotorAverage`)}`
   ) {
     result = `${seriesName}<br />

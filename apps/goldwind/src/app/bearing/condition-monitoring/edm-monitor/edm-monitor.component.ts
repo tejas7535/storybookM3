@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -14,9 +13,11 @@ import {
   getEdmInterval,
   getEdmLoading,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
-import { axisChartOptions } from '../../../shared/chart/chart';
-import { DATE_FORMAT } from '../../../shared/constants';
+import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
+import { getEdmHeatmapSeries, getEdmHistogram } from '../../../core/store';
+import { ActivatedRoute } from '@angular/router';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -24,36 +25,164 @@ import { Sensor } from '../../../shared/sensor/sensor.enum';
   styleUrls: ['./edm-monitor.component.scss'],
 })
 export class EdmMonitorComponent implements OnInit {
-  edmGraphData$: Observable<EChartsOption>;
+  refresh = UPDATE_SETTINGS.edmhistorgram.refresh;
+
+  edmGraphData$: Observable<any>;
   interval$: Observable<Interval>;
   sensor = false;
   loading$: Observable<boolean>;
   type = Sensor.ANTENNA;
   chartOptions: EChartsOption = {
-    ...axisChartOptions,
-    grid: {
-      left: 75,
-      right: 50,
+    yAxis: {
+      type: 'category',
+      data: [0, 10, 100, 1000, 10_000],
+      splitArea: {
+        show: true,
+      },
+      splitLine: {
+        show: true,
+        interval: 1,
+        lineStyle: { color: 'white' },
+      },
+      axisLabel: {
+        color: '#646464',
+      },
+      axisLine: {
+        lineStyle: {
+          color: '#ced5da',
+        },
+      },
     },
     legend: {
-      ...axisChartOptions.legend,
-      formatter: (name: string) => this.formatLegend(name),
+      show: false,
+    },
+    xAxis: {
+      type: 'category',
+      data: [],
+      splitArea: {
+        show: true,
+      },
+      splitLine: {
+        show: true,
+        interval: 'auto',
+        lineStyle: {
+          color: 'white',
+        },
+      },
+      axisLabel: {
+        color: '#646464',
+        formatter: (d: any) => format(new Date(d), 'YYY-MM-dd'),
+      },
+      axisLine: {
+        lineStyle: {
+          color: '#ced5da',
+        },
+      },
+    },
+    gradientColor: ['#B5ECF8', '#0E656D'],
+    visualMap: {
+      min: 0,
+      max: 100_000,
+      calculable: true,
+      orient: 'horizontal',
+      left: 'center',
+      bottom: '0%',
+      show: true,
+      z: 0,
+    },
+    series: [],
+    grid: {
+      left: 40,
+      right: 0,
     },
     tooltip: {
-      ...axisChartOptions.tooltip,
-      formatter: (params: any) => this.formatTooltip(params),
+      position: 'top',
+      formatter: (params: any) => `
+        <div class="grid grid-cols-2 grid-rows-3">
+          <span>Incidents:</span>
+          <span>${this.getIncidentsDescribishString(params.data[2])}(${
+        params.data[2]
+      })</span>
+          <span>Class:</span>
+          <span>${this.getClassificationString(params.data[1])}</span>
+          <span>Time:</span> <span>${this.reformatLegendDate(
+            params.data[0]
+          )}</span>
+
+        </div>
+      `,
     },
   };
+  channel = 'edm-1';
 
-  public constructor(private readonly store: Store) {}
-
+  public constructor(
+    private readonly store: Store,
+    private readonly activate: ActivatedRoute
+  ) {}
+  /**
+   * Delivers a string describing with few word the class of the value
+   * @param amount
+   * @returns
+   */
+  getIncidentsDescribishString(amount: number): string {
+    switch (true) {
+      case amount >= 0 && amount < 100:
+        return translate('edm.histogram.classes.a_lot');
+      case amount >= 100 && amount < 1000:
+        return translate('edm.histogram.classes.few');
+      case amount >= 1000 && amount < 10_000:
+        return translate('edm.histogram.classes.more_than_few');
+      case amount >= 10_000 && amount < 100_000:
+        return translate('edm.histogram.classes.a_lot');
+      case amount >= 100_000:
+        return translate('edm.histogram.classes.to_much');
+      default:
+        return translate('edm.histogram.classes.n_a');
+    }
+  }
+  /**
+   *
+   * @param index
+   * @returns
+   */
+  public getClassificationString(index: number): string {
+    switch (index) {
+      case 0:
+        return '0 - 100';
+      case 1:
+        return '100 - 1000';
+      case 2:
+        return '1000 - 10000';
+      case 3:
+        return '10000 - 100000';
+      case 4:
+        return '> 100000';
+      default:
+        return 'n.A.';
+    }
+  }
   ngOnInit(): void {
+    this.updateEDM();
     this.interval$ = this.store.select(getEdmInterval);
-    this.loading$ = this.store.select(getEdmLoading).pipe(take(2));
+    this.loading$ = this.store.select(getEdmLoading);
+    this.edmGraphData$ = this.store.select(getEdmHeatmapSeries);
+  }
+
+  private updateEDM() {
+    this.store.dispatch(
+      getEdmHistogram({
+        deviceId: this.activate.snapshot.params.deviceId,
+        channel: this.channel,
+      })
+    );
   }
 
   setInterval(interval: Interval): void {
     this.store.dispatch(setEdmInterval({ interval }));
+  }
+
+  reformatLegendDate(date: string) {
+    return format(new Date(date), 'MM/dd/yyyy HH:mm');
   }
 
   formatLegend(name: string): string {
@@ -77,7 +206,7 @@ export class EdmMonitorComponent implements OnInit {
       // eslint-disable-next-line unicorn/no-array-reduce
       params.reduce((acc, param, index) => {
         const result = `${acc}${this.formatLegend(param.seriesName)}: ${
-          param.data.value[1]
+          param.data?.value[1]
         }<br>`;
 
         return index === params.length - 1
@@ -95,5 +224,10 @@ export class EdmMonitorComponent implements OnInit {
       Object.values(AntennaName as any).indexOf(name.replace('Max', '')) + 1;
 
     return `${translate('sensor.antenna')} ${antennaNumber}`;
+  }
+
+  switchSensor(event: any) {
+    this.channel = `edm-${event.value}`;
+    this.updateEDM();
   }
 }

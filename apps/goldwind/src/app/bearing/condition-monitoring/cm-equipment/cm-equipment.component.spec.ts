@@ -1,12 +1,13 @@
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { BearingMetadata } from '../../../core/store/reducers/bearing/models';
 import { CmEquipmentComponent } from './cm-equipment.component';
+import { TAB_TYPE } from './tabtype.enum';
 
 describe('ConditionMeasuringEquipmentComponent', () => {
   let component: CmEquipmentComponent;
@@ -59,7 +60,14 @@ describe('ConditionMeasuringEquipmentComponent', () => {
     });
   });
 
-  it('a picture should be visible', () => {
-    expect(spectator.query('.equipment-image > img')).toBeVisible();
+  describe('handleSelectedTabChange', () => {
+    it('should return the meta', () => {
+      const event = { tab: { textLabel: TAB_TYPE.LOAD } } as MatTabChangeEvent;
+      component.handleSelectedTabChange(event);
+      expect(component.selectedTab).toEqual(TAB_TYPE.LOAD);
+    });
+    it('a picture should be visible', () => {
+      expect(spectator.query('.equipment-image > img')).toBeVisible();
+    });
   });
 });

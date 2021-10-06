@@ -2,7 +2,7 @@
   <mat-radio-group
     class="flex justify-between text-center gap-3"
     color="primary"
-    (change)="toggleSensor()"
+    (change)="toggleSensor($event)"
     [selected]="first"
   >
     <mat-radio-button value="1" #first>
