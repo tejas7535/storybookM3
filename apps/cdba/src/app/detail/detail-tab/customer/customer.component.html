@@ -1,32 +1,12 @@
-<div class="widget-content">
-  <div *transloco="let t; read: 'detail.detailTab'">
-    <h6>{{ t('customer.title') }}</h6>
-    <div class="widget-group" *ngIf="customerDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('customer.customers') }}:&nbsp;</label>
-        <div fxFlex="100%">
-          {{ customerDetails?.customer | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="customerDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('customer.customerGroup') }}:&nbsp;</label
-        >
-        <div fxFlex="100%">
-          {{ customerDetails?.customerGroup | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="error-box"
-      *ngIf="errorMessage"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
-    >
-      <p>{{ errorMessage }}</p>
-    </div>
-  </div>
+<div *transloco="let t; read: 'detail.detailTab.customer'">
+  <h6 class="text-mediumEmphasis mb-4">{{ t('title') }}</h6>
+  <cdba-detail-label-value
+    [label]="t('customers')"
+    [value]="customerDetails?.customer | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('customerGroup')"
+    [value]="customerDetails?.customerGroup | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
 </div>

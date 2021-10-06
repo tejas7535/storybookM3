@@ -1,93 +1,49 @@
-<div class="widget-content">
-  <div *transloco="let t; read: 'detail.detailTab'">
-    <h6>{{ t('salesAndDescription.title') }}</h6>
-    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.materialDesignation') }}:&nbsp;
-        </label>
-        <div>
-          {{
-            salesDetails?.materialDesignation
-              | scrambleMaterialDesignation: 0
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.materialNumber') }}:&nbsp;
-        </label>
-        <div>
-          {{
-            salesDetails?.materialNumber
-              | materialNumber
-              | scrambleMaterialNumber: 0
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.materialShortDescription') }}:&nbsp;
-        </label>
-        <div>
-          {{
-            salesDetails?.materialShortDescription | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.productLine') }}:&nbsp;
-        </label>
-        <div>{{ salesDetails?.productLine | undefinedAttributeFallback }}</div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.rfq') }}:&nbsp;
-        </label>
-        <div>{{ salesDetails?.rfq | undefinedAttributeFallback }}</div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.salesOrganization') }}:&nbsp;
-        </label>
-        <div fxFlex="100%">
-          {{ salesDetails?.salesOrganization | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.projectName') }}:&nbsp;
-        </label>
-        <div fxFlex="100%">
-          {{ salesDetails?.projectName | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">
-          {{ t('salesAndDescription.productDescription') }}:&nbsp;
-        </label>
-        <div fxFlex="100%">
-          {{ salesDetails?.productDescription | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="error-box"
-      *ngIf="errorMessage"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
-    >
-      <p>{{ errorMessage }}</p>
-    </div>
-  </div>
+<div *transloco="let t; read: 'detail.detailTab.salesAndDescription'">
+  <h6 class="text-mediumEmphasis mb-4">{{ t('title') }}</h6>
+  <cdba-detail-label-value
+    [label]="t('materialDesignation')"
+    [value]="
+      salesDetails?.materialDesignation
+        | scrambleMaterialDesignation: 0
+        | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('materialNumber')"
+    [value]="
+      salesDetails?.materialNumber
+        | materialNumber
+        | scrambleMaterialDesignation: 0
+        | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('materialShortDescription')"
+    [value]="
+      salesDetails?.materialShortDescription | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('productLine')"
+    [value]="salesDetails?.productLine | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('rfq')"
+    [value]="salesDetails?.rfq | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('salesOrganization')"
+    [value]="salesDetails?.salesOrganization | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('projectName')"
+    [value]="salesDetails?.projectName | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('productDescription')"
+    [value]="salesDetails?.productDescription | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
 </div>

@@ -1,120 +1,63 @@
-<div class="widget-content">
-  <div *transloco="let t; read: 'detail.detailTab'">
-    <h6>{{ t('quantities.title') }}</h6>
-    <div class="widget-group" *ngIf="quantitiesDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('quantities.pcmQuantity') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.pcmQuantity
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap" *ngIf="quantitiesDetails.netSales?.length">
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.netSales', { year: currentYear - 1 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.netSales[0]
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}&nbsp;{{ quantitiesDetails.currency }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.budgetQuantity', { year: currentYear })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.budgetQuantityCurrentYear
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.budgetQuantitySoco', { year: currentYear })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{
-            quantitiesDetails.budgetQuantitySoco
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-    </div>
-    <div
-      class="widget-group"
-      *ngIf="
-        quantitiesDetails && quantitiesDetails.actualQuantities && !errorMessage
-      "
-    >
-      <div
-        fxLayout="row wrap"
-        *ngFor="
-          let actualQuantity of quantitiesDetails.actualQuantities
-            .slice()
-            .reverse();
-          index as i
-        "
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.actualQuantity', { year: currentYear - (4 - i) })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{ actualQuantity | translocoDecimal | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div
-      class="widget-group"
-      *ngIf="
-        quantitiesDetails &&
-        quantitiesDetails.plannedQuantities &&
-        !errorMessage
-      "
-    >
-      <div
-        fxLayout="row wrap"
-        *ngFor="
-          let plannedQuantity of quantitiesDetails.plannedQuantities;
-          index as i
-        "
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.plannedQuantity', { year: currentYear + i })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{ plannedQuantity | translocoDecimal | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="error-box"
-      *ngIf="errorMessage"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
-    >
-      <p>{{ errorMessage }}</p>
-    </div>
-  </div>
+<div *transloco="let t; read: 'detail.detailTab.quantities'">
+  <h6 class="text-mediumEmphasis mb-4">{{ t('title') }}</h6>
+  <cdba-detail-label-value
+    [label]="t('pcmQuantity')"
+    [value]="
+      quantitiesDetails?.pcmQuantity
+        | translocoDecimal
+        | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('netSales', { year: currentYear - 1 })"
+    [value]="
+      (quantitiesDetails?.netSales[0]
+        | translocoDecimal
+        | undefinedAttributeFallback) +
+      (quantitiesDetails?.currency ? ' ' + quantitiesDetails?.currency : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('budgetQuantity', { year: currentYear })"
+    [value]="
+      quantitiesDetails?.budgetQuantityCurrentYear
+        | translocoDecimal
+        | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('budgetQuantitySoco', { year: currentYear })"
+    [value]="
+      quantitiesDetails?.budgetQuantitySoco
+        | translocoDecimal
+        | undefinedAttributeFallback
+    "
+    [borderBottom]="
+      quantitiesDetails?.actualQuantities.length > 0 ||
+      quantitiesDetails?.plannedQuantities.length > 0
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    *ngFor="
+      let actualQuantity of quantitiesDetails?.actualQuantities
+        .slice()
+        .reverse();
+      index as i
+    "
+    [label]="
+      t('actualQuantity', {
+        year: currentYear - (quantitiesDetails?.actualQuantities.length - i)
+      })
+    "
+    [value]="actualQuantity | translocoDecimal | undefinedAttributeFallback"
+    [borderBottom]="i + 1 === quantitiesDetails?.actualQuantities.length"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    *ngFor="
+      let plannedQuantity of quantitiesDetails?.plannedQuantities;
+      index as i
+    "
+    [label]="t('plannedQuantity', { year: currentYear + i })"
+    [value]="plannedQuantity | translocoDecimal | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
 </div>

@@ -4,9 +4,9 @@ import { MatCardModule } from '@angular/material/card';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { SharedModule } from '@cdba/shared';
-import { LoadingSpinnerModule } from '@cdba/shared/components';
 
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabRoutingModule } from './detail-tab-routing.module';

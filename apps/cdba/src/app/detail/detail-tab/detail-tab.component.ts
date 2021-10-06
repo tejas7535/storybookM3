@@ -10,7 +10,6 @@ import {
   getPriceDetails,
   getProductionDetails,
   getQuantitiesDetails,
-  getReferenceTypeErrorMessage,
   getReferenceTypeLoading,
   getSalesDetails,
 } from '../../core/store';
@@ -24,11 +23,9 @@ import { SalesDetails } from './sales-and-description/model/sales-details.model'
 @Component({
   selector: 'cdba-detail-tab',
   templateUrl: './detail-tab.component.html',
-  styleUrls: ['./detail-tab.component.scss'],
 })
 export class DetailTabComponent implements OnInit {
   isLoading$: Observable<boolean>;
-  errorMessageDetails$: Observable<string>;
 
   customerDetails$: Observable<CustomerDetails>;
   dimensionAndWeight$: Observable<DimensionAndWeightDetails>;
@@ -41,7 +38,6 @@ export class DetailTabComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading$ = this.store.select(getReferenceTypeLoading);
-    this.errorMessageDetails$ = this.store.select(getReferenceTypeErrorMessage);
 
     this.customerDetails$ = this.store.select(getCustomerDetails);
     this.dimensionAndWeight$ = this.store.select(getDimensionAndWeightDetails);

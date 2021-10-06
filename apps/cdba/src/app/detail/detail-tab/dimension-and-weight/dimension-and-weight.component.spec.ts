@@ -4,6 +4,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
+import { LabelValueModule } from '../label-value/label-value.module';
 import { DimensionAndWeightComponent } from './dimension-and-weight.component';
 
 describe('DimensionAndWeightComponent', () => {
@@ -15,6 +16,7 @@ describe('DimensionAndWeightComponent', () => {
     imports: [
       UndefinedAttributeFallbackModule,
       provideTranslocoTestingModule({ en: {} }),
+      LabelValueModule,
     ],
   });
 

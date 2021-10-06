@@ -1,115 +1,75 @@
-<div class="widget-content">
-  <div *transloco="let t; read: 'detail.detailTab'">
-    <h6>{{ t('pricing.title') }}</h6>
-    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.averagePrice') }}:&nbsp;</label>
-        <div>
-          {{
-            salesPrice?.averagePrice
-              | translocoDecimal: { minimumFractionDigits: 3 }
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            salesPrice?.averagePrice
-              ? t('pricing.pricePerUnit', {
-                  currency: salesPrice?.currency
-                })
-              : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.pcmSqv') }}:&nbsp;</label>
-        <div>
-          {{
-            salesPrice?.pcmSqv
-              | translocoDecimal: { minimumFractionDigits: 3 }
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            salesPrice?.pcmSqv
-              ? t('pricing.pricePerUnit', {
-                  currency: salesPrice?.currency
-                })
-              : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('pricing.pcmCalculationDate') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            salesPrice?.pcmCalculationDate
-              | translocoDate
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('pricing.sqvSapLatestMonth') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            salesPrice?.sqvSapLatestMonth
-              | translocoDecimal: { minimumFractionDigits: 3 }
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            salesPrice?.sqvSapLatestMonth
-              ? t('pricing.pricePerUnit', {
-                  currency: salesPrice?.currency
-                })
-              : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.sqvDate') }}:&nbsp;</label>
-        <div>
-          {{ salesPrice?.sqvDate | translocoDate | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.gpcLatestYear') }}:&nbsp;</label>
-        <div>
-          {{
-            salesPrice?.gpcLatestYear
-              | translocoDecimal: { minimumFractionDigits: 3 }
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            salesPrice?.gpcLatestYear
-              ? t('pricing.pricePerUnit', {
-                  currency: salesPrice?.currency
-                })
-              : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.gpcDate') }}:&nbsp;</label>
-        <div>
-          {{ salesPrice?.gpcDate | translocoDate | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.puUm') }}:&nbsp;</label>
-        <div>{{ salesPrice?.puUm | undefinedAttributeFallback }}</div>
-      </div>
-    </div>
-    <div
-      class="error-box"
-      *ngIf="errorMessage"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
-    >
-      <p>{{ errorMessage }}</p>
-    </div>
-  </div>
+<div *transloco="let t; read: 'detail.detailTab.pricing'">
+  <h6 class="text-mediumEmphasis mb-4">{{ t('title') }}</h6>
+  <cdba-detail-label-value
+    [label]="t('averagePrice')"
+    [value]="
+      (salesPrice?.averagePrice
+        | translocoDecimal: { minimumFractionDigits: 3 }
+        | undefinedAttributeFallback) +
+      ' ' +
+      (salesPrice?.averagePrice && salesPrice?.currency
+        ? t('pricePerUnit', { currency: salesPrice?.currency })
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('pcmSqv')"
+    [value]="
+      (salesPrice?.pcmSqv
+        | translocoDecimal: { minimumFractionDigits: 3 }
+        | undefinedAttributeFallback) +
+      ' ' +
+      (salesPrice?.pcmSqv && salesPrice?.currency
+        ? t('pricePerUnit', { currency: salesPrice?.currency })
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('pcmCalculationDate')"
+    [value]="
+      salesPrice?.pcmCalculationDate
+        | translocoDate
+        | undefinedAttributeFallback
+    "
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('sqvSapLatestMonth')"
+    [value]="
+      (salesPrice?.sqvSapLatestMonth
+        | translocoDecimal: { minimumFractionDigits: 3 }
+        | undefinedAttributeFallback) +
+      ' ' +
+      (salesPrice?.sqvSapLatestMonth && salesPrice?.currency
+        ? t('pricePerUnit', { currency: salesPrice?.currency })
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('sqvDate')"
+    [value]="salesPrice?.sqvDate | translocoDate | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+
+  <cdba-detail-label-value
+    [label]="t('gpcLatestYear')"
+    [value]="
+      (salesPrice?.gpcLatestYear
+        | translocoDecimal: { minimumFractionDigits: 3 }
+        | undefinedAttributeFallback) +
+      ' ' +
+      (salesPrice?.gpcLatestYear && salesPrice?.currency
+        ? t('pricePerUnit', { currency: salesPrice?.currency })
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('gpcDate')"
+    [value]="salesPrice?.gpcDate | translocoDate | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('puUm')"
+    [value]="salesPrice?.puUm | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
 </div>

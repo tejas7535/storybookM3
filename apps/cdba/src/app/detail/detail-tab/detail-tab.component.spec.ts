@@ -6,8 +6,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
-import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -66,7 +66,6 @@ describe('DetailTabComponent', () => {
       component.ngOnInit();
 
       expect(component.isLoading$).toBeDefined();
-      expect(component.errorMessageDetails$).toBeDefined();
       expect(component.customerDetails$).toBeDefined();
       expect(component.dimensionAndWeight$).toBeDefined();
       expect(component.salesPrice$).toBeDefined();

@@ -1,79 +1,36 @@
-<div class="widget-content">
-  <div *transloco="let t; read: 'detail.detailTab'">
-    <h6>{{ t('production.title') }}</h6>
-    <div class="widget-group" *ngIf="productionDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('production.procurementType') }}:&nbsp;</label
-        >
-        <div>
-          {{ productionDetails?.procurementType | undefinedAttributeFallback }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('production.plant') }}:&nbsp;</label>
-        <div>
-          {{ productionDetails?.plant | undefinedAttributeFallback }}
-        </div>
-      </div>
-      <!-- <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('production.saleableItem') }}:&nbsp;</label
-        >
-        <div>
-          {{ t('production.' + productionDetails?.saleableItem) }}
-        </div>
-      </div> -->
-    </div>
-    <div class="widget-group" *ngIf="productionDetails && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('production.specialProcurement') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            productionDetails?.specialProcurement | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('production.purchasePriceValidFrom') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            productionDetails?.purchasePriceValidFrom
-              | translocoDate
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('production.purchasePriceValidUntil') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            productionDetails?.purchasePriceValidUntil
-              | translocoDate
-              | undefinedAttributeFallback
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('production.supplier') }}:&nbsp;</label>
-        <div fxFlex="100%">
-          {{ productionDetails?.supplier | undefinedAttributeFallback }}
-        </div>
-      </div>
-    </div>
-    <div
-      class="error-box"
-      *ngIf="errorMessage"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
-    >
-      <p>{{ errorMessage }}</p>
-    </div>
-  </div>
+<div *transloco="let t; read: 'detail.detailTab.production'">
+  <h6 class="text-mediumEmphasis mb-4">{{ t('title') }}</h6>
+  <cdba-detail-label-value
+    [label]="t('procurementType')"
+    [value]="productionDetails?.procurementType | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('plant')"
+    [value]="productionDetails?.plant | undefinedAttributeFallback"
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('specialProcurement')"
+    [value]="productionDetails?.specialProcurement | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('purchasePriceValidFrom')"
+    [value]="
+      productionDetails?.purchasePriceValidFrom
+        | translocoDate
+        | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('purchasePriceValidUntil')"
+    [value]="
+      productionDetails?.purchasePriceValidUntil
+        | translocoDate
+        | undefinedAttributeFallback
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('supplier')"
+    [value]="productionDetails?.supplier | undefinedAttributeFallback"
+  ></cdba-detail-label-value>
 </div>

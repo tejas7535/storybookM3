@@ -1,93 +1,64 @@
-<div class="widget-content">
-  <div *transloco="let t; read: 'detail.detailTab'">
-    <h6>{{ t('dimensionAndWeight.title') }}</h6>
-    <div class="widget-group" *ngIf="dimensionAndWeight && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.length') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            dimensionAndWeight?.length
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            dimensionAndWeight?.length
-              ? dimensionAndWeight?.unitOfDimension
-              : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.width') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            dimensionAndWeight?.width
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            dimensionAndWeight?.width ? dimensionAndWeight?.unitOfDimension : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.height') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            dimensionAndWeight?.height
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            dimensionAndWeight?.height
-              ? dimensionAndWeight?.unitOfDimension
-              : ''
-          }}
-        </div>
-      </div>
-    </div>
-    <div class="widget-group" *ngIf="dimensionAndWeight && !errorMessage">
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.weight') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            dimensionAndWeight?.weight
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            dimensionAndWeight?.weight ? dimensionAndWeight?.weightUnit : ''
-          }}
-        </div>
-      </div>
-      <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('dimensionAndWeight.volumeCubic') }}:&nbsp;</label
-        >
-        <div>
-          {{
-            dimensionAndWeight?.volumeCubic
-              | translocoDecimal
-              | undefinedAttributeFallback
-          }}&nbsp;{{
-            dimensionAndWeight?.volumeCubic
-              ? dimensionAndWeight?.volumeUnit
-              : ''
-          }}
-        </div>
-      </div>
-    </div>
-    <div
-      class="error-box"
-      *ngIf="errorMessage"
-      fxLayout="row"
-      fxLayoutAlign="space-around center"
-    >
-      <p>{{ errorMessage }}</p>
-    </div>
-  </div>
+<div *transloco="let t; read: 'detail.detailTab.dimensionAndWeight'">
+  <h6 class="text-mediumEmphasis mb-4">{{ t('title') }}</h6>
+  <cdba-detail-label-value
+    [label]="t('length')"
+    [value]="
+      (dimensionAndWeight?.length
+        | translocoDecimal
+        | undefinedAttributeFallback) +
+      ' ' +
+      (dimensionAndWeight?.length && dimensionAndWeight?.unitOfDimension
+        ? dimensionAndWeight?.unitOfDimension
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('width')"
+    [value]="
+      (dimensionAndWeight?.width
+        | translocoDecimal
+        | undefinedAttributeFallback) +
+      ' ' +
+      (dimensionAndWeight?.width && dimensionAndWeight?.unitOfDimension
+        ? dimensionAndWeight?.unitOfDimension
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('height')"
+    [value]="
+      (dimensionAndWeight?.height
+        | translocoDecimal
+        | undefinedAttributeFallback) +
+      ' ' +
+      (dimensionAndWeight?.height && dimensionAndWeight?.unitOfDimension
+        ? dimensionAndWeight?.unitOfDimension
+        : '')
+    "
+    [borderBottom]="true"
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('weight')"
+    [value]="
+      (dimensionAndWeight?.weight
+        | translocoDecimal
+        | undefinedAttributeFallback) +
+      ' ' +
+      (dimensionAndWeight?.weight && dimensionAndWeight?.weightUnit
+        ? dimensionAndWeight?.weightUnit
+        : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
+    [label]="t('volumeCubic')"
+    [value]="
+      (dimensionAndWeight?.volumeCubic
+        | translocoDecimal
+        | undefinedAttributeFallback) +
+      ' ' +
+      (dimensionAndWeight?.volumeCubic && dimensionAndWeight?.volumeUnit
+        ? dimensionAndWeight?.volumeUnit
+        : '')
+    "
+  ></cdba-detail-label-value>
 </div>

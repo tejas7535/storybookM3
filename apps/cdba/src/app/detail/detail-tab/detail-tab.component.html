@@ -1,92 +1,57 @@
 <div
-  gdColumns="repeat(15, 1fr)"
-  gdRows="repeat(14, 1fr)"
-  gdColumns.lt-md="repeat(6, 1fr)"
-  gdRows.lt-md="repeat(35, 1fr)"
-  gdColumns.xs="repeat(3, 1fr)"
-  gdRows.xs="repeat(56, 1fr)"
-  gdGap="16px"
-  class="grid-container"
+  class="
+    h-full
+    w-full
+    justify-center
+    grid grid-cols-1
+    sm:grid-cols-2
+    md:grid-cols-3
+    lg:grid-cols-5
+    gap-4
+    auto-cols-fr
+  "
 >
-  <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
-    <cdba-sales-and-description
-      *ngIf="!(isLoading$ | ngrxPush); else loading"
-      [salesDetails]="salesDetails$ | ngrxPush"
-      [errorMessage]="errorMessageDetails$ | ngrxPush"
-    ></cdba-sales-and-description>
-  </mat-card>
-  <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
-    <cdba-dimension-and-weight
-      *ngIf="!(isLoading$ | ngrxPush); else loading"
-      [dimensionAndWeight]="dimensionAndWeight$ | ngrxPush"
-      [errorMessage]="errorMessageDetails$ | ngrxPush"
-    ></cdba-dimension-and-weight>
-  </mat-card>
-  <mat-card
-    gdColumn="auto / span 3"
-    gdRow="auto / span 7"
-    gdColumn.lt-md="auto / span 3"
-    gdRow.lt-md="15 / span 7"
-  >
-    <cdba-customer
-      *ngIf="!(isLoading$ | ngrxPush); else loading"
-      [customerDetails]="customerDetails$ | ngrxPush"
-      [errorMessage]="errorMessageDetails$ | ngrxPush"
-    >
-    </cdba-customer>
-  </mat-card>
-  <mat-card
-    gdColumn="auto / span 6"
-    gdRow="auto / span 14"
-    gdColumn.lt-md="1 / span 6"
-    gdRow.lt-md="auto / span 14"
-    gdColumn.xs="auto / span 3"
-    gdRow.xs="auto / span 14"
-  >
-    <cdba-drawings></cdba-drawings>
-  </mat-card>
-  <mat-card
-    gdColumn="1 / span 3"
-    gdRow="9 / span 6"
-    gdColumn.xs="auto / span 3"
-    gdRow.xs="22 / span 6"
-  >
-    <cdba-pricing
-      *ngIf="!(isLoading$ | ngrxPush); else loading"
-      [salesPrice]="salesPrice$ | ngrxPush"
-      [errorMessage]="errorMessageDetails$ | ngrxPush"
-    ></cdba-pricing>
-  </mat-card>
-  <mat-card
-    gdColumn="4 / span 3"
-    gdRow="7 / span 8"
-    gdColumn.lt-md="4 / span 3"
-    gdRow.lt-md="7 / span 7"
-    gdColumn.xs="auto / span 3"
-    gdRow.xs="28 / span 8"
-  >
-    <cdba-quantities
-      *ngIf="!(isLoading$ | ngrxPush); else loading"
-      [quantitiesDetails]="quantitiesDetails$ | ngrxPush"
-      [errorMessage]="errorMessageDetails$ | ngrxPush"
-    ></cdba-quantities>
-  </mat-card>
-  <mat-card
-    gdColumn="7 / span 3"
-    gdRow="auto / span 7"
-    gdColumn.lt-md="auto / span 3"
-    gdRow.lt-md="14 / span 8"
-    gdColumn.xs="auto / span 3"
-    gdRow.xs="36 / span 7"
-  >
-    <cdba-production
-      *ngIf="!(isLoading$ | ngrxPush); else loading"
-      [productionDetails]="productionDetails$ | ngrxPush"
-      [errorMessage]="errorMessageDetails$ | ngrxPush"
-    ></cdba-production>
-  </mat-card>
+  <ng-container *ngIf="!(isLoading$ | ngrxPush); else loading">
+    <div>
+      <mat-card class="mb-4">
+        <cdba-sales-and-description
+          [salesDetails]="salesDetails$ | ngrxPush"
+        ></cdba-sales-and-description>
+      </mat-card>
+      <mat-card>
+        <cdba-production
+          [productionDetails]="productionDetails$ | ngrxPush"
+        ></cdba-production>
+      </mat-card>
+    </div>
+    <div>
+      <mat-card class="mb-4">
+        <cdba-pricing [salesPrice]="salesPrice$ | ngrxPush"></cdba-pricing>
+      </mat-card>
+      <mat-card>
+        <cdba-dimension-and-weight
+          [dimensionAndWeight]="dimensionAndWeight$ | ngrxPush"
+        ></cdba-dimension-and-weight>
+      </mat-card>
+    </div>
+    <div>
+      <mat-card class="mb-4">
+        <cdba-quantities
+          [quantitiesDetails]="quantitiesDetails$ | ngrxPush"
+        ></cdba-quantities>
+      </mat-card>
+      <mat-card>
+        <cdba-customer
+          [customerDetails]="customerDetails$ | ngrxPush"
+        ></cdba-customer>
+      </mat-card>
+    </div>
+    <mat-card class="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-2">
+      <cdba-drawings></cdba-drawings>
+    </mat-card>
+  </ng-container>
 </div>
 
 <ng-template #loading>
-  <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>
