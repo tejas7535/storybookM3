@@ -105,11 +105,7 @@ export class AssessmentLinechartComponent
       containLabel: true,
     },
     legend: {
-      ...axisChartOptions.legend,
-      itemHeight: 2,
-      itemWidth: 16,
-      bottom: 0,
-      formatter: (name: string) => this.formatLegend(name),
+      show: false,
     },
     tooltip: {
       ...axisChartOptions.tooltip,
@@ -257,5 +253,17 @@ export class AssessmentLinechartComponent
           this.displayForm.patchValue(nodeValues);
         });
     });
+  }
+
+  updateChildForms({ name }: any, isChecked: boolean) {
+    const node = this.dataSource.data.find(
+      (sensorNode: SensorNode) => sensorNode.name === name
+    );
+    const childrenForms = node.children
+      .map((c) => c.formControl)
+      .reduce((acc, key) => ({ ...acc, [key]: isChecked }), {});
+
+    this.displayForm.markAsDirty();
+    this.displayForm.patchValue(childrenForms);
   }
 }

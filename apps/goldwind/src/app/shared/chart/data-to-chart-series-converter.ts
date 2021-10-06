@@ -29,6 +29,12 @@ export class DataToChartSeriesConverter {
     }
     this.findMethodAndConvert();
   }
+
+  get lineStyle() {
+    return {
+      color: this.controls.find(({ label }) => label === this.key)?.color,
+    };
+  }
   /**
    *
    * @returns a object containing series entries
@@ -39,10 +45,11 @@ export class DataToChartSeriesConverter {
       type: 'line',
       symbol: 'none',
       data: this.data,
+      lineStyle: this.lineStyle,
     };
   }
   /**
-   *
+   *#
    */
   getShaft() {}
   /**

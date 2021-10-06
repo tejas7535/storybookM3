@@ -46,6 +46,8 @@
     class="sm:col-span-2 lg:col-span-4"
     [ngClass]="{ highlight: equipment.selectedTab === 'edm' }"
   >
-    <goldwind-edm-monitor></goldwind-edm-monitor>
+    <goldwind-preview-container>
+      <goldwind-edm-monitor></goldwind-edm-monitor>
+    </goldwind-preview-container>
   </div>
 </div>

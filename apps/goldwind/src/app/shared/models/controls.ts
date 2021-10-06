@@ -14,6 +14,7 @@ export enum Type {
 }
 
 export interface Control {
+  color?: string;
   label: string;
   formControl: string;
   unit: Unit;

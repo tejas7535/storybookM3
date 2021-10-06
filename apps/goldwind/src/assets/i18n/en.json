@@ -1,14 +1,14 @@
 {
   "app": {
     "back": "back to the last page",
-    "currentPage": "Current Page",
     "contact": "Contact",
+    "currentPage": "Current Page",
     "dataPrivacy": "Data Privacy",
-    "imprint": "Imprint",
-    "no_data": "No Data",
     "home": "Home",
+    "imprint": "Imprint",
     "legal": "Legal",
     "legalnotice": "Legal Notice",
+    "no_data": "No Data",
     "termsOfUse": "Terms of Use"
   },
   "bearing": {

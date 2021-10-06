@@ -85,12 +85,18 @@ describe('Load Sense Selector', () => {
             name: 'waterContent_1',
             symbol: 'none',
             type: 'line',
+            lineStyle: {
+              color: '#1D9BB2',
+            },
           },
           {
             data: [{ value: [new Date('2020-07-31T11:02:35.000Z'), 2] }],
             name: 'edm01Ai02Counter',
             symbol: 'none',
             type: 'line',
+            lineStyle: {
+              color: '#2196F3',
+            },
           },
         ],
       };

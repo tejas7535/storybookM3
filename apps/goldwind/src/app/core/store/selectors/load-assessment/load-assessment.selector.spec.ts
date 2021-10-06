@@ -96,6 +96,9 @@ describe('Load Assessment Selector', () => {
             name: 'lsp01Strain',
             type: 'line',
             symbol: 'none',
+            lineStyle: {
+              color: undefined as any,
+            },
             data: [
               {
                 value: [new Date('2020-11-04T09:39:19.499Z'), '1.00'],
@@ -106,6 +109,9 @@ describe('Load Assessment Selector', () => {
             name: 'centerLoadFx',
             type: 'line',
             symbol: 'none',
+            lineStyle: {
+              color: undefined as any,
+            },
             data: [
               {
                 value: [new Date('2020-11-04T09:39:19.499Z'), '1.00'],

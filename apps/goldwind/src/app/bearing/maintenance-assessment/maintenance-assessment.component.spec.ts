@@ -39,13 +39,6 @@ describe('MaintenanceAssessmentComponent', () => {
             loading: false,
             result: {},
           },
-          loadAssessment: {
-            display: {},
-            interval: {
-              startDate: 123_456_789,
-              endDate: 987_654_321,
-            },
-          },
           edmMonitor: {},
           maintenanceAssessment: {
             display: {
@@ -85,7 +78,7 @@ describe('MaintenanceAssessmentComponent', () => {
       mockStore.dispatch = jest.fn();
 
       component.displayForm.markAsDirty();
-      component.displayForm.patchValue({ rotationalSpeed: false });
+      component.displayForm.patchValue({ rsmShaftSpeed: false });
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
@@ -97,7 +90,7 @@ describe('MaintenanceAssessmentComponent', () => {
             waterContent_2: true,
             deterioration_2: true,
             temperatureOptics_2: true,
-            rsmShaftSpeed: true,
+            rsmShaftSpeed: false,
             edm01Ai01Counter: true,
             edm01Ai02Counter: true,
           },

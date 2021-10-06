@@ -131,6 +131,7 @@ module.exports = {
     extend: {},
   },
   plugins: [
+    require('@tailwindcss/custom-forms'),
     plugin(function ({ addBase, theme }) {
       const sm = theme('screens.sm', {});
 

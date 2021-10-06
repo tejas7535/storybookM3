@@ -60,18 +60,6 @@ describe('LoadAssessmentComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          greaseStatus: {
-            loading: false,
-            result: undefined,
-          },
-          shaft: {
-            loading: false,
-            result: undefined,
-            status: {
-              result: undefined,
-              loading: false,
-            },
-          },
           bearing: {
             loading: false,
             result: bearingMetaData,
@@ -104,7 +92,7 @@ describe('LoadAssessmentComponent', () => {
       mockStore.dispatch = jest.fn();
 
       component.displayForm.markAsDirty();
-      component.displayForm.patchValue({ rotationalSpeed: false });
+      component.displayForm.patchValue({ lsp01Strain: true });
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(

@@ -11,22 +11,22 @@ import { GraphData } from '../../reducers/shared/models';
 // Will at some point only return true if last result is not too old
 export const getLoadLatestLoading = createSelector(
   getBearingLoadState,
-  (state: BearingLoadState) => state.status.loading
+  (state: BearingLoadState) => state?.status.loading
 );
 
 export const getLoadAverageLoading = createSelector(
   getBearingLoadState,
-  (state: BearingLoadState) => state.averageResult.loading
+  (state: BearingLoadState) => state?.averageResult.loading
 );
 
 export const getBearingLoadResult = createSelector(
   getBearingLoadState,
-  (state: BearingLoadState) => state.result
+  (state: BearingLoadState) => state?.result
 );
 
 export const getBearingLoadLatestResult = createSelector(
   getBearingLoadState,
-  (state: BearingLoadState) => state.status.result
+  (state: BearingLoadState) => state?.status?.result
 );
 
 export const getLoadAverageResult = createSelector(

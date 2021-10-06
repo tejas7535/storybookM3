@@ -66,22 +66,23 @@ describe('AssessmentLinechartComponent', () => {
       }),
     ],
   });
-
+  beforeAll(() => {});
   beforeEach(() => {
+    Date.now = jest.fn(() => 1_487_076_708_000);
+    Date.toLocaleString = jest.fn(() => '1_487_076_708_000');
     spectator = createComponent();
     spectator.setInput('translateKey', 'maintenanceAssessment');
-    spectator.setInput('ASSESSMENT_CONTROLS', [
-      {
-        label: 'waterContent_1',
-        formControl: 'waterContent_1',
-        unit: Unit.percent,
-        type: Type.grease,
-      },
-    ]);
+    const controlMock = {
+      label: 'waterContent_1',
+      formControl: 'waterContent_1',
+      unit: Unit.percent,
+      type: Type.grease,
+    };
+    spectator.setInput('ASSESSMENT_CONTROLS', [controlMock]);
     spectator.setInput('TREE_DATA', [
       {
         name: 'greaseMonitor',
-        children: [{ type: Type.grease } as Control].filter(
+        children: [controlMock].filter(
           (control) => control.type === Type.grease
         ),
         formControl: new FormControl(''),
@@ -104,21 +105,14 @@ describe('AssessmentLinechartComponent', () => {
 
     mockStore.dispatch = jest.fn();
   });
-
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
   it('should create', fakeAsync(() => {
     expect(component).toBeTruthy();
   }));
+
   describe('chartOptions', () => {
-    it('should call legend formatter method', () => {
-      const mockLabelName = 'waterContent_1';
-      component.formatLegend = jest.fn();
-
-      const legendFormatter = (component.chartOptions.legend as any).formatter;
-      legendFormatter(mockLabelName);
-
-      expect(component.formatLegend).toHaveBeenCalledTimes(1);
-    });
-
     it('should call tooltip formatter method', () => {
       const mockParams = [
         {
@@ -183,7 +177,16 @@ describe('AssessmentLinechartComponent', () => {
       )} ${mockDate.toLocaleTimeString(DATE_FORMAT.local)}`;
 
       expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
-      jest.resetAllMocks();
+    });
+  });
+
+  describe('updateChildForms', () => {
+    it('should set all child forms to the boolean which is passed to updateChildForms', () => {
+      component.ngOnInit();
+      component.updateChildForms({ name: 'greaseMonitor' }, true);
+      expect(component.displayForm.value.waterContent_1).toEqual(true);
+      component.updateChildForms({ name: 'greaseMonitor' }, false);
+      expect(component.displayForm.value.waterContent_1).toEqual(false);
     });
   });
 });
