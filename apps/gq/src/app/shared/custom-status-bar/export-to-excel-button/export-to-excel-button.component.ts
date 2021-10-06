@@ -41,6 +41,12 @@ export class ExportToExcelButtonComponent implements OnInit {
   private params: IStatusPanelParams;
   transactions$: Observable<ExtendedComparableLinkedTransaction[]>;
   transactions: ExtendedComparableLinkedTransaction[];
+  toBeFormattedInExcelDownload: string[] = [
+    ColumnFields.MATERIAL_NUMBER_15,
+    ColumnFields.PRICE_UNIT,
+    ColumnFields.LAST_CUSTOMER_PRICE_DATE,
+    ColumnFields.LAST_OFFER_PRICE_DATE,
+  ];
 
   constructor(
     private readonly matDialog: MatDialog,
@@ -161,8 +167,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     const colDef = params.column.getColDef();
     if (
       colDef.valueFormatter &&
-      (colDef.field === ColumnFields.MATERIAL_NUMBER_15 ||
-        colDef.field === ColumnFields.PRICE_UNIT)
+      this.toBeFormattedInExcelDownload.includes(colDef.field)
     ) {
       return this.applyExcelCellValueFormatter(params);
     }

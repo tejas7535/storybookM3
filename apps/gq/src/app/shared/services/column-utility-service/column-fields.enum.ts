@@ -13,6 +13,8 @@ export enum ColumnFields {
   RELOCATION_COST = 'relocationCost',
   LAST_CUSTOMER_PRICE = 'lastCustomerPrice',
   LAST_CUSTOMER_PRICE_DATE = 'lastCustomerPriceDate',
+  LAST_OFFER_PRICE = 'lastOfferDetail.lastOfferPrice',
+  LAST_OFFER_PRICE_DATE = 'lastOfferDetail.lastOfferDate',
 }
 
 export const PriceColumns = [

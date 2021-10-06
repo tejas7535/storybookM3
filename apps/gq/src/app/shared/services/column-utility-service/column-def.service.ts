@@ -145,12 +145,12 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),
-      field: 'lastOfferDetail.lastOfferPrice',
+      field: ColumnFields.LAST_OFFER_PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
-      field: 'lastOfferDetail.lastOfferDate',
+      field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
       valueFormatter: ColumnUtilityService.dateFormatter,
       filterParams: ColumnUtilityService.dateFilterParams,
     },
