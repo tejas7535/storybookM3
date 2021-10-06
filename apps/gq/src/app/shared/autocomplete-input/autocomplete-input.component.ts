@@ -15,6 +15,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
+import { Keyboard } from '../models';
 import { AutocompleteSearch, IdValue } from '../models/search';
 import { FilterNames } from './filter-names.enum';
 
@@ -155,7 +156,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     return (
       inputNumber
         // split string by separators to array
-        .split('-')
+        .split(Keyboard.DASH)
         // join array to string again
         .join('')
         /**
@@ -167,7 +168,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
          */
         .replace(
           /^(.{9})(.{0,4})/g,
-          `$1-$2${inputNumber.length <= 13 ? '' : '-'}`
+          `$1-$2${inputNumber.length <= 13 ? '' : Keyboard.DASH}`
         )
     );
   }

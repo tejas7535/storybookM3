@@ -21,7 +21,7 @@ import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducer
 import { getExtendedComparableLinkedTransactions } from '../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
 import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
-import { Quotation } from '../../models';
+import { Keyboard, Quotation } from '../../models';
 import {
   ColumnFields,
   PercentColumns,
@@ -46,6 +46,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.PRICE_UNIT,
     ColumnFields.LAST_CUSTOMER_PRICE_DATE,
     ColumnFields.LAST_OFFER_PRICE_DATE,
+    ColumnFields.FOLLOWING_TYPE,
   ];
 
   constructor(
@@ -182,12 +183,13 @@ export class ExportToExcelButtonComponent implements OnInit {
       node: params.node,
       colDef: params.column.getColDef(),
     };
-
-    return (
+    const result = (
       params.column.getColDef().valueFormatter as (
         params: ValueFormatterParams
       ) => string
     )(valueFormatterParams);
+
+    return result === Keyboard.DASH ? undefined : result;
   }
 
   getSummarySheet(): string {
@@ -303,7 +305,8 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: statusBarCalculation?.totalNetValue?.toString() || '-',
+            value:
+              statusBarCalculation?.totalNetValue?.toString() || Keyboard.DASH,
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -450,7 +453,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: customer.marginDetail?.netSalesLastYear?.toString() || '-',
+            value:
+              customer.marginDetail?.netSalesLastYear?.toString() ||
+              Keyboard.DASH,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -468,7 +473,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: `${customer.marginDetail?.gpiLastYear?.toString() || '-'}%`,
+            value: `${
+              customer.marginDetail?.gpiLastYear?.toString() || Keyboard.DASH
+            }%`,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -486,7 +493,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: customer.marginDetail?.currentNetSales?.toString() || '-',
+            value:
+              customer.marginDetail?.currentNetSales?.toString() ||
+              Keyboard.DASH,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -504,7 +513,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: `${customer.marginDetail?.currentGpi?.toString() || '-'}%`,
+            value: `${
+              customer.marginDetail?.currentGpi?.toString() || Keyboard.DASH
+            }%`,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },

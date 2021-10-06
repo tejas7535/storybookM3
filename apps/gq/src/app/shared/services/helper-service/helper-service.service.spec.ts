@@ -6,7 +6,7 @@ import {
   BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
 } from '../../case-material/input-table/config';
-import { Keyboard } from '../../models/keyboard.enum';
+import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 import { HelperService } from './helper-service.service';
@@ -54,7 +54,7 @@ describe('HelperServiceService', () => {
     test('should return undefined', () => {
       const result = HelperService.transformNumberCurrency(undefined, 'EUR');
 
-      expect(result).toEqual('-');
+      expect(result).toEqual(Keyboard.DASH);
     });
   });
   describe('transformMarginDetails', () => {

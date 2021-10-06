@@ -2,6 +2,7 @@ import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { QUOTATION_MOCK } from '../../../../testing/mocks';
+import { Keyboard } from '../../models';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
@@ -201,7 +202,7 @@ describe('CreateColumnService', () => {
     test('should render Date for empty data', () => {
       const data = {};
       const res = ColumnUtilityService.dateFormatter(data);
-      expect(res).toEqual('-');
+      expect(res).toEqual(Keyboard.DASH);
     });
   });
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 
+import { Keyboard } from '../../models';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
@@ -100,10 +101,12 @@ export class ColumnUtilityService {
   }
 
   static basicTransform(data: ValueFormatterParams): string {
-    return data.value || '-';
+    return data.value || Keyboard.DASH;
   }
   static dateFormatter(data: any): string {
-    return data.value ? new Date(data.value).toLocaleDateString() : '-';
+    return data.value
+      ? new Date(data.value).toLocaleDateString()
+      : Keyboard.DASH;
   }
 
   static idFormatter(data: any): string {

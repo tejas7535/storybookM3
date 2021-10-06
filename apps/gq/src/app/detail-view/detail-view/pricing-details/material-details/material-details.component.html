@@ -54,7 +54,9 @@
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('followingType') }}</span>
-        <span text> {{ materialDetails.followingType | nullableString }}</span>
+        <span text>
+          {{ materialDetails.followingType | materialTransform }}</span
+        >
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('customerMaterial') }}</span>

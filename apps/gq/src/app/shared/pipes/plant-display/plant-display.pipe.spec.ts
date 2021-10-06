@@ -1,4 +1,5 @@
 import { PLANT_MOCK } from '../../../../testing/mocks';
+import { Keyboard } from '../../models';
 import { Plant } from '../../models/quotation-detail';
 import { PlantDisplayPipe } from './plant-display.pipe';
 
@@ -21,6 +22,6 @@ describe('PlantDisplayPipe', () => {
     const plant = undefined as any;
     const result = pipe.transform(plant);
 
-    expect(result).toEqual('-');
+    expect(result).toEqual(Keyboard.DASH);
   });
 });

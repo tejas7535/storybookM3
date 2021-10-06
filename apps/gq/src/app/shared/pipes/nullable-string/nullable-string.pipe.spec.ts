@@ -1,3 +1,4 @@
+import { Keyboard } from '../../models';
 import { NullableStringPipe } from './nullable-string.pipe';
 
 describe('NullableStringPipe', () => {
@@ -8,12 +9,12 @@ describe('NullableStringPipe', () => {
   test('should add dash if value is not present', () => {
     const pipe = new NullableStringPipe();
     const result = pipe.transform(undefined as any);
-    expect(result).toEqual('-');
+    expect(result).toEqual(Keyboard.DASH);
   });
   test('should add dash if value length = 0', () => {
     const pipe = new NullableStringPipe();
     const result = pipe.transform('');
-    expect(result).toEqual('-');
+    expect(result).toEqual(Keyboard.DASH);
   });
   test('should normally display value', () => {
     const pipe = new NullableStringPipe();

@@ -15,6 +15,7 @@ export enum ColumnFields {
   LAST_CUSTOMER_PRICE_DATE = 'lastCustomerPriceDate',
   LAST_OFFER_PRICE = 'lastOfferDetail.lastOfferPrice',
   LAST_OFFER_PRICE_DATE = 'lastOfferDetail.lastOfferDate',
+  FOLLOWING_TYPE = 'material.followingType',
 }
 
 export const PriceColumns = [

@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
-import { Keyboard } from '../../models/keyboard.enum';
+import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
 import { PriceService } from '../price-service/price.service';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
@@ -29,7 +29,7 @@ export class HelperService {
   }
 
   static transformNumberCurrency(number: string, currency: string): string {
-    return number ? `${number} ${currency}` : `-`;
+    return number ? `${number} ${currency}` : Keyboard.DASH;
   }
 
   static transformMarginDetails(value: number, currency: string): string {
@@ -40,7 +40,7 @@ export class HelperService {
   static transformPercentage(percentage: number): string {
     return percentage
       ? `${PriceService.roundToTwoDecimals(percentage)} %`
-      : '-';
+      : Keyboard.DASH;
   }
 
   static initStatusBar(

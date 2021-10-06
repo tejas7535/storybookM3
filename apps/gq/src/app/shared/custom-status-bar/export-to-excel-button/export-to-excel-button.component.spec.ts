@@ -1,30 +1,32 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+
+import { of } from 'rxjs';
 
 import {
   IStatusPanelParams,
   ProcessHeaderForExportParams,
 } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
+import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
+import { Keyboard } from '../../models';
 import {
   ColumnFields,
   PriceColumns,
 } from '../../services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
+import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
-import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
-import { MatDialogModule } from '@angular/material/dialog';
-import { of } from 'rxjs';
-import { provideMockStore } from '@ngrx/store/testing';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
-import { PriceService } from '../../services/price-service/price.service';
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 describe('ExportToExcelButtonComponent', () => {
   let component: ExportToExcelButtonComponent;
@@ -281,6 +283,22 @@ describe('ExportToExcelButtonComponent', () => {
 
       const result = component.applyExcelCellValueFormatter(params);
       expect(result).toEqual(formatterReturnValue);
+    });
+    test("should return undefined on '-'", () => {
+      const formatterReturnValue = '-';
+      const colDef = {
+        valueFormatter: () => formatterReturnValue,
+      };
+      const params = {
+        node: {},
+        column: {
+          getColDef: () => colDef,
+        },
+      } as any;
+
+      const result = component.applyExcelCellValueFormatter(params);
+
+      expect(result).toEqual(undefined);
     });
   });
   describe('getSummarySheet', () => {
@@ -548,7 +566,8 @@ describe('ExportToExcelButtonComponent', () => {
             data: {
               type,
               value:
-                CUSTOMER_MOCK.marginDetail?.netSalesLastYear.toString() || '-',
+                CUSTOMER_MOCK.marginDetail?.netSalesLastYear.toString() ||
+                Keyboard.DASH,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },

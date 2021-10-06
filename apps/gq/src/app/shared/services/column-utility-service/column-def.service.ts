@@ -216,8 +216,8 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.followingType'),
-      field: 'material.followingType',
-      valueFormatter: ColumnUtilityService.basicTransform,
+      field: ColumnFields.FOLLOWING_TYPE,
+      valueFormatter: ColumnUtilityService.transformMaterial,
     },
     {
       headerName: translate('shared.quotationDetailsTable.itemComment'),

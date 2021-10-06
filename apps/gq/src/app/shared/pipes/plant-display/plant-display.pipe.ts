@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { Keyboard } from '../../models';
 import { Plant } from '../../models/quotation-detail';
 import { MaterialAlternativeCost } from '../../models/quotation-detail/material-alternative-cost.model';
 
@@ -12,6 +13,6 @@ export class PlantDisplayPipe implements PipeTransform {
       return `${plant.plantNumber} | ${plant.city}, ${plant.country}`;
     }
 
-    return '-';
+    return Keyboard.DASH;
   }
 }
