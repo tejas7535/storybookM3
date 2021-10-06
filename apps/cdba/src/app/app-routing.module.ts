@@ -14,7 +14,7 @@ import { NO_ACCESS_ACTION, FORBIDDEN_ACTION } from './shared/constants';
  * Show this page when the user does not have the basic access rights for the app
  */
 const forbiddenRouteBasic: ForbiddenRoute = {
-  path: AppRoutePath.NoAccessToFeaturePath,
+  path: AppRoutePath.NoAccessPath,
   loadChildren: async () =>
     import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   data: {
