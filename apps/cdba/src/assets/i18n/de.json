@@ -89,35 +89,6 @@
         "message": "CDBA unterstützt Ihren Browser nicht. Einige Funktionen funktionieren möglicherweise nicht richtig. Bitte verwenden Sie die neuesten Versionen von <a class=\"text-primary\" href=\"https://www.google.com/intl/de/chrome\" target=\"blank\">Chrome</a> oder <a class=\"text-primary\" href=\"https://www.microsoft.com/de-de/edge\" target=\"blank\">Microsoft Edge</a>.\n\nWenden Sie sich an Ihren IV-Koordinator, wenn Sie Unterstützung/administrative Rechte für die Installation eines neuen Browsers benötigen.",
         "confirm": "Auf jeden Fall verwenden"
       }
-    },
-    "chargeableSoon": {
-      "badge": {
-        "label": "Testphase endet bald"
-      },
-      "dialog": {
-        "title": {
-          "main": "Testphase endet bald"
-        },
-        "content": {
-          "main": "Wir möchten Sie darüber informieren, dass CDBA nun offiziell ein Schaeffler-Produkt ist \uD83C\uDF89 \uD83C\uDF8A \uD83C\uDF7E . <span class=\"font-bold\">Sie haben bis zum 1. Oktober Zeit, bevor wir mit der Abrechnung Ihrer Abteilung beginnen.</span> Wenn Sie CDBA nicht mehr nutzen möchten, können Sie Ihr Konto über die Schaltfläche unten löschen."
-        },
-        "action": {
-          "primary": "Schließen",
-          "secondary": "Konto löschen"
-        }
-      },
-      "confirmation": {
-        "title": {
-          "main": "Konto löschen"
-        },
-        "content": {
-          "main": "Sind Sie sicher, dass Sie Ihr Konto löschen wollen? Ab dem 1. Oktober verlieren Sie jeglichen Zugang zu CDBA und seinen Funktionen."
-        },
-        "action": {
-          "primary": "Abbrechen",
-          "secondary": "Bestätigen"
-        }
-      }
     }
   },
   "drawings": {

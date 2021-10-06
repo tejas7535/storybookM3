@@ -9,4 +9,3 @@ export { BrowserSupportModule } from './browser-support/browser-support.module';
 export { PageHeaderModule } from './page-header/page-header.module';
 export { ShareButtonModule } from './share-button/share-button.module';
 export { UserSettingsModule } from './user-settings/user-settings.module';
-export { ChargeableSoonModule } from './chargeable-soon/chargeable-soon.module';

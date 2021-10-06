@@ -10,7 +10,6 @@ import {
   LoadingSpinnerModule,
   BrowserSupportModule,
   UserSettingsModule,
-  ChargeableSoonModule,
 } from '@cdba/shared/components';
 
 import { CoreModule } from '@cdba/core';
@@ -39,7 +38,6 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
     AppShellModule,
     FooterModule,
     UserSettingsModule,
-    ChargeableSoonModule,
   ],
   declarations: [AppComponent],
   providers: [

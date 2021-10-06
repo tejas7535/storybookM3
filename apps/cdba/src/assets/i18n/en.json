@@ -89,35 +89,6 @@
         "message": "CDBA does not support your browser. Some features might not work properly. Please use the latest versions of <a class=\"text-primary\" href=\"https://www.google.com/intl/en/chrome\" target=\"blank\">Chrome</a> or <a class=\"text-primary\" href=\"https://www.microsoft.com/en-us/edge\" target=\"blank\">Microsoft Edge</a>.\n\nContact your IV coordinator if you need support/ admin rights to install a new browser.",
         "confirm": "Use anyways"
       }
-    },
-    "chargeableSoon": {
-      "badge": {
-        "label": "Trial ends soon"
-      },
-      "dialog": {
-        "title": {
-          "main": "Trial ending soon"
-        },
-        "content": {
-          "main": "We’d like to inform you that CDBA has officially become a Schaeffler product \uD83C\uDF89 \uD83C\uDF8A \uD83C\uDF7E . <span class=\"font-bold\">You have until the 1st of October before we start charging your department.</span> If you don’t want to continue using CDBA, you can delete account using the button below."
-        },
-        "action": {
-          "primary": "Close",
-          "secondary": "Delete account"
-        }
-      },
-      "confirmation": {
-        "title": {
-          "main": "Delete account"
-        },
-        "content": {
-          "main": "Are you sure you want to delete your account? You will loose all access to CDBA and its functionality starting 1st of October."
-        },
-        "action": {
-          "primary": "Cancel",
-          "secondary": "Confirm"
-        }
-      }
     }
   },
   "drawings": {
