@@ -1,3 +1,4 @@
+import { GridOptions } from '@ag-grid-community/all-modules';
 import {
   Component,
   EventEmitter,
@@ -30,6 +31,7 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 import { arrayEquals } from '@cdba/shared/utils';
@@ -80,6 +82,8 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
+
+  public gridOptions: GridOptions = GRID_OPTIONS_DEFAULT;
 
   public rowSelection = 'multiple';
 

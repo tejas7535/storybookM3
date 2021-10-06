@@ -50,7 +50,7 @@
     "tooltips": {
       "materialDesignation": "Zeigt die interne Produktidentifikation in Form einer eindeutigen Bezeichnung an.",
       "pcmRow": "Zeigt an, ob es sich um eine PCM Kalkulation handelt",
-      "materialNumber": "Materialnummer des Produkts",
+      "materialNumber": "13 Steller beschreiben die Produkteinzelkosten, der 15 Steller beinhaltet zusätzliche Informationen zum verkaufsfähigen Produkt. Die genauen Unterschiede lassen sich über den Compare screen einfach und schnell herausfinden.",
       "pcmQuantity": "Stückzahl, welche für die PCM Kalkulation verwendet wurde.",
       "pcmSqv": "Standardangebotswert - wurde vom Kalkulationsmanager in PCM berechnet.",
       "budgetQuantity": "Die für die Berechnung von SAW und KHK verwendete Stückzahl im Jahr {{year}}",

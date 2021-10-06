@@ -50,7 +50,7 @@
     "tooltips": {
       "materialDesignation": "Description of the product with material short text and point version",
       "pcmRow": "Indicates wether this row is a PCM calculation",
-      "materialNumber": "Material Number of the product",
+      "materialNumber": "13 Digit materials describe the product direct costs. 15 digits also include additional information about the salable product. The exact differences can easily be determined via the compare screen.",
       "pcmQuantity": "Quantity with which the PCM SQV in the row below is calculated",
       "pcmSqv": "Standard Quotation Value - calculated cost in a standardized way in the Cost Calculation Manager PCM\nDifference to SQV SAP is that the PCM SQV includes calculationary interest and is calculated once in PCM\nSQV SAP is calculated monthly and adjusted to changes",
       "budgetQuantity": "Quantity that is in Budget of Controlling to be produced in {{year}}",
