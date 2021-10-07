@@ -1,4 +1,5 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { withDesign } from 'storybook-addon-designs';
 
 import READMEMd from './typography/README.md';
 
@@ -8,9 +9,14 @@ export default {
     moduleMetadata({
       imports: [],
     }),
+    withDesign,
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=152%3A22',
+    },
   },
 } as Meta;
 

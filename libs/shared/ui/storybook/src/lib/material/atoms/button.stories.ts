@@ -2,6 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { withDesign } from 'storybook-addon-designs';
 
 import READMEMd from './button/README.md';
 
@@ -11,9 +12,14 @@ export default {
     moduleMetadata({
       imports: [MatButtonModule, MatIconModule],
     }),
+    withDesign,
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=707%3A9',
+    },
   },
 } as Meta;
 

@@ -12,6 +12,7 @@ module.exports = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-controls',
     '@storybook/addon-essentials',
+    'storybook-addon-designs',
   ],
   webpackFinal: async (config, { configType }) => {
     // apply any global webpack configs that might have been specified in .storybook/main.js
