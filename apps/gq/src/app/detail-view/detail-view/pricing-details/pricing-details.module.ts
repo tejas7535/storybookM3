@@ -11,7 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { MaterialAlternativeCostDetailsComponent } from './material-alternative-cost-details/material-alternative-cost-details.component';
+import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
@@ -23,7 +23,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     PricingDetailsComponent,
     SupplyChainDetailsComponent,
     ProductionCostDetailsComponent,
-    MaterialAlternativeCostDetailsComponent,
+    MaterialComparableCostDetailsComponent,
     RelocationCostDetailsComponent,
   ],
   imports: [

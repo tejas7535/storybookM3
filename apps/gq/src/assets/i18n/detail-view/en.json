@@ -55,8 +55,8 @@
       "sqv": "SQV",
       "productionPlant": "Production Plant"
     },
-    "materialAlternativeCostDetails": {
-      "title": "Alternative Cost #{{number}}",
+    "materialComparableCostDetails": {
+      "title": "Comparable Cost #{{number}}",
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Production Plant"

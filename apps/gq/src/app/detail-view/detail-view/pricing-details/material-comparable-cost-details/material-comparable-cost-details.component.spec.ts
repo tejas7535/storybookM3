@@ -8,14 +8,14 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
-import { MaterialAlternativeCostDetailsComponent } from './material-alternative-cost-details.component';
+import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details.component';
 
-describe('MaterialAlternativeCostDetailsComponent', () => {
-  let component: MaterialAlternativeCostDetailsComponent;
-  let spectator: Spectator<MaterialAlternativeCostDetailsComponent>;
+describe('MaterialComparableCostDetailsComponent', () => {
+  let component: MaterialComparableCostDetailsComponent;
+  let spectator: Spectator<MaterialComparableCostDetailsComponent>;
 
   const createComponent = createComponentFactory({
-    component: MaterialAlternativeCostDetailsComponent,
+    component: MaterialComparableCostDetailsComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       SharedPipesModule,
@@ -24,7 +24,7 @@ describe('MaterialAlternativeCostDetailsComponent', () => {
       LabelTextModule,
     ],
     providers: [
-      provideMockStore({ initialState: { materialAlternativeCosts: {} } }),
+      provideMockStore({ initialState: { materialComparableCosts: {} } }),
     ],
   });
 

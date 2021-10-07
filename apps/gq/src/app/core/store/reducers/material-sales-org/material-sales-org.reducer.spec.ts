@@ -24,8 +24,8 @@ describe('materialSalesOrgReducer', () => {
       });
     });
   });
-  describe('loadMaterialAlternativeCostsSuccess', () => {
-    test('should set materialAlternativeCosts', () => {
+  describe('loadMaterialComparableCostsSuccess', () => {
+    test('should set materialComparableCosts', () => {
       const materialSalesOrg = MATERIAL_SALESORG_MOCK;
 
       expect(
@@ -41,7 +41,7 @@ describe('materialSalesOrgReducer', () => {
       });
     });
   });
-  describe('loadMaterialAlternativeCostsFailure', () => {
+  describe('loadMaterialComparableCostsFailure', () => {
     test('should set errorMessage', () => {
       const errorMessage = 'error';
 

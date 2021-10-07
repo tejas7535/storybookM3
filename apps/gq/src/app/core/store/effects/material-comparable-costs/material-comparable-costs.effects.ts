@@ -7,18 +7,18 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
-import { RouterStateUrl } from '../../reducers';
 import {
-  loadMaterialAlternativeCosts,
-  loadMaterialAlternativeCostsFailure,
-  loadMaterialAlternativeCostsSuccess,
+  loadMaterialComparableCosts,
+  loadMaterialComparableCostsFailure,
+  loadMaterialComparableCostsSuccess,
 } from '../../actions';
-import { MaterialAlternativeCost } from '../../../../shared/models/quotation-detail/material-alternative-cost.model';
+import { RouterStateUrl } from '../../reducers';
 
 @Injectable()
-export class MaterialAlternativeCostEffect {
-  triggerLoadMaterialAlternativeCosts$ = createEffect(() => {
+export class MaterialComparableCostEffect {
+  triggerLoadMaterialComparableCosts$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
@@ -26,26 +26,28 @@ export class MaterialAlternativeCostEffect {
         routerState.url.includes(`${AppRoutePath.DetailViewPath}`)
       ),
       map((routerState) =>
-        loadMaterialAlternativeCosts({
+        loadMaterialComparableCosts({
           gqPositionId: routerState.queryParams['gqPositionId'],
         })
       )
     );
   });
 
-  loadMaterialAlternativeCosts$ = createEffect(() => {
+  loadMaterialComparableCosts$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadMaterialAlternativeCosts.type),
+      ofType(loadMaterialComparableCosts.type),
       map((action: any) => action.gqPositionId),
       mergeMap((gqPositionId: string) =>
         this.quotationDetailsService
-          .getMaterialAlternativeCosts(gqPositionId)
+          .getMaterialComparableCosts(gqPositionId)
           .pipe(
-            map((materialAlternativeCosts: MaterialAlternativeCost[]) =>
-              loadMaterialAlternativeCostsSuccess({ materialAlternativeCosts })
+            map((materialComparableCosts: MaterialComparableCost[]) =>
+              loadMaterialComparableCostsSuccess({
+                materialComparableCosts,
+              })
             ),
             catchError((errorMessage) =>
-              of(loadMaterialAlternativeCostsFailure({ errorMessage }))
+              of(loadMaterialComparableCostsFailure({ errorMessage }))
             )
           )
       )

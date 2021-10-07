@@ -16,7 +16,7 @@ describe('materialSalesOrg Action', () => {
     errorMessage = 'An error occurred';
   });
 
-  describe('loadMaterialAlternativeCosts', () => {
+  describe('loadMaterialComparableCosts', () => {
     test('fetch', () => {
       const gqPositionId = '123';
       action = loadMaterialSalesOrg({ gqPositionId });

@@ -55,8 +55,8 @@
       "sqv": "SAW",
       "productionPlant": "Produktionswerk"
     },
-    "materialAlternativeCostDetails": {
-      "title": "Alternative Kosten #{{number}}",
+    "materialComparableCostDetails": {
+      "title": "Vergleichbare Kosten #{{number}}",
       "gpc": "GPC",
       "sqv": "SQV",
       "productionPlant": "Produktionswerk"

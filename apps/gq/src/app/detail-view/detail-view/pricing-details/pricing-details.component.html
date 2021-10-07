@@ -3,7 +3,7 @@
     <div *ngIf="customerCurrency$ | ngrxPush as currency">
       <div
         *ngIf="
-          !(materialAlternativeCostsLoading$ | ngrxPush) &&
+          !(materialComparableCostsLoading$ | ngrxPush) &&
             !(materialSalesOrgLoading$ | ngrxPush);
           else loading
         "
@@ -14,9 +14,9 @@
               [currency]="currency"
               [quotationDetail]="quotationDetail"
             ></gq-production-cost-details>
-            <gq-material-alternative-cost-details
+            <gq-material-comparable-cost-details
               [currency]="currency"
-            ></gq-material-alternative-cost-details>
+            ></gq-material-comparable-cost-details>
             <gq-relocation-cost-details
               [quotationDetail]="quotationDetail"
               [currency]="currency"

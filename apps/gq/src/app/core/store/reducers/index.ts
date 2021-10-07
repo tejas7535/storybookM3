@@ -10,9 +10,9 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
 import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
-import * as fromMaterialAlternativeCosts from './material-alternative-costs/material-alternative-costs.reducer';
-import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromHealthCheck from './health-check/health-check.reducer';
+import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
+import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
@@ -30,7 +30,7 @@ export interface AppState {
   viewCases: fromViewCases.ViewCasesState;
   transactions: fromTransactions.TransactionsState;
   extendedComparableLinkedTransactions: fromExtendedComparableLinkedTransactions.ExtendedComparableLinkedTransactionsState;
-  materialAlternativeCosts: fromMaterialAlternativeCosts.MaterialAlternativeCostsState;
+  materialComparableCosts: fromMaterialComparableCosts.MaterialComparableCostsState;
   materialSalesOrg: fromMaterialSalesOrg.MaterialSalesOrgsState;
   healthCheck: fromHealthCheck.HealthCheckState;
 }
@@ -43,8 +43,8 @@ export const reducers: ActionReducerMap<AppState> = {
   transactions: fromTransactions.transactionsReducer,
   extendedComparableLinkedTransactions:
     fromExtendedComparableLinkedTransactions.extendedComparableLinkedTransactionsReducer,
-  materialAlternativeCosts:
-    fromMaterialAlternativeCosts.materialAlternativeCostsReducer,
+  materialComparableCosts:
+    fromMaterialComparableCosts.materialComparableCostsReducer,
   materialSalesOrg: fromMaterialSalesOrg.materialSalesOrgReducer,
   healthCheck: fromHealthCheck.healthCheckReducer,
 };
@@ -73,9 +73,9 @@ export const getExtendedComparableLinkedTransactionsState =
     'extendedComparableLinkedTransactions'
   );
 
-export const getMaterialAlternativeCostsState =
-  createFeatureSelector<fromMaterialAlternativeCosts.MaterialAlternativeCostsState>(
-    'materialAlternativeCosts'
+export const getMaterialComparableCostsState =
+  createFeatureSelector<fromMaterialComparableCosts.MaterialComparableCostsState>(
+    'materialComparableCosts'
   );
 
 export const getMaterialSalesOrgsState =

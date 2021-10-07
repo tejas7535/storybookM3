@@ -11,19 +11,19 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ENV_CONFIG } from '@schaeffler/http';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
-import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
-import { MaterialAlternativeCostEffect } from './material-alternative-costs.effects';
 import {
-  loadMaterialAlternativeCosts,
-  loadMaterialAlternativeCostsFailure,
-  loadMaterialAlternativeCostsSuccess,
+  loadMaterialComparableCosts,
+  loadMaterialComparableCostsFailure,
+  loadMaterialComparableCostsSuccess,
 } from '../../actions';
-import { MaterialAlternativeCost } from '../../../../shared/models/quotation-detail/material-alternative-cost.model';
+import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
+import { MaterialComparableCostEffect } from './material-comparable-costs.effects';
 
-describe('MaterialAlternativeCostEffect', () => {
-  let spectator: SpectatorService<MaterialAlternativeCostEffect>;
-  let effects: MaterialAlternativeCostEffect;
+describe('MaterialComparableCostEffect', () => {
+  let spectator: SpectatorService<MaterialComparableCostEffect>;
+  let effects: MaterialComparableCostEffect;
   let actions$: any;
   let action: any;
   let quotationDetailsService: QuotationDetailsService;
@@ -32,7 +32,7 @@ describe('MaterialAlternativeCostEffect', () => {
   const errorMessage = 'An error occurred';
 
   const createService = createServiceFactory({
-    service: MaterialAlternativeCostEffect,
+    service: MaterialComparableCostEffect,
     imports: [HttpClientTestingModule],
     providers: [
       provideMockActions(() => actions$),
@@ -50,14 +50,14 @@ describe('MaterialAlternativeCostEffect', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    effects = spectator.inject(MaterialAlternativeCostEffect);
+    effects = spectator.inject(MaterialComparableCostEffect);
     store = spectator.inject(MockStore);
     quotationDetailsService = spectator.inject(QuotationDetailsService);
   });
 
-  describe('triggerLoadMaterialAlternativeCosts$', () => {
+  describe('triggerLoadMaterialComparableCosts$', () => {
     test(
-      'should return loadMaterialAlternativeCosts',
+      'should return loadMaterialComparableCosts',
       marbles((m) => {
         const queryParams = {
           gqPositionId: '5678',
@@ -72,80 +72,78 @@ describe('MaterialAlternativeCostEffect', () => {
           },
         };
         const gqPositionId = queryParams.gqPositionId;
-        const result = loadMaterialAlternativeCosts({ gqPositionId });
+        const result = loadMaterialComparableCosts({ gqPositionId });
 
         actions$ = m.hot('-a', { a: action });
 
         const expected$ = m.cold('-b', { b: result });
-        m.expect(effects.triggerLoadMaterialAlternativeCosts$).toBeObservable(
+        m.expect(effects.triggerLoadMaterialComparableCosts$).toBeObservable(
           expected$
         );
       })
     );
   });
 
-  describe('loadMaterialAlternativeCosts$', () => {
+  describe('loadMaterialComparableCosts$', () => {
     const gqPositionId = '5678';
-    const materialAlternativeCosts: MaterialAlternativeCost[] = [];
+    const materialComparableCosts: MaterialComparableCost[] = [];
 
     beforeEach(() => {
       store.overrideSelector(getPriceUnitOfSelectedQuotationDetail, 1);
-      action = loadMaterialAlternativeCosts({ gqPositionId });
+      action = loadMaterialComparableCosts({ gqPositionId });
     });
 
     test(
-      'should return loadMaterialAlternativeCostsSuccess',
+      'should return loadMaterialComparableCostsSuccess',
       marbles((m) => {
-        action = loadMaterialAlternativeCosts({ gqPositionId });
+        action = loadMaterialComparableCosts({ gqPositionId });
 
-        const result = loadMaterialAlternativeCostsSuccess({
-          materialAlternativeCosts,
+        const result = loadMaterialComparableCostsSuccess({
+          materialComparableCosts,
         });
 
         actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', { a: materialAlternativeCosts });
-        quotationDetailsService.getMaterialAlternativeCosts = jest.fn(
+        const response = m.cold('-a|', { a: materialComparableCosts });
+        quotationDetailsService.getMaterialComparableCosts = jest.fn(
           () => response
         );
 
         const expected$ = m.cold('--b', { b: result });
 
-        m.expect(effects.loadMaterialAlternativeCosts$).toBeObservable(
+        m.expect(effects.loadMaterialComparableCosts$).toBeObservable(
           expected$
         );
 
         m.flush();
 
         expect(
-          quotationDetailsService.getMaterialAlternativeCosts
+          quotationDetailsService.getMaterialComparableCosts
         ).toHaveBeenCalledTimes(1);
         expect(
-          quotationDetailsService.getMaterialAlternativeCosts
+          quotationDetailsService.getMaterialComparableCosts
         ).toHaveBeenCalledWith(gqPositionId);
       })
     );
 
     test(
-      'should return loadMaterialAlternativeCostsFailure',
+      'should return loadMaterialComparableCostsFailure',
       marbles((m) => {
-        action = loadMaterialAlternativeCosts({ gqPositionId });
+        action = loadMaterialComparableCosts({ gqPositionId });
 
-        const result = loadMaterialAlternativeCostsFailure({ errorMessage });
+        const result = loadMaterialComparableCostsFailure({ errorMessage });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
-        quotationDetailsService.getMaterialAlternativeCosts = jest.fn(
+        quotationDetailsService.getMaterialComparableCosts = jest.fn(
           () => response
         );
 
-        m.expect(effects.loadMaterialAlternativeCosts$).toBeObservable(
-          expected
-        );
+        m.expect(effects.loadMaterialComparableCosts$).toBeObservable(expected);
         m.flush();
 
         expect(
-          quotationDetailsService.getMaterialAlternativeCosts
+          quotationDetailsService.getMaterialComparableCosts
         ).toHaveBeenCalledTimes(1);
       })
     );

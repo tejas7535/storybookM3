@@ -145,15 +145,15 @@ describe('QuotationDetailsService', (): void => {
     });
   });
 
-  describe('getMaterialAlternativeCosts', () => {
-    test('should fetch Material Alternative Costs', () => {
+  describe('getMaterialComparableCosts', () => {
+    test('should fetch Material Comparable Costs', () => {
       const gqPositionId = '1234';
       service
-        .getMaterialAlternativeCosts(gqPositionId)
+        .getMaterialComparableCosts(gqPositionId)
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_MATERIAL_ALTERNATIVE_COSTS']}`
+        `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_MATERIAL_COMPARABLE_COSTS']}`
       );
       req.flush(gqPositionId);
 

@@ -1,4 +1,4 @@
-export class MaterialAlternativeCost {
+export class MaterialComparableCost {
   plantNumber: string;
   city: string;
   country: string;
