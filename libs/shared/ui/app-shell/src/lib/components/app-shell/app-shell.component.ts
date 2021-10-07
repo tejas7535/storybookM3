@@ -7,6 +7,7 @@ import {
 
 import { TranslocoService } from '@ngneat/transloco';
 
+import { AppShellFooterLink } from '../../models';
 import { sidenavToggleAnimation } from '../../animations/sidenav.animations';
 import deJson from '../../i18n/de.json';
 import enJson from '../../i18n/en.json';
@@ -28,6 +29,10 @@ export class AppShellComponent {
   @Input() public hasSidebarLeft = false;
   @Input() public userName?: string;
   @Input() public userImageUrl?: string;
+  @Input() public hasFooter? = false;
+  @Input() public footerLinks?: AppShellFooterLink[] = [];
+  @Input() public footerFixed? = true;
+  @Input() public appVersion?: string;
 
   public sidenavOpen = false;
 

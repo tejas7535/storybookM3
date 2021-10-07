@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -6,7 +7,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { FooterModule } from '@schaeffler/footer';
 
 import { AppComponent } from './app.component';
 
@@ -21,7 +21,6 @@ describe('AppComponent', () => {
       RouterTestingModule,
       AppShellModule,
       NoopAnimationsModule,
-      FooterModule,
       ReactiveComponentModule,
     ],
     providers: [
@@ -37,6 +36,10 @@ describe('AppComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

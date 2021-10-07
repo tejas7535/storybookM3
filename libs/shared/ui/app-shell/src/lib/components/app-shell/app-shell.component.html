@@ -1,3 +1,4 @@
+<!-- start header -->
 <mat-toolbar class="z-10 h-[60px] mat-elevation-z2" *transloco="let t">
   <button
     *ngIf="hasSidebarLeft"
@@ -39,9 +40,13 @@
   </span>
   <div class="flex-auto"></div>
   <ng-content select="[headerInlineContent]"></ng-content>
-  <div class="schaeffler-logo"></div>
+  <div class="schaeffler-header-logo"></div>
 </mat-toolbar>
+<!-- end header -->
+
+<!-- start content container -->
 <mat-sidenav-container class="flex flex-col h-full overflow-hidden">
+  <!-- start left sidebar -->
   <mat-sidenav
     #drawer
     class="w-[400px] max-w-[90%] pt-[60px]"
@@ -58,7 +63,84 @@
     <mat-divider></mat-divider>
     <ng-content select="[sidenavBody]"></ng-content>
   </mat-sidenav>
-  <mat-sidenav-content class="pt-[60px]">
-    <ng-content select="[mainContent]"></ng-content>
+  <!-- end left sidebar -->
+
+  <!-- start content -->
+  <mat-sidenav-content
+    class="flex-col pt-[60px]"
+    [ngClass]="{ '!flex min-h-screen': footerFixed }"
+  >
+    <!-- start main content -->
+    <div
+      class="main-content-wrapper"
+      [ngClass]="{ 'footer-not-fixed': !footerFixed }"
+    >
+      <ng-content select="[mainContent]"></ng-content>
+    </div>
+    <!-- end main content -->
+
+    <!-- start footer -->
+    <footer
+      *ngIf="hasFooter || footerLinks.length"
+      class="flex flex-col items-center justify-between gap-2 lg:flex-row"
+    >
+      <div class="p-2">
+        <ng-content select="[footerContent]"></ng-content>
+      </div>
+      <div
+        class="
+          flex
+          md:flex-row
+          flex-col
+          justify-center
+          flex-shrink-0
+          md:flex
+          items-center
+        "
+      >
+        <div class="flex flex-row flex-wrap">
+          <ng-container *ngFor="let footerLink of footerLinks; let i = index">
+            <a
+              *ngIf="footerLink.external"
+              [href]="footerLink.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-light text-caption leading-4 py-1"
+            >
+              {{ footerLink.title }}
+            </a>
+            <div
+              *ngIf="!footerLink.external"
+              [routerLink]="footerLink.link"
+              class="
+                footer-link-internal
+                cursor-pointer
+                inline-block
+                text-light text-caption
+                outline-none
+                leading-4
+                py-1
+              "
+            >
+              {{ footerLink.title }}
+            </div>
+            <span
+              class="separator text-light text-caption mx-1 leading-4 py-1"
+              *ngIf="i !== footerLinks.length - 1 || appVersion"
+              >|</span
+            >
+          </ng-container>
+          <ng-container *ngIf="appVersion">
+            <span id="version" class="text-light text-caption leading-4 py-1">
+              {{ appVersion }}
+            </span>
+          </ng-container>
+        </div>
+        <div class="schaeffler-footer-logo m-3"></div>
+      </div>
+    </footer>
+    <!-- end footer -->
   </mat-sidenav-content>
+  <!-- end content -->
 </mat-sidenav-container>
+<!-- end content container -->

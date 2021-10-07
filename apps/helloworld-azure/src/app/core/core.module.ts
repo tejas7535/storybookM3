@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { FooterModule } from '@schaeffler/footer';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -23,7 +22,6 @@ import { StoreModule } from './store/store.module';
 
     // UI Modules
     AppShellModule,
-    FooterModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

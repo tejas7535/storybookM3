@@ -72,7 +72,33 @@ import { AppShellModule } from '@schaeffler/app-shell';
 
 ### Embed the Template (example)
 
-In your app's `app.component.html`:
+In your app's `app.component`:
+
+```ts
+import { AppShellFooterLink } from '@schaeffler/app-shell';
+import packageJson from '../../package.json';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+})
+export class AppComponent {
+
+  public appVersion = packageJson.version;
+  public footerLinks: AppShellFooterLink[] = [
+    {
+      link: 'some.url',
+      title: 'External Link Title',
+      external: true,
+    },
+    {
+      link: 'some.url',
+      title: 'Internal Link Title',
+      external: false,
+    },
+  ];
+}
+```
 
 ```html
 <schaeffler-app-shell
@@ -81,25 +107,33 @@ In your app's `app.component.html`:
   [hasSidebarLeft]="true"
   [userName]="'Hello User Name'"
   [userImageUrl]="'http://hello.user.avatar.url'"
+  [footerLinks]="footerLinks"
+  [appVersion]="appVersion"
 >
   <ng-container sidenavBody>
     <h2>Hello Sidenav</h2>
   </ng-container>
   <ng-container mainContent>
-    <h1>Hello Main Content</h1>
+    <div class="h-full w-full"> // if necessary wrap the main content in a full-width, full-height container
+      <h1>Hello Main Content</h1>
+    </div>  
   </ng-container>
 </schaeffler-app-shell>
 ```
 
 ### API
 
-| Name           | Description                                                                              |
- | ---------------| -----------------------------------------------------------------------------------------|
-| appTitle       | app title to be displayed in the top header                                              |
-| appTitleLink   | (optional) Angular Router Link path on the title                                         |
-| hasSidebarLeft | (optional) (default: false) Whether there should be a left sidebar                       |
-| userName       | (optional) user name to be displayed in the left sidebar - hasSidebarLeft must be true   |
-| userImageUrl   | (optional) user avatar to be displayed in the left sidebar - hasSidebarLeft must be true |
+| Name           | Description                                                                                                      |
+| ---------------| -----------------------------------------------------------------------------------------------------------------|
+| appTitle       | app title to be displayed in the top header                                                                      |
+| appTitleLink   | (optional) Angular Router Link path on the title                                                                 |
+| hasSidebarLeft | (optional) (default: false) Whether there should be a left sidebar                                               |
+| userName       | (optional) user name to be displayed in the left sidebar - hasSidebarLeft must be true                           |
+| userImageUrl   | (optional) user avatar to be displayed in the left sidebar - hasSidebarLeft must be true                         |
+| hasFooter      | (optional) (default: false) Whether a footer is shown or not. Defaults to "true" when there are footerLinks.     |
+| footerLinks    | (optional) array of typed (internal and external) links, displayed in the footer. Overrides `hasFooter: false`   |
+| footerFixed    | (optional) (default: true) Whether the footer should be fixed on the bottom of the window                        |
+| appVersion     | (optional) String with your app's version number, display next to the footer links                               |
 
 ### i18n
 

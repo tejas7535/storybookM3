@@ -8,28 +8,25 @@
   [hasSidebarLeft]="true"
   [userName]="username$ | ngrxPush"
   [userImageUrl]="profileImage$ | ngrxPush"
+  [footerLinks]="footerLinks"
+  [appVersion]="appVersion"
 >
   <ng-container sidenavBody>
     <gq-user-settings></gq-user-settings>
   </ng-container>
   <ng-container mainContent>
-    <div class="flex flex-col h-full">
-      <div
-        *ngIf="isHealthCheckAvailable$ | ngrxPush; else maintenance"
-        class="flex-grow overflow-y-auto"
-      >
-        <router-outlet></router-outlet>
-      </div>
-      <ng-template class="flex-grow overflow-y-auto h-full" #maintenance>
-        <gq-maintenance class="h-full"></gq-maintenance>
-      </ng-template>
-      <schaeffler-footer
-        [appVersion]="appVersion"
-        [footerLinks]="footerLinks"
-      ></schaeffler-footer>
+    <div
+      *ngIf="isHealthCheckAvailable$ | ngrxPush; else maintenance"
+      class="h-full w-full"
+    >
+      <router-outlet></router-outlet>
     </div>
   </ng-container>
 </schaeffler-app-shell>
+
+<ng-template class="flex-grow overflow-y-auto h-full" #maintenance>
+  <gq-maintenance class="h-full"></gq-maintenance>
+</ng-template>
 
 <ng-template #loading>
   <schaeffler-loading-spinner></schaeffler-loading-spinner>

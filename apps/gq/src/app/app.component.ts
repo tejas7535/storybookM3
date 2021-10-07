@@ -9,7 +9,7 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
-import { FooterLink } from '@schaeffler/footer';
+import { AppShellFooterLink } from '@schaeffler/app-shell';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   titleLink = AppRoutePath.CaseViewPath;
 
   public appVersion = packageJson.version;
-  public footerLinks: FooterLink[] = [
+  public footerLinks: AppShellFooterLink[] = [
     {
       link: 'https://sconnect.schaeffler.com/groups/guided-quoting',
       title: 'GQ@SConnect',

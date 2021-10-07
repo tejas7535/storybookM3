@@ -5,23 +5,18 @@
   [hasSidebarLeft]="true"
   [userName]="username$ | ngrxPush"
   [userImageUrl]="profileImage$ | ngrxPush"
+  [footerLinks]="footerLinks"
+  [appVersion]="appVersion"
 >
   <ng-container sidenavBody>
     <cdba-user-settings></cdba-user-settings>
   </ng-container>
   <ng-container mainContent>
-    <div class="flex flex-col h-full">
-      <div class="flex-grow overflow-y-auto">
-        <router-outlet></router-outlet>
-      </div>
-      <schaeffler-footer
-        class="flex-none"
-        [appVersion]="appVersion"
-        [footerLinks]="footerLinks"
-      ></schaeffler-footer>
+    <div class="h-full w-full">
+      <router-outlet></router-outlet>
     </div>
-    <cdba-browser-support-detector></cdba-browser-support-detector>
   </ng-container>
+  <cdba-browser-support-detector></cdba-browser-support-detector>
 </schaeffler-app-shell>
 
 <ng-template #loading>

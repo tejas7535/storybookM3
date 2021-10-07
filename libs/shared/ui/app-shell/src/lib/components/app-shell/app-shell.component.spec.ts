@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -30,6 +31,12 @@ describe('AppShellComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MockModule(AppShellModule),
     ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {
@@ -49,6 +56,10 @@ describe('AppShellComponent', () => {
       expect(component.userName).toBeUndefined();
       expect(component.userImageUrl).toBeUndefined();
       expect(component.sidenavOpen).toBeFalsy();
+      expect(component.hasFooter).toBeFalsy();
+      expect(component.footerFixed).toBeTruthy();
+      expect(component.footerLinks.length).toBe(0);
+      expect(component.appVersion).toBeUndefined();
     });
   });
 

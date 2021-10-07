@@ -3,16 +3,12 @@
   [hasSidebarLeft]="true"
   [userName]="username$ | ngrxPush"
   [userImageUrl]="profileImage$ | ngrxPush"
+  [hasFooter]="true"
 >
-  <ng-container sidenavBody> </ng-container>
+  <ng-container sidenavBody></ng-container>
   <ng-container mainContent>
-    <div class="flex flex-col h-full fullscreen-bg">
-      <div class="flex-grow overflow-y-auto">
-        <router-outlet></router-outlet>
-      </div>
-      <schaeffler-footer
-        class="flex-shrink-0 bg-white md:bg-background"
-      ></schaeffler-footer>
+    <div class="h-full w-full fullscreen-bg">
+      <router-outlet></router-outlet>
     </div>
   </ng-container>
 </schaeffler-app-shell>

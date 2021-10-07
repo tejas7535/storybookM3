@@ -14,7 +14,6 @@ import {
 
 import { CoreModule } from '@cdba/core';
 import { AppShellModule } from '@schaeffler/app-shell';
-import { FooterModule } from '@schaeffler/footer';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,7 +35,6 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
     LoadingSpinnerModule,
     BrowserSupportModule,
     AppShellModule,
-    FooterModule,
     UserSettingsModule,
   ],
   declarations: [AppComponent],

@@ -12,7 +12,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
-import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -39,9 +38,8 @@ import { StoreModule } from './store';
     // UI Modules
     AppShellModule,
     HeaderModule,
-    MatButtonModule,
-    FooterModule,
     UserSettingsModule,
+    MatButtonModule,
     LoadingSpinnerModule,
     MaintenanceModule,
 

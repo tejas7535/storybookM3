@@ -8,9 +8,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { FooterModule } from '@schaeffler/footer';
 
-import { LoadingSpinnerModule } from '@cdba/shared/components';
+import {
+  BrowserSupportModule,
+  LoadingSpinnerModule,
+  UserSettingsModule,
+} from '@cdba/shared/components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 
@@ -23,20 +27,24 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       NoopAnimationsModule,
-      AppShellModule,
-      FooterModule,
-      MatButtonModule,
-      LoadingSpinnerModule,
       RouterTestingModule,
       ReactiveComponentModule,
+      provideTranslocoTestingModule({ en: {} }),
+      AppShellModule,
+      LoadingSpinnerModule,
+      UserSettingsModule,
+      BrowserSupportModule,
+      MatButtonModule,
     ],
     providers: [
       provideMockStore({
         initialState: {
-          auth: {
-            user: {
-              username: 'John',
-              department: 'C-IT',
+          'azure-auth': {
+            accountInfo: {
+              name: 'Jefferson',
+            },
+            profileImage: {
+              url: 'img',
             },
           },
         },

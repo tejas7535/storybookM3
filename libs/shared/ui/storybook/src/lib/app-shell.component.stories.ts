@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -17,17 +17,30 @@ import { UserPanelComponent } from '../../../app-shell/src/lib/components/user-p
 import READMEMd from '../../../app-shell/README.md';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
+interface AppShellStorybookTemplate {
+  headerContent?: string;
+  sideNavContent?: string;
+  mainContent?: string;
+  footerContent?: string;
+}
+
 export default {
+  title: 'Components/App Shell',
   component: AppShellComponent,
+  parameters: {
+    backgrounds: {
+      default: 'Schaeffler',
+      values: [{ name: 'Schaeffler', value: '#dee4e7' }],
+    },
+    notes: { markdown: READMEMd },
+  },
   decorators: [
     moduleMetadata({
       declarations: [AppShellComponent, UserPanelComponent],
       imports: [
         BrowserAnimationsModule,
         CommonModule,
-        RouterModule.forRoot([], {
-          useHash: true,
-        }),
+        RouterTestingModule,
         StorybookTranslocoModule,
         TranslocoModule,
         MatButtonModule,
@@ -38,62 +51,61 @@ export default {
       ],
     }),
   ],
-  title: 'Components/App Shell',
-  parameters: {
-    backgrounds: {
-      default: 'Schaeffler',
-      values: [{ name: 'Schaeffler', value: '#dee4e7' }],
-    },
-    notes: { markdown: READMEMd },
-  },
 } as Meta;
 
-const Template: Story<AppShellComponent> = (args) => ({
-  props: {
-    ...args,
-  },
-});
-
-const TemplateWithSidenavContent: Story<AppShellComponent> = () => ({
+const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
+  args
+) => ({
+  props: args,
   template: `
   <schaeffler-app-shell
-    appTitle="Hello World App"
-    [hasSidebarLeft]="true"
-  >
-    <ng-container sidenavBody>
-      <h4>Hello Sidenav Content</h4>
-    </ng-container>
-  </schaeffler-app-shell>
-  `,
-});
-
-const TemplateWithHeaderContent: Story<AppShellComponent> = () => ({
-  template: `
-  <schaeffler-app-shell
-    appTitle="Hello This is a Very Long Title App"
-    [hasSidebarLeft]="true"
+    [appTitle]="appTitle"
+    [appTitleLink]="appTitleLink"
+    [hasSidebarLeft]="hasSidebarLeft"
+    [userName]="userName"
+    [userImageUrl]="userImageUrl"
   >
     <ng-container headerInlineContent>
-      <span>Hello Header Content</span>
-      <span class="w-[1px] ml-1.5 sm:ml-3 h-4 sm:h-7 bg-highEmphasis"></span>
+      <span>{{ headerContent }}</span>
+      <span *ngIf="headerContent" class="w-[1px] ml-1.5 sm:ml-3 h-4 sm:h-7 bg-highEmphasis"></span>
+    </ng-container>
+    <ng-container sidenavBody>
+      <h4>{{ sideNavContent }}</h4>
+    </ng-container>
+    <ng-container mainContent>
+      <h1>{{ mainContent }}</h1>
+    </ng-container>
+    <ng-container footerContent>
+      <span>{{ footerContent }}</span>
     </ng-container>
   </schaeffler-app-shell>
   `,
 });
 
-export const Default = Template.bind({});
+export const Default = TemplateDefault.bind({});
 Default.args = {
-  appTitle: 'Hello This is a Very Long Title App',
-};
-
-export const Sidebar = TemplateWithSidenavContent.bind({});
-
-export const SidebarAndUser = Template.bind({});
-SidebarAndUser.args = {
   appTitle: 'Hello World App',
+  appTitleLink: '/',
   hasSidebarLeft: true,
   userName: 'Frank Abagnale junior',
   userImageUrl: '../avatar.png',
+  headerContent: 'Hello Header Content',
+  sideNavContent: 'Hello Sidenav Content',
+  mainContent: 'Hello Main Content',
+  hasFooter: true,
+  footerContent: 'Hello Footer Content',
+  footerLinks: [
+    {
+      link: '/internal-route',
+      title: 'Internal Route',
+      external: false,
+    },
+    {
+      link: 'some://external.url.com',
+      title: 'External Link Text',
+      external: true,
+    },
+  ],
+  footerFixed: true,
+  appVersion: '0.0.1',
 };
-
-export const HeaderContent = TemplateWithHeaderContent.bind({});

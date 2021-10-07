@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { AppShellFooterLink } from '@schaeffler/app-shell';
 import {
   getIsLoggedIn,
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
-import { FooterLink } from '@schaeffler/footer';
 
 import { URL_FAQ, URL_S_CONNECT } from '@cdba/shared/constants/urls';
 
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   titleLink = AppRoutePath.SearchPath;
 
   public appVersion = packageJson.version;
-  public footerLinks: FooterLink[] = [
+  public footerLinks: AppShellFooterLink[] = [
     {
       link: URL_FAQ,
       title: 'FAQs',
