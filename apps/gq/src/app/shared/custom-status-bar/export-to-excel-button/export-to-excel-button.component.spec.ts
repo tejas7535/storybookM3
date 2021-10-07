@@ -18,7 +18,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
 import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
-import { Keyboard } from '../../models';
 import {
   ColumnFields,
   PriceColumns,
@@ -430,7 +429,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: '2000',
+              value: '2,000.00 EUR',
             },
             styleId: excelStyleObjects.excelTextBorderBold.id,
           },
@@ -446,7 +445,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: `80%`,
+              value: `80 %`,
             },
             styleId: excelStyleObjects.excelTextBorderBold.id,
           },
@@ -462,7 +461,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: `90%`,
+              value: `90 %`,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
@@ -565,9 +564,10 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value:
-                CUSTOMER_MOCK.marginDetail?.netSalesLastYear.toString() ||
-                Keyboard.DASH,
+              value: HelperService.transformMarginDetails(
+                CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
+                QUOTATION_MOCK.currency
+              ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
@@ -583,7 +583,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: `${CUSTOMER_MOCK.marginDetail?.gpiLastYear.toString()}%`,
+              value: `${CUSTOMER_MOCK.marginDetail?.gpiLastYear.toString()} %`,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
@@ -599,7 +599,10 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: CUSTOMER_MOCK.marginDetail?.currentNetSales.toString(),
+              value: HelperService.transformMarginDetails(
+                CUSTOMER_MOCK.marginDetail?.currentNetSales,
+                QUOTATION_MOCK.currency
+              ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
@@ -615,7 +618,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: `${CUSTOMER_MOCK.marginDetail?.currentGpi.toString()}%`,
+              value: `${CUSTOMER_MOCK.marginDetail?.currentGpi.toString()} %`,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },

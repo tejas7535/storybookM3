@@ -171,6 +171,8 @@ export class ExportToExcelButtonComponent implements OnInit {
       this.toBeFormattedInExcelDownload.includes(colDef.field)
     ) {
       return this.applyExcelCellValueFormatter(params);
+    } else if ((PriceColumns as string[]).includes(colDef.field)) {
+      return HelperService.transformNumber(params.value, true);
     }
 
     return params.value;
@@ -305,8 +307,10 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value:
-              statusBarCalculation?.totalNetValue?.toString() || Keyboard.DASH,
+            value: HelperService.transformMarginDetails(
+              statusBarCalculation?.totalNetValue,
+              quotation.currency
+            ),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -324,7 +328,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: `${statusBarCalculation.totalWeightedGPM}%`,
+            value: HelperService.transformPercentage(
+              statusBarCalculation.totalWeightedGPM
+            ),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -342,7 +348,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: `${statusBarCalculation.totalWeightedGPI}%`,
+            value: HelperService.transformPercentage(
+              statusBarCalculation.totalWeightedGPI
+            ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -370,7 +378,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addCustomerOverview(quotation: Quotation): ExcelCell[][] {
-    const { customer } = quotation;
+    const { customer, currency } = quotation;
     const lastYear = HelperService.getLastYear();
     const currentYear = HelperService.getCurrentYear();
 
@@ -453,9 +461,10 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value:
-              customer.marginDetail?.netSalesLastYear?.toString() ||
-              Keyboard.DASH,
+            value: HelperService.transformMarginDetails(
+              customer.marginDetail?.netSalesLastYear,
+              currency
+            ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -473,9 +482,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: `${
-              customer.marginDetail?.gpiLastYear?.toString() || Keyboard.DASH
-            }%`,
+            value: HelperService.transformPercentage(
+              customer.marginDetail?.gpiLastYear
+            ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -493,9 +502,10 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value:
-              customer.marginDetail?.currentNetSales?.toString() ||
-              Keyboard.DASH,
+            value: HelperService.transformMarginDetails(
+              customer.marginDetail?.currentNetSales,
+              currency
+            ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -513,9 +523,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type,
-            value: `${
-              customer.marginDetail?.currentGpi?.toString() || Keyboard.DASH
-            }%`,
+            value: HelperService.transformPercentage(
+              customer.marginDetail?.currentGpi
+            ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -590,14 +600,13 @@ export class ExportToExcelButtonComponent implements OnInit {
     return this.transactions.map((t) => {
       const row: ExcelCell[] = [];
       for (const key in headersTranslations) {
-        const value = t[key as keyof ExtendedComparableLinkedTransaction];
-        row.push(
-          this.getExcelCell(
-            PercentColumns.includes(key as ColumnFields)
-              ? PriceService.roundToTwoDecimals(Number(value))?.toString()
-              : value?.toString()
-          )
-        );
+        let value = t[key as keyof ExtendedComparableLinkedTransaction];
+        if (PercentColumns.includes(key as ColumnFields)) {
+          value = PriceService.roundToTwoDecimals(Number(value));
+        } else if (key === ColumnFields.PRICE) {
+          value = HelperService.transformNumber(value as number, true);
+        }
+        row.push(this.getExcelCell(value?.toString()));
       }
 
       return row;

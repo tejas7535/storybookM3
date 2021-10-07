@@ -24,6 +24,7 @@ export const PriceColumns = [
   ColumnFields.GPC,
   ColumnFields.SQV,
   ColumnFields.LAST_CUSTOMER_PRICE,
+  ColumnFields.RELOCATION_COST,
 ];
 
 export const PercentColumns = [
