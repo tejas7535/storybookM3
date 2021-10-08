@@ -3,6 +3,82 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.0.1...goldwind-v1.12.1) (2021-10-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* **footer:** This lib now depends on tailwind. See `Readme` for more details.
+
+* refactor(footer): move footer-tailwind implementation to footer
+
+* refactor: use footer instead of footer tailwind
+
+* refactor: remove footer tailwind entirely
+
+* fix(footer): add missing logo
+
+* chore: dont pass lint in case of errors
+
+* test(footer): fix unit tests of footer
+
+Co-authored-by: Fabian Kaupp <kauppfbi@schaeffler.com>
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
+
+### 🎸 Features
+
+* **footer:** reimplement footer based on tailwind (UFTABI-4632) ([#2700](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2700)) ([e54c88d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e54c88d08e472f2915bc0ce1770eac5b4e9cca07))
+* **goldwind:** add center loads ([2eed666](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2eed666d190f25573b7b84207e2a94c63ac2e5d4))
+* **goldwind:** add china bureaucracy metadata to footer (DIGDTGW-2613) ([#2832](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2832)) ([e755a64](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e755a641fd739e3baeb8b3def3ddd395fff7995a))
+* **goldwind:** add contact mail link to footer ([#2991](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2991)) ([fbaf062](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fbaf062c5795f7ee19bac672908ed9c366659fd7))
+* **goldwind:** add custom tooltip for heatmap (DIGDTGW-2694) ([#2716](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2716)) ([a361255](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a361255c232ea253be337a511cd31caa04ac17f8))
+* **goldwind:** add edm histogram to dashboard ([#3018](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3018)) ([ccb323c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ccb323c99fdfd8959f6619b34f879e6f02020ee0))
+* **goldwind:** add edm values to maintenance view ([#2830](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2830)) ([88e4045](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/88e4045193a2bbdf3ad8d4481aac92027347662f))
+* **goldwind:** add firt implementation of the static safety factor ([e97cdac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e97cdac06eb37ccb363a7d2642cb8630c24b6ede))
+* **goldwind:** add heatmap api to echarts series converter class (DIGDTGW-2690) ([#2714](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2714)) ([9fb9dd2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9fb9dd2857404237a393e2c02d18d4d4907931c3))
+* **goldwind:** add live heatmap api (DIGDTGW-2689) ([#2721](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2721)) ([cd34aee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cd34aee7dba1b43c0b9f79f5b673a54049dafbaa))
+* **goldwind:** add lss to sensors in detailed analysis (DIGDTGW-2312) ([7b7cd9c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7b7cd9cb5f4e82b0287ad484aae4677012e19c51))
+* **goldwind:** add RSM to Maintenance View (DIGDTGW-2748) ([#2843](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2843)) ([2d71195](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2d71195f766fb99e8736456458aebf2e1eba9fec))
+* **goldwind:** add store and component stub for grease heatmap (DIGDTGW-2545) ([#2704](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2704)) ([0b4d166](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0b4d166d813e7d970b6b1a773a43b1f0c3e70e3f))
+* **goldwind:** add strict template check (UFTABI-4626) ([daca21e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/daca21ed0bc2a78f04c3611f36d7d7ac98354b24))
+* **goldwind:** adjust to api refactor (DIGDTGW-2233) ([4cf1e3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4cf1e3aa70ffc5173b8fbbb927d5950e56fc0286))
+* **goldwind:** apply new gauge design ([805150d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/805150d989493d4419a85c7f088d180a7e929899))
+* **goldwind:** apply new gauge design ([ccdb6f9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ccdb6f9926588139289acef4dacbd736d913c319))
+* **goldwind:** checkbox tree in detailed analysis (DIGDTGW-2247) ([0404ab2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0404ab25690b013444cd445adde513796ebbea1a))
+* **goldwind:** colorized checkboxes according to linechart color ([#3035](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3035)) ([b125c8a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b125c8adec4f3eb69847efc21661880fb6318125))
+* **goldwind:** fix lint errors (UFTABI-4836) ([09b09c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/09b09c707673b8f6283b71a7ab882c2a1a33ee02))
+* **goldwind:** hide edm on dashboard, disabled download page while WIP ([#2944](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2944)) ([d754deb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d754deb83f52fb2bd7fe7cf600c5926bfd7bd97a))
+* **goldwind:** implement legal pages in dumb components ([#2970](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2970)) ([1bd5414](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1bd5414be2437922e48038816d97e906d689e143))
+* **goldwind:** migrate to shared subheader ([#3012](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3012)) ([712ace9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/712ace9c7d6407c5e68c21ac7045708ad2cfd58b))
+* **goldwind:** split LoadAssessment into 2 pages ([#2658](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2658)) ([51cb7bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/51cb7bc21a2119800db5596fe263aec15c78cb88))
+* **goldwind:** switch to labels in rows on linechart, fix heatmap styling ([#2961](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2961)) ([1483276](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1483276471f3c13a57a1353e12da0600b45da5e8))
+* **goldwind:** switch to tailwind grid ([#2996](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2996)) ([d4bb51a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4bb51a6618bee944e04f6a77e208a7484db5c6a))
+* **shared-utils-auth:** removed deprecated lib (UFTABI-4533) ([8fde1d4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8fde1d4e6cbd89d68506aee28449e95767f3402f))
+* **styles:** tab styles depend on tailwind ([06e54fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/06e54fb3154322e873f671af3f886a5e054d1a94))
+* **transloco:** update transloco testing module (UFTABI-4323) ([47630c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47630c62ca451d70e613182684fc34506a34705a))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** adjust layout to use correct mat-card structure ([#2999](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2999)) ([7547967](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/75479674c44f72829f870d911bb1356e4bf75937))
+* **goldwind:** adjust property name to new backend response (DIGDTGW-2774) ([#2888](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2888)) ([98d32af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/98d32afcb9057a9f44f6ad7523000166ad8636c3))
+* **goldwind:** adjust switch case to string comparison ([#2992](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2992)) ([5e0ff08](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5e0ff08bcf89d8993610f59f4a77160669534f2a))
+* **goldwind:** disabled edm preview overlay ([#3098](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3098)) ([a1816ba](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a1816baa8ba909a85798ecb9408625731ce01d82))
+* **goldwind:** fix call params for bearing load / electricdischarge (DIGDTGW-2677) ([#2695](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2695)) ([399d217](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/399d217c2c2d036fadef4f1b3ec750eb7a505911))
+* **goldwind:** fix load of assessment line chart ([#2990](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2990)) ([18b6213](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/18b621319d135186b3ebb7ffdd5a936eaeefc76e))
+* **goldwind:** icon coloring, add i18n key, responsivness in meta footer ([#2929](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2929)) ([a9cee2b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9cee2b990a3f0f8b33d54104f2fd3426ec63987))
+* **goldwind:** improvement of responsiveness, reliability and usability  ([#2862](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2862)) ([d6e0093](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6e00938c78c5830e7ccae6b32f193ae12a897cd))
+* **goldwind:** remove shaft mock value (DIGDTGW-2676) ([#2693](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2693)) ([63e5d03](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/63e5d032dfe40c5bffa3ebcf8ee38e953eb261d1))
+* **goldwind:** several issues with styling and usability ([#2946](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2946)) ([afd5213](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/afd5213ac62c72c1726dc1062ac68bba8e1af593))
+* **goldwind:** switch to correct title for maintenance run chart ([#2822](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2822)) ([fb4c477](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fb4c4777c8a925af5f63a0b9521f5195322a7abf))
+* **workspace:** disable caching for index.html and configure outputHashing (GQUOTE-685) (DSCDA-2362) ([#2727](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2727)) ([5400d16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5400d16ed0f1cab1caf7c3760724148ff996922f))
+* **workspace:** style button and font regressions cleanup ([#3015](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3015)) ([85f704c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85f704c9d644da7e3f30b5d6c90a91b42a5226e1))
+
 ### [1.12.1](///compare/goldwind-v1.12.1...goldwind-v1.12.0) (2021-04-23)
 
 ## [1.12.0](///compare/goldwind-v1.12.0...goldwind-v1.11.1) (2021-04-22)
