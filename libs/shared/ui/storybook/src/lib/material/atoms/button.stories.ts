@@ -28,30 +28,28 @@ const Template: Story = (args) => ({
   template: `
     <section>
       <div class="flex flex-row gap-6 py-3">
+      <button mat-raised-button color="primary">{{ buttonText }}</button>
         <button mat-raised-button>{{ buttonText }}</button>
-        <button mat-raised-button color="primary">{{ buttonText }}</button>
         <button mat-raised-button disabled>{{ buttonText }}</button>
       </div>
       <div class="flex flex-row gap-6 py-3">
+      <button mat-raised-button color="primary"><mat-icon>add</mat-icon>{{ buttonText }}</button>
         <button mat-raised-button><mat-icon>add</mat-icon>{{ buttonText }}</button>
-        <button mat-raised-button color="primary"><mat-icon>add</mat-icon>{{ buttonText }}</button>
         <button mat-raised-button disabled><mat-icon>add</mat-icon>{{ buttonText }}</button>
       </div>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-stroked-button>{{ buttonText }}</button>
         <button mat-stroked-button color="primary">{{ buttonText }}</button>
         <button mat-stroked-button disabled>{{ buttonText }}</button>
       </div>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-button>{{ buttonText }}</button>
         <button mat-button color="primary">{{ buttonText }}</button>
         <button mat-button disabled>{{ buttonText }}</button>
       </div> 
       <div>
-        <button mat-icon-button aria-label="Example icon button with a globe icon">
+        <button mat-icon-button color="primary" aria-label="Example icon button with a globe icon">
           <mat-icon>public</mat-icon>
         </button>
-        <button mat-icon-button color="primary" aria-label="Example icon button with a globe icon">
+        <button mat-icon-button aria-label="Example icon button with a globe icon">
           <mat-icon>public</mat-icon>
         </button>
         <button mat-icon-button disabled aria-label="Example icon button with a globe icon">
@@ -59,10 +57,10 @@ const Template: Story = (args) => ({
         </button>
       </div>
       <div class="flex flex-row gap-6 py-3">
-        <button mat-fab color="" aria-label="Example icon button with a add icon">
+        <button mat-fab color="primary" aria-label="Example icon button with a add icon">
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-fab color="primary" aria-label="Example icon button with a add icon">
+        <button mat-fab color="" aria-label="Example icon button with a add icon">
           <mat-icon>add</mat-icon>
         </button>
         <button mat-fab disabled aria-label="Example icon button with a add icon">
@@ -70,10 +68,10 @@ const Template: Story = (args) => ({
         </button>
       </div> 
       <div class="flex flex-row gap-6 py-3">
-        <button mat-mini-fab color="" aria-label="Example icon button with a add icon">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a add icon">
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a add icon">
+        <button mat-mini-fab color="" aria-label="Example icon button with a add icon">
           <mat-icon>add</mat-icon>
         </button>
         <button mat-mini-fab disabled aria-label="Example icon button with a add icon">

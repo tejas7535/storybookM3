@@ -4,9 +4,9 @@ const fontSizes = require('./tailwind/fontSizes.ts');
 const plugin = require('tailwindcss/plugin');
 
 const darkGrey = 'rgba(0,0,0,0.87)';
-const mediumGrey = 'rgba(0,0,0,.6)';
+const mediumGrey = 'rgba(0,0,0,0.6)';
 const lightGrey = 'rgba(0,0,0,0.38)';
-const veryLightGrey = 'rgba(0,0,0,0.11)';
+const veryLightGrey = 'rgba(0,0,0,0.12)';
 
 const baseColors = {
   primary: '#00893D',
@@ -34,8 +34,8 @@ const greys = {
 const emphasis = {
   highEmphasis: darkGrey,
   mediumEmphasis: mediumGrey,
-  lowEmphasis: veryLightGrey,
-  disabled: lightGrey,
+  lowEmphasis: lightGrey,
+  outline: veryLightGrey, // should be renamed to design naming
 };
 
 const scrollSnapUtilities = {
@@ -91,6 +91,7 @@ module.exports = {
     },
     borderColor: (theme) => ({
       ...theme('colors'),
+      ...emphasis,
       dark: 'rgba(0,0,0,0.87)',
       light: 'rgba(0,0,0,0.60)',
       veryLight: 'rgba(0,0,0,0.38)',
