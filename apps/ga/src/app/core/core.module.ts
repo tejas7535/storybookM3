@@ -3,25 +3,22 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SharedModule } from '../shared/shared.module';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
-  declarations: [SidebarComponent],
   imports: [
     CommonModule,
     StoreModule,
 
     // UI Modules
-    HeaderModule,
-    FooterModule,
+    AppShellModule,
     SharedModule,
 
     // Material Modules
@@ -53,6 +50,6 @@ import { StoreModule } from './store/store.module';
       multi: true,
     },
   ],
-  exports: [FooterModule, HeaderModule, SidebarComponent, StoreModule],
+  exports: [FooterModule, AppShellModule, StoreModule],
 })
 export class CoreModule {}

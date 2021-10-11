@@ -1,19 +1,17 @@
-<schaeffler-header
-  [platformTitle]="title"
-  link="/"
-  class="h-full"
-  [toggleEnabled]="true"
-  (toggle)="sidebar.toggle()"
+<schaeffler-app-shell
+  [appTitle]="title"
+  [appTitleLink]="'/app'"
+  [hasSidebarLeft]="true"
+  [footerLinks]="footerLinks"
 >
-  <ga-sidebar #sidebar>
-    <div class="flex flex-col h-full bg-background">
-      <div class="flex-grow">
+  <!-- <ng-container sidenavBody>
+    settings
+  </ng-container> -->
+  <ng-container mainContent>
+    <div class="flex flex-col h-full w-full">
+      <div class="flex-grow bg-background">
         <router-outlet></router-outlet>
       </div>
-      <schaeffler-footer
-        class="flex-shrink-0 bg-white md:bg-background"
-        [footerLinks]="footerLinks"
-      ></schaeffler-footer>
     </div>
-  </ga-sidebar>
-</schaeffler-header>
+  </ng-container>
+</schaeffler-app-shell>
