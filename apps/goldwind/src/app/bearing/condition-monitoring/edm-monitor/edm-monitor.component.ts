@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -24,7 +24,7 @@ import { format } from 'date-fns';
   templateUrl: './edm-monitor.component.html',
   styleUrls: ['./edm-monitor.component.scss'],
 })
-export class EdmMonitorComponent implements OnInit {
+export class EdmMonitorComponent implements OnInit, OnDestroy {
   refresh = UPDATE_SETTINGS.edmhistorgram.refresh;
 
   edmGraphData$: Observable<any>;
@@ -114,6 +114,7 @@ export class EdmMonitorComponent implements OnInit {
     },
   };
   channel = 'edm-1';
+  routeParamsSub: Subscription;
 
   public constructor(
     private readonly store: Store,
@@ -161,6 +162,9 @@ export class EdmMonitorComponent implements OnInit {
         return 'n.A.';
     }
   }
+  ngOnDestroy(): void {
+    this.routeParamsSub.unsubscribe();
+  }
   ngOnInit(): void {
     this.updateEDM();
     this.interval$ = this.store.select(getEdmInterval);
@@ -169,12 +173,14 @@ export class EdmMonitorComponent implements OnInit {
   }
 
   private updateEDM() {
-    this.store.dispatch(
-      getEdmHistogram({
-        deviceId: this.activate.snapshot.params.deviceId,
-        channel: this.channel,
-      })
-    );
+    this.routeParamsSub = this.activate.params.subscribe((params) => {
+      this.store.dispatch(
+        getEdmHistogram({
+          deviceId: params.id,
+          channel: this.channel,
+        })
+      );
+    });
   }
 
   setInterval(interval: Interval): void {
