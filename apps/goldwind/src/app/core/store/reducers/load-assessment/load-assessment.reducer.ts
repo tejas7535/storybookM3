@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { startOfDay, sub } from 'date-fns';
 
 import {
   setLoadAssessmentDisplay,
@@ -39,7 +40,7 @@ export const initialState: LoadAssessmentState = {
     lsp16Strain: true,
   },
   interval: {
-    startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),
+    startDate: Math.floor(+startOfDay(sub(new Date(), { days: 1 })) / 1000),
     endDate: Math.floor(Date.now() / 1000),
   },
 };

@@ -6,6 +6,7 @@ import {
 
 import { ChartState } from '../../../../shared/chart/chart.state';
 import { MaintenanceAssessmentDisplay } from './maintenance.assessment.model';
+import { startOfDay, sub } from 'date-fns';
 
 export const initialState: ChartState<MaintenanceAssessmentDisplay> = {
   display: {
@@ -20,7 +21,7 @@ export const initialState: ChartState<MaintenanceAssessmentDisplay> = {
     edm01Ai02Counter: true,
   },
   interval: {
-    startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),
+    startDate: Math.floor(+startOfDay(sub(new Date(), { days: 1 })) / 1000),
     endDate: Math.floor(Date.now() / 1000),
   },
 };

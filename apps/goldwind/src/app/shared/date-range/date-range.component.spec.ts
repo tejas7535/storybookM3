@@ -5,6 +5,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { endOfDay, startOfDay } from 'date-fns';
 
 import { DateRangeComponent } from './date-range.component';
 
@@ -49,8 +50,8 @@ describe('DateRangeComponent', () => {
 
       expect(component['rangeChange'].emit).toHaveBeenCalledTimes(1);
       expect(component['rangeChange'].emit).toHaveBeenCalledWith({
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        startDate: 1_599_602_400,
+        endDate: 1_599_688_799,
       });
     }));
   });

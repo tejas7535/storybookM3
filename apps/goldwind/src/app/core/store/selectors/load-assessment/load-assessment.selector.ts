@@ -28,12 +28,18 @@ export const getAnalysisGraphData = createSelector(
   getBearingLoadResult,
   getCenterLoadResult,
   getLoadAssessmentDisplay,
+  getLoadAssessmentInterval,
   (
     bearingLoad: LoadSense[],
     centerLoad: CenterLoadStatus[],
-    display: LoadAssessmentDisplay
+    display: LoadAssessmentDisplay,
+    _interval: Interval
   ): EChartsOption => {
-    const result = {
+    const result: EChartsOption = {
+      xAxis: {
+        min: new Date(_interval.startDate * 1000),
+        max: new Date(_interval.endDate * 1000),
+      },
       legend: {
         data: Object.entries(display)
           .map(([key, value]) => [key, value] as DisplayOption)

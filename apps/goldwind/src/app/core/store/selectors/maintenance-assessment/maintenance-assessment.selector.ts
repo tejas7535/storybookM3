@@ -30,13 +30,19 @@ export const getAnalysisGraphDataM = createSelector(
   getEdmResult,
   getShaftResult,
   getMaintenanceAssessmentDisplay,
+  getMaintenanceAssessmentInterval,
   (
     gcmStatus: GcmStatus[],
     edm: EdmStatus[],
     shaftStatus: ShaftStatus[],
-    display: MaintenanceAssessmentDisplay | any
+    display: MaintenanceAssessmentDisplay | any,
+    interval: Interval
   ): EChartsOption => {
     const result = gcmStatus && {
+      xAxis: {
+        min: new Date(interval.startDate * 1000),
+        max: new Date(interval.endDate * 1000),
+      },
       legend: {
         data: Object.entries(display)
           .map(([key, value]) => [key, value] as DisplayOption)

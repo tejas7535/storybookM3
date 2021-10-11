@@ -78,6 +78,10 @@ describe('Load Sense Selector', () => {
   describe('getAnalysisGraphDataM', () => {
     it('should return', () => {
       const expected = {
+        xAxis: {
+          max: new Date('2001-04-19T04:25:21.000Z'),
+          min: new Date('1973-11-29T21:33:09.000Z'),
+        },
         legend: { data: ['waterContent_1', 'edm01Ai02Counter'] },
         series: [
           {

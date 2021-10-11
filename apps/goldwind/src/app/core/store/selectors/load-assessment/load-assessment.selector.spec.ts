@@ -88,6 +88,10 @@ describe('Load Assessment Selector', () => {
   describe('getAnalysisGraphData', () => {
     it('should return grease status series data value tupels', () => {
       const expectedResult = {
+        xAxis: {
+          max: new Date('2001-04-19T04:25:21.000Z'),
+          min: new Date('1973-11-29T21:33:09.000Z'),
+        },
         legend: {
           data: ['lsp01Strain', 'centerLoadFx'],
         },

@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { endOfDay, startOfDay } from 'date-fns';
 
 import { debounceTime, filter, map } from 'rxjs/operators';
 
@@ -33,8 +34,8 @@ export class DateRangeComponent implements OnInit, OnChanges {
         filter(() => this.rangeForm.valid && this.rangeForm.dirty),
         map(({ startDate, endDate }: { startDate: Date; endDate: Date }) =>
           this.rangeChange.emit({
-            startDate: Math.floor(+startDate / 1000),
-            endDate: Math.floor(+endDate / 1000),
+            startDate: Math.floor(+startOfDay(startDate) / 1000),
+            endDate: Math.floor(+endOfDay(endDate) / 1000),
           })
         )
       )

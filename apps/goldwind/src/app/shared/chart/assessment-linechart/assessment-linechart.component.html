@@ -1,78 +1,81 @@
 <div class="flex flex-col sm:flex-row sm:flex gap-4 h-full max-h-full">
   <mat-card class="w-full sm:w-3/5 md:w-2/5 max-h-full overflow-y-auto">
-    <mat-card-header>
-      <mat-card-title>
-        <div class="inline-flex items-center">
-          <span>Date Picker</span>
-        </div>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <goldwind-date-range
-        [interval]="interval$ | ngrxPush"
-        (rangeChange)="setInterval($event)"
-      ></goldwind-date-range>
-      <ng-container *ngrxLet="graphData$ as graphData">
-        <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
-      </ng-container>
-      <div class="flex flex-col h-14 max-h-full">
-        <h6 class="font-medium text-2xl leading-6 text-dark mb-4 mt-8">
-          {{ translate('linechart.pleaseSelectTrendsToShow') }}
-        </h6>
-        <mat-tree
-          #tree
-          [dataSource]="dataSource"
-          [treeControl]="treeControl"
-          class="h-full max-h-full"
-          [formGroup]="displayForm"
-        >
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <label class="inline-flex items-center">
-              <input
-                [formControlName]="node.formControl"
-                type="checkbox"
-                [ngStyle]="{ color: node.color }"
-                class="form-checkbox text-body-1 bg-toastBg"
-                #nodeCbPa
-              />
-              <span
-                class="ml-2"
-                [class.text-dark]="nodeCbPa.checked"
-                [class.text-light]="!nodeCbPa.checked"
-                >{{ translate(this.translateKey + '.' + node.label) }}</span
-              >
-            </label>
-          </mat-tree-node>
-          <mat-tree-node
-            *matTreeNodeDef="let node; when: hasChild"
-            matTreeNodePadding
+    <div class="flex flex-col h-full max-h-full">
+      <mat-card-header>
+        <mat-card-title>
+          <div class="inline-flex items-center">
+            <span>Date Picker</span>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <goldwind-date-range
+          [interval]="interval$ | ngrxPush"
+          (rangeChange)="setInterval($event)"
+        ></goldwind-date-range>
+        <ng-container *ngrxLet="graphData$ as graphData">
+          <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
+        </ng-container>
+        <div class="flex flex-col h-14 max-h-full">
+          <h6 class="font-medium text-2xl leading-6 text-dark mb-4 mt-8">
+            {{ translate('linechart.pleaseSelectTrendsToShow') }}
+          </h6>
+          <mat-tree
+            #tree
+            [dataSource]="dataSource"
+            [treeControl]="treeControl"
+            class="h-full max-h-full"
+            [formGroup]="displayForm"
           >
-            <input
-              [checked]="!getIndeterminate(node.name)"
-              (change)="this.updateChildForms(node, nodeCb.checked)"
-              #nodeCb
-              type="checkbox"
-              class="form-checkbox text-body-1 bg-toastBg"
-            />
-            <button
-              mat-icon-button
-              matTreeNodeToggle
-              [attr.aria-label]="'Toggle ' + node.name"
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+              <label class="inline-flex items-center">
+                <input
+                  [formControlName]="node.formControl"
+                  type="checkbox"
+                  [ngStyle]="{ color: node.color }"
+                  class="form-checkbox text-body-1 bg-toastBg"
+                  #nodeCbPa
+                />
+                <span
+                  class="ml-2"
+                  [class.text-dark]="nodeCbPa.checked"
+                  [class.text-light]="!nodeCbPa.checked"
+                  >{{ translate(this.translateKey + '.' + node.label) }}</span
+                >
+              </label>
+            </mat-tree-node>
+            <mat-tree-node
+              *matTreeNodeDef="let node; when: hasChild"
+              matTreeNodePadding
             >
-              <mat-icon class="ml-2 mat-icon-rtl-mirror text-body-2">
-                {{
-                  treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'
-                }}
-              </mat-icon>
-            </button>
-            <span
-              class="ml-2 text-body-2"
-              [class.text-dark]="nodeCb.checked"
-              [class.text-light]="!nodeCb.checked"
-            >
-              {{ translate(this.translateKey + '.' + node.name) }}</span
-            >
-            <!-- <mat-checkbox
+              <input
+                [checked]="!getIndeterminate(node.name)"
+                (change)="this.updateChildForms(node, nodeCb.checked)"
+                #nodeCb
+                type="checkbox"
+                class="form-checkbox text-body-1 bg-toastBg"
+              />
+              <button
+                mat-icon-button
+                matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.name"
+              >
+                <mat-icon class="ml-2 mat-icon-rtl-mirror text-body-2">
+                  {{
+                    treeControl.isExpanded(node)
+                      ? 'expand_more'
+                      : 'chevron_right'
+                  }}
+                </mat-icon>
+              </button>
+              <span
+                class="ml-2 text-body-2"
+                [class.text-dark]="nodeCb.checked"
+                [class.text-light]="!nodeCb.checked"
+              >
+                {{ translate(this.translateKey + '.' + node.name) }}</span
+              >
+              <!-- <mat-checkbox
               [color]="'secondary'"
               [formControl]="node.formControl"
               [indeterminate]="getIndeterminate(node.name)"
@@ -86,10 +89,11 @@
               </button>
               {{ translate(this.translateKey + '.' + node.name) }}
             </mat-checkbox> -->
-          </mat-tree-node>
-        </mat-tree>
-      </div>
-    </mat-card-content>
+            </mat-tree-node>
+          </mat-tree>
+        </div>
+      </mat-card-content>
+    </div>
   </mat-card>
 
   <mat-card class="w-full h-full lg:w-full">
@@ -100,10 +104,10 @@
         </div>
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content class="flex flex-col h-full space-between items-center">
       <ng-container *ngIf="graphData$ | ngrxPush as graphData; else loading">
         <div
-          class="flex w-full h-5/6"
+          class="w-full h-5/6"
           echarts
           [options]="chartOptions"
           [merge]="graphData"
