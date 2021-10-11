@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, mergeMap, of } from 'rxjs';
+import { catchError, filter, map, mergeMap, of, switchMap } from 'rxjs';
 
 import {
   Actions,
@@ -52,7 +52,7 @@ export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(loadReasonsWhyPeopleLeft),
       map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
+      switchMap((request: EmployeesRequest) =>
         this.reasonsAndCounterMeasuresService
           .getReasonsWhyPeopleLeft(request)
           .pipe(
@@ -93,7 +93,7 @@ export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(loadComparedReasonsWhyPeopleLeft),
       map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
+      switchMap((request: EmployeesRequest) =>
         this.reasonsAndCounterMeasuresService
           .getReasonsWhyPeopleLeft(request)
           .pipe(

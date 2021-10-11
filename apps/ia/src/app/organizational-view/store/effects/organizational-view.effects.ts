@@ -6,6 +6,7 @@ import {
   filter,
   map,
   mergeMap,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -63,7 +64,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(loadOrgChart),
       map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
+      switchMap((request: EmployeesRequest) =>
         this.organizationalViewService.getOrgChart(request).pipe(
           map((employees: Employee[]) => loadOrgChartSuccess({ employees })),
           catchError((error) =>
@@ -78,7 +79,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(loadWorldMap),
       map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
+      switchMap((request: EmployeesRequest) =>
         this.organizationalViewService.getWorldMap(request).pipe(
           map((data: CountryData[]) => loadWorldMapSuccess({ data })),
           catchError((error) =>
@@ -93,7 +94,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(loadParent),
       map((action) => action.employee.employeeId),
-      mergeMap((childEmployeeId: string) =>
+      switchMap((childEmployeeId: string) =>
         this.organizationalViewService.getParentEmployee(childEmployeeId).pipe(
           map((employee: Employee) => loadParentSuccess({ employee })),
           catchError((error) =>
@@ -121,7 +122,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(loadAttritionOverTimeOrgChart),
       map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
+      switchMap((request: EmployeesRequest) =>
         this.organizationalViewService
           .getAttritionOverTime(request, TimePeriod.PLUS_MINUS_THREE_MONTHS)
           .pipe(

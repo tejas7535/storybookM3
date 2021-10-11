@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, switchMap } from 'rxjs';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -21,7 +21,7 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   loadEmployeeAnalytics$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadEmployeeAnalytics),
-      mergeMap(() =>
+      switchMap(() =>
         this.attritionAnalyticsService.getEmployeeAnalytics().pipe(
           map((data) => loadEmployeeAnalyticsSuccess({ data })),
           catchError((error) =>

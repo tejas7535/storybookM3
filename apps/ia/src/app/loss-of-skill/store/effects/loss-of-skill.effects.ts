@@ -6,6 +6,7 @@ import {
   filter,
   map,
   mergeMap,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -51,7 +52,7 @@ export class LossOfSkillEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(loadLostJobProfiles),
       map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
+      switchMap((request: EmployeesRequest) =>
         this.lossOfSkillService.getLostJobProfiles(request).pipe(
           map((lostJobProfiles: LostJobProfile[]) =>
             loadLostJobProfilesSuccess({ lostJobProfiles })
