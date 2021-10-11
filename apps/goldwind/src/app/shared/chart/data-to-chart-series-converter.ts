@@ -147,7 +147,7 @@ export class DataToChartSeriesConverter {
         ];
       }
 
-      return measurementValue
+      return measurementValue !== null && measurementValue !== undefined
         ? {
             value: [
               new Date(measurement.timestamp),
