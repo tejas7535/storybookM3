@@ -101,7 +101,7 @@ describe('Load Assessment Selector', () => {
             type: 'line',
             symbol: 'none',
             lineStyle: {
-              color: undefined as any,
+              color: '#0e656d',
             },
             data: [
               {
@@ -114,7 +114,7 @@ describe('Load Assessment Selector', () => {
             type: 'line',
             symbol: 'none',
             lineStyle: {
-              color: undefined as any,
+              color: '#FF5627',
             },
             data: [
               {

@@ -90,7 +90,7 @@ describe('Load Sense Selector', () => {
             symbol: 'none',
             type: 'line',
             lineStyle: {
-              color: '#1D9BB2',
+              color: '#52B796',
             },
           },
           {
@@ -99,7 +99,7 @@ describe('Load Sense Selector', () => {
             symbol: 'none',
             type: 'line',
             lineStyle: {
-              color: '#2196F3',
+              color: '#2296F0',
             },
           },
         ],
