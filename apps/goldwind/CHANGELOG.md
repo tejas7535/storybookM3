@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.1.0...goldwind-v0.0.1) (2021-10-11)
+
+
+### 🎸 Features
+
+* **goldwind:** add some more colors to the controls ([#3107](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3107)) ([83bd084](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/83bd0849607d0ab97f2a21a133b9b5277dc61af0))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** display 0 values probably ([#3111](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3111)) ([4658484](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/46584849a7bb32b747851ba498ae3734f893bd12))
+* **goldwind:** edm now display current device ([#3110](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3110)) ([7cc31b2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7cc31b294f127e14efcad95d828238ddb0e53e06))
+* **goldwind:** set min and max values for axis on line charts ([#3106](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3106)) ([83b04a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/83b04a1532acea59b9aab906036c805d80711a37))
+
 ### [0.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.0.1...goldwind-v1.12.1) (2021-10-08)
 
 
