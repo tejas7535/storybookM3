@@ -25,6 +25,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
 import { AppComponent } from '../app.component';
 import { FilterSectionModule } from '../filter-section/filter-section.module';
@@ -66,7 +67,8 @@ const azureConfig = new AzureConfig(
       [{ id: 'en', label: 'English' }],
       'en', // default -> undefined would lead to browser detection
       'en',
-      true
+      true,
+      i18nChecksumsJson
     ),
 
     // Auth
