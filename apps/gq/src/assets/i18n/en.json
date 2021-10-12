@@ -210,8 +210,7 @@
       "toastConfirmMessage": "ok"
     },
     "maintenance": {
-      "header": "Guided Quoting is currently down for maintenance",
-      "subtitle1": "We expect to be back soon. Please refresh the page in a few minutes. Thanks for your patience."
+      "title": "Guided Quoting is currently down for maintenance"
     }
   }
 }

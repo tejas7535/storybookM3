@@ -2,18 +2,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { TranslocoModule } from '@ngneat/transloco';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
   PageNotFoundComponent,
   PageNotFoundModule,
 } from '@schaeffler/empty-states';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Components/Page Not Found',
+  title: 'Empty-States/Page Not Found',
   component: PageNotFoundComponent,
   decorators: [
     moduleMetadata({

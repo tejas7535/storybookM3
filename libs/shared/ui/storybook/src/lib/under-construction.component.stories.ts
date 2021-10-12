@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { TranslocoModule } from '@ngneat/transloco';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
   UnderConstructionComponent,
@@ -8,11 +9,10 @@ import {
 } from '@schaeffler/empty-states';
 
 import READMEMd from '../../../empty-states/src/lib/under-construction/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Components/Under Construction',
+  title: 'Empty-States/Under Construction',
   component: UnderConstructionComponent,
   decorators: [
     moduleMetadata({

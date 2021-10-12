@@ -1,18 +1,18 @@
 import { HttpClientModule } from '@angular/common/http';
 
 import { TranslocoModule } from '@ngneat/transloco';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
   UnsupportedViewportComponent,
   UnsupportedViewportModule,
 } from '@schaeffler/empty-states';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Components/Unsupported Viewport',
+  title: 'Empty-States/Unsupported Viewport',
   component: UnsupportedViewportComponent,
   decorators: [
     moduleMetadata({

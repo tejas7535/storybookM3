@@ -210,8 +210,7 @@
       "toastConfirmMessage": "ok"
     },
     "maintenance": {
-      "header": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar",
-      "subtitle1": "Vielen Dank für Ihre Geduld, wir sind bald wieder für Sie da. Bitte aktualisieren sie die Seite in einigen Minuten."
+      "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
     }
   }
 }

@@ -1,4 +1,5 @@
 import { moduleMetadata } from '@storybook/angular';
+
 import { StorybookTranslocoModule } from './storybook-transloco.module';
 import {
   STORYBOOK_DEFAULT_LANGUAGE,
@@ -19,6 +20,7 @@ export const parameters = {
         'Material',
         ['Atoms', 'Molecules', 'Organisms'],
         'Components',
+        'Empty-States',
         '*',
         'WIP',
       ],

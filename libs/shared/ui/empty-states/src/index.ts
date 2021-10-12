@@ -7,3 +7,5 @@ export { ForbiddenComponent } from './lib/forbidden/forbidden.component';
 export * from './lib/forbidden/models';
 export { UnderConstructionModule } from './lib/under-construction/under-construction.module';
 export { UnderConstructionComponent } from './lib/under-construction/under-construction.component';
+export { MaintenanceModule } from './lib/maintenance/maintenance.module';
+export { MaintenanceComponent } from './lib/maintenance/maintenance.component';

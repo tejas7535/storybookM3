@@ -8,7 +8,7 @@ import READMEMd from '../../../empty-states/src/lib/forbidden/README.md';
 import { getMultiLanguageStoryTemplate } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Components/Forbidden',
+  title: 'Empty-States/Forbidden',
   component: ForbiddenComponent,
   parameters: {
     backgrounds: {

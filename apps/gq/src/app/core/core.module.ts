@@ -12,6 +12,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import { MaintenanceModule } from '@schaeffler/empty-states';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -21,7 +22,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
-import { MaintenanceModule } from '../shared/components/maintenance/maintenance.module';
 import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
 import { StoreModule } from './store';
 

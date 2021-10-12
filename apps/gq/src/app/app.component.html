@@ -25,7 +25,10 @@
 </schaeffler-app-shell>
 
 <ng-template class="flex-grow overflow-y-auto h-full" #maintenance>
-  <gq-maintenance class="h-full"></gq-maintenance>
+  <schaeffler-maintenance
+    *transloco="let t; read: 'shared.maintenance'"
+    [title]="t('title')"
+  ></schaeffler-maintenance>
 </ng-template>
 
 <ng-template #loading>
