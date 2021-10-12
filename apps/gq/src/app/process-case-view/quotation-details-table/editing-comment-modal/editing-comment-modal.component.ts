@@ -63,8 +63,7 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
         this.commentDisabled =
           val === null ||
           val === this.modalData.comment ||
-          (val !== null &&
-            (val.trim() === this.modalData.comment || val.trim().length === 0));
+          (val !== null && val.trim() === this.modalData.comment);
       })
     );
   }

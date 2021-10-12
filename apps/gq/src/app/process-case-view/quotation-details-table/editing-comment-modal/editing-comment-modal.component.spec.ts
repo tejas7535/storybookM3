@@ -106,4 +106,31 @@ describe('EditingCommentModalComponent', () => {
       );
     });
   });
+
+  describe('commentFormControl valueChanges', () => {
+    beforeEach(() => {
+      component.commentDisabled = true;
+      component.modalData.comment = '1';
+    });
+    test('should set commentDisabled to false', () => {
+      component.addSubscriptions();
+
+      component.commentFormControl.setValue('12');
+      expect(component.commentDisabled).toBeFalsy();
+    });
+    test('should set commentDisabled to true', () => {
+      component.addSubscriptions();
+
+      component.commentFormControl.setValue('1');
+      expect(component.commentDisabled).toBeTruthy();
+    });
+    test('should set commentDisabled to true when values are undefined', () => {
+      component.modalData.comment = undefined;
+
+      component.addSubscriptions();
+
+      component.commentFormControl.setValue(undefined as any);
+      expect(component.commentDisabled).toBeTruthy();
+    });
+  });
 });
