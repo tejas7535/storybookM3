@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.4.0...cdba-v2.3.1) (2021-10-12)
+
+
+### 📈 Improvements
+
+* **cdba:** adjust styling and wording of drawings and bom chart hint (DSCDA-2709) ([6789d7b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6789d7b42c0b3f27442856c411c7f3011f81b39a))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** add fallbacks for missing units in dimensions widget (DSCDA-2721) ([#3014](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3014)) ([433c68f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/433c68fc9e3f46802e016df534ead4ed73760c45))
+* **CDBA:** change link and text of action button (DSCDA-2712) ([1a05e9c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1a05e9c75c19a2953b59f5d59da5fe5dbc04bdc6))
+* **cdba:** don't allow search without selected IdValue filters (DSCDA-2720) ([33e9b0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/33e9b0a80f7219ea7bdc03a9192d4790d1fc571b)), closes [#3006](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3006)
+* **cdba:** fix custom cell for grouped "pcm" rows (DSCDA-2697) ([#3017](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3017)) ([133c3fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/133c3fbcfa46a670549c719aa2fe20177e21bb0c))
+* **CDBA:** remove obsolete component styling after tailwind update ([87b3096](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/87b3096ce6b6c038959532fb8d7564e702aaf320))
+* **CDBA:** switch names between "forbidden" and "no-access" paths (DSCDA-2712) ([123ce07](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/123ce0751c1f35c951d80b25d98953a3640ef716))
+* **workspace:** correct style button and font regressions ([93b8427](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93b8427b40554a19024ea30d765c546965d2f0e9))
+* **workspace:** style button and font regressions cleanup ([#3015](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3015)) ([85f704c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85f704c9d644da7e3f30b5d6c90a91b42a5226e1))
+
+
+### 🎸 Features
+
+* **app-shell:** extend app shell ([#3003](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3003)) ([781c13d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/781c13d61fac9aea94800e5e008cbfbd320de411))
+* **cdba:** align typography, wordings and spacings (DSCDA-2706) ([#2960](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2960)) ([9424aad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9424aad7171a5492b900cab818367b55e809d202))
+* **cdba:** disable button for certain calculation cost type (DSCDA-2711) ([e2021d0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e2021d04c0a1285037ff2b9c758747a499ceabdd))
+* **cdba:** disable search button without selected filters (DSCDA-2708) ([#2969](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2969)) ([db5fa33](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db5fa33cb34f0db0a5ff8a81e99513973e803cf7))
+* **cdba:** improve results table header tooltips (DSCDA-2683) ([#3061](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3061)) ([9633b1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9633b1f02e58e2de93257cb06048a5c12bff2304))
+* **cdba:** rename dimensions (DSCDA-2698)  ([#2937](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2937)) ([6aabdfd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6aabdfd3c3a6eff1dcd758f4d31342eb3b26a8c0))
+* **cdba:** rework "forbidden" pages (DSCDA-2712) ([304f3e9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/304f3e91e20e1f1f5c7fecba5306d2bc8cb202ca))
+* **CDBA:** unify snackbar messages (DSCDA-2707) ([d773ecc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d773ecc991f562d068ca97b0a4e01e119156f6ee))
+* **ia:** use own interceptor and configuration for http services (IA-301) ([#3036](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3036)) ([79b21b9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/79b21b9cc5ac5f4dcf790e91026c750addcb3999))
+
 ### [2.3.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.3.1...cdba-v2.3.0) (2021-09-14)
 
 
