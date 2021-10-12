@@ -6,6 +6,7 @@ import {
   getEmployeeAnalyticsAverage,
   getEmployeeAnalyticsBarChartConfig,
   getEmployeeAnalyticsFeature,
+  getEmployeeAnalyticsLoading,
   getFeatureSelectors,
   getSelectedFeatureNames,
   getSelectedFeatures,
@@ -19,6 +20,24 @@ import {
 
 describe('attrition analytics selector', () => {
   const fakeState: AttritionAnalyticsState = createFakeState();
+
+  describe('getEmployeeAnalyticsLoading', () => {
+    test('should return true if loading true', () => {
+      expect(
+        getEmployeeAnalyticsLoading.projector({
+          employeeAnalytics: { loading: true },
+        })
+      ).toBeTruthy();
+    });
+
+    test('should return false if loading false', () => {
+      expect(
+        getEmployeeAnalyticsLoading.projector({
+          employeeAnalytics: { loading: false },
+        })
+      ).toBeFalsy();
+    });
+  });
 
   describe('getEmployeeAnalyticsFeature', () => {
     test('should get employee anayltics feature by name', () => {

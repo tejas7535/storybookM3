@@ -16,6 +16,7 @@ import {
 } from './store/actions/attrition-analytics.action';
 import {
   getBarChartConfigsForSelectedFeatures,
+  getEmployeeAnalyticsLoading,
   getFeatureSelectors,
 } from './store/selectors/attrition-analytics.selector';
 
@@ -30,6 +31,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   readonly POSITION_FEATURE_NAME = 'Position';
 
   barChartConfigs$: Observable<BarChartConfig[]>;
+  isLoading$: Observable<boolean>;
 
   selectedFeatures: FeatureSelector[] = [];
 
@@ -43,6 +45,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectDefaultFeatures();
+    this.isLoading$ = this.store.select(getEmployeeAnalyticsLoading);
 
     this.subscription.add(
       this.store

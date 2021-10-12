@@ -24,6 +24,7 @@ import {
   changeSelectedFeatures,
   initializeSelectedFeatures,
 } from './store/actions/attrition-analytics.action';
+import { getEmployeeAnalyticsLoading } from './store/selectors/attrition-analytics.selector';
 import {
   createBarchartConfigForAge,
   createDummyBarChartSerie,
@@ -75,6 +76,15 @@ describe('AttritionAnalyticsComponent', () => {
         component.ngOnInit();
 
         m.expect(component.barChartConfigs$).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should set is loading',
+      marbles((m) => {
+        store.overrideSelector(getEmployeeAnalyticsLoading, true);
+
+        m.expect(component.isLoading$).toBeObservable(m.cold('a', { a: true }));
       })
     );
 

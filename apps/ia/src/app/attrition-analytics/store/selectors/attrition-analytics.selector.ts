@@ -8,6 +8,11 @@ import {
   mapToFeatureSelectors,
 } from './attrition-analytics.selector.utils';
 
+export const getEmployeeAnalyticsLoading = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.employeeAnalytics.loading
+);
+
 export const getEmployeeAnalyticsFeature = (name: string) =>
   createSelector(
     selectAttritionAnalyticsState,

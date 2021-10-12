@@ -1,4 +1,7 @@
-<div class="bg-white gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4">
+<div
+  class="bg-white gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4"
+  *ngIf="!(isLoading$ | ngrxPush); else loading"
+>
   <div
     class="shadow w-full flex flex-col"
     *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
@@ -34,3 +37,10 @@
     </div>
   </div>
 </div>
+<ng-template #loading>
+  <schaeffler-loading-spinner
+    [diameter]="40"
+    [strokeWidth]="4"
+    [relative]="false"
+  ></schaeffler-loading-spinner>
+</ng-template>

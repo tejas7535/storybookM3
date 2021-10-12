@@ -1,9 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import {
   ClientSideRowModelModule,
   ColDef,
+  GridApi,
+  GridReadyEvent,
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
@@ -20,9 +22,11 @@ type CellType = 'workforce' | 'leavers';
   selector: 'ia-lost-job-profiles',
   templateUrl: './lost-job-profiles.component.html',
 })
-export class LostJobProfilesComponent {
+export class LostJobProfilesComponent implements OnChanges {
   @Input() loading: boolean; // not used at the moment
   @Input() data: LostJobProfile[];
+
+  gridApi: GridApi;
 
   modules: any[] = [ClientSideRowModelModule];
 
@@ -75,6 +79,16 @@ export class LostJobProfilesComponent {
   ];
 
   constructor(private readonly dialog: MatDialog) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.loading.currentValue && this.gridApi) {
+      this.gridApi.showLoadingOverlay();
+    }
+  }
+
+  onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
+  }
 
   getRowClass = () => 'border-2 border-veryLight';
 

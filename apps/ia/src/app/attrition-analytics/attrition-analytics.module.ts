@@ -5,6 +5,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared/shared.module';
@@ -29,6 +30,7 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     MatIconModule,
     SharedTranslocoModule,
     FeaturesDialogModule,
+    LoadingSpinnerModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'attrition-analytics' }],
 })

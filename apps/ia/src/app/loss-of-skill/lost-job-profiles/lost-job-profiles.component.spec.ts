@@ -1,4 +1,7 @@
+import { SimpleChange, SimpleChanges } from '@angular/core';
+
 import { AgGridModule } from '@ag-grid-community/angular';
+import { GridApi, GridReadyEvent } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 
@@ -88,6 +91,42 @@ describe('LostJobProfilesComponent', () => {
         EmployeeListDialogComponent,
         { data }
       );
+    });
+  });
+
+  describe('ngOnChanges', () => {
+    test('should show loading overlay when loading true', () => {
+      component.gridApi = {} as GridApi;
+      component.gridApi.showLoadingOverlay = jest.fn();
+      const loadingChanges: SimpleChanges = {
+        loading: { currentValue: true } as SimpleChange,
+      };
+
+      component.ngOnChanges(loadingChanges);
+
+      expect(component.gridApi.showLoadingOverlay).toHaveBeenCalled();
+    });
+
+    test('should not show loading overlay when loading false', () => {
+      component.gridApi = {} as GridApi;
+      component.gridApi.showLoadingOverlay = jest.fn();
+      const loadingChanges: SimpleChanges = {
+        loading: { currentValue: false } as SimpleChange,
+      };
+
+      component.ngOnChanges(loadingChanges);
+
+      expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onGridReady', () => {
+    test('should set grid api', () => {
+      const params = { api: {} } as GridReadyEvent;
+
+      component.onGridReady(params);
+
+      expect(component.gridApi).toBeDefined();
     });
   });
 });
