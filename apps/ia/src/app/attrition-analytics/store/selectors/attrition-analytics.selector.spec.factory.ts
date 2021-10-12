@@ -45,7 +45,7 @@ export function createDummyBarchartConfig(
   name: string,
   serie: BarChartSerie
 ): BarChartConfig {
-  return new BarChartConfig(name, [serie], ['18', '19', '20'], 0.45);
+  return new BarChartConfig(name, [serie], ['18', '19', '20'], 45);
 }
 
 export function createBarchartConfigForAge(

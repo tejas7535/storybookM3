@@ -20,7 +20,7 @@ describe('attrition analytics selector utils', () => {
 
       const result = mapEmployeeAnalyticsFeatureToBarChartConfig(
         [feature],
-        expectedResult.average,
+        0.45,
         color
       );
 

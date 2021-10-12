@@ -33,7 +33,12 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
   });
 
   return features
-    ? new BarChartConfig(features[0].name, [barChartSerie], categories, average)
+    ? new BarChartConfig(
+        features[0].name,
+        [barChartSerie],
+        categories,
+        getPercentageValue(average)
+      )
     : undefined;
 }
 
