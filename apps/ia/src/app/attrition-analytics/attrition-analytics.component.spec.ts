@@ -13,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
+import { AttritionAnalyticsStateService } from './attrition-analytics-state.service';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { EmployeeAnalyticsComponent } from './employee-analytics/employee-analytics.component';
 import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
@@ -33,7 +34,10 @@ import {
 describe('AttritionAnalyticsComponent', () => {
   let component: AttritionAnalyticsComponent;
   let store: MockStore;
+  let stateService: AttritionAnalyticsStateService;
   let spectator: Spectator<AttritionAnalyticsComponent>;
+
+  const selectedFeatures = ['Age', 'Position'];
 
   const createComponent = createComponentFactory({
     component: AttritionAnalyticsComponent,
@@ -45,6 +49,13 @@ describe('AttritionAnalyticsComponent', () => {
       MatIconModule,
     ],
     providers: [
+      {
+        provide: AttritionAnalyticsStateService,
+        useValue: {
+          getSelectedFeatures: () => {},
+          setSelectedFeatures: () => {},
+        },
+      },
       provideMockStore({
         initialState: {
           attritionAnalytics: initialState,
@@ -59,8 +70,15 @@ describe('AttritionAnalyticsComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
 
+    stateService = spectator.inject(AttritionAnalyticsStateService);
+
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
+
+    // eslint-disable-next-line unicorn/no-null
+    stateService.getSelectedFeatures = jest
+      .fn()
+      .mockReturnValue(selectedFeatures);
   });
 
   it('should create', () => {
@@ -106,18 +124,11 @@ describe('AttritionAnalyticsComponent', () => {
   });
 
   describe('selectDefaultFeatures', () => {
-    test('should select default features', () => {
-      const expectedDefaultFeatures = {
-        features: [
-          component.EDUCATION_FEATURE_NAME,
-          component.AGE_FEATURE_NAME,
-          component.POSITION_FEATURE_NAME,
-        ],
-      };
+    test('should dispatch initializeSelectedFeatures action', () => {
       component.selectDefaultFeatures();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        initializeSelectedFeatures(expectedDefaultFeatures)
+        initializeSelectedFeatures({ features: selectedFeatures })
       );
     });
   });
@@ -165,36 +176,6 @@ describe('AttritionAnalyticsComponent', () => {
     });
   });
 
-  describe('anySelectedFeature', () => {
-    test('should return true if any selected', () => {
-      const featureSelectors = [
-        { name: 'test 1', selected: true },
-        { name: 'test 2', selected: true },
-      ];
-
-      const result = component.anySelectedFeature(featureSelectors);
-
-      expect(result).toBeTruthy();
-    });
-
-    test('should return false if no selections', () => {
-      const featureSelectors = [
-        { name: 'test 1', selected: false },
-        { name: 'test 2', selected: false },
-      ];
-
-      const result = component.anySelectedFeature(featureSelectors);
-
-      expect(result).toBeFalsy();
-    });
-    test('should return false if undefined', () => {
-      const features: FeatureSelector[] = undefined;
-      const result = component.anySelectedFeature(features);
-
-      expect(result).toBeFalsy();
-    });
-  });
-
   describe('trackByFn', () => {
     test('should return index', () => {
       const result = component.trackByFn(3);
@@ -236,6 +217,19 @@ describe('AttritionAnalyticsComponent', () => {
 
       expect(component['subscription'].add).toHaveBeenCalled();
       expect(component.onSelectedFeatures).toHaveBeenCalledWith(result);
+    });
+
+    test('should not emit result on close on cancel', () => {
+      component.onSelectedFeatures = jest.fn();
+      component['subscription'].add = jest.fn();
+      const dialogRef = {
+        afterClosed: () => of(undefined as any),
+      } as MatDialogRef<FeaturesDialogComponent>;
+
+      component.dispatchResultOnClose(dialogRef);
+
+      expect(component['subscription'].add).toHaveBeenCalled();
+      expect(component.onSelectedFeatures).not.toHaveBeenCalled();
     });
   });
 

@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { map, mergeMap, Observable, Subscription } from 'rxjs';
+import { filter, map, mergeMap, Observable, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
+import { AttritionAnalyticsStateService } from './attrition-analytics-state.service';
 import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
 import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
 import { FeatureSelector } from './models/feature-selector.model';
@@ -26,9 +27,6 @@ import {
 })
 export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   readonly NUMBER_OF_TILES = 4;
-  readonly AGE_FEATURE_NAME = 'Age';
-  readonly EDUCATION_FEATURE_NAME = 'Education';
-  readonly POSITION_FEATURE_NAME = 'Position';
 
   barChartConfigs$: Observable<BarChartConfig[]>;
   isLoading$: Observable<boolean>;
@@ -39,6 +37,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private readonly stateService: AttritionAnalyticsStateService,
     private readonly translocoService: TranslocoService,
     private readonly dialog: MatDialog
   ) {}
@@ -89,11 +88,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   selectDefaultFeatures() {
     this.store.dispatch(
       initializeSelectedFeatures({
-        features: [
-          this.EDUCATION_FEATURE_NAME,
-          this.AGE_FEATURE_NAME,
-          this.POSITION_FEATURE_NAME,
-        ],
+        features: this.stateService.getSelectedFeatures(),
       })
     );
   }
@@ -101,10 +96,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   onSelectedFeatures(featureSelectors: FeatureSelector[]): void {
     const features = featureSelectors.map((selector) => selector.name);
     this.store.dispatch(changeSelectedFeatures({ features }));
-  }
-
-  anySelectedFeature(selectedFeatures: FeatureSelector[]): boolean {
-    return selectedFeatures?.filter((feature) => feature.selected).length > 0;
+    this.stateService.setSelectedFeatures(features);
   }
 
   trackByFn(index: number): number {
@@ -123,6 +115,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       dialogRef
         .afterClosed()
+        .pipe(filter((result) => result))
         .subscribe((result) => this.onSelectedFeatures(result))
     );
   }
