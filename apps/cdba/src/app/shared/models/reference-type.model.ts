@@ -11,7 +11,6 @@ export class ReferenceType {
     public length: number,
     public width: number,
     public unitOfDimension: string,
-    public saleableItem: boolean,
     public materialDesignation: string,
     public materialShortDescription: string,
     public procurementType: string,

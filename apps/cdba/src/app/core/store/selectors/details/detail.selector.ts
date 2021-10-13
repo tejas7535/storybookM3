@@ -124,7 +124,6 @@ export const getProductionDetails = createSelector(
       ? new ProductionDetails(
           referenceType.procurementType,
           referenceType.plant,
-          referenceType.saleableItem,
           referenceType.specialProcurement,
           referenceType.purchasePriceValidFrom,
           referenceType.purchasePriceValidUntil,
