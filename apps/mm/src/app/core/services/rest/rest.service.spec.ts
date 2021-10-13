@@ -6,8 +6,6 @@ import {
 import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import {
   MMBearingPreflightResponse,
   MMBearingsMaterialResponse,
@@ -33,21 +31,7 @@ describe('RestService', () => {
   const createService = createServiceFactory({
     service: RestService,
     imports: [HttpClientTestingModule],
-    providers: [
-      RestService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-            preflightPath: 'bearing-preflight',
-            materialsPath: 'materialdata/id/',
-            bearingRelationsPath: 'bearing-relations/',
-            bearingCalculationPath: 'bearing-calculation',
-          },
-        },
-      },
-    ],
+    providers: [RestService],
   });
 
   beforeEach(() => {
@@ -68,7 +52,7 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/bearing/search/?pattern=theQuery&page=1&size=1000`
+        `${environment.baseUrl}/bearing/search/?pattern=theQuery&page=1&size=1000`
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
@@ -83,7 +67,7 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/${environment.bearingRelationsPath}theId`
+        `${environment.baseUrl}/${environment.bearingRelationsPath}theId`
       );
       expect(req.request.method).toBe('GET');
       req.flush({});
@@ -99,7 +83,9 @@ describe('RestService', () => {
           done();
         });
 
-      const req = httpMock.expectOne(`/${environment.bearingCalculationPath}`);
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${environment.bearingCalculationPath}`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(BEARING_CALCULATION_RESULT_MOCK);
     });
@@ -114,7 +100,9 @@ describe('RestService', () => {
           done();
         });
 
-      const req = httpMock.expectOne(`/${environment.preflightPath}`);
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${environment.preflightPath}`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(BEARING_PREFLIGHT_RESPONSE_MOCK);
     });
@@ -131,7 +119,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/${environment.materialsPath}${mockShaftMaterial}`
+        `${environment.baseUrl}/${environment.materialsPath}${mockShaftMaterial}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
@@ -146,7 +134,7 @@ describe('RestService', () => {
         done();
       });
 
-      const req = httpMock.expectOne('/aUrl');
+      const req = httpMock.expectOne('aUrl');
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
       req.flush(LOAD_OPTIONS_RESPONSE_MOCK);
