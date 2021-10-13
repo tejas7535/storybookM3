@@ -214,7 +214,6 @@ def getAgentLabel() {
         label = 'monorepo'
     }
 
-
     return label
 }
 
@@ -445,10 +444,13 @@ pipeline {
                                 returnStdout: true
                             )
 
-                            // delete nx-cache only when disk usage is over 80%
-                            if (diskUsagePercentString.toInteger() > 80) {
+                            // delete nx-cache only when disk usage is over 75%
+                            if (diskUsagePercentString.toInteger() > 75) {
                                 sh "rm -rf /home/adp-jenkins/temp/nx-cache"
                                 sh "mkdir /home/adp-jenkins/temp/nx-cache"
+
+                                sh "rm -rf /home/adp-jenkins/temp/jest-cache"
+                                sh "mkdir /home/adp-jenkins/temp/jest-cache"
                             }
                         }
                     }
