@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { InfoIconComponent } from './info-icon.component';
 
 @NgModule({
   declarations: [InfoIconComponent],
-  imports: [CommonModule, MatMenuModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, MatTooltipModule],
   exports: [InfoIconComponent],
 })
 export class InfoIconModule {}

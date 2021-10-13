@@ -1,68 +1,85 @@
 <mat-card
   class="mat-elevation-z0 border border-solid border-outline mt-6 text-body-2"
+  *transloco="let t; read: 'shared.customerHeader'"
 >
-  <div *transloco="let t; read: 'shared.customerDetails'" class="flex flex-row">
-    <div class="flex flex-col w-11/12" *ngIf="customer">
-      <div class="flex flex-row">
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">{{ t('name') }}:</div>
-          <div class="w-3/5 text-dark">{{ customer.name }}</div>
+  <div class="flex flex-row">
+    <div class="w-full flex flex-row pr-4" *ngIf="customer">
+      <div class="mr-12">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('name') }}: </span>
+          <span class="text-highEmphasis">
+            {{ customer.name }}
+          </span>
         </div>
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">{{ t('id') }}:</div>
-          <div class="w-3/5 text-dark">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('id') }}: </span>
+          <span class="text-highEmphasis">
             {{ customer.identifier.customerId }}
-          </div>
+          </span>
         </div>
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">{{ t('classification') }}:</div>
-          <div class="w-3/5 text-dark">
-            {{ customer.abcClassification }}
-          </div>
+      </div>
+      <div class="mr-12 overflow-x-hidden sm:overflow-x-visible">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('keyAccount') }}: </span>
+          <span class="text-highEmphasis">
+            {{ customer.keyAccount }}
+          </span>
         </div>
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">
-            {{ t('netSalesLastYear') }} {{ lastYear }}:
-          </div>
-          <div class="w-3/5 text-dark">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('subKeyAccount') }}: </span>
+          <span class="text-highEmphasis">
+            {{ customer.subKeyAccount }}
+          </span>
+        </div>
+      </div>
+      <div class="mr-12 overflow-x-hidden md:overflow-x-visible">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('classification') }}: </span>
+          <span class="text-highEmphasis"
+            >{{ customer.abcClassification }}
+          </span>
+        </div>
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('sectorManagement') }}: </span>
+          <span class="text-highEmphasis">
+            {{ customer.sectorManagement }}
+          </span>
+        </div>
+      </div>
+      <div class="mr-12 hidden md:flex md:flex-col overflow-x-hidden">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('netSalesLastYear') }} {{ lastYear }}:</span>
+          <span class="text-highEmphasis">
             {{
               customer.marginDetail?.netSalesLastYear
                 | numberCurrency: customer.currency
             }}
-          </div>
+          </span>
+        </div>
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('gpiLastYear') }} {{ lastYear }}:</span>
+          <span class="text-highEmphasis">
+            {{ customer.marginDetail?.gpiLastYear | percentage }}
+          </span>
         </div>
       </div>
-      <div class="flex flex-row">
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">{{ t('keyAccount') }}:</div>
-          <div class="w-3/5 text-dark" fxFlex="60">
-            {{ customer.keyAccount }}
-          </div>
+      <div class="hidden lg:flex lg:flex-col overflow-x-hidden">
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('country') }}:</span>
+          <span class="text-highEmphasis">
+            {{ customer.country }}
+          </span>
         </div>
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">{{ t('subKeyAccount') }}:</div>
-          <div class="w-3/5 text-dark">
-            {{ customer.subKeyAccount }}
-          </div>
-        </div>
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">{{ t('sectorManagement') }}:</div>
-          <div class="w-3/5 text-dark">
-            {{ customer.sectorManagement }}
-          </div>
-        </div>
-        <div class="flex flex-row w-1/4">
-          <div class="w-2/5 text-light">
-            {{ t('gpiLastYear') }} {{ lastYear }}:
-          </div>
-          <div class="w-3/5 text-dark">
-            {{ customer.marginDetail?.gpiLastYear | percentage }}
-          </div>
+        <div class="text-caption leading-6 whitespace-nowrap">
+          <span class="pr-2">{{ t('currency') }}:</span>
+          <span class="text-highEmphasis">
+            {{ customer.currency }}
+          </span>
         </div>
       </div>
     </div>
     <button
-      class="w-1/12 !text-primary font-medium"
+      class="!text-primary font-medium !absolute h-full top-0 right-0"
       mat-flat-button
       (click)="openCustomer()"
     >
@@ -71,3 +88,4 @@
     </button>
   </div>
 </mat-card>
+<div class="bg-white absolute"></div>

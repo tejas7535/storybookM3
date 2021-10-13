@@ -1,21 +1,10 @@
-<span *ngIf="quotationDetail">
-  <gq-info-icon *transloco="let t; read: 'transactionView.header'">
-    <div fxLayout="column" class="p-2 text-subtitle-2">
-      <span>
-        <span class="font-semibold font-body">
-          {{ t('icon-hover.materialDescription') }}: </span
-        ><span class="font-body">
-          {{ quotationDetail.material.materialDescription }}
-        </span>
-      </span>
-      <span>
-        <span class="font-semibold font-body">
-          {{ t('icon-hover.quantity') }}:
-        </span>
-        <span class="font-body">
-          {{ quotationDetail.orderQuantity }}
-        </span>
-      </span>
-    </div>
-  </gq-info-icon>
+<span *ngIf="quotationDetail && currency">
+  <span> | {{ quotationDetail.material.materialDescription }} </span>
+  <span>
+    | {{ quotationDetail.recommendedPrice | numberCurrency: 'EUR' }}
+  </span>
+  <span>
+    | {{ quotationDetail.orderQuantity }}
+    {{ quotationDetail.material.baseUoM }}</span
+  >
 </span>

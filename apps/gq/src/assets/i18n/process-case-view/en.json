@@ -1,12 +1,7 @@
 {
   "header": {
-    "gqCreated": "(GQ) Created on",
-    "gqCreatedByUser": "(GQ) Created by",
-    "gqLastUpdated": "(GQ) Updated on",
-    "gqLastUpdatedByUser": "(GQ) Updated by",
-    "sapCreated": "(SAP) Created on",
-    "sapCreatedByUser": "(SAP) Created by",
-    "sapLastUpdated": "(SAP) Updated on"
+    "gqHeader": "Created in GQ by:\n{{gqCreationName}}\non {{gqCreationDate}}\n\nLast Updated in GQ by:\n{{gqUpdatedName}}\non {{gqUpdatedDate}}",
+    "sapHeader": "\n\nCreated in SAP by:\n{{sapCreationName}}\non {{sapCreationDate}}\n\nLast Updated in SAP on:\n{{sapUpdatedDate}}"
   },
   "confirmDeletePositions": {
     "text": "Do you really want to delete these entries ({{variable}}) from this case ?",

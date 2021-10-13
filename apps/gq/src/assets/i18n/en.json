@@ -182,7 +182,7 @@
         }
       }
     },
-    "customerDetails": {
+    "customerHeader": {
       "details": "Details",
       "id": "Customer ID",
       "keyAccount": "Key Account",
@@ -191,7 +191,9 @@
       "subKeyAccount": "Subkey Account",
       "classification": "Customer Classification",
       "netSalesLastYear": "Net Sales",
-      "gpiLastYear": "GPI"
+      "gpiLastYear": "GPI",
+      "country": "Country",
+      "currency": "Currency"
     },
     "snackBarMessages": {
       "materialAdded": "Material(s) added to the case",

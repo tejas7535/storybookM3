@@ -1,6 +1,6 @@
 {
   "header": {
-    "title": "GQ Price {{price}} {{currency}}",
+    "title": "GQ Price",
     "icon-hover": {
       "quantity": "Quantity",
       "materialDescription": "Material Desc."

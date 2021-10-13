@@ -11,7 +11,7 @@
       [breadcrumbs]="breadcrumbs"
     >
       <ng-container titleContent>
-        <span *ngIf="quotation.sapId" class="ml-4 opacity-30">{{
+        <span *ngIf="quotation.sapId" class="ml-4 text-disabled pr-4">{{
           quotation.sapId | sapQuotation
         }}</span>
         <gq-header-content [quotation]="quotation"></gq-header-content>

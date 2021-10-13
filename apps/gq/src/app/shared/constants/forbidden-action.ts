@@ -1,4 +1,3 @@
-import { environment } from '../../../environments/environment';
-import { mailAdress } from './mail.constant';
+import { serivceNowAdress } from './service-now.constant';
 
-export const FORBIDDEN_ACTION = `mailto:${mailAdress}?subject=Category: Request Guided Quoting Access&body=Hello,\n\nPlease grant access to the following Guided Quoting application:\n\n${environment.envName}\n\nThank you.`;
+export const FORBIDDEN_ACTION = serivceNowAdress;

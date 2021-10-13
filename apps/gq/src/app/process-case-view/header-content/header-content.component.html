@@ -1,33 +1,7 @@
-<span *ngIf="quotation">
-  <gq-info-icon *transloco="let t; read: 'processCaseView.header'">
-    <div class="text-subtitle-2 flex flex-col">
-      <span class="font-body"
-        >{{ t('gqCreatedByUser') }}: {{ quotation.gqCreatedByUser.name }}</span
-      >
-      <span class="font-body"
-        >{{ t('gqCreated') }}:
-        {{ quotation.gqCreated | date: 'dd.MM.yyyy HH:mm' }}</span
-      >
-      <span class="font-body"
-        >{{ t('gqLastUpdatedByUser') }}:
-        {{ quotation.gqLastUpdatedByUser.name }}</span
-      >
-      <span class="font-body"
-        >{{ t('gqLastUpdated') }}:
-        {{ quotation.gqLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
-      >
-      <span class="font-body" *ngIf="quotation.sapCreatedByUser"
-        >{{ t('sapCreatedByUser') }} :
-        {{ quotation.sapCreatedByUser.name }}</span
-      >
-      <span class="font-body" *ngIf="quotation.sapCreated"
-        >{{ t('sapCreated') }} :
-        {{ quotation.sapCreated | date: 'dd.MM.yyyy HH:mm' }}</span
-      >
-      <span class="font-body" *ngIf="quotation.sapLastUpdated"
-        >{{ t('sapLastUpdated') }} :
-        {{ quotation.sapLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
-      >
-    </div>
+<span>
+  <gq-info-icon
+    *transloco="let t; read: 'processCaseView.header'"
+    [text]="(gqHeader$ | ngrxPush) + ((sapHeader$ | ngrxPush) || '')"
+  >
   </gq-info-icon>
 </span>

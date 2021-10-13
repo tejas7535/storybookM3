@@ -1,12 +1,7 @@
 {
   "header": {
-    "gqCreated": "(GQ) Erstellt am",
-    "gqCreatedByUser": "(GQ) Erstellt von",
-    "gqLastUpdated": "(GQ) Aktualisiert am",
-    "gqLastUpdatedByUser": "(GQ) Aktualisiert von",
-    "sapCreated": "(SAP) Erstellt am",
-    "sapCreatedByUser": "(SAP) Erstellt von",
-    "sapLastUpdated": "(SAP) Aktualisiert am"
+    "gqHeader": "Erstellt in GQ am:\n{{gqCreationName}}\nvon {{gqCreationDate}}\n\nZuletzt aktualisiert in GQ von:\n{{gqUpdatedName}}\nam {{gqUpdatedDate}}",
+    "sapHeader": "\n\nErstellt in SAP von:\n{{sapCreationName}}\nam {{sapCreationDate}}\n\nZuletzt aktualisiert in SAP am:\n{{sapUpdatedDate}}"
   },
   "confirmDeletePositions": {
     "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen ?",

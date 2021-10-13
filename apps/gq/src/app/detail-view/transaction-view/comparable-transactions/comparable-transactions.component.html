@@ -3,17 +3,12 @@
   *transloco="let t; read: 'transactionView.transactions'"
 >
   <div>
-    <span class="font-body text-mediumEmphasis text-h6 font-semibold">{{
+    <span class="font-body text-mediumEmphasis text-h6 font-medium">{{
       t('title')
     }}</span>
     <span>
-      <mat-icon
-        class="opacity-60 align-top pl-2 cursor-help"
-        matTooltipClass="font-body"
-        [matTooltip]="t('info-hover')"
-      >
-        info_outline
-      </mat-icon>
+      <gq-info-icon class="align-top pl-2" [text]="t('info-hover')">
+      </gq-info-icon>
     </span>
   </div>
   <div class="mt-4 flex-1">

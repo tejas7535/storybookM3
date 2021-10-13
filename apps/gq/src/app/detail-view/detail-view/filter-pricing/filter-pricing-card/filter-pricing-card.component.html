@@ -12,7 +12,7 @@
         *transloco="let t; read: 'detailView.filterPricing'"
       >
         <button
-          class="!mt-4 !font-bold w-full"
+          class="!mt-4 w-full"
           mat-raised-button
           color="primary"
           *ngIf="isSelected; else select"
@@ -22,7 +22,7 @@
         </button>
         <ng-template #select>
           <button
-            class="!mt-4 !font-bold w-full"
+            class="!mt-4 w-full"
             mat-stroked-button
             color="primary"
             (click)="selectPrice()"

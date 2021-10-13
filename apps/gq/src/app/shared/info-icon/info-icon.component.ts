@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'gq-info-icon',
@@ -7,18 +6,5 @@ import { MatMenuTrigger } from '@angular/material/menu';
 })
 export class InfoIconComponent {
   @Input() showHelpIcon: boolean;
-  timedOutCloser: number;
-
-  iconEnter(trigger: MatMenuTrigger): void {
-    if (this.timedOutCloser) {
-      clearTimeout(this.timedOutCloser);
-    }
-    trigger.openMenu();
-  }
-
-  iconLeave(trigger: MatMenuTrigger): void {
-    this.timedOutCloser = window.setTimeout(() => {
-      trigger.closeMenu();
-    }, 1500);
-  }
+  @Input() text: string;
 }

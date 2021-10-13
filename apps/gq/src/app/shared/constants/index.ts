@@ -1,2 +1,2 @@
 export * from './forbidden-action';
-export * from './mail.constant';
+export * from './service-now.constant';

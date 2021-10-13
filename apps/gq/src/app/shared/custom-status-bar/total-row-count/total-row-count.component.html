@@ -3,11 +3,15 @@
   *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
 >
   <div *ngIf="totalRowCount" class="flex flex-col">
-    <span class="font-body text-disabled"> {{ t('total') }}:&nbsp;</span>
-    <span class="font-body text-dark"> {{ totalRowCount }}</span>
+    <span class="font-body text-disabled text-left">
+      {{ t('total') }}:&nbsp;</span
+    >
+    <span class="font-body text-dark text-left"> {{ totalRowCount }}</span>
   </div>
   <div class="ml-6 flex flex-col">
-    <span class="font-body text-disabled"> {{ t('selected') }}:&nbsp;</span>
-    <span class="font-body text-dark"> {{ selectedRowCount }}</span>
+    <span class="font-body text-disabled text-left">
+      {{ t('selected') }}:&nbsp;</span
+    >
+    <span class="font-body text-dark text-left"> {{ selectedRowCount }}</span>
   </div>
 </div>

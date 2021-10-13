@@ -2,7 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { TransactionViewHeaderContentComponent } from './transaction-view-header-content.component';
 
 describe('HeaderContentComponent', () => {
@@ -11,7 +11,7 @@ describe('HeaderContentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TransactionViewHeaderContentComponent,
-    imports: [provideTranslocoTestingModule({}), InfoIconModule],
+    imports: [provideTranslocoTestingModule({}), SharedPipesModule],
   });
 
   beforeEach(() => {

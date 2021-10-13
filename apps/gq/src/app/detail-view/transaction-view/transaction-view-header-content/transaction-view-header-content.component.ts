@@ -8,4 +8,5 @@ import { QuotationDetail } from '../../../shared/models/quotation-detail';
 })
 export class TransactionViewHeaderContentComponent {
   @Input() quotationDetail: QuotationDetail;
+  @Input() currency: string;
 }

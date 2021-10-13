@@ -182,7 +182,7 @@
         }
       }
     },
-    "customerDetails": {
+    "customerHeader": {
       "details": "Details",
       "id": "Kundennummer",
       "keyAccount": "Key-Account",
@@ -191,7 +191,9 @@
       "subKeyAccount": "Sub-Key-Account",
       "classification": "Kunden-Klassifizierung",
       "netSalesLastYear": "Umsatz",
-      "gpiLastYear": "GPI"
+      "gpiLastYear": "GPI",
+      "country": "Land",
+      "currency": "Währung"
     },
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",

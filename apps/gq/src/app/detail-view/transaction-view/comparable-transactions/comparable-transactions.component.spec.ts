@@ -1,12 +1,10 @@
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -23,8 +21,7 @@ describe('ComparableTransactionsComponent', () => {
     component: ComparableTransactionsComponent,
     imports: [
       AgGridModule,
-      MatIconModule,
-      MatTooltipModule,
+      InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
   });

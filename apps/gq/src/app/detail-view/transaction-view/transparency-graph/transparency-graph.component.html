@@ -1,8 +1,8 @@
 <div *transloco="let t; read: 'transactionView.graph'" class="h-full">
   <div class="mb-[10px]">
-    <span class="text-h6 text-mediumEmphasis font-semibold font-body">
+    <h6 class="text-h6 text-mediumEmphasis font-medium font-body">
       {{ t('title') }}
-    </span>
+    </h6>
   </div>
 
   <div echarts class="h-full" [options]="options"></div>
