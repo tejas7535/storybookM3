@@ -44,7 +44,8 @@ const azureConfig = new AzureConfig(
       ['de', 'en'],
       undefined,
       'en',
-      true
+      true,
+      !environment.localDev
     ),
   ],
   providers: [],

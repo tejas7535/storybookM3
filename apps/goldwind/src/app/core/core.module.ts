@@ -43,7 +43,8 @@ import { StoreModule } from './store/store.module';
       ['en'],
       'en', // default -> undefined would lead to browser detection
       'en',
-      true
+      true,
+      !environment.localDev
     ),
 
     // HTTP

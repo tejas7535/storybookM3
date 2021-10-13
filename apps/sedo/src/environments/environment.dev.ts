@@ -1,5 +1,8 @@
-export const environment = {
+import { Environment } from './environment.model';
+
+export const environment: Environment = {
   production: false,
+  localDev: false,
   devToolsEnabled: true,
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   clientId: '523ef18f-b9af-480d-bf60-7b973a6b18de',

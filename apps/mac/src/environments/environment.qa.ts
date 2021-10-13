@@ -1,5 +1,8 @@
-export const environment = {
+import { Environment } from './environment.model';
+
+export const environment: Environment = {
   production: false,
+  localDev: false,
   devToolsEnabled: true,
   azureTenantId: '67416604-6509-4014-9859-45e709f53d3f',
   azureClientId: 'd4fa5085-89b2-4e17-b226-633e5048a932', // SG_MAC_Q

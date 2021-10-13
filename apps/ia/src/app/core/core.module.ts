@@ -68,6 +68,7 @@ const azureConfig = new AzureConfig(
       'en', // default -> undefined would lead to browser detection
       'en',
       true,
+      !environment.localDev,
       i18nChecksumsJson
     ),
 

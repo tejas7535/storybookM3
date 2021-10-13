@@ -51,7 +51,8 @@ describe(`HttpLocaleInterceptor`, () => {
         ],
         'en', // default -> undefined would lead to browser detection
         'en',
-        true
+        true,
+        false
       ),
     ],
     providers: [

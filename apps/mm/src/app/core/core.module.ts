@@ -112,7 +112,8 @@ if (window.self !== window.top) {
       ],
       undefined, // default -> undefined would lead to browser detection
       'en',
-      true
+      true,
+      !environment.localDev
     ),
     // Monitoring
     ...Tracking,

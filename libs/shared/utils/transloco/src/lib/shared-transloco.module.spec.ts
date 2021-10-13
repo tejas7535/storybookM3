@@ -19,6 +19,7 @@ describe('SharedTranslocoModule for Root', () => {
       ['es'],
       'es',
       'es',
+      false,
       false
     );
     expect(module).toBeDefined();

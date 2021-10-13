@@ -5,8 +5,7 @@ export interface Environment {
   tenantId: string;
   clientId: string;
   appScope: string;
-  baseUrl: string;
-  envName: string;
+  apiBaseUrl: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;
@@ -17,5 +16,4 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
-  scrambleMaterialIds?: boolean;
 }

@@ -2,9 +2,9 @@ export interface Environment {
   production: boolean;
   localDev: boolean;
   devToolsEnabled: boolean;
-  tenantId: string;
-  clientId: string;
-  appScope: string;
+  azureTenantId: string;
+  azureClientId: string;
+  appId: string;
   baseUrl: string;
   envName: string;
   applicationInsights: {
@@ -17,5 +17,4 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
-  scrambleMaterialIds?: boolean;
 }

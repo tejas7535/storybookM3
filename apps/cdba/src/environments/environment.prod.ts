@@ -2,6 +2,7 @@ import { Environment } from './environment.model';
 
 export const environment: Environment = {
   production: true,
+  localDev: false,
   devToolsEnabled: false,
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   clientId: '9cb9acbc-986b-483a-bd46-964628cc497f', // SG_CDBA_P

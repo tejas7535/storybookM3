@@ -2,11 +2,13 @@ export interface Environment {
   production: boolean;
   localDev: boolean;
   devToolsEnabled: boolean;
-  tenantId: string;
-  clientId: string;
-  appScope: string;
   baseUrl: string;
-  envName: string;
+  reportSelector: string;
+  oneTrustId: string;
+  preflightPath: string;
+  materialsPath: string;
+  bearingRelationsPath: string;
+  bearingCalculationPath: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;
@@ -16,6 +18,6 @@ export interface Environment {
     enableGlobalErrorHandler: boolean;
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
+    consent: boolean;
   };
-  scrambleMaterialIds?: boolean;
 }

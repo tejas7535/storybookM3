@@ -1,5 +1,8 @@
-export const environment = {
+import { Environment } from './environment.model';
+
+export const environment: Environment = {
   production: false,
+  localDev: false,
   devToolsEnabled: true,
   baseUrl: 'https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1',
   reportSelector: '.content',

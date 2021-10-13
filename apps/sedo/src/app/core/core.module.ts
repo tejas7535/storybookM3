@@ -55,7 +55,8 @@ const azureConfig = new AzureConfig(
       ['en'],
       'en', // default -> undefined would lead to browser detection
       'en',
-      true
+      true,
+      !environment.localDev
     ),
 
     // Monitoring

@@ -57,6 +57,7 @@ const azureConfig = new AzureConfig(
       undefined, // default -> undefined would lead to browser detection
       FALLBACK_LANGUAGE.id,
       true,
+      !environment.localDev,
       i18nChecksumsJson
     ),
     TranslocoPersistLangModule.init({

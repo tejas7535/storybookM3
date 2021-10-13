@@ -125,11 +125,11 @@ def defineAffectedAppsAndLibs() {
 
 
     affectedLibs = mapAffectedStringToArray(libs)
-    
+
     if (affectedLibs.contains('shared-ui-storybook')) {
         storybookAffected = true
     }
-    
+
     affectedLibs -= 'shared-ui-storybook'
 
     if (isAppRelease()) {
@@ -658,6 +658,12 @@ pipeline {
                             }
 
                             for (app in affectedApps) {
+                               try {
+                                   sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
+                               } catch (error) {
+                                   echo "No translations found to optimize in app ${app}"
+                               }
+
                                 sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
                             }
@@ -666,7 +672,7 @@ pipeline {
                 }
             }
         }
-            
+
         stage('Deliver') {
             when {
                 expression {
@@ -699,7 +705,7 @@ pipeline {
                                     returnStdout: true
                                 ).trim()
 
-                                if (isAppRelease()) { 
+                                if (isAppRelease()) {
                                     def version = getPackageVersion(app)
 
                                     target1 = "${artifactoryBasePath}/${app}/latest.zip"

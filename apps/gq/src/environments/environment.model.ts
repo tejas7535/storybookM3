@@ -17,5 +17,4 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
-  scrambleMaterialIds?: boolean;
 }

@@ -2,11 +2,13 @@ export interface Environment {
   production: boolean;
   localDev: boolean;
   devToolsEnabled: boolean;
+
+  // AAD auth
   tenantId: string;
   clientId: string;
   appScope: string;
-  baseUrl: string;
-  envName: string;
+
+  // Application Insights
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;
@@ -17,5 +19,4 @@ export interface Environment {
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
   };
-  scrambleMaterialIds?: boolean;
 }

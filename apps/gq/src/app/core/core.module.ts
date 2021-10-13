@@ -50,6 +50,7 @@ import { StoreModule } from './store';
       'en', // default -> undefined would lead to browser detection
       'en',
       true,
+      !environment.localDev,
       i18nChecksumsJson
     ),
     TranslocoPersistLangModule.init({

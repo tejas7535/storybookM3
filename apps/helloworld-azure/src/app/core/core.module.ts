@@ -29,7 +29,8 @@ import { StoreModule } from './store/store.module';
       ['en', 'de'],
       'en', // default -> undefined would lead to browser detection
       'en',
-      true
+      true,
+      !environment.localDev
     ),
 
     ReactiveComponentModule,

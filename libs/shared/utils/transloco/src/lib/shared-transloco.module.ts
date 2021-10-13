@@ -72,7 +72,8 @@ export class SharedTranslocoModule {
     defaultLang: string,
     fallbackLang: string,
     appHasTranslations: boolean = true,
-    cacheChecksums?: { [key: string]: string }
+    enableAotFlattening: boolean,
+    cacheChecksums?: { [p: string]: string }
   ): ModuleWithProviders<SharedTranslocoModule> {
     return {
       ngModule: SharedTranslocoModule,
@@ -94,7 +95,7 @@ export class SharedTranslocoModule {
             fallbackLang,
             reRenderOnLangChange: true,
             flatten: {
-              aot: prodMode,
+              aot: enableAotFlattening,
             },
           } as unknown as TranslocoConfig,
         },

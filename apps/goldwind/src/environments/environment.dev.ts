@@ -1,5 +1,8 @@
-export const environment = {
+import { Environment } from './environment.model';
+
+export const environment: Environment = {
   production: false,
+  localDev: false,
   devToolsEnabled: true,
   baseUrl: '/api',
   publicSecurityBureauNumber: '沪公网安备31011402009389号',
