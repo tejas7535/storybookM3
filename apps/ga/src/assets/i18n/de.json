@@ -11,6 +11,10 @@
     "greases": "Fette",
     "learnMore": "Mehr erfahren"
   },
+  "meta": {
+    "title": "Grease App",
+    "description": "Die Schaeffler Grease App hilft komfortabel bei der Auswahl der richtigen Schmierung für eine bestimmte Lageranwendung und bietet folgende Möglichkeiten: Auflistung der empfohlenen Fettprodukte (Arcanol), Berechnung der notwendigen Schmiermenge und Schmierintervalle, Verlinkung zur Online-Plattform Medias"
+  },
   "bearing": {
     "bearingSelection": "Lagerauswahl",
     "subtitle": "Für welches Lager soll die Kalkulation durchgeführt werden?",

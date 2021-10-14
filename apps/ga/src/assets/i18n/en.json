@@ -11,6 +11,10 @@
     "greases": "Greases",
     "learnMore": "Learn More"
   },
+  "meta": {
+    "title": "Grease App",
+    "description": "The Schaeffler Grease App comfortably assists in selecting the right greasing for a certain bearing application and offers following possibilities: lists recommended grease products (Arcanol), calculates necessary greasing amount and greasing intervals, links to online platform Medias"
+  },
   "bearing": {
     "bearingSelection": "Bearing Selection",
     "subtitle": "For which bearing should the calculation be done?",
