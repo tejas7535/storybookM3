@@ -104,7 +104,7 @@ describe('LoadBomButtonComponent', () => {
       component['gridApi'] = params.api;
 
       expect(spectator.query('button')).toBeDisabled();
-      expect(spectator.query('button')).toHaveClass('mat-tooltip-trigger');
+      expect(spectator.query('div')).toHaveClass('mat-tooltip-trigger');
     });
   });
 });

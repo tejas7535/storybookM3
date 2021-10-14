@@ -1,15 +1,16 @@
-<ng-container *ngrxLet="selectedNodeIds$; let nodeIds">
+<div
+  *transloco="let t; read: 'shared.statusBar'"
+  [matTooltip]="t('hints.notAvailableForRfq')"
+  [matTooltipDisabled]="tooltipDisabled()"
+>
   <button
     mat-raised-button
     color="primary"
-    *transloco="let t; read: 'shared.statusBar'"
     [disabled]="buttonDisabled()"
-    [matTooltip]="t('hints.notAvailableForRfq')"
-    [matTooltipDisabled]="tooltipDisabled()"
     [routerLink]="['/detail', 'bom']"
     queryParamsHandling="merge"
     (click)="loadBom()"
   >
     {{ t('loadBom') }}
   </button>
-</ng-container>
+</div>

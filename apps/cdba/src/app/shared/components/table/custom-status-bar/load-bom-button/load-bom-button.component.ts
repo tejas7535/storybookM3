@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 
 import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
 import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { Store } from '@ngrx/store';
 
-import {
-  getSelectedCalculationNodeIds,
-  selectCalculation,
-} from '@cdba/core/store';
+import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
 
 @Component({
@@ -17,17 +12,12 @@ import { Calculation } from '@cdba/shared/models';
   templateUrl: './load-bom-button.component.html',
   styleUrls: ['./load-bom-button.component.scss'],
 })
-export class LoadBomButtonComponent implements OnInit {
+export class LoadBomButtonComponent {
   selections: Calculation[] = [];
-  selectedNodeIds$: Observable<string[]>;
 
   private gridApi: GridApi;
 
   constructor(private readonly store: Store) {}
-
-  ngOnInit(): void {
-    this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
-  }
 
   agInit(params: IStatusPanelParams): void {
     this.gridApi = params.api;
