@@ -23,7 +23,7 @@ export class ResultComponent implements OnInit {
   public ngOnInit(): void {
     this.reportUrls$ = this.store
       .select(getReportUrls)
-      .pipe(debounceTime(2000));
+      .pipe(debounceTime(3000));
   }
 
   public navigateBack(): void {

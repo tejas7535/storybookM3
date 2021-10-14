@@ -5,5 +5,5 @@ export const environment: Environment = {
   localDev: false,
   devToolsEnabled: true,
   baseUrl:
-    'https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.2/greaseservice',
+    'https://caeonlinecalculation-q.schaeffler.com/BearinxWebApi/v1.2/greaseservice',
 };
