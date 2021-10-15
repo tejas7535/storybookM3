@@ -1,11 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { DataService } from '@schaeffler/http';
 
+import { environment } from './../../../../environments/environment';
 import {
   HardnessConversionResponse,
   HardnessUnitsResponse,
@@ -18,13 +19,15 @@ export class HardnessConverterApiService {
   private readonly SCORE = 'hardness-conversion/api/score';
 
   public constructor(
-    private readonly dataService: DataService,
+    private readonly httpClient: HttpClient,
     private readonly applicationInsightService: ApplicationInsightsService
   ) {}
 
   public getUnits(): Observable<string[]> {
-    return this.dataService
-      .post<HardnessUnitsResponse>(this.SCORE, { unitList: true })
+    return this.httpClient
+      .post<HardnessUnitsResponse>(`${environment.baseUrl}/${this.SCORE}`, {
+        unitList: true,
+      })
       .pipe(map((response) => response.units));
   }
 
@@ -37,8 +40,11 @@ export class HardnessConverterApiService {
       unit_in: unit,
     };
 
-    return this.dataService
-      .post<HardnessConversionResponse>(this.SCORE, body)
+    return this.httpClient
+      .post<HardnessConversionResponse>(
+        `${environment.baseUrl}/${this.SCORE}`,
+        body
+      )
       .pipe(
         map((response) => {
           this.applicationInsightService.logEvent('[MAC - HC - REQUEST]', {

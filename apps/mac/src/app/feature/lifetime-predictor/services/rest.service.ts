@@ -1,10 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { DataService } from '@schaeffler/http';
 
 import {
   Loads,
@@ -14,6 +14,7 @@ import {
   StatisticalPrediction,
   StatisticalRequest,
 } from '../models';
+import { environment } from './../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class RestService {
     '[LTP - REQUEST - LOADS]';
 
   constructor(
-    private readonly dataService: DataService,
+    private readonly httpClient: HttpClient,
     private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
@@ -67,8 +68,11 @@ export class RestService {
     };
 
     if (mode === 2) {
-      return this.dataService
-        .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
+      return this.httpClient
+        .post<any>(
+          `${environment.baseUrl}/${this.SERVER_URL_PREDICTION}/score`,
+          prediction
+        )
         .pipe(
           map((res: any) => {
             this.applicationInsightsService.logEvent(
@@ -106,8 +110,11 @@ export class RestService {
         );
     }
 
-    return this.dataService
-      .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
+    return this.httpClient
+      .post<any>(
+        `${environment.baseUrl}/${this.SERVER_URL_PREDICTION}/score`,
+        prediction
+      )
       .pipe(
         map((res: any) => {
           this.applicationInsightsService.logEvent(
@@ -147,8 +154,11 @@ export class RestService {
       new File([JSON.stringify(loadsRequest.loads)], 'loadsCollective.json')
     );
 
-    return this.dataService
-      .post<any>(`${this.SERVER_URL_LOADS}/score`, formData)
+    return this.httpClient
+      .post<any>(
+        `${environment.baseUrl}/${this.SERVER_URL_LOADS}/score`,
+        formData
+      )
       .pipe(
         map((res: any) => {
           this.applicationInsightsService.logEvent(
@@ -164,8 +174,11 @@ export class RestService {
   public postStatisticalService(
     statisticalRequest: StatisticalRequest
   ): Observable<StatisticalPrediction> {
-    return this.dataService
-      .post<any>(`${this.SERVER_URL_STATISTICAL}/score`, statisticalRequest)
+    return this.httpClient
+      .post<any>(
+        `${environment.baseUrl}/${this.SERVER_URL_STATISTICAL}/score`,
+        statisticalRequest
+      )
       .pipe(
         map((res: any) => {
           this.applicationInsightsService.logEvent(

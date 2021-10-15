@@ -6,9 +6,9 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { ENV_CONFIG } from '@schaeffler/http';
 
 import { PredictionRequest, StatisticalRequest } from '../models';
+import { environment } from './../../../../environments/environment';
 import { mockedStatisticalResult } from './../mock/mock.constants';
 import { RestService } from './rest.service';
 
@@ -23,14 +23,6 @@ describe('RestService', () => {
     imports: [HttpClientTestingModule],
     providers: [
       RestService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -98,7 +90,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/${myProvider.SERVER_URL_PREDICTION}/score`
+        `${environment.baseUrl}/${myProvider.SERVER_URL_PREDICTION}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
@@ -113,7 +105,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/${myProvider.SERVER_URL_PREDICTION}/score`
+        `${environment.baseUrl}/${myProvider.SERVER_URL_PREDICTION}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
@@ -142,7 +134,9 @@ describe('RestService', () => {
           expect(loadsResult).toEqual(mockedLoadsPrediction);
         });
 
-      const req = httpMock.expectOne(`/${myProvider.SERVER_URL_LOADS}/score`);
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${myProvider.SERVER_URL_LOADS}/score`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(mockedLoadsPrediction);
     });
@@ -170,7 +164,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/${myProvider.SERVER_URL_STATISTICAL}/score`
+        `${environment.baseUrl}/${myProvider.SERVER_URL_STATISTICAL}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(statisticalResult);

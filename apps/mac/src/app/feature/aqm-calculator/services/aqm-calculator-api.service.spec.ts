@@ -6,8 +6,8 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { ENV_CONFIG } from '@schaeffler/http';
 
+import { environment } from './../../../../environments/environment';
 import { AQM_CALCULATION_CALCULATION_MOCK } from './../../../../testing/mocks/aqm-calculation-calculation.mock';
 import { AQM_CALCULATION_MATERIALS_MOCK } from './../../../../testing/mocks/aqm-calculation-materials.mock';
 import { AqmCalculatorApiService } from './aqm-calculator-api.service';
@@ -23,14 +23,6 @@ describe('AqmCalculatorApiService', () => {
     imports: [HttpClientTestingModule],
     providers: [
       AqmCalculatorApiService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -55,7 +47,9 @@ describe('AqmCalculatorApiService', () => {
       expect(result).toEqual(AQM_CALCULATION_MATERIALS_MOCK);
     });
 
-    const req = httpMock.expectOne('/aqm-calculation/api/score');
+    const req = httpMock.expectOne(
+      `${environment.baseUrl}/aqm-calculation/api/score`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(AQM_CALCULATION_MATERIALS_MOCK);
   });
@@ -68,7 +62,9 @@ describe('AqmCalculatorApiService', () => {
         expect(result).toEqual(AQM_CALCULATION_CALCULATION_MOCK);
       });
 
-    const req = httpMock.expectOne('/aqm-calculation/api/score');
+    const req = httpMock.expectOne(
+      `${environment.baseUrl}/aqm-calculation/api/score`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(AQM_CALCULATION_CALCULATION_MOCK);
   });

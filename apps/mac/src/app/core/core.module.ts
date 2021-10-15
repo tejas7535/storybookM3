@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,7 +10,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -43,7 +43,7 @@ import { StoreModule } from './store/store.module';
     ),
 
     // HTTP
-    HttpModule.forRoot({ environment }),
+    HttpClientModule,
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),

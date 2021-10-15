@@ -6,10 +6,10 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { ENV_CONFIG } from '@schaeffler/http';
 
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../../testing/mocks/hardness-conversion-units.mock';
 import { HARDNESS_CONVERSION_MOCK } from '../../../../testing/mocks/hardness-conversion.mock';
+import { environment } from './../../../../environments/environment';
 import { HardnessConverterApiService } from './hardness-converter-api.service';
 
 describe('HardnessConverterApiService', () => {
@@ -22,14 +22,6 @@ describe('HardnessConverterApiService', () => {
     imports: [HttpClientTestingModule],
     providers: [
       HardnessConverterApiService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
       {
         provide: ApplicationInsightsService,
         useValue: {
@@ -54,7 +46,9 @@ describe('HardnessConverterApiService', () => {
       expect(result).toEqual(HARDNESS_CONVERSION_UNITS_MOCK);
     });
 
-    const req = httpMock.expectOne('/hardness-conversion/api/score');
+    const req = httpMock.expectOne(
+      `${environment.baseUrl}/hardness-conversion/api/score`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(HARDNESS_CONVERSION_UNITS_MOCK);
   });
@@ -64,7 +58,9 @@ describe('HardnessConverterApiService', () => {
       expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
     });
 
-    const req = httpMock.expectOne('/hardness-conversion/api/score');
+    const req = httpMock.expectOne(
+      `${environment.baseUrl}/hardness-conversion/api/score`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(HARDNESS_CONVERSION_MOCK);
   });
