@@ -259,6 +259,16 @@ describe('ParametersComponent', () => {
     });
   });
 
+  describe('resetForm', () => {
+    it('should reset the form with initialState', () => {
+      component.form.reset = jest.fn();
+
+      component.resetForm();
+
+      expect(component.form.reset).toHaveBeenCalledWith(initialState);
+    });
+  });
+
   describe('operatingTemperatureValidator', () => {
     it('should return the error if operatingTemperature < environmentTemperature', () => {
       const mockControl = new FormControl(10);

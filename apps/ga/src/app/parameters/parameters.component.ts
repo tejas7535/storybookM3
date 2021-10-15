@@ -34,6 +34,7 @@ import { Movement } from './../shared/models/parameters/movement.model';
 @Component({
   selector: 'ga-parameters',
   templateUrl: './parameters.component.html',
+  styleUrls: ['./parameters.component.scss'],
 })
 export class ParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
@@ -221,6 +222,11 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.router.navigate([
       `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.BearingPath}`,
     ]);
+  }
+
+  public resetForm(): void {
+    // TODO: change when defaults come from API
+    this.form.reset(initialState);
   }
 
   private operatingTemperatureValidator(): ValidatorFn {

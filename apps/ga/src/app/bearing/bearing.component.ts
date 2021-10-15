@@ -53,7 +53,10 @@ export class BearingComponent implements OnInit, OnDestroy {
     this.bearingResultList$ = this.store.select(getBearingResultList);
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedBearing$
-      .pipe(take(1))
+      .pipe(
+        take(1),
+        filter((bearing: string) => !!bearing)
+      )
       .subscribe((bearing: string) =>
         this.bearingSearchFormControl.setValue({ id: bearing, title: bearing })
       );

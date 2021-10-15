@@ -11,7 +11,7 @@
     <ng-container content>
       <div class="flex flex-col">
         <div class="flex flex-row">
-          <span class="text-subtitle-1">{{ t('subtitle') }}</span>
+          <span class="text-subtitle-1 sm:max-w-sm">{{ t('subtitle') }}</span>
         </div>
       </div>
     </ng-container>
@@ -25,7 +25,8 @@
     [label]="t('searchPlaceholder')"
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
-  <div class="flex flex-row -ml-4 -mt-2 mb-4">
+  <!-- TODO: enable again -->
+  <!-- <div class="flex flex-row -ml-4 -mt-2 mb-4">
     <button
       mat-button
       color="primary"
@@ -34,7 +35,7 @@
     >
       {{ t('narrowDownSelection') }}
     </button>
-  </div>
+  </div> -->
   <div class="flex flex-col flex-1 justify-end sm:w-1/3">
     <img
       class="sm:max-h-full h-auto w-auto sm:object-cover"

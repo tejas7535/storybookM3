@@ -1,51 +1,53 @@
 <ng-container *transloco="let t; read: 'parameters'">
-  <schaeffler-subheader
-    class="flex-shrink flex"
-    [showBackButton]="true"
-    [title]="(selectedBearing$ | ngrxPush) || 'Title'"
-    (backButtonClicked)="navigateBack()"
-  >
-    <ng-container content>
-      <div class="flex flex-col">
-        <div class="flex flex-row">
-          <span class="text-subtitle-1">some bearing description</span>
+  <div class="h-full flex flex-col">
+    <schaeffler-subheader
+      class="flex-shrink flex"
+      [showBackButton]="true"
+      [title]="(selectedBearing$ | ngrxPush) || 'Title'"
+      (backButtonClicked)="navigateBack()"
+    >
+      <!-- TODO: enable again -->
+      <!-- <ng-container content>
+        <div class="flex flex-col">
+          <div class="flex flex-row">
+            <span class="text-subtitle-1">some bearing description</span>
+          </div>
+          <div class="flex flex-row">
+            <span class="text-subtitle-1">some more bearing description</span>
+          </div>
+          <div class="flex flex-row -ml-4 -mt-1">
+            <button
+              mat-button
+              color="primary"
+              [disableRipple]="true"
+              class="focus:outline-none tracking-wider uppercase"
+            >
+              {{ t('showDetails') }}
+            </button>
+          </div>
         </div>
-        <div class="flex flex-row">
-          <span class="text-subtitle-1">some more bearing description</span>
+      </ng-container> -->
+    </schaeffler-subheader>
+    <div class="flex flex-col sm:flex-row gap-5 sm:gap-16 pt-2">
+      <div class="flex flex-col flex-grow max-w-sm">
+        <div class="flex flex-row justify-between items-center mb-4">
+          <h5>{{ t('loads') }}</h5>
         </div>
-        <div class="flex flex-row -ml-4 -mt-1">
-          <button
-            mat-button
-            color="primary"
-            [disableRipple]="true"
-            class="focus:outline-none tracking-wider uppercase"
-          >
-            {{ t('showDetails') }}
-          </button>
-        </div>
-      </div>
-    </ng-container>
-  </schaeffler-subheader>
-  <div class="flex flex-col sm:flex-row gap-5 sm:gap-16 sm:pt-2">
-    <div class="flex flex-col flex-grow max-w-sm">
-      <div class="flex flex-row justify-between items-center mb-4">
-        <h5>{{ t('loads') }}</h5>
-        <span class="text-caption font-medium tracking-wide">{{
-          t('requiredInformation')
-        }}</span>
-      </div>
-      <ng-container *ngIf="loadsInputType$ | ngrxPush; else exactValuesUnknown">
-        <ga-input
-          [control]="radial"
-          [label]="t('radialLoad')"
-          [unit]="t('loadUnit')"
-        ></ga-input>
-        <ga-input
-          [control]="axial"
-          [label]="t('axialLoad')"
-          [unit]="t('loadUnit')"
-        ></ga-input>
-        <div class="flex flex-row -ml-4 -mt-3">
+        <ng-container
+          *ngIf="loadsInputType$ | ngrxPush; else exactValuesUnknown"
+        >
+          <ga-input
+            [control]="radial"
+            [label]="t('radialLoad')"
+            [unit]="t('loadUnit')"
+          ></ga-input>
+          <ga-input
+            [control]="axial"
+            [label]="t('axialLoad')"
+            [unit]="t('loadUnit')"
+          ></ga-input>
+          <!-- TODO: enable again -->
+          <!-- <div class="flex flex-row -ml-4 -mt-3">
           <button
             mat-button
             color="primary"
@@ -54,95 +56,105 @@
           >
             {{ t('loadsUnknown') }}
           </button>
+        </div> -->
+        </ng-container>
+        <ng-template #exactValuesUnknown>
+          <ga-select
+            [control]="loadRatio"
+            [label]="t('load')"
+            [options]="loadRatioOptions"
+          ></ga-select>
+          <div class="flex flex-row -ml-4 -mt-3">
+            <button
+              mat-button
+              color="primary"
+              [disableRipple]="true"
+              class="focus:outline-none tracking-wider uppercase"
+            >
+              {{ t('enterRadialAndAxialLoad') }}
+            </button>
+          </div>
+        </ng-template>
+      </div>
+      <div class="flex flex-col flex-grow max-w-sm">
+        <div class="flex flex-row justify-between items-center mb-4">
+          <h5>{{ t('motionInfluences') }}</h5>
+          <span class="text-caption font-medium tracking-wide">{{
+            t('requiredInformation')
+          }}</span>
         </div>
-      </ng-container>
-      <ng-template #exactValuesUnknown>
         <ga-select
-          [control]="loadRatio"
-          [label]="t('load')"
-          [options]="loadRatioOptions"
+          [control]="type"
+          [label]="t('kindOfMotion')"
+          [options]="typeOptions"
         ></ga-select>
-        <div class="flex flex-row -ml-4 -mt-3">
-          <button
-            mat-button
-            color="primary"
-            [disableRipple]="true"
-            class="focus:outline-none tracking-wider uppercase"
-          >
-            {{ t('enterRadialAndAxialLoad') }}
-          </button>
-        </div>
-      </ng-template>
-    </div>
-    <div class="flex flex-col flex-grow max-w-sm">
-      <div class="flex flex-row justify-between items-center mb-4">
-        <h5>{{ t('motionInfluences') }}</h5>
-        <span class="text-caption font-medium tracking-wide">{{
-          t('requiredInformation')
-        }}</span>
-      </div>
-      <ga-select
-        [control]="type"
-        [label]="t('kindOfMotion')"
-        [options]="typeOptions"
-      ></ga-select>
-      <ng-container *ngIf="selectedMovementType$ | ngrxPush">
-        <ga-input
-          *ngIf="
-            (selectedMovementType$ | ngrxPush) === movement.rotating;
-            else oscillatingFields
-          "
-          [control]="rotationalSpeed"
-          [label]="t('relativeRotationalSpeed')"
-          [unit]="t('onePerMinute')"
-        ></ga-input>
-      </ng-container>
+        <ng-container *ngIf="selectedMovementType$ | ngrxPush">
+          <ga-input
+            *ngIf="
+              (selectedMovementType$ | ngrxPush) === movement.rotating;
+              else oscillatingFields
+            "
+            [control]="rotationalSpeed"
+            [label]="t('relativeRotationalSpeed')"
+            [unit]="t('onePerMinute')"
+          ></ga-input>
+        </ng-container>
 
-      <ng-template #oscillatingFields>
-        <ga-input
-          [control]="shiftFrequency"
-          [label]="t('shiftFrequency')"
-          [unit]="t('onePerMinute')"
-        ></ga-input>
-        <ga-input
-          [control]="shiftAngle"
-          [label]="t('shiftAngle')"
-          [unit]="t('degree')"
-        ></ga-input>
-      </ng-template>
-    </div>
-    <div class="flex flex-col flex-grow max-w-sm">
-      <div class="flex flex-row justify-between items-center mb-4">
-        <h5>{{ t('otherInfluences') }}</h5>
-        <span class="text-caption font-medium tracking-wide">{{
-          t('requiredInformation')
-        }}</span>
+        <ng-template #oscillatingFields>
+          <ga-input
+            [control]="shiftFrequency"
+            [label]="t('shiftFrequency')"
+            [unit]="t('onePerMinute')"
+          ></ga-input>
+          <ga-input
+            [control]="shiftAngle"
+            [label]="t('shiftAngle')"
+            [unit]="t('degree')"
+          ></ga-input>
+        </ng-template>
       </div>
-      <ga-input
-        [control]="operatingTemperature"
-        [label]="t('operatingTemperature')"
-        [unit]="t('degreeCelsius')"
-        [customErrors]="operatingTemperatureErrors"
-      ></ga-input>
-      <ga-input
-        [control]="environmentTemperature"
-        [label]="t('environmentTemperature')"
-        [unit]="t('degreeCelsius')"
-      ></ga-input>
-      <ga-select
-        [control]="environmentImpact"
-        [label]="t('environmentalImpactOnGreaseDuration')"
-        [options]="environmentImpactOptions"
-      ></ga-select>
+      <div class="flex flex-col flex-grow max-w-sm">
+        <div class="flex flex-row justify-between items-center mb-4">
+          <h5>{{ t('otherInfluences') }}</h5>
+          <span class="text-caption font-medium tracking-wide">{{
+            t('requiredInformation')
+          }}</span>
+        </div>
+        <ga-input
+          [control]="operatingTemperature"
+          [label]="t('operatingTemperature')"
+          [unit]="t('degreeCelsius')"
+          [customErrors]="operatingTemperatureErrors"
+        ></ga-input>
+        <ga-input
+          [control]="environmentTemperature"
+          [label]="t('environmentTemperature')"
+          [unit]="t('degreeCelsius')"
+        ></ga-input>
+        <ga-select
+          [control]="environmentImpact"
+          [label]="t('environmentalImpactOnGreaseDuration')"
+          [options]="environmentImpactOptions"
+        ></ga-select>
+      </div>
+    </div>
+    <div class="flex-1 flex flex-col place-content-end gap-2">
+      <button
+        mat-raised-button
+        color="primary"
+        class="uppercase w-full md:w-full"
+        (click)="completeStep()"
+        [disabled]="form.invalid"
+      >
+        {{ t('showResults') }}
+      </button>
+      <button
+        mat-flat-button
+        class="uppercase w-full md:w-full"
+        (click)="resetForm()"
+      >
+        {{ t('resetInputs') }}
+      </button>
     </div>
   </div>
-  <button
-    mat-raised-button
-    color="primary"
-    class="uppercase w-full md:max-w-xs"
-    (click)="completeStep()"
-    [disabled]="form.invalid"
-  >
-    {{ t('showResults') }}
-  </button>
 </ng-container>
