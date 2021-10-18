@@ -18,13 +18,13 @@ export interface UpdateSettings {
 
 export const UPDATE_SETTINGS: UpdateSettings = {
   shaft: {
-    refresh: 10,
+    refresh: 60,
   },
   grease: {
-    refresh: 10,
+    refresh: 60,
   },
   bearingLoad: {
-    refresh: 10,
+    refresh: 60,
   },
   staticSafety: {
     refresh: 60,
