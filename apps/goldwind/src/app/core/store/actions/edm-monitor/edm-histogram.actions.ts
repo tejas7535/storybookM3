@@ -18,3 +18,7 @@ export const getEdmHistogramSuccess = createAction(
 export const getEdmHistogramFailure = createAction(
   `[${NAMESPACE}] Load EDM Failure`
 );
+
+export const stopEdmHistogramPolling = createAction(
+  `[${NAMESPACE}] stop Polling`
+);

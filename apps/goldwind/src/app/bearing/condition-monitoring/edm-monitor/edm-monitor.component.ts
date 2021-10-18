@@ -15,7 +15,11 @@ import {
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
-import { getEdmHeatmapSeries, getEdmHistogram } from '../../../core/store';
+import {
+  getEdmHeatmapSeries,
+  getEdmHistogram,
+  stopEdmHistogramPolling,
+} from '../../../core/store';
 import { ActivatedRoute } from '@angular/router';
 import { format } from 'date-fns';
 
@@ -164,6 +168,7 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.routeParamsSub.unsubscribe();
+    this.store.dispatch(stopEdmHistogramPolling());
   }
   ngOnInit(): void {
     this.updateEDM();

@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import {
   catchError,
+  delay,
   filter,
   map,
   mergeMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -25,7 +27,13 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getEdmInterval } from '../../selectors';
-import { getEdmHistogram, getEdmHistogramSuccess } from '../../actions';
+import {
+  getEdmHistogram,
+  getEdmHistogramFailure,
+  getEdmHistogramSuccess,
+  stopEdmHistogramPolling,
+} from '../../actions';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
 
 @Injectable()
 export class EdmMonitorEffects {
@@ -91,6 +99,8 @@ export class EdmMonitorEffects {
     // eslint-disable-next-line ngrx/avoid-cyclic-effects
     return this.actions$.pipe(
       ofType(getEdmHistogram),
+      tap((action) => (this.currentDeviceId = action.deviceId)),
+      tap((action) => (this.currentChannel = action.channel)),
       withLatestFrom(this.store.select(getEdmInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
@@ -100,11 +110,39 @@ export class EdmMonitorEffects {
       mergeMap((edmParams) =>
         this.restService.getEdmHistogram(edmParams, edmParams.channel).pipe(
           map((histogram) => getEdmHistogramSuccess({ histogram })),
-          catchError((_e) => of(getEdmHistogram))
+          tap(() => (this.isPolling = true)),
+          catchError((_e) => of(getEdmHistogramFailure()))
         )
       )
     );
   });
+  pollingEDMHistogram$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getEdmHistogramSuccess),
+      delay(UPDATE_SETTINGS.edmhistorgram.refresh * 1000),
+      filter(() => this.isPolling),
+      map(() =>
+        getEdmHistogram({
+          deviceId: this.currentDeviceId,
+          channel: this.currentChannel,
+        })
+      )
+    );
+  });
+  stopEdmHistogram$ = createEffect(
+    () => {
+      // eslint-disable-next-line ngrx/avoid-cyclic-effects
+      return this.actions$.pipe(
+        ofType(stopEdmHistogramPolling),
+        map(() => (this.isPolling = false))
+      );
+    },
+    { dispatch: false }
+  );
+
+  isPolling = false;
+  currentDeviceId: string;
+  currentChannel: string;
 
   constructor(
     private readonly actions$: Actions,

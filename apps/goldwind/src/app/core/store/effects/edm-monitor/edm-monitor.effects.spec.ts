@@ -10,6 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { RestService } from '../../../http/rest.service';
 import {
   getEdm,
+  getEdmFailure,
   getEdmId,
   getEdmSuccess,
   setEdmInterval,
@@ -18,6 +19,14 @@ import * as fromRouter from '../../reducers';
 import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
 import { EdmStatus } from '../../reducers/edm-monitor/models';
+import {
+  getEdmHistogram,
+  getEdmHistogramFailure,
+  getEdmHistogramSuccess,
+  stopEdmHistogramPolling,
+} from '../..';
+import { EdmHistogram } from '../../reducers/edm-monitor/edm-histogram.reducer';
+import { of, throwError } from 'rxjs';
 
 describe('Edm Monitor Effects', () => {
   let spectator: SpectatorService<EdmMonitorEffects>;
@@ -162,6 +171,103 @@ describe('Edm Monitor Effects', () => {
           startDate: 1_599_651_508,
           endDate: 1_599_651_509,
         });
+      })
+    );
+
+    it(
+      'should catch errors',
+      marbles((m) => {
+        const result = getEdmFailure();
+        restService.getEdm = jest.fn(() => throwError(() => 's'));
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+        m.expect(effects.edm$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getEdm).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('edmHistogram$', () => {
+    const mock: EdmHistogram[] = [
+      {
+        deviceId: 'Old Deathstar',
+        channel: '1',
+        clazz0: 1,
+        clazz1: 2,
+        clazz2: 3,
+        clazz3: 4,
+        clazz4: 5,
+        timestamp: 'mu',
+      },
+    ];
+
+    beforeAll(() => {
+      action = getEdmHistogram({ deviceId, channel: '1' });
+    });
+
+    it(
+      'should return EdmHistogramSuccess when REST call is successful',
+      marbles((m) => {
+        const response = m.cold('-a|', { a: mock });
+        const result = getEdmHistogramSuccess({ histogram: mock });
+        restService.getEdmHistogram = jest.fn(() => response);
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.edmHistogram$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getEdmHistogram).toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should catch errors',
+      marbles((m) => {
+        const result = getEdmHistogramFailure();
+        restService.getEdmHistogram = jest.fn(() => throwError(() => 's'));
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.edmHistogram$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getEdmHistogram).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('stopEdmHistogram$', () => {
+    it.skip(
+      'should set polling to false',
+      marbles((m) => {
+        effects.isPolling = true;
+        actions$ = m.hot('-a', { a: stopEdmHistogramPolling() });
+        const expected = m.cold('-b', { b: undefined });
+        m.flush();
+        expect(effects.isPolling).toBe(false);
+      })
+    );
+  });
+
+  describe('pollingEDMHistogram$', () => {
+    it.skip(
+      'should trigger action after delay of configured settings',
+      marbles((m) => {
+        actions$ = m.hot('-a', {
+          a: getEdmHistogramSuccess({ histogram: [] }),
+        });
+
+        const expected = m.cold('-b', {
+          b: getEdmHistogram({ channel: '1', deviceId: '' }),
+        });
+        m.expect(effects.pollingEDMHistogram$).toBeObservable(expected);
+        m.flush();
       })
     );
   });
