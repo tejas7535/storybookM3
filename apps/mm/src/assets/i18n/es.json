@@ -3,8 +3,7 @@
     "languageSelectLabel": "Idioma",
     "decimalSeparatorSelectLabel": "Separador decimal",
     "decimalSeparatorComma": "Coma",
-    "decimalSeparatorPoint": "Punto",
-    "selected": "seleccionado"
+    "decimalSeparatorPoint": "Punto"
   },
   "form": {
     "select": "Seleccione el {{fieldname}}",
@@ -12,7 +11,8 @@
     "searchManually": "o configurar manualmente",
     "chooseOption": "Elija una opción",
     "searchLoading": "Obtención de datos...",
-    "searchNoResults": "No hay resultados"
+    "searchNoResults": "No hay resultados",
+    "selected": "seleccionado"
   },
   "languageDialog": {
     "content": "Tenga en cuenta que el cambio de idioma provocará una actualización de la página y perderá todo lo que haya introducido.",

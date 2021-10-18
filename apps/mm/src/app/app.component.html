@@ -55,7 +55,7 @@
       <schaeffler-footer
         *ngIf="!embedded"
         class="flex-shrink-0 bg-white md:bg-background"
-        [footerLinks]="footerLinks"
+        [footerLinks]="footerLinks$ | ngrxPush"
       ></schaeffler-footer>
     </div>
   </ng-template>

@@ -9,11 +9,11 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { ReportModule } from '@schaeffler/report';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { BEARING_CALCULATION_RESULT_MOCK } from '../../../testing/mocks/rest.service.mock';
 import { ResultPageComponent } from './result-page.component';
 import { ResultPageService } from './result-page.service';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 describe('ResultPageComponent', () => {
   let component: ResultPageComponent;
@@ -77,7 +77,7 @@ describe('ResultPageComponent', () => {
     };
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
     expect(resultPageService).toBeTruthy();
     expect(snackbarService).toBeTruthy();

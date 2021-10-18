@@ -2,10 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { Subject } from 'rxjs';
-import { filter, startWith, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, filter, startWith, Subject, takeUntil } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import {
+  LoadedEvent,
+  translate,
+  TranslocoEvents,
+  TranslocoService,
+} from '@ngneat/transloco';
 
 import { FooterLink } from '@schaeffler/footer';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
@@ -21,28 +25,9 @@ export class AppComponent implements OnInit, OnDestroy {
   public cookieSettings = translate('legal.cookieSettings');
   public destroy$ = new Subject<void>();
 
-  public footerLinks: FooterLink[] = [
-    {
-      link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-      title: translate('legal.imprint'),
-      external: false,
-    },
-    {
-      link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-      title: translate('legal.dataPrivacy'),
-      external: false,
-    },
-    {
-      link: `${LegalRoute}/${LegalPath.TermsPath}`,
-      title: translate('legal.termsOfUse'),
-      external: false,
-    },
-    {
-      link: `${LegalRoute}/${LegalPath.CookiePath}`,
-      title: translate('legal.cookiePolicy'),
-      external: false,
-    },
-  ];
+  public footerLinks$ = new BehaviorSubject<FooterLink[]>(
+    this.updateFooterLinks()
+  );
 
   metaTags: MetaDefinition[] = [
     { name: 'title', content: translate('meta.title') },
@@ -57,7 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly router: Router,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    private readonly translocoService: TranslocoService
   ) {
     this.meta.addTags(this.metaTags);
   }
@@ -76,11 +62,50 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.isCookiePage = url === LegalPath.CookiePath;
       });
+
+    this.translocoService.events$
+      .pipe(
+        filter(
+          (event: TranslocoEvents) =>
+            !(event as LoadedEvent).wasFailure &&
+            event.type === 'translationLoadSuccess'
+        )
+      )
+      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
+
+    this.translocoService.langChanges$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
   }
 
   public ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private updateFooterLinks(): FooterLink[] {
+    return [
+      {
+        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+        title: this.translocoService.translate('legal.imprint'),
+        external: false,
+      },
+      {
+        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+        title: this.translocoService.translate('legal.dataPrivacy'),
+        external: false,
+      },
+      {
+        link: `${LegalRoute}/${LegalPath.TermsPath}`,
+        title: this.translocoService.translate('legal.termsOfUse'),
+        external: false,
+      },
+      {
+        link: `${LegalRoute}/${LegalPath.CookiePath}`,
+        title: this.translocoService.translate('legal.cookiePolicy'),
+        external: false,
+      },
+    ];
   }
 
   public checkIframe(): void {

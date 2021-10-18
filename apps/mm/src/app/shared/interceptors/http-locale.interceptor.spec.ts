@@ -76,7 +76,7 @@ describe(`HttpLocaleInterceptor`, () => {
   });
 
   describe('intercept', () => {
-    test(
+    it(
       'should change locale header attribute',
       waitForAsync(() => {
         service.getPosts().subscribe((response: any) => {

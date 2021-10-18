@@ -24,7 +24,7 @@ describe('PagesStepperComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -69,7 +69,7 @@ describe('PagesStepperComponent', () => {
   });
 
   describe('#hasPrev', () => {
-    test('hasPrev should return true if there are one or more page before', () => {
+    it('hasPrev should return true if there are one or more page before', () => {
       component.activePageId = 'mockPageId2';
       component.pages = [
         {
