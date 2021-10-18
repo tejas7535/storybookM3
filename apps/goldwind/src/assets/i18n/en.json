@@ -4,6 +4,8 @@
     "contact": "Contact",
     "currentPage": "Current Page",
     "dataPrivacy": "Data Privacy",
+    "errorInterceptorActionDefault": "Contact Support",
+    "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
     "home": "Home",
     "imprint": "Imprint",
     "legal": "Legal",

@@ -10,12 +10,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
+import { HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import { HttpErrorInterceptor } from '../core/http/interceptors/http-error.interceptor';
 import { AppComponent } from '../app.component';
 import { StoreModule } from './store/store.module';
 
