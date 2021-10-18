@@ -1,6 +1,7 @@
 export class PriceDetails {
   constructor(
     public pcmSqv: number,
+    public toolingCost: number,
     public pcmCalculationDate: number,
     public sqvSapLatestMonth: number,
     public sqvDate: number,

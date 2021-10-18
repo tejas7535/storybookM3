@@ -21,6 +21,7 @@
     "pricing": {
       "title": "Herstellkosten & Durchschnittspreis",
       "pcmSqv": "SAW PCM",
+      "toolingCost": "PCM Werkzeugkosten",
       "pcmCalculationDate": "SAW PCM Kalkulationsdatum",
       "sqvSapLatestMonth": "SAW SAP",
       "sqvDate": "SAW Datum",

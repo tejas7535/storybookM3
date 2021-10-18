@@ -19,8 +19,9 @@
       "weight": "Net. weight"
     },
     "pricing": {
-      "title": "Pricing",
+      "title": "Cost & Pricing",
       "pcmSqv": "SQV PCM",
+      "toolingCost": "PCM Tooling Costs",
       "pcmCalculationDate": "SQV PCM Calculation Date",
       "sqvSapLatestMonth": "SQV SAP",
       "sqvDate": "SQV Date",

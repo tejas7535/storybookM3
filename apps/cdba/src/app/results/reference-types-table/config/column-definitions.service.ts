@@ -549,7 +549,10 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.toolingCost'
       ),
       type: 'numericColumn',
-      valueFormatter: this.columnUtilsService.formatNumber,
+      valueFormatter: (params) =>
+        this.columnUtilsService.formatNumber(params, {
+          maximumFractionDigits: 0,
+        }),
     },
     {
       colId: 'pcmCalculationDate',

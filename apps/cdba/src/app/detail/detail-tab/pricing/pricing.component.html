@@ -25,6 +25,16 @@
     "
   ></cdba-detail-label-value>
   <cdba-detail-label-value
+    [label]="t('toolingCost')"
+    [value]="
+      (salesPrice?.toolingCost
+        | translocoDecimal: { maximumFractionDigits: 0 }
+        | undefinedAttributeFallback) +
+      ' ' +
+      (salesPrice?.currency ? ' ' + salesPrice?.currency : '')
+    "
+  ></cdba-detail-label-value>
+  <cdba-detail-label-value
     [label]="t('pcmCalculationDate')"
     [value]="
       salesPrice?.pcmCalculationDate

@@ -62,6 +62,7 @@ export const getPriceDetails = createSelector(
     referenceType
       ? new PriceDetails(
           referenceType.pcmSqv,
+          referenceType.toolingCost,
           referenceType.pcmCalculationDate,
           referenceType.sqvSapLatestMonth,
           referenceType.sqvDate,

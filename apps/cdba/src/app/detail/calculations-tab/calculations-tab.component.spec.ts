@@ -41,7 +41,9 @@ describe('CalculationsTabComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          calculations: {},
+          detail: {
+            calculations: CALCULATIONS_MOCK,
+          },
         },
         selectors: [
           {
