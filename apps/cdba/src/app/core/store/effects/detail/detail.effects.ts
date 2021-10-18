@@ -61,7 +61,8 @@ export class DetailEffects {
               ? this.snackbar
                   .open(
                     translate('shared.calculations.pcmRowHint'),
-                    translate('shared.basic.learnMore')
+                    translate('shared.basic.learnMore'),
+                    { duration: 5000 }
                   )
                   .onAction()
                   .subscribe(() => {
