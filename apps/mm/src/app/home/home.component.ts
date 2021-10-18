@@ -11,8 +11,8 @@ import {
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Subject } from 'rxjs';
 import {
+  Subject,
   map,
   pairwise,
   startWith,
@@ -20,8 +20,7 @@ import {
   takeUntil,
   tap,
   withLatestFrom,
-} from 'rxjs/operators';
-
+} from 'rxjs';
 import {
   DynamicFormTemplateContext,
   Model,

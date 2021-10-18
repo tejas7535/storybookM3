@@ -7,9 +7,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BehaviorSubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { SnackBarService } from '@schaeffler/snackbar';

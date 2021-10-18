@@ -8,16 +8,17 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
+  BehaviorSubject,
+  Observable,
+  of,
   debounceTime,
   filter,
   map,
   startWith,
   switchMap,
   tap,
-} from 'rxjs/operators';
-
+} from 'rxjs';
 import { BearingOption, SearchEntry } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 

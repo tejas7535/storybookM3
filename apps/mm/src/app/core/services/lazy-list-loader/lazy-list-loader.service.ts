@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
+import { Observable, map } from 'rxjs';
 import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
 
 import { RestService } from '../';

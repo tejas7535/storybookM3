@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { filter, map, pairwise, startWith, switchMap } from 'rxjs/operators';
-
+import { Observable, filter, map, pairwise, startWith, switchMap } from 'rxjs';
 import { NestedPropertyMeta } from '@caeonline/dynamic-forms';
 import { ComponentStore, tapResponse } from '@ngrx/component-store';
 

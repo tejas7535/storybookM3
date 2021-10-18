@@ -7,15 +7,16 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { Observable, of, Subject } from 'rxjs';
 import {
+  Observable,
+  of,
+  Subject,
   filter,
   map,
   startWith,
   takeUntil,
   withLatestFrom,
-} from 'rxjs/operators';
-
+} from 'rxjs';
 import {
   BearinxListValue,
   CONTROL_META,

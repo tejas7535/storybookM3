@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
-import { combineLatest, defer, merge, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-
+import { combineLatest, defer, merge, of, map } from 'rxjs';
 import {
   NestedPropertyMeta,
   VariablePropertyMeta,

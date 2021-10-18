@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { defer, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-
+import { defer, Observable, of, map, switchMap } from 'rxjs';
 import {
   BearinxDataTableDescription,
   BearinxExpressionDataType,
