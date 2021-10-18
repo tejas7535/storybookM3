@@ -17,7 +17,6 @@ import { ProcessCaseEffect } from '../core/store/effects/process-case/process-ca
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { SharedModule } from '../shared';
 import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
-import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
@@ -26,6 +25,7 @@ import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
 import { ExportExcelModalModule } from '../shared/export-excel-modal/export-excel-modal.module';
+import { ShareButtonModule } from '@schaeffler/share-button';
 
 @NgModule({
   declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],

@@ -1,0 +1,6 @@
+{
+  "button": "Share",
+  "tooltipMessage": "Share the page link with your colleagues. Be aware, that your colleague needs the correct access rights to see the page.",
+  "successMessage": "Link copied to clipboard. Be aware that your colleague needs to have the correct access rights to view the page.",
+  "dismissMessage": "Dismiss"
+}

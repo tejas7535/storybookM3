@@ -8,9 +8,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { ShareButtonModule } from '@schaeffler/share-button';
 
 import { SharedModule } from '../shared';
-import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewRoutingModule } from './customer-view-routing.module';
 import { CustomerViewComponent } from './customer-view.component';

@@ -1,0 +1,6 @@
+{
+  "button": "Partager",
+  "tooltipMessage": "Partagez le lien de la page avec vos collègues. Sachez que votre collègue doit disposer des droits d'accès appropriés pour voir la page.",
+  "successMessage": "Lien copié dans le presse-papiers. Sachez que votre collègue doit disposer des droits d'accès appropriés pour visualiser la page.",
+  "dismissMessage": "Rejeter"
+}

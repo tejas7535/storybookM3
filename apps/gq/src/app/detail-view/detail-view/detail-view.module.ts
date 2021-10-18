@@ -9,10 +9,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { ShareButtonModule } from '@schaeffler/share-button';
 
 import { SharedModule } from '../../shared';
 import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
-import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { DetailViewComponent } from './detail-view.component';

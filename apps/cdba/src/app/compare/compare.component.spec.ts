@@ -10,13 +10,10 @@ import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { ShareButtonModule } from '@schaeffler/share-button';
 
 import { SharedModule } from '@cdba/shared';
-import {
-  PageHeaderModule,
-  ShareButtonModule,
-  TabsHeaderModule,
-} from '@cdba/shared/components';
+import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 

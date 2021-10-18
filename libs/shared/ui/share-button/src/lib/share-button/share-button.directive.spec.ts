@@ -1,3 +1,4 @@
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -6,10 +7,17 @@ import {
   mockProvider,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { ShareButtonDirective } from './share-button.directive';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((key: string) => key),
+  replace: jest.fn(),
+}));
 
 describe('ShareButtonDirective', () => {
   let spectator: SpectatorDirective<ShareButtonDirective>;
@@ -20,13 +28,15 @@ describe('ShareButtonDirective', () => {
     imports: [RouterTestingModule],
     providers: [
       mockProvider(MatSnackBar),
+      mockProvider(TranslocoService),
       mockProvider(ApplicationInsightsService),
+      mockProvider(Clipboard),
     ],
   });
 
   beforeEach(() => {
     spectator = createDirective(
-      `<div cdbaShareButton>Testing Share Button</div>`
+      `<div schaefflerShareButton>Testing Share Button</div>`
     );
 
     instance = spectator.directive;
@@ -38,27 +48,27 @@ describe('ShareButtonDirective', () => {
 
   describe('shareUrl', () => {
     it('should copy url to clipboard', () => {
-      delete window.location;
-      const mockLocation = new URL(
-        'https://www.example.com/'
-      ) as unknown as Location;
-      window.location = mockLocation;
-
-      spectator.directive['clipboard'].copy = jest.fn();
+      const address = 'https://www.example.com/';
+      const spy = jest.spyOn(spectator.directive['clipboard'], 'copy');
+      // eslint-disable-next-line no-global-assign
+      window = Object.create(window);
+      Object.defineProperty(window, 'location', {
+        value: {
+          href: address,
+        },
+      });
 
       spectator.dispatchMouseEvent(spectator.element, 'click');
 
-      expect(spectator.directive['clipboard'].copy).toHaveBeenCalledWith(
-        'https://www.example.com/'
-      );
+      expect(spy).toHaveBeenCalledWith(address);
     });
 
     it('should show toast message', () => {
       spectator.dispatchMouseEvent(spectator.element, 'click');
 
       expect(spectator.directive['snackbar'].open).toHaveBeenCalledWith(
-        'shared.shareUrl.successMessage',
-        'shared.basic.dismissMessage'
+        'successMessage',
+        'dismissMessage'
       );
     });
 

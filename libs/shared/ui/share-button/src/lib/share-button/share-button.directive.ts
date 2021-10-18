@@ -8,10 +8,10 @@ import { translate } from '@ngneat/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 @Directive({
-  selector: '[cdbaShareButton]',
+  selector: '[schaefflerShareButton]',
 })
 export class ShareButtonDirective {
-  constructor(
+  public constructor(
     private readonly clipboard: Clipboard,
     private readonly snackbar: MatSnackBar,
     private readonly applicationInsights: ApplicationInsightsService,
@@ -19,11 +19,11 @@ export class ShareButtonDirective {
   ) {}
 
   @HostListener('click')
-  shareUrl(): void {
+  public shareUrl(): void {
     this.clipboard.copy(window.location.href);
     this.snackbar.open(
-      translate('shared.shareUrl.successMessage'),
-      translate('shared.basic.dismissMessage')
+      translate('successMessage'),
+      translate('dismissMessage')
     );
 
     const params = (this.router.routerState.snapshot.root.queryParamMap as any)[

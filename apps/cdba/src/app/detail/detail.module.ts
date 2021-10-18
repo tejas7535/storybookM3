@@ -8,17 +8,14 @@ import { StoreModule } from '@ngrx/store';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import {
-  PageHeaderModule,
-  ShareButtonModule,
-  TabsHeaderModule,
-} from '@cdba/shared/components';
+import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
+import { ShareButtonModule } from '@schaeffler/share-button';
 
 @NgModule({
   declarations: [DetailComponent],

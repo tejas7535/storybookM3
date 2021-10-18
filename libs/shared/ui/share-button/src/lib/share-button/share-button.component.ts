@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'cdba-share-button',
-  template: ` <ng-container header *transloco="let t; read: 'shared.shareUrl'">
+  selector: 'schaeffler-share-button',
+  template: ` <ng-container header *transloco="let t">
     <button
       mat-raised-button
-      cdbaShareButton
+      schaefflerShareButton
       matTooltip="{{ t('tooltipMessage') }}"
     >
-      <mat-icon class="text-[20px]">group</mat-icon>
+      <mat-icon>group</mat-icon>
       {{ t('button') }}
     </button>
   </ng-container>`,

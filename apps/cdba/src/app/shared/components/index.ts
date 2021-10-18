@@ -7,5 +7,4 @@ export { BomOverlayModule } from './bom-overlay/bom-overlay.module';
 export { BomContainerModule } from './bom-container/bom-container.module';
 export { BrowserSupportModule } from './browser-support/browser-support.module';
 export { PageHeaderModule } from './page-header/page-header.module';
-export { ShareButtonModule } from './share-button/share-button.module';
 export { UserSettingsModule } from './user-settings/user-settings.module';

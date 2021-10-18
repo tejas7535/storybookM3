@@ -6,10 +6,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../../shared';
-import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';

@@ -1,0 +1,6 @@
+{
+  "button": "Compartir",
+  "tooltipMessage": "Comparta el enlace de la página con sus colegas. Tenga en cuenta que su colega necesita los derechos de acceso correctos para ver la página.",
+  "successMessage": "Enlace copiado en el portapapeles. Tenga en cuenta que su colega debe tener los derechos de acceso correctos para ver la página.",
+  "dismissMessage": "Descartar"
+}

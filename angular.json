@@ -2645,6 +2645,70 @@
         }
       }
     },
+    "shared-ui-share-button": {
+      "projectType": "library",
+      "root": "libs/shared/ui/share-button",
+      "sourceRoot": "libs/shared/ui/share-button/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "outputs": ["dist/libs/shared/ui/share-button"],
+          "options": {
+            "project": "libs/shared/ui/share-button/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/share-button/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "libs/shared/ui/share-button/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/share-button"],
+          "options": {
+            "jestConfig": "libs/shared/ui/share-button/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/search-autocomplete"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/search-autocomplete --tag latest"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/share-button/src/**/*.ts",
+              "libs/shared/ui/share-button/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/utils/azure-auth/checkstyle.xml"
+            }
+          }
+        }
+      }
+    },
     "shared-ui-sidebar": {
       "projectType": "library",
       "root": "libs/shared/ui/sidebar",

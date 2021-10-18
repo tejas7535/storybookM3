@@ -10,12 +10,9 @@ import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { ShareButtonModule } from '@schaeffler/share-button';
 
-import {
-  PageHeaderModule,
-  ShareButtonModule,
-  TabsHeaderModule,
-} from '@cdba/shared/components';
+import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { getReferenceType } from '@cdba/core/store';

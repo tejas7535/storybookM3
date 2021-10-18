@@ -172,6 +172,9 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
+    "shared-ui-share-button": {
+      "tags": ["scope:shared", ""]
+    },
     "shared-ui-sidebar": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
