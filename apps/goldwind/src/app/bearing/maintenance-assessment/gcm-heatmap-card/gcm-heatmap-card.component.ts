@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { format } from 'date-fns';
 import { EChartsOption } from 'echarts';
 import { Observable } from 'rxjs';
 import {
@@ -51,22 +52,34 @@ export class GcmHeatmapCardComponent {
       {
         ...CALENDAR_OPTIONS,
         top: this.CalGap,
-        range: ['2021-01-01', '2021-03-31'],
+        range: [
+          format(new Date(), 'yyyy-01-01'),
+          format(new Date(), 'yyyy-03-31'),
+        ],
       },
       {
         ...CALENDAR_OPTIONS,
         top: this.CalGap * 6,
-        range: ['2021-04-01', '2021-06-30'],
+        range: [
+          format(new Date(), 'yyyy-04-01'),
+          format(new Date(), 'yyyy-06-31'),
+        ],
       },
       {
         ...CALENDAR_OPTIONS,
         top: this.CalGap * 11,
-        range: ['2021-07-01', '2021-09-30'],
+        range: [
+          format(new Date(), 'yyyy-07-01'),
+          format(new Date(), 'yyyy-09-31'),
+        ],
       },
       {
         ...CALENDAR_OPTIONS,
         top: this.CalGap * 16,
-        range: ['2021-10-01', '2021-12-31'],
+        range: [
+          format(new Date(), 'yyyy-10-01'),
+          format(new Date(), 'yyyy-12-31'),
+        ],
       },
     ],
     tooltip: { show: true, appendToBody: true },

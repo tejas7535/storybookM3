@@ -177,7 +177,7 @@ export class HeatmapResponseConvert {
       case this.isBetween(
         e.timestamp,
         `${this.year}-07-01`,
-        `${this.year}-10-31`
+        `${this.year}-09-31`
       ):
         return 2;
       case this.isBetween(
