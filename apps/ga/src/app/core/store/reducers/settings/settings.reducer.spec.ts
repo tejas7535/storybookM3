@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { setCurrentStep } from '../../actions/settings/settings.actions';
+import {
+  setCurrentStep,
+  setLanguage,
+} from '../../actions/settings/settings.actions';
 import { initialState, reducer, settingsReducer } from './settings.reducer';
 
 describe('Settings Reducer', () => {
@@ -12,6 +15,15 @@ describe('Settings Reducer', () => {
         const state = settingsReducer(initialState, action);
 
         expect(state.stepper.currentStep).toEqual(newStep);
+      });
+    });
+
+    describe('on set language', () => {
+      it('should set the language', () => {
+        const action: Action = setLanguage({ language: 'language' });
+        const state = settingsReducer(initialState, action);
+
+        expect(state.language).toEqual('language');
       });
     });
 

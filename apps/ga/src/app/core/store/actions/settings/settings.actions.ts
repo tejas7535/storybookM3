@@ -5,8 +5,14 @@ export const setCurrentStep = createAction(
   props<{ step: number }>()
 );
 
+export const setLanguage = createAction(
+  '[Settings] Set Language',
+  props<{ language: string }>()
+);
+
 const all = union({
   setCurrentStep,
+  setLanguage,
 });
 
 export type SettingsAction = typeof all;

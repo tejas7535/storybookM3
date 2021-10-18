@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../app-route-path.enum';
@@ -65,12 +64,12 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public typeOptions: any[] = [
     {
       id: Movement.rotating,
-      text: translate('parameters.rotating'),
+      text: 'parameters.rotating',
       default: true,
     },
     {
       id: Movement.oscillating,
-      text: translate('parameters.oscillating'),
+      text: 'parameters.oscillating',
     },
   ];
   public rotationalSpeed = new FormControl(undefined, [
@@ -119,16 +118,16 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public environmentImpactOptions: any[] = [
     {
       id: EnvironmentImpact.low,
-      text: translate('parameters.low'),
+      text: 'parameters.low',
     },
     {
       id: EnvironmentImpact.moderate,
-      text: translate('parameters.moderate'),
+      text: 'parameters.moderate',
       default: true,
     },
     {
       id: EnvironmentImpact.high,
-      text: translate('parameters.high'),
+      text: 'parameters.high',
     },
   ];
 

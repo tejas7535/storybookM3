@@ -68,7 +68,8 @@
       "bearingSelection": "Bearing Selection",
       "parameters": "Parameters",
       "report": "Report"
-    }
+    },
+    "language": "Language"
   },
   "legal": {
     "imprint": "Imprint",

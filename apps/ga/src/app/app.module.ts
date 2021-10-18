@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { PERSON_RESPONSIBLE } from '@schaeffler/legal-pages';
 
@@ -10,7 +15,15 @@ import { responsiblePerson } from './shared/constants';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserAnimationsModule, AppRoutingModule, CoreModule],
+  imports: [
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    CoreModule,
+    ReactiveComponentModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+  ],
   providers: [
     {
       provide: PERSON_RESPONSIBLE,

@@ -1,6 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { setCurrentStep } from '../../actions/settings/settings.actions';
+import {
+  setCurrentStep,
+  setLanguage,
+} from '../../actions/settings/settings.actions';
 
 export interface SettingsState {
   stepper: {
@@ -30,6 +33,13 @@ export const settingsReducer = createReducer(
         ...state.stepper,
         currentStep: step,
       },
+    })
+  ),
+  on(
+    setLanguage,
+    (state, { language }): SettingsState => ({
+      ...state,
+      language,
     })
   )
 );

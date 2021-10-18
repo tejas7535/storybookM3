@@ -68,7 +68,8 @@
       "bearingSelection": "Lagerauswahl",
       "parameters": "Eingaben",
       "report": "Report"
-    }
+    },
+    "language": "Sprache"
   },
   "legal": {
     "imprint": "Impressum",

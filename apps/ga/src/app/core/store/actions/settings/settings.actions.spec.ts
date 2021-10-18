@@ -1,4 +1,4 @@
-import { setCurrentStep } from './settings.actions';
+import { setCurrentStep, setLanguage } from './settings.actions';
 
 describe('Settings Actions', () => {
   describe('Set Current Step', () => {
@@ -9,6 +9,18 @@ describe('Settings Actions', () => {
       expect(action).toEqual({
         step,
         type: '[Settings] Set Current Step',
+      });
+    });
+  });
+
+  describe('Set language', () => {
+    it('setLanguage', () => {
+      const language = 'language';
+      const action = setLanguage({ language });
+
+      expect(action).toEqual({
+        language,
+        type: '[Settings] Set Language',
       });
     });
   });

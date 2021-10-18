@@ -1,6 +1,6 @@
 <div
   class="flex flex-row justify-between items-baseline w-full gap-4"
-  *transloco="let t; read: 'parameters.errors'"
+  *transloco="let t"
 >
   <mat-form-field
     appearance="outline"
@@ -11,7 +11,7 @@
       <mat-option
         *ngFor="let option of options"
         [value]="option.value ? option.value : option.id"
-        >{{ option.text }}</mat-option
+        >{{ t(option.text) }}</mat-option
       >
       <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     </mat-select>
@@ -19,11 +19,13 @@
       t('required')
     }}</mat-error>
 
-    <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
-      <mat-error *ngIf="control.hasError(error.name)">{{
-        t(error.message)
-      }}</mat-error>
-    </ng-container>
+    <ng-container *transloco="let t; read: 'parameters.errors'">
+      <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
+        <mat-error *ngIf="control.hasError(error.name)">{{
+          t(error.message)
+        }}</mat-error>
+      </ng-container></ng-container
+    >
   </mat-form-field>
   <!-- TODO: enable again -->
   <!-- <mat-icon color="primary">info_outline</mat-icon> -->

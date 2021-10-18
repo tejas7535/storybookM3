@@ -3,6 +3,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import {
+  TRANSLOCO_PERSIST_LANG_STORAGE,
+  TranslocoPersistLangModule,
+} from '@ngneat/transloco-persist-lang';
+
 import { AppShellModule } from '@schaeffler/app-shell';
 import { FooterModule } from '@schaeffler/footer';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -11,6 +16,15 @@ import { environment } from '../../environments/environment';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from './store/store.module';
+
+export const availableLanguages: { id: string; label: string }[] = [
+  { id: 'de', label: 'Deutsch' },
+  { id: 'en', label: 'English' },
+  // { id: 'es', label: 'Español' },
+  // { id: 'fr', label: 'Français' },
+  // { id: 'ru', label: 'русский' },
+  // { id: 'zh', label: '中国' },
+];
 
 @NgModule({
   imports: [
@@ -27,19 +41,19 @@ import { StoreModule } from './store/store.module';
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      [
-        { id: 'de', label: 'Deutsch' },
-        { id: 'en', label: 'English' },
-        { id: 'es', label: 'Español' },
-        { id: 'fr', label: 'Français' },
-        { id: 'ru', label: 'русский' },
-        { id: 'zh', label: '中国' },
-      ],
-      'de', // default -> undefined would lead to browser detection
+      availableLanguages,
+      undefined, // default -> undefined would lead to browser detection
       'en',
       true,
       !environment.localDev
     ),
+    TranslocoPersistLangModule.init({
+      storageKey: 'language',
+      storage: {
+        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
+        useValue: localStorage,
+      },
+    }),
 
     // HTTP
     HttpClientModule,
@@ -51,6 +65,6 @@ import { StoreModule } from './store/store.module';
       multi: true,
     },
   ],
-  exports: [FooterModule, AppShellModule, StoreModule],
+  exports: [FooterModule, AppShellModule, StoreModule, SharedTranslocoModule],
 })
 export class CoreModule {}
