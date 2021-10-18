@@ -9,7 +9,7 @@
       t(filterName + '.label')
     }}</mat-label>
     <input
-      class="!font-body !text-subtitle-1"
+      class="!text-subtitle-1"
       [formControl]="searchFormControl"
       (paste)="onPaste($event)"
       matInput
@@ -21,7 +21,7 @@
       matSuffix
       [diameter]="18"
     ></mat-spinner>
-    <mat-hint class="font-body">{{ t(filterName + '.hint') }}</mat-hint>
+    <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
     <mat-error *ngIf="searchFormControl.hasError('invalidInput')">{{
       t(filterName + '.wrongInput')
     }}</mat-error>

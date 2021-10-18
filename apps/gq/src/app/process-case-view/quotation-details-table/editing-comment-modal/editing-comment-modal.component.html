@@ -14,7 +14,7 @@
     <div class="h-full">
       <mat-form-field class="w-full">
         <textarea
-          class="text-overline !font-body !leading-7"
+          class="text-overline !leading-7"
           [formControl]="commentFormControl"
           appearance="fill"
           type="text"
@@ -37,7 +37,7 @@
         [disabled]="commentDisabled"
         (click)="confirmComment()"
       >
-        <span class="font-body"> {{ t('confirm') | uppercase }} </span>
+        <span> {{ t('confirm') | uppercase }} </span>
       </button>
       <button
         class="!pl-8 !pr-8 !ml-6"
@@ -45,7 +45,7 @@
         mat-stroked-button
         (click)="closeDialog()"
       >
-        <span class="font-body"> {{ t('cancel') | uppercase }} </span>
+        <span> {{ t('cancel') | uppercase }} </span>
       </button>
     </div>
   </div>

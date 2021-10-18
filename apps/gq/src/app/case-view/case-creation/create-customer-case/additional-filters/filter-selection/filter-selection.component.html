@@ -14,7 +14,7 @@
       (selectionChange)="selectionChange($event)"
     >
       <mat-select-trigger *ngIf="form?.value?.items">
-        <span class="font-body">
+        <span>
           {{ form.value.items | multiSelect }}
         </span>
       </mat-select-trigger>
@@ -24,14 +24,14 @@
         [value]="0"
         *ngIf="items.length > 0"
       >
-        <span class="pl-4 font-body"> Select All </span>
+        <span class="pl-4"> Select All </span>
         <hr class="opacity-[12%]" />
       </mat-option>
       <mat-option
         *ngFor="let item of items; let i = index"
         [value]="item.value"
       >
-        <span class="pl-4 font-body">
+        <span class="pl-4">
           {{ item.value }} <span *ngIf="item.name">| {{ item.name }}</span>
         </span>
       </mat-option>

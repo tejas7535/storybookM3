@@ -4,7 +4,7 @@
 >
   <div>
     <div class="mt-6">
-      <span class="text-h6 text-light font-body font-medium">
+      <span class="text-h6 text-light font-medium">
         {{ t('addItems') }}
       </span>
       <div class="float-right">
@@ -15,16 +15,13 @@
           (click)="pasteFromClipboard()"
         >
           <mat-icon>content_paste</mat-icon>
-          <span class="!font-body font-medium ml-4">
+          <span class="font-medium ml-4">
             {{ t('pasteFromClipboard') }}
           </span>
         </button>
         <span class="ml-2 align-bottom">
           <gq-info-icon [showHelpIcon]="true">
-            <span
-              class="text-subtitle-2 font-body p-2"
-              [innerHTML]="t('pasteInfoText')"
-            >
+            <span class="text-subtitle-2 p-2" [innerHTML]="t('pasteInfoText')">
             </span>
           </gq-info-icon>
         </span>

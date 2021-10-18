@@ -23,7 +23,7 @@ export default {
 const Template: Story = (args) => ({
   props: args,
   template: `
-    <section class="font-body">
+    <section>
       <div class="flex flex-row items-center gap-8 py-1">
         <span class="w-24 flex-shrink-0">Headline 1</span>
         <h1>{{ typographyText }}</h1>

@@ -38,6 +38,10 @@ const emphasis = {
   outline: veryLightGrey, // should be renamed to design naming
 };
 
+const fontFamilies = {
+  sans: ['Roboto, sans-serif'],
+};
+
 const scrollSnapUtilities = {
   '.snap-y-mandatory': {
     'scroll-snap-type': 'y mandatory',
@@ -98,8 +102,9 @@ module.exports = {
     }),
     fontSize: fontSizes,
     fontFamily: {
-      display: ['Roboto', 'sans-serif'],
-      body: ['Roboto', 'sans-serif'],
+      // set custom utility classes
+      display: fontFamilies.sans,
+      body: fontFamilies.sans,
     },
     textColor: {
       dark: darkGrey,
@@ -136,7 +141,12 @@ module.exports = {
     plugin(function ({ addBase, theme }) {
       const sm = theme('screens.sm', {});
 
+      // override native elements styles
       addBase({
+        body: {
+          fontFamily: fontFamilies.sans,
+          color: theme('textColor.dark'),
+        },
         h1: {
           fontSize: theme('fontSize.h1-mobile'),
           fontWeight: theme('fontWeight.light'),

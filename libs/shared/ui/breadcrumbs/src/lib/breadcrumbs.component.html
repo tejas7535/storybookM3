@@ -10,14 +10,14 @@
     >
     <span *ngIf="breadcrumb.url; else nolink">
       <span
-        class="text-primary cursor-pointer font-body"
+        class="text-primary cursor-pointer"
         [routerLink]="breadcrumb.url"
         [queryParams]="breadcrumb.queryParams"
         >{{ breadcrumb.label }}</span
       >
     </span>
     <ng-template #nolink>
-      <span class="font-body">{{ breadcrumb.label }}</span>
+      <span>{{ breadcrumb.label }}</span>
     </ng-template>
   </div>
 </div>
