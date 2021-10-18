@@ -18,7 +18,6 @@ import {
   getResultCount,
 } from '@cdba/core/store';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
-import { SharedModule } from '@cdba/shared';
 
 export interface BreadcrumbState {
   search: Breadcrumb;
@@ -28,7 +27,7 @@ export interface BreadcrumbState {
 }
 
 @Injectable({
-  providedIn: SharedModule,
+  providedIn: 'root',
 })
 export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
   public constructor(
