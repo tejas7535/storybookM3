@@ -2,7 +2,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';

@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { getRoles } from '@schaeffler/azure-auth';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   PROCESS_CASE_STATE_MOCK,

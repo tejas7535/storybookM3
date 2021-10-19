@@ -5,7 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';

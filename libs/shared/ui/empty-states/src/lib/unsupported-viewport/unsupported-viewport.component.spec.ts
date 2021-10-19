@@ -2,7 +2,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from './i18n/en.json';
 import { UnsupportedViewportComponent } from './unsupported-viewport.component';

@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   LINE_CHART_BASE_OPTIONS,

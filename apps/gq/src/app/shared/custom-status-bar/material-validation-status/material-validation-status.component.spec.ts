@@ -1,7 +1,7 @@
 import { IStatusPanelParams, RowNode } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialValidationStatusComponent } from './material-validation-status.component';
 import { ValidationDescription } from '../../models/table';

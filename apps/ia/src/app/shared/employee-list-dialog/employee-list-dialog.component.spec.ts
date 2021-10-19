@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { Employee } from '../models/employee.model';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';

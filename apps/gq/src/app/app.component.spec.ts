@@ -9,7 +9,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppShellModule } from '@schaeffler/app-shell';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
 import { AppComponent } from './app.component';

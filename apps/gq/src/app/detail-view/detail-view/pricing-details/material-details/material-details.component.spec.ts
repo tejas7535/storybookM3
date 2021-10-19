@@ -5,7 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { HorizontalDividerModule } from '../../../../shared/components/horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';

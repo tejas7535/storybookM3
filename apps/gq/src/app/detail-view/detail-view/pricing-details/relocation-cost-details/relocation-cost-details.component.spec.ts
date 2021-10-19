@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';

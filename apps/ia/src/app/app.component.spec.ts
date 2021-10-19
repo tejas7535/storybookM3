@@ -11,7 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { HeaderModule } from '@schaeffler/header';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { FilterSectionModule } from './filter-section/filter-section.module';

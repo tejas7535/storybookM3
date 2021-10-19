@@ -10,7 +10,7 @@ import { MockModule } from 'ng-mocks';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppShellModule } from '../../app-shell.module';
 import { AppShellComponent } from './app-shell.component';

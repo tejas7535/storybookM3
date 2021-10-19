@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { selectBearing } from '../core/store';
 import { initialState } from '../core/store/reducers/settings/settings.reducer';

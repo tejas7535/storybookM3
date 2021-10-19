@@ -6,7 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CellRendererModule } from '../../cell-renderer/cell-renderer.module';
 import { AddMaterialButtonComponent } from '../../custom-status-bar/case-material-table/add-material-button/add-material-button.component';

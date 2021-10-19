@@ -3,7 +3,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '../../../shared/shared.module';
 import { OpenPositionsListComponent } from './open-positions-list.component';

@@ -2,7 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { TransparencyGraphComponent } from './transparency-graph.component';
 

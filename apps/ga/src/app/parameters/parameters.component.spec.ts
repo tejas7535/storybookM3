@@ -10,7 +10,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SubheaderModule } from '@schaeffler/subheader';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '../app-route-path.enum';
 import { initialState } from '../core/store/reducers/parameter/parameter.reducer';

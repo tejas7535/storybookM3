@@ -11,7 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
 import { SharedModule } from '@cdba/shared';

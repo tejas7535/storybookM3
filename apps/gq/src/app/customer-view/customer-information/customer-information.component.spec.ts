@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
 import { HorizontalDividerModule } from '../../shared/components/horizontal-divider/horizontal-divider.module';

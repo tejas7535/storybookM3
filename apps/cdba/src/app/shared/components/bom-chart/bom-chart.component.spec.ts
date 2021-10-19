@@ -9,7 +9,7 @@ import {
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BOM_MOCK } from '@cdba/testing/mocks';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';

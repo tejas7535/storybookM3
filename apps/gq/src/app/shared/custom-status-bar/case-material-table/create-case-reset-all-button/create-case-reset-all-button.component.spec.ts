@@ -7,10 +7,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import {
-  provideTranslocoTestingModule,
-  SharedTranslocoModule,
-} from '@schaeffler/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { clearCreateCaseRowData } from '../../../../core/store';
 import { CreateCaseResetAllButtonComponent } from './create-case-reset-all-button.component';

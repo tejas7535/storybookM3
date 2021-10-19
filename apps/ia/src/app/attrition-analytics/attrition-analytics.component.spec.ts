@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';

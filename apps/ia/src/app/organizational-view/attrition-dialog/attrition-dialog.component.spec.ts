@@ -10,7 +10,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LineChartComponent } from '../../shared/charts/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';

@@ -20,10 +20,8 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import {
-  provideTranslocoTestingModule,
-  SharedTranslocoModule,
-} from '@schaeffler/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '@cdba/shared';
 import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';

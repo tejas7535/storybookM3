@@ -6,7 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { ECharts } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { ChartComponent } from './chart.component';

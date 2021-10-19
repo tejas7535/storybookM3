@@ -5,7 +5,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedPipesModule } from '../../../../../shared/pipes/shared-pipes.module';
 import { FilterSelectionComponent } from './filter-selection.component';

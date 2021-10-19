@@ -13,7 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
 import { TimePeriod } from '../models';

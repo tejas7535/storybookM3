@@ -1,6 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import enJson from './i18n/en.json';
 import { UnderConstructionComponent } from './under-construction.component';

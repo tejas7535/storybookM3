@@ -7,7 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '../../../shared/shared.module';
 import { BomOverlayComponent } from './bom-overlay.component';

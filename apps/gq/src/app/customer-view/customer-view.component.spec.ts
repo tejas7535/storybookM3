@@ -20,7 +20,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { CustomerInformationModule } from './customer-information/customer-information.module';

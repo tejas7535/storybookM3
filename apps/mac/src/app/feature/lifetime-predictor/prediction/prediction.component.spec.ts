@@ -29,7 +29,7 @@ import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BannerModule, BannerState } from '@schaeffler/banner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../assets/i18n/en.json';
 import { initialState as initialInputState } from '../store/reducers/input.reducer';

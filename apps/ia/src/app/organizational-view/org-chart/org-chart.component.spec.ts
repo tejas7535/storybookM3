@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';

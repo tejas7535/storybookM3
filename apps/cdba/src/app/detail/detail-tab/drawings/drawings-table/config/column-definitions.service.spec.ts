@@ -4,7 +4,7 @@ import {
   mockProvider,
 } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 

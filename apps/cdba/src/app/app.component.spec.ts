@@ -14,7 +14,7 @@ import {
   LoadingSpinnerModule,
   UserSettingsModule,
 } from '@cdba/shared/components';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 

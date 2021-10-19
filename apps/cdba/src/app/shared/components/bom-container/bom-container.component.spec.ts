@@ -17,7 +17,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as compareActions from '@cdba/compare/store/actions/compare.actions';
 import * as detailActions from '@cdba/core/store/actions/detail/detail.actions';

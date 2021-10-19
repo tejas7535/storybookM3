@@ -59,7 +59,7 @@ Please import `provideTranslocoTestingModule` into your .spec from `'@schaeffler
 
 Here is an example:
 ```typescript
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import * as en from '../../../../assets/i18n/en.json';
 
 configureTestSuite(() => {

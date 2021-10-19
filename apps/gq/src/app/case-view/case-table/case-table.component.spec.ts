@@ -7,7 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CreateCustomerCaseButtonComponent } from '../../shared/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
 import { CreateManualCaseButtonComponent } from '../../shared/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';

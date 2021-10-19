@@ -1,7 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { Color } from '../../models/color.enum';
 import { SharedModule } from '../../shared.module';

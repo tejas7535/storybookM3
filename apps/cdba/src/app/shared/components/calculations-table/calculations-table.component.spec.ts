@@ -21,10 +21,8 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import {
-  provideTranslocoTestingModule,
-  SharedTranslocoModule,
-} from '@schaeffler/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 

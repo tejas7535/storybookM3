@@ -11,7 +11,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ReportModule } from '@schaeffler/report';
 import { SubheaderModule } from '@schaeffler/subheader';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   CALCULATION_RESULT_MOCK_ID,

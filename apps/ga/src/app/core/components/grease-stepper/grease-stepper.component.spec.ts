@@ -9,7 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { StepperModule } from '@schaeffler/stepper';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { GreaseCalculationPath } from '../../../grease-calculation/grease-calculation-path.enum';

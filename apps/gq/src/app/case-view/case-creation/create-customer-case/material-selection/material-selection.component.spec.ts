@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getPLsAndSeries } from '../../../../core/store';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';

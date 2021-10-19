@@ -12,7 +12,7 @@ import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { UnderConstructionModule } from '@schaeffler/empty-states';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { DrawingsTableModule } from './drawings-table/drawings-table.module';
 import { DrawingsComponent } from './drawings.component';
 

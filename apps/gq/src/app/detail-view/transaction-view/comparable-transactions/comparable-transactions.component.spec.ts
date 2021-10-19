@@ -4,7 +4,7 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';

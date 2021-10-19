@@ -11,7 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '../app-route-path.enum';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
