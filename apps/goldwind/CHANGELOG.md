@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.0...goldwind-v0.1.0) (2021-10-19)
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** fix date range error and make millenium proof ([#3151](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3151)) ([4272dce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4272dcebb56759d6fe7d67c1f592151ab25d5482))
+
+
+### 🎸 Features
+
+* **goldwind:** add custom http interceptor for linking to custom mailto link ([#3166](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3166)) ([c48df8f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c48df8f7730923c86870b181fbfcf15a096e394d))
+* **goldwind:** add local environment + mock server ([#3094](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3094)) ([de9afec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de9afecbb996a250cf2fa4e14025d7409976c0ec))
+* **goldwind:** add missing polling for edm histogram ([#3163](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3163)) ([be544fa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/be544faaf4bf64866136a2286a2d766ed9ad7943))
+* **goldwind:** adjust dashboard updateinterval times ([#3165](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3165)) ([c3791f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c3791f040c372c47981439398d96ff3f0cfc5d2b))
+
 ## [0.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.1.0...goldwind-v0.0.1) (2021-10-11)
 
 
