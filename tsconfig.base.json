@@ -70,6 +70,9 @@
       "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],
       "@schaeffler/subheader": ["libs/shared/ui/subheader/src/index.ts"],
       "@schaeffler/transloco": ["libs/shared/utils/transloco/src/index.ts"],
+      "@schaeffler/transloco/testing": [
+        "libs/shared/utils/transloco/testing/src/index.ts"
+      ],
       "jszip": ["node_modules/jszip/dist/jszip.min.js"]
     },
     "resolveJsonModule": true,
