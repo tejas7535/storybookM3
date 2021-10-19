@@ -25,7 +25,7 @@
       <h5>{{ t('greaseCalculator') }}</h5>
       <mat-card-content class="card-flex items-center justify-center">
         <img
-          src="../assets/images/calc.png"
+          src="../assets/images/calc.svg"
           class="
             max-h-48
             calc-img
@@ -69,7 +69,7 @@
                   justify-center
                 "
               >
-                <mat-icon>play_arrow</mat-icon>
+                <mat-icon class="start-icon">play_arrow</mat-icon>
               </span>
             </span>
           </div>
@@ -77,41 +77,65 @@
       </mat-card-actions>
     </mat-card>
     <mat-card class="card-half">
-      <div class="text-overline text-center uppercase">{{ t('greases') }}</div>
-      <mat-card-content class="card-content justify-center">
-        <div
-          class="arcanol bg-center bg-contain bg-no-repeat w-full h-full"
-        ></div>
-      </mat-card-content>
+      <a
+        href="{{ t('greaseLink', { sources }) }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div class="text-overline text-center uppercase">
+          {{ t('greases') }}
+        </div>
+        <mat-card-content class="card-content justify-center">
+          <div
+            class="arcanol bg-center bg-contain bg-no-repeat w-full h-full"
+          ></div>
+        </mat-card-content>
+      </a>
     </mat-card>
     <mat-card class="card-half">
-      <div class="text-overline text-center uppercase mb-4 break-words">
-        {{ t('lubricators') }}
-      </div>
-      <mat-card-content class="card-content justify-center">
-        <div
-          class="bg-no-repeat bg-center bg-contain w-full h-full lubricators"
-        ></div>
-      </mat-card-content>
+      <a
+        href="{{ t('lubricatorsLink', { sources }) }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div class="text-overline text-center uppercase mb-4 break-words">
+          {{ t('lubricators') }}
+        </div>
+        <mat-card-content class="card-content justify-center">
+          <div
+            class="bg-no-repeat bg-center bg-contain w-full h-full lubricators"
+          ></div>
+        </mat-card-content>
+      </a>
     </mat-card>
     <mat-card class="card-half">
-      <div class="text-overline text-center uppercase">{{ t('catalog') }}</div>
-      <mat-card-content class="card-content flex items-center justify-center">
-        <div
-          class="
-            bg-contain bg-center bg-no-repeat
-            h-full
-            w-full
-            medias
-            max-w-[85%]
-          "
-        ></div>
-      </mat-card-content>
+      <a
+        href="{{ t('catalogLink', { sources }) }}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div class="text-overline text-center uppercase">
+          {{ t('catalog') }}
+        </div>
+        <mat-card-content class="card-content flex items-center justify-center">
+          <div
+            class="
+              bg-contain bg-center bg-no-repeat
+              h-full
+              w-full
+              medias
+              max-w-[85%]
+            "
+          ></div>
+        </mat-card-content>
+      </a>
     </mat-card>
-    <mat-card class="card-half card-flex items-center justify-center">
+    <mat-card
+      class="card-half card-flex items-center justify-center cursor-not-allowed"
+    >
       <div class="text-overline text-center uppercase">{{ t('faqs') }}</div>
     </mat-card>
-    <mat-card class="col-span-2 card-full md:w-full">
+    <mat-card class="col-span-2 card-full md:w-full cursor-not-allowed">
       <mat-card-content class="flex items-center h-full">
         <div class="flex h-full">
           <div
@@ -125,18 +149,18 @@
               bg-contain bg-no-repeat bg-center
             "
           ></div>
-          <div class="w-2/4 h-full">
+          <div class="w-2/4 h-full flex flex-col">
             <h5 class="uppercase">{{ t('concept') }}</h5>
-            <p class="text-caption text-container overflow-hidden max-h-32">
+            <p
+              class="text-caption text-container overflow-hidden flex-shrink-0"
+            >
               {{ t('placeholderText') }}
             </p>
-            <button
-              mat-button
-              color="primary"
-              class="ml-1 uppercase no-left-padding"
-            >
-              <span>{{ t('learnMore') }}</span>
-            </button>
+            <div class="-ml-4">
+              <button mat-button color="primary" disabled>
+                <span>{{ t('learnMore') }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </mat-card-content>

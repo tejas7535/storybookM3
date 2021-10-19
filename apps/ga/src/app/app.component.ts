@@ -2,9 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 
-import { BehaviorSubject, filter, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-
+import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 import {
   LoadedEvent,
   translate,

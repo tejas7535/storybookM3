@@ -24,14 +24,6 @@ mat-card.card-grid {
   background-image: url('../../assets/images/medias.png');
 }
 
-.text-container {
-  height: calc(100% - 4.5rem);
-}
-
-button.no-left-padding {
-  @apply pl-0;
-}
-
 @screen md {
   .grid-container {
     max-height: calc(100vh - 9rem);
@@ -42,4 +34,8 @@ button.no-left-padding {
   .grid-container {
     @apply translate-x-[-50%];
   }
+}
+
+div span span .start-icon {
+  @apply text-[24px] m-0 w-auto h-auto;
 }

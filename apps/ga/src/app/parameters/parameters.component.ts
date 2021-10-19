@@ -8,9 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../app-route-path.enum';
