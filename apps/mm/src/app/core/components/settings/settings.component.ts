@@ -1,7 +1,6 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSidenav } from '@angular/material/sidenav';
 
 import { Subscription } from 'rxjs';
 
@@ -16,12 +15,13 @@ interface AvailableOption {
 }
 
 @Component({
-  selector: 'mm-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  selector: 'mm-settings',
+  templateUrl: './settings.component.html',
+  styles: [
+    '::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick { @apply text-primary }',
+  ],
 })
-export class SidebarComponent implements OnInit, OnDestroy {
-  @ViewChild('sidenav') private readonly sidenav: MatSidenav;
+export class SettingsComponent implements OnInit, OnDestroy {
   @Input() public embedded = false;
 
   private readonly subscription = new Subscription();
@@ -77,7 +77,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.localeService.setLocale(lang as MMLocales);
-        this.sidenav.close();
       } else {
         this.languageSelectControl.setValue(this.currentLanguage, {
           onlySelf: true,
@@ -89,9 +88,5 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   public trackByFn(index: number): number {
     return index;
-  }
-
-  public toggle(): void {
-    this.sidenav.toggle();
   }
 }

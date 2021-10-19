@@ -9,6 +9,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { PictureCardModule } from '@schaeffler/picture-card';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { LanguageConfirmationDialogComponent } from './components/language-confirmation-dialog/language-confirmation-dialog.component';
 import { MagneticSliderComponent } from './components/magnetic-slider/magnetic-slider.component';
 import {
   ListMemberComponent,
@@ -18,7 +19,6 @@ import {
 } from './components/member-controls';
 import { MaterialModule } from './material.module';
 import { MmNumberPipe } from './pipes/mm-number.pipe';
-import { LanguageConfirmationDialogComponent } from './components/language-confirmation-dialog/language-confirmation-dialog.component';
 
 @NgModule({
   imports: [

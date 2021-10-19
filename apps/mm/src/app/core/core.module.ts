@@ -11,22 +11,20 @@ import {
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import {
   ApplicationInsightsModule,
   ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
-import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
-import { AppComponent } from '../app.component';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { PagesStepperModule } from './components/pages-stepper/pages-stepper.module';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 export class DynamicLocaleId extends String {
   public constructor(protected translocoService: TranslocoService) {
@@ -86,15 +84,13 @@ if (window.self !== window.top) {
 }
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent],
+  declarations: [SettingsComponent],
   imports: [
     CommonModule,
     RouterModule,
+    AppShellModule,
 
     // UI Modules
-    HeaderModule,
-    FooterModule,
-
     PagesStepperModule,
 
     SharedModule,
@@ -123,7 +119,7 @@ if (window.self !== window.top) {
     HttpCacheInterceptorModule.forRoot(),
     HttpModule.forRoot({ environment }),
   ],
-  exports: [AppComponent, SidebarComponent, PagesStepperModule],
+  exports: [SettingsComponent, PagesStepperModule],
   providers,
 })
 export class CoreModule {}

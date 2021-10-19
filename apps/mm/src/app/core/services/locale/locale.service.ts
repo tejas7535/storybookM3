@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { OneTrustService } from '@altack/ngx-onetrust';
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
 import { locales, MMLocales } from './locale.enum';
 import { MMSeparator } from './separator.enum';
+
+declare const window: {
+  OneTrust: any;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -21,10 +24,7 @@ export class LocaleService {
 
   private manualSeparator = false;
 
-  constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly onetrustService: OneTrustService
-  ) {
+  constructor(private readonly translocoService: TranslocoService) {
     this.registerLocales();
 
     const lang = this.translocoService.getActiveLang();
@@ -46,7 +46,10 @@ export class LocaleService {
   public setLocale(locale: MMLocales): void {
     this.language.next(locale);
     this.translocoService.setActiveLang(locale);
-    this.onetrustService.translateBanner(locale, true);
+    if (window.OneTrust) {
+      window.OneTrust.changeLanguage(locale);
+    }
+
     if (!this.manualSeparator) {
       this.separator.next(locales[locale].defaultSeparator);
     }

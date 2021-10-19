@@ -11,15 +11,15 @@ import { MaterialModule } from '../../../shared/material.module';
 import { MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
-import { SidebarComponent } from './sidebar.component';
+import { SettingsComponent } from './settings.component';
 
 const availableLangs: AvailableLangs = [
   { id: 'de', label: 'Deutsch' },
   { id: 'en', label: 'English' },
 ];
 describe('SidebarComponent', () => {
-  let component: SidebarComponent;
-  let spectator: Spectator<SidebarComponent>;
+  let component: SettingsComponent;
+  let spectator: Spectator<SettingsComponent>;
   const language: BehaviorSubject<MMLocales> = new BehaviorSubject<MMLocales>(
     MMLocales.de
   );
@@ -34,7 +34,7 @@ describe('SidebarComponent', () => {
   };
 
   const createComponent = createComponentFactory({
-    component: SidebarComponent,
+    component: SettingsComponent,
     imports: [
       NoopAnimationsModule,
       TranslocoTestingModule,
@@ -59,7 +59,7 @@ describe('SidebarComponent', () => {
         },
       },
     ],
-    declarations: [SidebarComponent],
+    declarations: [SettingsComponent],
   });
 
   beforeEach(() => {
@@ -89,16 +89,13 @@ describe('SidebarComponent', () => {
       expect(component['dialog'].open).toHaveBeenCalled();
     });
     it('should setLocale and close sidenav on confirmation', () => {
-      component['sidenav'].close = jest.fn();
       component.setLanguage('en');
 
       dialogClose.next(true);
 
       expect(localeService.setLocale).toHaveBeenCalledWith('en' as MMLocales);
-      expect(component['sidenav'].close).toHaveBeenCalled();
     });
     it('should setValue on cancel', () => {
-      component['sidenav'].close = jest.fn();
       component.languageSelectControl.setValue = jest.fn();
       component.setLanguage('en');
 
@@ -124,16 +121,6 @@ describe('SidebarComponent', () => {
       const result = component.trackByFn(index);
 
       expect(result).toBe(index);
-    });
-  });
-
-  describe('#toggle', () => {
-    it('should call toggle the sidebar', () => {
-      component['sidenav'].toggle = jest.fn();
-
-      component.toggle();
-
-      expect(component['sidenav'].toggle).toHaveBeenCalled();
     });
   });
 });

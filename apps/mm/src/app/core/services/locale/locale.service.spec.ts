@@ -1,4 +1,3 @@
-import { OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
@@ -6,12 +5,17 @@ import { MMLocales } from './locale.enum';
 import { LocaleService } from './locale.service';
 import { MMSeparator } from './separator.enum';
 
+declare const window: {
+  OneTrust: {
+    changeLanguage: any;
+  };
+};
+
 const availableLangs: AvailableLangs = [];
 describe('LocaleService', () => {
   let spectator: SpectatorService<LocaleService>;
   let service: LocaleService;
   let translocoService: TranslocoService;
-  let onetrustService: OneTrustService;
 
   const createService = createServiceFactory({
     service: LocaleService,
@@ -24,12 +28,6 @@ describe('LocaleService', () => {
           setActiveLang: jest.fn(() => {}),
         },
       },
-      {
-        provide: OneTrustService,
-        useValue: {
-          translateBanner: jest.fn(() => {}),
-        },
-      },
     ],
   });
 
@@ -37,7 +35,6 @@ describe('LocaleService', () => {
     spectator = createService();
     service = spectator.inject(LocaleService);
     translocoService = spectator.inject(TranslocoService);
-    onetrustService = spectator.inject(OneTrustService);
   });
 
   it('should be created', () => {
@@ -64,13 +61,21 @@ describe('LocaleService', () => {
   });
 
   it('should set locale and not switch separator if manual separator is true', () => {
+    Object.defineProperty(global, 'window', {
+      value: {
+        OneTrust: {
+          changeLanguage: jest.fn(),
+        },
+      },
+    });
+
     service['separator'].next = jest.fn();
     service['manualSeparator'] = true;
 
     service.setLocale(MMLocales.en);
 
     expect(translocoService.setActiveLang).toHaveBeenCalledWith('en');
-    expect(onetrustService.translateBanner).toHaveBeenCalledWith('en', true);
+    expect(window.OneTrust.changeLanguage).toHaveBeenCalledWith('en');
     expect(service['separator'].next).not.toHaveBeenCalled();
   });
 

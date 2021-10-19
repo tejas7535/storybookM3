@@ -1,62 +1,61 @@
-<ng-container *transloco="let t">
-  <schaeffler-header
-    *ngIf="!embedded"
-    [platformTitle]="title"
-    [link]="'/'"
-    class="h-full"
-    [toggleEnabled]="true"
-    (toggle)="sidebar.toggle()"
-  >
-    <mm-sidebar #sidebar>
-      <ng-container *ngTemplateOutlet="sidebar_content"></ng-container>
-    </mm-sidebar>
-  </schaeffler-header>
-
-  <div *ngIf="embedded" class="h-full w-full fixed">
-    <div class="fixed z-10 bg-white">
-      <button
-        (click)="sidebar.toggle()"
-        mat-icon-button
-        [attr.aria-label]="t('settings')"
-      >
-        <mat-icon class="text-icon">menu</mat-icon>
-      </button>
+<schaeffler-app-shell
+  *ngIf="!embedded"
+  [appTitle]="title"
+  [appTitleLink]="'/'"
+  [hasSidebarLeft]="true"
+  [footerLinks]="footerLinks$ | ngrxPush"
+>
+  <ng-container sidenavBody>
+    <mm-settings></mm-settings>
+  </ng-container>
+  <ng-container mainContent>
+    <div class="h-full w-full">
+      <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
+  </ng-container>
+</schaeffler-app-shell>
 
-    <mm-sidebar #sidebar [embedded]="embedded">
-      <ng-container *ngTemplateOutlet="sidebar_content"></ng-container>
-    </mm-sidebar>
-  </div>
-
-  <ng-template #sidebar_content>
-    <div
-      [ngClass]="embedded ? 'bg-white' : 'bg-background'"
-      class="min-h-full flex flex-col"
+<div *ngIf="embedded" class="h-full w-full fixed">
+  <div class="z-10 fixed bg-white">
+    <button
+      (click)="drawer.toggle()"
+      mat-icon-button
+      attr.aria-label="settings"
     >
+      <mat-icon class="text-icon">menu</mat-icon>
+    </button>
+  </div>
+  <mat-drawer-container class="h-full">
+    <mat-drawer #drawer class="example-sidenav" mode="over">
+      <mm-settings #sidebar [embedded]="embedded"></mm-settings>
+    </mat-drawer>
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </mat-drawer-container>
+</div>
+
+<ng-template #content>
+  <div
+    [ngClass]="embedded ? 'bg-white' : 'bg-background'"
+    class="min-h-full flex flex-col"
+  >
+    <div
+      [ngClass]="embedded ? 'mt-5 pt-5 m-0 p-0' : 'md:m-4 px-4 pb-4'"
+      class="flex-auto bg-white"
+    >
+      <router-outlet></router-outlet>
       <div
-        [ngClass]="embedded ? 'mt-5 pt-5 m-0 p-0' : 'md:m-4 px-4 pb-4'"
-        class="flex-auto bg-white"
+        class="mx-auto max-w-screen-md w-full"
+        [ngClass]="{ hidden: !isCookiePage }"
       >
-        <router-outlet></router-outlet>
-        <div
-          class="mx-auto max-w-screen-md w-full"
-          [ngClass]="{ hidden: !isCookiePage }"
-        >
-          <div class="py-3">
-            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-              {{ cookieSettings }}
-            </button>
-          </div>
-          <div class="py-3">
-            <div id="ot-sdk-cookie-policy"></div>
-          </div>
+        <div class="py-3">
+          <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+            {{ cookieSettings }}
+          </button>
+        </div>
+        <div class="py-3">
+          <div id="ot-sdk-cookie-policy"></div>
         </div>
       </div>
-      <schaeffler-footer
-        *ngIf="!embedded"
-        class="flex-shrink-0 bg-white md:bg-background"
-        [footerLinks]="footerLinks$ | ngrxPush"
-      ></schaeffler-footer>
     </div>
-  </ng-template>
-</ng-container>
+  </div>
+</ng-template>

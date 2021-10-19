@@ -8,14 +8,13 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
-import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './core/components/sidebar/sidebar.component';
+import { SettingsComponent } from './core/components/settings/settings.component';
 import { MaterialModule } from './shared/material.module';
 
 describe('AppComponent', () => {
@@ -26,8 +25,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       NoopAnimationsModule,
-      HeaderModule,
-      FooterModule,
+      AppShellModule,
       RouterTestingModule,
       TranslocoTestingModule,
       ReactiveComponentModule,
@@ -41,7 +39,7 @@ describe('AppComponent', () => {
       MaterialModule,
     ],
     providers: [provideMockStore()],
-    declarations: [AppComponent, SidebarComponent],
+    declarations: [AppComponent, SettingsComponent],
   });
 
   beforeEach(() => {

@@ -1,9 +1,5 @@
-<mat-sidenav-container class="h-full" *transloco="let t; read: 'sidebar'">
-  <mat-sidenav
-    #sidenav
-    class="w-full md:w-80 px-4"
-    [ngClass]="embedded ? 'pt-12' : 'pt-4'"
-  >
+<div *transloco="let t; read: 'sidebar'">
+  <div class="w-full md:w-80 px-4" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
     <mat-form-field appearance="outline" class="w-full mt-1">
       <mat-label>{{ t('languageSelectLabel') }}</mat-label>
       <mat-select
@@ -31,8 +27,5 @@
         >
       </mat-select>
     </mat-form-field>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <ng-content></ng-content>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</div>
