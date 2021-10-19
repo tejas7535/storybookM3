@@ -1,10 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 import { getEdmHistogramState } from '../../reducers';
-import {
-  EdmHistogram,
-  EdmHistogramState,
-} from '../../reducers/edm-monitor/edm-histogram.reducer';
+import { EdmHistogramState } from '../../reducers/edm-monitor/edm-histogram.reducer';
 
 export const getEdmHistogramResult = createSelector(
   getEdmHistogramState,
@@ -31,8 +28,7 @@ export const getEdmHeatmapSeries = createSelector(
 
     // eslint-disable-next-line unicorn/no-array-reduce
     const max = result.reduce(
-      (acc, key) =>
-        Math.max(acc, key.clazz0, key.clazz1, key.clazz2, key.clazz3),
+      (acc, key) => Math.max(acc, ...clazzes.map((c) => key[c])),
       0
     );
 

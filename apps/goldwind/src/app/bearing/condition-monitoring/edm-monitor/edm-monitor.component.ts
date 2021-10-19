@@ -96,6 +96,7 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
     },
     series: [],
     grid: {
+      top: 0,
       left: 40,
       right: 0,
     },
