@@ -1,3 +1,10 @@
-export * from './lib/injection-tokens';
-export * from './lib/shared-transloco.loader';
-export * from './lib/shared-transloco.module';
+export {
+  SharedTranslocoModule,
+  preloadLanguage,
+  preLoad,
+} from './lib/shared-transloco.module';
+export {
+  DEFAULT_LANGUAGE,
+  FALLBACK_LANGUAGE,
+  I18N_CACHE_CHECKSUM,
+} from './lib/injection-tokens';

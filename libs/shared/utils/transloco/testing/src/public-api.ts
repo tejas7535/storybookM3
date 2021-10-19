@@ -1,1 +1,1 @@
-export * from './shared-transloco-testing.module';
+export { provideTranslocoTestingModule } from './shared-transloco-testing.module';
