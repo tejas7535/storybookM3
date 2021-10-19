@@ -3,7 +3,6 @@ export {
   preloadLanguage,
   preLoad,
 } from './lib/shared-transloco.module';
-export { provideTranslocoTestingModule } from './lib/shared-transloco-testing.module';
 export {
   DEFAULT_LANGUAGE,
   FALLBACK_LANGUAGE,
