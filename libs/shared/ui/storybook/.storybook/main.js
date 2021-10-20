@@ -4,15 +4,11 @@ module.exports = {
   ...rootMain,
   stories: ['../src/lib/**/*.stories.@(ts|js)'],
   addons: [
-    '@storybook/addon-controls',
-    '@storybook/addon-a11y',
-    '@storybook/addon-actions',
-    '@storybook/addon-storysource',
-    '@storybook/addon-viewport',
-    '@storybook/addon-notes/register',
-    '@storybook/addon-backgrounds',
     '@storybook/addon-essentials',
+    '@storybook/addon-a11y',
     'storybook-addon-designs',
+    '@storybook/addon-storysource',
+    'storybook-dark-mode',
   ],
   webpackFinal: async (config, { configType }) => {
     // apply any global webpack configs that might have been specified in .storybook/main.js

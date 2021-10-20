@@ -25,10 +25,6 @@ export default {
     }),
   ],
   parameters: {
-    backgrounds: {
-      default: 'Schaeffler',
-      values: [{ name: 'Schaeffler', value: '#dee4e7' }],
-    },
     notes: { markdown: READMEMd },
   },
 } as Meta<BannerTextComponent>;

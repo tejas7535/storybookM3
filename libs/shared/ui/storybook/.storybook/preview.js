@@ -1,4 +1,6 @@
 import { moduleMetadata } from '@storybook/angular';
+import { addParameters } from '@storybook/client-api';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 
 import { StorybookTranslocoModule } from './storybook-transloco.module';
 import {
@@ -12,6 +14,20 @@ export const decorators = [
     imports: [StorybookTranslocoModule],
   }),
 ];
+
+addParameters({
+  docs: {
+    // use existing notes from Readme.md files as docs description
+    extractComponentDescription: (component, { notes }) => {
+      if (notes) {
+        return typeof notes === 'string' ? notes : notes.markdown || notes.text;
+      }
+      return null;
+    },
+    container: DocsContainer,
+    page: DocsPage,
+  },
+});
 
 export const parameters = {
   options: {
@@ -32,6 +48,18 @@ export const parameters = {
     config: {},
     options: {},
     manual: true,
+  },
+  darkMode: {
+    stylePreview: true,
+  },
+  backgrounds: {
+    default: 'light',
+    values: [
+      { name: 'light', value: '#fafafa' },
+      { name: 'dark', value: '#333333' },
+      { name: 'white', value: '#ffffff' },
+      { name: 'black', value: '#000000' },
+    ],
   },
 };
 

@@ -28,10 +28,6 @@ export default {
   title: 'Components/App Shell',
   component: AppShellComponent,
   parameters: {
-    backgrounds: {
-      default: 'Schaeffler',
-      values: [{ name: 'Schaeffler', value: '#dee4e7' }],
-    },
     notes: { markdown: READMEMd },
   },
   decorators: [

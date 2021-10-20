@@ -11,10 +11,6 @@ export default {
   title: 'Empty-States/Forbidden',
   component: ForbiddenComponent,
   parameters: {
-    backgrounds: {
-      default: 'Schaeffler',
-      values: [{ name: 'Schaeffler', value: '#fafafa' }],
-    },
     notes: { markdown: READMEMd },
   },
   decorators: [

@@ -17,10 +17,6 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 export default {
   title: 'Components/Header',
   parameters: {
-    backgrounds: {
-      default: 'Schaeffler',
-      values: [{ name: 'Schaeffler', value: '#dee4e7' }],
-    },
     notes: { markdown: READMEMd },
   },
   component: HeaderComponent,
