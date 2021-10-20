@@ -1,15 +1,17 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+
 import {
   PictureCardComponent,
   PictureCardModule,
 } from '@schaeffler/picture-card';
 
 import READMEMd from '../../../picture-card/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/PictureCard',
+  title: `${NavigationMain.Components}/PictureCard`,
   component: PictureCardComponent,
   decorators: [
     moduleMetadata({

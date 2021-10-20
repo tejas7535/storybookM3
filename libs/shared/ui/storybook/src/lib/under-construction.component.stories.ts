@@ -9,10 +9,15 @@ import {
 } from '@schaeffler/empty-states';
 
 import READMEMd from '../../../empty-states/src/lib/under-construction/README.md';
+import { Badges } from '../../.storybook/storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../.storybook/storybook-navigation.constants';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Empty-States/Under Construction',
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Under Construction`,
   component: UnderConstructionComponent,
   decorators: [
     moduleMetadata({
@@ -26,6 +31,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.NeedsRevision],
   },
 } as Meta<UnderConstructionComponent>;
 

@@ -13,7 +13,7 @@ import { distinctUntilChanged, tap } from 'rxjs';
 import {
   STORYBOOK_DEFAULT_LANGUAGE,
   STORYBOOK_SUPPORTED_LANGUAGES,
-} from './transloco-storybook.constants';
+} from './storybook-transloco.constants';
 
 let translocoServiceInstance: TranslocoService | null;
 

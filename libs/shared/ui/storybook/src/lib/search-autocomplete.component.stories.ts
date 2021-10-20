@@ -1,4 +1,14 @@
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+
+import { ReactiveComponentModule } from '@ngrx/component';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
   SearchAutocompleteComponent,
@@ -7,15 +17,7 @@ import {
 } from '@schaeffler/search-autocomplete';
 
 import READMEMd from '../../../search-autocomplete/README.md';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 const options: SearchAutocompleteOption[] = [
   { title: 'Bearing A1', id: 'A1' },
@@ -30,7 +32,7 @@ const options: SearchAutocompleteOption[] = [
 ];
 
 export default {
-  title: 'Components/Search Autocomplete',
+  title: `${NavigationMain.Components}/Search Autocomplete`,
   components: SearchAutocompleteComponent,
   decorators: [
     moduleMetadata({

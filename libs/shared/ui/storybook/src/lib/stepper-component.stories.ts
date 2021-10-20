@@ -12,10 +12,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StepperModule } from '@schaeffler/stepper';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
+import { StepperModule } from '@schaeffler/stepper';
+
 import READMEMd from '../../../stepper/README.md';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 @Component({
   selector: 'wrapper',
@@ -82,7 +84,7 @@ class WrapperComponentForStepper implements OnInit {
 }
 
 export default {
-  title: 'Components/Stepper',
+  title: `${NavigationMain.Components}/Stepper`,
   component: WrapperComponentForStepper,
   decorators: [
     moduleMetadata({

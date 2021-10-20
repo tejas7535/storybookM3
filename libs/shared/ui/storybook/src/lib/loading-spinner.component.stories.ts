@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
 
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+
 import {
   LoadingSpinnerComponent,
   LoadingSpinnerModule,
 } from '@schaeffler/loading-spinner';
 
 import READMEMd from '../../../loading-spinner/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/Loading Spinner',
+  title: `${NavigationMain.Components}/Loading Spinner`,
   component: LoadingSpinnerComponent,
   decorators: [
     moduleMetadata({

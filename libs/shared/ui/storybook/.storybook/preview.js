@@ -6,7 +6,12 @@ import { StorybookTranslocoModule } from './storybook-transloco.module';
 import {
   STORYBOOK_DEFAULT_LANGUAGE,
   STORYBOOK_SUPPORTED_LANGUAGES,
-} from './transloco-storybook.constants';
+} from './storybook-transloco.constants';
+import {
+  NavigationMain,
+  NavigationAtomic,
+} from './storybook-navigation.constants';
+import { Badges } from './storybook-badges.constants';
 
 export const decorators = [
   // add global modules which will be available for all stories
@@ -27,18 +32,44 @@ addParameters({
     container: DocsContainer,
     page: DocsPage,
   },
+  badgesConfig: {
+    [Badges.InProgress]: {
+      contrast: '#1d9bb2',
+      color: '#fff',
+      title: 'In Progress',
+    },
+    [Badges.NeedsRevision]: {
+      contrast: '#fccf46',
+      color: '#000',
+      title: 'Needs Revision',
+    },
+    [Badges.Final]: {
+      contrast: '#00893d',
+      color: '#fff',
+      title: 'Final',
+    },
+    [Badges.Deprecated]: {
+      contrast: '#e62c27',
+      color: '#fff',
+      title: 'Deprecated',
+    },
+  },
 });
 
 export const parameters = {
   options: {
     storySort: {
       order: [
-        'Material',
-        ['Atoms', 'Molecules', 'Organisms'],
-        'Components',
-        'Empty-States',
-        '*',
-        'WIP',
+        NavigationMain.Atomic,
+        [
+          NavigationAtomic.Atoms,
+          NavigationAtomic.Molecules,
+          NavigationAtomic.Organisms,
+          NavigationAtomic.Pages,
+        ],
+        NavigationMain.Components,
+        NavigationMain.Deprecated,
+        NavigationMain.Rest,
       ],
     },
     includeName: true,

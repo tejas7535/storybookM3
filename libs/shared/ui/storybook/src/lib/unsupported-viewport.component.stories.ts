@@ -9,10 +9,15 @@ import {
 } from '@schaeffler/empty-states';
 
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
+import { Badges } from '../../.storybook/storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../.storybook/storybook-navigation.constants';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Empty-States/Unsupported Viewport',
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Unsupported Viewport`,
   component: UnsupportedViewportComponent,
   decorators: [
     moduleMetadata({
@@ -26,6 +31,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEmd },
+    badges: [Badges.NeedsRevision],
   },
 } as Meta<UnsupportedViewportComponent>;
 

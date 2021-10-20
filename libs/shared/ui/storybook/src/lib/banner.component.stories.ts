@@ -8,10 +8,11 @@ import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/bann
 import { BannerTextComponent } from '@schaeffler/banner';
 
 import READMEMd from '../../../banner/README.md';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Components/Banner',
+  title: `${NavigationMain.Components}/Banner`,
   component: BannerTextComponent,
   decorators: [
     moduleMetadata({

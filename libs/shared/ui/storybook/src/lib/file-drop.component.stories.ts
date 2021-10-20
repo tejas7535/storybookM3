@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 
-import { FileDropComponent, FileDropModule } from '@schaeffler/file-drop';
-
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
+import { FileDropComponent, FileDropModule } from '@schaeffler/file-drop';
+
 import READMEMd from '../../../dropdown-input/README.md';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/File Drop',
+  title: `${NavigationMain.Components}/File Drop`,
   component: FileDropComponent,
   decorators: [
     moduleMetadata({

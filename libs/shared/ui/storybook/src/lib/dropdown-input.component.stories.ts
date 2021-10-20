@@ -1,15 +1,17 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+
 import {
   DropdownInputComponent,
   DropdownInputModule,
 } from '@schaeffler/dropdown-input';
 
 import READMEMd from '../../../dropdown-input/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/DropdownInput',
+  title: `${NavigationMain.Components}/DropdownInput`,
   component: DropdownInputComponent,
   decorators: [
     moduleMetadata({

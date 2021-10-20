@@ -1,15 +1,17 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+
 import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { HeaderModule } from '@schaeffler/header';
 import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 
 import READMEMd from '../../../sidebar/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/Subheader',
+  title: `${NavigationMain.Components}/Subheader`,
   component: SubheaderComponent,
   decorators: [
     moduleMetadata({

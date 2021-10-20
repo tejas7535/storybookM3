@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { Meta, moduleMetadata } from '@storybook/angular';
 
 import {
@@ -14,13 +15,14 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
 import READMEMd from '../../../share-button/README.md';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 import {
   getMultiLanguageStoryTemplate,
   StorybookTranslocoModule,
 } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Components/Share Button',
+  title: `${NavigationMain.Components}/Share Button`,
   component: ShareButtonComponent,
   decorators: [
     moduleMetadata({

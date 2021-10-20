@@ -1,10 +1,16 @@
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+
 import READMEMd from './elevation/README.md';
 
 export default {
-  title: 'Material/Atoms/Elevation',
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Atoms}/Elevation`,
   decorators: [
     moduleMetadata({
       imports: [],
@@ -13,6 +19,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=151%3A11',

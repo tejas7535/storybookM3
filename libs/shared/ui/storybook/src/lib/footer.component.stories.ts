@@ -2,13 +2,15 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
+
 import { FooterComponent, FooterModule } from '@schaeffler/footer';
 
 import READMEMd from '../../../footer/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/Footer',
+  title: `${NavigationMain.Components}/Footer`,
   component: FooterComponent,
   decorators: [
     moduleMetadata({

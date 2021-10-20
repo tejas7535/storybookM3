@@ -10,10 +10,15 @@ import {
 } from '@schaeffler/empty-states';
 
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
+import { Badges } from '../../.storybook/storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../.storybook/storybook-navigation.constants';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 export default {
-  title: 'Empty-States/Page Not Found',
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Pages}/Page Not Found`,
   component: PageNotFoundComponent,
   decorators: [
     moduleMetadata({
@@ -30,6 +35,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.NeedsRevision],
   },
 } as Meta<PageNotFoundComponent>;
 

@@ -15,6 +15,7 @@ import { AppShellComponent } from '@schaeffler/app-shell';
 
 import { UserPanelComponent } from '../../../app-shell/src/lib/components/user-panel/user-panel.component';
 import READMEMd from '../../../app-shell/README.md';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 interface AppShellStorybookTemplate {
@@ -25,7 +26,7 @@ interface AppShellStorybookTemplate {
 }
 
 export default {
-  title: 'Components/App Shell',
+  title: `${NavigationMain.Components}/App Shell`,
   component: AppShellComponent,
   parameters: {
     notes: { markdown: READMEMd },

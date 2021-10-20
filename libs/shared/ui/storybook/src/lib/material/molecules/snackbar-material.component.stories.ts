@@ -10,6 +10,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { withDesign } from 'storybook-addon-designs';
 
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
+import {
+  NavigationMain,
+  NavigationAtomic,
+} from '../../../../.storybook/storybook-navigation.constants';
+
 import READMEMd from './snackbar/README.md';
 
 // noinspection AngularMissingOrInvalidDeclarationInModule
@@ -64,7 +70,7 @@ class SnackbarExampleComponent {
 }
 
 export default {
-  title: 'Material/Molecules/Snackbar',
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Snackbar`,
   component: SnackbarExampleComponent,
   decorators: [
     moduleMetadata({
@@ -83,6 +89,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.NeedsRevision],
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=784%3A1768',

@@ -9,8 +9,10 @@ import {
   BreadcrumbsModule,
 } from '@schaeffler/breadcrumbs';
 
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+
 export default {
-  title: 'Components/Breadcrumbs',
+  title: `${NavigationMain.Components}/Breadcrumbs`,
   component: BreadcrumbsComponent,
   decorators: [
     moduleMetadata({

@@ -7,9 +7,10 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { ReportComponent, ReportModule } from '@schaeffler/report';
 
 import READMEMd from '../../../picture-card/README.md';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/Report',
+  title: `${NavigationMain.Components}/Report`,
   component: ReportComponent,
   decorators: [
     moduleMetadata({

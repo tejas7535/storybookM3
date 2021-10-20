@@ -3,21 +3,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreModule } from '@ngrx/store';
-import { UserMenuModule } from 'libs/shared/ui/header/src/lib/user-menu/user-menu.module';
+
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
   HeaderComponent,
   HeaderModule,
   UserMenuComponent,
 } from '@schaeffler/header';
+import { UserMenuModule } from 'libs/shared/ui/header/src/lib/user-menu/user-menu.module';
 
 import READMEMd from '../../../header/README.md';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Badges } from '../../.storybook/storybook-badges.constants';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/Header',
+  title: `${NavigationMain.Deprecated}/Header`,
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Deprecated],
   },
   component: HeaderComponent,
   decorators: [

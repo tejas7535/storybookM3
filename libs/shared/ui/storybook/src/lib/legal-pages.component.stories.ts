@@ -16,6 +16,8 @@ import {
   LegalRoute,
   PERSON_RESPONSIBLE,
 } from '@schaeffler/legal-pages';
+
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
 
 const routerMock = {
@@ -26,7 +28,7 @@ const routerMock = {
 };
 
 export default {
-  title: 'Components/Legal Pages',
+  title: `${NavigationMain.Components}/Legal Pages`,
   decorators: [
     moduleMetadata({
       imports: [StorybookTranslocoModule, LegalModule, RouterModule],

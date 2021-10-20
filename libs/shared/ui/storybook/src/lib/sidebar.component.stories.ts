@@ -15,9 +15,11 @@ import {
 } from '@schaeffler/sidebar';
 
 import READMEMd from '../../../sidebar/README.md';
+import { Badges } from '../../.storybook/storybook-badges.constants';
+import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: 'Components/Sidebar',
+  title: `${NavigationMain.Deprecated}/Sidebar`,
   component: SidebarComponent,
   decorators: [
     moduleMetadata({
@@ -35,6 +37,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Deprecated],
   },
 } as Meta<SidebarComponent>;
 
