@@ -1,17 +1,21 @@
 @use '~@angular/material' as mat;
-/* required imports for tailwind project to use material theme */
-@import 'libs/shared/ui/styles/src/lib/material-theme';
-@include mat.core();
-@include mat.all-component-themes($schaeffler-theme);
-button {
-  outline: none !important;
-}
-/* end of required imports for tailwind project to use material theme */
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/* required imports for angular material theme */
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+/* required imports for tailwind project to use material theme */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* overrides and customization */
+button {
+  outline: none !important;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

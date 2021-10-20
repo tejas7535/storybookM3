@@ -20,4 +20,7 @@ $schaeffler-theme: mat.define-light-theme(
   $schaeffler-warn
 );
 
+@include mat.core();
+@include mat.all-component-themes($schaeffler-theme);
+
 @include overrides.schaeffler-theme-overrides($schaeffler-theme);

@@ -1,11 +1,8 @@
-@use '~@angular/material' as mat;
 @import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
 @import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
 
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'libs/shared/ui/styles/src/lib/material-theme';
-@include mat.core();
-@include mat.all-component-themes($schaeffler-theme);
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 @import 'tailwindcss/base';

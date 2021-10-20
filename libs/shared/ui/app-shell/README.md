@@ -18,12 +18,9 @@ As this lib depends on [Angular Material](https://material.angular.io) (includin
  * see https://material.angular.io
  * and material icons, see https://fonts.google.com/icons
  */
-@use '~@angular/material' as mat;
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 @import 'libs/shared/ui/styles/src/lib/material-theme';
-@include mat.core();
-@include mat.all-component-themes($schaeffler-theme);
 
 /*
  * further / custom components
