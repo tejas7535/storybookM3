@@ -1,3 +1,5 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -19,7 +21,10 @@ describe('OrganizationalViewComponent', () => {
     component: OrganizationalViewComponent,
     detectChanges: false,
     imports: [SharedModule, ToggleChartsModule],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

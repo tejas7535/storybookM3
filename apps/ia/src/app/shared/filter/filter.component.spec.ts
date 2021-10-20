@@ -1,3 +1,5 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -19,12 +21,14 @@ describe('FilterComponent', () => {
 
   const createComponent = createComponentFactory({
     component: FilterComponent,
+    detectChanges: false,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       AutocompleteInputModule,
       SelectInputModule,
       DateInputModule,
     ],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

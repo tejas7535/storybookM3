@@ -2,6 +2,7 @@ import {
   MatButtonToggleChange,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -24,7 +25,7 @@ describe('ToggleChartsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatTooltipModule,
     ],
-    providers: [],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

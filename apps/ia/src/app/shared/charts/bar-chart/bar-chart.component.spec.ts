@@ -1,5 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockComponent } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { BarChartConfig } from '../models/bar-chart-config.model';
 import { BarChartComponent } from './bar-chart.component';
@@ -19,6 +20,11 @@ describe('BarChartComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BarChartComponent,
+    imports: [
+      NgxEchartsModule.forRoot({
+        echarts: async () => import('echarts'),
+      }),
+    ],
     declarations: [MockComponent(BarChartComponent)],
   });
 

@@ -1,35 +1,36 @@
-<schaeffler-header
-  [platformTitle]="title"
-  class="h-full overflow-hidden"
-  *ngIf="getIsLoggedIn$ | ngrxPush; else loading"
+<schaeffler-app-shell
+  *ngIf="isLoggedIn$ | ngrxPush; else loading"
+  [appTitle]="title"
+  [hasSidebarLeft]="true"
+  [userName]="username$ | ngrxPush"
+  [userImageUrl]="profileImage$ | ngrxPush"
 >
-  <schaeffler-user-menu
-    user-menu
-    [user]="username$ | ngrxPush"
-    [profileImage]="profileImage$ | ngrxPush"
-    [entries]="userMenuEntries"
-  ></schaeffler-user-menu>
+  <ng-container sidenavBody>
+    <ia-user-settings></ia-user-settings>
+  </ng-container>
 
-  <div class="flex flex-col h-full">
-    <ia-filter-section></ia-filter-section>
+  <ng-container mainContent>
+    <div class="flex flex-col h-full w-full">
+      <ia-filter-section></ia-filter-section>
 
-    <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'tabs'">
-      <a
-        *ngFor="let tab of tabs; trackBy: trackByFn"
-        mat-tab-link
-        routerLinkActive
-        #rla="routerLinkActive"
-        [routerLink]="tab.path"
-        [active]="rla.isActive"
-        [disabled]="tab.disabled"
-        >{{ t(tab.label) | uppercase }}</a
-      >
-    </nav>
-    <div class="flex flex-col overflow-y-auto flex-grow p-4 bg-lightBg">
-      <router-outlet></router-outlet>
+      <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'tabs'">
+        <a
+          *ngFor="let tab of tabs; trackBy: trackByFn"
+          mat-tab-link
+          routerLinkActive
+          #rla="routerLinkActive"
+          [routerLink]="tab.path"
+          [active]="rla.isActive"
+          [disabled]="tab.disabled"
+          >{{ t(tab.label) | uppercase }}</a
+        >
+      </nav>
+      <div class="flex flex-col overflow-y-auto flex-grow p-4 bg-lightBg">
+        <router-outlet></router-outlet>
+      </div>
     </div>
-  </div>
-</schaeffler-header>
+  </ng-container>
+</schaeffler-app-shell>
 
 <ng-template #loading>
   <schaeffler-loading-spinner

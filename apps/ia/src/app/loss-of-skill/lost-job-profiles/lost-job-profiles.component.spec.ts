@@ -1,4 +1,5 @@
 import { SimpleChange, SimpleChanges } from '@angular/core';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { GridApi, GridReadyEvent } from '@ag-grid-community/core';
@@ -26,6 +27,7 @@ describe('LostJobProfilesComponent', () => {
       EmployeeListDialogModule,
       AgGridModule.withComponents([EmployeeListDialogComponent]),
     ],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

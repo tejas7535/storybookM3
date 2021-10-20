@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -14,6 +15,7 @@ describe('AttritionDialogMetaComponent', () => {
     component: AttritionDialogMetaComponent,
     detectChanges: false,
     imports: [provideTranslocoTestingModule({ en: {} }), MatIconModule],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

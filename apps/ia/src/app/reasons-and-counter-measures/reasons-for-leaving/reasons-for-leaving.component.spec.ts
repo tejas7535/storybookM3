@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { marbles } from 'rxjs-marbles/jest';
 
@@ -43,13 +44,17 @@ describe('ReasonsForLeavingComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ReasonsForLeavingComponent,
+    detectChanges: false,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       MatCardModule,
       ReasonsForLeavingTableModule,
       ReactiveComponentModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

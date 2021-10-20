@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AppComponent,
+    detectChanges: false,
     imports: [
       NoopAnimationsModule,
       HeaderModule,
@@ -44,6 +46,7 @@ describe('AppComponent', () => {
           },
         },
       }),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [AppComponent],
   });

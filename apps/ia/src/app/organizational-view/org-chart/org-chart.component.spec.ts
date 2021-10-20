@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -29,7 +30,10 @@ describe('OrgChartComponent', () => {
       LoadingSpinnerModule,
       MatDialogModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

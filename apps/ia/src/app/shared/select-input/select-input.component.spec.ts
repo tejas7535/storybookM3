@@ -1,4 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -15,6 +16,7 @@ describe('SelectInputComponent', () => {
     component: SelectInputComponent,
     declarations: [SelectInputComponent],
     imports: [MatSelectModule, FormsModule, ReactiveFormsModule],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

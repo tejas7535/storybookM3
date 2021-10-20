@@ -1,4 +1,5 @@
 import { ComponentFixture } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { By } from '@angular/platform-browser';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -7,15 +8,15 @@ import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
+import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
+import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { KpiModule } from '../../shared/kpi/kpi.module';
 import { FilterKey } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';
-import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
-import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { EntriesExitsComponent } from './entries-exits.component';
 
 describe('EntriesExitsComponent', () => {
@@ -52,6 +53,7 @@ describe('EntriesExitsComponent', () => {
           },
         },
       }),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     imports: [
       SharedModule,

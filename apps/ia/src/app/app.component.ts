@@ -9,7 +9,6 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
-import { UserMenuEntry } from '@schaeffler/header';
 
 import { AppRoutePath } from './app-route-path.enum';
 
@@ -27,8 +26,7 @@ export class AppComponent implements OnInit {
 
   username$: Observable<string>;
   profileImage$: Observable<string>;
-  userMenuEntries: UserMenuEntry[] = [];
-  getIsLoggedIn$: Observable<boolean>;
+  isLoggedIn$: Observable<boolean>;
 
   public tabs: TabElem[] = [
     {
@@ -63,7 +61,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
     this.profileImage$ = this.store.select(getProfileImage);
-    this.getIsLoggedIn$ = this.store.select(getIsLoggedIn);
+    this.isLoggedIn$ = this.store.select(getIsLoggedIn);
   }
 
   public trackByFn(index: number): number {

@@ -5,6 +5,7 @@ import {
   DragDropModule,
 } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -43,10 +44,8 @@ describe('FeaturesDialogComponent', () => {
       MatSnackBarModule,
     ],
     providers: [
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: data,
-      },
+      { provide: MAT_DIALOG_DATA, useValue: data },
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });
 

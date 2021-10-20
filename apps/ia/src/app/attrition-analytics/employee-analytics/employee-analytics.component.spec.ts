@@ -1,3 +1,6 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockComponent } from 'ng-mocks';
 
@@ -10,7 +13,9 @@ describe('EmployeeAnalyticsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EmployeeAnalyticsComponent,
+    imports: [MatIconModule],
     declarations: [MockComponent(BarChartComponent)],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

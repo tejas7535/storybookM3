@@ -1,5 +1,8 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MATERIAL_SANITY_CHECKS,
+  MatNativeDateModule,
+} from '@angular/material/core';
 import {
   MatDatepickerInputEvent,
   MatDatepickerModule,
@@ -32,6 +35,7 @@ describe('DateInputComponent', () => {
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en }),
     ],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

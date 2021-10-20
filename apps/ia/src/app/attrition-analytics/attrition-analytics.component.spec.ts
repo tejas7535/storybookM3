@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -61,6 +62,7 @@ describe('AttritionAnalyticsComponent', () => {
           attritionAnalytics: initialState,
         },
       }),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [MockComponent(BarChartComponent)],
     entryComponents: [EmployeeAnalyticsComponent],

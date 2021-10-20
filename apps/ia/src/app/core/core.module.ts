@@ -27,7 +27,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
-import { AppComponent } from '../app.component';
 import { FilterSectionModule } from '../filter-section/filter-section.module';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
@@ -45,7 +44,6 @@ const azureConfig = new AzureConfig(
 );
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [
     BrowserAnimationsModule,
 
@@ -89,6 +87,5 @@ const azureConfig = new AzureConfig(
     },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2000 } },
   ],
-  exports: [AppComponent],
 })
 export class CoreModule {}

@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -15,7 +16,7 @@ describe('KpiComponent', () => {
   const createComponent = createComponentFactory({
     component: KpiComponent,
     detectChanges: false,
-    providers: [],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     imports: [
       SharedModule,
       MatIconModule,

@@ -1,5 +1,6 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
@@ -27,10 +28,8 @@ describe('EmployeeListDialogComponent', () => {
       ScrollingModule,
     ],
     providers: [
-      {
-        provide: MAT_DIALOG_DATA,
-        useValue: {},
-      },
+      { provide: MAT_DIALOG_DATA, useValue: {} },
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });
 
