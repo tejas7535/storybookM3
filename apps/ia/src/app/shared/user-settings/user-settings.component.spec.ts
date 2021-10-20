@@ -10,7 +10,7 @@ import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { Language } from '../models';
 import { UserSettingsComponent } from './user-settings.component';
