@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-
-import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import {
@@ -15,12 +11,10 @@ import {
   ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
-import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppRoutePath } from '../app-route-path.enum';
-import { AppComponent } from '../app.component';
 import { StoreModule } from './store/store.module';
 
 const azureConfig = new AzureConfig(
@@ -36,18 +30,12 @@ const azureConfig = new AzureConfig(
 );
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [
     BrowserAnimationsModule,
 
     // NgRx Setup
     StoreModule,
-    ReactiveComponentModule,
     RouterModule,
-
-    // UI Modules
-    HeaderModule,
-    MatButtonModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
@@ -64,8 +52,6 @@ const azureConfig = new AzureConfig(
 
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
-    MatProgressSpinnerModule,
   ],
-  exports: [AppComponent],
 })
 export class CoreModule {}

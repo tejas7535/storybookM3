@@ -1,27 +1,17 @@
-<schaeffler-header
-  [platformTitle]="title"
-  class="full-height"
+<schaeffler-app-shell
   *ngIf="getIsLoggedIn$ | ngrxPush; else loading"
+  [appTitle]="title"
+  [hasSidebarLeft]="true"
+  [userName]="username$ | ngrxPush"
+  [userImageUrl]="profileImage$ | ngrxPush"
 >
-  <schaeffler-user-menu
-    user-menu
-    [user]="username$ | ngrxPush"
-    [profileImage]="profileImage$ | ngrxPush"
-    [entries]="userMenuEntries"
-  ></schaeffler-user-menu>
-
-  <router-outlet></router-outlet>
-</schaeffler-header>
+  <ng-container mainContent>
+    <div class="h-full w-full">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
+</schaeffler-app-shell>
 
 <ng-template #loading>
-  <div class="progress-spinner-wrapper">
-    <mat-progress-spinner
-      color="primary"
-      mode="indeterminate"
-      diameter="40"
-      value="50"
-      class="progress-spinner"
-    >
-    </mat-progress-spinner>
-  </div>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>
