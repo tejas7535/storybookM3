@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  localDev: true,
   devToolsEnabled: true,
   publicSecurityBureauNumber: 'LOCAL_TESTING',
   icpnumber: '- ENVIRONMENT',
