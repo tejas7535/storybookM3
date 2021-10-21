@@ -3,16 +3,7 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
-## [](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v...mm-v0.1.7) (2021-10-20)
-
-
-### 🐛 Bug Fixes
-
-* **ga:** change cookie settings language (UFTABI-5111) ([#2989](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2989)) ([9f2561c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f2561c2fd0b024fc6922b123041265b9e877b47))
-* **mm:** bearing selection visible (UFTABI-5152) ([#3050](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3050)) ([1e10a3f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e10a3f5bde5f10fa38d224f33f19846812edcea))
-* **mm:** prevent title clipping ([#3042](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3042)) ([e74cda4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e74cda4ec943f31542a70e457c56a91a190b3c49))
-* **mm:** translate footerlinks on language change ([#3152](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3152)) ([8cec54b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8cec54bad0cbc78d7585903da3d7ca15ecc9a23d))
-* **workspace:** correct style button and font regressions ([93b8427](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93b8427b40554a19024ea30d765c546965d2f0e9))
+### [0.1.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.8...mm-v0.1.7) (2021-10-21)
 
 
 ### 🎸 Features
@@ -21,6 +12,16 @@ All notable changes to this project will be documented in this file. See [standa
 * **mm:** migrate to app-shell ([#3135](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3135)) ([7ad66f8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7ad66f8b8fd4ae438a0a68a6bcca9aea266fc3bb))
 * **mm:** migrate to HttpClient ([#3127](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3127)) ([e7ec7d6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7ec7d63549df1f6db8145cd7be47d6d736ab534))
 * **mm:** use different apis in environement ([#2984](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2984)) ([b20e4ac](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b20e4ac0a2620e0f1b0643beb713dc93a0210df8))
+
+
+### 🐛 Bug Fixes
+
+* **ga:** change cookie settings language (UFTABI-5111) ([#2989](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2989)) ([9f2561c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f2561c2fd0b024fc6922b123041265b9e877b47))
+* **mm:** bearing selection visible (UFTABI-5152) ([#3050](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3050)) ([1e10a3f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e10a3f5bde5f10fa38d224f33f19846812edcea))
+* **mm:** prevent title clipping ([#3042](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3042)) ([e74cda4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e74cda4ec943f31542a70e457c56a91a190b3c49))
+* **mm:** reset mm version ([#3190](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3190)) ([72d8c27](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/72d8c27266d566db5407c682ce5bcf750908198b))
+* **mm:** translate footerlinks on language change ([#3152](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3152)) ([8cec54b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8cec54bad0cbc78d7585903da3d7ca15ecc9a23d))
+* **workspace:** correct style button and font regressions ([93b8427](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/93b8427b40554a19024ea30d765c546965d2f0e9))
 
 ### [0.1.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.7...mm-v0.1.6) (2021-09-21)
 
