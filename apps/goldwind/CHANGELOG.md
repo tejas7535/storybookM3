@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.1...goldwind-v0.2.0) (2021-10-21)
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** change unit from N to kN ([#3199](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3199)) ([4095ba3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4095ba388c7bab9b704890034471db752de50266))
+* **goldwind:** edm display dynamic clazz data ([#3179](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3179)) ([fc1e94a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc1e94a760baa0fb0d215202fb46f46b46054d49))
+* **goldwind:** force set height for 1080p display, not nice i know ([#3180](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3180)) ([9a8f647](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a8f6474aa16191f85fdd37253467837c2ec7818))
+* **goldwind:** remove unit for edm lines ([#3200](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3200)) ([8b12a16](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b12a167412e3e6b0e6e95e6e0d37d94fd64b04f))
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.0...goldwind-v0.1.0) (2021-10-19)
 
 
