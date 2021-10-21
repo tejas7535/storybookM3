@@ -1,8 +1,4 @@
 @use '~@angular/material' as mat;
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
 /* required imports for tailwind project to use material theme */
 @import 'libs/shared/ui/styles/src/lib/material-theme';
 @include mat.core();
@@ -12,6 +8,10 @@ button {
 }
 /* end of required imports for tailwind project to use material theme */
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
