@@ -53,14 +53,12 @@ export const MAINTENACE_ASSESSMENT_CONTROLS: Control[] = [
   {
     label: 'edm01Ai01Counter',
     formControl: 'edm01Ai01Counter',
-    unit: Unit.percent,
     type: Type.edm,
     color: '#1B9BAD',
   },
   {
     label: 'edm01Ai02Counter',
     formControl: 'edm01Ai02Counter',
-    unit: Unit.percent,
     type: Type.edm,
     color: '#2296F0',
   },

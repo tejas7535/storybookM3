@@ -17,6 +17,6 @@ export interface Control {
   color?: string;
   label: string;
   formControl: string;
-  unit: Unit;
+  unit?: Unit;
   type?: Type;
 }

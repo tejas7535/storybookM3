@@ -182,7 +182,7 @@ export class AssessmentLinechartComponent
 
         const result = `${acc}${translate(`${this.translateKey}.${label}`)}: ${
           param.data.value[1]
-        } ${unit}<br>`;
+        } ${unit || ''}<br>`;
 
         return index === params.length - 1
           ? `${result}${new Date(param.data.value[0]).toLocaleString(
