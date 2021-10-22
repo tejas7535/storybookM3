@@ -7,10 +7,10 @@ import { MaterialTransformPipe } from '../material-transform/material-transform.
   name: 'materialInfo',
 })
 export class MaterialInfoPipe implements PipeTransform {
-  transform(value: MaterialDetails): string {
-    const materialPipe = new MaterialTransformPipe();
+  constructor(private readonly materialTransformPipe: MaterialTransformPipe) {}
 
-    return `${materialPipe.transform(value.materialNumber15)} | ${
+  transform(value: MaterialDetails): string {
+    return `${this.materialTransformPipe.transform(value.materialNumber15)} | ${
       value.materialDescription
     }`;
   }

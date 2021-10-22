@@ -115,6 +115,7 @@ export class CreateCaseEffects {
     return this.actions$.pipe(
       ofType(autocompleteSuccess.type),
       withLatestFrom(this.store.select(getAutoSelectMaterial)),
+      filter(([_action, caseFilterItem]) => !!caseFilterItem),
       map(([_action, caseFilterItem]) =>
         setSelectedAutocompleteOption({
           filter: caseFilterItem.filter,
