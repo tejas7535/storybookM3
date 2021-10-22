@@ -13,7 +13,6 @@ import {
   testHeaderWithBurgerMenu,
   testHeaderWithUserMenu,
 } from '../support/header.po';
-import { testSettingsSidebar } from '../support/settings-sidebar.po';
 import { testSidebar } from '../support/sidebar.po';
 import {
   testErrorToast,
@@ -78,12 +77,6 @@ describe('Mobile View', () => {
 
     it('should have user menu', () => {
       testHeaderWithUserMenu(true);
-    });
-  });
-
-  context('Settings Sidebar', () => {
-    it('should close and open', () => {
-      testSettingsSidebar();
     });
   });
 

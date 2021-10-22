@@ -1,21 +1,44 @@
-<schaeffler-settings-sidebar
-  [openSidebarBtn]="isLessThanMediumViewPort$ | ngrxPush"
-  [closeSidebarBtn]="isLessThanMediumViewPort$ | ngrxPush"
-  [open]="(isLessThanMediumViewPort$ | ngrxPush) === false"
->
-  <ng-container settings-header>
-    <button
-      (click)="handleReset()"
-      mat-button
-      color="primary"
-      class="reset-button"
+<div class="w-full h-full">
+  <mat-sidenav-container class="ltp-sidenav-container">
+    <mat-sidenav
+      #settingsSidebar
+      fullscreen
+      [opened]="(isLessThanMediumViewPort$ | ngrxPush) === false"
+      [mode]="(isLessThanMediumViewPort$ | ngrxPush) ? 'over' : 'side'"
+      position="end"
+      [fixedInViewport]="true"
+      fixedTopGap="60"
+      class="w-full sm:w-96"
     >
-      RESET
-    </button>
-  </ng-container>
-  <ng-container container
-    ><mac-ltp-prediction></mac-ltp-prediction></ng-container
-  ><ng-container sidebar>
-    <mac-ltp-input></mac-ltp-input>
-  </ng-container>
-</schaeffler-settings-sidebar>
+      <div class="flex flex-row-reverse justify-between">
+        <button
+          (click)="handleReset()"
+          mat-button
+          color="primary"
+          class="reset-button"
+        >
+          RESET
+        </button>
+        <button
+          mat-icon-button
+          (click)="settingsSidebar.toggle()"
+          *ngIf="isMobileViewPort$ | ngrxPush"
+        >
+          <mat-icon>tune</mat-icon>
+        </button>
+      </div>
+      <mac-ltp-input></mac-ltp-input>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button
+        mat-icon-button
+        *ngIf="(isMobileViewPort$ | ngrxPush) && !settingsSidebar.opened"
+        (click)="settingsSidebar.toggle()"
+        class="sidebar-button"
+      >
+        <mat-icon>tune</mat-icon>
+      </button>
+      <mac-ltp-prediction></mac-ltp-prediction>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

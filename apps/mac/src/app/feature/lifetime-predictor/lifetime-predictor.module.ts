@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 
-import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InputModule } from './input/input.module';
@@ -22,13 +23,14 @@ import { reducers } from './store/reducers';
     CommonModule,
     LifetimePredictorRoutingModule,
     ReactiveComponentModule,
-    SettingsSidebarModule,
     InputModule,
     PredictionModule,
     SharedTranslocoModule,
     NgrxStoreModule.forFeature('ltp', reducers),
     EffectsModule.forFeature([InputEffects, PredictionEffects]),
     MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
   ],
 })
 export class LifetimePredictorModule {}

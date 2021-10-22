@@ -16,6 +16,7 @@ import * as fromStore from './store';
 })
 export class LifetimePredictorComponent implements OnInit {
   public isLessThanMediumViewPort$: Observable<boolean>;
+  public isMobileViewPort$: Observable<boolean>;
 
   public constructor(
     private readonly store: Store,
@@ -26,6 +27,7 @@ export class LifetimePredictorComponent implements OnInit {
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - LTP] opened');
     this.isLessThanMediumViewPort$ = this.breakpointService.isLessThanMedium();
+    this.isMobileViewPort$ = this.breakpointService.isMobileViewPort();
   }
 
   public handleReset(): void {

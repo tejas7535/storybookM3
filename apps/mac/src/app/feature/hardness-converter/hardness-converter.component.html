@@ -1,77 +1,149 @@
-<div class="hardness-converter-wrapper">
-  <mat-card class="hardness-converter">
+<div class="overflow-hidden m-10 sm:max-w-lg sm:mx-auto">
+  <mat-card class="mx-auto hardness-converter-card">
     <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | ngrxPush"></mac-breadcrumbs>
-    <mat-card-title>Hardness Converter</mat-card-title>
+    <mat-card-title class="mx-4">Hardness Converter</mat-card-title>
+    <div
+      class="
+        h-full
+        w-full
+        z-10
+        ease-in-out
+        duration-300
+        overflow-hidden
+        bg-white
+        opacity-70
+        justify-center
+        absolute
+        flex
+      "
+      [ngClass]="{ hidden: unitList.length !== 0 }"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
     <mat-card-content>
-      <div
-        class="spinner-wrapper"
-        [ngClass]="{ hidden: unitList.length !== 0 }"
-      >
-        <mat-spinner></mat-spinner>
-      </div>
-      <form [formGroup]="hardness">
-        <div class="hardness-value">
-          <mat-form-field class="value-input-wrapper">
-            <mat-label>Value</mat-label>
-            <input
-              formControlName="value"
-              matInput
-              type="number"
-              [step]="step"
-              (keyup)="handleKeyInput($event.key, $event.target.value)"
-              (change)="convertValue($event.target.value)"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>From</mat-label>
-            <mat-select
-              formControlName="unit"
-              (selectionChange)="convertValue($event.value)"
-            >
-              <mat-select-trigger
-                >{{ hardness.controls.unit.value
-                }}<ng-container *ngIf="hardness.controls.unit.value === 'MPa'">
-                  <span matTooltip="Ultimate Tensile Strength"> (UTS) </span>
-                </ng-container></mat-select-trigger
+      <div class="px-4 pb-4">
+        <form [formGroup]="hardness">
+          <div class="md:flex md:w-full justify-between gap-4">
+            <mat-form-field class="w-full">
+              <mat-label>Value</mat-label>
+              <input
+                formControlName="value"
+                matInput
+                type="number"
+                [step]="step"
+                (keyup)="handleKeyInput($event.key, $event.target.value)"
+                (change)="convertValue($event.target.value)"
+              />
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>From</mat-label>
+              <mat-select
+                formControlName="unit"
+                (selectionChange)="convertValue($event.value)"
               >
-              <mat-option
-                *ngFor="let unit of unitList; trackBy: trackByFn"
-                [value]="unit"
-                >{{ unit }}
-                <ng-container *ngIf="unit === 'MPa'"> (UTS)</ng-container>
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-      </form>
-      <p class="conversion-info" [@inOutAnimation] *ngIf="results$ | ngrxPush">
-        Converted after ISO 18265 - A.1
-      </p>
-      <div class="results" [@inOutAnimation] *ngIf="results$ | ngrxPush">
+                <mat-select-trigger
+                  >{{ hardness.controls.unit.value
+                  }}<ng-container
+                    *ngIf="hardness.controls.unit.value === 'MPa'"
+                  >
+                    <span matTooltip="Ultimate Tensile Strength"> (UTS) </span>
+                  </ng-container></mat-select-trigger
+                >
+                <mat-option
+                  *ngFor="let unit of unitList; trackBy: trackByFn"
+                  [value]="unit"
+                  >{{ unit }}
+                  <ng-container *ngIf="unit === 'MPa'"> (UTS)</ng-container>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </form>
+        <p class="text-center" [@inOutAnimation] *ngIf="results$ | ngrxPush">
+          Converted after ISO 18265 - A.1
+        </p>
         <div
-          class="spinner-wrapper"
-          [ngClass]="{ hidden: (resultsUpToDate$ | ngrxPush) }"
+          class="flex flex-wrap justify-between"
+          [@inOutAnimation]
+          *ngIf="results$ | ngrxPush"
         >
-          <mat-spinner></mat-spinner>
+          <div
+            class="
+              h-full
+              w-full
+              z-10
+              ease-in-out
+              duration-300
+              overflow-hidden
+              bg-white
+              opacity-70
+              justify-center
+              absolute
+              flex
+            "
+            [ngClass]="{ hidden: (resultsUpToDate$ | ngrxPush) }"
+          >
+            <mat-spinner></mat-spinner>
+          </div>
+          <div
+            *ngFor="let result of results$ | ngrxPush; trackBy: trackByFn"
+            class="w-full md:w-1/2 flex justify-center my-2 px-2"
+          >
+            <mat-card class="w-full justify-center result-card">
+              <span
+                class="
+                  min-h-[43px]
+                  flex
+                  text-body-1
+                  font-semibold
+                  justify-center
+                  items-center
+                  w-4/5
+                "
+                [ngClass]="{ 'text-warning capitalize': result.warning }"
+              >
+                {{ getValue(result) }}</span
+              >
+              <span
+                class="
+                  items-center
+                  bg-primary
+                  rounded-r-md
+                  flex
+                  h-full
+                  w-1/5
+                  justify-center
+                  text-white
+                "
+                *ngIf="result.unit !== 'MPa'; else withTooltip"
+                >{{ result.unit }}</span
+              >
+              <ng-template #withTooltip>
+                <span
+                  class="
+                    items-center
+                    bg-primary
+                    rounded-r-md
+                    flex
+                    h-full
+                    w-1/5
+                    justify-center
+                    text-white
+                  "
+                  matTooltip="Ultimate Tensile Strength"
+                  >{{ result.unit }}</span
+                >
+              </ng-template>
+            </mat-card>
+          </div>
         </div>
-        <mat-card
-          *ngFor="let result of results$ | ngrxPush; trackBy: trackByFn"
-          class="unit-result"
+        <mat-error
+          *ngIf="error"
+          [@inOutAnimation]
+          class="items-center h-12 justify-center hardness-error"
+          >{{ error }}</mat-error
         >
-          <span class="value" [ngClass]="{ warning: result.warning }">{{
-            getValue(result)
-          }}</span>
-          <span class="unit" *ngIf="result.unit !== 'MPa'; else withTooltip">{{
-            result.unit
-          }}</span>
-          <ng-template #withTooltip>
-            <span class="unit" matTooltip="Ultimate Tensile Strength">{{
-              result.unit
-            }}</span>
-          </ng-template>
-        </mat-card>
       </div>
-      <mat-error *ngIf="error" [@inOutAnimation]>{{ error }}</mat-error>
     </mat-card-content>
   </mat-card>
 </div>

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
@@ -29,6 +30,7 @@ import { StoreModule } from './store/store.module';
     // UI Modules
     HeaderModule,
     MatButtonModule,
+    AppShellModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

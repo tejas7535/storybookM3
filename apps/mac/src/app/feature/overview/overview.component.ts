@@ -17,6 +17,7 @@ export class OverviewComponent implements OnInit {
       url: '/hardness-converter',
       className: 'hardness-icon',
       externalLink: false,
+      img: '../../../assets/img/hardness_converter.svg',
     },
     {
       title: 'Lifetime Predictor',
@@ -24,42 +25,49 @@ export class OverviewComponent implements OnInit {
       url: '/lifetime-predictor',
       className: 'ltp-icon',
       externalLink: false,
+      img: '../../../assets/img/lifetime_predictor.svg',
     },
     {
       title: 'Lifetime Visualizer',
       url: 'https://tableau.schaeffler.com/#/site/Technology/views/LifetimeVisualizer/LifetimeVisualizer',
       className: 'ltv-icon',
       externalLink: true,
+      img: '../../../assets/img/lifetime_visualizer.svg',
     },
     {
       title: 'Lifetime Documenter',
       url: 'https://spsq2.schaeffler.com/teamsite/5540',
       className: 'ltd-icon',
       externalLink: true,
+      img: '../../../assets/img/lifetime_documenter.svg',
     },
     {
       title: 'AQM Calculator',
       url: '/aqm-calculator',
       className: 'aqm-icon',
       externalLink: false,
+      img: '../../../assets/img/aqm_calculator.svg',
     },
     {
       title: 'Carbonitriding Prediction',
       url: 'https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials/materials-technology/materials-development/blog/2021/03/10/simulation-tool-for-carbonitriding-heat-treatment',
       className: 'carbonitriding-icon',
       externalLink: true,
+      img: '../../../assets/img/carbonitriding_prediction.svg',
     },
     {
       title: 'Steel Cleanliness Data Base',
       url: 'https://sconnect.schaeffler.com/groups/steel-cleanliness-database',
       className: 'steel-cleanliness-db-icon',
       externalLink: true,
+      img: '../../../assets/img/steel_cleanliness_database.svg',
     },
     {
       title: 'Polyassist',
       url: 'https://sconnect.schaeffler.com/groups/polyassist/',
       className: 'polyassist-icon',
       externalLink: true,
+      img: '../../../assets/img/polyassist.svg',
     },
   ];
 

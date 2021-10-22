@@ -1,6 +1,6 @@
-<div class="page-container">
-  <h1>Overview</h1>
-  <p class="description">
+<div class="p-8 overflow-auto">
+  <h1 class="leading-none">Overview</h1>
+  <p class="no-underline mt-4">
     The Materials App Center gives access to services provided to you by
     Schaeffler
     <a
@@ -16,37 +16,109 @@
     >
     department.
   </p>
-  <div fxLayout="row wrap" fxLayoutGap="15px grid">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 flex-wrap">
     <ng-container *ngFor="let elem of elements; trackBy: trackByFn">
-      <div
-        fxFlex="calc(25% - 15px)"
-        fxFlex.lt-md="calc(33% - 15px)"
-        fxFlex.lt-sm="calc(50% - 15px)"
-      >
+      <div class="col-span-1 row-span-1 flex flex-col flex-grow">
         <div
           *ngIf="!elem.externalLink"
-          class="elevation elem"
-          [ngClass]="{ active: elem.url, inactive: !elem.url }"
+          class="flex flex-col flex-1"
+          [ngClass]="{ 'cursor-pointer': elem.url }"
           [routerLink]="elem.url ? elem.url : undefined"
           (click)="trackCall(elem.title)"
         >
-          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
-            <div [class]="elem.className" class="card-icon"></div>
-            <h2 class="service-name">{{ elem.title }}</h2>
+          <mat-card class="flex flex-1 overview-card">
+            <div
+              class="
+                h-full
+                w-full
+                flex flex-col flex-1
+                place-items-center
+                justify-around
+                py-4
+                md:py-8
+                lg:py-12
+              "
+            >
+              <div
+                class="
+                  w-full
+                  flex-1 flex-col flex
+                  place-items-center
+                  justify-center
+                  md:justify-between
+                  gap-6
+                  md:gap-2
+                "
+              >
+                <div class="w-2/5 h-2/5 sm:h-3/5 lg:h-3/4">
+                  <img
+                    [src]="elem.img"
+                    class="w-full max-h-full"
+                    [ngClass]="{ 'opacity-40': !elem.url }"
+                  />
+                </div>
+                <div class="flex-1 max-h-[114px]">
+                  <h2
+                    class="text-center leading-snug flex-1 max-h-[114px]"
+                    [ngClass]="{ 'opacity-40': !elem.url }"
+                  >
+                    {{ elem.title }}
+                  </h2>
+                </div>
+              </div>
+            </div>
           </mat-card>
         </div>
 
         <a
           *ngIf="elem.externalLink"
-          class="elevation elem no-outline"
-          [ngClass]="{ active: elem.url, inactive: !elem.url }"
+          class="no-underline flex flex-col flex-1"
+          [ngClass]="{ 'cursor-pointer': elem.url }"
           [href]="elem.url ? elem.url : undefined"
           target="_blank"
           (click)="trackCall(elem.title)"
         >
-          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
-            <div [class]="elem.className" class="card-icon"></div>
-            <h2 class="service-name">{{ elem.title }}</h2>
+          <mat-card class="flex flex-1 overview-card">
+            <div
+              class="
+                h-full
+                w-full
+                flex flex-col flex-1
+                place-items-center
+                justify-around
+                py-4
+                md:py-8
+                lg:py-12
+              "
+            >
+              <div
+                class="
+                  w-full
+                  flex-1 flex-col flex
+                  place-items-center
+                  justify-center
+                  md:justify-between
+                  gap-6
+                  md:gap-2
+                "
+              >
+                <div class="w-2/5 h-2/5 sm:h-3/5 lg:h-3/4">
+                  <img
+                    [src]="elem.img"
+                    class="w-full max-h-full"
+                    [ngClass]="{ 'opacity-40': !elem.url }"
+                  />
+                </div>
+                <div class="flex-1 max-h-[114px] lg:h-1/4">
+                  <h2
+                    class="text-center leading-snug"
+                    [ngClass]="{ 'opacity-40': !elem.url }"
+                  >
+                    {{ elem.title }}
+                  </h2>
+                </div>
+              </div>
+            </div>
           </mat-card>
         </a>
       </div>

@@ -54,9 +54,6 @@
       "@schaeffler/search-autocomplete": [
         "libs/shared/ui/search-autocomplete/src/index.ts"
       ],
-      "@schaeffler/settings-sidebar": [
-        "libs/shared/ui/settings-sidebar/src/index.ts"
-      ],
       "@schaeffler/share-button": ["libs/shared/ui/share-button/src/index.ts"],
       "@schaeffler/shared/cypress-utils": [
         "libs/shared/cypress-utils/src/index.ts"

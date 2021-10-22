@@ -1,3 +1,5 @@
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -7,7 +9,6 @@ import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
@@ -36,7 +37,8 @@ describe('LifetimePredictorComponent', () => {
     component: LifetimePredictorComponent,
     declarations: [LifetimePredictorComponent],
     imports: [
-      SettingsSidebarModule,
+      MatSidenavModule,
+      MatIconModule,
       RouterTestingModule,
       InputModule,
       PredictionModule,

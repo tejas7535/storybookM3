@@ -113,6 +113,7 @@ module.exports = {
       white: '#fff',
       disabled: lightGrey,
       error: baseColors.error,
+      warning: baseColors.warning,
       ...emphasis,
     },
     screens: {

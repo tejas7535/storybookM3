@@ -168,10 +168,6 @@
     "shared-ui-search-autocomplete": {
       "tags": ["scope:shared", "type:ui"]
     },
-    "shared-ui-settings-sidebar": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
     "shared-ui-share-button": {
       "tags": ["scope:shared", ""]
     },
