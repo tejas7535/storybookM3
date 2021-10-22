@@ -24,16 +24,19 @@ import { AutocompleteSearch, IdValue } from '../../models/search';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 
-describe('InputbarComponent', () => {
+describe('AddEntryComponent', () => {
   let component: AddEntryComponent;
   let mockStore: MockStore;
   let spectator: Spectator<AddEntryComponent>;
+  let matSnackBar: MatSnackBar;
 
   const createComponent = createComponentFactory({
     component: AddEntryComponent,
@@ -48,8 +51,10 @@ describe('InputbarComponent', () => {
       SharedModule,
       ReactiveFormsModule,
       ReactiveComponentModule,
+      MatSnackBarModule,
     ],
     providers: [
+      SnackBarService,
       provideMockStore({
         initialState: {
           case: {
@@ -64,6 +69,7 @@ describe('InputbarComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     mockStore = spectator.inject(MockStore);
+    matSnackBar = spectator.inject(MatSnackBar);
   });
 
   test('should create', () => {
@@ -198,6 +204,19 @@ describe('InputbarComponent', () => {
       component.materialNumberInput = false;
       component.materialHasInput(true);
       expect(component.materialNumberInput).toBeTruthy();
+    });
+  });
+  describe('displaySnackBar', () => {
+    test('show info message with action link', () => {
+      matSnackBar.open = jest.fn();
+
+      component.displaySnackBar();
+
+      expect(matSnackBar.open).toHaveBeenCalledWith(
+        'translate it',
+        'translate it',
+        { duration: 5000 }
+      );
     });
   });
 });

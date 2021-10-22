@@ -16,6 +16,7 @@ import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocom
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -41,6 +42,7 @@ describe('AddMaterialDialogComponent', () => {
       ReactiveComponentModule,
       SharedModule,
       provideTranslocoTestingModule({ en: {} }),
+      MatSnackBarModule,
     ],
     providers: [
       provideMockStore({

@@ -19,12 +19,9 @@
             {{ t('pasteFromClipboard') }}
           </span>
         </button>
-        <span class="ml-2 align-bottom">
-          <gq-info-icon [showHelpIcon]="true">
-            <span class="text-subtitle-2 p-2" [innerHTML]="t('pasteInfoText')">
-            </span>
-          </gq-info-icon>
-        </span>
+        <button class="ml-2 align-bottom" (click)="displaySnackBar()">
+          <gq-info-icon [showHelpIcon]="true"> </gq-info-icon>
+        </button>
       </div>
     </div>
     <hr class="opacity-[12%] mt-6" />

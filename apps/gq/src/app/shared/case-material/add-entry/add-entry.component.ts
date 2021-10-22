@@ -23,6 +23,8 @@ import { MaterialTableItem } from '../../models/table/material-table-item-model'
 import { ValidationDescription } from '../../models/table/validation-description.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PasteMaterialsService } from '../../services/paste-materials-service/paste-materials.service';
+import { translate } from '@ngneat/transloco';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'gq-add-entry',
@@ -52,7 +54,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
-    private readonly pasteMaterialsService: PasteMaterialsService
+    private readonly pasteMaterialsService: PasteMaterialsService,
+    private readonly matSnackBar: MatSnackBar
   ) {}
 
   public ngOnInit(): void {
@@ -161,5 +164,21 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   pasteFromClipboard() {
     this.pasteMaterialsService.onPasteStart(this.isCaseView);
+  }
+
+  displaySnackBar(): void {
+    const matSnackBarRef = this.matSnackBar.open(
+      translate('shared.caseMaterial.addEntry.pasteSnackbar.message'),
+      translate('shared.caseMaterial.addEntry.pasteSnackbar.action'),
+      { duration: 5000 }
+    );
+    matSnackBarRef?.onAction().subscribe(() => {
+      window
+        .open(
+          'https://worksite-my.sharepoint.com/:v:/g/personal/fongmgll_schaeffler_com/ESFXg0x4h0xHjneDtNn8H78BuEvZ1qwZl8KF5PrhBmTXhw?e=6WedPW&isSPOFile=1',
+          '_blank'
+        )
+        .focus();
+    });
   }
 }

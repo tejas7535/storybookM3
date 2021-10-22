@@ -55,7 +55,10 @@
         },
         "addItems": "Positionen hinzufügen",
         "pasteFromClipboard": "Aus der Zwischenablage einfügen",
-        "pasteInfoText": "siehe Anleitung <a href='https://worksite-my.sharepoint.com/personal/fongmgll_schaeffler_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Ffongmgll%5Fschaeffler%5Fcom%2FDocuments%2FGuided%20Quoting%20Trainings%2FPaste%20from%20Clipboard%2Emp4&parent=%2Fpersonal%2Ffongmgll%5Fschaeffler%5Fcom%2FDocuments%2FGuided%20Quoting%20Trainings&originalPath=aHR0cHM6Ly93b3Jrc2l0ZS1teS5zaGFyZXBvaW50LmNvbS86djovZy9wZXJzb25hbC9mb25nbWdsbF9zY2hhZWZmbGVyX2NvbS9FWm5tNnBHR0trWlBnQmU5RjVjb3M1c0JXUzV6RWo3ZmJxZEdxck9YcDUzMklnP3J0aW1lPWR3Xzl3Um8zMlVn' target='_blank' rel='noopener noreferrer'>hier</a>",
+        "pasteSnackbar": {
+          "message": "Wenn Sie Hilfe beim Importieren aus Excel benötigen, finden Sie hier eine Kurzanleitung",
+          "action": "Anleitungsvideo"
+        },
         "quantity": {
           "error": "Invalide Menge",
           "label": "Menge",
