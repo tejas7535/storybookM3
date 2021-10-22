@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.9...mm-v0.1.8) (2021-10-22)
+
+
+### 🐛 Bug Fixes
+
+* **ga:** calculate tile clickable and tailwind imports (UFTABI-5206) ([#3189](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3189)) ([de8a138](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/de8a13848a6942a3ecbf0589eef24f53314b941c))
+* **mm:** http interceptor language fallback ([#3201](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3201)) ([682c110](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/682c1107b4e8483882e76b11c51835975151966d))
+
 ### [0.1.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.8...mm-v0.1.7) (2021-10-21)
 
 
