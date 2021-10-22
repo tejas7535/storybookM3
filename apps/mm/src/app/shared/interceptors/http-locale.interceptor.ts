@@ -32,6 +32,8 @@ export class HttpLocaleInterceptor implements HttpInterceptor {
   public getCurrentLongLocale(): string {
     const lang = this.translocoService.getActiveLang();
 
-    return locales[lang as MMLocales].longLocale;
+    return (
+      locales[lang as MMLocales]?.longLocale || locales[MMLocales.en].longLocale
+    );
   }
 }
