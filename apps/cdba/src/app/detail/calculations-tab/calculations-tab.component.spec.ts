@@ -14,12 +14,6 @@ import { Calculation } from '@cdba/shared/models';
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { selectCalculations } from '../../core/store';
-import {
-  getCalculations,
-  getCalculationsErrorMessage,
-  getCalculationsLoading,
-  getSelectedCalculationNodeId,
-} from '../../core/store/selectors';
 import { CustomStatusBarModule } from '../../shared/components/table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
 
@@ -45,24 +39,6 @@ describe('CalculationsTabComponent', () => {
             calculations: CALCULATIONS_MOCK,
           },
         },
-        selectors: [
-          {
-            selector: getCalculations,
-            value: CALCULATIONS_MOCK,
-          },
-          {
-            selector: getSelectedCalculationNodeId,
-            value: '7',
-          },
-          {
-            selector: getCalculationsErrorMessage,
-            value: 'Error Message',
-          },
-          {
-            selector: getCalculationsLoading,
-            value: false,
-          },
-        ],
       }),
       {
         provide: MATERIAL_SANITY_CHECKS,

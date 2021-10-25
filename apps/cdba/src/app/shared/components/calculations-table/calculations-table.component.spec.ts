@@ -12,6 +12,7 @@ import {
   RowSelectedEvent,
   SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
+
 import {
   createComponentFactory,
   mockProvider,
@@ -24,6 +25,8 @@ import {
   provideTranslocoTestingModule,
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
+
+import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { AgGridStateService } from '../../services/ag-grid-state/ag-grid-state.service';
 import { SharedModule } from '../../shared.module';
@@ -53,7 +56,13 @@ describe('CalculationsTableComponent', () => {
     providers: [
       ColumnDefinitionService,
       mockProvider(AgGridStateService),
-      provideMockStore(),
+      provideMockStore({
+        initialState: {
+          detail: {
+            calculations: CALCULATIONS_MOCK,
+          },
+        },
+      }),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,

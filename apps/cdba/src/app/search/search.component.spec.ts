@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { marbles } from 'rxjs-marbles/jest';
@@ -34,6 +35,10 @@ describe('SearchComponent', () => {
           search: SEARCH_STATE_MOCK,
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

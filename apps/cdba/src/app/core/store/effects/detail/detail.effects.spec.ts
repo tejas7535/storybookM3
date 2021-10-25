@@ -1,4 +1,4 @@
-/* eslint-disable max-lines */
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -73,6 +73,10 @@ describe('Detail Effects', () => {
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

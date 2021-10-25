@@ -1,4 +1,5 @@
 import { SimpleChange } from '@angular/core';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
@@ -45,6 +46,10 @@ describe('BomTableComponent', () => {
       mockProvider(ColumnUtilsService, {
         formatNumber: jest.fn(() => ''),
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

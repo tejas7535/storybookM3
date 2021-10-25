@@ -3,14 +3,14 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+  SharedTranslocoModule,
+  provideTranslocoTestingModule,
+} from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
@@ -19,28 +19,38 @@ describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
   let spectator: Spectator<UserSettingsComponent>;
 
+  const windowLocationReloadMock = jest.fn();
+
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
-    providers: [
-      mockProvider(TranslocoService),
-      mockProvider(TranslocoLocaleService),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
     imports: [
       SharedModule,
+      SharedTranslocoModule,
       ReactiveFormsModule,
       MatFormFieldModule,
       MatInputModule,
       MatSelectModule,
+      MatTooltipModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+
+    delete window.location;
+    window.location = { reload: windowLocationReloadMock } as any;
+  });
+
+  afterEach(() => {
+    windowLocationReloadMock.mockClear();
   });
 
   it('should create', () => {
