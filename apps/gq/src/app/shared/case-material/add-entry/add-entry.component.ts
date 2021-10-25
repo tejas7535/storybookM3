@@ -175,7 +175,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     matSnackBarRef?.onAction().subscribe(() => {
       window
         .open(
-          'https://worksite-my.sharepoint.com/:v:/g/personal/fongmgll_schaeffler_com/ESFXg0x4h0xHjneDtNn8H78BuEvZ1qwZl8KF5PrhBmTXhw?e=6WedPW&isSPOFile=1',
+          'https://worksite-my.sharepoint.com/:v:/g/personal/schmjan_schaeffler_com/Efn1Vc3JU9lNtI-PZoyVM1UBgUmnnXN1AsCir5lnqvT_fQ?e=rUsbeU',
           '_blank'
         )
         .focus();
