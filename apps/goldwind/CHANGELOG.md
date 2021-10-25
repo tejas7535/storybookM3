@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.2...goldwind-v0.2.1) (2021-10-25)
+
+
+### 🎸 Features
+
+* **goldwind:** add new load distribution tile & prepare demo ([#3162](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3162)) ([51dfdfa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/51dfdfa877d829ca0bf0cd49e4c657c4f64a239f))
+
 ### [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.1...goldwind-v0.2.0) (2021-10-21)
 
 

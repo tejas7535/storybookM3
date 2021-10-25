@@ -7,5 +7,5 @@
     "mock-server": "prism mock apimock.yaml -d",
     "start": "ng serve goldwind"
   },
-  "version": "0.2.1"
+  "version": "0.2.2"
 }
