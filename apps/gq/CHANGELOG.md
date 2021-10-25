@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.1.0...gq-v2.0.2) (2021-10-25)
+
+
+### 🎸 Features
+
+* **app-shell:** extend app shell ([#3003](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3003)) ([781c13d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/781c13d61fac9aea94800e5e008cbfbd320de411))
+* **empty-state:** added maintenance page as empty state ([#3068](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3068)) ([fed8886](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fed8886ae76f2855309bbd58bebde0995df3d586))
+* **gq:** add maintenance page (GQUOTE-702) ([#3025](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3025)) ([c0055fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c0055fbd1cee0605cdb1447193cb1a1201b9c0e8))
+* **gq:** adjust GQ to UX review (GQUOTE-836) ([#3105](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3105)) ([3d700c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d700c6ffc320e8b007fb4c789ccd38326fce9c7))
+* **gq:** display material status and min order quantity (GQUOTE-953) ([#3041](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3041)) ([562c4d2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/562c4d2aba6856fabfccf4e3ebe8c3ae903fcb6b))
+* **gq:** hide Relocation Cost Card if no Re-location cost available (feature/GQUOTE-970) ([#3213](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3213)) ([490e67b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/490e67ba6b5a63ffd659945225ecb7ab141e4847))
+* **horizontal-seperator:** remove shared lib ([#3016](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3016)) ([7221b4c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7221b4c54ece6899ff3027a523ab9ee0a2f3ea07))
+* **share-button:** add share button lib (UFTABI-4939) ([4901165](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4901165a172d95185184fa8acbd870193753240b)), closes [#3031](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3031)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** adjusted formatting in excel (GQUOTE-960) ([#3092](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3092)) ([599b0a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/599b0a71e634cd6acf0bb547b17c20cb68cf8ecd))
+* **gq:** bring back link to "paste from clipboard" training video (GQUOTE-997) ([#3187](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3187)) ([5faf87f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5faf87f2740f2cabe1a3633be5d3eb51f60845f4))
+* **gq:** display following type with dash (GQUOTE-963) ([#3045](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3045)) ([e332712](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e3327120d07546ae25432c5f05a7034100438e7e))
+* **gq:** enable removing a comment (GQUOTE-961) ([#3097](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3097)) ([7331d7a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7331d7a252742a3010bdf1cc8f537c5c888f5953))
+* **gq:** filter out action if caseFilterItem is invalid (GQUOTE-1012) ([#3194](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3194)) ([1e1080b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e1080be8b10f617ae88f8603388e49e1b77fa58))
+* **gq:** fix currency on transaction detail view (GQUOTE-1015) ([#3195](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3195)) ([517bb88](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/517bb8831819fc91555840e5d1de1c513ff0ff40))
+* **gq:** fix link for onedrive video (bugfix/GQUOTE-997) ([#3218](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3218)) ([9fdec8a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9fdec8a6f2b08ffae5d7cc5103f0f956676a89da))
+* **gq:** fix text on info icon (GQUOTE-941) ([#3043](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3043)) ([3033ebe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3033ebe2555cbca20ef4b03245aac295f176bc16))
+* **gq:** fixed disappearing header (GQUOTE-1017) ([#3217](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3217)) ([e2c8987](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e2c8987ca78322f9f6ab8ccc93e3de579c16fcba))
+* **gq:** fixed formatting in excel download (GQUOTE-959) ([#3044](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3044)) ([da1f9ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/da1f9ef9682af7e6c86ecffd297969f9f244900e))
+* **styles:** adjust button styles according review ([#3060](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3060)) ([e04aa04](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e04aa04d00e93ea918eb9d8fd5673512c2fb5522))
+
 ### [2.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.0.2...gq-v2.0.1) (2021-10-01)
 
 
