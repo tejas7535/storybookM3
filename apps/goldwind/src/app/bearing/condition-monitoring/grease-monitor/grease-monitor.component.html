@@ -18,7 +18,7 @@
                 (greaseTimeStamp$ | ngrxPush) || t('noTimestampAvailable')
               }}</span
             >
-            <span> {{ t('updateFrequency') }}: {{ refresh }}s</span>
+            <span> {{ t('updateFrequency') }}: {{ refresh / 60 }}m</span>
           </div>
         </mat-card-subtitle>
       </mat-card-header>

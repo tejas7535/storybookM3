@@ -15,17 +15,19 @@ import {
   BearingLoadEffects,
   EdmMonitorEffects,
   GreaseStatusEffects,
+  LoadDistributionEffects,
   ShaftEffects,
   StaticSafetyEffects,
 } from '../../core/store/effects';
 import { edmHistogramReducer } from '../../core/store/reducers/edm-monitor/edm-histogram.reducer';
 import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
+import { loadDistributionReducer } from '../../core/store/reducers/load-distribution/load-distribution.reducer';
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
 import { shaftReducer } from '../../core/store/reducers/shaft/shaft.reducer';
 import { staticSafetyReducer } from '../../core/store/reducers/static-safety/static-safety.reducer';
 import { SharedModule } from '../../shared/shared.module';
-import { CenterLoadModule } from './center-load/center-load.module';
+import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -41,7 +43,7 @@ import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/
     ConditionMonitoringRoutingModule,
     EdmMonitorModule,
     GreaseMonitorModule,
-    CenterLoadModule,
+    LoadDistributionCardModule,
     ShaftModule,
     StaticSafteyFactorMonitorModule,
     SharedModule,
@@ -62,8 +64,10 @@ import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/
       EdmMonitorEffects,
       ShaftEffects,
       StaticSafetyEffects,
+      LoadDistributionEffects,
     ]),
     StoreModule.forFeature('loadSense', loadSenseReducer),
+    StoreModule.forFeature('loadDistribution', loadDistributionReducer),
     StoreModule.forFeature('greaseStatus', greaseStatusReducer),
     StoreModule.forFeature('edmMonitor', edmMonitorReducer),
     StoreModule.forFeature('edmHistogram', edmHistogramReducer),

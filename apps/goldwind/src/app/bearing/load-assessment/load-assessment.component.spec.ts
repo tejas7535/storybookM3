@@ -1,5 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -11,7 +12,7 @@ import {
 } from '../../core/store';
 import { BearingMetadata } from '../../core/store/reducers/bearing/models';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
-import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
+import { LoadDistributionCardModule } from '../condition-monitoring/load-distribution-card/load-distribution-card.module';
 import { LoadAssessmentComponent } from './load-assessment.component';
 
 describe('LoadAssessmentComponent', () => {
@@ -50,9 +51,10 @@ describe('LoadAssessmentComponent', () => {
   const createComponent = createComponentFactory({
     component: LoadAssessmentComponent,
     imports: [
+      RouterTestingModule,
       ReactiveFormsModule,
       AssessmentLinechartModule,
-      CenterLoadModule,
+      LoadDistributionCardModule,
 
       // Material Modules
       MatCardModule,

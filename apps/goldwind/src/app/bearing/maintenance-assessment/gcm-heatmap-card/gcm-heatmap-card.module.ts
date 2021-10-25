@@ -16,7 +16,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
     // Translation
     SharedTranslocoModule,
     NgxEchartsModule.forRoot({
-      echarts: async () => import('../../../shared/chart/echarts'),
+      echarts: async () =>
+        /* istanbul ignore next */
+        import('../../../shared/chart/echarts'),
     }),
     ReactiveComponentModule,
   ],

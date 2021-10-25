@@ -16,6 +16,7 @@ import * as fromEdmHistogram from './edm-monitor/edm-histogram.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromGreaseHeatmapStatus from './grease-status/heatmap.reducer';
 import * as fromLoadAssement from './load-assessment/load-assessment.reducer';
+import * as fromLoadDistribution from './load-distribution/load-distribution.reducer';
 import * as fromLoadSense from './load-sense/load-sense.reducer';
 import * as fromCenterLoad from './center-load/center-load.reducer';
 import * as fromShaft from './shaft/shaft.reducer';
@@ -52,6 +53,11 @@ export const getBearingState =
 
 export const getBearingLoadState =
   createFeatureSelector<fromLoadSense.BearingLoadState>('loadSense');
+
+export const getLoadDistributionState =
+  createFeatureSelector<fromLoadDistribution.LoadDistributionState>(
+    'loadDistribution'
+  );
 
 export const getDataViewState =
   createFeatureSelector<fromDataView.DataViewState>('dataView');

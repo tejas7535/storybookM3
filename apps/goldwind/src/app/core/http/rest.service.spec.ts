@@ -290,6 +290,7 @@ describe('Rest Service', () => {
       );
     });
   });
+
   describe('getStaticSafety', () => {
     it('should call GET for center-load', () => {
       service.getStaticSafety('FooID');
@@ -299,6 +300,7 @@ describe('Rest Service', () => {
       );
     });
   });
+
   describe('getShaft', () => {
     it('should call GET for shaft', () => {
       const mockDataParams = {
@@ -315,6 +317,40 @@ describe('Rest Service', () => {
             end: mockDataParams.endDate.toString(),
             timebucketSeconds: '3600',
             aggregation: IAGGREGATIONTYPE.AVG,
+          },
+        }
+      );
+    });
+  });
+
+  describe('getLoadDistribution', () => {
+    it('should call GET for getLoadDistribution', () => {
+      const deviceId = 'mockDeviceId';
+      service.getLoadDistribution(deviceId, 1);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${deviceId}/analytics/load-distribution`,
+        { params: { row: ['1'] } }
+      );
+    });
+  });
+
+  describe('getLoadDistributionAverage', () => {
+    it('should call GET for getLoadDistributionAverage', () => {
+      const mockDataParams = {
+        id: 'du1-bist2-flop3',
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
+        row: 2,
+      };
+      service.getLoadDistributionAverage(mockDataParams);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `things/${mockDataParams.id}/analytics/load-distribution`,
+        {
+          params: {
+            aggregation: IAGGREGATIONTYPE.AVG,
+            end: mockDataParams.endDate.toString(),
+            row: 2,
+            start: mockDataParams.startDate.toString(),
           },
         }
       );

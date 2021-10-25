@@ -1,3 +1,4 @@
+export * from './load-distribution/load-distribution.effects';
 export * from './bearing/bearing.effects';
 export * from './load-sense/load-sense.effects';
 export * from './data-view/data-view.effects';

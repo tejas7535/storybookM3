@@ -1,6 +1,7 @@
+import { LoadSense } from '../../app/core/store/reducers/load-sense/models';
+
 export const LOAD_SENSE = {
   deviceId: 'string',
-  id: 'string',
   lsp01Strain: 1,
   lsp02Strain: 2,
   lsp03Strain: 3,
@@ -18,4 +19,4 @@ export const LOAD_SENSE = {
   lsp15Strain: 15,
   lsp16Strain: 16,
   timestamp: '2020-11-04T09:39:19.499Z',
-};
+} as LoadSense;

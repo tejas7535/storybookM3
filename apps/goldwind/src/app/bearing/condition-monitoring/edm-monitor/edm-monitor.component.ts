@@ -103,11 +103,9 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
     tooltip: {
       position: 'top',
       formatter: (params: any) => `
-        <div class="grid grid-cols-2 grid-rows-3">
-          <span>Incidents:</span>
-          <span>${this.getIncidentsDescribishString(params.data[2])}(${
-        params.data[2]
-      })</span>
+        <div class="grid grid-cols-2 grid-rows-3 gap-2">
+          <span>Number of Incidents:</span>
+          <span>${params.data[2]}</span>
           <span>Class:</span>
           <span>${this.getClassificationString(params.data[1])}</span>
           <span>Time:</span> <span>${this.reformatLegendDate(
@@ -125,27 +123,7 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly activate: ActivatedRoute
   ) {}
-  /**
-   * Delivers a string describing with few word the class of the value
-   * @param amount
-   * @returns
-   */
-  getIncidentsDescribishString(amount: number): string {
-    switch (true) {
-      case amount >= 0 && amount < 100:
-        return translate('edm.histogram.classes.a_lot');
-      case amount >= 100 && amount < 1000:
-        return translate('edm.histogram.classes.few');
-      case amount >= 1000 && amount < 10_000:
-        return translate('edm.histogram.classes.more_than_few');
-      case amount >= 10_000 && amount < 100_000:
-        return translate('edm.histogram.classes.a_lot');
-      case amount >= 100_000:
-        return translate('edm.histogram.classes.to_much');
-      default:
-        return translate('edm.histogram.classes.n_a');
-    }
-  }
+
   /**
    *
    * @param index

@@ -46,7 +46,6 @@ describe('Load Sense Reducer', () => {
     it('should unset loading and set state', () => {
       const mockResult: LoadSense = {
         deviceId: 'string',
-        id: 'string',
         lsp02Strain: 0,
         lsp01Strain: 0,
         lsp03Strain: 0,
@@ -64,7 +63,7 @@ describe('Load Sense Reducer', () => {
         lsp15Strain: 0,
         lsp16Strain: 0,
         timestamp: '2020-11-04T09:39:19.499Z',
-      };
+      } as LoadSense;
       const action = getLoadAverageSuccess({ loadAverage: mockResult });
 
       const fakeState = {
@@ -87,7 +86,6 @@ describe('Load Sense Reducer', () => {
       const mockResult: LoadSense[] = [
         {
           deviceId: 'string',
-          id: 'string',
           lsp01Strain: 0,
           lsp02Strain: 0,
           lsp03Strain: 0,
@@ -105,7 +103,7 @@ describe('Load Sense Reducer', () => {
           lsp15Strain: 0,
           lsp16Strain: 0,
           timestamp: '2020-11-04T09:39:19.499Z',
-        },
+        } as LoadSense,
       ];
       const action = getBearingLoadSuccess({
         bearingLoad: mockResult,
@@ -143,7 +141,6 @@ describe('Load Sense Reducer', () => {
     it('should unset loading and set bearing', () => {
       const mockResult: LoadSense = {
         deviceId: 'string',
-        id: 'string',
         lsp01Strain: 0,
         lsp02Strain: 0,
         lsp03Strain: 0,
@@ -161,7 +158,7 @@ describe('Load Sense Reducer', () => {
         lsp15Strain: 0,
         lsp16Strain: 0,
         timestamp: '2020-11-04T09:39:19.499Z',
-      };
+      } as LoadSense;
       const action = getBearingLoadLatestSuccess({
         bearingLoadLatest: mockResult,
       });

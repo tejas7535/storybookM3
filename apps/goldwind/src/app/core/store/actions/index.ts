@@ -7,6 +7,7 @@ export * from './edm-monitor/edm-histogram.actions';
 export * from './grease-status/grease-status.actions';
 export * from './grease-status/gc-heatmap.actions';
 export * from './load-assessment/load-assessment.actions';
+export * from './load-distribution/load-distribution.actions';
 export * from './maintenance-assessment/maintenance-assessment.actions';
 export * from './shaft/shaft.actions';
 export * from './static-safety/static-safety.actions';

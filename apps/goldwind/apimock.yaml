@@ -459,14 +459,14 @@ paths:
             '$ref': '#/components/schemas/TimerangeParams'
         - name: allParams
           in: query
-          required: true
+          required: false
           schema:
             type: object
             additionalProperties:
               type: string
         - name: row
           in: query
-          required: true
+          required: false
           schema:
             maximum: 2
             minimum: 1
@@ -474,12 +474,12 @@ paths:
             format: int32
         - name: aggregationParams
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/AggregationParams'
         - name: requestParamsLatest
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/RequestParamsLatest'
       responses:
@@ -491,6 +491,130 @@ paths:
                 type: array
                 items:
                   '$ref': '#/components/schemas/LoadDistributionDaoRow'
+                example:
+                  - rollingElement1: 100
+                    rollingElement2: 100
+                    rollingElement3: 100
+                    rollingElement4: 100
+                    rollingElement5: 100
+                    rollingElement6: 100
+                    rollingElement7: 100
+                    rollingElement8: 100
+                    rollingElement9: 100
+                    rollingElement10: 100
+                    rollingElement11: 100
+                    rollingElement12: 100
+                    rollingElement13: 100
+                    rollingElement14: 100
+                    rollingElement15: 100
+                    rollingElement16: 100
+                    rollingElement17: 100
+                    rollingElement18: 100
+                    rollingElement19: 100
+                    rollingElement20: 100
+                    rollingElement21: 100
+                    rollingElement22: 100
+                    rollingElement23: 100
+                    rollingElement24: 100
+                    rollingElement25: 100
+                    rollingElement26: 100
+                    rollingElement27: 100
+                    rollingElement28: 100
+                    rollingElement29: 100
+                    rollingElement30: 100
+                    rollingElement31: 100
+                    rollingElement32: 100
+                    rollingElement33: 100
+                    rollingElement34: 100
+                    rollingElement35: 100
+                    rollingElement36: 100
+                    rollingElement37: 100
+                    rollingElement38: 100
+                    rollingElement39: 100
+                    rollingElement40: 100
+                    rollingElement41: 100
+                    rollingElement42: 100
+                    rollingElement43: 100
+                    rollingElement44: 100
+                    rollingElement45: 100
+                    rollingElement46: 88
+                    rollingElement47: 89
+                    rollingElement48: 88
+                    rollingElement49: 55
+                    rollingElement50: 100
+                    rollingElement51: 100
+                    rollingElement52: 100
+                    rollingElement53: 100
+                    rollingElement54: 100
+                    rollingElement55: 100
+                    rollingElement56: 100
+                    rollingElement57: 100
+                    rollingElement58: 100
+                    rollingElement59: 100
+                    rollingElement60: 100
+                    rollingElement61: 100
+                    rollingElement62: 100
+                    rollingElement63: 100
+                    rollingElement64: 100
+                    rollingElement65: 100
+                    rollingElement66: 100
+                    rollingElement67: 100
+                    rollingElement68: 100
+                    rollingElement69: 100
+                    rollingElement70: 100
+                    rollingElement71: 100
+                    rollingElement72: 100
+                    rollingElement73: 100
+                    rollingElement74: 100
+                    rollingElement75: 100
+                    rollingElement76: 100
+                    rollingElement77: 100
+                    rollingElement78: 80
+                    rollingElement79: 76
+                    rollingElement80: 100
+                    rollingElement81: 100
+                    rollingElement82: 100
+                    rollingElement83: 100
+                    rollingElement84: 100
+                    rollingElement85: 100
+                    rollingElement86: 100
+                    rollingElement87: 100
+                    rollingElement88: 100
+                    rollingElement89: 100
+                    rollingElement90: 100
+                    rollingElement91: 100
+                    rollingElement92: 100
+                    rollingElement93: 100
+                    rollingElement94: 100
+                    rollingElement95: 100
+                    rollingElement96: 100
+                    rollingElement97: 100
+                    rollingElement98: 100
+                    rollingElement99: 100
+                    rollingElement100: 100
+                    rollingElement101: 100
+                    rollingElement102: 100
+                    rollingElement103: 100
+                    rollingElement104: 100
+                    rollingElement105: 100
+                    rollingElement106: 100
+                    rollingElement107: 100
+                    rollingElement108: 100
+                    rollingElement109: 100
+                    rollingElement110: 100
+                    rollingElement111: 100
+                    rollingElement112: 100
+                    rollingElement113: 100
+                    rollingElement114: 100
+                    rollingElement115: 100
+                    rollingElement116: 100
+                    rollingElement117: 100
+                    rollingElement118: 100
+                    rollingElement119: 100
+                    rollingElement120: 100
+                    rollingElement121: 100
+                    rollingElement122: 100
+                    rollingElement123: 100
   '/things/{id}/analytics/histogram':
     get:
       tags:
@@ -545,14 +669,14 @@ paths:
           example: edge-goldwind-dev-001
         - name: allParams
           in: query
-          required: true
+          required: false
           schema:
             type: object
             additionalProperties:
               type: string
         - name: timerangeParams
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/TimerangeParams'
       responses:
@@ -564,6 +688,189 @@ paths:
                 type: array
                 items:
                   '$ref': '#/components/schemas/GcmHeatMap'
+                example:
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Critical'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Critical'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Critical'
+                    timestamp: '2021-01-01T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Warning'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Warning'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Warning'
+                    timestamp: '2021-01-22T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Normal'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Normal'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Normal'
+                    timestamp: '2021-01-21T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Critical'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Critical'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Critical'
+                    timestamp: '2021-04-23T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Warning'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Warning'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Warning'
+                    timestamp: '2021-04-22T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Normal'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Normal'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Normal'
+                    timestamp: '2021-04-21T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Critical'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Critical'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Critical'
+                    timestamp: '2021-09-23T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Warning'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Warning'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Warning'
+                    timestamp: '2021-09-22T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Normal'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Normal'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Normal'
+                    timestamp: '2021-09-21T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Critical'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Critical'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Critical'
+                    timestamp: '2021-10-23T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Warning'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Warning'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Warning'
+                    timestamp: '2021-10-22T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Normal'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Normal'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Normal'
+                    timestamp: '2021-10-31T00:00:00Z'
+                  - deviceId: mock-device-001
+                    gcm01DeteriorationMax: 100
+                    gcm01DeteriorationMaxClassification: 'Normal'
+                    gcm01TemperatureOpticsMax: 70
+                    gcm01TemperatureOpticsMaxClassification: 'Normal'
+                    gcm01WaterContentMax: 0
+                    gcm01WaterContentMaxClassification: 'Normal'
+                    gcm02DeteriorationMax: 100
+                    gcm02DeteriorationMaxClassification: 'Normal'
+                    gcm02TemperatureOpticsMax: 71
+                    gcm02TemperatureOpticsMaxClassification: 'Normal'
+                    gcm02WaterContentMax: 100
+                    gcm02WaterContentMaxClassification: 'Normal'
+                    timestamp: '2021-11-01T00:00:00Z'
   '/things/{id}/analytics/center-load':
     get:
       tags:
@@ -579,14 +886,14 @@ paths:
           example: edge-goldwind-dev-001
         - name: allParams
           in: query
-          required: true
+          required: false
           schema:
             type: object
             additionalProperties:
               type: string
         - name: timerangeParams
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/TimerangeParams'
         - name: page
@@ -612,22 +919,22 @@ paths:
               type: string
         - name: aggregationParams
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/AggregationParams'
         - name: filter
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/TimerangeParams'
         - name: timebucketParams
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/TimebucketParams'
         - name: requestParamsLatest
           in: query
-          required: true
+          required: false
           schema:
             '$ref': '#/components/schemas/RequestParamsLatest'
       responses:
@@ -710,12 +1017,16 @@ components:
       properties:
         deviceId:
           type: string
+          example: 'mock-goldwind-qa-001'
         timestamp:
           type: string
           format: date-time
         rsm01Shaftcountervalue:
           type: integer
           format: int32
+          minimum: 0
+          maximum: 20
+          example: 14
         rsm01ShaftSpeed:
           type: number
           format: double
@@ -726,10 +1037,14 @@ components:
           type: number
           format: double
           minimum: 0
+          maximum: 20
+          example: 14
         rsm01ShaftSpeedMax:
           type: number
           format: double
           maximum: 20
+          minimum: 0
+
     TimestampParams:
       required:
         - timestamp
@@ -1463,147 +1778,243 @@ components:
         lsp01Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp01StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp01StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp02Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp02StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp02StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp03Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp03StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp03StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp04Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp04StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp04StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp05Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp05StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp05StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp06Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp06StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp06StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp07Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp07StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp07StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp08Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp08StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp08StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp09Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp09StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp09StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp10Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp10StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp10StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp11Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp11StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp11StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp12Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp12StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp12StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp13Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp13StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp13StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp14Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp14StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp14StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp15Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp15StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp15StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp16Strain:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp16StrainMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         lsp16StrainMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
     GenericData:
       type: object
       properties:
@@ -1628,372 +2039,618 @@ components:
         rollingElement1:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement2:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement3:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement4:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement5:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement6:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement7:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement8:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement9:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement10:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement11:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement12:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement13:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement14:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement15:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement16:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement17:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement18:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement19:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement20:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement21:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement22:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement23:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement24:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement25:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement26:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement27:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement28:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement29:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement30:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement31:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement32:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement33:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement34:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement35:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement36:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement37:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement38:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement39:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement40:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement41:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement42:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement43:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement44:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement45:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement46:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement47:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement48:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement49:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement50:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement51:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement52:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement53:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement54:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement55:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement56:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement57:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement58:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement59:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement60:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement61:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement62:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement63:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement64:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement65:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement66:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement67:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement68:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement69:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement70:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement71:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement72:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement73:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement74:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement75:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement76:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement77:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement78:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement79:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement80:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement81:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement82:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement83:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement84:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement85:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement86:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement87:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement88:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement89:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement90:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement91:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement92:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement93:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement94:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement95:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement96:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement97:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement98:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement99:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement100:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement101:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement102:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement103:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement104:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement105:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement106:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement107:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement108:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement109:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement110:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement111:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement112:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement113:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement114:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement115:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement116:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement117:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement118:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement119:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement120:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement121:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement122:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
         rollingElement123:
           type: number
           format: double
+          minimum: 0
+          maximum: 110
     EdmHistory:
       type: object
       properties:
@@ -2038,36 +2695,73 @@ components:
         timestamp:
           type: string
           format: date-time
+          default: '2021-10-12T12:00:00Z'
         gcm01TemperatureOpticsMax:
           type: integer
           format: int32
+          minimum: 0
+          maximum: 120
         gcm01TemperatureOpticsMaxClassification:
           type: string
+          enum:
+            - Critical
+            - Normal
+            - Warning
         gcm01DeteriorationMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         gcm01DeteriorationMaxClassification:
           type: string
+          enum:
+            - Critical
+            - Normal
+            - Warning
         gcm01WaterContentMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         gcm01WaterContentMaxClassification:
           type: string
+          enum:
+            - Critical
+            - Normal
+            - Warning
         gcm02TemperatureOpticsMax:
           type: integer
           format: int32
+          minimum: 0
+          maximum: 120
         gcm02TemperatureOpticsMaxClassification:
           type: string
+          enum:
+            - Critical
+            - Normal
+            - Warning
         gcm02DeteriorationMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         gcm02DeteriorationMaxClassification:
           type: string
+          enum:
+            - Critical
+            - Normal
+            - Warning
         gcm02WaterContentMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         gcm02WaterContentMaxClassification:
           type: string
+          enum:
+            - Critical
+            - Normal
+            - Warning
     CenterLoad:
       type: object
       properties:
@@ -2079,48 +2773,78 @@ components:
         fx:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fxMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fxMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fy:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fyMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fyMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fz:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fzMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         fzMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         my:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         myMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         myMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         mz:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         mzMin:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
         mzMax:
           type: number
           format: double
+          minimum: 0
+          maximum: 100
     EdgeDevice:
       type: object
       properties:

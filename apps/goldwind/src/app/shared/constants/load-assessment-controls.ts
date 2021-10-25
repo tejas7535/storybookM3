@@ -25,14 +25,14 @@ export const LOAD_ASSESSMENT_CONTROLS: Control[] = [
   {
     label: 'centerLoadMy',
     formControl: 'centerLoadMy',
-    unit: Unit.load,
+    unit: Unit.loadMomentum,
     type: Type.centerload,
     color: '#DF3A72',
   },
   {
     label: 'centerLoadMz',
     formControl: 'centerLoadMz',
-    unit: Unit.load,
+    unit: Unit.loadMomentum,
     type: Type.centerload,
     color: '#805E54',
   },

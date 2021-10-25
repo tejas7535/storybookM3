@@ -11,10 +11,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { EmptyGraphModule } from '../../../shared/empty-graph/empty-graph.module';
 import { SharedModule } from '../../../shared/shared.module';
-import { CenterLoadComponent } from './center-load.component';
+import { LoadDistributionCardComponent } from './load-distribution-card.component';
 
 @NgModule({
-  declarations: [CenterLoadComponent],
+  declarations: [LoadDistributionCardComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -34,6 +34,6 @@ import { CenterLoadComponent } from './center-load.component';
     // Store
     ReactiveComponentModule,
   ],
-  exports: [CenterLoadComponent],
+  exports: [LoadDistributionCardComponent],
 })
-export class CenterLoadModule {}
+export class LoadDistributionCardModule {}

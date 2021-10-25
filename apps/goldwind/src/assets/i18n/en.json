@@ -22,7 +22,7 @@
     "mainBearing": "Main Bearing",
     "maintenanceAssessment": "Maintenance Assessment",
     "noMeasurements": "There are no measurements for the selected daterange",
-    "noTimestampAvailable": "No timestamp Available",
+    "noTimestampAvailable": "No timestamp available",
     "offline": "Offline",
     "overview": "Dashboard",
     "updateFrequency": "Update frequency"
@@ -76,15 +76,15 @@
       "title": "EDM Monitor"
     },
     "shaft": {
-      "noTimestampAvailable": "No timestamp Available",
-      "rotorRotationSpeed": "Rotor Rotation Speed",
+      "noTimestampAvailable": "No timestamp available",
+      "rotorRotationSpeed": "Rotor Speed",
       "rpmRotor": "RPM Rotor",
-      "title": "Rotor - Rotation Speed",
+      "title": "Rotor Speed",
       "updateFrequency": "Update frequency"
     },
     "static-saftey-factor-monitor": {
       "factor": "Factor",
-      "noTimestampAvailable": "No timestamp Available",
+      "noTimestampAvailable": "No timestamp available",
       "title": "Static Safety Factor",
       "updateFrequency": "Update frequency"
     }
@@ -168,6 +168,11 @@
     "lsp16Strain": "Load Sense Pin 16 (Generator)",
     "title": "Bearing Load Run Chart"
   },
+  "loadDistribution": {
+    "title": "Bearing Load",
+    "title_average": "Bearing Load Distribution Average",
+    "updateFrequency": "Update frequency"
+  },
   "maintenanceAssessment": {
     "deterioration": "Deterioration",
     "deterioration_1": "Deterioration 1",
@@ -179,6 +184,7 @@
       "title": "Grease Status Overview"
     },
     "greaseMonitor": "Grease Monitor",
+    "noTimestampAvailable": "No Timestamp available",
     "rotorRotationSpeedMonitor": "Rotor Rotation Speed",
     "rsmShaftSpeed": "Rotor Rotation Speed",
     "temperatureOptics": "Grease Temperatur",

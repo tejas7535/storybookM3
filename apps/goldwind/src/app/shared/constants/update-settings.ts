@@ -1,4 +1,7 @@
 export interface UpdateSettings {
+  loaddistribution: {
+    refresh: number;
+  };
   edmhistorgram: {
     refresh: number;
   };
@@ -17,11 +20,14 @@ export interface UpdateSettings {
 }
 
 export const UPDATE_SETTINGS: UpdateSettings = {
+  loaddistribution: {
+    refresh: 10,
+  },
   shaft: {
     refresh: 60,
   },
   grease: {
-    refresh: 60,
+    refresh: 15 * 60,
   },
   bearingLoad: {
     refresh: 60,

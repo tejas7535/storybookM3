@@ -166,7 +166,6 @@ describe('Load Sense Effects', () => {
       marbles((m) => {
         const mockLoadSense: LoadSense = {
           deviceId: 'string',
-          id: 'string',
           lsp01Strain: 0,
           lsp02Strain: 0,
           lsp03Strain: 0,
@@ -184,7 +183,7 @@ describe('Load Sense Effects', () => {
           lsp15Strain: 0,
           lsp16Strain: 0,
           timestamp: '2020-11-04T09:39:19.499Z',
-        };
+        } as LoadSense;
         const result = getBearingLoadLatestSuccess({
           bearingLoadLatest: mockLoadSense,
         });

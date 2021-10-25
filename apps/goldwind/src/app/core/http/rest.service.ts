@@ -19,6 +19,7 @@ import {
   IAGGREGATIONTYPE,
 } from '../../shared/models';
 import { EdmHistogram } from '../store/reducers/edm-monitor/edm-histogram.reducer';
+import { LoadDistribution } from '../store/selectors/load-distribution/load-distribution.interface';
 
 export interface IotParams {
   id: string;
@@ -42,6 +43,31 @@ export class RestService {
     return this.getIot(`${id}`);
   }
 
+  public getLoadDistribution(
+    id: string,
+    row: number
+  ): Observable<LoadDistribution[]> {
+    return this.getIot(`${id}/analytics/load-distribution`, {
+      params: {
+        row: [row.toString()],
+      },
+    });
+  }
+
+  public getLoadDistributionAverage({ id, startDate, endDate, row }: any) {
+    return this.getIot(
+      `${id}/analytics/load-distribution`,
+      this.getParams(
+        {
+          startDate,
+          endDate,
+          aggregation: IAGGREGATIONTYPE.AVG,
+        },
+        { row }
+      )
+    );
+  }
+
   public getEdm({
     id,
     startDate,
@@ -57,6 +83,7 @@ export class RestService {
       })
     );
   }
+
   public getEdmHistogram(
     { id, startDate, endDate }: IotParams,
     channel: string
@@ -147,6 +174,7 @@ export class RestService {
       })
     );
   }
+
   public getCenterLoad({
     id,
     startDate,
@@ -162,6 +190,7 @@ export class RestService {
       })
     );
   }
+
   public getData({
     id,
     startDate,

@@ -12,7 +12,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { LoadAssessmentEffects } from '../../core/store';
 import { loadAssessmentReducer } from '../../core/store/reducers/load-assessment/load-assessment.reducer';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
-import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
+import { LoadDistributionCardModule } from '../condition-monitoring/load-distribution-card/load-distribution-card.module';
 import { LoadAssessmentRoutingModule } from './load-assessment-routing.module';
 import { LoadAssessmentComponent } from './load-assessment.component';
 import { centerLoadReducer } from '../../core/store/reducers/center-load/center-load.reducer';
@@ -23,7 +23,7 @@ import { centerLoadReducer } from '../../core/store/reducers/center-load/center-
     CommonModule,
     LoadAssessmentRoutingModule,
     ReactiveFormsModule,
-    CenterLoadModule,
+    LoadDistributionCardModule,
     // UI Modules
     MatCardModule,
     AssessmentLinechartModule,

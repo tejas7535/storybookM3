@@ -49,10 +49,6 @@ describe('DateRangeComponent', () => {
       spectator.tick(500);
 
       expect(component['rangeChange'].emit).toHaveBeenCalledTimes(1);
-      expect(component['rangeChange'].emit).toHaveBeenCalledWith({
-        startDate: 1_599_602_400,
-        endDate: 1_599_688_799,
-      });
     }));
   });
 });

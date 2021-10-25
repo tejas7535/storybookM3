@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -34,6 +34,7 @@ import {
   getCenterLoad,
   getCenterLoadFailure,
   getCenterLoadSuccess,
+  getLoadDistributionLatestSuccess,
 } from '../../actions';
 import { actionInterval } from '../utils';
 @Injectable()
@@ -65,7 +66,7 @@ export class LoadAssessmentEffects {
   });
 
   /**
-   * Load Load Assessment Id
+   * Load Load Assessment Id for the line chart
    */
   loadAssessmentId$ = createEffect(() => {
     return this.actions$.pipe(
@@ -83,7 +84,7 @@ export class LoadAssessmentEffects {
   });
 
   /**
-   * Load Load
+   * Used by the line chart of the load assessment page
    */
   load$ = createEffect(() => {
     return this.actions$.pipe(
@@ -107,15 +108,36 @@ export class LoadAssessmentEffects {
       ofType(getLoadAverage),
       withLatestFrom(this.store.select(getLoadAssessmentInterval)),
       map(actionInterval()),
-      mergeMap((greaseParams) =>
-        this.restService.getBearingLoadAverage(greaseParams).pipe(
-          map(([loadAverage]) => getLoadAverageSuccess({ loadAverage })),
-          catchError((_e) => of(getLoadAverageFailure()))
+      mergeMap(({ id, startDate, endDate }) =>
+        forkJoin([
+          this.restService.getLoadDistributionAverage({
+            id,
+            startDate,
+            endDate,
+            row: 1,
+          }),
+          this.restService.getLoadDistributionAverage({
+            id,
+            startDate,
+            endDate,
+            row: 2,
+          }),
+          this.restService.getBearingLoadAverage({ id, startDate, endDate }),
+        ]).pipe(
+          map(([result, result2, _result3]) =>
+            getLoadDistributionLatestSuccess({
+              row1: result.shift(),
+              row2: result2.shift(),
+              lsp: _result3.shift(),
+            })
+          )
         )
       )
     );
   });
-
+  /**
+   * Used by the line chart of the load assessment page
+   */
   loadCenterLoad$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getCenterLoad),

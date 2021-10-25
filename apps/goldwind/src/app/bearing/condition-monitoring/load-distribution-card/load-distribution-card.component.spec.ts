@@ -1,25 +1,27 @@
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { DATE_FORMAT } from '../../../shared/constants';
-import { CenterLoadComponent } from './center-load.component';
+import { LoadDistributionCardComponent } from './load-distribution-card.component';
 
 describe('CenterLoadComponent', () => {
-  let component: CenterLoadComponent;
-  let spectator: Spectator<CenterLoadComponent>;
+  let component: LoadDistributionCardComponent;
+  let spectator: Spectator<LoadDistributionCardComponent>;
 
   const createComponent = createComponentFactory({
-    component: CenterLoadComponent,
+    component: LoadDistributionCardComponent,
     detectChanges: false,
     imports: [
       MatCardModule,
       MatIconModule,
       MatSliderModule,
+      RouterTestingModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
@@ -38,7 +40,7 @@ describe('CenterLoadComponent', () => {
         },
       }),
     ],
-    declarations: [CenterLoadComponent],
+    declarations: [LoadDistributionCardComponent],
   });
 
   beforeEach(() => {
@@ -48,18 +50,5 @@ describe('CenterLoadComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('formatDate', () => {
-    it('should return a correctly formatted date string', () => {
-      const mockDate = new Date(1_466_424_490_000);
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
-
-      const mockCurrent = '2021-04-11T17:55:09Z';
-
-      expect(component.formatDate(mockCurrent)).toBe(
-        mockDate.toLocaleTimeString(DATE_FORMAT.local, DATE_FORMAT.options)
-      );
-    });
   });
 });

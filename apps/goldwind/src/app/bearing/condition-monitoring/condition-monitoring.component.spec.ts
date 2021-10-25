@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { CenterLoadModule } from './center-load/center-load.module';
+import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
@@ -24,7 +24,7 @@ describe('ConditionMonitoringComponent', () => {
       RouterTestingModule,
       EdmMonitorModule,
       GreaseMonitorModule,
-      CenterLoadModule,
+      LoadDistributionCardModule,
       StaticSafteyFactorMonitorModule,
       ShaftModule,
       MatCardModule,

@@ -23,7 +23,9 @@ describe('GreaseStatusComponent', () => {
       MatCardModule,
       MatIconModule,
       NgxEchartsModule.forRoot({
-        echarts: async () => import('echarts'),
+        echarts: async () =>
+          /* istanbul ignore next */
+          import('echarts'),
       }),
     ],
     providers: [
@@ -55,5 +57,10 @@ describe('GreaseStatusComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  it('should run successfully through getGreaseStatusLatestGraphData', () => {
+    component.getGreaseStatusLatestGraphData({ sensor: true });
+
+    expect(component.getGreaseStatusLatestWaterContentGraphData$).toBeDefined();
   });
 });

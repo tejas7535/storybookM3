@@ -62,7 +62,7 @@ export class GcmHeatmapCardComponent {
         top: this.CalGap * 6,
         range: [
           format(new Date(), 'yyyy-04-01'),
-          format(new Date(), 'yyyy-06-31'),
+          format(new Date(), 'yyyy-06-30'),
         ],
       },
       {
@@ -70,7 +70,7 @@ export class GcmHeatmapCardComponent {
         top: this.CalGap * 11,
         range: [
           format(new Date(), 'yyyy-07-01'),
-          format(new Date(), 'yyyy-09-31'),
+          format(new Date(), 'yyyy-09-30'),
         ],
       },
       {

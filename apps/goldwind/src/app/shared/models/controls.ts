@@ -3,6 +3,7 @@ export enum Unit {
   degree = '°C',
   rotationSpeed = 'rpm',
   load = 'kN',
+  loadMomentum = 'Nm',
 }
 
 export enum Type {

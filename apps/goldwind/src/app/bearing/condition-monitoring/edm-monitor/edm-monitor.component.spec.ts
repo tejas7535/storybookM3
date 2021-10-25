@@ -116,28 +116,6 @@ describe('EdmMonitorComponent', () => {
       });
     });
 
-    describe('getIncidentsDescribishString', () => {
-      it('should return a string matching the class description', () => {
-        expect(component.getIncidentsDescribishString(50)).toBe(
-          'edm.histogram.classes.a_lot'
-        );
-        expect(component.getIncidentsDescribishString(500)).toBe(
-          'edm.histogram.classes.few'
-        );
-        expect(component.getIncidentsDescribishString(5000)).toBe(
-          'edm.histogram.classes.more_than_few'
-        );
-        expect(component.getIncidentsDescribishString(50_000)).toBe(
-          'edm.histogram.classes.a_lot'
-        );
-        expect(component.getIncidentsDescribishString(500_000)).toBe(
-          'edm.histogram.classes.to_much'
-        );
-        expect(component.getIncidentsDescribishString(-1)).toBe(
-          'edm.histogram.classes.n_a'
-        );
-      });
-    });
     describe('getClassificationString', () => {
       it('should return a string matching the class description', () => {
         expect(component.getClassificationString(0)).toBe('0 - 100');

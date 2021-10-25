@@ -48,10 +48,7 @@ export class DataToChartSeriesConverter {
       lineStyle: this.lineStyle,
     };
   }
-  /**
-   *#
-   */
-  getShaft() {}
+
   /**
    * set the data field to the accourding founds measurements
    */
