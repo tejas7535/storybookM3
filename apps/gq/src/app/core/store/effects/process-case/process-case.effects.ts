@@ -230,7 +230,7 @@ export class ProcessCaseEffect {
           .addMaterial(addQuotationDetailsRequest)
           .pipe(
             tap(() => {
-              const successMessage = translate(
+              const successMessage = translate<string>(
                 'shared.snackBarMessages.materialAdded'
               );
               this.snackBarService.showSuccessMessage(successMessage);
@@ -255,7 +255,7 @@ export class ProcessCaseEffect {
       mergeMap((qgPositionIds: string[]) =>
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
           tap(() => {
-            const successMessage = translate(
+            const successMessage = translate<string>(
               'shared.snackBarMessages.materialDeleted'
             );
             this.snackBarService.showSuccessMessage(successMessage);
@@ -306,7 +306,7 @@ export class ProcessCaseEffect {
       mergeMap((gqPositionIds: string[]) =>
         this.quotationService.uploadSelectionToSap(gqPositionIds).pipe(
           tap(() => {
-            const successMessage = translate(
+            const successMessage = translate<string>(
               'shared.snackBarMessages.uploadSelectionSuccess'
             );
             this.snackBarService.showSuccessMessage(successMessage);

@@ -37,5 +37,6 @@ import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
     MillimeterUnitPipe,
     NullableStringPipe,
   ],
+  providers: [MaterialTransformPipe],
 })
 export class SharedPipesModule {}
