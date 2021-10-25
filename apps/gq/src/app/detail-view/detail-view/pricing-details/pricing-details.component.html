@@ -18,6 +18,7 @@
               [currency]="currency"
             ></gq-material-comparable-cost-details>
             <gq-relocation-cost-details
+              *ngIf="quotationDetail?.relocationCost"
               [quotationDetail]="quotationDetail"
               [currency]="currency"
             ></gq-relocation-cost-details>
