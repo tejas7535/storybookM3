@@ -1749,7 +1749,7 @@
             "jestConfig": "libs/shared/ui/app-shell/jest.config.js",
             "passWithNoTests": true
           },
-          "outputs": ["coverage/libs/shared/ui/sidebar"]
+          "outputs": ["coverage/libs/shared/ui/app-shell"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2615,23 +2615,6 @@
             "passWithNoTests": true
           }
         },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/search-autocomplete"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/search-autocomplete --tag latest"
-              }
-            ]
-          }
-        },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
@@ -2643,8 +2626,25 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/azure-auth/checkstyle.xml"
+              "outputFile": "checkstyle/libs/shared/ui/share-button/checkstyle.xml"
             }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/share-button"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/share-button --tag latest"
+              }
+            ]
           }
         }
       }
