@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ColDef, ValueSetterParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { updateQuotationDetails } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
@@ -230,7 +229,7 @@ export class ColumnDefService {
 
   constructor(
     private readonly store: Store,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
 
   public selectManualPrice(
@@ -239,7 +238,7 @@ export class ColumnDefService {
     priceUnit: number
   ): void {
     if (newPrice === 0) {
-      this.snackBarService.showErrorMessage(
+      this.snackBar.open(
         translate('shared.snackBarMessages.priceShouldBeHigherThanZero')
       );
 

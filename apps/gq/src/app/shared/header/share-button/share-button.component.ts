@@ -1,9 +1,8 @@
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { translate } from '@ngneat/transloco';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 @Component({
   selector: 'gq-share-button',
@@ -12,12 +11,12 @@ import { SnackBarService } from '@schaeffler/snackbar';
 export class ShareButtonComponent {
   constructor(
     private readonly clipboard: Clipboard,
-    private readonly snackbarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
 
   public shareUrl(): void {
     this.clipboard.copy(window.location.href);
-    this.snackbarService.showSuccessMessage(
+    this.snackBar.open(
       translate('shared.shareUrl.toastSuccessMessage'),
       translate('shared.shareUrl.toastConfirmMessage')
     );

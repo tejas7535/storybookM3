@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,7 +13,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ENV_CONFIG } from '@schaeffler/http';
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import {
   CUSTOMER_MOCK,
@@ -86,7 +87,7 @@ describe('ProcessCaseEffect', () => {
   let quotationDetailsService: QuotationDetailsService;
   let quotationService: QuotationService;
   let materialService: MaterialService;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   let store: any;
   let router: Router;
@@ -120,7 +121,7 @@ describe('ProcessCaseEffect', () => {
     materialService = spectator.inject(MaterialService);
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   describe('customerDetails$', () => {
@@ -493,7 +494,7 @@ describe('ProcessCaseEffect', () => {
     test(
       'should return addMaterialsSuccess when REST call is successful',
       marbles((m) => {
-        snackBarService.showSuccessMessage = jest.fn();
+        snackBar.open = jest.fn();
         action = addMaterials();
 
         quotationDetailsService.addMaterial = jest.fn(() => response);
@@ -512,7 +513,7 @@ describe('ProcessCaseEffect', () => {
         expect(quotationDetailsService.addMaterial).toHaveBeenCalledWith(
           addQuotationDetailsRequest
         );
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -543,7 +544,7 @@ describe('ProcessCaseEffect', () => {
     test(
       'should return removePositionsSuccess when REST call is successful',
       marbles((m) => {
-        snackBarService.showSuccessMessage = jest.fn();
+        snackBar.open = jest.fn();
         const gqPositionIds = ['1'];
         action = removePositions({ gqPositionIds });
 
@@ -563,7 +564,7 @@ describe('ProcessCaseEffect', () => {
         expect(quotationDetailsService.removeMaterial).toHaveBeenCalledWith(
           qgPositionIds
         );
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -649,7 +650,7 @@ describe('ProcessCaseEffect', () => {
     test(
       'should return uploadSelectionToSapSuccess when REST call is successful',
       marbles((m) => {
-        snackBarService.showSuccessMessage = jest.fn();
+        snackBar.open = jest.fn();
 
         action = uploadSelectionToSap({ gqPositionIds: ['1'] });
         const result = uploadSelectionToSapSuccess();
@@ -665,7 +666,7 @@ describe('ProcessCaseEffect', () => {
         expect(quotationService.uploadSelectionToSap).toHaveBeenCalledWith([
           '1',
         ]);
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -762,22 +763,18 @@ describe('ProcessCaseEffect', () => {
 
   describe('showUpdateQuotationDetailToast', () => {
     test('should display updateSelectedPrice', () => {
-      effects['snackBarService'].showSuccessMessage = jest.fn();
+      effects['snackBar'].open = jest.fn();
 
       effects['showUpdateQuotationDetailToast']({ price: 20 } as any);
-      expect(
-        effects['snackBarService'].showSuccessMessage
-      ).toHaveBeenCalledWith(
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.updateSelectedPrice`)
       );
     });
     test('should display updateQuantity', () => {
-      effects['snackBarService'].showSuccessMessage = jest.fn();
+      effects['snackBar'].open = jest.fn();
 
       effects['showUpdateQuotationDetailToast']({ orderQuantity: 20 } as any);
-      expect(
-        effects['snackBarService'].showSuccessMessage
-      ).toHaveBeenCalledWith(
+      expect(effects['snackBar'].open).toHaveBeenCalledWith(
         translate(`shared.snackBarMessages.updateQuantity`)
       );
     });

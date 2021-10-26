@@ -1,10 +1,9 @@
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { ShareButtonComponent } from './share-button.component';
@@ -12,6 +11,7 @@ import { ShareButtonComponent } from './share-button.component';
 describe('ShareButtonComponent', () => {
   let component: ShareButtonComponent;
   let spectator: Spectator<ShareButtonComponent>;
+  let snackBar: MatSnackBar;
   const createComponent = createComponentFactory({
     component: ShareButtonComponent,
     imports: [
@@ -20,19 +20,12 @@ describe('ShareButtonComponent', () => {
       MatTooltipModule,
       MatSnackBarModule,
     ],
-    providers: [
-      {
-        provide: SnackBarService,
-        useValue: {
-          showSuccessMessage: jest.fn(),
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   test('should create', () => {
@@ -40,6 +33,9 @@ describe('ShareButtonComponent', () => {
   });
 
   describe('shareUrl', () => {
+    beforeEach(() => {
+      snackBar.open = jest.fn();
+    });
     test('should copy url to clipboard', () => {
       delete window.location;
       const mockLocation = new URL(
@@ -59,9 +55,10 @@ describe('ShareButtonComponent', () => {
     test('should show toast message', () => {
       component.shareUrl();
 
-      expect(
-        component['snackbarService'].showSuccessMessage
-      ).toHaveBeenCalledWith('translate it', 'translate it');
+      expect(component['snackBar'].open).toHaveBeenCalledWith(
+        'translate it',
+        'translate it'
+      );
     });
   });
 });

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -14,8 +15,6 @@ import {
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
@@ -251,7 +250,7 @@ export class CreateCaseEffects {
     private readonly router: Router,
     private readonly store: Store,
     private readonly materialService: MaterialService,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
 
   navigateAfterCaseCreate(
@@ -280,6 +279,6 @@ export class CreateCaseEffects {
       `caseView.snackBarMessages.${translationKey}`
     );
 
-    this.snackBarService.showSuccessMessage(successMessage);
+    this.snackBar.open(successMessage);
   }
 }

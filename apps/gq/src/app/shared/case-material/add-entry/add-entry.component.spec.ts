@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -24,8 +25,6 @@ import { AutocompleteSearch, IdValue } from '../../models/search';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -54,7 +53,6 @@ describe('AddEntryComponent', () => {
       MatSnackBarModule,
     ],
     providers: [
-      SnackBarService,
       provideMockStore({
         initialState: {
           case: {

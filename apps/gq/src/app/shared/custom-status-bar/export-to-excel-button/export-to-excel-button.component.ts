@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -14,8 +15,6 @@ import {
 } from '@ag-grid-community/all-modules';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { getExtendedComparableLinkedTransactions } from '../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
@@ -53,7 +52,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     private readonly matDialog: MatDialog,
     private readonly store: Store,
     private readonly translocoService: TranslocoService,
-    private readonly snackbarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -97,7 +96,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           this.transactions = transactions;
           this.exportToExcel(exportExcel);
         } else {
-          this.snackbarService.showWarningMessage(
+          this.snackBar.open(
             translate(
               'shared.customStatusBar.excelExport.noComparableTransactionsWarning'
             )

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
@@ -6,8 +7,6 @@ import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
@@ -69,7 +68,7 @@ export class ViewCasesEffect {
             const successMessage = translate(
               'caseView.snackBarMessages.deleteSuccess'
             );
-            this.snackBarService.showSuccessMessage(successMessage);
+            this.snackBar.open(successMessage);
           }),
           map(deleteCasesSuccess),
           catchError((errorMessage) => of(deleteCasesFailure({ errorMessage })))
@@ -81,6 +80,6 @@ export class ViewCasesEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly quotationService: QuotationService,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
 }

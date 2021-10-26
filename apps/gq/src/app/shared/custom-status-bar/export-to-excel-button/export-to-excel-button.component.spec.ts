@@ -1,6 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { of } from 'rxjs';
 
@@ -12,7 +13,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
@@ -31,7 +31,7 @@ describe('ExportToExcelButtonComponent', () => {
   let component: ExportToExcelButtonComponent;
   let spectator: Spectator<ExportToExcelButtonComponent>;
   let mockParams: IStatusPanelParams;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const createComponent = createComponentFactory({
     component: ExportToExcelButtonComponent,
@@ -44,7 +44,6 @@ describe('ExportToExcelButtonComponent', () => {
           },
         },
       }),
-      SnackBarService,
     ],
     imports: [
       MatButtonModule,
@@ -52,7 +51,7 @@ describe('ExportToExcelButtonComponent', () => {
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
-      SnackBarModule,
+      MatSnackBarModule,
     ],
   });
 
@@ -72,7 +71,7 @@ describe('ExportToExcelButtonComponent', () => {
         quotation: QUOTATION_MOCK,
       },
     } as unknown as IStatusPanelParams;
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   test('should create', () => {
@@ -141,7 +140,7 @@ describe('ExportToExcelButtonComponent', () => {
   describe('shouldLoadTransactions', () => {
     beforeEach(() => {
       component.exportToExcel = jest.fn();
-      snackBarService.showWarningMessage = jest.fn();
+      snackBar.open = jest.fn();
     });
 
     test('does not export to excel after dialog is canceled (exportExcel is not defined)', () => {
@@ -169,7 +168,7 @@ describe('ExportToExcelButtonComponent', () => {
       expect(component.transactions[0]).toEqual(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK
       );
-      expect(snackBarService.showWarningMessage).not.toHaveBeenCalled();
+      expect(snackBar.open).not.toHaveBeenCalled();
       expect(component.exportToExcel).toHaveBeenCalledWith(
         ExportExcel.DETAILED_DOWNLOAD
       );
@@ -182,9 +181,7 @@ describe('ExportToExcelButtonComponent', () => {
       component.shouldLoadTransactions(ExportExcel.DETAILED_DOWNLOAD);
 
       expect(component.transactions).toEqual(undefined);
-      expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
-        'translate it'
-      );
+      expect(snackBar.open).toHaveBeenCalledWith('translate it');
       expect(component.exportToExcel).toHaveBeenCalledWith(
         ExportExcel.BASIC_DOWNLOAD
       );

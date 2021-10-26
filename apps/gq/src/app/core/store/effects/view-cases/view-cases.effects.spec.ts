@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { marbles } from 'rxjs-marbles';
@@ -10,7 +11,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
 import { ENV_CONFIG } from '@schaeffler/http';
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
@@ -33,7 +34,7 @@ describe('View Cases Effects', () => {
   let actions$: any;
   let effects: ViewCasesEffect;
   let quotationService: QuotationService;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
     service: ViewCasesEffect,
@@ -59,7 +60,7 @@ describe('View Cases Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ViewCasesEffect);
     quotationService = spectator.inject(QuotationService);
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   describe('getCases$', () => {
@@ -140,7 +141,7 @@ describe('View Cases Effects', () => {
     test(
       'should return deleteCaseSuccess',
       marbles((m) => {
-        snackBarService.showSuccessMessage = jest.fn();
+        snackBar.open = jest.fn();
         quotationService.deleteCases = jest.fn(() => response);
 
         const result = deleteCasesSuccess();
@@ -153,7 +154,7 @@ describe('View Cases Effects', () => {
         m.flush();
 
         expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
       })
     );
 

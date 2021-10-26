@@ -7,7 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SnackBarService } from '@schaeffler/snackbar';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -52,10 +51,6 @@ describe('TransactionViewComponent', () => {
           },
         },
       }),
-      {
-        provide: SnackBarService,
-        useValue: {},
-      },
     ],
   });
 

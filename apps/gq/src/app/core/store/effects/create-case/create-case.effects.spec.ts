@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,7 +13,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ENV_CONFIG } from '@schaeffler/http';
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
@@ -86,13 +86,12 @@ describe('Create Case Effects', () => {
   let quotationService: QuotationService;
   let searchService: SearchService;
   let validationService: MaterialService;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
     service: CreateCaseEffects,
-    imports: [SnackBarModule, RouterTestingModule, HttpClientTestingModule],
+    imports: [MatSnackBarModule, RouterTestingModule, HttpClientTestingModule],
     providers: [
-      SnackBarService,
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { search: initialState } }),
       {
@@ -116,7 +115,7 @@ describe('Create Case Effects', () => {
     quotationService = spectator.inject(QuotationService);
     searchService = spectator.inject(SearchService);
     validationService = spectator.inject(MaterialService);
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   describe('autocomplete$', () => {
@@ -315,7 +314,7 @@ describe('Create Case Effects', () => {
       'should return validateSuccess when REST call is successful',
       marbles((m) => {
         router.navigate = jest.fn();
-        snackBarService.showSuccessMessage = jest.fn();
+        snackBar.open = jest.fn();
         action = createCase();
 
         const createdCase: CreateCaseResponse = {
@@ -340,7 +339,7 @@ describe('Create Case Effects', () => {
           createCaseData
         );
         expect(router.navigate).toHaveBeenCalledTimes(1);
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -379,7 +378,7 @@ describe('Create Case Effects', () => {
       'should return importCaseSuccess when REST call is successful',
       marbles((m) => {
         router.navigate = jest.fn();
-        snackBarService.showSuccessMessage = jest.fn();
+        snackBar.open = jest.fn();
         action = importCase();
 
         const result = importCaseSuccess({ gqId: QUOTATION_MOCK.gqId });
@@ -399,7 +398,10 @@ describe('Create Case Effects', () => {
           `${QUOTATION_MOCK.gqId}`
         );
         expect(router.navigate).toHaveBeenCalledTimes(1);
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(translate).toHaveBeenCalledWith(
+          'caseView.snackBarMessages.importSuccess'
+        );
       })
     );
 
@@ -568,7 +570,7 @@ describe('Create Case Effects', () => {
   describe('navigateAfterCaseCreate', () => {
     beforeEach(() => {
       router.navigate = jest.fn();
-      snackBarService.showSuccessMessage = jest.fn();
+      snackBar.open = jest.fn();
     });
     test('should navigate and display snackbar for createCase', () => {
       effects.navigateAfterCaseCreate('1', '2', 3, CreationType.CREATE_CASE);
@@ -577,7 +579,7 @@ describe('Create Case Effects', () => {
         'caseView.snackBarMessages.createSuccess'
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
     });
     test('should navigate and display snackbar for importCase', () => {
       effects.navigateAfterCaseCreate('1', '2', 3, CreationType.IMPORT);
@@ -586,7 +588,7 @@ describe('Create Case Effects', () => {
         'caseView.snackBarMessages.createSuccess'
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
     });
     test('should navigate and display snackbar for reimportCase', () => {
       effects.navigateAfterCaseCreate('1', '2', 3, CreationType.REIMPORT);
@@ -595,7 +597,7 @@ describe('Create Case Effects', () => {
         'caseView.snackBarMessages.createSuccess'
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
     });
   });
 });

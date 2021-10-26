@@ -1,3 +1,5 @@
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -6,7 +8,6 @@ import { updateQuotationDetails } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
 import { PriceSource } from '../../models/quotation-detail';
 import { ColumnDefService } from './column-def.service';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -15,25 +16,18 @@ jest.mock('@ngneat/transloco', () => ({
 describe('ColumnDefService', () => {
   let service: ColumnDefService;
   let spectator: SpectatorService<ColumnDefService>;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
     service: ColumnDefService,
-    providers: [
-      provideMockStore({}),
-      {
-        provide: SnackBarService,
-        useValue: {
-          showErrorMessage: jest.fn(),
-        },
-      },
-    ],
+    imports: [MatSnackBarModule],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   test('should be created', () => {
@@ -42,6 +36,7 @@ describe('ColumnDefService', () => {
   describe('selectManualPrice', () => {
     beforeEach(() => {
       service['store'].dispatch = jest.fn();
+      snackBar.open = jest.fn();
     });
     test('should dispatch action', () => {
       const price = 10;
@@ -67,7 +62,7 @@ describe('ColumnDefService', () => {
 
       service.selectManualPrice(price, gqPositionId, 1);
 
-      expect(snackBarService.showErrorMessage).toHaveBeenCalled();
+      expect(snackBar.open).toHaveBeenCalled();
       expect(service['store'].dispatch).not.toHaveBeenCalled();
     });
   });

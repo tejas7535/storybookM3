@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -15,8 +16,6 @@ import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Quotation } from '../../../../shared/models';
@@ -233,7 +232,7 @@ export class ProcessCaseEffect {
               const successMessage = translate<string>(
                 'shared.snackBarMessages.materialAdded'
               );
-              this.snackBarService.showSuccessMessage(successMessage);
+              this.snackBar.open(successMessage);
             }),
             tap((item) =>
               PriceService.addCalculationsForDetails(item.quotationDetails)
@@ -258,7 +257,7 @@ export class ProcessCaseEffect {
             const successMessage = translate<string>(
               'shared.snackBarMessages.materialDeleted'
             );
-            this.snackBarService.showSuccessMessage(successMessage);
+            this.snackBar.open(successMessage);
           }),
           tap((item) =>
             PriceService.addCalculationsForDetails(item.quotationDetails)
@@ -309,7 +308,7 @@ export class ProcessCaseEffect {
             const successMessage = translate<string>(
               'shared.snackBarMessages.uploadSelectionSuccess'
             );
-            this.snackBarService.showSuccessMessage(successMessage);
+            this.snackBar.open(successMessage);
           }),
           map(uploadSelectionToSapSuccess),
           catchError((errorMessage) =>
@@ -328,7 +327,7 @@ export class ProcessCaseEffect {
     private readonly store: Store,
     private readonly router: Router,
     private readonly materialService: MaterialService,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBar: MatSnackBar
   ) {}
   private static mapQueryParamsToIdentifier(queryParams: any): {
     gqId: number;
@@ -364,6 +363,6 @@ export class ProcessCaseEffect {
     } else {
       translateString += 'updateComment';
     }
-    this.snackBarService.showSuccessMessage(translate(translateString));
+    this.snackBar.open(translate(translateString));
   }
 }
