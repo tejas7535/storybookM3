@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.5.0...cdba-v2.4.0) (2021-10-26)
+
+
+### 🎸 Features
+
+* **cdba:** add pcm tooling cost to detail page (DSCDA-2684) ([#3161](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3161)) ([7220c88](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7220c88e69027256b8ede83ebeac97a6bc96a7bb))
+* **cdba:** introduce detail-label-value component (DSCDA-2739) ([bccd27a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bccd27a345516ffef60060dfd77b8a06b21c8b57))
+* **share-button:** add share button lib (UFTABI-4939) ([4901165](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4901165a172d95185184fa8acbd870193753240b)), closes [#3031](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3031)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** enable tooltips for disabled buttons (DSCDA-2752) ([#3128](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3128)) ([8e3ce4b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8e3ce4bb53348c610d1e130a7d65c8438367004a))
+* **cdba:** make breadcrumbs service a root service (DSCDA-2753) ([bae11bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bae11bbc74ed19b05a92f1c2e445df38ee43404f))
+
 ## [2.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.4.0...cdba-v2.3.1) (2021-10-12)
 
 
