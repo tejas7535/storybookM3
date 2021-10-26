@@ -208,13 +208,7 @@ def getBuildTriggerUser() {
 }
 
 def getAgentLabel() {
-    def label = '(docker && linux && extratools) || monorepo'
-
-    if (isNightly()) {
-        label = 'monorepo'
-    }
-
-    return label
+    return 'monorepo'
 }
 
 void deployArtifact(target, uploadFile, checksum) {
@@ -241,11 +235,7 @@ def getFilteredBranchName() {
 }
 
 def getNxRunnerConfig() {
-    if (env.NODE_NAME == 'mono-repo-build-agent') {
-        return '--runner=ci'
-    } else {
-        return ''
-    }
+    return '--runner=ci'
 }
 
 /****************************************************************/
@@ -262,11 +252,10 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        disableConcurrentBuilds()
+        disableConcurrentBuilds (abortPrevious: !isMaster())
         timeout(time: 1, unit: 'HOURS')
         timestamps()
         ansiColor('xterm')
-
         office365ConnectorWebhooks([[name: 'Jenkins', notifyAborted: true, notifyBackToNormal: true, notifyFailure: true, notifyNotBuilt: true, notifyRepeatedFailure: true, notifySuccess: true, notifyUnstable: true, url: 'https://worksite.webhook.office.com/webhookb2/a8039948-cbd2-4239-ba69-edbeefadeea2@67416604-6509-4014-9859-45e709f53d3f/IncomingWebhook/f20462c8f2bd4a4292cb28af1f2b08a9/4d574df3-1fa0-4252-86e6-784d5e165a8b']])
     }
 
