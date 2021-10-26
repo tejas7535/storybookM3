@@ -150,7 +150,8 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
-      field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
+      field: ColumnFields.LAST_OFFER_PRICE_DATE,
+      filter: 'agDateColumnFilter',
       valueFormatter: ColumnUtilityService.dateFormatter,
       filterParams: ColumnUtilityService.dateFilterParams,
     },
