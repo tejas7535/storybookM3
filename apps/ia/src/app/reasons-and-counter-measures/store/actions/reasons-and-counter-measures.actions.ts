@@ -47,3 +47,7 @@ export const changeComparedTimeRange = createAction(
   '[ReasonsAndCounterMeasures] Change ComparedTimeRange',
   props<{ comparedSelectedTimeRange: string }>()
 );
+
+export const resetCompareMode = createAction(
+  '[ReasonsAndCounterMeasures] Reset Compare Mode'
+);

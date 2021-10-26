@@ -10,6 +10,7 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  resetCompareMode,
 } from './reasons-and-counter-measures.actions';
 
 describe('Overview Actions', () => {
@@ -111,6 +112,14 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       comparedSelectedTimeRange,
       type: '[ReasonsAndCounterMeasures] Change ComparedTimeRange',
+    });
+  });
+
+  test('resetCompareMode', () => {
+    const action = resetCompareMode();
+
+    expect(action).toEqual({
+      type: '[ReasonsAndCounterMeasures] Reset Compare Mode',
     });
   });
 });

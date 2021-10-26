@@ -25,6 +25,7 @@ import {
   changeComparedFilter,
   changeComparedTimePeriod,
   changeComparedTimeRange,
+  resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedReasonsChartConfig,
@@ -136,5 +137,9 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   comparedTimeRangeSelected(comparedSelectedTimeRange: string): void {
     this.store.dispatch(changeComparedTimeRange({ comparedSelectedTimeRange }));
+  }
+
+  resetCompareMode(): void {
+    this.store.dispatch(resetCompareMode());
   }
 }

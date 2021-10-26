@@ -13,6 +13,7 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  resetCompareMode,
 } from './actions/reasons-and-counter-measures.actions';
 
 describe('ReasonsAndCounterMeasures Reducer', () => {
@@ -136,6 +137,26 @@ describe('ReasonsAndCounterMeasures Reducer', () => {
 
         expect(state.reasonsForLeaving.comparedSelectedTimeRange).toEqual(
           comparedSelectedTimeRange
+        );
+      });
+    });
+
+    describe('resetCompareMode', () => {
+      test('should set compare filter', () => {
+        const fakeState = {
+          ...initialState,
+          reasonsForLeaving: {
+            ...initialState.reasonsForLeaving,
+            comparedSelectedOrgUnit: 'Schaeffler_123',
+            comparedSelectedTimePeriod: TimePeriod.LAST_THREE_YEARS,
+          },
+        };
+        const action = resetCompareMode();
+        const state = reasonsAndCounterMeasuresReducer(fakeState, action);
+
+        expect(state.reasonsForLeaving.comparedSelectedOrgUnit).toBeUndefined();
+        expect(state.reasonsForLeaving.comparedSelectedTimePeriod).toEqual(
+          TimePeriod.LAST_12_MONTHS
         );
       });
     });

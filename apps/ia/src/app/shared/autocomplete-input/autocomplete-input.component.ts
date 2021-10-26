@@ -59,7 +59,12 @@ export class AutocompleteInputComponent
   }
 
   @Input() set value(value: string) {
-    this.inputControl.setValue(value);
+    if (!value) {
+      this.inputControl.reset();
+      this.lastEmittedValue = '';
+    } else {
+      this.inputControl.setValue(value);
+    }
   }
 
   @Output()

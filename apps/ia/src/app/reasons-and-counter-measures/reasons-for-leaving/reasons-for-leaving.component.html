@@ -13,21 +13,30 @@
       [selectedTime]="selectedTime$ | ngrxPush"
     >
     </ia-filter>
-    <ia-filter
-      class="order-3 lg:order-2 lg:col-end-4"
-      [orgUnits]="orgUnits$ | ngrxPush"
-      [selectedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"
-      [timePeriods]="timePeriods$ | ngrxPush"
-      [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
-      [selectedTime]="comparedSelectedTime$ | ngrxPush"
-      [disabledTimeRangeFilter]="comparedDisabledTimeRangeFilter"
-      (orgUnitInvalid)="orgUnitInvalid($event)"
-      (optionSelected)="comparedOptionSelected($event)"
-      (timePeriodSelected)="comparedTimePeriodSelected($event)"
-      (timeRangeSelected)="comparedTimeRangeSelected($event)"
-      (orgUnitInvalid)="orgUnitInvalid($event)"
-    >
-    </ia-filter>
+    <div class="order-3 lg:order-2 lg:col-end-4 relative mt-12 lg:mt-0">
+      <button
+        mat-stroked-button
+        class="!absolute !right-0 !-top-10"
+        [disabled]="!(comparedReasonsChartData$ | ngrxPush)"
+        (click)="resetCompareMode()"
+      >
+        {{ t('topFiveReasons.resetCompareMode') }}
+      </button>
+      <ia-filter
+        [orgUnits]="orgUnits$ | ngrxPush"
+        [selectedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"
+        [timePeriods]="timePeriods$ | ngrxPush"
+        [selectedTimePeriod]="comparedSelectedTimePeriod$ | ngrxPush"
+        [selectedTime]="comparedSelectedTime$ | ngrxPush"
+        [disabledTimeRangeFilter]="comparedDisabledTimeRangeFilter"
+        (orgUnitInvalid)="orgUnitInvalid($event)"
+        (optionSelected)="comparedOptionSelected($event)"
+        (timePeriodSelected)="comparedTimePeriodSelected($event)"
+        (timeRangeSelected)="comparedTimeRangeSelected($event)"
+        (orgUnitInvalid)="orgUnitInvalid($event)"
+      >
+      </ia-filter>
+    </div>
     <ia-reasons-for-leaving-table
       class="order-2 lg:order-3"
       [data]="reasonsTableData$ | ngrxPush"

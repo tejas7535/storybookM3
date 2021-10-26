@@ -12,6 +12,7 @@ import {
   loadReasonsWhyPeopleLeft,
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
+  resetCompareMode,
 } from './actions/reasons-and-counter-measures.actions';
 
 export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
@@ -190,6 +191,25 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
           errorMessage,
           loading: false,
         },
+      },
+    })
+  ),
+  on(
+    resetCompareMode,
+    (
+      state: ReasonsAndCounterMeasuresState
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedReasons: {
+          data: undefined,
+          loading: undefined,
+          errorMessage: undefined,
+        },
+        comparedSelectedOrgUnit: undefined,
+        comparedSelectedTimePeriod: TimePeriod.LAST_12_MONTHS,
+        // comparedSelectedTimeRange needs to stay as the last selected value
       },
     })
   )

@@ -13,6 +13,7 @@
       "detailedReason": "Reason",
       "percentage": "%",
       "leavers": "Leavers"
-    }
+    },
+    "resetCompareMode": "Reset Compare Mode"
   }
 }

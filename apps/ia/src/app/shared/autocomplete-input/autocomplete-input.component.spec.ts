@@ -59,6 +59,18 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.inputControl.setValue).toHaveBeenCalledWith('123');
     });
+
+    test('should reset control if input undefined', () => {
+      component['lastEmittedValue'] = 'last val';
+
+      component.inputControl.setValue = jest.fn();
+      component.inputControl.reset = jest.fn();
+
+      component.value = undefined;
+
+      expect(component.inputControl.setValue).not.toHaveBeenCalled();
+      expect(component.inputControl.reset).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('ngOnInit', () => {

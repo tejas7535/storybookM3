@@ -21,6 +21,7 @@ import {
   changeComparedFilter,
   changeComparedTimePeriod,
   changeComparedTimeRange,
+  resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
   getComparedReasonsChartConfig,
@@ -233,6 +234,16 @@ describe('ReasonsForLeavingComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         changeComparedTimeRange({ comparedSelectedTimeRange })
       );
+    });
+  });
+
+  describe('resetCompareMode', () => {
+    test('should dispatch resetCompareMode action', () => {
+      store.dispatch = jest.fn();
+
+      component.resetCompareMode();
+
+      expect(store.dispatch).toHaveBeenCalledWith(resetCompareMode());
     });
   });
 });
