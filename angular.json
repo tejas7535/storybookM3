@@ -1,30 +1,5 @@
 {
   "version": 1,
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "defaultProject": "helloworld-azure",
-  "schematics": {
-    "@nrwl/angular:application": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "style": "scss",
-      "linter": "eslint",
-      "unitTestRunner": "jest",
-      "strict": true
-    },
-    "@ngneat/spectator:spectator-component": {
-      "jest": true,
-      "style": "scss"
-    },
-    "@nrwl/angular:component": {
-      "style": "scss"
-    }
-  },
   "projects": {
     "cdba": {
       "projectType": "application",
@@ -168,7 +143,9 @@
             "cwd": "apps/cdba"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "cdba-e2e": {
       "root": "apps/cdba-e2e",
@@ -203,7 +180,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["cdba"]
     },
     "ga": {
       "projectType": "application",
@@ -342,7 +321,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "ga-e2e": {
       "root": "apps/ga-e2e",
@@ -377,7 +357,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["ga"]
     },
     "goldwind": {
       "projectType": "application",
@@ -532,7 +514,9 @@
             "cwd": "apps/goldwind"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "goldwind-e2e": {
       "root": "apps/goldwind-e2e",
@@ -567,7 +551,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["goldwind"]
     },
     "gq": {
       "projectType": "application",
@@ -710,7 +696,9 @@
             "cwd": "apps/gq"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "gq-e2e": {
       "root": "apps/gq-e2e",
@@ -745,7 +733,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["gq"]
     },
     "helloworld-azure": {
       "projectType": "application",
@@ -888,7 +878,9 @@
             "cwd": "apps/helloworld-azure"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "helloworld-azure-e2e": {
       "root": "apps/helloworld-azure-e2e",
@@ -923,7 +915,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["helloworld-azure"]
     },
     "ia": {
       "projectType": "application",
@@ -1060,7 +1054,9 @@
             "cwd": "apps/ia"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "ia-e2e": {
       "root": "apps/ia-e2e",
@@ -1095,7 +1091,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["ia"]
     },
     "mac": {
       "projectType": "application",
@@ -1236,7 +1234,9 @@
             "cwd": "apps/mac"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "mac-e2e": {
       "root": "apps/mac-e2e",
@@ -1271,7 +1271,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["mac"]
     },
     "mm": {
       "projectType": "application",
@@ -1449,7 +1451,9 @@
             "cwd": "apps/mm"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "mm-e2e": {
       "root": "apps/mm-e2e",
@@ -1484,7 +1488,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["mm"]
     },
     "sedo": {
       "projectType": "application",
@@ -1625,7 +1631,9 @@
             "cwd": "apps/sedo"
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "sedo-e2e": {
       "root": "apps/sedo-e2e",
@@ -1660,7 +1668,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["sedo"]
     },
     "shared-assets": {
       "projectType": "library",
@@ -1676,7 +1686,8 @@
           }
         }
       },
-      "schematics": {}
+      "schematics": {},
+      "tags": ["scope:shared", "type:assets"]
     },
     "shared-cypress-utils": {
       "projectType": "library",
@@ -1707,7 +1718,8 @@
           }
         }
       },
-      "schematics": {}
+      "schematics": {},
+      "tags": ["scope:shared", "type:utils"]
     },
     "shared-ui-app-shell": {
       "projectType": "library",
@@ -1773,7 +1785,8 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-banner": {
       "projectType": "library",
@@ -1839,7 +1852,9 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-breadcrumbs": {
       "projectType": "library",
@@ -1903,7 +1918,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-dropdown-input": {
       "projectType": "library",
@@ -1963,7 +1979,9 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-empty-states": {
       "projectType": "library",
@@ -2030,7 +2048,8 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-file-drop": {
       "projectType": "library",
@@ -2096,7 +2115,9 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-footer": {
       "projectType": "library",
@@ -2162,7 +2183,9 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-header": {
       "projectType": "library",
@@ -2228,7 +2251,9 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles", "shared-assets"]
     },
     "shared-ui-icons": {
       "projectType": "library",
@@ -2294,7 +2319,8 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-legal-pages": {
       "projectType": "library",
@@ -2342,7 +2368,8 @@
             }
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-loading-spinner": {
       "projectType": "library",
@@ -2403,7 +2430,9 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-picture-card": {
       "projectType": "library",
@@ -2463,7 +2492,9 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-report": {
       "projectType": "library",
@@ -2523,7 +2554,9 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-search-autocomplete": {
       "projectType": "library",
@@ -2583,7 +2616,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-share-button": {
       "projectType": "library",
@@ -2647,7 +2681,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", ""]
     },
     "shared-ui-sidebar": {
       "projectType": "library",
@@ -2713,7 +2748,9 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-snackbar": {
       "projectType": "library",
@@ -2779,7 +2816,9 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-stepper": {
       "projectType": "library",
@@ -2839,7 +2878,8 @@
             ]
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-storybook": {
       "root": "libs/shared/ui/storybook",
@@ -2888,7 +2928,8 @@
             "cwd": "libs/shared/ui/storybook"
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-ui-storybook-e2e": {
       "root": "apps/shared-ui-storybook-e2e",
@@ -2923,7 +2964,9 @@
             }
           }
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["shared-ui-storybook"]
     },
     "shared-ui-styles": {
       "projectType": "library",
@@ -2987,7 +3030,8 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:styles"]
     },
     "shared-ui-subheader": {
       "projectType": "library",
@@ -3030,7 +3074,9 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": []
     },
     "shared-utils-application-insights": {
       "projectType": "library",
@@ -3092,7 +3138,8 @@
           }
         }
       },
-      "schematics": {}
+      "schematics": {},
+      "tags": ["scope:shared", "type:utils"]
     },
     "shared-utils-azure-auth": {
       "projectType": "library",
@@ -3154,7 +3201,8 @@
           }
         }
       },
-      "schematics": {}
+      "schematics": {},
+      "tags": ["scope:shared", "type:utils"]
     },
     "shared-utils-http": {
       "projectType": "library",
@@ -3220,7 +3268,8 @@
         "@schematics/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:utils"]
     },
     "shared-utils-responsive": {
       "projectType": "library",
@@ -3286,7 +3335,8 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:utils"]
     },
     "shared-utils-transloco": {
       "projectType": "library",
@@ -3352,7 +3402,8 @@
         "@nrwl/angular:component": {
           "style": "scss"
         }
-      }
+      },
+      "tags": ["scope:shared", "type:utils"]
     }
   }
 }

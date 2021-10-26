@@ -40,178 +40,6 @@
       }
     }
   },
-  "projects": {
-    "cdba": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "cdba-e2e": {
-      "tags": [],
-      "implicitDependencies": ["cdba"]
-    },
-    "ga": {
-      "tags": []
-    },
-    "ga-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ga"]
-    },
-    "goldwind": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "goldwind-e2e": {
-      "tags": [],
-      "implicitDependencies": ["goldwind"]
-    },
-    "gq": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "gq-e2e": {
-      "tags": [],
-      "implicitDependencies": ["gq"]
-    },
-    "helloworld-azure": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "helloworld-azure-e2e": {
-      "tags": [],
-      "implicitDependencies": ["helloworld-azure"]
-    },
-    "ia": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "ia-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ia"]
-    },
-    "mac": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "mac-e2e": {
-      "tags": [],
-      "implicitDependencies": ["mac"]
-    },
-    "mm": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "mm-e2e": {
-      "tags": [],
-      "implicitDependencies": ["mm"]
-    },
-    "sedo": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "sedo-e2e": {
-      "tags": [],
-      "implicitDependencies": ["sedo"]
-    },
-    "shared-assets": {
-      "tags": ["scope:shared", "type:assets"]
-    },
-    "shared-cypress-utils": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-ui-app-shell": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-banner": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-breadcrumbs": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-dropdown-input": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-empty-states": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-file-drop": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-footer": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-header": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles", "shared-assets"]
-    },
-    "shared-ui-icons": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-legal-pages": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-loading-spinner": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-picture-card": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-report": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-search-autocomplete": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-share-button": {
-      "tags": ["scope:shared", ""]
-    },
-    "shared-ui-sidebar": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-snackbar": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-stepper": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-storybook": {
-      "tags": []
-    },
-    "shared-ui-storybook-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-storybook"]
-    },
-    "shared-ui-styles": {
-      "tags": ["scope:shared", "type:styles"]
-    },
-    "shared-ui-subheader": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": []
-    },
-    "shared-utils-application-insights": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-azure-auth": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-http": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-responsive": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-transloco": {
-      "tags": ["scope:shared", "type:utils"]
-    }
-  },
   "targetDependencies": {
     "build": [
       {
@@ -219,5 +47,30 @@
         "projects": "dependencies"
       }
     ]
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "helloworld-azure",
+  "generators": {
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "strict": true
+    },
+    "@ngneat/spectator:spectator-component": {
+      "jest": true,
+      "style": "scss"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
   }
 }
