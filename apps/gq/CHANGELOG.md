@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.1.1...gq-v2.1.0) (2021-10-26)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed last offer date (GQUOTE-1021) ([#3222](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3222)) ([8f456fe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8f456fe388e8711c013b00fb93730924545b0d19))
+* **gq:** fixed snackbar displaying (GQUOTE-1020) ([#3229](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3229)) ([3014e59](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3014e59f1925d010080b0e4fd54f452d171b10fa))
+
 ## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.1.0...gq-v2.0.2) (2021-10-25)
 
 
