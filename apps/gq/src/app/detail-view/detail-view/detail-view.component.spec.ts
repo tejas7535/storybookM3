@@ -3,18 +3,23 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
 import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
-import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
@@ -48,6 +53,7 @@ describe('DetailViewComponent', () => {
       ShareButtonModule,
     ],
     providers: [
+      mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
           detailCase: {

@@ -7,13 +7,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -28,7 +34,6 @@ import { ExportToExcelButtonComponent } from '../shared/custom-status-bar/export
 import { TotalRowCountComponent } from '../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
-import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
@@ -82,6 +87,7 @@ describe('ProcessCaseViewComponent', () => {
     ],
     declarations: [CalculationInProgressComponent],
     providers: [
+      mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
           processCase: {

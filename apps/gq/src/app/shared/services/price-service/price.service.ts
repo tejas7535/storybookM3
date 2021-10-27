@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { QuotationDetail } from '../../models/quotation-detail';
-import { StatusBarCalculation } from './models/status-bar-calculation.model';
-import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { PriceUnitForQuotationItemId } from '../../models/quotation-detail/price-units-for-quotation-item-ids.model';
+import { StatusBarCalculation } from './models/status-bar-calculation.model';
 
 @Injectable({
   providedIn: 'root',
@@ -166,7 +166,7 @@ export class PriceService {
     quotationDetails: QuotationDetail[]
   ): QuotationDetail[] {
     const filtered = new Map<string, QuotationDetail>();
-    quotationDetails.forEach((quotationDetail: QuotationDetail) => {
+    quotationDetails?.forEach((quotationDetail: QuotationDetail) => {
       const key = quotationDetail.material.materialNumber15;
       if (filtered.has(key)) {
         if (filtered.get(key).orderQuantity < quotationDetail.orderQuantity) {

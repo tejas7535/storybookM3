@@ -5,18 +5,23 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
-import { ShareButtonModule } from '../shared/header/share-button/share-button.module';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewComponent } from './customer-view.component';
 
@@ -48,6 +53,7 @@ describe('CustomerViewComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
           processCase: {

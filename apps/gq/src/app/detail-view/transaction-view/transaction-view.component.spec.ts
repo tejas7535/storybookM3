@@ -1,17 +1,23 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
-import { ShareButtonModule } from '../../shared/header/share-button/share-button.module';
+import {
+  CUSTOMER_MOCK,
+  QUOTATION_STATE_MOCK,
+  TRANSACTIONS_STATE_MOCK,
+} from '../../../testing/mocks';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
@@ -36,19 +42,23 @@ describe('TransactionViewComponent', () => {
       SubheaderModule,
       BreadcrumbsModule,
       ShareButtonModule,
+      MatSnackBarModule,
     ],
     declarations: [SavingInProgressComponent],
     providers: [
+      {
+        provide: ApplicationInsightsService,
+        useValue: {},
+      },
       provideMockStore({
         initialState: {
           processCase: {
             customer: {
               item: CUSTOMER_MOCK,
             },
-            quotation: {
-              item: QUOTATION_MOCK,
-            },
+            quotation: QUOTATION_STATE_MOCK,
           },
+          transactions: TRANSACTIONS_STATE_MOCK,
         },
       }),
     ],
