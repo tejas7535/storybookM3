@@ -53,10 +53,6 @@ export class SolidDoughnutChartComponent {
       ...this.mergeOptions,
       series: [{ data }],
       legend: {
-        data: data
-          .sort((a, b) => a.value - b.value)
-          .map((value) => value.name)
-          .reverse(),
         top: 'bottom',
         textStyle: {
           fontSize: '0.75rem',

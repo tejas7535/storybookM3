@@ -9,6 +9,7 @@ import {
   getBeautifiedSelectedTimeRange,
   getSelectedTimePeriod,
 } from '../../../core/store/selectors';
+import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import { EmployeesRequest, TimePeriod } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import * as utils from './reasons-and-counter-measures.selector.utils';
@@ -48,14 +49,22 @@ export const getReasonsLoading = createSelector(
     state.reasonsForLeaving.reasons.loading
 );
 
+export const getReasonsChartData = createSelector(
+  getReasonsData,
+  (reasons: ReasonForLeavingStats[]) =>
+    reasons ? utils.getTop5ReasonsForChart(reasons) : []
+);
+
 export const getReasonsChartConfig = createSelector(
   getReasonsData,
   getBeautifiedSelectedTimeRange,
   getSelectedTimePeriod,
+  getReasonsChartData,
   (
     stats: ReasonForLeavingStats[],
     timeRange: string,
-    timePeriod: TimePeriod
+    timePeriod: TimePeriod,
+    originalData: DoughnutChartData[]
   ) => ({
     title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
@@ -63,13 +72,8 @@ export const getReasonsChartConfig = createSelector(
         ? translate('reasonsAndCounterMeasures.topFiveReasons.title')
         : translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData'),
     tooltipFormatter: utils.getTooltipFormatter(),
+    color: utils.getColorsForChart(originalData),
   })
-);
-
-export const getReasonsChartData = createSelector(
-  getReasonsData,
-  (reasons: ReasonForLeavingStats[]) =>
-    reasons ? utils.getTop5ReasonsForChart(reasons) : []
 );
 
 export const getSelectedComparedTimeRange = createSelector(
@@ -127,14 +131,24 @@ export const getComparedTimePeriod = createSelector(
     state.reasonsForLeaving.comparedSelectedTimePeriod
 );
 
+export const getComparedReasonsChartData = createSelector(
+  getComparedReasonsData,
+  (reasons: ReasonForLeavingStats[]) =>
+    reasons ? utils.getTop5ReasonsForChart(reasons) : undefined
+);
+
 export const getComparedReasonsChartConfig = createSelector(
   getComparedReasonsData,
   getComparedBeautifiedSelectedTimeRange,
   getComparedTimePeriod,
+  getReasonsChartData,
+  getComparedReasonsChartData,
   (
     stats: ReasonForLeavingStats[],
     timeRange: string,
-    timePeriod: TimePeriod
+    timePeriod: TimePeriod,
+    originalData: DoughnutChartData[],
+    compareData: DoughnutChartData[]
   ) => ({
     title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
@@ -142,13 +156,8 @@ export const getComparedReasonsChartConfig = createSelector(
         ? translate('reasonsAndCounterMeasures.topFiveReasons.title')
         : translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData'),
     tooltipFormatter: utils.getTooltipFormatter(),
+    color: utils.getColorsForChart(originalData, compareData),
   })
-);
-
-export const getComparedReasonsChartData = createSelector(
-  getComparedReasonsData,
-  (reasons: ReasonForLeavingStats[]) =>
-    reasons ? utils.getTop5ReasonsForChart(reasons) : undefined
 );
 
 export const getPercentageValue = (part: number, total: number) => {

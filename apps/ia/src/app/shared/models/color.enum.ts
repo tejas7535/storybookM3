@@ -20,4 +20,10 @@ export enum Color {
   COLORFUL_CHART_3 = '#4DB6AC',
   COLORFUL_CHART_4 = '#acb2ab',
   COLORFUL_CHART_5 = '#CBD0CA',
+  COLORFUL_CHART_6 = '#41a9bc',
+  COLORFUL_CHART_7 = '#adcf76',
+  COLORFUL_CHART_8 = '#2f799e',
+  COLORFUL_CHART_9 = '#8fb2ca',
+  COLORFUL_CHART_10 = '#2b8172',
+  COLORFUL_CHART_11 = '#787d78',
 }

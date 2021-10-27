@@ -1,6 +1,7 @@
 import { translate } from '@ngneat/transloco';
 
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
+import { Color } from '../../../shared/models/color.enum';
 import { ReasonForLeavingRank } from '../../models/reason-for-leaving-rank.model';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { getPercentageValue } from './reasons-and-counter-measures.selector';
@@ -29,12 +30,13 @@ export function getTop5ReasonsForChart(
   if (data.length === 0) {
     return [];
   }
-  const top5Reasons = data
+  const dataOrderedDescending = [...data].sort((a, b) => b.leavers - a.leavers);
+  const top5Reasons = dataOrderedDescending
     .slice(0, 5)
     .map((reason) => ({ value: reason.leavers, name: reason.detailedReason }));
 
-  if (data.length > 5) {
-    const otherCount = data
+  if (dataOrderedDescending.length > 5) {
+    const otherCount = dataOrderedDescending
       .slice(5)
       .map((reason) => reason.leavers)
       // eslint-disable-next-line unicorn/no-array-reduce
@@ -55,4 +57,46 @@ export function getTooltipFormatter(): string {
   );
 
   return `{b}<br><b>{c}</b> ${leavers} - <b>{d}%</b>`;
+}
+
+const COLOR_PALETTE = [
+  Color.COLORFUL_CHART_11,
+  Color.COLORFUL_CHART_10,
+  Color.COLORFUL_CHART_9,
+  Color.COLORFUL_CHART_8,
+  Color.COLORFUL_CHART_7,
+  Color.COLORFUL_CHART_6,
+  Color.COLORFUL_CHART_5,
+  Color.COLORFUL_CHART_4,
+  Color.COLORFUL_CHART_3,
+  Color.COLORFUL_CHART_2,
+  Color.COLORFUL_CHART_1,
+  Color.COLORFUL_CHART_0,
+];
+
+export function getColorsForChart(
+  defaultChartData: DoughnutChartData[],
+  compareChartData?: DoughnutChartData[]
+): Color[] {
+  if (!compareChartData) {
+    return COLOR_PALETTE;
+  }
+
+  const colors = Array.from<Color>({ length: COLOR_PALETTE.length });
+  compareChartData.forEach((stats, idxCompare) => {
+    const idx = defaultChartData.findIndex(
+      (defElem) => defElem.name !== undefined && defElem.name === stats.name
+    );
+
+    if (idx !== -1) {
+      const targetColor = COLOR_PALETTE[idx];
+      colors[idxCompare] = targetColor;
+    }
+  });
+
+  const remainingColors = COLOR_PALETTE.filter((val) => !colors.includes(val));
+
+  return colors.map((color: Color) =>
+    color !== undefined ? color : remainingColors.shift()
+  );
 }

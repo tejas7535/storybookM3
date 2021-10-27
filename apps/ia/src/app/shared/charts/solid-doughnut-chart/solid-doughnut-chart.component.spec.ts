@@ -54,14 +54,6 @@ describe('SolidDoughnutChartComponent', () => {
           fontSize: '1rem',
         },
       });
-      expect(component.options.color).toEqual([
-        Color.COLORFUL_CHART_5,
-        Color.COLORFUL_CHART_4,
-        Color.COLORFUL_CHART_3,
-        Color.COLORFUL_CHART_2,
-        Color.COLORFUL_CHART_1,
-        Color.COLORFUL_CHART_0,
-      ]);
     });
   });
 
@@ -97,19 +89,6 @@ describe('SolidDoughnutChartComponent', () => {
       component.data = data;
 
       expect(component.mergeOptions.legend).toBeDefined();
-      expect(
-        (component.mergeOptions.legend as { data: any }).data
-      ).toHaveLength(3);
-      expect((component.mergeOptions.legend as any).data).toHaveLength(3);
-      expect((component.mergeOptions.legend as any).data).toContain(
-        data[2].name
-      );
-      expect((component.mergeOptions.legend as any).data).toContain(
-        data[0].name
-      );
-      expect((component.mergeOptions.legend as any).data).toContain(
-        data[1].name
-      );
     });
   });
 

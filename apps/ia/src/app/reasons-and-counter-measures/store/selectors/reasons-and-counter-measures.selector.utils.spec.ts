@@ -1,3 +1,4 @@
+import { Color } from '../../../shared/models/color.enum';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
@@ -29,5 +30,75 @@ describe('mapReasonsToTableData', () => {
     const result = utils.mapReasonsToTableData(data);
 
     expect(result).toBeUndefined();
+  });
+});
+
+describe('getColorsForChart', () => {
+  test('should return default colors when nothing to compare', () => {
+    const colors = utils.getColorsForChart([]);
+
+    expect(colors).toEqual([
+      Color.COLORFUL_CHART_11,
+      Color.COLORFUL_CHART_10,
+      Color.COLORFUL_CHART_9,
+      Color.COLORFUL_CHART_8,
+      Color.COLORFUL_CHART_7,
+      Color.COLORFUL_CHART_6,
+      Color.COLORFUL_CHART_5,
+      Color.COLORFUL_CHART_4,
+      Color.COLORFUL_CHART_3,
+      Color.COLORFUL_CHART_2,
+      Color.COLORFUL_CHART_1,
+      Color.COLORFUL_CHART_0,
+    ]);
+  });
+
+  test('should sync colors when comparing two charts', () => {
+    const defaultData = [
+      {
+        value: 9,
+        name: 'Test 1',
+      },
+      {
+        value: 7,
+        name: 'Test 2',
+      },
+      {
+        value: 3,
+        name: 'Test 5',
+      },
+    ];
+
+    const compareData = [
+      {
+        value: 3,
+        name: 'Test 4',
+      },
+      {
+        value: 2,
+        name: 'Test 3',
+      },
+      {
+        value: 1,
+        name: 'Test 1',
+      },
+    ];
+
+    const colors = utils.getColorsForChart(defaultData, compareData);
+
+    expect(colors).toEqual([
+      Color.COLORFUL_CHART_10,
+      Color.COLORFUL_CHART_9,
+      Color.COLORFUL_CHART_11,
+      Color.COLORFUL_CHART_8,
+      Color.COLORFUL_CHART_7,
+      Color.COLORFUL_CHART_6,
+      Color.COLORFUL_CHART_5,
+      Color.COLORFUL_CHART_4,
+      Color.COLORFUL_CHART_3,
+      Color.COLORFUL_CHART_2,
+      Color.COLORFUL_CHART_1,
+      Color.COLORFUL_CHART_0,
+    ]);
   });
 });

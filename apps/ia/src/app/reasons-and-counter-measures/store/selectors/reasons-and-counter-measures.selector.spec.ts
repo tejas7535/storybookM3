@@ -252,6 +252,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   describe('getReasonsChartConfig', () => {
     beforeAll(() => {
       (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
+      (utils.getColorsForChart as any) = jest.fn(() => []);
     });
 
     test('should return config for reasons chart', () => {
@@ -260,12 +261,15 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       expect(
         getReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.reasons.data,
-          beutifiedTimeRange
+          beutifiedTimeRange,
+          TimePeriod.CUSTOM,
+          []
         )
       ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
         tooltipFormatter,
+        color: [],
       });
     });
 
@@ -276,22 +280,32 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.reasons.data,
           beutifiedTimeRange,
-          TimePeriod.LAST_12_MONTHS
+          TimePeriod.LAST_12_MONTHS,
+          []
         )
       ).toEqual({
         title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
         tooltipFormatter,
+        color: [],
       });
     });
 
     test('should return no data sub title when no data', () => {
       const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
 
-      expect(getReasonsChartConfig.projector([], beutifiedTimeRange)).toEqual({
+      expect(
+        getReasonsChartConfig.projector(
+          [],
+          beutifiedTimeRange,
+          TimePeriod.CUSTOM,
+          []
+        )
+      ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
         tooltipFormatter,
+        color: [],
       });
     });
   });
@@ -358,6 +372,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   describe('getComparedReasonsChartConfig', () => {
     beforeAll(() => {
       (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
+      (utils.getColorsForChart as any) = jest.fn(() => []);
     });
 
     test('should return config for reasons chart', () => {
@@ -367,12 +382,15 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getComparedReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.comparedReasons.data,
           beutifiedTimeRange,
-          TimePeriod.MONTH
+          TimePeriod.MONTH,
+          [],
+          []
         )
       ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
         tooltipFormatter,
+        color: [],
       });
     });
 
@@ -383,12 +401,15 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getComparedReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.comparedReasons.data,
           beutifiedTimeRange,
-          TimePeriod.LAST_12_MONTHS
+          TimePeriod.LAST_12_MONTHS,
+          [],
+          []
         )
       ).toEqual({
         title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
         tooltipFormatter,
+        color: [],
       });
     });
 
@@ -396,11 +417,18 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
 
       expect(
-        getComparedReasonsChartConfig.projector([], beutifiedTimeRange)
+        getComparedReasonsChartConfig.projector(
+          [],
+          beutifiedTimeRange,
+          TimePeriod.CUSTOM,
+          [],
+          []
+        )
       ).toEqual({
         title: beutifiedTimeRange,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
         tooltipFormatter,
+        color: [],
       });
     });
   });
