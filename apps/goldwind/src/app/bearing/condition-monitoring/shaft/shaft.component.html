@@ -1,7 +1,7 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.shaft'"
-    class="flex flex-col h-full w-full"
+    class="flex flex-col h-full overflow-y-scroll"
   >
     <mat-card-header>
       <mat-card-title>

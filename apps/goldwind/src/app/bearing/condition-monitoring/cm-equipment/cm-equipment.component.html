@@ -1,18 +1,21 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.conditionMeasuringEquipment'"
-    class="full-height-card"
+    class="h-full overflow-y-scroll"
   >
     <mat-card-header>
       <mat-card-title>{{ t('title') }} </mat-card-title>
     </mat-card-header>
 
-    <mat-card-content>
-      <div class="equipment-image flex justify-center" [ngSwitch]="selectedTab">
+    <mat-card-content class="h-full">
+      <div
+        class="equipment-image flex justify-center h-2/6"
+        [ngSwitch]="selectedTab"
+      >
         <img *ngSwitchCase="'meta'" src="/assets/images/Bearing.png" />
         <img *ngSwitchCase="'grease'" src="/assets/images/Grease.png" />
         <img *ngSwitchCase="'load'" src="/assets/images/Load.png" />
-        <img *ngSwitchCase="'edm'" src="/assets/images/EDM.jpeg" />
+        <img *ngSwitchCase="'edm'" src="/assets/images/EDM.png" />
         <img *ngSwitchCase="'router'" src="/assets/images/EdgeDevice.png" />
       </div>
       <mat-tab-group
@@ -84,7 +87,9 @@
               <div class="meta-info-item meta-label">
                 {{ t('measurementPoints') }}
               </div>
-              <div class="meta-info-item">{{ t('measurementPointsLoad') }}</div>
+              <div class="meta-info-item">
+                {{ t('measurementPointsLoad') }}
+              </div>
               <div class="meta-info-item meta-label">
                 {{ t('functionality') }}
               </div>
@@ -138,7 +143,9 @@
           <ng-template matTabContent>
             <div class="meta-info-header">{{ t('edgeDevice') }}</div>
             <div class="meta-info-container">
-              <div class="meta-info-item meta-label">{{ t('interfaces') }}</div>
+              <div class="meta-info-item meta-label">
+                {{ t('interfaces') }}
+              </div>
               <div class="meta-info-item">{{ t('interfacesEdge') }}</div>
               <div class="meta-info-item meta-label">
                 {{ t('functionality') }}

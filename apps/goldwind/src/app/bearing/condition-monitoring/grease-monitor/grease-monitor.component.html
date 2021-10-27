@@ -1,7 +1,7 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'greaseStatus'"
-    class="full-height-card flex flex-col h-full w-full"
+    class="flex flex-col h-full overflow-y-scroll"
   >
     <div class="flex justify-between">
       <mat-card-header>
