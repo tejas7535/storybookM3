@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.3...goldwind-v0.2.2) (2021-10-27)
+
+
+### 🎸 Features
+
+* **goldwind:** make cards scrollable for strange display heights ([#3225](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3225)) ([bb2255d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb2255db8cd49e42fe057ddaae04103011011df1))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** adjust template to display roller title ([#3241](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3241)) ([58ae665](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/58ae6655fc82545b0631ea4f880070a7996aee44))
+* **goldwind:** edm axis label on tick now, tooltip has correct values ([#3236](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3236)) ([0b0fbe9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0b0fbe9ffb1ec6a71e75aee00f2c867721914465))
+* **goldwind:** reformat tooltip to contain RE,NRE,LSP# ([#3233](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3233)) ([77b8384](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/77b83841c6c68b975550dc5646b293468848d5b6))
+* **goldwind:** set correct start date of month, fix mapping data mapping of heatmap ([#3244](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3244)) ([ad58ac8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ad58ac856d3875ce32725e27a3dffa8107926742))
+* **goldwind:** set loaddistribution refresh to 60s ([#3226](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3226)) ([f772b89](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f772b89a0d065939ac5c4c65954c8a5bdadc79cd))
+* **goldwind:** set timebucket range for bearing-load telemetry to -1 ([#3238](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3238)) ([f486fc4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f486fc4bafd6b04930657ca7086f12b988265c43))
+
 ### [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.2...goldwind-v0.2.1) (2021-10-25)
 
 
