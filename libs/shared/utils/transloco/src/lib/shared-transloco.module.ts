@@ -93,6 +93,9 @@ export class SharedTranslocoModule {
             availableLangs,
             defaultLang,
             fallbackLang,
+            missingHandler: {
+              useFallbackTranslation: true,
+            },
             reRenderOnLangChange: true,
             flatten: {
               aot: enableAotFlattening,
