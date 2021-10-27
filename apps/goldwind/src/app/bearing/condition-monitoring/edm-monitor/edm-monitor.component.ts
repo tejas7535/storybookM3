@@ -40,16 +40,10 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
     yAxis: {
       type: 'category',
       data: [0, 10, 100, 1000, 10_000],
-      splitArea: {
-        show: true,
-      },
-      splitLine: {
-        show: true,
-        interval: 1,
-        lineStyle: { color: 'white' },
-      },
       axisLabel: {
         color: '#646464',
+        lineHeight: -45,
+        verticalAlign: 'bottom',
       },
       axisLine: {
         lineStyle: {
@@ -63,9 +57,6 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
     xAxis: {
       type: 'category',
       data: [],
-      splitArea: {
-        show: true,
-      },
       splitLine: {
         show: true,
         interval: 'auto',
@@ -132,30 +123,38 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
   public getClassificationString(index: number): string {
     switch (index) {
       case 0:
-        return '0 - 100';
+        return '0 - 10';
       case 1:
-        return '100 - 1000';
+        return '10 - 100';
       case 2:
-        return '1000 - 10000';
+        return '100 - 1000';
       case 3:
-        return '10000 - 100000';
+        return '1000 - 10000';
       case 4:
-        return '> 100000';
+        return '> 10000';
       default:
         return 'n.A.';
     }
   }
+  /**
+   * Deconstructs the component and there used observables
+   */
   ngOnDestroy(): void {
     this.routeParamsSub.unsubscribe();
     this.store.dispatch(stopEdmHistogramPolling());
   }
+  /**
+   * initilaizse the component with nessessarry data from store
+   */
   ngOnInit(): void {
     this.updateEDM();
     this.interval$ = this.store.select(getEdmInterval);
     this.loading$ = this.store.select(getEdmLoading);
     this.edmGraphData$ = this.store.select(getEdmHeatmapSeries);
   }
-
+  /**
+   * Sets the local route information the get correct device information for the upcomming request
+   */
   private updateEDM() {
     this.routeParamsSub = this.activate.params.subscribe((params) => {
       this.store.dispatch(
@@ -166,15 +165,28 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
       );
     });
   }
-
+  /**
+   * Dispatches an event when the interval has changed
+   * @deprecated cause no interval can be set anymore
+   * @param interval
+   */
   setInterval(interval: Interval): void {
     this.store.dispatch(setEdmInterval({ interval }));
   }
-
+  /**
+   * @deprecated can be possible replaced by using built in date formatter of echarts
+   * TODO: Refactor this
+   * @param date
+   * @returns a new formatted date
+   */
   reformatLegendDate(date: string) {
     return format(new Date(date), 'MM/dd/yyyy HH:mm');
   }
-
+  /**
+   * @deprecated cause be dont have a legend anymore in favor of the visual map
+   * @param name
+   * @returns
+   */
   formatLegend(name: string): string {
     let result: string;
     if (Object.values(AntennaName as any).includes(name)) {
@@ -189,7 +201,11 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
 
     return `${result} (${this.getAntennaLabel(name)})`;
   }
-
+  /**
+   * Returns a string contain the tooltip template
+   * @param params
+   * @returns
+   */
   formatTooltip(params: any): string {
     return (
       Array.isArray(params) &&
@@ -208,14 +224,21 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
       }, '')
     );
   }
-
+  /**
+   * Get the current Antenna Name with number
+   * @param name
+   * @returns
+   */
   getAntennaLabel(name: string): string {
     const antennaNumber =
       Object.values(AntennaName as any).indexOf(name.replace('Max', '')) + 1;
 
     return `${translate('sensor.antenna')} ${antennaNumber}`;
   }
-
+  /**
+   * Switch between the tweo sensors
+   * @param event
+   */
   switchSensor(event: any) {
     this.channel = `edm-${event.value}`;
     this.updateEDM();

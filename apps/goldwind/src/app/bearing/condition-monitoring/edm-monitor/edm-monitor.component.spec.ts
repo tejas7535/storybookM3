@@ -118,11 +118,11 @@ describe('EdmMonitorComponent', () => {
 
     describe('getClassificationString', () => {
       it('should return a string matching the class description', () => {
-        expect(component.getClassificationString(0)).toBe('0 - 100');
-        expect(component.getClassificationString(1)).toBe('100 - 1000');
-        expect(component.getClassificationString(2)).toBe('1000 - 10000');
-        expect(component.getClassificationString(3)).toBe('10000 - 100000');
-        expect(component.getClassificationString(4)).toBe('> 100000');
+        expect(component.getClassificationString(0)).toBe('0 - 10');
+        expect(component.getClassificationString(1)).toBe('10 - 100');
+        expect(component.getClassificationString(2)).toBe('100 - 1000');
+        expect(component.getClassificationString(3)).toBe('1000 - 10000');
+        expect(component.getClassificationString(4)).toBe('> 10000');
         expect(component.getClassificationString(-1)).toBe('n.A.');
       });
     });
