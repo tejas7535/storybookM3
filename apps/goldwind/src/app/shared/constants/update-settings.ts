@@ -21,7 +21,7 @@ export interface UpdateSettings {
 
 export const UPDATE_SETTINGS: UpdateSettings = {
   loaddistribution: {
-    refresh: 10,
+    refresh: 60,
   },
   shaft: {
     refresh: 60,

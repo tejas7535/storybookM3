@@ -61,7 +61,7 @@ describe('LoadDistributionEffects', () => {
         effects.currentDeviceId = deviceId;
         effects.isPollingActive = true;
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('- 10000ms b', {
+        const expected = m.cold('- 60000ms b', {
           b: getLoadDistributionLatest({ deviceId }),
         });
 

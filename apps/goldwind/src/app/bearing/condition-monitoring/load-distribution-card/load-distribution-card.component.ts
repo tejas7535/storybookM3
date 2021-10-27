@@ -38,7 +38,7 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
   /**
    * The interval to refresh the Page
    */
-  refresh = UPDATE_SETTINGS.shaft.refresh;
+  refresh = UPDATE_SETTINGS.loaddistribution.refresh;
   /**
    * the observable with combines the config and the series data
    */
