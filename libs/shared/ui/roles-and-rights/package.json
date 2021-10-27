@@ -1,0 +1,13 @@
+{
+  "name": "@schaeffler/roles-and-rights",
+  "version": "0.0.1",
+  "dependencies": {
+    "tslib": "^2.1.0"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=11.2<=13.0.0",
+    "@angular/core": ">=11.2<=13.0.0",
+    "@angular/material": ">=11.2<=13.0.0",
+    "@angular/platform-browser": ">=11.2<=13.0.0"
+  }
+}

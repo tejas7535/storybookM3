@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../../../dist/libs/shared/ui/roles-and-rights",
+  "lib": {
+    "entryFile": "src/index.ts",
+    "umdModuleIds": {
+      "@ngneat/transloco": "@ngneat/transloco"
+    }
+  }
+}

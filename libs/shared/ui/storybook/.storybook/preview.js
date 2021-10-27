@@ -1,5 +1,4 @@
 import { moduleMetadata } from '@storybook/angular';
-import { addParameters } from '@storybook/client-api';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 
 import { StorybookTranslocoModule } from './storybook-transloco.module';
@@ -19,42 +18,6 @@ export const decorators = [
     imports: [StorybookTranslocoModule],
   }),
 ];
-
-addParameters({
-  docs: {
-    // use existing notes from Readme.md files as docs description
-    extractComponentDescription: (component, { notes }) => {
-      if (notes) {
-        return typeof notes === 'string' ? notes : notes.markdown || notes.text;
-      }
-      return null;
-    },
-    container: DocsContainer,
-    page: DocsPage,
-  },
-  badgesConfig: {
-    [Badges.InProgress]: {
-      contrast: '#1d9bb2',
-      color: '#fff',
-      title: 'In Progress',
-    },
-    [Badges.NeedsRevision]: {
-      contrast: '#fccf46',
-      color: '#000',
-      title: 'Needs Revision',
-    },
-    [Badges.Final]: {
-      contrast: '#00893d',
-      color: '#fff',
-      title: 'Final',
-    },
-    [Badges.Deprecated]: {
-      contrast: '#e62c27',
-      color: '#fff',
-      title: 'Deprecated',
-    },
-  },
-});
 
 export const parameters = {
   options: {
@@ -91,6 +54,39 @@ export const parameters = {
       { name: 'white', value: '#ffffff' },
       { name: 'black', value: '#000000' },
     ],
+  },
+  docs: {
+    // use existing notes from Readme.md files as docs description
+    extractComponentDescription: (component, { notes }) => {
+      if (notes) {
+        return typeof notes === 'string' ? notes : notes.markdown || notes.text;
+      }
+      return null;
+    },
+    container: DocsContainer,
+    page: DocsPage,
+  },
+  badgesConfig: {
+    [Badges.InProgress]: {
+      contrast: '#1d9bb2',
+      color: '#fff',
+      title: 'In Progress',
+    },
+    [Badges.NeedsRevision]: {
+      contrast: '#fccf46',
+      color: '#000',
+      title: 'Needs Revision',
+    },
+    [Badges.Final]: {
+      contrast: '#00893d',
+      color: '#fff',
+      title: 'Final',
+    },
+    [Badges.Deprecated]: {
+      contrast: '#e62c27',
+      color: '#fff',
+      title: 'Deprecated',
+    },
   },
 };
 
