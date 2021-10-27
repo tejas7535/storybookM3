@@ -149,7 +149,7 @@ export class RestService {
       this.getParams({
         startDate,
         endDate,
-        timebucketSeconds: 3600,
+        timebucketSeconds: -1,
         aggregation: IAGGREGATIONTYPE.AVG,
       })
     );

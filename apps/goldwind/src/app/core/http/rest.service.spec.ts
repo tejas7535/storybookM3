@@ -198,7 +198,7 @@ describe('Rest Service', () => {
           params: {
             start: mockLoadSenseParams.startDate.toString(),
             end: mockLoadSenseParams.endDate.toString(),
-            timebucketSeconds: '3600',
+            timebucketSeconds: '-1',
             aggregation: IAGGREGATIONTYPE.AVG,
           },
         }
