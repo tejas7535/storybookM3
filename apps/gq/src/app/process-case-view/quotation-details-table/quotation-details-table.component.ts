@@ -41,7 +41,9 @@ export class QuotationDetailsTableComponent implements OnInit {
     toolPanels: [
       {
         id: 'columns',
-        labelDefault: translate('shared.quotationDetailsTable.sidebar.columns'),
+        labelDefault: translate<string>(
+          'shared.quotationDetailsTable.sidebar.columns'
+        ),
         labelKey: 'columns',
         iconKey: 'columns',
         toolPanel: 'agColumnsToolPanel',
@@ -53,7 +55,9 @@ export class QuotationDetailsTableComponent implements OnInit {
       },
       {
         id: 'filters',
-        labelDefault: translate('shared.quotationDetailsTable.sidebar.filters'),
+        labelDefault: translate<string>(
+          'shared.quotationDetailsTable.sidebar.filters'
+        ),
         labelKey: 'filters',
         iconKey: 'filter',
         toolPanel: 'agFiltersToolPanel',

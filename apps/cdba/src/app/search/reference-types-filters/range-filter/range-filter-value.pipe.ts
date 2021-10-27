@@ -57,7 +57,7 @@ export class RangeFilterValuePipe implements PipeTransform {
   }
 
   private getTranslationOrMissing(key: string): string {
-    const translation = this.transloco.translate<string>(key);
+    const translation = this.transloco.translate(key);
 
     return translation === key ? '' : translation;
   }

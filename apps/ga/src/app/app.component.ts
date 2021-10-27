@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
 
 import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
+
 import {
   LoadedEvent,
   translate,
@@ -24,14 +25,17 @@ import { setLanguage } from './core/store/actions/settings/settings.actions';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Grease App';
   metaTags: MetaDefinition[] = [
-    { name: 'title', content: translate('meta.title') },
-    { name: 'description', content: translate('meta.description') },
+    { name: 'title', content: translate<string>('meta.title') },
+    { name: 'description', content: translate<string>('meta.description') },
     // Open Graph / Facebook
-    { name: 'og:title', content: translate('meta.title') },
-    { name: 'og:description', content: translate('meta.description') },
+    { name: 'og:title', content: translate<string>('meta.title') },
+    { name: 'og:description', content: translate<string>('meta.description') },
     // Twitter
-    { name: 'twitter:title', content: translate('meta.title') },
-    { name: 'twitter:description', content: translate('meta.description') },
+    { name: 'twitter:title', content: translate<string>('meta.title') },
+    {
+      name: 'twitter:description',
+      content: translate<string>('meta.description'),
+    },
   ];
 
   public footerLinks$: BehaviorSubject<FooterLink[]> = new BehaviorSubject(
@@ -83,22 +87,22 @@ export class AppComponent implements OnInit, OnDestroy {
     return [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-        title: translate('legal.imprint'),
+        title: translate<string>('legal.imprint'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-        title: translate('legal.dataPrivacy'),
+        title: translate<string>('legal.dataPrivacy'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.TermsPath}`,
-        title: translate('legal.termsOfUse'),
+        title: translate<string>('legal.termsOfUse'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: translate('legal.cookiePolicy'),
+        title: translate<string>('legal.cookiePolicy'),
         external: false,
       },
     ];

@@ -275,7 +275,7 @@ export class CreateCaseEffects {
       translationKey = 'reimportSucess';
     }
 
-    const successMessage = translate(
+    const successMessage = translate<string>(
       `caseView.snackBarMessages.${translationKey}`
     );
 

@@ -47,7 +47,7 @@ export const availableLanguages: { id: string; label: string }[] = [
       true,
       !environment.localDev
     ),
-    TranslocoPersistLangModule.init({
+    TranslocoPersistLangModule.forRoot({
       storageKey: 'language',
       storage: {
         provide: TRANSLOCO_PERSIST_LANG_STORAGE,

@@ -86,16 +86,28 @@ export class DataViewComponent implements OnInit {
 
   columnDefs = [
     { field: 'type', rowGroup: true, hide: true },
-    { headerName: translate('dataView.abreviation'), field: 'abreviation' },
-    { headerName: translate('dataView.designValue'), field: 'designValue' },
-    { headerName: translate('dataView.actualValue'), field: 'actualValue' },
-    { headerName: translate('dataView.minValue'), field: 'minValue' },
-    { headerName: translate('dataView.maxValue'), field: 'maxValue' },
-    { headerName: translate('dataView.notification'), field: 'notification' },
+    {
+      headerName: translate<string>('dataView.abreviation'),
+      field: 'abreviation',
+    },
+    {
+      headerName: translate<string>('dataView.designValue'),
+      field: 'designValue',
+    },
+    {
+      headerName: translate<string>('dataView.actualValue'),
+      field: 'actualValue',
+    },
+    { headerName: translate<string>('dataView.minValue'), field: 'minValue' },
+    { headerName: translate<string>('dataView.maxValue'), field: 'maxValue' },
+    {
+      headerName: translate<string>('dataView.notification'),
+      field: 'notification',
+    },
   ];
 
   autoGroupColumnDef = {
-    headerName: translate('dataView.description'),
+    headerName: translate<string>('dataView.description'),
     headerCheckboxSelection: true,
     field: 'description',
     minWidth: 350,

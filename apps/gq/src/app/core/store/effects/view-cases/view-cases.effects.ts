@@ -65,7 +65,7 @@ export class ViewCasesEffect {
       mergeMap((action: any) =>
         this.quotationService.deleteCases(action.gqIds).pipe(
           tap(() => {
-            const successMessage = translate(
+            const successMessage = translate<string>(
               'caseView.snackBarMessages.deleteSuccess'
             );
             this.snackBar.open(successMessage);

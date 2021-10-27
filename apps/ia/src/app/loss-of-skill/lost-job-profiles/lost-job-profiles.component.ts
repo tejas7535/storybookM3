@@ -95,7 +95,7 @@ export class LostJobProfilesComponent implements OnChanges {
   private handleCellClick(params: any, key: CellType): void {
     const translationKey =
       key === 'workforce' ? 'titleWorkforce' : 'titleLeavers';
-    const title = translate(
+    const title = translate<string>(
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
 

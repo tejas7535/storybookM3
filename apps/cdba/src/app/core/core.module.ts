@@ -60,7 +60,7 @@ const azureConfig = new AzureConfig(
       !environment.localDev,
       i18nChecksumsJson
     ),
-    TranslocoPersistLangModule.init({
+    TranslocoPersistLangModule.forRoot({
       storageKey: 'language',
       storage: {
         provide: TRANSLOCO_PERSIST_LANG_STORAGE,

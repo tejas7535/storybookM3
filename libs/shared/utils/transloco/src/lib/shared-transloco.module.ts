@@ -51,7 +51,7 @@ export const preLoad = {
   imports: [
     CommonModule,
     TranslocoModule,
-    TranslocoLocaleModule.init({
+    TranslocoLocaleModule.forRoot({
       localeConfig: {
         global: {
           date: {
