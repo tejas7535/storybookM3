@@ -205,8 +205,8 @@ export class HeatmapResponseConvert {
    */
   isBetween(timestamp: string, _from: string, _to: string): boolean {
     return (
-      Date.parse(timestamp) > Date.parse(_from) &&
-      Date.parse(timestamp) < Date.parse(_to)
+      Date.parse(timestamp) >= Date.parse(_from) &&
+      Date.parse(timestamp) <= Date.parse(_to)
     );
   }
   getClassificationColor(
