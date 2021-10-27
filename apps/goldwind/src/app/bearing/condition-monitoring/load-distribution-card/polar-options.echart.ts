@@ -58,13 +58,13 @@ export const getBearingOnlyFormat = (
   d: any
 ): string | HTMLElement | HTMLElement[] => `
     <div class="flex flex-col">
-      <p>Bearing ${d[0].name}<p>
+      <p>Roller ${d[0].name}<p>
       <hr class="text-muted" />
       <div class="grid grid-cols-2 space-between gap-2 my-2">
-        <span>Rotor Load</span>
+        <span>RE</span>
         <span>${d[0].value.toFixed(2)} kN</span>
 
-        <span>Generator Load</span>
+        <span>NRE</span>
         <span>${d[1].value.toFixed(2)} kN</span>
 
     </div>`;
