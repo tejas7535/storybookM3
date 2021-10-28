@@ -1,14 +1,23 @@
 <div class="grid h-full" [ngClass]="comparedData ? 'grid-cols-2' : undefined">
-  <ia-solid-doughnut-chart
-    [initialConfig]="config"
-    [data]="data"
-    [isLoading]="isLoading"
-    [titleInside]="comparedData === undefined"
-  ></ia-solid-doughnut-chart>
-  <ia-solid-doughnut-chart
-    *ngIf="comparedData"
-    [initialConfig]="comparedConfig"
-    [data]="comparedData"
-    [isLoading]="isLoading"
-  ></ia-solid-doughnut-chart>
+  <div class="flex flex-col">
+    <h5 class="text-dark pl-1">{{ orgUnit }}</h5>
+    <div class="flex-grow">
+      <ia-solid-doughnut-chart
+        [initialConfig]="config"
+        [data]="data"
+        [isLoading]="isLoading"
+        [titleInside]="comparedData === undefined"
+      ></ia-solid-doughnut-chart>
+    </div>
+  </div>
+  <div class="flex flex-col" *ngIf="comparedData">
+    <h5 class="text-dark pl-1">{{ comparedOrgUnit }}</h5>
+    <div class="flex-grow">
+      <ia-solid-doughnut-chart
+        [initialConfig]="comparedConfig"
+        [data]="comparedData"
+        [isLoading]="isLoading"
+      ></ia-solid-doughnut-chart>
+    </div>
+  </div>
 </div>

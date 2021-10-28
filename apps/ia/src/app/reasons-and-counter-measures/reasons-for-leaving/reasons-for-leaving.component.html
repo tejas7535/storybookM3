@@ -13,7 +13,17 @@
       [selectedTime]="selectedTime$ | ngrxPush"
     >
     </ia-filter>
-    <div class="order-3 lg:order-2 lg:col-end-4 relative mt-12 lg:mt-0">
+    <ia-reasons-for-leaving-chart
+      class="order-5 lg:order-2 row-span-2 min-h-[592px]"
+      [isLoading]="reasonsLoading$ | ngrxPush"
+      [config]="reasonsChartConfig$ | ngrxPush"
+      [data]="reasonsChartData$ | ngrxPush"
+      [orgUnit]="selectedOrgUnit$ | ngrxPush"
+      [comparedConfig]="comparedReasonsChartConfig$ | ngrxPush"
+      [comparedData]="comparedReasonsChartData$ | ngrxPush"
+      [comparedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"
+    ></ia-reasons-for-leaving-chart>
+    <div class="order-3 lg:order-3 lg:col-end-4 relative mt-12 lg:mt-0">
       <button
         mat-stroked-button
         class="!absolute !right-0 !-top-10"
@@ -38,21 +48,14 @@
       </ia-filter>
     </div>
     <ia-reasons-for-leaving-table
-      class="order-2 lg:order-3"
+      class="order-2 lg:order-4"
       [data]="reasonsTableData$ | ngrxPush"
       [loading]="reasonsLoading$ | ngrxPush"
     >
     </ia-reasons-for-leaving-table>
-    <ia-reasons-for-leaving-chart
-      class="order-5 lg:order-4 min-h-[592px]"
-      [isLoading]="reasonsLoading$ | ngrxPush"
-      [config]="reasonsChartConfig$ | ngrxPush"
-      [data]="reasonsChartData$ | ngrxPush"
-      [comparedConfig]="comparedReasonsChartConfig$ | ngrxPush"
-      [comparedData]="comparedReasonsChartData$ | ngrxPush"
-    ></ia-reasons-for-leaving-chart>
+
     <ia-reasons-for-leaving-table
-      class="order-4 lg:order-6"
+      class="order-4 lg:order-5"
       [data]="comparedReasonsTableData$ | ngrxPush"
     >
     </ia-reasons-for-leaving-table>

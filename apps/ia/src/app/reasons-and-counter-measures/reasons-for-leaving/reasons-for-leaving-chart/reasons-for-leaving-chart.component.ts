@@ -12,8 +12,10 @@ export class ReasonsForLeavingChartComponent {
   @Input() config: SolidDoughnutChartConfig;
   @Input() data: DoughnutChartData[];
   @Input() isLoading: boolean;
+  @Input() orgUnit: string;
 
   @Input() comparedConfig: SolidDoughnutChartConfig;
   @Input() comparedData: DoughnutChartData[];
   @Input() comparedIsLoading: boolean;
+  @Input() comparedOrgUnit: string;
 }
