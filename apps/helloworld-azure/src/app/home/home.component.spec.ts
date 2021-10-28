@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -21,7 +22,10 @@ describe('HomeComponent', () => {
       HttpClientTestingModule,
       ReactiveComponentModule,
     ],
-    providers: [GreetingService],
+    providers: [
+      GreetingService,
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

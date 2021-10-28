@@ -7,6 +7,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
       AppShellModule,
       NoopAnimationsModule,
       ReactiveComponentModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({
