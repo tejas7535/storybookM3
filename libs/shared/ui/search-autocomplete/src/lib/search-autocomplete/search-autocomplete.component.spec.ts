@@ -1,5 +1,6 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -29,6 +30,12 @@ describe('SearchAutocompleteComponent', () => {
       MatInputModule,
       ReactiveComponentModule,
       MatIconModule,
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [SearchAutocompleteComponent],
   });

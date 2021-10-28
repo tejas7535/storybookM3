@@ -684,8 +684,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/gq/jest.config.js",
-            "passWithNoTests": true,
-            "setupFile": "apps/gq/src/test-setup.ts"
+            "passWithNoTests": true
           },
           "outputs": ["coverage/apps/gq"]
         },
@@ -2021,8 +2020,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/ui/empty-states/jest.config.js",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/ui/empty-states/src/test-setup.ts"
+            "passWithNoTests": true
           },
           "outputs": ["coverage/libs/shared/ui/empty-states"]
         },
@@ -3070,8 +3068,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/ui/styles/jest.config.js",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/ui/styles/src/test-setup.ts"
+            "passWithNoTests": true
           },
           "outputs": ["coverage/libs/shared/ui/styles"]
         },
@@ -3245,8 +3242,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/utils/azure-auth/jest.config.js",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/utils/azure-auth/src/test-setup.ts"
+            "passWithNoTests": true
           },
           "outputs": ["coverage/libs/shared/utils/azure-auth"]
         },

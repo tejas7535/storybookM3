@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBar,
@@ -26,6 +27,10 @@ describe('SnackBarService', () => {
       {
         provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
         useValue: { duration: 100 },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

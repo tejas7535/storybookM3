@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,7 +23,13 @@ describe('In SidebarComponent', () => {
       MatIconModule,
       RouterTestingModule,
     ],
-    providers: [provideMockStore({ initialState: { sidebar: initialState } })],
+    providers: [
+      provideMockStore({ initialState: { sidebar: initialState } }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

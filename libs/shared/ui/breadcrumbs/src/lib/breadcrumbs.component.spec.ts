@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,6 +13,12 @@ describe('BreadcrumbsComponent', () => {
   const createComponent = createComponentFactory({
     component: BreadcrumbsComponent,
     imports: [MatIconModule, RouterTestingModule],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

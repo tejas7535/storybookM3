@@ -1,4 +1,5 @@
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,7 +25,13 @@ describe('HeaderComponent', () => {
       RouterTestingModule,
       FlexLayoutModule,
     ],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore(),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

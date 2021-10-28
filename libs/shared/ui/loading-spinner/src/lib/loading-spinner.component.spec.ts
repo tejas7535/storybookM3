@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -11,6 +12,12 @@ describe('LoadingSpinnerComponent', () => {
     component: LoadingSpinnerComponent,
     declarations: [LoadingSpinnerComponent],
     imports: [MatProgressSpinnerModule],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

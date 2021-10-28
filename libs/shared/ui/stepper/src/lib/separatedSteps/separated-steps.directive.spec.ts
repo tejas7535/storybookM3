@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, ElementRef } from '@angular/core';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
@@ -18,6 +19,10 @@ describe('Separated steps Directive', () => {
       MatStepper,
       ChangeDetectorRef,
       { provide: ElementRef, useClass: MockElementRef },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

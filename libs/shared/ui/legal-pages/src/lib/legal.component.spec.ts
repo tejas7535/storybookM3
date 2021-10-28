@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -11,10 +12,12 @@ import { ReplaySubject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { SubheaderModule } from '@schaeffler/subheader';
 
 import { LegalComponent } from './legal.component';
 import { PERSON_RESPONSIBLE } from './legal.model';
+import * as en from './i18n/en.json';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 const routerMock = {
@@ -29,7 +32,12 @@ describe('LegalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LegalComponent,
-    imports: [RouterTestingModule, TranslocoTestingModule, SubheaderModule],
+    imports: [
+      RouterTestingModule,
+      TranslocoTestingModule,
+      SubheaderModule,
+      provideTranslocoTestingModule({ 'forbidden/en': en }),
+    ],
     providers: [
       {
         provide: ActivatedRoute,
@@ -47,6 +55,10 @@ describe('LegalComponent', () => {
         provide: PERSON_RESPONSIBLE,
         useValue:
           'Jumbo Schreiner der gerne den besten Döner der Welt in Berlin isst',
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
     declarations: [LegalComponent],

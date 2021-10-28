@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MAT_SNACK_BAR_DATA,
@@ -35,7 +36,13 @@ describe('SnackBarComponent', () => {
   const componentFactoryObject = {
     component: SnackBarComponent,
     imports: [MatButtonModule, MatIconModule, MatSnackBarModule],
-    providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: successConfig }],
+    providers: [
+      { provide: MAT_SNACK_BAR_DATA, useValue: successConfig },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   };
 
   const createComponent = createComponentFactory(componentFactoryObject);

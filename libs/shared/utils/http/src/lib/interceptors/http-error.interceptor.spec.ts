@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -51,6 +52,10 @@ describe(`HttpErrorInterceptor`, () => {
         provide: HTTP_INTERCEPTORS,
         useClass: HttpErrorInterceptor,
         multi: true,
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

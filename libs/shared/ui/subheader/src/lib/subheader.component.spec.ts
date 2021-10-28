@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +21,12 @@ describe('SubheaderComponent', () => {
       MatIconModule,
       BreadcrumbsModule,
       RouterTestingModule,
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [SubheaderComponent],
   });

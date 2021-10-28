@@ -1,4 +1,5 @@
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
@@ -13,6 +14,12 @@ describe('UserMenuComponent', () => {
   const createComponent = createComponentFactory({
     component: UserMenuComponent,
     imports: [MatIconModule, MatMenuModule, FlexLayoutModule],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {
