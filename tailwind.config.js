@@ -162,7 +162,6 @@ module.exports = {
         h2: {
           fontSize: theme('fontSize.h2-mobile'),
           fontWeight: theme('fontWeight.light'),
-          color: theme('textColor.dark'),
           letterSpacing: fontSizes['h2-mobile'][1].letterSpacing,
           lineHeight: fontSizes['h2-mobile'][1].lineHeight,
           [`@media (min-width: ${sm})`]: {
@@ -172,7 +171,6 @@ module.exports = {
         },
         h3: {
           fontSize: theme('fontSize.h3-mobile'),
-          color: theme('textColor.dark'),
           lineHeight: fontSizes['h3-mobile'][1].lineHeight,
           [`@media (min-width: ${sm})`]: {
             fontSize: theme('fontSize.h3'),
@@ -181,7 +179,6 @@ module.exports = {
         },
         h4: {
           fontSize: theme('fontSize.h4-mobile'),
-          color: theme('textColor.dark'),
           letterSpacing: fontSizes['h4-mobile'][1].letterSpacing,
           lineHeight: fontSizes['h4-mobile'][1].lineHeight,
           [`@media (min-width: ${sm})`]: {
@@ -191,7 +188,6 @@ module.exports = {
         },
         h5: {
           fontSize: theme('fontSize.h5-mobile'),
-          color: theme('textColor.dark'),
           lineHeight: fontSizes['h5-mobile'][1].lineHeight,
           [`@media (min-width: ${sm})`]: {
             fontSize: theme('fontSize.h5'),
@@ -201,7 +197,6 @@ module.exports = {
         h6: {
           fontSize: theme('fontSize.h6-mobile'),
           fontWeight: theme('fontWeight.medium'),
-          color: theme('textColor.dark'),
           letterSpacing: fontSizes['h6-mobile'][1].letterSpacing,
           lineHeight: fontSizes['h6-mobile'][1].lineHeight,
           [`@media (min-width: ${sm})`]: {
@@ -213,30 +208,11 @@ module.exports = {
     }),
     plugin(function ({ addComponents, theme }) {
       addComponents({
-        '.text-body-1': {
-          color: theme('textColor.light'),
-        },
-        '.text-body-2': {
-          color: theme('textColor.light'),
-        },
-        '.text-subtitle-1': {
-          color: theme('textColor.light'),
-        },
         '.text-subtitle-2': {
           fontWeight: theme('fontWeight.medium'),
-          color: theme('textColor.light'),
         },
         '.text-button': {
           fontWeight: theme('fontWeight.medium'),
-        },
-        '.text-caption': {
-          color: theme('textColor.light'),
-        },
-        '.text-overline': {
-          color: theme('textColor.light'),
-        },
-        '.text-icon': {
-          color: theme('textColor.dark'),
         },
       });
     }),
