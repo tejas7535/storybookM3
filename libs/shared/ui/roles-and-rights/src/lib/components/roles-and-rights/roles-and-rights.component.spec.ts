@@ -1,11 +1,12 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import * as en from '../../i18n/en.json';
 import { RolesAndRightsModule } from '../../roles-and-rights.module';
 import { RolesAndRightsComponent } from './roles-and-rights.component';
-import * as en from '../../i18n/en.json';
 
 describe('RolesAndRightsComponent', () => {
   let spectator: Spectator<RolesAndRightsComponent>;

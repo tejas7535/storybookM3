@@ -12,12 +12,12 @@ import { ReplaySubject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
 import { PERSON_RESPONSIBLE } from './legal.model';
-import * as en from './i18n/en.json';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 const routerMock = {

@@ -7,7 +7,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 

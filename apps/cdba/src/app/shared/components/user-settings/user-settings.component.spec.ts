@@ -7,13 +7,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import {
-  SharedTranslocoModule,
-  provideTranslocoTestingModule,
-} from '@schaeffler/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
