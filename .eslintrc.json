@@ -52,7 +52,6 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@nrwl/nx/typescript",
-        "plugin:prettier/recommended",
         "plugin:ngrx/recommended",
         "plugin:unicorn/recommended"
       ],
@@ -162,11 +161,9 @@
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-readonly": "error",
-        "@typescript-eslint/promise-function-async": "error",
-        "@typescript-eslint/unbound-method": [
-          "error",
-          { "ignoreStatic": true }
-        ],
+        "@typescript-eslint/promise-function-async": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "jest/unbound-method": "off",
         "@typescript-eslint/unified-signatures": "error",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-invalid-this": "error",
@@ -193,7 +190,20 @@
           }
         ],
         "import/no-default-export": "error",
-        "import/no-deprecated": "warn",
+        /** eslint-plugin-import performace recommendations start **/
+        "import/no-deprecated": "off",
+        "import/no-unused-modules": "off",
+        "import/no-cycle": "off",
+        "import/no-named-as-default": "off",
+        "import/named": "off",
+        "import/namespace": "off",
+        "import/default": "off",
+        "import/no-named-as-default-member": "off",
+        /* eslint-plugin-import performance recommendations end **/
+        /** Other performance recommendations **/
+        "indent": "off",
+        "@typescript-eslint/indent": "off",
+        /** Other performance recommendations  **/
         "import/no-unassigned-import": "off",
         "import/order": [
           "off",
@@ -235,7 +245,7 @@
         "@angular-eslint/no-lifecycle-calls": "off",
         "@typescript-eslint/unbound-method": "off",
 
-        "jest/unbound-method": "error",
+        "jest/unbound-method": "off",
         "jest/no-disabled-tests": "off",
         "jest/expect-expect": [
           "error",

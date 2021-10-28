@@ -151,7 +151,6 @@
     "eslint-plugin-jest": "24.4.0",
     "eslint-plugin-ngrx": "1.27.3",
     "eslint-plugin-prefer-arrow": "1.2.3",
-    "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-unicorn": "35.0.0",
     "htmlhint": "0.15.2",
     "husky": "7.0.2",
