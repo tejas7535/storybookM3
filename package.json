@@ -167,7 +167,7 @@
     "ngx-build-plus": "12.2.0",
     "npm-audit-html": "1.5.0",
     "npm-force-resolutions": "0.0.10",
-    "postcss": "8.3.9",
+    "postcss": "8.3.11",
     "postcss-import": "14.0.2",
     "postcss-preset-env": "6.7.0",
     "postcss-url": "10.1.3",
