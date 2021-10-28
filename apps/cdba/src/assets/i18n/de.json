@@ -125,6 +125,10 @@
       }
     }
   },
+  "http": {
+    "errorInterceptorMessageDefault": "Es sind Serverprobleme aufgetreten. Bitte versuchen Sie es später noch einmal.",
+    "errorInterceptorActionDefault": "Support kontaktieren"
+  },
   "forbidden": {
     "noBasicAccess": {
       "heading": "Kein Zugang zu CDBA",

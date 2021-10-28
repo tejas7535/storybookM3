@@ -1,5 +1,4 @@
 import { PlatformModule } from '@angular/cdk/platform';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -19,7 +18,6 @@ import {
   ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
-import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
@@ -27,6 +25,7 @@ import { environment } from '@cdba/environments/environment';
 import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
+import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
 
 const azureConfig = new AzureConfig(
@@ -50,6 +49,9 @@ const azureConfig = new AzureConfig(
     RouterModule,
     ReactiveComponentModule,
 
+    // HTTP
+    HttpModule,
+
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
@@ -68,9 +70,6 @@ const azureConfig = new AzureConfig(
       },
     }),
 
-    // HTTP
-    HttpModule.forRoot({ environment }),
-
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
 
@@ -79,13 +78,6 @@ const azureConfig = new AzureConfig(
 
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
-      multi: true,
-    },
   ],
 })
 export class CoreModule {}

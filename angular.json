@@ -95,7 +95,8 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "cdba:build"
+            "browserTarget": "cdba:build",
+            "proxyConfig": "apps/cdba/proxy.conf.json"
           },
           "configurations": {
             "local": {

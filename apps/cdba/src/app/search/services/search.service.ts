@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
-import { DataService } from '@schaeffler/http';
+import { API } from '@cdba/shared/constants/api';
 
 import {
   FilterItem,
@@ -32,13 +32,13 @@ export class SearchService {
   private readonly PARAM_SEARCH_FOR = 'search_for';
 
   public constructor(
-    private readonly dataService: DataService,
+    private readonly httpClient: HttpClient,
     private readonly searchUtilities: SearchUtilityService
   ) {}
 
   public getInitialFilters(): Observable<FilterItem[]> {
-    return this.dataService
-      .getAll<InitialFiltersResponse>(this.INITIAL_FILTER, {
+    return this.httpClient
+      .get<InitialFiltersResponse>(`${API.v1}/${this.INITIAL_FILTER}`, {
         context: withCache(),
       })
       .pipe(map((response) => response.items));
@@ -47,7 +47,9 @@ export class SearchService {
   public search(
     items: (FilterItemRangeUpdate | FilterItemIdValueUpdate)[]
   ): Observable<SearchResult> {
-    return this.dataService.post<SearchResult>(this.SEARCH, { items });
+    return this.httpClient.post<SearchResult>(`${API.v1}/${this.SEARCH}`, {
+      items,
+    });
   }
 
   public autocomplete(
@@ -59,10 +61,13 @@ export class SearchService {
       textSearch.value
     );
 
-    return this.dataService
-      .getAll<FilterItemIdValue>(
-        `${this.POSSIBLE_FILTER}/${textSearch.field}`,
-        { params, context: withCache() }
+    return this.httpClient
+      .get<FilterItemIdValue>(
+        `${API.v1}/${this.POSSIBLE_FILTER}/${textSearch.field}`,
+        {
+          params,
+          context: withCache(),
+        }
       )
       .pipe(
         map((item: FilterItemIdValue) => ({

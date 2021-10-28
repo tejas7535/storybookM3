@@ -6,8 +6,6 @@ import {
 import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import {
   FilterItem,
   IdValue,
@@ -24,16 +22,6 @@ describe('SearchService', () => {
   const createService = createServiceFactory({
     service: SearchService,
     imports: [HttpClientTestingModule],
-    providers: [
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -54,7 +42,7 @@ describe('SearchService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/initial-filter');
+      const req = httpMock.expectOne('api/v1/initial-filter');
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
       req.flush(mock);
@@ -69,7 +57,7 @@ describe('SearchService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/search');
+      const req = httpMock.expectOne('api/v1/search');
       expect(req.request.method).toBe('POST');
       req.flush(mock);
     });
@@ -89,7 +77,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/possible-filter/${textSearch.field}?search_for=${textSearch.value}`
+        `api/v1/possible-filter/${textSearch.field}?search_for=${textSearch.value}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());

@@ -1,4 +1,4 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
-import { DataService } from '@schaeffler/http';
+import { API } from '@cdba/shared/constants/api';
 
 import {
   BomIdentifier,
@@ -43,7 +43,7 @@ export class DetailService {
   private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
   private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
 
-  public constructor(private readonly dataService: DataService) {}
+  public constructor(private readonly httpClient: HttpClient) {}
 
   private static defineBomTreeForAgGrid(
     items: BomItem[],
@@ -118,11 +118,11 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant);
 
-    const path = `${this.DETAIL_PATH}?${params.toString()}&${
+    const path = `${API.v1}/${this.DETAIL_PATH}?${params.toString()}&${
       this.PARAM_IDENTIFICATION_HASH
     }=${encodeURIComponent(item.identificationHash)}`;
 
-    return this.dataService.getAll<ReferenceTypeResult>(path, {
+    return this.httpClient.get<ReferenceTypeResult>(path, {
       context: withCache(),
     });
   }
@@ -135,8 +135,8 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
       .set(this.PARAM_PLANT, plant);
 
-    return this.dataService
-      .getAll<CalculationsResult>(this.CALCULATIONS_PATH, {
+    return this.httpClient
+      .get<CalculationsResult>(`${API.v1}/${this.CALCULATIONS_PATH}`, {
         params,
         context: withCache(),
       })
@@ -153,8 +153,11 @@ export class DetailService {
       .set(this.PARAM_BOM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
       .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant);
 
-    return this.dataService
-      .getAll<BomResult>(this.BOM_PATH, { params, context: withCache() })
+    return this.httpClient
+      .get<BomResult>(`${API.v1}/${this.BOM_PATH}`, {
+        params,
+        context: withCache(),
+      })
       .pipe(
         map((response: BomResult) =>
           response.items.map((item) => ({
@@ -176,7 +179,7 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
       .set(this.PARAM_PLANT, plant);
 
-    return this.dataService.getAll<Drawing[]>(this.DRAWINGS_PATH, {
+    return this.httpClient.get<Drawing[]>(`${API.v1}/${this.DRAWINGS_PATH}`, {
       params,
       context: withCache(),
     });

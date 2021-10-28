@@ -125,6 +125,10 @@
       }
     }
   },
+  "http": {
+    "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
+    "errorInterceptorActionDefault": "Contact Support"
+  },
   "forbidden": {
     "noBasicAccess": {
       "heading": "No access to CDBA",
