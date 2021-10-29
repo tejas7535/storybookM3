@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
   bearingSearchSuccess,
+  modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
   selectBearing,
@@ -49,6 +50,15 @@ describe('Bearing Reducer', () => {
       const state = bearingReducer(initialState, action);
 
       expect(state.modelId).toEqual(MODEL_MOCK_ID);
+    });
+  });
+
+  describe('on modelCreationFailure', () => {
+    it('should set modelCreationSuccess', () => {
+      const action: Action = modelCreateFailure();
+      const state = bearingReducer(initialState, action);
+
+      expect(state.modelCreationSuccess).toEqual(false);
     });
   });
 

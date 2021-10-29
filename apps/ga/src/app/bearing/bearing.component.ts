@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import {
@@ -13,6 +14,7 @@ import {
   takeUntil,
 } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../app-route-path.enum';
@@ -26,7 +28,10 @@ import {
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
+import {
+  getModelCreationSuccess,
+  getSelectedBearing,
+} from './../core/store/selectors/bearing/bearing.selector';
 
 @Component({
   selector: 'ga-bearing',
@@ -44,7 +49,8 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -81,11 +87,24 @@ export class BearingComponent implements OnInit, OnDestroy {
   public handleBearingSelection(bearing: string) {
     this.store.dispatch(selectBearing({ bearing }));
 
-    if (bearing) {
-      this.router.navigate([
-        `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
-      ]);
-    }
+    this.store
+      .select(getModelCreationSuccess)
+      .pipe(
+        filter((success: boolean) => success !== undefined),
+        take(1)
+      )
+      .subscribe((success: boolean) => {
+        if (success) {
+          this.router.navigate([
+            `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
+          ]);
+        } else {
+          this.snackbar.open(
+            translate('bearing.modelCreationError', { bearing }),
+            translate('bearing.close')
+          );
+        }
+      });
   }
 
   public navigateBack(): void {

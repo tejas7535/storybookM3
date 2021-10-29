@@ -23,7 +23,9 @@
     "subtitle": "For which bearing should the calculation be done?",
     "searchPlaceholder": "Search for bearing...",
     "narrowDownSelection": "Narrow down bearing selection?",
-    "noResults": "No results"
+    "noResults": "No results",
+    "modelCreationError": "Currently a calculation for the bearing {{bearing}} is not possible.",
+    "close": "Close"
   },
   "parameters": {
     "showDetails": "Show details",

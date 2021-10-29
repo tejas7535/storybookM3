@@ -23,7 +23,9 @@
     "subtitle": "Für welches Lager soll die Kalkulation durchgeführt werden?",
     "searchPlaceholder": "Nach Lager suchen...",
     "narrowDownSelection": "Lagerauswahl eingrenzen?",
-    "noResults": "Keine Ergebnisse"
+    "noResults": "Keine Ergebnisse",
+    "modelCreationError": "Für das Lager {{bearing}} kann aktuell keine Berechnung durchgeführt werden.",
+    "close": "Schließen"
   },
   "parameters": {
     "showDetails": "Details anzeigen",

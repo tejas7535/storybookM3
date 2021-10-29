@@ -6,6 +6,7 @@ import {
 import {
   getBearingLoading,
   getBearingResultList,
+  getModelCreationSuccess,
   getModelId,
   getSelectedBearing,
 } from './bearing.selector';
@@ -61,6 +62,12 @@ describe('Bearing Selector', () => {
           title: 'evenGreaterBearing',
         },
       ]);
+    });
+  });
+
+  describe('getModelCreationSuccess', () => {
+    it('should return modelCreationSuccess', () => {
+      expect(getModelCreationSuccess(mockState)).toEqual(undefined);
     });
   });
 });

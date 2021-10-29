@@ -9,6 +9,7 @@ import { getSelectedBearing } from '../..';
 import { RestService } from '../../../services/rest/rest.service';
 import {
   bearingSearchSuccess,
+  modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
   selectBearing,
@@ -43,7 +44,11 @@ export class BearingEffects {
         (bearing: string) =>
           this.restService
             .putModelCreate(bearing)
-            .pipe(map((modelId: string) => modelCreateSuccess({ modelId })))
+            .pipe(
+              map((modelId: string) =>
+                modelId ? modelCreateSuccess({ modelId }) : modelCreateFailure()
+              )
+            )
         //   catchError((_e) => of(modelCreateFailure())
       )
     );

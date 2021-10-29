@@ -18,6 +18,11 @@ export const getModelId = createSelector(
   (state: BearingState): string => state?.modelId
 );
 
+export const getModelCreationSuccess = createSelector(
+  getBearingState,
+  (state: BearingState): boolean => state?.modelCreationSuccess
+);
+
 export const getBearingResultList = createSelector(
   getBearingState,
   (state: BearingState): any =>

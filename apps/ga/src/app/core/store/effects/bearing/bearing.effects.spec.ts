@@ -12,6 +12,7 @@ import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
 import {
   bearingSearchSuccess,
+  modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
   selectBearing,
@@ -75,7 +76,7 @@ describe('Bearing Effects', () => {
 
   describe('createModel$', () => {
     it(
-      'should fetch modelId',
+      'should fetch modelId and return success action',
       marbles((m) => {
         const mockBearing = 'mockBearing';
         store.overrideSelector(getSelectedBearing, mockBearing);
@@ -88,6 +89,30 @@ describe('Bearing Effects', () => {
         restService.putModelCreate = jest.fn(() => response);
 
         const result = modelCreateSuccess({ modelId: MODEL_MOCK_ID });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.createModel$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.putModelCreate).toHaveBeenCalledTimes(1);
+        expect(restService.putModelCreate).toHaveBeenCalledWith(mockBearing);
+      })
+    );
+    it(
+      'should fetch modelId and return failure action',
+      marbles((m) => {
+        const mockBearing = 'mockBearing';
+        store.overrideSelector(getSelectedBearing, mockBearing);
+
+        action = selectBearing({ bearing: mockBearing });
+
+        actions$ = m.hot('-a', { a: action });
+
+        // eslint-disable-next-line unicorn/no-null
+        const response = m.cold('-a|', { a: null });
+        restService.putModelCreate = jest.fn(() => response);
+
+        const result = modelCreateFailure();
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.createModel$).toBeObservable(expected);

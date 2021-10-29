@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -29,6 +30,7 @@ import { BearingComponent } from './bearing.component';
 
     // Material Modules
     MatButtonModule,
+    MatSnackBarModule,
 
     // Transloco
     SharedTranslocoModule,

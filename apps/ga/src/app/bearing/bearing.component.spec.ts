@@ -1,9 +1,11 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { translate } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -14,6 +16,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { AppRoutePath } from '../app-route-path.enum';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
+import { getModelCreationSuccess } from './../core/store/selectors/bearing/bearing.selector';
 import { BearingComponent } from './bearing.component';
 
 describe('BearingComponent', () => {
@@ -31,6 +34,7 @@ describe('BearingComponent', () => {
       SubheaderModule,
       ReactiveComponentModule,
       MatButtonModule,
+      MatSnackBarModule,
     ],
     providers: [
       provideMockStore({
@@ -77,8 +81,26 @@ describe('BearingComponent', () => {
   });
 
   describe('handleBearingSelection', () => {
+    it('should dispatch select bearing and show snackbar if model creation failed', () => {
+      component['router'].navigate = jest.fn();
+      component['snackbar'].open = jest.fn();
+      store.overrideSelector(getModelCreationSuccess, false);
+
+      component.handleBearingSelection('some bearing');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectBearing({ bearing: 'some bearing' })
+      );
+      expect(component['router'].navigate).not.toHaveBeenCalled();
+      expect(component['snackbar'].open).toHaveBeenCalledWith(
+        translate('bearing.modelCreationError', { bearing: 'some bearing' }),
+        translate('bearing.close')
+      );
+    });
     it('should dispatch select bearing and navigate to parameters', () => {
       component['router'].navigate = jest.fn();
+      component['snackbar'].open = jest.fn();
+      store.overrideSelector(getModelCreationSuccess, true);
 
       component.handleBearingSelection('some bearing');
 
@@ -88,10 +110,12 @@ describe('BearingComponent', () => {
       expect(component['router'].navigate).toHaveBeenCalledWith([
         `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
       ]);
+      expect(component['snackbar'].open).not.toHaveBeenCalled();
     });
 
     it('should dispatch undefined bearing', () => {
       component.handleBearingSelection(undefined);
+      component['snackbar'].open = jest.fn();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: undefined })
