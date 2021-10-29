@@ -40,7 +40,9 @@
       "sidebar": {
         "columns": "Spalten",
         "filters": "Filter"
-      }
+      },
+      "sapGrossPrice": "SAP Bruttopreis",
+      "discount": "Rabatt %"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

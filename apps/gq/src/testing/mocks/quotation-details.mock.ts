@@ -47,6 +47,10 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   rlm: 0.65,
   lastOfferDetail: LAST_OFFER_DETAIL_MOCK,
   comment: 'testcomment',
+  sapGrossPrice: 100,
+  sapPrice: 80,
+  sapPriceCondition: 'sapPriceCondition',
+  discount: 50,
 };
 
 export const QUATATION_DETAILS_MOCK = [

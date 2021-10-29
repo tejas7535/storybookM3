@@ -7,7 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { updateQuotationDetails } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
-import { PriceSource } from '../../models/quotation-detail';
+import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
+import { PriceService } from '../price-service/price.service';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
@@ -92,6 +93,37 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
       cellRenderer: 'gqRatingComponent',
       field: 'gqRating',
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.sapGrossPrice'),
+      field: 'sapGrossPrice',
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.discount'),
+      field: ColumnFields.DISCOUNT,
+      valueFormatter: ColumnUtilityService.percentageFormatter,
+      editable: true,
+      cellRenderer: 'editDiscountComponent',
+      cellEditor: 'editingDiscountComponent',
+      valueSetter: (params: ValueSetterParams) => {
+        const detail: QuotationDetail = params.data;
+        if (params.newValue && detail.sapGrossPrice) {
+          const manualPrice = PriceService.getManualPriceByDiscount(
+            detail.sapGrossPrice,
+            Number.parseFloat(params.newValue)
+          );
+          if (manualPrice) {
+            this.selectManualPrice(
+              manualPrice,
+              params.data.gqPositionId,
+              params.data.material.priceUnit
+            );
+          }
+        }
+
+        return true;
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),

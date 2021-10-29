@@ -35,10 +35,14 @@ export class QuotationDetail {
   public relocatedProductionPlant: Plant;
   public lastOfferDetail: LastOfferDetail;
   public comment: string;
+  public sapPrice: number;
+  public sapPriceCondition: string;
+  public sapGrossPrice: number;
 
   // properties added in GQ application
   public netValue: number;
   public gpi: number;
   public gpm: number;
   public rlm: number;
+  public discount: number;
 }

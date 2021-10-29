@@ -1,3 +1,5 @@
+import { EditDiscountComponent } from '../../../shared/cell-renderer/discount/edit-discount/edit-discount.component';
+import { EditingDiscountComponent } from '../../../shared/cell-renderer/discount/editing-discount/editing-discount.component';
 import { EditCommentComponent } from '../../../shared/cell-renderer/edit-comment/edit-comment.component';
 import { EditPriceComponent } from '../../../shared/cell-renderer/edit-price/edit-price.component';
 import { EditQuantityComponent } from '../../../shared/cell-renderer/edit-quantity/edit-quantity.component';
@@ -26,4 +28,6 @@ export const FRAMEWORK_COMPONENTS = {
   exportToExcelButtonComponent: ExportToExcelButtonComponent,
   positionIdComponent: PositionIdComponent,
   editCommentComponent: EditCommentComponent,
+  editDiscountComponent: EditDiscountComponent,
+  editingDiscountComponent: EditingDiscountComponent,
 };

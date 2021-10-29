@@ -40,7 +40,9 @@
       "sidebar": {
         "columns": "Columns",
         "filters": "Filters"
-      }
+      },
+      "sapGrossPrice": "SAP Gross Price",
+      "discount": "Discount %"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

@@ -18,6 +18,8 @@ import { GqIdComponent } from './gq-id/gq-id.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
 import { PositionIdComponent } from './position-id/position-id.component';
+import { EditDiscountComponent } from './discount/edit-discount/edit-discount.component';
+import { EditingDiscountComponent } from './discount/editing-discount/editing-discount.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { PositionIdComponent } from './position-id/position-id.component';
     PositionIdComponent,
     GqIdComponent,
     EditCommentComponent,
+    EditDiscountComponent,
+    EditingDiscountComponent,
   ],
   imports: [
     CommonModule,

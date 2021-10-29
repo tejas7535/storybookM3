@@ -20,7 +20,7 @@ export class PriceService {
       detail.orderQuantity
     );
     detail.percentDifference = PriceService.calculatePercentDifference(detail);
-
+    detail.discount = PriceService.calculateDiscount(detail);
     // calculate priceUnit dependent values
     PriceService.calculatePriceUnitValues(detail);
 
@@ -87,6 +87,24 @@ export class PriceService {
     return undefined;
   }
 
+  static calculateDiscount(detail: QuotationDetail): number {
+    if (detail.price && detail.sapGrossPrice) {
+      const discount = 1 - detail.price / detail.sapGrossPrice;
+
+      return PriceService.roundPercentageToTwoDecimals(discount);
+    }
+
+    return undefined;
+  }
+
+  static getManualPriceByDiscount(
+    sapGrossPrice: number,
+    discount: number
+  ): number {
+    const newPrice = (1 - discount / 100) * sapGrossPrice;
+
+    return PriceService.roundToTwoDecimals(newPrice);
+  }
   /**
    * https://confluence.schaeffler.com/display/PARS/Implementation+Prices
    * @param details

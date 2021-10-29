@@ -3,8 +3,8 @@ import {
   QUOTATION_DETAIL_MOCK,
   TRANSACTION_MOCK,
 } from '../../../../testing/mocks';
-import { PriceService } from './price.service';
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
+import { PriceService } from './price.service';
 
 describe('PriceService', () => {
   describe('addCalculationForDetail', () => {
@@ -88,6 +88,37 @@ describe('PriceService', () => {
       const result = PriceService.calculateMargin(price, margin);
 
       expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('calculateDiscount', () => {
+    test('should return discount', () => {
+      const detail = {
+        sapGrossPrice: 200,
+        price: 100,
+      } as any;
+
+      const result = PriceService.calculateDiscount(detail);
+
+      expect(result).toEqual(50);
+    });
+    test('should return undefined', () => {
+      const detail = {
+        sapGrossPrice: undefined,
+        price: 100,
+      } as any;
+
+      const result = PriceService.calculateDiscount(detail);
+
+      expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('getManualPriceByDiscount', () => {
+    test('should return manualPrice', () => {
+      const manualPrice = PriceService.getManualPriceByDiscount(100, 20);
+
+      expect(manualPrice).toEqual(80);
     });
   });
 

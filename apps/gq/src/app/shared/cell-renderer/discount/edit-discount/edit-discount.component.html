@@ -1,0 +1,11 @@
+<div *ngIf="value">
+  <span class="float-left w-[100px] truncate">
+    {{ value }}
+  </span>
+  <mat-icon
+    *ngIf="sapGrossPrice"
+    class="cursor-pointer !text-[16px]"
+    (click)="onIconClick()"
+    >mode_edit</mat-icon
+  >
+</div>
