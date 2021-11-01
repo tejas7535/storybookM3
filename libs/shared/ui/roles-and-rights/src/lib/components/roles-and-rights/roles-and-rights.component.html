@@ -1,5 +1,5 @@
 <div *transloco="let t">
-  <div class="text-subtitle-1 text-mediumEmphasis mb-4">
+  <div *ngIf="showHeading" class="text-subtitle-1 text-mediumEmphasis mb-4">
     {{ headingText || t('rightsAndRolesHeadingDefault') }}
   </div>
   <schaeffler-roles-groups

@@ -9,6 +9,7 @@ import { Role, RolesGroup } from '../../models';
 })
 export class RolesAndRightsComponent {
   @Input() public headingText?: string;
+  @Input() public showHeading?: boolean = true;
   @Input() public rolesGroups?: RolesGroup[];
   @Input() public roles?: Role[];
 }

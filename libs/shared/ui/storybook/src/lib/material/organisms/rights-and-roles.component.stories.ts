@@ -71,6 +71,12 @@ GroupedRoles.args = {
   rolesGroups: mockRolesGroups,
 };
 
+export const HideHeading = getMultiLanguageStoryTemplate.bind({});
+HideHeading.args = {
+  rolesGroups: mockRolesGroups,
+  showHeading: false,
+};
+
 export const CustomHeading = getMultiLanguageStoryTemplate.bind({});
 CustomHeading.args = {
   headingText: 'My Custom Heading Text',

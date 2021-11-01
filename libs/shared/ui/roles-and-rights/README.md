@@ -126,6 +126,7 @@ export class MyComponent {
 | Name           | Description                                                                                                      |
 | ---------------| -----------------------------------------------------------------------------------------------------------------|
 | headingText    | (optional) set custom heading of the component, a multi-language default is available                            |
+| showHeading    | (optional) (default: true) Whether the heading should be displayed or not                                        |
 | rolesGroups    | (optional) a grouped set of roles with the associated rights                                                     |
 | roles          | (optional) a standalone set of roles with the associated rights                                                  |
 
