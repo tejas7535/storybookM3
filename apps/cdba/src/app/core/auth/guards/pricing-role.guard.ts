@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
+import { EmptyStatesPath } from '../../empty-states/empty-states-path.enum';
 import { RoleFacade } from '../role.facade';
 
 @Injectable({
@@ -20,7 +21,10 @@ export class PricingRoleGuard implements CanActivateChild {
     return this.roleFacade.hasAnyPricingRole$.pipe(
       tap(async (hasAnyPricingRole) => {
         if (!hasAnyPricingRole) {
-          await this.router.navigate([AppRoutePath.ForbiddenPath]);
+          await this.router.navigate([
+            AppRoutePath.EmptyStatesPath,
+            EmptyStatesPath.ForbiddenPath,
+          ]);
         }
       })
     );

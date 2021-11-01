@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
+import { EmptyStatesPath } from '../../empty-states/empty-states-path.enum';
 import { RoleFacade } from '../role.facade';
 
 @Injectable({
@@ -20,7 +21,10 @@ export class BasicRoleGuard implements CanActivateChild {
     return this.roleFacade.hasBasicRole$.pipe(
       tap(async (hasBasicRole) => {
         if (!hasBasicRole) {
-          await this.router.navigate([AppRoutePath.NoAccessPath]);
+          await this.router.navigate([
+            AppRoutePath.EmptyStatesPath,
+            EmptyStatesPath.NoAccessPath,
+          ]);
         }
       })
     );

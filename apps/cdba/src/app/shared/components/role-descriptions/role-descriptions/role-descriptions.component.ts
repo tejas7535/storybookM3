@@ -4,7 +4,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { RolesGroupAdapter } from '@cdba/core/auth/adapters/roles-group.adapter';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
-import { URL_SERVICE_NOW } from '@cdba/shared/constants/urls';
+import * as urls from '@cdba/shared/constants/urls';
 
 import { RolesGroup } from '@schaeffler/roles-and-rights';
 import { Subscription } from 'rxjs';
@@ -15,8 +15,12 @@ import { Subscription } from 'rxjs';
 })
 export class RoleDescriptionsComponent implements OnInit, OnDestroy {
   @Input() hintText: 'default' | 'missingRoles' = 'default';
+  @Input() public showHeading?: boolean = true;
 
-  public urlServiceNow = URL_SERVICE_NOW;
+  public urlServiceNow = urls.URL_SERVICE_NOW;
+  public urlProductLines = urls.URL_PRODUCT_LINES;
+  public urlRoleAssignments = urls.URL_ROLE_ASSIGNMENTS;
+
   public rolesGroups: RolesGroup[] = [];
   private roleDescriptionsSubscription: Subscription;
 

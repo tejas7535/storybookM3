@@ -3,45 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
-import { ForbiddenRoute } from '@schaeffler/empty-states';
-
 import { BasicRoleGuard } from './core/auth';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { NO_ACCESS_ACTION, FORBIDDEN_ACTION } from './shared/constants';
-
-/**
- * Show this page when the user does not have the basic access rights for the app
- */
-const forbiddenRouteBasic: ForbiddenRoute = {
-  path: AppRoutePath.NoAccessPath,
-  loadChildren: async () =>
-    import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
-  data: {
-    headingText: 'forbidden.noBasicAccess.heading',
-    messageText: 'forbidden.noBasicAccess.message',
-    action: encodeURI(NO_ACCESS_ACTION),
-    hideHomeButton: true,
-  },
-  canActivate: [MsalGuard],
-};
-
-/**
- * Show this page when the user does not have access rights for specific feature
- */
-const forbiddenRouteFeature: ForbiddenRoute = {
-  path: AppRoutePath.ForbiddenPath,
-  loadChildren: async () =>
-    import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
-  data: {
-    headingText: 'forbidden.noFeatureAccess.heading',
-    messageText: 'forbidden.noFeatureAccess.message',
-    action: encodeURI(FORBIDDEN_ACTION),
-    actionButtonText: 'forbidden.noFeatureAccess.actionButton',
-    homeButtonText: 'forbidden.noFeatureAccess.homeButton',
-  },
-  canActivate: [MsalGuard],
-};
 
 export const appRoutes: Routes = [
   {
@@ -77,12 +41,17 @@ export const appRoutes: Routes = [
     canActivate: [MsalGuard],
     canActivateChild: [BasicRoleGuard],
   },
-  forbiddenRouteBasic,
-  forbiddenRouteFeature,
+  {
+    path: AppRoutePath.EmptyStatesPath,
+    loadChildren: async () =>
+      import('./core/empty-states/empty-states.module').then(
+        (m) => m.EmptyStatesModule
+      ),
+  },
   {
     path: '**',
-    loadChildren: async () =>
-      import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
+    redirectTo: `/${AppRoutePath.EmptyStatesPath}`,
+    pathMatch: 'full',
   },
 ];
 

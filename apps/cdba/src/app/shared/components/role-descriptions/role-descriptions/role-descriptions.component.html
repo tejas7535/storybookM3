@@ -2,9 +2,10 @@
   <schaeffler-roles-and-rights
     *ngIf="rolesGroups && rolesGroups.length"
     [rolesGroups]="rolesGroups"
+    [showHeading]="showHeading"
   ></schaeffler-roles-and-rights>
   <div
-    class="text-body-1 pt-4"
-    [innerHTML]="t('hints.' + hintText, { urlServiceNow })"
+    class="text-body-1 pt-4 whitespace-pre-line"
+    [innerHTML]="t('hints.' + hintText, { urlServiceNow, urlProductLines, urlRoleAssignments })"
   ></div>
 </div>

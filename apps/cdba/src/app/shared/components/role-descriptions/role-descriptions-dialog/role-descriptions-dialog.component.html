@@ -1,0 +1,14 @@
+<div [@.disabled]="disableAnimation" *transloco="let t; read: 'roles'">
+  <h2 mat-dialog-title>
+    {{ t('heading.default') }}
+    <mat-icon mat-dialog-close class="float-right cursor-pointer">
+      close
+    </mat-icon>
+  </h2>
+  <div mat-dialog-content class="mat-typography">
+    <cdba-role-descriptions
+      hintText="missingRoles"
+      [showHeading]="false"
+    ></cdba-role-descriptions>
+  </div>
+</div>

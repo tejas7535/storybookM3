@@ -4,6 +4,5 @@ export enum AppRoutePath {
   ResultsPath = 'results',
   DetailPath = 'detail',
   ComparePath = 'compare',
-  ForbiddenPath = 'forbidden',
-  NoAccessPath = 'no-access',
+  EmptyStatesPath = 'empty-states',
 }

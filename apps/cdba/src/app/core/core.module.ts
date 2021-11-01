@@ -21,6 +21,7 @@ import {
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
 import { environment } from '@cdba/environments/environment';
 import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
 
@@ -37,7 +38,10 @@ const azureConfig = new AzureConfig(
   new MsalInterceptorConfig([
     new ProtectedResource('/api/*', [environment.appScope]),
   ]),
-  new MsalGuardConfig(`${AppRoutePath.NoAccessPath}`, [environment.appScope])
+  new MsalGuardConfig(
+    `${AppRoutePath.EmptyStatesPath}/${EmptyStatesPath.NoAccessPath}`,
+    [environment.appScope]
+  )
 );
 
 @NgModule({

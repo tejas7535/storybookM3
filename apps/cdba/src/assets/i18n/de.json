@@ -130,12 +130,15 @@
     "errorInterceptorActionDefault": "Support kontaktieren"
   },
   "roles": {
+    "heading": {
+      "default": "Rollen und Rechte"
+    },
     "descriptions": {
       "productLines": "Produktlinien",
       "subRegions": "Unterregionen",
       "hints": {
         "default": "Bitte wenden Sie sich an <a class=\"text-primary\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.",
-        "missingRoles": "Text will be integrated later"
+        "missingRoles": "Wenn Sie zusätzliche Unterstützung benötigen, um Zugang zu den erforderlichen Rechten zu erhalten, finden Sie unter <a class=\"text-primary\" href=\"{{urlProductLines}}\" target=\"blank\">Übersicht über die Produktlinien</a> weitere Anleitungen. Wenn Sie nicht wissen, wie Sie Ihre Rollenzuweisungen ändern können, besuchen Sie bitte <a class=\"text-primary\" href=\"{{urlRoleAssignments}}\" target=\"blank\">Wie funktionieren Rollenzuweisungen</a>.\n\nBitte beachten Sie, dass es nach der Freigabe der Rechte bis zu einem Tag dauert, bis die Synchronisierung erfolgt."
       }
     }
   },
@@ -147,7 +150,7 @@
     "noFeatureAccess": {
       "heading": "Kein Zugang zur Seite",
       "message": "Es tut uns leid, Sie haben keinen Zugang zu dieser Seite oder diesem Material.\nSie haben keine Rechte für ein Teilgebiet oder eine Produktlinie.",
-      "actionButton": "Rechteverwaltung",
+      "actionButton": "Meine Rechte",
       "homeButton": "Neue Suche starten"
     }
   }
