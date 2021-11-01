@@ -8,7 +8,7 @@ import { ForbiddenRouteData } from './forbidden-route-data.model';
  */
 export interface ForbiddenRoute extends Route {
   /**
-   * Define action for secondary button
+   * Define route data, extends "route-data" from ng-router
    */
   data?: ForbiddenRouteData;
 }

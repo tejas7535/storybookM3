@@ -23,10 +23,13 @@ export interface ForbiddenRouteData extends Data {
 
   /**
    * Define action for the primary button
+   * Possible options are:
+   * 1. "event" for a void observable "next" operation (see ForbiddenEventService)
+   * 2. URL string
    * If it is not set, the primary button will not be shown
    * @Optional
    */
-  action?: string;
+  action?: 'event' | string;
 
   /**
    * Change the text of the primary button

@@ -50,9 +50,11 @@ As this lib depends on [Angular Material](https://material.angular.io) and [Tail
 ...
 ```
 
-### Activate the Module for a "forbidden" route
+### Embed the forbidden route in your app
 
-In your app- or feature-routing-module:
+#### Example 1 (action button as a link)
+
+Activate the Module for a "forbidden" route in your app- or feature-routing-module:
 
 ```typescript
 import { Routes } from '@angular/router';
@@ -76,6 +78,67 @@ export const routes: Routes = [
   forbiddenRoute
 ]
 ```
+
+#### Example 2 (click event for action button)
+
+Activate the Module for a "forbidden" route in your app- or feature-routing-module:
+
+```typescript
+import { Routes } from '@angular/router';
+import { ForbiddenRoute } from '@schaeffler/empty-states';
+
+const forbiddenRoute: ForbiddenRoute = {
+    path: 'forbidden-path',
+    loadChildren: async () => import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+    data: {
+      headingText: 'some.translation.key',
+      messageText: 'Some clear text',
+      action: 'event',
+      actionButtonText: 'fsome.translation.key',
+      hideHomeButton: true, // default is false
+      homeButtonText: 'some.translation.key',
+    }
+  };
+
+export const routes: Routes = [
+  // ... all other routes,
+  forbiddenRoute
+]
+```
+
+Inject the `ForbiddenEventService` in your router parent component (`<router-outlet>` in template):
+
+```typescript
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ForbiddenEventService } from '@schaeffler/empty-states';
+
+@Component({
+  selector: 'router-parent-component',
+  templateUrl: './router-parent.component.html'
+})
+export class RouterParentComponent implements OnInit, OnDestroy {
+  forbiddenPageActionButtonSubscription: Subscription;
+
+  constructor(forbiddenEventService: ForbiddenEventService) {}
+
+  ngOnInit(): void {
+    this.forbiddenPageActionButtonSubscription = this.forbiddenEventService.forbiddenPageActionButtonClicked$
+      .subscribe(() => {
+        // code when action button in forbidden page was clicked
+        ...
+      });
+  }
+
+  // don't forget to unsubscribe
+  ngOnDestroy(): void {
+    if (this.forbiddenPageActionButtonSubscription) {
+      this.forbiddenPageActionButtonSubscription.unsubscribe();
+    }
+  }
+}
+```
+
 
 ### API
 

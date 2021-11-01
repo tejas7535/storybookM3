@@ -11,15 +11,27 @@
     {{ t(routeData.messageText || 'forbiddenMessageDefault') }}
   </p>
   <div class="p-8 flex justify-center gap-4">
-    <a
-      *ngIf="routeData.action"
-      [href]="routeData.action"
-      mat-raised-button
-      color="primary"
-      data-cy="requestAccess"
-    >
-      {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
-    </a>
+    <ng-container *ngIf="routeData.action">
+      <button
+        *ngIf="routeData.action === 'event'; else actionButtonAsLink"
+        mat-raised-button
+        color="primary"
+        (click)="onActionButtonClick()"
+      >
+        {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
+      </button>
+      <ng-template #actionButtonAsLink>
+        <a
+          *ngIf="routeData.action"
+          [href]="routeData.action"
+          mat-raised-button
+          color="primary"
+          data-cy="requestAccess"
+        >
+          {{ t(routeData.actionButtonText || 'actionButtonTextDefault') }}
+        </a>
+      </ng-template>
+    </ng-container>
     <button
       *ngIf="!routeData.hideHomeButton"
       mat-raised-button
