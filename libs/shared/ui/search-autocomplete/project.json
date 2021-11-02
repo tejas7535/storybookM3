@@ -1,0 +1,61 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/search-autocomplete",
+  "sourceRoot": "libs/shared/ui/search-autocomplete/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.json",
+        "project": "libs/shared/ui/search-autocomplete/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/search-autocomplete/src/**/*.ts",
+          "libs/shared/ui/search-autocomplete/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/search-autocomplete/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/search-autocomplete"],
+      "options": {
+        "jestConfig": "libs/shared/ui/search-autocomplete/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/search-autocomplete"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/search-autocomplete --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"]
+}

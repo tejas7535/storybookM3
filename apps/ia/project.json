@@ -1,0 +1,139 @@
+{
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "root": "apps/ia",
+  "sourceRoot": "apps/ia/src",
+  "prefix": "ia",
+  "targets": {
+    "build": {
+      "executor": "@angular-builders/custom-webpack:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/ia",
+        "index": "apps/ia/src/index.html",
+        "main": "apps/ia/src/main.ts",
+        "polyfills": "apps/ia/src/polyfills.ts",
+        "tsConfig": "apps/ia/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/ia/src/favicon.ico", "apps/ia/src/assets"],
+        "styles": ["apps/ia/src/styles.scss"],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src"]
+        },
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "30kb"
+          }
+        ],
+        "customWebpackConfig": {
+          "path": "apps/ia/webpack.config.js"
+        }
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/ia/src/environments/environment.ts",
+              "with": "apps/ia/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/ia/src/environments/environment.ts",
+              "with": "apps/ia/src/environments/environment.qa.ts"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "fileReplacements": [
+            {
+              "replace": "apps/ia/src/environments/environment.ts",
+              "with": "apps/ia/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-builders/custom-webpack:dev-server",
+      "options": {
+        "browserTarget": "ia:build",
+        "proxyConfig": "apps/ia/proxy.conf.js"
+      },
+      "configurations": {
+        "local": {
+          "browserTarget": "ia:build:local"
+        },
+        "dev": {
+          "browserTarget": "ia:build:dev"
+        },
+        "qa": {
+          "browserTarget": "ia:build:qa"
+        },
+        "production": {
+          "browserTarget": "ia:build:production"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/ia/src/**/*.ts", "apps/ia/src/**/*.html"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/ia/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/ia/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/apps/ia"]
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "apps/ia"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles"]
+}

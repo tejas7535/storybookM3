@@ -1,0 +1,63 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/loading-spinner",
+  "sourceRoot": "libs/shared/ui/loading-spinner/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
+        "project": "libs/shared/ui/loading-spinner/ng-package.json",
+        "buildableProjectDepsInPackageJsonType": "dependencies"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/loading-spinner/src/**/*.ts",
+          "libs/shared/ui/loading-spinner/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/loading-spinner/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/loading-spinner"],
+      "options": {
+        "jestConfig": "libs/shared/ui/loading-spinner/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/loading-spinner"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/loading-spinner --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": ["shared-ui-styles"]
+}

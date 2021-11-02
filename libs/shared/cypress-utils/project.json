@@ -1,0 +1,32 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/cypress-utils",
+  "sourceRoot": "libs/shared/cypress-utils/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/cypress-utils/src/**/*.ts",
+          "libs/shared/cypress-utils/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml"
+        }
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/cypress-utils"
+      }
+    }
+  },
+  "generators": {},
+  "tags": ["scope:shared", "type:utils"]
+}

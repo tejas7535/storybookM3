@@ -1,0 +1,37 @@
+{
+  "root": "apps/sedo-e2e",
+  "sourceRoot": "apps/sedo-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/sedo-e2e/cypress.json",
+        "tsConfig": "apps/sedo-e2e/tsconfig.e2e.json",
+        "devServerTarget": "sedo:serve"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "sedo:serve:local"
+        },
+        "production": {
+          "devServerTarget": "sedo:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/sedo-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/sedo-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["sedo"]
+}

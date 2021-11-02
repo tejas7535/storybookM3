@@ -1,0 +1,67 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/empty-states",
+  "sourceRoot": "libs/shared/ui/empty-states/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.json",
+        "project": "libs/shared/ui/empty-states/ng-package.json",
+        "buildableProjectDepsInPackageJsonType": "dependencies"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/empty-states/src/**/*.ts",
+          "libs/shared/ui/empty-states/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/empty-states/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/shared/ui/empty-states/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/libs/shared/ui/empty-states"]
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/empty-states"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/empty-states --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "tags": ["scope:shared", "type:ui"]
+}

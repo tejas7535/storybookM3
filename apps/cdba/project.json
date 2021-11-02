@@ -1,0 +1,144 @@
+{
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "root": "apps/cdba",
+  "sourceRoot": "apps/cdba/src",
+  "prefix": "cdba",
+  "targets": {
+    "build": {
+      "executor": "@angular-builders/custom-webpack:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/cdba",
+        "index": "apps/cdba/src/index.html",
+        "main": "apps/cdba/src/main.ts",
+        "polyfills": "apps/cdba/src/polyfills.ts",
+        "tsConfig": "apps/cdba/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/cdba/src/favicon.ico", "apps/cdba/src/assets"],
+        "styles": [
+          "apps/cdba/src/styles.scss",
+          "node_modules/@fontsource/roboto/300.css",
+          "node_modules/@fontsource/roboto/400.css",
+          "node_modules/@fontsource/roboto/500.css"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src"]
+        },
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "30kb"
+          }
+        ],
+        "customWebpackConfig": {
+          "path": "apps/cdba/webpack.config.js"
+        }
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/cdba/src/environments/environment.ts",
+              "with": "apps/cdba/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/cdba/src/environments/environment.ts",
+              "with": "apps/cdba/src/environments/environment.qa.ts"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "fileReplacements": [
+            {
+              "replace": "apps/cdba/src/environments/environment.ts",
+              "with": "apps/cdba/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-builders/custom-webpack:dev-server",
+      "options": {
+        "browserTarget": "cdba:build"
+      },
+      "configurations": {
+        "local": {
+          "browserTarget": "cdba:build:local",
+          "proxyConfig": "apps/cdba/proxy.conf.json"
+        },
+        "dev": {
+          "browserTarget": "cdba:build:dev"
+        },
+        "qa": {
+          "browserTarget": "cdba:build:qa"
+        },
+        "production": {
+          "browserTarget": "cdba:build:production"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/cdba/src/**/*.ts", "apps/cdba/src/**/*.html"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/cdba/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/cdba/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/apps/cdba"]
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "apps/cdba"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles"]
+}

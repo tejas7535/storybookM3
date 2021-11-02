@@ -1,0 +1,37 @@
+{
+  "root": "apps/helloworld-azure-e2e",
+  "sourceRoot": "apps/helloworld-azure-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/helloworld-azure-e2e/cypress.json",
+        "tsConfig": "apps/helloworld-azure-e2e/tsconfig.e2e.json",
+        "devServerTarget": "helloworld-azure:serve"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "helloworld-azure:serve:local"
+        },
+        "production": {
+          "devServerTarget": "helloworld-azure:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/helloworld-azure-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/helloworld-azure-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["helloworld-azure"]
+}

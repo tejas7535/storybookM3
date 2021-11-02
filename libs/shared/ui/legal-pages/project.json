@@ -1,0 +1,49 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/legal-pages",
+  "sourceRoot": "libs/shared/ui/legal-pages/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/shared/ui/legal-pages"],
+      "options": {
+        "project": "libs/shared/ui/legal-pages/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/legal-pages"],
+      "options": {
+        "jestConfig": "libs/shared/ui/legal-pages/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/legal-pages/src/**/*.ts",
+          "libs/shared/ui/legal-pages/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/legal-pages/checkstyle.xml",
+          "force": true
+        }
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"]
+}

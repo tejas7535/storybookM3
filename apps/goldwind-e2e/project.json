@@ -1,0 +1,37 @@
+{
+  "root": "apps/goldwind-e2e",
+  "sourceRoot": "apps/goldwind-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/goldwind-e2e/cypress.json",
+        "tsConfig": "apps/goldwind-e2e/tsconfig.e2e.json",
+        "devServerTarget": "goldwind:serve"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "goldwind:serve:local"
+        },
+        "production": {
+          "devServerTarget": "goldwind:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/goldwind-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/goldwind-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["goldwind"]
+}

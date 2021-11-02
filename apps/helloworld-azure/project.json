@@ -1,0 +1,145 @@
+{
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "root": "apps/helloworld-azure",
+  "sourceRoot": "apps/helloworld-azure/src",
+  "prefix": "helloworld-azure",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/helloworld-azure",
+        "index": "apps/helloworld-azure/src/index.html",
+        "main": "apps/helloworld-azure/src/main.ts",
+        "polyfills": "apps/helloworld-azure/src/polyfills.ts",
+        "tsConfig": "apps/helloworld-azure/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/helloworld-azure/src/favicon.ico",
+          "apps/helloworld-azure/src/assets"
+        ],
+        "styles": [
+          "apps/helloworld-azure/src/styles.scss",
+          "node_modules/@fontsource/roboto/300.css",
+          "node_modules/@fontsource/roboto/400.css",
+          "node_modules/@fontsource/roboto/500.css"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src"]
+        },
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "30kb"
+          }
+        ]
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/helloworld-azure/src/environments/environment.ts",
+              "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "qa": {
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/helloworld-azure/src/environments/environment.ts",
+              "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/helloworld-azure/src/environments/environment.ts",
+              "with": "apps/helloworld-azure/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "helloworld-azure:build"
+      },
+      "configurations": {
+        "local": {
+          "proxyConfig": "apps/helloworld-azure/proxy.conf.js",
+          "browserTarget": "helloworld-azure:build:local"
+        },
+        "dev": {
+          "browserTarget": "helloworld-azure:build:dev"
+        },
+        "qa": {
+          "browserTarget": "helloworld-azure:build:qa"
+        },
+        "production": {
+          "browserTarget": "helloworld-azure:build:production"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/helloworld-azure/src/**/*.ts",
+          "apps/helloworld-azure/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/helloworld-azure/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/apps/helloworld-azure"]
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "apps/helloworld-azure"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles"]
+}

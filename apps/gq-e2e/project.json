@@ -1,0 +1,37 @@
+{
+  "root": "apps/gq-e2e",
+  "sourceRoot": "apps/gq-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/gq-e2e/cypress.json",
+        "tsConfig": "apps/gq-e2e/tsconfig.e2e.json",
+        "devServerTarget": "gq:serve"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "gq:serve:local"
+        },
+        "production": {
+          "devServerTarget": "gq:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/gq-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/gq-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["gq"]
+}

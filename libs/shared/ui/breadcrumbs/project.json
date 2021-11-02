@@ -1,0 +1,65 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/breadcrumbs",
+  "sourceRoot": "libs/shared/ui/breadcrumbs/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/shared/ui/breadcrumbs"],
+      "options": {
+        "project": "libs/shared/ui/breadcrumbs/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/breadcrumbs/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/shared/ui/breadcrumbs/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/breadcrumbs"],
+      "options": {
+        "jestConfig": "libs/shared/ui/breadcrumbs/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/breadcrumbs/src/**/*.ts",
+          "libs/shared/ui/breadcrumbs/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/breadcrumbs/checkstyle.xml"
+        }
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/breadcrumbs"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/breadcrumbs --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"]
+}

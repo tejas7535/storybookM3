@@ -1,0 +1,37 @@
+{
+  "root": "apps/ga-e2e",
+  "sourceRoot": "apps/ga-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ga-e2e/cypress.json",
+        "tsConfig": "apps/ga-e2e/tsconfig.e2e.json",
+        "devServerTarget": "ga:serve:development"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "ga:serve:local"
+        },
+        "production": {
+          "devServerTarget": "ga:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/ga-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/ga-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["ga"]
+}

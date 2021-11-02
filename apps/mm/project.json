@@ -1,0 +1,180 @@
+{
+  "projectType": "application",
+  "root": "apps/mm",
+  "sourceRoot": "apps/mm/src",
+  "prefix": "mm",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mm",
+        "index": "apps/mm/src/index.html",
+        "main": "apps/mm/src/main.ts",
+        "polyfills": "apps/mm/src/polyfills.ts",
+        "tsConfig": "apps/mm/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/mm/src/favicon.ico",
+          "apps/mm/src/assets",
+          "apps/mm/src/browserconfig.xml",
+          "apps/mm/src/robots.txt"
+        ],
+        "styles": [
+          "apps/mm/src/styles.scss",
+          "node_modules/@fontsource/roboto/300.css",
+          "node_modules/@fontsource/roboto/400.css",
+          "node_modules/@fontsource/roboto/500.css"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": []
+        },
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "30kb"
+          }
+        ]
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "assets": [
+            "apps/mm/src/favicon.ico",
+            "apps/mm/src/assets",
+            "apps/mm/src/browserconfig.xml",
+            {
+              "input": "apps/mm/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/mm/src/environments/environment.ts",
+              "with": "apps/mm/src/environments/environment.dev.ts"
+            }
+          ],
+          "assets": [
+            "apps/mm/src/favicon.ico",
+            "apps/mm/src/assets",
+            "apps/mm/src/browserconfig.xml",
+            {
+              "input": "apps/mm/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/mm/src/environments/environment.ts",
+              "with": "apps/mm/src/environments/environment.qa.ts"
+            }
+          ],
+          "assets": [
+            "apps/mm/src/favicon.ico",
+            "apps/mm/src/assets",
+            "apps/mm/src/browserconfig.xml",
+            {
+              "input": "apps/mm/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "fileReplacements": [
+            {
+              "replace": "apps/mm/src/environments/environment.ts",
+              "with": "apps/mm/src/environments/environment.prod.ts"
+            }
+          ],
+          "assets": [
+            "apps/mm/src/favicon.ico",
+            "apps/mm/src/assets",
+            "apps/mm/src/browserconfig.xml",
+            {
+              "input": "apps/mm/robots/prod",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "mm:build"
+      },
+      "configurations": {
+        "local": {
+          "browserTarget": "mm:build:local"
+        },
+        "dev": {
+          "browserTarget": "mm:build:dev"
+        },
+        "qa": {
+          "browserTarget": "mm:build:qa"
+        },
+        "production": {
+          "browserTarget": "mm:build:production"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/mm/src/**/*.ts", "apps/mm/src/**/*.html"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/mm/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/mm"],
+      "options": {
+        "jestConfig": "apps/mm/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "apps/mm"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles"]
+}

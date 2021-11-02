@@ -1,0 +1,61 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/stepper",
+  "sourceRoot": "libs/shared/ui/stepper/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.json",
+        "project": "libs/shared/ui/stepper/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/stepper/src/**/*.ts",
+          "libs/shared/ui/stepper/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/stepper/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/stepper"],
+      "options": {
+        "jestConfig": "libs/shared/ui/stepper/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/stepper"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/stepper --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"]
+}

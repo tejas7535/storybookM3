@@ -1,0 +1,45 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/ui/subheader",
+  "sourceRoot": "libs/shared/ui/subheader/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:ng-packagr-lite",
+      "options": {
+        "tsConfig": "libs/shared/ui/subheader/tsconfig.lib.json",
+        "project": "libs/shared/ui/subheader/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/subheader/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/subheader/src/**/*.ts",
+          "libs/shared/ui/subheader/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/subheader/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/subheader"],
+      "options": {
+        "jestConfig": "libs/shared/ui/subheader/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": []
+}

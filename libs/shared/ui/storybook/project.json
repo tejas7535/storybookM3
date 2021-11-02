@@ -1,0 +1,50 @@
+{
+  "root": "libs/shared/ui/storybook",
+  "sourceRoot": "libs/shared/ui/storybook/src",
+  "projectType": "library",
+  "generators": {},
+  "targets": {
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "staticDir": ["libs/shared/ui/storybook/src/assets"],
+        "config": {
+          "configFolder": "libs/shared/ui/storybook/.storybook"
+        },
+        "projectBuildConfig": "helloworld-azure"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "staticDir": ["libs/shared/ui/storybook/src/assets"],
+        "outputPath": "dist/storybook/shared-ui-storybook",
+        "config": {
+          "configFolder": "libs/shared/ui/storybook/.storybook"
+        }
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/storybook"
+      }
+    }
+  },
+  "tags": []
+}

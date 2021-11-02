@@ -1,0 +1,17 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/assets",
+  "sourceRoot": "libs/shared/assets/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/assets"
+      }
+    }
+  },
+  "generators": {},
+  "tags": ["scope:shared", "type:assets"]
+}

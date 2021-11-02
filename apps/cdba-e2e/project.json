@@ -1,0 +1,37 @@
+{
+  "root": "apps/cdba-e2e",
+  "sourceRoot": "apps/cdba-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/cdba-e2e/cypress.json",
+        "tsConfig": "apps/cdba-e2e/tsconfig.e2e.json",
+        "devServerTarget": "cdba:serve"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "cdba:serve:local"
+        },
+        "production": {
+          "devServerTarget": "cdba:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/cdba-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/cdba-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["cdba"]
+}

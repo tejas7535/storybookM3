@@ -1,0 +1,37 @@
+{
+  "root": "apps/mac-e2e",
+  "sourceRoot": "apps/mac-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/mac-e2e/cypress.json",
+        "tsConfig": "apps/mac-e2e/tsconfig.e2e.json",
+        "devServerTarget": "mac:serve"
+      },
+      "configurations": {
+        "local": {
+          "devServerTarget": "mac:serve:local"
+        },
+        "production": {
+          "devServerTarget": "mac:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/mac-e2e/**/*.{js,ts}"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/mac-e2e/checkstyle.xml"
+        }
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["mac"]
+}

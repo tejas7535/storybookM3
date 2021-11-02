@@ -1,0 +1,140 @@
+{
+  "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "root": "apps/mac",
+  "sourceRoot": "apps/mac/src",
+  "prefix": "mac",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mac",
+        "index": "apps/mac/src/index.html",
+        "main": "apps/mac/src/main.ts",
+        "polyfills": "apps/mac/src/polyfills.ts",
+        "tsConfig": "apps/mac/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/mac/src/favicon.ico", "apps/mac/src/assets"],
+        "styles": [
+          "apps/mac/src/styles.scss",
+          "node_modules/@fontsource/roboto/300.css",
+          "node_modules/@fontsource/roboto/400.css",
+          "node_modules/@fontsource/roboto/500.css"
+        ],
+        "scripts": [],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/shared/ui/styles/src"]
+        },
+        "budgets": [
+          {
+            "type": "initial",
+            "maximumWarning": "2mb",
+            "maximumError": "6mb"
+          },
+          {
+            "type": "anyComponentStyle",
+            "maximumWarning": "6kb",
+            "maximumError": "30kb"
+          }
+        ]
+      },
+      "configurations": {
+        "local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        },
+        "dev": {
+          "statsJson": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/mac/src/environments/environment.ts",
+              "with": "apps/mac/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "qa": {
+          "outputHashing": "bundles",
+          "statsJson": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/mac/src/environments/environment.ts",
+              "with": "apps/mac/src/environments/environment.qa.ts"
+            }
+          ]
+        },
+        "production": {
+          "outputHashing": "bundles",
+          "fileReplacements": [
+            {
+              "replace": "apps/mac/src/environments/environment.ts",
+              "with": "apps/mac/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "browserTarget": "mac:build"
+      },
+      "configurations": {
+        "local": {
+          "browserTarget": "mac:build:local"
+        },
+        "dev": {
+          "browserTarget": "mac:build:dev"
+        },
+        "qa": {
+          "browserTarget": "mac:build:qa"
+        },
+        "production": {
+          "browserTarget": "mac:build:production"
+        }
+      },
+      "defaultConfiguration": "local"
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/mac/src/**/*.ts", "apps/mac/src/**/*.html"]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/apps/mac/checkstyle.xml"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "apps/mac/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/apps/mac"]
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "apps/mac"
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles"]
+}
