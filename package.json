@@ -154,7 +154,7 @@
     "eslint-plugin-unicorn": "35.0.0",
     "htmlhint": "0.15.2",
     "husky": "7.0.2",
-    "jest": "27.2.5",
+    "jest": "27.3.1",
     "jest-canvas-mock": "2.3.1",
     "jest-junit": "13.0.0",
     "jest-preset-angular": "10.0.1",
