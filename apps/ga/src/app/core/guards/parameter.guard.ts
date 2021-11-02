@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { GreaseCalculationPath } from '../../grease-calculation/grease-calculation-path.enum';
-import { getSelectedBearing } from '../store/selectors/bearing/bearing.selector';
+import { getModelCreationSuccess } from '../store/selectors/bearing/bearing.selector';
 
 @Injectable()
 export class ParameterGuard implements CanActivate {
@@ -17,10 +17,11 @@ export class ParameterGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const { queryParams } = route;
 
-    return this.store.select(getSelectedBearing).pipe(
+    return this.store.select(getModelCreationSuccess).pipe(
       // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map((bearing) => {
-        if (!bearing && !queryParams.bearing) {
+      map((success: boolean) => {
+        // TODO: handle queryParams that cannot create a model
+        if (!success && !queryParams.bearing) {
           this.router.navigate(
             [
               `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.BearingPath}`,

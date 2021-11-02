@@ -2,7 +2,10 @@ import { createSelector } from '@ngrx/store';
 
 import { steps } from '../../../../shared/constants';
 import { EnabledStep } from '../../../../shared/models';
-import { getSelectedBearing } from '../bearing/bearing.selector';
+import {
+  getModelCreationSuccess,
+  getSelectedBearing,
+} from '../bearing/bearing.selector';
 import { getParameterValidity } from '../parameter/parameter.selector';
 import { getSettingsState } from './../../reducers';
 import { SettingsState } from './../../reducers/settings/settings.reducer';
@@ -14,16 +17,17 @@ export const getStepperState = createSelector(
 
 export const getEnabledSteps = createSelector(
   getSelectedBearing,
+  getModelCreationSuccess,
   getParameterValidity,
-  (bearing: string, valid: boolean): EnabledStep[] =>
+  (bearing: string, success: boolean, valid: boolean): EnabledStep[] =>
     (steps as EnabledStep[]).map((step) => {
       switch (step.name) {
         case 'bearingSelection':
           return { ...step, enabled: true };
         case 'parameters':
-          return { ...step, enabled: !!bearing };
+          return { ...step, enabled: !!bearing && success };
         case 'report':
-          return { ...step, enabled: !!bearing && valid };
+          return { ...step, enabled: !!bearing && valid && success };
         default:
           return step;
       }

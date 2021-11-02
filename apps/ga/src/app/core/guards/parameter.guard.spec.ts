@@ -6,7 +6,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { GreaseCalculationPath } from '../../grease-calculation/grease-calculation-path.enum';
-import { getSelectedBearing } from '../store/selectors/bearing/bearing.selector';
+import { getModelCreationSuccess } from '../store/selectors/bearing/bearing.selector';
 import { ParameterGuard } from './parameter.guard';
 
 describe('ParameterGuard', () => {
@@ -38,7 +38,7 @@ describe('ParameterGuard', () => {
 
   describe('canActivate', () => {
     it('should grant access, if there is a bearing in the store', () => {
-      store.overrideSelector(getSelectedBearing, 'fantasyBearing');
+      store.overrideSelector(getModelCreationSuccess, true);
 
       guard
         .canActivate(mockRoute)
@@ -48,7 +48,7 @@ describe('ParameterGuard', () => {
     it('should not grant access, if there is a bearing in the query params', () => {
       guard['router'].navigate = jest.fn();
 
-      store.overrideSelector(getSelectedBearing, undefined);
+      store.overrideSelector(getModelCreationSuccess, false);
 
       const emptyMockRoute = {
         ...mockRoute,

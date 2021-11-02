@@ -20,7 +20,10 @@ describe('Settings Selector', () => {
   beforeEach(() => {
     mockState = {
       settings: { ...initialState },
-      bearing: { selectedBearing: 'testBearing' } as BearingState,
+      bearing: {
+        selectedBearing: 'testBearing',
+        modelCreationSuccess: true,
+      } as BearingState,
       parameter: { valid: true } as ParameterState,
     };
   });
