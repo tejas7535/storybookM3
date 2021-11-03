@@ -1,4 +1,4 @@
-import { ViewQuotation } from '../../app/case-view/models/view-quotation.model';
+import { ViewQuotation } from '../../../app/case-view/models/view-quotation.model';
 import { CUSTOMER_MOCK } from './customer.mock';
 
 export const VIEW_QUOTATION_MOCK: ViewQuotation = {

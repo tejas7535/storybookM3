@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -23,6 +24,7 @@ describe('RolesDescriptionComponent', () => {
       ReactiveComponentModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           'azure-auth': {},

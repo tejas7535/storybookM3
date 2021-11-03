@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -28,6 +29,7 @@ describe('CreateCaseButtonComponent', () => {
       ReactiveComponentModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({}),
       {
         provide: MatDialogRef,

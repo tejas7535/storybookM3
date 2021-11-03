@@ -1,3 +1,5 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -25,6 +27,7 @@ describe('CaseViewComponent', () => {
       ReactiveComponentModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           viewCases: {

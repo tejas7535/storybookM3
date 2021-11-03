@@ -1,5 +1,5 @@
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK } from '../../../../../testing/mocks/state/extended-comparable-linked-transactions-state.mock';
 import * as transactionsSelectors from './extended-comparable-linked-transactions.selector';
-import { EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK } from '../../../../../testing/mocks/extended-comparable-linked-transactions-state.mock';
 
 describe('ExtendedComparableLinkedTransaction Selector', () => {
   const fakeState = EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK;

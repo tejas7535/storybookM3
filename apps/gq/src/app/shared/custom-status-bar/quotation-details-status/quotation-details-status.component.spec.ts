@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
@@ -11,7 +12,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { getRoles } from '@schaeffler/azure-auth';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import {
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_DETAIL_MOCK,
+} from '../../../../testing/mocks';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { PriceService } from '../../services/price-service/price.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
@@ -37,11 +41,11 @@ describe('QuotationDetailsStatusComponent', () => {
       ReactiveComponentModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          processCase: {
-            customer: { item: {} },
-          },
+          'azure-auth': {},
+          processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
     ],

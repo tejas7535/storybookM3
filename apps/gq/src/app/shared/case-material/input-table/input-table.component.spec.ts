@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -40,6 +41,7 @@ describe('InputTableComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({}),
       {
         provide: MatDialogRef,

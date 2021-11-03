@@ -1,4 +1,4 @@
-import { Quotation } from '../../app/shared/models';
+import { Quotation } from '../../../app/shared/models';
 import { CUSTOMER_MOCK } from './customer.mock';
 import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
 

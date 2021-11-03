@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -98,6 +99,7 @@ describe('ProcessCaseEffect', () => {
     service: ProcessCaseEffect,
     imports: [SnackBarModule, RouterTestingModule, HttpClientTestingModule],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
       provideMockStore(),
       {

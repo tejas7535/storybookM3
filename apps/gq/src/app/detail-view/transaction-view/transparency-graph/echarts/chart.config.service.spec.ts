@@ -2,8 +2,8 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import {
+  COMPARABLE_LINKED_TRANSACTION_MOCK,
   DATA_POINT_MOCK,
-  TRANSACTION_MOCK,
 } from '../../../../../testing/mocks';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
@@ -180,19 +180,21 @@ describe('ChartConfigService', () => {
 
   describe('buildDataPoints', () => {
     test('should build dataPoints from transactions', () => {
-      const transactions = [TRANSACTION_MOCK];
+      const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
       const currency = 'EUR';
       const result = service.buildDataPoints(transactions, currency);
 
       const expected: DataPoint = {
         currency,
-        salesIndication: TRANSACTION_MOCK.salesIndication,
-        customerName: TRANSACTION_MOCK.customerName,
-        price: TRANSACTION_MOCK.price,
-        year: TRANSACTION_MOCK.year,
+        salesIndication: COMPARABLE_LINKED_TRANSACTION_MOCK.salesIndication,
+        customerName: COMPARABLE_LINKED_TRANSACTION_MOCK.customerName,
+        price: COMPARABLE_LINKED_TRANSACTION_MOCK.price,
+        year: COMPARABLE_LINKED_TRANSACTION_MOCK.year,
         value: [
-          TRANSACTION_MOCK.quantity,
-          PriceService.roundToTwoDecimals(TRANSACTION_MOCK.profitMargin),
+          COMPARABLE_LINKED_TRANSACTION_MOCK.quantity,
+          PriceService.roundToTwoDecimals(
+            COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
+          ),
         ],
       };
 

@@ -1,9 +1,9 @@
 import {
+  COMPARABLE_LINKED_TRANSACTION_MOCK,
+  EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
   QUATATION_DETAILS_MOCK,
   QUOTATION_DETAIL_MOCK,
-  TRANSACTION_MOCK,
 } from '../../../../testing/mocks';
-import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
 import { PriceService } from './price.service';
 
 describe('PriceService', () => {
@@ -176,14 +176,16 @@ describe('PriceService', () => {
   });
   describe('multiplyTransactionsWithPriceUnit', () => {
     test('should return multipliedTransacitons', () => {
-      const transactions = [TRANSACTION_MOCK];
+      const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
 
       const result = PriceService.multiplyTransactionsWithPriceUnit(
         transactions,
         100
       );
 
-      expect(result).toEqual([{ ...TRANSACTION_MOCK, price: 1000 }]);
+      expect(result).toEqual([
+        { ...COMPARABLE_LINKED_TRANSACTION_MOCK, price: 1000 },
+      ]);
     });
   });
 

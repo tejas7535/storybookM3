@@ -1,4 +1,4 @@
-import { HEALTH_CHECK_STATE_MOCK } from '../../../../../testing/mocks/health-check-state.mock';
+import { HEALTH_CHECK_STATE_MOCK } from '../../../../../testing/mocks/state';
 import * as healthCheckSelector from './health-check.selector';
 
 describe('Health Check Selector', () => {

@@ -1,5 +1,7 @@
-import { MATERIAL_COMPARABLE_COSTS_STATE_MOCK } from '../../../../../testing/mocks/material-comparable-cost-state.mock';
-import { MATERIAL_COMPARABLE_COST_MOCK } from '../../../../../testing/mocks/material-comparable-cost.mock';
+import {
+  MATERIAL_COMPARABLE_COST_MOCK,
+  MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
+} from '../../../../../testing/mocks';
 import {
   loadMaterialComparableCosts,
   loadMaterialComparableCostsFailure,

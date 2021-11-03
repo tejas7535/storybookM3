@@ -1,4 +1,5 @@
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 
@@ -22,7 +23,10 @@ describe('FilterSelectionComponent', () => {
       SharedPipesModule,
       provideTranslocoTestingModule({}),
     ],
-    providers: [FormBuilder],
+    providers: [
+      FormBuilder,
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
     detectChanges: false,
   });
 

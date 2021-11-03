@@ -1,6 +1,6 @@
-import { MaterialDetails } from '../../app/shared/models/quotation-detail';
+import { MaterialDetails } from '../../../app/shared/models/quotation-detail';
 
-export const DETAIL_CASE_MOCK: MaterialDetails = {
+export const MATERIAL_DETAILS_MOCK: MaterialDetails = {
   baseUoM: 'ST',
   dimensions: '00',
   ean11: '12321',

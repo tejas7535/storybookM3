@@ -1,4 +1,4 @@
-import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/material-sales-org.mock';
+import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/models';
 import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
 import {
   loadMaterialSalesOrg,

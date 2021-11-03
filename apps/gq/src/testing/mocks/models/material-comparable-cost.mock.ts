@@ -1,4 +1,4 @@
-import { MaterialComparableCost } from '../../app/shared/models/quotation-detail/material-comparable-cost.model';
+import { MaterialComparableCost } from '../../../app/shared/models/quotation-detail/material-comparable-cost.model';
 
 export const MATERIAL_COMPARABLE_COST_MOCK: MaterialComparableCost = {
   plantNumber: '123',

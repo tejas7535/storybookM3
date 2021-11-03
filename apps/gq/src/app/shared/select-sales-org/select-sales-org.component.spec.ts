@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -6,6 +7,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CREATE_CASE_STORE_STATE_MOCK } from '../../../testing/mocks';
 import { SelectSalesOrgComponent } from './select-sales-org.component';
 
 describe('SelectSalesOrgComponent', () => {
@@ -21,13 +23,10 @@ describe('SelectSalesOrgComponent', () => {
       ReactiveComponentModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          case: {
-            customer: {
-              salesOrgs: [],
-            },
-          },
+          case: CREATE_CASE_STORE_STATE_MOCK,
         },
       }),
     ],

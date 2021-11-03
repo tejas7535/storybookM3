@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/quotation-details.mock';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models';
 import {
   PriceSource,
   UpdatePrice,
@@ -41,6 +42,7 @@ describe('GqPriceComponent', () => {
       FilterPricingCardComponent,
       QuantityDisplayComponent,
     ],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

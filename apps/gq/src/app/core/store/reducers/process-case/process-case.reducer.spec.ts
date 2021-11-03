@@ -2,9 +2,9 @@ import { Action } from '@ngrx/store';
 
 import {
   CUSTOMER_MOCK,
+  PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
-  QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import { Quotation } from '../../../../shared/models/';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
@@ -41,7 +41,11 @@ import {
   validateAddMaterialsSuccess,
 } from '../../actions';
 import { QuotationIdentifier } from './models';
-import { processCaseReducer, reducer } from './process-case.reducer';
+import {
+  initialState,
+  processCaseReducer,
+  reducer,
+} from './process-case.reducer';
 
 describe('Quotation Reducer', () => {
   const errorMessage = 'An error occured';
@@ -50,12 +54,13 @@ describe('Quotation Reducer', () => {
     describe('customerDetails', () => {
       test('should set customerDetails loading', () => {
         const action = loadCustomer();
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           customer: {
-            ...QUOTATION_STATE_MOCK.customer,
+            ...PROCESS_CASE_STATE_MOCK.customer,
+            item: initialState.customer.item,
             customerLoading: true,
           },
         });
@@ -67,9 +72,9 @@ describe('Quotation Reducer', () => {
         const item = CUSTOMER_MOCK;
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           customer: {
-            ...QUOTATION_STATE_MOCK.customer,
+            ...PROCESS_CASE_STATE_MOCK.customer,
             item: CUSTOMER_MOCK,
           },
         };
@@ -86,9 +91,9 @@ describe('Quotation Reducer', () => {
         const action = loadCustomerFailure({ errorMessage });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           customer: {
-            ...QUOTATION_STATE_MOCK.customer,
+            ...PROCESS_CASE_STATE_MOCK.customer,
           },
         };
         const state = processCaseReducer(fakeState, action);
@@ -105,10 +110,10 @@ describe('Quotation Reducer', () => {
         const quotationIdentifier = new QuotationIdentifier(123, '0267', '456');
 
         const action = selectQuotation({ quotationIdentifier });
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotationIdentifier,
         });
       });
@@ -117,12 +122,13 @@ describe('Quotation Reducer', () => {
     describe('quotationDetails', () => {
       test('should set quotationDetails loading', () => {
         const action = loadQuotation();
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            item: initialState.quotation.item,
             quotationLoading: true,
           },
         });
@@ -134,9 +140,9 @@ describe('Quotation Reducer', () => {
         const item = QUOTATION_MOCK;
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
             item: QUOTATION_MOCK,
           },
         };
@@ -153,9 +159,9 @@ describe('Quotation Reducer', () => {
         const action = loadQuotationFailure({ errorMessage });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
           },
         };
 
@@ -182,7 +188,7 @@ describe('Quotation Reducer', () => {
           updateQuotationDetailList,
         });
 
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state.quotation.updateLoading).toBeTruthy();
       });
@@ -196,9 +202,9 @@ describe('Quotation Reducer', () => {
         const action = updateQuotationDetailsSuccess({ quotationDetails });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
             item: mockItem,
           },
         };
@@ -215,9 +221,9 @@ describe('Quotation Reducer', () => {
         const action = updateQuotationDetailsFailure({ errorMessage });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
           },
         };
 
@@ -233,12 +239,12 @@ describe('Quotation Reducer', () => {
       test('should set dialog Shown to true', () => {
         const action = addMaterials();
 
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
             updateLoading: true,
           },
         });
@@ -250,9 +256,9 @@ describe('Quotation Reducer', () => {
         const item = QUOTATION_MOCK;
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
             item: QUOTATION_MOCK,
           },
         };
@@ -269,9 +275,9 @@ describe('Quotation Reducer', () => {
         const action = addMaterialsFailure({ errorMessage });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
           },
         };
 
@@ -291,12 +297,12 @@ describe('Quotation Reducer', () => {
           },
         ];
         const action = addMaterialRowDataItem({ items });
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: items,
           },
         });
@@ -311,9 +317,9 @@ describe('Quotation Reducer', () => {
         });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: items,
           },
         };
@@ -321,9 +327,9 @@ describe('Quotation Reducer', () => {
         const state = processCaseReducer(fakeState, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [],
             validationLoading: true,
           },
@@ -340,9 +346,9 @@ describe('Quotation Reducer', () => {
         });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
                 materialNumber: '123465',
@@ -359,9 +365,9 @@ describe('Quotation Reducer', () => {
         const state = processCaseReducer(fakeState, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
                 materialNumber: '987654',
@@ -385,9 +391,9 @@ describe('Quotation Reducer', () => {
         const action = validateAddMaterialsSuccess({ materialValidations });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
                 materialDescription: 'desc',
@@ -400,9 +406,9 @@ describe('Quotation Reducer', () => {
         const state = processCaseReducer(fakeState, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             addMaterialRowData: [
               {
                 materialNumber: '123465',
@@ -424,12 +430,12 @@ describe('Quotation Reducer', () => {
       test('should failed validation', () => {
         const action = validateAddMaterialsFailure({ errorMessage });
 
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             errorMessage,
             addMaterialRowData: [],
             validationLoading: false,
@@ -444,16 +450,16 @@ describe('Quotation Reducer', () => {
 
         const action = removePositions({ gqPositionIds });
 
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           addMaterials: {
-            ...QUOTATION_STATE_MOCK.addMaterials,
+            ...PROCESS_CASE_STATE_MOCK.addMaterials,
             removeQuotationDetailsIds: gqPositionIds,
           },
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
             updateLoading: true,
           },
         });
@@ -465,9 +471,9 @@ describe('Quotation Reducer', () => {
         const item = QUOTATION_MOCK;
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
             item: QUOTATION_MOCK,
           },
         };
@@ -485,9 +491,9 @@ describe('Quotation Reducer', () => {
         const action = removePositionsFailure({ errorMessage });
 
         const fakeState = {
-          ...QUOTATION_STATE_MOCK,
+          ...PROCESS_CASE_STATE_MOCK,
           quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
+            ...PROCESS_CASE_STATE_MOCK.quotation,
           },
         };
 
@@ -502,7 +508,7 @@ describe('Quotation Reducer', () => {
     test('should clearRowData', () => {
       const action = clearProcessCaseRowData();
 
-      const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
       expect(state.addMaterials.addMaterialRowData).toEqual([]);
     });
@@ -512,7 +518,7 @@ describe('Quotation Reducer', () => {
       const gqPositionId = '1234';
       const action = setSelectedQuotationDetail({ gqPositionId });
       const fakeState = {
-        ...QUOTATION_STATE_MOCK,
+        ...PROCESS_CASE_STATE_MOCK,
       };
       const state = processCaseReducer(fakeState, action);
 
@@ -523,21 +529,21 @@ describe('Quotation Reducer', () => {
     describe('uploadSelectionToSap', () => {
       test('should set loading true', () => {
         const action = uploadSelectionToSap({ gqPositionIds: ['1'] });
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeTruthy();
       });
     });
     describe('uploadSelectionToSapSuccess', () => {
       test('should set loading false', () => {
         const action = uploadSelectionToSapSuccess();
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
       });
     });
     describe('uploadSelectionToSapFailure', () => {
       test('should set loading false', () => {
         const action = uploadSelectionToSapFailure({ errorMessage });
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
         expect(state.quotation.errorMessage).toEqual(errorMessage);
       });
@@ -547,8 +553,8 @@ describe('Quotation Reducer', () => {
     test('should return searchReducer', () => {
       // prepare any action
       const action: Action = loadCustomer();
-      expect(reducer(QUOTATION_STATE_MOCK, action)).toEqual(
-        processCaseReducer(QUOTATION_STATE_MOCK, action)
+      expect(reducer(PROCESS_CASE_STATE_MOCK, action)).toEqual(
+        processCaseReducer(PROCESS_CASE_STATE_MOCK, action)
       );
     });
   });

@@ -1,6 +1,7 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -12,6 +13,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../testing/mocks';
 import {
   addMaterialRowDataItem,
   autocomplete,
@@ -53,11 +55,10 @@ describe('AddEntryComponent', () => {
       MatSnackBarModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          case: {
-            autocompleteItems: [],
-          },
+          case: CREATE_CASE_STORE_STATE_MOCK,
         },
       }),
     ],

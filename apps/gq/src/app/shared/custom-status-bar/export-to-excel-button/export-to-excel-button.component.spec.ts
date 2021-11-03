@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -15,8 +16,12 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
-import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/extended-comparable-linked-transaction.mock';
+import {
+  CUSTOMER_MOCK,
+  EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../testing/mocks';
+import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/models/extended-comparable-linked-transaction.mock';
 import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import {
   ColumnFields,
@@ -37,11 +42,11 @@ describe('ExportToExcelButtonComponent', () => {
     component: ExportToExcelButtonComponent,
     declarations: [ExportToExcelButtonComponent],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          extendedComparableLinkedTransactions: {
-            errorMessage: '',
-          },
+          extendedComparableLinkedTransactions:
+            EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
         },
       }),
     ],

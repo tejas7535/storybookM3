@@ -1,5 +1,6 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,6 +54,7 @@ describe('CustomerViewComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {

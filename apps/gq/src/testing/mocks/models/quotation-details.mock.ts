@@ -2,7 +2,7 @@ import {
   MaterialDetails,
   PriceSource,
   QuotationDetail,
-} from '../../app/shared/models/quotation-detail';
+} from '../../../app/shared/models/quotation-detail';
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { PLANT_MOCK } from './plant.mock';
 

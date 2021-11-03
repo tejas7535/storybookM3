@@ -1,4 +1,4 @@
-import { MATERIAL_COMPARABLE_COSTS_STATE_MOCK } from '../../../../../testing/mocks/material-comparable-cost-state.mock';
+import { MATERIAL_COMPARABLE_COSTS_STATE_MOCK } from '../../../../../testing/mocks/state';
 import * as materialComparableCostsSelectors from './material-comparable-costs.selector';
 
 describe('material-comparable-costs Selector', () => {

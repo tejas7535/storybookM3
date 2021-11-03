@@ -1,5 +1,5 @@
 import {
-  TRANSACTION_MOCK,
+  COMPARABLE_LINKED_TRANSACTION_MOCK,
   TRANSACTIONS_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import {
@@ -26,7 +26,7 @@ describe('Transactions Reducer', () => {
   });
   describe('loadComparableTransactionsSuccess', () => {
     test('should set transactions', () => {
-      const transactions = [TRANSACTION_MOCK];
+      const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
       const action = loadComparableTransactionsSuccess({ transactions });
 
       const state = transactionsReducer(TRANSACTIONS_STATE_MOCK, action);

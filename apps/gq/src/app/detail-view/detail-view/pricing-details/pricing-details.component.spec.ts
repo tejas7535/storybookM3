@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -36,7 +37,10 @@ describe('PricingDetailsComponent', () => {
       LoadingSpinnerModule,
       LabelTextModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
     declarations: [
       SupplyChainDetailsComponent,
       ProductionCostDetailsComponent,

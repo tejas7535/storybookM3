@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -15,6 +16,7 @@ describe('QuantityDisplayComponent', () => {
     component: QuantityDisplayComponent,
     imports: [MatIconModule, MatDialogModule, ReactiveComponentModule],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           processCase: {

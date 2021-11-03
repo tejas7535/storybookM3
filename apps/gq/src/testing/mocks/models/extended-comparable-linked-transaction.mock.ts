@@ -1,6 +1,6 @@
-import { SalesIndication } from '../../app/core/store/reducers/transactions/models/sales-indication.enum';
-import { AbcClassification } from '../../app/shared/models/customer';
-import { ExtendedComparableLinkedTransaction } from '../../app/core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import { ExtendedComparableLinkedTransaction } from '../../../app/core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import { SalesIndication } from '../../../app/core/store/reducers/transactions/models/sales-indication.enum';
+import { AbcClassification } from '../../../app/shared/models/customer';
 
 export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLinkedTransaction =
   {

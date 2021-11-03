@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -30,7 +31,10 @@ describe('ResetAllButtonComponent', () => {
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

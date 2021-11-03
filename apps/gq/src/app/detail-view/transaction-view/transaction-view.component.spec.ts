@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -14,8 +15,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
-  CUSTOMER_MOCK,
-  QUOTATION_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
   TRANSACTIONS_STATE_MOCK,
 } from '../../../testing/mocks';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
@@ -46,18 +46,14 @@ describe('TransactionViewComponent', () => {
     ],
     declarations: [SavingInProgressComponent],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       {
         provide: ApplicationInsightsService,
         useValue: {},
       },
       provideMockStore({
         initialState: {
-          processCase: {
-            customer: {
-              item: CUSTOMER_MOCK,
-            },
-            quotation: QUOTATION_STATE_MOCK,
-          },
+          processCase: PROCESS_CASE_STATE_MOCK,
           transactions: TRANSACTIONS_STATE_MOCK,
         },
       }),

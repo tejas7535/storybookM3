@@ -1,4 +1,6 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -21,7 +23,6 @@ import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { SelectSalesOrgModule } from '../../../shared/select-sales-org/select-sales-org.module';
 import { CreateManualCaseComponent } from './create-manual-case.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 describe('CreateManualCaseComponent', () => {
   let component: CreateManualCaseComponent;
@@ -42,6 +43,7 @@ describe('CreateManualCaseComponent', () => {
       MatSnackBarModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
           case: {

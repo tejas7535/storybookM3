@@ -1,4 +1,4 @@
-import { TransactionsState } from '../../app/core/store/reducers/transactions/transactions.reducer';
+import { TransactionsState } from '../../../app/core/store/reducers/transactions/transactions.reducer';
 
 export const TRANSACTIONS_STATE_MOCK: TransactionsState = {
   gqPositionId: undefined,

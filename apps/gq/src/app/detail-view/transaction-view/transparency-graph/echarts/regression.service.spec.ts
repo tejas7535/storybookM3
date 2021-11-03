@@ -1,6 +1,6 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { TRANSACTION_MOCK } from '../../../../../testing/mocks';
+import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks';
 import { RegressionService } from './regression.service';
 
 describe('RegressionService', () => {
@@ -19,7 +19,7 @@ describe('RegressionService', () => {
   describe('buildRegressionPoints', () => {
     test('should return data', () => {
       const coefficients = { coefficient1: 3.8, coefficient2: -0.8 };
-      const transactions = [TRANSACTION_MOCK];
+      const transactions = [COMPARABLE_LINKED_TRANSACTION_MOCK];
       service.regressionFunction = jest.fn();
 
       const res = service.buildRegressionPoints(coefficients, transactions);

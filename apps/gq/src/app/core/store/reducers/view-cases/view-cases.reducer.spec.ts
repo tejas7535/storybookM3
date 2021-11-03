@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { VIEW_CASES_MOCK } from '../../../../../testing/mocks';
+import { VIEW_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import {
   deleteCase,
   deleteCasesFailure,
@@ -16,10 +16,10 @@ describe('View Cases Reducer', () => {
   describe('loadCases', () => {
     test('should set quotationsLoading true', () => {
       const action = loadCases();
-      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...VIEW_CASES_MOCK,
+        ...VIEW_CASE_STATE_MOCK,
         quotationsLoading: true,
       });
     });
@@ -27,10 +27,10 @@ describe('View Cases Reducer', () => {
   describe('loadCasesFailure', () => {
     test('should set errorMessage and quotationsloading false', () => {
       const action = loadCasesFailure({ errorMessage });
-      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...VIEW_CASES_MOCK,
+        ...VIEW_CASE_STATE_MOCK,
         errorMessage,
         quotationsLoading: false,
       });
@@ -40,10 +40,10 @@ describe('View Cases Reducer', () => {
     test('should set quotations and set quotationsLoading false', () => {
       const quotations: any[] = [];
       const action = loadCasesSuccess({ quotations });
-      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...VIEW_CASES_MOCK,
+        ...VIEW_CASE_STATE_MOCK,
         quotations,
         quotationsLoading: false,
       });
@@ -53,10 +53,10 @@ describe('View Cases Reducer', () => {
     test('should set deleteloading true', () => {
       const gqIds = ['1'];
       const action = deleteCase({ gqIds });
-      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...VIEW_CASES_MOCK,
+        ...VIEW_CASE_STATE_MOCK,
         deleteLoading: true,
       });
     });
@@ -64,10 +64,10 @@ describe('View Cases Reducer', () => {
   describe('deleteCaseSuccess', () => {
     test('should set deleteloading false and quotationLoading true', () => {
       const action = deleteCasesSuccess();
-      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...VIEW_CASES_MOCK,
+        ...VIEW_CASE_STATE_MOCK,
         deleteLoading: false,
         quotationsLoading: true,
       });
@@ -76,10 +76,10 @@ describe('View Cases Reducer', () => {
   describe('deleteCaseFailure', () => {
     test('should set errorMessage and deleteLoading false', () => {
       const action = deleteCasesFailure({ errorMessage });
-      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...VIEW_CASES_MOCK,
+        ...VIEW_CASE_STATE_MOCK,
         errorMessage,
         deleteLoading: false,
       });
@@ -89,8 +89,8 @@ describe('View Cases Reducer', () => {
     test('should return searchReducer', () => {
       // prepare any action
       const action: Action = loadCases();
-      expect(reducer(VIEW_CASES_MOCK, action)).toEqual(
-        viewCasesReducer(VIEW_CASES_MOCK, action)
+      expect(reducer(VIEW_CASE_STATE_MOCK, action)).toEqual(
+        viewCasesReducer(VIEW_CASE_STATE_MOCK, action)
       );
     });
   });

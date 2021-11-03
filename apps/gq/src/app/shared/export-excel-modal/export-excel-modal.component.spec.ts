@@ -1,4 +1,5 @@
 import { FormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
@@ -12,7 +13,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks/extended-comparable-linked-transaction.mock';
+import {
+  EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+} from '../../../testing/mocks';
 import { loadExtendedComparableLinkedTransaction } from '../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import { DialogHeaderModule } from '../header/dialog-header/dialog-header.module';
 import { ExportExcelModalComponent } from './export-excel-modal.component';
@@ -36,16 +40,12 @@ describe('ExportExcelModalComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          extendedComparableLinkedTransactions: {
-            errorMessage: '',
-          },
-          processCase: {
-            quotation: {
-              item: EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
-            },
-          },
+          extendedComparableLinkedTransactions:
+            EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
+          processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
       {

@@ -1,4 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
@@ -6,6 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { ColumnFields } from '../../services/column-utility-service/column-fields.enum';
 import { EditQuantityComponent } from './edit-quantity.component';
 
@@ -21,7 +23,17 @@ describe('EditQuantityComponent', () => {
       ReactiveFormsModule,
       ReactiveComponentModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: PROCESS_CASE_STATE_MOCK,
+        },
+      }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

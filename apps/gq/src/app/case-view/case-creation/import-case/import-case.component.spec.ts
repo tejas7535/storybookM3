@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -8,6 +9,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../testing/mocks';
 import {
   autocomplete,
   importCase,
@@ -36,7 +38,12 @@ describe('ImportCaseComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
-      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      provideMockStore({
+        initialState: {
+          case: CREATE_CASE_STORE_STATE_MOCK,
+        },
+      }),
       {
         provide: MatDialogRef,
         useValue: {},

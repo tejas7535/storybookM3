@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { ColDef } from '@ag-grid-community/core';
@@ -23,7 +24,10 @@ describe('ColumnDefService', () => {
   const createService = createServiceFactory({
     service: ColumnDefService,
     imports: [MatSnackBarModule],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

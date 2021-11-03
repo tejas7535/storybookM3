@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -23,7 +24,7 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
+import { PROCESS_CASE_STATE_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
 import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
@@ -87,17 +88,12 @@ describe('ProcessCaseViewComponent', () => {
     ],
     declarations: [CalculationInProgressComponent],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
-          processCase: {
-            customer: {
-              item: CUSTOMER_MOCK,
-            },
-            quotation: {
-              item: QUOTATION_MOCK,
-            },
-          },
+          processCase: PROCESS_CASE_STATE_MOCK,
+          'azure-auth': {},
         },
       }),
     ],

@@ -1,4 +1,5 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -17,7 +18,10 @@ describe('MaterialSelectionComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialSelectionComponent,
     imports: [MatCheckboxModule, provideTranslocoTestingModule({ en: {} })],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

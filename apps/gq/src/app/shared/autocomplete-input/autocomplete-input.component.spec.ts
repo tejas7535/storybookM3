@@ -4,6 +4,7 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
@@ -36,6 +37,7 @@ describe('AutocompleteInputComponent', () => {
       MatProgressSpinnerModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 
   beforeEach(() => {

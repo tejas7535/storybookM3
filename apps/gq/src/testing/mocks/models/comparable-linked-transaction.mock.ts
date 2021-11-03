@@ -1,8 +1,8 @@
-import { SalesIndication } from '../../app/core/store/reducers/transactions/models/sales-indication.enum';
-import { ComparableLinkedTransaction } from '../../app/core/store/reducers/transactions/models/comparable-linked-transaction.model';
-import { AbcClassification } from '../../app/shared/models/customer';
+import { ComparableLinkedTransaction } from '../../../app/core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { SalesIndication } from '../../../app/core/store/reducers/transactions/models/sales-indication.enum';
+import { AbcClassification } from '../../../app/shared/models/customer';
 
-export const TRANSACTION_MOCK: ComparableLinkedTransaction = {
+export const COMPARABLE_LINKED_TRANSACTION_MOCK: ComparableLinkedTransaction = {
   identifier: 213,
   customerName: 'customerName',
   customerId: 'customerId',

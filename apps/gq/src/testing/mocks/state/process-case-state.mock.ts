@@ -1,15 +1,16 @@
-import { ProcessCaseState } from '../../app/core/store/reducers/process-case/process-case.reducer';
+import { ProcessCaseState } from '../../../app/core/store/reducers/process-case/process-case.reducer';
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../models';
 
-export const QUOTATION_STATE_MOCK: ProcessCaseState = {
+export const PROCESS_CASE_STATE_MOCK: ProcessCaseState = {
   quotationIdentifier: undefined,
   customer: {
     customerLoading: false,
-    item: undefined,
+    item: CUSTOMER_MOCK,
     errorMessage: undefined,
   },
   quotation: {
     quotationLoading: false,
-    item: undefined,
+    item: QUOTATION_MOCK,
     selectedQuotationDetail: undefined,
     errorMessage: undefined,
     updateLoading: false,

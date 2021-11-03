@@ -4,6 +4,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../../testing/mocks';
 import { LabelTextModule } from '../../../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../../../shared/pipes/shared-pipes.module';
 import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details.component';
@@ -20,7 +21,11 @@ describe('MaterialSalesOrgDetailsComponent', () => {
       LabelTextModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore({ initialState: { materialSalesOrgs: {} } })],
+    providers: [
+      provideMockStore({
+        initialState: { materialSalesOrg: MATERIAL_SALES_ORG_STATE_MOCK },
+      }),
+    ],
   });
 
   beforeEach(() => {

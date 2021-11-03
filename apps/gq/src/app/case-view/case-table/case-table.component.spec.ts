@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -38,7 +39,10 @@ describe('CaseTableComponent', () => {
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
     declarations: [CaseTableComponent],
   });
 

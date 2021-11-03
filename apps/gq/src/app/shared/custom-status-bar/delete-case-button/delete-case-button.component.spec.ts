@@ -1,16 +1,18 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { of } from 'rxjs';
+
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DeleteCaseButtonComponent } from './delete-case-button.component';
-import { of } from 'rxjs';
 
 describe('DeleteCaseButtonComponent', () => {
   let component: DeleteCaseButtonComponent;
@@ -27,7 +29,10 @@ describe('DeleteCaseButtonComponent', () => {
       MatDialogModule,
       MatIconModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
     declarations: [DeleteCaseButtonComponent],
     mocks: [MatDialog],
   });

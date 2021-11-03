@@ -1,4 +1,4 @@
-import { MarginDetail } from '../../app/shared/models/customer';
+import { MarginDetail } from '../../../app/shared/models/customer';
 
 export const MARGIN_DETAIL_MOCK: MarginDetail = {
   currentGpi: 1,

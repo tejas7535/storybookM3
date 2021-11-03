@@ -1,4 +1,4 @@
-import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../testing/mocks/material-sales-org-state.mock';
+import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../testing/mocks/state';
 import * as materialSalesOrgSelectors from './material-sales-org.selector';
 
 describe('material-sales-org Selector', () => {

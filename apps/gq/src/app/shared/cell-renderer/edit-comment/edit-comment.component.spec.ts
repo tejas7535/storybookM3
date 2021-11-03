@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -18,7 +19,10 @@ describe('EditCommentComponent', () => {
     component: EditCommentComponent,
     imports: [MatIconModule, MatDialogModule],
     mocks: [MatDialog],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore(),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -11,6 +12,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { uploadSelectionToSap } from '../../../core/store';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
 
@@ -29,7 +31,14 @@ describe('uploadSelectionToSapButtonComponent', () => {
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: PROCESS_CASE_STATE_MOCK,
+        },
+      }),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {

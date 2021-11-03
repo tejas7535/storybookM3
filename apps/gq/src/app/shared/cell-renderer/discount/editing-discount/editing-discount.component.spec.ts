@@ -1,4 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
@@ -14,6 +15,12 @@ describe('EditingDiscountComponent', () => {
   const createComponent = createComponentFactory({
     component: EditingDiscountComponent,
     imports: [MatIconModule, MatInputModule, ReactiveFormsModule],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

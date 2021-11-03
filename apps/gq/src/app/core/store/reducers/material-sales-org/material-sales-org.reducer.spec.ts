@@ -1,5 +1,5 @@
-import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../testing/mocks/material-sales-org-state.mock';
-import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/material-sales-org.mock';
+import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/models';
+import { MATERIAL_SALES_ORG_STATE_MOCK } from '../../../../../testing/mocks/state';
 import {
   loadMaterialSalesOrg,
   loadMaterialSalesOrgFailure,

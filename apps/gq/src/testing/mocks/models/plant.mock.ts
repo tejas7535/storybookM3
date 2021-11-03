@@ -1,4 +1,4 @@
-import { Plant } from '../../app/shared/models/quotation-detail';
+import { Plant } from '../../../app/shared/models/quotation-detail';
 
 export const PLANT_MOCK: Plant = {
   plantNumber: '123',

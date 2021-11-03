@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -10,7 +11,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
+import {
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_MOCK,
+} from '../../../testing/mocks';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
@@ -42,16 +46,10 @@ describe('QuotationDetailsTableComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          processCase: {
-            customer: {
-              item: CUSTOMER_MOCK,
-            },
-            quotation: {
-              item: QUOTATION_MOCK,
-            },
-          },
+          processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
     ],

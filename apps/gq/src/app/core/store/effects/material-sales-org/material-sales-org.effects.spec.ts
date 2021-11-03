@@ -10,7 +10,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 
-import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/material-sales-org.mock';
+import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/models';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';

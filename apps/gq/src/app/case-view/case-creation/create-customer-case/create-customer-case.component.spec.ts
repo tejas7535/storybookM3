@@ -1,5 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +13,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { VIEW_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import {
   autocomplete,
   resetCustomerFilter,
@@ -54,7 +56,10 @@ describe('CreateCustomerCaseComponent', () => {
       provideTranslocoTestingModule({}),
     ],
     providers: [
-      provideMockStore({}),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      provideMockStore({
+        initialState: { case: VIEW_CASE_STATE_MOCK },
+      }),
       {
         provide: MatDialogRef,
         useValue: {},

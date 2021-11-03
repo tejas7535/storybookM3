@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -7,6 +8,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { AddItemsButtonComponent } from './add-items-button.component';
 
 describe('AddItemsButtonComponent', () => {
@@ -21,7 +23,14 @@ describe('AddItemsButtonComponent', () => {
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: PROCESS_CASE_STATE_MOCK,
+        },
+      }),
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
   beforeEach(() => {
     spectator = createComponent();

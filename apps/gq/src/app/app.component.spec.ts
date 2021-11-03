@@ -11,6 +11,7 @@ import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
 import { AppComponent } from './app.component';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
@@ -38,15 +39,8 @@ describe('AppComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          'azure-auth': {
-            accountInfo: {
-              name: 'Jefferson',
-            },
-            profileImage: {
-              url: 'img',
-            },
-          },
-          healthCheck: {},
+          'azure-auth': AUTH_STATE_MOCK,
+          healthCheck: HEALTH_CHECK_STATE_MOCK,
         },
       }),
       {

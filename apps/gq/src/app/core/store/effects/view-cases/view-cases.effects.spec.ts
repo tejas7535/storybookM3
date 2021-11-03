@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -44,6 +45,7 @@ describe('View Cases Effects', () => {
       HttpClientTestingModule,
     ],
     providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
       {
         provide: ENV_CONFIG,
