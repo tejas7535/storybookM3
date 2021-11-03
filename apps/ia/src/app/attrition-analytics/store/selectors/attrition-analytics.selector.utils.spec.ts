@@ -1,3 +1,5 @@
+import { EmployeeAnalytics } from '../../models/employee-analytics.model';
+import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';
 import {
   createAgeFeature,
@@ -6,6 +8,7 @@ import {
   createDummyFeature,
 } from './attrition-analytics.selector.spec.factory';
 import {
+  doFeatureParamsMatchFeature,
   mapEmployeeAnalyticsFeatureToBarChartConfig,
   mapToFeatureSelectors,
 } from './attrition-analytics.selector.utils';
@@ -46,12 +49,17 @@ describe('attrition analytics selector utils', () => {
 
 describe('mapToFeatureSelectors', () => {
   test('should map features to features selectors', () => {
-    const ageFeature = 'Age';
-    const positionFeature = 'Position';
-    const genderFeature = 'Gender';
-    const familyFeature = 'Family';
+    const ageFeature = { feature: 'Age' } as FeatureParams;
+    const positionFeature = { feature: 'Position' } as FeatureParams;
+    const genderFeature = { feature: 'Gender' } as FeatureParams;
+    const familyFeature = { feature: 'Family' } as FeatureParams;
 
-    const all = [ageFeature, positionFeature, genderFeature, familyFeature];
+    const all: FeatureParams[] = [
+      ageFeature,
+      positionFeature,
+      genderFeature,
+      familyFeature,
+    ];
     const selected = [positionFeature, familyFeature];
 
     const expectedResult = [
@@ -67,12 +75,17 @@ describe('mapToFeatureSelectors', () => {
   });
 
   test('should return all feature selectors when selected undefined', () => {
-    const ageFeature = 'Age';
-    const positionFeature = 'Position';
-    const genderFeature = 'Gender';
-    const familyFeature = 'Family';
+    const ageFeature = { feature: 'Age' } as FeatureParams;
+    const positionFeature = { feature: 'Position' } as FeatureParams;
+    const genderFeature = { feature: 'Gender' } as FeatureParams;
+    const familyFeature = { feature: 'Family' } as FeatureParams;
 
-    const all = [ageFeature, positionFeature, genderFeature, familyFeature];
+    const all: FeatureParams[] = [
+      ageFeature,
+      positionFeature,
+      genderFeature,
+      familyFeature,
+    ];
 
     const expectedResult = [
       new FeatureSelector(ageFeature, false),
@@ -81,8 +94,72 @@ describe('mapToFeatureSelectors', () => {
       new FeatureSelector(familyFeature, false),
     ];
 
-    const result = mapToFeatureSelectors(all, undefined as string[]);
+    const result = mapToFeatureSelectors(all, undefined as FeatureParams[]);
 
     expect(result).toEqual(expectedResult);
+  });
+
+  describe('isParamsRelatedToFeature', () => {
+    let params: FeatureParams;
+    let analyticsFeature: EmployeeAnalytics;
+
+    beforeEach(() => {
+      const feature = 'Service Length';
+      const region = 'Texas';
+      const year = 2021;
+      const month = 1;
+
+      params = {
+        feature,
+        region,
+        year,
+        month,
+      };
+
+      analyticsFeature = {
+        feature,
+        region,
+        year,
+        month,
+        avgAttritionRate: 0.034,
+        values: ['1', '2'],
+        attritionCount: [2, 4],
+        employeeCount: [20, 25],
+      };
+    });
+
+    test('should return true when params related to feature', () => {
+      expect(
+        doFeatureParamsMatchFeature(params, analyticsFeature)
+      ).toBeTruthy();
+    });
+
+    test('should return false when feature differnt', () => {
+      params.feature = 'Age';
+      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
+    });
+
+    test('should return false when region differnt', () => {
+      params.region = 'California';
+      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
+    });
+
+    test('should return false when year differnt', () => {
+      params.year = 2019;
+      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
+    });
+
+    test('should return false when month differnt', () => {
+      params.month = 10;
+      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
+    });
+
+    test('should return false when all params different', () => {
+      params.feature = 'Age';
+      params.region = 'California';
+      params.year = 2019;
+      params.month = 10;
+      expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
+    });
   });
 });

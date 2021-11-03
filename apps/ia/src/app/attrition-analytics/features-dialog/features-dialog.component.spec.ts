@@ -10,6 +10,8 @@ import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { FeatureParams } from '../models/feature-params.model';
+import { FeatureSelector } from '../models/feature-selector.model';
 import { FeaturesDialogComponent } from './features-dialog.component';
 
 jest.mock('@angular/cdk/drag-drop', () => ({
@@ -23,13 +25,17 @@ describe('FeaturesDialogComponent', () => {
   let spectator: Spectator<FeaturesDialogComponent>;
   let snackBar: MatSnackBar;
 
-  const data = [
+  const data: FeatureSelector[] = [
     {
-      name: 'Test',
+      feature: {
+        feature: 'Test',
+      } as FeatureParams,
       selected: true,
     },
     {
-      name: 'Test 2',
+      feature: {
+        feature: 'Test 2',
+      } as FeatureParams,
       selected: false,
     },
   ];
@@ -74,13 +80,13 @@ describe('FeaturesDialogComponent', () => {
     test('should move item if same container', () => {
       const container = {
         data: {},
-      } as CdkDropList<string[]>;
-      const event: CdkDragDrop<string[]> = {
+      } as CdkDropList<FeatureSelector[]>;
+      const event: CdkDragDrop<FeatureSelector[]> = {
         previousContainer: container,
         container,
         previousIndex: 0,
         currentIndex: 1,
-      } as unknown as CdkDragDrop<string[]>;
+      } as unknown as CdkDragDrop<FeatureSelector[]>;
 
       component.drop(event);
 
@@ -94,16 +100,16 @@ describe('FeaturesDialogComponent', () => {
     test('should transfer item if other container', () => {
       const container = {
         data: {},
-      } as CdkDropList<string[]>;
+      } as CdkDropList<FeatureSelector[]>;
       const previousContainer = {
         data: {},
-      } as CdkDropList<string[]>;
-      const event: CdkDragDrop<string[]> = {
+      } as CdkDropList<FeatureSelector[]>;
+      const event: CdkDragDrop<FeatureSelector[]> = {
         previousContainer,
         container,
         previousIndex: 0,
         currentIndex: 1,
-      } as unknown as CdkDragDrop<string[]>;
+      } as unknown as CdkDragDrop<FeatureSelector[]>;
 
       component.drop(event);
 
@@ -143,7 +149,12 @@ describe('FeaturesDialogComponent', () => {
 
   describe('itemReleased', () => {
     test('should display snack bar when max features selected', () => {
-      component.selected = [1, 2, 3, 4];
+      component.selected = [
+        { feature: { feature: '1' } as FeatureParams, selected: true },
+        { feature: { feature: '2' } as FeatureParams, selected: true },
+        { feature: { feature: '3' } as FeatureParams, selected: true },
+        { feature: { feature: '4' } as FeatureParams, selected: true },
+      ];
       snackBar.open = jest.fn();
 
       component.itemReleased();
@@ -152,7 +163,12 @@ describe('FeaturesDialogComponent', () => {
     });
 
     test('should display snack bar when more than max features selected', () => {
-      component.selected = [1, 2, 3, 4, 5];
+      component.selected = [
+        { feature: { feature: '1' } as FeatureParams, selected: true },
+        { feature: { feature: '2' } as FeatureParams, selected: true },
+        { feature: { feature: '3' } as FeatureParams, selected: true },
+        { feature: { feature: '4' } as FeatureParams, selected: true },
+      ];
       snackBar.open = jest.fn();
 
       component.itemReleased();
@@ -161,7 +177,11 @@ describe('FeaturesDialogComponent', () => {
     });
 
     test('should not display snack bar when less than max features selected', () => {
-      component.selected = [1, 2, 3];
+      component.selected = [
+        { feature: { feature: '1' } as FeatureParams, selected: true },
+        { feature: { feature: '2' } as FeatureParams, selected: true },
+        { feature: { feature: '3' } as FeatureParams, selected: true },
+      ];
       snackBar.open = jest.fn();
 
       component.itemReleased();

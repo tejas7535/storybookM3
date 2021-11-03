@@ -1,15 +1,22 @@
+import { of } from 'rxjs';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AttritionAnalyticsState } from '..';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
+import { FeatureParams } from '../../models/feature-params.model';
 import {
+  changeOrderOfFeatures,
   changeSelectedFeatures,
   initializeSelectedFeatures,
+  loadAvailableFeatures,
+  loadAvailableFeaturesFailure,
+  loadAvailableFeaturesSuccess,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
@@ -22,6 +29,20 @@ describe('Attrition Anayltics Effects', () => {
   let employeeAnalyticsService: AttritionAnalyticsService;
   let action: any;
   let effects: AttritionAnalyticsEffects;
+  let store: MockStore;
+
+  const ageFeature: FeatureParams = {
+    feature: 'Age',
+    region: 'Asia',
+    year: 2021,
+    month: 4,
+  };
+  const positionFeature: FeatureParams = {
+    feature: 'Position',
+    region: 'Europe',
+    year: 2020,
+    month: 11,
+  };
 
   const error = {
     message: 'An error message occured',
@@ -31,7 +52,7 @@ describe('Attrition Anayltics Effects', () => {
     service: AttritionAnalyticsEffects,
     providers: [
       provideMockActions(() => actions$),
-      provideMockStore({}),
+      provideMockStore(),
       {
         provide: AttritionAnalyticsService,
         useValue: {
@@ -46,26 +67,87 @@ describe('Attrition Anayltics Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(AttritionAnalyticsEffects);
     employeeAnalyticsService = spectator.inject(AttritionAnalyticsService);
+    store = spectator.inject(MockStore);
   });
 
-  describe('loadEmployeeAnalytics$', () => {
+  describe('loadAvailableFeatures$', () => {
     beforeEach(() => {
-      action = loadEmployeeAnalytics();
+      action = loadAvailableFeatures();
     });
 
-    test('should return employeeAnalyticsSuccess when REST call is successful', () => {
+    test(
+      'should return loadAvailableFeaturesSuccess when REST call is successful',
       marbles((m) => {
-        const employeeAnalytics: EmployeeAnalytics = {} as EmployeeAnalytics;
-        const result = loadEmployeeAnalyticsSuccess({
-          data: employeeAnalytics,
+        const data: FeatureParams[] = [];
+        const result = loadAvailableFeaturesSuccess({
+          data,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: employeeAnalytics,
+          a: data,
         });
-        const expected = m.cold('--b|', { b: result });
+        const expected = m.cold('--b', { b: result });
+
+        employeeAnalyticsService.getAvailableFeatures = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadAvailableFeatures$).toBeObservable(expected);
+        m.flush();
+        expect(
+          employeeAnalyticsService.getAvailableFeatures
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return loadAvailableFeaturesFailure when REST call failed',
+      marbles((m) => {
+        const result = loadAvailableFeaturesFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        employeeAnalyticsService.getAvailableFeatures = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadAvailableFeatures$).toBeObservable(expected);
+        m.flush();
+        expect(
+          employeeAnalyticsService.getAvailableFeatures
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('loadEmployeeAnalytics$', () => {
+    let request: FeatureParams[];
+
+    beforeEach(() => {
+      request = [];
+      action = loadEmployeeAnalytics({ params: request });
+    });
+
+    test(
+      'should return employeeAnalyticsSuccess when REST call is successful',
+      marbles((m) => {
+        const data: EmployeeAnalytics[] = [];
+        const result = loadEmployeeAnalyticsSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
 
         employeeAnalyticsService.getEmployeeAnalytics = jest
           .fn()
@@ -76,10 +158,11 @@ describe('Attrition Anayltics Effects', () => {
         expect(
           employeeAnalyticsService.getEmployeeAnalytics
         ).toHaveBeenCalledTimes(1);
-      });
-    });
+      })
+    );
 
-    test('should return employeeAnalyticsFailure when REST call failed', () => {
+    test(
+      'should return employeeAnalyticsFailure when REST call failed',
       marbles((m) => {
         const result = loadEmployeeAnalyticsFailure({
           errorMessage: error.message,
@@ -98,36 +181,130 @@ describe('Attrition Anayltics Effects', () => {
         expect(
           employeeAnalyticsService.getEmployeeAnalytics
         ).toHaveBeenCalledTimes(1);
-      });
-    });
+      })
+    );
   });
 
   describe('initializeSelectedFeatures$', () => {
+    const features = [
+      { feature: 'Age' } as FeatureParams,
+      { feature: 'Position' } as FeatureParams,
+    ];
+
     beforeEach(() => {
-      action = initializeSelectedFeatures({ features: ['Age', 'Position'] });
-    });
-
-    test('should initialize selected features when selected features undefined', () => {
-      marbles((m) => {
-        const result = changeSelectedFeatures({
-          features: ['Education', 'Age', 'Position'],
-        });
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.initializeSelectedFeatures$).toBeObservable(expected);
+      action = initializeSelectedFeatures({
+        features,
       });
     });
+
+    test(
+      'should initialize selected features when selected features undefined',
+      marbles((m) => {
+        const result = changeSelectedFeatures({
+          features,
+        });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        store.select = jest
+          .fn()
+          .mockReturnValue(of(undefined as FeatureParams[]));
+
+        store.select = jest
+          .fn()
+          .mockReturnValue(of(undefined as FeatureParams[]));
+
+        m.expect(effects.initializeSelectedFeatures$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('changeSelectedFeatures$', () => {
+    const featureParams = [ageFeature, positionFeature];
+
+    beforeEach(() => {
+      action = changeSelectedFeatures({ features: featureParams });
+    });
+
+    test(
+      'should load Employee Analytics when selected different features',
+      marbles((m) => {
+        store.setState({
+          attritionAnalytics: {
+            employeeAnalytics: {
+              features: { data: [ageFeature] },
+            },
+          } as AttritionAnalyticsState,
+        });
+
+        const result = loadEmployeeAnalytics({ params: featureParams });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.changeSelectedFeatures$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+
+    test(
+      'should change Order Of Features when selected same features in different order',
+      marbles((m) => {
+        store.setState({
+          attritionAnalytics: {
+            employeeAnalytics: {
+              features: { data: featureParams.reverse() },
+            },
+          } as AttritionAnalyticsState,
+        });
+        const result = changeOrderOfFeatures({ features: featureParams });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.changeSelectedFeatures$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('changeOrderOfFeatures$', () => {
+    const selectedFeatures = [ageFeature, positionFeature];
+
+    beforeEach(() => {
+      action = changeOrderOfFeatures({ features: selectedFeatures });
+    });
+
+    test(
+      'should load employee analytics with oreded features',
+      marbles((m) => {
+        store.setState({
+          attritionAnalytics: {
+            employeeAnalytics: {
+              features: { data: [positionFeature, ageFeature] },
+            },
+          } as AttritionAnalyticsState,
+        });
+
+        const result = loadEmployeeAnalyticsSuccess({
+          data: selectedFeatures as EmployeeAnalytics[],
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.changeOrderOfFeatures$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('ngrxOnInitEffects', () => {
-    test('should dispatch loadEmployeeAnalytics action', () => {
+    test('should dispatch loadAvailableFeatures action', () => {
       effects['store'].dispatch = jest.fn();
 
       effects.ngrxOnInitEffects();
 
       expect(effects['store'].dispatch).toHaveBeenCalledWith(
-        loadEmployeeAnalytics()
+        loadAvailableFeatures()
       );
     });
   });

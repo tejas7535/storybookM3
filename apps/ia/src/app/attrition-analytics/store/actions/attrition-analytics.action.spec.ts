@@ -1,5 +1,7 @@
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
+import { FeatureParams } from '../../models/feature-params.model';
 import {
+  changeOrderOfFeatures,
   changeSelectedFeatures,
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
@@ -10,15 +12,16 @@ describe('Attrition Analytics Actions', () => {
   const errorMessage = 'An error occured';
 
   test('loadEmployeeAnalytics', () => {
-    const action = loadEmployeeAnalytics();
+    const action = loadEmployeeAnalytics({ params: [] });
 
     expect(action).toEqual({
+      params: [],
       type: '[AttritionAnalytics] Load Employee Analytics',
     });
   });
 
   test('loadEmployeeAnalyticsSuccess', () => {
-    const data: EmployeeAnalytics = {} as EmployeeAnalytics;
+    const data: EmployeeAnalytics[] = [];
     const action = loadEmployeeAnalyticsSuccess({ data });
 
     expect(action).toEqual({
@@ -37,11 +40,21 @@ describe('Attrition Analytics Actions', () => {
   });
 
   test('changeSelectedFeatures', () => {
-    const features: string[] = [];
+    const features: FeatureParams[] = [];
     const action = changeSelectedFeatures({ features });
 
     expect(action).toEqual({
       type: '[AttritionAnalytics] Change Selected Features',
+      features,
+    });
+  });
+
+  test('changeOrderOfFeatures', () => {
+    const features: FeatureParams[] = [];
+    const action = changeOrderOfFeatures({ features });
+
+    expect(action).toEqual({
+      type: '[AttritionAnalytics] Change Order Of Features',
       features,
     });
   });

@@ -41,7 +41,11 @@ describe('AttritionAnalyticsStateService', () => {
 
   describe('setSelecedFeatures', () => {
     test('should set selected features', () => {
-      const selectedFeatures = ['Age', 'Position', 'Distance'];
+      const selectedFeatures = [
+        { feature: 'Age', region: 'China', year: 2019, month: 5 },
+        { feature: 'Position', region: 'Europe', year: 2020, month: 6 },
+        { feature: 'Distance', region: 'Asia', year: 2021, month: 7 },
+      ];
       const selectedFeaturesJSON = JSON.stringify(selectedFeatures);
       localStorage.setItem = jest.fn();
 

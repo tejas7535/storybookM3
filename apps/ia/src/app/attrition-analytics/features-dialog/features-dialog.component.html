@@ -26,7 +26,7 @@
           cdkDrag
           (cdkDragReleased)="itemReleased()"
         >
-          {{ item.name }}
+          {{ item.feature.feature }}
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
         (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-list-item" *ngFor="let item of selected" cdkDrag>
-          {{ item.name }}
+          {{ item.feature.feature }}
         </div>
       </div>
     </div>

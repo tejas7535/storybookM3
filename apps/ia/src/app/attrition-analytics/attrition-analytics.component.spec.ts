@@ -20,6 +20,7 @@ import { EmployeeAnalyticsComponent } from './employee-analytics/employee-analyt
 import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
 import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
+import { FeatureParams } from './models/feature-params.model';
 import { FeatureSelector } from './models/feature-selector.model';
 import { initialState } from './store';
 import {
@@ -38,7 +39,10 @@ describe('AttritionAnalyticsComponent', () => {
   let stateService: AttritionAnalyticsStateService;
   let spectator: Spectator<AttritionAnalyticsComponent>;
 
-  const selectedFeatures = ['Age', 'Position'];
+  const selectedFeatures = [
+    { feature: 'Age', region: 'Asia', year: 2021, month: 4 },
+    { feature: 'Position', region: 'Alasca', year: 2020, month: 3 },
+  ];
 
   const createComponent = createComponentFactory({
     component: AttritionAnalyticsComponent,
@@ -165,15 +169,17 @@ describe('AttritionAnalyticsComponent', () => {
 
   describe('onSelectedFeatures', () => {
     test('should dispatch selected features', () => {
-      const featureSelectors = [
-        { name: 'test 1', selected: true },
-        { name: 'test 2', selected: true },
+      const feature1 = { feature: 'test 1' } as FeatureParams;
+      const feature2 = { feature: 'test 2' } as FeatureParams;
+      const featureSelectors: FeatureSelector[] = [
+        { feature: feature1, selected: true },
+        { feature: feature2, selected: true },
       ];
 
       component.onSelectedFeatures(featureSelectors);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        changeSelectedFeatures({ features: ['test 1', 'test 2'] })
+        changeSelectedFeatures({ features: [feature1, feature2] })
       );
     });
   });
@@ -188,7 +194,7 @@ describe('AttritionAnalyticsComponent', () => {
 
   describe('openFeaturesDialog', () => {
     test('should open dialog', () => {
-      component.selectedFeatures = [];
+      component.allFeatureSelectors = [];
       component['dialog'].open = jest.fn();
       component.dispatchResultOnClose = jest.fn();
 
@@ -200,7 +206,7 @@ describe('AttritionAnalyticsComponent', () => {
       );
       expect(component.dispatchResultOnClose).toHaveBeenCalledWith(
         component['dialog'].open(FeaturesDialogComponent, {
-          data: component.selectedFeatures,
+          data: component.allFeatureSelectors,
         })
       );
     });
@@ -210,7 +216,8 @@ describe('AttritionAnalyticsComponent', () => {
     test('should emit result on close', () => {
       component.onSelectedFeatures = jest.fn();
       component['subscription'].add = jest.fn();
-      const result = [new FeatureSelector('Age', true)];
+      const featureAge = { feature: 'test 2' } as FeatureParams;
+      const result = [new FeatureSelector(featureAge, true)];
       const dialogRef = {
         afterClosed: () => of(result),
       } as MatDialogRef<FeaturesDialogComponent>;

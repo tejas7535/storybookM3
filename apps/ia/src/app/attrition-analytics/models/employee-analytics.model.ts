@@ -1,8 +1,10 @@
-import { EmployeeAnalyticsFeature } from './employee-analytics-feature.model';
-
 export interface EmployeeAnalytics {
   region: string;
-  timePeriod: string;
+  feature: string;
+  year: number;
+  month: number;
   avgAttritionRate: number;
-  features: EmployeeAnalyticsFeature[];
+  values: string[];
+  attritionCount: number[];
+  employeeCount: number[];
 }

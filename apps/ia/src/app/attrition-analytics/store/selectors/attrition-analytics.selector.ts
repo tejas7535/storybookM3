@@ -2,7 +2,8 @@ import { createSelector } from '@ngrx/store';
 
 import { AttritionAnalyticsState, selectAttritionAnalyticsState } from '..';
 import { Color } from '../../../shared/models/color.enum';
-import { EmployeeAnalyticsFeature } from '../../models/employee-analytics-feature.model';
+import { EmployeeAnalytics } from '../../models/employee-analytics.model';
+import { FeatureParams } from '../../models/feature-params.model';
 import {
   mapEmployeeAnalyticsFeatureToBarChartConfig,
   mapToFeatureSelectors,
@@ -10,77 +11,43 @@ import {
 
 export const getEmployeeAnalyticsLoading = createSelector(
   selectAttritionAnalyticsState,
-  (state: AttritionAnalyticsState) => state.employeeAnalytics.loading
+  (state: AttritionAnalyticsState) => state.employeeAnalytics.features.loading
 );
 
-export const getEmployeeAnalyticsFeature = (name: string) =>
-  createSelector(
-    selectAttritionAnalyticsState,
-    (state: AttritionAnalyticsState) =>
-      state.employeeAnalytics.data?.features.find(
-        (feature) => feature.name === name
-      )
-  );
-
-export const getEmployeeAnalyticsAverage = createSelector(
+export const getAvailableFeatures = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) =>
-    state.employeeAnalytics.data?.avgAttritionRate
+    state.employeeAnalytics.availableFeatures.data
 );
 
-export const getEmployeeAnalyticsBarChartConfig = (
-  name: string,
-  color: string
-) =>
-  createSelector(
-    getEmployeeAnalyticsFeature(name),
-    getEmployeeAnalyticsAverage,
-    (feature: EmployeeAnalyticsFeature, average: number) =>
-      feature && average
-        ? mapEmployeeAnalyticsFeatureToBarChartConfig([feature], average, color)
-        : undefined
-  );
-
-export const getAllFeatureNames = createSelector(
+export const getAvailableFeaturesLoading = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) =>
-    state.employeeAnalytics.data?.features.map((feature) => feature.name)
+    state.employeeAnalytics.availableFeatures.loading
 );
 
-export const getSelectedFeatureNames = createSelector(
+export const getSelectedFeatureParams = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) => state.selectedByUser.features
 );
 
 export const getFeatureSelectors = createSelector(
-  getAllFeatureNames,
-  getSelectedFeatureNames,
-  (all: string[], selected: string[]) =>
-    all ? mapToFeatureSelectors(all, selected) : undefined
+  getAvailableFeatures,
+  getSelectedFeatureParams,
+  (availableFeatures: FeatureParams[], selected: FeatureParams[]) =>
+    availableFeatures
+      ? mapToFeatureSelectors(availableFeatures, selected)
+      : undefined
 );
 
 export const getSelectedFeatures = createSelector(
   selectAttritionAnalyticsState,
-  (state: AttritionAnalyticsState) => {
-    const selectedFeatures: EmployeeAnalyticsFeature[] = [];
-    const selectedFeatureNames = state.selectedByUser.features;
-    const allFeatures = state.employeeAnalytics.data;
-
-    selectedFeatureNames?.forEach((selectedFeatureName) => {
-      const selectedFeature = allFeatures?.features.find(
-        (feature) => feature.name === selectedFeatureName
-      );
-      selectedFeatures.push(selectedFeature);
-    });
-
-    return selectedFeatureNames && allFeatures ? selectedFeatures : undefined;
-  }
+  (state: AttritionAnalyticsState) => state.employeeAnalytics.features.data
 );
 
 export const getBarChartConfigsForSelectedFeatures = createSelector(
   getSelectedFeatures,
-  getEmployeeAnalyticsAverage,
-  (selectedFeatures: EmployeeAnalyticsFeature[], average: number) => {
+  (selectedFeatures: EmployeeAnalytics[]) => {
     const colors = [
       Color.LIME,
       Color.PICTON_BLUE,
@@ -92,7 +59,7 @@ export const getBarChartConfigsForSelectedFeatures = createSelector(
       ? selectedFeatures.map((feature, index) => {
           const config = mapEmployeeAnalyticsFeatureToBarChartConfig(
             [feature],
-            average,
+            feature.avgAttritionRate,
             colors[index]
           );
 

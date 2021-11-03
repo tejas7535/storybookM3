@@ -21,8 +21,8 @@ import { FeatureSelector } from '../models/feature-selector.model';
 export class FeaturesDialogComponent implements OnInit {
   readonly SELECTED_FEATURES_MAX = 4;
 
-  selected: any[] = [];
-  unselected: any[] = [];
+  selected: FeatureSelector[] = [];
+  unselected: FeatureSelector[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: FeatureSelector[],
@@ -39,7 +39,7 @@ export class FeaturesDialogComponent implements OnInit {
     }
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<FeatureSelector[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,

@@ -1,11 +1,12 @@
 import { getPercentageValue } from '../../../overview/store/selectors/overview-selector-utils';
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
-import { EmployeeAnalyticsFeature } from '../../models/employee-analytics-feature.model';
+import { EmployeeAnalytics } from '../../models/employee-analytics.model';
+import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';
 
 export function mapEmployeeAnalyticsFeatureToBarChartConfig(
-  features: EmployeeAnalyticsFeature[],
+  features: EmployeeAnalytics[],
   average: number,
   color: string
 ): BarChartConfig {
@@ -34,7 +35,7 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
 
   return features
     ? new BarChartConfig(
-        features[0].name,
+        features[0].feature,
         [barChartSerie],
         categories,
         getPercentageValue(average)
@@ -43,11 +44,18 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
 }
 
 export function mapToFeatureSelectors(
-  all: string[],
-  selected: string[]
+  all: FeatureParams[],
+  selected: FeatureParams[]
 ): FeatureSelector[] {
   const unselectedFeatures = all
-    .filter((feature) => !selected || !selected.includes(feature))
+    .filter(
+      (feature) =>
+        !selected ||
+        !selected.some(
+          (selectedFeature) =>
+            JSON.stringify(feature) === JSON.stringify(selectedFeature)
+        )
+    )
     .map((feature) => new FeatureSelector(feature, false));
 
   const selectedFeatures = selected
@@ -56,3 +64,12 @@ export function mapToFeatureSelectors(
 
   return [...unselectedFeatures, ...selectedFeatures];
 }
+
+export const doFeatureParamsMatchFeature = (
+  featureParams: FeatureParams,
+  feature: EmployeeAnalytics
+) =>
+  featureParams.feature === feature.feature &&
+  featureParams.region === feature.region &&
+  featureParams.year === feature.year &&
+  featureParams.month === feature.month;

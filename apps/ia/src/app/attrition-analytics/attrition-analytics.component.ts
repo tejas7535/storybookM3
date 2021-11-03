@@ -31,7 +31,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   barChartConfigs$: Observable<BarChartConfig[]>;
   isLoading$: Observable<boolean>;
 
-  selectedFeatures: FeatureSelector[] = [];
+  allFeatureSelectors: FeatureSelector[] = [];
 
   private readonly subscription: Subscription = new Subscription();
 
@@ -50,7 +50,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
       this.store
         .select(getFeatureSelectors)
         .subscribe(
-          (selectedFeatures) => (this.selectedFeatures = selectedFeatures)
+          (selectedFeatures) => (this.allFeatureSelectors = selectedFeatures)
         )
     );
 
@@ -85,7 +85,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
     return configs;
   }
 
-  selectDefaultFeatures() {
+  selectDefaultFeatures(): void {
     this.store.dispatch(
       initializeSelectedFeatures({
         features: this.stateService.getSelectedFeatures(),
@@ -94,7 +94,7 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   }
 
   onSelectedFeatures(featureSelectors: FeatureSelector[]): void {
-    const features = featureSelectors.map((selector) => selector.name);
+    const features = featureSelectors.map((selector) => selector.feature);
     this.store.dispatch(changeSelectedFeatures({ features }));
     this.stateService.setSelectedFeatures(features);
   }
@@ -105,13 +105,15 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
 
   openFeaturesDialog(): void {
     const dialogRef = this.dialog.open(FeaturesDialogComponent, {
-      data: this.selectedFeatures,
+      data: this.allFeatureSelectors,
     });
 
     this.dispatchResultOnClose(dialogRef);
   }
 
-  dispatchResultOnClose(dialogRef: MatDialogRef<FeaturesDialogComponent>) {
+  dispatchResultOnClose(
+    dialogRef: MatDialogRef<FeaturesDialogComponent>
+  ): void {
     this.subscription.add(
       dialogRef
         .afterClosed()

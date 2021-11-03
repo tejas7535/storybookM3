@@ -1,22 +1,16 @@
 import { AttritionAnalyticsState, initialState } from '..';
+import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';
 import {
-  getAllFeatureNames,
+  getAvailableFeatures,
+  getAvailableFeaturesLoading,
   getBarChartConfigsForSelectedFeatures,
-  getEmployeeAnalyticsAverage,
-  getEmployeeAnalyticsBarChartConfig,
-  getEmployeeAnalyticsFeature,
   getEmployeeAnalyticsLoading,
   getFeatureSelectors,
-  getSelectedFeatureNames,
+  getSelectedFeatureParams,
   getSelectedFeatures,
 } from './attrition-analytics.selector';
-import {
-  createAgeFeature,
-  createBarchartConfigForAge,
-  createDummyBarChartSerie,
-  createFakeState,
-} from './attrition-analytics.selector.spec.factory';
+import { createFakeState } from './attrition-analytics.selector.spec.factory';
 
 describe('attrition analytics selector', () => {
   const fakeState: AttritionAnalyticsState = createFakeState();
@@ -25,7 +19,11 @@ describe('attrition analytics selector', () => {
     test('should return true if loading true', () => {
       expect(
         getEmployeeAnalyticsLoading.projector({
-          employeeAnalytics: { loading: true },
+          employeeAnalytics: {
+            features: {
+              loading: true,
+            },
+          },
         })
       ).toBeTruthy();
     });
@@ -33,130 +31,53 @@ describe('attrition analytics selector', () => {
     test('should return false if loading false', () => {
       expect(
         getEmployeeAnalyticsLoading.projector({
-          employeeAnalytics: { loading: false },
+          employeeAnalytics: {
+            features: {
+              loading: false,
+            },
+          },
         })
       ).toBeFalsy();
     });
   });
 
-  describe('getEmployeeAnalyticsFeature', () => {
-    test('should get employee anayltics feature by name', () => {
-      const featureName = 'Age';
+  describe('getAvailableFeatures', () => {
+    test('should get available features', () => {
+      const expectedResult = fakeState.employeeAnalytics.availableFeatures.data;
+      const result = getAvailableFeatures.projector(fakeState);
 
-      expect(
-        getEmployeeAnalyticsFeature(featureName).projector(fakeState)
-      ).toEqual(createAgeFeature());
-    });
-
-    test('should return undefined when feature not found', () => {
-      const featureName = 'not existing feature';
-
-      expect(
-        getEmployeeAnalyticsFeature(featureName).projector(fakeState)
-      ).toBeUndefined();
-    });
-
-    test('should return undefined when data undefined', () => {
-      const featureName = 'not existing feature';
-
-      expect(
-        getEmployeeAnalyticsFeature(featureName).projector(initialState)
-      ).toBeUndefined();
+      expect(result).toEqual(expectedResult);
     });
   });
 
-  describe('getEmployeeAnalyticsAverage', () => {
-    test('should get avarage', () => {
-      expect(getEmployeeAnalyticsAverage.projector(fakeState)).toEqual(
-        fakeState.employeeAnalytics.data.avgAttritionRate
-      );
-    });
+  describe('getAvailableFeaturesLoading', () => {
+    test('should get available features', () => {
+      const expectedResult =
+        fakeState.employeeAnalytics.availableFeatures.loading;
+      const result = getAvailableFeaturesLoading.projector(fakeState);
 
-    test('should return undefined when data undefined', () => {
-      expect(
-        getEmployeeAnalyticsAverage.projector(initialState)
-      ).toBeUndefined();
-    });
-  });
-
-  describe('getEmployeeAnalyticsBarChartConfig', () => {
-    test('should get bar chart config for feature with color', () => {
-      const featureName = 'Age';
-      const color = '#000';
-      const expectedSeries = createDummyBarChartSerie(color);
-      const expectedResult = createBarchartConfigForAge(expectedSeries);
-
-      expect(
-        getEmployeeAnalyticsBarChartConfig(featureName, color).projector(
-          fakeState.employeeAnalytics.data.features[0],
-          fakeState.employeeAnalytics.data.avgAttritionRate
-        )
-      ).toEqual(expectedResult);
-    });
-
-    test('should return undefined when getEmployeeAnalyticsFeature undefined', () => {
-      expect(
-        getEmployeeAnalyticsBarChartConfig(
-          'not existing feature',
-          'red'
-        ).projector(undefined, 0.5)
-      ).toBeUndefined();
-    });
-
-    test('should return undefined when getEmployeeAnalyticsAverage undefined', () => {
-      const featureName = 'Age';
-
-      expect(
-        getEmployeeAnalyticsBarChartConfig(featureName, 'red').projector(
-          fakeState.employeeAnalytics.data.features[0],
-          undefined as number
-        )
-      ).toBeUndefined();
-    });
-
-    test('should return undefined when feature and average undefined', () => {
-      const featureName = 'Age';
-      const color = '#000';
-
-      expect(
-        getEmployeeAnalyticsBarChartConfig(featureName, color).projector(
-          undefined,
-          undefined as number
-        )
-      ).toBeUndefined();
-    });
-  });
-
-  describe('getAllFeatureNames', () => {
-    test('should get all feature names', () => {
-      const expectedNames = ['Age', 'Position'];
-
-      expect(getAllFeatureNames.projector(fakeState)).toEqual(
-        expect.arrayContaining(expectedNames)
-      );
-    });
-
-    test('should return undefined when data undifined', () => {
-      expect(getAllFeatureNames.projector(initialState)).toBeUndefined();
+      expect(result).toEqual(expectedResult);
     });
   });
 
   describe('getSelectedFeatureNames', () => {
     test('should get selected features', () => {
-      expect(getSelectedFeatureNames.projector(fakeState)).toEqual(
-        expect.arrayContaining(['Position'])
+      expect(getSelectedFeatureParams.projector(fakeState)).toEqual(
+        expect.arrayContaining([
+          { feature: 'Position', region: 'Alasca', year: 2021, month: 4 },
+        ])
       );
     });
 
     test('should return undefined when no features selected', () => {
-      expect(getSelectedFeatureNames.projector(initialState)).toBeUndefined();
+      expect(getSelectedFeatureParams.projector(initialState)).toBeUndefined();
     });
   });
 
   describe('getFeatureSelectors', () => {
     test('should get feature selectors', () => {
-      const ageFeature = 'Age';
-      const positionFeature = 'Position';
+      const ageFeature = { feature: 'Age' } as FeatureParams;
+      const positionFeature = { feature: 'Position' } as FeatureParams;
       expect(
         getFeatureSelectors.projector(
           [ageFeature, positionFeature],
@@ -180,22 +101,22 @@ describe('attrition analytics selector', () => {
 
   describe('getSelectedFeatures', () => {
     test('should get selected features', () => {
-      expect(getSelectedFeatures.projector(fakeState)).toEqual([
-        fakeState.employeeAnalytics.data.features[1],
-      ]);
+      expect(getSelectedFeatures.projector(fakeState)).toEqual(
+        fakeState.employeeAnalytics.features.data
+      );
     });
   });
 
   describe('getBarChartConfigForSelectedFeatures', () => {
     test('should get bar chart config for selected features', () => {
-      const average = 0.45;
+      const average = 0.045;
       const result = getBarChartConfigsForSelectedFeatures.projector(
-        [fakeState.employeeAnalytics.data.features[0]],
+        [fakeState.employeeAnalytics.features.data[0]],
         average
       );
       expect(result[0].categories.length).toEqual(3);
       expect(result[0].series.length).toEqual(1);
-      expect(result[0].average).toEqual(45);
+      expect(result[0].average).toEqual(4.5);
     });
 
     test('should return undefined when selected features undefined', () => {
