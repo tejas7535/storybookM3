@@ -9,12 +9,12 @@ import { of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { environment } from '../../environments/environment';
-import { salesSummaryMock } from '../../testing/mocks/sales-summary.mock';
-import { IgnoreFlag } from '../sales-summary/sales-row-details/enums/ignore-flag.enum';
+import { environment } from '../../../../environments/environment';
+import { salesSummaryMock } from '../../../../testing/mocks/sales-summary.mock';
+import { IgnoreFlag } from '../../../sales-summary/sales-row-details/enums/ignore-flag.enum';
+import { UpdateDatesParams } from '../../models/dates-update.model';
+import { UpdateIgnoreFlagParams } from '../../models/ignore-flag-update.model';
 import { DataService } from './data.service';
-import { UpdateDatesParams } from './models/dates-update.model';
-import { UpdateIgnoreFlagParams } from './models/ignore-flag-update.model';
 
 describe('DataService', () => {
   let dataService: DataService;

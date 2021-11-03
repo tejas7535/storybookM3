@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -32,6 +33,10 @@ describe('IgnoreFlagDialogComponent', () => {
         },
       },
       { provide: MAT_DIALOG_DATA, useValue: IgnoreFlag.None },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

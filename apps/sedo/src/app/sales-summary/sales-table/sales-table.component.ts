@@ -1,25 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import {
-  ColDef,
-  GridOptions,
-  Module,
-  RowClickedEvent,
-  SideBarDef,
-} from '@ag-grid-community/all-modules';
+import { Subscription } from 'rxjs';
+
 import {
   ClientSideRowModelModule,
+  ColDef,
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
   MasterDetailModule,
   MenuModule,
+  Module,
   MultiFilterModule,
+  RowClickedEvent,
   SetFilterModule,
+  SideBarDef,
   SideBarModule,
+  SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
+import { Store } from '@ngrx/store';
 
-import { DataService } from '../../shared/data.service';
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
+
+import { AgGridStateService } from '../../shared/services/ag-grid-state/ag-grid-state.service';
+import { DataService } from '../../shared/services/data/data.service';
 import { SalesRowDetailsComponent } from '../sales-row-details/sales-row-details.component';
 import { TimeoutWarningRendererComponent } from '../timeout-warning/timeout-warning-cellrenderer-component';
 import { COLUMN_DEFINITIONS } from './config/column-definitions';
@@ -32,7 +39,7 @@ import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
   templateUrl: './sales-table.component.html',
   styleUrls: ['./sales-table.component.scss'],
 })
-export class SalesTableComponent implements OnInit {
+export class SalesTableComponent implements OnInit, OnDestroy {
   public modules: Module[] = [
     ClientSideRowModelModule,
     SideBarModule,
@@ -55,9 +62,16 @@ export class SalesTableComponent implements OnInit {
 
   public rowData: any;
 
+  private username: string;
+  private gridApi: GridApi;
+  private readonly TABLE_KEY = 'soco';
+  private readonly subscription: Subscription = new Subscription();
+
   public constructor(
     public dataService: DataService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly agGridStateService: AgGridStateService,
+    private readonly store: Store
   ) {
     this.detailCellRenderer = 'rowDetails';
     this.frameworkComponents = {
@@ -67,7 +81,16 @@ export class SalesTableComponent implements OnInit {
   }
 
   public async ngOnInit(): Promise<void> {
+    this.setSubscription();
     this.rowData = await this.dataService.getAllSales();
+  }
+
+  private setSubscription(): void {
+    this.subscription.add(
+      this.store.select(getUserUniqueIdentifier).subscribe((userId: string) => {
+        this.username = userId;
+      })
+    );
   }
 
   public onRowClicked(event: RowClickedEvent): void {
@@ -75,6 +98,8 @@ export class SalesTableComponent implements OnInit {
   }
 
   public onFirstDataRendered(params: any): void {
+    this.gridApi = params.api;
+
     const queryParams = this.activatedRoute.snapshot.queryParams;
     if (queryParams.combinedKey) {
       const filterModel = params.api.getFilterInstance('combinedKey');
@@ -90,5 +115,36 @@ export class SalesTableComponent implements OnInit {
       });
       params.api.onFilterChanged();
     }
+
+    this.setupColumState(params);
+  }
+
+  public onColumnChange(event: SortChangedEvent): void {
+    this.agGridStateService.setColumnState(
+      this.TABLE_KEY,
+      event.columnApi.getColumnState()
+    );
+  }
+
+  private setupColumState(event: GridReadyEvent): void {
+    const columnState = this.agGridStateService.getColumnState(this.TABLE_KEY);
+    if (columnState) {
+      event.columnApi.applyColumnState({
+        state: columnState,
+        applyOrder: true,
+      });
+    }
+  }
+
+  public setLastModifierFilter(): void {
+    const filterModel = this.gridApi.getFilterInstance('lastModifier');
+    filterModel.setModel({
+      values: [this.username],
+    });
+    this.gridApi.onFilterChanged();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

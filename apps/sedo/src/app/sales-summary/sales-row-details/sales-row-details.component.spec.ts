@@ -2,7 +2,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MATERIAL_SANITY_CHECKS,
+  MatNativeDateModule,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,10 +24,10 @@ import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/app-state-mock';
 import { salesSummaryMock } from '../../../testing/mocks/sales-summary.mock';
-import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
 import { UpdateIgnoreFlagParams } from '../../shared/models/ignore-flag-update.model';
 import { SalesSummary } from '../../shared/models/sales-summary.model';
+import { DataService } from '../../shared/services/data/data.service';
 import { IgnoreFlag } from './enums/ignore-flag.enum';
 import { IgnoreFlagDialogComponent } from './ignore-flag-dialog/ignore-flag-dialog.component';
 import { SalesRowDetailsComponent } from './sales-row-details.component';
@@ -62,6 +65,10 @@ describe('SalesRowDetailsComponent', () => {
       provideMockStore({
         initialState: APP_STATE_MOCK,
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

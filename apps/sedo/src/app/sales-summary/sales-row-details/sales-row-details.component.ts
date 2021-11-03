@@ -17,10 +17,10 @@ import { Store } from '@ngrx/store';
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 import { SnackBarService } from '@schaeffler/snackbar';
 
-import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
 import { UpdateIgnoreFlagParams } from '../../shared/models/ignore-flag-update.model';
 import { SalesSummary } from '../../shared/models/sales-summary.model';
+import { DataService } from '../../shared/services/data/data.service';
 import { IgnoreFlag } from './enums/ignore-flag.enum';
 import { IgnoreFlagDialogComponent } from './ignore-flag-dialog/ignore-flag-dialog.component';
 

@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -7,7 +8,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { HeaderModule } from '@schaeffler/header';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 
@@ -25,18 +29,32 @@ describe('AppComponent', () => {
       RouterTestingModule,
       ReactiveComponentModule,
       MatProgressSpinnerModule,
+      LoadingSpinnerModule,
+      AppShellModule,
+      provideTranslocoTestingModule({
+        en: {
+          userPanelAccountLinkLabel: 'Mein Konto',
+        },
+      }),
     ],
     providers: [
       provideMockStore({
         initialState: {
-          auth: {
-            user: {
-              username: 'John',
+          'azure-auth': {
+            accountInfo: {
+              name: 'John',
               department: 'C-IT',
+            },
+            profileImage: {
+              url: 'abc',
             },
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

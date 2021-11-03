@@ -15,7 +15,6 @@ import { AgGridModule } from '@ag-grid-community/angular';
 
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
-import { DataService } from '../shared/data.service';
 import { IgnoreFlagDialogModule } from './sales-row-details/ignore-flag-dialog/ignore-flag-dialog.module';
 import { SalesRowDetailsComponent } from './sales-row-details/sales-row-details.component';
 import { SalesSummaryRoutingModule } from './sales-summary-routing.module';
@@ -45,6 +44,6 @@ import { TimeoutWarningRendererComponent } from './timeout-warning/timeout-warni
     IgnoreFlagDialogModule,
     SnackBarModule,
   ],
-  providers: [DataService, SnackBarService],
+  providers: [SnackBarService],
 })
 export class SalesSummaryModule {}

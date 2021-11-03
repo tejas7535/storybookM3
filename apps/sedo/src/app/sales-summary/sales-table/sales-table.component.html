@@ -1,4 +1,11 @@
 <div class="table-container">
+  <button
+    class="w-[250px] filter-button"
+    mat-raised-button
+    (click)="setLastModifierFilter()"
+  >
+    FILTER ASSIGNED TO ME
+  </button>
   <ag-grid-angular
     class="ag-theme-material"
     [columnDefs]="columnDefs"
@@ -14,6 +21,11 @@
     (rowClicked)="onRowClicked($event)"
     (firstDataRendered)="onFirstDataRendered($event)"
     [rowData]="rowData"
+    (columnMoved)="onColumnChange($event)"
+    (sortChanged)="onColumnChange($event)"
+    (columnVisible)="onColumnChange($event)"
+    (columnPinned)="onColumnChange($event)"
+    (columnResized)="onColumnChange($event)"
   >
   </ag-grid-angular>
 </div>

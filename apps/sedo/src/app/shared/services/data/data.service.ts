@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { environment } from '../../environments/environment';
-import { UpdateDatesParams } from './models/dates-update.model';
-import { UpdateIgnoreFlagParams } from './models/ignore-flag-update.model';
-import { SalesSummary } from './models/sales-summary.model';
+import { environment } from '../../../../environments/environment';
+import { UpdateDatesParams } from '../../models/dates-update.model';
+import { UpdateIgnoreFlagParams } from '../../models/ignore-flag-update.model';
+import { SalesSummary } from '../../models/sales-summary.model';
 
 @Injectable({
   providedIn: 'root',
