@@ -1,5 +1,8 @@
 #!/usr/bin/env groovy
-library 'shared-cluster-jenkins-library'
+@Library('adp-shared-library@1.0.1')
+
+// Imports from shared library above
+import adp.github.Github
 
 // Imports
 import groovy.transform.Field
@@ -8,6 +11,7 @@ import java.text.SimpleDateFormat
 /****************************************************************/
 
 // Variables
+def github = new Github(this)
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
 
 def customVersionDefault = 'No custom version (e.g. 1.0.0)'
@@ -561,7 +565,7 @@ pipeline {
                     def targetBranch = 'master'
 
                     // Generate Changelog, update Readme
-                    executeAsGithubUser('github-jenkins-access-token','git fetch --all')
+                    github.executeAsGithubUser('github-jenkins-access-token','git fetch --all')
                     sh "git checkout ${targetBranch}"
 
                     // generate project specific changelog
@@ -783,7 +787,7 @@ pipeline {
                 echo 'Release new version'
 
                 script {
-                    executeAsGithubUser('github-jenkins-access-token','git push --follow-tags')
+                    github.executeAsGithubUser('github-jenkins-access-token','git push --follow-tags')
                 }
             }
         }
@@ -838,7 +842,7 @@ pipeline {
 
                         script {
                             // Checkout gh-pages branch and clean folder
-                            executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
+                            github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
                             sh "git checkout -- ."
                             sh "git checkout gh-pages"
                             sh "rm -rf *"
@@ -857,7 +861,7 @@ pipeline {
                                 // commit and push back to remote
                                 sh 'git add -A'
                                 sh "git commit -m 'chore(storybook): update storybook [$BUILD_NUMBER]' --no-verify"
-                                executeAsGithubUser('github-jenkins-access-token', 'git push')
+                                github.executeAsGithubUser('github-jenkins-access-token', 'git push')
                             } catch (error) {
                                 echo 'No changes to commit for storybook deployment'
                                 println(error)
