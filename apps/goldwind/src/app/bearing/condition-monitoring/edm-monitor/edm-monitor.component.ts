@@ -39,10 +39,10 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
   chartOptions: EChartsOption = {
     yAxis: {
       type: 'category',
-      data: [0, 10, 100, 1000, 10_000],
+      data: [0, 10, 100, '1k', '10k'],
       axisLabel: {
         color: '#646464',
-        lineHeight: -45,
+        lineHeight: -25,
         verticalAlign: 'bottom',
       },
       axisLine: {
@@ -59,10 +59,6 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
       data: [],
       splitLine: {
         show: true,
-        interval: 'auto',
-        lineStyle: {
-          color: 'white',
-        },
       },
       axisLabel: {
         color: '#646464',
