@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialModule } from '../../../shared/material.module';
 import { MMLocales } from '../../services/locale/locale.enum';

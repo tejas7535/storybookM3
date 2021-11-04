@@ -11,7 +11,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { AppShellModule } from '@schaeffler/app-shell';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';

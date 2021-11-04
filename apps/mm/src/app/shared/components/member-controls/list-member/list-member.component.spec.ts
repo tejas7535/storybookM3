@@ -21,7 +21,7 @@ import {
   PictureCardActionComponent,
   PictureCardComponent,
 } from '@schaeffler/picture-card';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MagneticSliderComponent } from '../../magnetic-slider/magnetic-slider.component';
 import { MemberTypes } from './../../../constants/dialog-constant';
