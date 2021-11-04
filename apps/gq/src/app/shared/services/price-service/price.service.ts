@@ -105,6 +105,13 @@ export class PriceService {
 
     return PriceService.roundToTwoDecimals(newPrice);
   }
+
+  static getManualPriceByMarginAndCost(cost: number, margin: number): number {
+    const newPrice = cost / (-margin / 100 + 1);
+
+    return PriceService.roundToTwoDecimals(newPrice);
+  }
+
   /**
    * https://confluence.schaeffler.com/display/PARS/Implementation+Prices
    * @param details

@@ -1,10 +1,5 @@
-import { EditDiscountComponent } from '../../../shared/cell-renderer/discount/edit-discount/edit-discount.component';
-import { EditingDiscountComponent } from '../../../shared/cell-renderer/discount/editing-discount/editing-discount.component';
-import { EditCommentComponent } from '../../../shared/cell-renderer/edit-comment/edit-comment.component';
-import { EditPriceComponent } from '../../../shared/cell-renderer/edit-price/edit-price.component';
-import { EditQuantityComponent } from '../../../shared/cell-renderer/edit-quantity/edit-quantity.component';
-import { EditingPriceComponent } from '../../../shared/cell-renderer/editing-price/editing-price.component';
-import { EditingQuantityComponent } from '../../../shared/cell-renderer/editing-quantity/editing-quantity.component';
+import { EditCellComponent } from '../../../shared/cell-renderer/edit-cells/edit-cell/edit-cell.component';
+import { EditCommentComponent } from '../../../shared/cell-renderer/edit-cells/edit-comment/edit-comment.component';
 import { GqRatingComponent } from '../../../shared/cell-renderer/gq-rating/gq-rating.component';
 import { PositionIdComponent } from '../../../shared/cell-renderer/position-id/position-id.component';
 import { AddItemsButtonComponent } from '../../../shared/custom-status-bar/add-items-button/add-items-button.component';
@@ -20,14 +15,9 @@ export const FRAMEWORK_COMPONENTS = {
   deleteItemsButtonComponent: DeleteItemsButtonComponent,
   addItemsButtonComponent: AddItemsButtonComponent,
   gqRatingComponent: GqRatingComponent,
-  editPriceComponent: EditPriceComponent,
-  editingPriceComponent: EditingPriceComponent,
-  editQuantityComponent: EditQuantityComponent,
-  editingQuantityComponent: EditingQuantityComponent,
   uploadSelectionToSapButtonComponent: UploadSelectionToSapButtonComponent,
   exportToExcelButtonComponent: ExportToExcelButtonComponent,
   positionIdComponent: PositionIdComponent,
   editCommentComponent: EditCommentComponent,
-  editDiscountComponent: EditDiscountComponent,
-  editingDiscountComponent: EditingDiscountComponent,
+  EditCellComponent,
 };

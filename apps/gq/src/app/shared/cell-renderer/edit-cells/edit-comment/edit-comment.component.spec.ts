@@ -4,11 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
-
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
-import { EditingCommentModalComponent } from '../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
-import { EditCommentComponent } from './edit-comment.component';
 import { provideMockStore } from '@ngrx/store/testing';
+
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { EditingCommentModalComponent } from '../../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
+import { EditCommentComponent } from './edit-comment.component';
 
 describe('EditCommentComponent', () => {
   let component: EditCommentComponent;

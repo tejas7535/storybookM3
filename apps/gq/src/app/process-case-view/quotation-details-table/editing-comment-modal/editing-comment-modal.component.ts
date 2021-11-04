@@ -18,6 +18,7 @@ import { QuotationDetail } from '../../../shared/models/quotation-detail';
 @Component({
   selector: 'gq-editing-comment-modal',
   templateUrl: './editing-comment-modal.component.html',
+  styleUrls: ['./editing-comment-modal.component.scss'],
 })
 export class EditingCommentModalComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();

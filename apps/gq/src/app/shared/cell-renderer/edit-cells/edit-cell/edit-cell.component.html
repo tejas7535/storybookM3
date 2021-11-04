@@ -1,9 +1,9 @@
-<div *ngIf="value">
+<div *ngIf="params?.valueFormatted">
   <span class="float-left w-[100px] truncate">
-    {{ value }}
+    {{ params.valueFormatted }}
   </span>
   <mat-icon
-    *ngIf="sapGrossPrice"
+    *ngIf="!params.condition.enabled || conditionMet"
     class="cursor-pointer !text-[16px]"
     (click)="onIconClick()"
     >mode_edit</mat-icon

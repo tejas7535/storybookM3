@@ -8,16 +8,19 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
+import { EditingModalComponent } from '../../../../shared/components/editing-modal/editing-modal.component';
 import {
   PriceSource,
   QuotationDetail,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
+import { ColumnFields } from '../../../../shared/services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 
@@ -53,7 +56,10 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
 
   @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
-  constructor(private readonly translocoService: TranslocoService) {
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly dialog: MatDialog
+  ) {
     this.title$ = this.translocoService.selectTranslate(
       'filterPricing.manualPrice.title',
       {},
@@ -113,6 +119,18 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
       this.manualPriceFormControl.value,
       this.quotationDetail.sqv
     );
+  }
+
+  openMarginEditing(gpi: boolean): void {
+    this.dialog.open(EditingModalComponent, {
+      width: '50%',
+      height: '200px',
+      data: {
+        quotationDetail: this.quotationDetail,
+        field: gpi ? ColumnFields.GPI : ColumnFields.GPM,
+      },
+      disableClose: true,
+    });
   }
 
   openEditing(): void {

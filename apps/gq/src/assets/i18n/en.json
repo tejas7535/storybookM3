@@ -218,6 +218,16 @@
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"
+    },
+    "editingModal": {
+      "title": "Edit {{fieldName}} for Item {{id}}",
+      "gpm": "GPM %",
+      "gpi": "GPI %",
+      "discount": "discount %",
+      "price": "price",
+      "orderQuantity": "quantity",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
     }
   }
 }

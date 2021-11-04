@@ -218,6 +218,16 @@
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
+    },
+    "editingModal": {
+      "title": "{{fieldName}} bearbeiten für Position {{id}}",
+      "gpm": "GPM % (SAW)",
+      "gpi": "GPI % (KHK)",
+      "discount": "Rabatt %",
+      "price": "Preis",
+      "orderQuantity": "Menge",
+      "confirm": "Bestätigen",
+      "cancel": "Zurück"
     }
   }
 }

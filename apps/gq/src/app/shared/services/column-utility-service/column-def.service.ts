@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { ColDef, ValueSetterParams } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 
-import { updateQuotationDetails } from '../../../core/store';
-import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
-import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
-import { PriceService } from '../price-service/price.service';
+import { EditCellComponent } from '../../cell-renderer/edit-cells/edit-cell/edit-cell.component';
+import { EditCellData } from '../../cell-renderer/models/edit-cell-class-params.model';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
@@ -40,35 +36,21 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.orderQuantity'),
       field: ColumnFields.ORDER_QUANTITY,
       valueFormatter: ColumnUtilityService.numberFormatter,
-      cellRenderer: 'editQuantityComponent',
-      editable: true,
-      cellEditor: 'editingQuantityComponent',
-      valueSetter: (params: ValueSetterParams) => {
-        if (params.newValue) {
-          this.selectNewQuantity(params.newValue, params.data.gqPositionId);
-        }
-
-        return true;
-      },
+      cellRenderer: EditCellComponent.name,
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.ORDER_QUANTITY,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.price'),
       field: ColumnFields.PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
-      cellRenderer: 'editPriceComponent',
-      editable: true,
-      cellEditor: 'editingPriceComponent',
-      valueSetter: (params: ValueSetterParams) => {
-        if (params.newValue) {
-          this.selectManualPrice(
-            Number.parseFloat(params.newValue),
-            params.data.gqPositionId,
-            params.data.material.priceUnit
-          );
-        }
-
-        return true;
-      },
+      cellRenderer: EditCellComponent.name,
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.PRICE,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
@@ -104,26 +86,11 @@ export class ColumnDefService {
       field: ColumnFields.DISCOUNT,
       valueFormatter: ColumnUtilityService.percentageFormatter,
       editable: true,
-      cellRenderer: 'editDiscountComponent',
-      cellEditor: 'editingDiscountComponent',
-      valueSetter: (params: ValueSetterParams) => {
-        const detail: QuotationDetail = params.data;
-        if (params.newValue && detail.sapGrossPrice) {
-          const manualPrice = PriceService.getManualPriceByDiscount(
-            detail.sapGrossPrice,
-            Number.parseFloat(params.newValue)
-          );
-          if (manualPrice) {
-            this.selectManualPrice(
-              manualPrice,
-              params.data.gqPositionId,
-              params.data.material.priceUnit
-            );
-          }
-        }
-
-        return true;
-      },
+      cellRenderer: EditCellComponent.name,
+      cellRendererParams: {
+        condition: { enabled: true, conditionField: 'sapGrossPrice' },
+        field: ColumnFields.DISCOUNT,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),
@@ -144,11 +111,21 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpi'),
       field: ColumnFields.GPI,
       valueFormatter: ColumnUtilityService.percentageFormatter,
+      cellRenderer: EditCellComponent.name,
+      cellRendererParams: {
+        condition: { enabled: true, conditionField: ColumnFields.GPC },
+        field: ColumnFields.GPI,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpm'),
       field: ColumnFields.GPM,
       valueFormatter: ColumnUtilityService.percentageFormatter,
+      cellRenderer: EditCellComponent.name,
+      cellRendererParams: {
+        condition: { enabled: true, conditionField: ColumnFields.SQV },
+        field: ColumnFields.GPM,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rlm'),
@@ -258,42 +235,4 @@ export class ColumnDefService {
       cellRenderer: 'editCommentComponent',
     },
   ];
-
-  constructor(
-    private readonly store: Store,
-    private readonly snackBar: MatSnackBar
-  ) {}
-
-  public selectManualPrice(
-    newPrice: number,
-    gqPositionId: string,
-    priceUnit: number
-  ): void {
-    if (newPrice === 0) {
-      this.snackBar.open(
-        translate('shared.snackBarMessages.priceShouldBeHigherThanZero')
-      );
-
-      return;
-    }
-    const price = newPrice / priceUnit;
-
-    const updateQuotationDetailList: UpdateQuotationDetail[] = [
-      {
-        price,
-        gqPositionId,
-        priceSource: PriceSource.MANUAL,
-      },
-    ];
-    this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
-  }
-  public selectNewQuantity(orderQuantity: number, gqPositionId: string): void {
-    const updateQuotationDetailList: UpdateQuotationDetail[] = [
-      {
-        orderQuantity,
-        gqPositionId,
-      },
-    ];
-    this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
-  }
 }

@@ -12,6 +12,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
+import { EditingModalComponent } from '../../shared/components/editing-modal/editing-modal.component';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { DialogHeaderModule } from '../../shared/header/dialog-header/dialog-header.module';
@@ -19,7 +20,11 @@ import { EditingCommentModalComponent } from './editing-comment-modal/editing-co
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 @NgModule({
-  declarations: [QuotationDetailsTableComponent, EditingCommentModalComponent],
+  declarations: [
+    QuotationDetailsTableComponent,
+    EditingCommentModalComponent,
+    EditingModalComponent,
+  ],
   imports: [
     SharedModule,
     AgGridModule.withComponents([QuotationDetailsStatusComponent]),

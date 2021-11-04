@@ -1,23 +1,31 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  Spectator,
+  SpyObject,
+} from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { EditingModalComponent } from '../../../../shared/components/editing-modal/editing-modal.component';
 import {
   PriceSource,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
+import { ColumnFields } from '../../../../shared/services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
@@ -26,6 +34,7 @@ import { ManualPriceComponent } from './manual-price.component';
 describe('ManualPriceComponent', () => {
   let component: ManualPriceComponent;
   let spectator: Spectator<ManualPriceComponent>;
+  let matDialogSpyObject: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
     component: ManualPriceComponent,
@@ -40,6 +49,7 @@ describe('ManualPriceComponent', () => {
       ReactiveComponentModule,
       ReactiveFormsModule,
       SharedPipesModule,
+      MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -47,11 +57,13 @@ describe('ManualPriceComponent', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [QuantityDisplayComponent, FilterPricingCardComponent],
+    mocks: [MatDialog],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    matDialogSpyObject = spectator.inject(MatDialog);
   });
 
   test('should create', () => {
@@ -230,6 +242,43 @@ describe('ManualPriceComponent', () => {
       component.openEditing();
 
       expect(component.editMode).toBeTruthy();
+    });
+  });
+
+  describe('openMarginEditing', () => {
+    test('should open editing modal for gpi', () => {
+      component['quotationDetail'] = QUOTATION_DETAIL_MOCK;
+      component.openMarginEditing(true);
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        EditingModalComponent,
+        {
+          data: {
+            quotationDetail: QUOTATION_DETAIL_MOCK,
+            field: ColumnFields.GPI,
+          },
+          disableClose: true,
+          width: '50%',
+          height: '200px',
+        }
+      );
+    });
+    test('should open editing modal for gpm', () => {
+      component['quotationDetail'] = QUOTATION_DETAIL_MOCK;
+      component.openMarginEditing(false);
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        EditingModalComponent,
+        {
+          data: {
+            quotationDetail: QUOTATION_DETAIL_MOCK,
+            field: ColumnFields.GPM,
+          },
+          disableClose: true,
+          width: '50%',
+          height: '200px',
+        }
+      );
     });
   });
 });

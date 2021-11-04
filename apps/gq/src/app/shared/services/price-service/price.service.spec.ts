@@ -121,7 +121,13 @@ describe('PriceService', () => {
       expect(manualPrice).toEqual(80);
     });
   });
+  describe('getManualPriceByMarginAndCost', () => {
+    test('should return manualPrice', () => {
+      const manualPrice = PriceService.getManualPriceByMarginAndCost(100, 20);
 
+      expect(manualPrice).toEqual(125);
+    });
+  });
   describe('calculateStatusBarValues should', () => {
     test('return calculatedValues', () => {
       const details = [QUOTATION_DETAIL_MOCK];

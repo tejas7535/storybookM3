@@ -9,17 +9,12 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { CreateCaseActionCellComponent } from './action-cells/create-case-action-cell/create-case-action-cell.component';
 import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
-import { EditCommentComponent } from './edit-comment/edit-comment.component';
-import { EditPriceComponent } from './edit-price/edit-price.component';
-import { EditQuantityComponent } from './edit-quantity/edit-quantity.component';
-import { EditingPriceComponent } from './editing-price/editing-price.component';
-import { EditingQuantityComponent } from './editing-quantity/editing-quantity.component';
+import { EditCellComponent } from './edit-cells/edit-cell/edit-cell.component';
+import { EditCommentComponent } from './edit-cells/edit-comment/edit-comment.component';
 import { GqIdComponent } from './gq-id/gq-id.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
 import { PositionIdComponent } from './position-id/position-id.component';
-import { EditDiscountComponent } from './discount/edit-discount/edit-discount.component';
-import { EditingDiscountComponent } from './discount/editing-discount/editing-discount.component';
 
 @NgModule({
   declarations: [
@@ -27,15 +22,10 @@ import { EditingDiscountComponent } from './discount/editing-discount/editing-di
     CreateCaseActionCellComponent,
     InfoCellComponent,
     GqRatingComponent,
-    EditPriceComponent,
-    EditingPriceComponent,
-    EditQuantityComponent,
-    EditingQuantityComponent,
     PositionIdComponent,
     GqIdComponent,
     EditCommentComponent,
-    EditDiscountComponent,
-    EditingDiscountComponent,
+    EditCellComponent,
   ],
   imports: [
     CommonModule,
@@ -50,10 +40,6 @@ import { EditingDiscountComponent } from './discount/editing-discount/editing-di
     CreateCaseActionCellComponent,
     InfoCellComponent,
     GqRatingComponent,
-    EditPriceComponent,
-    EditingPriceComponent,
-    EditQuantityComponent,
-    EditingQuantityComponent,
     PositionIdComponent,
     GqIdComponent,
     EditCommentComponent,

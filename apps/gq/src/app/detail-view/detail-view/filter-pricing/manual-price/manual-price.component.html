@@ -24,13 +24,12 @@
         <div class="flex-1" *ngIf="!editMode; else editing">
           <span class="font-bold">{{ price | numberCurrency: currency }}</span>
           <span *ngIf="!price" class="font-bold"> {{ currency }}</span>
-          <span
+          <mat-icon
             *ngIf="userHasManualPriceRole"
-            class="ml-1 text-body-1 cursor-pointer"
+            class="ml-1 !text-body-1 cursor-pointer"
             (click)="openEditing()"
+            >mode_edit</mat-icon
           >
-            <mat-icon class="!text-[16px]">mode_edit</mat-icon>
-          </span>
         </div>
         <ng-template #editing>
           <div class="flex-1" class="small-input">
@@ -56,12 +55,22 @@
       <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
+        <mat-icon
+          class="ml-1 !text-body-1 cursor-pointer"
+          (click)="openMarginEditing(true)"
+          >mode_edit</mat-icon
+        >
       </div>
     </div>
     <div class="flex-1" *ngIf="userHasSQVRole">
       <div class="mb-1 text-body-1">{{ t('gpm') }}:</div>
       <div>
         <span class="font-bold">{{ gpm || '-' }} %</span>
+        <mat-icon
+          class="ml-1 !text-body-1 cursor-pointer"
+          (click)="openMarginEditing(false)"
+          >mode_edit</mat-icon
+        >
       </div>
     </div>
     <div class="flex-1">

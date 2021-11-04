@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { CellClassParams } from '@ag-grid-community/all-modules';
 
-import { EditingCommentModalComponent } from '../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
-import { QuotationDetail } from '../../models/quotation-detail';
+import { EditingCommentModalComponent } from '../../../../process-case-view/quotation-details-table/editing-comment-modal/editing-comment-modal.component';
+import { QuotationDetail } from '../../../models/quotation-detail';
 
 @Component({
   selector: 'gq-edit-comment',
