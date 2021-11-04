@@ -25,7 +25,7 @@ export const config: EChartsOption = {
     startAngle: -90,
     data: Array.from({ length: 123 }).map((_v, i) => String(i + 1)),
     min: 1,
-    clockwise: true,
+    clockwise: false,
     splitLine: {
       show: false,
     },
