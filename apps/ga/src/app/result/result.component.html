@@ -7,11 +7,16 @@
   >
   </schaeffler-subheader>
   <schaeffler-report
+    [jsonReport]="jsonReportUrl"
+    [type]="reportType"
+  ></schaeffler-report>
+  <!-- Todo: Revert when feature done -->
+  <!-- <schaeffler-report
     *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner"
     [htmlReport]="reportUrls.htmlReportUrl"
     [reportSelector]="reportSelector"
-  >
-    <!-- <div class="flex flex-col md:flex-row">
+  > -->
+  <!-- <div class="flex flex-col md:flex-row">
       <a
         mat-raised-button
         color="primary"
@@ -21,7 +26,7 @@
         {{ t('downloadReport') }}
       </a>
     </div> -->
-  </schaeffler-report>
+  <!-- </schaeffler-report> -->
   <ng-template #loading_spinner>
     <schaeffler-loading-spinner></schaeffler-loading-spinner>
   </ng-template>

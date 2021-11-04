@@ -1,0 +1,3 @@
+export enum Title {
+  STRING_OUTP_RESULTS = 'STRING_OUTP_RESULTS',
+}

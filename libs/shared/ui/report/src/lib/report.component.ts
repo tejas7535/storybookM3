@@ -11,6 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
+import { Title, Type } from './models';
 import { Subordinate } from './models/subordinate.model';
 import { TableItem } from './models/table-item.model';
 import { ReportService } from './report.service';
@@ -32,6 +33,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   @Input() public errorMsg =
     'Unfortunately an error occured. Please try again later.';
   @Input() public actionText = 'Retry';
+  @Input() public type = Type.GENERIC;
 
   public htmlResult$ = new ReplaySubject<string>();
   public jsonResult$ = new ReplaySubject<Subordinate[]>();
@@ -76,7 +78,10 @@ export class ReportComponent implements OnInit, OnDestroy {
       .getJsonReport(this.jsonReport as string)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (result: Subordinate[]) => this.jsonResult$.next(result),
+        next: (result: Subordinate[]) =>
+          this.type === Type.GREASE
+            ? this.jsonResult$.next(this.formatGreaseReport(result))
+            : this.jsonResult$.next(result),
         error: () => {
           this.snackbarService
             .showErrorMessage(this.errorMsg, this.actionText, true)
@@ -92,5 +97,18 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   public getHeaders(fields: string[]): string[] {
     return fields.map((field: string, index: number) => `${field}${index}`);
+  }
+
+  public formatGreaseReport(result: Subordinate[]): Subordinate[] {
+    console.log(result);
+    const formattedResult = result.map((section: Subordinate) =>
+      section.titleID === Title.STRING_OUTP_RESULTS
+        ? { ...section, defaultOpen: true }
+        : section
+    );
+
+    console.log(formattedResult);
+
+    return formattedResult;
   }
 }

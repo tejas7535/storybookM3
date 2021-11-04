@@ -5,6 +5,8 @@ import { debounceTime, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { Type } from '@schaeffler/report';
+
 import { AppRoutePath } from '../app-route-path.enum';
 import { getReportUrls } from '../core/store/selectors/result/result.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
@@ -17,6 +19,8 @@ import { ReportUrls } from '../shared/models';
 export class ResultComponent implements OnInit {
   public reportUrls$: Observable<ReportUrls>;
   public reportSelector = '.content';
+  public jsonReportUrl = 'assets/mocks/grease-report.json';
+  public reportType = Type.GREASE;
 
   constructor(private readonly store: Store, private readonly router: Router) {}
 
