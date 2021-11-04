@@ -6,17 +6,29 @@
     (backButtonClicked)="navigateBack()"
   >
   </schaeffler-subheader>
+  <div class="py-4">
+    <mat-slide-toggle
+      color="primary"
+      labelPosition="before"
+      [(ngModel)]="showCompactView"
+    >
+      <span class="text-body-1 text-mediumEmphasis">
+        {{ t('showCompactView') }}
+      </span>
+    </mat-slide-toggle>
+  </div>
   <schaeffler-report
+    *ngIf="showCompactView"
     [jsonReport]="jsonReportUrl"
     [type]="reportType"
   ></schaeffler-report>
-  <!-- Todo: Revert when feature done -->
-  <!-- <schaeffler-report
-    *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner"
-    [htmlReport]="reportUrls.htmlReportUrl"
-    [reportSelector]="reportSelector"
-  > -->
-  <!-- <div class="flex flex-col md:flex-row">
+  <ng-container *ngIf="!showCompactView">
+    <schaeffler-report
+      *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner"
+      [htmlReport]="reportUrls.htmlReportUrl"
+      [reportSelector]="reportSelector"
+    >
+      <!-- <div class="flex flex-col md:flex-row">
       <a
         mat-raised-button
         color="primary"
@@ -26,7 +38,8 @@
         {{ t('downloadReport') }}
       </a>
     </div> -->
-  <!-- </schaeffler-report> -->
+    </schaeffler-report>
+  </ng-container>
   <ng-template #loading_spinner>
     <schaeffler-loading-spinner></schaeffler-loading-spinner>
   </ng-template>

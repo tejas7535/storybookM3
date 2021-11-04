@@ -66,7 +66,8 @@
     }
   },
   "report": {
-    "title": "Ergebnisse"
+    "title": "Ergebnisse",
+    "showCompactView": "Anzeige mit kompakte Darstellung (Vorschau)"
   },
   "settings": {
     "stepper": {

@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -24,6 +26,7 @@ import { ResultComponent } from './result.component';
     ResultRoutingModule,
     SharedModule,
     ReactiveComponentModule,
+    FormsModule,
 
     // UI Modules
     SubheaderModule,
@@ -32,6 +35,7 @@ import { ResultComponent } from './result.component';
     LoadingSpinnerModule,
 
     // Material Modules
+    MatSlideToggleModule,
 
     // Translation
     SharedTranslocoModule,

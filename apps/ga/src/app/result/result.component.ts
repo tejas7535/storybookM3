@@ -21,6 +21,7 @@ export class ResultComponent implements OnInit {
   public reportSelector = '.content';
   public jsonReportUrl = 'assets/mocks/grease-report.json';
   public reportType = Type.GREASE;
+  public showCompactView = true;
 
   constructor(private readonly store: Store, private readonly router: Router) {}
 
