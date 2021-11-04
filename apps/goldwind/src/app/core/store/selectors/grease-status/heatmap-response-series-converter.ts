@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { HeatmapSeriesOption } from 'echarts';
 import { GaugeColors } from '../../../../shared/chart/chart';
 import {
@@ -90,7 +91,9 @@ export class HeatmapResponseConvert {
           </div>
             </div>
             <div class="grid grid-cols-3">
-            <div> Time:</div><div class="col-span-2"> ${item.timestamp} </div>
+            <div> Time:</div><div class="col-span-2"> ${this.formatDate(
+              item.timestamp
+            )} </div>
             </div>
 
           </div>
@@ -116,6 +119,14 @@ export class HeatmapResponseConvert {
         ],
       });
     });
+  }
+  /**
+   * formates date to "YYYY-MM-DD"
+   * @param date
+   * @returns
+   */
+  private formatDate(date: string): string {
+    return format(new Date(date), 'yyyy-MM-dd');
   }
   /**
    * Get the hightest Level in numberic form of all classifications of one entry

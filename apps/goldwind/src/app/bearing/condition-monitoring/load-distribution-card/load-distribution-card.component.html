@@ -15,6 +15,12 @@
           </div>
         </mat-card-title>
         <mat-card-subtitle>
+          <div id="interval" *ngIf="this.average">
+            <span *ngrxLet="this.interval$ as interval">
+              {{ interval.startDate * 1000 | date: 'EE, MMM d, y, h:mm:ss a' }}
+              - {{ interval.endDate * 1000 | date: 'EE, MMM d, y, h:mm:ss a' }}
+            </span>
+          </div>
           <ng-container *ngIf="!this.average">
             <div class="flex flex-col">
               <span>

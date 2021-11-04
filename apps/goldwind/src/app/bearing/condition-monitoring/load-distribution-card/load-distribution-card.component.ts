@@ -11,6 +11,7 @@ import {
   getLoadDistributionTimeStamp,
 } from '../../../core/store/selectors/load-distribution/load-distribution.selector';
 import {
+  getLoadAssessmentInterval,
   getLoadAverage,
   getLoadDistributionLatest,
   stopLoadDistributionGet,
@@ -51,6 +52,10 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
    * Indicator for current loading situation
    */
   loading$: Observable<boolean>;
+  /**
+   * Used to display the selected interval on the component if accessible
+   */
+  interval$: Observable<any>;
 
   /**
    *
@@ -91,5 +96,6 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
     });
     this.polarSeries$ = this.store.select(getLoadDistributionSeries);
     this.timeStamp$ = this.store.select(getLoadDistributionTimeStamp);
+    this.interval$ = this.store.select(getLoadAssessmentInterval);
   }
 }

@@ -13,12 +13,16 @@ export const config: EChartsOption = {
         ? getBearingAndLSPFormat(d)
         : getBearingOnlyFormat(d),
   },
-  polar: {},
+  polar: {
+    radius: '60%',
+    center: ['50%', '40%'],
+  },
   yAxis: {
     show: false,
   },
   angleAxis: {
     type: 'category',
+    startAngle: -90,
     data: Array.from({ length: 123 }).map((_v, i) => String(i + 1)),
     min: 1,
     clockwise: true,
@@ -26,6 +30,14 @@ export const config: EChartsOption = {
       show: false,
     },
   },
+  legend: {
+    show: true,
+    bottom: 0,
+  },
+  grid: {
+    bottom: 0,
+  },
+
   radiusAxis: {
     type: 'value',
   },
