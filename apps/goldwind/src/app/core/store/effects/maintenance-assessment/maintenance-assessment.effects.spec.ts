@@ -159,8 +159,8 @@ describe('MaintenanceAssessmentEffects', () => {
         expect(restService.getShaft).toHaveBeenCalledTimes(1);
         expect(restService.getShaft).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
         });
       })
     );
@@ -217,8 +217,8 @@ describe('MaintenanceAssessmentEffects', () => {
         expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
         expect(restService.getGreaseStatus).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
         });
       })
     );

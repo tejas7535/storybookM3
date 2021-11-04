@@ -76,7 +76,7 @@ export class HeatmapStatusEffects {
         this.restService
           .getGreaseHeatMap({
             deviceId,
-            startDate: interval.startDate,
+            start: interval.startDate,
           })
           .pipe(
             map((gcmheatmap) => A2.getGreaseHeatMapSuccess({ gcmheatmap })),

@@ -84,7 +84,8 @@ export class EdmMonitorEffects {
       withLatestFrom(this.store.select(getEdmInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
-        ...interval,
+        start: interval.startDate,
+        end: interval.endDate,
       })),
       mergeMap((edmParams) =>
         this.restService.getEdm(edmParams).pipe(
@@ -105,7 +106,8 @@ export class EdmMonitorEffects {
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
         channel: action.channel,
-        ...interval,
+        start: interval.startDate,
+        end: interval.endDate,
       })),
       mergeMap((edmParams) =>
         this.restService.getEdmHistogram(edmParams, edmParams.channel).pipe(

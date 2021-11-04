@@ -76,7 +76,8 @@ export class DataViewEffects {
       withLatestFrom(this.store.select(getDataInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
-        ...interval,
+        start: interval.startDate,
+        end: interval.endDate,
       })),
       mergeMap((dataPrams) =>
         this.restService.getData(dataPrams).pipe(

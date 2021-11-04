@@ -14,8 +14,8 @@ describe('Effect Utils', () => {
         0
       );
 
-      expect(expectReturn.startDate).toBe(startDate);
-      expect(expectReturn.endDate).toBe(endDate);
+      expect(expectReturn.start).toBe(startDate);
+      expect(expectReturn.end).toBe(endDate);
       expect(expectReturn.id).toBe(deviceId);
     });
   });

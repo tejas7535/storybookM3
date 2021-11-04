@@ -196,8 +196,8 @@ describe('LoadAssessmentEffects', () => {
         expect(restService.getBearingLoad).toHaveBeenCalledTimes(1);
         expect(restService.getBearingLoad).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
         });
       })
     );
@@ -246,8 +246,8 @@ describe('LoadAssessmentEffects', () => {
         expect(restService.getBearingLoadAverage).toHaveBeenCalledTimes(1);
         expect(restService.getBearingLoadAverage).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
         });
       })
     );

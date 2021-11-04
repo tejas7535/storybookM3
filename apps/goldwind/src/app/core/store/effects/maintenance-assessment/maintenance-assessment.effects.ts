@@ -72,7 +72,8 @@ export class MaintenanceAssessmentEffects {
       withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
-        ...interval,
+        start: interval.startDate,
+        end: interval.endDate,
       })),
       mergeMap((greaseParams) =>
         this.restService.getGreaseStatus(greaseParams).pipe(
@@ -89,7 +90,8 @@ export class MaintenanceAssessmentEffects {
       withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
-        ...interval,
+        start: interval.startDate,
+        end: interval.endDate,
       })),
       mergeMap((edmParams) =>
         this.restService.getEdm(edmParams).pipe(

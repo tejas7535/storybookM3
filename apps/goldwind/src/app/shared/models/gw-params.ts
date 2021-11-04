@@ -1,6 +1,6 @@
 export interface GWParams {
-  endDate: number;
-  startDate: number;
+  start: number;
+  end: number;
   aggregation?: IAGGREGATIONTYPE;
   timebucketSeconds?: number;
 }

@@ -1,16 +1,20 @@
+import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService } from '@schaeffler/http';
+import { environment } from '../../../environments/environment';
 import { IAGGREGATIONTYPE } from '../../shared/models';
 
 import { IotParams, RestService } from './rest.service';
 
 describe('Rest Service', () => {
   let service: RestService;
+  let httpClient: HttpClient;
   let spectator: SpectatorService<RestService>;
-  let dataService: DataService;
+  const apiUrl = environment.baseUrl;
 
   const createService = createServiceFactory({
     service: RestService,
@@ -18,34 +22,22 @@ describe('Rest Service', () => {
     providers: [
       RestService,
       {
-        provide: DataService,
+        provide: HttpClient,
         useValue: {
-          getAll: jest.fn(),
+          get: jest.fn(),
         },
       },
     ],
   });
 
   beforeEach(() => {
+    httpClient = TestBed.inject(HttpClient);
     spectator = createService();
     service = spectator.service;
-    dataService = spectator.inject(DataService);
   });
 
   afterEach(() => {
     jest.clearAllMocks();
-  });
-
-  describe('getIot', () => {
-    it('should call DataService getAll method for given path', () => {
-      const mockPath = 'many/paths/should/be/handled';
-
-      service.getIot(mockPath);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockPath}`,
-        undefined
-      );
-    });
   });
 
   describe('getBearing', () => {
@@ -53,9 +45,8 @@ describe('Rest Service', () => {
       const mockBearingId = '123';
 
       service.getBearing(mockBearingId);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockBearingId}`,
-        undefined
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockBearingId}`
       );
     });
   });
@@ -64,19 +55,19 @@ describe('Rest Service', () => {
     it('should call DataService getAll with all edm params', () => {
       const mockEdmDevice = {
         id: 'ich1-bin2-top3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
 
       service.getEdm(mockEdmDevice);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockEdmDevice.id}/sensors/electric-discharge/telemetry`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockEdmDevice.id}/sensors/electric-discharge/telemetry`,
         {
           params: {
-            start: mockEdmDevice.startDate.toString(),
-            end: mockEdmDevice.endDate.toString(),
+            start: mockEdmDevice.start,
+            end: mockEdmDevice.end,
             aggregation: IAGGREGATIONTYPE.AVG,
-            timebucketSeconds: '-1',
+            timebucketSeconds: -1,
           },
         }
       );
@@ -86,18 +77,18 @@ describe('Rest Service', () => {
     it('should call DataService getAll with all edm histogram params', () => {
       const mockEdmDevice = {
         id: 'windpark_device_1',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
 
       service.getEdmHistogram(mockEdmDevice, 'edm-1');
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockEdmDevice.id}/analytics/histogram`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockEdmDevice.id}/analytics/histogram`,
         {
           params: {
             channel: 'edm-1',
-            start: mockEdmDevice.startDate.toString(),
-            end: mockEdmDevice.endDate.toString(),
+            start: mockEdmDevice.start,
+            end: mockEdmDevice.end,
           },
         }
       );
@@ -108,21 +99,21 @@ describe('Rest Service', () => {
     it('should call DataService getAll with all edm histogram params', () => {
       const req_params = {
         deviceId: 'windpark_device_1',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
-      const expectedStart = new Date(req_params.startDate * 1000).getFullYear();
+      const expectedStart = new Date(req_params.start * 1000).getFullYear();
       const expectedyearStart = Date.parse(`${expectedStart}-01-01`) / 1000;
       const expectedyearEnd = Date.parse(`${expectedStart}-12-31`) / 1000;
 
       service.getGreaseHeatMap(req_params);
 
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${req_params.deviceId}/analytics/heatmap`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${req_params.deviceId}/analytics/heatmap`,
         {
           params: {
-            start: expectedyearStart.toString(),
-            end: expectedyearEnd.toString(),
+            start: String(expectedyearStart),
+            end: String(expectedyearEnd),
           },
         }
       );
@@ -133,19 +124,17 @@ describe('Rest Service', () => {
     it('should call dataService getAll with all grease params', () => {
       const mockGreaseDevice = {
         id: 'du1-bist2-flop3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
 
       service.getGreaseStatus(mockGreaseDevice);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockGreaseDevice.id}/sensors/grease-status/telemetry`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockGreaseDevice.id}/sensors/grease-status/telemetry`,
         {
           params: {
-            start: mockGreaseDevice.startDate.toString(),
-            end: mockGreaseDevice.endDate.toString(),
-            aggregation: undefined,
-            timebucketSeconds: undefined,
+            start: mockGreaseDevice.start,
+            end: mockGreaseDevice.end,
           },
         }
       );
@@ -157,9 +146,8 @@ describe('Rest Service', () => {
       const mockShaftDeviceID = '123';
 
       service.getShaftLatest(mockShaftDeviceID);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockShaftDeviceID}/sensors/rotation-speed/telemetry`,
-        undefined
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockShaftDeviceID}/sensors/rotation-speed/telemetry`
       );
     });
   });
@@ -169,9 +157,8 @@ describe('Rest Service', () => {
       const mockBearingId = '123';
 
       service.getGreaseStatusLatest(mockBearingId);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockBearingId}/sensors/grease-status/telemetry`,
-        undefined
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockBearingId}/sensors/grease-status/telemetry`
       );
     });
   });
@@ -179,7 +166,9 @@ describe('Rest Service', () => {
   describe('getDevices', () => {
     it('should call GET for given path', () => {
       service.getDevices();
-      expect(dataService.getAll).toHaveBeenCalledWith(`device/listedgedevices`);
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/device/listedgedevices`
+      );
     });
   });
 
@@ -187,18 +176,18 @@ describe('Rest Service', () => {
     it('should call dataService getLoad', () => {
       const mockLoadSenseParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
 
       service.getBearingLoad(mockLoadSenseParams);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockLoadSenseParams.id}/sensors/bearing-load/telemetry`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockLoadSenseParams.id}/sensors/bearing-load/telemetry`,
         {
           params: {
-            start: mockLoadSenseParams.startDate.toString(),
-            end: mockLoadSenseParams.endDate.toString(),
-            timebucketSeconds: '-1',
+            start: mockLoadSenseParams.start,
+            end: mockLoadSenseParams.end,
+            timebucketSeconds: -1,
             aggregation: IAGGREGATIONTYPE.AVG,
           },
         }
@@ -211,9 +200,8 @@ describe('Rest Service', () => {
       const deviceId = 'du1-bist2-flop3';
 
       service.getBearingLoadLatest(deviceId);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/sensors/bearing-load/telemetry`,
-        undefined
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${deviceId}/sensors/bearing-load/telemetry`
       );
     });
   });
@@ -221,23 +209,23 @@ describe('Rest Service', () => {
   describe('getBearingLoadAverage', () => {
     it('should call dataService', () => {
       const deviceId = 'du1-bist2-flop3';
-      const startDate = 610_952_400;
-      const endDate = 610_952_401;
+      const start = 610_952_400;
+      const end = 610_952_401;
 
       const iotParams: IotParams = {
         id: deviceId,
-        startDate,
-        endDate,
+        start,
+        end,
       };
 
       service.getBearingLoadAverage(iotParams);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/sensors/bearing-load/telemetry`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${deviceId}/sensors/bearing-load/telemetry`,
         {
           params: {
-            start: startDate.toString(),
-            end: endDate.toString(),
-            timebucketSeconds: '-1',
+            start,
+            end,
+            timebucketSeconds: -1,
             aggregation: IAGGREGATIONTYPE.AVG,
           },
         }
@@ -249,8 +237,8 @@ describe('Rest Service', () => {
     it('should call GET for given path', () => {
       const mockDataParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
       const mockData = [
         {
@@ -273,17 +261,17 @@ describe('Rest Service', () => {
     it('should call GET for center-load', () => {
       const mockDataParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
       service.getCenterLoad(mockDataParams);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockDataParams.id}/analytics/center-load`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockDataParams.id}/analytics/center-load`,
         {
           params: {
-            start: mockDataParams.startDate.toString(),
-            end: mockDataParams.endDate.toString(),
-            timebucketSeconds: '0',
+            start: mockDataParams.start,
+            end: mockDataParams.end,
+            timebucketSeconds: 0,
             aggregation: IAGGREGATIONTYPE.AVG,
           },
         }
@@ -292,11 +280,10 @@ describe('Rest Service', () => {
   });
 
   describe('getStaticSafety', () => {
-    it('should call GET for center-load', () => {
+    it('should call GET for static safety', () => {
       service.getStaticSafety('FooID');
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/FooID/analytics/static-safety-factor`,
-        undefined
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/FooID/analytics/static-safety-factor`
       );
     });
   });
@@ -305,17 +292,17 @@ describe('Rest Service', () => {
     it('should call GET for shaft', () => {
       const mockDataParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
       };
       service.getShaft(mockDataParams);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockDataParams.id}/sensors/rotation-speed/telemetry`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockDataParams.id}/sensors/rotation-speed/telemetry`,
         {
           params: {
-            start: mockDataParams.startDate.toString(),
-            end: mockDataParams.endDate.toString(),
-            timebucketSeconds: '3600',
+            start: mockDataParams.start,
+            end: mockDataParams.end,
+            timebucketSeconds: 3600,
             aggregation: IAGGREGATIONTYPE.AVG,
           },
         }
@@ -327,8 +314,8 @@ describe('Rest Service', () => {
     it('should call GET for getLoadDistribution', () => {
       const deviceId = 'mockDeviceId';
       service.getLoadDistribution(deviceId, 1);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/analytics/load-distribution`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${deviceId}/analytics/load-distribution`,
         { params: { row: ['1'] } }
       );
     });
@@ -338,19 +325,19 @@ describe('Rest Service', () => {
     it('should call GET for getLoadDistributionAverage', () => {
       const mockDataParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
+        start: 1_599_651_508,
+        end: 1_599_651_509,
         row: 2,
       };
       service.getLoadDistributionAverage(mockDataParams);
-      expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockDataParams.id}/analytics/load-distribution`,
+      expect(httpClient.get).toHaveBeenCalledWith(
+        `${apiUrl}/things/${mockDataParams.id}/analytics/load-distribution`,
         {
           params: {
             aggregation: IAGGREGATIONTYPE.AVG,
-            end: mockDataParams.endDate.toString(),
+            end: mockDataParams.end,
             row: 2,
-            start: mockDataParams.startDate.toString(),
+            start: mockDataParams.start,
           },
         }
       );

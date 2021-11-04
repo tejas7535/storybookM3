@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-
-import { DataService, GetOptions } from '@schaeffler/http';
 
 import { BearingMetadata } from '../store/reducers/bearing/models';
 import { SensorData } from '../store/reducers/data-view/models';
@@ -20,186 +18,202 @@ import {
 } from '../../shared/models';
 import { EdmHistogram } from '../store/reducers/edm-monitor/edm-histogram.reducer';
 import { LoadDistribution } from '../store/selectors/load-distribution/load-distribution.interface';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 export interface IotParams {
   id: string;
-  startDate: number;
-  endDate: number;
+  start: number;
+  end: number;
 }
-
+interface EnvironmentConfig {
+  environment: {
+    baseUrl: string;
+  };
+}
 @Injectable({
   providedIn: 'root',
 })
 export class RestService {
   public apiUrl: string;
 
-  public constructor(private readonly dataService: DataService) {}
-
-  public getIot(path: string, options?: GetOptions): Observable<any> {
-    return this.dataService.getAll(`things/${path}`, options);
+  public constructor(private readonly http: HttpClient) {
+    this.apiUrl = `${environment.baseUrl}`;
   }
 
   public getBearing(id: string): Observable<BearingMetadata> {
-    return this.getIot(`${id}`);
+    return this.http.get<BearingMetadata>(`${this.apiUrl}/things/${id}`);
   }
 
   public getLoadDistribution(
     id: string,
     row: number
   ): Observable<LoadDistribution[]> {
-    return this.getIot(`${id}/analytics/load-distribution`, {
-      params: {
-        row: [row.toString()],
-      },
-    });
-  }
-
-  public getLoadDistributionAverage({ id, startDate, endDate, row }: any) {
-    return this.getIot(
-      `${id}/analytics/load-distribution`,
-      this.getParams(
-        {
-          startDate,
-          endDate,
-          aggregation: IAGGREGATIONTYPE.AVG,
+    return this.http.get<LoadDistribution[]>(
+      `${this.apiUrl}/things/${id}/analytics/load-distribution`,
+      {
+        params: {
+          row: [row.toString()],
         },
-        { row }
-      )
+      }
     );
   }
 
-  public getEdm({
-    id,
-    startDate,
-    endDate,
-  }: IotParams): Observable<EdmStatus[]> {
-    return this.getIot(
-      `${id}/sensors/electric-discharge/telemetry`,
-      this.getParams({
-        startDate,
-        endDate,
-        timebucketSeconds: -1,
-        aggregation: IAGGREGATIONTYPE.AVG,
-      })
+  public getLoadDistributionAverage({ id, start, end, row }: any) {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/things/${id}/analytics/load-distribution`,
+      {
+        params: {
+          start,
+          end,
+          aggregation: IAGGREGATIONTYPE.AVG,
+          row,
+        },
+      }
+    );
+  }
+
+  public getEdm({ id, start, end }: IotParams): Observable<EdmStatus[]> {
+    return this.http.get<EdmStatus[]>(
+      `${this.apiUrl}/things/${id}/sensors/electric-discharge/telemetry`,
+      {
+        params: {
+          start,
+          end,
+          timebucketSeconds: -1,
+          aggregation: IAGGREGATIONTYPE.AVG,
+        },
+      }
     );
   }
 
   public getEdmHistogram(
-    { id, startDate, endDate }: IotParams,
+    { id, start, end }: IotParams,
     channel: string
   ): Observable<EdmHistogram[]> {
-    return this.getIot(
-      `${id}/analytics/histogram`,
-      this.getParams(
-        {
-          startDate,
-          endDate,
+    return this.http.get<EdmHistogram[]>(
+      `${this.apiUrl}/things/${id}/analytics/histogram`,
+      {
+        params: {
+          start,
+          end,
+          channel,
         },
-        { channel }
-      )
+      }
     );
   }
 
   public getGreaseStatus({
     id,
-    startDate,
-    endDate,
+    start,
+    end,
   }: IotParams): Observable<GcmStatus[]> {
-    return this.getIot(
-      `${id}/sensors/grease-status/telemetry`,
-      this.getParams({ startDate, endDate })
+    return this.http.get<GcmStatus[]>(
+      `${this.apiUrl}/things/${id}/sensors/grease-status/telemetry`,
+      {
+        params: {
+          start,
+          end,
+        },
+      }
     );
   }
 
   public getGreaseStatusLatest(id: string): Observable<GcmStatus[]> {
-    return this.getIot(`${id}/sensors/grease-status/telemetry`);
+    return this.http.get<GcmStatus[]>(
+      `${this.apiUrl}/things/${id}/sensors/grease-status/telemetry`
+    );
   }
 
   public getShaftLatest(id: string): Observable<ShaftStatus[]> {
-    return this.getIot(`${id}/sensors/rotation-speed/telemetry`);
+    return this.http.get<ShaftStatus[]>(
+      `${this.apiUrl}/things/${id}/sensors/rotation-speed/telemetry`
+    );
   }
 
-  public getShaft({
-    id,
-    startDate,
-    endDate,
-  }: IotParams): Observable<ShaftStatus[]> {
-    return this.getIot(
-      `${id}/sensors/rotation-speed/telemetry`,
-      this.getParams({
-        startDate,
-        endDate,
-        timebucketSeconds: 3600,
-        aggregation: IAGGREGATIONTYPE.AVG,
-      })
+  public getShaft({ id, start, end }: IotParams): Observable<ShaftStatus[]> {
+    return this.http.get<ShaftStatus[]>(
+      `${this.apiUrl}/things/${id}/sensors/rotation-speed/telemetry`,
+      {
+        params: {
+          start,
+          end,
+          timebucketSeconds: 3600,
+          aggregation: IAGGREGATIONTYPE.AVG,
+        },
+      }
     );
   }
 
   public getDevices(): Observable<Device[]> {
-    return this.dataService.getAll<Device[]>(`device/listedgedevices`);
+    return this.http.get<Device[]>(`${this.apiUrl}/device/listedgedevices`);
   }
 
   public getBearingLoad({
     id,
-    startDate,
-    endDate,
+    start,
+    end,
   }: IotParams): Observable<LoadSense[]> {
-    return this.getIot(
-      `${id}/sensors/bearing-load/telemetry`,
-      this.getParams({
-        startDate,
-        endDate,
-        timebucketSeconds: -1,
-        aggregation: IAGGREGATIONTYPE.AVG,
-      })
+    return this.http.get<LoadSense[]>(
+      `${this.apiUrl}/things/${id}/sensors/bearing-load/telemetry`,
+      {
+        params: {
+          start,
+          end,
+          timebucketSeconds: -1,
+          aggregation: IAGGREGATIONTYPE.AVG,
+        },
+      }
     );
   }
 
   public getBearingLoadLatest(deviceId: string): Observable<LoadSense[]> {
-    return this.getIot(`${deviceId}/sensors/bearing-load/telemetry`);
+    return this.http.get<LoadSense[]>(
+      `${this.apiUrl}/things/${deviceId}/sensors/bearing-load/telemetry`
+    );
   }
 
   public getBearingLoadAverage({
     id: deviceID,
-    startDate,
-    endDate,
+    start,
+    end,
   }: IotParams): Observable<LoadSense[]> {
-    return this.getIot(
-      `${deviceID}/sensors/bearing-load/telemetry`,
-      this.getParams({
-        startDate,
-        endDate,
-        timebucketSeconds: -1,
-        aggregation: IAGGREGATIONTYPE.AVG,
-      })
+    return this.http.get<LoadSense[]>(
+      `${this.apiUrl}/things/${deviceID}/sensors/bearing-load/telemetry`,
+      {
+        params: {
+          start,
+          end,
+          timebucketSeconds: -1,
+          aggregation: IAGGREGATIONTYPE.AVG,
+        },
+      }
     );
   }
 
   public getCenterLoad({
     id,
-    startDate,
-    endDate,
+    start,
+    end,
   }: IotParams): Observable<CenterLoadStatus[]> {
-    return this.getIot(
-      `${id}/analytics/center-load`,
-      this.getParams({
-        startDate,
-        endDate,
-        timebucketSeconds: 0,
-        aggregation: IAGGREGATIONTYPE.AVG,
-      })
+    return this.http.get<CenterLoadStatus[]>(
+      `${this.apiUrl}/things/${id}/analytics/center-load`,
+      {
+        params: {
+          start,
+          end,
+          timebucketSeconds: 0,
+          aggregation: IAGGREGATIONTYPE.AVG,
+        },
+      }
     );
   }
 
-  public getData({
-    id,
-    startDate,
-    endDate,
-  }: IotParams): Observable<SensorData[]> {
+  public getData({ id, start, end }: IotParams): Observable<SensorData[]> {
     return (
       id &&
-      startDate &&
-      endDate &&
+      start &&
+      end &&
       of([
         {
           type: 'Load',
@@ -216,36 +230,24 @@ export class RestService {
   }
 
   public getStaticSafety(id: string): Observable<StaticSafetyStatus[]> {
-    return this.getIot(`${id}/analytics/static-safety-factor`);
+    return this.http.get<StaticSafetyStatus[]>(
+      `${this.apiUrl}/things/${id}/analytics/static-safety-factor`
+    );
   }
 
   public getGreaseHeatMap({
     deviceId,
-    startDate,
+    start,
   }: any): Observable<GCMHeatmapEntry[]> {
-    const requestedYear = new Date(startDate * 1000).getFullYear();
+    const requestedYear = new Date(start * 1000).getFullYear();
     const yearStart = Date.parse(`${requestedYear}-01-01`) / 1000;
     const yearEnd = Date.parse(`${requestedYear}-12-31`) / 1000;
 
-    return this.getIot(`${deviceId}/analytics/heatmap`, {
-      params: { start: yearStart.toString(), end: yearEnd.toString() },
-    });
-  }
-
-  public getParams(
-    { endDate, startDate, aggregation, timebucketSeconds }: GWParams,
-    extra?: any
-  ): GetOptions {
-    return {
-      params: {
-        ...(endDate && { end: String(endDate) }),
-        ...(startDate && { start: String(startDate) }),
-        ...(aggregation && { aggregation: String(aggregation) }),
-        ...(timebucketSeconds !== undefined && {
-          timebucketSeconds: String(timebucketSeconds),
-        }),
-        ...extra,
-      },
-    };
+    return this.http.get<GCMHeatmapEntry[]>(
+      `${this.apiUrl}/things/${deviceId}/analytics/heatmap`,
+      {
+        params: { start: yearStart.toString(), end: yearEnd.toString() },
+      }
+    );
   }
 }

@@ -158,8 +158,8 @@ describe('Data View Effects', () => {
         expect(restService.getData).toHaveBeenCalledTimes(1);
         expect(restService.getData).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
         });
       })
     );

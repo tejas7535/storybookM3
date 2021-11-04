@@ -7,9 +7,10 @@ import { Interval } from '../reducers/shared/models';
 export function actionInterval(): (
   value: [any, Interval],
   index: number
-) => IotParams {
+) => any {
   return ([action, interval]: [any, Interval]) => ({
     id: action.deviceId,
-    ...interval,
+    start: interval.startDate,
+    end: interval.endDate,
   });
 }

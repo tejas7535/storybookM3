@@ -168,8 +168,8 @@ describe('Edm Monitor Effects', () => {
         expect(restService.getEdm).toHaveBeenCalledTimes(1);
         expect(restService.getEdm).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
         });
       })
     );

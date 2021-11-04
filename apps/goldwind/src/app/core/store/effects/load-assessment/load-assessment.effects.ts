@@ -92,7 +92,8 @@ export class LoadAssessmentEffects {
       withLatestFrom(this.store.select(getLoadAssessmentInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
-        ...interval,
+        start: interval.startDate,
+        end: interval.endDate,
       })),
       mergeMap((greaseParams) =>
         this.restService.getBearingLoad(greaseParams).pipe(
@@ -108,21 +109,25 @@ export class LoadAssessmentEffects {
       ofType(getLoadAverage),
       withLatestFrom(this.store.select(getLoadAssessmentInterval)),
       map(actionInterval()),
-      mergeMap(({ id, startDate, endDate }) =>
+      mergeMap(({ id, start, end }) =>
         forkJoin([
           this.restService.getLoadDistributionAverage({
             id,
-            startDate,
-            endDate,
+            start,
+            end,
             row: 1,
           }),
           this.restService.getLoadDistributionAverage({
             id,
-            startDate,
-            endDate,
+            start,
+            end,
             row: 2,
           }),
-          this.restService.getBearingLoadAverage({ id, startDate, endDate }),
+          this.restService.getBearingLoadAverage({
+            id,
+            start,
+            end,
+          }),
         ]).pipe(
           map(([result, result2, _result3]) =>
             getLoadDistributionLatestSuccess({
