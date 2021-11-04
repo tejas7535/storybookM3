@@ -180,6 +180,11 @@
     </ng-container>
   </ng-container>
 
+  <!-- custom -->
+  <ng-container *ngIf="subordinate.identifier === 'custom'">
+    <div [innerHtml]="subordinate.outerHTML | safeHtml"></div>
+  </ng-container>
+
   <!-- recursive nested subordinates -->
   <ng-container *ngIf="subordinate.subordinates">
     <ng-container *ngFor="let nestedSubordinate of subordinate.subordinates">

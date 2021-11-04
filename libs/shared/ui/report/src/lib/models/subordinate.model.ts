@@ -15,4 +15,5 @@ export interface Subordinate {
   unit?: string;
   description?: Description;
   subordinates?: Subordinate[];
+  defaultOpen?: boolean;
 }

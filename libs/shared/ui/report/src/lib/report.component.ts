@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
-import { Title, Type } from './models';
+import { Field, Hint, TitleId, Type } from './models';
 import { Subordinate } from './models/subordinate.model';
 import { TableItem } from './models/table-item.model';
 import { ReportService } from './report.service';
@@ -100,14 +100,106 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   public formatGreaseReport(result: Subordinate[]): Subordinate[] {
-    console.log(result);
-    const formattedResult = result.map((section: Subordinate) =>
-      section.titleID === Title.STRING_OUTP_RESULTS
-        ? { ...section, defaultOpen: true }
-        : section
+    // console.log(result);
+    let formattedResult = result;
+
+    // remove unneeded sections
+    formattedResult = formattedResult.filter(
+      (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_INPUT
     );
 
-    console.log(formattedResult);
+    // compose result sections
+    const resultSection = result.find(
+      (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_RESULTS
+    ) as Subordinate;
+
+    // console.log(resultSection);
+
+    // compose compact grease table
+    const greaseList = resultSection?.subordinates
+      ?.filter(
+        ({ titleID }: Subordinate) =>
+          titleID === TitleId.STRING_OUTP_RESULTS_FOR_GREASE_SELECTION
+      )
+      .pop()
+      ?.subordinates?.find(
+        ({ titleID }: Subordinate) =>
+          titleID ===
+          TitleId.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
+      );
+
+    console.log(greaseList);
+
+    formattedResult = [
+      ...formattedResult,
+      {
+        ...resultSection,
+        defaultOpen: true,
+        subordinates: [
+          ...(greaseList?.data?.items.slice(0, 3).map((item: TableItem[]) => {
+            let title = '';
+            let subtitlePart1 = '';
+            let subtitlePart2 = '';
+            let subtitlePart3 = '';
+
+            item.forEach(({ field, value }: TableItem) => {
+              // console.log({ field, value });
+
+              switch (field) {
+                case Field.GREASE_GRADE:
+                  title = `
+                    <a 
+                      class="text-caption text-primary" 
+                      href="https://medias.schaeffler.de/de/search/searchpage?text=${value}" 
+                      target="_blank">
+                        ${value} &#10140;
+                    </a>`;
+                  break;
+                case Field.BASEOIL:
+                  subtitlePart1 = `${value}`;
+                  break;
+                case Field.NLGI:
+                  subtitlePart2 = `NLGI${value}`;
+                  break;
+                case Field.THICKENER:
+                  subtitlePart3 = `${value}`;
+                  break;
+                default:
+                  break;
+              }
+            });
+
+            const outerHTML = `
+              <div class="py-6">
+                ${title}
+                <p class="text-caption">${subtitlePart1}, ${subtitlePart2}, ${subtitlePart3}</p>
+              <div>
+            `;
+
+            return {
+              outerHTML,
+              identifier: 'custom',
+            } as Subordinate;
+          }) as Subordinate[]),
+          greaseList as any, // Todo: remove later
+        ],
+      },
+    ];
+
+    // add errors, warning, notes
+    formattedResult = [
+      ...formattedResult,
+      {
+        identifier: 'block',
+        title: 'Errors, Warnings & Notes', // Todo: translate
+        subordinates: result.filter(
+          (section: Subordinate) =>
+            section.title && Object.values(Hint).includes(section.title as any)
+        ),
+      },
+    ];
+
+    // console.log(formattedResult);
 
     return formattedResult;
   }
