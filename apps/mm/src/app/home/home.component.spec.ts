@@ -1,6 +1,7 @@
 import { DecimalPipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -15,8 +16,9 @@ import {
   RuntimeRequestService,
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX } from '../../testing/mocks/rest.service.mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
@@ -33,6 +35,10 @@ import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
 import { ResultPageModule } from './result-page/result-page.module';
+
+console.warn = jest.fn();
+// eslint-disable-next-line no-console
+console.log = jest.fn();
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -81,7 +87,7 @@ describe('HomeComponent', () => {
 
       RouterTestingModule,
 
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       RuntimeRequestService,
@@ -102,6 +108,10 @@ describe('HomeComponent', () => {
         },
       },
       {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+      {
         provide: RestService,
         useValue: {
           getBearingRelations: jest.fn(() => of(mockBearingRelationsResponse)),
@@ -120,9 +130,6 @@ describe('HomeComponent', () => {
   });
 
   it('should create', () => {
-    console.warn = jest.fn();
-    // eslint-disable-next-line no-console
-    console.log = jest.fn();
     expect(component).toBeTruthy();
   });
 

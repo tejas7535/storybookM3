@@ -1,16 +1,17 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -27,8 +28,8 @@ describe('AppComponent', () => {
       NoopAnimationsModule,
       AppShellModule,
       RouterTestingModule,
-      TranslocoTestingModule,
       ReactiveComponentModule,
+      provideTranslocoTestingModule({ en: {} }),
       OneTrustModule.forRoot({
         cookiesGroups: COOKIE_GROUPS,
         domainScript: environment.oneTrustId,
@@ -38,7 +39,13 @@ describe('AppComponent', () => {
       ReactiveFormsModule,
       MaterialModule,
     ],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore(),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
     declarations: [AppComponent, SettingsComponent],
   });
 
@@ -72,22 +79,22 @@ describe('AppComponent', () => {
       expect(footerLinksResult).toStrictEqual([
         {
           link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-          title: 'en.legal.imprint',
+          title: 'legal.imprint',
           external: false,
         },
         {
           link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-          title: 'en.legal.dataPrivacy',
+          title: 'legal.dataPrivacy',
           external: false,
         },
         {
           link: `${LegalRoute}/${LegalPath.TermsPath}`,
-          title: 'en.legal.termsOfUse',
+          title: 'legal.termsOfUse',
           external: false,
         },
         {
           link: `${LegalRoute}/${LegalPath.CookiePath}`,
-          title: 'en.legal.cookiePolicy',
+          title: 'legal.cookiePolicy',
           external: false,
         },
       ]);

@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { filter, of, throwError } from 'rxjs';
 
@@ -60,6 +61,10 @@ describe('ResultPageComponent', () => {
             baseUrl: '',
           },
         },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

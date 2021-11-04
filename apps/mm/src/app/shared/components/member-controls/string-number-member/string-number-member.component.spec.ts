@@ -1,4 +1,5 @@
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { of } from 'rxjs';
 
@@ -31,6 +32,10 @@ describe('SelectMemberComponent', () => {
           listValues$: of([]),
           page: { id: 'some page id' },
         } as VariablePropertyMeta,
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

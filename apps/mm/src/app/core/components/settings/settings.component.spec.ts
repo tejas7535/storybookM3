@@ -1,4 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -6,6 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { MaterialModule } from '../../../shared/material.module';
 import { MMLocales } from '../../services/locale/locale.enum';
@@ -40,6 +43,7 @@ describe('SidebarComponent', () => {
       TranslocoTestingModule,
       ReactiveFormsModule,
       MaterialModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       {
@@ -57,6 +61,10 @@ describe('SidebarComponent', () => {
         useValue: {
           open: jest.fn(() => mockDialogRef),
         },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
     declarations: [SettingsComponent],

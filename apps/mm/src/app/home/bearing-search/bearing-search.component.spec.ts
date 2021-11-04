@@ -1,4 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { of } from 'rxjs';
 
@@ -19,9 +20,7 @@ describe('BearingSearchComponent', () => {
     component: BearingSearchComponent,
     imports: [
       ReactiveFormsModule,
-
       ReactiveComponentModule,
-
       SearchAutocompleteModule,
     ],
     providers: [
@@ -30,6 +29,10 @@ describe('BearingSearchComponent', () => {
         useValue: {
           getBearingSearch: jest.fn(() => of(BEARING_SEARCH_RESULT_MOCK)),
         },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
     declarations: [BearingSearchComponent],

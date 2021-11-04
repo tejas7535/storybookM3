@@ -4,6 +4,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { of, Subject } from 'rxjs';
 
@@ -13,7 +14,6 @@ import {
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
@@ -21,6 +21,7 @@ import {
   PictureCardActionComponent,
   PictureCardComponent,
 } from '@schaeffler/picture-card';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { MagneticSliderComponent } from '../../magnetic-slider/magnetic-slider.component';
 import { MemberTypes } from './../../../constants/dialog-constant';
@@ -36,11 +37,11 @@ describe('ListMemberComponent', () => {
   const createComponent = createComponentFactory({
     component: ListMemberComponent,
     imports: [
-      TranslocoTestingModule,
       ReactiveComponentModule,
       MaterialModule,
       DropdownInputModule,
       ReactiveFormsModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [
       ListMemberComponent,
@@ -63,6 +64,10 @@ describe('ListMemberComponent', () => {
         provide: NG_VALUE_ACCESSOR,
         useExisting: PictureCardListComponent,
         multi: true,
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

@@ -1,3 +1,5 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { PictureCardModule } from '@schaeffler/picture-card';
@@ -14,6 +16,12 @@ describe('PictureCardListComponent', () => {
     component: PictureCardListComponent,
     imports: [PictureCardModule],
     declarations: [PictureCardListComponent, MagneticSliderComponent],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {
