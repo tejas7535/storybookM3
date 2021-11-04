@@ -6,3 +6,4 @@ export * from './subordinate.model';
 export * from './table-item.model';
 export * from './title.enum';
 export * from './type.enum';
+export * from './dummy.const';

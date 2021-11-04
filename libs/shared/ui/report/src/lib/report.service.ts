@@ -5,7 +5,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { jsonReport } from '../mocks/json-report';
-import { Content, Subordinate } from './models';
+import { Content, DUMMY, Subordinate } from './models';
 
 @Injectable()
 export class ReportService {
@@ -57,9 +57,12 @@ export class ReportService {
     );
   }
 
-  public getJsonReport(_jsonReportUrl: string): Observable<Subordinate[]> {
-    const structuredContent = jsonReport.subordinates;
-
-    return of(structuredContent);
+  public getJsonReport(jsonReportUrl: string): Observable<Subordinate[]> {
+    return jsonReportUrl === DUMMY
+      ? of(jsonReport.subordinates)
+      : this.http.get<{ data: string }>(jsonReportUrl).pipe(
+          map((response: any) => response.subordinates),
+          catchError(() => throwError(() => new Error('Unexpected error')))
+        );
   }
 }

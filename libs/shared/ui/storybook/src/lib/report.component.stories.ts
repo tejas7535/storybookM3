@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { DUMMY } from 'libs/shared/ui/report/src/lib/models';
 
 import { ReportComponent, ReportModule } from '@schaeffler/report';
 
@@ -75,5 +76,5 @@ HtmlReport.args = {
 export const JsonReport = Template.bind({});
 JsonReport.args = {
   ...props,
-  jsonReport: '//todo',
+  jsonReport: DUMMY,
 };

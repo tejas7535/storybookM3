@@ -11,7 +11,7 @@
     {
       "identifier": "textPairList",
       "title": "Calculation / Installation proposal",
-      "entries": [["Date: ", "2021-10-21 13:20:28"]]
+      "entries": [["Date: ", "2021-11-04 10:29:33"]]
     },
     {
       "identifier": "textBlock",
@@ -36,6 +36,7 @@
         ["1    ", "Input"],
         ["2    ", "Results"],
         ["2.1  ", "Result for relubrication and grease selection"],
+        ["2.2  ", "Result for relubrication and grease selection"],
         ["3    ", "Errors"],
         ["4    ", "Warnings"],
         ["5    ", "Notes"]
@@ -191,6 +192,37 @@
       "titleID": "STRING_OUTP_RESULTS",
       "subordinates": [
         {
+          "identifier": "block",
+          "title": "Result for relubrication and grease selection",
+          "titleID": "STRING_OUTP_RESULTS_FOR_GREASE_SELECTION",
+          "subordinates": [
+            {
+              "identifier": "variableBlock",
+              "title": "Internal calculation data",
+              "titleID": "STRING_OUTP_GREASE_SERVICE_INTERNAL_CALCULATION_DATA",
+              "subordinates": [
+                {
+                  "identifier": "variableLine",
+                  "designation": "Free volume",
+                  "value": "184049.00",
+                  "unit": "mm³"
+                },
+                {
+                  "identifier": "variableLine",
+                  "designation": "Cage material",
+                  "value": "steel"
+                },
+                {
+                  "identifier": "variableLine",
+                  "designation": "Filling percentage",
+                  "value": "35.83",
+                  "unit": "%"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "identifier": "variableBlock",
           "title": "Operating data",
           "titleID": "STRING_OUTP_OPERATING_DATA",
@@ -233,7 +265,8 @@
                   "Qvre_aut_min",
                   "Qvre_aut_max",
                   "add_req",
-                  "add_w"
+                  "add_w",
+                  "kappa"
                 ],
                 "unitFields": [
                   null,
@@ -264,6 +297,7 @@
                   {
                     "unit": "cm³/day"
                   },
+                  null,
                   null,
                   null
                 ],
@@ -310,12 +344,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -325,6 +359,10 @@
                     {
                       "field": "add_w",
                       "value": "no"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "2.33"
                     }
                   ],
                   [
@@ -369,12 +407,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -384,6 +422,10 @@
                     {
                       "field": "add_w",
                       "value": "no"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "2.47"
                     }
                   ],
                   [
@@ -428,12 +470,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -443,6 +485,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "3.26"
                     }
                   ],
                   [
@@ -487,12 +533,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -502,6 +548,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "2.91"
                     }
                   ],
                   [
@@ -546,12 +596,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -561,6 +611,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "2.28"
                     }
                   ],
                   [
@@ -605,12 +659,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -620,6 +674,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "3.35"
                     }
                   ],
                   [
@@ -664,12 +722,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -679,183 +737,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol LOAD400"
                     },
                     {
-                      "field": "tfR_min",
-                      "value": "9440",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfR_max",
-                      "value": "14600",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_min",
-                      "value": "18900",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_max",
-                      "value": "26280",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "Qvin",
-                      "value": 66.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_min",
-                      "value": 33.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_max",
-                      "value": 53.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_aut_min",
-                      "value": 0.084,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "Qvre_aut_max",
-                      "value": 0.087,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "add_req",
-                      "value": "no"
-                    },
-                    {
-                      "field": "add_w",
-                      "value": "yes"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol LOAD460"
-                    },
-                    {
-                      "field": "tfR_min",
-                      "value": "9440",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfR_max",
-                      "value": "14600",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_min",
-                      "value": "18900",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_max",
-                      "value": "26280",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "Qvin",
-                      "value": 66.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_min",
-                      "value": 33.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_max",
-                      "value": 53.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_aut_min",
-                      "value": 0.084,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "Qvre_aut_max",
-                      "value": 0.087,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "add_req",
-                      "value": "no"
-                    },
-                    {
-                      "field": "add_w",
-                      "value": "yes"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol TEMP120"
-                    },
-                    {
-                      "field": "tfR_min",
-                      "value": "9440",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfR_max",
-                      "value": "14600",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_min",
-                      "value": "18900",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_max",
-                      "value": "26280",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "Qvin",
-                      "value": 66.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_min",
-                      "value": 33.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_max",
-                      "value": 53.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_aut_min",
-                      "value": 0.084,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "Qvre_aut_max",
-                      "value": 0.087,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "add_req",
-                      "value": "no"
-                    },
-                    {
-                      "field": "add_w",
-                      "value": "yes"
+                      "field": "kappa",
+                      "value": "4.63"
                     }
                   ],
                   [
@@ -900,12 +785,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -915,6 +800,10 @@
                     {
                       "field": "add_w",
                       "value": "no"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "2.49"
                     }
                   ],
                   [
@@ -959,12 +848,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -974,124 +863,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol LOAD1000"
                     },
                     {
-                      "field": "tfR_min",
-                      "value": "9440",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfR_max",
-                      "value": "14600",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_min",
-                      "value": "18900",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_max",
-                      "value": "26280",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "Qvin",
-                      "value": 66.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_min",
-                      "value": 33.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_max",
-                      "value": 53.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_aut_min",
-                      "value": 0.084,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "Qvre_aut_max",
-                      "value": 0.087,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "add_req",
-                      "value": "no"
-                    },
-                    {
-                      "field": "add_w",
-                      "value": "yes"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol SPEED 2,6"
-                    },
-                    {
-                      "field": "tfR_min",
-                      "value": "9440",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfR_max",
-                      "value": "14600",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_min",
-                      "value": "18900",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "tfG_max",
-                      "value": "26280",
-                      "unit": "h"
-                    },
-                    {
-                      "field": "Qvin",
-                      "value": 66.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_min",
-                      "value": 33.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_man_max",
-                      "value": 53.0,
-                      "unit": "cm³"
-                    },
-                    {
-                      "field": "Qvre_aut_min",
-                      "value": 0.084,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "Qvre_aut_max",
-                      "value": 0.087,
-                      "unit": "cm³/day"
-                    },
-                    {
-                      "field": "add_req",
-                      "value": "no"
-                    },
-                    {
-                      "field": "add_w",
-                      "value": "yes"
+                      "field": "kappa",
+                      "value": "1.42"
                     }
                   ],
                   [
@@ -1136,12 +911,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -1151,6 +926,10 @@
                     {
                       "field": "add_w",
                       "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "3.20"
                     }
                   ],
                   [
@@ -1195,12 +974,12 @@
                     },
                     {
                       "field": "Qvre_aut_min",
-                      "value": 0.084,
+                      "value": 0.066,
                       "unit": "cm³/day"
                     },
                     {
                       "field": "Qvre_aut_max",
-                      "value": 0.087,
+                      "value": 0.11,
                       "unit": "cm³/day"
                     },
                     {
@@ -1210,6 +989,325 @@
                     {
                       "field": "add_w",
                       "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "3.62"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol LOAD400"
+                    },
+                    {
+                      "field": "tfR_min",
+                      "value": "9440",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfR_max",
+                      "value": "14600",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_min",
+                      "value": "18900",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_max",
+                      "value": "26280",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "Qvin",
+                      "value": 66.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_min",
+                      "value": 33.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_max",
+                      "value": 53.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_aut_min",
+                      "value": 0.066,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "Qvre_aut_max",
+                      "value": 0.11,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "add_req",
+                      "value": "no"
+                    },
+                    {
+                      "field": "add_w",
+                      "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "6.75"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol LOAD460"
+                    },
+                    {
+                      "field": "tfR_min",
+                      "value": "9440",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfR_max",
+                      "value": "14600",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_min",
+                      "value": "18900",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_max",
+                      "value": "26280",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "Qvin",
+                      "value": 66.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_min",
+                      "value": 33.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_max",
+                      "value": 53.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_aut_min",
+                      "value": 0.066,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "Qvre_aut_max",
+                      "value": 0.11,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "add_req",
+                      "value": "no"
+                    },
+                    {
+                      "field": "add_w",
+                      "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "6.41"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol TEMP120"
+                    },
+                    {
+                      "field": "tfR_min",
+                      "value": "9440",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfR_max",
+                      "value": "14600",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_min",
+                      "value": "18900",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_max",
+                      "value": "26280",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "Qvin",
+                      "value": 66.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_min",
+                      "value": 33.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_max",
+                      "value": 53.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_aut_min",
+                      "value": 0.066,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "Qvre_aut_max",
+                      "value": 0.11,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "add_req",
+                      "value": "no"
+                    },
+                    {
+                      "field": "add_w",
+                      "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "8.76"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol SPEED 2,6"
+                    },
+                    {
+                      "field": "tfR_min",
+                      "value": "9440",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfR_max",
+                      "value": "14600",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_min",
+                      "value": "18900",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_max",
+                      "value": "26280",
+                      "unit": "h"
+                    },
+                    {
+                      "field": "Qvin",
+                      "value": 66.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_min",
+                      "value": 33.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_max",
+                      "value": 53.0,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_aut_min",
+                      "value": 0.066,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "Qvre_aut_max",
+                      "value": 0.11,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "add_req",
+                      "value": "no"
+                    },
+                    {
+                      "field": "add_w",
+                      "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "0.91"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol LOAD1000"
+                    },
+                    {
+                      "field": "tfR_min",
+                      "value": null,
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfR_max",
+                      "value": null,
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_min",
+                      "value": null,
+                      "unit": "h"
+                    },
+                    {
+                      "field": "tfG_max",
+                      "value": null,
+                      "unit": "h"
+                    },
+                    {
+                      "field": "Qvin",
+                      "value": null,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_min",
+                      "value": null,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_man_max",
+                      "value": null,
+                      "unit": "cm³"
+                    },
+                    {
+                      "field": "Qvre_aut_min",
+                      "value": null,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "Qvre_aut_max",
+                      "value": null,
+                      "unit": "cm³/day"
+                    },
+                    {
+                      "field": "add_req",
+                      "value": null
+                    },
+                    {
+                      "field": "add_w",
+                      "value": "yes"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "11.76"
                     }
                   ],
                   [
@@ -1264,11 +1362,15 @@
                     },
                     {
                       "field": "add_req",
-                      "value": "no"
+                      "value": null
                     },
                     {
                       "field": "add_w",
                       "value": "no"
+                    },
+                    {
+                      "field": "kappa",
+                      "value": "11.26"
                     }
                   ]
                 ]
@@ -1300,13 +1402,14 @@
                     "Guide value for automatic maximum relubrication quantity per time (1 day = 24h continuous operation)"
                   ],
                   ["add_req: ", "Additivation required"],
-                  ["add_w: ", "Effective EP-additivation"]
+                  ["add_w: ", "Effective EP-additivation"],
+                  ["kappa: ", "Viscosity ratio"]
                 ]
               }
             },
             {
               "identifier": "table",
-              "title": "Calculation data",
+              "title": "Grease properties",
               "titleID": "STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES",
               "data": {
                 "fields": [
@@ -1766,6 +1869,242 @@
                   [
                     {
                       "field": "Grease grade",
+                      "value": "Arcanol Clean M"
+                    },
+                    {
+                      "field": "NLGI",
+                      "value": "2"
+                    },
+                    {
+                      "field": "BaseOil",
+                      "value": "Ether oil"
+                    },
+                    {
+                      "field": "Thickener",
+                      "value": "Polyurea"
+                    },
+                    {
+                      "field": "rho",
+                      "value": "0.950",
+                      "unit": "kg/dm³"
+                    },
+                    {
+                      "field": "ny40",
+                      "value": "100.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "ny100",
+                      "value": "12.8",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "T_lim_low",
+                      "value": "-30.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "T_lim_up",
+                      "value": "180.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "f_low",
+                      "value": "0"
+                    },
+                    {
+                      "field": "vib",
+                      "value": "0"
+                    },
+                    {
+                      "field": "seal",
+                      "value": "0"
+                    },
+                    {
+                      "field": "NSF-H1",
+                      "value": "no"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol MOTION 2"
+                    },
+                    {
+                      "field": "NLGI",
+                      "value": "2"
+                    },
+                    {
+                      "field": "BaseOil",
+                      "value": "Synthetic oil"
+                    },
+                    {
+                      "field": "Thickener",
+                      "value": "Lithium soap"
+                    },
+                    {
+                      "field": "rho",
+                      "value": "0.910",
+                      "unit": "kg/dm³"
+                    },
+                    {
+                      "field": "ny40",
+                      "value": "50.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "ny100",
+                      "value": "8.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "T_lim_low",
+                      "value": "-40.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "T_lim_up",
+                      "value": "130.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "f_low",
+                      "value": null
+                    },
+                    {
+                      "field": "vib",
+                      "value": "++"
+                    },
+                    {
+                      "field": "seal",
+                      "value": "+"
+                    },
+                    {
+                      "field": "NSF-H1",
+                      "value": "no"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol VIB3"
+                    },
+                    {
+                      "field": "NLGI",
+                      "value": "3-4"
+                    },
+                    {
+                      "field": "BaseOil",
+                      "value": "Mineral oil"
+                    },
+                    {
+                      "field": "Thickener",
+                      "value": "Lithium/complex soap"
+                    },
+                    {
+                      "field": "rho",
+                      "value": "0.900",
+                      "unit": "kg/dm³"
+                    },
+                    {
+                      "field": "ny40",
+                      "value": "170.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "ny100",
+                      "value": "14.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "T_lim_low",
+                      "value": "-30.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "T_lim_up",
+                      "value": "150.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "f_low",
+                      "value": null
+                    },
+                    {
+                      "field": "vib",
+                      "value": "++"
+                    },
+                    {
+                      "field": "seal",
+                      "value": "+"
+                    },
+                    {
+                      "field": "NSF-H1",
+                      "value": "no"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
+                      "value": "Arcanol FOOD2"
+                    },
+                    {
+                      "field": "NLGI",
+                      "value": "2"
+                    },
+                    {
+                      "field": "BaseOil",
+                      "value": "PAO oil"
+                    },
+                    {
+                      "field": "Thickener",
+                      "value": "Aluminum-Complex"
+                    },
+                    {
+                      "field": "rho",
+                      "value": "0.880",
+                      "unit": "kg/dm³"
+                    },
+                    {
+                      "field": "ny40",
+                      "value": "150.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "ny100",
+                      "value": "18.0",
+                      "unit": "mm²/s"
+                    },
+                    {
+                      "field": "T_lim_low",
+                      "value": "-30.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "T_lim_up",
+                      "value": "120.0",
+                      "unit": "°C"
+                    },
+                    {
+                      "field": "f_low",
+                      "value": "0"
+                    },
+                    {
+                      "field": "vib",
+                      "value": "0"
+                    },
+                    {
+                      "field": "seal",
+                      "value": "0"
+                    },
+                    {
+                      "field": "NSF-H1",
+                      "value": "yes"
+                    }
+                  ],
+                  [
+                    {
+                      "field": "Grease grade",
                       "value": "Arcanol LOAD400"
                     },
                     {
@@ -1943,92 +2282,33 @@
                   [
                     {
                       "field": "Grease grade",
-                      "value": "Arcanol Clean M"
+                      "value": "Arcanol SPEED 2,6"
                     },
                     {
                       "field": "NLGI",
-                      "value": "2"
+                      "value": "2-3"
                     },
                     {
                       "field": "BaseOil",
-                      "value": "Ether oil"
+                      "value": "PAO/Ester oil"
                     },
                     {
                       "field": "Thickener",
-                      "value": "Polyurea"
+                      "value": "Lithium/complex soap"
                     },
                     {
                       "field": "rho",
-                      "value": "0.950",
+                      "value": "0.940",
                       "unit": "kg/dm³"
                     },
                     {
                       "field": "ny40",
-                      "value": "100.0",
+                      "value": "25.0",
                       "unit": "mm²/s"
                     },
                     {
                       "field": "ny100",
-                      "value": "12.8",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "T_lim_low",
-                      "value": "-30.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "T_lim_up",
-                      "value": "180.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "f_low",
-                      "value": "0"
-                    },
-                    {
-                      "field": "vib",
-                      "value": "0"
-                    },
-                    {
-                      "field": "seal",
-                      "value": "0"
-                    },
-                    {
-                      "field": "NSF-H1",
-                      "value": "no"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol MOTION 2"
-                    },
-                    {
-                      "field": "NLGI",
-                      "value": "2"
-                    },
-                    {
-                      "field": "BaseOil",
-                      "value": "Synthetic oil"
-                    },
-                    {
-                      "field": "Thickener",
-                      "value": "Lithium soap"
-                    },
-                    {
-                      "field": "rho",
-                      "value": "0.910",
-                      "unit": "kg/dm³"
-                    },
-                    {
-                      "field": "ny40",
-                      "value": "50.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "ny100",
-                      "value": "8.0",
+                      "value": "6.0",
                       "unit": "mm²/s"
                     },
                     {
@@ -2038,20 +2318,20 @@
                     },
                     {
                       "field": "T_lim_up",
-                      "value": "130.0",
+                      "value": "120.0",
                       "unit": "°C"
                     },
                     {
                       "field": "f_low",
-                      "value": null
-                    },
-                    {
-                      "field": "vib",
                       "value": "++"
                     },
                     {
+                      "field": "vib",
+                      "value": null
+                    },
+                    {
                       "field": "seal",
-                      "value": "+"
+                      "value": "0"
                     },
                     {
                       "field": "NSF-H1",
@@ -2115,183 +2395,6 @@
                     {
                       "field": "NSF-H1",
                       "value": "no"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol SPEED 2,6"
-                    },
-                    {
-                      "field": "NLGI",
-                      "value": "2-3"
-                    },
-                    {
-                      "field": "BaseOil",
-                      "value": "PAO/Ester oil"
-                    },
-                    {
-                      "field": "Thickener",
-                      "value": "Lithium/complex soap"
-                    },
-                    {
-                      "field": "rho",
-                      "value": "0.940",
-                      "unit": "kg/dm³"
-                    },
-                    {
-                      "field": "ny40",
-                      "value": "25.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "ny100",
-                      "value": "6.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "T_lim_low",
-                      "value": "-40.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "T_lim_up",
-                      "value": "120.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "f_low",
-                      "value": "++"
-                    },
-                    {
-                      "field": "vib",
-                      "value": null
-                    },
-                    {
-                      "field": "seal",
-                      "value": "0"
-                    },
-                    {
-                      "field": "NSF-H1",
-                      "value": "no"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol VIB3"
-                    },
-                    {
-                      "field": "NLGI",
-                      "value": "3-4"
-                    },
-                    {
-                      "field": "BaseOil",
-                      "value": "Mineral oil"
-                    },
-                    {
-                      "field": "Thickener",
-                      "value": "Lithium/complex soap"
-                    },
-                    {
-                      "field": "rho",
-                      "value": "0.900",
-                      "unit": "kg/dm³"
-                    },
-                    {
-                      "field": "ny40",
-                      "value": "170.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "ny100",
-                      "value": "14.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "T_lim_low",
-                      "value": "-30.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "T_lim_up",
-                      "value": "150.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "f_low",
-                      "value": null
-                    },
-                    {
-                      "field": "vib",
-                      "value": "++"
-                    },
-                    {
-                      "field": "seal",
-                      "value": "+"
-                    },
-                    {
-                      "field": "NSF-H1",
-                      "value": "no"
-                    }
-                  ],
-                  [
-                    {
-                      "field": "Grease grade",
-                      "value": "Arcanol FOOD2"
-                    },
-                    {
-                      "field": "NLGI",
-                      "value": "2"
-                    },
-                    {
-                      "field": "BaseOil",
-                      "value": "PAO oil"
-                    },
-                    {
-                      "field": "Thickener",
-                      "value": "Aluminum-Complex"
-                    },
-                    {
-                      "field": "rho",
-                      "value": "0.880",
-                      "unit": "kg/dm³"
-                    },
-                    {
-                      "field": "ny40",
-                      "value": "150.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "ny100",
-                      "value": "18.0",
-                      "unit": "mm²/s"
-                    },
-                    {
-                      "field": "T_lim_low",
-                      "value": "-30.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "T_lim_up",
-                      "value": "120.0",
-                      "unit": "°C"
-                    },
-                    {
-                      "field": "f_low",
-                      "value": "0"
-                    },
-                    {
-                      "field": "vib",
-                      "value": "0"
-                    },
-                    {
-                      "field": "seal",
-                      "value": "0"
-                    },
-                    {
-                      "field": "NSF-H1",
-                      "value": "yes"
                     }
                   ],
                   [
@@ -2405,12 +2508,16 @@
             {
               "identifier": "text",
               "text": [
-                "The operating temperature is below the recommended minimum operating temperature for the following greases:"
+                "Very high kappa values and corresponding friction losses occur at the present operating speed for the following lubricating greases:"
               ]
             },
             {
               "identifier": "text",
-              "text": ["  · Arcanol TEMP200 ( 70.0 °C < 150.0 °C ) "]
+              "text": ["  · Arcanol LOAD1000"]
+            },
+            {
+              "identifier": "text",
+              "text": ["  · Arcanol TEMP200"]
             },
             {
               "identifier": "text",
@@ -2454,10 +2561,6 @@
             {
               "identifier": "text",
               "text": ["  · Arcanol MULTI3"]
-            },
-            {
-              "identifier": "text",
-              "text": ["  · Arcanol LOAD1000"]
             },
             {
               "identifier": "text",
@@ -2528,10 +2631,6 @@
             {
               "identifier": "text",
               "text": ["  · Arcanol MULTI3"]
-            },
-            {
-              "identifier": "text",
-              "text": ["  · Arcanol LOAD1000"]
             },
             {
               "identifier": "text",
@@ -2621,6 +2720,36 @@
             {
               "identifier": "text",
               "text": [" "]
+            },
+            {
+              "identifier": "text",
+              "text": [
+                "In the Grease App, fatigue life is not considered or calculated. Please check this separately."
+              ]
+            },
+            {
+              "identifier": "text",
+              "text": [" "]
+            },
+            {
+              "identifier": "text",
+              "text": [
+                "When calculating the amount of lubricant, only the volume of the bearing is taken into account, while the free space of the surrounding construction is not considered."
+              ]
+            },
+            {
+              "identifier": "text",
+              "text": [" "]
+            },
+            {
+              "identifier": "text",
+              "text": [
+                "The specified grease quantities are only guide values, which may be deviated from based on practical experience. In case of questions, please contact the Schaeffler engineering service."
+              ]
+            },
+            {
+              "identifier": "text",
+              "text": [" "]
             }
           ]
         }
@@ -2633,6 +2762,6 @@
       "company": "www.schaeffler.com"
     }
   ],
-  "timeStamp": "2021-10-21 13:20:28",
+  "timeStamp": "2021-11-04 10:29:33",
   "programVersion": "12.0"
 }
