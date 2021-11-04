@@ -19,10 +19,10 @@ import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import READMEMd from './tooltip/README.md';
 
 @Component({
-  selector: 'toolip-component-example',
+  selector: 'tooltip-component-example',
   template: `
     <div class="flex flex-col gap-y-32">
-      <div>
+      <div class="flex flex-col sm:flex-row">
         <mat-form-field appearance="fill" class="mr-4 mb-8">
           <mat-label>Tooltip Position</mat-label>
           <mat-select [(value)]="horizontalPosition">
@@ -35,19 +35,40 @@ import READMEMd from './tooltip/README.md';
         </mat-form-field>
         <mat-form-field appearance="fill" class="mr-4 mb-8">
           <mat-label>Message</mat-label>
-          <input matInput [(ngModel)]="message" />
+          <textarea matInput [(ngModel)]="message"></textarea>
           <mat-hint>
             A long message will demonstrate the maximum width of the tooltip
           </mat-hint>
         </mat-form-field>
+        <div class="mr-4 mb-4">
+          <button
+            mat-raised-button
+            (click)="tooltip.show()"
+            aria-label="Show tooltip on the button at the end of this section"
+            class="example-action-button pr-4"
+          >
+            Show
+          </button>
+        </div>
+        <div>
+          <button
+            mat-raised-button
+            (click)="tooltip.hide()"
+            aria-label="Show tooltip on the button at the end of this section"
+            class="example-action-button"
+          >
+            Hide
+          </button>
+        </div>
       </div>
       <div class="sm:ml-32 text-center sm:text-left">
         <button
+          #tooltip="matTooltip"
           [matTooltip]="message"
           [matTooltipPosition]="horizontalPosition"
           mat-raised-button
         >
-          Show Tooltip
+          Hover me!
         </button>
       </div>
     </div>
