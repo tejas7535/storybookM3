@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -23,6 +24,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     ReactiveComponentModule,
     SnackBarModule,
     MatTableModule,
+    MatDividerModule,
   ],
   declarations: [ReportComponent, SafeHtmlPipe],
   providers: [SnackBarService],

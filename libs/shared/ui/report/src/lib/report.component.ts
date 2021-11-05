@@ -113,75 +113,101 @@ export class ReportComponent implements OnInit, OnDestroy {
       (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_RESULTS
     ) as Subordinate;
 
-    // console.log(resultSection);
+    console.log(resultSection);
 
-    // compose compact grease table
-    const greaseList = resultSection?.subordinates
+    // get table 2
+    const tables = resultSection?.subordinates
       ?.filter(
         ({ titleID }: Subordinate) =>
           titleID === TitleId.STRING_OUTP_RESULTS_FOR_GREASE_SELECTION
       )
-      .pop()
-      ?.subordinates?.find(
-        ({ titleID }: Subordinate) =>
-          titleID ===
-          TitleId.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
-      );
+      .pop();
 
-    console.log(greaseList);
+    const table1 = tables?.subordinates?.find(
+      ({ titleID }: Subordinate) =>
+        titleID ===
+        TitleId.STRING_OUTP_RESULTS_FOR_GREASE_SERVICE_STRING_OUTP_GREASE_QUANTITY_IN_CCM
+    );
 
+    const table2 = tables?.subordinates?.find(
+      ({ titleID }: Subordinate) =>
+        titleID === TitleId.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
+    );
+
+    console.log(tables);
+    console.log(table1);
+    // console.log(table2);
+
+    // compose compact grease table
     formattedResult = [
       ...formattedResult,
       {
         ...resultSection,
         defaultOpen: true,
         subordinates: [
-          ...(greaseList?.data?.items.slice(0, 3).map((item: TableItem[]) => {
-            let title = '';
-            let subtitlePart1 = '';
-            let subtitlePart2 = '';
-            let subtitlePart3 = '';
+          ...(table2?.data?.items
+            .slice(0, 3)
+            .map((item: TableItem[], index: number) => {
+              const table1Values = table1?.data?.items[index];
+              console.log(table1Values);
 
-            item.forEach(({ field, value }: TableItem) => {
-              // console.log({ field, value });
+              const findItem = (searchField: Field): TableItem =>
+                table1Values?.find(
+                  ({ field }: TableItem) => field === searchField
+                ) as TableItem;
 
-              switch (field) {
-                case Field.GREASE_GRADE:
-                  title = `
-                    <a 
-                      class="text-caption text-primary" 
-                      href="https://medias.schaeffler.de/de/search/searchpage?text=${value}" 
-                      target="_blank">
-                        ${value} &#10140;
-                    </a>`;
-                  break;
-                case Field.BASEOIL:
-                  subtitlePart1 = `${value}`;
-                  break;
-                case Field.NLGI:
-                  subtitlePart2 = `NLGI${value}`;
-                  break;
-                case Field.THICKENER:
-                  subtitlePart3 = `${value}`;
-                  break;
-                default:
-                  break;
-              }
-            });
+              const greaseResult = {
+                title: '',
+                subtitlePart1: '',
+                subtitlePart2: '',
+                subtitlePart3: '',
+                displayedColumns: ['title', 'values'],
+                dataSource: [
+                  {
+                    title: 'Inital grease quantity', // TODO: transloco
+                    values: `${findItem(Field.QVIN).value} ${
+                      findItem(Field.QVIN).unit
+                    }`,
+                  },
+                  {
+                    title: 'Manual relubrication quantity/interval', // TODO: transloco
+                    values: `?`,
+                  },
+                  {
+                    title: 'Automatic relubrication quantity per day', // TODO: transloco
+                    values: `?`,
+                  },
+                ],
+              };
 
-            const outerHTML = `
-              <div class="py-6">
-                ${title}
-                <p class="text-caption">${subtitlePart1}, ${subtitlePart2}, ${subtitlePart3}</p>
-              <div>
-            `;
+              item.forEach(({ field, value }: TableItem) => {
+                // console.log({ field, value });
 
-            return {
-              outerHTML,
-              identifier: 'custom',
-            } as Subordinate;
-          }) as Subordinate[]),
-          greaseList as any, // Todo: remove later
+                switch (field) {
+                  case Field.GREASE_GRADE:
+                    greaseResult.title = `${value}`;
+                    break;
+                  case Field.BASEOIL:
+                    greaseResult.subtitlePart1 = `${value}`;
+                    break;
+                  case Field.NLGI:
+                    greaseResult.subtitlePart2 = `NLGI${value}`;
+                    break;
+                  case Field.THICKENER:
+                    greaseResult.subtitlePart3 = `${value}`;
+                    break;
+                  default:
+                    break;
+                }
+              });
+
+              return {
+                greaseResult,
+                identifier: 'greaseResult',
+              } as Subordinate;
+            }) as Subordinate[]),
+          table1 as any, // Todo: remove later
+          table2 as any, // Todo: remove later
         ],
       },
     ];
