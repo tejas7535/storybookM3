@@ -118,9 +118,9 @@ module.exports = {
     },
     screens: {
       sm: '600px',
-      md: '960px',
-      lg: '1280px',
-      xl: '1920px',
+      md: '905px',
+      lg: '1240px',
+      xl: '1440px',
     },
     extend: {
       opacity: {
