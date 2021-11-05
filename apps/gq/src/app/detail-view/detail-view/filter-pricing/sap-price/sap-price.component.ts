@@ -11,11 +11,10 @@ import { PriceService } from '../../../../shared/services/price-service/price.se
 import { DetailRoutePath } from '../../../detail-route-path.enum';
 
 @Component({
-  selector: 'gq-price',
-  templateUrl: './gq-price.component.html',
-  styleUrls: ['./gq-price.component.scss'],
+  selector: 'gq-sap-price',
+  templateUrl: './sap-price.component.html',
 })
-export class GqPriceComponent implements OnInit {
+export class SapPriceComponent implements OnInit {
   public gpi: number;
   public gpm: number;
   _isLoading: boolean;
@@ -34,18 +33,18 @@ export class GqPriceComponent implements OnInit {
     return this._isLoading;
   }
 
-  @Output() readonly selectGqPrice = new EventEmitter<UpdatePrice>();
+  @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
 
   constructor(private readonly router: Router) {}
 
   ngOnInit(): void {
     if (this.quotationDetail) {
       this.gpi = PriceService.calculateMargin(
-        this.quotationDetail.recommendedPrice,
+        this.quotationDetail.sapPrice,
         this.quotationDetail.gpc
       );
       this.gpm = PriceService.calculateMargin(
-        this.quotationDetail.recommendedPrice,
+        this.quotationDetail.sapPrice,
         this.quotationDetail.sqv
       );
     }
@@ -53,18 +52,19 @@ export class GqPriceComponent implements OnInit {
 
   selectPrice(): void {
     this._isLoading = true;
-    const priceSource = this.quotationDetail.strategicPrice
-      ? PriceSource.STRATEGIC
-      : PriceSource.GQ;
-    const price =
-      this.quotationDetail.strategicPrice ??
-      this.quotationDetail.recommendedPrice;
-    this.selectGqPrice.emit(new UpdatePrice(price, priceSource));
+    this.selectSapPrice.emit(
+      new UpdatePrice(
+        this.quotationDetail.sapPrice,
+        this.isSpecialPriceCondition()
+          ? PriceSource.SAP_SPECIAL
+          : PriceSource.SAP_STANDARD
+      )
+    );
   }
 
   navigateClick(): void {
     this.router.navigate(
-      [`${AppRoutePath.DetailViewPath}/${DetailRoutePath.TransactionsPath}`],
+      [`${AppRoutePath.DetailViewPath}/${DetailRoutePath.SapPath}`],
       {
         queryParamsHandling: 'preserve',
       }
@@ -73,5 +73,12 @@ export class GqPriceComponent implements OnInit {
 
   public trackByFn(index: number): number {
     return index;
+  }
+
+  isSpecialPriceCondition(): boolean {
+    return (
+      this.quotationDetail.sapPriceCondition === 'ZP05' ||
+      this.quotationDetail.sapPriceCondition === 'ZP17'
+    );
   }
 }

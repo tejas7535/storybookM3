@@ -11,8 +11,17 @@
     },
     "gqPrice": {
       "title": "GQ Pricing",
-      "priceLabel": "Netprice",
+      "priceLabel": "Net Price",
       "rating": "GQ-Rating",
+      "gpi": "GPI% (GPC)",
+      "gpm": "GPM% (SQV)",
+      "quantity": "Quantity",
+      "details": "Details"
+    },
+    "sapPrice": {
+      "title": "SAP Price Setting",
+      "priceLabel": "Net price (SAP)",
+      "priceCondition": "Price Condition",
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
       "quantity": "Quantity",

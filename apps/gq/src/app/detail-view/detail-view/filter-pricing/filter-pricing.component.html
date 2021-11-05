@@ -3,7 +3,7 @@
     [userHasManualPriceRole]="userHasManualPriceRole$ | ngrxPush"
     [quotationDetail]="quotationDetail"
     [currency]="customerCurrency$ | ngrxPush"
-    (selectManualPrice)="selectManualPrice($event)"
+    (selectManualPrice)="selectPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
     [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
@@ -13,10 +13,21 @@
     *ngIf="quotationDetail?.recommendedPrice"
     [quotationDetail]="quotationDetail"
     [currency]="customerCurrency$ | ngrxPush"
-    (selectManualPrice)="selectManualPrice($event)"
+    (selectGqPrice)="selectPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
     [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
   >
   </gq-price>
+
+  <gq-sap-price
+    *ngIf="quotationDetail?.sapPrice"
+    [quotationDetail]="quotationDetail"
+    [currency]="customerCurrency$ | ngrxPush"
+    (selectSapPrice)="selectPrice($event)"
+    [isLoading]="updateIsLoading$ | ngrxPush"
+    [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+    [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
+  >
+  </gq-sap-price>
 </div>

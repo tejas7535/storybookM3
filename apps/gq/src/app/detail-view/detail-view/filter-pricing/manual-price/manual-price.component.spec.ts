@@ -220,19 +220,28 @@ describe('ManualPriceComponent', () => {
     });
   });
   describe('setPrice', () => {
-    test('should set price', () => {
-      component.quotationDetail = { price: 10, recommendedPrice: 20 } as any;
+    test('should reset manual price, if user selects gq or sap price', () => {
+      component.quotationDetail = {
+        price: 10,
+        recommendedPrice: 20,
+        priceSource: PriceSource.SAP_SPECIAL,
+      } as any;
 
       component.setPrice();
 
-      expect(component.price).toEqual(10);
+      expect(component.price).toEqual(undefined);
     });
-    test('should set price to undefined', () => {
-      component.quotationDetail = { price: 20, recommendedPrice: 20 } as any;
+    test('should set price to quotationDetail price', () => {
+      const price = 20;
+      component.quotationDetail = {
+        price,
+        recommendedPrice: 20,
+        priceSource: PriceSource.MANUAL,
+      } as any;
 
       component.setPrice();
 
-      expect(component.price).toBeUndefined();
+      expect(component.price).toBe(price);
     });
   });
   describe('openEditing', () => {

@@ -21,6 +21,7 @@ import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
 import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
 import { QuantityModalComponent } from './quantity/quantity-modal/quantity-modal.component';
+import { SapPriceComponent } from './sap-price/sap-price.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { QuantityModalComponent } from './quantity/quantity-modal/quantity-modal
     FilterPricingCardComponent,
     ManualPriceComponent,
     GqPriceComponent,
+    SapPriceComponent,
     QuantityModalComponent,
     QuantityDisplayComponent,
   ],

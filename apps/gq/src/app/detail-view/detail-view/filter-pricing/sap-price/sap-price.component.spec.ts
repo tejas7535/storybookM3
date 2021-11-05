@@ -1,5 +1,4 @@
 import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,9 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks/models';
 import {
   PriceSource,
   UpdatePrice,
@@ -18,15 +15,18 @@ import {
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
-import { GqPriceComponent } from './gq-price.component';
+import { SapPriceComponent } from './sap-price.component';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-describe('GqPriceComponent', () => {
-  let component: GqPriceComponent;
-  let spectator: Spectator<GqPriceComponent>;
+describe('SapPriceComponent', () => {
+  let component: SapPriceComponent;
+  let spectator: Spectator<SapPriceComponent>;
   let router: Router;
 
   const createComponent = createComponentFactory({
-    component: GqPriceComponent,
+    component: SapPriceComponent,
     detectChanges: false,
     imports: [
       MatCardModule,
@@ -38,7 +38,7 @@ describe('GqPriceComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [
-      GqPriceComponent,
+      SapPriceComponent,
       FilterPricingCardComponent,
       QuantityDisplayComponent,
     ],
@@ -90,25 +90,17 @@ describe('GqPriceComponent', () => {
     });
   });
   describe('selectPrice', () => {
-    test('should emit Output EventEmitter with GQ price', () => {
-      component.selectGqPrice.emit = jest.fn();
+    test('should emit Output EventEmitter with sap price', () => {
+      component.selectSapPrice.emit = jest.fn();
+
       component.selectPrice();
-      const expected = new UpdatePrice(
-        QUOTATION_DETAIL_MOCK.recommendedPrice,
-        PriceSource.GQ
+
+      expect(component.selectSapPrice.emit).toHaveBeenCalledWith(
+        new UpdatePrice(
+          QUOTATION_DETAIL_MOCK.sapPrice,
+          PriceSource.SAP_STANDARD
+        )
       );
-      expect(component.selectGqPrice.emit).toHaveBeenCalledWith(expected);
-    });
-    test('should emit Output EventEmitter with strategic price', () => {
-      component.selectGqPrice.emit = jest.fn();
-      component.quotationDetail.strategicPrice = 10;
-      component.quotationDetail.recommendedPrice = undefined;
-      component.selectPrice();
-      const expected = new UpdatePrice(
-        QUOTATION_DETAIL_MOCK.strategicPrice,
-        PriceSource.STRATEGIC
-      );
-      expect(component.selectGqPrice.emit).toHaveBeenCalledWith(expected);
     });
   });
 
@@ -126,6 +118,32 @@ describe('GqPriceComponent', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
+    });
+  });
+
+  describe('isSpecialPriceCondition', () => {
+    [
+      {
+        sapPriceCondition: 'ZP05',
+        expected: true,
+      },
+      {
+        sapPriceCondition: 'ZP17',
+        expected: true,
+      },
+      {
+        sapPriceCondition: 'ZGQI',
+        expected: false,
+      },
+    ].forEach((testCase) => {
+      test(`returns ${testCase.expected} for ${testCase.sapPriceCondition}`, () => {
+        component.quotationDetail.sapPriceCondition =
+          testCase.sapPriceCondition;
+
+        const expected = component.isSpecialPriceCondition();
+
+        expect(expected).toBe(testCase.expected);
+      });
     });
   });
 });

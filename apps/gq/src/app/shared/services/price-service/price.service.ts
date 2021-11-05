@@ -77,7 +77,7 @@ export class PriceService {
     return undefined;
   }
 
-  static calculateMargin(price: number, costValue: number): number {
+  static calculateMargin(price: number, costValue: number): number | undefined {
     if (price && costValue) {
       const margin = (price - costValue) / price;
 

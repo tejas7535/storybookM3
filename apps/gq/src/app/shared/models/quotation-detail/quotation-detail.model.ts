@@ -1,6 +1,7 @@
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
 import { Plant } from './plant.model';
+import { PriceSource } from './price-source.enum';
 
 export class QuotationDetail {
   public quotationId: string;
@@ -27,7 +28,7 @@ export class QuotationDetail {
   public rlt: number;
   public productionSegment: number;
   public strategicPrice: number;
-  public priceSource: string;
+  public priceSource: PriceSource;
   public customerMaterial: string;
   public coefficient1: number;
   public coefficient2: number;

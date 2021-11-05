@@ -93,7 +93,7 @@ describe('FilterPricingComponent', () => {
         QUOTATION_DETAIL_MOCK.recommendedPrice,
         PriceSource.GQ
       );
-      component.selectManualPrice(updatePrice);
+      component.selectPrice(updatePrice);
 
       expect(mockStore.dispatch).toHaveBeenLastCalledWith(
         updateQuotationDetails({

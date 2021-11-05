@@ -41,7 +41,7 @@ export class FilterPricingComponent implements OnInit {
     this.updateIsLoading$ = this.store.select(getUpdateLoading);
   }
 
-  selectManualPrice(updatePrice: UpdatePrice): void {
+  selectPrice(updatePrice: UpdatePrice): void {
     const { priceSource } = updatePrice;
     const { priceUnit } = this.quotationDetail.material;
 

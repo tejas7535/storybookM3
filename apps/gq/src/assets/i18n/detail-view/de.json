@@ -18,6 +18,15 @@
       "quantity": "Menge",
       "details": "Details"
     },
+    "sapPrice": {
+      "title": "SAP Preiseinstellung",
+      "priceLabel": "Nettopreis",
+      "priceCondition": "Preiskondition",
+      "gpi": "GPI% (KHK)",
+      "gpm": "GPM% (SAW)",
+      "quantity": "Menge",
+      "details": "Details"
+    },
     "changeQuantity": {
       "title": "Menge ändern",
       "confirm": "Bestätigen",

@@ -1,16 +1,16 @@
 <div class="mt-4">
   <gq-filter-pricing-card
-    *transloco="let t; read: 'detailView.filterPricing.gqPrice'"
+    *transloco="let t; read: 'detailView.filterPricing.sapPrice'"
     [title]="t('title')"
-    [isSelected]="quotationDetail.priceSource === PriceSource.GQ"
+    [isSelected]="quotationDetail.priceSource === PriceSource.SAP_STANDARD"
     (selectManualPrice)="selectPrice()"
     [isLoading]="isLoading"
   >
-    <div content class="mt-[10px] w-full flex">
+    <div content class="mt-[10px] w-full flex flex-col md:flex-row">
       <div class="flex-grow max-w-[25%]">
         <div class="mb-1 text-body-1">{{ t('priceLabel') }}:</div>
         <span class="font-bold">{{
-          quotationDetail.recommendedPrice | numberCurrency: currency
+          quotationDetail.sapPrice | numberCurrency: currency
         }}</span>
       </div>
       <div class="flex-1" *ngIf="userHasGPCRole">
@@ -31,32 +31,22 @@
           [quantity]="quotationDetail.orderQuantity"
         ></gq-quantity-display>
       </div>
-      <div class="flex-1" *ngIf="quotationDetail.gqRating">
-        <div class="mb-1 text-body-1">{{ t('rating') }}:</div>
-        <div>
-          <ng-container
-            *ngFor="
-              let i of [].constructor(quotationDetail.gqRating);
-              trackBy: trackByFn
-            "
-          >
-            <mat-icon class="rating-icon">star</mat-icon>
-          </ng-container>
-          <ng-container
-            *ngFor="
-              let i of [].constructor(3 - quotationDetail.gqRating);
-              trackBy: trackByFn
-            "
-          >
-            <mat-icon class="rating-icon">star_border</mat-icon>
-          </ng-container>
-        </div>
+      <div class="flex-1" *ngIf="quotationDetail.sapPriceCondition">
+        <div class="mb-1 text-body-1">{{ t('priceCondition') }}:</div>
+        <span class="font-bold">{{ quotationDetail.sapPriceCondition }}</span>
       </div>
     </div>
     <div
-      *ngIf="!quotationDetail.strategicPrice"
       link
-      class="mt-6 link flex flex-row items-center ml-4"
+      class="
+        mt-6
+        text-[14px] text-primary
+        cursor-pointer
+        font-bold
+        flex flex-row
+        items-center
+        ml-4
+      "
       (click)="navigateClick()"
     >
       <mat-icon class="mr-2 text-h5">arrow_forward</mat-icon>

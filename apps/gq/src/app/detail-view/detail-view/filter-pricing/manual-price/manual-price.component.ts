@@ -10,9 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Observable, Subscription } from 'rxjs';
-
-import { TranslocoService } from '@ngneat/transloco';
+import { Subscription } from 'rxjs';
 
 import { EditingModalComponent } from '../../../../shared/components/editing-modal/editing-modal.component';
 import {
@@ -36,8 +34,8 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   gpm: number;
   price: number;
   _isLoading: boolean;
+  PriceSource = PriceSource;
 
-  title$: Observable<string>;
   private readonly subscription: Subscription = new Subscription();
 
   @Input() userHasGPCRole: boolean;
@@ -56,23 +54,12 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
 
   @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
-  constructor(
-    private readonly translocoService: TranslocoService,
-    private readonly dialog: MatDialog
-  ) {
-    this.title$ = this.translocoService.selectTranslate(
-      'filterPricing.manualPrice.title',
-      {},
-      'detail-view'
-    );
-  }
+  constructor(private readonly dialog: MatDialog) {}
 
   ngOnInit(): void {
     // check if price set equals GQ price
     this.setPrice();
-    // init form control
     this.manualPriceFormControl = new FormControl(this.price?.toString());
-    // set gpi
     this.setGpi();
     this.setGpm();
 
@@ -93,7 +80,6 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   addSubscriptions(): void {
-    // add subscription for value changes on formControl
     this.subscription.add(
       this.manualPriceFormControl.valueChanges.subscribe(() => {
         this.setGpi();
@@ -103,9 +89,9 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   }
   setPrice(): void {
     this.price =
-      this.quotationDetail.price === this.quotationDetail.recommendedPrice
-        ? undefined
-        : this.quotationDetail.price;
+      this.quotationDetail.priceSource === PriceSource.MANUAL
+        ? this.quotationDetail.price
+        : undefined;
   }
 
   setGpi(): void {
