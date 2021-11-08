@@ -87,11 +87,9 @@ describe('getColorsForChart', () => {
     const colors = utils.getColorsForChart(defaultData, compareData);
 
     expect(colors).toEqual([
-      Color.COLORFUL_CHART_10,
-      Color.COLORFUL_CHART_9,
-      Color.COLORFUL_CHART_11,
       Color.COLORFUL_CHART_8,
       Color.COLORFUL_CHART_7,
+      Color.COLORFUL_CHART_11,
       Color.COLORFUL_CHART_6,
       Color.COLORFUL_CHART_5,
       Color.COLORFUL_CHART_4,

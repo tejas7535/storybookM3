@@ -94,9 +94,16 @@ export function getColorsForChart(
     }
   });
 
-  const remainingColors = COLOR_PALETTE.filter((val) => !colors.includes(val));
+  // remove first n colors from color palette to get available colors for compareChartData
+  const remainingColors = [...COLOR_PALETTE];
+  remainingColors.splice(0, compareChartData.length);
 
-  return colors.map((color: Color) =>
-    color !== undefined ? color : remainingColors.shift()
-  );
+  // fill undefined entries with available colors
+  const colorPalette = colors
+    .map((color: Color) =>
+      color !== undefined ? color : remainingColors.shift()
+    )
+    .filter((color: Color) => color !== undefined);
+
+  return colorPalette;
 }
