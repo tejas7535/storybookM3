@@ -182,43 +182,60 @@
 
   <!-- greaseResult -->
   <ng-container *ngIf="subordinate.identifier === 'greaseResult'">
-    <div class="pb-6">
-      <mat-divider></mat-divider>
-      <div class="p-3">
-        <a
-          class="text-caption text-primary font-medium"
-          [attr.href]="
-            'https://medias.schaeffler.de/de/search/searchpage?text=' +
-            subordinate.greaseResult.title
-          "
-          target="_blank"
-        >
-          {{ subordinate.greaseResult.title }} &#10140;
-        </a>
-        <p class="text-caption">
-          {{ subordinate.greaseResult.subtitlePart1 }},
-          {{ subordinate.greaseResult.subtitlePart2 }},
-          {{ subordinate.greaseResult.subtitlePart3 }}
-        </p>
+    <div *transloco="let t" class="md:w-1/3 inline-block">
+      <div>
+        <mat-divider></mat-divider>
+        <div class="p-3">
+          <a
+            class="text-caption text-primary font-medium"
+            [attr.href]="
+              'https://medias.schaeffler.de/de/search/searchpage?text=' +
+              subordinate.greaseResult.title
+            "
+            target="_blank"
+          >
+            {{ subordinate.greaseResult.title }} &#10140;
+          </a>
+          <p class="text-caption">
+            {{ subordinate.greaseResult.subtitlePart1 }},
+            {{ subordinate.greaseResult.subtitlePart2 }},
+            {{ subordinate.greaseResult.subtitlePart3 }}
+          </p>
+        </div>
+        <!-- <pre>{{ subordinate.greaseResult | json }}</pre> -->
+        <table mat-table [dataSource]="subordinate.greaseResult.dataSource">
+          <ng-container matColumnDef="title">
+            <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="values">
+            <td mat-cell *matCellDef="let element">{{ element.values }}</td>
+          </ng-container>
+
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: subordinate.greaseResult.displayedColumns
+            "
+          ></tr>
+        </table>
+        <div class="p-3">
+          <a class="text-caption text-primary font-medium cursor-pointer">
+            {{
+              t(
+                !subordinate.greaseResult.showValues
+                  ? 'allValues'
+                  : 'hideValues'
+              )
+            }}
+          </a>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="p-3">
+          <span>{{ t('guideValues') }}</span>
+        </div>
       </div>
-      <!-- <pre>{{ subordinate.greaseResult | json }}</pre> -->
-      <table mat-table [dataSource]="subordinate.greaseResult.dataSource">
-        <ng-container matColumnDef="title">
-          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="values">
-          <td mat-cell *matCellDef="let element">{{ element.values }}</td>
-        </ng-container>
-
-        <tr
-          mat-row
-          *matRowDef="
-            let row;
-            columns: subordinate.greaseResult.displayedColumns
-          "
-        ></tr>
-      </table>
     </div>
   </ng-container>
 

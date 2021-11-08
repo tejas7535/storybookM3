@@ -7,27 +7,38 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
+import enJson from './i18n/en.json';
 import { ReportComponent } from './report.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveComponentModule,
+    TranslocoModule,
+
+    // Angular Material
     MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
-    ReactiveComponentModule,
-    SnackBarModule,
     MatTableModule,
     MatDividerModule,
+
+    // Todo use native snackbar
+    SnackBarModule,
   ],
   declarations: [ReportComponent, SafeHtmlPipe],
   providers: [SnackBarService],
   exports: [ReportComponent],
 })
-export class ReportModule {}
+export class ReportModule {
+  public constructor(private readonly translocoService: TranslocoService) {
+    this.translocoService.setTranslation(enJson, 'en');
+  }
+}
