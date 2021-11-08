@@ -7,9 +7,16 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <schaeffler-roles
-        *ngIf="rolesGroup.roles && rolesGroup.roles.length"
+        *ngIf="rolesGroup.roles && rolesGroup.roles.length; else noRoles"
         [roles]="rolesGroup.roles"
-      ></schaeffler-roles>
+      >
+        ></schaeffler-roles
+      >
+      <ng-template #noRoles>
+        <div class="text-subtitle-2 text-mediumEmphasis p-4 pt-0">
+          {{ t('rightsAndRolesMissingRoles') }}
+        </div>
+      </ng-template>
     </mat-expansion-panel>
   </mat-accordion>
 </ng-container>

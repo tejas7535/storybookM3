@@ -1,3 +1,4 @@
 {
-  "rightsAndRolesHeadingDefault": "Funciones y derechos"
+  "rightsAndRolesHeadingDefault": "Funciones y derechos",
+  "rightsAndRolesMissingRoles": "No hay funciones de usuario disponibles"
 }

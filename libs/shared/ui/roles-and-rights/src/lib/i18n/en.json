@@ -1,3 +1,4 @@
 {
-  "rightsAndRolesHeadingDefault": "Roles & Rights"
+  "rightsAndRolesHeadingDefault": "Roles & Rights",
+  "rightsAndRolesMissingRoles": "No user roles available"
 }

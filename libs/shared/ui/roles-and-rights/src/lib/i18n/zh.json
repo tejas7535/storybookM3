@@ -1,3 +1,4 @@
 {
-  "rightsAndRolesHeadingDefault": "角色和权利"
+  "rightsAndRolesHeadingDefault": "角色和权利",
+  "rightsAndRolesMissingRoles": "没有可用的用户角色"
 }

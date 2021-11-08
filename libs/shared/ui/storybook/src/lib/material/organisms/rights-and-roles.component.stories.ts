@@ -42,6 +42,11 @@ const mockRolesGroups: RolesGroup[] = [
   },
 ];
 
+const mockMissingRolesGroup: RolesGroup = {
+  title: 'Role Group With Missing Roles',
+  roles: [],
+};
+
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Roles & Rights`,
   component: RolesAndRightsComponent,
@@ -70,4 +75,10 @@ export const CustomHeading = getMultiLanguageStoryTemplate.bind({});
 CustomHeading.args = {
   headingText: 'My Custom Heading Text',
   rolesGroups: mockRolesGroups,
+};
+
+export const MissingRoles = getMultiLanguageStoryTemplate.bind({});
+MissingRoles.args = {
+  headingText: 'Some Roles are not available',
+  rolesGroups: [...mockRolesGroups, mockMissingRolesGroup],
 };

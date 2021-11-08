@@ -1,3 +1,4 @@
 {
-  "rightsAndRolesHeadingDefault": "Роли и права"
+  "rightsAndRolesHeadingDefault": "Роли и права",
+  "rightsAndRolesMissingRoles": "Отсутствие доступных ролей пользователей"
 }
