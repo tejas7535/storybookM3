@@ -36,6 +36,10 @@ const mockRolesGroups: RolesGroup[] = [
     title: 'Role Group Title 2',
     roles: mockRoles,
   },
+  {
+    title: 'Role Group Title 3',
+    roles: mockRoles,
+  },
 ];
 
 export default {
@@ -43,7 +47,7 @@ export default {
   component: RolesAndRightsComponent,
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.NeedsRevision],
+    badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({
