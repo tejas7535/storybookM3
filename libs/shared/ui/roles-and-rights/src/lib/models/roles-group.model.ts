@@ -7,11 +7,10 @@ import { Role } from './role.model';
 export interface RolesGroup {
   /**
    * Define title for roles group
-   * Use a translation key or clear text
    */
-  title?: string;
+  title: string;
   /**
    * Insert a list of roles
    */
-  roles?: Role[];
+  roles: Role[];
 }

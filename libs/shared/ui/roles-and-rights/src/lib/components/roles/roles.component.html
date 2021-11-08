@@ -1,29 +1,27 @@
-<ng-container *transloco="let t">
-  <div
-    *ngIf="roles && roles.length"
-    class="border-lightBg overflow-hidden"
-    [ngClass]="{ 'border rounded': standalone, 'border-t': !standalone }"
-  >
-    <div *ngFor="let role of roles; let i = index">
+<div
+  *ngIf="roles && roles.length"
+  class="border-lightBg overflow-hidden"
+  [ngClass]="{ 'border rounded': standalone, 'border-t': !standalone }"
+>
+  <div *ngFor="let role of roles; let i = index">
+    <div
+      class="flex flex-row border-t border-lightBg"
+      [ngClass]="{ 'border-t border-lightBg': i > 0 }"
+    >
       <div
-        class="flex flex-row border-t border-lightBg"
-        [ngClass]="{ 'border-t border-lightBg': i > 0 }"
+        class="
+          text-caption text-dark
+          px-6
+          pt-3
+          pb-6
+          bg-primary bg-opacity-[0.07]
+        "
       >
-        <div
-          class="
-            text-caption text-dark
-            px-6
-            pt-3
-            pb-6
-            bg-primary bg-opacity-[0.07]
-          "
-        >
-          {{ t(role.title) }}
-        </div>
-        <div class="text-caption text-dark px-6 pt-3 pb-6">
-          {{ t(role.rights) }}
-        </div>
+        {{ role.title }}
+      </div>
+      <div class="text-caption text-dark px-6 pt-3 pb-6">
+        {{ role.rights }}
       </div>
     </div>
   </div>
-</ng-container>
+</div>
