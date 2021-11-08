@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.4...goldwind-v0.2.3) (2021-11-08)
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** fix displaying issue of label for edm ([#3272](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3272)) ([7337f5a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7337f5a516c9cdaeeba3bf1a0c4f5c43a4a1e5ad))
+* **transloco:** imports in tests & readme updated ([c32329c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c32329ce19668460abac5b3997f0e937b3bfe5ba))
+
+
+### 🎸 Features
+
+* **goldwind:** add legend, scale down, rotate axis -90°, add interva… ([#3276](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3276)) ([4720137](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4720137eb20b87ef5205c04ca131dc67ff96cead))
+* **goldwind:** format tooltip date of heatmap tooltip ([#3277](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3277)) ([38cc281](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38cc281d8d4825c07d832e59148c800b11dac2a7))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
 ### [0.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.3...goldwind-v0.2.2) (2021-10-27)
 
 
