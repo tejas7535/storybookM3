@@ -1,3 +1,7 @@
+/* eslint-disable max-lines */
+/* eslint-disable unicorn/no-null */
+/* eslint-disable unicorn/no-zero-fractions */
+
 export const greaseReport = {
   identifier: 'outputDescription',
   programName: 'Bearinx',

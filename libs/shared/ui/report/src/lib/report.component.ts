@@ -100,6 +100,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   public formatGreaseReport(result: Subordinate[]): Subordinate[] {
+    // eslint-disable-next-line no-console
     // console.log(result);
     let formattedResult = result;
 
@@ -113,6 +114,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_RESULTS
     ) as Subordinate;
 
+    // eslint-disable-next-line no-console
     console.log(resultSection);
 
     // get table 2
@@ -134,8 +136,11 @@ export class ReportComponent implements OnInit, OnDestroy {
         titleID === TitleId.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
     );
 
+    // eslint-disable-next-line no-console
     console.log(tables);
+    // eslint-disable-next-line no-console
     console.log(table1);
+    // eslint-disable-next-line no-console
     // console.log(table2);
 
     // compose compact grease table
@@ -149,6 +154,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             .slice(0, 3)
             .map((item: TableItem[], index: number) => {
               const table1Values = table1?.data?.items[index];
+              // eslint-disable-next-line no-console
               console.log(table1Values);
 
               const findItem = (searchField: Field): TableItem =>
@@ -195,6 +201,7 @@ export class ReportComponent implements OnInit, OnDestroy {
               };
 
               item.forEach(({ field, value }: TableItem) => {
+                // eslint-disable-next-line no-console
                 // console.log({ field, value });
 
                 switch (field) {
@@ -239,6 +246,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       },
     ];
 
+    // eslint-disable-next-line no-console
     // console.log(formattedResult);
 
     return formattedResult;
