@@ -171,11 +171,25 @@ export class ReportComponent implements OnInit, OnDestroy {
                   },
                   {
                     title: 'Manual relubrication quantity/interval', // TODO: transloco
-                    values: `?`,
+                    values: `${
+                      (+(findItem(Field.QVRE_MAN_MIN) as any).value +
+                        +(findItem(Field.QVRE_MAN_MAX) as any).value) /
+                      2
+                    } ${findItem(Field.QVRE_MAN_MIN).unit} / 
+                    ${Math.round(
+                      (+(findItem(Field.TFR_MIN) as any).value +
+                        +(findItem(Field.TFR_MIN) as any).value) /
+                        2 /
+                        24
+                    )} d`,
                   },
                   {
                     title: 'Automatic relubrication quantity per day', // TODO: transloco
-                    values: `?`,
+                    values: `${
+                      (+(findItem(Field.QVRE_AUT_MIN) as any).value +
+                        +(findItem(Field.QVRE_AUT_MAX) as any).value) /
+                      2
+                    } ${findItem(Field.QVRE_AUT_MIN).unit}`,
                   },
                 ],
               };

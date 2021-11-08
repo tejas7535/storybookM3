@@ -13,6 +13,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
+import { greaseReport } from '../mocks/grease-json-report';
+import { Subordinate } from './models';
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
 
@@ -229,6 +231,17 @@ describe('ReportComponent', () => {
       const result = component.getHeaders(fields);
 
       expect(result).toEqual(['a0', 'b1', 'c2']);
+    });
+  });
+
+  describe('formatGreaseReport', () => {
+    it('should handle a grease report', () => {
+      const mockGreaseReport =
+        greaseReport.subordinates as unknown as Subordinate[];
+
+      const result = component.formatGreaseReport(mockGreaseReport);
+
+      expect(result).toBeTruthy();
     });
   });
 });

@@ -1,5 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -36,6 +38,7 @@ describe('ResultComponent', () => {
       RouterTestingModule,
       SharedModule,
       ReactiveComponentModule,
+      FormsModule,
       HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
 
@@ -44,6 +47,7 @@ describe('ResultComponent', () => {
       BreadcrumbsModule,
       ReportModule,
       LoadingSpinnerModule,
+      MatSlideToggleModule,
 
       // Material Modules
     ],

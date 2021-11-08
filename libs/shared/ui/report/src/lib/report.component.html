@@ -180,12 +180,6 @@
     </ng-container>
   </ng-container>
 
-  <!-- custom -->
-  <!-- TODO: remove again if not needed -->
-  <ng-container *ngIf="subordinate.identifier === 'custom'">
-    <div [innerHtml]="subordinate.outerHTML | safeHtml"></div>
-  </ng-container>
-
   <!-- greaseResult -->
   <ng-container *ngIf="subordinate.identifier === 'greaseResult'">
     <div class="pb-6">

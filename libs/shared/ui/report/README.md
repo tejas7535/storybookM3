@@ -37,7 +37,9 @@ API of Report Component:
 ```typescript
   @Input() public title: string;
   @Input() public subtitle?: string;
-  @Input() public displayReport: string;
+  @Input() public htmlReport?: string;
+  @Input() public jsonReportReport?: string;
+  @Input() public type?: 'GENERIC' | 'GREASE';
   @Input() public downloadReport?: string;
   @Input() public errorMsg: string = 'Unfortunately an error occured. Please try again later.';
   @Input() public actionText: string = 'Retry';
@@ -53,7 +55,9 @@ Use like:
     *ngIf="result$ | ngrxPush as result; else loading"
     [title]="'Bearing ID (todo)'"
     [subtitle]="'Report ID (todo)'"
-    [displayReport]="result.htmlReportUrl"
+    [htmlReport]="result.htmlReportUrl"
+    [jsonReport]="result.jsonReportUrl"
+    [type]="'GREASE'"
     [downloadReport]="result.pdfReportUrl"
     [errorMsg]="translatedErrorMsg"
     [actionText]="translatedActionText"
@@ -68,8 +72,9 @@ Use like:
 
 public title = 'my title';
 public img = 'my subtitle';
-public displayReport = 'url-to-html-repo.rt'
-public downloadReport = 'url-to-pdf-repo.rt'
+public htmlReport = 'url-to-html-report'
+public jsonReport = 'url-to-json-report'
+public downloadReport = 'url-to-pdf-report'
 public errorMsg = 'some error message'
 public actionText = 'some action text'
 ```

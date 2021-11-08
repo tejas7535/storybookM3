@@ -18,4 +18,10 @@ export enum Field {
   NLGI = 'NLGI',
   THICKENER = 'Thickener',
   QVIN = 'Qvin',
+  QVRE_MAN_MIN = 'Qvre_man_min',
+  QVRE_MAN_MAX = 'Qvre_man_max',
+  QVRE_AUT_MIN = 'Qvre_aut_min',
+  QVRE_AUT_MAX = 'Qvre_aut_max',
+  TFR_MIN = 'tfR_min',
+  TFR_MAX = 'tfR_max',
 }

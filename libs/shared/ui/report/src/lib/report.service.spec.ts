@@ -6,6 +6,7 @@ import {
 
 import { jsonReport } from '../mocks/json-report';
 import { reportBodyMock } from '../mocks/report';
+import { DUMMY } from './models';
 import { ReportService } from './report.service';
 
 describe('ReportService testing', () => {
@@ -28,14 +29,26 @@ describe('ReportService testing', () => {
           expect(response).toEqual(mock);
         });
 
-      const req = spectator.expectOne('fakeRefHtml', HttpMethod.GET);
+      const req = spectator.expectOne(mockRefHtml, HttpMethod.GET);
 
       req.flush(mock);
     });
   });
 
   describe('getJsonReport', () => {
-    it('getReport triggers a GET call', () => {
+    it('should handle the "DUMMY" case', () => {
+      const mockRefJson = DUMMY;
+
+      const mock = jsonReport.subordinates;
+
+      spectator.service
+        .getJsonReport(mockRefJson)
+        .subscribe((response: any) => {
+          expect(response).toEqual(mock);
+        });
+    });
+
+    it('should trigger a GET call', () => {
       const mockRefJson = 'fakeRefJson';
 
       const mock = jsonReport.subordinates;
@@ -45,6 +58,10 @@ describe('ReportService testing', () => {
         .subscribe((response: any) => {
           expect(response).toEqual(mock);
         });
+
+      const req = spectator.expectOne(mockRefJson, HttpMethod.GET);
+
+      req.flush(mock);
     });
   });
 });
