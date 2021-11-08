@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { EditCellComponent } from '../../cell-renderer/edit-cells/edit-cell/edit-cell.component';
 import { EditCellData } from '../../cell-renderer/models/edit-cell-class-params.model';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
@@ -36,7 +35,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.orderQuantity'),
       field: ColumnFields.ORDER_QUANTITY,
       valueFormatter: ColumnUtilityService.numberFormatter,
-      cellRenderer: EditCellComponent.name,
+      cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.ORDER_QUANTITY,
@@ -46,7 +45,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.price'),
       field: ColumnFields.PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
-      cellRenderer: EditCellComponent.name,
+      cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
         field: ColumnFields.PRICE,
@@ -86,7 +85,7 @@ export class ColumnDefService {
       field: ColumnFields.DISCOUNT,
       valueFormatter: ColumnUtilityService.percentageFormatter,
       editable: true,
-      cellRenderer: EditCellComponent.name,
+      cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: 'sapGrossPrice' },
         field: ColumnFields.DISCOUNT,
@@ -111,7 +110,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpi'),
       field: ColumnFields.GPI,
       valueFormatter: ColumnUtilityService.percentageFormatter,
-      cellRenderer: EditCellComponent.name,
+      cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.GPC },
         field: ColumnFields.GPI,
@@ -121,7 +120,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.gpm'),
       field: ColumnFields.GPM,
       valueFormatter: ColumnUtilityService.percentageFormatter,
-      cellRenderer: EditCellComponent.name,
+      cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.SQV },
         field: ColumnFields.GPM,
