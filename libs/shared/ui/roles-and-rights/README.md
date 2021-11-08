@@ -115,9 +115,8 @@ export class MyComponent {
 <schaeffler-roles-and-rights [roles]="roles"></schaeffler-roles-and-rights>
 
 <!--  with custom heading -->
-<!--  if multi-language, make sure to provide the translation -->
 <schaeffler-roles-and-rights
-  [headingText]="'my.custom.heading'"
+  headingText="My Custom Heading Text"
   [roles]="roles"
 ></schaeffler-roles-and-rights>
 ```
@@ -126,7 +125,7 @@ export class MyComponent {
 
 | Name           | Description                                                                                                      |
 | ---------------| -----------------------------------------------------------------------------------------------------------------|
-| headingText    | (optional) set custom heading of the component, if multi-language, make sure to provide the translation          |
+| headingText    | (optional) set custom heading of the component, a multi-language default is available                            |
 | rolesGroups    | (optional) a grouped set of roles with the associated rights                                                     |
 | roles          | (optional) a standalone set of roles with the associated rights                                                  |
 

@@ -1,6 +1,6 @@
 <div class="py-4 px-5" *transloco="let t">
   <div class="text-subtitle-1 mb-4">
-    {{ t(headingText || 'rightsAndRolesHeadingDefault') }}
+    {{ headingText || t('rightsAndRolesHeadingDefault') }}
   </div>
   <schaeffler-roles-groups
     *ngIf="rolesGroups && rolesGroups.length"
