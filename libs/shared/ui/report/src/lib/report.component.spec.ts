@@ -14,7 +14,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { greaseReport } from '../mocks/grease-json-report';
-import { Subordinate } from './models';
+import { Subordinate, TitleId } from './models';
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
 
@@ -236,12 +236,29 @@ describe('ReportComponent', () => {
 
   describe('formatGreaseReport', () => {
     it('should handle a grease report', () => {
+      const spy = jest.spyOn(component, 'showActiveData');
+
       const mockGreaseReport =
         greaseReport.subordinates as unknown as Subordinate[];
 
-      const result = component.formatGreaseReport(mockGreaseReport);
+      component.formatGreaseReport(mockGreaseReport);
 
-      expect(result).toBeTruthy();
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('toggleShowValues', () => {
+    it('should handle a grease report', () => {
+      const spy = jest.spyOn(component, 'showActiveData');
+      component.formatGreaseReport(greaseReport.subordinates);
+
+      const mockSubordinate = component.formattedResult.find(
+        ({ titleID }: any) => titleID === TitleId.STRING_OUTP_RESULTS
+      ).subordinates[1];
+
+      component.toggleShowValues(mockSubordinate);
+
+      expect(spy).toHaveBeenCalled();
     });
   });
 });

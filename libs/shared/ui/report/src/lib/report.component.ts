@@ -38,6 +38,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   public htmlResult$ = new ReplaySubject<string>();
   public jsonResult$ = new ReplaySubject<Subordinate[]>();
   private readonly destroy$ = new Subject<void>();
+  public formattedResult: any;
 
   public constructor(
     private readonly reportService: ReportService,
@@ -80,7 +81,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result: Subordinate[]) =>
           this.type === Type.GREASE
-            ? this.jsonResult$.next(this.formatGreaseReport(result))
+            ? this.formatGreaseReport(result)
             : this.jsonResult$.next(result),
         error: () => {
           this.snackbarService
@@ -99,13 +100,11 @@ export class ReportComponent implements OnInit, OnDestroy {
     return fields.map((field: string, index: number) => `${field}${index}`);
   }
 
-  public formatGreaseReport(result: Subordinate[]): Subordinate[] {
-    // eslint-disable-next-line no-console
-    // console.log(result);
-    let formattedResult = result;
+  public formatGreaseReport(result: Subordinate[]): void {
+    this.formattedResult = result;
 
     // remove unneeded sections
-    formattedResult = formattedResult.filter(
+    this.formattedResult = this.formattedResult.filter(
       (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_INPUT
     );
 
@@ -113,9 +112,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     const resultSection = result.find(
       (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_RESULTS
     ) as Subordinate;
-
-    // eslint-disable-next-line no-console
-    console.log(resultSection);
 
     // get table 2
     const tables = resultSection?.subordinates
@@ -144,8 +140,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     // console.log(table2);
 
     // compose compact grease table
-    formattedResult = [
-      ...formattedResult,
+    this.formattedResult = [
+      ...this.formattedResult,
       {
         ...resultSection,
         defaultOpen: true,
@@ -155,7 +151,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             .map((item: TableItem[], index: number) => {
               const table1Values = table1?.data?.items[index];
               // eslint-disable-next-line no-console
-              console.log(table1Values);
+              console.log(item);
 
               const findItem = (searchField: Field): TableItem =>
                 table1Values?.find(
@@ -167,6 +163,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                 subtitlePart1: '',
                 subtitlePart2: '',
                 subtitlePart3: '',
+                showValues: false,
                 displayedColumns: ['title', 'values'],
                 dataSource: [
                   {
@@ -174,6 +171,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                     values: `${findItem(Field.QVIN).value} ${
                       findItem(Field.QVIN).unit
                     }`,
+                    permaDisplay: true,
                   },
                   {
                     title: 'Manual relubrication quantity/interval', // TODO: transloco
@@ -188,6 +186,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                         2 /
                         24
                     )} d`,
+                    permaDisplay: true,
                   },
                   {
                     title: 'Automatic relubrication quantity per day', // TODO: transloco
@@ -196,11 +195,12 @@ export class ReportComponent implements OnInit, OnDestroy {
                         +(findItem(Field.QVRE_AUT_MAX) as any).value) /
                       2
                     } ${findItem(Field.QVRE_AUT_MIN).unit}`,
+                    permaDisplay: true,
                   },
                 ],
               };
 
-              item.forEach(({ field, value }: TableItem) => {
+              item.forEach(({ field, value, unit }: TableItem) => {
                 // eslint-disable-next-line no-console
                 // console.log({ field, value });
 
@@ -217,6 +217,13 @@ export class ReportComponent implements OnInit, OnDestroy {
                   case Field.THICKENER:
                     greaseResult.subtitlePart3 = `${value}`;
                     break;
+                  case Field.NY40:
+                    (greaseResult.dataSource as any)[3] = {
+                      title: 'Base oil viscosity at 40°C', // TODO: transloco
+                      values: `${value} ${unit}`,
+                      display: false,
+                    };
+                    break;
                   default:
                     break;
                 }
@@ -224,6 +231,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
               return {
                 greaseResult,
+                index,
                 identifier: 'greaseResult',
               } as Subordinate;
             }) as Subordinate[]),
@@ -234,8 +242,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     ];
 
     // add errors, warning, notes
-    formattedResult = [
-      ...formattedResult,
+    this.formattedResult = [
+      ...this.formattedResult,
       {
         identifier: 'block',
         title: 'Errors, Warnings & Notes', // Todo: translate
@@ -247,8 +255,53 @@ export class ReportComponent implements OnInit, OnDestroy {
     ];
 
     // eslint-disable-next-line no-console
-    // console.log(formattedResult);
+    // console.log(this.formattedResult);
 
-    return formattedResult;
+    this.showActiveData();
+  }
+
+  public toggleShowValues(subordinate: Subordinate): void {
+    this.formattedResult = this.formattedResult.map((section: Subordinate) =>
+      section.titleID === TitleId.STRING_OUTP_RESULTS
+        ? {
+            ...section,
+            subordinates: section.subordinates?.map((subsection: any) =>
+              subsection.index === (subordinate as any).index
+                ? {
+                    ...subsection,
+                    greaseResult: {
+                      ...subsection.greaseResult,
+                      showValues: !subsection.greaseResult.showValues,
+                    },
+                  }
+                : subsection
+            ),
+          }
+        : section
+    ) as Subordinate[];
+
+    this.showActiveData();
+  }
+
+  public showActiveData(): void {
+    const activeData = this.formattedResult.map((section: Subordinate) =>
+      section.titleID === TitleId.STRING_OUTP_RESULTS
+        ? {
+            ...section,
+            subordinates: section.subordinates?.map((subsection: any) => ({
+              ...subsection,
+              greaseResult: {
+                ...subsection.greaseResult,
+                dataSource: subsection.greaseResult?.dataSource.filter(
+                  (entry: any) =>
+                    entry.display !== subsection.greaseResult.showValues
+                ),
+              },
+            })),
+          }
+        : section
+    ) as Subordinate[];
+
+    this.jsonResult$.next(activeData);
   }
 }

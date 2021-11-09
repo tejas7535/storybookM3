@@ -221,7 +221,10 @@
           ></tr>
         </table>
         <div class="p-3">
-          <a class="text-caption text-primary font-medium cursor-pointer">
+          <a
+            class="text-caption text-primary font-medium cursor-pointer"
+            (click)="toggleShowValues(subordinate)"
+          >
             {{
               t(
                 !subordinate.greaseResult.showValues

@@ -5,12 +5,12 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { filter, of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoService, TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { ReportModule } from '@schaeffler/report';
 import { SnackBarService } from '@schaeffler/snackbar';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BEARING_CALCULATION_RESULT_MOCK } from '../../../testing/mocks/rest.service.mock';
 import { ResultPageComponent } from './result-page.component';
@@ -27,7 +27,7 @@ describe('ResultPageComponent', () => {
     imports: [
       ReactiveComponentModule,
       HttpClientTestingModule,
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
       ReportModule,
     ],
     declarations: [ResultPageComponent],
@@ -40,12 +40,6 @@ describe('ResultPageComponent', () => {
               ? throwError(() => new Error('sometext'))
               : of(BEARING_CALCULATION_RESULT_MOCK)
           ),
-        },
-      },
-      {
-        provide: TranslocoService,
-        useValue: {
-          translate: jest.fn(() => 'some text'),
         },
       },
       {

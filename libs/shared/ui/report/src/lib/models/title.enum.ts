@@ -24,4 +24,5 @@ export enum Field {
   QVRE_AUT_MAX = 'Qvre_aut_max',
   TFR_MIN = 'tfR_min',
   TFR_MAX = 'tfR_max',
+  NY40 = 'ny40',
 }
