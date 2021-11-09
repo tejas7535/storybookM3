@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   Component,
   Input,
@@ -113,7 +114,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       (section: Subordinate) => section.titleID === TitleId.STRING_OUTP_RESULTS
     ) as Subordinate;
 
-    // get table 2
+    // get tables
     const tables = resultSection?.subordinates
       ?.filter(
         ({ titleID }: Subordinate) =>
@@ -121,22 +122,21 @@ export class ReportComponent implements OnInit, OnDestroy {
       )
       .pop();
 
+    // get table 1
     const table1 = tables?.subordinates?.find(
       ({ titleID }: Subordinate) =>
         titleID ===
         TitleId.STRING_OUTP_RESULTS_FOR_GREASE_SERVICE_STRING_OUTP_GREASE_QUANTITY_IN_CCM
     );
 
+    // get table 2
     const table2 = tables?.subordinates?.find(
       ({ titleID }: Subordinate) =>
         titleID === TitleId.STRING_OUTP_OVERVIEW_OF_CALCULATION_DATA_FOR_GREASES
     );
 
-    // eslint-disable-next-line no-console
-    console.log(tables);
-    // eslint-disable-next-line no-console
-    console.log(table1);
-    // eslint-disable-next-line no-console
+    // console.log(tables);
+    // console.log(table1);
     // console.log(table2);
 
     // compose compact grease table
@@ -150,8 +150,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             .slice(0, 3)
             .map((item: TableItem[], index: number) => {
               const table1Values = table1?.data?.items[index];
-              // eslint-disable-next-line no-console
-              console.log(item);
+              // console.log(item);
 
               const findItem = (searchField: Field): TableItem =>
                 table1Values?.find(
@@ -171,7 +170,6 @@ export class ReportComponent implements OnInit, OnDestroy {
                     values: `${findItem(Field.QVIN).value} ${
                       findItem(Field.QVIN).unit
                     }`,
-                    permaDisplay: true,
                   },
                   {
                     title: 'Manual relubrication quantity/interval', // TODO: transloco
@@ -179,14 +177,12 @@ export class ReportComponent implements OnInit, OnDestroy {
                       (+(findItem(Field.QVRE_MAN_MIN) as any).value +
                         +(findItem(Field.QVRE_MAN_MAX) as any).value) /
                       2
-                    } ${findItem(Field.QVRE_MAN_MIN).unit} / 
-                    ${Math.round(
+                    } ${findItem(Field.QVRE_MAN_MIN).unit}/${Math.round(
                       (+(findItem(Field.TFR_MIN) as any).value +
                         +(findItem(Field.TFR_MIN) as any).value) /
                         2 /
                         24
                     )} d`,
-                    permaDisplay: true,
                   },
                   {
                     title: 'Automatic relubrication quantity per day', // TODO: transloco
@@ -195,15 +191,62 @@ export class ReportComponent implements OnInit, OnDestroy {
                         +(findItem(Field.QVRE_AUT_MAX) as any).value) /
                       2
                     } ${findItem(Field.QVRE_AUT_MIN).unit}`,
-                    permaDisplay: true,
                   },
                 ],
               };
 
-              item.forEach(({ field, value, unit }: TableItem) => {
-                // eslint-disable-next-line no-console
-                // console.log({ field, value });
+              (greaseResult.dataSource as any)[3] = {
+                title: 'Automatic relubrication per week', // TODO: transloco
+                values: `${Number(
+                  ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
+                    +(findItem(Field.QVRE_AUT_MAX) as any).value) /
+                    2) *
+                    7
+                ).toFixed(2)} ${findItem(Field.QVIN).unit}/7d`,
+                display: false,
+              };
+              (greaseResult.dataSource as any)[4] = {
+                title: 'Automatic relubrication per month', // TODO: transloco
+                values: `${Number(
+                  ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
+                    +(findItem(Field.QVRE_AUT_MAX) as any).value) /
+                    2) *
+                    30
+                ).toFixed(2)} ${findItem(Field.QVIN).unit}/30d`,
+                display: false,
+              };
+              (greaseResult.dataSource as any)[5] = {
+                title: 'Automatic relubrication per year', // TODO: transloco
+                values: `${Number(
+                  ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
+                    +(findItem(Field.QVRE_AUT_MAX) as any).value) /
+                    2) *
+                    365
+                ).toFixed(2)} ${findItem(Field.QVIN).unit}/365d`,
+                display: false,
+              };
+              (greaseResult.dataSource as any)[9] = {
+                title: 'Grease service life', // TODO: transloco
+                values: `~ ${Math.round(
+                  (+(findItem(Field.TFG_MIN) as any).value +
+                    +(findItem(Field.TFG_MAX) as any).value) /
+                    2 /
+                    24
+                )} d`,
+                display: false,
+              };
+              (greaseResult.dataSource as any)[11] = {
+                title: 'Additive required', // TODO: transloco
+                values: `${findItem(Field.ADD_REQ).value}`,
+                display: false,
+              };
+              (greaseResult.dataSource as any)[12] = {
+                title: 'Effective EP-additivation', // TODO: transloco
+                values: `${findItem(Field.ADD_W).value}`,
+                display: false,
+              };
 
+              item.forEach(({ field, value, unit }: TableItem) => {
                 switch (field) {
                   case Field.GREASE_GRADE:
                     greaseResult.title = `${value}`;
@@ -218,9 +261,65 @@ export class ReportComponent implements OnInit, OnDestroy {
                     greaseResult.subtitlePart3 = `${value}`;
                     break;
                   case Field.NY40:
-                    (greaseResult.dataSource as any)[3] = {
+                    (greaseResult.dataSource as any)[6] = {
                       title: 'Base oil viscosity at 40°C', // TODO: transloco
                       values: `${value} ${unit}`,
+                      display: false,
+                    };
+                    break;
+                  case Field.T_LIM_LOW:
+                    (greaseResult.dataSource as any)[7] = {
+                      title: 'Lower temperature limit', // TODO: transloco
+                      values: `${value} ${unit}`,
+                      display: false,
+                    };
+                    break;
+                  case Field.T_LIM_UP:
+                    (greaseResult.dataSource as any)[8] = {
+                      title: 'Upper temperature limit', // TODO: transloco
+                      values: `${value} ${unit}`,
+                      display: false,
+                    };
+                    break;
+                  case Field.RHO:
+                    (greaseResult.dataSource as any)[12] = {
+                      title: 'Density', // TODO: transloco
+                      values: `${value} ${unit}`,
+                      display: false,
+                    };
+                    break;
+                  case Field.F_LOW:
+                    (greaseResult.dataSource as any)[13] = {
+                      title: 'Low Friction', // TODO: transloco
+                      values: `${value} (${this.checkSuitablity(
+                        value as string
+                      )})`,
+                      display: false,
+                    };
+                    break;
+                  case Field.VIP:
+                    (greaseResult.dataSource as any)[14] = {
+                      title: 'Suitable for vibrations', // TODO: transloco
+                      values: `${value} (${this.checkSuitablity(
+                        value as string
+                      )})`,
+                      display: false,
+                    };
+                    break;
+                  case Field.SEAL:
+                    (greaseResult.dataSource as any)[15] = {
+                      title: 'Support for seals', // TODO: transloco
+                      values: `${value} (${this.checkSuitablity(
+                        value as string
+                      )})`,
+                      display: false,
+                    };
+                    break;
+                  case Field.NSF_H1:
+                    (greaseResult.dataSource as any)[16] = {
+                      title:
+                        'H1 registration (NSF-H1 kosher and halal certification)', // TODO: transloco
+                      values: `${value}`,
                       display: false,
                     };
                     break;
@@ -235,8 +334,8 @@ export class ReportComponent implements OnInit, OnDestroy {
                 identifier: 'greaseResult',
               } as Subordinate;
             }) as Subordinate[]),
-          table1 as any, // Todo: remove later
-          table2 as any, // Todo: remove later
+          // table1 as any, // Todo: remove later
+          // table2 as any, // Todo: remove later
         ],
       },
     ];
@@ -254,10 +353,21 @@ export class ReportComponent implements OnInit, OnDestroy {
       },
     ];
 
-    // eslint-disable-next-line no-console
     // console.log(this.formattedResult);
 
     this.showActiveData();
+  }
+
+  public checkSuitablity(suitable: string) {
+    const suitablityLevels = {
+      '++': 'extremely suitable',
+      '+': 'highly suitable',
+      '0': 'suitable',
+      '-': 'lett suitable',
+      '--': 'note suitable',
+    };
+
+    return (suitablityLevels as any)[suitable] || '';
   }
 
   public toggleShowValues(subordinate: Subordinate): void {
