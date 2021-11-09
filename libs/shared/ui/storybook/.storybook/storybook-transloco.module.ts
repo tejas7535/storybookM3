@@ -59,7 +59,10 @@ const translocoStorybookInitializer =
       provide: TRANSLOCO_CONFIG,
       useValue: translocoConfig({
         reRenderOnLangChange: true,
-        availableLangs: STORYBOOK_SUPPORTED_LANGUAGES.map((l) => l.code),
+        availableLangs: STORYBOOK_SUPPORTED_LANGUAGES.map((l) => ({
+          id: l.code,
+          label: l.title,
+        })),
         defaultLang: STORYBOOK_DEFAULT_LANGUAGE.code,
         fallbackLang: STORYBOOK_DEFAULT_LANGUAGE.code,
         prodMode: false,

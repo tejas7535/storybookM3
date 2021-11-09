@@ -21,8 +21,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/shared/utils/transloco/src/**/*.ts",
-          "libs/shared/utils/transloco/src/**/*.html"
+          "libs/shared/utils/transloco/**/*.ts",
+          "libs/shared/utils/transloco/**/*.html"
         ]
       },
       "configurations": {
