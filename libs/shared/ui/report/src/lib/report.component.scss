@@ -82,3 +82,7 @@ table {
     @apply hidden;
   }
 }
+
+mat-card .relative-divider.mat-divider-horizontal {
+  @apply relative;
+}

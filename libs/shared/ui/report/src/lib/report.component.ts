@@ -10,6 +10,8 @@ import {
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
+
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { Field, Hint, TitleId, Type } from './models';
@@ -166,13 +168,13 @@ export class ReportComponent implements OnInit, OnDestroy {
                 displayedColumns: ['title', 'values'],
                 dataSource: [
                   {
-                    title: 'Inital grease quantity', // TODO: transloco
+                    title: 'greaseTable.initalGreaseQuantity',
                     values: `${findItem(Field.QVIN).value} ${
                       findItem(Field.QVIN).unit
                     }`,
                   },
                   {
-                    title: 'Manual relubrication quantity/interval', // TODO: transloco
+                    title: 'greaseTable.manualRelubricationQuantityInterval',
                     values: `${
                       (+(findItem(Field.QVRE_MAN_MIN) as any).value +
                         +(findItem(Field.QVRE_MAN_MAX) as any).value) /
@@ -185,7 +187,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                     )} d`,
                   },
                   {
-                    title: 'Automatic relubrication quantity per day', // TODO: transloco
+                    title: 'greaseTable.automaticRelubricationQuantityPerDay',
                     values: `${
                       (+(findItem(Field.QVRE_AUT_MIN) as any).value +
                         +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -196,7 +198,7 @@ export class ReportComponent implements OnInit, OnDestroy {
               };
 
               (greaseResult.dataSource as any)[3] = {
-                title: 'Automatic relubrication per week', // TODO: transloco
+                title: 'greaseTable.automaticRelubricationPerWeek',
                 values: `${Number(
                   ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
                     +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -206,7 +208,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                 display: false,
               };
               (greaseResult.dataSource as any)[4] = {
-                title: 'Automatic relubrication per month', // TODO: transloco
+                title: 'greaseTable.automaticRelubricationPerMonth',
                 values: `${Number(
                   ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
                     +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -216,7 +218,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                 display: false,
               };
               (greaseResult.dataSource as any)[5] = {
-                title: 'Automatic relubrication per year', // TODO: transloco
+                title: 'greaseTable.automaticRelubricationPerYear',
                 values: `${Number(
                   ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
                     +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -226,7 +228,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                 display: false,
               };
               (greaseResult.dataSource as any)[9] = {
-                title: 'Grease service life', // TODO: transloco
+                title: 'greaseTable.greaseServiceLife',
                 values: `~ ${Math.round(
                   (+(findItem(Field.TFG_MIN) as any).value +
                     +(findItem(Field.TFG_MAX) as any).value) /
@@ -236,12 +238,12 @@ export class ReportComponent implements OnInit, OnDestroy {
                 display: false,
               };
               (greaseResult.dataSource as any)[11] = {
-                title: 'Additive required', // TODO: transloco
+                title: 'greaseTable.additiveRequired',
                 values: `${findItem(Field.ADD_REQ).value}`,
                 display: false,
               };
               (greaseResult.dataSource as any)[12] = {
-                title: 'Effective EP-additivation', // TODO: transloco
+                title: 'greaseTable.effectiveEpAdditivation',
                 values: `${findItem(Field.ADD_W).value}`,
                 display: false,
               };
@@ -262,35 +264,35 @@ export class ReportComponent implements OnInit, OnDestroy {
                     break;
                   case Field.NY40:
                     (greaseResult.dataSource as any)[6] = {
-                      title: 'Base oil viscosity at 40°C', // TODO: transloco
+                      title: 'greaseTable.baseOilViscosityAt40',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.T_LIM_LOW:
                     (greaseResult.dataSource as any)[7] = {
-                      title: 'Lower temperature limit', // TODO: transloco
+                      title: 'greaseTable.lowerTemperatureLimit',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.T_LIM_UP:
                     (greaseResult.dataSource as any)[8] = {
-                      title: 'Upper temperature limit', // TODO: transloco
+                      title: 'greaseTable.upperTemperatureLimit',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.RHO:
                     (greaseResult.dataSource as any)[12] = {
-                      title: 'Density', // TODO: transloco
+                      title: 'greaseTable.density',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.F_LOW:
                     (greaseResult.dataSource as any)[13] = {
-                      title: 'Low Friction', // TODO: transloco
+                      title: 'greaseTable.lowFriction',
                       values: `${value} (${this.checkSuitablity(
                         value as string
                       )})`,
@@ -299,7 +301,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                     break;
                   case Field.VIP:
                     (greaseResult.dataSource as any)[14] = {
-                      title: 'Suitable for vibrations', // TODO: transloco
+                      title: 'greaseTable.suitableForVibrations',
                       values: `${value} (${this.checkSuitablity(
                         value as string
                       )})`,
@@ -308,7 +310,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                     break;
                   case Field.SEAL:
                     (greaseResult.dataSource as any)[15] = {
-                      title: 'Support for seals', // TODO: transloco
+                      title: 'greaseTable.supportForSeals',
                       values: `${value} (${this.checkSuitablity(
                         value as string
                       )})`,
@@ -317,8 +319,7 @@ export class ReportComponent implements OnInit, OnDestroy {
                     break;
                   case Field.NSF_H1:
                     (greaseResult.dataSource as any)[16] = {
-                      title:
-                        'H1 registration (NSF-H1 kosher and halal certification)', // TODO: transloco
+                      title: 'greaseTable.H1Registration',
                       values: `${value}`,
                       display: false,
                     };
@@ -345,7 +346,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       ...this.formattedResult,
       {
         identifier: 'block',
-        title: 'Errors, Warnings & Notes', // Todo: translate
+        title: translate('errorsWarningsNotes'), // language change not considered
         subordinates: result.filter(
           (section: Subordinate) =>
             section.title && Object.values(Hint).includes(section.title as any)

@@ -12,6 +12,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { greaseReport } from '../mocks/grease-json-report';
 import { Subordinate, TitleId } from './models';
@@ -28,6 +29,7 @@ describe('ReportComponent', () => {
     imports: [
       CommonModule,
       HttpClientModule,
+      provideTranslocoTestingModule({ en: {} }),
 
       ReactiveComponentModule,
 
