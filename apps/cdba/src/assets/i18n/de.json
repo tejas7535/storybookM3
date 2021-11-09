@@ -129,6 +129,16 @@
     "errorInterceptorMessageDefault": "Es sind Serverprobleme aufgetreten. Bitte versuchen Sie es später noch einmal.",
     "errorInterceptorActionDefault": "Support kontaktieren"
   },
+  "roles": {
+    "descriptions": {
+      "productLines": "Produktlinien",
+      "subRegions": "Unterregionen",
+      "hints": {
+        "default": "Bitte wenden Sie sich an <a class=\"text-primary\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.",
+        "missingRoles": "Text will be integrated later"
+      }
+    }
+  },
   "forbidden": {
     "noBasicAccess": {
       "heading": "Kein Zugang zu CDBA",

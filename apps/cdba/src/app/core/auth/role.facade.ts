@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 
 import { getRoles, hasAnyIdTokenRole } from '@schaeffler/azure-auth';
 
+import { getRoleDescriptions } from '@cdba/core/store/selectors/roles/roles.selector';
+
 import { authConfig } from './auth.config';
 
 @Injectable({
@@ -10,6 +12,7 @@ import { authConfig } from './auth.config';
 })
 export class RoleFacade {
   roles$ = this.store.select(getRoles);
+  roleDescriptions$ = this.store.select(getRoleDescriptions);
   hasBasicRole$ = this.store.select(hasAnyIdTokenRole(authConfig.basicRoles));
   hasAnyPricingRole$ = this.store.select(
     hasAnyIdTokenRole(authConfig.pricingRoles)

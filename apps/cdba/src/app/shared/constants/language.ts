@@ -1,14 +1,18 @@
 import { Language } from '../models';
 
+export const AVAILABLE_LANGUAGE_DE: Language = {
+  id: 'de',
+  label: 'Deutsch',
+};
+
+export const AVAILABLE_LANGUAGE_EN = {
+  id: 'en',
+  label: 'English',
+};
+
 export const AVAILABLE_LANGUAGES: Language[] = [
-  {
-    id: 'de',
-    label: 'Deutsch',
-  },
-  {
-    id: 'en',
-    label: 'English',
-  },
+  AVAILABLE_LANGUAGE_DE,
+  AVAILABLE_LANGUAGE_EN,
 ];
 
-export const FALLBACK_LANGUAGE: Language = AVAILABLE_LANGUAGES[1];
+export const FALLBACK_LANGUAGE: Language = AVAILABLE_LANGUAGE_EN;

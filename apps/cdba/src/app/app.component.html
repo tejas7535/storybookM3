@@ -9,7 +9,15 @@
   [appVersion]="appVersion"
 >
   <ng-container sidenavBody>
-    <cdba-user-settings></cdba-user-settings>
+    <div class="px-5">
+      <div class="py-4">
+        <cdba-user-settings></cdba-user-settings>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="py-4">
+        <cdba-role-descriptions></cdba-role-descriptions>
+      </div>
+    </div>
   </ng-container>
   <ng-container mainContent>
     <div class="h-full w-full">

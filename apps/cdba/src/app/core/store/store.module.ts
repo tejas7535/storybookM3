@@ -8,7 +8,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '@cdba/environments/environment';
 
-import { RootEffects, SearchEffects } from './effects';
+import { RolesEffects, RootEffects, SearchEffects } from './effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -30,7 +30,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
           maxAge: 50,
         })
       : /* istanbul ignore next: very difficult */ [],
-    EffectsModule.forRoot([RootEffects, SearchEffects]),
+    EffectsModule.forRoot([RootEffects, RolesEffects, SearchEffects]),
   ],
   exports: [],
 })

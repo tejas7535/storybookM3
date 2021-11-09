@@ -1,7 +1,13 @@
-.mat-expansion-panel {
-  box-shadow: none;
+:host ::ng-deep {
+  .mat-expansion-panel {
+    box-shadow: none;
 
-  .content {
-    @apply border-t border-b border-lightBg;
+    .mat-expansion-panel-body {
+      padding: 0 24px 0 !important;
+    }
+
+    .content {
+      @apply border-t border-b border-lightBg;
+    }
   }
 }

@@ -129,6 +129,16 @@
     "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
     "errorInterceptorActionDefault": "Contact Support"
   },
+  "roles": {
+    "descriptions": {
+      "productLines": "Product lines",
+      "subRegions": "Sub regions",
+      "hints": {
+        "default": "Please contact <a class=\"text-primary\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a> if you have any questions about your user roles or need access to additional user roles.",
+        "missingRoles": "Text will be integrated later"
+      }
+    }
+  },
   "forbidden": {
     "noBasicAccess": {
       "heading": "No access to CDBA",

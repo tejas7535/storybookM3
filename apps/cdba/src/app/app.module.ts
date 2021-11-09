@@ -1,23 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { AppShellModule } from '@schaeffler/app-shell';
+
 import {
   LoadingSpinnerModule,
   BrowserSupportModule,
   UserSettingsModule,
+  RoleDescriptionsModule,
 } from '@cdba/shared/components';
 
 import { CoreModule } from '@cdba/core';
-import { AppShellModule } from '@schaeffler/app-shell';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 @NgModule({
   imports: [
@@ -32,10 +35,12 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
     CoreModule,
 
     // ui and app root modules
+    MatDividerModule,
     LoadingSpinnerModule,
     BrowserSupportModule,
     AppShellModule,
     UserSettingsModule,
+    RoleDescriptionsModule,
   ],
   declarations: [AppComponent],
   providers: [

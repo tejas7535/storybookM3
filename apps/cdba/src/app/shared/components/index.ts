@@ -8,3 +8,4 @@ export { BomContainerModule } from './bom-container/bom-container.module';
 export { BrowserSupportModule } from './browser-support/browser-support.module';
 export { PageHeaderModule } from './page-header/page-header.module';
 export { UserSettingsModule } from './user-settings/user-settings.module';
+export { RoleDescriptionsModule } from './role-descriptions/role-descriptions.module';

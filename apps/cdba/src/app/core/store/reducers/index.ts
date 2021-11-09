@@ -11,6 +11,8 @@ import { environment } from '@cdba/environments/environment';
 
 import * as fromCompare from '../../../compare/store/reducers/compare.reducer';
 import * as fromDetail from './detail/detail.reducer';
+import { RolesState } from './roles/models/roles-state.model';
+import { rolesReducer } from './roles/roles.reducer';
 import * as fromSearch from './search/search.reducer';
 
 export { DetailState } from './detail/detail.reducer';
@@ -24,11 +26,13 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   search: fromSearch.SearchState;
+  roles: RolesState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   search: fromSearch.searchReducer,
+  roles: rolesReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -48,6 +52,8 @@ export const getDetailState =
 
 export const getCompareState =
   createFeatureSelector<fromCompare.CompareState>('compare');
+
+export const getRolesState = createFeatureSelector<RolesState>('roles');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

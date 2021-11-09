@@ -1,6 +1,10 @@
-<div class="py-4 px-5" *transloco="let t; read: 'userSettings'">
-  <div class="text-subtitle-1 mb-1">{{ t('language.title.main') }}</div>
-  <div class="text-caption mb-4">{{ t('language.title.sub') }}</div>
+<div *transloco="let t; read: 'userSettings'">
+  <div class="text-subtitle-1 text-mediumEmphasis mb-1">
+    {{ t('language.title.main') }}
+  </div>
+  <div class="text-caption text-mediumEmphasis mb-4">
+    {{ t('language.title.sub') }}
+  </div>
   <mat-form-field appearance="outline" class="w-full mb-3">
     <mat-label>{{ t('language.languageSelect.label') }}</mat-label>
     <mat-select

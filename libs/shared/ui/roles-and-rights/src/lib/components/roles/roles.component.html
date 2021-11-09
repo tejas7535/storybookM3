@@ -1,6 +1,6 @@
 <div
   *ngIf="roles && roles.length"
-  class="border-lightBg overflow-hidden"
+  class="border-lightBg overflow-hidden max-h-[220px] overflow-y-auto"
   [ngClass]="{ 'border rounded': standalone, 'border-t': !standalone }"
 >
   <div *ngFor="let role of roles; let i = index">

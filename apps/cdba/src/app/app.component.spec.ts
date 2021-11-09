@@ -1,8 +1,8 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { MockModule } from 'ng-mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,9 +12,9 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import {
   BrowserSupportModule,
   LoadingSpinnerModule,
+  RoleDescriptionsModule,
   UserSettingsModule,
 } from '@cdba/shared/components';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 
@@ -26,15 +26,14 @@ describe('AppComponent', () => {
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
-      NoopAnimationsModule,
       RouterTestingModule,
       ReactiveComponentModule,
-      provideTranslocoTestingModule({ en: {} }),
-      AppShellModule,
-      LoadingSpinnerModule,
-      UserSettingsModule,
-      BrowserSupportModule,
-      MatButtonModule,
+      MatDividerModule,
+      MockModule(AppShellModule),
+      MockModule(BrowserSupportModule),
+      MockModule(LoadingSpinnerModule),
+      MockModule(RoleDescriptionsModule),
+      MockModule(UserSettingsModule),
     ],
     providers: [
       provideMockStore({

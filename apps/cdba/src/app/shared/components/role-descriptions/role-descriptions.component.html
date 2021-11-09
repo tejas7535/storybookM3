@@ -1,0 +1,10 @@
+<div *transloco="let t; read: 'roles.descriptions'">
+  <schaeffler-roles-and-rights
+    *ngIf="rolesGroups && rolesGroups.length"
+    [rolesGroups]="rolesGroups"
+  ></schaeffler-roles-and-rights>
+  <div
+    class="text-body-1 pt-4"
+    [innerHTML]="t('hints.' + hintText, { urlServiceNow })"
+  ></div>
+</div>
