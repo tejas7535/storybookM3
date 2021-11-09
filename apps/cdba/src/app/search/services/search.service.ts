@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
 
 import { API } from '@cdba/shared/constants/api';
+import { HttpParamsEncoder } from '@cdba/shared/http';
 
 import {
   FilterItem,
@@ -56,7 +57,7 @@ export class SearchService {
     textSearch: TextSearch,
     selectedOptions: IdValue[]
   ): Observable<FilterItemIdValue> {
-    const params = new HttpParams().set(
+    const params = new HttpParams({ encoder: new HttpParamsEncoder() }).set(
       this.PARAM_SEARCH_FOR,
       textSearch.value
     );
