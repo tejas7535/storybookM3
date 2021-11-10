@@ -1,0 +1,45 @@
+<div
+  class="flex flex-1 flex-col h-full"
+  *ngIf="!(quotationLoading$ | ngrxPush); else loading"
+>
+  <mat-card class="!pt-0" *transloco="let t; read: 'sapView.header'">
+    <schaeffler-subheader
+      [title]="t('title')"
+      [breadcrumbs]="breadcrumbs"
+      *ngIf="quotationDetail$ | ngrxPush"
+    >
+      <ng-container titleContent>
+        <gq-material-price-header-content
+          [quotationDetail]="quotationDetail$ | ngrxPush"
+          [currency]="(customer$ | ngrxPush).currency"
+          [price]="(quotationDetail$ | ngrxPush)?.sapPrice"
+        >
+        </gq-material-price-header-content>
+      </ng-container>
+      <ng-container header>
+        <schaeffler-share-button></schaeffler-share-button>
+      </ng-container>
+      <ng-container content>
+        <gq-customer-header [customer]="customer$ | ngrxPush">
+        </gq-customer-header>
+      </ng-container>
+    </schaeffler-subheader>
+  </mat-card>
+  <mat-card class="h-full m-4">
+    <gq-sap-price-details-table
+      *ngIf="
+        (translationsLoaded$ | ngrxPush) &&
+          !(sapPriceDetailsLoading$ | ngrxPush);
+        else tableLoading
+      "
+      [rowData]="rowData$ | ngrxPush"
+      [tableContext]="tableContext$ | ngrxPush"
+    ></gq-sap-price-details-table>
+    <ng-template #tableLoading>
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    </ng-template>
+  </mat-card>
+</div>
+<ng-template #loading>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
+</ng-template>

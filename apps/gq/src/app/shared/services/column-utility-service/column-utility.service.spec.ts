@@ -1,7 +1,11 @@
 import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { QUOTATION_MOCK } from '../../../../testing/mocks';
+import {
+  QUOTATION_MOCK,
+  SAP_PRICE_DETAIL_MOCK,
+} from '../../../../testing/mocks';
+import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
@@ -139,6 +143,37 @@ describe('CreateColumnService', () => {
       );
 
       expect(result).toEqual('1,234.00 EUR');
+    });
+  });
+
+  describe('sapConditionAmountFormatter', () => {
+    test('should return absolute transformation', () => {
+      const params = {
+        value: '10',
+        data: SAP_PRICE_DETAIL_MOCK,
+        context: { quotation: QUOTATION_MOCK },
+      };
+
+      const result = ColumnUtilityService.sapConditionAmountFormatter(
+        params as ValueFormatterParams
+      );
+
+      expect(result).toEqual(`10.00 ${QUOTATION_MOCK.currency}`);
+    });
+    test('should return percentage transformation', () => {
+      const params = {
+        value: '10',
+        data: {
+          ...SAP_PRICE_DETAIL_MOCK,
+          calculationType: CalculationType.PERCENTAGE,
+        },
+      };
+
+      const result = ColumnUtilityService.sapConditionAmountFormatter(
+        params as ValueFormatterParams
+      );
+
+      expect(result).toEqual(`10 %`);
     });
   });
 

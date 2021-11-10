@@ -67,9 +67,10 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
         .subscribe(
           (result) =>
             (this.breadcrumbs =
-              this.breadCrumbsService.getTransactionViewBreadcrumbs(
+              this.breadCrumbsService.getPriceDetailBreadcrumbs(
                 result.id,
-                result.queryParams
+                result.queryParams,
+                true
               ))
         )
     );

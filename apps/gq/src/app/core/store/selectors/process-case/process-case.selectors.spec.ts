@@ -58,6 +58,16 @@ describe('Process Case Selector', () => {
     });
   });
 
+  describe('getTableContextQuotation', () => {
+    test('should get table context', () => {
+      expect(
+        quotationSelectors.getTableContextQuotation.projector(
+          fakeState.processCase
+        )
+      ).toEqual({ quotation: fakeState.processCase.quotation.item });
+    });
+  });
+
   describe('getQuotationLoading', () => {
     test('should return true if quotation is currently loading', () => {
       expect(

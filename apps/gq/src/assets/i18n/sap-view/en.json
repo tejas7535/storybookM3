@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "SAP Price"
+  },
+  "sapConditionsTable": {
+    "condition": "Condition",
+    "description": "Description",
+    "amount": "Amount",
+    "pricingUnit": "Per",
+    "conditionUnit": "Units",
+    "conditionValue": "Condition Value",
+    "validTo": "Valid to"
+  }
+}

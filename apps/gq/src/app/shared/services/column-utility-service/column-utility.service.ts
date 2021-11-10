@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 
+import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
@@ -71,6 +72,14 @@ export class ColumnUtilityService {
     );
   }
 
+  static sapConditionAmountFormatter(params: ValueFormatterParams): string {
+    if (params.data.calculationType === CalculationType.ABSOLUT) {
+      return ColumnUtilityService.numberCurrencyFormatter(params);
+    }
+
+    return ColumnUtilityService.percentageFormatter(params);
+  }
+
   static percentageFormatter(data: ValueFormatterParams): string {
     return HelperService.transformPercentage(
       PriceService.roundToTwoDecimals(data.value)
@@ -102,6 +111,9 @@ export class ColumnUtilityService {
 
   static basicTransform(data: ValueFormatterParams): string {
     return data.value || Keyboard.DASH;
+  }
+  static blankTransform(data: ValueFormatterParams): string {
+    return data.value || '';
   }
   static dateFormatter(data: any): string {
     return data.value

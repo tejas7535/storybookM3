@@ -17,10 +17,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   PROCESS_CASE_STATE_MOCK,
   TRANSACTIONS_STATE_MOCK,
-} from '../../../testing/mocks';
+} from '../../../testing/mocks/state';
+import { MaterialPriceHeaderContentModule } from '../../shared/components/material-price-header-content/material-price-header-content.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
-import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
 import { TransactionViewComponent } from './transaction-view.component';
 import { TransparencyGraphModule } from './transparency-graph/transparency-graph.module';
 
@@ -37,7 +37,7 @@ describe('TransactionViewComponent', () => {
       LoadingSpinnerModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
-      TransactionViewHeaderContentModule,
+      MaterialPriceHeaderContentModule,
       RouterTestingModule,
       SubheaderModule,
       BreadcrumbsModule,

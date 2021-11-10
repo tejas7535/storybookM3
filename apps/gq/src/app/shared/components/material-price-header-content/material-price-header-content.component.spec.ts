@@ -2,15 +2,15 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { TransactionViewHeaderContentComponent } from './transaction-view-header-content.component';
+import { SharedPipesModule } from '../../pipes/shared-pipes.module';
+import { MaterialPriceHeaderContentComponent } from './material-price-header-content.component';
 
-describe('HeaderContentComponent', () => {
-  let component: TransactionViewHeaderContentComponent;
-  let spectator: Spectator<TransactionViewHeaderContentComponent>;
+describe('MaterialPriceHeaderContentComponent', () => {
+  let component: MaterialPriceHeaderContentComponent;
+  let spectator: Spectator<MaterialPriceHeaderContentComponent>;
 
   const createComponent = createComponentFactory({
-    component: TransactionViewHeaderContentComponent,
+    component: MaterialPriceHeaderContentComponent,
     imports: [provideTranslocoTestingModule({}), SharedPipesModule],
   });
 

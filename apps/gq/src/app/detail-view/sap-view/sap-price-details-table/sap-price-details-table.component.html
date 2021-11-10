@@ -1,0 +1,14 @@
+<ag-grid-angular
+  class="ag-theme-material h-full"
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColumnDefs"
+  [rowData]="rowData"
+  [modules]="modules"
+  [context]="tableContext"
+  (columnMoved)="onColumnChange($event)"
+  (sortChanged)="onColumnChange($event)"
+  (gridReady)="onGridReady($event)"
+  skipHeaderOnAutoSizre="true"
+  [valueCache]="true"
+  [animateRows]="true"
+></ag-grid-angular>

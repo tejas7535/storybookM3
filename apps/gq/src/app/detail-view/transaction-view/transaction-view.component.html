@@ -5,11 +5,12 @@
   <mat-card class="!pt-0" *transloco="let t; read: 'transactionView.header'">
     <schaeffler-subheader [breadcrumbs]="breadcrumbs" [title]="t('title')">
       <ng-container titleContent>
-        <gq-transaction-view-header-content
+        <gq-material-price-header-content
           [quotationDetail]="quotationDetail$ | ngrxPush"
           [currency]="currency$ | ngrxPush"
+          [price]="(quotationDetail$ | ngrxPush)?.recommendedPrice"
         >
-        </gq-transaction-view-header-content>
+        </gq-material-price-header-content>
       </ng-container>
       <ng-container header>
         <schaeffler-share-button></schaeffler-share-button>

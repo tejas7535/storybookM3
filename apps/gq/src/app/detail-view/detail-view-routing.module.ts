@@ -18,6 +18,11 @@ const routes: Routes = [
         (m) => m.TransactionViewModule
       ),
   },
+  {
+    path: DetailRoutePath.SapPath,
+    loadChildren: async () =>
+      import('./sap-view/sap-view.module').then((m) => m.SapViewModule),
+  },
 ];
 
 @NgModule({

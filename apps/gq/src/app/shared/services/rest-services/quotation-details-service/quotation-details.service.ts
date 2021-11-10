@@ -10,6 +10,7 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '../../../../core/store/reducers/process-case/models';
+import { SapPriceDetail } from '../../../../core/store/reducers/sap-price-details/models/sap-price-detail.model';
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
@@ -25,6 +26,8 @@ export class QuotationDetailsService {
   private readonly PATH_TRANSACTIONS = 'comparable-transactions';
   private readonly PATH_MATERIAL_COMPARABLE_COSTS = 'material-comparable-costs';
   private readonly PATH_MATERIAL_STATUS = 'material-status';
+  private readonly PATH_SAP_PRICE_DETAILS =
+    'material-sap-price-condition-details';
 
   constructor(private readonly dataService: DataService) {}
 
@@ -76,6 +79,12 @@ export class QuotationDetailsService {
   getMaterialStatus(gqPositionId: string): Observable<MaterialSalesOrg> {
     return this.dataService.getAll(
       `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_MATERIAL_STATUS}`
+    );
+  }
+
+  getSapPriceDetails(gqPositionId: string): Observable<SapPriceDetail[]> {
+    return this.dataService.getAll(
+      `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_SAP_PRICE_DETAILS}`
     );
   }
 }

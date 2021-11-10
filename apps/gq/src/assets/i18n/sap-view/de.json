@@ -1,0 +1,14 @@
+{
+  "header": {
+    "title": "SAP Preis"
+  },
+  "sapConditionsTable": {
+    "condition": "Konditionsart",
+    "description": "Beschreibung",
+    "amount": "Betrag",
+    "pricingUnit": "pro",
+    "conditionUnit": "Einheit",
+    "conditionValue": "Konditionswert",
+    "validTo": "Gültig bis"
+  }
+}

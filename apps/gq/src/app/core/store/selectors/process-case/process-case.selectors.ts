@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { DetailViewQueryParams } from '../../../../app-routing.module';
+import { TableContext } from '../../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import {
@@ -8,6 +9,7 @@ import {
   MaterialDetails,
   QuotationDetail,
 } from '../../../../shared/models/quotation-detail';
+import { PriceUnitForQuotationItemId } from '../../../../shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
 import {
   MaterialQuantities,
   MaterialTableItem,
@@ -19,7 +21,6 @@ import {
   QuotationIdentifier,
 } from '../../reducers/process-case/models';
 import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
-import { PriceUnitForQuotationItemId } from '../../../../shared/models/quotation-detail/price-units-for-quotation-item-ids.model';
 
 export const getCustomer = createSelector(
   getProcessCaseState,
@@ -34,6 +35,13 @@ export const isCustomerLoading = createSelector(
 export const getQuotation = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): Quotation => state.quotation.item
+);
+
+export const getTableContextQuotation = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): TableContext => ({
+    quotation: state.quotation.item,
+  })
 );
 
 export const isQuotationLoading = createSelector(

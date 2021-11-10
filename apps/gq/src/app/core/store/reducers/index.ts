@@ -14,6 +14,7 @@ import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
 import * as fromMaterialSalesOrg from './material-sales-org/material-sales-org.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
+import * as fromSapPriceDetails from './sap-price-details/sap-price-details.reducer';
 import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
 
@@ -33,6 +34,7 @@ export interface AppState {
   materialComparableCosts: fromMaterialComparableCosts.MaterialComparableCostsState;
   materialSalesOrg: fromMaterialSalesOrg.MaterialSalesOrgsState;
   healthCheck: fromHealthCheck.HealthCheckState;
+  sapPriceDetails: fromSapPriceDetails.SapPriceDetailsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -47,6 +49,7 @@ export const reducers: ActionReducerMap<AppState> = {
     fromMaterialComparableCosts.materialComparableCostsReducer,
   materialSalesOrg: fromMaterialSalesOrg.materialSalesOrgReducer,
   healthCheck: fromHealthCheck.healthCheckReducer,
+  sapPriceDetails: fromSapPriceDetails.sapPriceDetailsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -85,6 +88,10 @@ export const getMaterialSalesOrgsState =
 export const getHealthCheckState =
   createFeatureSelector<fromHealthCheck.HealthCheckState>('healthCheck');
 
+export const getSapPriceDetailsState =
+  createFeatureSelector<fromSapPriceDetails.SapPriceDetailsState>(
+    'sapPriceDetails'
+  );
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>
 {

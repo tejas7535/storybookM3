@@ -67,17 +67,20 @@ export class BreadcrumbsService {
     ];
   }
 
-  getTransactionViewBreadcrumbs(
+  getPriceDetailBreadcrumbs(
     itemId: number,
-    queryParams: DetailViewQueryParams
+    queryParams: DetailViewQueryParams,
+    gqPrice: boolean
   ): Breadcrumb[] {
-    const transactionViewBreadcrumb: Breadcrumb = {
-      label: translate('shared.breadcrumbs.transactionView'),
+    const sapViewBreadcrumb: Breadcrumb = {
+      label: translate(
+        `shared.breadcrumbs.${gqPrice ? 'transactionView' : 'sapView'}`
+      ),
     };
 
     return [
       ...this.getDetailViewBreadcrumbs(itemId, queryParams, true),
-      transactionViewBreadcrumb,
+      sapViewBreadcrumb,
     ];
   }
 

@@ -47,7 +47,8 @@
     "breadcrumbs": {
       "caseView": "Case Übersicht",
       "transactionView": "GQ Preis Details",
-      "position": "Pos."
+      "position": "Pos.",
+      "sapView": "SAP Preis"
     },
     "caseMaterial": {
       "salesOrg": "VkOrg",

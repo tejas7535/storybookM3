@@ -1,8 +1,6 @@
-<span *ngIf="quotationDetail && currency">
+<span *ngIf="quotationDetail && currency && price">
   <span> | {{ quotationDetail.material.materialDescription }} </span>
-  <span>
-    | {{ quotationDetail.recommendedPrice | numberCurrency: currency }}
-  </span>
+  <span> | {{ price | numberCurrency: currency }} </span>
   <span>
     | {{ quotationDetail.orderQuantity }}
     {{ quotationDetail.material.baseUoM }}</span

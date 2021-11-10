@@ -10,9 +10,9 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../../shared';
+import { MaterialPriceHeaderContentModule } from '../../shared/components/material-price-header-content/material-price-header-content.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
-import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
 import { TransactionViewRoutingModule } from './transaction-view-routing.module';
 import { TransactionViewComponent } from './transaction-view.component';
 import { TransparencyGraphModule } from './transparency-graph/transparency-graph.module';
@@ -28,7 +28,7 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     SharedModule,
     ReactiveComponentModule,
     LoadingSpinnerModule,
-    TransactionViewHeaderContentModule,
+    MaterialPriceHeaderContentModule,
     SubheaderModule,
     BreadcrumbsModule,
     ShareButtonModule,

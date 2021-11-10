@@ -1,12 +1,13 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { translate } from '@ngneat/transloco';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import {
   DetailViewQueryParams,
   ProcessCaseViewQueryParams,
 } from '../../../app-routing.module';
-import { BreadcrumbsService } from './breadcrumbs.service';
 import { Customer } from '../../models/customer';
+import { BreadcrumbsService } from './breadcrumbs.service';
 
 describe('BreadcrumbsServiceService', () => {
   let service: BreadcrumbsService;
@@ -108,18 +109,30 @@ describe('BreadcrumbsServiceService', () => {
     });
   });
 
-  describe('getTransactionViewBreadcrumbs', () => {
-    test('should return transactionView breadcrumbs', () => {
-      const queryParams: DetailViewQueryParams = {
+  describe('getPriceDetailBreadcrumbs', () => {
+    let queryParams: DetailViewQueryParams;
+    beforeEach(() => {
+      queryParams = {
         customer_number: '825663',
         quotation_number: 123,
         sales_org: '0267',
         gqPositionId: '123',
       };
       service.getDetailViewBreadcrumbs = jest.fn().mockReturnValue([{}]);
-      const result = service.getTransactionViewBreadcrumbs(10, queryParams);
+    });
+    test('should return priceDetailBreadcrumbs breadcrumbs for transactionView', () => {
+      const result = service.getPriceDetailBreadcrumbs(10, queryParams, true);
 
       expect(result).toEqual([{}, { label: 'translate it' }]);
+      expect(translate).toHaveBeenCalledWith(
+        `shared.breadcrumbs.transactionView`
+      );
+    });
+    test('should return priceDetailBreadcrumbs breadcrumbs for sapView', () => {
+      const result = service.getPriceDetailBreadcrumbs(10, queryParams, false);
+
+      expect(result).toEqual([{}, { label: 'translate it' }]);
+      expect(translate).toHaveBeenCalledWith(`shared.breadcrumbs.sapView`);
     });
   });
 
