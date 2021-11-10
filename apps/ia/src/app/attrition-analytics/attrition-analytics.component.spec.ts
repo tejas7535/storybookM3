@@ -16,7 +16,6 @@ import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.componen
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
 import { AttritionAnalyticsStateService } from './attrition-analytics-state.service';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
-import { EmployeeAnalyticsComponent } from './employee-analytics/employee-analytics.component';
 import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
 import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
@@ -69,7 +68,6 @@ describe('AttritionAnalyticsComponent', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [MockComponent(BarChartComponent)],
-    entryComponents: [EmployeeAnalyticsComponent],
   });
 
   beforeEach(() => {

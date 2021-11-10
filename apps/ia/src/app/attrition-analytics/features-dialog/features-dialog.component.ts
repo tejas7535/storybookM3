@@ -16,7 +16,7 @@ import { FeatureSelector } from '../models/feature-selector.model';
 @Component({
   selector: 'ia-features-dialog',
   templateUrl: './features-dialog.component.html',
-  styleUrls: ['./features-dialog.component.scss'],
+  styleUrls: ['../attrition-analytics.scss'],
 })
 export class FeaturesDialogComponent implements OnInit {
   readonly SELECTED_FEATURES_MAX = 4;

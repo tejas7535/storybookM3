@@ -1,15 +1,30 @@
 <div
-  class="bg-white gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4"
+  class="bg-white gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 drag-list"
   *ngIf="!(isLoading$ | ngrxPush); else loading"
+  cdkDropList
+  cdkDropListOrientation="horizontal"
+  (cdkDropListDropped)="drop($event)"
 >
   <div
+    cdkDrag
+    cdkDragLockAxis="x"
+    cdkDragBoundary=".drag-list"
     class="shadow w-full flex flex-col"
     *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
   >
-    <ia-employee-analytics
-      [config]="config"
-      (editClick)="openFeaturesDialog()"
-    ></ia-employee-analytics>
+    <div class="relative">
+      <div class="absolute right-3 top-3 flex flex-row gap-2">
+        <mat-icon
+          class="cursor-pointer text-light z-50"
+          (click)="openFeaturesDialog()"
+          >edit</mat-icon
+        >
+        <mat-icon class="cursor-move text-light z-50" cdkDragHandle
+          >open_with</mat-icon
+        >
+      </div>
+      <ia-bar-chart [config]="config"></ia-bar-chart>
+    </div>
   </div>
   <div
     *ngIf="(barChartConfigs$ | ngrxPush)?.length < NUMBER_OF_TILES"

@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
@@ -24,6 +25,7 @@ import {
 @Component({
   selector: 'ia-attrition-analytics',
   templateUrl: './attrition-analytics.component.html',
+  styleUrls: ['./attrition-analytics.scss'],
 })
 export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   readonly NUMBER_OF_TILES = 4;
@@ -124,5 +126,14 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  drop(event: CdkDragDrop<string[]>): void {
+    const selectedFeatures = this.allFeatureSelectors.filter(
+      (feature) => feature.selected
+    );
+
+    moveItemInArray(selectedFeatures, event.previousIndex, event.currentIndex);
+    this.onSelectedFeatures(selectedFeatures);
   }
 }
