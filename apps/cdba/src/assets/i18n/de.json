@@ -114,10 +114,6 @@
         "main": "Spracheinstellung",
         "sub": "Die Anwendung wird neu geladen."
       },
-      "languageSelect": {
-        "label": "Sprache wählen",
-        "hint": "Bitte wähle eine Sprache für die Applikation"
-      },
       "localizationSelect": {
         "label": "Lokalisierung wählen",
         "hint": "Beeinflusst Nummerntrennzeichen und Datumsformat",

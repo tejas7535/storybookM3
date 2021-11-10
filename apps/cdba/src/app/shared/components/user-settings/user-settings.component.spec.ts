@@ -1,17 +1,18 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockModule } from 'ng-mocks';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
 import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
@@ -23,13 +24,13 @@ describe('UserSettingsComponent', () => {
     component: UserSettingsComponent,
     imports: [
       SharedModule,
-      SharedTranslocoModule,
       ReactiveFormsModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatSelectModule,
-      MatTooltipModule,
+      MockModule(MatFormFieldModule),
+      MockModule(MatIconModule),
+      MockModule(MatSelectModule),
+      MockModule(MatTooltipModule),
       provideTranslocoTestingModule({ en: {} }),
+      MockModule(LanguageSelectModule),
     ],
     providers: [
       {
@@ -53,16 +54,6 @@ describe('UserSettingsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('onLanguageSelectionChange', () => {
-    it('should propagate selected language to transloco service', () => {
-      component['transloco'].setActiveLang = jest.fn();
-
-      component.onLanguageSelectionChange('de');
-
-      expect(component['transloco'].setActiveLang).toHaveBeenCalledWith('de');
-    });
   });
 
   describe('onLocaleSelectionChange', () => {

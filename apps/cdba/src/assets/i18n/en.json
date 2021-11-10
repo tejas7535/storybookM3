@@ -114,10 +114,6 @@
         "main": "Language Settings",
         "sub": "The application will be refreshed."
       },
-      "languageSelect": {
-        "label": "Select language",
-        "hint": "Please select the language for the application"
-      },
       "localizationSelect": {
         "label": "Select localization",
         "hint": "Affects number separators and date format",

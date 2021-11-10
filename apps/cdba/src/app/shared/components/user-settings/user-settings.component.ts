@@ -7,12 +7,11 @@ import {
 import { FormControl } from '@angular/forms';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from '@cdba/shared/constants';
 
-import { Language, Locale } from '../../models';
+import { Locale } from '../../models';
 
 @Component({
   selector: 'cdba-user-settings',
@@ -20,11 +19,6 @@ import { Language, Locale } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserSettingsComponent implements OnInit {
-  languageSelectControl: FormControl = new FormControl(
-    this.transloco.getActiveLang()
-  );
-  availableLangs = this.transloco.getAvailableLangs() as Language[];
-
   storageKeyLocale = 'locale';
   availableLocales = AVAILABLE_LOCALES;
   currentLocaleId: string = this.storedLocale.id || this.defaultLocale.id;
@@ -33,18 +27,11 @@ export class UserSettingsComponent implements OnInit {
 
   constructor(
     @Inject(LOCAL_STORAGE) readonly localStorage: Storage,
-    private readonly transloco: TranslocoService,
     private readonly localeService: TranslocoLocaleService
   ) {}
 
   public ngOnInit(): void {
     this.localeService.setLocale(this.currentLocaleId);
-  }
-
-  onLanguageSelectionChange(lang: string): void {
-    this.transloco.setActiveLang(lang);
-
-    location.reload();
   }
 
   onLocaleSelectionChange(locale: string): void {

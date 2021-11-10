@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
 import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
@@ -27,6 +28,7 @@ import { UserSettingsComponent } from './user-settings.component';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    LanguageSelectModule,
   ],
   exports: [UserSettingsComponent],
 })

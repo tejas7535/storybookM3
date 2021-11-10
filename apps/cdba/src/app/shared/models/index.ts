@@ -4,5 +4,4 @@ export { Calculation } from './calculation.model';
 export { Drawing } from './drawing.model';
 export { ReferenceTypeIdentifier } from './reference-type-identifier.model';
 export { ReferenceType } from './reference-type.model';
-export { Language } from './language.model';
 export { Locale } from './localization.model';
