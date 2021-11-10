@@ -1,4 +1,9 @@
 import {
+  refreshSapPricing,
+  refreshSapPricingFailure,
+  refreshSapPricingSuccess,
+} from '..';
+import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
@@ -246,6 +251,36 @@ describe('CaseActions', () => {
         expect(action).toEqual({
           errorMessage,
           type: '[Process Case] Remove positions from Quotation Failure',
+        });
+      });
+    });
+    describe('refreshSapPricing', () => {
+      test('should refreshSapPricing', () => {
+        action = refreshSapPricing();
+
+        expect(action).toEqual({
+          type: '[Process Case] Refresh SAP Pricing',
+        });
+      });
+    });
+    describe('refreshSapPricingSuccess', () => {
+      test('should refreshSapPricingSuccess', () => {
+        const quotation = QUOTATION_MOCK;
+        action = refreshSapPricingSuccess({ quotation });
+
+        expect(action).toEqual({
+          quotation,
+          type: '[Process Case] Refresh SAP Pricing Success',
+        });
+      });
+    });
+    describe('refreshSapPricingFailure', () => {
+      test('should refreshSapPricingSuccess', () => {
+        action = refreshSapPricingFailure({ errorMessage });
+
+        expect(action).toEqual({
+          errorMessage,
+          type: '[Process Case] Refresh SAP Pricing Failure',
         });
       });
     });

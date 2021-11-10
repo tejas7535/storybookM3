@@ -4,13 +4,18 @@
     "sapHeader": "\n\nErstellt in SAP von:\n{{sapCreationName}}\nam {{sapCreationDate}}\n\nZuletzt aktualisiert in SAP am:\n{{sapUpdatedDate}}"
   },
   "confirmDeletePositions": {
-    "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen ?",
+    "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen?",
     "deleteButton": "löschen",
     "cancelButton": "zurück"
   },
   "confirmUploadPositions": {
-    "text": "Möchten sie wirklich diese Einträge ({{variable}}) nach SAP hochladen ?",
-    "deleteButton": "hochladen",
+    "text": "Möchten sie wirklich diese Einträge ({{variable}}) nach SAP hochladen?",
+    "uploadButton": "hochladen",
+    "cancelButton": "zurück"
+  },
+  "confirmRefreshSapPricing": {
+    "text": "Möchten sie wirklich die SAP Preise für alle Positionen aktualisieren?",
+    "refreshButton": "aktualisieren",
     "cancelButton": "zurück"
   },
   "calcInProgress": {

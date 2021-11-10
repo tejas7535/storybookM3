@@ -54,7 +54,7 @@ export class UploadSelectionToSapButtonComponent {
     );
 
     const confirmButton = (
-      translate('processCaseView.confirmUploadPositions.deleteButton') as string
+      translate('processCaseView.confirmUploadPositions.uploadButton') as string
     ).toUpperCase();
 
     const cancelButton = (

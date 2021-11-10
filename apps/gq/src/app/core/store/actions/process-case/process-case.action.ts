@@ -145,6 +145,19 @@ export const uploadSelectionToSapSuccess = createAction(
   '[Process Case] Upload selection to Sap Success'
 );
 
+export const refreshSapPricing = createAction(
+  '[Process Case] Refresh SAP Pricing'
+);
+
+export const refreshSapPricingSuccess = createAction(
+  '[Process Case] Refresh SAP Pricing Success',
+  props<{ quotation: Quotation }>()
+);
+export const refreshSapPricingFailure = createAction(
+  '[Process Case] Refresh SAP Pricing Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   clearProcessCaseRowData,
   addMaterials,
@@ -170,6 +183,9 @@ const all = union({
   uploadSelectionToSap,
   uploadSelectionToSapSuccess,
   uploadSelectionToSapFailure,
+  refreshSapPricing,
+  refreshSapPricingSuccess,
+  refreshSapPricingFailure,
 });
 
 export type CaseActions = typeof all;

@@ -4,13 +4,18 @@
     "sapHeader": "\n\nCreated in SAP by:\n{{sapCreationName}}\non {{sapCreationDate}}\n\nLast Updated in SAP on:\n{{sapUpdatedDate}}"
   },
   "confirmDeletePositions": {
-    "text": "Do you really want to delete these entries ({{variable}}) from this case ?",
+    "text": "Do you really want to delete these entries ({{variable}}) from this case?",
     "deleteButton": "delete",
     "cancelButton": "cancel"
   },
   "confirmUploadPositions": {
-    "text": "Do you really want to upload these entries ({{variable}}) from this case ?",
-    "deleteButton": "upload",
+    "text": "Do you really want to upload these entries ({{variable}}) from this case?",
+    "uploadButton": "upload",
+    "cancelButton": "cancel"
+  },
+  "confirmRefreshSapPricing": {
+    "text": "Do you really want to refresh the SAP pricing for all positions of this case?",
+    "refreshButton": "refresh",
     "cancelButton": "cancel"
   },
   "calcInProgress": {

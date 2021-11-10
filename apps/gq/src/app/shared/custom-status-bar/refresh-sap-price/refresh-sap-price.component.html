@@ -1,0 +1,9 @@
+<button
+  class="!text-primary !m-4 !ml-0"
+  mat-flat-button
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
+  (click)="refreshSapPricing()"
+>
+  <mat-icon>update</mat-icon>
+  {{ t('refreshSapPricing') }}
+</button>

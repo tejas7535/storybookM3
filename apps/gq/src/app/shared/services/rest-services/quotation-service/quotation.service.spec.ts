@@ -59,6 +59,20 @@ describe('QuotationService', () => {
       req.flush(gqPositionIds);
     });
   });
+  describe('refreshSapPricing', () => {
+    test('should call DataService GET', () => {
+      const gqId = 4600;
+      service
+        .refreshSapPricing(gqId)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `/${service['PATH_QUOTATIONS']}/${gqId}/${service['PATH_REFRESH_SAP_PRICING']}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(gqId);
+    });
+  });
 
   describe('deleteCase', () => {
     test('should call DataService DELETE', () => {

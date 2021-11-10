@@ -26,6 +26,9 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
+  refreshSapPricing,
+  refreshSapPricingFailure,
+  refreshSapPricingSuccess,
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
@@ -545,6 +548,52 @@ describe('Quotation Reducer', () => {
         const action = uploadSelectionToSapFailure({ errorMessage });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
+        expect(state.quotation.errorMessage).toEqual(errorMessage);
+      });
+    });
+  });
+
+  describe('refreshSapPricing', () => {
+    describe('refreshSapPricing', () => {
+      test('should set loading true', () => {
+        const action = refreshSapPricing();
+
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+        expect(state.quotation.updateLoading).toEqual(true);
+      });
+    });
+    describe('refreshSapPricingSuccess', () => {
+      test('should set quotation to response and loading to false', () => {
+        const quotation = QUOTATION_MOCK;
+        const action = refreshSapPricingSuccess({ quotation });
+        const fakeState = {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            updateLoading: true,
+            item: undefined as any,
+          },
+        };
+        const state = processCaseReducer(fakeState, action);
+
+        expect(state.quotation.updateLoading).toEqual(false);
+        expect(state.quotation.item).toEqual(QUOTATION_MOCK);
+      });
+    });
+    describe('refreshSapPricingFailure', () => {
+      test('should set error message and set loading to false', () => {
+        const action = refreshSapPricingFailure({ errorMessage });
+        const fakeState = {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            updateLoading: true,
+          },
+        };
+        const state = processCaseReducer(fakeState, action);
+
+        expect(state.quotation.updateLoading).toEqual(false);
         expect(state.quotation.errorMessage).toEqual(errorMessage);
       });
     });

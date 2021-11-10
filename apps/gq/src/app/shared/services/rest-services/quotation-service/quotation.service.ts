@@ -18,6 +18,7 @@ import { CreateCustomerCase } from '../search-service/models/create-customer-cas
 })
 export class QuotationService {
   private readonly PATH_UPLOAD_SELECTION = 'upload-selection';
+  private readonly PATH_REFRESH_SAP_PRICING = 'refresh-sap-price';
   private readonly PATH_QUOTATIONS = 'quotations';
   private readonly PATH_CUSTOMER_QUOTATION = 'customers/quotations';
 
@@ -27,6 +28,11 @@ export class QuotationService {
     return this.dataService.post(`${this.PATH_UPLOAD_SELECTION}`, {
       gqPositionIds,
     });
+  }
+  public refreshSapPricing(gqId: number): Observable<Quotation> {
+    return this.dataService.getAll(
+      `${this.PATH_QUOTATIONS}/${gqId}/${this.PATH_REFRESH_SAP_PRICING}`
+    );
   }
 
   public deleteCases(gqId: string[]): Observable<any> {

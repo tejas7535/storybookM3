@@ -43,6 +43,9 @@ import {
   loadQuotationSuccess,
   loadSelectedQuotationDetailFromUrl,
   pasteRowDataItemsToAddMaterial,
+  refreshSapPricing,
+  refreshSapPricingFailure,
+  refreshSapPricingSuccess,
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
@@ -65,6 +68,7 @@ import {
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
+  getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
 } from '../../selectors';
@@ -313,6 +317,31 @@ export class ProcessCaseEffect {
           map(uploadSelectionToSapSuccess),
           catchError((errorMessage) =>
             of(uploadSelectionToSapFailure({ errorMessage }))
+          )
+        )
+      )
+    );
+  });
+
+  refreshSapPricing$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(refreshSapPricing),
+      withLatestFrom(this.store.select(getGqId)),
+      map(([_action, gqId]) => gqId),
+      mergeMap((gqId: number) =>
+        this.quotationService.refreshSapPricing(gqId).pipe(
+          tap(() => {
+            const successMessage = translate<string>(
+              'shared.snackBarMessages.refreshSapPricingSuccess'
+            );
+            this.snackBar.open(successMessage);
+          }),
+          tap((item) =>
+            PriceService.addCalculationsForDetails(item.quotationDetails)
+          ),
+          map((quotation) => refreshSapPricingSuccess({ quotation })),
+          catchError((errorMessage) =>
+            of(refreshSapPricingFailure({ errorMessage }))
           )
         )
       )

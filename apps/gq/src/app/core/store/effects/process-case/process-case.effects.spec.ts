@@ -54,6 +54,9 @@ import {
 import {
   loadQuotationFromUrl,
   loadSelectedQuotationDetailFromUrl,
+  refreshSapPricing,
+  refreshSapPricingFailure,
+  refreshSapPricingSuccess,
   setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -685,6 +688,51 @@ describe('ProcessCaseEffect', () => {
         m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
         m.flush();
         expect(quotationService.uploadSelectionToSap).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('refreshSapPricing$', () => {
+    const gqId = 123;
+    beforeEach(() => {
+      store.overrideSelector(getGqId, gqId);
+    });
+    test(
+      'should return refreshSapPricingSuccess when REST call is successful',
+      marbles((m) => {
+        const quotation = QUOTATION_MOCK;
+        snackBar.open = jest.fn();
+
+        action = refreshSapPricing();
+        const result = refreshSapPricingSuccess({ quotation });
+        quotationService.refreshSapPricing = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: quotation,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.refreshSapPricing$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.refreshSapPricing).toHaveBeenCalledTimes(1);
+        expect(quotationService.refreshSapPricing).toHaveBeenCalledWith(gqId);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
+      'should return refreshSapPricingFailure on REST error',
+      marbles((m) => {
+        quotationService.refreshSapPricing = jest.fn(() => response);
+        const result = refreshSapPricingFailure({ errorMessage });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.refreshSapPricing$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.refreshSapPricing).toHaveBeenCalledTimes(1);
       })
     );
   });

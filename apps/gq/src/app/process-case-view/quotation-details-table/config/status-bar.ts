@@ -4,11 +4,12 @@ export const STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];
 } = {
   statusPanels: [
-    { statusPanel: 'uploadSelectionToSapButtonComponent', align: 'left' },
-    { statusPanel: 'addItemsButtonComponent', align: 'left' },
-    { statusPanel: 'exportToExcelButtonComponent', align: 'left' },
-    { statusPanel: 'totalRowCountComponent', align: 'left' },
-    { statusPanel: 'quotationDetailsStatusComponent', align: 'right' },
-    { statusPanel: 'deleteItemsButtonComponent', align: 'right' },
+    { statusPanel: 'UploadSelectionToSapButtonComponent', align: 'left' },
+    { statusPanel: 'AddItemsButtonComponent', align: 'left' },
+    { statusPanel: 'ExportToExcelButtonComponent', align: 'left' },
+    { statusPanel: 'RefreshSapPriceComponent', align: 'left' },
+    { statusPanel: 'TotalRowCountComponent', align: 'left' },
+    { statusPanel: 'QuotationDetailsStatusComponent', align: 'right' },
+    { statusPanel: 'DeleteItemsButtonComponent', align: 'right' },
   ],
 };

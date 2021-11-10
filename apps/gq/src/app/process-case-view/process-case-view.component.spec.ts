@@ -32,6 +32,7 @@ import { AddItemsButtonComponent } from '../shared/custom-status-bar/add-items-b
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { ExportToExcelButtonComponent } from '../shared/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
+import { RefreshSapPriceComponent } from '../shared/custom-status-bar/refresh-sap-price/refresh-sap-price.component';
 import { TotalRowCountComponent } from '../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
@@ -63,6 +64,7 @@ describe('ProcessCaseViewComponent', () => {
         AddItemsButtonComponent,
         ExportToExcelButtonComponent,
         TotalRowCountComponent,
+        RefreshSapPriceComponent,
       ]),
       BrowserAnimationsModule,
       CustomStatusBarModule,

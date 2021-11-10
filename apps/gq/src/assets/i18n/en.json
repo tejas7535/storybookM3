@@ -119,6 +119,7 @@
         "exportToExcel": "Export to Excel File",
         "addNewItem": "add new item",
         "deleteCase": "delete case",
+        "refreshSapPricing": "Refresh SAP Pricing",
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update prices in SAP Quotation"
       },
@@ -208,6 +209,7 @@
       "updateQuantity": "Quantity change was saved",
       "updateComment": "Comment change was saved",
       "uploadSelectionSuccess": "The item selection was saved in SAP",
+      "refreshSapPricingSuccess": "SAP Pricing was refreshed",
       "wrongPriceEditInput": "Please enter a numeric price value",
       "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00"
     },

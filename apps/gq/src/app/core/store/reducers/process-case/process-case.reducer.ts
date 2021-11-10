@@ -22,6 +22,9 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
+  refreshSapPricing,
+  refreshSapPricingFailure,
+  refreshSapPricingSuccess,
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
@@ -425,6 +428,38 @@ export const processCaseReducer = createReducer(
       ...state,
       quotation: {
         ...state.quotation,
+        updateLoading: false,
+      },
+    })
+  ),
+  on(
+    refreshSapPricing,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        updateLoading: true,
+      },
+    })
+  ),
+  on(
+    refreshSapPricingSuccess,
+    (state: ProcessCaseState, { quotation }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: quotation,
+        updateLoading: false,
+      },
+    })
+  ),
+  on(
+    refreshSapPricingFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        errorMessage,
         updateLoading: false,
       },
     })

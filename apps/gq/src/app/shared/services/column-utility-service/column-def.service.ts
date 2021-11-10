@@ -18,7 +18,7 @@ export class ColumnDefService {
       checkboxSelection: true,
       headerName: translate('shared.quotationDetailsTable.item'),
       field: 'quotationItemId',
-      cellRenderer: 'positionIdComponent',
+      cellRenderer: 'PositionIdComponent',
       sort: 'asc',
       pinned: 'left',
     },
@@ -72,7 +72,7 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
-      cellRenderer: 'gqRatingComponent',
+      cellRenderer: 'GqRatingComponent',
       field: 'gqRating',
     },
     {
@@ -231,7 +231,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.itemComment'),
       field: 'comment',
       valueFormatter: ColumnUtilityService.basicTransform,
-      cellRenderer: 'editCommentComponent',
+      cellRenderer: 'EditCommentComponent',
     },
   ];
 }
