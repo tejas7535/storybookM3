@@ -6,10 +6,10 @@ import {
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -32,6 +32,14 @@ class ExampleService {
   }
 }
 
+class MatSnackBarStub {
+  public open(): any {
+    return {
+      onAction: () => of({}),
+    };
+  }
+}
+
 describe(`HttpErrorInterceptor`, () => {
   let service: ExampleService;
   let spectator: SpectatorService<ExampleService>;
@@ -43,7 +51,6 @@ describe(`HttpErrorInterceptor`, () => {
     imports: [
       HttpClientTestingModule,
       NoopAnimationsModule,
-      MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -57,6 +64,7 @@ describe(`HttpErrorInterceptor`, () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      { provide: MatSnackBar, useClass: MatSnackBarStub },
     ],
   });
 

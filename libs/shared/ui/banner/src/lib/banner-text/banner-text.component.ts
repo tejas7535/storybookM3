@@ -14,12 +14,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerTextComponent implements OnInit {
-  @Input() public text: string;
-  @Input() public showFullText: boolean;
-  @Input() public bannerIcon: string;
-  @Input() public truncateSize: number;
-  @Input() public buttonText: string;
-  public icon: string;
+  @Input() public text = '';
+  @Input() public showFullText = false;
+  @Input() public bannerIcon = '';
+  @Input() public truncateSize = 120;
+  @Input() public buttonText = '';
+
+  public icon: string | undefined;
 
   @Output()
   public readonly closeBanner: EventEmitter<void> = new EventEmitter<void>();

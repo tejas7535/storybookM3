@@ -20,7 +20,7 @@ export class DataService {
   }
 
   public getAll<T>(path: string, options: GetOptions = {}): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}/${path}`, options as unknown);
+    return this.http.get<T>(`${this.apiUrl}/${path}`, options);
   }
 
   public post<T>(

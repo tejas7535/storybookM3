@@ -8,10 +8,10 @@ import {
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { translate, TranslocoService } from '@ngneat/transloco';
-
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { translate, TranslocoService } from '@ngneat/transloco';
 
 import { URL_SUPPORT } from '../constants/urls';
 import deJson from '../i18n/de.json';
@@ -65,7 +65,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           'https://login.partner.microsoftonline',
           'https://graph.microsoft.com',
         ];
-        if (!authUrls.some((authUrl) => error.url.startsWith(authUrl))) {
+        if (!authUrls.some((authUrl) => error.url?.startsWith(authUrl))) {
           this.snackBar
             .open(
               translate('errorInterceptorMessageDefault'),
@@ -74,7 +74,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             )
             .onAction()
             .subscribe(() => {
-              window.open(URL_SUPPORT, '_blank').focus();
+              window.open(URL_SUPPORT, '_blank')?.focus();
             });
         }
 

@@ -6,14 +6,19 @@ export interface GetOptions {
     | {
         [header: string]: string | string[];
       };
+  context?: HttpContext;
   observe?: 'body';
   params?:
     | HttpParams
     | {
-        [param: string]: string | string[];
+        [param: string]:
+          | string
+          | number
+          | boolean
+          // eslint-disable-next-line @typescript-eslint/array-type
+          | ReadonlyArray<string | number | boolean>;
       };
-  context?: HttpContext;
   reportProgress?: boolean;
-  responseType?: 'json' | 'text';
+  responseType?: 'json';
   withCredentials?: boolean;
 }

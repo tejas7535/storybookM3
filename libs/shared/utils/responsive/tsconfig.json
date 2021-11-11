@@ -1,8 +1,5 @@
 {
   "extends": "../../../../tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["node", "jest"]
-  },
   "include": [],
   "files": [],
   "references": [
@@ -12,5 +9,17 @@
     {
       "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }
