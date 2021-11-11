@@ -60,10 +60,11 @@ export class HardnessConverterComponent implements OnInit {
   }
 
   private setupUnitList(): void {
-    this.hardnessService.getUnits().subscribe((units: any) => {
+    this.hardnessService.getUnits().subscribe((units: string[]) => {
       this.unitList = units;
+      const HV = units.find((unit) => unit === 'HV');
       this.hardness.patchValue({
-        unit: units[0],
+        unit: HV ? HV : units[0],
       });
     });
   }
