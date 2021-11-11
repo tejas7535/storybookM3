@@ -23,7 +23,7 @@ import { PERSON_RESPONSIBLE } from './legal.model';
 })
 export class LegalComponent implements OnInit, OnDestroy {
   public responsible?: string = undefined;
-  public legal?: string;
+  public legal = 'imprint';
   public destroy$ = new Subject<void>();
 
   public constructor(
