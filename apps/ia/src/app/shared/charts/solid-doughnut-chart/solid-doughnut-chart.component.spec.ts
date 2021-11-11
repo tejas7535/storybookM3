@@ -1,10 +1,18 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { Color } from '../../models/color.enum';
 import { SharedModule } from '../../shared.module';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartComponent } from './solid-doughnut-chart.component';
+import * as doughnutConfig from './solid-doughnut-chart.config';
+
+jest.mock('./solid-doughnut-chart.config', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
+  ...jest.requireActual<any>('./solid-doughnut-chart.config'),
+  createSolidDoughnutChartBaseOptions: jest.fn(),
+  createSolidDoughnutChartSeries: jest.fn(),
+  createMediaQueries: jest.fn(),
+}));
 
 describe('SolidDoughnutChartComponent', () => {
   let component: SolidDoughnutChartComponent;
@@ -37,23 +45,18 @@ describe('SolidDoughnutChartComponent', () => {
         subTitle: 'Top 5 Reasons why people left',
       };
 
+      component.setCurrentData = jest.fn();
+
       component.initialConfig = config;
 
-      expect(component.options.backgroundColor).toEqual(Color.WHITE);
-      expect(component.options.type).toEqual('pie');
-      expect(component.options.title).toEqual({
-        text: config.title,
-        textStyle: {
-          color: Color.BLACK,
-          fontSize: '1.5rem',
-          fontWeight: 'normal',
-        },
-        subtext: config.subTitle,
-        subtextStyle: {
-          color: Color.LIGHT_GREY,
-          fontSize: '1rem',
-        },
-      });
+      expect(
+        doughnutConfig.createSolidDoughnutChartSeries
+      ).toHaveBeenCalledWith(config.title);
+      expect(doughnutConfig.createMediaQueries).toHaveBeenCalled();
+      expect(
+        doughnutConfig.createSolidDoughnutChartBaseOptions
+      ).toHaveBeenCalledWith(config);
+      expect(component.setCurrentData).toHaveBeenCalled();
     });
   });
 
@@ -99,7 +102,7 @@ describe('SolidDoughnutChartComponent', () => {
 
       expect(
         (component.mergeOptions.title as { top: string | number }).top
-      ).toEqual('35%');
+      ).toEqual('middle');
       expect(
         (component.mergeOptions.title as { left: string | number }).left
       ).toEqual('center');
@@ -135,34 +138,6 @@ describe('SolidDoughnutChartComponent', () => {
       component.setCurrentData();
 
       expect(component.setData).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('setMediaQueries', () => {
-    test('should set media queries', () => {
-      const expectedMediaQueries = [
-        {
-          query: {
-            minWidth: 192,
-            maxWidth: 240,
-          },
-          option: {
-            title: {
-              textStyle: {
-                fontSize: '1rem',
-              },
-              subtextStyle: {
-                fontSize: '0.75rem',
-              },
-            },
-          },
-        },
-      ];
-      component.options = {};
-
-      component.setMediaQueries();
-
-      expect(component.options.media).toStrictEqual(expectedMediaQueries);
     });
   });
 });

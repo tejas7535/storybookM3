@@ -5,6 +5,7 @@ import { EChartsOption, SeriesOption } from 'echarts';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
 import {
+  createMediaQueries,
   createSolidDoughnutChartBaseOptions,
   createSolidDoughnutChartSeries,
 } from './solid-doughnut-chart.config';
@@ -32,13 +33,14 @@ export class SolidDoughnutChartComponent {
       createSolidDoughnutChartBaseOptions(config);
 
     const series: SeriesOption[] = createSolidDoughnutChartSeries(config.title);
+    const media = createMediaQueries();
     this.options = {
       ...baseOptions,
       series,
+      media,
     };
 
     this.setCurrentData();
-    this.setMediaQueries();
   }
 
   @Input() set data(data: DoughnutChartData[]) {
@@ -66,7 +68,7 @@ export class SolidDoughnutChartComponent {
       ...this.mergeOptions,
       title: {
         ...this.mergeOptions.title,
-        top: titleInside ? '35%' : 'top',
+        top: titleInside ? 'middle' : 'top',
         left: titleInside ? 'center' : 'auto',
       },
     };
@@ -76,29 +78,5 @@ export class SolidDoughnutChartComponent {
     if (this._data) {
       this.setData(this._data);
     }
-  }
-
-  setMediaQueries(): void {
-    this.options = {
-      ...this.options,
-      media: [
-        {
-          query: {
-            minWidth: 192,
-            maxWidth: 240,
-          },
-          option: {
-            title: {
-              textStyle: {
-                fontSize: '1rem',
-              },
-              subtextStyle: {
-                fontSize: '0.75rem',
-              },
-            },
-          },
-        },
-      ],
-    };
   }
 }
