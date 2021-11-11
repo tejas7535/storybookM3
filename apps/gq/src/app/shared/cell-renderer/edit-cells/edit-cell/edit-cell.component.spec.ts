@@ -5,7 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import {
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
 import { EditingModalComponent } from '../../../components/editing-modal/editing-modal.component';
 import { ColumnFields } from '../../../services/column-utility-service/column-fields.enum';
 import { EditCellComponent } from './edit-cell.component';
@@ -33,16 +36,33 @@ describe('EditCellComponent', () => {
   });
 
   describe('agInit', () => {
-    test('should set params', () => {
+    test('should set params and allow cellEditing', () => {
       const params = {
         data: QUOTATION_DETAIL_MOCK,
         condition: {
-          conditionField: ColumnFields.GPM,
+          enabled: true,
+          conditionField: ColumnFields.GPC,
         },
+        context: { quotation: QUOTATION_MOCK },
       } as any;
       component.agInit(params);
 
       expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeTruthy();
+    });
+    test('should set params but disabled cellEditing for orderQuantity', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        condition: {
+          enabled: true,
+        },
+        field: ColumnFields.ORDER_QUANTITY,
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeFalsy();
     });
   });
 
