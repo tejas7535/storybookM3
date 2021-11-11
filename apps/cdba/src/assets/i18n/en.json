@@ -15,11 +15,6 @@
       "detail": "Details",
       "compare": "Compare"
     },
-    "shareUrl": {
-      "button": "Share",
-      "tooltipMessage": "Share the page link with your colleagues. Be aware that your colleague needs to have the correct access rights to view the page.",
-      "successMessage": "Link copied to clipboard. Be aware that your colleague needs to have the correct access rights to view the page."
-    },
     "statusBar": {
       "detail": "Show Details",
       "compare": "Compare Details",

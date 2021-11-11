@@ -1,40 +1,32 @@
-import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
 import { Meta, moduleMetadata } from '@storybook/angular';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import {
   ShareButtonComponent,
   ShareButtonModule,
 } from '@schaeffler/share-button';
-import { SnackBarModule } from '@schaeffler/snackbar';
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
 import READMEMd from '../../../../share-button/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 import {
   getMultiLanguageStoryTemplate,
   StorybookTranslocoModule,
 } from '../../../.storybook/storybook-transloco.module';
+import { Badges } from '../../../.storybook/storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../.storybook/storybook-navigation.constants';
 
 export default {
-  title: `${NavigationMain.Components}/Share Button`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Share Button`,
   component: ShareButtonComponent,
   decorators: [
     moduleMetadata({
       imports: [
-        CommonModule,
+        // necessary module imports
         BrowserAnimationsModule,
-        ShareButtonModule,
-        StorybookTranslocoModule,
-        MatButtonModule,
-        MatIconModule,
-        MatTooltipModule,
-        SnackBarModule,
         RouterModule.forRoot([], {
           useHash: true,
         }),
@@ -43,13 +35,16 @@ export default {
             instrumentationKey: 'some key',
           },
         }),
+        StorybookTranslocoModule,
+        ShareButtonModule,
       ],
     }),
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
   },
 } as Meta<ShareButtonComponent>;
 
-export const Primary = getMultiLanguageStoryTemplate.bind({});
-Primary.args = {};
+export const Default = getMultiLanguageStoryTemplate.bind({});
+Default.args = {};

@@ -23,7 +23,8 @@ export class ShareButtonDirective {
     this.clipboard.copy(window.location.href);
     this.snackbar.open(
       translate('successMessage'),
-      translate('dismissMessage')
+      translate('dismissMessage'),
+      { duration: 5000 }
     );
 
     const params = (this.router.routerState.snapshot.root.queryParamMap as any)[

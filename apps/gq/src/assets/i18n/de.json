@@ -213,12 +213,6 @@
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
       "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein"
     },
-    "shareUrl": {
-      "button": "Teilen",
-      "tooltipMessage": "Teile die Seite mit deinen Kolleg:innen. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
-      "toastSuccessMessage": "Link in Zwischenablage kopiert. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
-      "toastConfirmMessage": "ok"
-    },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
     },

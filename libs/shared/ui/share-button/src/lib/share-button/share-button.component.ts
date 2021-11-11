@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'schaeffler-share-button',
-  template: ` <ng-container header *transloco="let t">
+  template: ` <ng-container *transloco="let t">
     <button
       mat-raised-button
       schaefflerShareButton

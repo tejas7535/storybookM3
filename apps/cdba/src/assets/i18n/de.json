@@ -15,11 +15,6 @@
       "detail": "Details",
       "compare": "Vergleich"
     },
-    "shareUrl": {
-      "button": "Teilen",
-      "tooltipMessage": "Teile die Seite mit deinen Kolleg:innen. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
-      "successMessage": "Link in Zwischenablage kopiert. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen."
-    },
     "statusBar": {
       "detail": "Details anzeigen",
       "compare": "Details vergleichen",

@@ -2,9 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import deJson from './i18n/de.json';
@@ -20,12 +22,17 @@ import { ShareButtonDirective } from './share-button/share-button.directive';
 @NgModule({
   declarations: [ShareButtonComponent, ShareButtonDirective],
   imports: [
+    // angular
     CommonModule,
-    TranslocoModule,
-    SharedTranslocoModule,
+
+    // ui
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule,
     MatTooltipModule,
+
+    // shared
+    SharedTranslocoModule,
   ],
   exports: [ShareButtonComponent, ShareButtonDirective],
 })

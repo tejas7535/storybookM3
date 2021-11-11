@@ -213,12 +213,6 @@
       "wrongPriceEditInput": "Please enter a numeric price value",
       "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00"
     },
-    "shareUrl": {
-      "button": "Share",
-      "tooltipMessage": "Share the page link with your colleagues. Be aware, that your colleague needs the correct access rights to see the page.",
-      "toastSuccessMessage": "Link copied to clipboard. Be aware, that your colleague needs the correct access rights to see the page.",
-      "toastConfirmMessage": "ok"
-    },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"
     },

@@ -68,7 +68,8 @@ describe('ShareButtonDirective', () => {
 
       expect(spectator.directive['snackbar'].open).toHaveBeenCalledWith(
         'successMessage',
-        'dismissMessage'
+        'dismissMessage',
+        { duration: 5000 }
       );
     });
 
