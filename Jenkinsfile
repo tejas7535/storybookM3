@@ -242,6 +242,10 @@ def getNxRunnerConfig() {
     return '--runner=ci'
 }
 
+void cleanWorkspace() { 
+    sh "rm -rf checkstyle coverage dist node_modules reports"
+}
+
 /****************************************************************/
 pipeline {
     agent {
@@ -876,8 +880,7 @@ pipeline {
     post {
         always {
             script {
-                sh 'chmod -R 777 .' // set rights so that the cleanup job can do its work
-                cleanWs(disableDeferredWipeout: true)
+                cleanWorkspace()
             }
         }
     }
