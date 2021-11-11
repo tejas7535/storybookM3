@@ -5,8 +5,8 @@ export const environment: Environment = {
   localDev: false,
   devToolsEnabled: false,
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
-  clientId: '9cb9acbc-986b-483a-bd46-964628cc497f', // SG_CDBA_P
-  appScope: 'api://5911691d-b29f-40bc-ab05-0b67f5b256cf/cdbaapi', // SG_CDBA_P_API
+  clientId: 'd4931257-be60-4ac7-81e0-1c17049e023b', // SG_SSO_CDBA_P
+  appScope: 'https://SG_SSO_CDBA_API_P/cdba-api',
   envName: 'https://cdba.dp.schaeffler (prod)',
   applicationInsights: {
     applicationInsightsConfig: {
