@@ -1,6 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { MockModule } from 'ng-mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -33,7 +34,7 @@ describe('AppComponent', () => {
       ReactiveComponentModule,
       AppShellModule,
       LoadingSpinnerModule,
-      UserSettingsModule,
+      MockModule(UserSettingsModule),
       MaintenanceModule,
     ],
     providers: [

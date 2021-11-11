@@ -4,6 +4,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { MockModule } from 'ng-mocks';
 
 import { AUTH_STATE_MOCK } from '../../../../testing/mocks';
 import { LanguageSettingModule } from './language-setting/language-setting.module';
@@ -17,7 +18,7 @@ describe('UserSettingsComponent', () => {
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
     imports: [
-      LanguageSettingModule,
+      MockModule(LanguageSettingModule),
       RolesRightsModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

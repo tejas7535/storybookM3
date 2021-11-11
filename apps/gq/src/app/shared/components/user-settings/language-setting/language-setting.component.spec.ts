@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { MockModule } from 'ng-mocks';
 
 import { SharedModule } from '../../../shared.module';
 import { LanguageSettingComponent } from './language-setting.component';
@@ -19,7 +20,7 @@ describe('LanguageSettingComponent', () => {
     component: LanguageSettingComponent,
     imports: [
       SharedModule,
-      ReactiveFormsModule,
+      MockModule(ReactiveFormsModule),
       MatFormFieldModule,
       MatInputModule,
       MatSelectModule,

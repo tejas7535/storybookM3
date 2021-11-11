@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -17,6 +18,7 @@ describe('EditCellComponent', () => {
   const createComponent = createComponentFactory({
     component: EditCellComponent,
     imports: [MatIconModule, MatDialogModule],
+    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     mocks: [MatDialog],
   });
 
