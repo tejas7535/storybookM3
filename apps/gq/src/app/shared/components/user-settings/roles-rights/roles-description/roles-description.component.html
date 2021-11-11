@@ -1,24 +1,16 @@
 <mat-accordion multi="true" *transloco="let t; read: translationKey">
   <mat-expansion-panel class="mat-elevation-z0 border border-lightBg">
     <mat-expansion-panel-header class="!pl-4 !pt-3 !pb-4 !h-auto">
-      <mat-panel-title class="text-subtitle-1 text-dark">
+      <mat-panel-title class="text-subtitle-1">
         {{ t('title') }}
       </mat-panel-title>
     </mat-expansion-panel-header>
     <div *ngFor="let role of roles; trackBy: trackByFn">
       <div class="flex flex-row border-t border-lightBg">
-        <div
-          class="
-            text-caption text-dark
-            px-6
-            pt-3
-            pb-6
-            bg-primary bg-opacity-[0.07]
-          "
-        >
+        <div class="text-caption px-6 pt-3 pb-6 bg-primary bg-opacity-[0.07]">
           {{ role }}
         </div>
-        <div class="text-caption text-dark px-6 pt-3 pb-6">
+        <div class="text-caption px-6 pt-3 pb-6">
           {{ t(role) }}
         </div>
       </div>

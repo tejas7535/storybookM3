@@ -16,7 +16,7 @@
 >
   <div class="w-full mt-[10px] flex" content>
     <div class="flex-grow max-w-[25%]">
-      <div class="mb-1 text-body-1">
+      <div class="mb-1 text-body-1 text-light">
         <span>{{ t('label') }}</span
         ><span *ngIf="editMode"> ({{ currency }})</span>
         <span>:</span>
@@ -27,7 +27,7 @@
           <span *ngIf="!price" class="font-bold"> {{ currency }}</span>
           <mat-icon
             *ngIf="userHasManualPriceRole"
-            class="ml-1 !text-body-1 cursor-pointer"
+            class="ml-1 !text-body-1 text-light cursor-pointer"
             (click)="openEditing()"
             >mode_edit</mat-icon
           >
@@ -53,35 +53,35 @@
       </div>
     </div>
     <div class="flex-1" *ngIf="userHasGPCRole">
-      <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
+      <div class="mb-1 text-body-1 text-light">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
         <mat-icon
-          class="ml-1 !text-body-1 cursor-pointer"
+          class="ml-1 !text-body-1 text-light cursor-pointer"
           (click)="openMarginEditing(true)"
           >mode_edit</mat-icon
         >
       </div>
     </div>
     <div class="flex-1" *ngIf="userHasSQVRole">
-      <div class="mb-1 text-body-1">{{ t('gpm') }}:</div>
+      <div class="mb-1 text-body-1 text-light">{{ t('gpm') }}:</div>
       <div>
         <span class="font-bold">{{ gpm || '-' }} %</span>
         <mat-icon
-          class="ml-1 !text-body-1 cursor-pointer"
+          class="ml-1 !text-body-1 text-light cursor-pointer"
           (click)="openMarginEditing(false)"
           >mode_edit</mat-icon
         >
       </div>
     </div>
     <div class="flex-1">
-      <div class="mb-1 text-body-1">{{ t('quantity') }}:</div>
+      <div class="mb-1 text-body-1 text-light">{{ t('quantity') }}:</div>
       <gq-quantity-display
         [quantity]="quotationDetail.orderQuantity"
       ></gq-quantity-display>
     </div>
     <div class="flex-1">
-      <div class="mb-1 text-body-1">{{ t('priceUnit') }}:</div>
+      <div class="mb-1 text-body-1 text-light">{{ t('priceUnit') }}:</div>
       <div>
         <span class="font-bold">{{
           quotationDetail.material.priceUnit | number

@@ -13,7 +13,6 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
 @Component({
   selector: 'gq-price',
   templateUrl: './gq-price.component.html',
-  styleUrls: ['./gq-price.component.scss'],
 })
 export class GqPriceComponent implements OnInit {
   public gpi: number;

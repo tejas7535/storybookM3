@@ -1,55 +1,55 @@
 <mat-card
-  class="mat-elevation-z0 border border-solid border-outline mt-6 text-body-2"
+  class="mat-elevation-z0 border border-solid border-outline mt-6"
   *transloco="let t; read: 'shared.customerHeader'"
 >
   <div class="flex flex-row">
     <div class="w-full flex flex-row pr-4" *ngIf="customer">
       <div class="mr-12">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('name') }}: </span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('name') }}: </span>
+          <span>
             {{ customer.name }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('id') }}: </span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('id') }}: </span>
+          <span>
             {{ customer.identifier.customerId }}
           </span>
         </div>
       </div>
       <div class="mr-12 overflow-x-hidden sm:overflow-x-visible">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('keyAccount') }}: </span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('keyAccount') }}: </span>
+          <span>
             {{ customer.keyAccount }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('subKeyAccount') }}: </span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('subKeyAccount') }}: </span>
+          <span>
             {{ customer.subKeyAccount }}
           </span>
         </div>
       </div>
       <div class="mr-12 overflow-x-hidden md:overflow-x-visible">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('classification') }}: </span>
-          <span class="text-highEmphasis"
-            >{{ customer.abcClassification }}
-          </span>
+          <span class="pr-2 text-light">{{ t('classification') }}: </span>
+          <span>{{ customer.abcClassification }} </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('sectorManagement') }}: </span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('sectorManagement') }}: </span>
+          <span>
             {{ customer.sectorManagement }}
           </span>
         </div>
       </div>
       <div class="mr-12 hidden md:flex md:flex-col overflow-x-hidden">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('netSalesLastYear') }} {{ lastYear }}:</span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light"
+            >{{ t('netSalesLastYear') }} {{ lastYear }}:</span
+          >
+          <span>
             {{
               customer.marginDetail?.netSalesLastYear
                 | numberCurrency: customer.currency
@@ -57,22 +57,24 @@
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('gpiLastYear') }} {{ lastYear }}:</span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light"
+            >{{ t('gpiLastYear') }} {{ lastYear }}:</span
+          >
+          <span>
             {{ customer.marginDetail?.gpiLastYear | percentage }}
           </span>
         </div>
       </div>
       <div class="hidden lg:flex lg:flex-col overflow-x-hidden">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('country') }}:</span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('country') }}:</span>
+          <span>
             {{ customer.country }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2">{{ t('currency') }}:</span>
-          <span class="text-highEmphasis">
+          <span class="pr-2 text-light">{{ t('currency') }}:</span>
+          <span>
             {{ customer.currency }}
           </span>
         </div>
