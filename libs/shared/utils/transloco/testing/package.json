@@ -1,7 +1,12 @@
 {
   "ngPackage": {
     "lib": {
-      "entryFile": "src/public-api.ts"
+      "entryFile": "src/public-api.ts",
+      "umdModuleIds": {
+        "@ngneat/transloco": "@ngneat/transloco",
+        "@ngneat/transloco-locale": "@ngneat/transloco-locale",
+        "ng-mocks": "ng-mocks"
+      }
     }
   }
 }
