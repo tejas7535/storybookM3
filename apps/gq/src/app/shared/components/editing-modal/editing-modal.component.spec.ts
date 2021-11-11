@@ -92,6 +92,27 @@ describe('EditingModalComponent', () => {
       expect(component['subscription'].add).toHaveBeenCalledTimes(2);
     });
   });
+
+  describe('confirmDisabled', () => {
+    beforeEach(() => {
+      component.confirmDisabled = false;
+    });
+    test('should disable editing because of empty string', () => {
+      component.addSubscriptions();
+
+      component.editFormControl.setValue('');
+
+      expect(component.confirmDisabled).toBeTruthy();
+    });
+    test('should disable editing because of too large number', () => {
+      component.addSubscriptions();
+      component.modalData = { field: ColumnFields.GPI } as any;
+
+      component.editFormControl.setValue('120');
+
+      expect(component.confirmDisabled).toBeTruthy();
+    });
+  });
   describe('closeDialog', () => {
     test('should close dialogRef', () => {
       component['dialogRef'].close = jest.fn();

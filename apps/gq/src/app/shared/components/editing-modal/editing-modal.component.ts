@@ -43,7 +43,7 @@ export class EditingModalComponent implements OnInit, OnDestroy {
     private readonly store: Store
   ) {
     this.value =
-      this.modalData.quotationDetail[this.modalData.field].toString();
+      this.modalData.quotationDetail[this.modalData.field]?.toString() || '0';
     this.quotationDetail = this.modalData.quotationDetail;
   }
 
@@ -81,6 +81,7 @@ export class EditingModalComponent implements OnInit, OnDestroy {
           // dynamic to value
           val === this.value ||
           // dynamic to value
+          (val !== null && val.length === 0) ||
           (val !== null && val.trim() === this.value) ||
           (![ColumnFields.PRICE, ColumnFields.ORDER_QUANTITY].includes(
             this.modalData.field as ColumnFields

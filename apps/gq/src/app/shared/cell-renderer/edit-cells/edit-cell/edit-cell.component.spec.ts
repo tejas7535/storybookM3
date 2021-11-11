@@ -41,7 +41,6 @@ describe('EditCellComponent', () => {
       component.agInit(params);
 
       expect(component.params).toEqual(params);
-      expect(component.conditionMet).toEqual(true);
     });
   });
 

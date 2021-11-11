@@ -11,14 +11,11 @@ import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-pa
 })
 export class EditCellComponent {
   public params: ExtendedEditCellClassParams;
-  public conditionMet: boolean;
+  public isEditingCellAllowed: boolean;
 
   constructor(private readonly dialog: MatDialog) {}
   agInit(params: ExtendedEditCellClassParams): void {
     this.params = params;
-    this.conditionMet =
-      (params.data as QuotationDetail)[params.condition.conditionField] !==
-      null;
   }
 
   onIconClick(): void {

@@ -3,7 +3,9 @@
     {{ params.valueFormatted }}
   </span>
   <mat-icon
-    *ngIf="!params.condition.enabled || conditionMet"
+    *ngIf="
+      !params.condition.enabled || params.data[params.condition.conditionField]
+    "
     class="cursor-pointer !text-[16px]"
     (click)="onIconClick()"
     >mode_edit</mat-icon
