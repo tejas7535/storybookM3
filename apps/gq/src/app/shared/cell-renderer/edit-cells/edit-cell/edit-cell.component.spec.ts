@@ -21,8 +21,13 @@ describe('EditCellComponent', () => {
   const createComponent = createComponentFactory({
     component: EditCellComponent,
     imports: [MatIconModule, MatDialogModule],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
     mocks: [MatDialog],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

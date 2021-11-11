@@ -14,7 +14,7 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
+import { HttpModule } from '@schaeffler/http';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -23,6 +23,7 @@ import { environment } from '../../environments/environment';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
+import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
 
 @NgModule({
@@ -74,7 +75,7 @@ import { StoreModule } from './store';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpErrorInterceptor,
+      useClass: BaseHttpInterceptor,
       multi: true,
     },
   ],
