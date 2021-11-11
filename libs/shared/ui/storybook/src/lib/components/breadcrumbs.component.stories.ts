@@ -2,14 +2,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import READMEMd from '../../../breadcrumbs/README.md';
+import READMEMd from '../../../../breadcrumbs/README.md';
 
 import {
   BreadcrumbsComponent,
   BreadcrumbsModule,
 } from '@schaeffler/breadcrumbs';
 
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Components}/Breadcrumbs`,

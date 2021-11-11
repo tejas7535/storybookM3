@@ -16,8 +16,8 @@ import {
   SearchAutocompleteOption,
 } from '@schaeffler/search-autocomplete';
 
-import READMEMd from '../../../search-autocomplete/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../search-autocomplete/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 const options: SearchAutocompleteOption[] = [
   { title: 'Bearing A1', id: 'A1' },

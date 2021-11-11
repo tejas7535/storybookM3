@@ -13,10 +13,10 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { AppShellComponent } from '@schaeffler/app-shell';
 
-import { UserPanelComponent } from '../../../app-shell/src/lib/components/user-panel/user-panel.component';
-import READMEMd from '../../../app-shell/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
-import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
+import { UserPanelComponent } from '../../../../app-shell/src/lib/components/user-panel/user-panel.component';
+import READMEMd from '../../../../app-shell/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import { StorybookTranslocoModule } from '../../../.storybook/storybook-transloco.module';
 
 interface AppShellStorybookTemplate {
   headerContent?: string;

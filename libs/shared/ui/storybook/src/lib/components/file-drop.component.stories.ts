@@ -4,8 +4,8 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { FileDropComponent, FileDropModule } from '@schaeffler/file-drop';
 
-import READMEMd from '../../../dropdown-input/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../dropdown-input/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Components}/File Drop`,

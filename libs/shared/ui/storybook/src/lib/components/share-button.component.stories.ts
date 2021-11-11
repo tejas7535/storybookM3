@@ -14,12 +14,12 @@ import {
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
-import READMEMd from '../../../share-button/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../share-button/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 import {
   getMultiLanguageStoryTemplate,
   StorybookTranslocoModule,
-} from '../../.storybook/storybook-transloco.module';
+} from '../../../.storybook/storybook-transloco.module';
 
 export default {
   title: `${NavigationMain.Components}/Share Button`,

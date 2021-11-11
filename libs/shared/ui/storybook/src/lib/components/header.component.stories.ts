@@ -13,9 +13,9 @@ import {
 } from '@schaeffler/header';
 import { UserMenuModule } from 'libs/shared/ui/header/src/lib/user-menu/user-menu.module';
 
-import READMEMd from '../../../header/README.md';
-import { Badges } from '../../.storybook/storybook-badges.constants';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../header/README.md';
+import { Badges } from '../../../.storybook/storybook-badges.constants';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Deprecated}/Header`,

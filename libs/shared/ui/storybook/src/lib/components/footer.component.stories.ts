@@ -6,8 +6,8 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { FooterComponent, FooterModule } from '@schaeffler/footer';
 
-import READMEMd from '../../../footer/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../footer/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Components}/Footer`,

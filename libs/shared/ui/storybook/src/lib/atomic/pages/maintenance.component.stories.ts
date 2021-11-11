@@ -6,13 +6,13 @@ import {
   MaintenanceModule,
 } from '@schaeffler/empty-states';
 
-import READMEMd from '../../../empty-states/src/lib/maintenance/README.md';
-import { Badges } from '../../.storybook/storybook-badges.constants';
+import READMEMd from '../../../../../empty-states/src/lib/maintenance/README.md';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import {
   NavigationAtomic,
   NavigationMain,
-} from '../../.storybook/storybook-navigation.constants';
-import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
+} from '../../../../.storybook/storybook-navigation.constants';
+import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Pages}/Maintenance`,

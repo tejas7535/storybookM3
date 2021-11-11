@@ -6,8 +6,8 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { DUMMY, ReportComponent, ReportModule } from '@schaeffler/report';
 
-import READMEMd from '../../../picture-card/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../picture-card/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Components}/Report`,

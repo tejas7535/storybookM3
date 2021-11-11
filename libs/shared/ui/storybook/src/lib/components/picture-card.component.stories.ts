@@ -7,8 +7,8 @@ import {
   PictureCardModule,
 } from '@schaeffler/picture-card';
 
-import READMEMd from '../../../picture-card/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../picture-card/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Components}/PictureCard`,

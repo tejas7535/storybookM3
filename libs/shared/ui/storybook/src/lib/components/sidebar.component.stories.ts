@@ -14,9 +14,9 @@ import {
   SidebarModule,
 } from '@schaeffler/sidebar';
 
-import READMEMd from '../../../sidebar/README.md';
-import { Badges } from '../../.storybook/storybook-badges.constants';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../sidebar/README.md';
+import { Badges } from '../../../.storybook/storybook-badges.constants';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Deprecated}/Sidebar`,

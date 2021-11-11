@@ -7,8 +7,8 @@ import {
   LoadingSpinnerModule,
 } from '@schaeffler/loading-spinner';
 
-import READMEMd from '../../../loading-spinner/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../loading-spinner/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Components}/Loading Spinner`,

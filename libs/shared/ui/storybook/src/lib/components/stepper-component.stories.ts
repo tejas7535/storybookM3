@@ -16,12 +16,12 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { StepperModule } from '@schaeffler/stepper';
 
-import READMEMd from '../../../stepper/README.md';
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../stepper/README.md';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 @Component({
   selector: 'wrapper',
-  styleUrls: ['../../../stepper/index.scss'],
+  styleUrls: ['../../../../stepper/index.scss'],
   template: ` <mat-horizontal-stepper schaefflerSeparatedSteps linear>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">

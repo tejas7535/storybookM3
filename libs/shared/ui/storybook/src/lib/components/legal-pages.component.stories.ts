@@ -17,8 +17,8 @@ import {
   PERSON_RESPONSIBLE,
 } from '@schaeffler/legal-pages';
 
-import { NavigationMain } from '../../.storybook/storybook-navigation.constants';
-import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
+import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import { StorybookTranslocoModule } from '../../../.storybook/storybook-transloco.module';
 
 const routerMock = {
   events: of(

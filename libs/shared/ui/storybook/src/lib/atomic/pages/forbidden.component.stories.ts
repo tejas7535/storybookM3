@@ -4,13 +4,13 @@ import { Meta, moduleMetadata } from '@storybook/angular';
 
 import { ForbiddenComponent, ForbiddenModule } from '@schaeffler/empty-states';
 
-import READMEMd from '../../../empty-states/src/lib/forbidden/README.md';
-import { Badges } from '../../.storybook/storybook-badges.constants';
+import READMEMd from '../../../../../empty-states/src/lib/forbidden/README.md';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import {
   NavigationAtomic,
   NavigationMain,
-} from '../../.storybook/storybook-navigation.constants';
-import { getMultiLanguageStoryTemplate } from '../../.storybook/storybook-transloco.module';
+} from '../../../../.storybook/storybook-navigation.constants';
+import { getMultiLanguageStoryTemplate } from '../../../../.storybook/storybook-transloco.module';
 
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Pages}/Forbidden`,

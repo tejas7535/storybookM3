@@ -8,13 +8,13 @@ import {
   UnsupportedViewportModule,
 } from '@schaeffler/empty-states';
 
-import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
-import { Badges } from '../../.storybook/storybook-badges.constants';
+import READMEmd from '../../../../../empty-states/src/lib/unsupported-viewport/README.md';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import {
   NavigationAtomic,
   NavigationMain,
-} from '../../.storybook/storybook-navigation.constants';
-import { StorybookTranslocoModule } from '../../.storybook/storybook-transloco.module';
+} from '../../../../.storybook/storybook-navigation.constants';
+import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
 
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Unsupported Viewport`,
