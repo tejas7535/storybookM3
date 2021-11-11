@@ -17,7 +17,6 @@ export class RootEffects {
         map((action) => action.accountInfo),
         tap((accountInfo) => {
           this.trackDepartment(accountInfo.department);
-          this.trackFunctionalRole(accountInfo.idTokenClaims);
         })
       );
     },
@@ -27,23 +26,6 @@ export class RootEffects {
   );
 
   private readonly APPLICATION_INSIGHTS_DEPARTMENT = 'department';
-  private readonly APPLICATION_INSIGHTS_FUNCTIONAL_ROLE = 'functional_role';
-
-  private trackFunctionalRole(idTokenClaims: any) {
-    const rolesClaim: string[] = idTokenClaims?.roles || [];
-
-    const extractedFunctionalRole = rolesClaim.find((role) =>
-      role.startsWith('CDBA_FUNC')
-    );
-
-    const functionalRoleTelemetryData =
-      extractedFunctionalRole || 'Functional role unavailable';
-
-    this.applicationInsightsService.addCustomPropertyToTelemetryData(
-      this.APPLICATION_INSIGHTS_FUNCTIONAL_ROLE,
-      functionalRoleTelemetryData
-    );
-  }
 
   private trackDepartment(department: string) {
     this.applicationInsightsService.addCustomPropertyToTelemetryData(
