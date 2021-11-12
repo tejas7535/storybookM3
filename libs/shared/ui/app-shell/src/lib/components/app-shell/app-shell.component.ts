@@ -7,7 +7,6 @@ import {
 
 import { TranslocoService } from '@ngneat/transloco';
 
-import { AppShellFooterLink } from '../../models';
 import { sidenavToggleAnimation } from '../../animations/sidenav.animations';
 import deJson from '../../i18n/de.json';
 import enJson from '../../i18n/en.json';
@@ -15,6 +14,7 @@ import esJson from '../../i18n/es.json';
 import frJson from '../../i18n/fr.json';
 import ruJson from '../../i18n/ru.json';
 import zhJson from '../../i18n/zh.json';
+import { AppShellFooterLink } from '../../models';
 
 @Component({
   selector: 'schaeffler-app-shell',

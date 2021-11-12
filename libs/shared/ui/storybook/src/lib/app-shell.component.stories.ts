@@ -70,7 +70,9 @@ const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
       <h4>{{ sideNavContent }}</h4>
     </ng-container>
     <ng-container mainContent>
-      <h1>{{ mainContent }}</h1>
+      <div class="h-full w-full text-center">
+        <h1>{{ mainContent }}</h1>
+      </div>
     </ng-container>
     <ng-container footerContent>
       <span>{{ footerContent }}</span>
