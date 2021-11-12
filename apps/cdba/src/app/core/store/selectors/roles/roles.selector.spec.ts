@@ -87,43 +87,46 @@ describe('Roles Selectors', () => {
 
   describe('getHasDescriptiveRoles', () => {
     test('should return falsy value with initial state', () => {
-      expect(getHasDescriptiveRoles(mockStateInitial)).toBeFalsy();
+      expect(getHasDescriptiveRoles(mockStateInitial)).toBe(false);
     });
 
-    test('should return falsy value with missing product line role', () => {
+    test('should return false with missing product line role', () => {
       expect(
         getHasDescriptiveRoles({
           ...mockStateSuccess,
-          'azure-auth': getMockAuthState(['CDBA_REGION_2']),
+          'azure-auth': getMockAuthState(['CDBA_SUB_REGION_21']),
         })
-      ).toBeFalsy();
+      ).toBe(false);
     });
 
-    test('should return falsy value with missing sub-region role', () => {
+    test('should return false with missing sub-region role', () => {
       expect(
         getHasDescriptiveRoles({
           ...mockStateSuccess,
-          'azure-auth': getMockAuthState(['CDBA_PL_1']),
+          'azure-auth': getMockAuthState(['CDBA_PRODUCT_LINE_03']),
         })
-      ).toBeFalsy();
+      ).toBe(false);
     });
 
-    test('should return truthy value with necessary roles', () => {
+    test('should return true with necessary roles', () => {
       expect(
         getHasDescriptiveRoles({
           ...mockStateSuccess,
-          'azure-auth': getMockAuthState(['CDBA_PL_1', 'CDBA_REGION_2']),
+          'azure-auth': getMockAuthState([
+            'CDBA_PRODUCT_LINE_03',
+            'CDBA_SUB_REGION_21',
+          ]),
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
 
-    test('should return truthy value with admin role', () => {
+    test('should return true with admin role', () => {
       expect(
         getHasDescriptiveRoles({
           ...mockStateSuccess,
           'azure-auth': getMockAuthState(['CDBA_ADMIN']),
         })
-      ).toBeTruthy();
+      ).toBe(true);
     });
   });
 });

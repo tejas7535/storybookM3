@@ -1,27 +1,31 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
-import { hasIdTokenRole } from '@schaeffler/azure-auth';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
+import { RoleFacade } from '../role.facade';
 import { PricingRoleGuard } from './pricing-role.guard';
 
 describe('PricingRoleGuard', () => {
   let spectator: SpectatorService<PricingRoleGuard>;
   let guard: PricingRoleGuard;
-  let store: MockStore;
+  let roleFacade: RoleFacade;
 
   const createService = createServiceFactory({
     service: PricingRoleGuard,
     imports: [RouterTestingModule],
-    providers: [provideMockStore({})],
+    providers: [mockProvider(RoleFacade)],
   });
 
   beforeEach(() => {
     spectator = createService();
     guard = spectator.inject(PricingRoleGuard);
-    store = spectator.inject(MockStore);
+    roleFacade = spectator.inject(RoleFacade);
   });
 
   test('should create', () => {
@@ -29,40 +33,42 @@ describe('PricingRoleGuard', () => {
   });
 
   describe('canActivateChild', () => {
-    test('should grant access, if user has base role', () => {
-      store.overrideSelector(
-        hasIdTokenRole('CDBA_FUNC_SALES_AUTOMOTIVE'),
-        true
-      );
+    test(
+      'should grant access, if user has pricing role',
+      marbles((m) => {
+        roleFacade.hasAnyPricingRole$ = m.cold('a', { a: true });
+        guard
+          .canActivateChild()
+          .subscribe((granted) => expect(granted).toBeTruthy());
+      })
+    );
 
-      guard
-        .canActivateChild()
-        .subscribe((granted) => expect(granted).toBeTruthy());
-    });
+    test(
+      'should not grant access if user is lacking pricing role',
+      marbles((m) => {
+        roleFacade.hasAnyPricingRole$ = m.cold('a', { a: false });
+        guard['router'].navigate = jest.fn().mockImplementation();
 
-    test('should not grant access if user is lacking base role', () => {
-      store.overrideSelector(
-        hasIdTokenRole('CDBA_FUNC_SALES_AUTOMOTIVE'),
-        false
-      );
-      guard['router'].navigate = jest.fn().mockImplementation();
+        guard
+          .canActivateChild()
+          .subscribe((granted) => expect(granted).toBeFalsy());
+      })
+    );
 
-      guard
-        .canActivateChild()
-        .subscribe((granted) => expect(granted).toBeFalsy());
-    });
+    test(
+      'should redirect to forbidden page if user is not authorized',
+      marbles((m) => {
+        roleFacade.hasAnyPricingRole$ = m.cold('a', { a: false });
+        guard['router'].navigate = jest.fn().mockImplementation();
 
-    test('should redirect to forbidden page if user is not authorized', () => {
-      store.overrideSelector(
-        hasIdTokenRole('CDBA_FUNC_SALES_AUTOMOTIVE'),
-        false
-      );
-      guard['router'].navigate = jest.fn().mockImplementation();
-
-      guard.canActivateChild().subscribe((granted) => {
-        expect(granted).toBeFalsy();
-        expect(guard['router'].navigate).toHaveBeenCalledWith(['no-access']);
-      });
-    });
+        guard.canActivateChild().subscribe((granted) => {
+          expect(granted).toBeFalsy();
+          expect(guard['router'].navigate).toHaveBeenCalledWith([
+            'empty-states',
+            'forbidden',
+          ]);
+        });
+      })
+    );
   });
 });

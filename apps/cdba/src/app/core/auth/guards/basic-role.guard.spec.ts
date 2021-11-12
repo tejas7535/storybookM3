@@ -1,27 +1,31 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
-import { hasIdTokenRole } from '@schaeffler/azure-auth';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
+import { RoleFacade } from '../role.facade';
 import { BasicRoleGuard } from './basic-role.guard';
 
 describe('BasicRoleGuard', () => {
   let spectator: SpectatorService<BasicRoleGuard>;
   let guard: BasicRoleGuard;
-  let store: MockStore;
+  let roleFacade: RoleFacade;
 
   const createService = createServiceFactory({
     service: BasicRoleGuard,
     imports: [RouterTestingModule],
-    providers: [provideMockStore({})],
+    providers: [mockProvider(RoleFacade)],
   });
 
   beforeEach(() => {
     spectator = createService();
     guard = spectator.inject(BasicRoleGuard);
-    store = spectator.inject(MockStore);
+    roleFacade = spectator.inject(RoleFacade);
   });
 
   test('should create', () => {
@@ -29,31 +33,43 @@ describe('BasicRoleGuard', () => {
   });
 
   describe('canActivateChild', () => {
-    test('should grant access, if user has base role', () => {
-      store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), true);
+    test(
+      'should grant access, if user has base role',
+      marbles((m) => {
+        roleFacade.hasBasicRole$ = m.cold('a', { a: true });
 
-      guard
-        .canActivateChild()
-        .subscribe((granted) => expect(granted).toBeTruthy());
-    });
+        guard
+          .canActivateChild()
+          .subscribe((granted) => expect(granted).toBeTruthy());
+      })
+    );
 
-    test('should not grant access if user is lacking base role', () => {
-      store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), false);
-      guard['router'].navigate = jest.fn().mockImplementation();
+    test(
+      'should not grant access if user is lacking base role',
+      marbles((m) => {
+        roleFacade.hasBasicRole$ = m.cold('a', { a: false });
+        guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard
-        .canActivateChild()
-        .subscribe((granted) => expect(granted).toBeFalsy());
-    });
+        guard
+          .canActivateChild()
+          .subscribe((granted) => expect(granted).toBeFalsy());
+      })
+    );
 
-    test('should redirect to forbidden page if user is not authorized', () => {
-      store.overrideSelector(hasIdTokenRole('CDBA_BASIC'), false);
-      guard['router'].navigate = jest.fn().mockImplementation();
+    test(
+      'should redirect to no-access page if user is not authorized',
+      marbles((m) => {
+        roleFacade.hasBasicRole$ = m.cold('a', { a: false });
+        guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard.canActivateChild().subscribe((granted) => {
-        expect(granted).toBeFalsy();
-        expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
-      });
-    });
+        guard.canActivateChild().subscribe((granted) => {
+          expect(granted).toBeFalsy();
+          expect(guard['router'].navigate).toHaveBeenCalledWith([
+            'empty-states',
+            'no-access',
+          ]);
+        });
+      })
+    );
   });
 });

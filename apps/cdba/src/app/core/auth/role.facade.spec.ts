@@ -1,9 +1,10 @@
+import { marbles } from 'rxjs-marbles';
+
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { SpectatorService, createServiceFactory } from '@ngneat/spectator';
 
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { AUTH_STATE_MOCK } from '@cdba/testing/mocks';
-import { marbles } from 'rxjs-marbles';
 
 describe('RoleFacade', () => {
   let spectator: SpectatorService<RoleFacade>;
@@ -29,33 +30,50 @@ describe('RoleFacade', () => {
     expect(spectator.service).toBeDefined();
   });
 
-  it('should provide roles', () => {
-    marbles((m) => {
-      const expected = m.cold('--roles', {
-        roles: ['CDBA_FUNC_CALCULATION', 'CDBA_FUNC_APPLICATION_ENGINEERING'],
-      });
+  describe('roles$', () => {
+    it(
+      'should provide id token roles of user',
+      marbles((m) => {
+        const expected = m.cold('a', {
+          a: [
+            'CDBA_BASIC',
+            'CDBA_COST_TYPE_SQV',
+            'CDBA_PRODUCT_LINE_03',
+            'CDBA_SUB_REGION_21',
+          ],
+        });
 
-      m.expect(service.roles$).toBeObservable(expected);
-    });
+        m.expect(service.roles$).toBeObservable(expected);
+      })
+    );
   });
 
-  it('should provide basic role api', () => {
-    marbles((m) => {
-      const expected = m.cold('--hasBasicRole', {
-        hasBasicRole: false,
-      });
+  describe('hasBasicRole$', () => {
+    it(
+      'should return true if user has role CDBA_BASIC',
+      marbles((m) => {
+        // user has basic role in mock state
+        const expected = m.cold('a', {
+          a: true,
+        });
 
-      m.expect(service.hasBasicRole$).toBeObservable(expected);
-    });
+        m.expect(service.hasBasicRole$).toBeObservable(expected);
+      })
+    );
   });
 
-  it('should provide pricing role api', () => {
-    marbles((m) => {
-      const expected = m.cold('--hasAnyPricingRole', {
-        hasAnyPricingRole: true,
-      });
+  describe('hasPricingRole$', () => {
+    it(
+      'should return true if user has a COST_TYPE role',
+      marbles((m) => {
+        // user has role CDBA_COST_TYPE_SQV in mock state
 
-      m.expect(service.hasAnyPricingRole$).toBeObservable(expected);
-    });
+        const expected = m.cold('a', {
+          a: true,
+        });
+
+        m.expect(service.hasAnyPricingRole$).toBeObservable(expected);
+      })
+    );
   });
 });

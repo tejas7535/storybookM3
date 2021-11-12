@@ -2,7 +2,12 @@ import { AccountInfo } from '@schaeffler/azure-auth';
 
 export const ACCOUNT_INFO_MOCK: AccountInfo = {
   idTokenClaims: {
-    roles: ['CDBA_FUNC_CALCULATION', 'CDBA_FUNC_APPLICATION_ENGINEERING'],
+    roles: [
+      'CDBA_BASIC',
+      'CDBA_COST_TYPE_SQV',
+      'CDBA_PRODUCT_LINE_03',
+      'CDBA_SUB_REGION_21',
+    ],
   },
   department: 'mock_department',
   homeAccountId: 'mock_id',
