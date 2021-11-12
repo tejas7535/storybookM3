@@ -135,12 +135,12 @@ export class GreaseReportService {
                 )} d`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[11] = {
+              (greaseResult.dataSource as any)[10] = {
                 title: 'greaseTable.additiveRequired',
                 values: `${findItem(Field.ADD_REQ).value}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[12] = {
+              (greaseResult.dataSource as any)[11] = {
                 title: 'greaseTable.effectiveEpAdditivation',
                 values: `${findItem(Field.ADD_W).value}`,
                 display: false,

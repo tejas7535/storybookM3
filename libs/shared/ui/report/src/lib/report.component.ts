@@ -114,8 +114,11 @@ export class ReportComponent implements OnInit, OnDestroy {
       subordinate,
       this.formattedResult
     );
-    this.jsonResult$.next(
-      this.greaseReportService.showActiveData(this.formattedResult)
+
+    const activeData = this.greaseReportService.showActiveData(
+      this.formattedResult
     );
+
+    this.jsonResult$.next(activeData);
   }
 }

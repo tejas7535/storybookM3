@@ -14,8 +14,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { greaseReport } from '../mocks/grease-json-report';
-import { Subordinate, TitleId } from './models';
+import { greaseReport } from '../mocks';
+import { TitleId } from './models';
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
 
@@ -236,31 +236,39 @@ describe('ReportComponent', () => {
     });
   });
 
-  describe('formatGreaseReport', () => {
-    it('should handle a grease report', () => {
-      const spy = jest.spyOn(component, 'showActiveData');
-
-      const mockGreaseReport =
-        greaseReport.subordinates as unknown as Subordinate[];
-
-      component.formatGreaseReport(mockGreaseReport);
-
-      expect(spy).toHaveBeenCalled();
-    });
-  });
-
   describe('toggleShowValues', () => {
-    it('should handle a grease report', () => {
-      const spy = jest.spyOn(component, 'showActiveData');
-      component.formatGreaseReport(greaseReport.subordinates);
+    it('should trigger some grease report service methods', () => {
+      component.jsonResult$.next = jest.fn();
 
-      const mockSubordinate = component.formattedResult.find(
+      const toggleShowValuesSpy = jest.spyOn(
+        component['greaseReportService'],
+        'toggleShowValues'
+      );
+      const showActiveDataSpy = jest.spyOn(
+        component['greaseReportService'],
+        'showActiveData'
+      );
+
+      component.formattedResult = component['greaseReportService'][
+        'formatGreaseReport'
+      ](greaseReport.subordinates);
+
+      const mockSubordinate = (component.formattedResult as any).find(
         ({ titleID }: any) => titleID === TitleId.STRING_OUTP_RESULTS
       ).subordinates[1];
 
       component.toggleShowValues(mockSubordinate);
 
-      expect(spy).toHaveBeenCalled();
+      expect(toggleShowValuesSpy).toHaveBeenCalledTimes(1);
+
+      // Todo: make this work
+      // expect(toggleShowValuesSpy).toHaveBeenCalledWith(
+      //   mockSubordinate,
+      //   component.formattedResult
+      // );
+      expect(showActiveDataSpy).toHaveBeenCalledTimes(1);
+
+      expect(component.jsonResult$.next).toHaveBeenCalled();
     });
   });
 });

@@ -4,8 +4,7 @@ import {
   SpectatorHttp,
 } from '@ngneat/spectator';
 
-import { jsonReport } from '../mocks/json-report';
-import { reportBodyMock } from '../mocks/report';
+import { jsonReport, reportBodyMock } from '../mocks';
 import { DUMMY } from './models';
 import { ReportService } from './report.service';
 

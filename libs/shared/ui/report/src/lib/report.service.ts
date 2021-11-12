@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { jsonReport } from '../mocks/json-report';
+import { jsonReport } from '../mocks';
 import { Content, DUMMY, Subordinate } from './models';
 
 @Injectable()
