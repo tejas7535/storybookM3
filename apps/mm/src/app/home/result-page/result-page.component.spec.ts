@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { ENV_CONFIG } from '@schaeffler/http';
 import { ReportModule } from '@schaeffler/report';
 import { SnackBarService } from '@schaeffler/snackbar';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BEARING_CALCULATION_RESULT_MOCK } from '../../../testing/mocks/rest.service.mock';
 import { ResultPageComponent } from './result-page.component';
