@@ -1,21 +1,24 @@
 <div class="p-8 overflow-auto">
-  <h1 class="leading-none">Overview</h1>
-  <p class="no-underline mt-4">
+  <h3 class="leading-none text-mediumEmphasis">Overview</h3>
+  <div class="text-subtitle-1 my-4">
     The Materials App Center gives access to services provided to you by
     Schaeffler
     <a
+      class="text-primary"
       href="https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials"
       >Materials Technologies</a
     >
     department. For more information please contact
-    <a href="mailto:materials-app-center@schaeffler.com">Materials App Center</a
+    <a class="text-primary" href="mailto:materials-app-center@schaeffler.com"
+      >Materials App Center</a
     >. The implementation has been done by
     <a
+      class="text-primary"
       href="https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions"
       >Data Science Solutions</a
     >
     department.
-  </p>
+  </div>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4 flex-wrap">
     <ng-container *ngFor="let elem of elements; trackBy: trackByFn">
       <div class="col-span-1 row-span-1 flex flex-col flex-grow">
@@ -57,13 +60,13 @@
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   />
                 </div>
-                <div class="flex-1 max-h-[114px]">
-                  <h2
-                    class="text-center leading-snug flex-1 max-h-[114px]"
+                <div class="flex-1 max-h-[114px] lg:h-1/4">
+                  <h4
+                    class="text-center leading-snug text-h5 lg:text-h4"
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   >
                     {{ elem.title }}
-                  </h2>
+                  </h4>
                 </div>
               </div>
             </div>
@@ -110,12 +113,12 @@
                   />
                 </div>
                 <div class="flex-1 max-h-[114px] lg:h-1/4">
-                  <h2
-                    class="text-center leading-snug"
+                  <h4
+                    class="text-center leading-snug text-h5 lg:text-h4"
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   >
                     {{ elem.title }}
-                  </h2>
+                  </h4>
                 </div>
               </div>
             </div>

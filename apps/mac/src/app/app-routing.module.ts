@@ -50,11 +50,15 @@ export const appRoutePaths: Routes = [
   },
   {
     canLoad: [MsalGuard],
+    canActivateChild: [RoleGuard],
     path: RoutePath.MaterialsSupplierDatabasePath,
     loadChildren: async () =>
       import(
         './feature/materials-supplier-database/materials-supplier-database.module'
       ).then((m) => m.MaterialsSupplierDatabaseModule),
+    data: {
+      requiredRoles: ['material-supplier-database-read-user'],
+    },
   },
   {
     path: 'forbidden',

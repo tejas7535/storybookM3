@@ -1,0 +1,34 @@
+export interface DataResult {
+  id: number;
+  manufacturerSupplierId: number;
+  manufacturerSupplierName: string;
+  manufacturerSupplierPlant: string;
+  manufacturerSupplierKind: number;
+  materialStandardId: number;
+  materialStandardMaterialName: string;
+  materialStandardMaterialNameHiddenFilter: string;
+  materialStandardStandardDocument: string;
+  materialStandardStandardDocumentHiddenFilter: string;
+  isPrematerial: boolean;
+  materialCategory: string;
+  materialClassId: number;
+  materialClassName: string;
+  materialClassCode: string;
+  shapeId: number;
+  shapeName: string;
+  shapeCode: string;
+  castingMode: string;
+  castingDiameter: string;
+  minDimension: number;
+  maxDimension: number;
+  co2PerTon: number;
+  rating: string;
+  steelMakingProcess: string;
+  releaseDateYear: number;
+  releaseDateMonth: number;
+  releaseRestrictions: string;
+  esr: number;
+  var: number;
+  export: boolean;
+  materialNumbers: string[];
+}

@@ -20,19 +20,19 @@ export class OverviewComponent implements OnInit {
       img: '../../../assets/img/hardness_converter.svg',
     },
     {
+      title: 'Materials Supplier Database',
+      url: '/materials-supplier-database',
+      className: 'ltv-icon',
+      img: '../../../assets/img/Materials_Supplier_Database.svg',
+      externalLink: false,
+    },
+    {
       title: 'Lifetime Predictor',
       // url: 'https://lifetime-predictor.dp.schaeffler/',
       url: '/lifetime-predictor',
       className: 'ltp-icon',
       externalLink: false,
       img: '../../../assets/img/lifetime_predictor.svg',
-    },
-    {
-      title: 'Lifetime Visualizer',
-      url: 'https://tableau.schaeffler.com/#/site/Technology/views/LifetimeVisualizer/LifetimeVisualizer',
-      className: 'ltv-icon',
-      externalLink: true,
-      img: '../../../assets/img/lifetime_visualizer.svg',
     },
     {
       title: 'Lifetime Documenter',

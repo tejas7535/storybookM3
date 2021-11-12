@@ -1,17 +1,30 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule as NgrxStoreModule } from '@ngrx/store';
+
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
+import { DataEffects } from './store/effects/data.effects';
+import { reducers } from './store/reducers';
 
 @NgModule({
   declarations: [MaterialsSupplierDatabaseComponent],
   imports: [
     CommonModule,
     MaterialsSupplierDatabaseRoutingModule,
-    UnderConstructionModule,
+    NgrxStoreModule.forFeature('msd', reducers),
+    EffectsModule.forFeature([DataEffects]),
+    SubheaderModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatSnackBarModule,
   ],
 })
 export class MaterialsSupplierDatabaseModule {}

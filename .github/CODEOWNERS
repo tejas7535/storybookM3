@@ -7,8 +7,8 @@
 Jenkinsfile @kauppfbi_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT
 
 # package.json and package-lock.json for dependency updates
-package.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT @juskibry_SGGIT
-package-lock.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT @juskibry_SGGIT
+package.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT
+package-lock.json @kauppfbi_SGGIT @krausrbe_SGGIT @berndcri_SGGIT @herpisef_SGGIT @birketho_SGGIT @soehnpsc_SGGIT
 
 ############
 ### Apps ###
@@ -43,12 +43,12 @@ apps/ia @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 apps/ia-e2e @herpisef_SGGIT @przybmci_SGGIT @krausrbe_SGGIT
 
 # MM
-apps/mm @juskibry_SGGIT @birketho_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
-apps/mm-e2e @juskibry_SGGIT @birketho_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
+apps/mm @birketho_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
+apps/mm-e2e @birketho_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
 
 # GA
-apps/ga @juskibry_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
-apps/ga-e2e @juskibry_SGGIT @krausrbe_SGGIT @berndcri_SGGIT
+apps/ga @krausrbe_SGGIT @berndcri_SGGIT
+apps/ga-e2e @krausrbe_SGGIT @berndcri_SGGIT
 
 ############
 ### Libs ###

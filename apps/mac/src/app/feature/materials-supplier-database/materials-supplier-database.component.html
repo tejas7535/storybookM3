@@ -1,1 +1,14 @@
-<schaeffler-under-construction></schaeffler-under-construction>
+<div class="flex flex-col h-full w-full">
+  <div class="bg-white shadow-md px-4 pb-6 w-full fixed z-10">
+    <schaeffler-subheader [title]="title" [breadcrumbs]="breadcrumbs">
+      <ng-container header>
+        <button mat-raised-button (click)="shareButtonFn()">Share</button>
+      </ng-container>
+    </schaeffler-subheader>
+  </div>
+  <div class="flex-1 w-full mt-[108px] overflow-y-auto">
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

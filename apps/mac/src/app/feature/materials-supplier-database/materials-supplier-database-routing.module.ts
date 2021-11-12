@@ -3,8 +3,30 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 
+export enum MSDRoutePaths {
+  BasePath = '',
+  MainTablePath = 'main-table',
+}
+
 const routes: Routes = [
-  { path: '', component: MaterialsSupplierDatabaseComponent },
+  {
+    path: MSDRoutePaths.BasePath,
+    redirectTo: MSDRoutePaths.MainTablePath,
+    pathMatch: 'full',
+  },
+  {
+    path: MSDRoutePaths.BasePath,
+    component: MaterialsSupplierDatabaseComponent,
+    children: [
+      {
+        path: MSDRoutePaths.MainTablePath,
+        loadChildren: async () =>
+          import('./main-table/main-table.module').then(
+            (m) => m.MainTableModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({

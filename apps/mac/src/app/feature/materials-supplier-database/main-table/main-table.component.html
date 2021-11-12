@@ -1,0 +1,265 @@
+<div class="flex w-full h-full">
+  <div class="flex flex-col w-full flex-1 p-6 py-8 gap-6">
+    <ng-container *ngIf="!(optionsLoading$ | ngrxPush); else loading">
+      <div class="flex flex-row">
+        <h6>Please choose your class and category</h6>
+      </div>
+      <div class="flex flex-col md:flex-row md:gap-8">
+        <div class="flex flex-row gap-6">
+          <mat-form-field appearance="fill" class="w-80">
+            <mat-label>Material Class</mat-label>
+            <mat-select
+              [formControl]="materialClassSelectionControl"
+              [compareWith]="compareDataFilters"
+            >
+              <mat-option [value]="{ id: undefined, name: undefined }">
+                All
+              </mat-option>
+              <mat-option
+                *ngFor="let option of materialClassOptions$ | ngrxPush"
+                [value]="option"
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-80">
+            <mat-label>Product Category</mat-label>
+            <mat-select
+              [formControl]="productCategorySelectionControl"
+              [compareWith]="compareDataFilters"
+              multiple
+            >
+              <div class="px-4 h-12 flex flex-row place-items-center">
+                <mat-checkbox
+                  class="w-full"
+                  [formControl]="allCategoriesSelectedControl"
+                  color="primary"
+                  #selectAllCheckbox
+                  >Select All</mat-checkbox
+                >
+              </div>
+              <mat-option
+                [value]="{ id: undefined, name: 'empty' }"
+                #categoryOption
+                >empty</mat-option
+              >
+              <mat-option
+                *ngFor="let option of productCategoryOptions$ | ngrxPush"
+                [value]="option"
+                #categoryOption
+              >
+                {{ option.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row place-items-center gap-4">
+          <button
+            mat-raised-button
+            [disabled]="!filterForm.valid"
+            class="my-auto"
+            color="primary"
+            (click)="fetchMaterials()"
+          >
+            Start Search
+          </button>
+          <button
+            mat-stroked-button
+            [disabled]="filterForm.pristine"
+            class="my-auto"
+            color="primary"
+            (click)="resetForm()"
+          >
+            Reset All
+          </button>
+        </div>
+      </div>
+      <ng-container *ngIf="!(resultLoading$ | ngrxPush); else loading">
+        <mat-card class="msd-card" *ngIf="result$ | ngrxPush">
+          <div class="flex flex-col w-full flex-1 gap-4">
+            <div
+              class="
+                flex flex-row-reverse
+                w-full
+                justify-between
+                place-items-center
+              "
+            >
+              <button mat-icon-button [matMenuTriggerFor]="tableMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #tableMenu="matMenu">
+                <button mat-menu-item (click)="resetAgGridFilter()">
+                  <span>Reset table filter</span>
+                </button>
+                <button
+                  mat-menu-item
+                  (click)="resetAgGridColumnConfiguration()"
+                >
+                  <span>Reset column configuration</span>
+                </button>
+                <button mat-menu-item (click)="fetchMaterials()">
+                  <span>Refresh</span>
+                </button>
+              </mat-menu>
+              <h6 *ngIf="result$ | ngrxPush" class="text-mediumEmphasis">
+                All
+                {{ selectedClass || 'Material Classes' }}
+                x
+                {{ selectedCategory || 'All Product Categories' }}
+                ({{ rowCount ? rowCount : 0 }})
+              </h6>
+            </div>
+            <div
+              class="flex flex-row w-full h-[232px]"
+              *ngIf="filterLists$ | ngrxPush"
+            >
+              <div class="w-1/3 flex flex-col gap-2">
+                <div class="h-6">
+                  <div class="text-subtitle-2 text-mediumEmphasis pl-4">
+                    Material name
+                  </div>
+                </div>
+
+                <div
+                  class="
+                    h-40
+                    lg:h-[200px]
+                    border-l border-t border-b border-outline border-solid
+                    overflow-y-scroll
+                    msd-scrollbar
+                  "
+                >
+                  <mat-selection-list
+                    class="msd-list"
+                    #materialNames
+                    [multiple]="false"
+                    [formControl]="materialNameFilterList"
+                  >
+                    <mat-list-option selected
+                      >All ({{
+                        (filterLists$ | ngrxPush).materialNames.length
+                      }})</mat-list-option
+                    >
+                    <mat-list-option
+                      *ngFor="
+                        let materialName of (filterLists$ | ngrxPush)
+                          .materialNames
+                      "
+                      [value]="materialName"
+                      >{{ materialName }}</mat-list-option
+                    >
+                  </mat-selection-list>
+                </div>
+              </div>
+              <div class="w-1/3 flex flex-col gap-2">
+                <div class="h-6">
+                  <div class="text-subtitle-2 text-mediumEmphasis pl-4">
+                    Group Standard
+                  </div>
+                </div>
+                <div
+                  class="
+                    h-40
+                    lg:h-[200px]
+                    border-t border-b border-outline border-solid
+                    overflow-y-scroll
+                    msd-scrollbar
+                  "
+                >
+                  <mat-selection-list
+                    class="msd-list"
+                    #materialStandard
+                    [multiple]="false"
+                    [formControl]="standardDocumentFilterList"
+                  >
+                    <mat-list-option selected
+                      >All ({{
+                        (filterLists$ | ngrxPush).materialStandards.length
+                      }})</mat-list-option
+                    >
+                    <mat-list-option
+                      *ngFor="
+                        let materialStandard of (filterLists$ | ngrxPush)
+                          .materialStandards
+                      "
+                      [value]="materialStandard"
+                      >{{ materialStandard }}</mat-list-option
+                    >
+                  </mat-selection-list>
+                </div>
+              </div>
+              <div class="w-1/3 flex flex-col gap-2">
+                <div class="h-6">
+                  <div class="text-subtitle-2 text-mediumEmphasis pl-4">
+                    Material Number
+                  </div>
+                </div>
+                <div
+                  class="
+                    h-40
+                    lg:h-[200px]
+                    border-r border-t border-b border-outline border-solid
+                    overflow-y-scroll
+                    msd-scrollbar
+                  "
+                >
+                  <mat-selection-list
+                    class="msd-list"
+                    #materialNumbers
+                    [multiple]="false"
+                    [formControl]="materialNumbersFilterList"
+                  >
+                    <mat-list-option selected
+                      >All ({{
+                        (filterLists$ | ngrxPush).materialNumbers.length
+                      }})</mat-list-option
+                    >
+                    <mat-list-option
+                      *ngFor="
+                        let materialNumber of (filterLists$ | ngrxPush)
+                          .materialNumbers
+                      "
+                      [value]="materialNumber"
+                      >{{ materialNumber }}</mat-list-option
+                    >
+                  </mat-selection-list>
+                </div>
+              </div>
+            </div>
+            <ag-grid-angular
+              class="ag-theme-material h-full"
+              [columnDefs]="columnDefs"
+              [defaultColDef]="defaultColDef"
+              [gridOptions]="gridOptions"
+              [modules]="modules"
+              [sideBar]="sidebar"
+              [enableCellTextSelection]="true"
+              [rowData]="result$ | ngrxPush"
+              (gridReady)="onGridReady($event)"
+              (filterChanged)="onFilterChange($event)"
+              (firstDataRendered)="setAgGridFilter($event)"
+              (columnMoved)="onColumnChange($event)"
+              (sortChanged)="onColumnChange($event)"
+              (columnVisible)="onColumnChange($event)"
+            ></ag-grid-angular>
+          </div>
+        </mat-card>
+      </ng-container>
+    </ng-container>
+    <ng-template #loading>
+      <div
+        class="
+          flex flex-col flex-1
+          w-full
+          justify-center
+          place-items-center
+          h-full
+        "
+      >
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-template>
+  </div>
+</div>
