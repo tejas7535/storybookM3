@@ -1,6 +1,6 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { activeGreaseJson, formattedGreaseJson, greaseReport } from '../mocks';
 import { GreaseReportService } from './grease-report.service';

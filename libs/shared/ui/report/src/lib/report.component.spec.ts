@@ -12,7 +12,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { greaseReport } from '../mocks';
 import { TitleId } from './models';
