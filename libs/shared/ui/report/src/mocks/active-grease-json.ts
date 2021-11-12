@@ -160,15 +160,15 @@ export const activeGreaseJson = [
           displayedColumns: ['title', 'values'],
           dataSource: [
             {
-              title: 'greaseTable.initalGreaseQuantity',
+              title: 'initalGreaseQuantity',
               values: '66 cm³',
             },
             {
-              title: 'greaseTable.manualRelubricationQuantityInterval',
+              title: 'manualRelubricationQuantityInterval',
               values: '43 cm³/393 d',
             },
             {
-              title: 'greaseTable.automaticRelubricationQuantityPerDay',
+              title: 'automaticRelubricationQuantityPerDay',
               values: '0.088 cm³/day',
             },
           ],
@@ -186,15 +186,15 @@ export const activeGreaseJson = [
           displayedColumns: ['title', 'values'],
           dataSource: [
             {
-              title: 'greaseTable.initalGreaseQuantity',
+              title: 'initalGreaseQuantity',
               values: '66 cm³',
             },
             {
-              title: 'greaseTable.manualRelubricationQuantityInterval',
+              title: 'manualRelubricationQuantityInterval',
               values: '43 cm³/393 d',
             },
             {
-              title: 'greaseTable.automaticRelubricationQuantityPerDay',
+              title: 'automaticRelubricationQuantityPerDay',
               values: '0.088 cm³/day',
             },
           ],
@@ -212,15 +212,15 @@ export const activeGreaseJson = [
           displayedColumns: ['title', 'values'],
           dataSource: [
             {
-              title: 'greaseTable.initalGreaseQuantity',
+              title: 'initalGreaseQuantity',
               values: '66 cm³',
             },
             {
-              title: 'greaseTable.manualRelubricationQuantityInterval',
+              title: 'manualRelubricationQuantityInterval',
               values: '43 cm³/393 d',
             },
             {
-              title: 'greaseTable.automaticRelubricationQuantityPerDay',
+              title: 'automaticRelubricationQuantityPerDay',
               values: '0.088 cm³/day',
             },
           ],

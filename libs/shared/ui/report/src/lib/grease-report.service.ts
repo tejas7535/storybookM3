@@ -66,13 +66,13 @@ export class GreaseReportService {
                 displayedColumns: ['title', 'values'],
                 dataSource: [
                   {
-                    title: 'greaseTable.initalGreaseQuantity',
+                    title: 'initalGreaseQuantity',
                     values: `${findItem(Field.QVIN).value} ${
                       findItem(Field.QVIN).unit
                     }`,
                   },
                   {
-                    title: 'greaseTable.manualRelubricationQuantityInterval',
+                    title: 'manualRelubricationQuantityInterval',
                     values: `${
                       (+(findItem(Field.QVRE_MAN_MIN) as any).value +
                         +(findItem(Field.QVRE_MAN_MAX) as any).value) /
@@ -85,7 +85,7 @@ export class GreaseReportService {
                     )} d`,
                   },
                   {
-                    title: 'greaseTable.automaticRelubricationQuantityPerDay',
+                    title: 'automaticRelubricationQuantityPerDay',
                     values: `${
                       (+(findItem(Field.QVRE_AUT_MIN) as any).value +
                         +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -96,7 +96,7 @@ export class GreaseReportService {
               };
 
               (greaseResult.dataSource as any)[3] = {
-                title: 'greaseTable.automaticRelubricationPerWeek',
+                title: 'automaticRelubricationPerWeek',
                 values: `${Number(
                   ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
                     +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -106,7 +106,7 @@ export class GreaseReportService {
                 display: false,
               };
               (greaseResult.dataSource as any)[4] = {
-                title: 'greaseTable.automaticRelubricationPerMonth',
+                title: 'automaticRelubricationPerMonth',
                 values: `${Number(
                   ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
                     +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -116,7 +116,7 @@ export class GreaseReportService {
                 display: false,
               };
               (greaseResult.dataSource as any)[5] = {
-                title: 'greaseTable.automaticRelubricationPerYear',
+                title: 'automaticRelubricationPerYear',
                 values: `${Number(
                   ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
                     +(findItem(Field.QVRE_AUT_MAX) as any).value) /
@@ -126,7 +126,7 @@ export class GreaseReportService {
                 display: false,
               };
               (greaseResult.dataSource as any)[9] = {
-                title: 'greaseTable.greaseServiceLife',
+                title: 'greaseServiceLife',
                 values: `~ ${Math.round(
                   (+(findItem(Field.TFG_MIN) as any).value +
                     +(findItem(Field.TFG_MAX) as any).value) /
@@ -136,12 +136,12 @@ export class GreaseReportService {
                 display: false,
               };
               (greaseResult.dataSource as any)[10] = {
-                title: 'greaseTable.additiveRequired',
+                title: 'additiveRequired',
                 values: `${findItem(Field.ADD_REQ).value}`,
                 display: false,
               };
               (greaseResult.dataSource as any)[11] = {
-                title: 'greaseTable.effectiveEpAdditivation',
+                title: 'effectiveEpAdditivation',
                 values: `${findItem(Field.ADD_W).value}`,
                 display: false,
               };
@@ -162,35 +162,35 @@ export class GreaseReportService {
                     break;
                   case Field.NY40:
                     (greaseResult.dataSource as any)[6] = {
-                      title: 'greaseTable.baseOilViscosityAt40',
+                      title: 'baseOilViscosityAt40',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.T_LIM_LOW:
                     (greaseResult.dataSource as any)[7] = {
-                      title: 'greaseTable.lowerTemperatureLimit',
+                      title: 'lowerTemperatureLimit',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.T_LIM_UP:
                     (greaseResult.dataSource as any)[8] = {
-                      title: 'greaseTable.upperTemperatureLimit',
+                      title: 'upperTemperatureLimit',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.RHO:
                     (greaseResult.dataSource as any)[12] = {
-                      title: 'greaseTable.density',
+                      title: 'density',
                       values: `${value} ${unit}`,
                       display: false,
                     };
                     break;
                   case Field.F_LOW:
                     (greaseResult.dataSource as any)[13] = {
-                      title: 'greaseTable.lowFriction',
+                      title: 'lowFriction',
                       values: `${value} (${this.checkSuitablity(
                         value as string
                       )})`,
@@ -199,7 +199,7 @@ export class GreaseReportService {
                     break;
                   case Field.VIP:
                     (greaseResult.dataSource as any)[14] = {
-                      title: 'greaseTable.suitableForVibrations',
+                      title: 'suitableForVibrations',
                       values: `${value} (${this.checkSuitablity(
                         value as string
                       )})`,
@@ -208,7 +208,7 @@ export class GreaseReportService {
                     break;
                   case Field.SEAL:
                     (greaseResult.dataSource as any)[15] = {
-                      title: 'greaseTable.supportForSeals',
+                      title: 'supportForSeals',
                       values: `${value} (${this.checkSuitablity(
                         value as string
                       )})`,
@@ -217,7 +217,7 @@ export class GreaseReportService {
                     break;
                   case Field.NSF_H1:
                     (greaseResult.dataSource as any)[16] = {
-                      title: 'greaseTable.H1Registration',
+                      title: 'H1Registration',
                       values: `${value}`,
                       display: false,
                     };
