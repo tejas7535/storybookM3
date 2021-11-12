@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
 import {
-  loadRoleDescriptions,
   loadRoleDescriptionsFailure,
   loadRoleDescriptionsSuccess,
 } from '../../actions/roles/roles.actions';
@@ -9,7 +8,7 @@ import { RolesState } from './models/roles-state.model';
 
 export const initialState: RolesState = {
   roleDescriptions: {
-    loading: false,
+    loaded: false,
     items: {
       productLines: undefined,
       subRegions: undefined,
@@ -21,24 +20,13 @@ export const initialState: RolesState = {
 export const rolesReducer = createReducer(
   initialState,
   on(
-    loadRoleDescriptions,
-    (state: RolesState): RolesState => ({
-      ...state,
-      roleDescriptions: {
-        ...state.roleDescriptions,
-        loading: true,
-        errorMessage: initialState.roleDescriptions.errorMessage,
-      },
-    })
-  ),
-  on(
     loadRoleDescriptionsSuccess,
     (state: RolesState, { roleDescriptions }): RolesState => ({
       ...state,
       roleDescriptions: {
-        ...state.roleDescriptions,
-        loading: false,
+        loaded: true,
         items: roleDescriptions,
+        errorMessage: initialState.roleDescriptions.errorMessage,
       },
     })
   ),
@@ -47,9 +35,9 @@ export const rolesReducer = createReducer(
     (state: RolesState, { errorMessage }): RolesState => ({
       ...state,
       roleDescriptions: {
-        ...state.roleDescriptions,
+        loaded: false,
+        items: initialState.roleDescriptions.items,
         errorMessage,
-        loading: false,
       },
     })
   )

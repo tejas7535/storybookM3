@@ -1,28 +1,11 @@
-/* eslint-disable arrow-body-style */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
-import {
-  Actions,
-  concatLatestFrom,
-  createEffect,
-  ofType,
-  OnInitEffects,
-} from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-
-import { getIsLoggedIn } from '@schaeffler/azure-auth';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 
@@ -53,7 +36,7 @@ import {
  * Effect class for all tagging related actions which trigger side effects
  */
 @Injectable()
-export class SearchEffects implements OnInitEffects {
+export class SearchEffects {
   /**
    * Receive initial filters
    */
@@ -153,20 +136,4 @@ export class SearchEffects implements OnInitEffects {
     private readonly store: Store,
     private readonly router: Router
   ) {}
-
-  /**
-   * Load initial filters initially
-   */
-  ngrxOnInitEffects(): Action {
-    this.store
-      .select(getIsLoggedIn)
-      .pipe(
-        filter((isLoggedIn) => isLoggedIn),
-        take(1),
-        tap(() => this.store.dispatch(loadInitialFilters()))
-      )
-      .subscribe();
-
-    return { type: 'NO_ACTION' };
-  }
 }

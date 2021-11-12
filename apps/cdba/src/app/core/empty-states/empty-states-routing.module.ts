@@ -39,6 +39,22 @@ const forbiddenRouteFeature: ForbiddenRoute = {
   },
 };
 
+/**
+ * Show this page when the user is missing one of the necessary descriptive roles
+ */
+const forbiddenRouteMissingRoles: ForbiddenRoute = {
+  path: EmptyStatesPath.MissingRolesPath,
+  loadChildren: async () =>
+    import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+  data: {
+    headingText: 'forbidden.descriptiveRolesMissing.heading',
+    messageText: 'forbidden.descriptiveRolesMissing.message',
+    action: 'event',
+    actionButtonText: 'forbidden.descriptiveRolesMissing.actionButton',
+    hideHomeButton: true,
+  },
+};
+
 const routes: Routes = [
   {
     path: '',
@@ -46,6 +62,7 @@ const routes: Routes = [
     children: [
       forbiddenRouteBasic,
       forbiddenRouteFeature,
+      forbiddenRouteMissingRoles,
       {
         path: '**',
         loadChildren: async () =>

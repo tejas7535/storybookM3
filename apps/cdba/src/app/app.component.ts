@@ -1,17 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { AppShellFooterLink } from '@schaeffler/app-shell';
 import {
   getIsLoggedIn,
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
 
-import { URL_FAQ, URL_S_CONNECT } from '@cdba/shared/constants/urls';
+import { FOOTER_LINKS } from '@cdba/shared/constants/footer';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
@@ -20,33 +17,15 @@ import { AppRoutePath } from './app-route-path.enum';
   selector: 'cdba-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Cost Database Analytics';
   titleLink = AppRoutePath.SearchPath;
+  footerLinks = FOOTER_LINKS;
+  appVersion = packageJson.version;
 
-  public appVersion = packageJson.version;
-  public footerLinks: AppShellFooterLink[] = [
-    {
-      link: URL_FAQ,
-      title: 'FAQs',
-      external: true,
-    },
-    {
-      link: URL_S_CONNECT,
-      title: 'CDBA@SConnect',
-      external: true,
-    },
-  ];
-
-  username$: Observable<string>;
-  profileImage$: Observable<string>;
-  isLoggedIn$: Observable<boolean>;
+  isLoggedIn$ = this.store.select(getIsLoggedIn);
+  username$ = this.store.select(getUsername);
+  profileImage$ = this.store.select(getProfileImage);
 
   public constructor(private readonly store: Store) {}
-
-  public ngOnInit(): void {
-    this.username$ = this.store.select(getUsername);
-    this.profileImage$ = this.store.select(getProfileImage);
-    this.isLoggedIn$ = this.store.select(getIsLoggedIn);
-  }
 }

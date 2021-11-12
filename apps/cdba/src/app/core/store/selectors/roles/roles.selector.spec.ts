@@ -1,55 +1,129 @@
+import { AuthState } from '@schaeffler/azure-auth';
+
+import { AuthRoles } from '@cdba/core/auth/models/auth.models';
 import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
-import { initialState } from '@cdba/core/store/reducers/roles/roles.reducer';
-import { ROLES_STATE_MOCK } from '@cdba/testing/mocks/state/roles-state.mock';
+import { initialState as initialStateRoles } from '@cdba/core/store/reducers/roles/roles.reducer';
+import {
+  ACCOUNT_INFO_MOCK,
+  AUTH_STATE_MOCK,
+  INITIAL_AUTH_STATE_MOCK,
+  ROLES_STATE_ERROR_MOCK,
+  ROLES_STATE_SUCCESS_MOCK,
+} from '@cdba/testing/mocks';
 
 import {
+  getHasDescriptiveRoles,
   getRoleDescriptions,
   getRoleDescriptionsErrorMessage,
-  getRoleDescriptionsLoading,
+  getRoleDescriptionsLoaded,
 } from './roles.selector';
 
-describe('Roles Selectors', () => {
-  const mockState: { roles: RolesState } = { roles: ROLES_STATE_MOCK };
+const getMockAuthState = (roles: AuthRoles): AuthState => ({
+  ...AUTH_STATE_MOCK,
+  accountInfo: {
+    ...ACCOUNT_INFO_MOCK,
+    idTokenClaims: {
+      roles,
+    },
+  },
+});
 
-  const initialRolesState: { roles: RolesState } = {
-    roles: initialState,
+describe('Roles Selectors', () => {
+  interface MockState {
+    'azure-auth': AuthState;
+    roles: RolesState;
+  }
+
+  const mockStateSuccess: MockState = {
+    'azure-auth': AUTH_STATE_MOCK,
+    roles: ROLES_STATE_SUCCESS_MOCK,
+  };
+
+  const mockStateError: MockState = {
+    'azure-auth': INITIAL_AUTH_STATE_MOCK,
+    roles: ROLES_STATE_ERROR_MOCK,
+  };
+
+  const mockStateInitial: MockState = {
+    'azure-auth': INITIAL_AUTH_STATE_MOCK,
+    roles: initialStateRoles,
   };
 
   describe('getRoleDescriptions', () => {
     test('should return roleDescriptions', () => {
-      expect(getRoleDescriptions(mockState)).toEqual(
-        mockState.roles.roleDescriptions.items
+      expect(getRoleDescriptions(mockStateSuccess)).toEqual(
+        mockStateSuccess.roles.roleDescriptions.items
       );
     });
 
     test('should return empty role descriptions', () => {
-      expect(getRoleDescriptions(initialRolesState)).toEqual(
-        initialState.roleDescriptions.items
+      expect(getRoleDescriptions(mockStateInitial)).toEqual(
+        initialStateRoles.roleDescriptions.items
       );
     });
   });
 
-  describe('getRoleDescriptionsLoading', () => {
+  describe('getRoleDescriptionsLoaded', () => {
     test('should return true', () => {
-      expect(getRoleDescriptionsLoading(mockState)).toBeTruthy();
+      expect(getRoleDescriptionsLoaded(mockStateSuccess)).toBeTruthy();
     });
 
     test('should return false', () => {
-      expect(getRoleDescriptionsLoading(initialRolesState)).toBeFalsy();
+      expect(getRoleDescriptionsLoaded(mockStateInitial)).toBeFalsy();
     });
   });
 
   describe('getRoleDescriptionsErrorMessage', () => {
     test('should return error message', () => {
-      expect(getRoleDescriptionsErrorMessage(mockState)).toEqual(
-        'API error message'
+      expect(getRoleDescriptionsErrorMessage(mockStateError)).toEqual(
+        ROLES_STATE_ERROR_MOCK.roleDescriptions.errorMessage
       );
     });
 
     test('should return undefined', () => {
+      expect(getRoleDescriptionsErrorMessage(mockStateInitial)).toBeUndefined();
+    });
+  });
+
+  describe('getHasDescriptiveRoles', () => {
+    test('should return falsy value with initial state', () => {
+      expect(getHasDescriptiveRoles(mockStateInitial)).toBeFalsy();
+    });
+
+    test('should return falsy value with missing product line role', () => {
       expect(
-        getRoleDescriptionsErrorMessage(initialRolesState)
-      ).toBeUndefined();
+        getHasDescriptiveRoles({
+          ...mockStateSuccess,
+          'azure-auth': getMockAuthState(['CDBA_REGION_2']),
+        })
+      ).toBeFalsy();
+    });
+
+    test('should return falsy value with missing sub-region role', () => {
+      expect(
+        getHasDescriptiveRoles({
+          ...mockStateSuccess,
+          'azure-auth': getMockAuthState(['CDBA_PL_1']),
+        })
+      ).toBeFalsy();
+    });
+
+    test('should return truthy value with necessary roles', () => {
+      expect(
+        getHasDescriptiveRoles({
+          ...mockStateSuccess,
+          'azure-auth': getMockAuthState(['CDBA_PL_1', 'CDBA_REGION_2']),
+        })
+      ).toBeTruthy();
+    });
+
+    test('should return truthy value with admin role', () => {
+      expect(
+        getHasDescriptiveRoles({
+          ...mockStateSuccess,
+          'azure-auth': getMockAuthState(['CDBA_ADMIN']),
+        })
+      ).toBeTruthy();
     });
   });
 });

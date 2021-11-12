@@ -1,12 +1,13 @@
 import {
   Component,
+  OnDestroy,
   OnInit,
   QueryList,
   TrackByFunction,
   ViewChildren,
 } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -16,14 +17,13 @@ import {
   getFilters,
   getSelectedFilters,
   getSelectedIdValueFilters,
+  loadInitialFilters,
   resetFilters,
   search,
   updateFilter,
 } from '../../core/store';
 import {
   FilterItem,
-  FilterItemIdValueUpdate,
-  FilterItemRangeUpdate,
   FilterItemType,
   TextSearch,
 } from '../../core/store/reducers/search/models';
@@ -35,36 +35,38 @@ import { RangeFilterComponent } from './range-filter/range-filter.component';
   selector: 'cdba-reference-types-filters',
   templateUrl: './reference-types-filters.component.html',
 })
-export class ReferenceTypesFiltersComponent implements OnInit {
+export class ReferenceTypesFiltersComponent implements OnInit, OnDestroy {
   @ViewChildren(MultiSelectFilterComponent)
   multiSelectFilters: QueryList<MultiSelectFilterComponent>;
+
   @ViewChildren(RangeFilterComponent)
   rangeFilters: QueryList<RangeFilterComponent>;
 
-  filters$: Observable<FilterItem[]>;
+  filters$ = this.store.select(getFilters);
+  filtersSubscription: Subscription;
 
-  // can be used for all filters for now since only one filter can be opened anyway
-  autocompleteLoading$: Observable<boolean>;
-  selectedFilters$: Observable<
-    (FilterItemIdValueUpdate | FilterItemRangeUpdate)[]
-  >;
-  selectedIdValueFilters$: Observable<FilterItem[]>;
+  autocompleteLoading$ = this.store.select(getAutocompleteLoading);
+
+  selectedFilters$ = this.store.select(getSelectedFilters);
+  selectedIdValueFilters$ = this.store.select(getSelectedIdValueFilters);
 
   tooManyResultsThreshold: number = TOO_MANY_RESULTS_THRESHOLD;
   filterType = FilterItemType;
 
-  trackByFn: TrackByFunction<FilterItem> = (
-    _index: number,
-    item: FilterItem
-  ): string => item.name;
-
   public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.filters$ = this.store.select(getFilters);
-    this.autocompleteLoading$ = this.store.select(getAutocompleteLoading);
-    this.selectedFilters$ = this.store.select(getSelectedFilters);
-    this.selectedIdValueFilters$ = this.store.select(getSelectedIdValueFilters);
+    this.filtersSubscription = this.filters$.subscribe((filters) => {
+      if (!filters || filters.length === 0) {
+        this.store.dispatch(loadInitialFilters());
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.filtersSubscription) {
+      this.filtersSubscription.unsubscribe();
+    }
   }
 
   /**
@@ -96,4 +98,9 @@ export class ReferenceTypesFiltersComponent implements OnInit {
     this.multiSelectFilters.forEach((filter) => filter.reset());
     this.rangeFilters.forEach((filter) => filter.reset());
   }
+
+  trackByFn: TrackByFunction<FilterItem> = (
+    _index: number,
+    item: FilterItem
+  ): string => item.name;
 }

@@ -13,6 +13,7 @@ import { SharedModule } from '@cdba/shared/shared.module';
 
 import {
   autocomplete,
+  loadInitialFilters,
   resetFilters,
   search,
   updateFilter,
@@ -101,6 +102,19 @@ describe('ReferenceTypesFiltersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should dispatch action loadInitialFilters when filters are empty', () => {
+      mockStore.dispatch = jest.fn();
+
+      component.ngOnInit();
+      expect(mockStore.dispatch).not.toHaveBeenCalledWith(loadInitialFilters());
+
+      mockStore.overrideSelector(getFilters, []);
+      component.ngOnInit();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(loadInitialFilters());
+    });
   });
 
   describe('updateFilter', () => {

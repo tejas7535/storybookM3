@@ -1,5 +1,10 @@
 import { AuthConfig, AuthRoles } from './models/auth.models';
 
+export enum RolePrefix {
+  ProductLine = 'CDBA_PL',
+  SubRegion = 'CDBA_REGION',
+}
+
 export const adminRoles: AuthRoles = ['CDBA_ADMIN'];
 
 export const authConfig: AuthConfig = {

@@ -152,6 +152,11 @@
       "message": "We are sorry, you don’t have access to this page or material.\nYou are missing subregion or product line rights.",
       "actionButton": "My rights",
       "homeButton": "Start new search"
+    },
+    "descriptiveRolesMissing": {
+      "heading": "Missing Roles",
+      "message": "We are sorry, you are still missing required user roles to use CDBA.\nYou need at least one sub region role and one product line role.",
+      "actionButton": "View necessary rights"
     }
   }
 }

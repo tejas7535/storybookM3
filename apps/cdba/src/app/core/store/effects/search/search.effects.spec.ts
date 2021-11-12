@@ -12,8 +12,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { getIsLoggedIn } from '@schaeffler/azure-auth';
-
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
 import { SearchService } from '../../../../search/services/search.service';
@@ -53,7 +51,7 @@ describe('Search Effects', () => {
   let effects: SearchEffects;
   let searchService: SearchService;
 
-  const errorMessage = 'An error message occured';
+  const errorMessage = 'An error message occurred';
 
   const createService = createServiceFactory({
     service: SearchEffects,
@@ -384,34 +382,5 @@ describe('Search Effects', () => {
         expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
       })
     );
-  });
-
-  describe('ngrxOnInitEffects', () => {
-    beforeEach(() => {
-      store.dispatch = jest.fn();
-    });
-
-    test('should return NO_ACTION', () => {
-      const result = effects.ngrxOnInitEffects();
-      const expected = { type: 'NO_ACTION' };
-
-      expect(result).toEqual(expected);
-    });
-
-    test('should dispatch loadInitialFilters when logged in', () => {
-      store.overrideSelector(getIsLoggedIn, true);
-
-      effects.ngrxOnInitEffects();
-
-      expect(store.dispatch).toHaveBeenCalledWith(loadInitialFilters());
-    });
-
-    test('should not dispatch loadInitialFilters when not logged in', () => {
-      store.overrideSelector(getIsLoggedIn, false);
-
-      effects.ngrxOnInitEffects();
-
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
   });
 });

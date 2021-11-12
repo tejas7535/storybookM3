@@ -19,3 +19,8 @@ export const ROLE_DESCRIPTIONS_MOCK: RoleDescriptions = {
   productLines: [PRODUCT_LINE_ROLE_DESCRIPTION_MOCK],
   subRegions: [SUB_REGION_ROLE_DESCRIPTION_MOCK],
 };
+
+export const EMPTY_ROLE_DESCRIPTIONS_MOCK: RoleDescriptions = {
+  productLines: undefined,
+  subRegions: undefined,
+};

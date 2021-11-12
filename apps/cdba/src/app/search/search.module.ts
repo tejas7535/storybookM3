@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { EffectsModule } from '@ngrx/effects';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SearchEffects } from '@cdba/core/store/effects/search/search.effects';
 import { BlockUiModule } from '@cdba/shared/components';
 
 import { SharedModule } from '../shared/shared.module';
@@ -17,6 +19,7 @@ import { SearchComponent } from './search.component';
     SharedModule,
     SearchRoutingModule,
     ReferenceTypesFiltersModule,
+    EffectsModule.forFeature([SearchEffects]),
     BlockUiModule,
     SharedTranslocoModule,
   ],

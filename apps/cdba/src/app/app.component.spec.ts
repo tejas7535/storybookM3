@@ -9,6 +9,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 
+import { ROLES_STATE_SUCCESS_MOCK } from '@cdba/testing/mocks';
+
 import {
   BrowserSupportModule,
   LoadingSpinnerModule,
@@ -46,6 +48,7 @@ describe('AppComponent', () => {
               url: 'img',
             },
           },
+          roles: ROLES_STATE_SUCCESS_MOCK,
         },
       }),
       {
@@ -71,13 +74,9 @@ describe('AppComponent', () => {
     expect(component.title).toEqual('Cost Database Analytics');
   });
 
-  describe('ngOnInit', () => {
-    test('should set observables', () => {
-      component.ngOnInit();
-
-      expect(component.isLoggedIn$).toBeDefined();
-      expect(component.username$).toBeDefined();
-      expect(component.profileImage$).toBeDefined();
-    });
+  test('should set observables', () => {
+    expect(component.isLoggedIn$).toBeDefined();
+    expect(component.username$).toBeDefined();
+    expect(component.profileImage$).toBeDefined();
   });
 });

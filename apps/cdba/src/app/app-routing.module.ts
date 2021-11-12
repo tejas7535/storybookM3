@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
-import { BasicRoleGuard } from './core/auth';
+import { BasicRoleGuard, DescriptiveRoleGuard } from './core/auth';
 
 import { AppRoutePath } from './app-route-path.enum';
 
@@ -18,28 +18,28 @@ export const appRoutes: Routes = [
     loadChildren: async () =>
       import('./search/search.module').then((m) => m.SearchModule),
     canActivate: [MsalGuard],
-    canActivateChild: [BasicRoleGuard],
+    canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.ResultsPath,
     loadChildren: async () =>
       import('./results/results.module').then((m) => m.ResultsModule),
     canActivate: [MsalGuard],
-    canActivateChild: [BasicRoleGuard],
+    canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.DetailPath,
     loadChildren: async () =>
       import('./detail/detail.module').then((m) => m.DetailModule),
     canActivate: [MsalGuard],
-    canActivateChild: [BasicRoleGuard],
+    canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.ComparePath,
     loadChildren: async () =>
       import('./compare/compare.module').then((m) => m.CompareModule),
     canActivate: [MsalGuard],
-    canActivateChild: [BasicRoleGuard],
+    canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.EmptyStatesPath,

@@ -152,6 +152,11 @@
       "message": "Es tut uns leid, Sie haben keinen Zugang zu dieser Seite oder diesem Material.\nSie haben keine Rechte für ein Teilgebiet oder eine Produktlinie.",
       "actionButton": "Meine Rechte",
       "homeButton": "Neue Suche starten"
+    },
+    "descriptiveRolesMissing": {
+      "heading": "Fehlende Benutzerrollen",
+      "message": "Es tut uns leid, Ihnen fehlen noch die erforderlichen Benutzerrollen, um CDBA zu nutzen.\nSie benötigen mindestens eine Unterregionsrolle und eine Produktlinienrolle.",
+      "actionButton": "Erforderliche Rechte anzeigen"
     }
   }
 }
