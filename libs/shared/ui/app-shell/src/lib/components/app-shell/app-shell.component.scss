@@ -8,17 +8,6 @@ mat-toolbar {
   @apply fixed;
   @apply bg-white;
 
-  .mat-icon-button {
-    @apply absolute;
-    @apply left-1;
-
-    .mat-icon {
-      @apply absolute;
-      @apply top-2;
-      @apply left-2;
-    }
-  }
-
   .schaeffler-header-logo {
     @apply h-[12px];
     @apply sm:h-[23px];

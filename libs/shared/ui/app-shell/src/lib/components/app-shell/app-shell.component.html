@@ -1,18 +1,22 @@
 <!-- start header -->
-<mat-toolbar class="z-10 h-[60px] mat-elevation-z2" *transloco="let t">
+<mat-toolbar class="z-10 h-[60px] mat-elevation-z2 !pl-2" *transloco="let t">
   <button
     *ngIf="hasSidebarLeft"
     type="button"
     mat-icon-button
     disableRipple
-    class="absolute text-mediumEmphasis"
+    class="text-mediumEmphasis !flex flex-col justify-center items-center"
     (click)="drawer.toggle()"
   >
-    <mat-icon *ngIf="sidenavOpen; else menuIcon" [@sidenavToggleAnimation]>
+    <mat-icon
+      *ngIf="sidenavOpen; else menuIcon"
+      class="!flex"
+      [@sidenavToggleAnimation]
+    >
       arrow_back
     </mat-icon>
     <ng-template #menuIcon>
-      <mat-icon [@sidenavToggleAnimation]>menu</mat-icon>
+      <mat-icon class="!flex" [@sidenavToggleAnimation]>menu</mat-icon>
     </ng-template>
   </button>
   <span
@@ -26,7 +30,8 @@
       truncate
       outline-none
     "
-    [class.ml-7]="hasSidebarLeft"
+    [class.ml-1]="hasSidebarLeft"
+    [class.ml-2]="!hasSidebarLeft"
     [class.cursor-pointer]="appTitleLink"
     [routerLink]="appTitleLink ? appTitleLink : undefined"
   >
