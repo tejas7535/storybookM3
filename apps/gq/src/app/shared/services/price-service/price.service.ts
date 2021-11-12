@@ -89,7 +89,8 @@ export class PriceService {
 
   static calculateDiscount(detail: QuotationDetail): number {
     if (detail.price && detail.sapGrossPrice) {
-      const discount = 1 - detail.price / detail.sapGrossPrice;
+      const discount =
+        1 - (detail.price * detail.material.priceUnit) / detail.sapGrossPrice;
 
       return PriceService.roundPercentageToTwoDecimals(discount);
     }

@@ -2,6 +2,7 @@ import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
 import { Plant } from './plant.model';
 import { PriceSource } from './price-source.enum';
+import { SapPriceCondition } from './sap-price-condition.enum';
 
 export class QuotationDetail {
   public quotationId: string;
@@ -37,7 +38,7 @@ export class QuotationDetail {
   public lastOfferDetail: LastOfferDetail;
   public comment: string;
   public sapPrice: number;
-  public sapPriceCondition: string;
+  public sapPriceCondition: SapPriceCondition;
   public sapGrossPrice: number;
 
   // properties added in GQ application

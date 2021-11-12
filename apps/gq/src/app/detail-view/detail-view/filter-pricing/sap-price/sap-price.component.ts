@@ -5,6 +5,7 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
   PriceSource,
   QuotationDetail,
+  SapPriceCondition,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
@@ -55,9 +56,9 @@ export class SapPriceComponent implements OnInit {
     this.selectSapPrice.emit(
       new UpdatePrice(
         this.quotationDetail.sapPrice,
-        this.isSpecialPriceCondition()
-          ? PriceSource.SAP_SPECIAL
-          : PriceSource.SAP_STANDARD
+        this.quotationDetail.sapPriceCondition === SapPriceCondition.STANDARD
+          ? PriceSource.SAP_STANDARD
+          : PriceSource.SAP_SPECIAL
       )
     );
   }
@@ -73,12 +74,5 @@ export class SapPriceComponent implements OnInit {
 
   public trackByFn(index: number): number {
     return index;
-  }
-
-  isSpecialPriceCondition(): boolean {
-    return (
-      this.quotationDetail.sapPriceCondition === 'ZP05' ||
-      this.quotationDetail.sapPriceCondition === 'ZP17'
-    );
   }
 }

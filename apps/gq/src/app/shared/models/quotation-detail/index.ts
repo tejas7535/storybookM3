@@ -5,3 +5,4 @@ export * from './price-source.enum';
 export * from './update-price.model';
 export * from './coefficients.model';
 export * from './last-offer-detail.model';
+export * from './sap-price-condition.enum';

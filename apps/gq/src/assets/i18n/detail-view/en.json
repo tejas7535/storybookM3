@@ -19,7 +19,7 @@
       "details": "Details"
     },
     "sapPrice": {
-      "title": "SAP Price Setting",
+      "title": "SAP Pricing",
       "priceLabel": "Net price (SAP)",
       "priceCondition": "Price Condition",
       "gpi": "GPI% (GPC)",

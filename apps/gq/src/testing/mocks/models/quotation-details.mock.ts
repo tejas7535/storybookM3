@@ -2,6 +2,7 @@ import {
   MaterialDetails,
   PriceSource,
   QuotationDetail,
+  SapPriceCondition,
 } from '../../../app/shared/models/quotation-detail';
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { PLANT_MOCK } from './plant.mock';
@@ -49,7 +50,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   comment: 'testcomment',
   sapGrossPrice: 100,
   sapPrice: 80,
-  sapPriceCondition: 'sapPriceCondition',
+  sapPriceCondition: SapPriceCondition.STANDARD,
   discount: 50,
 };
 

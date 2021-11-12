@@ -19,7 +19,7 @@
       "details": "Details"
     },
     "sapPrice": {
-      "title": "SAP Preiseinstellung",
+      "title": "SAP Preis",
       "priceLabel": "Nettopreis",
       "priceCondition": "Preiskondition",
       "gpi": "GPI% (KHK)",

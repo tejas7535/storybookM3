@@ -96,6 +96,7 @@ describe('PriceService', () => {
       const detail = {
         sapGrossPrice: 200,
         price: 100,
+        material: { priceUnit: 1 },
       } as any;
 
       const result = PriceService.calculateDiscount(detail);
