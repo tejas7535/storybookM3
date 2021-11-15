@@ -8,9 +8,10 @@ mat-toolbar {
   @apply fixed;
   @apply bg-white;
 
-  .animated-icon {
-    grid-column: 1;
-    grid-row: 1;
+  .mat-icon-button .mat-icon {
+    @apply absolute;
+    @apply top-2;
+    @apply left-2;
   }
 
   .schaeffler-header-logo {

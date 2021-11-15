@@ -8,20 +8,12 @@
     class="text-mediumEmphasis"
     (click)="drawer.toggle()"
   >
-    <div class="grid grid-cols-1 grid-rows-1">
-      <mat-icon
-        *ngIf="sidenavOpen; else menuIcon"
-        class="m-auto animated-icon"
-        [@sidenavToggleAnimation]
-      >
-        arrow_back
-      </mat-icon>
-      <ng-template #menuIcon>
-        <mat-icon class="m-auto animated-icon" [@sidenavToggleAnimation]
-          >menu</mat-icon
-        >
-      </ng-template>
-    </div>
+    <mat-icon *ngIf="sidenavOpen; else menuIcon" [@sidenavToggleAnimation]>
+      arrow_back
+    </mat-icon>
+    <ng-template #menuIcon>
+      <mat-icon [@sidenavToggleAnimation]>menu</mat-icon>
+    </ng-template>
   </button>
   <span
     class="
