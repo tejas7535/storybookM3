@@ -23,7 +23,8 @@ const mockRoles: Role[] = [
   },
   {
     title: 'Role Title 2',
-    rights: 'my  second rights',
+    rights: 'my missing rights',
+    rightsMissing: true,
   },
 ];
 
