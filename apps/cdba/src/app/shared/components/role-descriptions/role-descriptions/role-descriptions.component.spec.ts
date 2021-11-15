@@ -13,6 +13,7 @@ import {
   ROLES_STATE_SUCCESS_MOCK,
   PRODUCT_LINE_ROLE_DESCRIPTION_MOCK,
   SUB_REGION_ROLE_DESCRIPTION_MOCK,
+  AUTH_STATE_MOCK,
 } from '@cdba/testing/mocks';
 
 import { RoleDescriptionsComponent } from './role-descriptions.component';
@@ -33,6 +34,7 @@ describe('RoleDescriptionsComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
+          'azure-auth': AUTH_STATE_MOCK,
           roles: initialState,
         },
       }),
@@ -52,9 +54,12 @@ describe('RoleDescriptionsComponent', () => {
 
   describe('ngOnInit', () => {
     test('should provide rolesGroups if data is available', () => {
-      store.setState({ roles: ROLES_STATE_SUCCESS_MOCK });
+      store.setState({
+        'azure-auth': AUTH_STATE_MOCK,
+        roles: ROLES_STATE_SUCCESS_MOCK,
+      });
 
-      expect(component.rolesGroups.length).toBe(2);
+      expect(component.rolesGroups.length).toBe(3);
 
       expect(component.rolesGroups[0].title).toBe(
         'roles.descriptions.productLines'
@@ -69,12 +74,20 @@ describe('RoleDescriptionsComponent', () => {
       expect(component.rolesGroups[1].roles[0].rights).toBe(
         SUB_REGION_ROLE_DESCRIPTION_MOCK.description
       );
+
+      expect(component.rolesGroups[2].title).toBe('roles.costs.title');
+      expect(component.rolesGroups[2].roles[0].rights).toBe(
+        'roles.costs.rights.missing'
+      );
     });
 
     test('should handle unavailable role description data', () => {
-      store.setState({ roles: ROLES_STATE_ERROR_MOCK });
+      store.setState({
+        'azure-auth': AUTH_STATE_MOCK,
+        roles: ROLES_STATE_ERROR_MOCK,
+      });
 
-      expect(component.rolesGroups.length).toBe(0);
+      expect(component.rolesGroups.length).toBe(1);
     });
 
     test('should set the correct translation key', () => {
@@ -89,6 +102,7 @@ describe('RoleDescriptionsComponent', () => {
       expect(element.innerHTML).toContain(translationKeyMissingRoles);
     });
   });
+
   describe('ngOnDestroy', () => {
     test('should unsubscribe from role descriptions subscription', () => {
       component['roleDescriptionsSubscription'].unsubscribe = jest.fn();

@@ -131,6 +131,15 @@
         "default": "Bitte wenden Sie sich an <a class=\"text-primary\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.",
         "missingRoles": "Wenn Sie zusätzliche Unterstützung benötigen, um Zugang zu den erforderlichen Rechten zu erhalten, finden Sie unter <a class=\"text-primary\" href=\"{{urlProductLines}}\" target=\"blank\">Übersicht über die Produktlinien</a> weitere Anleitungen. Wenn Sie nicht wissen, wie Sie Ihre Rollenzuweisungen ändern können, besuchen Sie bitte <a class=\"text-primary\" href=\"{{urlRoleAssignments}}\" target=\"blank\">Wie funktionieren Rollenzuweisungen</a>.\n\nBitte beachten Sie, dass es nach der Freigabe der Rechte bis zu einem Tag dauert, bis die Synchronisierung erfolgt."
       }
+    },
+    "costs": {
+      "title": "Kosten",
+      "gpc": "KHK",
+      "sqv": "SAW",
+      "rights": {
+        "available": "{{costRoleType}} Kosten einsehen",
+        "missing": "notwendig um {{costRoleType}} Kosten einzusehen"
+      }
     }
   },
   "forbidden": {

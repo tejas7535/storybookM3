@@ -7,6 +7,11 @@ export enum RolePrefix {
 
 export const adminRoles: AuthRoles = ['CDBA_ADMIN'];
 
+export enum CostRoles {
+  Gpc = 'CDBA_COST_TYPE_GPC',
+  Sqv = 'CDBA_COST_TYPE_SQV',
+}
+
 export const authConfig: AuthConfig = {
   basicRoles: ['CDBA_BASIC'],
   pricingRoles: [...adminRoles, 'CDBA_COST_TYPE_SQV', 'CDBA_COST_TYPE_GPC'],

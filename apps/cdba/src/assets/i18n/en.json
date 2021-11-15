@@ -131,6 +131,15 @@
         "default": "Please contact <a class=\"text-primary\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a> if you have any questions about your user roles or need access to additional user roles.",
         "missingRoles": "If you need additional support on how to get access to the necessary rights please visit <a class=\"text-primary\" href=\"{{urlProductLines}}\" target=\"blank\">Product lines overview</a> for further guidance. If you don’t know how to change your role assignments please visit <a class=\"text-primary\" href=\"{{urlRoleAssignments}}\" target=\"blank\">How do role assignments work</a>.\n\nAfter the approval of the rights please note that it takes up to one day to synchronize."
       }
+    },
+    "costs": {
+      "title": "Costs",
+      "gpc": "GPC",
+      "sqv": "SQV",
+      "rights": {
+        "available": "view {{costRoleType}} cost values",
+        "missing": "needed to view {{costRoleType}} cost values"
+      }
     }
   },
   "forbidden": {
