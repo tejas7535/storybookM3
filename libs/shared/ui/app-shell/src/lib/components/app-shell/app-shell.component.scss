@@ -8,6 +8,11 @@ mat-toolbar {
   @apply fixed;
   @apply bg-white;
 
+  .animated-icon {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
   .schaeffler-header-logo {
     @apply h-[12px];
     @apply sm:h-[23px];
