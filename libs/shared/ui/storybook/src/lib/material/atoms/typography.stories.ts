@@ -6,7 +6,6 @@ import {
   NavigationAtomic,
   NavigationMain,
 } from '../../../../.storybook/storybook-navigation.constants';
-
 import READMEMd from './typography/README.md';
 
 export default {
@@ -19,7 +18,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.InProgress],
+    badges: [Badges.Final],
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=152%3A22',

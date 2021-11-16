@@ -44,4 +44,10 @@
       }
     }
   }
+
+  // tooltip overrides
+  mat-tooltip-component .mat-tooltip {
+    @apply whitespace-pre-line text-caption py-1 px-3;
+    background: $schaeffler-carbon-gray;
+  }
 }
