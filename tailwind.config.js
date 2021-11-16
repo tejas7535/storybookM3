@@ -28,6 +28,8 @@ const greys = {
   labels: '#9ca2a5',
   toastBg: '#414546',
   lightBg: 'rgba(0,0,0,0.11)',
+  hoverOverlay: 'rgba(0,0,0,0.04)',
+  focusOverlay: 'rgba(0,0,0,0.08)',
   disabledOverlay: 'rgba(129,129,129,0.12)',
 };
 

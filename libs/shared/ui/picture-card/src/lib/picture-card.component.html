@@ -44,10 +44,23 @@
     </mat-card-actions>
   </mat-card>
   <div
-    class="absolute w-full top-0 bottom-0 bg-disabledOverlay rounded"
-    *ngIf="selected"
+    class="
+      absolute
+      w-full
+      top-0
+      bottom-0
+      hover:cursor-pointer
+      focus:cursor-pointer
+      hover:bg-hoverOverlay
+      focus:bg-focusOverlay
+      rounded
+    "
+    [ngClass]="{ 'bg-disabledOverlay': selected }"
   >
-    <mat-icon class="absolute top-2 right-2 text-primary" filled
+    <mat-icon
+      *ngIf="selected"
+      class="absolute top-2 right-2 text-primary"
+      filled
       >check_circle</mat-icon
     >
   </div>
