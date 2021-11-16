@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ParameterGuard } from '../core/guards';
+import { ParameterGuard, ResultGuard } from '../core/guards';
 import { GreaseCalculationPath } from './grease-calculation-path.enum';
 import { GreaseCalculationComponent } from './grease-calculation.component';
 
@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       {
         path: GreaseCalculationPath.BasePath,
-        redirectTo: GreaseCalculationPath.ResultPath, // Todo: Revert when feature done
+        redirectTo: GreaseCalculationPath.BearingPath,
       },
       {
         path: `${GreaseCalculationPath.BearingPath}`,
@@ -31,7 +31,7 @@ const routes: Routes = [
         path: GreaseCalculationPath.ResultPath,
         loadChildren: async () =>
           import('../result/result.module').then((m) => m.ResultModule),
-        // canActivate: [ResultGuard],  // Todo: Revert when feature done
+        canActivate: [ResultGuard],
       },
     ],
   },
