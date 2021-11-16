@@ -4,18 +4,27 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import d3OrgChart from 'd3-org-chart';
+import { OrgChart } from 'd3-org-chart';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
+import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
-import { EmployeeAttritionMeta } from '../../shared/models';
 import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { OrgChartComponent } from './org-chart.component';
+import { OrgChartService } from './org-chart.service';
 
+const mock: any = {
+  attr: jest.fn(() => mock),
+};
+
+jest.mock('d3-selection', () => ({
+  select: jest.fn(() => mock),
+}));
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
@@ -33,6 +42,7 @@ describe('OrgChartComponent', () => {
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      OrgChartService,
     ],
   });
 
@@ -61,22 +71,23 @@ describe('OrgChartComponent', () => {
   });
 
   describe('clickout', () => {
-    test('should open dialog with attrition data when attrition icon is clicked', () => {
-      const mock = {} as unknown as EmployeeAttritionMeta;
+    beforeEach(() => {
       component['dialog'].open = jest.fn();
-      component.selectedTimeRange = '01.01.2020 - 03.05.2020';
       component.data = [
         {
           employeeId: '123',
-          attritionMeta: mock,
+          directLeafChildren: [],
+          employeeName: 'Hans',
+          orgUnit: 'Schaeffler_IT',
+          attritionMeta: {},
         } as unknown as Employee,
       ];
-
+    });
+    test('should open dialog with attrition data when attrition icon is clicked', () => {
+      component.selectedTimeRange = '01.01.2020 - 03.05.2020';
       component.clickout({
         target: {
-          classList: {
-            contains: (elem: string) => elem === 'employee-node-attrition',
-          },
+          id: 'employee-node-attrition',
           getAttribute: () => '123',
         },
       });
@@ -86,12 +97,47 @@ describe('OrgChartComponent', () => {
         {
           data: {
             selectedTimeRange: component.selectedTimeRange,
-            data: mock,
+            data: {},
           },
           width: '90%',
           maxWidth: '750px',
         }
       );
+    });
+    test('should open dialog with employee data when employee icon is clicked', () => {
+      const data: EmployeeListDialogMeta = {
+        headings: {
+          header: 'Hans (Schaeffler_IT)',
+          contentTitle: 'organizationalView.employeeListDialog.contentTitle',
+        },
+        employees: [] as any[],
+      };
+
+      component.clickout({
+        target: {
+          id: 'employee-node-people',
+          getAttribute: () => '123',
+        },
+      });
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        EmployeeListDialogComponent,
+        {
+          data,
+        }
+      );
+    });
+    test('should emit showParent event if arrow up is clicked', () => {
+      component.showParent.emit = jest.fn();
+
+      component.clickout({
+        target: {
+          id: 'show-parent',
+          getAttribute: () => '123',
+        },
+      });
+
+      expect(component.showParent.emit).toHaveBeenCalledWith(component.data[0]);
     });
   });
 
@@ -130,15 +176,19 @@ describe('OrgChartComponent', () => {
     });
 
     test('should update org chart if chart is set', (done) => {
-      component.chart = new d3OrgChart();
+      component.chart = new OrgChart();
       component.chartData = [{}];
       component.chartContainer = {
-        nativeElement: {},
+        nativeElement: {
+          getBoundingClientRect: jest.fn(() => ({ height: 20 })),
+        },
       };
+
       component.updateChart();
 
       setTimeout(() => {
         expect(component.chart.render).toHaveBeenCalled();
+        expect(component.chart.fit).toHaveBeenCalled();
         done();
       }, 200);
     });

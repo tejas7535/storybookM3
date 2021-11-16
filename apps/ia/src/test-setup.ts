@@ -18,13 +18,19 @@ const orgChartMock: any = {
   svgWidth: jest.fn(() => orgChartMock),
   svgHeight: jest.fn(() => orgChartMock),
   initialZoom: jest.fn(() => orgChartMock),
-  marginTop: jest.fn(() => orgChartMock),
+  nodeWidth: jest.fn(() => orgChartMock),
+  nodeHeight: jest.fn(() => orgChartMock),
+  compact: jest.fn(() => orgChartMock),
+  nodeContent: jest.fn(() => orgChartMock),
+  buttonContent: jest.fn(() => orgChartMock),
+  linkUpdate: jest.fn(() => orgChartMock),
   render: jest.fn(() => orgChartMock),
+  fit: jest.fn(),
 };
 
-jest.mock('d3-org-chart', () =>
-  jest.fn().mockImplementation(() => orgChartMock)
-);
+jest.mock('d3-org-chart', () => ({
+  OrgChart: jest.fn().mockImplementation(() => orgChartMock),
+}));
 
 global.beforeAll(() => {
   LicenseManager.setLicenseKey(

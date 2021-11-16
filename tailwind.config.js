@@ -40,6 +40,7 @@ const emphasis = {
 
 const fontFamilies = {
   sans: ['Roboto, sans-serif'],
+  materialIcons: ['Material Icons'],
 };
 
 const scrollSnapUtilities = {
@@ -105,6 +106,7 @@ module.exports = {
       // set custom utility classes
       display: fontFamilies.sans,
       body: fontFamilies.sans,
+      materiaIcons: fontFamilies.materialIcons,
     },
     textColor: {
       dark: darkGrey,
@@ -114,6 +116,8 @@ module.exports = {
       disabled: lightGrey,
       error: baseColors.error,
       warning: baseColors.warning,
+      success: baseColors.success,
+      labels: greys.labels,
       ...emphasis,
     },
     screens: {

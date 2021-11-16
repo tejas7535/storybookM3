@@ -27,6 +27,13 @@ import { CountryData } from './world-map/models/country-data.model';
 @Component({
   selector: 'ia-organizational-view',
   templateUrl: './organizational-view.component.html',
+  styles: [
+    `
+      :host {
+        height: 100%;
+      }
+    `,
+  ],
 })
 export class OrganizationalViewComponent implements OnInit {
   orgChart$: Observable<Employee[]>;
@@ -69,11 +76,11 @@ export class OrganizationalViewComponent implements OnInit {
     this.selectedTimeRange$ = this.store.select(getBeautifiedSelectedTimeRange);
   }
 
-  public chartTypeChanged(chartType: ChartType): void {
+  chartTypeChanged(chartType: ChartType): void {
     this.store.dispatch(chartTypeSelected({ chartType }));
   }
 
-  public loadParent(employee: Employee): void {
+  loadParent(employee: Employee): void {
     this.store.dispatch(loadParent({ employee }));
   }
 }

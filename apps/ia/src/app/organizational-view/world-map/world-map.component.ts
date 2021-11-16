@@ -76,7 +76,6 @@ export class WorldMapComponent implements OnInit {
 
   mergeOptions: any;
   options: any;
-  initOpts: any;
   echartsInstance: any;
   continentButtons: ContinentButton[] = [];
 
@@ -84,9 +83,6 @@ export class WorldMapComponent implements OnInit {
 
   ngOnInit(): void {
     echarts.registerMap('world', worldJson as any);
-    this.initOpts = {
-      height: 970,
-    };
 
     this.options = {
       backgroundColor: 'white',

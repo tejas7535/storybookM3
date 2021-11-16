@@ -122,7 +122,6 @@ describe('WorldMapComponent', () => {
     test('should register map and set options', () => {
       component.ngOnInit();
 
-      expect(component.initOpts.height).toEqual(970);
       expect(component.options.series.length).toEqual(1);
     });
   });

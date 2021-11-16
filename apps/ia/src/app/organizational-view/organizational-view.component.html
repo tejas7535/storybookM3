@@ -1,5 +1,5 @@
 <div
-  class="relative flex flex-col min-h-[650px] bg-white"
+  class="relative flex flex-col h-full min-h-[400px] bg-white"
   *ngrxLet="selectedChartType$ as selectedChart"
 >
   <ia-toggle-charts
@@ -7,7 +7,7 @@
     (changed)="chartTypeChanged($event)"
   ></ia-toggle-charts>
   <ia-org-chart
-    class="flex-grow flex flex-col"
+    class="flex-grow"
     *ngIf="selectedChart === chartType.ORG_CHART"
     [data]="orgChart$ | ngrxPush"
     [selectedTimeRange]="selectedTimeRange$ | ngrxPush"
@@ -15,6 +15,7 @@
     (showParent)="loadParent($event)"
   ></ia-org-chart>
   <ia-world-map
+    class="flex-grow"
     *ngIf="selectedChart === chartType.WORLD_MAP"
     [data]="worldMap$ | ngrxPush"
     [continents]="worldMapContinents$ | ngrxPush"

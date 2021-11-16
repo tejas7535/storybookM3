@@ -2,10 +2,9 @@
   echarts
   [options]="options"
   [merge]="mergeOptions"
-  [initOpts]="initOpts"
   (chartInit)="onChartInit($event)"
   (chartClick)="showCountryData($event)"
-  class="overflow-hidden !h-full min-w-full"
+  class="overflow-hidden h-full min-h-[400px]"
 ></div>
 <schaeffler-loading-spinner
   *ngIf="isLoading"

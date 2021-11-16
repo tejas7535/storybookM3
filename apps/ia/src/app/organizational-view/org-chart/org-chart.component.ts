@@ -12,7 +12,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 
 import { TranslocoService } from '@ngneat/transloco';
-import d3OrgChart from 'd3-org-chart';
+import { OrgChart } from 'd3-org-chart';
 
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
@@ -26,7 +26,6 @@ import { OrgChartService } from './org-chart.service';
 @Component({
   selector: 'ia-org-chart',
   templateUrl: './org-chart.component.html',
-  styleUrls: ['./org-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
@@ -54,7 +53,7 @@ export class OrgChartComponent implements AfterViewInit {
   chart: any;
   chartData: any[];
 
-  public constructor(
+  constructor(
     private readonly orgChartService: OrgChartService,
     private readonly dialog: MatDialog,
     private readonly translocoService: TranslocoService
@@ -65,46 +64,57 @@ export class OrgChartComponent implements AfterViewInit {
     const employeeId = node.getAttribute('data-id');
     const employee = this.data.find((elem) => elem.employeeId === employeeId);
 
-    if (node.classList.contains(OrgChartConfig.BUTTON_CSS.people)) {
-      const data = new EmployeeListDialogMeta(
-        new EmployeeListDialogMetaHeadings(
-          `${employee.employeeName} (${employee.orgUnit})`,
-          this.translocoService.translate(
-            'employeeListDialog.contentTitle',
-            {},
-            'organizational-view'
-          )
-        ),
-        employee.directLeafChildren
-      );
-      this.dialog.open(EmployeeListDialogComponent, {
-        data,
-      });
-    } else if (node.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
-      const attritionMeta = employee?.attritionMeta;
-      const data = new AttritionDialogMeta(
-        attritionMeta,
-        this.selectedTimeRange
-      );
-      this.dialog.open(AttritionDialogComponent, {
-        data,
-        width: '90%',
-        maxWidth: '750px',
-      });
-    } else if (node.classList.contains(OrgChartConfig.BUTTON_CSS.showUpArrow)) {
-      this.showParent.emit(employee);
+    switch (node.id) {
+      case OrgChartConfig.BUTTON_CSS.people: {
+        const data = new EmployeeListDialogMeta(
+          new EmployeeListDialogMetaHeadings(
+            `${employee.employeeName} (${employee.orgUnit})`,
+            this.translocoService.translate(
+              'employeeListDialog.contentTitle',
+              {},
+              'organizational-view'
+            )
+          ),
+          employee.directLeafChildren
+        );
+        this.dialog.open(EmployeeListDialogComponent, {
+          data,
+        });
+
+        break;
+      }
+      case OrgChartConfig.BUTTON_CSS.attrition: {
+        const attritionMeta = employee?.attritionMeta;
+        const data = new AttritionDialogMeta(
+          attritionMeta,
+          this.selectedTimeRange
+        );
+        this.dialog.open(AttritionDialogComponent, {
+          data,
+          width: '90%',
+          maxWidth: '750px',
+        });
+
+        break;
+      }
+      case OrgChartConfig.BUTTON_CSS.showUpArrow: {
+        this.showParent.emit(employee);
+
+        break;
+      }
+      // No default
     }
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     if (!this.chart) {
       // eslint-disable-next-line new-cap
-      this.chart = new d3OrgChart();
+      this.chart = new OrgChart();
     }
     this.updateChart();
   }
 
-  public updateChart(): void {
+  updateChart(): void {
     if (!this.chart || !this.chartData || this.chartData.length === 0) {
       return;
     }
@@ -112,11 +122,21 @@ export class OrgChartComponent implements AfterViewInit {
     this.chart
       .container(this.chartContainer.nativeElement)
       .data(this.chartData)
+      .svgHeight(
+        this.chartContainer.nativeElement.getBoundingClientRect().height
+      )
       .backgroundColor('white')
-      .svgHeight('650px')
-      .svgWidth(window.innerWidth)
-      .initialZoom(0.95)
-      .marginTop(50)
+      .initialZoom(0.8)
+      .nodeWidth(() => 320)
+      .nodeHeight(() => 207)
+      .compact(false)
+      .nodeContent((d: any) => this.orgChartService.getNodeContent(d.data))
+      .buttonContent(({ node }: any) =>
+        this.orgChartService.getButtonContent(node)
+      )
+      .linkUpdate(() => this.orgChartService.updateLinkStyles())
       .render();
+
+    this.chart.fit();
   }
 }

@@ -1,18 +1,17 @@
-import { Color } from './color.model';
-
 export interface OrgChartNode {
   nodeId: string;
   parentNodeId: string;
   expanded: boolean;
+  name: string;
+  organization: string;
+  heatMapClass: string;
   directSubordinates: number;
   totalSubordinates: number;
-  width: number;
-  height: number;
-  borderWidth: number;
-  borderRadius: number;
-  borderColor: Color;
-  backgroundColor: Color;
-  connectorLineColor: Color;
-  connectorLineWidth: number;
-  template: string;
+  directAttrition: number;
+  totalAttrition: number;
+  textColumnDirect: string;
+  textColumnOverall: string;
+  textRowEmployees: string;
+  textRowAttrition: string;
+  showUpperParentBtn: boolean;
 }
