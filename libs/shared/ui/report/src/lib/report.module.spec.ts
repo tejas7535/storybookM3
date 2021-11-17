@@ -1,5 +1,6 @@
 import { TranslocoService } from '@ngneat/transloco';
 
+import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
 import { ReportModule } from './report.module';
 
@@ -13,8 +14,9 @@ describe('ReportModule', () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new ReportModule(serviceMock);
 
-      expect(serviceMock.setTranslation).toHaveBeenCalledTimes(1);
+      expect(serviceMock.setTranslation).toHaveBeenCalledTimes(2);
       expect(serviceMock.setTranslation).toHaveBeenCalledWith(enJson, 'en');
+      expect(serviceMock.setTranslation).toHaveBeenCalledWith(deJson, 'de');
     });
   });
 });

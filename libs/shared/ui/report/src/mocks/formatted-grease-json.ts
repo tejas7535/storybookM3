@@ -166,10 +166,12 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values: '43 cm³/393 d',
+              tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values: '0.088 cm³/day',
+              tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
@@ -195,11 +197,13 @@ export const formattedGreaseJson = [
               title: 'lowerTemperatureLimit',
               values: '-30.0 °C',
               display: false,
+              tooltip: 'lowerTemperatureLimitTooltip',
             },
             {
               title: 'upperTemperatureLimit',
               values: '120.0 °C',
               display: false,
+              tooltip: 'upperTemperatureLimitTooltip',
             },
             {
               title: 'greaseServiceLife',
@@ -210,6 +214,7 @@ export const formattedGreaseJson = [
               title: 'additiveRequired',
               values: 'no',
               display: false,
+              tooltip: 'additiveRequiredTooltip',
             },
             {
               title: 'effectiveEpAdditivation',
@@ -262,10 +267,12 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values: '43 cm³/393 d',
+              tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values: '0.088 cm³/day',
+              tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
@@ -291,11 +298,13 @@ export const formattedGreaseJson = [
               title: 'lowerTemperatureLimit',
               values: '-20.0 °C',
               display: false,
+              tooltip: 'lowerTemperatureLimitTooltip',
             },
             {
               title: 'upperTemperatureLimit',
               values: '120.0 °C',
               display: false,
+              tooltip: 'upperTemperatureLimitTooltip',
             },
             {
               title: 'greaseServiceLife',
@@ -306,6 +315,7 @@ export const formattedGreaseJson = [
               title: 'additiveRequired',
               values: 'no',
               display: false,
+              tooltip: 'additiveRequiredTooltip',
             },
             {
               title: 'effectiveEpAdditivation',
@@ -358,10 +368,12 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values: '43 cm³/393 d',
+              tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values: '0.088 cm³/day',
+              tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
@@ -387,11 +399,13 @@ export const formattedGreaseJson = [
               title: 'lowerTemperatureLimit',
               values: '-40.0 °C',
               display: false,
+              tooltip: 'lowerTemperatureLimitTooltip',
             },
             {
               title: 'upperTemperatureLimit',
               values: '160.0 °C',
               display: false,
+              tooltip: 'upperTemperatureLimitTooltip',
             },
             {
               title: 'greaseServiceLife',
@@ -402,6 +416,7 @@ export const formattedGreaseJson = [
               title: 'additiveRequired',
               values: 'no',
               display: false,
+              tooltip: 'additiveRequiredTooltip',
             },
             {
               title: 'effectiveEpAdditivation',

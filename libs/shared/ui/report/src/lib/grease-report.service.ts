@@ -83,6 +83,7 @@ export class GreaseReportService {
                         2 /
                         24
                     )} d`,
+                    tooltip: 'manualRelubricationQuantityIntervalTooltip',
                   },
                   {
                     title: 'automaticRelubricationQuantityPerDay',
@@ -91,6 +92,7 @@ export class GreaseReportService {
                         +(findItem(Field.QVRE_AUT_MAX) as any).value) /
                       2
                     } ${findItem(Field.QVRE_AUT_MIN).unit}`,
+                    tooltip: 'automaticRelubricationQuantityPerDayTooltip',
                   },
                 ],
               };
@@ -139,6 +141,7 @@ export class GreaseReportService {
                 title: 'additiveRequired',
                 values: `${findItem(Field.ADD_REQ).value}`,
                 display: false,
+                tooltip: 'additiveRequiredTooltip',
               };
               (greaseResult.dataSource as any)[11] = {
                 title: 'effectiveEpAdditivation',
@@ -172,6 +175,7 @@ export class GreaseReportService {
                       title: 'lowerTemperatureLimit',
                       values: `${value} ${unit}`,
                       display: false,
+                      tooltip: 'lowerTemperatureLimitTooltip',
                     };
                     break;
                   case Field.T_LIM_UP:
@@ -179,6 +183,7 @@ export class GreaseReportService {
                       title: 'upperTemperatureLimit',
                       values: `${value} ${unit}`,
                       display: false,
+                      tooltip: 'upperTemperatureLimitTooltip',
                     };
                     break;
                   case Field.RHO:

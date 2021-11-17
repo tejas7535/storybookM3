@@ -209,6 +209,13 @@
           <ng-container matColumnDef="title">
             <td mat-cell *matCellDef="let element">
               {{ t(element.title) || element.title }}
+              <mat-icon
+                *ngIf="element.tooltip"
+                color="primary"
+                #tooltip="matTooltip"
+                [matTooltip]="t(element.tooltip)"
+                >info_outline</mat-icon
+              >
             </td>
           </ng-container>
 
