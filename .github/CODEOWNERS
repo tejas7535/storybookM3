@@ -31,8 +31,8 @@ apps/sedo @birketho_SGGIT @soehnpsc_SGGIT @PELZESEN_SGGIT
 apps/sedo-e2e @birketho_SGGIT @soehnpsc_SGGIT @PELZESEN_SGGIT
 
 # GQ
-apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @yuqiugegmailcom_SGGIT
-apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @yuqiugegmailcom_SGGIT
+apps/gq @soehnpsc_SGGIT @herpisef_SGGIT @yuqiugegmailcom_SGGIT @kauppfbi_SGGIT
+apps/gq-e2e @soehnpsc_SGGIT @herpisef_SGGIT @yuqiugegmailcom_SGGIT @kauppfbi_SGGIT
 
 # MAC
 apps/mac @berndcri_SGGIT @birketho_SGGIT @PELZESEN_SGGIT
