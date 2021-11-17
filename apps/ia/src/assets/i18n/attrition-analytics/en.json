@@ -15,5 +15,9 @@
     "aboveAverage": "Above average",
     "attrRate": "Attr. Rate",
     "numEmployees": "num. Employees"
+  },
+  "featureImportance": {
+    "title": "Feature Importance",
+    "xAxisName": "SHAP value"
   }
 }

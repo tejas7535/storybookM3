@@ -3,3 +3,5 @@ export * from './employee-analytics.model';
 export * from './feature-change.model';
 export * from './feature-params.model';
 export * from './feature-selector.model';
+export * from './feature-importance.model';
+export * from './feature-importance-translations.model';

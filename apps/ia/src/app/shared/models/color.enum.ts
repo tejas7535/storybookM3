@@ -4,6 +4,7 @@ export enum Color {
   GREY = '#ebeef0',
   SHADOW_GREY = 'rgba(0, 0, 0, 0.2)',
   LIGHT_GREY = '#90A4AE',
+  LIGHT_GREY_AREA = '#EAEBF5',
   DARK_GREY = '#787d7f',
   RED = '#e62c27',
   LIME = '#A1C861',

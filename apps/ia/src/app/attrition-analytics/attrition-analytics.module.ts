@@ -13,6 +13,7 @@ import { BarChartModule } from '../shared/charts/bar-chart/bar-chart.module';
 import { SharedModule } from '../shared/shared.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { AttritionAnalyticsRoutingModule } from './attrition-analytics.routing.module';
+import { FeatureImportanceModule } from './feature-importance/feature-importance.module';
 import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import * as fromAttritionAnalytics from './store';
 import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.effects';
@@ -30,6 +31,7 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     MatIconModule,
     SharedTranslocoModule,
     FeaturesDialogModule,
+    FeatureImportanceModule,
     LoadingSpinnerModule,
     DragDropModule,
     BarChartModule,
