@@ -92,7 +92,7 @@ export class LostJobProfilesComponent implements OnChanges {
 
   getRowClass = () => 'border-2 border-veryLight';
 
-  private handleCellClick(params: any, key: CellType): void {
+  handleCellClick(params: any, key: CellType): void {
     const translationKey =
       key === 'workforce' ? 'titleWorkforce' : 'titleLeavers';
     const title = translate<string>(
@@ -105,7 +105,7 @@ export class LostJobProfilesComponent implements OnChanges {
     this.openEmployeeListDialog(title, employees);
   }
 
-  private openEmployeeListDialog(title: string, employees: string[]): void {
+  openEmployeeListDialog(title: string, employees: string[]): void {
     // TODO: extend REST API to get full employee not just the name? may be useful later anyway
     const convertedEmployees = employees.map(
       (employee) => ({ employeeName: employee } as unknown as Employee)

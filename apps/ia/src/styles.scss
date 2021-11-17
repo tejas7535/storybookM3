@@ -29,11 +29,6 @@ button {
   }
 }
 
-// needed to prevent unnecessary horizontal scrollbars from being shown due to the custom scrollbar size defined below
-.ag-center-cols-viewport::-webkit-scrollbar {
-  height: 0;
-}
-
 // Custom Scrollbar for AG Grid
 .ag-root ::-webkit-scrollbar-track,
 .mat-dialog-content ::-webkit-scrollbar-track {
@@ -43,6 +38,7 @@ button {
 .ag-root ::-webkit-scrollbar,
 .mat-dialog-content ::-webkit-scrollbar {
   background: transparent;
+  height: 8px;
   width: 8px;
 }
 
