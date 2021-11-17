@@ -1,3 +1,11 @@
+---
+name: Feature Request
+about: Suggest a feature for the frontend-schaeffler Monorepository and its packages
+title: ''
+labels: type:feature
+assignees: ''
+---
+
 <!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understanding the issue.**⚠️ -->
 
 # Feature Request

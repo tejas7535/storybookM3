@@ -1,3 +1,11 @@
+---
+name: Bug Report
+about: Report a bug within the frontend-schaeffler Monorepository
+title: ''
+labels: type:bugfix
+assignees: ''
+---
+
 <!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understanding the issue.**⚠️ -->
 
 # Bug Report

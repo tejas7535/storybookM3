@@ -1,3 +1,11 @@
+---
+name: Support Request
+about: Please do not file questions or support requests on the GitHub issues tracker.
+title: ''
+labels: ''
+assignees: ''
+---
+
 # Support Request
 
 <span style="color:red">

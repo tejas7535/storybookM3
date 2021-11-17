@@ -1,3 +1,11 @@
+---
+name: Docs
+about: Report an issue in Confluence/Workspace/Storybook documentation
+title: ''
+labels: type:documentation
+assignees: ''
+---
+
 <!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understanding the issue.**⚠️ -->
 
 # Docs (Confluence, Workspace, Storybook)
