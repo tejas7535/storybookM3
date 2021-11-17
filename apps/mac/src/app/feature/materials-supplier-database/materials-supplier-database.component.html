@@ -2,7 +2,9 @@
   <div class="bg-white shadow-md px-4 pb-6 w-full fixed z-10">
     <schaeffler-subheader [title]="title" [breadcrumbs]="breadcrumbs">
       <ng-container header>
-        <button mat-raised-button (click)="shareButtonFn()">Share</button>
+        <button mat-raised-button (click)="shareButtonFn()" class="!my-auto">
+          Share
+        </button>
       </ng-container>
     </schaeffler-subheader>
   </div>

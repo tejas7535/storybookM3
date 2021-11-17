@@ -15,6 +15,7 @@ import {
   fetchClassOptionsFailure,
   fetchClassOptionsSuccess,
   resetResult,
+  setAgGridColumns,
   setFilteredRows,
   setListFilters,
 } from './../actions/data.actions';
@@ -31,6 +32,7 @@ export interface DataState {
       materialNumber: string;
     };
   };
+  agGridColumns: string;
   materialClassOptions: DataFilter[];
   productCategoryOptions: DataFilter[];
   materialClassLoading: boolean;
@@ -51,6 +53,7 @@ export const initialState: DataState = {
       materialNumber: undefined,
     },
   },
+  agGridColumns: undefined,
   materialClassOptions: [],
   productCategoryOptions: [],
   materialClassLoading: undefined,
@@ -194,6 +197,13 @@ export const dataReducer = createReducer(
     (state): DataState => ({
       ...state,
       result: undefined,
+    })
+  ),
+  on(
+    setAgGridColumns,
+    (state, { agGridColumns }): DataState => ({
+      ...state,
+      agGridColumns,
     })
   )
 );

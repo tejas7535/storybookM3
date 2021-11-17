@@ -304,5 +304,15 @@ describe('dataReducer', () => {
         result: undefined,
       });
     });
+
+    it('should set ag grid columns', () => {
+      const action = DataActions.setAgGridColumns({ agGridColumns: 'columns' });
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        agGridColumns: 'columns',
+      });
+    });
   });
 });

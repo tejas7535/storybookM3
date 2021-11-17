@@ -1,5 +1,5 @@
 import { Clipboard } from '@angular/cdk/clipboard';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router, UrlSerializer } from '@angular/router';
 
@@ -10,12 +10,13 @@ import { Store } from '@ngrx/store';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { getShareQueryParams } from './store';
+import { changeFavicon } from '../../shared/change-favicon';
 
 @Component({
   selector: 'mac-materials-supplier-database',
   templateUrl: './materials-supplier-database.component.html',
 })
-export class MaterialsSupplierDatabaseComponent {
+export class MaterialsSupplierDatabaseComponent implements OnInit {
   public title = 'Materials Supplier Database';
 
   public breadcrumbs: Breadcrumb[] = [
@@ -32,6 +33,10 @@ export class MaterialsSupplierDatabaseComponent {
     private readonly clipboard: Clipboard,
     private readonly snackbar: MatSnackBar
   ) {}
+
+  public ngOnInit(): void {
+    changeFavicon('../assets/favicons/msd.ico');
+  }
 
   public shareButtonFn(): void {
     this.store

@@ -162,4 +162,46 @@ describe('DataSelectors', () => {
 
     expect(DataSelectors.getFilterLists.projector(result)).toEqual(expected);
   });
+
+  it('should return ag grid columns', () => {
+    const result = DataSelectors.getAgGridColumns.projector({
+      ...initialState,
+      agGridColumns: 'columns',
+    });
+
+    expect(result).toEqual('columns');
+  });
+
+  it('should return false if result is undefined', () => {
+    const result = DataSelectors.getCo2ColumnVisible.projector(
+      undefined,
+      '[{"colId":"co2PerTon", "hide": false}]'
+    );
+
+    expect(result).toEqual(false);
+  });
+  it('should return false if column is hidden', () => {
+    const result = DataSelectors.getCo2ColumnVisible.projector(
+      [],
+      '[{"colId":"co2PerTon", "hide": true}]'
+    );
+
+    expect(result).toEqual(false);
+  });
+  it('should return true if column is not hidden', () => {
+    const result = DataSelectors.getCo2ColumnVisible.projector(
+      [],
+      '[{"colId":"co2PerTon", "hide": false}]'
+    );
+
+    expect(result).toEqual(true);
+  });
+  it('should return true if agGridColumns is not a json string', () => {
+    const result = DataSelectors.getCo2ColumnVisible.projector(
+      [],
+      'something weird or undefined'
+    );
+
+    expect(result).toEqual(true);
+  });
 });

@@ -18,6 +18,10 @@ import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-dat
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 import { initialState as initialDataState } from './store/reducers/data.reducer';
 
+jest.mock('../../shared/change-favicon', () => ({
+  changeFavicon: jest.fn(() => {}),
+}));
+
 describe('MaterialsSupplierDatabaseComponent', () => {
   let component: MaterialsSupplierDatabaseComponent;
   let spectator: Spectator<MaterialsSupplierDatabaseComponent>;

@@ -4,7 +4,7 @@
       <div class="flex flex-row">
         <h6>Please choose your class and category</h6>
       </div>
-      <div class="flex flex-col md:flex-row md:gap-8">
+      <div class="flex flex-col lg:flex-row md:gap-8">
         <div class="flex flex-row gap-6">
           <mat-form-field appearance="fill" class="w-80">
             <mat-label>Material Class</mat-label>
@@ -54,25 +54,48 @@
             </mat-select>
           </mat-form-field>
         </div>
-        <div class="flex flex-row place-items-center gap-4">
-          <button
-            mat-raised-button
-            [disabled]="!filterForm.valid"
-            class="my-auto"
-            color="primary"
-            (click)="fetchMaterials()"
+
+        <div class="flex flex-row flex-grow justify-between gap-4">
+          <div class="flex flex-row place-items-center gap-4">
+            <button
+              mat-raised-button
+              [disabled]="!filterForm.valid"
+              class="my-auto"
+              color="primary"
+              (click)="fetchMaterials()"
+            >
+              Start Search
+            </button>
+            <button
+              mat-stroked-button
+              [disabled]="filterForm.pristine"
+              class="my-auto"
+              color="primary"
+              (click)="resetForm()"
+            >
+              Reset All
+            </button>
+          </div>
+          <div
+            *ngIf="co2ColumnVisible$ | ngrxPush"
+            class="
+              flex flex-row
+              gap-4
+              my-auto
+              border border-primary
+              bg-disclaimerBg
+              rounded-md
+              p-3
+            "
           >
-            Start Search
-          </button>
-          <button
-            mat-stroked-button
-            [disabled]="filterForm.pristine"
-            class="my-auto"
-            color="primary"
-            (click)="resetForm()"
-          >
-            Reset All
-          </button>
+            <mat-icon color="primary" class="material-icons-outlined"
+              >info</mat-icon
+            >
+            <div class="text-caption max-w-sm">
+              Presented CO2 values are for internal use only - data must not be
+              used for communication with customers
+            </div>
+          </div>
         </div>
       </div>
       <ng-container *ngIf="!(resultLoading$ | ngrxPush); else loading">

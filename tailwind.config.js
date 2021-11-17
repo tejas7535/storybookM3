@@ -27,6 +27,7 @@ const greys = {
   border: '#ced5da',
   labels: '#9ca2a5',
   toastBg: '#414546',
+  disclaimerBg: '#E5F4E9',
   lightBg: 'rgba(0,0,0,0.11)',
   hoverOverlay: 'rgba(0,0,0,0.04)',
   focusOverlay: 'rgba(0,0,0,0.08)',

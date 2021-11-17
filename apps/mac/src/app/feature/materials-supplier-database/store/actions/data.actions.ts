@@ -68,3 +68,8 @@ export const setListFilters = createAction(
 );
 
 export const resetResult = createAction('[MSD - Data] Reset Result');
+
+export const setAgGridColumns = createAction(
+  '[MSD - Data] Set Ag Grid Columns',
+  props<{ agGridColumns: string }>()
+);

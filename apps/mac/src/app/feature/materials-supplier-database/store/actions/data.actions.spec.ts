@@ -4,6 +4,7 @@ import {
   fetchMaterialsFailure,
   fetchMaterialsSuccess,
   resetResult,
+  setAgGridColumns,
   setAgGridFilter,
   setFilter,
   setFilteredRows,
@@ -86,6 +87,17 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Data] Reset Result',
+      });
+    });
+  });
+
+  describe('Set Ag Grid Columns', () => {
+    it('setAgGridColumns', () => {
+      const action = setAgGridColumns({ agGridColumns: 'columns' });
+
+      expect(action).toEqual({
+        agGridColumns: 'columns',
+        type: '[MSD - Data] Set Ag Grid Columns',
       });
     });
   });

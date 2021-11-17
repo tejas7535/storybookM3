@@ -30,7 +30,11 @@ import {
   setFilteredRows,
 } from '../store/actions';
 import { initialState as initialDataState } from '../store/reducers/data.reducer';
-import { resetResult, setFilter } from './../store/actions/data.actions';
+import {
+  resetResult,
+  setAgGridColumns,
+  setFilter,
+} from './../store/actions/data.actions';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { MainTableComponent } from './main-table.component';
 import { COLUMN_DEFINITIONS } from './table-config/column-definitions';
@@ -740,7 +744,7 @@ describe('MainTableComponent', () => {
   describe('onColumnChange', () => {
     it('should set the column state', () => {
       const mockColumnApi = {
-        getColumnState: jest.fn(() => []),
+        getColumnState: jest.fn((): string[] => []),
       };
       component['agGridStateService'].setColumnState = jest.fn();
 
@@ -751,6 +755,9 @@ describe('MainTableComponent', () => {
       expect(
         component['agGridStateService'].setColumnState
       ).toHaveBeenCalledWith(component['TABLE_KEY'], []);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setAgGridColumns({ agGridColumns: '[]' })
+      );
     });
   });
   describe('resetAgGridFilter', () => {

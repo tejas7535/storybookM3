@@ -104,3 +104,29 @@ export const getOptionsLoading = createSelector(
   getDataState,
   (state) => state.materialClassLoading || state.productCategoryLoading
 );
+
+export const getAgGridColumns = createSelector(
+  getDataState,
+  (state) => state.agGridColumns
+);
+
+export const getCo2ColumnVisible = createSelector(
+  getResult,
+  getAgGridColumns,
+  (result, columnString): boolean => {
+    if (!result) {
+      return false;
+    }
+    try {
+      const columns: { colId: string; hide: boolean }[] =
+        JSON.parse(columnString);
+      const hidden = columns.find(
+        (column) => column.colId === 'co2PerTon'
+      )?.hide;
+
+      return !(hidden as boolean);
+    } catch {
+      return true;
+    }
+  }
+);

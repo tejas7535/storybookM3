@@ -38,6 +38,7 @@ import { fetchMaterials, setAgGridFilter, setFilter } from '../store/actions';
 import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-grid-state.service';
 import {
   getAgGridFilter,
+  getCo2ColumnVisible,
   getFilterLists,
   getFilters,
   getLoading,
@@ -49,6 +50,7 @@ import {
 import {
   fetchClassAndCategoryOptions,
   resetResult,
+  setAgGridColumns,
   setFilteredRows,
 } from './../store/actions/data.actions';
 import {
@@ -75,6 +77,7 @@ export class MainTableComponent implements OnInit, OnDestroy {
     materialStandards: string[];
     materialNumbers: string[];
   }>;
+  public co2ColumnVisible$: Observable<boolean>;
 
   public selectedClass: string;
   public selectedCategory: string[];
@@ -139,6 +142,7 @@ export class MainTableComponent implements OnInit, OnDestroy {
     this.resultLoading$ = this.store.select(getLoading);
     this.result$ = this.store.select(getResult);
     this.filterLists$ = this.store.select(getFilterLists);
+    this.co2ColumnVisible$ = this.store.select(getCo2ColumnVisible);
 
     this.store.dispatch(fetchClassAndCategoryOptions());
 
@@ -393,9 +397,10 @@ export class MainTableComponent implements OnInit, OnDestroy {
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
-    this.agGridStateService.setColumnState(
-      this.TABLE_KEY,
-      columnApi.getColumnState()
+    const agGridColumns = columnApi.getColumnState();
+    this.agGridStateService.setColumnState(this.TABLE_KEY, agGridColumns);
+    this.store.dispatch(
+      setAgGridColumns({ agGridColumns: JSON.stringify(agGridColumns) })
     );
   }
 
