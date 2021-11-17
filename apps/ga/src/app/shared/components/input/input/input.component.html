@@ -30,6 +30,11 @@
       }}</mat-error>
     </ng-container>
   </mat-form-field>
-  <!-- TODO: enable again -->
-  <!-- <mat-icon color="primary">info_outline</mat-icon> -->
+  <mat-icon
+    *ngIf="tooltipText"
+    color="primary"
+    #tooltip="matTooltip"
+    [matTooltip]="tooltipText"
+    >info_outline</mat-icon
+  >
 </div>

@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -22,6 +23,7 @@ import { SelectComponent } from './components/select/select.component';
     MatInputModule,
     MatIconModule,
     MatSelectModule,
+    MatTooltipModule,
 
     // Translation
     SharedTranslocoModule,
