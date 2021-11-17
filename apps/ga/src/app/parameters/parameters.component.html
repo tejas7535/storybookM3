@@ -40,11 +40,13 @@
             [control]="radial"
             [label]="t('radialLoad')"
             [unit]="t('loadUnit')"
+            [tooltipText]="t('tooltip.loads')"
           ></ga-input>
           <ga-input
             [control]="axial"
             [label]="t('axialLoad')"
             [unit]="t('loadUnit')"
+            [tooltipText]="t('tooltip.loads')"
           ></ga-input>
           <!-- TODO: enable again -->
           <!-- <div class="flex flex-row -ml-4 -mt-3">
@@ -97,6 +99,7 @@
             [control]="rotationalSpeed"
             [label]="t('relativeRotationalSpeed')"
             [unit]="t('onePerMinute')"
+            [tooltipText]="t('tooltip.rotationSpeed')"
           ></ga-input>
         </ng-container>
 
@@ -105,6 +108,7 @@
             [control]="shiftFrequency"
             [label]="t('shiftFrequency')"
             [unit]="t('onePerMinute')"
+            [tooltipText]="t('tooltip.oscillating')"
           ></ga-input>
           <ga-input
             [control]="shiftAngle"
@@ -125,6 +129,7 @@
           [label]="t('operatingTemperature')"
           [unit]="t('degreeCelsius')"
           [customErrors]="operatingTemperatureErrors"
+          [tooltipText]="t('tooltip.operatingTemperature')"
         ></ga-input>
         <ga-input
           [control]="environmentTemperature"

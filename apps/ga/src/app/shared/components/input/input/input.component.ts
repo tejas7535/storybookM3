@@ -12,6 +12,6 @@ export class InputComponent {
   @Input() public hint?: string;
   @Input() public label?: string;
   @Input() public unit?: string;
-  @Input() public tooltipText?: string = 'test';
+  @Input() public tooltipText?: string;
   @Input() public customErrors?: { name: string; message: string }[];
 }

@@ -65,6 +65,12 @@
       "max": "Der eingegebene Wert ist zu hoch",
       "required": "Dieses Feld ist eine Pflichteingabe",
       "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur"
+    },
+    "tooltip": {
+      "loads": "The Grease App checks whether the selected bearing can transfer radial or axial loads. If the transmission of loads in the radial or axial direction is not possible, the corresponding load input is deactivated.\n\nFor some bearing types, the ratio of axial load to radial load shall be above a certain minimum number. For example, a tapered roller bearing or an angular contact ball bearing can only take up radial load if the axial load is sufficiently high. Please note the general information on the bearing types in the HR1 catalogue.",
+      "operatingTemperature": "Sollten Sie die vorliegende Betriebstemperatur nicht exakt kennen, tragen Sie bitte die geschätzte Betriebstemperatur ein. Eine Abweichung der Betriebstemperatur wirkt sich bei Multi-Purpose Greases (Mehrzweckfetten) in der Regel wie folgt aus (wenn die Temperatur oberhalb der Dauergrenztemperatur des Fettes liegt):\n\n• 15K höhere Temperatur: Verringerung der Fettgebrauchsdauer um ca. 50%\n• 10K höhere Temperatur: Verringerung der Fettgebrauchsdauer um ca. 35%\n• 5K höhere Temperatur: Verringerung der Fettgebrauchsdauer um ca. 20%\n\nEntsprechend reduziert sich auch die Nachschmierfrist bzw. es erhöht sich die automatische  Nachschmiermenge je Zeit.\n\nBitte nutzen Sie ggfs. die Funktion der Grease App, um durch Variation den Einfluss der Temperatur selbst besser einschätzen zu können.",
+      "rotationSpeed": "Bei der Relativdrehzahl handelt es sich um die Differenz zwischen der Innenring und der Außenringdrehzahl:\n\n• Bei stehendem Außenring: geben Sie bitte die Innenringdrehzahl ein.\n• Bei stehendem Innenring: geben Sie bitte die Außenringdrehzahl ein",
+      "oscillating": "Oszillierende Bewegungen beanspruchen das Schmierfett im Wälzkontakt stärker als rotative Bewegungen und werden deshalb mit dem Korrekturfaktor KR bei der Berechnung der Fettgebrauchsdauer und des Nachschmierintervalls berücksichtigt. Der Korrekturfaktor KR wirkt sich bei einem Schwenkwinkel kleiner 180° aus."
     }
   },
   "report": {

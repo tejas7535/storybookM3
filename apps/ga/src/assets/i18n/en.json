@@ -65,6 +65,12 @@
       "max": "The value is too high",
       "required": "This field is required",
       "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature"
+    },
+    "tooltip": {
+      "loads": "Die Grease App überprüft, ob das ausgewählte Lager Radial- bzw. Axiallasten übertragen kann. Falls die Übertragung von Lasten in radialer oder axialer Richtung nicht möglich ist, ist die entsprechende Lasteingabe deaktiviert.\n\nBei einigen Lagertypen muss das Verhältnis aus Axiallast und Radiallast einen gewissen Mindestwert aufweisen. So kann ein Kegelrollenlager oder ein Schrägkugellager nur dann Radiallast aufnehmen, wenn eine ausreichend hohe Axiallast vorliegt. Bitte beachten Sie die allgemeinen Informationen zu den Lagertypen im HR1-Katalog.",
+      "operatingTemperature": "If you do not know the exact operating temperature, please enter the estimated operating temperature. A deviation in the operating temperature usually has the following effect for multi-purpose greases (in case the temperature is above the upper continous temperature limit):\n\n• 15K higher temperature: Reduction of grease operating life by approx. 50%\n• 10K higher temperature: Reduction of grease operating life by approx 35%\n• 5K higher temperature: Reduction of grease operating life by approx 20%\n\nPlease use the function of the Grease App in order to be able to assess the influence of the temperature by its variation.\n\nPlease use the function of the Grease App in order to be able to assess the influence of the temperature by its variation.",
+      "rotationSpeed": "The relative speed is the difference between the inner ring and the outer ring speed:\n\n• When the outer ring is standing still: please enter the inner ring speed.\n• When the inner ring is standing still: please enter the outer ring speed.",
+      "oscillating": "Oscillating motion places a greater strain on the grease in the rolling element contact than rotating motion and is therefore taken into account with the correction factor KR in the calculation of the grease operating life and relubrication interval. The correction factor KR gets relevant for oscillating angles less than 180°."
     }
   },
   "report": {
