@@ -15,6 +15,7 @@
       "price": "Nettopreis",
       "percentDifference": "Preisunterschied %",
       "gqRating": "GQ Rating",
+      "gqPrice": "GQ Preis",
       "priceUnit": "pro",
       "priceSource": "Preisherkunft",
       "productionCity": "Ort",
@@ -42,7 +43,8 @@
         "filters": "Filter"
       },
       "sapGrossPrice": "SAP Bruttopreis",
-      "discount": "Rabatt %"
+      "discount": "Rabatt %",
+      "sapPrice": "SAP Preis"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

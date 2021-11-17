@@ -14,6 +14,7 @@
       "netValue": "Net Value",
       "price": "Net Price",
       "percentDifference": "Price Diff %",
+      "gqPrice": "GQ Price",
       "gqRating": "GQ Rating",
       "priceUnit": "per",
       "priceSource": "Price Source",
@@ -42,7 +43,8 @@
         "filters": "Filters"
       },
       "sapGrossPrice": "SAP Gross Price",
-      "discount": "Discount %"
+      "discount": "Discount %",
+      "sapPrice": "SAP Price"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

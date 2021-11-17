@@ -71,9 +71,19 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.gqPrice'),
+      field: 'recommendedPrice',
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.gqRating'),
       cellRenderer: 'GqRatingComponent',
       field: 'gqRating',
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.sapPrice'),
+      field: 'sapPrice',
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapGrossPrice'),
