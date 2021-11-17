@@ -28,6 +28,7 @@ export const parameters = {
           NavigationAtomic.Atoms,
           NavigationAtomic.Molecules,
           NavigationAtomic.Organisms,
+          NavigationAtomic.Templates,
           NavigationAtomic.Pages,
         ],
         NavigationMain.Components,

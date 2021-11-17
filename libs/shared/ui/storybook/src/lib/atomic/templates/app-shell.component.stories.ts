@@ -13,10 +13,14 @@ import { moduleMetadata, Story, Meta } from '@storybook/angular';
 
 import { AppShellComponent } from '@schaeffler/app-shell';
 
-import { UserPanelComponent } from '../../../../app-shell/src/lib/components/user-panel/user-panel.component';
-import READMEMd from '../../../../app-shell/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
-import { StorybookTranslocoModule } from '../../../.storybook/storybook-transloco.module';
+import { UserPanelComponent } from '../../../../../app-shell/src/lib/components/user-panel/user-panel.component';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import READMEMd from '../../../../../app-shell/README.md';
 
 interface AppShellStorybookTemplate {
   headerContent?: string;
@@ -26,10 +30,11 @@ interface AppShellStorybookTemplate {
 }
 
 export default {
-  title: `${NavigationMain.Components}/App Shell`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Templates}/App Shell`,
   component: AppShellComponent,
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
   },
   decorators: [
     moduleMetadata({

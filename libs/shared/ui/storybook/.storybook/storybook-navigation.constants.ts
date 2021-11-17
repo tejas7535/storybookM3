@@ -9,5 +9,6 @@ export enum NavigationAtomic {
   Atoms = 'Atoms',
   Molecules = 'Molecules',
   Organisms = 'Organisms',
+  Templates = 'Templates',
   Pages = 'Pages',
 }
