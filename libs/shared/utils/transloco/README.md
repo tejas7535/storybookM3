@@ -55,7 +55,8 @@ see [transloco testing](./testing/README.md)
 
 ## How to integrate the transloco-related UI components
 
-see [language-select UI component](components/src/language-select/README.md)
+* see [language-select UI component](components/src/language-select/README.md)
+* see [locale-select UI component](components/src/locale-select/README.md)
 
 ## Library Development
 

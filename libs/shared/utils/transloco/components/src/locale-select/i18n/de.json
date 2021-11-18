@@ -1,0 +1,5 @@
+{
+  "localeSelectLabel": "Lokalisierung wählen",
+  "localeSelectHint": "Beeinflusst Nummerntrennzeichen und Datumsformat",
+  "localeSelectTooltip": "Beispiel Deutsche Lokalisierung:\nDatum: 22.01.2021, Nummern: 2.893,32\n\nBeispiel US Lokalisierung:\nDatum: 01/22/2021, Nummern: 2,893.32"
+}

@@ -1,0 +1,5 @@
+{
+  "localeSelectLabel": "Select localization",
+  "localeSelectHint": "Affects number separators and date format",
+  "localeSelectTooltip": "Example German localization:\nDates: 22.01.2021, Numbers: 2.893,32\n\nExample US localization:\nDates: 01/22/2021, Numbers: 2,893.32"
+}
