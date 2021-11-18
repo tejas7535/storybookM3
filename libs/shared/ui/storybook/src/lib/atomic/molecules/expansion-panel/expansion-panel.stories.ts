@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -16,7 +16,7 @@ import READMEMd from './README.md';
 @Component({
   selector: 'expansion-panel-example',
   template: `
-    <mat-accordion>
+    <mat-accordion [multi]="accordion">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> This is the expansion title No. 1 </mat-panel-title>
@@ -37,9 +37,10 @@ import READMEMd from './README.md';
       </mat-expansion-panel>
     </mat-accordion>
   `,
-  styleUrls: ['./expansion-panel.scss'],
 })
-class ExpansionPanelExampleComponent {}
+class ExpansionPanelExampleComponent {
+  @Input() public accordion?: boolean = false;
+}
 
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/ExpansionPanel`,
@@ -51,7 +52,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.NeedsRevision],
+    badges: [Badges.Final],
   },
 } as Meta<ExpansionPanelExampleComponent>;
 
@@ -64,3 +65,8 @@ const Template: Story<ExpansionPanelExampleComponent> = (
 
 export const Default = Template.bind({});
 Default.args = {};
+
+export const Accordion = Template.bind({});
+Accordion.args = {
+  accordion: true,
+};

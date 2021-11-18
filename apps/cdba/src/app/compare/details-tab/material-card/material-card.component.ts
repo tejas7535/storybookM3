@@ -22,7 +22,6 @@ import { AdditionalInformation } from '../additional-information-widget/addition
 @Component({
   selector: 'cdba-material-card',
   templateUrl: './material-card.component.html',
-  styleUrls: ['./material-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaterialCardComponent implements OnInit {

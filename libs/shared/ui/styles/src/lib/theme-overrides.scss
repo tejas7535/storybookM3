@@ -50,4 +50,35 @@
     @apply whitespace-pre-line text-caption py-2 px-4;
     background: $schaeffler-carbon-gray; // Todo: change to whatever the new primary-900 will be called
   }
+
+  // expansion panel overrides
+  mat-accordion.mat-accordion {
+    mat-expansion-panel.mat-expansion-panel {
+      @apply shadow-none;
+      @apply border-l;
+      @apply border-r;
+      @apply border-b;
+      @apply border-lightBg;
+
+      &:first-of-type {
+        @apply border-t;
+      }
+
+      &.mat-expanded {
+        @apply border-t;
+
+        & + .mat-expansion-panel {
+          @apply border-t;
+        }
+      }
+
+      .mat-expansion-panel-header {
+        @apply rounded-none;
+      }
+
+      .mat-expansion-panel-body {
+        @apply p-0;
+      }
+    }
+  }
 }

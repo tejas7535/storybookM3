@@ -15,7 +15,6 @@ interface DimensionData {
 @Component({
   selector: 'cdba-dimensions-widget',
   templateUrl: './dimensions-widget.component.html',
-  styleUrls: ['./dimensions-widget.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DimensionsWidgetComponent {

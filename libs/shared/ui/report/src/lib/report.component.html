@@ -25,20 +25,26 @@
         <mat-expansion-panel
           *ngFor="let entry of result"
           [expanded]="entry.defaultOpen"
-          class="mat-elevation-z0 border-veryLight"
         >
           <mat-expansion-panel-header class="text-body-1">
             <mat-panel-title>{{ entry.title }}</mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-container *ngFor="let content of entry.content">
-            <div
-              [ngClass]="
-                content.nodeName === 'TABLE' ? '-mx-6 md:mx-0' : 'ml-0 mr-0'
-              "
-              class="leading-normal m-3 overflow-x-scroll sm:overflow-x-visible"
-              [innerHtml]="content.outerHTML | safeHtml"
-            ></div>
-          </ng-container>
+          <div class="px-6 pb-4">
+            <ng-container *ngFor="let content of entry.content">
+              <div
+                [ngClass]="
+                  content.nodeName === 'TABLE' ? '-mx-6 md:mx-0' : 'ml-0 mr-0'
+                "
+                class="
+                  leading-normal
+                  m-3
+                  overflow-x-scroll
+                  sm:overflow-x-visible
+                "
+                [innerHtml]="content.outerHTML | safeHtml"
+              ></div>
+            </ng-container>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-card-content>
@@ -50,21 +56,22 @@
         <mat-expansion-panel
           *ngFor="let section of result"
           [expanded]="section.defaultOpen"
-          class="mat-elevation-z0 border-veryLight"
         >
           <mat-expansion-panel-header class="text-body-1">
             <mat-panel-title *transloco="let t">
               {{ section.title }}
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <ng-template
-            [ngTemplateOutlet]="subordinateTemplate"
-            [ngTemplateOutletContext]="{
-              subordinate: section,
-              displayTitle: false
-            }"
-          >
-          </ng-template>
+          <div class="px-6 pb-4">
+            <ng-template
+              [ngTemplateOutlet]="subordinateTemplate"
+              [ngTemplateOutletContext]="{
+                subordinate: section,
+                displayTitle: false
+              }"
+            >
+            </ng-template>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-card-content>

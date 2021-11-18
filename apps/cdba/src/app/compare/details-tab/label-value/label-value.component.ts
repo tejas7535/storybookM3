@@ -8,4 +8,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class LabelValueComponent {
   @Input() label: string;
   @Input() value: string;
+  @Input() borderBottom: boolean;
 }

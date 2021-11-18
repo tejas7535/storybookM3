@@ -3,19 +3,19 @@
     *transloco="let t; read: 'compare.details.additionalInformation'"
   >
     <cdba-label-value
-      class="content"
       [label]="t('plant')"
       [value]="data.plant | undefinedAttributeFallback"
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('procurementType')"
       [value]="data.procurementType | undefinedAttributeFallback"
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('salesOrganization')"
       [value]="data.salesOrganization | undefinedAttributeFallback"
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
       class="content"
@@ -23,57 +23,57 @@
       [value]="
         data.actualQuantities[3] | translocoDecimal | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('actualQuantity', { year: currentYear - 3 })"
       [value]="
         data.actualQuantities[2] | translocoDecimal | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('actualQuantity', { year: currentYear - 2 })"
       [value]="
         data.actualQuantities[1] | translocoDecimal | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('actualQuantity', { year: currentYear - 1 })"
       [value]="
         data.actualQuantities[0] | translocoDecimal | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('plannedQuantity', { year: currentYear })"
       [value]="
         data.plannedQuantities[0]
           | translocoDecimal
           | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('plannedQuantity', { year: currentYear + 1 })"
       [value]="
         data.plannedQuantities[1]
           | translocoDecimal
           | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('plannedQuantity', { year: currentYear + 2 })"
       [value]="
         data.plannedQuantities[2]
           | translocoDecimal
           | undefinedAttributeFallback
       "
+      [borderBottom]="true"
     ></cdba-label-value>
     <cdba-label-value
-      class="content"
       [label]="t('plannedQuantity', { year: currentYear + 3 })"
       [value]="
         data.plannedQuantities[3]

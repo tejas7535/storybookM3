@@ -1,13 +1,6 @@
 <div
-  class="
-    flex
-    justify-between
-    items-center
-    h-14
-    pl-6
-    pr-6
-    border-b border-lightBg
-  "
+  class="flex justify-between items-center h-14 pl-6 pr-6"
+  [ngClass]="borderBottom ? 'border-b border-lightBg' : ''"
 >
   <label class="order-1 text-body-1">{{ label }}</label>
   <div data-cy="value" class="order-2 text-body-1 text-dark">{{ value }}</div>

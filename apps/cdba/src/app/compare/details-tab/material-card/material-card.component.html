@@ -4,12 +4,7 @@
   </h6>
 
   <ng-container *ngIf="!(errorMessage$ | ngrxPush)">
-    <mat-accordion
-      displayMode="flat"
-      togglePosition="before"
-      multi
-      *transloco="let t; read: 'compare.details'"
-    >
+    <mat-accordion multi *transloco="let t; read: 'compare.details'">
       <mat-expansion-panel
         *ngIf="
           dimensionAndWeightDetails$ | ngrxPush as dimensionAndWeightDetails
@@ -21,7 +16,7 @@
             {{ t('dimensions.title') }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="content">
+        <div class="px-6">
           <cdba-dimensions-widget [data]="dimensionAndWeightDetails">
           </cdba-dimensions-widget>
         </div>
@@ -37,7 +32,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <div class="content">
+        <div class="px-6">
           <cdba-additional-information-widget
             [data]="additionalInformation"
           ></cdba-additional-information-widget>

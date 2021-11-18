@@ -1,19 +1,5 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-mat-expansion-panel {
-  @apply border border-t-0;
-
-  &.mat-expansion-panel-spacing,
-  &.mat-expansion-panel:first-of-type {
-    @apply border-t;
-  }
-}
-
-.mat-expansion-panel-spacing
-  + mat-expansion-panel.mat-expansion-panel.mat-elevation-z0.border-veryLight {
-  @apply border-t rounded-t-[4px];
-}
-
 mat-card-content {
   h2 {
     @apply text-h6 font-medium mt-6;

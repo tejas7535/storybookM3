@@ -1,8 +1,8 @@
 <ng-container *transloco="let t">
   <mat-accordion *ngIf="rolesGroups && rolesGroups.length">
     <mat-expansion-panel *ngFor="let rolesGroup of rolesGroups">
-      <mat-expansion-panel-header class="!pl-4 !pt-3 !pb-4 !h-auto">
-        <mat-panel-title class="text-subtitle-1 text-dark">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           {{ rolesGroup.title }}
         </mat-panel-title>
       </mat-expansion-panel-header>
