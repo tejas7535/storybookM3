@@ -1,5 +1,4 @@
 import { moduleMetadata } from '@storybook/angular';
-import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { themes } from '@storybook/theming';
 
 import logo from './schaeffler-logo.svg';
@@ -70,15 +69,20 @@ export const parameters = {
     ],
   },
   docs: {
+    iframeHeight: 400,
     // use existing notes from Readme.md files as docs description
     extractComponentDescription: (component, { notes }) => {
       if (notes) {
-        return typeof notes === 'string' ? notes : notes.markdown || notes.text;
+        const notesOutput =
+          typeof notes === 'string' ? notes : notes.markdown || notes.text;
+
+        return (
+          notesOutput +
+          `<strong style="display: block; margin: 60px 0; font-size: 34px;">Stories</strong>`
+        );
       }
       return null;
     },
-    container: DocsContainer,
-    page: DocsPage,
   },
   badgesConfig: {
     [Badges.InProgress]: {
