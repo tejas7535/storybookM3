@@ -6,10 +6,10 @@ import {
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
@@ -21,6 +21,10 @@ const environment = {
   baseUrl: 'localhost:8000/api/v1',
 };
 
+Object.defineProperty(window, 'open', {
+  value: jest.fn(() => ({ focus: jest.fn() })),
+});
+
 @Injectable()
 class ExampleService {
   private readonly apiUrl = environment.baseUrl;
@@ -29,6 +33,14 @@ class ExampleService {
 
   public getPosts(): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/test`);
+  }
+}
+
+class MatSnackBarStub {
+  public open(): any {
+    return {
+      onAction: () => of({}),
+    };
   }
 }
 
@@ -44,7 +56,6 @@ describe(`BaseHttpInterceptor`, () => {
       provideTranslocoTestingModule({ en: {} }),
       HttpClientTestingModule,
       NoopAnimationsModule,
-      MatSnackBarModule,
     ],
     providers: [
       {
@@ -56,6 +67,7 @@ describe(`BaseHttpInterceptor`, () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      { provide: MatSnackBar, useClass: MatSnackBarStub },
     ],
   });
 
@@ -72,7 +84,9 @@ describe(`BaseHttpInterceptor`, () => {
   });
 
   describe('intercept', () => {
-    beforeEach(() => {});
+    beforeEach(() => {
+      jest.spyOn(snackBar, 'open');
+    });
 
     afterEach(() => {
       httpMock.verify();
@@ -90,51 +104,87 @@ describe(`BaseHttpInterceptor`, () => {
         httpRequest.flush('data');
       })
     );
-    test('should toast error message in error case', () => {
-      snackBar.open = jest.fn();
-      service.getPosts().subscribe({
-        next: () => {
-          expect(true).toEqual(false);
-        },
-        error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalled();
-        },
-      });
+    test(
+      'should toast error message in error case',
+      waitForAsync(() => {
+        service.getPosts().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (response) => {
+            expect(snackBar.open).toHaveBeenCalledWith(
+              'translate it',
+              'translate it',
+              { duration: 2000 }
+            );
+            expect(response).toBeTruthy();
+          },
+        });
 
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-      expect(httpRequest.request.method).toEqual('GET');
+        expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error({
-        status: 403,
-        error: {
-          message: 'error',
-          title: 'Service Unavailable',
-          detail: 'Damn monkey',
-        },
-      } as unknown as ErrorEvent);
-    });
-    test('should toast sap error message in error case', () => {
-      snackBar.open = jest.fn();
-      service.getPosts().subscribe({
-        next: () => {
-          expect(true).toEqual(false);
-        },
-        error: (_response) => {
-          expect(snackBar.open).toHaveBeenCalled();
-        },
-      });
+        httpRequest.error({
+          status: 403,
+          error: {
+            message: 'error',
+            title: 'Service Unavailable',
+            detail: 'Damn monkey',
+          },
+        } as unknown as ErrorEvent);
+      })
+    );
+    test(
+      'should show default error message in error case',
+      waitForAsync(() => {
+        service.getPosts().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (_response) => {
+            expect(snackBar.open).toHaveBeenCalledWith(
+              'translate it',
+              'translate it',
+              { duration: 2000 }
+            );
+          },
+        });
 
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-      expect(httpRequest.request.method).toEqual('GET');
+        expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error({
-        status: 403,
-        parameters: {
-          V102: 'test sap error message',
-        },
-      } as unknown as ErrorEvent);
-    });
+        httpRequest.error(undefined as unknown as ErrorEvent);
+      })
+    );
+    test(
+      'should toast sap error message in error case',
+      waitForAsync(() => {
+        service.getPosts().subscribe({
+          next: () => {
+            expect(true).toEqual(false);
+          },
+          error: (_response) => {
+            expect(snackBar.open).toHaveBeenCalledWith(
+              'V102: test sap error message',
+              'translate it',
+              { duration: 5000 }
+            );
+          },
+        });
+
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+        expect(httpRequest.request.method).toEqual('GET');
+
+        httpRequest.error({
+          status: 403,
+          parameters: {
+            V102: 'test sap error message',
+          },
+        } as unknown as ErrorEvent);
+      })
+    );
   });
 });

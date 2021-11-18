@@ -36,7 +36,10 @@ export class BaseHttpInterceptor implements HttpInterceptor {
         let errorMessage = '';
         let duration = 2000;
 
-        if (error.error?.parameters) {
+        if (
+          error.error?.parameters &&
+          Object.keys(error.error.parameters).length > 0
+        ) {
           // sap error message
           const parameterKey = Object.keys(error.error.parameters)[0];
 
