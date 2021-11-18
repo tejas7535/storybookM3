@@ -13,8 +13,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
@@ -96,14 +94,6 @@ describe('Create Case Effects', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { search: initialState } }),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
     ],
   });
 

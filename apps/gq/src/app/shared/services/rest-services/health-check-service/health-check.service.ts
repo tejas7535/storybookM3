@@ -1,8 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { DataService } from '@schaeffler/http';
+import { ApiVersion } from '../../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,9 @@ import { DataService } from '@schaeffler/http';
 export class HealthCheckService {
   private readonly PATH_HEALTH_CHECK = 'actuator/health';
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly http: HttpClient) {}
 
-  public pingHealthCheck(): Observable<true> {
-    return this.dataService.getAll(this.PATH_HEALTH_CHECK);
+  public pingHealthCheck(): Observable<boolean> {
+    return this.http.get<boolean>(`${ApiVersion.V1}/${this.PATH_HEALTH_CHECK}`);
   }
 }

@@ -1,13 +1,12 @@
-import { HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService, GetOptions } from '@schaeffler/http';
-
 import { SalesOrg } from '../../../../core/store/reducers/create-case/models';
 import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
+import { ApiVersion } from '../../../models';
 import { Customer } from '../../../models/customer';
 import { AutocompleteSearch, IdValue } from '../../../models/search';
 import { PriceService } from '../../price-service/price.service';
@@ -27,7 +26,7 @@ export class SearchService {
   private readonly PATH_CUSTOMERS = 'customers';
   private readonly PATH_PLS_AND_SERIES = 'materials/product-lines/customer';
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly http: HttpClient) {}
 
   public autocomplete(
     autocompleteSearch: AutocompleteSearch
@@ -36,15 +35,15 @@ export class SearchService {
       this.PARAM_SEARCH_FOR,
       autocompleteSearch.searchFor
     );
-    const options: GetOptions = {
-      params: httpParams,
-    };
+
     const filter = autocompleteSearch.filter.toLowerCase();
 
-    return this.dataService
-      .getAll<AutocompleteResponse>(
-        `${this.PATH_AUTO_COMPLETE}/${filter}`,
-        options
+    return this.http
+      .get<AutocompleteResponse>(
+        `${ApiVersion.V1}/${this.PATH_AUTO_COMPLETE}/${filter}`,
+        {
+          params: httpParams,
+        }
       )
       .pipe(
         map((res: AutocompleteResponse) =>
@@ -57,12 +56,11 @@ export class SearchService {
   }
   public getSalesOrgs(customerId: string): Observable<SalesOrg[]> {
     const httpParams = new HttpParams().set(this.PARAM_CUSTOMER_ID, customerId);
-    const options: GetOptions = {
-      params: httpParams,
-    };
 
-    return this.dataService
-      .getAll<string[]>(`${this.PATH_GET_SALES_ORGS}`, options)
+    return this.http
+      .get<string[]>(`${ApiVersion.V1}/${this.PATH_GET_SALES_ORGS}`, {
+        params: httpParams,
+      })
       .pipe(
         map((res: string[]) =>
           res.map((el, index) => ({ id: el, selected: index === 0 }))
@@ -74,8 +72,10 @@ export class SearchService {
   ): Observable<Customer> {
     const { customerNumber, salesOrg } = quotationIdentifier;
 
-    return this.dataService
-      .getAll<Customer>(`${this.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`)
+    return this.http
+      .get<Customer>(
+        `${ApiVersion.V1}/${this.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`
+      )
       .pipe(
         map((customer: Customer) => ({
           ...customer,
@@ -101,6 +101,9 @@ export class SearchService {
   public getPlsAndSeries(
     requestPayload: PLsSeriesRequest
   ): Observable<PLsSeriesResponse[]> {
-    return this.dataService.post(`${this.PATH_PLS_AND_SERIES}`, requestPayload);
+    return this.http.post<PLsSeriesResponse[]>(
+      `${ApiVersion.V1}/${this.PATH_PLS_AND_SERIES}`,
+      requestPayload
+    );
   }
 }

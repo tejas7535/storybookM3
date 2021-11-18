@@ -6,8 +6,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { HealthCheckService } from '../../../../shared/services/rest-services/health-check-service/health-check.service';
 import {
   pingHealthCheck,
@@ -27,17 +25,7 @@ describe('Health Check Effects', () => {
   const createService = createServiceFactory({
     service: HealthCheckEffects,
     imports: [HttpClientTestingModule],
-    providers: [
-      provideMockActions(() => actions$),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
+    providers: [provideMockActions(() => actions$)],
   });
 
   beforeEach(() => {

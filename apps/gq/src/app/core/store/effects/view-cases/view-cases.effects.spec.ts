@@ -11,7 +11,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
-import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
@@ -47,14 +46,6 @@ describe('View Cases Effects', () => {
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
     ],
   });
   beforeEach(() => {

@@ -5,8 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
+import { ApiVersion } from '../../../models';
 import {
   MaterialTableItem,
   ValidationDescription,
@@ -21,17 +20,6 @@ describe('MaterialService', () => {
   const createService = createServiceFactory({
     service: MaterialService,
     imports: [HttpClientTestingModule],
-    providers: [
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -58,7 +46,7 @@ describe('MaterialService', () => {
       service.validateMaterials(mockTable).subscribe((response) => {
         expect(response).toEqual([]);
       });
-      const req = httpMock.expectOne('/materials/validation');
+      const req = httpMock.expectOne(`${ApiVersion.V1}/materials/validation`);
       expect(req.request.method).toBe('POST');
       req.flush(mockTable);
     });
@@ -73,12 +61,12 @@ describe('MaterialService', () => {
           },
         },
       ];
-      service['dataService'].post = jest.fn();
+      service['http'].post = jest.fn();
 
       service.validateMaterials(mockTable);
 
-      expect(service['dataService'].post).toHaveBeenCalledWith(
-        service['PATH_VALIDATION'],
+      expect(service['http'].post).toHaveBeenCalledWith(
+        `${ApiVersion.V1}/${service['PATH_VALIDATION']}`,
         [mockTable[0].materialNumber]
       );
     });

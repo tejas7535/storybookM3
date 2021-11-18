@@ -8,8 +8,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { MATERIAL_SALESORG_MOCK } from '../../../../../testing/mocks/models';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { MaterialSalesOrg } from '../../../../shared/models/quotation-detail/material-sales-org.model';
@@ -35,18 +33,7 @@ describe('materialSalesOrg Effect', () => {
   const createService = createServiceFactory({
     service: MaterialSalesOrgEffect,
     imports: [HttpClientTestingModule],
-    providers: [
-      provideMockActions(() => actions$),
-      provideMockStore(),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
+    providers: [provideMockActions(() => actions$), provideMockStore()],
   });
   beforeEach(() => {
     spectator = createService();

@@ -9,13 +9,12 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
 import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { FilterNames } from '../../../autocomplete-input/filter-names.enum';
+import { ApiVersion } from '../../../models';
 import { AutocompleteSearch } from '../../../models/search';
 import { PLsSeriesRequest } from './models/pls-series-request.model';
 import { SearchService } from './search.service';
@@ -28,17 +27,6 @@ describe('SearchService', () => {
   const createService = createServiceFactory({
     service: SearchService,
     imports: [HttpClientTestingModule],
-    providers: [
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -68,7 +56,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/${service['PATH_AUTO_COMPLETE']}/testparam?search_for=hallo`
+        `${ApiVersion.V1}/${service['PATH_AUTO_COMPLETE']}/testparam?search_for=hallo`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
@@ -87,7 +75,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/${service['PATH_AUTO_COMPLETE']}/sap-quotation?search_for=test`
+        `${ApiVersion.V1}/${service['PATH_AUTO_COMPLETE']}/sap-quotation?search_for=test`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
@@ -102,7 +90,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/${service['PATH_GET_SALES_ORGS']}?${service['PARAM_CUSTOMER_ID']}=${customerId}`
+        `${ApiVersion.V1}/${service['PATH_GET_SALES_ORGS']}?${service['PARAM_CUSTOMER_ID']}=${customerId}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(customerId);
@@ -122,7 +110,9 @@ describe('SearchService', () => {
         expect(response).toEqual(mock.customerDetails);
       });
 
-      const req = httpMock.expectOne(`/${service['PATH_CUSTOMERS']}/1234/0267`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_CUSTOMERS']}/1234/0267`
+      );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
     });
@@ -139,7 +129,9 @@ describe('SearchService', () => {
         expect(response).toEqual({});
       });
 
-      const req = httpMock.expectOne(`/${service['PATH_PLS_AND_SERIES']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_PLS_AND_SERIES']}`
+      );
       expect(req.request.method).toBe(HttpMethod.POST);
     });
   });

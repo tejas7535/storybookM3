@@ -6,17 +6,17 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
-import { getPriceUnitsForQuotationItemIds } from '../../selectors';
-import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions.effects';
 import {
   loadExtendedComparableLinkedTransaction,
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from '../../actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
-import { ENV_CONFIG } from '@schaeffler/http';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
+import { getPriceUnitsForQuotationItemIds } from '../../selectors';
+import { ExtendedComparableLinkedTransactionsEffect } from './extended-comparable-linked-transactions.effects';
 
 describe('ExtendedComparableLinkedTransactionsEffect', () => {
   let spectator: SpectatorService<ExtendedComparableLinkedTransactionsEffect>;
@@ -31,18 +31,7 @@ describe('ExtendedComparableLinkedTransactionsEffect', () => {
   const createService = createServiceFactory({
     service: ExtendedComparableLinkedTransactionsEffect,
     imports: [HttpClientTestingModule],
-    providers: [
-      provideMockActions(() => actions$),
-      provideMockStore(),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
+    providers: [provideMockActions(() => actions$), provideMockStore()],
   });
   beforeEach(() => {
     spectator = createService();

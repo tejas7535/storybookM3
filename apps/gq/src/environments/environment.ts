@@ -1,7 +1,6 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
 import { Environment } from './environment.model';
 
 export const environment: Environment = {
@@ -11,8 +10,6 @@ export const environment: Environment = {
   clientId: '863a0742-f493-4499-bc30-9c81772fe96a',
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   appScope: 'api://acea7ac1-13bb-44b3-be1e-76fc729472be/gqapi',
-  baseUrl: 'http://localhost:8080/api/v1', // using local server
-  // baseUrl: 'https://guided-quoting-d.dev.dp.schaeffler/api/v1', // using dev env,
   envName: 'https://guided-quoting-d.dev.dp.schaeffler (dev)',
   applicationInsights: {
     applicationInsightsConfig: {

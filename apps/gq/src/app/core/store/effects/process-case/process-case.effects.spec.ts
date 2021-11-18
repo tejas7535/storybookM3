@@ -13,7 +13,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule } from '@schaeffler/snackbar';
 
 import {
@@ -105,14 +104,6 @@ describe('ProcessCaseEffect', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),
       provideMockStore(),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
     ],
   });
 

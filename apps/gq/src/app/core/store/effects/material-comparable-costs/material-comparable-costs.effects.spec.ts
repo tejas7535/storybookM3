@@ -8,8 +8,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { MaterialComparableCost } from '../../../../shared/models/quotation-detail/material-comparable-cost.model';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
@@ -34,18 +32,7 @@ describe('MaterialComparableCostEffect', () => {
   const createService = createServiceFactory({
     service: MaterialComparableCostEffect,
     imports: [HttpClientTestingModule],
-    providers: [
-      provideMockActions(() => actions$),
-      provideMockStore(),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
+    providers: [provideMockActions(() => actions$), provideMockStore()],
   });
   beforeEach(() => {
     spectator = createService();

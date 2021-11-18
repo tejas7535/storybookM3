@@ -8,8 +8,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import {
   loadSapPriceDetails,
   loadSapPriceDetailsFailure,
@@ -31,17 +29,7 @@ describe('SapPriceDetailsEffects', () => {
   const createService = createServiceFactory({
     service: SapPriceDetailsEffects,
     imports: [HttpClientTestingModule],
-    providers: [
-      provideMockActions(() => actions$),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
+    providers: [provideMockActions(() => actions$)],
   });
   beforeEach(() => {
     spectator = createService();

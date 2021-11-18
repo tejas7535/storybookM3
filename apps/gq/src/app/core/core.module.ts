@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -14,7 +15,6 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpModule } from '@schaeffler/http';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -41,6 +41,7 @@ import { StoreModule } from './store';
     HeaderModule,
     UserSettingsModule,
     MatButtonModule,
+    MatSnackBarModule,
     LoadingSpinnerModule,
     MaintenanceModule,
 
@@ -61,9 +62,6 @@ import { StoreModule } from './store';
         useValue: localStorage,
       },
     }),
-
-    // HTTP
-    HttpModule.forRoot({ environment }),
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),

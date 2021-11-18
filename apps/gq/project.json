@@ -97,7 +97,8 @@
       },
       "configurations": {
         "local": {
-          "browserTarget": "gq:build:local"
+          "browserTarget": "gq:build:local",
+          "proxyConfig": "apps/gq/proxy.conf.js"
         },
         "dev": {
           "browserTarget": "gq:build:dev"

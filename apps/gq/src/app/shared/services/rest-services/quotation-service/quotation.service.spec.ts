@@ -9,11 +9,10 @@ import {
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { CreateCase } from '../../../../core/store/reducers/create-case/models';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { ApiVersion } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationService } from './quotation.service';
 
@@ -25,16 +24,6 @@ describe('QuotationService', () => {
   const createService = createServiceFactory({
     service: QuotationService,
     imports: [HttpClientTestingModule],
-    providers: [
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
 
   beforeEach(() => {
@@ -54,7 +43,9 @@ describe('QuotationService', () => {
         .uploadSelectionToSap(gqPositionIds)
         .subscribe((res) => expect(res).toEqual([]));
 
-      const req = httpMock.expectOne(`/${service['PATH_UPLOAD_SELECTION']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_UPLOAD_SELECTION']}`
+      );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(gqPositionIds);
     });
@@ -67,7 +58,7 @@ describe('QuotationService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `/${service['PATH_QUOTATIONS']}/${gqId}/${service['PATH_REFRESH_SAP_PRICING']}`
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}/${gqId}/${service['PATH_REFRESH_SAP_PRICING']}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqId);
@@ -79,7 +70,9 @@ describe('QuotationService', () => {
       const gqId = ['123'];
       service.deleteCases(gqId).subscribe((res) => expect(res).toEqual([]));
 
-      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+      );
       expect(req.request.method).toBe(HttpMethod.DELETE);
       req.flush(gqId);
     });
@@ -96,7 +89,9 @@ describe('QuotationService', () => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
-      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}/${gqId}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}/${gqId}`
+      );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
     });
@@ -106,7 +101,9 @@ describe('QuotationService', () => {
     test('should call DataService getAll', () => {
       service.getCases().subscribe((res) => expect(res).toEqual([]));
 
-      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+      );
       expect(req.request.method).toBe(HttpMethod.GET);
     });
   });
@@ -125,7 +122,9 @@ describe('QuotationService', () => {
       service.createCase(mockBody).subscribe((response) => {
         expect(response).toEqual([]);
       });
-      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+      );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
     });
@@ -137,7 +136,9 @@ describe('QuotationService', () => {
       service.importCase(importCase).subscribe((response) => {
         expect(response).toEqual([]);
       });
-      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+      );
       expect(req.request.method).toBe(HttpMethod.PUT);
       req.flush(importCase);
     });
@@ -158,7 +159,9 @@ describe('QuotationService', () => {
       service.createCustomerCase(mockBody).subscribe((response) => {
         expect(response).toEqual([]);
       });
-      const req = httpMock.expectOne(`/${service['PATH_CUSTOMER_QUOTATION']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_CUSTOMER_QUOTATION']}`
+      );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
     });

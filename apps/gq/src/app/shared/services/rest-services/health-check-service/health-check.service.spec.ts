@@ -5,37 +5,29 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
-
+import { ApiVersion } from '../../../models';
 import { HealthCheckService } from './health-check.service';
 
 describe('HealthCheckService', () => {
   let httpMock: HttpTestingController;
   let spectator: SpectatorService<HealthCheckService>;
   let service: HealthCheckService;
+
   const createService = createServiceFactory({
     service: HealthCheckService,
     imports: [HttpClientTestingModule],
-    providers: [
-      DataService,
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
   });
+
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
     httpMock = spectator.inject(HttpTestingController);
   });
+
   afterEach(() => {
     httpMock.verify();
   });
+
   test('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -44,7 +36,9 @@ describe('HealthCheckService', () => {
     test('should call', () => {
       service.pingHealthCheck().subscribe((res) => expect(res).toEqual({}));
 
-      const req = httpMock.expectOne(`/${service['PATH_HEALTH_CHECK']}`);
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_HEALTH_CHECK']}`
+      );
       expect(req.request.method).toBe('GET');
     });
   });

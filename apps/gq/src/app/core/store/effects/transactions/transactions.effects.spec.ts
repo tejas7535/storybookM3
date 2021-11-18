@@ -8,8 +8,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { ENV_CONFIG } from '@schaeffler/http';
-
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
@@ -36,18 +34,7 @@ describe('TransactionsEffect', () => {
   const createService = createServiceFactory({
     service: TransactionsEffect,
     imports: [HttpClientTestingModule],
-    providers: [
-      provideMockActions(() => actions$),
-      provideMockStore(),
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
-        },
-      },
-    ],
+    providers: [provideMockActions(() => actions$), provideMockStore()],
   });
   beforeEach(() => {
     spectator = createService();
