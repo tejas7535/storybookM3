@@ -1,5 +1,8 @@
 import { moduleMetadata } from '@storybook/angular';
 import { DocsPage, DocsContainer } from '@storybook/addon-docs';
+import { themes } from '@storybook/theming';
+
+import logo from './schaeffler-logo.svg';
 
 import { StorybookTranslocoModule } from './storybook-transloco.module';
 import {
@@ -46,6 +49,16 @@ export const parameters = {
   },
   darkMode: {
     stylePreview: true,
+    light: {
+      ...themes.normal,
+      brandTitle: 'Schaeffler Design System',
+      brandImage: logo,
+    },
+    dark: {
+      ...themes.dark,
+      brandTitle: 'Schaeffler Design System',
+      brandImage: logo,
+    },
   },
   backgrounds: {
     default: 'light',
