@@ -9,30 +9,9 @@
     [reloadOnLanguageChange]="true"
     class="block mb-3"
   ></schaeffler-language-select>
-  <div class="flex">
-    <mat-form-field appearance="outline" class="w-full">
-      <mat-label>{{ t('language.localizationSelect.label') }}</mat-label>
-      <mat-select
-        [formControl]="localeSelectControl"
-        (selectionChange)="onLocaleSelectionChange($event.value)"
-      >
-        <mat-option
-          *ngFor="let locale of availableLocales"
-          [value]="locale.id"
-          >{{ locale.label }}</mat-option
-        >
-      </mat-select>
-      <mat-hint>{{ t('language.localizationSelect.hint') }}</mat-hint>
-    </mat-form-field>
-    <div class="flex items-center h-[65px] pl-3">
-      <mat-icon
-        color="primary"
-        matTooltip="{{ t('language.localizationSelect.tooltip') }}"
-        matTooltipPosition="after"
-        matTooltipClass="!whitespace-pre-line !max-w-[400px]"
-      >
-        info_outline
-      </mat-icon>
-    </div>
-  </div>
+  <schaeffler-locale-select
+    [reloadOnLocaleChange]="true"
+    [availableLocales]="availableLocales"
+    [defaultLocale]="defaultLocale"
+  ></schaeffler-locale-select>
 </div>
