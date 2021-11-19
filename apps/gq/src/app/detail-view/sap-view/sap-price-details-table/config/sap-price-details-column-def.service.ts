@@ -11,6 +11,11 @@ import { ColumnUtilityService } from '../../../../shared/services/column-utility
 export class SapPriceDetailsColumnDefService {
   COLUMN_DEFS: ColDef[] = [
     {
+      field: 'sequenceId',
+      hide: true,
+      sort: 'asc',
+    },
+    {
       headerName: translate('sapView.sapConditionsTable.condition'),
       field: 'sapConditionType',
     },

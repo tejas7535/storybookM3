@@ -10,4 +10,5 @@ export const SAP_PRICE_DETAIL_MOCK: SapPriceDetail = {
   conditionValue: 1,
   validTo: new Date(),
   pricingUnit: 1,
+  sequenceId: 1,
 };

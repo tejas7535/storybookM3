@@ -9,4 +9,5 @@ export interface SapPriceDetail {
   conditionUnit: string;
   validTo: Date;
   calculationType: CalculationType;
+  sequenceId: number;
 }
