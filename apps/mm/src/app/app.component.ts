@@ -11,7 +11,7 @@ import {
   TranslocoService,
 } from '@ngneat/transloco';
 
-import { FooterLink } from '@schaeffler/footer';
+import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 @Component({
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public cookieSettings = translate('legal.cookieSettings');
   public destroy$ = new Subject<void>();
 
-  public footerLinks$ = new BehaviorSubject<FooterLink[]>(
+  public footerLinks$ = new BehaviorSubject<AppShellFooterLink[]>(
     this.updateFooterLinks()
   );
 

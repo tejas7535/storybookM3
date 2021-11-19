@@ -9,7 +9,6 @@ import {
 } from '@ngneat/transloco-persist-lang';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { FooterModule } from '@schaeffler/footer';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -65,6 +64,6 @@ export const availableLanguages: { id: string; label: string }[] = [
       multi: true,
     },
   ],
-  exports: [FooterModule, AppShellModule, StoreModule, SharedTranslocoModule],
+  exports: [AppShellModule, StoreModule, SharedTranslocoModule],
 })
 export class CoreModule {}

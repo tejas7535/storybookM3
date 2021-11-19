@@ -12,7 +12,7 @@ import {
 } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { FooterLink } from '@schaeffler/footer';
+import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { availableLanguages } from './core/core.module';
@@ -38,9 +38,8 @@ export class AppComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public footerLinks$: BehaviorSubject<FooterLink[]> = new BehaviorSubject(
-    this.updateFooterLinks()
-  );
+  public footerLinks$: BehaviorSubject<AppShellFooterLink[]> =
+    new BehaviorSubject(this.updateFooterLinks());
   public destroy$: Subject<void> = new Subject<void>();
 
   public availableLanguages = availableLanguages;
