@@ -4,7 +4,7 @@
   "guideValues": "* All of the above are guide values",
   "errorsWarningsNotes": "Errors, Warnings & Notes",
   "initalGreaseQuantity": "Inital grease quantity",
-  "manualRelubricationQuantityInterval": "Manual relubrication quantity/interval",
+  "manualRelubricationQuantityInterval": "Manual relubrication quantity / interval",
   "manualRelubricationQuantityIntervalTooltip": "For reasons of operational safety, relubrication periods > 1 year are not recommended.\n\nIt is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
   "automaticRelubricationQuantityPerDay": "Automatic relubrication quantity per day",
   "automaticRelubricationQuantityPerDayTooltip": "Lubricating grease quantity per time for automatic relubrication.",
