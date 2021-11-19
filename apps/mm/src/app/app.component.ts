@@ -83,7 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  private updateFooterLinks(): FooterLink[] {
+  private updateFooterLinks(): AppShellFooterLink[] {
     return [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
