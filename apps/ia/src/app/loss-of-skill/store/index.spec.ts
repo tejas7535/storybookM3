@@ -27,8 +27,6 @@ describe('LossOfSkill Reducer', () => {
     test('should unset loading and set lost job profiles', () => {
       const lostJobProfiles: LostJobProfile[] = [
         {
-          amountOfEmployees: 10,
-          amountOfLeavers: 3,
           job: 'Foo Bar',
           employees: [],
           leavers: [],

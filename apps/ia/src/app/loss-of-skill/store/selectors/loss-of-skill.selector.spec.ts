@@ -14,8 +14,6 @@ describe('LossOfSkill Selector', () => {
         data: [
           {
             job: 'Software Engineer',
-            amountOfEmployees: 10,
-            amountOfLeavers: 1,
             employees: [],
             leavers: [],
             openPositions: 1,

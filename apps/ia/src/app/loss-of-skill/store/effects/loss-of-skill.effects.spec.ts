@@ -130,16 +130,12 @@ describe('LossOfSkill Effects', () => {
       marbles((m) => {
         const lostJobProfiles: LostJobProfile[] = [
           {
-            amountOfEmployees: 10,
-            amountOfLeavers: 3,
             job: 'Data Scientist',
             employees: [],
             leavers: [],
             openPositions: 1,
           },
           {
-            amountOfEmployees: 10,
-            amountOfLeavers: 3,
             job: 'Software Engineer',
             employees: [],
             leavers: [],

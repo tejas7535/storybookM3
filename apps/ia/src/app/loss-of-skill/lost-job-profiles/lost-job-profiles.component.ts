@@ -52,16 +52,17 @@ export class LostJobProfilesComponent implements OnChanges {
       flex: 2,
     },
     {
-      field: 'amountOfEmployees',
+      field: 'employees',
       headerName: translate('lossOfSkill.lostJobProfiles.table.workforce'),
       filter: 'agNumberColumnFilter',
       flex: 1,
       cellClass: 'amount-cell',
       cellRenderer: 'amountCellRenderer',
       onCellClicked: (params) => this.handleCellClick(params, 'workforce'),
+      valueGetter: (params) => params.data.employees?.length,
     },
     {
-      field: 'amountOfLeavers',
+      field: 'leavers',
       headerName: translate('lossOfSkill.lostJobProfiles.table.leavers'),
       filter: 'agNumberColumnFilter',
       sort: 'desc',
@@ -69,6 +70,7 @@ export class LostJobProfilesComponent implements OnChanges {
       cellRenderer: 'amountCellRenderer',
       cellClass: 'amount-cell',
       onCellClicked: (params) => this.handleCellClick(params, 'leavers'),
+      valueGetter: (params) => params.data.leavers?.length,
     },
     {
       field: 'openPositions',
