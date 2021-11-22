@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
-import { API } from '@cdba/shared/constants/api';
+import { API, DetailPath } from '@cdba/shared/constants/api';
 
 import {
   BomIdentifier,
@@ -26,11 +26,6 @@ import {
   providedIn: 'root',
 })
 export class DetailService {
-  private readonly DETAIL_PATH = 'detail';
-  private readonly CALCULATIONS_PATH = 'calculations';
-  private readonly BOM_PATH = 'bom';
-  private readonly DRAWINGS_PATH = 'products/drawings';
-
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
   private readonly PARAM_IDENTIFICATION_HASH = 'identification_hash';
@@ -118,7 +113,7 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant);
 
-    const path = `${API.v1}/${this.DETAIL_PATH}?${params.toString()}&${
+    const path = `${API.v1}/${DetailPath.Detail}?${params.toString()}&${
       this.PARAM_IDENTIFICATION_HASH
     }=${encodeURIComponent(item.identificationHash)}`;
 
@@ -127,7 +122,7 @@ export class DetailService {
     });
   }
 
-  public calculations(
+  public getCalculations(
     materialNumber: string,
     plant: string
   ): Observable<Calculation[]> {
@@ -136,7 +131,7 @@ export class DetailService {
       .set(this.PARAM_PLANT, plant);
 
     return this.httpClient
-      .get<CalculationsResult>(`${API.v1}/${this.CALCULATIONS_PATH}`, {
+      .get<CalculationsResult>(`${API.v1}/${DetailPath.Calculations}`, {
         params,
         context: withCache(),
       })
@@ -154,7 +149,7 @@ export class DetailService {
       .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant);
 
     return this.httpClient
-      .get<BomResult>(`${API.v1}/${this.BOM_PATH}`, {
+      .get<BomResult>(`${API.v1}/${DetailPath.Bom}`, {
         params,
         context: withCache(),
       })
@@ -179,7 +174,7 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
       .set(this.PARAM_PLANT, plant);
 
-    return this.httpClient.get<Drawing[]>(`${API.v1}/${this.DRAWINGS_PATH}`, {
+    return this.httpClient.get<Drawing[]>(`${API.v1}/${DetailPath.Drawings}`, {
       params,
       context: withCache(),
     });

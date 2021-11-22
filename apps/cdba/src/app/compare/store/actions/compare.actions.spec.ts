@@ -36,7 +36,7 @@ describe('Compare Actions', () => {
   const materialNumber = 'Material-12345';
   const plant = '0061';
   const index = 1;
-  const errorMessage = 'Please Help';
+  const error = 'Please Help';
   const referenceTypeIdentifier = REFERENCE_TYPE_IDENTIFIER_MOCK;
   const referenceType = REFERENCE_TYPE_MOCK;
   const calculationItems = CALCULATIONS_MOCK;
@@ -95,12 +95,12 @@ describe('Compare Actions', () => {
     });
 
     test('loadProductDetailsFailure', () => {
-      action = loadProductDetailsFailure({ index, errorMessage });
+      action = loadProductDetailsFailure({ index, error });
       expectedType = '[Compare] Load Product Details Failure';
 
       expect(action).toEqual({
         index,
-        errorMessage,
+        error,
         type: expectedType,
       });
     });
@@ -141,11 +141,11 @@ describe('Compare Actions', () => {
     });
 
     test('loadCalculationHistoryFailure', () => {
-      action = loadCalculationHistoryFailure({ errorMessage, index });
+      action = loadCalculationHistoryFailure({ error, index });
       expectedType = '[Compare] Load Calculation History Failure';
 
       expect(action).toEqual({
-        errorMessage,
+        error,
         index,
         type: expectedType,
       });
@@ -187,11 +187,11 @@ describe('Compare Actions', () => {
       });
     });
     test('loadBomFailure', () => {
-      action = loadBomFailure({ errorMessage, index });
+      action = loadBomFailure({ error, index });
       expectedType = '[Compare] Load BOM Failure';
 
       expect(action).toEqual({
-        errorMessage,
+        error,
         index,
         type: expectedType,
       });

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -51,6 +52,7 @@ describe('CompareEffects', () => {
   let store: any;
   let router: Router;
 
+  const error = new HttpErrorResponse({});
   const bomIdentifier = BOM_IDENTIFIER_MOCK;
 
   const createService = createServiceFactory({
@@ -201,7 +203,6 @@ describe('CompareEffects', () => {
     const index = 0;
     const materialNumber = '12434';
     const plant = '0061';
-    const errorMessage = 'Bad stuff going on';
 
     beforeEach(() => {
       action = loadCalculationHistory({ index, materialNumber, plant });
@@ -217,7 +218,7 @@ describe('CompareEffects', () => {
         const response = m.cold('-a|', {
           a: items,
         });
-        detailService.calculations = jest.fn(() => response);
+        detailService.getCalculations = jest.fn(() => response);
 
         const result = loadCalculationHistorySuccess({ index, items });
         const expected = m.cold('--b', { b: result });
@@ -231,12 +232,15 @@ describe('CompareEffects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadCalculationHistoryFailure({ index, errorMessage });
+        const result = loadCalculationHistoryFailure({
+          index,
+          error: JSON.stringify(error),
+        });
 
-        const response = m.cold('-#|', undefined, errorMessage);
+        const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.calculations = jest.fn(() => response);
+        detailService.getCalculations = jest.fn(() => response);
 
         m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
       })
@@ -245,7 +249,6 @@ describe('CompareEffects', () => {
 
   describe('loadBillOfMaterial$', () => {
     const index = 0;
-    const errorMessage = 'Bad stuff going on';
 
     beforeEach(() => {
       action = loadBom({ index, bomIdentifier });
@@ -275,9 +278,9 @@ describe('CompareEffects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadBomFailure({ index, errorMessage });
+        const result = loadBomFailure({ index, error: JSON.stringify(error) });
 
-        const response = m.cold('-#|', undefined, errorMessage);
+        const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
         detailService.getBom = jest.fn(() => response);
@@ -368,7 +371,7 @@ describe('CompareEffects', () => {
       },
     };
     const result = loadCalculationHistoryFailure({
-      errorMessage: 'unauthorized',
+      error: 'unauthorized',
       index: actionPayloadMock.index,
     });
 
@@ -389,7 +392,7 @@ describe('CompareEffects', () => {
         m.flush();
         expect(store.dispatch).toHaveBeenCalledWith(
           loadCalculationHistoryFailure({
-            errorMessage: 'unauthorized',
+            error: 'unauthorized',
             index: actionPayloadMock.index,
           })
         );
@@ -411,7 +414,7 @@ describe('CompareEffects', () => {
         m.flush();
         expect(store.dispatch).toHaveBeenCalledWith(
           loadBomFailure({
-            errorMessage: 'unauthorized',
+            error: 'unauthorized',
             index: actionPayloadMock.index,
           })
         );

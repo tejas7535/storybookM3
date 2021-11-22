@@ -8,18 +8,18 @@ import {
 import { CompareState, initialState } from '../reducers/compare.reducer';
 import {
   getAdditionalInformation,
-  getBomErrorMessage,
+  getBomError,
   getBomIdentifierForSelectedCalculation,
   getBomItems,
   getBomLoading,
   getCalculations,
-  getCalculationsErrorMessage,
+  getCalculationsError,
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
   getDimensionAndWeightDetails,
   getObjectsAreEqual,
   getMaterialDesignation,
-  getProductErrorMessage,
+  getProductError,
   getSelectedCalculation,
   getSelectedCalculationNodeId,
   getSelectedReferenceTypeIdentifiers,
@@ -81,21 +81,21 @@ describe('Compare Selectors', () => {
     });
   });
 
-  describe('getProductErrorMessage', () => {
+  describe('getProductError', () => {
     it('should return undefined for non existing index', () => {
-      result = getProductErrorMessage(fakeState, 99);
+      result = getProductError(fakeState, 99);
 
       expect(result).toBeUndefined();
     });
     it('should return undefined for non existing product for provided index', () => {
-      result = getProductErrorMessage(fakeState, 3);
+      result = getProductError(fakeState, 3);
 
       expect(result).toBeUndefined();
     });
 
     it('should return error message for provided index', () => {
       expected = '404 - Not Found';
-      result = getProductErrorMessage(fakeState, 2);
+      result = getProductError(fakeState, 2);
 
       expect(result).toEqual(expected);
     });
@@ -220,21 +220,21 @@ describe('Compare Selectors', () => {
     });
   });
 
-  describe('getCalculationsErrorMessage', () => {
+  describe('getCalculationsError', () => {
     it('should return undefined for non existing index', () => {
-      result = getCalculationsErrorMessage(fakeState, 99);
+      result = getCalculationsError(fakeState, 99);
 
       expect(result).toBeUndefined();
     });
     it('should return undefined for non existing calculation for provided index', () => {
-      result = getCalculationsErrorMessage(fakeState, 3);
+      result = getCalculationsError(fakeState, 3);
 
       expect(result).toBeUndefined();
     });
 
     it('should return error message for provided index', () => {
       expected = 'Service unavailable';
-      result = getCalculationsErrorMessage(fakeState, 2);
+      result = getCalculationsError(fakeState, 2);
 
       expect(result).toEqual(expected);
     });
@@ -319,21 +319,21 @@ describe('Compare Selectors', () => {
     });
   });
 
-  describe('getBomErrorMessage', () => {
+  describe('getBomError', () => {
     it('should return undefined for non existing index', () => {
-      result = getBomErrorMessage(fakeState, 99);
+      result = getBomError(fakeState, 99);
 
       expect(result).toBeUndefined();
     });
     it('should return undefined for non existing bom for provided index', () => {
-      result = getBomErrorMessage(fakeState, 3);
+      result = getBomError(fakeState, 3);
 
       expect(result).toBeUndefined();
     });
 
     it('should return error message for provided index', () => {
       expected = 'Service unavailable';
-      result = getBomErrorMessage(fakeState, 2);
+      result = getBomError(fakeState, 2);
 
       expect(result).toEqual(expected);
     });

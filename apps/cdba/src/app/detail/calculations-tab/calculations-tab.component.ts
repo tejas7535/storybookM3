@@ -9,7 +9,7 @@ import { Calculation } from '@cdba/shared/models';
 import { selectCalculations } from '../../core/store';
 import {
   getCalculations,
-  getCalculationsErrorMessage,
+  getCalculationsError,
   getCalculationsLoading,
   getSelectedCalculationNodeIds,
 } from '../../core/store/selectors';
@@ -31,7 +31,7 @@ export class CalculationsTabComponent implements OnInit {
     this.calculations$ = this.store.select(getCalculations);
     this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
     this.loading$ = this.store.select(getCalculationsLoading);
-    this.errorMessage$ = this.store.select(getCalculationsErrorMessage);
+    this.errorMessage$ = this.store.select(getCalculationsError);
   }
 
   public selectCalculations(

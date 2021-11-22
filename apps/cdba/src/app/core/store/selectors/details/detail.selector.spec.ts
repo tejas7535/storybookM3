@@ -17,7 +17,7 @@ import {
   initialState,
 } from '../../reducers/detail/detail.reducer';
 import {
-  getBomErrorMessage,
+  getBomError,
   getBomIdentifierForSelectedCalculation,
   getBomItems,
   getBomLoading,
@@ -26,14 +26,14 @@ import {
   getChildrenOfSelectedBomItem,
   getCustomerDetails,
   getDimensionAndWeightDetails,
-  getDrawingsErrorMessage,
+  getDrawingsError,
   getMaterialDesignation,
   getNodeIdOfSelectedDrawing,
   getPriceDetails,
   getProductionDetails,
   getQuantitiesDetails,
   getReferenceType,
-  getReferenceTypeErrorMessage,
+  getReferenceTypeError,
   getReferenceTypeLoading,
   getSalesDetails,
   getSelectedCalculation,
@@ -73,13 +73,13 @@ describe('Detail Selector', () => {
     });
   });
 
-  describe('getReferenceTypeErrorMessage', () => {
+  describe('getReferenceTypeError', () => {
     test('should return error message', () => {
-      expect(getReferenceTypeErrorMessage(fakeState)).toEqual('Error');
+      expect(getReferenceTypeError(fakeState)).toEqual('Error');
     });
 
     test('should return undefined', () => {
-      expect(getReferenceTypeErrorMessage(initialDetailState)).toBeUndefined();
+      expect(getReferenceTypeError(initialDetailState)).toBeUndefined();
     });
   });
 
@@ -195,10 +195,10 @@ describe('Detail Selector', () => {
     });
   });
 
-  describe('getBomErrorMessage', () => {
+  describe('getBomError', () => {
     test('should return the bom error message', () => {
-      expect(getBomErrorMessage(initialDetailState)).toBeUndefined();
-      expect(getBomErrorMessage(fakeState)).toEqual('Error');
+      expect(getBomError(initialDetailState)).toBeUndefined();
+      expect(getBomError(fakeState)).toEqual('Error');
     });
   });
 
@@ -265,9 +265,9 @@ describe('Detail Selector', () => {
 
     describe('getDrawingsLoading', () => {});
 
-    describe('getDrawingsErrorMessage', () => {
+    describe('getDrawingsError', () => {
       it('should return errorMessage if present', () => {
-        expect(getDrawingsErrorMessage(fakeState)).toEqual('404');
+        expect(getDrawingsError(fakeState)).toEqual('404');
       });
 
       it('should return noDrawingsText if loading false and drawing items empty', () => {
@@ -283,13 +283,13 @@ describe('Detail Selector', () => {
           },
         };
 
-        expect(getDrawingsErrorMessage(notFoundState)).toEqual(
+        expect(getDrawingsError(notFoundState)).toEqual(
           'detail.drawings.noDrawingsText'
         );
       });
 
       it('should return undefined as fallback', () => {
-        expect(getDrawingsErrorMessage(initialDetailState)).toBeUndefined();
+        expect(getDrawingsError(initialDetailState)).toBeUndefined();
       });
     });
 

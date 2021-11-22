@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import {
   getDrawings,
-  getDrawingsErrorMessage,
+  getDrawingsError,
   getDrawingsLoading,
   getMaterialDesignation,
   getNodeIdOfSelectedDrawing,
@@ -32,7 +32,7 @@ export class DrawingsComponent implements OnInit {
     this.drawings$ = this.store.select(getDrawings);
     this.selectedNodeId$ = this.store.select(getNodeIdOfSelectedDrawing);
     this.loading$ = this.store.select(getDrawingsLoading);
-    this.errorMessage$ = this.store.select(getDrawingsErrorMessage);
+    this.errorMessage$ = this.store.select(getDrawingsError);
   }
 
   public selectDrawing(event: { nodeId: string; drawing: Drawing }): void {

@@ -11,6 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
+import { DetailFailureEffects } from '../core/store/effects/detail/detail-failure.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { DetailRoutingModule } from './detail-routing.module';
@@ -24,7 +25,7 @@ import { ShareButtonModule } from '@schaeffler/share-button';
     SharedTranslocoModule,
     DetailRoutingModule,
     StoreModule.forFeature('detail', detailReducer),
-    EffectsModule.forFeature([DetailEffects]),
+    EffectsModule.forFeature([DetailEffects, DetailFailureEffects]),
     MatSnackBarModule,
     PageHeaderModule,
     TabsHeaderModule,

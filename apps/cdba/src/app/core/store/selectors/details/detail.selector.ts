@@ -29,9 +29,9 @@ export const getReferenceTypeLoading = createSelector(
   (state: DetailState) => state.detail.loading
 );
 
-export const getReferenceTypeErrorMessage = createSelector(
+export const getReferenceTypeError = createSelector(
   getDetailState,
-  (state: DetailState) => state.detail.errorMessage
+  (state: DetailState) => state.detail.error
 );
 
 export const getMaterialDesignation = createSelector(
@@ -143,9 +143,9 @@ export const getCalculationsLoading = createSelector(
   (state: DetailState) => state.calculations.loading
 );
 
-export const getCalculationsErrorMessage = createSelector(
+export const getCalculationsError = createSelector(
   getDetailState,
-  (state: DetailState) => state.calculations.errorMessage
+  (state: DetailState) => state.calculations.error
 );
 
 export const getSelectedCalculation = createSelector(
@@ -176,9 +176,9 @@ export const getBomLoading = createSelector(
   (state: DetailState) => state.bom.loading
 );
 
-export const getBomErrorMessage = createSelector(
+export const getBomError = createSelector(
   getDetailState,
-  (state: DetailState) => state.bom.errorMessage
+  (state: DetailState) => state.bom.error
 );
 
 export const getChildrenOfSelectedBomItem = createSelector(
@@ -239,11 +239,11 @@ export const getDrawingsLoading = createSelector(
   (state: DetailState) => state.drawings.loading
 );
 
-export const getDrawingsErrorMessage = createSelector(
+export const getDrawingsError = createSelector(
   getDetailState,
   (state: DetailState) => {
-    if (state.drawings.errorMessage) {
-      return state.drawings.errorMessage;
+    if (state.drawings.error) {
+      return state.drawings.error;
     }
 
     if (!state.drawings.loading && state.drawings.items?.length === 0) {

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -60,7 +61,7 @@ describe('Detail Effects', () => {
   let router: Router;
   let snackBar: MatSnackBar;
 
-  const errorMessage = 'An error occured';
+  const error = new HttpErrorResponse({});
 
   const createService = createServiceFactory({
     service: DetailEffects,
@@ -154,9 +155,11 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadReferenceTypeFailure({ errorMessage });
+        const result = loadReferenceTypeFailure({
+          error: JSON.stringify(error),
+        });
 
-        const response = m.cold('-#|', undefined, errorMessage);
+        const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
         detailService.getDetails = jest.fn(() => response);
@@ -188,14 +191,14 @@ describe('Detail Effects', () => {
         const response = m.cold('-a|', {
           a: items,
         });
-        detailService.calculations = jest.fn(() => response);
+        detailService.getCalculations = jest.fn(() => response);
 
         const result = loadCalculationsSuccess({ items });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
-        expect(detailService.calculations).toHaveBeenCalled();
+        expect(detailService.getCalculations).toHaveBeenCalled();
       })
     );
 
@@ -204,16 +207,18 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadCalculationsFailure({ errorMessage });
+        const result = loadCalculationsFailure({
+          error: JSON.stringify(error),
+        });
 
-        const response = m.cold('-#|', undefined, errorMessage);
+        const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        detailService.calculations = jest.fn(() => response);
+        detailService.getCalculations = jest.fn(() => response);
 
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
-        expect(detailService.calculations).toHaveBeenCalled();
+        expect(detailService.getCalculations).toHaveBeenCalled();
       })
     );
   });
@@ -228,7 +233,7 @@ describe('Detail Effects', () => {
       },
     };
     const result = loadCalculationsFailure({
-      errorMessage: 'unauthorized',
+      error: 'unauthorized',
     });
 
     beforeEach(() => {
@@ -247,7 +252,7 @@ describe('Detail Effects', () => {
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
         expect(store.dispatch).toHaveBeenCalledWith(
-          loadCalculationsFailure({ errorMessage: 'unauthorized' })
+          loadCalculationsFailure({ error: 'unauthorized' })
         );
       });
     });
@@ -263,7 +268,7 @@ describe('Detail Effects', () => {
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
         expect(store.dispatch).toHaveBeenCalledWith(
-          loadBomFailure({ errorMessage: 'unauthorized' })
+          loadBomFailure({ error: 'unauthorized' })
         );
       });
     });
@@ -305,9 +310,9 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadDrawingsFailure({ errorMessage });
+        const result = loadDrawingsFailure({ error: JSON.stringify(error) });
 
-        const response = m.cold('-#|', undefined, errorMessage);
+        const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
         detailService.getDrawings = jest.fn(() => response);
@@ -351,9 +356,9 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadBomFailure({ errorMessage });
+        const result = loadBomFailure({ error: JSON.stringify(error) });
 
-        const response = m.cold('-#|', undefined, errorMessage);
+        const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
         detailService.getBom = jest.fn(() => response);

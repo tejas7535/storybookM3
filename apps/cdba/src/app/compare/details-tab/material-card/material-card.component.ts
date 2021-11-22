@@ -13,7 +13,7 @@ import {
   getAdditionalInformation,
   getDimensionAndWeightDetails,
   getMaterialDesignation,
-  getProductErrorMessage,
+  getProductError,
 } from '@cdba/compare/store';
 import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 
@@ -51,6 +51,6 @@ export class MaterialCardComponent implements OnInit {
       this.index
     );
 
-    this.errorMessage$ = this.store.select(getProductErrorMessage, this.index);
+    this.errorMessage$ = this.store.select(getProductError, this.index);
   }
 }

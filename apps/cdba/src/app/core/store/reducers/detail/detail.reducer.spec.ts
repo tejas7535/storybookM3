@@ -83,7 +83,7 @@ describe('Detail Reducer', () => {
       const action = loadReferenceType();
       const state = detailReducer(mockState, action);
 
-      expect(state.detail.errorMessage).toBeUndefined();
+      expect(state.detail.error).toBeUndefined();
     });
   });
 
@@ -97,18 +97,18 @@ describe('Detail Reducer', () => {
 
       expect(state.detail.loading).toBeFalsy();
       expect(state.detail.referenceType).toEqual(item.referenceTypeDto);
-      expect(state.detail.errorMessage).toBeUndefined();
+      expect(state.detail.error).toBeUndefined();
     });
   });
 
   describe('loadReferenceTypeFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadReferenceTypeFailure({ errorMessage });
+      const action = loadReferenceTypeFailure({ error: errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.detail.loading).toBeFalsy();
-      expect(state.detail.errorMessage).toEqual(errorMessage);
+      expect(state.detail.error).toEqual(errorMessage);
     });
   });
 
@@ -127,7 +127,7 @@ describe('Detail Reducer', () => {
 
       expect(state.calculations.items).toBeUndefined();
       expect(state.calculations.selectedCalculation).toBeUndefined();
-      expect(state.calculations.errorMessage).toBeUndefined();
+      expect(state.calculations.error).toBeUndefined();
     });
   });
 
@@ -160,12 +160,12 @@ describe('Detail Reducer', () => {
 
   describe('loadCalculationsFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadCalculationsFailure({ errorMessage });
+      const action = loadCalculationsFailure({ error: errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.calculations.loading).toBeFalsy();
-      expect(state.calculations.errorMessage).toEqual(errorMessage);
+      expect(state.calculations.error).toEqual(errorMessage);
     });
   });
 
@@ -198,7 +198,7 @@ describe('Detail Reducer', () => {
 
       expect(state.drawings.items).toBeUndefined();
       expect(state.drawings.selected).toBeUndefined();
-      expect(state.drawings.errorMessage).toBeUndefined();
+      expect(state.drawings.error).toBeUndefined();
     });
   });
 
@@ -226,12 +226,12 @@ describe('Detail Reducer', () => {
 
   describe('loadDrawingsFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadDrawingsFailure({ errorMessage });
+      const action = loadDrawingsFailure({ error: errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.drawings.loading).toBeFalsy();
-      expect(state.drawings.errorMessage).toEqual(errorMessage);
+      expect(state.drawings.error).toEqual(errorMessage);
     });
   });
 
@@ -262,7 +262,7 @@ describe('Detail Reducer', () => {
       const state = detailReducer(initialState, action);
 
       expect(state.bom.items).toBeUndefined();
-      expect(state.bom.errorMessage).toBeUndefined();
+      expect(state.bom.error).toBeUndefined();
     });
   });
 
@@ -281,12 +281,12 @@ describe('Detail Reducer', () => {
 
   describe('loadBomFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadBomFailure({ errorMessage });
+      const action = loadBomFailure({ error: errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.bom.loading).toBeFalsy();
-      expect(state.bom.errorMessage).toEqual(errorMessage);
+      expect(state.bom.error).toEqual(errorMessage);
     });
   });
 

@@ -108,10 +108,10 @@ export class CompareEffects {
               index: action.index,
             })
           ),
-          catchError((errorMessage) =>
+          catchError((errorResponse) =>
             of(
               loadProductDetailsFailure({
-                errorMessage,
+                error: JSON.stringify(errorResponse),
                 index: action.index,
               })
             )
@@ -147,15 +147,15 @@ export class CompareEffects {
       mergeMap(([action, hasPricingRole]) => {
         return hasPricingRole
           ? this.detailService
-              .calculations(action.materialNumber, action.plant)
+              .getCalculations(action.materialNumber, action.plant)
               .pipe(
                 map((items: Calculation[]) =>
                   loadCalculationHistorySuccess({ items, index: action.index })
                 ),
-                catchError((errorMessage) =>
+                catchError((errorResponse) =>
                   of(
                     loadCalculationHistoryFailure({
-                      errorMessage,
+                      error: JSON.stringify(errorResponse),
                       index: action.index,
                     })
                   )
@@ -163,7 +163,7 @@ export class CompareEffects {
               )
           : of(
               loadCalculationHistoryFailure({
-                errorMessage: 'unauthorized',
+                error: 'unauthorized',
                 index: action.index,
               })
             );
@@ -181,13 +181,18 @@ export class CompareEffects {
               map((items: BomItem[]) =>
                 loadBomSuccess({ items, index: action.index })
               ),
-              catchError((errorMessage) =>
-                of(loadBomFailure({ errorMessage, index: action.index }))
+              catchError((errorResponse) =>
+                of(
+                  loadBomFailure({
+                    error: JSON.stringify(errorResponse),
+                    index: action.index,
+                  })
+                )
               )
             )
           : of(
               loadBomFailure({
-                errorMessage: 'unauthorized',
+                error: 'unauthorized',
                 index: action.index,
               })
             );

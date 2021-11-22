@@ -13,6 +13,7 @@ import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 
 import { CompareRoutingModule } from './compare-routing.module';
 import { CompareComponent } from './compare.component';
+import { CompareFailureEffects } from './store/effects/compare-failure.effects';
 import { CompareEffects } from './store/effects/compare.effects';
 import { compareReducer } from './store/reducers/compare.reducer';
 
@@ -23,7 +24,7 @@ import { compareReducer } from './store/reducers/compare.reducer';
     CompareRoutingModule,
     SharedTranslocoModule,
     StoreModule.forFeature('compare', compareReducer),
-    EffectsModule.forFeature([CompareEffects]),
+    EffectsModule.forFeature([CompareEffects, CompareFailureEffects]),
     PageHeaderModule,
     TabsHeaderModule,
     BreadcrumbsModule,

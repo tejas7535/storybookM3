@@ -175,7 +175,7 @@ describe('BomContainerComponent', () => {
           m.cold('a', { a: DETAIL_STATE_MOCK.calculations.loading })
         );
         m.expect(component.calculationsErrorMessage$).toBeObservable(
-          m.cold('a', { a: DETAIL_STATE_MOCK.calculations.errorMessage })
+          m.cold('a', { a: DETAIL_STATE_MOCK.calculations.error })
         );
 
         m.expect(component.bomItems$).toBeObservable(
@@ -185,7 +185,7 @@ describe('BomContainerComponent', () => {
           m.cold('a', { a: DETAIL_STATE_MOCK.bom.loading })
         );
         m.expect(component.bomErrorMessage$).toBeObservable(
-          m.cold('a', { a: DETAIL_STATE_MOCK.bom.errorMessage })
+          m.cold('a', { a: DETAIL_STATE_MOCK.bom.error })
         );
         m.expect(component.childrenOfSelectedBomItem$).toBeObservable(
           m.cold('a', { a: expectedChildrenOfSelectedBomItem })

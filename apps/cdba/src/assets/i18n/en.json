@@ -117,8 +117,14 @@
     }
   },
   "http": {
-    "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
-    "errorInterceptorActionDefault": "Contact Support"
+    "error": {
+      "message": {
+        "default": "We are experiencing server problems. Please try again later."
+      },
+      "action": {
+        "default": "Contact Support"
+      }
+    }
   },
   "roles": {
     "heading": {

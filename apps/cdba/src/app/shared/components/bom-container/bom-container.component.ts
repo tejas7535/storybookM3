@@ -121,14 +121,14 @@ export class BomContainerComponent implements OnInit {
       this.index
     );
     this.calculationsErrorMessage$ = this.store.select(
-      fromCompare.getCalculationsErrorMessage,
+      fromCompare.getCalculationsError,
       this.index
     );
 
     this.bomItems$ = this.store.select(fromCompare.getBomItems, this.index);
     this.bomLoading$ = this.store.select(fromCompare.getBomLoading, this.index);
     this.bomErrorMessage$ = this.store.select(
-      fromCompare.getBomErrorMessage,
+      fromCompare.getBomError,
       this.index
     );
     this.childrenOfSelectedBomItem$ = this.store.select(
@@ -163,12 +163,12 @@ export class BomContainerComponent implements OnInit {
       fromDetail.getCalculationsLoading
     );
     this.calculationsErrorMessage$ = this.store.select(
-      fromDetail.getCalculationsErrorMessage
+      fromDetail.getCalculationsError
     );
 
     this.bomItems$ = this.store.select(fromDetail.getBomItems);
     this.bomLoading$ = this.store.select(fromDetail.getBomLoading);
-    this.bomErrorMessage$ = this.store.select(fromDetail.getBomErrorMessage);
+    this.bomErrorMessage$ = this.store.select(fromDetail.getBomError);
     this.childrenOfSelectedBomItem$ = this.store.select(
       fromDetail.getChildrenOfSelectedBomItem
     );

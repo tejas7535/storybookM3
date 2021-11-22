@@ -19,9 +19,6 @@ import {
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
-  loadRfqs,
-  loadRfqsFailure,
-  loadRfqsSuccess,
   selectBomItem,
   selectReferenceType,
 } from '../detail/detail.actions';
@@ -29,7 +26,7 @@ import {
 describe('Detail Actions', () => {
   let action: DetailActions;
   let referenceTypeIdentifier: ReferenceTypeIdentifier;
-  let errorMessage: string;
+  let error: string;
 
   beforeEach(() => {
     action = undefined;
@@ -40,7 +37,7 @@ describe('Detail Actions', () => {
       identificationHash: 'unique identifier',
     };
 
-    errorMessage = 'An error occured';
+    error = 'An error occured';
   });
 
   test('selectReferenceType', () => {
@@ -72,10 +69,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadItemFailure', () => {
-      action = loadReferenceTypeFailure({ errorMessage });
+      action = loadReferenceTypeFailure({ error });
 
       expect(action).toEqual({
-        errorMessage,
+        error,
         type: '[Detail] Load Reference Type Failure',
       });
     });
@@ -103,10 +100,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadBomFailure', () => {
-      action = loadBomFailure({ errorMessage });
+      action = loadBomFailure({ error });
 
       expect(action).toEqual({
-        errorMessage,
+        error,
         type: '[Detail] Load BOM Failure',
       });
     });
@@ -145,10 +142,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsFailure', () => {
-      action = loadCalculationsFailure({ errorMessage });
+      action = loadCalculationsFailure({ error });
 
       expect(action).toEqual({
-        errorMessage,
+        error,
         type: '[Detail] Load Calculations Failure',
       });
     });
@@ -174,41 +171,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadDrawingsFailure', () => {
-      action = loadDrawingsFailure({ errorMessage });
+      action = loadDrawingsFailure({ error });
 
       expect(action).toEqual({
-        errorMessage,
+        error,
         type: '[Detail] Load Drawings Failure',
-      });
-    });
-  });
-
-  describe('Get RFQs Actions', () => {
-    test('loadRfqs', () => {
-      action = loadRfqs({ referenceTypeId: referenceTypeIdentifier });
-
-      expect(action).toEqual({
-        referenceTypeId: referenceTypeIdentifier,
-        type: '[Detail] Load RFQs',
-      });
-    });
-
-    test('loadRfqsSuccess', () => {
-      const items: any[] = [];
-      action = loadRfqsSuccess({ items });
-
-      expect(action).toEqual({
-        items,
-        type: '[Detail] Load RFQs Success',
-      });
-    });
-
-    test('loadRfqsFailure', () => {
-      action = loadRfqsFailure({ errorMessage });
-
-      expect(action).toEqual({
-        errorMessage,
-        type: '[Detail] Load RFQs Failure',
       });
     });
   });

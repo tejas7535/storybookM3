@@ -13,20 +13,20 @@ export const COMPARE_STATE_MOCK: CompareState = {
     details: {
       loading: false,
       item: REFERENCE_TYPE_MOCK,
-      errorMessage: undefined,
+      error: undefined,
     },
     calculations: {
       loading: false,
       items: CALCULATIONS_MOCK,
       selected: CALCULATIONS_MOCK[3],
       selectedNodeId: '3',
-      errorMessage: undefined,
+      error: undefined,
     },
     billOfMaterial: {
       loading: true,
       items: BOM_MOCK,
       selected: BOM_MOCK[1],
-      errorMessage: undefined,
+      error: undefined,
     },
   },
   '1': {
@@ -39,20 +39,20 @@ export const COMPARE_STATE_MOCK: CompareState = {
     details: {
       loading: true,
       item: undefined,
-      errorMessage: undefined,
+      error: undefined,
     },
     calculations: {
       loading: true,
       items: undefined,
       selected: undefined,
       selectedNodeId: undefined,
-      errorMessage: undefined,
+      error: undefined,
     },
     billOfMaterial: {
       loading: true,
       items: undefined,
       selected: undefined,
-      errorMessage: undefined,
+      error: undefined,
     },
   },
   '2': {
@@ -65,20 +65,20 @@ export const COMPARE_STATE_MOCK: CompareState = {
     details: {
       loading: false,
       item: undefined,
-      errorMessage: '404 - Not Found',
+      error: '404 - Not Found',
     },
     calculations: {
       loading: false,
       items: [],
       selected: undefined,
       selectedNodeId: undefined,
-      errorMessage: 'Service unavailable',
+      error: 'Service unavailable',
     },
     billOfMaterial: {
       loading: false,
       items: [],
       selected: undefined,
-      errorMessage: 'Service unavailable',
+      error: 'Service unavailable',
     },
   },
   '3': {

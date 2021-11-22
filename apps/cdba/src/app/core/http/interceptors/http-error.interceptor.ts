@@ -6,67 +6,56 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
-import { TranslocoService } from '@ngneat/transloco';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { URL_SUPPORT } from '../constants/urls';
+import { DetailPath } from '@cdba/shared/constants/api';
+
+import { AUTH_URLS } from '../constants/urls';
+import { HttpErrorService } from '../services/http-error.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  public constructor(
-    private readonly snackBar: MatSnackBar,
-    private readonly translocoService: TranslocoService
-  ) {}
+  public constructor(private readonly httpErrorService: HttpErrorService) {}
 
   public intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
+      catchError((errorResponse: HttpErrorResponse) => {
+        // don't use the interceptor for detail paths
+        if (
+          Object.values<string>(DetailPath).some((path) =>
+            errorResponse.url.includes(`/${path}`)
+          )
+        ) {
+          return throwError(() => errorResponse);
+        }
+
         let errorMessage = '';
 
-        if (error.error instanceof ErrorEvent) {
+        if (errorResponse.error instanceof ErrorEvent) {
           // a client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error.message);
+          console.error('An error occurred:', errorResponse.error.message);
 
           // show default error message
           errorMessage = 'An error occurred. Please try again later.';
         } else {
           // Backend Response
           console.error(
-            `Backend returned code ${error.status}, ` +
-              `body was: ${JSON.stringify(error.error)}`
+            `Backend returned code ${errorResponse.status}, ` +
+              `body was: ${JSON.stringify(errorResponse.error)}`
           );
 
-          errorMessage = `${error.error.title} - ${error.error.detail}`;
+          errorMessage = `${errorResponse.error.title} - ${errorResponse.error.detail}`;
         }
 
-        // errors that are not triggered by auth lib should show a toast
-        const authUrls = [
-          'https://login.microsoftonline',
-          'https://login.partner.microsoftonline',
-          'https://graph.microsoft.com',
-        ];
-        if (!authUrls.some((authUrl) => error.url.startsWith(authUrl))) {
-          this.snackBar
-            .open(
-              this.translocoService.translate(
-                'http.errorInterceptorMessageDefault'
-              ),
-              this.translocoService.translate(
-                'http.errorInterceptorActionDefault'
-              ),
-              { duration: 5000 }
-            )
-            .onAction()
-            .subscribe(() => {
-              window.open(URL_SUPPORT, '_blank').focus();
-            });
+        if (
+          !AUTH_URLS.some((authUrl) => errorResponse.url.startsWith(authUrl))
+        ) {
+          this.httpErrorService.handleHttpErrorDefault();
         }
 
         return throwError(errorMessage);

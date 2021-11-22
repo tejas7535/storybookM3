@@ -70,7 +70,7 @@ describe('DetailService', () => {
     test('should get calculations result', () => {
       const mock = new CalculationsResult(CALCULATIONS_MOCK);
 
-      service.calculations('2345', '0060').subscribe((response) => {
+      service.getCalculations('2345', '0060').subscribe((response) => {
         expect(response).toEqual(mock);
       });
 

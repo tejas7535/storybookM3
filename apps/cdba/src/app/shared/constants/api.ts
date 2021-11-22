@@ -1,3 +1,10 @@
 export enum API {
   v1 = 'api/v1',
 }
+
+export enum DetailPath {
+  Detail = 'detail',
+  Calculations = 'calculations',
+  Bom = 'bom',
+  Drawings = 'products/drawings',
+}

@@ -154,7 +154,7 @@ describe(`HttpErrorInterceptor`, () => {
       })
     );
 
-    test('should toast error message in error case', () => {
+    test('should snackbar error message in error case', () => {
       service.getPosts().subscribe(
         () => {
           expect(true).toEqual(false);
@@ -178,7 +178,7 @@ describe(`HttpErrorInterceptor`, () => {
       } as unknown as ErrorEvent);
     });
 
-    test('should not show toast error message in login case', () => {
+    test('should not show snackbar error message in login case', () => {
       service.getPosts().subscribe(
         () => {
           expect(true).toEqual(false);

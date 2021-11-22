@@ -73,8 +73,10 @@ export class DetailEffects {
           map((item: ReferenceTypeResult) =>
             loadReferenceTypeSuccess({ item })
           ),
-          catchError((errorMessage) =>
-            of(loadReferenceTypeFailure({ errorMessage }))
+          catchError((errorResponse) =>
+            of(
+              loadReferenceTypeFailure({ error: JSON.stringify(errorResponse) })
+            )
           )
         )
       )
@@ -91,7 +93,7 @@ export class DetailEffects {
       exhaustMap(([, referenceTypeIdentifier, hasPricingRole]) => {
         return referenceTypeIdentifier && hasPricingRole
           ? this.detailService
-              .calculations(
+              .getCalculations(
                 referenceTypeIdentifier.materialNumber,
                 referenceTypeIdentifier.plant
               )
@@ -99,11 +101,15 @@ export class DetailEffects {
                 map((items: Calculation[]) =>
                   loadCalculationsSuccess({ items })
                 ),
-                catchError((errorMessage) =>
-                  of(loadCalculationsFailure({ errorMessage }))
+                catchError((errorResponse) =>
+                  of(
+                    loadCalculationsFailure({
+                      error: JSON.stringify(errorResponse),
+                    })
+                  )
                 )
               )
-          : of(loadCalculationsFailure({ errorMessage: 'unauthorized' }));
+          : of(loadCalculationsFailure({ error: 'unauthorized' }));
       })
     );
   });
@@ -118,8 +124,8 @@ export class DetailEffects {
       mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
         this.detailService.getDrawings(materialNumber, plant).pipe(
           map((items: Drawing[]) => loadDrawingsSuccess({ items })),
-          catchError((errorMessage) =>
-            of(loadDrawingsFailure({ errorMessage }))
+          catchError((errorResponse) =>
+            of(loadDrawingsFailure({ error: JSON.stringify(errorResponse) }))
           )
         )
       )
@@ -146,9 +152,11 @@ export class DetailEffects {
         return hasPricingRole
           ? this.detailService.getBom(action.bomIdentifier).pipe(
               map((items: BomItem[]) => loadBomSuccess({ items })),
-              catchError((errorMessage) => of(loadBomFailure({ errorMessage })))
+              catchError((errorResponse) =>
+                of(loadBomFailure({ error: JSON.stringify(errorResponse) }))
+              )
             )
-          : of(loadBomFailure({ errorMessage: 'unauthorized' }));
+          : of(loadBomFailure({ error: 'unauthorized' }));
       })
     );
   });

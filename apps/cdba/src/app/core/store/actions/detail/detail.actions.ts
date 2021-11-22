@@ -24,7 +24,7 @@ export const loadReferenceTypeSuccess = createAction(
 
 export const loadReferenceTypeFailure = createAction(
   '[Detail] Load Reference Type Failure',
-  props<{ errorMessage: string }>()
+  props<{ error: string }>()
 );
 
 export const loadBom = createAction(
@@ -39,7 +39,7 @@ export const loadBomSuccess = createAction(
 
 export const loadBomFailure = createAction(
   '[Detail] Load BOM Failure',
-  props<{ errorMessage: string }>()
+  props<{ error: string }>()
 );
 
 export const selectBomItem = createAction(
@@ -56,7 +56,7 @@ export const loadCalculationsSuccess = createAction(
 
 export const loadCalculationsFailure = createAction(
   '[Detail] Load Calculations Failure',
-  props<{ errorMessage: string }>()
+  props<{ error: string }>()
 );
 
 export const selectCalculation = createAction(
@@ -83,22 +83,7 @@ export const loadDrawingsSuccess = createAction(
 
 export const loadDrawingsFailure = createAction(
   '[Detail] Load Drawings Failure',
-  props<{ errorMessage: string }>()
-);
-
-export const loadRfqs = createAction(
-  '[Detail] Load RFQs',
-  props<{ referenceTypeId: any }>()
-);
-
-export const loadRfqsSuccess = createAction(
-  '[Detail] Load RFQs Success',
-  props<{ items: any[] }>()
-);
-
-export const loadRfqsFailure = createAction(
-  '[Detail] Load RFQs Failure',
-  props<{ errorMessage: string }>()
+  props<{ error: string }>()
 );
 
 const all = union({
@@ -111,9 +96,6 @@ const all = union({
   loadDrawings,
   loadDrawingsSuccess,
   loadDrawingsFailure,
-  loadRfqs,
-  loadRfqsSuccess,
-  loadRfqsFailure,
   loadCalculations,
   loadCalculationsSuccess,
   loadCalculationsFailure,
