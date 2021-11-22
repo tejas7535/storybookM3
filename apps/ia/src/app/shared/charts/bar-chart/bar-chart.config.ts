@@ -130,11 +130,12 @@ export function addVisualMap(
 
 export function addSlider(config: BarChartConfig, option: EChartsOption): void {
   if (config.series[0].values.length > 10) {
+    // add scrolling when more than 10 y-axis entries exist
     option.dataZoom = [
       {
         type: 'slider',
         show: true,
-        yAxisIndex: [0],
+        yAxisIndex: 0,
         left: '97%',
         start: 0,
         end: 0,
@@ -146,6 +147,7 @@ export function addSlider(config: BarChartConfig, option: EChartsOption): void {
         showDataShadow: false,
         showDetail: false,
         minValueSpan: 9,
+        filterMode: 'none',
       },
       {
         type: 'inside',

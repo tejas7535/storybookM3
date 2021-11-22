@@ -192,7 +192,7 @@ describe('Bar Chart Config', () => {
         {
           type: 'slider',
           show: true,
-          yAxisIndex: [0],
+          yAxisIndex: 0,
           left: '97%',
           start: 0,
           end: 0,
@@ -204,6 +204,7 @@ describe('Bar Chart Config', () => {
           showDataShadow: false,
           showDetail: false,
           minValueSpan: 9,
+          filterMode: 'none',
         },
         {
           type: 'inside',
