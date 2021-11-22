@@ -49,127 +49,13 @@ imports: [
 The first parameter represents the scope that is used within the library for translation.  
 Do not forget to add `SharedTranslocoModule.forRoot` into your main app later.
 
-## How to mock translations in unit test
+## How to use transloco in unit test
 
-Please import `provideTranslocoTestingModule` into your .spec from `'@schaeffler/transloco/testing'`.  
-`provideTranslocoTestingModule` expects the i18n json files as a parameter.
+see [transloco testing](./testing/README.md)
 
-Here is an example:
+## How to integrate the transloco-related UI components
 
-```ts
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import * as en from '../../../../assets/i18n/en.json';
-
-configureTestSuite(() => {
-  TestBed.configureTestingModule({
-    ...
-    imports: [provideTranslocoTestingModule({ en })],
-    ...
-  });
-});
-```
-
-## How to integrate the Language-Select Component
-
-### Import the Transloco Base Module with the needed settings
-
-> IMPORTANT: Make sure to use the correct type for the available languages!
-
-```ts
-// app.module.ts or core.module.ts (example)
-
-import { LangDefinition } from '@ngneat/transloco/lib/types';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-const AVAILABLE_LANGUAGE_DE: LangDefinition = {
-  id: 'de',
-  label: 'Deutsch',
-};
-
-const AVAILABLE_LANGUAGE_EN: LangDefinition = {
-  id: 'en',
-  label: 'English',
-};
-
-const AVAILABLE_LANGUAGES: LangDefinition[] = [
-  AVAILABLE_LANGUAGE_DE,
-  AVAILABLE_LANGUAGE_EN,
-];
-
-const FALLBACK_LANGUAGE: LangDefinition = AVAILABLE_LANGUAGE_EN;
-
-
-
-@NgModule({
-  ...
-    imports: [
-  SharedTranslocoModule.forRoot(
-    environment.production,
-    AVAILABLE_LANGUAGES,
-    undefined, // default -> undefined would lead to browser detection
-    FALLBACK_LANGUAGE.id,
-    true,
-    !environment.localDev,
-    i18nChecksumsJson
-  ),
-  ...
-]
-...
-})
-```
-
-### Import the Language-Select Component Module
-
-```ts
-// parent component module
-
-import { LanguageSelectModule } from '@schaeffler/transloco/components';
-
-import { ParentComponent } from './parent.component';
-
-@NgModule({
-  ...
-    imports: [
-  LanguageSelectModule,
-  ...
-],
-  declarations: [
-  ParentComponent
-]
-...
-})
-```
-
-### Embed the Language-Select Component (example)
-
-In the parent component:
-
-```html
-<!--  default implementation  -->
-<schaeffler-language-select></schaeffler-language-select>
-
-<!--  refresh page on language change  -->
-<schaeffler-language-select [reloadOnLanguageChange]="true"></schaeffler-language-select>
-```
-
-### Component API
-
-| Name                   | Description                                                                                          |
-| -----------------------| -----------------------------------------------------------------------------------------------------|
-| reloadOnLanguageChange | (optional) (default: false) Whether the page should be reloaded when changing the language selection |
-
-### Component i18n
-
-The component comes with translations for the following languages:
-
-* de (german 🇩🇪)
-* en (english 🇬🇧)
-* es (spanish 🇪🇸)
-* fr (french 🇫🇷)
-* ru (russian 🇷🇺)
-* zh (chinese 🇨🇳)
-
+see [language-select UI component](components/src/language-select/README.md)
 
 ## Library Development
 

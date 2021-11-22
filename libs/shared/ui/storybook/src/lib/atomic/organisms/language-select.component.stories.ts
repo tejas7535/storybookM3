@@ -7,7 +7,7 @@ import {
   LanguageSelectModule,
 } from '@schaeffler/transloco/components';
 
-import READMEMd from '../../../../../../utils/transloco/README.md';
+import READMEMd from '../../../../../../utils/transloco/components/src/language-select/README.md';
 
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import {
