@@ -12,7 +12,7 @@
   >
     <mat-card
       class="
-        card-full card-grid
+        card-flex
         row-span-1
         col-span-2
         md:row-span-3 md:col-span-2
@@ -25,20 +25,36 @@
       [routerLink]="greaseCalculationLink"
     >
       <h5>{{ t('greaseCalculator') }}</h5>
-      <mat-card-content class="card-flex items-center justify-center">
-        <img
-          src="../assets/images/calc.svg"
-          class="
-            max-h-48
-            calc-img
-            absolute
-            md:static
-            right-0
-            bottom-0
-            object-contain
-            p-4
-          "
-        />
+      <mat-card-content class="flex-grow">
+        <div class="flex flex-col h-full">
+          <div class="w-1/2 md:w-full">
+            <p class="text-subtitle-2 text-lowEmphasis">
+              {{ t('bearinxPowered') }}
+            </p>
+            <p class="text-caption text-lowEmphasis">{{ t('description') }}</p>
+          </div>
+          <div
+            class="
+              flex flex-grow
+              justify-center justify-self-center
+              items-center
+            "
+          >
+            <img
+              src="../assets/images/calc.svg"
+              class="
+                max-h-48
+                calc-img
+                absolute
+                md:static
+                right-0
+                top-0
+                object-contain
+                p-4
+              "
+            />
+          </div>
+        </div>
       </mat-card-content>
       <mat-card-actions>
         <button
@@ -132,12 +148,17 @@
         </mat-card-content>
       </a>
     </mat-card>
-    <mat-card
-      class="card-half card-flex items-center justify-center cursor-not-allowed"
-    >
-      <div class="text-overline text-center uppercase">{{ t('faqs') }}</div>
+    <mat-card class="card-half cursor-not-allowed">
+      <div class="text-overline text-center uppercase">
+        {{ t('faq') }}
+      </div>
+      <mat-card-content class="card-content flex items-center justify-center">
+        <span class="text-primary text-[36px] tracking-[1px] font-bold">
+          {{ t('faq') }}
+        </span>
+      </mat-card-content>
     </mat-card>
-    <mat-card class="col-span-2 card-full md:w-full cursor-not-allowed">
+    <mat-card class="col-span-2 md:w-full cursor-not-allowed">
       <mat-card-content class="flex items-center h-full">
         <div class="flex h-full">
           <div
@@ -154,7 +175,11 @@
           <div class="w-2/4 h-full flex flex-col">
             <h5 class="uppercase">{{ t('concept') }}</h5>
             <p
-              class="text-caption text-container overflow-hidden flex-shrink-0"
+              class="
+                text-caption text-lowEmphasis text-container
+                overflow-hidden
+                flex-shrink-0
+              "
             >
               {{ t('placeholderText') }}
             </p>
