@@ -6,51 +6,75 @@ $footer-min-height: 48px;
     constant(safe-area-inset-bottom) constant(safe-area-inset-left);
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
-}
 
-mat-toolbar {
-  @apply fixed;
-  @apply bg-white;
-
-  .mat-icon-button .mat-icon {
-    @apply absolute;
-    @apply top-2;
-    @apply left-2;
+  // minimize space for <ng-content> placeholders without content
+  .content-wrapper:empty {
+    @apply h-0;
+    @apply w-0;
+    @apply m-0;
+    @apply p-0;
   }
 
-  .schaeffler-header-logo {
-    @apply h-[12px];
-    @apply sm:h-[23px];
-    @apply w-[100px];
-    @apply sm:w-[200px];
-    @apply ml-2;
-    @apply sm:ml-3;
-    background: url('../../assets/schaeffler-header-logo.svg') no-repeat center;
-  }
-}
+  ::ng-deep {
+    mat-toolbar {
+      @apply fixed;
+      @apply bg-white;
 
-.main-content-wrapper {
-  @apply flex;
-  @apply flex-col;
-  @apply items-center;
-  @apply justify-center;
-  @apply flex-1;
+      .mat-icon-button .mat-icon {
+        @apply absolute;
+        @apply top-2;
+        @apply left-2;
+      }
 
-  &.footer-fixed {
-    @apply overflow-y-auto;
-  }
+      .schaeffler-header-logo {
+        @apply h-[12px];
+        @apply sm:h-[23px];
+        @apply w-[100px];
+        @apply sm:w-[200px];
+        @apply ml-2;
+        @apply sm:ml-3;
+        background: url('../../assets/schaeffler-header-logo.svg') no-repeat
+          center;
+      }
+    }
 
-  &.footer-not-fixed {
-    min-height: calc(100% - #{$footer-min-height});
-  }
-}
+    mat-sidenav-content {
+      &.footer-fixed {
+        @apply flex;
 
-footer {
-  min-height: $footer-min-height;
+        .main-content-wrapper {
+          @apply flex;
+          @apply flex-col;
+          @apply items-center;
+          @apply justify-center;
+          @apply flex-1;
+          @apply overflow-y-auto;
+        }
 
-  .schaeffler-footer-logo {
-    @apply h-[12px];
-    @apply w-[106px];
-    background: url('../../assets/schaeffler-footer-logo.svg') no-repeat center;
+        footer {
+          min-height: $footer-min-height;
+        }
+      }
+
+      &.footer-not-fixed {
+        @apply flex;
+
+        .main-content-wrapper {
+          @apply flex-1;
+        }
+
+        footer {
+          position: sticky;
+          top: 100vh;
+        }
+      }
+
+      .schaeffler-footer-logo {
+        @apply h-[12px];
+        @apply w-[106px];
+        background: url('../../assets/schaeffler-footer-logo.svg') no-repeat
+          center;
+      }
+    }
   }
 }
