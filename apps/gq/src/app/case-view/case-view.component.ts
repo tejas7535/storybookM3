@@ -14,7 +14,6 @@ import { ViewQuotation } from './models/view-quotation.model';
 @Component({
   selector: 'gq-case-view',
   templateUrl: './case-view.component.html',
-  styleUrls: ['./case-view.component.scss'],
 })
 export class CaseViewComponent implements OnInit {
   public quotations$: Observable<ViewQuotation[]>;

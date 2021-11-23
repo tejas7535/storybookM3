@@ -7,15 +7,16 @@
       <p class="text-h4 text-highEmphasis">{{ t('title') }}</p>
     </div>
   </div>
-  <gq-case-table
-    class="h-full"
-    *ngIf="
-      (quotationsLoading$ | ngrxPush) === false &&
-        (deleteLoading$ | ngrxPush) === false;
-      else loading
-    "
-    [rowData]="quotations$ | ngrxPush"
-  ></gq-case-table>
+  <mat-card class="h-full m-4">
+    <gq-case-table
+      *ngIf="
+        (quotationsLoading$ | ngrxPush) === false &&
+          (deleteLoading$ | ngrxPush) === false;
+        else loading
+      "
+      [rowData]="quotations$ | ngrxPush"
+    ></gq-case-table>
+  </mat-card>
 </div>
 
 <ng-template #loading>

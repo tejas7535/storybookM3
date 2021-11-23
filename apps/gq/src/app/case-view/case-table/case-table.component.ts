@@ -1,5 +1,10 @@
 import { Component, Input } from '@angular/core';
 
+import {
+  basicTableStyle,
+  disableTableHorizontalScrollbar,
+  statusBarStlye,
+} from '../../shared/constants';
 import { ViewQuotation } from '../models/view-quotation.model';
 import {
   DEFAULT_COLUMN_DEFS,
@@ -12,7 +17,7 @@ import { ColumnDefService } from './config/column-def.service';
 @Component({
   selector: 'gq-case-table',
   templateUrl: './case-table.component.html',
-  styleUrls: ['./case-table.component.scss'],
+  styles: [basicTableStyle, disableTableHorizontalScrollbar, statusBarStlye],
 })
 export class CaseTableComponent {
   constructor(private readonly columnDefService: ColumnDefService) {}

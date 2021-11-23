@@ -23,7 +23,6 @@ import { PriceService } from '../../../shared/services/price-service/price.servi
 @Component({
   selector: 'gq-editing-modal',
   templateUrl: './editing-modal.component.html',
-  styleUrls: ['./editing-modal.component.scss'],
 })
 export class EditingModalComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();

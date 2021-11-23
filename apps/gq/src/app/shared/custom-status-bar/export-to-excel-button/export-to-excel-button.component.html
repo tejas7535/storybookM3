@@ -6,5 +6,11 @@
   (click)="openExportToExcelDialog()"
 >
   <mat-icon class="!text-[20px]">download</mat-icon>
-  {{ t('exportToExcel') }}
+
+  <span class="lg:inline hidden">
+    {{ t('exportToExcel') }}
+  </span>
+  <span class="lg:hidden">
+    {{ t('exportToExcelMobile') }}
+  </span>
 </button>

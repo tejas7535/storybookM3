@@ -4,3 +4,4 @@ export * from './language.model';
 export * from './role-group.model';
 export * from './keyboard.enum';
 export * from './api-version.enum';
+export * from './status-bar.model';

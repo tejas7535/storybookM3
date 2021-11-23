@@ -1,9 +1,11 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -16,6 +18,8 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
 } from '../../../../testing/mocks';
+import { StatusBarModalComponent } from '../../components/status-bar-modal/status-bar-modal.component';
+import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { PriceService } from '../../services/price-service/price.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
@@ -30,6 +34,7 @@ describe('QuotationDetailsStatusComponent', () => {
   let spectator: Spectator<QuotationDetailsStatusComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
+  let matDialogSpyObject: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
     component: QuotationDetailsStatusComponent,
@@ -39,7 +44,11 @@ describe('QuotationDetailsStatusComponent', () => {
       MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
+      MatDialogModule,
+      SharedPipesModule,
     ],
+    mocks: [MatDialog],
+
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
@@ -55,6 +64,7 @@ describe('QuotationDetailsStatusComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    matDialogSpyObject = spectator.inject(MatDialog);
     params = {
       api: {
         addEventListener: jest.fn(),
@@ -100,8 +110,10 @@ describe('QuotationDetailsStatusComponent', () => {
 
       component.rowValueChanges();
 
-      expect(component.totalNetValue).toEqual(QUOTATION_DETAIL_MOCK.netValue);
-      expect(component.totalAverageGPI).toEqual(QUOTATION_DETAIL_MOCK.gpi);
+      expect(component.statusBar.netValue.total).toEqual(
+        QUOTATION_DETAIL_MOCK.netValue
+      );
+      expect(component.statusBar.gpi.total).toEqual(QUOTATION_DETAIL_MOCK.gpi);
       expect(PriceService.calculateStatusBarValues).toHaveBeenCalledTimes(1);
       expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
     });
@@ -113,9 +125,24 @@ describe('QuotationDetailsStatusComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
-      expect(component.selectedAverageGPI).toEqual(QUOTATION_DETAIL_MOCK.gpi);
-      expect(component.selectedNetValue).toEqual(
+      expect(component.statusBar.gpi.selected).toEqual(
+        QUOTATION_DETAIL_MOCK.gpi
+      );
+      expect(component.statusBar.netValue.selected).toEqual(
         QUOTATION_DETAIL_MOCK.netValue
+      );
+    });
+  });
+  describe('showAll', () => {
+    test('should open dialog', () => {
+      component.showAll();
+
+      expect(matDialogSpyObject.open).toHaveBeenCalledWith(
+        StatusBarModalComponent,
+        {
+          width: '600px',
+          data: component.statusBar,
+        }
       );
     });
   });

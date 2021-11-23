@@ -119,9 +119,12 @@
         "createCustomerCase": "Case auf Kundenbasis erstellen",
         "addMaterial": "hinzufügen",
         "exportToExcel": "als Excel Datei exportieren",
+        "exportToExcelMobile": "Exportieren",
         "addNewItem": "Neues Item hinzufügen",
+        "addNewItemMobile": "Hinzufügen",
         "deleteCase": "case löschen",
         "refreshSapPricing": "SAP Preise aktualisieren",
+        "refreshSapPricingMobile": "Aktualisieren",
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "Update prices in SAP Quotation"
       },
@@ -135,7 +138,9 @@
         "selectedNetValue": "Ausgewählter Nettowert",
         "totalAverageGPI": "Gesamt gew. ø GPI",
         "totalAverageGPM": "Gesamt gew. ø GPM",
-        "totalNetValue": "Gesamt Nettowert"
+        "totalNetValue": "Gesamt Nettowert",
+        "showAll": "Alle anzeigen",
+        "modalTitle": "Tabelle Übersichtszahlen"
       },
       "materialValidationStatus": {
         "invalid": "Invalide",

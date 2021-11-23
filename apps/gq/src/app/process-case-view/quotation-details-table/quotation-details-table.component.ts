@@ -15,6 +15,7 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getColumnDefsForRoles } from '../../core/store';
+import { basicTableStyle, statusBarStlye } from '../../shared/constants';
 import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
@@ -31,7 +32,7 @@ import { TableContext } from './config/tablecontext.model';
 @Component({
   selector: 'gq-quotation-details-table',
   templateUrl: './quotation-details-table.component.html',
-  styleUrls: ['./quotation-details-table.component.scss'],
+  styles: [basicTableStyle, statusBarStlye],
 })
 export class QuotationDetailsTableComponent implements OnInit {
   private readonly TABLE_KEY = 'processCase';

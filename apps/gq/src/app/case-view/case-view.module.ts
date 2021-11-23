@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -35,6 +36,7 @@ import { CaseViewComponent } from './case-view.component';
     ImportCaseModule,
     CreateManualCaseModule,
     ConfirmationModalModule,
+    MatCardModule,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'case-view' },

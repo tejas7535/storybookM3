@@ -1,25 +1,23 @@
-<div class="h-full">
-  <ag-grid-angular
-    class="ag-theme-material h-full"
-    [excelStyles]="excelStyles"
-    [rowData]="rowData"
-    [defaultColDef]="defaultColumnDefs"
-    [columnDefs]="columnDefs$ | ngrxPush"
-    [frameworkComponents]="frameworkComponents"
-    [modules]="modules"
-    [statusBar]="statusBar"
-    [rowSelection]="rowSelection"
-    [context]="tableContext"
-    (firstDataRendered)="onFirstDataRendered($event)"
-    (columnMoved)="onColumnChange($event)"
-    (sortChanged)="onColumnChange($event)"
-    (columnVisible)="onColumnChange($event)"
-    (gridReady)="onGridReady($event)"
-    [sideBar]="sideBar"
-    [rowHeight]="40"
-    [valueCache]="true"
-    [animateRows]="true"
-    [suppressContextMenu]="true"
-  >
-  </ag-grid-angular>
-</div>
+<ag-grid-angular
+  class="ag-theme-material h-full"
+  [excelStyles]="excelStyles"
+  [rowData]="rowData"
+  [defaultColDef]="defaultColumnDefs"
+  [columnDefs]="columnDefs$ | ngrxPush"
+  [frameworkComponents]="frameworkComponents"
+  [modules]="modules"
+  [statusBar]="statusBar"
+  [rowSelection]="rowSelection"
+  [context]="tableContext"
+  (firstDataRendered)="onFirstDataRendered($event)"
+  (columnMoved)="onColumnChange($event)"
+  (sortChanged)="onColumnChange($event)"
+  (columnVisible)="onColumnChange($event)"
+  (gridReady)="onGridReady($event)"
+  [sideBar]="sideBar"
+  [rowHeight]="40"
+  [valueCache]="true"
+  [animateRows]="true"
+  [suppressContextMenu]="true"
+>
+</ag-grid-angular>

@@ -13,6 +13,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { EditingModalComponent } from '../../shared/components/editing-modal/editing-modal.component';
+import { StatusBarModalModule } from '../../shared/components/status-bar-modal/status-bar-modal.module';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { DialogHeaderModule } from '../../shared/header/dialog-header/dialog-header.module';
@@ -38,6 +39,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     ReactiveFormsModule,
     TextFieldModule,
     LoadingSpinnerModule,
+    StatusBarModalModule,
   ],
   exports: [QuotationDetailsTableComponent],
 })

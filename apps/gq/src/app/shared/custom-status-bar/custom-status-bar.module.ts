@@ -9,6 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedPipesModule } from '../pipes/shared-pipes.module';
 import { AddItemsButtonComponent } from './add-items-button/add-items-button.component';
 import { AddMaterialButtonComponent } from './case-material-table/add-material-button/add-material-button.component';
 import { CreateCaseButtonComponent } from './case-material-table/create-case-button/create-case-button.component';
@@ -53,6 +54,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     SharedTranslocoModule,
     ReactiveComponentModule,
     FlexModule,
+    SharedPipesModule,
   ],
   exports: [
     AddMaterialButtonComponent,

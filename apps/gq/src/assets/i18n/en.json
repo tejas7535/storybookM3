@@ -119,9 +119,12 @@
         "createCustomerCase": "New case from customer",
         "addMaterial": "add",
         "exportToExcel": "Export to Excel File",
+        "exportToExcelMobile": "export",
         "addNewItem": "add new item",
+        "addNewItemMobile": "add",
         "deleteCase": "delete case",
         "refreshSapPricing": "Refresh SAP Pricing",
+        "refreshSapPricingMobile": "refresh",
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update prices in SAP Quotation"
       },
@@ -130,12 +133,14 @@
         "selected": "Selected"
       },
       "quotationDetailsStatus": {
-        "selectedAverageGPI": "Selected Weigh. Avg. GPI",
-        "selectedAverageGPM": "Selected Weigh. Avg. GPM",
+        "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
+        "selectedAverageGPM": "Selected Weigh. Avg. GPM %",
         "selectedNetValue": "Selected Net Value",
-        "totalAverageGPI": "Total Weigh. Avg. GPI",
-        "totalAverageGPM": "Total Weigh. Avg. GPM",
-        "totalNetValue": "Total Net Value"
+        "totalAverageGPI": "Total Weigh. Avg. GPI %",
+        "totalAverageGPM": "Total Weigh. Avg. GPM %",
+        "totalNetValue": "Total Net Value",
+        "showAll": "Show All",
+        "modalTitle": "Table Summary Figures"
       },
       "materialValidationStatus": {
         "invalid": "Invalid",

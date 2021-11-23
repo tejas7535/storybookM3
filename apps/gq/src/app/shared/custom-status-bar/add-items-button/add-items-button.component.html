@@ -7,6 +7,11 @@
     (click)="showAddDialog()"
   >
     <mat-icon class="!text-[20px] !align-text-bottom">add</mat-icon>
-    {{ t('addNewItem') | uppercase }}
+    <span class="lg:inline hidden">
+      {{ t('addNewItem') }}
+    </span>
+    <span class="lg:hidden">
+      {{ t('addNewItemMobile') }}
+    </span>
   </button>
 </div>

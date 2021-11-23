@@ -10,18 +10,21 @@ import {
 
 import { SapPriceDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-detail.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
+import {
+  basicTableStyle,
+  disableTableHorizontalScrollbar,
+} from '../../../shared/constants/table-styles';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import {
   SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS,
   SAP_PRICE_DETAILS_MODULE,
   SapPriceDetailsColumnDefService,
-  style,
 } from './config';
 
 @Component({
   selector: 'gq-sap-price-details-table',
   templateUrl: './sap-price-details-table.component.html',
-  styles: [style],
+  styles: [basicTableStyle, disableTableHorizontalScrollbar],
 })
 export class SapPriceDetailsTableComponent {
   constructor(

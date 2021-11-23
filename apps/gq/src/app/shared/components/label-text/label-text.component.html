@@ -1,9 +1,16 @@
 <div>
   <p
     class="text-body-2 text-light flex flex-wrap flex-row"
-    [ngClass]="{ 'mb-2': marginBottom }"
+    [ngClass]="{
+      'mb-2': marginBottom,
+      '!text-caption': modalVersion,
+      'flex-col': modalVersion,
+      'font-medium': modalVersion
+    }"
   >
-    <span class="pr-2"><ng-content select="[label]"></ng-content>:</span>
+    <span class="pr-2" [ngClass]="{ 'text-disabled': modalVersion }"
+      ><ng-content select="[label]"></ng-content>:</span
+    >
     <span class="text-highEmphasis"
       ><ng-content select="[text]"></ng-content
     ></span>

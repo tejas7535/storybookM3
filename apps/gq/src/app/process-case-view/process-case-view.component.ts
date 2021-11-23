@@ -19,7 +19,6 @@ import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/bread
 @Component({
   selector: 'gq-case-view',
   templateUrl: './process-case-view.component.html',
-  styleUrls: ['./process-case-view.component.scss'],
 })
 export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   public quotation$: Observable<Quotation>;

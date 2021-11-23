@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
@@ -10,6 +11,8 @@ import {
   userHasGPCRole,
   userHasSQVRole,
 } from '../../../core/store';
+import { StatusBarModalComponent } from '../../components/status-bar-modal/status-bar-modal.component';
+import { StatusBar } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from '../../services/price-service/price.service';
 
@@ -21,16 +24,31 @@ export class QuotationDetailsStatusComponent implements OnInit {
   showGPI$: Observable<boolean>;
   showGPM$: Observable<boolean>;
   customerCurrency$: Observable<string>;
-  totalNetValue = 0;
-  totalAverageGPI = 0;
-  totalAverageGPM = 0;
-  selectedNetValue = 0;
-  selectedAverageGPI = 0;
-  selectedAverageGPM = 0;
+  statusBar: StatusBar = {
+    rows: {
+      total: 0,
+      selected: 0,
+    },
+    netValue: {
+      total: 0,
+      selected: 0,
+    },
+    gpi: {
+      total: 0,
+      selected: 0,
+    },
+    gpm: {
+      total: 0,
+      selected: 0,
+    },
+  };
   selections: QuotationDetail[] = [];
   private params: IStatusPanelParams;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.showGPI$ = this.store.select(userHasGPCRole);
@@ -57,9 +75,10 @@ export class QuotationDetailsStatusComponent implements OnInit {
     const details: QuotationDetail[] = [];
     this.params.api.forEachNode((row: RowNode) => details.push(row.data));
     const allRows = PriceService.calculateStatusBarValues(details);
-    this.totalNetValue = allRows.totalNetValue;
-    this.totalAverageGPI = allRows.totalWeightedGPI;
-    this.totalAverageGPM = allRows.totalWeightedGPM;
+    this.statusBar.rows.total = details.length;
+    this.statusBar.netValue.total = allRows.totalNetValue;
+    this.statusBar.gpi.total = allRows.totalWeightedGPI;
+    this.statusBar.gpm.total = allRows.totalWeightedGPM;
   }
 
   onSelectionChange(): void {
@@ -67,9 +86,16 @@ export class QuotationDetailsStatusComponent implements OnInit {
     const selectedDetails = PriceService.calculateStatusBarValues(
       this.selections
     );
+    this.statusBar.rows.selected = this.selections.length;
+    this.statusBar.netValue.selected = selectedDetails.totalNetValue;
+    this.statusBar.gpi.selected = selectedDetails.totalWeightedGPI;
+    this.statusBar.gpm.selected = selectedDetails.totalWeightedGPM;
+  }
 
-    this.selectedNetValue = selectedDetails.totalNetValue;
-    this.selectedAverageGPI = selectedDetails.totalWeightedGPI;
-    this.selectedAverageGPM = selectedDetails.totalWeightedGPM;
+  showAll(): void {
+    this.dialog.open(StatusBarModalComponent, {
+      width: '600px',
+      data: this.statusBar,
+    });
   }
 }

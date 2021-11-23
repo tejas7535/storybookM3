@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -25,6 +26,7 @@ describe('CaseViewComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,
       ReactiveComponentModule,
+      MatCardModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

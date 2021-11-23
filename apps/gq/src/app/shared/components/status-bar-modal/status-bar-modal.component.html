@@ -1,0 +1,74 @@
+<div
+  class="flex flex-col h-full"
+  *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
+>
+  <gq-dialog-header [title]="t('modalTitle')" (closeDialog)="closeDialog()">
+  </gq-dialog-header>
+  <div
+    class="flex flex-col h-full"
+    *ngIf="customerCurrency$ | ngrxPush as currency"
+  >
+    <div
+      class="flex flex-col"
+      *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
+    >
+      <div class="flex flex-row mt-8">
+        <gq-label-text class="w-1/2" [modalVersion]="true">
+          <span label>{{ t('total') }}</span>
+          <span text>{{ statusBar.rows.total }} </span>
+        </gq-label-text>
+        <gq-label-text class="w-1/2" [modalVersion]="true">
+          <span label>{{ t('selected') }}</span>
+          <span text>{{ statusBar.rows.selected }}</span>
+        </gq-label-text>
+      </div>
+      <gq-horizontal-divider></gq-horizontal-divider>
+    </div>
+    <div class="flex flex-row">
+      <div class="w-1/2 flex flex-col">
+        <div>
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('totalNetValue') }}</span>
+            <span text>{{
+              statusBar.netValue.total | numberCurrency: currency
+            }}</span>
+          </gq-label-text>
+        </div>
+        <div class="mt-4" *ngIf="showGPM$ | ngrxPush">
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('totalAverageGPM') }}</span>
+            <span text>{{ statusBar.gpm.total | percentage }}</span>
+          </gq-label-text>
+        </div>
+        <div class="mt-4" *ngIf="showGPI$ | ngrxPush">
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('totalAverageGPI') }}</span>
+            <span text>{{ statusBar.gpi.total | percentage }}</span>
+          </gq-label-text>
+        </div>
+      </div>
+      <div *ngIf="true" class="w-1/2 flex flex-col">
+        <div>
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('selectedNetValue') }}</span>
+            <span text>{{
+              statusBar.netValue.selected | numberCurrency: currency
+            }}</span>
+          </gq-label-text>
+        </div>
+        <div class="mt-4" *ngIf="showGPM$ | ngrxPush">
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('selectedAverageGPM') }}</span>
+            <span text>{{ statusBar.gpm.selected | percentage }}</span>
+          </gq-label-text>
+        </div>
+        <div class="mt-4" *ngIf="showGPI$ | ngrxPush">
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('selectedAverageGPI') }}</span>
+            <span text>{{ statusBar.gpi.selected | percentage }}</span>
+          </gq-label-text>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
