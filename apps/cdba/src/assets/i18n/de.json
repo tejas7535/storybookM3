@@ -151,7 +151,7 @@
   "forbidden": {
     "noBasicAccess": {
       "heading": "Kein Zugang zu CDBA",
-      "message": "Es tut uns leid, Sie haben keinen Zugriff auf diese Anwendung"
+      "message": "Es tut uns leid, Sie haben keinen Zugriff auf diese Anwendung.\nWenn Sie Hilfe bei der Beantragung des Zugangs für CDBA benötigen, klicken Sie <a class=\"text-primary\" href=\"https://sconnect.schaeffler.com/groups/cost-database-analytics/blog/2021/01/22/how-to-get-access-to-cdba-update\" target=\"blank\">hier</a>."
     },
     "noFeatureAccess": {
       "heading": "Kein Zugang zur Seite",
