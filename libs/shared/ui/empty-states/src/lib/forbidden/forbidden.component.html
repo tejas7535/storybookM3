@@ -7,9 +7,10 @@
   <h4 class="text-highEmphasis mb-4">
     {{ t(routeData.headingText || 'forbiddenHeadingDefault') }}
   </h4>
-  <p class="text-subtitle-1 text-mediumEmphasis whitespace-pre-line">
-    {{ t(routeData.messageText || 'forbiddenMessageDefault') }}
-  </p>
+  <p
+    class="text-subtitle-1 text-mediumEmphasis whitespace-pre-line"
+    [innerHTML]="t(routeData.messageText || 'forbiddenMessageDefault')"
+  ></p>
   <div class="p-8 flex justify-center gap-4">
     <ng-container *ngIf="routeData.action">
       <button
