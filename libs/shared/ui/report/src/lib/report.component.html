@@ -208,25 +208,29 @@
         <table mat-table [dataSource]="subordinate.greaseResult.dataSource">
           <ng-container matColumnDef="title">
             <td mat-cell *matCellDef="let element">
-              <span class="text-caption">
-                {{ t(element.title) || element.title }}
-              </span>
-              <mat-icon
-                *ngIf="element.tooltip"
-                class="!text-[16px] !w-4 !h-4"
-                color="primary"
-                #tooltip="matTooltip"
-                [matTooltip]="t(element.tooltip)"
-                >info_outline</mat-icon
-              >
+              <div class="flex gap-1 content-center">
+                <span class="text-caption text-left">
+                  {{ t(element.title) || element.title }}
+                </span>
+                <div class="flex items-end">
+                  <mat-icon
+                    *ngIf="element.tooltip"
+                    class="!text-[16px] !w-4 !h-4"
+                    color="primary"
+                    #tooltip="matTooltip"
+                    [matTooltip]="t(element.tooltip)"
+                    >info_outline</mat-icon
+                  >
+                </div>
+              </div>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="values">
             <td mat-cell *matCellDef="let element">
-              <span class="text-caption">
+              <p class="text-center">
                 {{ element.values }}
-              </span>
+              </p>
             </td>
           </ng-container>
 

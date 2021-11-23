@@ -12,5 +12,6 @@ export class SelectComponent {
   @Input() public hint?: string;
   @Input() public label?: string;
   @Input() public options: any[] = [];
+  @Input() public tooltipText?: string;
   @Input() public customErrors?: { name: string; message: string }[];
 }
