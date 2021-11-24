@@ -580,7 +580,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addComparableTransactions(): ExcelCell[][] {
-    const headersTranslations: { [key: string]: string } =
+    const headersTranslationsOrderInDeJsonImportant: { [key: string]: string } =
       this.translocoService.translateObject(
         'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions',
         {},
@@ -588,8 +588,12 @@ export class ExportToExcelButtonComponent implements OnInit {
       );
 
     return [
-      this.addComparableTransactionsHeader(headersTranslations),
-      ...this.addComparableTransactionsRows(headersTranslations),
+      this.addComparableTransactionsHeader(
+        headersTranslationsOrderInDeJsonImportant
+      ),
+      ...this.addComparableTransactionsRows(
+        headersTranslationsOrderInDeJsonImportant
+      ),
     ];
   }
 
