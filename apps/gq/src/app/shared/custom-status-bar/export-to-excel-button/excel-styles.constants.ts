@@ -8,6 +8,10 @@ const whiteText = 'ffffff';
 const greyBackground = 'BFBFBF';
 
 export const excelStyleObjects: ExcelStyleMap = {
+  keepLeadingZero: {
+    id: 'keepLeadingZero',
+    dataType: 'String',
+  },
   excelText: { id: 'excelText', font: { size: 12 } },
   excelTextBold: { id: 'excelTextBold', font: { size: 12, bold: true } },
   excelQuotationSummaryLabel: {

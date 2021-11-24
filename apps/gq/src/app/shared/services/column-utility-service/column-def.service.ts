@@ -186,6 +186,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.productionPlant'),
       field: 'productionPlant.plantNumber',
       valueFormatter: ColumnUtilityService.basicTransform,
+      cellClass: 'keepLeadingZero',
     },
     {
       headerName: translate('shared.quotationDetailsTable.productionCity'),
@@ -221,6 +222,7 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.productLine'),
       field: 'material.productLineId',
       valueFormatter: ColumnUtilityService.basicTransform,
+      cellClass: 'keepLeadingZero',
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpsd'),

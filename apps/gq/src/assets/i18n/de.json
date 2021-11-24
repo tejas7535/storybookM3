@@ -166,10 +166,10 @@
           "price": "Preis",
           "quantity": "Menge",
           "profitMargin": "GPI%",
-          "salesIndication": "Auftragstyp",
+          "salesIndication": "Datenquelle",
           "year": "Jahr",
           "country": "Land",
-          "region": "Region",
+          "region": "Kundenregion",
           "competitor": "Wettbewerber",
           "relativeCompetitorPrice": "Verlässlichkeit Wettbewerber-Preis"
         },

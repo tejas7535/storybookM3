@@ -166,10 +166,10 @@
           "price": "Price",
           "quantity": "Quantity",
           "profitMargin": "GPI%",
-          "salesIndication": "Order Type",
+          "salesIndication": "Data Source",
           "year": "Year",
           "country": "Country",
-          "region": "Region",
+          "region": "Customer Region",
           "competitor": "Competitor",
           "relativeCompetitorPrice": "Relative Competitor Price"
         },
