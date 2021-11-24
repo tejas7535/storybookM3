@@ -12,7 +12,6 @@ import { CompareRoutePath } from './compare-route-path.enum';
 @Component({
   selector: 'cdba-compare',
   templateUrl: './compare.component.html',
-  styleUrls: ['./compare.component.scss'],
 })
 export class CompareComponent implements OnInit {
   public breadcrumbs$: Observable<Breadcrumb[]>;

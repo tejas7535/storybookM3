@@ -1,12 +1,8 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '@cdba/shared';
 import { CalculationsTableModule } from '@cdba/shared/components';
@@ -27,10 +23,8 @@ describe('CalculationsTabComponent', () => {
     imports: [
       SharedModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({ en: {} }),
       MockModule(CalculationsTableModule),
       MockModule(CustomStatusBarModule),
-      MatCardModule,
     ],
     providers: [
       provideMockStore({
@@ -40,10 +34,6 @@ describe('CalculationsTabComponent', () => {
           },
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

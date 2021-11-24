@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 import { SharedModule } from '@cdba/shared';
 import { BomContainerModule } from '@cdba/shared/components';
@@ -8,7 +9,12 @@ import { BomCompareTabComponent } from './bom-compare-tab.component';
 
 @NgModule({
   declarations: [BomCompareTabComponent],
-  imports: [SharedModule, BomCompareTabRoutingModule, BomContainerModule],
+  imports: [
+    MatCardModule,
+    SharedModule,
+    BomCompareTabRoutingModule,
+    BomContainerModule,
+  ],
   exports: [BomCompareTabComponent],
 })
 export class BomCompareTabModule {}

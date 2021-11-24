@@ -6,6 +6,7 @@
   [userName]="username$ | ngrxPush"
   [userImageUrl]="profileImage$ | ngrxPush"
   [footerLinks]="footerLinks"
+  [footerFixed]="false"
   [appVersion]="appVersion"
 >
   <ng-container sidenavBody>
@@ -20,7 +21,7 @@
     </div>
   </ng-container>
   <ng-container mainContent>
-    <div class="h-full w-full relative">
+    <div class="h-full w-full">
       <router-outlet></router-outlet>
     </div>
   </ng-container>

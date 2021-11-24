@@ -1,21 +1,9 @@
-<div class="caclulations-tab-container">
-  <mat-card>
-    <div
-      class="mat-card-inner"
-      fxLayout="column"
-      *transloco="let t; read: 'detail.calculations'"
-    >
-      <h6 class="text-light mb-4">{{ t('title') }}</h6>
-
-      <div class="table-container">
-        <cdba-calculations-table
-          [rowData]="calculations$ | ngrxPush"
-          [selectedNodeIds]="selectedNodeIds$ | ngrxPush"
-          [isLoading]="loading$ | ngrxPush"
-          [errorMessage]="errorMessage$ | ngrxPush"
-          (selectionChange)="selectCalculations($event)"
-        ></cdba-calculations-table>
-      </div>
-    </div>
-  </mat-card>
+<div class="h-full w-full px-5 pt-4 bg-white">
+  <cdba-calculations-table
+    [rowData]="calculations$ | ngrxPush"
+    [selectedNodeIds]="selectedNodeIds$ | ngrxPush"
+    [isLoading]="loading$ | ngrxPush"
+    [errorMessage]="errorMessage$ | ngrxPush"
+    (selectionChange)="selectCalculations($event)"
+  ></cdba-calculations-table>
 </div>

@@ -1,15 +1,14 @@
 <mat-sidenav-container
   hasBackdrop="false"
   autosize="true"
-  class="card-container"
+  class="h-full w-full"
 >
   <mat-sidenav
     #additionalInformation
     mode="over"
-    open="false"
     position="end"
     [autoFocus]="false"
-    class="bom-overlay-sidenav"
+    class="w-[500px]"
   >
     <cdba-bom-overlay (closeOverlay)="additionalInformation.close()">
       <ng-container calculations>
@@ -29,8 +28,8 @@
             *ngIf="children.length > 0"
             [data]="children"
           ></cdba-bom-legend>
-           </ng-container
-        >
+           
+        </ng-container>
         <cdba-loading-spinner
           *ngIf="bomLoading$ | ngrxPush"
           [show]="true"
@@ -40,79 +39,70 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-card>
-      <div
-        class="mat-card-inner"
-        fxLayout="column"
-        *transloco="let t; read: 'shared.bom'"
-      >
-        <div fxLayout="row" fxLayoutAlign="center">
-          <div fxLayout="column">
-            <h6 class="text-light">
-              {{
-                materialDesignation$
-                  | ngrxPush
-                  | scrambleMaterialDesignation: index || 0
-              }}
-            </h6>
-            <div
-              class="subcaption"
-              fxLayout="row wrap"
-              *ngrxLet="selectedCalculation$; let calculation"
-            >
-              <label>{{ t('costType') }}:&nbsp;</label>
-              <div
-                class="w-10"
-                [class.ghost-line]="calculationsLoading$ | ngrxPush"
+    <div *transloco="let t; read: 'shared.bom'" class="h-full flex flex-col">
+      <div class="flex justify-between bg-white">
+        <div>
+          <h6 class="text-mediumEmphasis mb-2">
+            {{
+              materialDesignation$
+                | ngrxPush
+                | scrambleMaterialDesignation: index || 0
+            }}
+          </h6>
+          <div *ngrxLet="selectedCalculation$; let calculation">
+            <div class="inline-block mr-4 text-body-2">
+              <span class="text-mediumEmphasis inline-block mr-2"
+                >{{ t('costType') }}:</span
               >
-                {{ calculation?.costType }}
-              </div>
-              <label>{{ t('calculationDate') }}:&nbsp;</label>
-              <div
-                [class.ghost-line]="calculationsLoading$ | ngrxPush"
-                [class.w-20]="calculationsLoading$ | ngrxPush"
+              <span class="inline-block min-w-[38px]">{{
+                calculation?.costType
+              }}</span>
+            </div>
+            <div class="inline-block text-body-2">
+              <span class="text-mediumEmphasis inline-block mr-2"
+                >{{ t('calculationDate') }}:</span
               >
-                {{ calculation?.calculationDate | translocoDate }}
-              </div>
+              <span>{{ calculation?.calculationDate | translocoDate }}</span>
             </div>
           </div>
-          <div class="bom-overlay">
-            <button mat-raised-button (click)="additionalInformation.open()">
-              <mat-icon>bar_chart</mat-icon>
-              {{ t('additionalInformation.title') }}
-            </button>
-            <button
-              mat-icon-button
-              [matMenuTriggerFor]="additionalFunctionality"
-            >
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #additionalFunctionality="matMenu">
-              <button
-                mat-menu-item
-                [disabled]="
-                  (bomLoading$ | ngrxPush) ||
-                  (bomErrorMessage$ | ngrxPush) !== undefined
-                "
-                (click)="exportBomAsExcelFile()"
-              >
-                <mat-icon>file_download</mat-icon>
-                <span>{{ t('additionalFunctionality.excelExport') }}</span>
-              </button>
-            </mat-menu>
-          </div>
         </div>
-        <div class="table-container">
-          <cdba-bom-table
-            [index]="index"
-            [rowData]="bomItems$ | ngrxPush"
-            [isLoading]="bomLoading$ | ngrxPush"
-            [errorMessage]="bomErrorMessage$ | ngrxPush"
-            (rowSelected)="selectBomItem($event)"
-            (gridReady)="onGridReady($event)"
-          ></cdba-bom-table>
+        <div>
+          <button
+            mat-raised-button
+            (click)="additionalInformation.open()"
+            class="!mr-4"
+          >
+            <mat-icon>bar_chart</mat-icon>
+            {{ t('additionalInformation.title') }}
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="additionalFunctionality">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #additionalFunctionality="matMenu">
+            <button
+              mat-menu-item
+              [disabled]="
+                (bomLoading$ | ngrxPush) ||
+                (bomErrorMessage$ | ngrxPush) !== undefined
+              "
+              (click)="exportBomAsExcelFile()"
+            >
+              <mat-icon>file_download</mat-icon>
+              <span>{{ t('additionalFunctionality.excelExport') }}</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
-    </mat-card>
+      <div class="flex-1">
+        <cdba-bom-table
+          [index]="index"
+          [rowData]="bomItems$ | ngrxPush"
+          [isLoading]="bomLoading$ | ngrxPush"
+          [errorMessage]="bomErrorMessage$ | ngrxPush"
+          (rowSelected)="selectBomItem($event)"
+          (gridReady)="onGridReady($event)"
+        ></cdba-bom-table>
+      </div>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

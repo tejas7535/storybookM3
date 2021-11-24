@@ -17,7 +17,6 @@ import {
 @Component({
   selector: 'cdba-calculations-tab',
   templateUrl: './calculations-tab.component.html',
-  styleUrls: ['./calculations-tab.component.scss'],
 })
 export class CalculationsTabComponent implements OnInit {
   calculations$: Observable<Calculation[]>;
