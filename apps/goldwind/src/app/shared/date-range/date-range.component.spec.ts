@@ -1,6 +1,9 @@
 import { fakeAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material/core';
+import {
+  MATERIAL_SANITY_CHECKS,
+  MatNativeDateModule,
+} from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -22,6 +25,12 @@ describe('DateRangeComponent', () => {
       MatFormFieldModule,
     ],
     declarations: [DateRangeComponent],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +27,10 @@ describe('BearingComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [BearingComponent],
   });

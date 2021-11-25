@@ -5,7 +5,7 @@ import { EdmHistogramState } from '../../reducers/edm-monitor/edm-histogram.redu
 
 export const getEdmHistogramResult = createSelector(
   getEdmHistogramState,
-  (state: EdmHistogramState) => state.result
+  (state: EdmHistogramState) => state?.result
 );
 
 export const getEdmHeatmapSeries = createSelector(

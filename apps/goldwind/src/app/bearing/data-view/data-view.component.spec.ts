@@ -15,6 +15,8 @@ import {
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { DataViewComponent } from './data-view.component';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 describe('DataViewComponent', () => {
   let component: DataViewComponent;
@@ -29,6 +31,7 @@ describe('DataViewComponent', () => {
       EmptyGraphModule,
       MatCardModule,
       MatIconModule,
+      MatIconTestingModule,
       MatSelectModule,
       AgGridModule,
     ],
@@ -45,6 +48,10 @@ describe('DataViewComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [DataViewComponent],
   });

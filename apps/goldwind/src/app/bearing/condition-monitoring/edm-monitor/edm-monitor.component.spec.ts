@@ -1,5 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -27,13 +29,20 @@ describe('EdmMonitorComponent', () => {
       SensorModule,
       MatCardModule,
       MatIconModule,
+      MatIconTestingModule,
       RouterTestingModule,
       MatSlideToggleModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
     declarations: [EdmMonitorComponent],
     detectChanges: false,
   });
@@ -42,6 +51,10 @@ describe('EdmMonitorComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     mockStore = spectator.inject(MockStore);
+    component.ngOnInit();
+  });
+  afterEach(() => {
+    component.ngOnDestroy();
   });
 
   it('should create', () => {

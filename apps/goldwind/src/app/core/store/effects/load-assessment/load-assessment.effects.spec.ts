@@ -109,7 +109,7 @@ describe('LoadAssessmentEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(b)', {
+        const expected = m.cold('- 500ms (b)', {
           b: getLoadAssessmentId(),
         });
 

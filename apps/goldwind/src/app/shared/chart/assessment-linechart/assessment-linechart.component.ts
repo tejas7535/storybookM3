@@ -85,6 +85,10 @@ export class AssessmentLinechartComponent
    * Used to push changes in the ui to the parent
    */
   @Output() displayChange: EventEmitter<any> = new EventEmitter();
+  /**
+   * Emits a event when the zoom slider in handled
+   */
+  @Output() zoomChange: EventEmitter<any> = new EventEmitter();
 
   /**
    * TODO:
@@ -135,6 +139,10 @@ export class AssessmentLinechartComponent
 
       this.dataSource.data[index].indeterminate = indeterminate;
     });
+  }
+
+  onChartZoom($event: any) {
+    this.zoomChange.next({ start: $event.start, end: $event.end });
   }
   /**
    * Formates the legend with found control name

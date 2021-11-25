@@ -2,6 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 
 import { LegalComponent } from './legal.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 describe('LegalComponent', () => {
   let component: LegalComponent;
@@ -11,6 +15,13 @@ describe('LegalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [LegalComponent],
+      imports: [RouterTestingModule, BreadcrumbsModule, MatIconTestingModule],
+      providers: [
+        {
+          provide: MATERIAL_SANITY_CHECKS,
+          useValue: false,
+        },
+      ],
     }).compileComponents();
     location = TestBed.inject(Location);
   });

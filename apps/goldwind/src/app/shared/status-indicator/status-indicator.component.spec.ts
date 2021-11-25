@@ -1,4 +1,6 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -11,8 +13,14 @@ describe('StatusIndicatorComponent', () => {
 
   const createComponent = createComponentFactory({
     component: StatusIndicatorComponent,
-    imports: [MatIconModule],
+    imports: [MatIconModule, MatIconTestingModule],
     declarations: [StatusIndicatorComponent],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

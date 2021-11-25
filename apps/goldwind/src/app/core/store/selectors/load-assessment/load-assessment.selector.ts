@@ -46,6 +46,17 @@ export const getAnalysisGraphData = createSelector(
           .filter(([_key, value]: DisplayOption) => value)
           .map(([key, _value]: DisplayOption) => key),
       },
+      dataZoom: [
+        {
+          filterMode: 'none',
+          type: 'inside',
+        },
+        {
+          bottom: '10%',
+          startValue: _interval.pristineStart * 1000,
+          endValue: _interval.pristineEnd * 1000,
+        }, // for slider zoom
+      ],
       series: Object.entries(display)
         .map(([key, value]) => [key, value] as DisplayOption)
         .map(([key, value]: DisplayOption) =>

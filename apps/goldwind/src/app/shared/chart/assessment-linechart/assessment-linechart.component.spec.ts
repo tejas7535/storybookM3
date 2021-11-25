@@ -16,6 +16,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { DateRangeModule } from '../../date-range/date-range.module';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { DATE_FORMAT } from '../../constants';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 describe('AssessmentLinechartComponent', () => {
   let component: AssessmentLinechartComponent;
   let spectator: Spectator<AssessmentLinechartComponent>;
@@ -35,6 +37,7 @@ describe('AssessmentLinechartComponent', () => {
       MatCheckboxModule,
       MatTreeModule,
       MatIconModule,
+      MatIconTestingModule,
       EmptyGraphModule,
       DateRangeModule,
       SharedTranslocoModule,
@@ -64,6 +67,10 @@ describe('AssessmentLinechartComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
   beforeAll(() => {});

@@ -14,6 +14,7 @@
       [interval$]="this.interval$"
       (interval)="this.setInterval($event)"
       (displayChange)="this.dispatchDisplay($event)"
+      (zoomChange)="this.handleZoom($event)"
     ></goldwind-assessment-linechart>
   </div>
   <goldwind-load-distribution-card

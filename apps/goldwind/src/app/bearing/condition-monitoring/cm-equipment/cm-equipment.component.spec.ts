@@ -1,5 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -15,7 +17,12 @@ describe('ConditionMeasuringEquipmentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CmEquipmentComponent,
-    imports: [MatCardModule, MatTabsModule, MatIconModule],
+    imports: [
+      MatCardModule,
+      MatTabsModule,
+      MatIconModule,
+      MatIconTestingModule,
+    ],
     providers: [
       provideMockStore({
         initialState: {
@@ -25,6 +32,10 @@ describe('ConditionMeasuringEquipmentComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [CmEquipmentComponent],
   });

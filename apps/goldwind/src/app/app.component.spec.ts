@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,13 +30,17 @@ describe('AppComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          auth: {
-            user: {
+          'azure-auth': {
+            accountInfo: {
               username: 'Jefferson',
             },
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [AppComponent],
   });

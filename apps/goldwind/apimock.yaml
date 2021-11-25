@@ -998,6 +998,7 @@ paths:
                     deviceId:
                       type: string
                       example: 'edge-goldwind-qa-001'
+                      x-faker: company.companyName
                     etag:
                       type: string
                       example: 'AAAAAAAAAAI='
@@ -1053,7 +1054,7 @@ components:
         timestamp:
           minimum: 1
           type: integer
-          format: int64
+          format: date.recent
     TimerangeParams:
       required:
         - end
@@ -1286,6 +1287,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
     EdmProcessed:
       type: object
       properties:
@@ -1324,9 +1326,11 @@ components:
         startTimestamp:
           type: string
           format: date-time
+          x-faker: date.past
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
     LspTemperatureProcessed:
       type: object
       properties:
@@ -1775,6 +1779,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
         lsp01Strain:
           type: number
           format: double
@@ -2023,6 +2028,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
         property:
           type: string
         value:
@@ -2034,6 +2040,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
         deviceId:
           type: string
         rollingElement1:
@@ -2695,6 +2702,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
           default: '2021-10-12T12:00:00Z'
         gcm01TemperatureOpticsMax:
           type: integer
@@ -2770,6 +2778,7 @@ components:
         timestamp:
           type: string
           format: date-time
+          x-faker: date.recent
         fx:
           type: number
           format: double
@@ -2899,19 +2908,25 @@ components:
           '$ref': '#/components/schemas/WindFarm'
         name:
           type: string
+          x-faker: company.companyName
         type:
           type: string
+          x-faker: company.companySuffix
         description:
           type: string
+          x-faker: company.catchPhrase
         manufacturer:
           type: string
           format: manufacturer
+          x-faker: commerce.department
         locationLatitude:
           type: number
           format: latitude
+          x-faker: address.latitude
         locationLongitude:
           type: number
           format: longitude
+          x-faker: address.longitude
   # securitySchemes:
   #   bearerAuth:
   #     type: http

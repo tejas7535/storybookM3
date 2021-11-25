@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -29,6 +30,10 @@ describe('OverviewComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [OverviewComponent],
   });

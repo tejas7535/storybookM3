@@ -13,6 +13,8 @@ import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 import { ShaftModule } from './shaft/shaft.module';
 import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/static-saftey-factor-monitor.module';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
@@ -30,6 +32,7 @@ describe('ConditionMonitoringComponent', () => {
       MatCardModule,
       MatTabsModule,
       MatIconModule,
+      MatIconTestingModule,
     ],
     providers: [
       provideMockStore({
@@ -72,6 +75,10 @@ describe('ConditionMonitoringComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [ConditionMonitoringComponent, CmEquipmentComponent],
   });

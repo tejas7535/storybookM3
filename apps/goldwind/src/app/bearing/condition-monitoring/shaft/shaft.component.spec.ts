@@ -1,5 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -19,6 +21,7 @@ describe('ConditionMeasuringEquipmentComponent', () => {
       RouterTestingModule,
       MatCardModule,
       MatIconModule,
+      MatIconTestingModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
@@ -32,6 +35,10 @@ describe('ConditionMeasuringEquipmentComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [ShaftComponent],
   });

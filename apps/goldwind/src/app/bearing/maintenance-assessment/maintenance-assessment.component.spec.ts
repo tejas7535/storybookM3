@@ -6,6 +6,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { setMaintenanceAssessmentDisplay } from '../../core/store';
 import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
 import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 describe('MaintenanceAssessmentComponent', () => {
   let component: MaintenanceAssessmentComponent;
   let spectator: Spectator<MaintenanceAssessmentComponent>;
@@ -59,6 +60,10 @@ describe('MaintenanceAssessmentComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [MaintenanceAssessmentComponent],
   });

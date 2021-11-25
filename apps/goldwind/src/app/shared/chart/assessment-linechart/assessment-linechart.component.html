@@ -100,11 +100,19 @@
   <mat-card class="w-full h-full lg:w-full">
     <mat-card-header>
       <mat-card-title>
-        <div class="flex items-center justify-center">
+        <div class="inline-flex items-center">
           <mat-icon class="mr-2">timeline</mat-icon>
           <span> {{ translate(this.translateKey + '.' + 'title') }}</span>
         </div>
       </mat-card-title>
+      <mat-card-subtitle>
+        <div id="interval" *ngIf="this.interval$">
+          <span *ngrxLet="this.interval$ as interval">
+            {{ interval.startDate * 1000 | date: 'EE, MMM d, y, h:mm:ss a' }}
+            - {{ interval.endDate * 1000 | date: 'EE, MMM d, y, h:mm:ss a' }}
+          </span>
+        </div>
+      </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="flex flex-col h-full space-between items-center">
       <ng-container *ngIf="graphData$ | ngrxPush as graphData; else loading">
@@ -113,6 +121,7 @@
           echarts
           [options]="chartOptions"
           [merge]="graphData"
+          (chartDataZoom)="onChartZoom($event)"
         ></div>
       </ng-container>
       <ng-template #loading>

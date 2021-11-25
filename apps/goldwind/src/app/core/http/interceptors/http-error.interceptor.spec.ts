@@ -15,6 +15,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 const environment = {
   baseUrl: 'localhost:8000/api/v1',
@@ -51,6 +52,10 @@ describe(`HttpErrorInterceptor`, () => {
         provide: HTTP_INTERCEPTORS,
         useClass: HttpErrorInterceptor,
         multi: true,
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

@@ -1,5 +1,5 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -12,6 +12,12 @@ describe('DateRangeComponent', () => {
   const createComponent = createComponentFactory({
     component: SensorComponent,
     imports: [MatRadioModule],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
     declarations: [SensorComponent],
   });
 

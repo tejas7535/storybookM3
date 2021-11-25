@@ -1,5 +1,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -55,7 +57,7 @@ describe('LoadAssessmentComponent', () => {
       ReactiveFormsModule,
       AssessmentLinechartModule,
       LoadDistributionCardModule,
-
+      MatIconTestingModule,
       // Material Modules
       MatCardModule,
     ],
@@ -75,6 +77,10 @@ describe('LoadAssessmentComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [LoadAssessmentComponent],
   });
@@ -116,6 +122,68 @@ describe('LoadAssessmentComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         setLoadAssessmentInterval({ interval: mockInterval })
+      );
+    });
+  });
+
+  describe('handleZoom', () => {
+    it('should dispatch an interval effect with caluclated percentage time ranges', () => {
+      mockStore.dispatch = jest.fn();
+
+      const mockInterval = {
+        startDate: 1_599_655_000, // 10% of from pristineStart
+        endDate: 1_599_695_000, // 10% of from pristineEnd
+        pristineStart: 1_599_650_000,
+        pristineEnd: 1_599_700_000,
+        zoom: true,
+      };
+
+      component.prisineInterval.start = mockInterval.pristineStart;
+      component.prisineInterval.end = mockInterval.pristineEnd;
+      component.handleZoom({ start: 10, end: 90 });
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        setLoadAssessmentInterval({ interval: mockInterval })
+      );
+    });
+
+    it('should dispatch with prisitine Value when event passed 0 on start', () => {
+      mockStore.dispatch = jest.fn();
+
+      component.prisineInterval.start = 1_599_650_000;
+      component.prisineInterval.end = 1_599_700_000;
+
+      component.handleZoom({ start: 0, end: 90 });
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        setLoadAssessmentInterval({
+          interval: {
+            startDate: component.prisineInterval.start,
+            endDate: 1_599_695_000, // 10% of from pristineEnd
+            pristineStart: component.prisineInterval.start,
+            pristineEnd: component.prisineInterval.end,
+            zoom: true,
+          },
+        })
+      );
+    });
+
+    it('should dispatch with prisitine Value when event passed 100 on end', () => {
+      mockStore.dispatch = jest.fn();
+
+      component.prisineInterval.start = 1_599_650_000;
+      component.prisineInterval.end = 1_599_700_000;
+
+      component.handleZoom({ start: 10, end: 100 });
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        setLoadAssessmentInterval({
+          interval: {
+            startDate: 1_599_655_000, // 10% of from pristineStart
+            endDate: component.prisineInterval.end, // 10% of from pristineEnd
+            pristineStart: component.prisineInterval.start,
+            pristineEnd: component.prisineInterval.end,
+            zoom: true,
+          },
+        })
       );
     });
   });

@@ -1,5 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSliderModule } from '@angular/material/slider';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -7,7 +9,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { DATE_FORMAT } from '../../../shared/constants';
 import { LoadDistributionCardComponent } from './load-distribution-card.component';
 
 describe('CenterLoadComponent', () => {
@@ -20,6 +21,7 @@ describe('CenterLoadComponent', () => {
     imports: [
       MatCardModule,
       MatIconModule,
+      MatIconTestingModule,
       MatSliderModule,
       RouterTestingModule,
       NgxEchartsModule.forRoot({
@@ -39,6 +41,10 @@ describe('CenterLoadComponent', () => {
           },
         },
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [LoadDistributionCardComponent],
   });

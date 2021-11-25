@@ -34,11 +34,11 @@ export const axisChartOptions: EChartsOption = {
   },
   dataZoom: [
     {
-      filterMode: 'filter',
       type: 'inside',
     },
     {
       bottom: '10%',
+      realtime: false,
     }, // for slider zoom
   ],
 };

@@ -11,7 +11,6 @@ import {
 } from '../../actions';
 import { LoadDistributionEffects } from '..';
 import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
-import { LoadSense } from '../../reducers/load-sense/models';
 import { marbles } from 'rxjs-marbles';
 
 /* eslint-disable max-lines */
@@ -69,50 +68,4 @@ describe('LoadDistributionEffects', () => {
       })
     );
   });
-
-  // describe('loadDistributionLatest$', () => {
-  //   it(
-  //     'should do something',
-  //     marbles((m) => {
-  //       action = getLoadDistributionLatest({ deviceId });
-  //       const mockLDRow = {
-  //         deviceId,
-  //         rollingElement1: 1,
-  //       } as LoadDistribution;
-  //       const mockLDRow2 = {
-  //         deviceId,
-  //         rollingElement1: 2,
-  //       } as LoadDistribution;
-
-  //       const mockLSP = {
-  //         deviceId: 'LSP_Ping',
-  //         lsp01Strain: 1,
-  //       } as LoadSense;
-
-  //       const result = getLoadDistributionLatestSuccess({
-  //         lsp: mockLSP,
-  //         row1: mockLDRow,
-  //         row2: mockLDRow2,
-  //       });
-
-  //       store.dispatch = jest.fn();
-  //       actions$ = m.hot('-a', { a: action });
-
-  //       const responseBearing = m.cold('-a|', { a: [mockLSP] });
-  //       const responseA = m.cold('-a|', { a: [mockLDRow] });
-  //       const responseB = m.cold('-b|', { b: [mockLDRow2] });
-
-  //       restService.getLoadDistribution = jest
-  //         .fn()
-  //         .mockReturnValue('default')
-  //         .mockReturnValueOnce(responseA)
-  //         .mockReturnValueOnce(responseB);
-  //       restService.getBearingLoad = jest.fn(() => responseBearing);
-
-  //       const expected = m.cold('---b', { b: result });
-  //       m.expect(effects.loadDistributionLatest$).toBeObservable(expected);
-  //       m.flush();
-  //     })
-  //   );
-  // });
 });

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { forkJoin, of } from 'rxjs';
 import {
   catchError,
+  debounceTime,
   filter,
   map,
   mergeMap,
@@ -24,8 +25,6 @@ import {
   getBearingLoadFailure,
   getBearingLoadSuccess,
   getLoadAverage,
-  getLoadAverageFailure,
-  getLoadAverageSuccess,
 } from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
@@ -61,6 +60,7 @@ export class LoadAssessmentEffects {
   interval$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(setLoadAssessmentInterval),
+      debounceTime(500),
       map(() => getLoadAssessmentId())
     );
   });
@@ -97,6 +97,13 @@ export class LoadAssessmentEffects {
       })),
       mergeMap((greaseParams) =>
         this.restService.getBearingLoad(greaseParams).pipe(
+          map((bearingLoad) =>
+            bearingLoad.sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )
+          ),
           map((bearingLoad) => getBearingLoadSuccess({ bearingLoad })),
           catchError((_e) => of(getBearingLoadFailure()))
         )
@@ -150,6 +157,13 @@ export class LoadAssessmentEffects {
       map(actionInterval()),
       mergeMap((deviceId) =>
         this.restService.getCenterLoad(deviceId).pipe(
+          map((centerLoad) =>
+            centerLoad.sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )
+          ),
           map((centerLoad) => getCenterLoadSuccess({ centerLoad })),
           catchError((_e) => of(getCenterLoadFailure()))
         )

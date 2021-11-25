@@ -1,6 +1,8 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { Spectator, createComponentFactory } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -20,6 +22,7 @@ describe('GcmHeatmapCardComponent', () => {
       // Material Modules
       MatCardModule,
       MatIconModule,
+      MatIconTestingModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('../../../shared/chart/echarts'),
       }),
@@ -28,6 +31,10 @@ describe('GcmHeatmapCardComponent', () => {
       provideMockStore({
         initialState: {},
       }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     declarations: [GcmHeatmapCardComponent],
   });
