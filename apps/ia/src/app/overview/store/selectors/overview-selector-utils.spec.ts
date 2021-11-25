@@ -1,17 +1,18 @@
 import { SeriesOption } from 'echarts';
 
-import { SMOOTH_LINE_SERIES_OPTIONS } from '../../../shared/configs/line-chart.config';
+import { SMOOTH_LINE_SERIES_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
+import {
+  DoughnutConfig,
+  DoughnutSeriesConfig,
+} from '../../../shared/charts/models';
+import { Color, Employee } from '../../../shared/models';
 import {
   FluctuationKpi,
+  FluctuationRate,
   FluctuationRatesChartData,
   LeavingType,
   PercentageFluctuationRate,
-} from '../../../shared/models';
-import { Color } from '../../../shared/models/color.enum';
-import { Employee } from '../../../shared/models/employee.model';
-import { FluctuationRate } from '../../../shared/models/fluctuation-rate.model';
-import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
-import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
+} from '../../models';
 import * as utils from './overview-selector-utils';
 
 describe('OverviewSelectorUtils', () => {

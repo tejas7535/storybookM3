@@ -13,11 +13,14 @@ import {
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { LostJobProfile } from '../../models';
+import { JobProfile, OpenPosition } from '../../models';
 import {
-  loadLostJobProfiles,
-  loadLostJobProfilesFailure,
-  loadLostJobProfilesSuccess,
+  loadJobProfiles,
+  loadJobProfilesFailure,
+  loadJobProfilesSuccess,
+  loadOpenPositions,
+  loadOpenPositionsFailure,
+  loadOpenPositionsSuccess,
 } from '../actions/loss-of-skill.actions';
 import { LossOfSkillEffects } from './loss-of-skill.effects';
 
@@ -63,10 +66,14 @@ describe('LossOfSkill Effects', () => {
         const request = { orgUnit: {} } as unknown as EmployeesRequest;
         action = filterSelected({ filter });
         store.overrideSelector(getCurrentFiltersAndTime, request);
-        const resultJobProfiles = loadLostJobProfiles({ request });
+        const resultJobProfiles = loadJobProfiles({ request });
+        const resultOpenPositions = loadOpenPositions({ request });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: resultJobProfiles });
+        const expected = m.cold('-(bc)', {
+          b: resultJobProfiles,
+          c: resultOpenPositions,
+        });
 
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
@@ -79,10 +86,14 @@ describe('LossOfSkill Effects', () => {
         const request = { orgUnit: {} } as unknown as EmployeesRequest;
         action = timeRangeSelected({ timeRange });
         store.overrideSelector(getCurrentFiltersAndTime, request);
-        const resultJobProfiles = loadLostJobProfiles({ request });
+        const resultJobProfiles = loadJobProfiles({ request });
+        const resultOpenPositions = loadOpenPositions({ request });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: resultJobProfiles });
+        const expected = m.cold('-(bc)', {
+          b: resultJobProfiles,
+          c: resultOpenPositions,
+        });
 
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
@@ -117,58 +128,54 @@ describe('LossOfSkill Effects', () => {
     );
   });
 
-  describe('loadLostJobProfiles$', () => {
+  describe('loadJobProfiles$', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
       request = {} as unknown as EmployeesRequest;
-      action = loadLostJobProfiles({ request });
+      action = loadJobProfiles({ request });
     });
 
     test(
-      'should return loadLostJobProfilesSuccess action when REST call is successful',
+      'should return loadJobProfilesSuccess action when REST call is successful',
       marbles((m) => {
-        const lostJobProfiles: LostJobProfile[] = [
+        const jobProfiles: JobProfile[] = [
           {
-            job: 'Data Scientist',
+            positionDescription: 'Data Scientist',
             employees: [],
             leavers: [],
-            openPositions: 1,
           },
           {
-            job: 'Software Engineer',
+            positionDescription: 'Software Engineer',
             employees: [],
             leavers: [],
-            openPositions: 1,
           },
         ];
-        const result = loadLostJobProfilesSuccess({
-          lostJobProfiles,
+        const result = loadJobProfilesSuccess({
+          jobProfiles,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: lostJobProfiles,
+          a: jobProfiles,
         });
         const expected = m.cold('--b', { b: result });
 
-        lossOfSkillService.getLostJobProfiles = jest
+        lossOfSkillService.getJobProfiles = jest
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadLostJobProfiles$).toBeObservable(expected);
+        m.expect(effects.loadJobProfiles$).toBeObservable(expected);
         m.flush();
-        expect(lossOfSkillService.getLostJobProfiles).toHaveBeenCalledWith(
-          request
-        );
+        expect(lossOfSkillService.getJobProfiles).toHaveBeenCalledWith(request);
       })
     );
 
     test(
-      'should return loadLostJobProfilesFailure on REST error',
+      'should return loadJobProfilesFailure on REST error',
       marbles((m) => {
-        const result = loadLostJobProfilesFailure({
+        const result = loadJobProfilesFailure({
           errorMessage: error.message,
         });
 
@@ -176,13 +183,77 @@ describe('LossOfSkill Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        lossOfSkillService.getLostJobProfiles = jest
+        lossOfSkillService.getJobProfiles = jest
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadLostJobProfiles$).toBeObservable(expected);
+        m.expect(effects.loadJobProfiles$).toBeObservable(expected);
         m.flush();
-        expect(lossOfSkillService.getLostJobProfiles).toHaveBeenCalledWith(
+        expect(lossOfSkillService.getJobProfiles).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadOpenPositions$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadOpenPositions({ request });
+    });
+
+    test(
+      'should return loadOpenPositionsSuccess action when REST call is successful',
+      marbles((m) => {
+        const openPositions: OpenPosition[] = [
+          {
+            positionDescription: 'Data Scientist',
+          } as OpenPosition,
+          {
+            positionDescription: 'Software Engineer',
+          } as OpenPosition,
+        ];
+        const result = loadOpenPositionsSuccess({
+          openPositions,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: openPositions,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getOpenPositions = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOpenPositions$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getOpenPositions).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
+
+    test(
+      'should return loadOpenPositionsFailure on REST error',
+      marbles((m) => {
+        const result = loadOpenPositionsFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        lossOfSkillService.getOpenPositions = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOpenPositions$).toBeObservable(expected);
+        m.flush();
+        expect(lossOfSkillService.getOpenPositions).toHaveBeenCalledWith(
           request
         );
       })

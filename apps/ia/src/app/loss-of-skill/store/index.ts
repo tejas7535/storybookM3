@@ -1,24 +1,37 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { LostJobProfile } from '../models';
+import { JobProfile, OpenPosition } from '../models';
 import {
-  loadLostJobProfiles,
-  loadLostJobProfilesFailure,
-  loadLostJobProfilesSuccess,
+  loadJobProfiles,
+  loadJobProfilesFailure,
+  loadJobProfilesSuccess,
+  loadOpenPositions,
+  loadOpenPositionsFailure,
+  loadOpenPositionsSuccess,
 } from './actions/loss-of-skill.actions';
 
 export const lossOfSkillFeatureKey = 'lossOfSkill';
 
 export interface LossOfSkillState {
-  lostJobProfiles: {
+  jobProfiles: {
     loading: boolean;
-    data: LostJobProfile[];
+    data: JobProfile[];
+    errorMessage: string;
+  };
+  openPositions: {
+    loading: boolean;
+    data: OpenPosition[];
     errorMessage: string;
   };
 }
 
 export const initialState: LossOfSkillState = {
-  lostJobProfiles: {
+  jobProfiles: {
+    loading: false,
+    data: undefined,
+    errorMessage: undefined,
+  },
+  openPositions: {
     loading: false,
     data: undefined,
     errorMessage: undefined,
@@ -28,31 +41,63 @@ export const initialState: LossOfSkillState = {
 export const lossOfSkillReducer = createReducer(
   initialState,
   on(
-    loadLostJobProfiles,
+    loadJobProfiles,
     (state: LossOfSkillState): LossOfSkillState => ({
       ...state,
-      lostJobProfiles: {
-        ...state.lostJobProfiles,
+      jobProfiles: {
+        ...state.jobProfiles,
         loading: true,
       },
     })
   ),
   on(
-    loadLostJobProfilesSuccess,
-    (state: LossOfSkillState, { lostJobProfiles }): LossOfSkillState => ({
+    loadJobProfilesSuccess,
+    (state: LossOfSkillState, { jobProfiles }): LossOfSkillState => ({
       ...state,
-      lostJobProfiles: {
-        data: lostJobProfiles,
+      jobProfiles: {
+        data: jobProfiles,
         loading: false,
         errorMessage: undefined,
       },
     })
   ),
   on(
-    loadLostJobProfilesFailure,
+    loadJobProfilesFailure,
     (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
       ...state,
-      lostJobProfiles: {
+      jobProfiles: {
+        errorMessage,
+        data: undefined,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOpenPositions,
+    (state: LossOfSkillState): LossOfSkillState => ({
+      ...state,
+      openPositions: {
+        ...state.openPositions,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadOpenPositionsSuccess,
+    (state: LossOfSkillState, { openPositions }): LossOfSkillState => ({
+      ...state,
+      openPositions: {
+        data: openPositions,
+        loading: false,
+        errorMessage: undefined,
+      },
+    })
+  ),
+  on(
+    loadOpenPositionsFailure,
+    (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
+      ...state,
+      openPositions: {
         errorMessage,
         data: undefined,
         loading: false,

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Employee } from '../models/employee.model';
+import { Employee } from '../models';
 import { EmployeeListDialogMeta } from './employee-list-dialog-meta.model';
 
 @Component({

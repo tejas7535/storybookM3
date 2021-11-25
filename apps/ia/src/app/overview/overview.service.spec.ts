@@ -5,8 +5,12 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { EmployeesRequest, FluctuationRatesChartData } from '../shared/models';
-import { OpenApplication, ResignedEmployeesResponse } from './models';
+import { EmployeesRequest } from '../shared/models';
+import {
+  FluctuationRatesChartData,
+  OpenApplication,
+  ResignedEmployeesResponse,
+} from './models';
 import { OverviewService } from './overview.service';
 
 describe('OverviewService', () => {

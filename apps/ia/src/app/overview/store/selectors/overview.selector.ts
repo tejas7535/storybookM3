@@ -5,9 +5,9 @@ import {
   getSelectedOrgUnit,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
-import { AttritionOverTime } from '../../../shared/models';
-import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
+import { AttritionOverTime } from '../../../shared/models';
+import { OverviewFluctuationRates } from '../../models/overview-fluctuation-rates.model';
 import * as utils from './overview-selector-utils';
 
 export const getIsLoadingAttritionOverTimeOverview = createSelector(

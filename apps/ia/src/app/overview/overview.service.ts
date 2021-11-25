@@ -7,14 +7,11 @@ import { map } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
 
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
+import { ApiVersion, EmployeesRequest } from '../shared/models';
 import {
-  ApiVersion,
-  EmployeesRequest,
   FluctuationRatesChartData,
-  OverviewFluctuationRates,
-} from '../shared/models';
-import {
   OpenApplication,
+  OverviewFluctuationRates,
   ResignedEmployee,
   ResignedEmployeesResponse,
 } from './models';

@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import * as d3Selection from 'd3-selection';
 
-import { Employee } from '../../shared/models/employee.model';
-import { HeatType } from '../models/heat-type.enum';
+import { Employee, HeatType } from '../../shared/models';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartNode } from './models/org-chart-node.model';
 

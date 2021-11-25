@@ -6,7 +6,7 @@ import { EChartsOption } from 'echarts';
 import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
-} from '../../shared/configs/line-chart.config';
+} from '../../shared/charts/line-chart/line-chart.config';
 import { TerminatedEmployee } from '../../shared/models';
 import { ChartSeries } from '../models/chart-series.model';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';

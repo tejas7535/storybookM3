@@ -6,9 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/chart-legend/models/chart-legend-item.model';
-import { IdValue } from '../shared/models';
-import { Employee } from '../shared/models/employee.model';
-import { TailwindColor } from '../shared/models/taliwind-color.enum';
+import { Employee, IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import {
   chartTypeSelected,

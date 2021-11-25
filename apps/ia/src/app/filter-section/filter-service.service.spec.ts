@@ -5,8 +5,8 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { InitialFiltersResponse } from '../shared/models';
 import { FilterService } from './filter-service.service';
+import { InitialFiltersResponse } from './models/initial-filters-response.model';
 
 describe('FilterService', () => {
   let httpMock: HttpTestingController;

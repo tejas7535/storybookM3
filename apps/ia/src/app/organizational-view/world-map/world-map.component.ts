@@ -9,11 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
-import { IdValue } from '../../shared/models';
+import { HeatType, IdValue } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
-import { HeatType } from '../models/heat-type.enum';
 import { ContinentButton } from './models/continent-button.model';
 import { CountryData } from './models/country-data.model';
 

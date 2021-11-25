@@ -21,12 +21,12 @@ import {
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
+  Employee,
   EmployeesRequest,
   FilterKey,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
-import { Employee } from '../../../shared/models/employee.model';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {

@@ -1,8 +1,6 @@
 import { initialState, OrganizationalViewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { AttritionOverTime } from '../../../shared/models';
-import { Color } from '../../../shared/models/color.enum';
-import { Employee } from '../../../shared/models/employee.model';
+import { AttritionOverTime, Color, Employee } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {

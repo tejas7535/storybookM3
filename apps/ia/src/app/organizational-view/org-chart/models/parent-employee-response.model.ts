@@ -1,4 +1,4 @@
-import { Employee } from './employee.model';
+import { Employee } from '../../../shared/models';
 
 export interface ParentEmployeeResponse {
   employee: Employee;

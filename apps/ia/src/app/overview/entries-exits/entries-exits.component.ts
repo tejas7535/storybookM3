@@ -6,8 +6,7 @@ import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-dat
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Color } from '../../shared/models/color.enum';
-import { Employee } from '../../shared/models/employee.model';
+import { Color, Employee } from '../../shared/models';
 
 @Component({
   selector: 'ia-entries-exits',

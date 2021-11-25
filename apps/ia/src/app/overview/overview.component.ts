@@ -8,9 +8,8 @@ import { EChartsOption } from 'echarts';
 
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { AttritionSeries, Event, FluctuationKpi } from '../shared/models';
-import { Employee } from '../shared/models/employee.model';
-import { OpenApplication, ResignedEmployee } from './models';
+import { AttritionSeries, Employee, Event } from '../shared/models';
+import { FluctuationKpi, OpenApplication, ResignedEmployee } from './models';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,

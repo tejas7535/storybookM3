@@ -7,7 +7,7 @@ import {
 
 import { EChartsOption } from 'echarts';
 
-import { LINE_CHART_BASE_OPTIONS } from '../../configs/line-chart.config';
+import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 
 @Component({
   selector: 'ia-line-chart',

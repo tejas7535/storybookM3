@@ -8,7 +8,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { loginSuccess } from '@schaeffler/azure-auth';
 
 import { FilterService } from '../../../../filter-section/filter-service.service';
-import { FilterKey, InitialFiltersResponse } from '../../../../shared/models';
+import { InitialFiltersResponse } from '../../../../filter-section/models/initial-filters-response.model';
+import { FilterKey, IdValue } from '../../../../shared/models';
 import {
   filterSelected,
   loadInitialFilters,
@@ -45,7 +46,7 @@ export class FilterEffects {
                 name: FilterKey.ORG_UNIT,
                 value:
                   filters?.orgUnits.find(
-                    (elem) => elem.value === 'Schaeffler_IT'
+                    (elem: IdValue) => elem.value === 'Schaeffler_IT'
                   )?.value ?? filters?.orgUnits[0]?.value,
               },
             })

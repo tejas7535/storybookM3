@@ -22,11 +22,14 @@ import { OrganizationalViewService } from '../../../organizational-view/organiza
 import {
   AttritionOverTime,
   EmployeesRequest,
-  FluctuationRatesChartData,
-  OverviewFluctuationRates,
   TimePeriod,
 } from '../../../shared/models';
-import { OpenApplication, ResignedEmployee } from '../../models';
+import {
+  FluctuationRatesChartData,
+  OpenApplication,
+  OverviewFluctuationRates,
+  ResignedEmployee,
+} from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
   loadAttritionOverTimeOverview,

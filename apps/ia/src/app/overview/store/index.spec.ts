@@ -1,13 +1,13 @@
 import { Action } from '@ngrx/store';
 
 import { initialState, overviewReducer, OverviewState, reducer } from '.';
+import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import {
-  AttritionOverTime,
-  EmployeesRequest,
   FluctuationRatesChartData,
-} from '../../shared/models';
-import { OverviewFluctuationRates } from '../../shared/models/overview-fluctuation-rates.model';
-import { OpenApplication, ResignedEmployee } from '../models';
+  OpenApplication,
+  OverviewFluctuationRates,
+  ResignedEmployee,
+} from '../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,

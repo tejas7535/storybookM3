@@ -9,7 +9,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { Employee } from '../models/employee.model';
+import { Employee } from '../models';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';
 
 describe('EmployeeListDialogComponent', () => {

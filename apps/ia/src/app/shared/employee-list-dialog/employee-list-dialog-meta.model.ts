@@ -1,4 +1,4 @@
-import { Employee } from '../models/employee.model';
+import { Employee } from '../models';
 import { EmployeeListDialogMetaHeadings } from './employee-list-dialog-meta-headings.model';
 
 export class EmployeeListDialogMeta {

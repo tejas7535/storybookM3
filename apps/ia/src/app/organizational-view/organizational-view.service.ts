@@ -10,14 +10,12 @@ import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
   ApiVersion,
   AttritionOverTime,
+  Employee,
   EmployeesRequest,
-  OrgChartResponse,
-  ParentEmployeeResponse,
   TimePeriod,
-  WorldMapResponse,
 } from '../shared/models';
-import { Employee } from '../shared/models/employee.model';
-import { CountryData } from './world-map/models/country-data.model';
+import { OrgChartResponse, ParentEmployeeResponse } from './org-chart/models';
+import { CountryData, WorldMapResponse } from './world-map/models';
 
 @Injectable({
   providedIn: 'root',

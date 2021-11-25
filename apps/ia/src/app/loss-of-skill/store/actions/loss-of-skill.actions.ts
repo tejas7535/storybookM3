@@ -1,27 +1,45 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { EmployeesRequest } from '../../../shared/models';
-import { LostJobProfile } from '../../models';
+import { JobProfile, OpenPosition } from '../../models';
 
-export const loadLostJobProfiles = createAction(
-  '[Loss of Skill] Load Lost Job Profiles',
+export const loadJobProfiles = createAction(
+  '[Loss of Skill] Load Job Profiles',
   props<{ request: EmployeesRequest }>()
 );
 
-export const loadLostJobProfilesSuccess = createAction(
-  '[Loss of Skill] Load Lost Job Profiles Success',
-  props<{ lostJobProfiles: LostJobProfile[] }>()
+export const loadJobProfilesSuccess = createAction(
+  '[Loss of Skill] Load Job Profiles Success',
+  props<{ jobProfiles: JobProfile[] }>()
 );
 
-export const loadLostJobProfilesFailure = createAction(
-  '[Loss of Skill] Load Lost Job Profiles Failure',
+export const loadJobProfilesFailure = createAction(
+  '[Loss of Skill] Load Job Profiles Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadOpenPositions = createAction(
+  '[Loss of Skill] Load Open Positions',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadOpenPositionsSuccess = createAction(
+  '[Loss of Skill] Load Open Positions Success',
+  props<{ openPositions: OpenPosition[] }>()
+);
+
+export const loadOpenPositionsFailure = createAction(
+  '[Loss of Skill] Load Open Positions Failure',
   props<{ errorMessage: string }>()
 );
 
 const all = union({
-  loadLostJobProfiles,
-  loadLostJobProfilesSuccess,
-  loadLostJobProfilesFailure,
+  loadJobProfiles,
+  loadJobProfilesSuccess,
+  loadJobProfilesFailure,
+  loadOpenPositions,
+  loadOpenPositionsSuccess,
+  loadOpenPositionsFailure,
 });
 
 export type LossOfSkillActions = typeof all;

@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { Employee } from '../shared/models/employee.model';
+import { Employee } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { ChartType } from './models/chart-type.enum';
 import { OrganizationalViewComponent } from './organizational-view.component';

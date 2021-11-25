@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { ApiVersion, InitialFiltersResponse } from '../shared/models';
+import { ApiVersion } from '../shared/models';
+import { InitialFiltersResponse } from './models/initial-filters-response.model';
 
 @Injectable({
   providedIn: 'root',

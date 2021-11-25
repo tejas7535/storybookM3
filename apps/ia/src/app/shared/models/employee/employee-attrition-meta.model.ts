@@ -1,4 +1,4 @@
-import { HeatType } from '../../organizational-view/models/heat-type.enum';
+import { HeatType } from './heat-type.enum';
 
 export class EmployeeAttritionMeta {
   public constructor(

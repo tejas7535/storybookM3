@@ -1,12 +1,12 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
-  AttritionOverTime,
-  EmployeesRequest,
   FluctuationRatesChartData,
-} from '../../../shared/models';
-import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
-import { OpenApplication, ResignedEmployee } from '../../models';
+  OpenApplication,
+  OverviewFluctuationRates,
+  ResignedEmployee,
+} from '../../models';
 
 export const loadAttritionOverTimeOverview = createAction(
   '[Overview] Load AttritionOverTime for last three years',

@@ -9,10 +9,9 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
-import { IdValue } from '../../shared/models';
+import { HeatType, IdValue } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { HeatType } from '../models/heat-type.enum';
 import { CountryData } from './models/country-data.model';
 import { WorldMapComponent } from './world-map.component';
 

@@ -1,8 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import d3Selection from 'd3-selection';
 
-import { Employee } from '../../shared/models/employee.model';
-import { HeatType } from '../models/heat-type.enum';
+import { Employee, HeatType } from '../../shared/models';
 import { OrgChartService } from './org-chart.service';
 
 const mock: any = {

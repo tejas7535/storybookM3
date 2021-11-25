@@ -1,4 +1,4 @@
-import { Employee } from './employee.model';
+import { Employee } from '../../shared/models';
 import { FluctuationRate } from './fluctuation-rate.model';
 
 export class OverviewFluctuationRates {

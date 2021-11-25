@@ -2,12 +2,14 @@ import { SeriesOption } from 'echarts';
 
 import { initialState, OverviewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { FilterKey, FluctuationKpi } from '../../../shared/models';
-import { Color } from '../../../shared/models/color.enum';
-import { Employee } from '../../../shared/models/employee.model';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
-import { OpenApplication, ResignedEmployee } from '../../models';
+import { Color, Employee, FilterKey } from '../../../shared/models';
+import {
+  FluctuationKpi,
+  OpenApplication,
+  ResignedEmployee,
+} from '../../models';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,

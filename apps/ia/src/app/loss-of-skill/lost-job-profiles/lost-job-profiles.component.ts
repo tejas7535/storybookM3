@@ -12,7 +12,7 @@ import { translate } from '@ngneat/transloco';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { Employee } from '../../shared/models/employee.model';
+import { Employee } from '../../shared/models';
 import { LostJobProfile } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
@@ -40,14 +40,15 @@ export class LostJobProfilesComponent implements OnChanges {
     floatingFilter: true,
     resizable: true,
     suppressMenu: true,
-    width: 100,
     flex: 1,
     headerClass: () => 'bg-lightBg',
   };
 
+  currentDate = new Date();
+
   columnDefs: ColDef[] = [
     {
-      field: 'job',
+      field: 'positionDescription',
       headerName: translate('lossOfSkill.lostJobProfiles.table.job'),
       flex: 2,
     },
@@ -74,7 +75,11 @@ export class LostJobProfilesComponent implements OnChanges {
     },
     {
       field: 'openPositions',
-      headerName: translate('lossOfSkill.lostJobProfiles.table.openPositions'),
+      headerName: translate('lossOfSkill.lostJobProfiles.table.openPositions', {
+        state: `${this.currentDate.toLocaleString('default', {
+          month: 'short',
+        })} ${this.currentDate.getFullYear()}`,
+      }),
       filter: 'agNumberColumnFilter',
       flex: 1,
     },
@@ -90,6 +95,7 @@ export class LostJobProfilesComponent implements OnChanges {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
+    params.columnApi.autoSizeColumn('openPositions');
   }
 
   getRowClass = () => 'border-2 border-veryLight';

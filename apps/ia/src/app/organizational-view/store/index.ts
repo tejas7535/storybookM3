@@ -1,7 +1,6 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { AttritionOverTime, IdValue } from '../../shared/models';
-import { Employee } from '../../shared/models/employee.model';
+import { AttritionOverTime, Employee, IdValue } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { CountryData } from '../world-map/models/country-data.model';
 import {

@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 
 import { TranslocoService } from '@ngneat/transloco';
 
-import { Language } from '../models';
+import { Language } from './models/language.model';
 
 @Component({
   selector: 'ia-user-settings',

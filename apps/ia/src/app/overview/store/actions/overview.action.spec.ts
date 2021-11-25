@@ -1,10 +1,9 @@
+import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
-  AttritionOverTime,
-  EmployeesRequest,
   FluctuationRatesChartData,
-} from '../../../shared/models';
-import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
-import { ResignedEmployee } from '../../models';
+  OverviewFluctuationRates,
+  ResignedEmployee,
+} from '../../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,

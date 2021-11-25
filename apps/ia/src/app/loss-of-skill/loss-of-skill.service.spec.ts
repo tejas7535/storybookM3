@@ -7,7 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { EmployeesRequest } from '../shared/models';
 import { LossOfSkillService } from './loss-of-skill.service';
-import { LostJobProfile } from './models';
+import { JobProfile } from './models';
 
 describe('LossOfSkillService', () => {
   let httpMock: HttpTestingController;
@@ -33,19 +33,21 @@ describe('LossOfSkillService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getLostJobProfiles', () => {
-    test('should get lost job profiles', () => {
+  describe('getJobProfiles', () => {
+    test('should get job profiles', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '123-321';
       const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
-      const mock: LostJobProfile[] = [{ job: 'Manager' } as LostJobProfile];
+      const mock: JobProfile[] = [
+        { positionDescription: 'Manager' } as JobProfile,
+      ];
 
-      service.getLostJobProfiles(request).subscribe((response) => {
+      service.getJobProfiles(request).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `api/v1/lost-job-profiles?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/job-profiles?org_unit=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

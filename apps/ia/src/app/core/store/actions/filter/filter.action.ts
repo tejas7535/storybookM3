@@ -1,10 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import {
-  InitialFiltersResponse,
-  SelectedFilter,
-  TimePeriod,
-} from '../../../../shared/models';
+import { InitialFiltersResponse } from '../../../../filter-section/models/initial-filters-response.model';
+import { SelectedFilter, TimePeriod } from '../../../../shared/models';
 
 export const loadInitialFilters = createAction('[Filter] Load Initial Filters');
 

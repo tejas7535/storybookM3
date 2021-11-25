@@ -21,11 +21,14 @@ import {
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import { EmployeesRequest } from '../../../shared/models';
 import { LossOfSkillService } from '../../loss-of-skill.service';
-import { LostJobProfile } from '../../models';
+import { JobProfile, OpenPosition } from '../../models';
 import {
-  loadLostJobProfiles,
-  loadLostJobProfilesFailure,
-  loadLostJobProfilesSuccess,
+  loadJobProfiles,
+  loadJobProfilesFailure,
+  loadJobProfilesSuccess,
+  loadOpenPositions,
+  loadOpenPositionsFailure,
+  loadOpenPositionsSuccess,
 } from '../actions/loss-of-skill.actions';
 
 @Injectable()
@@ -43,22 +46,40 @@ export class LossOfSkillEffects implements OnInitEffects {
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
-        loadLostJobProfiles({ request }),
+        loadJobProfiles({ request }),
+        loadOpenPositions({ request }),
       ])
     );
   });
 
-  loadLostJobProfiles$ = createEffect(() => {
+  loadJobProfiles$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadLostJobProfiles),
+      ofType(loadJobProfiles),
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
-        this.lossOfSkillService.getLostJobProfiles(request).pipe(
-          map((lostJobProfiles: LostJobProfile[]) =>
-            loadLostJobProfilesSuccess({ lostJobProfiles })
+        this.lossOfSkillService.getJobProfiles(request).pipe(
+          map((jobProfiles: JobProfile[]) =>
+            loadJobProfilesSuccess({ jobProfiles })
           ),
           catchError((error) =>
-            of(loadLostJobProfilesFailure({ errorMessage: error.message }))
+            of(loadJobProfilesFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    );
+  });
+
+  loadOpenPositions$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadOpenPositions),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.lossOfSkillService.getOpenPositions(request).pipe(
+          map((openPositions: OpenPosition[]) =>
+            loadOpenPositionsSuccess({ openPositions })
+          ),
+          catchError((error) =>
+            of(loadOpenPositionsFailure({ errorMessage: error.message }))
           )
         )
       )

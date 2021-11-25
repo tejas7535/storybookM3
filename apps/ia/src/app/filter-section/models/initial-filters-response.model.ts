@@ -1,4 +1,4 @@
-import { IdValue } from './id-value.model';
+import { IdValue } from '../../shared/models/id-value.model';
 
 export interface InitialFiltersResponse {
   orgUnits: IdValue[];

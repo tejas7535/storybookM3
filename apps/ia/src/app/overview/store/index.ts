@@ -1,11 +1,12 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
+import { AttritionOverTime } from '../../shared/models';
 import {
-  AttritionOverTime,
   FluctuationRatesChartData,
+  OpenApplication,
   OverviewFluctuationRates,
-} from '../../shared/models';
-import { OpenApplication, ResignedEmployee } from '../models';
+  ResignedEmployee,
+} from '../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,

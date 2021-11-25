@@ -5,7 +5,7 @@
       "job": "Job",
       "workforce": "Workforce",
       "leavers": "Leavers",
-      "openPositions": "Open Positions"
+      "openPositions": "Open Positions (State: {{ state }})"
     },
     "popup": {
       "titleWorkforce": "Current Workforce",

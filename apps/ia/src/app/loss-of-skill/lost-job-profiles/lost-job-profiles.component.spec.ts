@@ -12,7 +12,7 @@ import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialo
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
-import { Employee } from '../../shared/models/employee.model';
+import { Employee } from '../../shared/models';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 
 describe('LostJobProfilesComponent', () => {
@@ -124,11 +124,17 @@ describe('LostJobProfilesComponent', () => {
 
   describe('onGridReady', () => {
     test('should set grid api', () => {
-      const params = { api: {} } as GridReadyEvent;
+      const params = {
+        api: {},
+        columnApi: {
+          autoSizeColumn: jest.fn(),
+        },
+      } as unknown as GridReadyEvent;
 
       component.onGridReady(params);
 
       expect(component.gridApi).toBeDefined();
+      expect(params.columnApi.autoSizeColumn).toHaveBeenCalled();
     });
   });
 });

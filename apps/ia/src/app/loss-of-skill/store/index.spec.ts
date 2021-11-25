@@ -2,61 +2,120 @@ import { Action } from '@ngrx/store';
 
 import { initialState, lossOfSkillReducer, reducer } from '.';
 import { EmployeesRequest } from '../../shared/models';
-import { LostJobProfile } from '../models';
+import { JobProfile, OpenPosition } from '../models';
 import {
-  loadLostJobProfiles,
-  loadLostJobProfilesFailure,
-  loadLostJobProfilesSuccess,
+  loadJobProfiles,
+  loadJobProfilesFailure,
+  loadJobProfilesSuccess,
+  loadOpenPositions,
+  loadOpenPositionsFailure,
+  loadOpenPositionsSuccess,
 } from './actions/loss-of-skill.actions';
 
 describe('LossOfSkill Reducer', () => {
   const errorMessage = 'An error occured';
 
-  describe('loadLostJobProfiles', () => {
+  describe('loadJobProfiles', () => {
     test('should set loading', () => {
-      const action = loadLostJobProfiles({
+      const action = loadJobProfiles({
         request: {} as unknown as EmployeesRequest,
       });
       const state = lossOfSkillReducer(initialState, action);
 
-      expect(state.lostJobProfiles.loading).toBeTruthy();
+      expect(state.jobProfiles.loading).toBeTruthy();
     });
   });
 
-  describe('loadLostJobProfilesSuccess', () => {
+  describe('loadJobProfilesSuccess', () => {
     test('should unset loading and set lost job profiles', () => {
-      const lostJobProfiles: LostJobProfile[] = [
+      const jobProfiles: JobProfile[] = [
         {
-          job: 'Foo Bar',
+          positionDescription: 'Foo Bar',
           employees: [],
           leavers: [],
-          openPositions: 1,
         },
       ];
 
-      const action = loadLostJobProfilesSuccess({ lostJobProfiles });
+      const action = loadJobProfilesSuccess({ jobProfiles });
 
       const state = lossOfSkillReducer(initialState, action);
 
-      expect(state.lostJobProfiles.loading).toBeFalsy();
-      expect(state.lostJobProfiles.data).toEqual(lostJobProfiles);
+      expect(state.jobProfiles.loading).toBeFalsy();
+      expect(state.jobProfiles.data).toEqual(jobProfiles);
     });
   });
 
-  describe('loadLostJobProfilesFailure', () => {
+  describe('loadJobProfilesFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadLostJobProfilesFailure({ errorMessage });
+      const action = loadJobProfilesFailure({ errorMessage });
       const fakeState = {
         ...initialState,
-        loading: true,
-        data: [{ workforce: 10, leavers: 3, job: 'Foo Bar' }],
+        jobProfiles: {
+          ...initialState.jobProfiles,
+          loading: true,
+          data: [
+            {
+              employees: ['Hans'],
+              leavers: ['Peter'],
+              positionDescription: 'Foo Bar',
+            },
+          ],
+        },
       };
 
       const state = lossOfSkillReducer(fakeState, action);
 
-      expect(state.lostJobProfiles.data).toBeUndefined();
-      expect(state.lostJobProfiles.loading).toBeFalsy();
-      expect(state.lostJobProfiles.errorMessage).toEqual(errorMessage);
+      expect(state.jobProfiles.data).toBeUndefined();
+      expect(state.jobProfiles.loading).toBeFalsy();
+      expect(state.jobProfiles.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOpenPositions', () => {
+    test('should set loading', () => {
+      const action = loadOpenPositions({
+        request: {} as unknown as EmployeesRequest,
+      });
+      const state = lossOfSkillReducer(initialState, action);
+
+      expect(state.openPositions.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOpenPositionsSuccess', () => {
+    test('should unset loading and set lost job profiles', () => {
+      const openPositions: OpenPosition[] = [
+        {
+          positionDescription: 'Foo Bar',
+        } as unknown as OpenPosition,
+      ];
+
+      const action = loadOpenPositionsSuccess({ openPositions });
+
+      const state = lossOfSkillReducer(initialState, action);
+
+      expect(state.openPositions.loading).toBeFalsy();
+      expect(state.openPositions.data).toEqual(openPositions);
+    });
+  });
+
+  describe('loadOpenPositionsFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOpenPositionsFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        openPositions: {
+          ...initialState.openPositions,
+          loading: true,
+          data: [{ positionDescription: 'Foo Bar' } as unknown as OpenPosition],
+        },
+      };
+
+      const state = lossOfSkillReducer(fakeState, action);
+
+      expect(state.openPositions.data).toBeUndefined();
+      expect(state.openPositions.loading).toBeFalsy();
+      expect(state.openPositions.errorMessage).toEqual(errorMessage);
     });
   });
 

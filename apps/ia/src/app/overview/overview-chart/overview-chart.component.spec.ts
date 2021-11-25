@@ -10,7 +10,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
-} from '../../shared/configs/line-chart.config';
+} from '../../shared/charts/line-chart/line-chart.config';
 import { TerminatedEmployee } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';

@@ -1,7 +1,10 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
-import { Employee } from '../../../shared/models/employee.model';
+import {
+  AttritionOverTime,
+  Employee,
+  EmployeesRequest,
+} from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { CountryData } from '../../world-map/models/country-data.model';
 

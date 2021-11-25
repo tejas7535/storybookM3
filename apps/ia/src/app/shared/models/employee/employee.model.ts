@@ -1,17 +1,11 @@
+import { Position } from '../position.model';
 import { EmployeeAttritionMeta } from './employee-attrition-meta.model';
 
-export interface Employee {
+export interface Employee extends Position {
   employeeId: string;
   employeeName: string;
-  subRegion: string;
-  hrLocation: string;
-  country: string;
-  orgUnit: string;
-  businessUnit: string;
-  division: string;
   jobFamily: string;
   jobFamilyDescription: string;
-  positionDescription: string;
   age: number;
   tenureInYears: number;
   gender: string;
@@ -19,9 +13,6 @@ export interface Employee {
   foreigner: string;
   organizationalLevel: string;
   parentEmployeeId: string;
-  fte: number;
-  headcount: number;
-  fulltimeParttime: string;
   exitDate: string;
   entryDate: string;
   internalEntryDate: string;

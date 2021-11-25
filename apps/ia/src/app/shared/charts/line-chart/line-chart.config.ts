@@ -1,6 +1,6 @@
 import { EChartsOption } from 'echarts';
 
-import { Color } from '../models/color.enum';
+import { Color } from '../../models/color.enum';
 
 export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
   xAxis: {

@@ -7,14 +7,13 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import {
   AttritionOverTime,
+  Employee,
   EmployeesRequest,
-  OrgChartResponse,
-  ParentEmployeeResponse,
   TimePeriod,
-  WorldMapResponse,
 } from '../shared/models';
-import { Employee } from '../shared/models/employee.model';
+import { OrgChartResponse, ParentEmployeeResponse } from './org-chart/models';
 import { OrganizationalViewService } from './organizational-view.service';
+import { WorldMapResponse } from './world-map/models';
 
 describe('OrganizationalViewService', () => {
   let httpMock: HttpTestingController;
