@@ -1,74 +1,76 @@
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-mat-card-content {
-  h2 {
-    @apply text-h6 font-medium mt-6;
-  }
+#schaeffler-report {
+  mat-card-content {
+    h2 {
+      @apply text-h6 font-medium mt-6;
+    }
 
-  h6 {
-    @apply text-caption;
-  }
+    h6 {
+      @apply text-caption;
+    }
 
-  .mat-expansion-indicator:after {
-    @apply text-light;
-  }
-}
-
-::ng-deep mat-card-header .mat-card-header-text {
-  @apply m-0;
-}
-
-table {
-  @apply text-caption text-dark table-auto;
-
-  @screen sm {
-    @apply mx-0 w-full table-fixed;
-  }
-
-  th {
-    @apply font-normal;
-  }
-
-  tr {
-    @apply border border-r-0 border-l-0 border-veryLight;
-  }
-
-  td {
-    @apply p-3;
-  }
-
-  tbody tr td:first-child {
-    @apply bg-primary bg-opacity-8 text-right;
-  }
-
-  thead tr th:first-child {
-    @apply w-24 sm:w-48;
-  }
-
-  thead tr th {
-    @apply min-w-[96px];
-  }
-
-  th.mat-header-cell,
-  td.mat-cell,
-  td.mat-footer-cell {
-    @apply p-3;
-  }
-
-  colgroup col:first-child,
-  tbody tr td:first-child {
-    @apply w-[96px];
-
-    @screen sm {
-      @apply w-[192px];
+    .mat-expansion-indicator:after {
+      @apply text-light;
     }
   }
 
-  colgroup {
-    @apply hidden;
+  ::ng-deep mat-card-header .mat-card-header-text {
+    @apply m-0;
   }
-}
 
-mat-card .relative-divider.mat-divider-horizontal {
-  @apply relative;
+  table {
+    @apply text-caption text-dark table-auto;
+
+    @screen sm {
+      @apply mx-0 w-full table-fixed;
+    }
+
+    th {
+      @apply font-normal;
+    }
+
+    tr {
+      @apply border border-r-0 border-l-0 border-veryLight;
+    }
+
+    td {
+      @apply p-3;
+    }
+
+    tbody tr td:first-child {
+      @apply bg-primary bg-opacity-8 text-right;
+    }
+
+    thead tr th:first-child {
+      @apply w-24 sm:w-48;
+    }
+
+    thead tr th {
+      @apply min-w-[96px];
+    }
+
+    th.mat-header-cell,
+    td.mat-cell,
+    td.mat-footer-cell {
+      @apply p-3;
+    }
+
+    colgroup col:first-child,
+    tbody tr td:first-child {
+      @apply w-[96px];
+
+      @screen sm {
+        @apply w-[192px];
+      }
+    }
+
+    colgroup {
+      @apply hidden;
+    }
+  }
+
+  mat-card .relative-divider.mat-divider-horizontal {
+    @apply relative;
+  }
 }
