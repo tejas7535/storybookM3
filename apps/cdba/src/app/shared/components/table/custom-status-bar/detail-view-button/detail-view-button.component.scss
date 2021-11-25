@@ -1,3 +1,14 @@
-button {
-  margin: 16px 16px 16px 0;
+:host {
+  .button-wrapper {
+    @apply py-4;
+    @apply pr-4;
+
+    &.not-in-view {
+      button:enabled {
+        @apply fixed;
+        @apply bottom-4;
+        @apply left-5;
+      }
+    }
+  }
 }

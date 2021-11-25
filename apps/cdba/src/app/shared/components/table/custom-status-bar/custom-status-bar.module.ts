@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared/shared.module';
+import { InViewModule } from '@cdba/shared/directives/in-view';
 
 import { CompareViewButtonComponent } from './compare-view-button/compare-view-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
@@ -23,6 +24,7 @@ import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.compon
     SharedTranslocoModule,
     MatButtonModule,
     MatTooltipModule,
+    InViewModule,
   ],
   exports: [
     DetailViewButtonComponent,
