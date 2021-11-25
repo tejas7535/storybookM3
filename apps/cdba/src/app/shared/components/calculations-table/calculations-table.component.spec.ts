@@ -43,7 +43,7 @@ describe('CalculationsTableComponent', () => {
     imports: [
       SharedTranslocoModule,
       SharedModule,
-      AgGridModule.withComponents([]),
+      MockModule(AgGridModule.withComponents([])),
       MatCardModule,
       MatIconModule,
       RouterTestingModule,

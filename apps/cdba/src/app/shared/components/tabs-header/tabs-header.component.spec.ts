@@ -9,8 +9,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BackButtonModule } from '@cdba/shared/directives';
-
 import { TabsHeaderComponent } from './tabs-header.component';
 
 describe('TabsHeaderComponent', () => {
@@ -25,7 +23,6 @@ describe('TabsHeaderComponent', () => {
       MatButtonModule,
       MatTooltipModule,
       RouterTestingModule,
-      BackButtonModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

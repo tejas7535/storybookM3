@@ -43,7 +43,7 @@ describe('ReferenceTypesTableComponent', () => {
     imports: [
       SharedTranslocoModule,
       SharedModule,
-      AgGridModule.withComponents([]),
+      MockModule(AgGridModule.withComponents([])),
       MatIconModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
