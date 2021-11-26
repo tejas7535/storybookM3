@@ -5,7 +5,6 @@ import { PictureCardAction } from './models/picture-card-action.model';
 @Component({
   selector: 'schaeffler-picture-card',
   templateUrl: './picture-card.component.html',
-  styleUrls: ['./picture-card.component.scss'],
 })
 export class PictureCardComponent {
   @Input() public img!: string;

@@ -1,10 +1,24 @@
-/* You can add global styles to this file, and also import other style files */
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
 
-/* required imports for tailwind project to use material theme */
-@import 'libs/shared/ui/styles/src/lib/material-theme';
+/*
+ * Angular Material, material design components
+ * see https://material.angular.io
+ * and material icons, see https://fonts.google.com/icons
+ */
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-/* required imports for tailwind project to use material theme */
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+
+/***************************************************************************************************
+  * UTILITIES
+  */
+
+/*
+  * TailwindCSS, utility-first css framework
+  * see https://tailwindcss.com/docs
+  */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';

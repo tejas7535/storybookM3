@@ -44,15 +44,6 @@ button {
   outline: none !important;
 }
 
-// custom overrides for angular material
-.mat-tooltip {
-  @apply text-body-2 text-white;
-}
-
-.material-icons {
-  font-family: 'Material Icons' !important;
-}
-
 // custom overrides for ag grid
 .ag-theme-material {
   @include ag-theme-material(

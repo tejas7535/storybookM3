@@ -6,7 +6,6 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 @Component({
   selector: 'schaeffler-subheader',
   templateUrl: './subheader.component.html',
-  styleUrls: ['./subheader.component.scss'],
 })
 export class SubheaderComponent {
   @Input() public showBackButton = true;

@@ -1,21 +1,43 @@
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
+
+/*
+ * Angular Material, material design components
+ * see https://material.angular.io
+ * and material icons, see https://fonts.google.com/icons
+ */
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+
+/*
+   * ag grid components
+   * see https://www.ag-grid.com/angular-grid
+   */
 @import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
 @import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
 
-@import 'libs/shared/ui/styles/src/lib/colors';
-@import 'libs/shared/ui/styles/src/lib/material-theme';
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+/*
+   * custom components
+   */
+@import 'libs/shared/ui/styles/src/lib/tabs';
 
+/***************************************************************************************************
+   * UTILITIES
+   */
+
+/*
+   * TailwindCSS, utility-first css framework
+   * see https://tailwindcss.com/docs
+   */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-body {
-  font-family: Roboto;
-}
-
-.material-icons {
-  font-family: 'Material Icons' !important;
-}
+/***************************************************************************************************
+   * OVERRIDES
+   */
 
 .ag-theme-material {
   @include ag-theme-material(

@@ -1,23 +1,53 @@
 # frontend@schaeffler DropdownInput Documentation
-## Disclaimer
-This lib depends on the [tailwind](https://www.npmjs.com/package/tailwindcss), so please install it
+## Usage
 
-Afterwards replace the default `tailwind.config.js` with the most current version from the [frontend-schaeffler repo](https://github.com/Schaeffler-Group/frontend-schaeffler/blob/master/tailwind.config.js)
+### Prerequisites
 
-Also import the tailwind styles in your app
-Example `styles.scss`
+As this lib depends on [Angular Material](https://material.angular.io) (including [Material Icons](https://fonts.google.com/icons)) and [Tailwind](https://tailwindcss.com/docs), it is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
 
+``` scss
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
+ 
+/*
+ * Angular Material, material design components
+ * see https://material.angular.io
+ * and material icons, see https://fonts.google.com/icons
+ */
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-```scss
-// styles.scss
+@import 'libs/shared/ui/styles/src/lib/material-theme';
 
+/*
+ * further / custom components
+ */
+...
+
+/***************************************************************************************************
+ * UTILITIES
+ */
+
+/*
+ * TailwindCSS, utility-first css framework
+ * see https://tailwindcss.com/docs
+ */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-/* You can add global styles to this file, and also import other style files */
-@import '@schaeffler/styles/src/lib/colors.scss';
-@import '@schaeffler/styles/src/lib/material-theme';
+
+/*
+ * further / custom utilities
+ */
+...
+
+/***************************************************************************************************
+ * OVERRIDES
+ */ 
+...
 ```
+
+### Import the Module
 
 ```typescript
 // app.modules.ts or core.modules.ts

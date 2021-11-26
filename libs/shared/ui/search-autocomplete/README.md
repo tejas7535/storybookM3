@@ -3,23 +3,55 @@
 ## Disclaimer
 This lib is based on ValueControlAccessor. As such, you can treat the resulting component as a run-of-the-mill ReactiveForms component. A more in-depth explanation can be found here: [https://indepth.dev/posts/1055/never-again-be-confused-when-implementing-controlvalueaccessor-in-angular-forms]
 
-This lib depends on the [tailwind](https://www.npmjs.com/package/tailwindcss), so please install it
+## Usage
 
-Afterwards replace the default `tailwind.config.js` with the most current version from the [frontend-schaeffler repo](https://github.com/Schaeffler-Group/frontend-schaeffler/blob/master/tailwind.config.js)
+### Prerequisites
 
-It also depends on `@schaeffler/styles` which can be installed with npm:
+As this lib depends on [Angular Material](https://material.angular.io) (including [Material Icons](https://fonts.google.com/icons)) and [Tailwind](https://tailwindcss.com/docs), it is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
 
-`npm i @schaeffler/styles`
-
-Also import the tailwind styles in your app
-Example `styles.scss`
 ``` scss
+/***************************************************************************************************
+ * COMPONENTS AND THEMES
+ */
+ 
+/*
+ * Angular Material, material design components
+ * see https://material.angular.io
+ * and material icons, see https://fonts.google.com/icons
+ */
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+
+/*
+ * further / custom components
+ */
+...
+
+/***************************************************************************************************
+ * UTILITIES
+ */
+
+/*
+ * TailwindCSS, utility-first css framework
+ * see https://tailwindcss.com/docs
+ */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+/*
+ * further / custom utilities
+ */
+...
+
+/***************************************************************************************************
+ * OVERRIDES
+ */ 
+...
 ```
 
-Import into your project like:
+### Import the Module
 
 ```typescript
 // myModule.module.ts
