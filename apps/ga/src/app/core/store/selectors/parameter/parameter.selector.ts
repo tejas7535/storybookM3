@@ -50,8 +50,8 @@ export const getCalculationParameters = createSelector(
         idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed.toFixed(
           1
         )}`,
-        idcO_RADIAL_LOAD: `${state.loads.radial.toFixed(1)}`,
-        idcO_AXIAL_LOAD: `${state.loads.axial.toFixed(1)}`,
+        idcO_RADIAL_LOAD: `${(state.loads.radial || 0).toFixed(1)}`,
+        idcO_AXIAL_LOAD: `${(state.loads.axial || 0).toFixed(1)}`,
         idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(1)}`,
         idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
           1

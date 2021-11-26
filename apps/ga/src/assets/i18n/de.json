@@ -60,11 +60,13 @@
     "selectGrease": "Fett auswählen",
     "showResults": "Ergebnisse anzeigen",
     "resetInputs": "Eingaben zurücksetzen",
+    "pleaseEnter": "Bitte {{label}} angeben",
     "errors": {
       "min": "Der eingegebene Wert ist zu niedrig",
       "max": "Der eingegebene Wert ist zu hoch",
       "required": "Dieses Feld ist eine Pflichteingabe",
-      "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur"
+      "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur",
+      "anyLoad": "Eine Last muss angegeben werden"
     },
     "tooltip": {
       "loads": "Die Grease App überprüft, ob das ausgewählte Lager Radial- bzw. Axiallasten übertragen kann. Falls die Übertragung von Lasten in radialer oder axialer Richtung nicht möglich ist, ist die entsprechende Lasteingabe deaktiviert.\n\nBei einigen Lagertypen muss das Verhältnis aus Axiallast und Radiallast einen gewissen Mindestwert aufweisen. So kann ein Kegelrollenlager oder ein Schrägkugellager nur dann Radiallast aufnehmen, wenn eine ausreichend hohe Axiallast vorliegt. Bitte beachten Sie die allgemeinen Informationen zu den Lagertypen im HR1-Katalog.",

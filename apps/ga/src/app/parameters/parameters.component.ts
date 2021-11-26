@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../app-route-path.enum';
 import { getParameterState } from '../core/store';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { Load } from '../shared/models';
 import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
 import {
   initialState,
@@ -32,19 +33,16 @@ import { Movement } from './../shared/models/parameters/movement.model';
 @Component({
   selector: 'ga-parameters',
   templateUrl: './parameters.component.html',
-  styleUrls: ['./parameters.component.scss'],
 })
 export class ParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
 
-  public radial = new FormControl(0, [
+  public radial = new FormControl(undefined, [
     Validators.max(1_000_000_000),
-    Validators.min(0),
     Validators.required,
   ]);
-  public axial = new FormControl(0, [
+  public axial = new FormControl(undefined, [
     Validators.max(1_000_000_000),
-    Validators.min(0),
     Validators.required,
   ]);
   // TODO: fill with values
@@ -52,12 +50,15 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public loadRatio = new FormControl();
   public loadRatioOptions: any[] = [];
 
-  public loadsForm = new FormGroup({
-    radial: this.radial,
-    axial: this.axial,
-    exact: this.exact,
-    loadRatio: this.loadRatio,
-  });
+  public loadsForm = new FormGroup(
+    {
+      radial: this.radial,
+      axial: this.axial,
+      exact: this.exact,
+      loadRatio: this.loadRatio,
+    },
+    this.loadValidator()
+  );
 
   public type = new FormControl(Movement.rotating, [Validators.required]);
   public typeOptions: any[] = [
@@ -73,15 +74,15 @@ export class ParametersComponent implements OnInit, OnDestroy {
   ];
   public rotationalSpeed = new FormControl(undefined, [
     Validators.required,
-    Validators.min(0),
+    Validators.min(0.001),
     Validators.max(1_000_000),
   ]);
   public shiftFrequency = new FormControl(undefined, [
-    Validators.min(0),
+    Validators.min(0.001),
     Validators.max(1_000_000),
   ]);
   public shiftAngle = new FormControl(undefined, [
-    Validators.min(0),
+    Validators.min(0.001),
     Validators.max(10_000),
   ]);
 
@@ -241,5 +242,39 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
       return undefined;
     };
+  }
+
+  private loadValidator(): any {
+    return (group: FormGroup): void => {
+      const { radial, axial } = group.value;
+
+      const anyLoadApplied = radial > 0 || axial > 0;
+
+      // TODO: adjust condition when there is just one load possible
+      if (!anyLoadApplied) {
+        this.setLoadErrors(group, Load.radial);
+        this.setLoadErrors(group, Load.axial);
+      } else {
+        this.removeLoadErrors(group, Load.radial);
+        this.removeLoadErrors(group, Load.axial);
+      }
+    };
+  }
+
+  private setLoadErrors(group: FormGroup, type: Load) {
+    group.controls[type].setErrors({
+      ...group.controls[type].errors,
+      anyLoad: true,
+    });
+  }
+
+  private removeLoadErrors(group: FormGroup, type: Load) {
+    if (group.controls[type]?.errors?.anyLoad) {
+      const { anyLoad, ...otherErrors } = group.controls[type].errors;
+
+      /* eslint-disable unicorn/no-null */
+      group.controls[type].setErrors(otherErrors?.length ? otherErrors : null);
+      /* eslint-enable unicorn/no-null */
+    }
   }
 }

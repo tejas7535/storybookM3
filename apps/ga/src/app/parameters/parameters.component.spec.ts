@@ -99,7 +99,7 @@ describe('ParametersComponent', () => {
               operatingTemperature: 70,
             },
             loads: {
-              axial: 0,
+              axial: undefined,
               radial: 500,
               exact: true,
               loadRatio: undefined,
@@ -118,6 +118,8 @@ describe('ParametersComponent', () => {
 
     it('should dispatch with valid on valid form change', () => {
       component.rotationalSpeed.patchValue(1);
+      component.radial.patchValue(2);
+      component.axial.patchValue(3);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         patchParameters({
@@ -128,8 +130,8 @@ describe('ParametersComponent', () => {
               operatingTemperature: 70,
             },
             loads: {
-              radial: 0,
-              axial: 0,
+              radial: 2,
+              axial: 3,
               exact: true,
               loadRatio: undefined,
             },
@@ -285,6 +287,34 @@ describe('ParametersComponent', () => {
       const result = component['operatingTemperatureValidator']()(mockControl);
 
       expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('loadValidator', () => {
+    it('should set the anyLoad error if both fields are 0', () => {
+      component.radial.setValue(0);
+      component.axial.setValue(0);
+
+      component['loadValidator']();
+
+      expect(component.radial.errors).toEqual({
+        anyLoad: true,
+      });
+      expect(component.axial.errors).toEqual({
+        anyLoad: true,
+      });
+    });
+
+    it('should unset the anyLoad error if one field is > 0', () => {
+      component.radial.setValue(0);
+      component.axial.setValue(1);
+
+      component['loadValidator']();
+
+      /* eslint-disable unicorn/no-null */
+      expect(component.radial.errors).toEqual(null);
+      expect(component.axial.errors).toEqual(null);
+      /* eslint-enable unicorn/no-null */
     });
   });
 });

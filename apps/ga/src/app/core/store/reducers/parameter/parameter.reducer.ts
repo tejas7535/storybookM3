@@ -39,8 +39,8 @@ export type ParameterState =
 
 export const initialState: ParameterState = {
   loads: {
-    radial: 0,
-    axial: 0,
+    radial: undefined,
+    axial: undefined,
     exact: true,
     loadRatio: undefined,
   },

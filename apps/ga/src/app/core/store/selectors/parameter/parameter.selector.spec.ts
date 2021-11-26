@@ -59,6 +59,11 @@ describe('Parameter Selector', () => {
         ...mockState,
         parameter: {
           ...mockState.parameter,
+          loads: {
+            ...mockState.parameter.loads,
+            radial: 700,
+            axial: 500,
+          },
           movements: {
             ...mockState.parameter.movements,
             rotationalSpeed: 9000,
@@ -75,8 +80,10 @@ describe('Parameter Selector', () => {
           idL_RELATIVE_SPEED_WITHOUT_SIGN: `${validMockState.parameter.movements.rotationalSpeed.toFixed(
             1
           )}`,
-          idcO_RADIAL_LOAD: `${initialState.loads.radial.toFixed(1)}`,
-          idcO_AXIAL_LOAD: `${initialState.loads.axial.toFixed(1)}`,
+          idcO_RADIAL_LOAD: `${validMockState.parameter.loads.radial.toFixed(
+            1
+          )}`,
+          idcO_AXIAL_LOAD: `${validMockState.parameter.loads.axial.toFixed(1)}`,
           idscO_OILTEMP: `${initialState.environment.operatingTemperature.toFixed(
             1
           )}`,

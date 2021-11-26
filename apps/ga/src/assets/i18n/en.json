@@ -60,11 +60,13 @@
     "selectGrease": "Select grease",
     "showResults": "Show results",
     "resetInputs": "Reset inputs",
+    "pleaseEnter": "Please enter {{label}}",
     "errors": {
       "min": "The value is too low",
       "max": "The value is too high",
       "required": "This field is required",
-      "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature"
+      "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature",
+      "anyLoad": "One Load is needed"
     },
     "tooltip": {
       "loads": "The Grease App checks whether the selected bearing can transfer radial or axial loads. If the transmission of loads in the radial or axial direction is not possible, the corresponding load input is deactivated.\n\nFor some bearing types, the ratio of axial load to radial load shall be above a certain minimum number. For example, a tapered roller bearing or an angular contact ball bearing can only take up radial load if the axial load is sufficiently high. Please note the general information on the bearing types in the HR1 catalogue.",
