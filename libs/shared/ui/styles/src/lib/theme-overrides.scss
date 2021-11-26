@@ -47,7 +47,7 @@
 
   // tooltip overrides
   mat-tooltip-component .mat-tooltip {
-    @apply whitespace-pre-line text-caption py-1 px-3;
-    background: $schaeffler-carbon-gray;
+    @apply whitespace-pre-line text-caption py-2 px-4;
+    background: $schaeffler-carbon-gray; // Todo: change to whatever the new primary-900 will be called
   }
 }
