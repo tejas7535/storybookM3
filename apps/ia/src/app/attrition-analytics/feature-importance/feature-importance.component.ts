@@ -6,15 +6,15 @@ import { TranslocoService } from '@ngneat/transloco';
 import { EChartsOption } from 'echarts';
 
 import { FeatureImportanceTranslations } from '../models';
-import { featuresImportance } from './data';
+import { featuresImportance } from './data/data';
 import { createFeaturesImportanceConfig } from './feature-importance.config';
 
 @Component({
   selector: 'ia-feature-importance',
   templateUrl: './feature-importance.component.html',
+  styleUrls: ['./feature-importance.component.scss'],
 })
 export class FeatureImportanceComponent implements OnInit {
-  readonly INTERVAL = 0.5;
   options: Observable<EChartsOption>;
 
   constructor(private readonly translocoService: TranslocoService) {}
@@ -26,7 +26,6 @@ export class FeatureImportanceComponent implements OnInit {
         map((translation: FeatureImportanceTranslations) =>
           createFeaturesImportanceConfig(
             featuresImportance,
-            this.INTERVAL,
             translation.title,
             translation.xAxisName
           )

@@ -7,6 +7,7 @@ export enum Color {
   LIGHT_GREY_AREA = '#EAEBF5',
   DARK_GREY = '#787d7f',
   RED = '#e62c27',
+  RED_RGB = 'rgb(251, 36, 36)',
   LIME = '#A1C861',
   DARK_GREEN = '#00893d',
   GOLDEN_ROD = '#DBA520',

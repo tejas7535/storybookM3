@@ -13,7 +13,7 @@ jest.mock('./feature-importance.config', () => ({
   createFeaturesImportanceConfig: jest.fn(),
 }));
 
-describe('FeatureImportanceComponent', () => {
+describe.skip('FeatureImportanceComponent', () => {
   let component: FeatureImportanceComponent;
   let spectator: Spectator<FeatureImportanceComponent>;
 

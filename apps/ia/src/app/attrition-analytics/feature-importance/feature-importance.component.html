@@ -1,1 +1,15 @@
-<div echarts [options]="options | ngrxPush" class="h-[600px]"></div>
+<div class="flex-row grid grid-cols-12 items-center">
+  <div
+    echarts
+    [options]="options | ngrxPush"
+    class="h-[600px] col-span-10"
+  ></div>
+  <div id="feature-importance-gradient"></div>
+  <div class="h-[88%] flex flex-col justify-between">
+    <label class="text-subtitle-2">High</label>
+    <label class="transform -rotate-90 whitespace-nowrap text-subtitle-2"
+      >Feature value</label
+    >
+    <label class="text-subtitle-2">Low</label>
+  </div>
+</div>

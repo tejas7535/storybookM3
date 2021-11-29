@@ -6,17 +6,24 @@ import {
   XAXisComponentOption,
   YAXisComponentOption,
 } from 'echarts';
-import { VisualMapOption } from 'echarts/types/src/component/visualMap/VisualMapModel';
 
 import { Color } from '../../shared/models/color.enum';
-import { FeatureImportance } from '../models';
+import { FeatureImportance, FeatureImportanceType } from '../models';
 import {
   createFeaturesImportanceConfig,
   createTitleOption,
   createXAxisOption,
   createYAxisOption,
   fillDataForFeature,
+  mapToValueWithStyle,
+  seriesTooltipFormatter,
+  setData,
 } from './feature-importance.config';
+
+jest.mock('./feature-importance.utils', () => ({
+  ...(jest.requireActual('./feature-importance.utils') as any),
+  calculateColor: jest.fn().mockReturnValue('rgb(251, 36, 36)'),
+}));
 
 describe('FeatureImoprtanceConfig', () => {
   describe('createXAxisOption', () => {
@@ -52,25 +59,16 @@ describe('FeatureImoprtanceConfig', () => {
       expect((result as any).data).toEqual(featuresNames);
       expect(result.inverse).toBeTruthy();
       expect((result as any).interval).toBe(1);
-      expect(result.max).toBe(3);
+      expect(result.max).toBe(2);
     });
 
     test('should return formatted axis label', () => {
       const featuresNames = ['A', 'B'];
       const yAxisOption = createYAxisOption(featuresNames);
 
-      const result = (yAxisOption.axisLabel as any).formatter(2);
+      const result = (yAxisOption.axisLabel as any).formatter(1);
 
-      expect(result).toBe(featuresNames[1]);
-    });
-
-    test('should return formatted axis label as undefined when zero value', () => {
-      const featuresNames = ['A', 'B'];
-      const yAxisOption = createYAxisOption(featuresNames);
-
-      const result = (yAxisOption.axisLabel as any).formatter(0);
-
-      expect(result).toBeUndefined();
+      expect(result).toBe('B');
     });
 
     test('should return formatted axis label as undefined when negative value', () => {
@@ -99,29 +97,19 @@ describe('FeatureImoprtanceConfig', () => {
     test('should fill serie with data', () => {
       const featureImportance: FeatureImportance = {
         feature: 'Age',
-        data: [['18', 0.6, 0.7, 0.2]],
+        data: [[0.6, 1.7, 'A', 0.2]],
+        type: FeatureImportanceType.NUMERIC,
       };
-      const idx = 2;
-      const series: ScatterSeriesOption[] = [{ data: [] }];
-      const interval = 1;
+      const series: ScatterSeriesOption[] = [];
 
-      fillDataForFeature(featureImportance, idx, series, interval);
+      fillDataForFeature(featureImportance, series);
 
       expect(series[0]).toBeDefined();
       const featureImportanceData = featureImportance.data;
 
-      expect(series[0].data[0]).toEqual([
-        featureImportanceData[0][1],
-        3.7,
-        featureImportanceData[0][0],
-        featureImportanceData[0][3],
-      ]);
-      expect(series[0].data[1]).toEqual([
-        featureImportanceData[0][1],
-        3.3,
-        featureImportanceData[0][0],
-        featureImportanceData[0][3],
-      ]);
+      expect((series[0].data[0] as any).value).toEqual(
+        featureImportanceData[0]
+      );
     });
   });
 
@@ -131,15 +119,14 @@ describe('FeatureImoprtanceConfig', () => {
         {
           feature: 'Age',
           data: [['18', 0.6, 0.7, 0.2]],
+          type: FeatureImportanceType.NUMERIC,
         },
       ];
-      const interval = 1;
       const titleText = 'I am the title';
       const xAxisName = 'I am the X Axis Name';
 
       const result = createFeaturesImportanceConfig(
         featuresImportance,
-        interval,
         titleText,
         xAxisName
       );
@@ -148,10 +135,64 @@ describe('FeatureImoprtanceConfig', () => {
       expect((result.xAxis as XAXisComponentOption[]).length).toBe(1);
       expect((result.yAxis as YAXisComponentOption[]).length).toBe(1);
       expect((result.series as ScatterSeriesOption[]).length).toBe(1);
-      expect((result.visualMap as VisualMapOption[]).length).toBe(1);
-      expect((result.tooltip as TooltipComponentOption[]).length).toBe(1);
+      expect(result.tooltip as TooltipComponentOption).toEqual({
+        trigger: 'item',
+      });
       expect((result.grid as GridComponentOption[]).length).toBe(1);
       expect((result.title as TitleComponentOption[]).length).toBe(1);
+    });
+  });
+
+  describe('setData', () => {
+    test('should set data with colors to Numeric feature', () => {
+      const featureImportance: FeatureImportance = {
+        feature: 'Age',
+        data: [['18', 0.6, 0.7, 1]],
+        type: FeatureImportanceType.NUMERIC,
+      };
+      const serie: ScatterSeriesOption = {};
+
+      setData(featureImportance, serie);
+
+      expect((serie.data[0] as any).value).toEqual(featureImportance.data[0]);
+      expect((serie.data[0] as any).itemStyle).toEqual({
+        color: Color.RED_RGB,
+      });
+    });
+
+    test('should set data with gray color to Categoric feature', () => {
+      const featureImportance: FeatureImportance = {
+        feature: 'Age',
+        data: [['18', 0.6, 0.7, 1]],
+        type: FeatureImportanceType.CATEGORIC,
+      };
+      const serie: ScatterSeriesOption = {};
+
+      setData(featureImportance, serie);
+
+      expect(serie.data[0]).toEqual(featureImportance.data[0]);
+      expect(serie.color).toEqual(Color.DARK_GREY);
+    });
+  });
+
+  describe('mapToValueWithStyle', () => {
+    test('should map data to value with color', () => {
+      const data = [1, 2, 'A', 0.5];
+
+      const result = mapToValueWithStyle(data);
+
+      expect(result.value).toEqual(data);
+      expect(result.itemStyle.color).toBeDefined();
+    });
+  });
+
+  describe('seriesTooltipFormatter', () => {
+    test('should format text of tooltip', () => {
+      const data = [1, 2, 'Hey', 0.5];
+
+      const result = seriesTooltipFormatter(data);
+
+      expect(result).toBe('Value: Hey<br/> Importance: 1.0');
     });
   });
 });

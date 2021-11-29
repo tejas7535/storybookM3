@@ -1,4 +1,7 @@
+import { FeatureImportanceDataPoint } from '.';
+
 export interface FeatureImportance {
   feature: string;
-  data: any[];
+  type: string;
+  data: FeatureImportanceDataPoint[];
 }

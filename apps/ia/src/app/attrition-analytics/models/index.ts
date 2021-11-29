@@ -5,3 +5,5 @@ export * from './feature-params.model';
 export * from './feature-selector.model';
 export * from './feature-importance.model';
 export * from './feature-importance-translations.model';
+export * from './feature-importance-type.model';
+export * from './feature-importance-data-point.model';

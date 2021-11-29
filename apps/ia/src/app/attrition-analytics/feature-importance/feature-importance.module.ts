@@ -10,7 +10,7 @@ import {
   TooltipComponent,
 } from 'echarts/components';
 import * as echarts from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
+import { SVGRenderer } from 'echarts/renderers';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { FeatureImportanceComponent } from './feature-importance.component';
@@ -20,7 +20,7 @@ echarts.use([
   LegendComponent,
   TooltipComponent,
   ScatterChart,
-  CanvasRenderer,
+  SVGRenderer,
   GridComponent,
 ]);
 
