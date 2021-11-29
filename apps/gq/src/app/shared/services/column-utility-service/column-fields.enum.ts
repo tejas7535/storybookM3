@@ -17,6 +17,8 @@ export enum ColumnFields {
   LAST_OFFER_PRICE_DATE = 'lastOfferDetail.lastOfferDate',
   FOLLOWING_TYPE = 'material.followingType',
   DISCOUNT = 'discount',
+  INPUT_QUANTITY = 'inputQuantity',
+  QUANTITY = 'quantity',
 }
 
 export const PriceColumns = [
@@ -33,4 +35,11 @@ export const PercentColumns = [
   ColumnFields.GPI,
   ColumnFields.GPM,
   ColumnFields.RLM,
+];
+
+export const ExportExcelNumberColumns = [
+  ...PriceColumns,
+  ...PercentColumns,
+  ColumnFields.QUANTITY,
+  ColumnFields.INPUT_QUANTITY,
 ];

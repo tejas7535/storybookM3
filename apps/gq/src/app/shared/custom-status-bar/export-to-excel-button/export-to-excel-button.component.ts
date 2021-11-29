@@ -23,14 +23,21 @@ import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import { Keyboard, Quotation } from '../../models';
 import {
   ColumnFields,
+  ExportExcelNumberColumns,
   PercentColumns,
   PriceColumns,
 } from '../../services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
+import {
+  ExcelDataType,
+  ExcelOOXMLDataType,
+} from '@ag-grid-community/core/dist/cjs/interfaces/iExcelCreator';
+import { ColDef } from '@ag-grid-community/core';
 
-const type = 'String';
+const typeString = 'String';
+const typeNumber = 'Number';
 
 @Component({
   selector: 'gq-export-excel-button',
@@ -170,7 +177,12 @@ export class ExportToExcelButtonComponent implements OnInit {
       this.toBeFormattedInExcelDownload.includes(colDef.field)
     ) {
       return this.applyExcelCellValueFormatter(params);
-    } else if ((PriceColumns as string[]).includes(colDef.field)) {
+    } else if (
+      this.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
+        colDef,
+        params
+      )
+    ) {
       return HelperService.transformNumber(params.value, true);
     }
 
@@ -239,10 +251,23 @@ export class ExportToExcelButtonComponent implements OnInit {
   ): ExcelCell {
     return {
       data: {
-        type,
+        type: typeString,
         value,
       },
       styleId: defaultStyle,
+    };
+  }
+
+  getNumberExcelCell(
+    format: ExcelDataType | ExcelOOXMLDataType,
+    value: string
+  ): ExcelCell {
+    return {
+      data: {
+        type: format,
+        value,
+      },
+      styleId: excelStyleObjects.excelText.id,
     };
   }
 
@@ -269,7 +294,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         ),
         {
           data: {
-            type,
+            type: typeString,
             value: quotation.customer.identifier.customerId,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -278,7 +303,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.quotationSummary.customerName'
             ),
@@ -287,7 +312,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: quotation.customer.name,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -296,7 +321,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.quotationSummary.quoteNetValue'
             ),
@@ -305,7 +330,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformMarginDetails(
               statusBarCalculation?.totalNetValue,
               quotation.currency
@@ -317,7 +342,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.quotationSummary.quoteWeightedAverageGPM'
             ),
@@ -326,7 +351,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformPercentage(
               statusBarCalculation.totalWeightedGPM
             ),
@@ -337,7 +362,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.quotationSummary.quoteWeightedAverageGPI'
             ),
@@ -346,7 +371,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformPercentage(
               statusBarCalculation.totalWeightedGPI
             ),
@@ -357,7 +382,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.quotationSummary.currencyUsed'
             ),
@@ -366,7 +391,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: quotation.currency,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -385,7 +410,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.customerOverview.title'
             ),
@@ -396,7 +421,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.customerOverview.keyAccount'
             ),
@@ -405,7 +430,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: customer.keyAccount,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -414,7 +439,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.customerOverview.subKeyAccount'
             ),
@@ -423,7 +448,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: customer.subKeyAccount,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -432,7 +457,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.customerOverview.customerClassification'
             ),
@@ -441,7 +466,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: customer.abcClassification,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -450,7 +475,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: `${lastYear} ${translate(
               'shared.customStatusBar.excelExport.customerOverview.netSales'
             )}`,
@@ -459,7 +484,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformMarginDetails(
               customer.marginDetail?.netSalesLastYear,
               currency
@@ -471,7 +496,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: `${lastYear} ${translate(
               'shared.customStatusBar.excelExport.customerOverview.gpi'
             )}`,
@@ -480,7 +505,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformPercentage(
               customer.marginDetail?.gpiLastYear
             ),
@@ -491,7 +516,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: `${currentYear} ${translate(
               'shared.customStatusBar.excelExport.customerOverview.netSales'
             )}`,
@@ -500,7 +525,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformMarginDetails(
               customer.marginDetail?.currentNetSales,
               currency
@@ -512,7 +537,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: `${currentYear} ${translate(
               'shared.customStatusBar.excelExport.customerOverview.gpi'
             )}`,
@@ -521,7 +546,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: HelperService.transformPercentage(
               customer.marginDetail?.currentGpi
             ),
@@ -532,7 +557,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.customerOverview.country'
             ),
@@ -541,7 +566,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: customer.country,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -550,7 +575,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       [
         {
           data: {
-            type,
+            type: typeString,
             value: translate(
               'shared.customStatusBar.excelExport.customerOverview.incoterms'
             ),
@@ -559,7 +584,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         },
         {
           data: {
-            type,
+            type: typeString,
             value: customer.incoterms,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -603,17 +628,47 @@ export class ExportToExcelButtonComponent implements OnInit {
     return this.transactions.map((t) => {
       const row: ExcelCell[] = [];
       for (const key in headersTranslations) {
-        let value = t[key as keyof ExtendedComparableLinkedTransaction];
-        if (PercentColumns.includes(key as ColumnFields)) {
-          value = PriceService.roundToTwoDecimals(Number(value));
-        } else if (key === ColumnFields.PRICE) {
-          value = HelperService.transformNumber(value as number, true);
-        }
-        row.push(this.getExcelCell(value?.toString()));
+        row.push(
+          this.getNumberExcelCell(
+            ExportExcelNumberColumns.includes(key as ColumnFields)
+              ? typeNumber
+              : typeString,
+            this.transformValue(t, key)
+          )
+        );
       }
 
       return row;
     });
+  }
+
+  transformValue(t: ExtendedComparableLinkedTransaction, key: string): string {
+    let value = t[key as keyof ExtendedComparableLinkedTransaction];
+    if (PercentColumns.includes(key as ColumnFields)) {
+      value = PriceService.roundToTwoDecimals(Number(value));
+    } else if (
+      this.hasDelimiterProblemInExcelGreaterEqual1000(key, Number(value))
+    ) {
+      value = HelperService.transformNumber(value as number, true);
+    }
+
+    return value?.toString();
+  }
+
+  hasDelimiterProblemInExcelGreaterEqual1000(
+    key: string,
+    value: number
+  ): boolean {
+    return key === ColumnFields.PRICE && value < 1000;
+  }
+
+  hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
+    colDef: ColDef,
+    params: ProcessCellForExportParams
+  ): boolean {
+    return (
+      (PriceColumns as string[]).includes(colDef.field) && params.value < 1000
+    );
   }
 
   addComparableTransactionsHeader(headersTranslations: {

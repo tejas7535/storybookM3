@@ -31,6 +31,8 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
+import { ColDef } from '@ag-grid-community/core';
+import { ProcessCellForExportParams } from '@ag-grid-community/core/dist/cjs/interfaces/exportParams';
 
 describe('ExportToExcelButtonComponent', () => {
   let component: ExportToExcelButtonComponent;
@@ -663,23 +665,20 @@ describe('ExportToExcelButtonComponent', () => {
   });
 
   describe('getExcelCell returns', () => {
+    const value = 'yes';
     test('excel cell without defining a default style', () => {
-      const value = 'yes';
-
       const excelCell = component.getExcelCell(value);
 
       expect(excelCell).toEqual({
         data: {
           type: 'String',
-          value: 'yes',
+          value,
         },
         styleId: excelStyleObjects.excelText.id,
       });
     });
 
     test('excel cell while defining style', () => {
-      const value = 'yes';
-
       const excelCell = component.getExcelCell(
         value,
         excelStyleObjects.excelTextBold.id
@@ -688,9 +687,25 @@ describe('ExportToExcelButtonComponent', () => {
       expect(excelCell).toEqual({
         data: {
           type: 'String',
-          value: 'yes',
+          value,
         },
         styleId: excelStyleObjects.excelTextBold.id,
+      });
+    });
+  });
+
+  describe('getNumberExcelCell', () => {
+    test('excel cell with number type', () => {
+      const value = '1';
+
+      const excelCell = component.getNumberExcelCell('Number', value);
+
+      expect(excelCell).toEqual({
+        data: {
+          type: 'Number',
+          value,
+        },
+        styleId: excelStyleObjects.excelText.id,
       });
     });
   });
@@ -780,11 +795,11 @@ describe('ExportToExcelButtonComponent', () => {
       test('rows rounds up profitMargin', () => {
         component.transactions = [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK];
         PriceService.roundToTwoDecimals = jest.fn();
-        component['getExcelCell'] = jest.fn();
+        component['getNumberExcelCell'] = jest.fn();
 
         component.addComparableTransactionsRows(translations);
 
-        expect(component.getExcelCell).toHaveBeenCalledTimes(
+        expect(component.getNumberExcelCell).toHaveBeenCalledTimes(
           Object.values(translations).length
         );
         expect(PriceService.roundToTwoDecimals).toHaveBeenCalledWith(
@@ -811,6 +826,104 @@ describe('ExportToExcelButtonComponent', () => {
 
         expect(headerField).toEqual('Price [EUR]');
       });
+    });
+  });
+
+  describe('transformValue', () => {
+    test('transforms string value', () => {
+      const actual = component.transformValue(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        'inputMaterialDescription'
+      );
+
+      expect(actual).toEqual(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.inputMaterialDescription
+      );
+    });
+
+    test('rounds up price', () => {
+      PriceService.roundToTwoDecimals = jest.fn();
+
+      component.transformValue(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        ColumnFields.PROFIT_MARGIN
+      );
+
+      expect(PriceService.roundToTwoDecimals).toHaveBeenCalledWith(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
+      );
+    });
+
+    test('rounds up percent value', () => {
+      HelperService.transformNumber = jest.fn();
+
+      component.transformValue(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        ColumnFields.PRICE
+      );
+
+      expect(HelperService.transformNumber).toHaveBeenCalledWith(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price,
+        true
+      );
+    });
+  });
+
+  describe('hasDelimiterProblemInExcelGreaterEqual1000', () => {
+    test('does not transform, if columnFields is not equal to Price', () => {
+      expect(
+        component.hasDelimiterProblemInExcelGreaterEqual1000(
+          ColumnFields.QUANTITY,
+          1000
+        )
+      ).toBeFalsy();
+    });
+
+    test('does not transform, if columnFields is equal to Price and value is equals to or smaller than 1000', () => {
+      expect(
+        component.hasDelimiterProblemInExcelGreaterEqual1000(
+          ColumnFields.PRICE,
+          1000
+        )
+      ).toBeFalsy();
+    });
+
+    test('transforms, if columnFields is equal to Price and value is smaller than 1000', () => {
+      expect(
+        component.hasDelimiterProblemInExcelGreaterEqual1000(
+          ColumnFields.PRICE,
+          999
+        )
+      ).toBeTruthy();
+    });
+  });
+
+  describe('hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell', () => {
+    test('does not transform, if columnFields is not equal to Price', () => {
+      expect(
+        component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
+          { field: ColumnFields.QUANTITY } as ColDef,
+          { value: 1000 } as ProcessCellForExportParams
+        )
+      ).toBeFalsy();
+    });
+
+    test('does not transform, if columnFields is equal to Price and value is equals to or smaller than 1000', () => {
+      expect(
+        component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
+          { field: ColumnFields.PRICE } as ColDef,
+          { value: 1000 } as ProcessCellForExportParams
+        )
+      ).toBeFalsy();
+    });
+
+    test('transforms, if columnFields is equal to Price and value is smaller than 1000', () => {
+      expect(
+        component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
+          { field: ColumnFields.PRICE } as ColDef,
+          { value: 999 } as ProcessCellForExportParams
+        )
+      ).toBeTruthy();
     });
   });
 });
