@@ -1,5 +1,6 @@
 <mat-form-field
   appearance="fill"
+  class="!w-full"
   *transloco="let t; read: 'search.referenceTypesFilters'"
 >
   <mat-label>
@@ -18,12 +19,12 @@
     <mat-select-trigger>
       {{ filter | rangeFilterValue }}
     </mat-select-trigger>
-    <mat-option value="selected"></mat-option>
-    <div class="drop-down" fxLayout="column">
-      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-        <div #label fxFlex="50">Min. {{ t('names.' + filter?.name) }}</div>
-        <div #input fxFlex="50">
-          <mat-form-field>
+    <mat-option class="!h-0" value="selected"></mat-option>
+    <div class="p-2 flex flex-col">
+      <div class="grid grid-cols-2 items-center gap-1">
+        <div class="text-caption">Min. {{ t('names.' + filter?.name) }}</div>
+        <div>
+          <mat-form-field class="!w-full h-[42px] !text-right">
             <input
               #minInput
               matInput
@@ -41,12 +42,11 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+      <div class="flex items-center gap-1">
         <mat-slider
-          #minSlider
-          fxFlex
           thumbLabel
           color="primary"
+          class="flex-1"
           [value]="filter.minSelected ? filter.minSelected : filter.min"
           [max]="filter.max"
           [min]="filter.min"
@@ -54,14 +54,14 @@
           (change)="update(inputType.Min, $event.value)"
         >
         </mat-slider>
-        <mat-icon fxFlex="10" (click)="resetInput(inputType.Min)"
+        <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Min)"
           >restore</mat-icon
         >
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-        <div #label fxFlex="50">Max. {{ t('names.' + filter?.name) }}</div>
-        <div #input fxFlex="50">
-          <mat-form-field>
+      <div class="grid grid-cols-2 items-center gap-1">
+        <div class="text-caption">Max. {{ t('names.' + filter?.name) }}</div>
+        <div>
+          <mat-form-field class="!w-full h-[42px] !text-right">
             <input
               #maxInput
               matInput
@@ -79,12 +79,11 @@
           </mat-form-field>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+      <div class="flex items-center gap-1">
         <mat-slider
-          #maxSlider
-          fxFlex
           thumbLabel
           color="primary"
+          class="flex-1"
           [value]="filter.maxSelected ? filter.maxSelected : filter.max"
           [max]="filter.max"
           [min]="filter.min"
@@ -92,7 +91,7 @@
           (change)="update(inputType.Max, $event.value)"
         >
         </mat-slider>
-        <mat-icon fxFlex="10" (click)="resetInput(inputType.Max)"
+        <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Max)"
           >restore</mat-icon
         >
       </div>

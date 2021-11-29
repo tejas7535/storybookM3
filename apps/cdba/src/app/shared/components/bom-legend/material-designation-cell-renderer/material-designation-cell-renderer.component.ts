@@ -10,7 +10,6 @@ import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';
 @Component({
   selector: 'cdba-material-designation-cell-renderer',
   templateUrl: './material-designation-cell-renderer.component.html',
-  styleUrls: ['./material-designation-cell-renderer.component.scss'],
 })
 export class MaterialDesignationCellRendererComponent
   implements ICellRendererAngularComp

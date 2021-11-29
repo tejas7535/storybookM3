@@ -7,7 +7,6 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 @Component({
   selector: 'cdba-actions-cell-renderer',
   templateUrl: './actions-cell-renderer.component.html',
-  styleUrls: ['./actions-cell-renderer.component.scss'],
 })
 export class ActionsCellRendererComponent {
   private readonly DOWNLOAD_DRAWING_EVENT = 'Download Drawing';
