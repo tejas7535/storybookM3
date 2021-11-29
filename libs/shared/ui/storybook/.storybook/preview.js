@@ -1,18 +1,18 @@
+import { DocsContainer, DocsPage } from '@storybook/addon-docs';
 import { moduleMetadata } from '@storybook/angular';
 import { themes } from '@storybook/theming';
 
 import logo from './schaeffler-logo.svg';
-
-import { StorybookTranslocoModule } from './storybook-transloco.module';
+import { Badges } from './storybook-badges.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from './storybook-navigation.constants';
 import {
   STORYBOOK_DEFAULT_LANGUAGE,
   STORYBOOK_SUPPORTED_LANGUAGES,
 } from './storybook-transloco.constants';
-import {
-  NavigationMain,
-  NavigationAtomic,
-} from './storybook-navigation.constants';
-import { Badges } from './storybook-badges.constants';
+import { StorybookTranslocoModule } from './storybook-transloco.module';
 
 export const decorators = [
   // add global modules which will be available for all stories
@@ -104,6 +104,50 @@ export const parameters = {
       contrast: '#e62c27',
       color: '#fff',
       title: 'Deprecated',
+    },
+  },
+  viewport: {
+    viewports: {
+      mobile: {
+        // < 600px
+        name: 'Mobile',
+        styles: {
+          width: '375px',
+          height: '812px',
+        },
+      },
+      iPad: {
+        // 600px - 904px
+        name: 'iPad',
+        styles: {
+          width: '768px',
+          height: '1024px',
+        },
+      },
+      iPadPro: {
+        // 905px - 1239px
+        name: 'iPadPro',
+        styles: {
+          width: '1024px',
+          height: '1366px',
+        },
+      },
+      laptop: {
+        // 1240px -  1439px
+        name: 'Laptop',
+        styles: {
+          width: '1280px',
+          height: '720px',
+        },
+      },
+      desktop: {
+        // >= 1440px
+        name: 'Desktop',
+        styles: {
+          width: '1920px',
+          height: '1280px',
+        },
+      },
     },
   },
 };
