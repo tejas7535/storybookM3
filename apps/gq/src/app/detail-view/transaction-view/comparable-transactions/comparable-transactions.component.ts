@@ -22,7 +22,7 @@ import { ColumnDefService } from './config/column-def.service';
 export class ComparableTransactionsComponent {
   @Input() rowData: ComparableLinkedTransaction[];
   @Input() set currency(currency: string) {
-    this.tableContext.quotation.currency = currency;
+    this.tableContext.quotation.customer.currency = currency;
   }
 
   private readonly TABLE_KEY = 'transactions';
@@ -31,7 +31,7 @@ export class ComparableTransactionsComponent {
   public columnDefs = this.columnDefService.COLUMN_DEFS;
 
   tableContext: TableContext = {
-    quotation: { curreny: undefined } as unknown as Quotation,
+    quotation: { customer: {} } as unknown as Quotation,
   };
 
   constructor(

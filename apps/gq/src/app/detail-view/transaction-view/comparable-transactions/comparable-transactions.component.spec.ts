@@ -42,7 +42,9 @@ describe('ComparableTransactionsComponent', () => {
       const currency = 'USD';
       component.currency = currency;
 
-      expect(component.tableContext.quotation.currency).toEqual(currency);
+      expect(component.tableContext.quotation.customer.currency).toEqual(
+        currency
+      );
     });
   });
   describe('columnChange', () => {

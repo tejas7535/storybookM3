@@ -13,6 +13,11 @@ import {
   ProcessHeaderForExportParams,
   ValueFormatterParams,
 } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-community/core';
+import {
+  ExcelDataType,
+  ExcelOOXMLDataType,
+} from '@ag-grid-community/core/dist/cjs/interfaces/iExcelCreator';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -30,11 +35,6 @@ import {
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
-import {
-  ExcelDataType,
-  ExcelOOXMLDataType,
-} from '@ag-grid-community/core/dist/cjs/interfaces/iExcelCreator';
-import { ColDef } from '@ag-grid-community/core';
 
 const typeString = 'String';
 const typeNumber = 'Number';
@@ -164,7 +164,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     const colDef = params.column.getColDef();
 
     if (PriceColumns.includes(colDef.field as ColumnFields)) {
-      return `${colDef.headerName} [${params.context?.quotation.currency}]`;
+      return `${colDef.headerName} [${params.context?.quotation.customer.currency}]`;
     }
 
     return colDef.headerName;
@@ -333,7 +333,7 @@ export class ExportToExcelButtonComponent implements OnInit {
             type: typeString,
             value: HelperService.transformMarginDetails(
               statusBarCalculation?.totalNetValue,
-              quotation.currency
+              quotation.customer.currency
             ),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
@@ -392,7 +392,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: quotation.currency,
+            value: quotation.customer.currency,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -402,7 +402,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addCustomerOverview(quotation: Quotation): ExcelCell[][] {
-    const { customer, currency } = quotation;
+    const { customer } = quotation;
     const lastYear = HelperService.getLastYear();
     const currentYear = HelperService.getCurrentYear();
 
@@ -487,7 +487,7 @@ export class ExportToExcelButtonComponent implements OnInit {
             type: typeString,
             value: HelperService.transformMarginDetails(
               customer.marginDetail?.netSalesLastYear,
-              currency
+              customer.currency
             ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -528,7 +528,7 @@ export class ExportToExcelButtonComponent implements OnInit {
             type: typeString,
             value: HelperService.transformMarginDetails(
               customer.marginDetail?.currentNetSales,
-              currency
+              customer.currency
             ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
@@ -689,6 +689,6 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   appendCurrency(key: string): string {
-    return `${key} [${this.params.context.quotation.currency}]`;
+    return `${key} [${this.params.context.quotation.customer.currency}]`;
   }
 }

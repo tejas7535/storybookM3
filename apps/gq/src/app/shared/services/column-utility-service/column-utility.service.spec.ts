@@ -135,14 +135,14 @@ describe('CreateColumnService', () => {
           colId: 'test',
         },
         context: {
-          quotation: QUOTATION_MOCK,
+          quotation: { customer: { currency: 'testcurrency' } },
         },
       };
       const result = ColumnUtilityService.numberCurrencyFormatter(
         params as unknown as ValueFormatterParams
       );
 
-      expect(result).toEqual('1,234.00 EUR');
+      expect(result).toEqual('1,234.00 testcurrency');
     });
   });
 
