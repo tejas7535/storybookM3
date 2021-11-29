@@ -1,3 +1,4 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { BannerModule } from '@schaeffler/banner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../assets/i18n/en.json';
@@ -31,6 +33,14 @@ describe('LifetimePredictorComponent', () => {
       input: initialInputState,
       prediction: initialPredictionState,
     },
+    banner: {
+      text: '',
+      buttonText: '',
+      icon: '',
+      truncateSize: 0,
+      showFullText: true,
+      open: true,
+    },
   };
 
   const createComponent = createComponentFactory({
@@ -46,6 +56,7 @@ describe('LifetimePredictorComponent', () => {
       provideTranslocoTestingModule({ en }),
       ReactiveComponentModule,
       NoopAnimationsModule,
+      BannerModule,
     ],
     providers: [
       provideMockStore({ initialState }),
@@ -54,6 +65,10 @@ describe('LifetimePredictorComponent', () => {
         useValue: {
           logEvent: jest.fn(),
         },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
   });

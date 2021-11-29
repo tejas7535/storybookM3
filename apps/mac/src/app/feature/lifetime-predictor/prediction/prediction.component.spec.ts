@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -27,6 +28,7 @@ import { translate } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ParseConfig, ParseResult } from 'ngx-papaparse';
 
 import { BannerModule, BannerState } from '@schaeffler/banner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -106,6 +108,10 @@ describe('PredictionComponent', () => {
         },
       },
       DecimalPipe,
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     overrideModules: [
       [
@@ -159,23 +165,38 @@ describe('PredictionComponent', () => {
     });
 
     it('should call openDialog', async () => {
+      component['papa'].parse = jest.fn(
+        (_csv: string | Blob, config: ParseConfig): ParseResult => {
+          const result: ParseResult = {
+            data: [['input1', 'input2']],
+          } as unknown as ParseResult;
+          config.complete(result);
+
+          return result;
+        }
+      );
       store.overrideSelector('getBannerOpen', true);
       file = new File(['input1', ',', 'input2'], 'file');
 
-      await component.parseLoadFile(file);
+      component.parseLoadFile(file);
 
       expect(component.openDialog).toHaveBeenCalledWith([['input1', 'input2']]);
     });
 
     it('should print the error to console in error case', async () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      await component.parseLoadFile(undefined).then(
-        () => {
-          expect(false).toBe(true);
-        },
-        (error) => {
-          expect(error).toBeDefined();
+      console.error = jest.fn();
+      component['papa'].parse = jest.fn(
+        (csv: string | Blob, config: ParseConfig): ParseResult => {
+          config.error('some error', csv);
+
+          return undefined;
         }
+      );
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      component.parseLoadFile(undefined);
+      expect(console.error).toHaveBeenCalledWith(
+        'An error occured: some error'
       );
     });
   });
@@ -196,7 +217,7 @@ describe('PredictionComponent', () => {
       item: (_index: number) => mockFile,
     };
 
-    jest.spyOn(component, 'parseLoadFile');
+    component.parseLoadFile = jest.fn();
     component.handleFileInput(mockFileList);
     expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
   });
@@ -241,7 +262,7 @@ describe('PredictionComponent', () => {
       item: (_index: number) => mockFile,
     };
 
-    jest.spyOn(component, 'parseLoadFile');
+    component.parseLoadFile = jest.fn();
     component.handleFileInput(mockFileList);
     expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
   });

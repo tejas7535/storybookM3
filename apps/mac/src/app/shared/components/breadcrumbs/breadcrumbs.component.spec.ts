@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,6 +13,12 @@ describe('BreadcrumbsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MatIconModule, RouterTestingModule],
       declarations: [BreadcrumbsComponent],
+      providers: [
+        {
+          provide: MATERIAL_SANITY_CHECKS,
+          useValue: false,
+        },
+      ],
     }).compileComponents();
   });
 

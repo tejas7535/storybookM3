@@ -1,4 +1,5 @@
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,6 +41,12 @@ describe('SelectComponent', () => {
       NoopAnimationsModule,
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en }),
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
     detectChanges: false,
   });

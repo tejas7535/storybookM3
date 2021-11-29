@@ -169,24 +169,15 @@ export class PredictionComponent implements OnInit {
   /**
    * Parses load File and class dispatchLoad method
    */
-  public async parseLoadFile(
-    loadCollective: File | string,
-    download = false
-  ): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.papa.parse(loadCollective, {
-        download,
-        complete: (result) => {
-          this.openDialog(result.data);
-
-          resolve();
-        },
-        error: (err) => {
-          console.error(`An error occured: ${err}`);
-
-          reject();
-        },
-      });
+  public parseLoadFile(loadCollective: File | string, download = false): void {
+    this.papa.parse(loadCollective, {
+      download,
+      complete: (result) => {
+        this.openDialog(result.data);
+      },
+      error: (err) => {
+        console.error(`An error occured: ${err}`);
+      },
     });
   }
 

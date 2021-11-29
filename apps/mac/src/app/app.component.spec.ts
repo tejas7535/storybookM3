@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavigationEnd, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,8 +10,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { RoutePath } from './app-routing.enum';
 import { AppComponent } from './app.component';
@@ -28,6 +31,8 @@ describe('AppComponent', () => {
       MatButtonModule,
       RouterTestingModule,
       ReactiveComponentModule,
+      AppShellModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({
@@ -47,6 +52,10 @@ describe('AppComponent', () => {
         useValue: {
           logEvent: jest.fn(),
         },
+      },
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
       },
     ],
     declarations: [AppComponent],

@@ -1,3 +1,5 @@
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -14,6 +16,12 @@ describe('KpiComponent', () => {
     component: KpiComponent,
     declarations: [KpiComponent],
     imports: [TooltipModule, provideTranslocoTestingModule({ en })],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
   });
 
   beforeEach(() => {

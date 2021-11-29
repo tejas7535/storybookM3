@@ -3,7 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOption } from '@angular/material/core';
+import { MATERIAL_SANITY_CHECKS, MatOption } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -67,7 +67,13 @@ describe('MainTableComponent', () => {
       MatIconModule,
       MatCheckboxModule,
     ],
-    providers: [provideMockStore({ initialState })],
+    providers: [
+      provideMockStore({ initialState }),
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
+    ],
     declarations: [MainTableComponent],
   });
 
