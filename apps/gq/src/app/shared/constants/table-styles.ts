@@ -15,6 +15,9 @@ export const basicTableStyle = `
   .ag-cell {
     border-right: 0 !important;
   }
+  .ag-text-field-input {
+    color: #00893D !important;
+  }
 }
 `;
 
