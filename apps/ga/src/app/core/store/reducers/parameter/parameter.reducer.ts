@@ -31,6 +31,7 @@ export interface FullParameterState {
     nlgiClass: number;
   };
   valid: boolean;
+  updating: boolean;
 }
 
 export type ParameterState =
@@ -64,6 +65,7 @@ export const initialState: ParameterState = {
     nlgiClass: undefined,
   },
   valid: false,
+  updating: false,
 };
 
 export const parameterReducer = createReducer(
@@ -73,6 +75,14 @@ export const parameterReducer = createReducer(
     (state, { parameters }): ParameterState => ({
       ...state,
       ...parameters,
+      updating: true,
+    })
+  ),
+  on(
+    ParametersActions.modelUpdateSuccess,
+    (state): ParameterState => ({
+      ...state,
+      updating: false,
     })
   )
 );

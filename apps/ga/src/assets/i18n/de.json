@@ -60,7 +60,7 @@
     "selectGrease": "Fett auswählen",
     "showResults": "Ergebnisse anzeigen",
     "resetInputs": "Eingaben zurücksetzen",
-    "pleaseEnter": "Bitte {{label}} angeben",
+    "pleaseEnter": "{{label}} angeben",
     "errors": {
       "min": "Der eingegebene Wert ist zu niedrig",
       "max": "Der eingegebene Wert ist zu hoch",

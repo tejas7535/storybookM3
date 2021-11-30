@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Observable, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, Observable, Subject, take, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -25,6 +25,7 @@ import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.se
 import {
   getEnvironmentTemperatures,
   getLoadsInputType,
+  getParameterUpdating,
   getSelectedMovementType,
 } from './../core/store/selectors/parameter/parameter.selector';
 import { EnvironmentImpact } from './../shared/models/parameters/environment-impact.model';
@@ -146,8 +147,10 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public selectedBearing$: Observable<string>;
   public selectedMovementType$: Observable<string>;
   public loadsInputType$: Observable<boolean>;
+  public parameterUpdating$: Observable<boolean>;
 
   private readonly destroy$ = new Subject<void>();
+  public DEBOUNCE_TIME_DEFAULT = 500;
 
   public constructor(
     private readonly store: Store,
@@ -158,6 +161,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedMovementType$ = this.store.select(getSelectedMovementType);
     this.loadsInputType$ = this.store.select(getLoadsInputType);
+    this.parameterUpdating$ = this.store.select(getParameterUpdating);
 
     this.store
       .select(getParameterState)
@@ -171,7 +175,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
       });
 
     this.form.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
       .subscribe((formValue: ParameterState) => {
         this.store.dispatch(
           patchParameters({

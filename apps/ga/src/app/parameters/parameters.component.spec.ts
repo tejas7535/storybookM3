@@ -87,64 +87,70 @@ describe('ParametersComponent', () => {
       component.ngOnInit();
     });
 
-    it('should dispatch with valid false on invalid form change', () => {
+    it('should dispatch with valid false on invalid form change', (done) => {
       component.radial.patchValue(500);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        patchParameters({
-          parameters: {
-            environment: {
-              environmentImpact: EnvironmentImpact.moderate,
-              environmentTemperature: 20,
-              operatingTemperature: 70,
+      setTimeout(() => {
+        expect(store.dispatch).toHaveBeenCalledWith(
+          patchParameters({
+            parameters: {
+              environment: {
+                environmentImpact: EnvironmentImpact.moderate,
+                environmentTemperature: 20,
+                operatingTemperature: 70,
+              },
+              loads: {
+                axial: undefined,
+                radial: 500,
+                exact: true,
+                loadRatio: undefined,
+              },
+              movements: {
+                type: Movement.rotating,
+                rotationalSpeed: undefined,
+                shiftFrequency: undefined,
+                shiftAngle: undefined,
+              },
+              valid: false,
             },
-            loads: {
-              axial: undefined,
-              radial: 500,
-              exact: true,
-              loadRatio: undefined,
-            },
-            movements: {
-              type: Movement.rotating,
-              rotationalSpeed: undefined,
-              shiftFrequency: undefined,
-              shiftAngle: undefined,
-            },
-            valid: false,
-          },
-        })
-      );
+          })
+        );
+        done();
+      }, component.DEBOUNCE_TIME_DEFAULT);
     });
 
-    it('should dispatch with valid on valid form change', () => {
+    it('should dispatch with valid on valid form change', (done) => {
       component.rotationalSpeed.patchValue(1);
       component.radial.patchValue(2);
       component.axial.patchValue(3);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        patchParameters({
-          parameters: {
-            environment: {
-              environmentImpact: EnvironmentImpact.moderate,
-              environmentTemperature: 20,
-              operatingTemperature: 70,
+      setTimeout(() => {
+        expect(store.dispatch).toHaveBeenCalledWith(
+          patchParameters({
+            parameters: {
+              environment: {
+                environmentImpact: EnvironmentImpact.moderate,
+                environmentTemperature: 20,
+                operatingTemperature: 70,
+              },
+              loads: {
+                radial: 2,
+                axial: 3,
+                exact: true,
+                loadRatio: undefined,
+              },
+              movements: {
+                type: Movement.rotating,
+                rotationalSpeed: 1,
+                shiftFrequency: undefined,
+                shiftAngle: undefined,
+              },
+              valid: true,
             },
-            loads: {
-              radial: 2,
-              axial: 3,
-              exact: true,
-              loadRatio: undefined,
-            },
-            movements: {
-              type: Movement.rotating,
-              rotationalSpeed: 1,
-              shiftFrequency: undefined,
-              shiftAngle: undefined,
-            },
-            valid: true,
-          },
-        })
-      );
+          })
+        );
+        done();
+      }, component.DEBOUNCE_TIME_DEFAULT);
     });
 
     it('should select movement type and set validators for rotational', () => {

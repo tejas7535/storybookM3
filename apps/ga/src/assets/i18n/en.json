@@ -60,7 +60,7 @@
     "selectGrease": "Select grease",
     "showResults": "Show results",
     "resetInputs": "Reset inputs",
-    "pleaseEnter": "Please enter {{label}}",
+    "pleaseEnter": "Enter {{label}}",
     "errors": {
       "min": "The value is too low",
       "max": "The value is too high",

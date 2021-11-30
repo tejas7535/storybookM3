@@ -30,6 +30,11 @@ export const getParameterValidity = createSelector(
   (state: ParameterState): boolean => state?.valid
 );
 
+export const getParameterUpdating = createSelector(
+  getParameterState,
+  (state: ParameterState): boolean => state?.updating
+);
+
 export const getCalculationParameters = createSelector(
   getParameterState,
   getSelectedBearing,
@@ -38,27 +43,39 @@ export const getCalculationParameters = createSelector(
     state: ParameterState,
     bearing: string,
     modelId: string
-  ): { modelId: string; options: CalculationParamters } =>
-    state &&
-    state?.valid &&
-    bearing &&
-    modelId && {
-      modelId,
-      options: {
-        idcO_DESIGNATION: `${bearing}`,
-        idlC_TYPE_OF_MOVEMENT: state.movements.type,
-        idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed.toFixed(
-          1
-        )}`,
-        idcO_RADIAL_LOAD: `${(state.loads.radial || 0).toFixed(1)}`,
-        idcO_AXIAL_LOAD: `${(state.loads.axial || 0).toFixed(1)}`,
-        idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(1)}`,
-        idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
-          1
-        )}`,
-        idscO_INFLUENCE_OF_AMBIENT: state.environment.environmentImpact,
-        // idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle.toFixed(1)}` ,
-        // idlC_MOVEMENT_FREQUENCY: `${state.movements.shiftFrequency.toFixed(1)}`,
-      },
-    }
+  ): { modelId: string; options: CalculationParamters } => {
+    const oscillating = state.movements.shiftAngle &&
+      state.movements.shiftFrequency && {
+        idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle.toFixed(1)}`,
+        idlC_MOVEMENT_FREQUENCY: `${state.movements.shiftFrequency.toFixed(1)}`,
+      };
+
+    const rotating = state.movements.rotationalSpeed && {
+      idL_RELATIVE_SPEED_WITHOUT_SIGN: `${state.movements.rotationalSpeed.toFixed(
+        1
+      )}`,
+    };
+
+    return (
+      state &&
+      state?.valid &&
+      bearing &&
+      modelId && {
+        modelId,
+        options: {
+          idcO_DESIGNATION: `${bearing}`,
+          idlC_TYPE_OF_MOVEMENT: state.movements.type,
+          idcO_RADIAL_LOAD: `${(state.loads.radial || 0).toFixed(1)}`,
+          idcO_AXIAL_LOAD: `${(state.loads.axial || 0).toFixed(1)}`,
+          idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(1)}`,
+          idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
+            1
+          )}`,
+          idscO_INFLUENCE_OF_AMBIENT: state.environment.environmentImpact,
+          ...rotating,
+          ...oscillating,
+        },
+      }
+    );
+  }
 );

@@ -154,17 +154,21 @@
       <button
         mat-raised-button
         color="primary"
-        class="uppercase w-full md:w-full"
+        class="w-full"
         (click)="completeStep()"
-        [disabled]="form.invalid"
+        [disabled]="form.invalid || (parameterUpdating$ | ngrxPush)"
       >
-        {{ t('showResults') }}
+        <div class="flex items-center justify-center">
+          {{ t('showResults') }}
+          <div
+            *ngIf="!form.invalid && (parameterUpdating$ | ngrxPush)"
+            class="pl-2"
+          >
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </div>
       </button>
-      <button
-        mat-flat-button
-        class="uppercase w-full md:w-full"
-        (click)="resetForm()"
-      >
+      <button mat-flat-button class="w-full" (click)="resetForm()">
         {{ t('resetInputs') }}
       </button>
     </div>

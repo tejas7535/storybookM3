@@ -2,7 +2,10 @@ import { Action } from '@ngrx/store';
 
 import { EnvironmentImpact } from '../../../../shared/models';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
-import { patchParameters } from './../../actions/parameters/parameters.actions';
+import {
+  modelUpdateSuccess,
+  patchParameters,
+} from './../../actions/parameters/parameters.actions';
 import {
   initialState,
   parameterReducer,
@@ -50,6 +53,7 @@ describe('Parameter Reducer', () => {
           nlgiClass: 1,
         },
         valid: true,
+        updating: false,
       };
 
       const newState = parameterReducer(
@@ -57,7 +61,7 @@ describe('Parameter Reducer', () => {
         patchParameters({ parameters })
       );
 
-      expect(newState).toEqual(parameters);
+      expect(newState).toEqual({ ...parameters, updating: true });
     });
 
     it('should patch partial parameters', () => {
@@ -75,6 +79,14 @@ describe('Parameter Reducer', () => {
 
       expect(newState.loads.axial).toEqual(10);
       expect(newState.loads.radial).toEqual(10);
+    });
+  });
+
+  describe('modelUpdateSuccess Action', () => {
+    it('should set updating to false when params are updated', () => {
+      const newState = parameterReducer(initialState, modelUpdateSuccess());
+
+      expect(newState).toEqual({ ...initialState, updating: false });
     });
   });
 });
