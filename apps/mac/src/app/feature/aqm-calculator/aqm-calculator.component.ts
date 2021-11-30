@@ -48,7 +48,7 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - AQM] opened');
     this.breadcrumbsService.updateBreadcrumb(RouteNames.AQMCalculator);
-    changeFavicon('assets/favicons/aqm.ico');
+    changeFavicon('assets/favicons/aqm.ico', 'AQM Calculator');
     this.subscription.add(
       this.aqmCalculationService.getMaterialsData().subscribe((result: any) => {
         this.materials = result.materials;

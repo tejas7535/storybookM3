@@ -63,7 +63,7 @@ export class PredictionComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    changeFavicon('assets/favicons/ltp.ico');
+    changeFavicon('assets/favicons/ltp.ico', 'Lifetime Predictor');
     this.breadcrumbsService.updateBreadcrumb(RouteNames.LifetimePredictor);
     this.predictionResult = this.store.select(fromStore.getPredictionResult);
     this.bannerIsOpen = this.store.select(getBannerOpen);

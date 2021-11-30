@@ -81,7 +81,7 @@ export class OverviewComponent implements OnInit {
 
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - Overview] opened');
-    changeFavicon('assets/favicons/overview.ico');
+    changeFavicon('assets/favicons/overview.ico', 'Materials App Center');
     this.breadcrumbsService.updateBreadcrumb('');
   }
 

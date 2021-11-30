@@ -35,7 +35,7 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    changeFavicon('../assets/favicons/msd.ico');
+    changeFavicon('../assets/favicons/msd.ico', 'Materials Supplier Database');
   }
 
   public shareButtonFn(): void {

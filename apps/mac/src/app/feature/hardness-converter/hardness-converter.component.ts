@@ -53,7 +53,10 @@ export class HardnessConverterComponent implements OnInit {
 
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - HC] opened');
-    changeFavicon('assets/favicons/hardness-converter.ico');
+    changeFavicon(
+      'assets/favicons/hardness-converter.ico',
+      'Hardness Converter'
+    );
     this.breadcrumbsService.updateBreadcrumb(RouteNames.HardnessConverter);
     this.setupUnitList();
     this.setupConversionResultStream();
