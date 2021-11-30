@@ -1,6 +1,7 @@
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 
 import { FILTER_PARAMS } from './filter-params';
+import { manufacturerSupplierFormatter } from './manufacturer-supplier-formatter';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -17,6 +18,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'manufacturerSupplierKind',
     headerName: 'Manufacturer Kind',
     filterParams: FILTER_PARAMS,
+    valueFormatter: manufacturerSupplierFormatter,
   },
   {
     field: 'materialStandardMaterialName',
@@ -79,17 +81,17 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'minDimension',
     headerName: 'Min Dimension',
-    filterParams: FILTER_PARAMS,
+    filter: 'agNumberColumnFilter',
   },
   {
     field: 'maxDimension',
     headerName: 'Max Dimension',
-    filterParams: FILTER_PARAMS,
+    filter: 'agNumberColumnFilter',
   },
   {
     field: 'co2PerTon',
-    headerName: 'CO₂ / t',
-    filterParams: FILTER_PARAMS,
+    headerName: 'kg CO₂e / t',
+    filter: 'agNumberColumnFilter',
   },
   {
     field: 'ratingCode',
@@ -153,7 +155,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'export',
-    headerName: 'Export',
+    headerName: 'Approved for export',
     filterParams: FILTER_PARAMS,
   },
   {
