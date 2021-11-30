@@ -44,6 +44,9 @@ export class MsdDataService {
     // eslint-disable-next-line unicorn/no-useless-undefined
     if (!shape || shape?.includes(undefined)) {
       params.includeShapeNullValues = true;
+      if (shape?.length === 1) {
+        params.showOnlyNullValues = true;
+      }
     }
 
     return this.httpClient
@@ -84,7 +87,12 @@ export class MsdDataService {
                 minDimension: materialResponse.minDimension,
                 maxDimension: materialResponse.maxDimension,
                 co2PerTon: materialResponse.co2PerTon,
-                rating: materialResponse.rating,
+                ratingCode: materialResponse.rating?.code,
+                ratingBarDiameter: materialResponse.rating?.barDiameter,
+                ratingSquareDiameter: materialResponse.rating?.squareDiameter,
+                ratingRemark: materialResponse.rating?.remark,
+                ratingKindName: materialResponse.rating?.kind.name,
+                ratingKindCode: materialResponse.rating?.kind.code,
                 steelMakingProcess: materialResponse.steelMakingProcess,
                 releaseDateYear: materialResponse.releaseDateYear,
                 releaseDateMonth: materialResponse.releaseDateMonth,

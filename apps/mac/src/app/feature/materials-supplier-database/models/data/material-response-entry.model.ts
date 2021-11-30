@@ -31,12 +31,23 @@ export interface MaterialResponseEntry {
   minDimension: number;
   maxDimension: number;
   co2PerTon: number;
-  rating: string;
+  rating?: {
+    id: number;
+    code: string;
+    barDiameter: string;
+    squareDiameter: string;
+    remark: string;
+    kind: {
+      id: number;
+      name: string;
+      code: string;
+    };
+  };
   steelMakingProcess: string;
   releaseDateYear: number;
   releaseDateMonth: number;
   releaseRestrictions: string;
-  esr: number;
-  var: number;
+  esr: boolean;
+  var: boolean;
   export: boolean;
 }

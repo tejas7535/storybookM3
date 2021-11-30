@@ -92,8 +92,33 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
-    field: 'rating',
-    headerName: 'Rating',
+    field: 'ratingCode',
+    headerName: 'Rating Code',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'ratingBarDiameter',
+    headerName: 'Bar Diameter',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'ratingSquareDiameter',
+    headerName: 'Square Diameter',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'ratingRemark',
+    headerName: 'Remark',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'ratingKindName',
+    headerName: 'Rating Kind',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'ratingKindCode',
+    headerName: 'Rating Kind Code',
     filterParams: FILTER_PARAMS,
   },
   {

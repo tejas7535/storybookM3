@@ -22,13 +22,18 @@ export interface DataResult {
   minDimension: number;
   maxDimension: number;
   co2PerTon: number;
-  rating: string;
+  ratingCode: string;
+  ratingBarDiameter: string;
+  ratingSquareDiameter: string;
+  ratingRemark: string;
+  ratingKindName: string;
+  ratingKindCode: string;
   steelMakingProcess: string;
   releaseDateYear: number;
   releaseDateMonth: number;
   releaseRestrictions: string;
-  esr: number;
-  var: number;
+  esr: boolean;
+  var: boolean;
   export: boolean;
   materialNumbers: string[];
 }

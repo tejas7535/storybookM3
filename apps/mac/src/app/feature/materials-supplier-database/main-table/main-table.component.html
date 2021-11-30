@@ -19,7 +19,7 @@
                 *ngFor="let option of materialClassOptions$ | ngrxPush"
                 [value]="option"
               >
-                {{ option.name }}
+                {{ option.name | titlecase }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -42,14 +42,14 @@
               <mat-option
                 [value]="{ id: undefined, name: 'empty' }"
                 #categoryOption
-                >empty</mat-option
+                >(Blanks)</mat-option
               >
               <mat-option
                 *ngFor="let option of productCategoryOptions$ | ngrxPush"
                 [value]="option"
                 #categoryOption
               >
-                {{ option.name }}
+                {{ option.name | titlecase }}
               </mat-option>
             </mat-select>
           </mat-form-field>

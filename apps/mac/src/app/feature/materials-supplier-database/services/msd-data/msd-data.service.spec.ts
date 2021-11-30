@@ -69,13 +69,24 @@ describe('MsdDataService', () => {
         minDimension: 0,
         maxDimension: 0,
         co2PerTon: 2183,
-        rating: undefined,
+        rating: {
+          id: 123,
+          code: 'RSI240x28070',
+          barDiameter: '70',
+          squareDiameter: '70',
+          remark: 'bar max. 160mm',
+          kind: {
+            id: 123,
+            code: 'RSI',
+            name: 'RSI',
+          },
+        },
         steelMakingProcess: 'BF + BOF',
         releaseDateYear: 2021,
         releaseDateMonth: 10,
         releaseRestrictions: '',
-        esr: 0,
-        var: 0,
+        esr: false,
+        var: false,
         export: true,
         shape: { id: 5, name: 'strip', code: 'st', materials: [] },
         materialClass: { id: 1, name: 'Steel', code: 'st' },
@@ -107,8 +118,8 @@ describe('MsdDataService', () => {
         releaseDateYear: 2004,
         releaseDateMonth: 6,
         releaseRestrictions: '',
-        esr: 0,
-        var: 0,
+        esr: false,
+        var: false,
         export: true,
         shape: { id: 5, name: 'strip', code: 'st', materials: [] },
         materialClass: { id: 1, name: 'Steel', code: 'st' },
@@ -151,12 +162,18 @@ describe('MsdDataService', () => {
         minDimension: 0,
         maxDimension: 0,
         co2PerTon: 2183,
+        ratingCode: 'RSI240x28070',
+        ratingBarDiameter: '70',
+        ratingSquareDiameter: '70',
+        ratingRemark: 'bar max. 160mm',
+        ratingKindCode: 'RSI',
+        ratingKindName: 'RSI',
         steelMakingProcess: 'BF + BOF',
         releaseDateYear: 2021,
         releaseDateMonth: 10,
         releaseRestrictions: '',
-        esr: 0,
-        var: 0,
+        esr: false,
+        var: false,
         export: true,
         materialNumbers: ['1.1525'],
       } as DataResult,
@@ -186,8 +203,8 @@ describe('MsdDataService', () => {
         releaseDateYear: 2004,
         releaseDateMonth: 6,
         releaseRestrictions: '',
-        esr: 0,
-        var: 0,
+        esr: false,
+        var: false,
         export: true,
       } as DataResult,
     ];
@@ -212,6 +229,18 @@ describe('MsdDataService', () => {
 
       const req = httpMock.expectOne(
         `${service['BASE_URL']}/materials?materialClass=2&shape=1&includeShapeNullValues=true`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mockResponse);
+    });
+
+    it('should request only null values if flag is set', () => {
+      service.getMaterials(2, [undefined]).subscribe((result: any) => {
+        expect(result).toEqual(mockResult);
+      });
+
+      const req = httpMock.expectOne(
+        `${service['BASE_URL']}/materials?materialClass=2&includeShapeNullValues=true&showOnlyNullValues=true`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
