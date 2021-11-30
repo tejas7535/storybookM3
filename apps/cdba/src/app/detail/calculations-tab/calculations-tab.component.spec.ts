@@ -1,10 +1,8 @@
-import { RouterTestingModule } from '@angular/router/testing';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { SharedModule } from '@cdba/shared';
 import { CalculationsTableModule } from '@cdba/shared/components';
 import { Calculation } from '@cdba/shared/models';
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
@@ -21,8 +19,7 @@ describe('CalculationsTabComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationsTabComponent,
     imports: [
-      SharedModule,
-      RouterTestingModule,
+      ReactiveComponentModule,
       MockModule(CalculationsTableModule),
       MockModule(CustomStatusBarModule),
     ],

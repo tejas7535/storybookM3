@@ -23,7 +23,6 @@ import { MockModule } from 'ng-mocks';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedModule } from '@cdba/shared';
 import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
@@ -42,7 +41,6 @@ describe('ReferenceTypesTableComponent', () => {
     component: ReferenceTypesTableComponent,
     imports: [
       SharedTranslocoModule,
-      SharedModule,
       MockModule(AgGridModule.withComponents([])),
       MatIconModule,
       RouterTestingModule,

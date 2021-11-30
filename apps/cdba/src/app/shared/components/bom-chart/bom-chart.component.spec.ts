@@ -1,6 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
+
 import {
   createComponentFactory,
   mockProvider,
@@ -11,12 +11,13 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BOM_MOCK } from '@cdba/testing/mocks';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { BOM_MOCK } from '@cdba/testing/mocks';
 
 import { BomItem } from '../../models';
-import { SharedModule } from '../../shared.module';
 import { BomChartComponent } from './bom-chart.component';
+import { BomChartConfigService } from './bom-chart-config.service';
 import {
   COLOR_PLATTE,
   TOOLTIP_CONFIG,
@@ -33,12 +34,12 @@ describe('BomChartComponent', () => {
   const createComponent = createComponentFactory({
     component: BomChartComponent,
     imports: [
-      SharedModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
       provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
+      MaterialNumberModule,
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },

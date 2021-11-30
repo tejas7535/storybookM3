@@ -2,6 +2,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -11,7 +13,6 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
-import { SharedModule } from '@cdba/shared';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import * as enJson from '../../../../assets/i18n/compare/en.json';
@@ -27,7 +28,7 @@ describe('MaterialCardComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialCardComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       MatCardModule,
       MatExpansionModule,
       provideTranslocoTestingModule({ en: enJson }),

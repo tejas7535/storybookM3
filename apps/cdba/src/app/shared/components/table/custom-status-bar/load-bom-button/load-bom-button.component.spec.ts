@@ -12,7 +12,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
-import { SharedModule } from '@cdba/shared/shared.module';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { LoadBomButtonComponent } from './load-bom-button.component';
@@ -38,7 +37,6 @@ describe('LoadBomButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: LoadBomButtonComponent,
     imports: [
-      SharedModule,
       MatButtonModule,
       MatTooltipModule,
       RouterTestingModule,

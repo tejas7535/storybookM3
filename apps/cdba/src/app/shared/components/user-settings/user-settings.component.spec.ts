@@ -11,7 +11,6 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
-import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
 
 describe('UserSettingsComponent', () => {
@@ -23,7 +22,6 @@ describe('UserSettingsComponent', () => {
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
     imports: [
-      SharedModule,
       ReactiveFormsModule,
       MockModule(MatFormFieldModule),
       MockModule(MatIconModule),

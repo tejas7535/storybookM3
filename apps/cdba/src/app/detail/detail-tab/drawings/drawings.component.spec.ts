@@ -1,18 +1,18 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { selectDrawing } from '@cdba/core/store';
-import { SharedModule } from '@cdba/shared';
-import { Drawing } from '@cdba/shared/models';
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
-
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { selectDrawing } from '@cdba/core/store';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { LoadingSpinnerModule } from '@cdba/shared/components';
+import { Drawing } from '@cdba/shared/models';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
+
 import { DrawingsTableModule } from './drawings-table/drawings-table.module';
 import { DrawingsComponent } from './drawings.component';
 
@@ -25,11 +25,12 @@ describe('DrawingsComponent', () => {
   const createComponent = createComponentFactory({
     component: DrawingsComponent,
     imports: [
-      SharedModule,
-      MockModule(DrawingsTableModule),
-      LoadingSpinnerModule,
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
+      MockModule(LoadingSpinnerModule),
+      MaterialNumberModule,
       UnderConstructionModule,
+      MockModule(DrawingsTableModule),
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },
@@ -38,10 +39,6 @@ describe('DrawingsComponent', () => {
           detail: DETAIL_STATE_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

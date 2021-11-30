@@ -17,6 +17,7 @@ import {
   getMaterialDesignationOfSelectedRefType,
   getResultCount,
 } from '@cdba/core/store';
+import { getEnv } from '@cdba/environments/environment.provider';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 
 export interface BreadcrumbState {
@@ -30,11 +31,13 @@ export interface BreadcrumbState {
   providedIn: 'root',
 })
 export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
+  scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe =
+    new ScrambleMaterialDesignationPipe(getEnv());
+
   public constructor(
     private readonly router: Router,
     private readonly store: Store,
-    private readonly activatedRoute: ActivatedRoute,
-    private readonly scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
+    private readonly activatedRoute: ActivatedRoute
   ) {
     super({
       search: {

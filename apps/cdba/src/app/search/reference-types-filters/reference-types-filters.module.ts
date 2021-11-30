@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,9 +12,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared/shared.module';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { FormatValuePipe } from './multi-select-filter/pipes/format-value.pipe';
 import { MultiSelectValuePipe } from './multi-select-filter/pipes/multi-select-value.pipe';
@@ -33,7 +37,8 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     FormatValuePipe,
   ],
   imports: [
-    SharedModule,
+    CommonModule,
+    ReactiveComponentModule,
     SharedTranslocoModule,
     FormsModule,
     MatButtonModule,
@@ -47,6 +52,7 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     MatCheckboxModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MaterialNumberModule,
   ],
   exports: [ReferenceTypesFiltersComponent],
 })

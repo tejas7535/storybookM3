@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '@cdba/shared/shared.module';
 import { InViewModule } from '@cdba/shared/directives/in-view';
 
 import { CompareViewButtonComponent } from './compare-view-button/compare-view-button.component';
@@ -20,7 +20,7 @@ import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.compon
   ],
   imports: [
     RouterModule,
-    SharedModule,
+    ReactiveComponentModule,
     SharedTranslocoModule,
     MatButtonModule,
     MatTooltipModule,

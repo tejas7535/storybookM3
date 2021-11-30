@@ -1,4 +1,3 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -11,8 +10,6 @@ import {
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { SharedModule } from '@cdba/shared';
-
 import { ActionsCellRendererComponent } from './actions-cell-renderer.component';
 
 describe('ActionsCellRendererComponent', () => {
@@ -21,7 +18,7 @@ describe('ActionsCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ActionsCellRendererComponent,
-    imports: [SharedModule, MatIconModule, MatButtonModule],
+    imports: [MatIconModule],
     providers: [
       mockProvider(ApplicationInsightsService),
       {

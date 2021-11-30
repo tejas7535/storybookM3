@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -5,10 +6,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { UndefinedAttributeFallbackModule } from '../../pipes';
-import { SharedModule } from '../../shared.module';
+import {
+  MaterialNumberModule,
+  UndefinedAttributeFallbackModule,
+} from '@cdba/shared/pipes';
+
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
 import { BomOverlayModule } from '../bom-overlay/bom-overlay.module';
@@ -20,7 +26,8 @@ import { BomContainerComponent } from './bom-container.component';
 @NgModule({
   declarations: [BomContainerComponent],
   imports: [
-    SharedModule,
+    CommonModule,
+    ReactiveComponentModule,
     SharedTranslocoModule,
     MatCardModule,
     MatIconModule,
@@ -34,6 +41,7 @@ import { BomContainerComponent } from './bom-container.component';
     LoadingSpinnerModule,
     BomOverlayModule,
     UndefinedAttributeFallbackModule,
+    MaterialNumberModule,
   ],
   exports: [BomContainerComponent],
 })

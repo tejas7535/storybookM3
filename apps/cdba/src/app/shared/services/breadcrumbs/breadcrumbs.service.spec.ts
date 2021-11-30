@@ -4,7 +4,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
-import { MaterialNumberModule } from '@cdba/shared';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
 import { BreadcrumbsService, BreadcrumbState } from './breadcrumbs.service';
