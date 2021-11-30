@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.2.0...gq-v2.1.1) (2021-11-30)
+
+
+### 🎸 Features
+
+* **gq:** add and sort columns in excel export (GQUOTE-1064) ([#3396](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3396)) ([e8217aa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8217aa5991314b4a33b731c90e0c0e3541365fe))
+* **gq:** add colum filter highlighting (feat/GQUOTE-1011) ([#3410](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3410)) ([85c519e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85c519e31cb16c3d8230dcc60a101500fac4f0e5))
+* **gq:** add custom interceptor (GQUOUTE-1018) ([#3335](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3335)) ([a02c54a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a02c54a427a90cd4401dc008073db021f7efed36))
+* **gq:** add sap & gq price to workarea (GQUOTE-1065) ([#3362](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3362)) ([a728b31](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a728b315063d72380275c3efd72a1353711e915a))
+* **gq:** add sap price detail view (GQUOTE-943) ([#3308](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3308)) ([f115131](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f115131a8a23f33df0ac0c9e841ff292d6b90827))
+* **gq:** add sap pricing refresh button (GQUOTE-945) ([#3319](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3319)) ([c21fe90](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c21fe90f497b2cd5f65985aa03b5e2125967bde3))
+* **gq:** add SAP Pricing Tile (GQUOTE-823) ([#3160](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3160)) ([4e79932](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4e7993240fb52a8014cb47ad26f8e80f3acbb338))
+* **gq:** add showAll button, adjust status bar styling (GQUOTE-1031) ([#3385](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3385)) ([1bb6d2c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1bb6d2c0d25d827cc36708f738f4974e46b3be3f))
+* **gq:** added sapGrossPrice and discount to workarea (GQUOTE-821) ([#3243](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3243)) ([9a21632](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a216326d39cc2b3d6fe6efd3c27a404c6653f89))
+* **gq:** fix excel export number format (GQUOTE-1086) ([#3409](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3409)) ([22a7051](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/22a70516d9edec13e9700fe7af15e5082c719f86))
+* **gq:** leave leading zero for certain columns in csv (GQUOTE-1057) ([#3399](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3399)) ([58891c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/58891c609182120e1156dd067ab7122b68467f7a))
+* **gq:** make gpm & gpi editable on detail and process-case view (GQUOTE-1010) ([#3257](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3257)) ([505c422](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/505c422bf609f9c4c4cdc4bee4ef184c2b3ccd53))
+* **gq:** sort by sequenceId by default (GQUOTE-1069) ([#3378](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3378)) ([c7e3f99](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c7e3f994968d7326d45ad1c636d54b122a9f0b6b))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** always display customer currency (GQUOTE-1054) ([#3394](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3394)) ([0f61306](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0f613069cfdcf95035b07d535d06939796059e7d))
+* **gq:** fix missing edit on deployed version ([#3303](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3303)) ([9e289c6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9e289c62bb106b8d5383963a214747c002a80c5c))
+* **gq:** fix missing sap price details link ([#3342](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3342)) ([d4378e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4378e2c3a7e99db5ffa6c937a6b94f247d51b75))
+* **gq:** fix price editing not possible (GQUOTE-1055) ([#3315](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3315)) ([656f144](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/656f144992c8f100f66cccb5fd6994aaa0b4c67d))
+* **gq:** fix proxy config ([#3390](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3390)) ([ca0e471](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ca0e4714caca2750449f31f09ccea140b4abddb9))
+* **gq:** fix quantity editing for sap cases (GQUOTE-1056) ([#3332](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3332)) ([8a5b250](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8a5b2504e73e23b318c6e1a2bf0dd13e0c6ea3f3))
+* **gq:** fix sap pricing tile bugs (GQUOTE-1049) ([#3343](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3343)) ([96f5811](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/96f5811c015c20c8747c864cc8ccc28b0ec43512))
+* **gq:** fix tailwind adjustments ([#3316](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3316)) ([15eef22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/15eef22cb7962afef40c96e61bebee3682e07d0b))
+* **gq:** fixed unit test ([#3235](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3235)) ([df90555](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/df90555bfd41458347ffbf08d8be589e5f752a8b))
+* **gq:** handle unexpected server errors in interceptor ([#3366](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3366)) ([2ab74a4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2ab74a460c3ba7b26a1898ceaca5662e5fa0e0ad))
+* **transloco:** imports in tests & readme updated ([c32329c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c32329ce19668460abac5b3997f0e937b3bfe5ba))
+
 ### [2.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.1.1...gq-v2.1.0) (2021-10-26)
 
 
