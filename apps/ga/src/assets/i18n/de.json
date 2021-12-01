@@ -82,7 +82,7 @@
   "settings": {
     "stepper": {
       "bearingSelection": "Lagerauswahl",
-      "parameters": "Eingaben",
+      "parameters": "Betriebsbedingungen",
       "report": "Report"
     },
     "language": "Sprache"

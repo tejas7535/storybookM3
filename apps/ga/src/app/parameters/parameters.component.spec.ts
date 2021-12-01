@@ -116,7 +116,7 @@ describe('ParametersComponent', () => {
           })
         );
         done();
-      }, component.DEBOUNCE_TIME_DEFAULT);
+      }, component.DEBOUNCE_TIME_DEFAULT + 100);
     });
 
     it('should dispatch with valid on valid form change', (done) => {
@@ -150,7 +150,7 @@ describe('ParametersComponent', () => {
           })
         );
         done();
-      }, component.DEBOUNCE_TIME_DEFAULT);
+      }, component.DEBOUNCE_TIME_DEFAULT + 100);
     });
 
     it('should select movement type and set validators for rotational', () => {
