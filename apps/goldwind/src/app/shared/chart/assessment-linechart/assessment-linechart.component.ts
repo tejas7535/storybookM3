@@ -20,7 +20,7 @@ import {
 import { filter, Observable, of, Subscription } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { EChartsOption } from 'echarts';
+import { ECharts, EChartsOption } from 'echarts';
 
 import { Interval } from '../../../core/store/reducers/shared/models';
 import { DATE_FORMAT } from '../../constants';
@@ -120,6 +120,10 @@ export class AssessmentLinechartComponent
    * A data source to render the tree
    */
   dataSource: MatTreeFlatDataSource<SensorNode, ExampleFlatNode>;
+  /**
+   *
+   */
+  echartsInstance: ECharts;
 
   /**
    *
@@ -140,7 +144,13 @@ export class AssessmentLinechartComponent
       this.dataSource.data[index].indeterminate = indeterminate;
     });
   }
-
+  resetZoom() {
+    this.echartsInstance.dispatchAction({
+      type: 'dataZoom',
+      start: 0,
+      end: 100,
+    });
+  }
   onChartZoom($event: any) {
     this.zoomChange.next({ start: $event.start, end: $event.end });
   }
@@ -273,5 +283,9 @@ export class AssessmentLinechartComponent
 
     this.displayForm.markAsDirty();
     this.displayForm.patchValue(childrenForms);
+  }
+
+  onInit(event: any) {
+    this.echartsInstance = event;
   }
 }

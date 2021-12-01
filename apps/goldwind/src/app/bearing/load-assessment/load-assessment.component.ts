@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { getFormGroupFromDisplay } from '../../shared/chart/assessment-linechart/get-formgroup-from-display';
 import { Observable, Subscription } from 'rxjs';
@@ -20,6 +20,7 @@ import {
 import { LoadAssessmentDisplay } from '../../core/store/reducers/load-assessment/models';
 import { initialState } from '../../core/store/reducers/load-assessment/load-assessment.reducer';
 import { EChartsOption } from 'echarts';
+import { AssessmentLinechartComponent } from '../../shared/chart/assessment-linechart/assessment-linechart.component';
 
 @Component({
   selector: 'goldwind-load-assessment',
@@ -29,6 +30,8 @@ import { EChartsOption } from 'echarts';
 export class LoadAssessmentComponent
   implements OnInit, OnDestroy, IAssessmentLineChart
 {
+  @ViewChild('loadAssessmentChart')
+  loadAssessmentChart: AssessmentLinechartComponent;
   /**
    * Checkboxes to render
    */
@@ -98,6 +101,7 @@ export class LoadAssessmentComponent
     // Need to distinguish between interval event from date picker and from zoom slider to store the prisitine date
     this.intervalSub = this.interval$.subscribe((interval) => {
       if (!interval.zoom) {
+        this.loadAssessmentChart?.resetZoom();
         this.prisineInterval.start = interval.startDate;
         this.prisineInterval.end = interval.endDate;
       }
