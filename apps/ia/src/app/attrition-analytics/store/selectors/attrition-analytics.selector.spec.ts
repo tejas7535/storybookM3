@@ -116,7 +116,7 @@ describe('attrition analytics selector', () => {
       );
       expect(result[0].categories.length).toEqual(3);
       expect(result[0].series.length).toEqual(1);
-      expect(result[0].average).toEqual(4.5);
+      expect(result[0].referenceValue).toEqual(4.5);
     });
 
     test('should return undefined when selected features undefined', () => {

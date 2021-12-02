@@ -16,6 +16,7 @@ import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.componen
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
 import { AttritionAnalyticsStateService } from './attrition-analytics-state.service';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
+import { FeatureImportanceComponent } from './feature-importance/feature-importance.component';
 import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
 import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import { EmployeeAnalyticsTranslations } from './models/employee-analytics-translations.model';
@@ -67,7 +68,10 @@ describe('AttritionAnalyticsComponent', () => {
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
-    declarations: [MockComponent(BarChartComponent)],
+    declarations: [
+      MockComponent(BarChartComponent),
+      MockComponent(FeatureImportanceComponent),
+    ],
   });
 
   beforeEach(() => {
@@ -145,6 +149,7 @@ describe('AttritionAnalyticsComponent', () => {
         'below',
         'above',
         'attr rate',
+        'overall attr rate',
         'num employees'
       );
 
@@ -154,11 +159,18 @@ describe('AttritionAnalyticsComponent', () => {
       );
 
       expect(result.length).toEqual(1);
-      expect(result[0].belowAverageText).toEqual(translations.belowAverage);
-      expect(result[0].aboveAverageText).toEqual(translations.aboveAverage);
+      expect(result[0].belowReferenceValueText).toEqual(
+        translations.belowOverall
+      );
+      expect(result[0].aboveReferenceValueText).toEqual(
+        translations.aboveOverall
+      );
+      expect(result[0].referenceValueText).toEqual(
+        translations.overallAttritionRate
+      );
       expect(result[0].series[0].names).toEqual(
         expect.arrayContaining([
-          translations.attrRate,
+          translations.attritionRate,
           translations.numEmployees,
         ])
       );

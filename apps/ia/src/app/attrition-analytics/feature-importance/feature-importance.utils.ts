@@ -7,11 +7,10 @@ export const calculateColor = (weight: number): string => {
   if (weight >= 1) {
     return Color.RED_RGB;
   }
-  // from blue to red
+  // from blue, via purple, to red
   const gradient = [
     [0, [3, 147, 240]],
-    [50, [97, 97, 215]],
-    [75, [211, 33, 149]],
+    [50, [177, 49, 172]],
     [100, [251, 36, 36]],
   ];
   const percent = weight * 100;

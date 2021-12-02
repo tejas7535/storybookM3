@@ -59,7 +59,7 @@ export const getBarChartConfigsForSelectedFeatures = createSelector(
       ? selectedFeatures.map((feature, index) => {
           const config = mapEmployeeAnalyticsFeatureToBarChartConfig(
             [feature],
-            feature.avgAttritionRate,
+            feature.overallAttritionRate,
             colors[index]
           );
 

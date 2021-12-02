@@ -5,6 +5,7 @@ import {
   TextCommonOption,
 } from 'echarts/types/src/util/types';
 
+import { Color } from '../../models';
 import { BarChartConfig } from '../models/bar-chart-config.model';
 
 export function createBarChartOption(config: BarChartConfig): EChartsOption {
@@ -53,6 +54,8 @@ export function createBarChartOption(config: BarChartConfig): EChartsOption {
 }
 
 export function addSeries(config: BarChartConfig, option: EChartsOption): void {
+  const tooltipFontSize = 12;
+
   option.series = config.series.map((serie) => ({
     name: serie.names[0],
     color: serie.color,
@@ -71,15 +74,18 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
       },
       data: [
         {
-          xAxis: config.average,
+          xAxis: config.referenceValue,
           lineStyle: {
-            color: 'grey',
+            color: Color.DARK_GREY,
           },
         },
       ],
       tooltip: {
-        formatter: `<b>{c0}%</b>&emsp;Avg.
-        ${serie.names[config.series.indexOf(serie)]}`,
+        formatter: `<b>{c0}%</b>&emsp;${config.referenceValueText}`,
+        confine: true,
+        textStyle: {
+          fontSize: tooltipFontSize,
+        },
       },
     },
     tooltip: {
@@ -87,15 +93,13 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
         const values = config.series[param.seriesIndex].values[param.dataIndex];
 
         return `
-        <div>
-          <b>${values[0]}%</b>&emsp;
-          ${param.dimensionNames[0]}<br>
+          <b>${values[0]}%</b>&emsp;${param.dimensionNames[0]}<br>
           <b>${values[1]}</b>&emsp;${param.dimensionNames[1]}
-        </div>
         `;
       },
+      confine: true,
       textStyle: {
-        fontSize: 12,
+        fontSize: tooltipFontSize,
       },
     },
   }));
@@ -108,20 +112,19 @@ export function addVisualMap(
   option.visualMap = config.series.map((serie) => ({
     show: true,
     dimension: 0,
-    itemSymbol: 'circle',
     showLabel: true,
     pieces: [
       {
-        label: config.belowAverageText,
+        label: config.belowReferenceValueText,
         colorAlpha: 0.3,
         color: serie.color,
-        lte: config.average,
+        lte: config.referenceValue,
       },
       {
-        label: config.aboveAverageText,
+        label: config.aboveReferenceValueText,
         colorAlpha: 1,
         color: serie.color,
-        gt: config.average,
+        gt: config.referenceValue,
       },
     ],
     orient: 'horizontal',

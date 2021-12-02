@@ -121,7 +121,7 @@ describe('mapToFeatureSelectors', () => {
         region,
         year,
         month,
-        avgAttritionRate: 0.034,
+        overallAttritionRate: 0.034,
         values: ['1', '2'],
         attritionCount: [2, 4],
         employeeCount: [20, 25],
@@ -134,22 +134,22 @@ describe('mapToFeatureSelectors', () => {
       ).toBeTruthy();
     });
 
-    test('should return false when feature differnt', () => {
+    test('should return false when feature different', () => {
       params.feature = 'Age';
       expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
     });
 
-    test('should return false when region differnt', () => {
+    test('should return false when region different', () => {
       params.region = 'California';
       expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
     });
 
-    test('should return false when year differnt', () => {
+    test('should return false when year different', () => {
       params.year = 2019;
       expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
     });
 
-    test('should return false when month differnt', () => {
+    test('should return false when month different', () => {
       params.month = 10;
       expect(doFeatureParamsMatchFeature(params, analyticsFeature)).toBeFalsy();
     });

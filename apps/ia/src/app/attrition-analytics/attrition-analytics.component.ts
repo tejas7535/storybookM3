@@ -76,11 +76,15 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
     translations: EmployeeAnalyticsTranslations
   ): BarChartConfig[] {
     configs?.forEach((config) => {
-      config.belowAverageText = translations.belowAverage;
-      config.aboveAverageText = translations.aboveAverage;
+      config.belowReferenceValueText = translations.belowOverall;
+      config.aboveReferenceValueText = translations.aboveOverall;
+      config.referenceValueText = translations.overallAttritionRate;
       config.series.forEach(
         (serie) =>
-          (serie.names = [translations.attrRate, translations.numEmployees])
+          (serie.names = [
+            translations.attritionRate,
+            translations.numEmployees,
+          ])
       );
     });
 

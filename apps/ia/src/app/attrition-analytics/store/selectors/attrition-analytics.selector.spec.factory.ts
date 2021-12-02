@@ -11,7 +11,7 @@ export function createFakeState(): AttritionAnalyticsState {
           {
             feature: 'Age',
             region: 'Greater China',
-            avgAttritionRate: 0.045,
+            overallAttritionRate: 0.045,
             year: 2021,
             month: 12,
             employeeCount: [50, 49, 59],
@@ -23,7 +23,7 @@ export function createFakeState(): AttritionAnalyticsState {
             region: 'Asia',
             year: 2021,
             month: 4,
-            avgAttritionRate: 0.06,
+            overallAttritionRate: 0.06,
             employeeCount: [100, 20],
             values: ['CEO', 'Developer'],
             attritionCount: [2, 5],
@@ -53,7 +53,7 @@ export function createDummyFeature(name: string): EmployeeAnalytics {
   return {
     feature: name,
     region: 'Greater China',
-    avgAttritionRate: 0.045,
+    overallAttritionRate: 0.045,
     year: 2021,
     month: 12,
     employeeCount: [50, 49, 59],

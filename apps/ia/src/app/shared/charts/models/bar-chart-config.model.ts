@@ -5,8 +5,9 @@ export class BarChartConfig {
     public title: string,
     public series: BarChartSerie[],
     public categories: string[],
-    public average: number,
-    public belowAverageText?: string,
-    public aboveAverageText?: string
+    public referenceValue: number,
+    public referenceValueText?: string,
+    public belowReferenceValueText?: string,
+    public aboveReferenceValueText?: string
   ) {}
 }

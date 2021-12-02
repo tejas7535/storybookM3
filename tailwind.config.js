@@ -34,6 +34,12 @@ const greys = {
   disabledOverlay: 'rgba(129,129,129,0.12)',
 };
 
+const gradientColors = {
+  heatmapBlue: 'rgb(3, 147, 240)',
+  heatmapDeepMagenta: 'rgb(177, 27, 172)',
+  heatmapRed: 'rgb(251, 36, 36)',
+};
+
 const emphasis = {
   highEmphasis: darkGrey,
   mediumEmphasis: mediumGrey,
@@ -103,6 +109,10 @@ module.exports = {
       dark: 'rgba(0,0,0,0.87)',
       light: 'rgba(0,0,0,0.60)',
       veryLight: 'rgba(0,0,0,0.38)',
+    }),
+    gradientColorStops: (theme) => ({
+      ...theme('colors'),
+      ...gradientColors,
     }),
     fontSize: fontSizes,
     fontFamily: {

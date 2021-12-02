@@ -1,4 +1,7 @@
 {
+  "unforcedAttritionAnalytics": {
+    "title": "Unforced Fluctuation Analytics"
+  },
   "addAnalysis": {
     "buttonText": "Add analysis",
     "featuresDialog": {
@@ -11,13 +14,19 @@
     }
   },
   "barChart": {
-    "belowAverage": "Below average",
-    "aboveAverage": "Above average",
-    "attrRate": "Attr. Rate",
+    "belowOverall": "Below Overall",
+    "aboveOverall": "Above Overall",
+    "overallAttritionRate": "Overall Unforced Fluctuation Rate",
+    "attritionRate": "Unforced Fluctuation Rate",
     "numEmployees": "num. Employees"
   },
   "featureImportance": {
     "title": "Feature Importance",
-    "xAxisName": "SHAP value"
+    "xAxisName": "SHAP value",
+    "legend": {
+      "title": "Feature Value",
+      "top": "High",
+      "bottom": "Low"
+    }
   }
 }

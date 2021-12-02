@@ -3,7 +3,7 @@ export interface EmployeeAnalytics {
   feature: string;
   year: number;
   month: number;
-  avgAttritionRate: number;
+  overallAttritionRate: number;
   values: string[];
   attritionCount: number[];
   employeeCount: number[];
