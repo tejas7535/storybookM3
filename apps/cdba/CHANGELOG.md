@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.6.0...cdba-v2.5.0) (2021-12-03)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** introduce custom http params encoder (DSCDA-2780) ([#3317](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3317)) ([e9654f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e9654f7d9434796693bf0cac29b676eef1747104)), closes [/github.com/angular/angular/issues/18261#issuecomment-338354119](https://github.com/Schaeffler-Group//github.com/angular/angular/issues/18261/issues/issuecomment-338354119)
+* **transloco:** imports in tests & readme updated ([c32329c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c32329ce19668460abac5b3997f0e937b3bfe5ba))
+
+
+### 🎸 Features
+
+* **CDBA:** add cost roles to role descriptions (DSCDA-2785) ([4f7793e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4f7793e238b7bef0839357785bcae86c462e370b))
+* **cdba:** add empty states for users without necessary base rights (DSCDA-2755) ([#3324](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3324)) ([d0272f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0272f795d64cc768ba7c19c5c5fcc54026f3690))
+* **cdba:** add text link to "no-access" page(DSCDA-2804) ([a2fc050](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2fc0506b7618223c53b4e2137a0a9621cb2bfe3))
+* **cdba:** change action button link in "no-access" page (DSCDA-2294) ([#3347](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3347)) ([65810ed](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/65810ed8435435ff145b7d30065b0b1bafe127d7))
+* **CDBA:** implement roles&rights dialog in forbidden page (DSCDA-2750) ([5244c69](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5244c69c6ea13cf8b678a4b7b2d973d3fcf0701a))
+* **cdba:** integrate roles and rights (DSCDA-2749) ([#3247](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3247)) ([088bedc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/088bedcfef418b730305dbc54f6b63b742db527f))
+* **cdba:** switch to new app registrations ([59ad6b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59ad6b5faad148593211b4c76bed50eb84c2443d))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
 ## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.5.0...cdba-v2.4.0) (2021-10-26)
 
 
