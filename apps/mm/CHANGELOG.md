@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.10](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.10...mm-v0.1.9) (2021-12-03)
+
+
+### 🎸 Features
+
+* adjust footer imports ([e6ea822](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e6ea822bc4ffce3bc0d60279916d7475834aea8d))
+* adjust remaining footer imports ([55919bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55919bc78d7e7a50ccc8cb9d849d8e2c369b76ef))
+* **app-shell:** consider ios safe areas ([2fde3c4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2fde3c4decf2bab20a7ff4198ef9c7035098a301))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **report:** toggle grease report additional fields ([9a76cf2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9a76cf2dd7e718d95e6791c70f2774114741ed02))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
 ### [0.1.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.9...mm-v0.1.8) (2021-10-22)
 
 
