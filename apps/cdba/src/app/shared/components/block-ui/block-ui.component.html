@@ -1,9 +1,7 @@
 <div
-  fxLayout="column"
-  fxLayoutAlign="center center"
-  fxLayoutGap="20px"
+  class="flex flex-col items-center justify-center gap-4"
   *transloco="let t; read: 'shared.blockUi'"
 >
-  <div class="text-body-1">{{ t('inProgress') }}</div>
+  <div>{{ t('inProgress') }}</div>
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>

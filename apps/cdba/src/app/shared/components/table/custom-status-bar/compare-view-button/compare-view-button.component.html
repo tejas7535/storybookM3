@@ -1,11 +1,13 @@
 <ng-container *ngrxLet="selectedNodeIds$; let nodeIds">
-  <button
-    mat-flat-button
-    color="primary"
-    *transloco="let t; read: 'shared.statusBar'"
-    [disabled]="nodeIds?.length !== 2"
-    (click)="showCompareView(nodeIds)"
-  >
-    {{ t('compare') }}
-  </button>
+  <div class="button-wrapper" cdbaInView>
+    <button
+      mat-flat-button
+      color="primary"
+      *transloco="let t; read: 'shared.statusBar'"
+      [disabled]="nodeIds?.length !== 2"
+      (click)="showCompareView(nodeIds)"
+    >
+      {{ t('compare') }}
+    </button>
+  </div>
 </ng-container>

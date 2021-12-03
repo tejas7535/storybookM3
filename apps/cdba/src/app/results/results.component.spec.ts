@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { marbles } from 'rxjs-marbles/jest';
 
@@ -14,7 +15,6 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
-import { SharedModule } from '@cdba/shared';
 import { PageHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
@@ -30,7 +30,7 @@ describe('ResultsComponent', () => {
   const createComponent = createComponentFactory({
     component: ResultsComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(PageHeaderModule),
       MockModule(ReferenceTypesTableModule),

@@ -4,11 +4,10 @@ import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { SharedModule } from '@cdba/shared';
 
 import { DetailViewButtonComponent } from './detail-view-button.component';
 
@@ -32,7 +31,7 @@ describe('DetailViewButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailViewButtonComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

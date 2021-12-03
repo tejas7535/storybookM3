@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
-import { BackButtonModule } from '@cdba/shared/directives';
+import { BackButtonModule } from '@cdba/shared/directives/back-button';
 
 import { PageHeaderComponent } from './page-header.component';
 

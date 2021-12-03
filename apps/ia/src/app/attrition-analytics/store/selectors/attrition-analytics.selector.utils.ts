@@ -7,7 +7,7 @@ import { FeatureSelector } from '../../models/feature-selector.model';
 
 export function mapEmployeeAnalyticsFeatureToBarChartConfig(
   features: EmployeeAnalytics[],
-  average: number,
+  overallAttritionRate: number,
   color: string
 ): BarChartConfig {
   let values: number[][] = [];
@@ -38,7 +38,7 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
         features[0].feature,
         [barChartSerie],
         categories,
-        getPercentageValue(average)
+        getPercentageValue(overallAttritionRate)
       )
     : undefined;
 }

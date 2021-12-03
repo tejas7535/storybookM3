@@ -196,4 +196,17 @@ describe('AssessmentLinechartComponent', () => {
       expect(component.displayForm.value.waterContent_1).toEqual(false);
     });
   });
+  describe('resetZoom', () => {
+    it('should dispatch an action to reset the zoom plugin to 0-100', () => {
+      component.onInit({});
+      component.echartsInstance.dispatchAction = jest.fn();
+      jest.spyOn(component.echartsInstance, 'dispatchAction');
+      component.resetZoom();
+      expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
+        start: 0,
+        end: 100,
+        type: 'dataZoom',
+      });
+    });
+  });
 });

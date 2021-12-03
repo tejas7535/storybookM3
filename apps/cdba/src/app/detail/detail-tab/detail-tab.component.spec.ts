@@ -2,6 +2,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -10,7 +11,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
-import { SharedModule } from '../../shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabComponent } from './detail-tab.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
@@ -27,7 +27,7 @@ describe('DetailTabComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailTabComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
       MatCardModule,
       CustomerModule,

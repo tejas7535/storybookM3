@@ -43,7 +43,9 @@
     </ng-template>
   </span>
   <div class="flex-auto"></div>
-  <ng-content select="[headerInlineContent]"></ng-content>
+  <div class="content-wrapper">
+    <ng-content select="[headerInlineContent]"></ng-content>
+  </div>
   <div class="schaeffler-header-logo"></div>
 </mat-toolbar>
 <!-- end header -->
@@ -72,13 +74,10 @@
   <!-- start content -->
   <mat-sidenav-content
     class="flex-col pt-[60px]"
-    [ngClass]="{ '!flex': footerFixed }"
+    [ngClass]="footerFixed ? 'footer-fixed' : 'footer-not-fixed'"
   >
     <!-- start main content -->
-    <div
-      class="main-content-wrapper"
-      [ngClass]="footerFixed ? 'footer-fixed' : 'footer-not-fixed'"
-    >
+    <div class="content-wrapper main-content-wrapper">
       <ng-content select="[mainContent]"></ng-content>
     </div>
     <!-- end main content -->
@@ -88,7 +87,7 @@
       *ngIf="hasFooter || footerLinks.length"
       class="flex flex-col items-center justify-between gap-2 lg:flex-row"
     >
-      <div class="p-2">
+      <div class="content-wrapper p-2">
         <ng-content select="[footerContent]"></ng-content>
       </div>
       <div

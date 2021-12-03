@@ -1,9 +1,9 @@
 <div *transloco="let t; read: 'shared.browserSupport.unsupportedBrowser'">
-  <h6 class="text-h6 flex items-center">
-    <mat-icon class="mr-2">warning_amber</mat-icon>
+  <h6 mat-dialog-title class="!flex items-center">
+    <mat-icon class="text-error mr-2">warning_amber</mat-icon>
     {{ t('title') }}
   </h6>
-  <mat-dialog-content class="mat-typography">
+  <mat-dialog-content>
     <p [innerHTML]="t('message')" class="whitespace-pre-line"></p>
   </mat-dialog-content>
   <mat-dialog-actions>

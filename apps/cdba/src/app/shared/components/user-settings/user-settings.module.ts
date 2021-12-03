@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,17 +10,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
-import { SharedModule } from '../../shared.module';
 import { UserSettingsComponent } from './user-settings.component';
 
 @NgModule({
   declarations: [UserSettingsComponent],
   imports: [
     // angular modules
+    CommonModule,
     ReactiveFormsModule,
 
     // shared modules
-    SharedModule,
     SharedTranslocoModule,
 
     // ui modules

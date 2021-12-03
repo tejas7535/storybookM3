@@ -5,6 +5,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -12,7 +13,6 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ShareButtonModule } from '@schaeffler/share-button';
 
-import { SharedModule } from '@cdba/shared';
 import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
@@ -26,7 +26,7 @@ describe('CompareComponent', () => {
   const createComponent = createComponentFactory({
     component: CompareComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       MockModule(TabsHeaderModule),

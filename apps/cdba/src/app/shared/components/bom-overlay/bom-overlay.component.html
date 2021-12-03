@@ -1,22 +1,18 @@
 <div
-  fxLayout="column"
-  class="mat-elevation-z12 bom-overlay-container"
+  class="h-full flex flex-col"
   *transloco="let t; read: 'shared.bom.additionalInformation'"
 >
   <div
-    class="bom-overlay-title"
-    fxLayout="row"
-    fxLayoutAlign="start center"
+    class="cursor-pointer h-[50px] flex items-center"
     matRipple
-    matRippleColor="primary"
     (click)="onClose()"
   >
-    <mat-icon>close</mat-icon>
-    <p>{{ t('title') }}</p>
+    <mat-icon class="text-mediumEmphasis mx-4">close</mat-icon>
+    <span>{{ t('title') }}</span>
   </div>
-  <mat-tab-group mat-stretch-tabs>
+  <mat-tab-group mat-stretch-tabs class="flex-1">
     <mat-tab label="{{ t('calculations') | uppercase }}">
-      <div class="table-container">
+      <div class="h-full">
         <ng-content select="[calculations]"></ng-content>
       </div>
     </mat-tab>

@@ -1,7 +1,3 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-
 import { AgGridModule } from '@ag-grid-community/angular';
 import { RowSelectedEvent } from '@ag-grid-enterprise/all-modules';
 import {
@@ -9,9 +5,6 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
-
-import { SharedModule } from '@cdba/shared';
 
 import { ColumnDefinitionService } from './config';
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
@@ -24,19 +17,9 @@ describe('DrawingsTableComponent', () => {
   const createComponent = createComponentFactory({
     component: DrawingsTableComponent,
     declarations: [ActionsCellRendererComponent],
-    imports: [
-      SharedModule,
-      MatButtonModule,
-      MatIconModule,
-      AgGridModule.withComponents([ActionsCellRendererComponent]),
-      ReactiveComponentModule,
-    ],
+    imports: [AgGridModule.withComponents([ActionsCellRendererComponent])],
     providers: [
       mockProvider(ColumnDefinitionService, { COLUMN_DEFINITIONS: [] }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

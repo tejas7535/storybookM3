@@ -9,7 +9,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedModule } from '../../../shared/shared.module';
 import { BomOverlayComponent } from './bom-overlay.component';
 
 describe('BomOverlayComponent', () => {
@@ -19,7 +18,6 @@ describe('BomOverlayComponent', () => {
   const createComponent = createComponentFactory({
     component: BomOverlayComponent,
     imports: [
-      SharedModule,
       provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
       MatTabsModule,

@@ -65,6 +65,7 @@ import READMEMd from './tooltip/README.md';
       <div class="sm:ml-32 text-center sm:text-left">
         <button
           #tooltip="matTooltip"
+          (click)="tooltip.toggle()"
           [matTooltip]="message"
           [matTooltipPosition]="horizontalPosition"
           mat-raised-button

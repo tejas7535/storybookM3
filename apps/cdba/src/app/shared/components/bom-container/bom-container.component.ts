@@ -25,7 +25,6 @@ import { BomItem, Calculation } from '../../models';
 @Component({
   selector: 'cdba-bom-container',
   templateUrl: './bom-container.component.html',
-  styleUrls: ['./bom-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomContainerComponent implements OnInit {

@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { marbles } from 'rxjs-marbles';
 
 import { GridApi } from '@ag-grid-enterprise/all-modules';
@@ -19,9 +21,10 @@ import { MockModule } from 'ng-mocks';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import * as compareActions from '@cdba/compare/store/actions/compare.actions';
 import * as detailActions from '@cdba/core/store/actions/detail/detail.actions';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
   BOM_MOCK,
   COMPARE_STATE_MOCK,
@@ -29,7 +32,6 @@ import {
 } from '@cdba/testing/mocks';
 
 import { BomItem, Calculation } from '../../models';
-import { SharedModule } from '../../shared.module';
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
 import { BomOverlayModule } from '../bom-overlay/bom-overlay.module';
@@ -48,8 +50,8 @@ describe('BomContainerComponent', () => {
   const createComponent = createComponentFactory({
     component: BomContainerComponent,
     imports: [
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
-      SharedModule,
       MatCardModule,
       MatIconModule,
       MatMenuModule,
@@ -61,6 +63,7 @@ describe('BomContainerComponent', () => {
       MockModule(BomChartModule),
       MockModule(BomLegendModule),
       MockModule(LoadingSpinnerModule),
+      MaterialNumberModule,
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },

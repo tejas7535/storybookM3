@@ -20,19 +20,19 @@ describe('feature-imoprtance-utils', () => {
     });
 
     test('should return blue when weight close to 0', () => {
-      expect(calculateColor(0.1)).toEqual('rgb(22, 137, 235)');
+      expect(calculateColor(0.1)).toEqual('rgb(38, 127, 226)');
     });
 
     test('should return darker blue when weight quite close to 0', () => {
-      expect(calculateColor(0.2)).toEqual('rgb(41, 127, 230)');
+      expect(calculateColor(0.2)).toEqual('rgb(73, 108, 213)');
     });
 
     test('should return violet when weight close to 0.5', () => {
-      expect(calculateColor(0.5)).toEqual('rgb(97, 97, 215)');
+      expect(calculateColor(0.5)).toEqual('rgb(177, 49, 172)');
     });
 
     test('should return light red when weight close to 1', () => {
-      expect(calculateColor(0.9)).toEqual('rgb(235, 35, 81)');
+      expect(calculateColor(0.9)).toEqual('rgb(236, 39, 63)');
     });
   });
 

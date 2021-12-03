@@ -12,7 +12,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
-import { SharedModule } from '../../../shared/shared.module';
 import { InputType } from './input-type.enum';
 import { RangeFilterValuePipe } from './range-filter-value.pipe';
 import { RangeFilterComponent } from './range-filter.component';
@@ -27,12 +26,11 @@ describe('RangeFilterComponent', () => {
   const createComponent = createComponentFactory({
     component: RangeFilterComponent,
     imports: [
-      SharedModule,
       provideTranslocoTestingModule({ en: {} }),
       FormsModule,
-      MatIconModule,
       ReactiveFormsModule,
       MatFormFieldModule,
+      MatIconModule,
       MatInputModule,
       MatSelectModule,
       MatSliderModule,

@@ -13,7 +13,6 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
 @Component({
   selector: 'cdba-bom-legend',
   templateUrl: './bom-legend.component.html',
-  styleUrls: ['./bom-legend.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomLegendComponent {

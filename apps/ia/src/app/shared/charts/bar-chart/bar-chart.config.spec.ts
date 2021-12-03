@@ -29,9 +29,9 @@ import {
 describe('Bar Chart Config', () => {
   const config: BarChartConfig = {
     title: 'Age',
-    average: 35,
-    aboveAverageText: 'Above average',
-    belowAverageText: 'Below average',
+    referenceValue: 35,
+    aboveReferenceValueText: 'Above average',
+    belowReferenceValueText: 'Below average',
     categories: [
       '18',
       '19',
@@ -96,16 +96,16 @@ describe('Bar Chart Config', () => {
       ).toEqual(2);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[0].label
-      ).toEqual(config.belowAverageText);
+      ).toEqual(config.belowReferenceValueText);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[1].label
-      ).toEqual(config.aboveAverageText);
+      ).toEqual(config.aboveReferenceValueText);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[0].lte
-      ).toEqual(config.average);
+      ).toEqual(config.referenceValue);
       expect(
         (result.visualMap as PiecewiseVisualMapOption[])[0].pieces[1].gt
-      ).toEqual(config.average);
+      ).toEqual(config.referenceValue);
       expect((result.dataZoom as DataZoomComponentOption[]).length).toEqual(2);
       expect((result.dataZoom as DataZoomComponentOption[])[0].type).toEqual(
         'slider'
@@ -145,7 +145,7 @@ describe('Bar Chart Config', () => {
           ((option.series as BarSeriesOption[])[0].markLine as MarkLineOption)
             .data[0] as { xAxis: number }
         ).xAxis
-      ).toEqual(config.average);
+      ).toEqual(config.referenceValue);
     });
   });
 
@@ -161,20 +161,19 @@ describe('Bar Chart Config', () => {
       expect((option.visualMap as VisualMapComponentOption[])[0]).toEqual({
         show: true,
         dimension: 0,
-        itemSymbol: 'circle',
         showLabel: true,
         pieces: [
           {
-            label: config.belowAverageText,
+            label: config.belowReferenceValueText,
             colorAlpha: 0.3,
             color: config.series[0].color,
-            lte: config.average,
+            lte: config.referenceValue,
           },
           {
-            label: config.aboveAverageText,
+            label: config.aboveReferenceValueText,
             colorAlpha: 1,
             color: config.series[0].color,
-            gt: config.average,
+            gt: config.referenceValue,
           },
         ],
         orient: 'horizontal',

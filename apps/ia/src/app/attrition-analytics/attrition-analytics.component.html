@@ -1,67 +1,78 @@
 <div
-  class="bg-white gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 drag-list"
-  *ngIf="!(isLoading$ | ngrxPush); else loading"
-  cdkDropList
-  cdkDropListOrientation="horizontal"
-  (cdkDropListDropped)="drop($event)"
+  class="bg-white p-4"
+  *transloco="let t; read: 'attritionAnalytics.unforcedAttritionAnalytics'"
 >
+  <h5 class="font-bold mb-5">{{ t('title') }}</h5>
   <div
-    cdkDrag
-    cdkDragLockAxis="x"
-    cdkDragBoundary=".drag-list"
-    class="shadow w-full flex flex-col"
-    *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
-  >
-    <div class="relative">
-      <div class="absolute right-3 top-3 flex flex-row gap-2">
-        <mat-icon
-          class="cursor-pointer text-light z-50"
-          (click)="openFeaturesDialog()"
-          >edit</mat-icon
-        >
-        <mat-icon class="cursor-move text-light z-50" cdkDragHandle
-          >open_with</mat-icon
-        >
-      </div>
-      <ia-bar-chart [config]="config"></ia-bar-chart>
-    </div>
-  </div>
-  <div
-    *ngIf="(barChartConfigs$ | ngrxPush)?.length < NUMBER_OF_TILES"
-    class="w-full h-[520px] flex items-center justify-center shadow"
+    class="
+      gap-4
+      p-4
+      flex-wrap
+      lg:flex-nowrap
+      grid grid-cols-4
+      drag-list
+      border-none
+    "
+    *ngIf="!(isLoading$ | ngrxPush); else loading"
+    cdkDropList
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="drop($event)"
   >
     <div
-      class="
-        text-center
-        w-[190px]
-        h-[190px]
-        rounded-full
-        bg-[#F5F7FA]
-        flex flex-col
-        justify-center
-        items-center
-      "
-      *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
+      cdkDrag
+      cdkDragLockAxis="x"
+      cdkDragBoundary=".drag-list"
+      class="shadow w-full flex flex-col"
+      *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
     >
-      <div class="cursor-pointer" (click)="openFeaturesDialog()">
-        <mat-icon class="text-light text-[48px] !w-[48px] !h-[48px]"
-          >add_circle_outline</mat-icon
-        >
-        <h6 class="text-light">{{ t('buttonText') }}</h6>
+      <div class="relative">
+        <div class="absolute right-3 top-3 flex flex-row gap-2">
+          <mat-icon
+            class="cursor-pointer text-light z-50"
+            (click)="openFeaturesDialog()"
+            >edit</mat-icon
+          >
+          <mat-icon class="cursor-move text-light z-50" cdkDragHandle
+            >open_with</mat-icon
+          >
+        </div>
+        <ia-bar-chart [config]="config"></ia-bar-chart>
       </div>
     </div>
+    <div
+      *ngIf="(barChartConfigs$ | ngrxPush)?.length < NUMBER_OF_TILES"
+      class="w-full h-[520px] flex items-center justify-center shadow"
+    >
+      <div
+        class="
+          text-center
+          w-[190px]
+          h-[190px]
+          rounded-full
+          bg-[#F5F7FA]
+          flex flex-col
+          justify-center
+          items-center
+        "
+        *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
+      >
+        <div class="cursor-pointer" (click)="openFeaturesDialog()">
+          <mat-icon class="text-light text-[48px] !w-[48px] !h-[48px]"
+            >add_circle_outline</mat-icon
+          >
+          <h6 class="text-light">{{ t('buttonText') }}</h6>
+        </div>
+      </div>
+    </div>
+    <ia-feature-importance
+      class="shadow w-full flex flex-col col p-4"
+    ></ia-feature-importance>
   </div>
-</div>
-<ng-template #loading>
-  <schaeffler-loading-spinner
-    [diameter]="40"
-    [strokeWidth]="4"
-    [relative]="false"
-  ></schaeffler-loading-spinner>
-</ng-template>
-
-<div class="bg-white gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4">
-  <ia-feature-importance
-    class="shadow w-full flex flex-col"
-  ></ia-feature-importance>
+  <ng-template #loading>
+    <schaeffler-loading-spinner
+      [diameter]="40"
+      [strokeWidth]="4"
+      [relative]="false"
+    ></schaeffler-loading-spinner>
+  </ng-template>
 </div>

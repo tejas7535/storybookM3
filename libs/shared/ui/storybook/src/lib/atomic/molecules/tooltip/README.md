@@ -2,4 +2,4 @@
 
 This molecule is based on the [Angular Material Tooltip](https://material.angular.io/components/tooltip/overview).
 
-More documentation on implementation and design guidelines could come here.
+Make sure to add `(click)="tooltip.toggle()"` to have a tooltip that works reliable on touch devices as well.

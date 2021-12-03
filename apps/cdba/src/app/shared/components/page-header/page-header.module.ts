@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { BackButtonModule } from '../../directives';
+import { BackButtonModule } from '@cdba/shared/directives/back-button';
+
 import { PageHeaderComponent } from './page-header.component';
 
 @NgModule({

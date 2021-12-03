@@ -1,3 +1,6 @@
+import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
@@ -14,8 +17,15 @@ describe('BomCompareTabComponent', () => {
   const createComponent = createComponentFactory({
     component: BomCompareTabComponent,
     imports: [
+      MatCardModule,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(BomContainerModule),
+    ],
+    providers: [
+      {
+        provide: MATERIAL_SANITY_CHECKS,
+        useValue: false,
+      },
     ],
   });
 

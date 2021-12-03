@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -12,7 +13,6 @@ import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-stat
 
 import { CompareViewButtonComponent } from '../../shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { DetailViewButtonComponent } from '../../shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
-import { SharedModule } from '../../shared/shared.module';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
 import { TableStore } from './table.store';
@@ -20,7 +20,7 @@ import { TableStore } from './table.store';
 @NgModule({
   declarations: [ReferenceTypesTableComponent, PcmCellRendererComponent],
   imports: [
-    SharedModule,
+    CommonModule,
     AgGridModule.withComponents([
       DetailViewButtonComponent,
       CompareViewButtonComponent,

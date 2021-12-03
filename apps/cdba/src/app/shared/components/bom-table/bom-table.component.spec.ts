@@ -19,8 +19,9 @@ import {
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+
 import { BomItem } from '../../models';
-import { SharedModule } from '../../shared.module';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
@@ -34,12 +35,12 @@ describe('BomTableComponent', () => {
   const createComponent = createComponentFactory({
     component: BomTableComponent,
     imports: [
-      SharedModule,
       AgGridModule.withComponents([
         CustomLoadingOverlayComponent,
         CustomNoRowsOverlayComponent,
       ]),
       CustomOverlayModule,
+      MaterialNumberModule,
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },

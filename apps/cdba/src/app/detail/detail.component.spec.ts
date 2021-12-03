@@ -5,6 +5,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -12,11 +13,11 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ShareButtonModule } from '@schaeffler/share-button';
 
+import { getReferenceType } from '@cdba/core/store';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-import { getReferenceType } from '@cdba/core/store';
-import { SharedModule } from '@cdba/shared';
 
 import { AUTH_STATE_MOCK, REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { DetailComponent } from './detail.component';
@@ -28,9 +29,10 @@ describe('DetailComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
+      MaterialNumberModule,
       MockModule(TabsHeaderModule),
       MockModule(PageHeaderModule),
       MockModule(ShareButtonModule),

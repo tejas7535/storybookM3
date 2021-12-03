@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -5,8 +6,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-
-import { SharedModule } from '@cdba/shared';
 
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabRoutingModule } from './detail-tab-routing.module';
@@ -21,8 +20,9 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
 @NgModule({
   declarations: [DetailTabComponent],
   imports: [
+    CommonModule,
+    ReactiveComponentModule,
     DetailTabRoutingModule,
-    SharedModule,
     SharedTranslocoModule,
     MatCardModule,
     SalesAndDescriptionModule,
@@ -33,7 +33,6 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     ProductionModule,
     DrawingsModule,
     LoadingSpinnerModule,
-    ReactiveComponentModule,
   ],
 })
 export class DetailTabModule {}

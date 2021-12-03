@@ -27,7 +27,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { AgGridStateService } from '../../services/ag-grid-state/ag-grid-state.service';
-import { SharedModule } from '../../shared.module';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
@@ -42,8 +41,7 @@ describe('CalculationsTableComponent', () => {
     component: CalculationsTableComponent,
     imports: [
       SharedTranslocoModule,
-      SharedModule,
-      AgGridModule.withComponents([]),
+      MockModule(AgGridModule.withComponents([])),
       MatCardModule,
       MatIconModule,
       RouterTestingModule,

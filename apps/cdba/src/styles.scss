@@ -53,26 +53,36 @@ button {
       checkbox-checked-color: $schaeffler-green-1,
     )
   );
+
   .ag-column-panel {
     border-left: 1px solid ag-param(border-color);
     border-right: 1px solid ag-param(border-color);
   }
-}
 
-.ag-horizontal-left-spacer {
-  overflow: hidden;
-}
+  .ag-horizontal-left-spacer {
+    overflow: hidden;
+  }
 
-.ag-theme-material
-  .ag-cell-wrapper
-  > :not(.ag-cell-value):not(.ag-group-value) {
-  align-items: center;
-  display: flex;
-  flex: none;
-  height: 30px;
-}
+  .ag-cell-wrapper > :not(.ag-cell-value):not(.ag-group-value) {
+    align-items: center;
+    display: flex;
+    flex: none;
+    height: 30px;
+  }
 
-.line-height-30,
-.ag-right-aligned-cell {
-  line-height: 30px !important;
+  .line-height-30,
+  .ag-right-aligned-cell {
+    line-height: 30px !important;
+  }
+
+  .ag-side-button-button {
+    &:hover {
+      color: $schaeffler-green-1 !important;
+    }
+  }
+
+  .ag-status-bar {
+    @apply border-0 #{!important};
+    @apply p-0 #{!important};
+  }
 }

@@ -1,23 +1,25 @@
-<div class="flex flex-col h-full bg-white">
-  <div class="pl-16 pt-5 pr-5">
-    <ng-content select="[breadcrumbs]"></ng-content>
-  </div>
-  <div class="flex flex-row items-center gap-5 pl-5 pr-5">
-    <mat-icon
-      *ngIf="showBackButton"
-      class="flex-none cursor-pointer text-body-1"
-      color="secondary"
-      cdbaBackButton
-    >
-      arrow_back
-    </mat-icon>
+<div class="flex flex-col h-full">
+  <div class="py-4 bg-white border-b border-lightBg">
+    <div class="pl-14 pr-5">
+      <ng-content select="[breadcrumbs]"></ng-content>
+    </div>
+    <div class="flex flex-row items-center gap-3 px-4">
+      <mat-icon
+        *ngIf="showBackButton"
+        class="flex-none cursor-pointer text-mediumEmphasis"
+        color="secondary"
+        cdbaBackButton
+      >
+        arrow_back
+      </mat-icon>
 
-    <h4 class="flex-auto">
-      {{ title }}
-    </h4>
+      <h4 class="flex-auto">
+        {{ title }}
+      </h4>
 
-    <div class="flex-none">
-      <ng-content select="[header]"></ng-content>
+      <div class="flex-none">
+        <ng-content select="[header]"></ng-content>
+      </div>
     </div>
   </div>
   <div class="flex-grow">

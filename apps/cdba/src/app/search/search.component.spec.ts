@@ -1,5 +1,5 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { marbles } from 'rxjs-marbles/jest';
 
@@ -12,7 +12,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { BlockUiModule } from '@cdba/shared/components';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
-import { SharedModule } from '../shared/shared.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { SearchComponent } from './search.component';
 
@@ -23,10 +22,10 @@ describe('SearchComponent', () => {
   const createComponent = createComponentFactory({
     component: SearchComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
-      BlockUiModule,
+      MockModule(BlockUiModule),
       MockModule(ReferenceTypesFiltersModule),
     ],
     providers: [
@@ -35,10 +34,6 @@ describe('SearchComponent', () => {
           search: SEARCH_STATE_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

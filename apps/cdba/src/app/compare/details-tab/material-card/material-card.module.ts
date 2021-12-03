@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -6,9 +7,9 @@ import {
   MatExpansionPanelDefaultOptions,
 } from '@angular/material/expansion';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { ReactiveComponentModule } from '@ngrx/component';
 
-import { SharedModule } from '@cdba/shared';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
 import { DimensionsWidgetModule } from '../dimensions-widget/dimensions-widget.module';
@@ -22,7 +23,8 @@ const defaultOptions: MatExpansionPanelDefaultOptions = {
 @NgModule({
   declarations: [MaterialCardComponent],
   imports: [
-    SharedModule,
+    CommonModule,
+    ReactiveComponentModule,
     MatCardModule,
     MatExpansionModule,
     SharedTranslocoModule,

@@ -1,35 +1,5 @@
-@import 'libs/shared/ui/styles/src/lib/colors';
-
 :host {
-  height: 100%;
-  width: 100%;
-
-  .bom-overlay-container {
-    height: 100%;
-
-    .bom-overlay-title {
-      cursor: pointer;
-      height: 50px;
-    }
-    mat-icon {
-      color: $schaeffler-carbon-gray;
-      font-size: 24px;
-      margin: 0 16px;
-    }
+  ::ng-deep .mat-tab-body-wrapper {
+    height: 100% !important;
   }
-
-  mat-tab-group {
-    height: calc(100% - 50px);
-    width: 100%;
-
-    .table-container {
-      height: calc(100% - 20px);
-      margin: 10px;
-      width: calc(100% - 20px);
-    }
-  }
-}
-
-::ng-deep .mat-tab-body-wrapper {
-  height: 100% !important;
 }

@@ -122,6 +122,7 @@
           [options]="chartOptions"
           [merge]="graphData"
           (chartDataZoom)="onChartZoom($event)"
+          (chartInit)="onInit($event)"
         ></div>
       </ng-container>
       <ng-template #loading>

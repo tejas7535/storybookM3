@@ -39,10 +39,12 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
 
   public radial = new FormControl(undefined, [
+    Validators.min(0),
     Validators.max(1_000_000_000),
     Validators.required,
   ]);
   public axial = new FormControl(undefined, [
+    Validators.min(0),
     Validators.max(1_000_000_000),
     Validators.required,
   ]);

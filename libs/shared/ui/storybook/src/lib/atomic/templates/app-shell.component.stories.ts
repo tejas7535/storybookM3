@@ -26,6 +26,8 @@ interface AppShellStorybookTemplate {
   headerContent?: string;
   sideNavContent?: string;
   mainContent?: string;
+  mainContentText: string;
+  mainContentParagraphs: string[];
   footerContent?: string;
 }
 
@@ -75,8 +77,13 @@ const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
       <h4>{{ sideNavContent }}</h4>
     </ng-container>
     <ng-container mainContent>
-      <div class="h-full w-full text-center">
-        <h1>{{ mainContent }}</h1>
+      <div class="h-full w-full">
+        <h1 class="px-3">{{ mainContent }}</h1>
+        <div class="px-3 py-8">
+          <button mat-stroked-button color="primary" class="!mr-3" (click)="mainContentParagraphs.push(mainContentText)">Add more content</button>
+          <button mat-stroked-button (click)="mainContentParagraphs.length = 0">Reset content</button>
+          <div *ngFor="let paragraph of mainContentParagraphs" class="py-4 text-h3">{{ paragraph }}</div>
+        </div>
       </div>
     </ng-container>
     <ng-container footerContent>
@@ -96,6 +103,9 @@ Default.args = {
   headerContent: 'Hello Header Content',
   sideNavContent: 'Hello Sidenav Content',
   mainContent: 'Hello Main Content',
+  mainContentText:
+    'Qapla. Dah tlhingan hol mu ghom a dalegh. Qawhaqvam chenmohlu di wiqipe diya ohvad ponglu. Ach jinmolvamvad Saghbe law tlhingan hol, dis, oh mevmohlu. Ach dis jar wa mahcha dich wikia jinmoldaq vihta. Hov lengvad chenmohlu tlhingan hol e ej dah oh ghojtah ghot law.',
+  mainContentParagraphs: [],
   hasFooter: true,
   footerContent: 'Hello Footer Content',
   footerLinks: [

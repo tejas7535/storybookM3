@@ -4,12 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { SharedModule } from '@cdba/shared/shared.module';
 
 import {
   autocomplete,
@@ -64,7 +63,7 @@ describe('ReferenceTypesFiltersComponent', () => {
   const createComponent = createComponentFactory({
     component: ReferenceTypesFiltersComponent,
     imports: [
-      SharedModule,
+      ReactiveComponentModule,
       MatButtonModule,
       MatIconModule,
       MatTooltipModule,

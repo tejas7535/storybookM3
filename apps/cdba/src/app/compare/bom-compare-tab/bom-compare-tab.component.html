@@ -1,13 +1,8 @@
-<div
-  class="compare-container"
-  fxLayout="row"
-  fxLayoutAlign="space-between start"
-  fxLayoutGap="20px"
->
-  <div class="table-container" fxFlex="50%">
+<div class="h-full px-4 pt-4 grid grid-cols-2 gap-4">
+  <mat-card class="w-full h-full">
     <cdba-bom-container [index]="0"></cdba-bom-container>
-  </div>
-  <div class="table-container" fxFlex="50%">
+  </mat-card>
+  <mat-card class="w-full h-full">
     <cdba-bom-container [index]="1"></cdba-bom-container>
-  </div>
+  </mat-card>
 </div>

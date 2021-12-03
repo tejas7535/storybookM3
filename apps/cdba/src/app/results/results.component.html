@@ -5,7 +5,7 @@
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
       ></schaeffler-breadcrumbs>
     </ng-container>
-    <div content class="content-area p-4 mt-6 bg-background">
+    <div content class="h-full min-h-[780px]">
       <cdba-reference-types-table
         [rowData]="referenceTypesData$ | ngrxPush"
         [selectedNodeIds]="selectedReferenceTypeIds$ | ngrxPush"

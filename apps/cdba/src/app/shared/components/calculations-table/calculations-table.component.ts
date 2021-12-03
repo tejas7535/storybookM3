@@ -39,7 +39,6 @@ import {
 @Component({
   selector: 'cdba-calculations-table',
   templateUrl: './calculations-table.component.html',
-  styleUrls: ['./calculations-table.component.scss'],
 })
 export class CalculationsTableComponent implements OnInit, OnChanges {
   private static readonly TABLE_KEY = 'calculations';
