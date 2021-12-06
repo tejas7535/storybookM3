@@ -37,7 +37,7 @@
       <mat-card-content class="h-full">
         <div class="flex flex-col items-center justify-center h-full">
           <div class="gauge_title">
-            <span>{{ t('title') }}</span>
+            <span *ngIf="!this.average">{{ t('title') }}</span>
           </div>
           <div
             class="flex h-full w-full"
