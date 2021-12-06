@@ -567,6 +567,11 @@ pipeline {
 
                 script {
                     def targetBranch = 'master'
+                    try {
+                        sh "git branch -D ${targetBranch}"
+                    } catch(error) {
+                        echo "${targetBranch} does not exist"
+                    }
 
                     // Generate Changelog, update Readme
                     github.executeAsGithubUser('github-jenkins-access-token','git fetch --all')
