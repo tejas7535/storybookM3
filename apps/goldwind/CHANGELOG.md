@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.4...goldwind-v0.3.0) (2021-12-06)
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** change color of parent checkbox ([#3428](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3428)) ([12529bc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/12529bceb631dbfdf36e0f4fa852c76bc0c1bc91))
+* **goldwind:** restrict zoom event when zoom is not modified  ([#3427](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3427)) ([095e44d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/095e44d171340e04b5e6caadfa5587c539e20039))
+
+
+### 🎸 Features
+
+* **goldwind:** add download functionality for assessment line charts ([#3429](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3429)) ([b6c66da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b6c66daf3ab84244aab1154a6027057d863ecc9c))
+* **goldwind:** fetch new data on zoom event ([#3333](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3333)) ([eb83494](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/eb8349472ce1b60074903c593ec54bfb0c841592))
+* **goldwind:** remove title above chart on loaddisPage ([#3430](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3430)) ([1225392](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/12253928647d8399004e515b209ad84277c11b08))
+* **goldwind:** reset zoom slider on linechart when selecting new interval ([#3417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3417)) ([440050e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/440050ef46f9edac7853023c0b555c1b4d0ccb7b))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+
 ### [0.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/goldwind-v0.2.4...goldwind-v0.2.3) (2021-11-08)
 
 
