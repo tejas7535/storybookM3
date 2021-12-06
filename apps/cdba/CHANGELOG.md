@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.6.0...cdba-v2.7.0) (2021-12-06)
+
+
+### 🎸 Features
+
+* **cdba:** introduce in-view directive ([f5c36a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f5c36a11cc3c3bc2435071ea0eeec82b3f825a45))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** correct font classes after typography config changes ([2cf011c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2cf011cdf69764009ceaf6b2383db18a0723f35f))
+
+
+### 📈 Improvements
+
+* **cdba:** add "no bom" hint (DSCDA-2360) ([#3425](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3425)) ([79cb5f8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/79cb5f8c98adde2b06962d813ec3b1b441107f8f))
+
 ## [2.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.5.0...cdba-v2.6.0) (2021-12-03)
 
 
