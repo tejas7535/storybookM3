@@ -1,7 +1,6 @@
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 
 import { FILTER_PARAMS } from './filter-params';
-import { manufacturerSupplierFormatter } from './manufacturer-supplier-formatter';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -18,7 +17,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'manufacturerSupplierKind',
     headerName: 'Manufacturer Kind',
     filterParams: FILTER_PARAMS,
-    valueFormatter: manufacturerSupplierFormatter,
   },
   {
     field: 'materialStandardMaterialName',

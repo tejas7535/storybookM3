@@ -3,7 +3,7 @@ export interface DataResult {
   manufacturerSupplierId: number;
   manufacturerSupplierName: string;
   manufacturerSupplierPlant: string;
-  manufacturerSupplierKind: number;
+  manufacturerSupplierKind: string;
   materialStandardId: number;
   materialStandardMaterialName: string;
   materialStandardMaterialNameHiddenFilter: string;

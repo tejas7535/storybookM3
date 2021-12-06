@@ -60,11 +60,16 @@ export class MsdDataService {
                 manufacturerSupplierId:
                   materialResponse.manufacturerSupplier?.id,
                 manufacturerSupplierName:
-                  materialResponse.manufacturerSupplier?.name,
+                  materialResponse.manufacturerSupplier?.name.trim(),
                 manufacturerSupplierPlant:
                   materialResponse.manufacturerSupplier?.plant,
                 manufacturerSupplierKind:
-                  materialResponse.manufacturerSupplier?.kind,
+                  materialResponse.manufacturerSupplier?.kind === 1
+                    ? 'Manufacturer'
+                    : // eslint-disable-next-line unicorn/no-nested-ternary
+                    materialResponse.manufacturerSupplier?.kind === 0
+                    ? 'Supplier'
+                    : undefined,
                 materialStandardId: materialResponse.materialStandard?.id,
                 materialStandardMaterialName:
                   materialResponse.materialStandard?.materialName,

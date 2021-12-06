@@ -18,6 +18,8 @@ const baseColors = {
   success: '#0ebc5b',
   highlightedTableCell: '#e1eece',
   activeTableCell: '#e5f3eb',
+  nordicBlue: '#ECF5F7',
+  infoBlue: '#4398AF',
 };
 
 const greys = {
@@ -130,6 +132,7 @@ module.exports = {
       error: baseColors.error,
       warning: baseColors.warning,
       success: baseColors.success,
+      info: baseColors.infoBlue,
       labels: greys.labels,
       ...emphasis,
     },
