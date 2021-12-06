@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.13.0...sedo-v1.14.0) (2021-12-06)
+
+
+### 🎸 Features
+
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **sedo:** migrate to app shell ([#3138](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3138)) ([6f25d3d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f25d3de42484ab5d4fefe9ef26ab4f62264306d))
+* **sedo:** store layout in localstorage ([#3267](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3267)) ([8ffdaa5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8ffdaa5701567d19ddc00181a54459ed6512ce60))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
 ## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/sedo-v1.13.0...sedo-v1.12.0) (2021-09-08)
 
 
