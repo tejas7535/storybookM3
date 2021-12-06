@@ -152,6 +152,10 @@ export class AssessmentLinechartComponent
     });
   }
   onChartZoom($event: any) {
+    if ($event.start === 0 && $event.end === 100) {
+      return;
+    }
+
     this.zoomChange.next({ start: $event.start, end: $event.end });
   }
   /**

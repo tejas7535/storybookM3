@@ -57,7 +57,13 @@ export class MaintenanceAssessmentComponent
     },
   ];
   displayNodes$: Observable<MaintenanceAssessmentDisplay>;
-
+  /**
+   * Store the pristine interval ranges
+   */
+  prisineInterval: { start: number; end: number } = {
+    start: undefined,
+    end: undefined,
+  };
   /**
    *
    * @param store
@@ -89,5 +95,29 @@ export class MaintenanceAssessmentComponent
         maintenanceAssessmentDisplay,
       })
     );
+  }
+
+  /**
+   * handle the current zoom selection and calculates the start and end range out of percentage selection
+   * @param $event having start and end in percentage from the current interval
+   */
+  handleZoom($event: { start: number; end: number }) {
+    const diffEpoch = this.prisineInterval.end - this.prisineInterval.start;
+
+    const startCalculated = Math.round(
+      this.prisineInterval.start + (diffEpoch / 100) * $event.start
+    );
+    const endCalculated = Math.round(
+      this.prisineInterval.start + (diffEpoch / 100) * $event.end
+    );
+
+    this.setInterval({
+      startDate:
+        $event.start > 0 ? startCalculated : this.prisineInterval.start,
+      endDate: $event.end < 100 ? endCalculated : this.prisineInterval.end,
+      pristineStart: this.prisineInterval.start,
+      pristineEnd: this.prisineInterval.end,
+      zoom: true,
+    });
   }
 }
