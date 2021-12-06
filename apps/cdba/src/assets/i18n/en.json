@@ -61,6 +61,9 @@
         "unitOfMeasure": "Unit",
         "workCenter": "Work Center",
         "level": "Level"
+      },
+      "noBom": {
+        "text": "Unfortunately, we could not find any bill of material for the selected calculation."
       }
     },
     "calculations": {

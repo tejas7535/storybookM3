@@ -241,7 +241,7 @@ export class BomTableComponent implements OnChanges {
 
   noRowsOverlayComponent = 'customNoRowsOverlay';
   noRowsOverlayComponentParams: NoRowsParams = {
-    getMessage: () => this.errorMessage,
+    getMessage: () => this.errorMessage || translate('shared.bom.noBom.text'),
   };
 
   private gridApi: GridApi;

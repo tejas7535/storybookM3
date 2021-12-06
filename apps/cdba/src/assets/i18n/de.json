@@ -61,6 +61,9 @@
         "unitOfMeasure": "Einheit",
         "workCenter": "Arbeitsplatz",
         "level": "Level"
+      },
+      "noBom": {
+        "text": "Für die ausgewählte Kalkulation konnten wir leider keine Stückliste finden."
       }
     },
     "calculations": {
