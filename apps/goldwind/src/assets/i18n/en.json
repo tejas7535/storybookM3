@@ -169,7 +169,7 @@
     "title": "Bearing Load Run Chart"
   },
   "loadDistribution": {
-    "title": "Bearing Load",
+    "title": "Bearing Load Distribution",
     "title_average": "Bearing Load Distribution Average",
     "updateFrequency": "Update frequency"
   },
