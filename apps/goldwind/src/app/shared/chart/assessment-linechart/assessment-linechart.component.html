@@ -1,9 +1,17 @@
 <div class="flex flex-col sm:flex-row sm:flex gap-4 h-full max-h-full">
-  <mat-card class="w-full sm:w-3/5 md:w-2/5 max-h-full overflow-y-auto">
+  <mat-card
+    class="
+      w-full
+      sm:min-w-[60%] sm:w-3/5
+      md:min-w-[40%] md:w-2/5
+      max-h-full
+      overflow-y-auto
+    "
+  >
     <div class="flex flex-col h-full max-h-full">
       <mat-card-header>
         <mat-card-title>
-          <div class="flex items-center justify-center">
+          <div class="flex items-center">
             <mat-icon class="mr-2">date_range</mat-icon>
             <span>Date Picker</span>
           </div>
@@ -98,11 +106,20 @@
   </mat-card>
 
   <mat-card class="w-full h-full lg:w-full">
-    <mat-card-header>
-      <mat-card-title>
-        <div class="inline-flex items-center">
-          <mat-icon class="mr-2">timeline</mat-icon>
-          <span> {{ translate(this.translateKey + '.' + 'title') }}</span>
+    <mat-card-header class="w-full">
+      <mat-card-title class="w-full">
+        <div class="flex w-full justify-between">
+          <div class="inline-flex items-center">
+            <mat-icon class="mr-2">timeline</mat-icon>
+            <span> {{ translate(this.translateKey + '.' + 'title') }}</span>
+          </div>
+          <button
+            class="text-primary text-button uppercase flex items-center"
+            (click)="downloadChartContent()"
+          >
+            <mat-icon class="text-subtitle-1 mr-2">download</mat-icon>
+            <span>Download</span>
+          </button>
         </div>
       </mat-card-title>
       <mat-card-subtitle>

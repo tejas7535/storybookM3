@@ -17,7 +17,7 @@ import {
   MatTreeFlattener,
 } from '@angular/material/tree';
 
-import { filter, Observable, of, Subscription } from 'rxjs';
+import { filter, Observable, of, Subscription, take } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { ECharts, EChartsOption } from 'echarts';
@@ -121,12 +121,12 @@ export class AssessmentLinechartComponent
    */
   dataSource: MatTreeFlatDataSource<SensorNode, ExampleFlatNode>;
   /**
-   *
+   * The Instance of echarts to use the api
    */
   echartsInstance: ECharts;
 
   /**
-   *
+   * Sets the values of each checkbox and even the children nodes as well
    * @param display property to display certain fields
    */
   updateNode(display: any) {
@@ -144,6 +144,9 @@ export class AssessmentLinechartComponent
       this.dataSource.data[index].indeterminate = indeterminate;
     });
   }
+  /**
+   * Sets the zoom level back to 0% and 100% for the side display the full range
+   */
   resetZoom() {
     this.echartsInstance.dispatchAction({
       type: 'dataZoom',
@@ -151,6 +154,12 @@ export class AssessmentLinechartComponent
       end: 100,
     });
   }
+  /**
+   * Dispatches an event when the values isnt pristine
+   * Used by the component to refresh data when zoom level changes
+   * @param $event
+   * @returns
+   */
   onChartZoom($event: any) {
     if ($event.start === 0 && $event.end === 100) {
       return;
@@ -217,6 +226,9 @@ export class AssessmentLinechartComponent
       }, '')
     );
   }
+  /**
+   * Initalize the component and sets up subscriptions to retrieve data and form changes
+   */
   ngOnInit(): void {
     this.dataSource = new MatTreeFlatDataSource(
       this.treeControl,
@@ -251,7 +263,11 @@ export class AssessmentLinechartComponent
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
+  /**
+   * Sets intermediate information
+   * @param name
+   * @returns
+   */
   getIndeterminate = (name: string) =>
     this.dataSource.data.find(
       (sensorNode: SensorNode) => sensorNode.name === name
@@ -276,7 +292,11 @@ export class AssessmentLinechartComponent
         });
     });
   }
-
+  /**
+   * When triggered from template it will updates the node when the is parent has changed
+   * @param param0
+   * @param isChecked
+   */
   updateChildForms({ name }: any, isChecked: boolean) {
     const node = this.dataSource.data.find(
       (sensorNode: SensorNode) => sensorNode.name === name
@@ -288,7 +308,34 @@ export class AssessmentLinechartComponent
     this.displayForm.markAsDirty();
     this.displayForm.patchValue(childrenForms);
   }
+  /**
+   * Creates an invisible anchor element, sets the text content to contain the displayed data in json and simulates a click to download as a file
+   */
+  downloadChartContent() {
+    this.graphData$.pipe(take(1)).subscribe((data) => {
+      const element = document.createElement('a');
+      element.setAttribute(
+        'href',
+        `data:application/json;charset=utf-8,${encodeURIComponent(
+          JSON.stringify(data, undefined, 4)
+        )}`
+      );
+      element.setAttribute(
+        'download',
+        `export-${new Date().toISOString()}.json`
+      );
+      element.style.display = 'none';
+      document.body.append(element);
 
+      element.click();
+
+      element.remove();
+    });
+  }
+  /**
+   * set the local echarts instance to trigger actions later
+   * @param event
+   */
   onInit(event: any) {
     this.echartsInstance = event;
   }
