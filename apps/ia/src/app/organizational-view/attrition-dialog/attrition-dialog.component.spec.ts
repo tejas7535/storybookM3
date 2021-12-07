@@ -75,14 +75,14 @@ describe('AttritionDialogComponent', () => {
     );
 
     it(
-      'should set attritionQuotaLoading',
+      'should set attritionRateLoading',
       marbles((m) => {
         const result = true as any;
         store.overrideSelector(getIsLoadingAttritionOverTimeOrgChart, result);
 
         component.ngOnInit();
 
-        m.expect(component.attritionQuotaLoading$).toBeObservable(
+        m.expect(component.attritionRateLoading$).toBeObservable(
           m.cold('a', {
             a: result,
           })

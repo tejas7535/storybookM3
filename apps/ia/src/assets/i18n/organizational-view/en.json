@@ -14,18 +14,18 @@
     "americas": "Americas",
     "continentNotFound": "No data for {{value}} found. Please update filters.",
     "chartLegend": {
-      "title": "Fluctuation:",
+      "title": "Attrition:",
       "danger": {
         "title": "High",
-        "tooltip": "Voluntary fluctuation quota >150% of the L1 average and number of people left in HCO >2."
+        "tooltip": "Voluntary attrition rate >150% of the L1 average and number of people left in HCO >2."
       },
       "warning": {
         "title": "Medium",
-        "tooltip": "Voluntary fluctuation quota between 100 and 150% of the average on L1 level."
+        "tooltip": "Voluntary attrition rate between 100 and 150% of the average on L1 level."
       },
       "ok": {
         "title": "Low",
-        "tooltip": "Voluntray fluctuation quota between 0% and the average on L1 level."
+        "tooltip": "Voluntray attrition rate between 0% and the average on L1 level."
       }
     }
   },
@@ -37,7 +37,8 @@
     "close": "Close",
     "metaTitle": "Attrition",
     "chartTitle": "Current Attrition Rates",
-    "attritionRate": "Attrition rate",
+    "attritionRate": "Attrition Rate",
+    "unforcedAttritionRate": "Unforced Attrition Rate",
     "employeesLost": "Employees lost",
     "naturalTurnover": "Natural turnover",
     "forcedLeavers": "Forced leavers",
@@ -45,9 +46,8 @@
     "terminationReceived": "Termination received",
     "employeesAdded": "Employees added",
     "openPositions": "Open positions",
-    "attritionQuota": "Attrition Quota",
-    "pastAttritionQuota": "Past Attrition Quota",
-    "futureAttritionQuota": "Future Attrition Quota"
+    "pastAttritionRate": "Past Attrition Rate",
+    "futureAttritionRate": "Future Attrition Rate"
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

@@ -102,11 +102,11 @@
   </div>
 
   <h5>
-    {{ t('attritionQuotaDetails.title') }}
+    {{ t('attritionRateDetails.title') }}
   </h5>
   <div class="bg-white">
     <ia-overview-chart
-      [loading]="attritionQuotaloading$ | ngrxPush"
+      [loading]="attritionRateloading$ | ngrxPush"
       [events]="events$ | ngrxPush"
       [data]="attritionData$ | ngrxPush"
     >

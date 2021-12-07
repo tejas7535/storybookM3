@@ -78,12 +78,12 @@ export function mapDataToChartOption(data: AttritionSeries) {
           formatter: (val1: number, val2: number) =>
             val1 === 0 && val2 === 2
               ? translate(
-                  'attritionDialog.pastAttritionQuota',
+                  'attritionDialog.pastAttritionRate',
                   {},
                   'organizational-view'
                 )
               : translate(
-                  'attritionDialog.futureAttritionQuota',
+                  'attritionDialog.futureAttritionRate',
                   {},
                   'organizational-view'
                 ),

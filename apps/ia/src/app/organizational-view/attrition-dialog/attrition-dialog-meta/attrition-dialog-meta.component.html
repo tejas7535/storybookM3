@@ -8,6 +8,11 @@
     <span class="text-dark ml-2">{{ meta.data.attritionRate }}%</span>
   </div>
   <div class="text-body-1 leading-8 flex items-center">
+    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">insert_chart</mat-icon>
+    <div class="text-light">{{ t('unforcedAttritionRate') }}:</div>
+    <span class="text-dark ml-2">{{ meta.data.unforcedAttritionRate }}%</span>
+  </div>
+  <div class="text-body-1 leading-8 flex items-center">
     <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">person_outline</mat-icon>
     <div class="text-light">{{ t('employeesLost') }}:</div>
     <span class="text-dark ml-2">{{ meta.data.employeesLost }}</span>

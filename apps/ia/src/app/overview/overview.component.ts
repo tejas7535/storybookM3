@@ -48,7 +48,7 @@ export class OverviewComponent implements OnInit {
   isUnforcedFluctuationChartLoading$: Observable<boolean>;
   unforcedFluctuationKpi$: Observable<FluctuationKpi>;
 
-  attritionQuotaloading$: Observable<boolean>;
+  attritionRateloading$: Observable<boolean>;
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
 
@@ -77,7 +77,7 @@ export class OverviewComponent implements OnInit {
     this.loadEntriesAndExitsData();
     this.loadResignedEmployeesData();
     this.loadOpenApplicationsData();
-    this.loadAttritionQuotaData();
+    this.loadAttritionRateData();
 
     this.employeeListDialogMetaHeadings$ = this.translocoService
       .selectTranslate('employeeListDialog.contentTitle', {}, 'overview')
@@ -141,8 +141,8 @@ export class OverviewComponent implements OnInit {
     );
   }
 
-  loadAttritionQuotaData() {
-    this.attritionQuotaloading$ = this.store.select(
+  loadAttritionRateData() {
+    this.attritionRateloading$ = this.store.select(
       getIsLoadingAttritionOverTimeOverview
     );
     this.events$ = this.store.select(getAttritionOverTimeEvents);

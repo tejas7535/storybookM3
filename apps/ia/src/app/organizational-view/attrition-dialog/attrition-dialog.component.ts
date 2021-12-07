@@ -17,7 +17,7 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
 })
 export class AttritionDialogComponent implements OnInit {
   public data$: Observable<any>;
-  public attritionQuotaLoading$: Observable<boolean>;
+  public attritionRateLoading$: Observable<boolean>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public meta: AttritionDialogMeta,
@@ -26,7 +26,7 @@ export class AttritionDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.data$ = this.store.select(getAttritionOverTimeOrgChartData);
-    this.attritionQuotaLoading$ = this.store.select(
+    this.attritionRateLoading$ = this.store.select(
       getIsLoadingAttritionOverTimeOrgChart
     );
   }

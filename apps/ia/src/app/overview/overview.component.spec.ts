@@ -63,12 +63,12 @@ describe('OverviewComponent', () => {
     );
 
     test(
-      'should set attritionQuotaloading$',
+      'should set attritionRateloading$',
       marbles((m) => {
         const result = true;
         store.overrideSelector(getIsLoadingAttritionOverTimeOverview, result);
         component.ngOnInit();
-        m.expect(component.attritionQuotaloading$).toBeObservable(
+        m.expect(component.attritionRateloading$).toBeObservable(
           m.cold('a', {
             a: result,
           })

@@ -4,6 +4,7 @@ export class EmployeeAttritionMeta {
   public constructor(
     public title: string,
     public attritionRate: number,
+    public unforcedAttritionRate: number,
     public employeesLost: number,
     public naturalTurnover: number,
     public forcedLeavers: number,

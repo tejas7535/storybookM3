@@ -15,7 +15,7 @@
     >
       <ia-line-chart
         [config]="data$ | ngrxPush"
-        [isDataLoading]="attritionQuotaLoading$ | ngrxPush"
+        [isDataLoading]="attritionRateLoading$ | ngrxPush"
         [title]="t('chartTitle')"
       ></ia-line-chart>
     </div>

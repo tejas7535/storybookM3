@@ -1,6 +1,6 @@
 {
-  "attritionQuotaDetails": {
-    "title": "Attrition Quota - Details",
+  "attritionRateDetails": {
+    "title": "Attrition Rate - Details",
     "chart": {
       "legend": {
         "charts": "Chart"
