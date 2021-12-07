@@ -1,3 +1,4 @@
+import { EdmStatus } from '../../reducers/edm-monitor/models';
 import {
   getEdm,
   getEdmFailure,
@@ -5,7 +6,6 @@ import {
   getEdmSuccess,
   setEdmInterval,
 } from '..';
-import { EdmStatus } from '../../reducers/edm-monitor/models';
 
 describe('EdmMonitor Actions', () => {
   let deviceId: string;

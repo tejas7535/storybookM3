@@ -13,8 +13,8 @@ import {
 } from '../../shared/charts/line-chart/line-chart.config';
 import { TerminatedEmployee } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
-import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { OverviewChartComponent } from './overview-chart.component';
+import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 

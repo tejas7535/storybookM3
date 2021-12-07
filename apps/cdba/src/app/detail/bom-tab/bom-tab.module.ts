@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 
 import { BomContainerModule } from '@cdba/shared/components';
 
-import { BomTabRoutingModule } from './bom-tab-routing.module';
 import { BomTabComponent } from './bom-tab.component';
+import { BomTabRoutingModule } from './bom-tab-routing.module';
 
 @NgModule({
   declarations: [BomTabComponent],

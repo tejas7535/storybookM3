@@ -8,8 +8,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
+import { OverviewRoutingModule } from './overview-routing.module';
 
 jest.mock('../../shared/change-favicon', () => ({
   changeFavicon: jest.fn(() => {}),

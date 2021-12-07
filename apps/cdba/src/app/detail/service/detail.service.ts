@@ -4,10 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { withCache } from '@ngneat/cashew';
-
 import { API, DetailPath } from '@cdba/shared/constants/api';
-
 import {
   BomIdentifier,
   BomItem,
@@ -15,6 +12,7 @@ import {
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { withCache } from '@ngneat/cashew';
 
 import {
   BomResult,

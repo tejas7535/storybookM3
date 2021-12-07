@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
 
-import { OverviewState, selectOverviewState } from '..';
 import {
   getSelectedOrgUnit,
   getSelectedTimeRange,
@@ -8,6 +7,7 @@ import {
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
 import { AttritionOverTime } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../models/overview-fluctuation-rates.model';
+import { OverviewState, selectOverviewState } from '..';
 import * as utils from './overview-selector-utils';
 
 export const getIsLoadingAttritionOverTimeOverview = createSelector(

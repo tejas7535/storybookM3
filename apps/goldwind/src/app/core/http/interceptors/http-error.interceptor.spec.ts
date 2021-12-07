@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { waitForAsync } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,7 +16,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 const environment = {
   baseUrl: 'localhost:8000/api/v1',

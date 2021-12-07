@@ -27,12 +27,12 @@ import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sens
 import { shaftReducer } from '../../core/store/reducers/shaft/shaft.reducer';
 import { staticSafetyReducer } from '../../core/store/reducers/static-safety/static-safety.reducer';
 import { SharedModule } from '../../shared/shared.module';
-import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
-import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
+import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
+import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { ShaftModule } from './shaft/shaft.module';
 import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/static-saftey-factor-monitor.module';
 

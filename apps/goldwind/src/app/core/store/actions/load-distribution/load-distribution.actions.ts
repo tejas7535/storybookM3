@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+
 import { LoadSense } from '../../reducers/load-sense/models';
 import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
 

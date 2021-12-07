@@ -1,6 +1,6 @@
-import { LicenseManager } from '@ag-grid-enterprise/all-modules';
-
 import 'jest-preset-angular/setup-jest';
+
+import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 
 // eslint-disable-next-line import/order
 global.beforeEach(() => {

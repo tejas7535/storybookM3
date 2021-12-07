@@ -3,6 +3,10 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
+import { environment } from '@cdba/environments/environment';
+import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
@@ -19,11 +23,6 @@ import {
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-import { AppRoutePath } from '@cdba/app-route-path.enum';
-import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
-import { environment } from '@cdba/environments/environment';
-import { AVAILABLE_LANGUAGES, FALLBACK_LANGUAGE } from '@cdba/shared/constants';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { HttpModule } from './http/http.module';

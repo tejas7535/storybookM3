@@ -15,8 +15,8 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
+import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { initialState as initialDataState } from './store/reducers/data.reducer';
 
 jest.mock('../../shared/change-favicon', () => ({

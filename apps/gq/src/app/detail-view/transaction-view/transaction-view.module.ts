@@ -13,8 +13,8 @@ import { SharedModule } from '../../shared';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/material-price-header-content/material-price-header-content.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
-import { TransactionViewRoutingModule } from './transaction-view-routing.module';
 import { TransactionViewComponent } from './transaction-view.component';
+import { TransactionViewRoutingModule } from './transaction-view-routing.module';
 import { TransparencyGraphModule } from './transparency-graph/transparency-graph.module';
 
 @NgModule({

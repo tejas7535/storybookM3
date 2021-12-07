@@ -8,13 +8,12 @@ import {
   IStatusPanelParams,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
-import { Store } from '@ngrx/store';
-
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getSelectedCalculationNodeIds,
   getSelectedRefTypeNodeIds,
 } from '@cdba/core/store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cdba-compare-view-button',

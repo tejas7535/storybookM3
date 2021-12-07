@@ -4,18 +4,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { marbles } from 'rxjs-marbles';
-
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-import { Actions } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
@@ -27,6 +15,16 @@ import {
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import {
   loadBom,

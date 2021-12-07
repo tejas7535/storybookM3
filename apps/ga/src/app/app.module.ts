@@ -8,8 +8,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { PERSON_RESPONSIBLE } from '@schaeffler/legal-pages';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { responsiblePerson } from './shared/constants';
 

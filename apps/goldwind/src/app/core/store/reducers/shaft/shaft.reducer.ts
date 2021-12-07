@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import * as U from '../../../../shared/store/utils.reducer';
 import { KPIState } from '../../../../shared/store/utils.selector';
-
 import * as A from '../../actions/shaft/shaft.actions';
 import { ShaftStatus } from './models';
 

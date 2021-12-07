@@ -14,8 +14,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { MainTableRoutingModule } from './main-table-routing.module';
 import { MainTableComponent } from './main-table.component';
+import { MainTableRoutingModule } from './main-table-routing.module';
 
 @NgModule({
   declarations: [MainTableComponent],

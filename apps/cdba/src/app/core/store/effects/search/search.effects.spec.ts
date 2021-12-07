@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 
-import { marbles } from 'rxjs-marbles/jest';
-
+import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
@@ -11,8 +10,7 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-
-import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { SearchService } from '../../../../search/services/search.service';
 import {

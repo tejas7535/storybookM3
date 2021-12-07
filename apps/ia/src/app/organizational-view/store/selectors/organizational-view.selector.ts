@@ -1,10 +1,10 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import { AttritionOverTime, AttritionSeries } from '../../../shared/models';
 import { Color } from '../../../shared/models/color.enum';
+import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 
 export const getSelectedChartType = createSelector(
   selectOrganizationalViewState,

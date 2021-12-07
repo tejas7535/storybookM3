@@ -1,10 +1,10 @@
 import { throwError } from 'rxjs';
-import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { fetchMaterials, fetchMaterialsSuccess } from '../actions';
 import { getFilters } from '../selectors';

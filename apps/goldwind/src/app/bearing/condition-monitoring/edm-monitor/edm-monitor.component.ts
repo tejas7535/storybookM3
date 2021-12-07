@@ -1,11 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+import { format } from 'date-fns';
 import { EChartsOption } from 'echarts';
 
+import {
+  getEdmHeatmapSeries,
+  getEdmHistogram,
+  stopEdmHistogramPolling,
+} from '../../../core/store';
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
 import { Interval } from '../../../core/store/reducers/shared/models';
@@ -15,13 +22,6 @@ import {
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
-import {
-  getEdmHeatmapSeries,
-  getEdmHistogram,
-  stopEdmHistogramPolling,
-} from '../../../core/store';
-import { ActivatedRoute } from '@angular/router';
-import { format } from 'date-fns';
 
 @Component({
   selector: 'goldwind-edm-monitor',

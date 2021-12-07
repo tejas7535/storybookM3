@@ -10,15 +10,16 @@ import { FormControl } from '@angular/forms';
 
 import {
   BehaviorSubject,
-  Observable,
-  of,
   debounceTime,
   filter,
   map,
+  Observable,
+  of,
   startWith,
   switchMap,
   tap,
 } from 'rxjs';
+
 import { BearingOption, SearchEntry } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 

@@ -1,6 +1,6 @@
 import { MaterialDetails } from '../../models/quotation-detail';
-import { MaterialInfoPipe } from './material-info.pipe';
 import { MaterialTransformPipe } from '../material-transform/material-transform.pipe';
+import { MaterialInfoPipe } from './material-info.pipe';
 
 describe('MaterialInfoPipe', () => {
   let materialInfoPipe: MaterialInfoPipe;

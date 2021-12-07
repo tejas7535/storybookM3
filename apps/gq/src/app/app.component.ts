@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { AppShellFooterLink } from '@schaeffler/app-shell';
 import {
   getIsLoggedIn,
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
-import { AppShellFooterLink } from '@schaeffler/app-shell';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';

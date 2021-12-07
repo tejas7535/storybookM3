@@ -5,8 +5,8 @@ import { map, mergeMap, withLatestFrom } from 'rxjs';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { getSelectedBearing } from '../..';
 import { RestService } from '../../../services/rest/rest.service';
+import { getSelectedBearing } from '../..';
 import {
   bearingSearchSuccess,
   modelCreateFailure,

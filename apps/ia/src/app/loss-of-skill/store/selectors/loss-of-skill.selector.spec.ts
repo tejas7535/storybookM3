@@ -1,5 +1,5 @@
-import { LossOfSkillState } from '..';
 import { JobProfile, OpenPosition } from '../../models';
+import { LossOfSkillState } from '..';
 import {
   getLostJobProfilesData,
   getLostJobProfilesLoading,

@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import { InputEffects } from '.';
 import {
   mockedBurdeningTypes,
   mockedMaterials,
@@ -13,6 +12,7 @@ import {
 } from '../../mock/mock.constants';
 import { MockService } from '../../mock/mock.service';
 import { RestService } from '../../services/rest.service';
+import { InputEffects } from '.';
 
 describe('InputEffects', () => {
   let actions: Observable<any>;

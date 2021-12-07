@@ -1,5 +1,5 @@
-import { SalesIndication } from './sales-indication.enum';
 import { AbcClassification } from '../../../../../shared/models/customer';
+import { SalesIndication } from './sales-indication.enum';
 
 export interface ComparableLinkedTransaction {
   identifier: number;

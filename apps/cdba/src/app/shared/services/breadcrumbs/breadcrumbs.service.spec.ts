@@ -1,11 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { marbles } from 'rxjs-marbles/jest';
+
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
-import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { BreadcrumbsService, BreadcrumbState } from './breadcrumbs.service';
 

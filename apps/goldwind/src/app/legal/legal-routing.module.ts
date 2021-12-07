@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LegalComponent } from './legal.component';
-import { TermsComponent } from './terms/terms.component';
-import { LegalPath } from './legal-route-path.enum';
 import { DataPrivacyComponent } from './data-privacy/data-privacy.component';
+import { LegalComponent } from './legal.component';
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
+import { LegalPath } from './legal-route-path.enum';
+import { TermsComponent } from './terms/terms.component';
 const routes: Routes = [
   {
     path: '',

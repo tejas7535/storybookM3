@@ -1,3 +1,4 @@
+import { SensorData } from '../../reducers/data-view/models';
 import {
   getData,
   getDataFailure,
@@ -5,7 +6,6 @@ import {
   getDataSuccess,
   setDataInterval,
 } from '..';
-import { SensorData } from '../../reducers/data-view/models';
 import { setFrequency } from './data-view.actions';
 
 describe('DataMonitor Actions', () => {

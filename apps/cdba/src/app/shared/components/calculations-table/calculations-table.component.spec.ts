@@ -12,7 +12,7 @@ import {
   RowSelectedEvent,
   SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
-
+import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -23,8 +23,6 @@ import { MockModule } from 'ng-mocks';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { AgGridStateService } from '../../services/ag-grid-state/ag-grid-state.service';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';

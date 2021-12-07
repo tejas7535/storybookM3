@@ -1,11 +1,10 @@
-import { createReducer, on } from '@ngrx/store';
-
 import {
   BomItem,
   Calculation,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { createReducer, on } from '@ngrx/store';
 
 import {
   loadBom,

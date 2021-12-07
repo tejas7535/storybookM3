@@ -8,9 +8,9 @@ import {
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { SnackBarComponent } from './snackbar.component';
 import { SnackBarData } from './snackbar-data.model';
 import { SnackBarType } from './snackbar-type.enum';
-import { SnackBarComponent } from './snackbar.component';
 
 const successConfig = new SnackBarData(
   'message',

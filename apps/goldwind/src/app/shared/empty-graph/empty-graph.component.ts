@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { EChartsOption, LegendComponentOption, SeriesOption } from 'echarts';
 
 @Component({

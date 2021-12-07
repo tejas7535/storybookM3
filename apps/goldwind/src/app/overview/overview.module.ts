@@ -14,8 +14,8 @@ import { DevicesEffects } from '../core/store/effects/devices/devices.effects';
 import { devicesReducer } from '../core/store/reducers/devices/devices.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { StatusIndicatorModule } from '../shared/status-indicator/status-indicator.module';
-import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
+import { OverviewRoutingModule } from './overview-routing.module';
 
 @NgModule({
   declarations: [OverviewComponent],

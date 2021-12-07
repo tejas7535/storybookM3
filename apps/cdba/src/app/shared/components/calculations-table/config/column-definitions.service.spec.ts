@@ -1,13 +1,11 @@
 import { ValueGetterParams } from '@ag-grid-community/all-modules';
-
+import { ColumnUtilsService } from '@cdba/shared/components/table';
+import { ValueGetterFunction } from '@cdba/testing/types';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
-
-import { ValueGetterFunction } from '@cdba/testing/types';
-import { ColumnUtilsService } from '@cdba/shared/components/table';
 
 import * as utils from '../../table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';

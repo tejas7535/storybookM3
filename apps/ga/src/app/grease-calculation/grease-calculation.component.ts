@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+
+import { take, tap } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { selectBearing } from '../core/store';
-import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'ga-grease-calculation',

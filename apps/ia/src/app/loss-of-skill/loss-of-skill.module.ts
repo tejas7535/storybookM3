@@ -9,8 +9,8 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared/shared.module';
-import { LossOfSkillRoutingModule } from './loss-of-skill-routing.module';
 import { LossOfSkillComponent } from './loss-of-skill.component';
+import { LossOfSkillRoutingModule } from './loss-of-skill-routing.module';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
 import { RiskOfLeavingModule } from './risk-of-leaving/risk-of-leaving.module';
 import * as fromLossOfSkill from './store';

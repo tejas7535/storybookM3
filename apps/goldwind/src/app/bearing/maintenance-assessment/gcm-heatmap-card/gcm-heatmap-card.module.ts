@@ -1,11 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GcmHeatmapCardComponent } from './gcm-heatmap-card.component';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NgxEchartsModule } from 'ngx-echarts';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { GcmHeatmapCardComponent } from './gcm-heatmap-card.component';
 
 @NgModule({
   declarations: [GcmHeatmapCardComponent],

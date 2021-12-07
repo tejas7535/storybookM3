@@ -1,29 +1,28 @@
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
+import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import {
+  GCMHeatmapClassification,
+  GCMHeatmapEntry,
+} from '../../../../shared/models';
 import { RestService } from '../../../http/rest.service';
+import {
+  getGreaseHeatMapLatest,
+  getGreaseHeatMapSuccess,
+} from '../../actions/grease-status/gc-heatmap.actions';
 import {
   getGreaseStatusId,
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
-import {
-  GCMHeatmapClassification,
-  GCMHeatmapEntry,
-} from '../../../../shared/models';
-import { HeatmapStatusEffects } from './gc-heatmap.effects';
-import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import {
-  getGreaseHeatMapLatest,
-  getGreaseHeatMapSuccess,
-} from '../../actions/grease-status/gc-heatmap.actions';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
+import { HeatmapStatusEffects } from './gc-heatmap.effects';
 
 /* eslint-disable max-lines */
 describe('HeatmapStatusEffects', () => {

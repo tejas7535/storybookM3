@@ -13,9 +13,9 @@ import {
 } from '@schaeffler/azure-auth';
 
 import { environment } from '../environments/environment';
+import { AppComponent } from './app.component';
 import { AppRoutePath } from './app-route-path.enum';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared';
 

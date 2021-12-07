@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import * as A from '../../actions/edm-monitor/edm-histogram.actions';
 
+import * as A from '../../actions/edm-monitor/edm-histogram.actions';
 import {
   EdmHistogram,
   edmHistogramReducer,

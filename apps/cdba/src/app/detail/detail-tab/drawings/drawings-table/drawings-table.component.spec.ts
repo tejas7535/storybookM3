@@ -6,8 +6,8 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 
-import { ColumnDefinitionService } from './config';
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
+import { ColumnDefinitionService } from './config';
 import { DrawingsTableComponent } from './drawings-table.component';
 
 describe('DrawingsTableComponent', () => {

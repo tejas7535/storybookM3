@@ -1,20 +1,19 @@
 import { CommonModule } from '@angular/common';
 
+import { initialState } from '@cdba/core/store/reducers/roles/roles.reducer';
+import {
+  AUTH_STATE_MOCK,
+  PRODUCT_LINE_ROLE_DESCRIPTION_MOCK,
+  ROLES_STATE_ERROR_MOCK,
+  ROLES_STATE_SUCCESS_MOCK,
+  SUB_REGION_ROLE_DESCRIPTION_MOCK,
+} from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { RolesAndRightsModule } from '@schaeffler/roles-and-rights';
-
-import { initialState } from '@cdba/core/store/reducers/roles/roles.reducer';
-import {
-  ROLES_STATE_ERROR_MOCK,
-  ROLES_STATE_SUCCESS_MOCK,
-  PRODUCT_LINE_ROLE_DESCRIPTION_MOCK,
-  SUB_REGION_ROLE_DESCRIPTION_MOCK,
-  AUTH_STATE_MOCK,
-} from '@cdba/testing/mocks';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { RoleDescriptionsComponent } from './role-descriptions.component';
 

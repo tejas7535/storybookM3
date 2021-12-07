@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import { GaugeEchartConfig } from '../../../../shared/chart/gauge-chart';
 import { EChartsOption } from 'echarts';
 
 import { GaugeColors } from '../../../../shared/chart/chart';
+import { GaugeEchartConfig } from '../../../../shared/chart/gauge-chart';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { getGreaseStatusState } from '../../reducers';
 import { GreaseStatusState } from '../../reducers/grease-status/grease-status.reducer';

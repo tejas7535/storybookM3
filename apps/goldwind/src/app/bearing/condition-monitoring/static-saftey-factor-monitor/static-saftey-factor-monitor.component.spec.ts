@@ -1,13 +1,14 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { StaticSafteyFactorMonitorComponent } from './static-saftey-factor-monitor.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 describe('StaticSafteyFactorMonitorComponent', () => {
   let component: StaticSafteyFactorMonitorComponent;

@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
-import { ExtendedComparableLinkedTransactionsState } from '../../reducers/extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
+
 import { getExtendedComparableLinkedTransactionsState } from '../../reducers';
+import { ExtendedComparableLinkedTransactionsState } from '../../reducers/extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 
 export const getExtendedComparableLinkedTransactions = createSelector(

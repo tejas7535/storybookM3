@@ -1,6 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { LoadingSpinnerComponent } from './loading-spinner.component';
 

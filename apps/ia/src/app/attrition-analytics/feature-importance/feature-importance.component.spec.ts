@@ -1,8 +1,7 @@
-import { marbles } from 'rxjs-marbles/marbles';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

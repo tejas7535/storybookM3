@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+
 import { GaugeEchartConfig } from '../../../../shared/chart/gauge-chart';
 import {
   DATE_FORMAT,

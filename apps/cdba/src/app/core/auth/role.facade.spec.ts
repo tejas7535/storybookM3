@@ -1,10 +1,8 @@
-import { marbles } from 'rxjs-marbles';
-
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { provideMockStore } from '@ngrx/store/testing';
-
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { AUTH_STATE_MOCK } from '@cdba/testing/mocks';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 describe('RoleFacade', () => {
   let spectator: SpectatorService<RoleFacade>;

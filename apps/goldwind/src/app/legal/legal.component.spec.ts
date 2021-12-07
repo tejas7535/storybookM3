@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
-
-import { LegalComponent } from './legal.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+
+import { LegalComponent } from './legal.component';
 
 describe('LegalComponent', () => {
   let component: LegalComponent;

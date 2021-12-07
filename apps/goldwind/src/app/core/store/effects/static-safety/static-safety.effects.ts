@@ -14,16 +14,16 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
+import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
+import { RestService } from '../../../http/rest.service';
 import {
   getStaticSafetyId,
   getStaticSafetyLatest,
   getStaticSafetyLatestFailure,
   stopGetStaticSafetyLatest,
 } from '../..';
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import { getStaticSafetyLatestSuccess } from '../../actions';
 import * as fromRouter from '../../reducers';
 

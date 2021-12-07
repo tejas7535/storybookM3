@@ -7,13 +7,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { ShareButtonModule } from '@schaeffler/share-button';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../shared';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
-import { CustomerViewRoutingModule } from './customer-view-routing.module';
 import { CustomerViewComponent } from './customer-view.component';
+import { CustomerViewRoutingModule } from './customer-view-routing.module';
 
 @NgModule({
   declarations: [CustomerViewComponent],

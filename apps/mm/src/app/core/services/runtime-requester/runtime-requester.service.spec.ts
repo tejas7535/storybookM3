@@ -5,7 +5,6 @@ import { of } from 'rxjs';
 import { ModelObject } from '@caeonline/dynamic-forms';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { RestService } from '../';
 import { BEARING_PREFLIGHT_RESPONSE_MOCK } from '../../../../testing/mocks/rest.service.mock';
 import {
   IDMM_SHAFT_MATERIAL,
@@ -14,6 +13,7 @@ import {
   TBL_SHAFT_MATERIAL,
 } from '../../../shared/constants/dialog-constant';
 import { PreflightRequestBody } from '../../../shared/models';
+import { RestService } from '../';
 import { BEARING_MATERIAL_RESPONSE_MOCK } from './../../../../testing/mocks/rest.service.mock';
 import { RuntimeRequesterService } from './runtime-requester.service';
 

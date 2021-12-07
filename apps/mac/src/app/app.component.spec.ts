@@ -15,8 +15,8 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { RoutePath } from './app-routing.enum';
 import { AppComponent } from './app.component';
+import { RoutePath } from './app-routing.enum';
 
 describe('AppComponent', () => {
   let component: AppComponent;

@@ -2,12 +2,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { BreadcrumbsService } from '@cdba/shared/services';
 import {
   createDirectiveFactory,
   SpectatorDirective,
 } from '@ngneat/spectator/jest';
-
-import { BreadcrumbsService } from '@cdba/shared/services';
 
 import { BackButtonDirective } from './back-button.directive';
 

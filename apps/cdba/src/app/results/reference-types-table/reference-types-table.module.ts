@@ -6,10 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
 
 import { CompareViewButtonComponent } from '../../shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { DetailViewButtonComponent } from '../../shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';

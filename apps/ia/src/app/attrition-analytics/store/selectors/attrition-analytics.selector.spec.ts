@@ -1,6 +1,6 @@
-import { AttritionAnalyticsState, initialState } from '..';
 import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';
+import { AttritionAnalyticsState, initialState } from '..';
 import {
   getAvailableFeatures,
   getAvailableFeaturesLoading,

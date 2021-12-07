@@ -1,6 +1,6 @@
-import { TranslocoModule } from '@ngneat/transloco';
-
 import 'jest-preset-angular/setup-jest';
+
+import { TranslocoModule } from '@ngneat/transloco';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),

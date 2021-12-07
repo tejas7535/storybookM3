@@ -3,7 +3,6 @@ import {
   mockProvider,
   SpectatorPipe,
 } from '@ngneat/spectator/jest';
-
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 

@@ -7,8 +7,6 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import {
   getAdditionalInformation,
   getDimensionAndWeightDetails,
@@ -16,6 +14,7 @@ import {
   getProductError,
 } from '@cdba/compare/store';
 import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
+import { Store } from '@ngrx/store';
 
 import { AdditionalInformation } from '../additional-information-widget/additional-information.model';
 

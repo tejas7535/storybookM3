@@ -15,7 +15,6 @@ import esJson from './i18n/es.json';
 import frJson from './i18n/fr.json';
 import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
-
 import { ShareButtonComponent } from './share-button/share-button.component';
 import { ShareButtonDirective } from './share-button/share-button.directive';
 

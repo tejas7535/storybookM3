@@ -14,7 +14,6 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
@@ -24,6 +23,7 @@ import {
   loadComparableTransactionsSuccess,
 } from '../../actions';
 import { RouterStateUrl } from '../../reducers';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()

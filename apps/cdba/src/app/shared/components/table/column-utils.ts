@@ -4,9 +4,9 @@ import {
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-enterprise/all-modules';
+import { getEnv } from '@cdba/environments/environment.provider';
 import { translate } from '@ngneat/transloco';
 
-import { getEnv } from '@cdba/environments/environment.provider';
 import {
   MaterialNumberPipe,
   ScrambleMaterialDesignationPipe,

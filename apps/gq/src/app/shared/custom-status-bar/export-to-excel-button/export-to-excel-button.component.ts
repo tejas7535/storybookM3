@@ -23,8 +23,8 @@ import { Store } from '@ngrx/store';
 
 import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { getExtendedComparableLinkedTransactions } from '../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
-import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
 import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
+import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
 import { Keyboard, Quotation } from '../../models';
 import {
   ColumnFields,

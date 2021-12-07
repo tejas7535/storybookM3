@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { delay, filter, forkJoin, map, mergeMap, tap } from 'rxjs';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
+import { RestService } from '../../../http/rest.service';
 import {
   getLoadDistributionLatest,
   getLoadDistributionLatestFailure,
   getLoadDistributionLatestSuccess,
   stopLoadDistributionGet,
 } from '../..';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
-
-import { RestService } from '../../../http/rest.service';
 
 @Injectable()
 export class LoadDistributionEffects {

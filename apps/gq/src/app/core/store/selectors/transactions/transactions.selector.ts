@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
-import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { getTransactionsState } from '../../reducers';
+import { ComparableLinkedTransaction } from '../../reducers/transactions/models/comparable-linked-transaction.model';
 import { TransactionsState } from '../../reducers/transactions/transactions.reducer';
 
 export const getTransactions = createSelector(

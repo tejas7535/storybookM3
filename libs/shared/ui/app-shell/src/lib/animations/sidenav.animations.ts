@@ -1,4 +1,4 @@
-import { trigger, animate, transition, style } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 export const sidenavToggleAnimation = trigger('sidenavToggleAnimation', [
   transition(':enter', [

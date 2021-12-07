@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import { Calculation } from '@cdba/shared/models';
+import { Store } from '@ngrx/store';
 
 import { selectCalculations } from '../../core/store';
 import {

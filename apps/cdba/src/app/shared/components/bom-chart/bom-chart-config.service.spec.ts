@@ -5,9 +5,8 @@ import {
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
-import { BomChartConfigService } from './bom-chart-config.service';
-
 import { COLOR_PLATTE } from './bom-chart.constants';
+import { BomChartConfigService } from './bom-chart-config.service';
 
 describe('BomChartConfigService', () => {
   let service: BomChartConfigService;

@@ -13,8 +13,8 @@ import {
 } from '@schaeffler/azure-auth';
 
 import { environment } from '../environments/environment';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 
 const azureConfig = new AzureConfig(

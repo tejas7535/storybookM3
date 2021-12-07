@@ -3,9 +3,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { Spectator, createComponentFactory } from '@ngneat/spectator';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
+
 import { AssessmentLinechartModule } from '../../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { GcmHeatmapCardComponent } from './gcm-heatmap-card.component';
 

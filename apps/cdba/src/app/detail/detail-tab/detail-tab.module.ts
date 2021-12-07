@@ -4,12 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CustomerModule } from './customer/customer.module';
-import { DetailTabRoutingModule } from './detail-tab-routing.module';
 import { DetailTabComponent } from './detail-tab.component';
+import { DetailTabRoutingModule } from './detail-tab-routing.module';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { DrawingsModule } from './drawings/drawings.module';
 import { PricingModule } from './pricing/pricing.module';

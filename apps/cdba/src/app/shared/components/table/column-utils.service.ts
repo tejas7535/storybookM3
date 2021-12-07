@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { ValueFormatterParams } from '@ag-grid-enterprise/all-modules';
-
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { DateFormatOptions } from '@ngneat/transloco-locale/lib/transloco-locale.types';
 

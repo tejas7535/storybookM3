@@ -1,17 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 
-import {
-  getCenterLoad,
-  getCenterLoadFailure,
-  getCenterLoadSuccess,
-} from '../../actions/center-load/center-load.actions';
+import { CenterLoadStatus } from '../../../../shared/models/center-load';
 import {
   getState,
   getStateFailure,
   getStateSuccess,
 } from '../../../../shared/store/utils.reducer';
-import { CenterLoadStatus } from '../../../../shared/models/center-load';
 import { KPIState } from '../../../../shared/store/utils.selector';
+import {
+  getCenterLoad,
+  getCenterLoadFailure,
+  getCenterLoadSuccess,
+} from '../../actions/center-load/center-load.actions';
 
 export type CenterLoadState = KPIState<CenterLoadStatus>;
 

@@ -1,8 +1,7 @@
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';

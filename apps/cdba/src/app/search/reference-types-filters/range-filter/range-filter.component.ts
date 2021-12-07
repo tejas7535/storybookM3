@@ -10,12 +10,12 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { NumberFormatOptions } from '@ngneat/transloco-locale/lib/transloco-locale.types';
 
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
 import { Filter } from '../filter';
 import { InputType } from './input-type.enum';
-import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'cdba-range-filter',

@@ -1,23 +1,27 @@
+import { fakeAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTreeModule } from '@angular/material/tree';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { of } from 'rxjs';
-import { Interval } from '../../../core/store/reducers/shared/models';
-import { EmptyGraphModule } from '../../empty-graph/empty-graph.module';
-import { Unit, Type, Control } from '../../models';
-import { AssessmentLinechartComponent } from './assessment-linechart.component';
-import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { fakeAsync } from '@angular/core/testing';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { DateRangeModule } from '../../date-range/date-range.module';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { DATE_FORMAT } from '../../constants';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatTreeModule } from '@angular/material/tree';
+
+import { of } from 'rxjs';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { NgxEchartsModule } from 'ngx-echarts';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { Interval } from '../../../core/store/reducers/shared/models';
+import { DATE_FORMAT } from '../../constants';
+import { DateRangeModule } from '../../date-range/date-range.module';
+import { EmptyGraphModule } from '../../empty-graph/empty-graph.module';
+import { Control, Type, Unit } from '../../models';
+import { AssessmentLinechartComponent } from './assessment-linechart.component';
 describe('AssessmentLinechartComponent', () => {
   let component: AssessmentLinechartComponent;
   let spectator: Spectator<AssessmentLinechartComponent>;

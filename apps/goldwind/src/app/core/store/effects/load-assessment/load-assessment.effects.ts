@@ -13,9 +13,16 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
+
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
+import {
+  getCenterLoad,
+  getCenterLoadFailure,
+  getCenterLoadSuccess,
+  getLoadDistributionLatestSuccess,
+} from '../../actions';
 import {
   getLoadAssessmentId,
   setLoadAssessmentInterval,
@@ -29,12 +36,6 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getLoadAssessmentInterval } from '../../selectors/load-assessment/load-assessment.selector';
-import {
-  getCenterLoad,
-  getCenterLoadFailure,
-  getCenterLoadSuccess,
-  getLoadDistributionLatestSuccess,
-} from '../../actions';
 import { actionInterval } from '../utils';
 @Injectable()
 export class LoadAssessmentEffects {

@@ -3,15 +3,15 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { RestService } from '../../../http/rest.service';
 import {
   getLoadDistributionLatest,
   getLoadDistributionLatestSuccess,
 } from '../../actions';
-import { LoadDistributionEffects } from '..';
 import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
-import { marbles } from 'rxjs-marbles';
+import { LoadDistributionEffects } from '..';
 
 /* eslint-disable max-lines */
 describe('LoadDistributionEffects', () => {

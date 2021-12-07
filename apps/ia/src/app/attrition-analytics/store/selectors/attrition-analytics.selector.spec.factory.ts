@@ -1,7 +1,7 @@
-import { AttritionAnalyticsState } from '..';
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
+import { AttritionAnalyticsState } from '..';
 
 export function createFakeState(): AttritionAnalyticsState {
   return {

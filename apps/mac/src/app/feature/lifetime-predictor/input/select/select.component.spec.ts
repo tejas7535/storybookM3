@@ -12,8 +12,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
-import { SelectControl } from './select-control.model';
 import { SelectComponent } from './select.component';
+import { SelectControl } from './select-control.model';
 
 describe('SelectComponent', () => {
   let component: SelectComponent;

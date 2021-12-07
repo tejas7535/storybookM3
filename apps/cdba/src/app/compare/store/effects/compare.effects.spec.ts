@@ -2,18 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { marbles } from 'rxjs-marbles';
-
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-import { Actions } from '@ngrx/effects';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
@@ -24,6 +12,16 @@ import {
   COMPARE_STATE_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
+import { Actions } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import {
   loadAllProductDetails,

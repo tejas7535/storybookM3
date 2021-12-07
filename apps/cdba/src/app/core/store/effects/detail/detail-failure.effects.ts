@@ -6,11 +6,10 @@ import { Router } from '@angular/router';
 
 import { tap } from 'rxjs/operators';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
 import { HttpErrorService } from '@cdba/core/http/services/http-error.service';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import {
   loadBomFailure,

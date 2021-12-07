@@ -1,5 +1,3 @@
-import { createAction, props, union } from '@ngrx/store';
-
 import {
   BomIdentifier,
   BomItem,
@@ -7,6 +5,7 @@ import {
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { createAction, props, union } from '@ngrx/store';
 
 export const selectCompareItems = createAction(
   '[Compare] Select Compare Items',

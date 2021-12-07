@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
-
 import {
   getDrawings,
   getDrawingsError,
@@ -13,6 +11,7 @@ import {
   selectDrawing,
 } from '@cdba/core/store';
 import { Drawing } from '@cdba/shared/models';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cdba-drawings',

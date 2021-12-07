@@ -2,8 +2,8 @@ import { Injector } from '@angular/core';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { ApplicationInsightsErrorHandlerService } from './application-insights-error-handler.service';
 import { ApplicationInsightsService } from './application-insights.service';
+import { ApplicationInsightsErrorHandlerService } from './application-insights-error-handler.service';
 
 describe('ApplicationInsightsErrorHandlerService', () => {
   let service: ApplicationInsightsErrorHandlerService;

@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
 import { BreadcrumbsService } from '@cdba/shared/services';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 @Directive({
   selector: '[cdbaBackButton]',

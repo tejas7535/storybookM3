@@ -35,8 +35,8 @@ import {
   setAgGridColumns,
   setFilter,
 } from './../store/actions/data.actions';
-import { MainTableRoutingModule } from './main-table-routing.module';
 import { MainTableComponent } from './main-table.component';
+import { MainTableRoutingModule } from './main-table-routing.module';
 import { COLUMN_DEFINITIONS } from './table-config/column-definitions';
 
 describe('MainTableComponent', () => {

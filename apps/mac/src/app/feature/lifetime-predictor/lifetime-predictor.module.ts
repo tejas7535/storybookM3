@@ -11,8 +11,8 @@ import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InputModule } from './input/input.module';
-import { LifetimePredictorRoutingModule } from './lifetime-predictor-routing.module';
 import { LifetimePredictorComponent } from './lifetime-predictor.component';
+import { LifetimePredictorRoutingModule } from './lifetime-predictor-routing.module';
 import { PredictionModule } from './prediction/prediction.module';
 import { InputEffects, PredictionEffects } from './store';
 import { reducers } from './store/reducers';

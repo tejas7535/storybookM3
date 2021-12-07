@@ -1,15 +1,15 @@
 import { of } from 'rxjs';
-import { marbles } from 'rxjs-marbles/marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/marbles';
 
-import { AttritionAnalyticsState } from '..';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
+import { AttritionAnalyticsState } from '..';
 import {
   changeOrderOfFeatures,
   changeSelectedFeatures,

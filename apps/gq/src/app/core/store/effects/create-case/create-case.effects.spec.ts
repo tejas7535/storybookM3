@@ -5,13 +5,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { marbles } from 'rxjs-marbles/jest';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';

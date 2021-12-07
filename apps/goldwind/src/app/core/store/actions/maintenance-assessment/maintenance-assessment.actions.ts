@@ -1,7 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { Interval } from '../../reducers/shared/models';
 import { MaintenanceAssessmentDisplay } from '../../reducers/maintenance-assessment/maintenance.assessment.model';
+import { Interval } from '../../reducers/shared/models';
 const NAMESPACE = 'Maintenance Assessment';
 
 export const getMaintenanceAssessmentId = createAction(

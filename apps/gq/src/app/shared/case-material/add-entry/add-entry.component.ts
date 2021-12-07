@@ -1,8 +1,10 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, Subscription } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
@@ -23,8 +25,6 @@ import { MaterialTableItem } from '../../models/table/material-table-item-model'
 import { ValidationDescription } from '../../models/table/validation-description.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PasteMaterialsService } from '../../services/paste-materials-service/paste-materials.service';
-import { translate } from '@ngneat/transloco';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'gq-add-entry',

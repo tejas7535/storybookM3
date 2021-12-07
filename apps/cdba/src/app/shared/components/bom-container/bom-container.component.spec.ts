@@ -5,31 +5,28 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { ReactiveComponentModule } from '@ngrx/component';
-
-import { marbles } from 'rxjs-marbles';
-
 import { GridApi } from '@ag-grid-enterprise/all-modules';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
-
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import * as compareActions from '@cdba/compare/store/actions/compare.actions';
 import * as detailActions from '@cdba/core/store/actions/detail/detail.actions';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
   BOM_MOCK,
   COMPARE_STATE_MOCK,
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BomItem, Calculation } from '../../models';
 import { BomChartModule } from '../bom-chart/bom-chart.module';

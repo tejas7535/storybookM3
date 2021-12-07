@@ -1,3 +1,4 @@
+import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
   loadInitialFilters,
@@ -7,7 +8,6 @@ import {
   timeRangeSelected,
   triggerLoad,
 } from '../';
-import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 
 describe('Filter Actions', () => {
   const errorMessage = 'An error occured';

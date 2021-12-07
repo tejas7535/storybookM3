@@ -1,25 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
-import { MAINTENACE_ASSESSMENT_CONTROLS } from '../../shared/constants/maintenance-assessment-controls';
+
+import { Store } from '@ngrx/store';
+import { EChartsOption } from 'echarts';
+
 import {
-  setMaintenanceAssessmentInterval,
   setMaintenanceAssessmentDisplay,
+  setMaintenanceAssessmentInterval,
 } from '../../core/store';
+import { MaintenanceAssessmentDisplay } from '../../core/store/reducers/maintenance-assessment/maintenance.assessment.model';
+import { initialState } from '../../core/store/reducers/maintenance-assessment/maintenance-assessment.reducer';
 import { Interval } from '../../core/store/reducers/shared/models';
-import { AssessmentLinechartComponent } from '../../shared/chart/assessment-linechart/assessment-linechart.component';
-import { IAssessmentLineChart } from '../../shared/chart/assessment-linechart/assessment-linechart.interface';
-import { Control, SensorNode, Type } from '../../shared/models';
 import {
   getAnalysisGraphDataM,
   getMaintenanceAssessmentDisplay,
   getMaintenanceAssessmentInterval,
 } from '../../core/store/selectors/maintenance-assessment/maintenance-assessment.selector';
-import { initialState } from '../../core/store/reducers/maintenance-assessment/maintenance-assessment.reducer';
+import { AssessmentLinechartComponent } from '../../shared/chart/assessment-linechart/assessment-linechart.component';
+import { IAssessmentLineChart } from '../../shared/chart/assessment-linechart/assessment-linechart.interface';
 import { getFormGroupFromDisplay } from '../../shared/chart/assessment-linechart/get-formgroup-from-display';
-import { MaintenanceAssessmentDisplay } from '../../core/store/reducers/maintenance-assessment/maintenance.assessment.model';
-import { EChartsOption } from 'echarts';
+import { MAINTENACE_ASSESSMENT_CONTROLS } from '../../shared/constants/maintenance-assessment-controls';
+import { Control, SensorNode, Type } from '../../shared/models';
 @Component({
   selector: 'goldwind-maintenance-assessment',
   templateUrl: './maintenance-assessment.component.html',

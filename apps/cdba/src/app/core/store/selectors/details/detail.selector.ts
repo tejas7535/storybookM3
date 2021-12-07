@@ -1,6 +1,3 @@
-import { translate } from '@ngneat/transloco';
-import { createSelector } from '@ngrx/store';
-
 import {
   BomIdentifier,
   BomItem,
@@ -9,6 +6,8 @@ import {
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { translate } from '@ngneat/transloco';
+import { createSelector } from '@ngrx/store';
 
 import { CustomerDetails } from '../../../../detail/detail-tab/customer/model/customer.details.model';
 import { DimensionAndWeightDetails } from '../../../../detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ForbiddenRoute } from '@schaeffler/empty-states';
-
 import { NO_ACCESS_ACTION } from '@cdba/shared/constants/forbidden-action';
 
-import { EmptyStatesPath } from './empty-states-path.enum';
+import { ForbiddenRoute } from '@schaeffler/empty-states';
+
 import { EmptyStatesComponent } from './components/empty-states.component';
+import { EmptyStatesPath } from './empty-states-path.enum';
 
 /**
  * Show this page when the user does not have the basic access rights for the app

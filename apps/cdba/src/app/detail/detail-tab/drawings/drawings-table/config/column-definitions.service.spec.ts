@@ -1,12 +1,11 @@
+import { ColumnUtilsService } from '@cdba/shared/components/table';
 import {
-  SpectatorService,
   createServiceFactory,
   mockProvider,
+  SpectatorService,
 } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { ColumnUtilsService } from '@cdba/shared/components/table';
 
 import { ColumnDefinitionService } from './column-definitions.service';
 

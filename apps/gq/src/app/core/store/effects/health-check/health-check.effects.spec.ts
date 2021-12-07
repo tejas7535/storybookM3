@@ -1,10 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { HealthCheckService } from '../../../../shared/services/rest-services/health-check-service/health-check.service';
 import {

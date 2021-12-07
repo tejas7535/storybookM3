@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
+import { BackButtonModule } from '@cdba/shared/directives/back-button';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
-
-import { BackButtonModule } from '@cdba/shared/directives/back-button';
 
 import { PageHeaderComponent } from './page-header.component';
 

@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
+
 import { getEdmHistogramState } from '../../reducers';
 import { EdmHistogramState } from '../../reducers/edm-monitor/edm-histogram.reducer';
 

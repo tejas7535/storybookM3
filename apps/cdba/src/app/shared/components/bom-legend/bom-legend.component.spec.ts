@@ -1,13 +1,12 @@
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { ColumnUtilsService } from '@cdba/shared/components/table';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-
-import { ColumnUtilsService } from '@cdba/shared/components/table';
 
 import { BomLegendComponent } from './bom-legend.component';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer/material-designation-cell-renderer.component';

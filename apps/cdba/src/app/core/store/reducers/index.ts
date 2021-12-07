@@ -1,13 +1,12 @@
 import { Params, RouterStateSnapshot } from '@angular/router';
 
+import { environment } from '@cdba/environments/environment';
 import * as fromRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
   MetaReducer,
 } from '@ngrx/store';
-
-import { environment } from '@cdba/environments/environment';
 
 import * as fromCompare from '../../../compare/store/reducers/compare.reducer';
 import * as fromDetail from './detail/detail.reducer';

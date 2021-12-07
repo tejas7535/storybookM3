@@ -9,8 +9,8 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { SidebarElementsComponent } from './sidebar-elements/sidebar-elements.component';
 import { SidebarComponent } from './sidebar.component';
+import { SidebarElementsComponent } from './sidebar-elements/sidebar-elements.component';
 import { StoreModule } from './store/store.module';
 
 @NgModule({

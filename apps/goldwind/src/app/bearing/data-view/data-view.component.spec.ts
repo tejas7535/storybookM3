@@ -1,6 +1,8 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSelectModule } from '@angular/material/select';
 
 import { GridApi } from '@ag-grid-community/all-modules';
@@ -15,8 +17,6 @@ import {
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { DataViewComponent } from './data-view.component';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 describe('DataViewComponent', () => {
   let component: DataViewComponent;

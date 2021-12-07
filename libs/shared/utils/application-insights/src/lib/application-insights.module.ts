@@ -8,13 +8,13 @@ import {
 
 import { META_REDUCERS } from '@ngrx/store';
 
+import { ApplicationInsightsService } from './application-insights.service';
 import { ApplicationInsightsErrorHandlerService } from './application-insights-error-handler.service';
 import { applicationInsightsMetaReducerFactory } from './application-insights-meta-reducer-factory';
 import {
   APPLICATION_INSIGHTS_CONFIG,
   ApplicationInsightsModuleConfig,
 } from './application-insights-module-config';
-import { ApplicationInsightsService } from './application-insights.service';
 import { NGRX_IGNORE_PATTERN } from './ngrx-ignore-pattern';
 
 @NgModule({

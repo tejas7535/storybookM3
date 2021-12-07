@@ -1,6 +1,7 @@
 import { Inject, Pipe, PipeTransform } from '@angular/core';
-import { ENV } from '@cdba/environments/environment.provider';
+
 import { Environment } from '@cdba/environments/environment.model';
+import { ENV } from '@cdba/environments/environment.provider';
 
 /**
  * @Pipe ScrambleMaterialDesignationPipe

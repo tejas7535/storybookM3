@@ -3,13 +3,12 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { marbles } from 'rxjs-marbles';
 
 import { SnackBarModule } from '@schaeffler/snackbar';
 

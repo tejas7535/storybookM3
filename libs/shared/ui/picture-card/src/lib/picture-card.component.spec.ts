@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { PictureCardActionComponent } from './picture-card-action/picture-card-action.component';
 import { PictureCardComponent } from './picture-card.component';
+import { PictureCardActionComponent } from './picture-card-action/picture-card-action.component';
 
 describe('PictureCardComponent', () => {
   let component: PictureCardComponent;

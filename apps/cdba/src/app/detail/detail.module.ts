@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -10,14 +11,12 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
-
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { DetailFailureEffects } from '../core/store/effects/detail/detail-failure.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { MaterialNumberModule } from '../shared/pipes/material-number/material-number.module';
-import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
+import { DetailRoutingModule } from './detail-routing.module';
 
 @NgModule({
   declarations: [DetailComponent],

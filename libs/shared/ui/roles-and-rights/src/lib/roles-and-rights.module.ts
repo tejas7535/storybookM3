@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
+import { RolesComponent } from './components/roles/roles.component';
 import { RolesAndRightsComponent } from './components/roles-and-rights/roles-and-rights.component';
 import { RolesGroupsComponent } from './components/roles-groups/roles-groups.component';
-import { RolesComponent } from './components/roles/roles.component';
-
 import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
 import esJson from './i18n/es.json';

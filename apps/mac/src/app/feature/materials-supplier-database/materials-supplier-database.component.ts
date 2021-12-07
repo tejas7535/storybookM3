@@ -9,8 +9,8 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { getShareQueryParams } from './store';
 import { changeFavicon } from '../../shared/change-favicon';
+import { getShareQueryParams } from './store';
 
 @Component({
   selector: 'mac-materials-supplier-database',

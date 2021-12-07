@@ -1,5 +1,7 @@
 import { Platform } from '@angular/cdk/platform';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
 import { BrowserDetectionService } from './browser-detection.service';
 
 describe('BrowserDetectionService', () => {

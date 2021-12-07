@@ -7,8 +7,8 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 
 import { ParameterGuard, ResultGuard } from '../core/guards';
 import { GreaseStepperModule } from './../core/components/grease-stepper/grease-stepper.module';
-import { GreaseCalculationRoutingModule } from './grease-calculation-routing.module';
 import { GreaseCalculationComponent } from './grease-calculation.component';
+import { GreaseCalculationRoutingModule } from './grease-calculation-routing.module';
 
 @NgModule({
   declarations: [GreaseCalculationComponent],

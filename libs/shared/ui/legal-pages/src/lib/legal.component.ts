@@ -12,8 +12,8 @@ import { filter, startWith, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
-import { LegalPath } from './legal-route-path.enum';
 import { PERSON_RESPONSIBLE } from './legal.model';
+import { LegalPath } from './legal-route-path.enum';
 
 @Component({
   selector: 'schaeffler-legal',

@@ -1,16 +1,16 @@
 import { createSelector } from '@ngrx/store';
+import { EChartsOption } from 'echarts';
 
 import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { LOAD_ASSESSMENT_CONTROLS } from '../../../../shared/constants';
 import { CenterLoadStatus } from '../../../../shared/models';
 import { getLoadAssessmentState } from '../../reducers';
 import { LoadAssessmentState } from '../../reducers/load-assessment/load-assessment.reducer';
-import { getCenterLoadResult } from '../../selectors/center-load/center-load.selector';
 import { LoadAssessmentDisplay } from '../../reducers/load-assessment/models';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { Interval } from '../../reducers/shared/models';
+import { getCenterLoadResult } from '../../selectors/center-load/center-load.selector';
 import { getBearingLoadResult } from '../load-sense/load-sense.selector';
-import { EChartsOption } from 'echarts';
 type GreaseDisplayKeys = keyof LoadAssessmentDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
 

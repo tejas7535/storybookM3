@@ -5,8 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { FooterLink } from './footer-link.model';
 import { FooterComponent } from './footer.component';
+import { FooterLink } from './footer-link.model';
 
 @Component({
   template: `<schaeffler-footer><div>Hello World</div></schaeffler-footer>`,

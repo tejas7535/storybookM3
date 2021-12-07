@@ -2,11 +2,10 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { MockModule } from 'ng-mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockModule } from 'ng-mocks';
 
 import { RolesAndRightsModule } from '@schaeffler/roles-and-rights';
-
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { RoleDescriptionsModule } from '../role-descriptions.module';

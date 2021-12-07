@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+
 import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 
 export const loadExtendedComparableLinkedTransaction = createAction(

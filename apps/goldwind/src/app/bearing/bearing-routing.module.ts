@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { BearingRoutePath } from './bearing-route-path.enum';
 import { BearingComponent } from './bearing.component';
+import { BearingRoutePath } from './bearing-route-path.enum';
 
 const routes: Routes = [
   {

@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+
 import { GCMHeatmapEntry } from '../../../../shared/models';
 
 const TYPE = 'Grease Heatmap';

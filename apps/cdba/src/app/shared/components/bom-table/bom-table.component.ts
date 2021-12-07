@@ -20,12 +20,11 @@ import {
   RowGroupingModule,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
-import { translate } from '@ngneat/transloco';
-
 import {
   ScrambleMaterialDesignationPipe,
   ScrambleMaterialNumberPipe,
 } from '@cdba/shared/pipes';
+import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../models';
 import { ColumnUtilsService, formatMaterialNumberFromString } from '../table';

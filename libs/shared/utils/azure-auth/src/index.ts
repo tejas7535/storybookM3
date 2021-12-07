@@ -1,16 +1,3 @@
-export { SharedAzureAuthModule } from './lib/shared-azure-auth.module';
-export { login, logout, loginSuccess } from './lib/store/actions/auth.actions';
-export {
-  getUsername,
-  getIsLoggedIn,
-  getRoles,
-  getProfileImage,
-  getAccountInfo,
-  getUserUniqueIdentifier,
-  hasIdTokenRole,
-  hasIdTokenRoles,
-  hasAnyIdTokenRole,
-} from './lib/store/selectors/auth.selectors';
 export {
   AccountInfo,
   AzureConfig,
@@ -19,4 +6,17 @@ export {
   MsalInterceptorConfig,
   ProtectedResource,
 } from './lib/models';
+export { SharedAzureAuthModule } from './lib/shared-azure-auth.module';
+export { login, loginSuccess, logout } from './lib/store/actions/auth.actions';
 export { AuthState } from './lib/store/reducers/auth.reducer';
+export {
+  getAccountInfo,
+  getIsLoggedIn,
+  getProfileImage,
+  getRoles,
+  getUsername,
+  getUserUniqueIdentifier,
+  hasAnyIdTokenRole,
+  hasIdTokenRole,
+  hasIdTokenRoles,
+} from './lib/store/selectors/auth.selectors';

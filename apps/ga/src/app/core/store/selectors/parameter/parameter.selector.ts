@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
-import { getModelId, getSelectedBearing } from '..';
 import { CalculationParamters } from '../../../../shared/models';
+import { getModelId, getSelectedBearing } from '..';
 import { getParameterState } from './../../reducers';
 import { ParameterState } from './../../reducers/parameter/parameter.reducer';
 

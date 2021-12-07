@@ -1,10 +1,10 @@
 /* eslint-disable import/order */
-import { LicenseManager } from '@ag-grid-enterprise/core';
-import { TranslocoModule } from '@ngneat/transloco';
-
 import '../../../global-mocks';
 import 'jest-canvas-mock';
 import 'jest-preset-angular/setup-jest';
+
+import { LicenseManager } from '@ag-grid-enterprise/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),

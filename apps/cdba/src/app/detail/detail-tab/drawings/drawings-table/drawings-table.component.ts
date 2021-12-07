@@ -11,7 +11,6 @@ import {
   ColDef,
   RowSelectedEvent,
 } from '@ag-grid-enterprise/all-modules';
-
 import { Drawing } from '@cdba/shared/models';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';

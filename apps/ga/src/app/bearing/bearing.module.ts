@@ -14,8 +14,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingEffects } from '../core/store';
 import { bearingReducer } from './../core/store/reducers/bearing/bearing.reducer';
-import { BearingRoutingModule } from './bearing-routing.module';
 import { BearingComponent } from './bearing.component';
+import { BearingRoutingModule } from './bearing-routing.module';
 
 @NgModule({
   declarations: [BearingComponent],

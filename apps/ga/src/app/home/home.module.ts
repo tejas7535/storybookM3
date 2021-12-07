@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
   declarations: [HomeComponent],

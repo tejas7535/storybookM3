@@ -1,15 +1,14 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
-import { getSelectedBearing } from '../..';
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
+import { getSelectedBearing } from '../..';
 import {
   bearingSearchSuccess,
   modelCreateFailure,

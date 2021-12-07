@@ -1,2 +1,2 @@
-export * from './result.guard';
 export * from './parameter.guard';
+export * from './result.guard';

@@ -12,8 +12,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedModule } from '../../shared/shared.module';
-import { HardnessConverterRoutingModule } from './hardness-converter-routing.module';
 import { HardnessConverterComponent } from './hardness-converter.component';
+import { HardnessConverterRoutingModule } from './hardness-converter-routing.module';
 
 @NgModule({
   declarations: [HardnessConverterComponent],

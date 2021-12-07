@@ -1,6 +1,5 @@
 import { SeriesOption } from 'echarts';
 
-import { initialState, OverviewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
@@ -10,6 +9,7 @@ import {
   OpenApplication,
   ResignedEmployee,
 } from '../../models';
+import { initialState, OverviewState } from '..';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,

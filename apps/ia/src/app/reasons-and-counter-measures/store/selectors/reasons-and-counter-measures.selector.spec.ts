@@ -1,7 +1,7 @@
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
-import { ReasonsAndCounterMeasuresState } from '..';
 import { TimePeriod } from '../../../shared/models';
+import { ReasonsAndCounterMeasuresState } from '..';
 import {
   getComparedBeautifiedSelectedTimeRange,
   getComparedReasonsChartConfig,

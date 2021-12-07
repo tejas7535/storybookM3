@@ -1,26 +1,27 @@
-import { SpectatorService, createServiceFactory } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
-import { MaintenanceAssessmentEffects } from '..';
+
+import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import { RestService } from '../../../http/rest.service';
 import {
-  getMaintenanceAssessmentId,
+  getEdmMainteance,
   getGreaseStatus,
   getGreaseStatusSuccess,
-  setMaintenanceAssessmentInterval,
+  getMaintenanceAssessmentId,
   getShaft,
   getShaftSuccess,
-  getEdmMainteance,
+  setMaintenanceAssessmentInterval,
 } from '../..';
-import { RestService } from '../../../http/rest.service';
-import { GcmStatus } from '../../reducers/grease-status/models';
 import * as fromRouter from '../../reducers';
-import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
-import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import { GcmStatus } from '../../reducers/grease-status/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
+import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
+import { MaintenanceAssessmentEffects } from '..';
 
 describe('MaintenanceAssessmentEffects', () => {
   let spectator: SpectatorService<MaintenanceAssessmentEffects>;

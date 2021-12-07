@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { EmployeeListDialogMetaHeadings } from '../employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { EmployeeListDialogMeta } from '../employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogMeta } from '../employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { Employee } from '../models';
 
 @Component({

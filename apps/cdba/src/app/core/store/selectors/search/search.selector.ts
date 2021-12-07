@@ -1,7 +1,6 @@
+import { ReferenceType } from '@cdba/shared/models';
 import { Dictionary } from '@ngrx/entity';
 import { createSelector } from '@ngrx/store';
-
-import { ReferenceType } from '@cdba/shared/models';
 
 import { getSearchState } from '../../reducers';
 import { filterItemAdapter } from '../../reducers/search/filter-item.entity';

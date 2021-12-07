@@ -1,12 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { marbles } from 'rxjs-marbles/jest';
-
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { RoleFacade } from '../role.facade';
 import { BasicRoleGuard } from './basic-role.guard';

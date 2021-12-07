@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { initialState, organizationalViewReducer, reducer } from '.';
 import {
   AttritionOverTime,
   Employee,
@@ -8,6 +7,7 @@ import {
 } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { CountryData } from '../world-map/models/country-data.model';
+import { initialState, organizationalViewReducer, reducer } from '.';
 import {
   chartTypeSelected,
   loadAttritionOverTimeOrgChart,

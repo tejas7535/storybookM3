@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../../shared';
@@ -9,7 +11,6 @@ import { LabelTextModule } from '../../../../shared/components/label-text/label-
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsComponent } from './material-details.component';
 import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/material-sales-org-details.component';
-import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
   declarations: [MaterialDetailsComponent, MaterialSalesOrgDetailsComponent],

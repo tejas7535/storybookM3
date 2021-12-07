@@ -1,11 +1,10 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { marbles } from 'rxjs-marbles/jest';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -35,8 +34,8 @@ import {
   getReasonsLoading,
   getReasonsTableData,
 } from '../store/selectors/reasons-and-counter-measures.selector';
-import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
 import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
+import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
 
 describe('ReasonsForLeavingComponent', () => {
   let component: ReasonsForLeavingComponent;

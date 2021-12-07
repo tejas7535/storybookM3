@@ -8,9 +8,9 @@ import {
 import { merge, Observable } from 'rxjs';
 import { mapTo, take, tap } from 'rxjs/operators';
 
+import { SnackBarComponent } from './snackbar.component';
 import { SnackBarData } from './snackbar-data.model';
 import { SnackBarType } from './snackbar-type.enum';
-import { SnackBarComponent } from './snackbar.component';
 
 @Injectable({
   providedIn: 'root',

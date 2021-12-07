@@ -1,22 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { MaintenanceAssessmentRoutingModule } from './maintenance-assessment-routing.module';
-import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   HeatmapStatusEffects,
   MaintenanceAssessmentEffects,
 } from '../../core/store';
+import { greaseHeatmapStatusReducer } from '../../core/store/reducers/grease-status/heatmap.reducer';
 import { maintenanceAssessmentReducer } from '../../core/store/reducers/maintenance-assessment/maintenance-assessment.reducer';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
-import { greaseHeatmapStatusReducer } from '../../core/store/reducers/grease-status/heatmap.reducer';
 import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
+import { MaintenanceAssessmentRoutingModule } from './maintenance-assessment-routing.module';
 @NgModule({
   declarations: [MaintenanceAssessmentComponent],
   imports: [

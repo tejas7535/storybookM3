@@ -4,12 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+
 import { TranslocoService } from '@ngneat/transloco';
 
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-
-import { LanguageSelectComponent } from './language-select.component';
 
 import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
@@ -17,6 +16,7 @@ import esJson from './i18n/es.json';
 import frJson from './i18n/fr.json';
 import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
+import { LanguageSelectComponent } from './language-select.component';
 
 @NgModule({
   declarations: [LanguageSelectComponent],

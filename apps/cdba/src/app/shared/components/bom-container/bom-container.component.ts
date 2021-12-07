@@ -5,20 +5,17 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-
-import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
-
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { Store } from '@ngrx/store';
-
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-
+import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { Store } from '@ngrx/store';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { BomItem, Calculation } from '../../models';
 

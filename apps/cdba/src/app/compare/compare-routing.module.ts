@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { CompareRoutePath } from './compare-route-path.enum';
-import { CompareComponent } from './compare.component';
 import { BasicRoleGuard, PricingRoleGuard } from '../core/auth';
+import { CompareComponent } from './compare.component';
+import { CompareRoutePath } from './compare-route-path.enum';
 
 const routes: Routes = [
   {

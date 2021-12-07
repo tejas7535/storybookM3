@@ -1,10 +1,10 @@
 import { of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { RestService } from '../../core/services';
 import { ResultPageService } from './result-page.service';
-import { TranslocoService } from '@ngneat/transloco';
 
 describe('ResultPageService testing', () => {
   let spectator: SpectatorService<ResultPageService>;

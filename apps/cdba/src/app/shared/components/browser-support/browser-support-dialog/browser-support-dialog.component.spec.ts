@@ -4,7 +4,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { BrowserSupportDialogComponent } from './browser-support-dialog.component';
 
 describe('BrowserSupportDialogComponent', () => {

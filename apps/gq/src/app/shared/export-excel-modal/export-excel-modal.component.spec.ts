@@ -19,8 +19,8 @@ import {
 } from '../../../testing/mocks';
 import { loadExtendedComparableLinkedTransaction } from '../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import { DialogHeaderModule } from '../header/dialog-header/dialog-header.module';
-import { ExportExcelModalComponent } from './export-excel-modal.component';
 import { ExportExcel } from './export-excel.enum';
+import { ExportExcelModalComponent } from './export-excel-modal.component';
 
 describe('ExportExcelModalComponent', () => {
   let component: ExportExcelModalComponent;

@@ -7,9 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { endOfDay, startOfDay } from 'date-fns';
 
 import { debounceTime, filter, map } from 'rxjs/operators';
+
+import { endOfDay, startOfDay } from 'date-fns';
 
 import { Interval } from '../../core/store/reducers/shared/models';
 

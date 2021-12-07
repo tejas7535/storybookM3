@@ -12,8 +12,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedModule } from '../../shared/shared.module';
-import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
 import { AqmCalculatorComponent } from './aqm-calculator.component';
+import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
 
 @NgModule({
   declarations: [AqmCalculatorComponent],

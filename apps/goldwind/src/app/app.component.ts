@@ -10,9 +10,9 @@ import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import packageJson from '../../package.json';
+import { environment } from '../environments/environment';
 import { AppRoutePath } from './app-route-path.enum';
 import { LegalPath } from './legal/legal-route-path.enum';
-import { environment } from '../environments/environment';
 
 @Component({
   selector: 'goldwind-root',

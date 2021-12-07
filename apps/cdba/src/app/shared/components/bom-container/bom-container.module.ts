@@ -6,14 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { ReactiveComponentModule } from '@ngrx/component';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-
 import {
   MaterialNumberModule,
   UndefinedAttributeFallbackModule,
 } from '@cdba/shared/pipes';
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';

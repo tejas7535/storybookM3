@@ -6,14 +6,14 @@ import { Observable, of } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { PredictionEffects } from '.';
-import { getPredictionRequest, getStatisticalRequest } from '..';
 import {
   mockedLoadsResult,
   mockedStatisticalResult,
 } from '../../mock/mock.constants';
 import { MockService } from '../../mock/mock.service';
 import { RestService } from '../../services/rest.service';
+import { getPredictionRequest, getStatisticalRequest } from '..';
+import { PredictionEffects } from '.';
 
 describe('PredictionEffects', () => {
   let actions: Observable<any>;

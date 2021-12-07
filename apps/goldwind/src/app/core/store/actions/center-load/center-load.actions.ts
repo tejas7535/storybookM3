@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+
 import { CenterLoadStatus } from '../../../../shared/models/center-load';
 
 const NAMESPACE = 'CenterLoad';

@@ -7,12 +7,12 @@ import { OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { META_REDUCERS, Store, StoreModule } from '@ngrx/store';
 
+import { ApplicationInsightsService } from './application-insights.service';
 import {
   applicationInsightsMetaReducerFactory,
   shouldLogEvent,
 } from './application-insights-meta-reducer-factory';
 import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
-import { ApplicationInsightsService } from './application-insights.service';
 import { NGRX_IGNORE_PATTERN } from './ngrx-ignore-pattern';
 
 describe('ApplicationInsightsMetaReducerFactory', () => {

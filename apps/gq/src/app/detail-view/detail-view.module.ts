@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { DetailViewRoutingModule } from './detail-view-routing.module';
-import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],

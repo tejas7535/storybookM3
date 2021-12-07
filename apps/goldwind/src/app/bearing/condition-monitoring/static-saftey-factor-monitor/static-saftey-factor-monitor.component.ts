@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { EChartsOption } from 'echarts/types/dist/echarts';
+
 import { Observable } from 'rxjs/internal/Observable';
 import { take } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+import { EChartsOption } from 'echarts/types/dist/echarts';
+
 import {
   getStaticSafetyLatestGraphData,
   getStaticSafetyLatestTimeStamp,

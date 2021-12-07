@@ -4,9 +4,6 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { withCache } from '@ngneat/cashew';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-
 import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_MOCK,
@@ -14,6 +11,8 @@ import {
   DRAWINGS_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
+import { withCache } from '@ngneat/cashew';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   BomResult,

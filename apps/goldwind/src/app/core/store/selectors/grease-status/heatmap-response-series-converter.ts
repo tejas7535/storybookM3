@@ -1,5 +1,6 @@
 import { format } from 'date-fns';
 import { HeatmapSeriesOption } from 'echarts';
+
 import { GaugeColors } from '../../../../shared/chart/chart';
 import {
   GCMHeatmapClassification,

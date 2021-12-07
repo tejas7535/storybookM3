@@ -11,8 +11,8 @@ import esJson from './i18n/es.json';
 import frJson from './i18n/fr.json';
 import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
-import { LegalRoutingModule } from './legal-routing.module';
 import { LegalComponent } from './legal.component';
+import { LegalRoutingModule } from './legal-routing.module';
 
 @NgModule({
   declarations: [LegalComponent],

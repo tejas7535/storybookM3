@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { Store } from '@ngrx/store';
 
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
+import { Observable, Subscription } from 'rxjs';
+
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { getReferenceType } from '@cdba/core/store';
 import { Tab } from '@cdba/shared/components';
 import { ReferenceType } from '@cdba/shared/models';
 import { BreadcrumbsService } from '@cdba/shared/services';
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { DetailRoutePath } from './detail-route-path.enum';
 

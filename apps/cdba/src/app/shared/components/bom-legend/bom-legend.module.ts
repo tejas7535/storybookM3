@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 
 import { BomLegendComponent } from './bom-legend.component';

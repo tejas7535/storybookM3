@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { DataPoint } from './data-point.model';

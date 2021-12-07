@@ -1,5 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
+import { BreadcrumbsService } from '@cdba/shared/services';
+import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -10,12 +13,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { ShareButtonModule } from '@schaeffler/share-button';
-
-import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
-import { BreadcrumbsService } from '@cdba/shared/services';
-import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CompareComponent } from './compare.component';
 

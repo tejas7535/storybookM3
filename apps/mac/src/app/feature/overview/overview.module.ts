@@ -5,8 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
-import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
+import { OverviewRoutingModule } from './overview-routing.module';
 
 @NgModule({
   declarations: [OverviewComponent],

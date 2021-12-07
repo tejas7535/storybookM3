@@ -1,7 +1,8 @@
-import { GCMHeatmapEntry } from '../../../../shared/models';
-import { KPIState } from '../../../../shared/store/utils.selector';
 import { Action, createReducer, on } from '@ngrx/store';
+
+import { GCMHeatmapEntry } from '../../../../shared/models';
 import * as U from '../../../../shared/store/utils.reducer';
+import { KPIState } from '../../../../shared/store/utils.selector';
 import * as A from '../../actions/grease-status/gc-heatmap.actions';
 
 export type GreaseHeatmapState = KPIState<GCMHeatmapEntry>;

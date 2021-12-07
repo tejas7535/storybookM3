@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+
 import { EdmHistogram } from '../../reducers/edm-monitor/edm-histogram.reducer';
 import { EdmStatus } from '../../reducers/edm-monitor/models';
 import { Interval } from '../../reducers/shared/models';

@@ -1,13 +1,13 @@
 import { ActivationEnd, Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { SidebarMode, Viewport } from '../../models';
 import { SidebarService } from '../../sidebar.service';

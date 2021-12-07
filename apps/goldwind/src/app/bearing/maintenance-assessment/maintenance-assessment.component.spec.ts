@@ -1,12 +1,14 @@
-import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
-import { MatCardModule } from '@angular/material/card';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { setMaintenanceAssessmentDisplay } from '../../core/store';
-import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
-import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
+import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { setMaintenanceAssessmentDisplay } from '../../core/store';
+import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
+import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
+import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
 describe('MaintenanceAssessmentComponent', () => {
   let component: MaintenanceAssessmentComponent;
   let spectator: Spectator<MaintenanceAssessmentComponent>;

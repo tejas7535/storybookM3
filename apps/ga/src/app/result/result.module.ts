@@ -16,8 +16,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ResultEffects } from '../core/store';
 import { resultReducer } from '../core/store/reducers/result/result.reducer';
 import { SharedModule } from '../shared/shared.module';
-import { ResultRoutingModule } from './result-routing.module';
 import { ResultComponent } from './result.component';
+import { ResultRoutingModule } from './result-routing.module';
 
 @NgModule({
   declarations: [ResultComponent],

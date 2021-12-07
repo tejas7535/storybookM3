@@ -1,13 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { StaticSafteyFactorMonitorComponent } from './static-saftey-factor-monitor.component';
+import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { NgxEchartsModule } from 'ngx-echarts';
-import { SharedModule } from '../../../shared/shared.module';
+
 import { ReactiveComponentModule } from '@ngrx/component';
+import { NgxEchartsModule } from 'ngx-echarts';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { SharedModule } from '../../../shared/shared.module';
+import { StaticSafteyFactorMonitorComponent } from './static-saftey-factor-monitor.component';
 
 @NgModule({
   declarations: [StaticSafteyFactorMonitorComponent],

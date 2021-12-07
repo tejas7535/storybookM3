@@ -16,7 +16,14 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
+import {
+  getEdmHistogram,
+  getEdmHistogramFailure,
+  getEdmHistogramSuccess,
+  stopEdmHistogramPolling,
+} from '../../actions';
 import {
   getEdm,
   getEdmFailure,
@@ -27,13 +34,6 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getEdmInterval } from '../../selectors';
-import {
-  getEdmHistogram,
-  getEdmHistogramFailure,
-  getEdmHistogramSuccess,
-  stopEdmHistogramPolling,
-} from '../../actions';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
 
 @Injectable()
 export class EdmMonitorEffects {

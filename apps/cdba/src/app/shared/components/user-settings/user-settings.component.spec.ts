@@ -8,8 +8,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { UserSettingsComponent } from './user-settings.component';
 

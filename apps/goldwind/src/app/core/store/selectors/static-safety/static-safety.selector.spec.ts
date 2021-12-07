@@ -6,11 +6,11 @@ import { initialState } from '../../reducers/shaft/shaft.reducer';
 import { StaticSafetyState } from '../../reducers/static-safety/static-safety.reducer';
 import {
   getStaticSafetyLatestGraphData,
+  getStaticSafetyLatestLoading,
   getStaticSafetyLatestResult,
   getStaticSafetyLatestTimeStamp,
-  getStaticSafetyLatestLoading,
-  getStaticSafetyResult,
   getStaticSafetyLoading,
+  getStaticSafetyResult,
 } from './static-safety.selector';
 
 describe('Static Safety Selector', () => {

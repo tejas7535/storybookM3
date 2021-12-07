@@ -4,23 +4,21 @@ import { NgModule } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
+import { CoreModule } from '@cdba/core';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import {
+  BrowserSupportModule,
+  LoadingSpinnerModule,
+  RoleDescriptionsModule,
+  UserSettingsModule,
+} from '@cdba/shared/components';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 
-import {
-  LoadingSpinnerModule,
-  BrowserSupportModule,
-  UserSettingsModule,
-  RoleDescriptionsModule,
-} from '@cdba/shared/components';
-
-import { CoreModule } from '@cdba/core';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   imports: [

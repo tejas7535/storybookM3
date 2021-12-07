@@ -10,12 +10,12 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LoadAssessmentEffects } from '../../core/store';
+import { centerLoadReducer } from '../../core/store/reducers/center-load/center-load.reducer';
 import { loadAssessmentReducer } from '../../core/store/reducers/load-assessment/load-assessment.reducer';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { LoadDistributionCardModule } from '../condition-monitoring/load-distribution-card/load-distribution-card.module';
-import { LoadAssessmentRoutingModule } from './load-assessment-routing.module';
 import { LoadAssessmentComponent } from './load-assessment.component';
-import { centerLoadReducer } from '../../core/store/reducers/center-load/center-load.reducer';
+import { LoadAssessmentRoutingModule } from './load-assessment-routing.module';
 
 @NgModule({
   declarations: [LoadAssessmentComponent],

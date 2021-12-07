@@ -1,5 +1,4 @@
 import { defer } from 'rxjs';
-import { marbles } from 'rxjs-marbles';
 
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
@@ -7,6 +6,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { AzureAuthService } from '../../azure-auth.service';
 import { AccountInfo, LoadProfileImageError } from '../../models';

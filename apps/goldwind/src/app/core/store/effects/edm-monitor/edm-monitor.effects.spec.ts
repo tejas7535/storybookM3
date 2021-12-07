@@ -1,4 +1,4 @@
-import { marbles } from 'rxjs-marbles';
+import { of, throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -6,8 +6,15 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { RestService } from '../../../http/rest.service';
+import {
+  getEdmHistogram,
+  getEdmHistogramFailure,
+  getEdmHistogramSuccess,
+  stopEdmHistogramPolling,
+} from '../..';
 import {
   getEdm,
   getEdmFailure,
@@ -16,17 +23,10 @@ import {
   setEdmInterval,
 } from '../../actions/edm-monitor/edm-monitor.actions';
 import * as fromRouter from '../../reducers';
+import { EdmHistogram } from '../../reducers/edm-monitor/edm-histogram.reducer';
+import { EdmStatus } from '../../reducers/edm-monitor/models';
 import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
-import { EdmStatus } from '../../reducers/edm-monitor/models';
-import {
-  getEdmHistogram,
-  getEdmHistogramFailure,
-  getEdmHistogramSuccess,
-  stopEdmHistogramPolling,
-} from '../..';
-import { EdmHistogram } from '../../reducers/edm-monitor/edm-histogram.reducer';
-import { of, throwError } from 'rxjs';
 
 describe('Edm Monitor Effects', () => {
   let spectator: SpectatorService<EdmMonitorEffects>;

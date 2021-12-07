@@ -1,26 +1,28 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { getFormGroupFromDisplay } from '../../shared/chart/assessment-linechart/get-formgroup-from-display';
+
 import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { IAssessmentLineChart } from '../../shared/chart/assessment-linechart/assessment-linechart.interface';
-import {
-  setLoadAssessmentDisplay,
-  setLoadAssessmentInterval,
-} from '../../core/store/actions/load-assessment/load-assessment.actions';
-import { Interval } from '../../core/store/reducers/shared/models';
-import { LOAD_ASSESSMENT_CONTROLS } from '../../shared/constants';
-import { SensorNode, Type } from '../../shared/models';
+import { EChartsOption } from 'echarts';
+
 import {
   getAnalysisGraphData,
   getLoadAssessmentDisplay,
   getLoadAssessmentInterval,
 } from '../../core/store';
-import { LoadAssessmentDisplay } from '../../core/store/reducers/load-assessment/models';
+import {
+  setLoadAssessmentDisplay,
+  setLoadAssessmentInterval,
+} from '../../core/store/actions/load-assessment/load-assessment.actions';
 import { initialState } from '../../core/store/reducers/load-assessment/load-assessment.reducer';
-import { EChartsOption } from 'echarts';
+import { LoadAssessmentDisplay } from '../../core/store/reducers/load-assessment/models';
+import { Interval } from '../../core/store/reducers/shared/models';
 import { AssessmentLinechartComponent } from '../../shared/chart/assessment-linechart/assessment-linechart.component';
+import { IAssessmentLineChart } from '../../shared/chart/assessment-linechart/assessment-linechart.interface';
+import { getFormGroupFromDisplay } from '../../shared/chart/assessment-linechart/get-formgroup-from-display';
+import { LOAD_ASSESSMENT_CONTROLS } from '../../shared/constants';
+import { SensorNode, Type } from '../../shared/models';
 
 @Component({
   selector: 'goldwind-load-assessment',

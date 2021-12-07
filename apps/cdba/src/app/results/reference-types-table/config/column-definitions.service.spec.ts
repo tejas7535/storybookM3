@@ -4,17 +4,16 @@ import {
 } from '@ag-grid-community/all-modules';
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import {
+  ValueFormatterFunction,
+  ValueGetterFunction,
+} from '@cdba/testing/types';
+import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import {
-  ValueFormatterFunction,
-  ValueGetterFunction,
-} from '@cdba/testing/types';
 
 import * as utils from '../../../shared/components/table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';

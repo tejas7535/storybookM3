@@ -2,22 +2,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 
-import { ReactiveComponentModule } from '@ngrx/component';
-
-import { marbles } from 'rxjs-marbles/marbles';
-
+import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
+import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
-import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
-
 import * as enJson from '../../../../assets/i18n/compare/en.json';
-import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
 import { AdditionalInformation } from '../additional-information-widget/additional-information.model';
+import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
 import { DimensionsWidgetModule } from '../dimensions-widget/dimensions-widget.module';
 import { MaterialCardComponent } from './material-card.component';
 

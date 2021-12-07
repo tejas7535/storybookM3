@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 

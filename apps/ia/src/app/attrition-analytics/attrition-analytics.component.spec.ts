@@ -3,19 +3,19 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
-import { marbles } from 'rxjs-marbles/marbles';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BarChartComponent } from '../shared/charts/bar-chart/bar-chart.component';
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
-import { AttritionAnalyticsStateService } from './attrition-analytics-state.service';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
+import { AttritionAnalyticsStateService } from './attrition-analytics-state.service';
 import { FeatureImportanceComponent } from './feature-importance/feature-importance.component';
 import { FeaturesDialogComponent } from './features-dialog/features-dialog.component';
 import { FeaturesDialogModule } from './features-dialog/features-dialog.module';

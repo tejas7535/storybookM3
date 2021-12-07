@@ -1,22 +1,22 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
-import {
-  getLoadDistributionSeries,
-  getLoadDistributionTimeStamp,
-} from '../../../core/store/selectors/load-distribution/load-distribution.selector';
 import {
   getLoadAssessmentInterval,
   getLoadAverage,
   getLoadDistributionLatest,
   stopLoadDistributionGet,
 } from '../../../core/store';
-import { ActivatedRoute } from '@angular/router';
+import {
+  getLoadDistributionSeries,
+  getLoadDistributionTimeStamp,
+} from '../../../core/store/selectors/load-distribution/load-distribution.selector';
+import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 import { config } from './polar-options.echart';
 @Component({
   selector: 'goldwind-load-distribution-card',

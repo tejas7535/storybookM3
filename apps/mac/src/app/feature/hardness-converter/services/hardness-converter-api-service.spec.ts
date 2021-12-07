@@ -7,8 +7,8 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../../testing/mocks/hardness-conversion-units.mock';
 import { HARDNESS_CONVERSION_MOCK } from '../../../../testing/mocks/hardness-conversion.mock';
+import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../../testing/mocks/hardness-conversion-units.mock';
 import { environment } from './../../../../environments/environment';
 import { HardnessConverterApiService } from './hardness-converter-api.service';
 

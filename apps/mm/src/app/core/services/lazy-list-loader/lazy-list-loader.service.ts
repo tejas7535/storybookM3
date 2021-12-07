@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
+
 import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
 
-import { RestService } from '../';
 import { environment } from '../../../../environments/environment';
 import {
   IDCO_DESIGNATION,
@@ -17,6 +17,7 @@ import {
   MMSimpleResponse,
   PreflightRequestBody,
 } from '../../../shared/models';
+import { RestService } from '../';
 
 const isComplex = (
   response: MMResponseVariants

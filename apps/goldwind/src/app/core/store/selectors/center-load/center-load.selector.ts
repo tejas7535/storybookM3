@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import { getCenterLoadState } from '../../reducers';
-import { getResult, getLoading } from '../../../../shared/store/utils.selector';
+
 import { CenterLoadStatus } from '../../../../shared/models';
+import { getLoading, getResult } from '../../../../shared/store/utils.selector';
+import { getCenterLoadState } from '../../reducers';
 
 export const getCenterLoadResult = createSelector(
   getCenterLoadState,

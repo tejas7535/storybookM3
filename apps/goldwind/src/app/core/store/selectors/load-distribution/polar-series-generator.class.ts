@@ -1,4 +1,5 @@
 import { EChartsOption } from 'echarts';
+
 import { LoadSense } from '../../reducers/load-sense/models';
 import { LoadDistribution } from './load-distribution.interface';
 

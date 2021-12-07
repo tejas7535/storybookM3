@@ -3,9 +3,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { EChartsOption } from 'echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { EChartsOption } from 'echarts';
 
 import { EmptyGraphComponent } from './empty-graph.component';
 

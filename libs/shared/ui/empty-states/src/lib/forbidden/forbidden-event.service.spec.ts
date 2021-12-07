@@ -1,5 +1,6 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Observable } from 'rxjs';
+
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ForbiddenEventService } from './forbidden-event.service';
 

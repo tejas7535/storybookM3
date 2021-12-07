@@ -1,12 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';

@@ -14,8 +14,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ParameterEffects } from '../core/store/effects';
 import { parameterReducer } from './../core/store/reducers/parameter/parameter.reducer';
 import { SharedModule } from './../shared/shared.module';
-import { ParametersRoutingModule } from './parameters-routing.module';
 import { ParametersComponent } from './parameters.component';
+import { ParametersRoutingModule } from './parameters-routing.module';
 
 @NgModule({
   declarations: [ParametersComponent],

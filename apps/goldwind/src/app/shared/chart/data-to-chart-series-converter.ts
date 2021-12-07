@@ -1,9 +1,10 @@
-import { CenterLoadStatus, Control, Type } from '../models';
+import { SeriesOption } from 'echarts';
+
+import { EdmStatus } from '../../core/store/reducers/edm-monitor/models';
 import { GcmStatus } from '../../core/store/reducers/grease-status/models/grease-status.model';
 import { LoadSense } from '../../core/store/reducers/load-sense/models';
 import { ShaftStatus } from '../../core/store/reducers/shaft/models';
-import { SeriesOption } from 'echarts';
-import { EdmStatus } from '../../core/store/reducers/edm-monitor/models';
+import { CenterLoadStatus, Control, Type } from '../models';
 
 export class DataToChartSeriesConverter {
   /**

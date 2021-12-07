@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
 import { SensorComponent } from './sensor.component';
-import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   declarations: [SensorComponent],
   imports: [

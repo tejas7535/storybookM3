@@ -15,8 +15,8 @@ import {
   getGreaseTimeStamp,
 } from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
-import { Sensor } from '../../../shared/sensor/sensor.enum';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
+import { Sensor } from '../../../shared/sensor/sensor.enum';
 
 @Component({
   selector: 'goldwind-grease-monitor',

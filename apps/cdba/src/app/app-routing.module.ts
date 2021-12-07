@@ -3,9 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
-import { BasicRoleGuard, DescriptiveRoleGuard } from './core/auth';
-
 import { AppRoutePath } from './app-route-path.enum';
+import { BasicRoleGuard, DescriptiveRoleGuard } from './core/auth';
 
 export const appRoutes: Routes = [
   {

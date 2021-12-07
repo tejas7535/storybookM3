@@ -12,6 +12,10 @@ import {
   RowSelectedEvent,
   SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
+import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
+import { ReferenceType } from '@cdba/shared/models';
+import { AgGridStateService } from '@cdba/shared/services';
+import { CALCULATIONS_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -22,11 +26,6 @@ import { MockModule } from 'ng-mocks';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
-import { ReferenceType } from '@cdba/shared/models';
-import { AgGridStateService } from '@cdba/shared/services';
-import { CALCULATIONS_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';

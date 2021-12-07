@@ -8,22 +8,22 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import { ChartState } from '../../../shared/chart/chart.state';
 import * as fromBearing from './bearing/bearing.reducer';
+import * as fromCenterLoad from './center-load/center-load.reducer';
 import * as fromDataView from './data-view/data-view.reducer';
 import * as fromDevices from './devices/devices.reducer';
-import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromEdmHistogram from './edm-monitor/edm-histogram.reducer';
+import { EdmHistogramState } from './edm-monitor/edm-histogram.reducer';
+import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromGreaseHeatmapStatus from './grease-status/heatmap.reducer';
 import * as fromLoadAssement from './load-assessment/load-assessment.reducer';
 import * as fromLoadDistribution from './load-distribution/load-distribution.reducer';
 import * as fromLoadSense from './load-sense/load-sense.reducer';
-import * as fromCenterLoad from './center-load/center-load.reducer';
+import { MaintenanceAssessmentDisplay } from './maintenance-assessment/maintenance.assessment.model';
 import * as fromShaft from './shaft/shaft.reducer';
 import * as fromStaticSafety from './static-safety/static-safety.reducer';
-import { ChartState } from '../../../shared/chart/chart.state';
-import { MaintenanceAssessmentDisplay } from './maintenance-assessment/maintenance.assessment.model';
-import { EdmHistogramState } from './edm-monitor/edm-histogram.reducer';
 
 export interface RouterStateUrl {
   url: string;

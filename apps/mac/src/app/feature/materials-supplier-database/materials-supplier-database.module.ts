@@ -9,8 +9,8 @@ import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
+import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { DataEffects } from './store/effects/data.effects';
 import { reducers } from './store/reducers';
 

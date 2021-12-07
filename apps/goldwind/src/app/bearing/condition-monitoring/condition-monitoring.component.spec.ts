@@ -1,20 +1,20 @@
 import { MatCardModule } from '@angular/material/card';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
+import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { ShaftModule } from './shaft/shaft.module';
 import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/static-saftey-factor-monitor.module';
-import { MatIconTestingModule } from '@angular/material/icon/testing';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;

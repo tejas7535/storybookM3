@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { defer, Observable, of, map, switchMap } from 'rxjs';
+import { defer, map, Observable, of, switchMap } from 'rxjs';
+
 import {
   BearinxDataTableDescription,
   BearinxExpressionDataType,
@@ -13,7 +14,6 @@ import {
   TableColumnType,
 } from '@caeonline/dynamic-forms';
 
-import { RestService } from '../';
 import {
   IDMM_BEARING_SEAT,
   IDMM_HYDRAULIC_NUT_TYPE,
@@ -29,6 +29,7 @@ import {
   TBL_SHAFT_MATERIAL,
 } from '../../../shared/constants/dialog-constant';
 import { MMBearingPreflightField } from '../../../shared/models';
+import { RestService } from '../';
 
 @Injectable()
 export class RuntimeRequesterService implements RuntimeRequester {

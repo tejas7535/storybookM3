@@ -1,5 +1,3 @@
-import { AuthState } from '@schaeffler/azure-auth';
-
 import { AuthRoles } from '@cdba/core/auth/models/auth.models';
 import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
 import { initialState as initialStateRoles } from '@cdba/core/store/reducers/roles/roles.reducer';
@@ -10,6 +8,8 @@ import {
   ROLES_STATE_ERROR_MOCK,
   ROLES_STATE_SUCCESS_MOCK,
 } from '@cdba/testing/mocks';
+
+import { AuthState } from '@schaeffler/azure-auth';
 
 import {
   getHasDescriptiveRoles,

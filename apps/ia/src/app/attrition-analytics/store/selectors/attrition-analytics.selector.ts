@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
 
-import { AttritionAnalyticsState, selectAttritionAnalyticsState } from '..';
 import { Color } from '../../../shared/models/color.enum';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
+import { AttritionAnalyticsState, selectAttritionAnalyticsState } from '..';
 import {
   mapEmployeeAnalyticsFeatureToBarChartConfig,
   mapToFeatureSelectors,

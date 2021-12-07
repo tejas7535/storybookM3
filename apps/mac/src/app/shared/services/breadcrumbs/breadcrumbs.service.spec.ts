@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { RouteNames } from '../../../app-routing.enum';
 
+import { RouteNames } from '../../../app-routing.enum';
 import { BreadcrumbsService } from './breadcrumbs.service';
 
 describe('BreadcrumbsService', () => {

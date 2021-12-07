@@ -2,9 +2,9 @@ import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ApplicationInsightsModule } from './application-insights.module';
 import { ApplicationInsightsErrorHandlerService } from './application-insights-error-handler.service';
 import { ApplicationInsightsModuleConfig } from './application-insights-module-config';
-import { ApplicationInsightsModule } from './application-insights.module';
 import { NGRX_IGNORE_PATTERN } from './ngrx-ignore-pattern';
 
 const baseModuleConfiguration: ApplicationInsightsModuleConfig = {

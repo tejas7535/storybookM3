@@ -1,7 +1,8 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
+
 import * as U from '../../../../shared/store/utils.reducer';
 import * as A from '../../actions/load-distribution/load-distribution.actions';
+import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
 import { LoadSense } from '../load-sense/models';
 
 export interface LoadDistributionState {

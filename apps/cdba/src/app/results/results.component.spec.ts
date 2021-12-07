@@ -1,23 +1,21 @@
 import { Router } from '@angular/router';
-import { ReactiveComponentModule } from '@ngrx/component';
-
-import { marbles } from 'rxjs-marbles/jest';
-
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
-
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
 import { PageHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles/jest';
+
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
 import { ResultsComponent } from './results.component';

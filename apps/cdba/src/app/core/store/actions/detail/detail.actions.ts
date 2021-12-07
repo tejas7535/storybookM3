@@ -1,5 +1,3 @@
-import { createAction, props, union } from '@ngrx/store';
-
 import {
   BomIdentifier,
   BomItem,
@@ -7,6 +5,7 @@ import {
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { createAction, props, union } from '@ngrx/store';
 
 import { ReferenceTypeResult } from '../../reducers/detail/models';
 

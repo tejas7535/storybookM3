@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
+import { Component } from '@angular/core';
+
 import { translate } from '@ngneat/transloco';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 @Component({
   selector: 'goldwind-legal',
   templateUrl: './legal.component.html',

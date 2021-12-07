@@ -5,9 +5,9 @@ import { TestBed } from '@angular/core/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService } from '@schaeffler/http';
+
 import { environment } from '../../../environments/environment';
 import { IAGGREGATIONTYPE } from '../../shared/models';
-
 import { IotParams, RestService } from './rest.service';
 
 describe('Rest Service', () => {

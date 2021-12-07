@@ -15,11 +15,11 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
 import {
   HARDNESS_CONVERSION_ERROR_MOCK,
   HARDNESS_CONVERSION_MOCK,
 } from '../../../testing/mocks/hardness-conversion.mock';
+import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from '../../shared/shared.module';
 import { HardnessConverterComponent } from './hardness-converter.component';

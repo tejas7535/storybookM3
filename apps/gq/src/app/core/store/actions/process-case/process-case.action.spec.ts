@@ -1,13 +1,13 @@
 import {
-  refreshSapPricing,
-  refreshSapPricingFailure,
-  refreshSapPricingSuccess,
-} from '..';
-import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import {
+  refreshSapPricing,
+  refreshSapPricingFailure,
+  refreshSapPricingSuccess,
+} from '..';
 import {
   addMaterials,
   CaseActions,

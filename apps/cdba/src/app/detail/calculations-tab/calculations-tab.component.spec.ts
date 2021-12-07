@@ -1,11 +1,10 @@
+import { CalculationsTableModule } from '@cdba/shared/components';
+import { Calculation } from '@cdba/shared/models';
+import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
-
-import { CalculationsTableModule } from '@cdba/shared/components';
-import { Calculation } from '@cdba/shared/models';
-import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { selectCalculations } from '../../core/store';
 import { CustomStatusBarModule } from '../../shared/components/table/custom-status-bar/custom-status-bar.module';

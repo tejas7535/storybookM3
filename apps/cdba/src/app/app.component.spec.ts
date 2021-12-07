@@ -2,21 +2,19 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { MockModule } from 'ng-mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
-import { AppShellModule } from '@schaeffler/app-shell';
-
-import { ROLES_STATE_SUCCESS_MOCK } from '@cdba/testing/mocks';
-
 import {
   BrowserSupportModule,
   LoadingSpinnerModule,
   RoleDescriptionsModule,
   UserSettingsModule,
 } from '@cdba/shared/components';
+import { ROLES_STATE_SUCCESS_MOCK } from '@cdba/testing/mocks';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
+
+import { AppShellModule } from '@schaeffler/app-shell';
 
 import { AppComponent } from './app.component';
 

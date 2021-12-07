@@ -9,8 +9,8 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { SharedModule } from '../../';
 import { CUSTOMER_MOCK } from '../../../../testing/mocks';
+import { SharedModule } from '../../';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { CustomerHeaderComponent } from './customer-header.component';
 

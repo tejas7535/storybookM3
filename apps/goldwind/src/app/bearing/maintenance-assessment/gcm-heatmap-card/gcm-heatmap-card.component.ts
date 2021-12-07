@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+
+import { Observable } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 import { format } from 'date-fns';
 import { EChartsOption } from 'echarts';
-import { Observable } from 'rxjs';
+
 import {
   getGCHeatmapGraph,
   getGCHeatmapLoading,

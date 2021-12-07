@@ -1,4 +1,5 @@
 import { EChartsOption, GaugeSeriesOption } from 'echarts';
+
 import { GaugeColors } from './chart';
 import { GaugeEchartConfig } from './gauge-chart';
 

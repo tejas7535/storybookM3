@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import { ICellRendererParams } from '@ag-grid-community/core/dist/cjs/rendering/cellRenderers/iCellRenderer';
-
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 
 import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';

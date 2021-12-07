@@ -7,22 +7,21 @@ import { Params, Router } from '@angular/router';
 import { exhaustMap, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { Store } from '@ngrx/store';
-
+import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { RoleFacade } from '@cdba/core/auth/role.facade';
+import { DetailService } from '@cdba/detail/service/detail.service';
+import { URL_FAQ } from '@cdba/shared/constants/urls';
 import {
   BomItem,
   Calculation,
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { translate } from '@ngneat/transloco';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
 
-import { URL_FAQ } from '@cdba/shared/constants/urls';
-import { AppRoutePath } from '@cdba/app-route-path.enum';
-import { DetailService } from '@cdba/detail/service/detail.service';
-import { RoleFacade } from '@cdba/core/auth/role.facade';
 import {
   loadBom,
   loadBomFailure,

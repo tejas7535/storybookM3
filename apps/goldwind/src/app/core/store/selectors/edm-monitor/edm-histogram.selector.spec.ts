@@ -1,5 +1,5 @@
-import { getEdmHeatmapSeries, getEdmHistogramResult } from '..';
 import { initialState } from '../../reducers/edm-monitor/edm-histogram.reducer';
+import { getEdmHeatmapSeries, getEdmHistogramResult } from '..';
 
 describe('Edm Historgram Selector', () => {
   const fakeState = {

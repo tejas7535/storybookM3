@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { RolesAndRightsModule } from '@schaeffler/roles-and-rights';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { RoleDescriptionsComponent } from './role-descriptions/role-descriptions.component';
 import { RoleDescriptionsDialogComponent } from './role-descriptions-dialog/role-descriptions-dialog.component';

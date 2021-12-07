@@ -19,8 +19,8 @@ import { SharedModule } from '../shared/shared.module';
 import { CoreModule } from './../core/core.module';
 import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { CalculationOptionsModule } from './calculation-options/calculations-options.module';
-import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
+import { HomeRoutingModule } from './home-routing.module';
 import { ResultPageModule } from './result-page/result-page.module';
 
 @NgModule({

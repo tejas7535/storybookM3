@@ -4,7 +4,6 @@ import {
   ClientSideRowModelModule,
   ColDef,
 } from '@ag-grid-enterprise/all-modules';
-
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { BomItem } from '@cdba/shared/models';
 

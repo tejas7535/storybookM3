@@ -1,10 +1,11 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
+import { BannerTextModule } from './banner-text/banner-text.module';
 import { closeBanner, toggleFullText } from './store/actions/banner.actions';
 import { initialState } from './store/reducers/banner.reducer';
 

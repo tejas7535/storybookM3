@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
-import { getGreaseHeatmapStatusState as reducer } from '../../reducers';
-import * as U from '../../../../shared/store/utils.selector';
+
 import { GCMHeatmapEntry } from '../../../../shared/models';
+import * as U from '../../../../shared/store/utils.selector';
+import { getGreaseHeatmapStatusState as reducer } from '../../reducers';
 import { HeatmapResponseConvert } from './heatmap-response-series-converter';
 
 export const getGCHeatmapResult = createSelector(

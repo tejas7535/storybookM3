@@ -1,5 +1,6 @@
 import { translate, TranslateParams } from '@ngneat/transloco';
 import { EChartsOption } from 'echarts';
+
 import { GaugeColors, GREASE_GAUGE_SERIES } from './chart';
 import { IThreshold } from './gauge-config.interface';
 

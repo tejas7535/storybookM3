@@ -4,11 +4,10 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { marbles } from 'rxjs-marbles/jest';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -18,8 +17,8 @@ import {
   getAttritionOverTimeOrgChartData,
   getIsLoadingAttritionOverTimeOrgChart,
 } from '../store/selectors/organizational-view.selector';
-import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
 import { AttritionDialogComponent } from './attrition-dialog.component';
+import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
 
 describe('AttritionDialogComponent', () => {
   let component: AttritionDialogComponent;

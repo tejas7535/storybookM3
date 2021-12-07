@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { attritionAnalyticsReducer, initialState, reducer } from '.';
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import { FeatureParams } from '../models/feature-params.model';
+import { attritionAnalyticsReducer, initialState, reducer } from '.';
 import {
   changeSelectedFeatures,
   loadAvailableFeatures,

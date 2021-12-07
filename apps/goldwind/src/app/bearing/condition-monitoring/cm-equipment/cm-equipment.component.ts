@@ -5,15 +5,15 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { TAB_TYPE } from './tabtype.enum';
 import { getBearingLoading } from '../../../core/store';
 import { BearingMetadata } from '../../../core/store/reducers/bearing/models';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { TAB_TYPE } from './tabtype.enum';
 
 interface BearingProperties {
   name: string;

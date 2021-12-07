@@ -1,25 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
-import { BearingMetadata } from '../store/reducers/bearing/models';
-import { SensorData } from '../store/reducers/data-view/models';
-import { Device } from '../store/reducers/devices/models';
-import { EdmStatus } from '../store/reducers/edm-monitor/models';
-import { GcmStatus } from '../store/reducers/grease-status/models';
-import { LoadSense } from '../store/reducers/load-sense/models';
-import { ShaftStatus } from '../store/reducers/shaft/models';
-import { StaticSafetyStatus } from '../store/reducers/static-safety/models';
+import { environment } from '../../../environments/environment';
 import {
   CenterLoadStatus,
   GCMHeatmapEntry,
   GWParams,
   IAGGREGATIONTYPE,
 } from '../../shared/models';
+import { BearingMetadata } from '../store/reducers/bearing/models';
+import { SensorData } from '../store/reducers/data-view/models';
+import { Device } from '../store/reducers/devices/models';
 import { EdmHistogram } from '../store/reducers/edm-monitor/edm-histogram.reducer';
+import { EdmStatus } from '../store/reducers/edm-monitor/models';
+import { GcmStatus } from '../store/reducers/grease-status/models';
+import { LoadSense } from '../store/reducers/load-sense/models';
+import { ShaftStatus } from '../store/reducers/shaft/models';
+import { StaticSafetyStatus } from '../store/reducers/static-safety/models';
 import { LoadDistribution } from '../store/selectors/load-distribution/load-distribution.interface';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 
 export interface IotParams {
   id: string;

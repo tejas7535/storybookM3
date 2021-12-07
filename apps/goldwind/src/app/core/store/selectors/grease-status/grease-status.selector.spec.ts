@@ -3,10 +3,10 @@ import { initialState } from '../../reducers/bearing/bearing.reducer';
 import { GreaseSensorName } from '../../reducers/grease-status/models';
 import {
   getGreaseStatusLatestDeteriorationGraphData,
-  getGreaseStatusLatestTemperatureOpticsGraphData,
-  getGreaseStatusLatestWaterContentGraphData,
   getGreaseStatusLatestLoading,
   getGreaseStatusLatestResult,
+  getGreaseStatusLatestTemperatureOpticsGraphData,
+  getGreaseStatusLatestWaterContentGraphData,
   getGreaseStatusLoading,
   getGreaseStatusResult,
   getGreaseTimeStamp,

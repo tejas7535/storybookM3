@@ -3,11 +3,11 @@
     "esbenp.prettier-vscode",
     "mkaufman.htmlhint",
     "stylelint.vscode-stylelint",
-    "rbbit.typescript-hero",
     "dzhavat.rxjs-cheatsheet",
     "nrwl.angular-console",
     "firsttris.vscode-jest-runner",
     "dbaeumer.vscode-eslint",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "rvest.vs-code-prettier-eslint"
   ]
 }

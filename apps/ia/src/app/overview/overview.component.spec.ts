@@ -1,9 +1,8 @@
-import { marbles } from 'rxjs-marbles/jest';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { OverviewComponent } from './overview.component';

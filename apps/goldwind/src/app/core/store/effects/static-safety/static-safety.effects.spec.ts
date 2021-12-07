@@ -1,26 +1,25 @@
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
-import { StaticSafetyEffects } from '..';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
+import { RestService } from '../../../http/rest.service';
 import {
   getStaticSafetyId,
   getStaticSafetyLatest,
   stopGetStaticSafetyLatest,
 } from '../..';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import {
   getStaticSafetyLatestFailure,
   getStaticSafetyLatestSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
 import { StaticSafetyStatus } from '../../reducers/static-safety/models/static-safety.model';
+import { StaticSafetyEffects } from '..';
 
 describe('StaticSafetyEffects', () => {
   let spectator: SpectatorService<StaticSafetyEffects>;

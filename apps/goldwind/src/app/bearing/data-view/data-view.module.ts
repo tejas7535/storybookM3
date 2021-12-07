@@ -19,8 +19,8 @@ import { dataViewReducer } from '../../core/store/reducers/data-view/data-view.r
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { SharedModule } from '../../shared/shared.module';
-import { DataViewRoutingModule } from './data-view-routing.module';
 import { DataViewComponent } from './data-view.component';
+import { DataViewRoutingModule } from './data-view-routing.module';
 
 @NgModule({
   declarations: [DataViewComponent],

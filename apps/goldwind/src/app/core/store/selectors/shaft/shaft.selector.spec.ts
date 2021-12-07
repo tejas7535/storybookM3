@@ -1,4 +1,5 @@
 import { GaugeSeriesOption, SeriesOption } from 'echarts';
+
 import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { initialState, ShaftState } from '../../reducers/shaft/shaft.reducer';
 import {

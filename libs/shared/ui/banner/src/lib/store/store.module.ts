@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 
 import { reducer } from './reducers/banner.reducer';

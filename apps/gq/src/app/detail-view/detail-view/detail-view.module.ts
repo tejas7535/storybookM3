@@ -8,14 +8,14 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { ShareButtonModule } from '@schaeffler/share-button';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import { SharedModule } from '../../shared';
 import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { DetailViewComponent } from './detail-view.component';
+import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
 

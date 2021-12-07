@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -7,7 +8,6 @@ import {
   mergeMap,
   withLatestFrom,
 } from 'rxjs/operators';
-import * as fromRouter from '../../reducers';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -16,6 +16,7 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
+import { getLoadAssessmentInterval } from '../..';
 import {
   getEdmFailure,
   getEdmMainteance,
@@ -29,10 +30,9 @@ import {
   getShaftSuccess,
   setMaintenanceAssessmentInterval,
 } from '../../actions';
-import { of } from 'rxjs';
+import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
-import { getLoadAssessmentInterval } from '../..';
 import { actionInterval } from '../utils';
 
 @Injectable()

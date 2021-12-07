@@ -5,14 +5,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
 import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { selectCalculation } from '@cdba/core/store';
+import { Calculation } from '@cdba/shared/models';
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { selectCalculation } from '@cdba/core/store';
-import { Calculation } from '@cdba/shared/models';
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { LoadBomButtonComponent } from './load-bom-button.component';
 

@@ -2,9 +2,9 @@ import { createSelector } from '@ngrx/store';
 
 import { getLoadDistributionState } from '../..';
 import { LoadDistributionState } from '../../reducers/load-distribution/load-distribution.reducer';
-import { PolarSeriesGenerator } from './polar-series-generator.class';
-import { LoadDistribution } from './load-distribution.interface';
 import { LoadSense } from '../../reducers/load-sense/models';
+import { LoadDistribution } from './load-distribution.interface';
+import { PolarSeriesGenerator } from './polar-series-generator.class';
 
 export const sRow1 = createSelector(
   getLoadDistributionState,

@@ -3,8 +3,8 @@ import { CanActivate, CanActivateChild, Router } from '@angular/router';
 
 import { tap } from 'rxjs/operators';
 
-import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { EmptyStatesPath } from '@cdba/core/empty-states/empty-states-path.enum';
 
 import { RoleFacade } from '../role.facade';
 

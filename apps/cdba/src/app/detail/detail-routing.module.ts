@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DetailRoutePath } from './detail-route-path.enum';
-import { DetailComponent } from './detail.component';
 import { BasicRoleGuard, PricingRoleGuard } from '../core/auth';
+import { DetailComponent } from './detail.component';
+import { DetailRoutePath } from './detail-route-path.enum';
 
 const routes: Routes = [
   {

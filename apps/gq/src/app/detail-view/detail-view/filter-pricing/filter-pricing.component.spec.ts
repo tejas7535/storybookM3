@@ -21,8 +21,8 @@ import {
   UpdatePrice,
 } from '../../../shared/models/quotation-detail';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { FilterPricingComponent } from './filter-pricing.component';
+import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
 import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';

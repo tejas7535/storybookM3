@@ -1,12 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
+import { startOfDay, sub } from 'date-fns';
+
+import { ChartState } from '../../../../shared/chart/chart.state';
 import {
   setMaintenanceAssessmentDisplay,
   setMaintenanceAssessmentInterval,
 } from '../../actions';
-
-import { ChartState } from '../../../../shared/chart/chart.state';
 import { MaintenanceAssessmentDisplay } from './maintenance.assessment.model';
-import { startOfDay, sub } from 'date-fns';
 
 export const initialState: ChartState<MaintenanceAssessmentDisplay> = {
   display: {

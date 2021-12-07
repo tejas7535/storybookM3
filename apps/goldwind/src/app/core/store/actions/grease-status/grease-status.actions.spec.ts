@@ -1,3 +1,4 @@
+import { GcmStatus } from '../../reducers/grease-status/models';
 import {
   getGreaseStatus,
   getGreaseStatusFailure,
@@ -8,7 +9,6 @@ import {
   getGreaseStatusSuccess,
   stopGetGreaseStatusLatest,
 } from '..';
-import { GcmStatus } from '../../reducers/grease-status/models';
 
 describe('GreaseStatus Actions', () => {
   let deviceId: string;

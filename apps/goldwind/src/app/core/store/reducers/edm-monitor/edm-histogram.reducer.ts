@@ -1,10 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
+import * as U from '../../../../shared/store/utils.reducer';
 import {
   getEdmHistogram,
   getEdmHistogramFailure,
   getEdmHistogramSuccess,
 } from '../../actions/edm-monitor/edm-histogram.actions';
-import * as U from '../../../../shared/store/utils.reducer';
 
 export interface EdmHistogram {
   [x: string]: any;

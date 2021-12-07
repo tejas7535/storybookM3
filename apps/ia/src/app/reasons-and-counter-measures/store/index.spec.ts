@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-import { initialState, reasonsAndCounterMeasuresReducer, reducer } from '.';
 import { EmployeesRequest, TimePeriod } from '../../shared/models';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
+import { initialState, reasonsAndCounterMeasuresReducer, reducer } from '.';
 import {
   changeComparedFilter,
   changeComparedTimePeriod,

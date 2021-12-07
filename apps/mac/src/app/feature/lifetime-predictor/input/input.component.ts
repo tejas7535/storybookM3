@@ -25,8 +25,8 @@ import {
   CustomFormControl,
   InputCategory,
 } from './input.model';
-import { SelectControlOption } from './select/select-control-option.model';
 import { SelectControl } from './select/select-control.model';
+import { SelectControlOption } from './select/select-control-option.model';
 import { SliderControl } from './slider/slider.model';
 import { ToggleControl } from './toggle/toggle.model';
 

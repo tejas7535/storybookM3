@@ -1,22 +1,22 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { of } from 'rxjs';
-import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { marbles } from 'rxjs-marbles';
 
+import { SAP_PRICE_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { AppRoutePath } from '../../../../app-route-path.enum';
+import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
+import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import {
   loadSapPriceDetails,
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../..';
-import { SAP_PRICE_DETAIL_MOCK } from '../../../../../testing/mocks';
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
-import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import { SapPriceDetailsEffects } from './sap-price-details.effects';
 
 describe('SapPriceDetailsEffects', () => {

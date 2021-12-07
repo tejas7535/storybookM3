@@ -1,8 +1,7 @@
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { LabelValueModule } from '../label-value/label-value.module';
 import { CustomerComponent } from './customer.component';

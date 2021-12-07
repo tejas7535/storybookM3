@@ -19,7 +19,6 @@ import {
   SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
-
 import { arrayEquals } from '@cdba/shared/utils';
 
 import { Calculation } from '../../models';

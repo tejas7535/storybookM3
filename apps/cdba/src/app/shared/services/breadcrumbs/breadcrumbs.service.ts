@@ -4,13 +4,6 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { merge, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
-import { ComponentStore } from '@ngrx/component-store';
-import { concatLatestFrom } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
-
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getMaterialDesignation,
@@ -19,6 +12,12 @@ import {
 } from '@cdba/core/store';
 import { getEnv } from '@cdba/environments/environment.provider';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
+import { translate } from '@ngneat/transloco';
+import { ComponentStore } from '@ngrx/component-store';
+import { concatLatestFrom } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 export interface BreadcrumbState {
   search: Breadcrumb;

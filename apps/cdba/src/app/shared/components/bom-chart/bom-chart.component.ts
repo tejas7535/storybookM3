@@ -4,8 +4,8 @@ import {
   Input,
   OnChanges,
 } from '@angular/core';
-import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
 
+import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 
 import { BomItem } from '../../models';

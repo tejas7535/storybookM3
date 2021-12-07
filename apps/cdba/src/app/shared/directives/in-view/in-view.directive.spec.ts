@@ -1,5 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import {
   createDirectiveFactory,
   SpectatorDirective,

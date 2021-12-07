@@ -16,8 +16,8 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
-import { HttpErrorInterceptor } from '../core/http/interceptors/http-error.interceptor';
 import { AppComponent } from '../app.component';
+import { HttpErrorInterceptor } from '../core/http/interceptors/http-error.interceptor';
 import { StoreModule } from './store/store.module';
 
 @NgModule({

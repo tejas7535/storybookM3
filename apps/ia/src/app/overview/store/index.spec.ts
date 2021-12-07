@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { initialState, overviewReducer, OverviewState, reducer } from '.';
 import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import {
   FluctuationRatesChartData,
@@ -8,6 +7,7 @@ import {
   OverviewFluctuationRates,
   ResignedEmployee,
 } from '../models';
+import { initialState, overviewReducer, OverviewState, reducer } from '.';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,

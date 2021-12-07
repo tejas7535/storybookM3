@@ -1,5 +1,5 @@
-import { FilterItemType } from './filter-item-type.enum';
 import { FilterItem } from './filter-item.model';
+import { FilterItemType } from './filter-item-type.enum';
 
 export class FilterItemRange extends FilterItem {
   public constructor(

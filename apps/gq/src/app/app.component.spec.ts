@@ -1,11 +1,11 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { MockModule } from 'ng-mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { MaintenanceModule } from '@schaeffler/empty-states';

@@ -1,12 +1,12 @@
-import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { Injectable } from '@angular/core';
-import { translate } from '@ngneat/transloco';
 
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 import {
   ColumnUtilsService,
   scrambleMaterialDesignation,
   valueGetterDate,
 } from '@cdba/shared/components/table';
+import { translate } from '@ngneat/transloco';
 
 @Injectable({
   providedIn: 'root',

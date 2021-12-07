@@ -40,8 +40,8 @@ import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
-import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
+import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
 
 jest.mock('@ngneat/transloco', () => ({

@@ -4,12 +4,11 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
-import { Store } from '@ngrx/store';
-
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { getSelectedRefTypeNodeIds } from '@cdba/core/store';
 import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
 import { ReferenceType } from '@cdba/shared/models';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cdba-detail-view-button',

@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
+import { BannerTextModule } from './banner-text/banner-text.module';
 import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
 import { StoreModule } from './store/store.module';

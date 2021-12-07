@@ -1,10 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import {
   getStaticSafetyLatest,
   getStaticSafetyLatestFailure,
   getStaticSafetyLatestSuccess,
 } from '../../actions/static-safety/static-safety.actions';
-
 import { StaticSafetyStatus } from './models/static-safety.model';
 
 export interface StaticSafetyState {

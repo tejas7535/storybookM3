@@ -9,10 +9,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { HorizontalDividerModule } from '../../shared/components/horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
-import { CustomerInformationComponent } from './customer-information.component';
 import { BasicCustomerComponent } from './basic-customer/basic-customer.component';
-import { SalesforceComponent } from './salesforce/salesforce.component';
+import { CustomerInformationComponent } from './customer-information.component';
 import { KeyaccountComponent } from './keyaccount/keyaccount.component';
+import { SalesforceComponent } from './salesforce/salesforce.component';
 
 @NgModule({
   declarations: [

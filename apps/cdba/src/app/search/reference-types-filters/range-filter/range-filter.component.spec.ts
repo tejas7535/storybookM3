@@ -8,14 +8,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
 import { InputType } from './input-type.enum';
-import { RangeFilterValuePipe } from './range-filter-value.pipe';
 import { RangeFilterComponent } from './range-filter.component';
-import { TranslocoService } from '@ngneat/transloco';
+import { RangeFilterValuePipe } from './range-filter-value.pipe';
 
 const mockedTranslate = jest.fn();
 

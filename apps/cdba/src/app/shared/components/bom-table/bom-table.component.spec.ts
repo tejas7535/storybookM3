@@ -10,16 +10,14 @@ import {
   RowClickedEvent,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { ColumnUtilsService } from '@cdba/shared/components/table';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-
-import { ColumnUtilsService } from '@cdba/shared/components/table';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-
-import { MaterialNumberModule } from '@cdba/shared/pipes';
 
 import { BomItem } from '../../models';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';

@@ -8,10 +8,10 @@ import { translate } from '@ngneat/transloco';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 
-import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { Employee } from '../../shared/models';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 

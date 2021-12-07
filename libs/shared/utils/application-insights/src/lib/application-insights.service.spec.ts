@@ -13,8 +13,8 @@ import { of, ReplaySubject } from 'rxjs';
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
 import { ApplicationInsightsService } from './application-insights.service';
+import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 

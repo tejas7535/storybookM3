@@ -8,9 +8,9 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { FilterModule } from '../../shared/filter/filter.module';
 import { SharedModule } from '../../shared/shared.module';
+import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
 import { ReasonsForLeavingChartModule } from './reasons-for-leaving-chart/reasons-for-leaving-chart.module';
 import { ReasonsForLeavingTableModule } from './reasons-for-leaving-table/reasons-for-leaving-table.module';
-import { ReasonsForLeavingComponent } from './reasons-for-leaving.component';
 
 @NgModule({
   declarations: [ReasonsForLeavingComponent],

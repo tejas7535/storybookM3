@@ -1,4 +1,3 @@
-import { GridOptions } from '@ag-grid-community/all-modules';
 import {
   Component,
   EventEmitter,
@@ -9,6 +8,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { GridOptions } from '@ag-grid-community/all-modules';
 import {
   ClientSideRowModelModule,
   ClipboardModule,
@@ -29,12 +29,11 @@ import {
   StatusBarModule,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
-import { translate } from '@ngneat/transloco';
-
 import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 import { arrayEquals } from '@cdba/shared/utils';
+import { translate } from '@ngneat/transloco';
 
 import {
   getMainMenuItems,

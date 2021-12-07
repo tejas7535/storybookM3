@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 
 import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
 import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
-import { Store } from '@ngrx/store';
-
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'cdba-load-bom-button',

@@ -1,8 +1,8 @@
 // eslint-disable  import/order
-import { LicenseManager } from '@ag-grid-enterprise/all-modules';
-
 import '../../../global-mocks';
 import 'jest-preset-angular/setup-jest';
+
+import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 import { TranslocoModule } from '@ngneat/transloco';
 
 jest.mock('@ngneat/transloco', () => ({

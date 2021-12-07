@@ -1,9 +1,8 @@
-import { marbles } from 'rxjs-marbles/marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';

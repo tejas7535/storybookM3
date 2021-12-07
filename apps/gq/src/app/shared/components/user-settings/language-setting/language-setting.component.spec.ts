@@ -5,9 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { MockModule } from 'ng-mocks';
 
 import { SharedModule } from '../../../shared.module';
 import { LanguageSettingComponent } from './language-setting.component';

@@ -8,11 +8,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { SnackBarData } from './snackbar-data.model';
-import { SnackBarType } from './snackbar-type.enum';
 import { SnackBarComponent } from './snackbar.component';
 import { SnackBarModule } from './snackbar.module';
 import { SnackBarService } from './snackbar.service';
+import { SnackBarData } from './snackbar-data.model';
+import { SnackBarType } from './snackbar-type.enum';
 
 describe('SnackBarService', () => {
   let snackBarService: SnackBarService;

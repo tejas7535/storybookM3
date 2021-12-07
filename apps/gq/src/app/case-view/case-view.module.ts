@@ -18,8 +18,8 @@ import { CreateCustomerCaseModule } from './case-creation/create-customer-case/c
 import { CreateManualCaseModule } from './case-creation/create-manual-case/create-manual-case.module';
 import { ImportCaseModule } from './case-creation/import-case/import-case.module';
 import { CaseTableModule } from './case-table/case-table.module';
-import { CaseViewRoutingModule } from './case-view-routing.module';
 import { CaseViewComponent } from './case-view.component';
+import { CaseViewRoutingModule } from './case-view-routing.module';
 
 @NgModule({
   declarations: [CaseViewComponent],

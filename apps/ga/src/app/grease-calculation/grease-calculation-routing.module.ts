@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ParameterGuard, ResultGuard } from '../core/guards';
-import { GreaseCalculationPath } from './grease-calculation-path.enum';
 import { GreaseCalculationComponent } from './grease-calculation.component';
+import { GreaseCalculationPath } from './grease-calculation-path.enum';
 
 const routes: Routes = [
   {

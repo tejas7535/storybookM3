@@ -1,3 +1,5 @@
+import { LOAD_SENSE } from '../../../../../testing/mocks';
+import { LoadSense } from '../../reducers/load-sense/models';
 import {
   getBearingLoad,
   getBearingLoadFailure,
@@ -10,8 +12,6 @@ import {
   getLoadAverageSuccess,
   getLoadId,
 } from '..';
-import { LOAD_SENSE } from '../../../../../testing/mocks';
-import { LoadSense } from '../../reducers/load-sense/models';
 
 describe('LoadSense Actions', () => {
   let deviceId: string;

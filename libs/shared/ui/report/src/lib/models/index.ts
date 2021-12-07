@@ -1,4 +1,5 @@
 export * from './content.model';
+export * from './dummy.const';
 export * from './identifier.enum';
 export * from './json-table.model';
 export * from './report.model';
@@ -6,4 +7,3 @@ export * from './subordinate.model';
 export * from './table-item.model';
 export * from './title.enum';
 export * from './type.enum';
-export * from './dummy.const';

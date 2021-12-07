@@ -1,21 +1,21 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RoleDescriptionsService } from '@cdba/core/auth/services/role-descriptions.service';
-import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
+
 import { of } from 'rxjs';
 
+import { RoleDescriptionsService } from '@cdba/core/auth/services/role-descriptions.service';
+import { ROLE_DESCRIPTIONS_MOCK } from '@cdba/testing/mocks';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
-
-import { ROLE_DESCRIPTIONS_MOCK } from '@cdba/testing/mocks';
 
 import {
   loadRoleDescriptions,

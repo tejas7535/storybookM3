@@ -2,16 +2,16 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import {
-  ReasonsAndCounterMeasuresState,
-  selectReasonsAndCounterMeasuresState,
-} from '..';
-import {
   getBeautifiedSelectedTimeRange,
   getSelectedTimePeriod,
 } from '../../../core/store/selectors';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import { EmployeesRequest, TimePeriod } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
+import {
+  ReasonsAndCounterMeasuresState,
+  selectReasonsAndCounterMeasuresState,
+} from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
 export const getComparedSelectedOrgUnit = createSelector(

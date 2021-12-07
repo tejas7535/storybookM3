@@ -8,8 +8,8 @@ import {
   YAXisComponentOption,
 } from 'echarts';
 
-import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';

@@ -3,8 +3,8 @@ import { MatCardModule } from '@angular/material/card';
 
 import { BomContainerModule } from '@cdba/shared/components';
 
-import { BomCompareTabRoutingModule } from './bom-compare-tab-routing.module';
 import { BomCompareTabComponent } from './bom-compare-tab.component';
+import { BomCompareTabRoutingModule } from './bom-compare-tab-routing.module';
 
 @NgModule({
   declarations: [BomCompareTabComponent],

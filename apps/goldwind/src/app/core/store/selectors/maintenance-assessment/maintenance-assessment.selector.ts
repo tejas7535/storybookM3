@@ -1,17 +1,18 @@
 import { createSelector } from '@ngrx/store';
-import { getGreaseStatusResult } from '..';
+import { EChartsOption } from 'echarts';
+
+import { ChartState } from '../../../../shared/chart/chart.state';
 import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { MAINTENACE_ASSESSMENT_CONTROLS } from '../../../../shared/constants/maintenance-assessment-controls';
 import { getMaintenanceAssessmentState } from '../../reducers';
-import { GcmStatus } from '../../reducers/grease-status/models';
-import { ChartState } from '../../../../shared/chart/chart.state';
-import { MaintenanceAssessmentDisplay } from '../../reducers/maintenance-assessment/maintenance.assessment.model';
-import { Interval } from '../../reducers/shared/models';
-import { EChartsOption } from 'echarts';
-import { getEdmResult } from '../edm-monitor/edm-monitor.selector';
 import { EdmStatus } from '../../reducers/edm-monitor/models';
-import { getShaftResult } from '../shaft/shaft.selector';
+import { GcmStatus } from '../../reducers/grease-status/models';
+import { MaintenanceAssessmentDisplay } from '../../reducers/maintenance-assessment/maintenance.assessment.model';
 import { ShaftStatus } from '../../reducers/shaft/models';
+import { Interval } from '../../reducers/shared/models';
+import { getGreaseStatusResult } from '..';
+import { getEdmResult } from '../edm-monitor/edm-monitor.selector';
+import { getShaftResult } from '../shaft/shaft.selector';
 
 type DisplayOption = [any, boolean];
 

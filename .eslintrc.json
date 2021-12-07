@@ -1,5 +1,10 @@
 {
   "root": true,
+  "settings": {
+    "jest": {
+      "version": 27
+    }
+  },
   "ignorePatterns": ["**/*"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@nrwl/nx", "@typescript-eslint"],
@@ -46,7 +51,8 @@
       "plugins": [
         "eslint-plugin-unicorn",
         "eslint-plugin-prefer-arrow",
-        "eslint-plugin-import"
+        "eslint-plugin-import",
+        "simple-import-sort"
       ],
       "extends": [
         "eslint:recommended",
@@ -205,29 +211,22 @@
         "@typescript-eslint/indent": "off",
         /** Other performance recommendations  **/
         "import/no-unassigned-import": "off",
-        "import/order": [
-          "off",
+        "ngrx/avoid-dispatching-multiple-actions-sequentially": "off",
+        "simple-import-sort/imports": [
+          "error",
           {
-            "pathGroups": [
-              {
-                "pattern": "@angular/*",
-                "group": "external"
-              },
-              {
-                "pattern": "rxjs/*",
-                "group": "external"
-              },
-              {
-                "pattern": "@schaeffler/*",
-                "group": "external"
-              }
-            ],
-            "newlines-between": "always",
-            "alphabetize": { "order": "asc", "caseInsensitive": true }
+            "groups": [
+              ["^\\u0000"], // side effect imports
+              ["^@angular(/.*|$)"],
+              ["^rxjs(/.*|$)"],
+              ["^@?\\w"], // packages
+              ["^@schaeffler(/.*|$)"],
+              ["^"], // absolute imports, everything that does not match sth else
+              ["^\\."] // relative imports
+            ]
           }
         ],
-
-        "ngrx/avoid-dispatching-multiple-actions-sequentially": "off"
+        "simple-import-sort/exports": "error"
       }
     },
     {

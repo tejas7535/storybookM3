@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+
+import { catchError, map, Observable, throwError } from 'rxjs';
+
 import { TranslocoService } from '@ngneat/transloco';
 
-import { Observable, throwError, catchError, map } from 'rxjs';
 import { Report, Result } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 

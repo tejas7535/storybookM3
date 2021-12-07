@@ -2,11 +2,9 @@
 import { Injectable } from '@angular/core';
 
 import { ColDef } from '@ag-grid-enterprise/all-modules';
-import { translate } from '@ngneat/transloco';
-
 import {
-  ColumnUtilsService,
   columnDefinitionToReferenceTypeProp,
+  ColumnUtilsService,
   currentYear,
   filterParamsForDecimalValues,
   formatLongValue,
@@ -15,6 +13,7 @@ import {
   valueGetterArray,
   valueGetterDate,
 } from '@cdba/shared/components/table';
+import { translate } from '@ngneat/transloco';
 
 @Injectable({
   providedIn: 'root',

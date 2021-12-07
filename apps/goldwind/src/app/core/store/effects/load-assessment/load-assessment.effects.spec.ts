@@ -1,14 +1,18 @@
-import { marbles } from 'rxjs-marbles';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { LOAD_SENSE } from '../../../../../testing/mocks';
 import { RestService } from '../../../http/rest.service';
+import {
+  getCenterLoad,
+  getCenterLoadSuccess,
+  getLoadDistributionLatestSuccess,
+} from '../../actions';
 import {
   getLoadAssessmentId,
   setLoadAssessmentInterval,
@@ -22,13 +26,8 @@ import {
 import * as fromRouter from '../../reducers';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { getLoadAssessmentInterval } from '../../selectors';
-import { LoadAssessmentEffects } from './load-assessment.effects';
-import {
-  getCenterLoad,
-  getCenterLoadSuccess,
-  getLoadDistributionLatestSuccess,
-} from '../../actions';
 import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
+import { LoadAssessmentEffects } from './load-assessment.effects';
 
 /* eslint-disable max-lines */
 describe('LoadAssessmentEffects', () => {

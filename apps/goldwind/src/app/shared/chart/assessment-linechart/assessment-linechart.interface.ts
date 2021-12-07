@@ -1,6 +1,9 @@
 import { FormGroup } from '@angular/forms';
-import { EChartsOption } from 'echarts';
+
 import { Observable } from 'rxjs';
+
+import { EChartsOption } from 'echarts';
+
 import { Interval } from '../../../core/store/reducers/shared/models';
 import { Control, SensorNode } from '../../models';
 

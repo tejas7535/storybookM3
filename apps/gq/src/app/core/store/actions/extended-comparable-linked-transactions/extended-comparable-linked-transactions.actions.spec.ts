@@ -1,10 +1,10 @@
+import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import {
   ExtendedComparableLinkedTransactionsActions,
   loadExtendedComparableLinkedTransaction,
   loadExtendedComparableLinkedTransactionFailure,
   loadExtendedComparableLinkedTransactionSuccess,
 } from './extended-comparable-linked-transactions.actions';
-import { ExtendedComparableLinkedTransaction } from '../../reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 
 describe('ExtendedComparableLinkedTransactionsActions', () => {
   let action: ExtendedComparableLinkedTransactionsActions;

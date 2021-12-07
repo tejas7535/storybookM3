@@ -10,6 +10,8 @@ import {
   IStatusPanelParams,
   ProcessHeaderForExportParams,
 } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-community/core';
+import { ProcessCellForExportParams } from '@ag-grid-community/core/dist/cjs/interfaces/exportParams';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -31,8 +33,6 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
-import { ColDef } from '@ag-grid-community/core';
-import { ProcessCellForExportParams } from '@ag-grid-community/core/dist/cjs/interfaces/exportParams';
 
 describe('ExportToExcelButtonComponent', () => {
   let component: ExportToExcelButtonComponent;

@@ -1,7 +1,6 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
-import { MaterialNumberModule } from '@cdba/shared/pipes';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer.component';
