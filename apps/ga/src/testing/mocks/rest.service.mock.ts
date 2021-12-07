@@ -2,6 +2,7 @@ import {
   CalculationParamters,
   EnvironmentImpact,
   Movement,
+  Property,
   ReportUrls,
   Result,
 } from '../../app/shared/models';
@@ -25,6 +26,35 @@ export const CALCULATION_PARAMETERS_MOCK: CalculationParamters = {
   idslC_TEMPERATURE: '20.0',
   idscO_INFLUENCE_OF_AMBIENT: EnvironmentImpact.moderate,
 };
+
+/* eslint-disable unicorn/numeric-separators-style, unicorn/no-zero-fractions */
+export const MOCK_PROPERTIES: Property[] = [
+  {
+    name: 'IDCO_IDENTIFICATION',
+    value: '1ea5c8b9-a564-4341-b4df-b0eb54a1f01d',
+  },
+  { name: 'IDCO_DESIGNATION', value: '6005' },
+  { name: 'IDL_CONSTRUCTIONTYPE', value: 'LB_RADIAL_RILLENKUGELLAGER' },
+  { name: 'IDL_SERIE', value: 'LB_60' },
+  { name: 'IDSU_DA', value: 47.0 },
+  { name: 'IDSU_DI', value: 25.0 },
+  { name: 'IDSU_B', value: 12.0 },
+  { name: 'IDL_RADIAL_INSTALLATION_CODE', value: 'IC_FIXED' },
+  { name: 'IDL_AXIAL_POSITIVE_INSTALLATION_CODE', value: 'IC_FIXED' },
+  { name: 'IDL_AXIAL_NEGATIVE_INSTALLATION_CODE', value: 'IC_FIXED' },
+  { name: 'IDCO_RADIAL_LOAD', value: 0.0, dimension1: 0 },
+  { name: 'IDCO_AXIAL_LOAD', value: 0.0, dimension1: 0 },
+  { name: 'IDL_RELATIVE_SPEED_WITHOUT_SIGN', value: 0.0, dimension1: 0 },
+  { name: 'IDL_AXIAL_LOAD_RELATED_FRICTION', value: 0.0, dimension1: 0 },
+  { name: 'IDL_LOAD_RELATED_FRICTION', value: 0.0, dimension1: 0 },
+  { name: 'IDLC_TYPE_OF_MOVEMENT', value: 'LB_ROTATING' },
+  { name: 'IDLC_OSCILLATION_ANGLE', value: 360.0000000000008 },
+  { name: 'IDLC_MOVEMENT_FREQUENCY', value: 0.0 },
+  { name: 'IDSLC_TEMPERATURE', value: 20.0 },
+  { name: 'IDSCO_OILTEMP', value: 70.0, dimension1: 0 },
+  { name: 'IDSCO_INFLUENCE_OF_AMBIENT', value: 'LB_AVERAGE_AMBIENT_INFLUENCE' },
+];
+/* eslint-enable unicorn/numeric-separators-style, unicorn/no-zero-fractions */
 
 export const MODEL_MOCK_ID = `7721e0d0-0dc6-4198-9ba4-cbeaef76cc2f`;
 

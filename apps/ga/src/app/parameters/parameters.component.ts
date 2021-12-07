@@ -23,10 +23,12 @@ import {
 } from './../core/store/reducers/parameter/parameter.reducer';
 import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
 import {
+  axialLoadPossible,
   getEnvironmentTemperatures,
   getLoadsInputType,
   getParameterUpdating,
   getSelectedMovementType,
+  radialLoadPossible,
 } from './../core/store/selectors/parameter/parameter.selector';
 import { EnvironmentImpact } from './../shared/models/parameters/environment-impact.model';
 import { Movement } from './../shared/models/parameters/movement.model';
@@ -150,6 +152,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public selectedMovementType$: Observable<string>;
   public loadsInputType$: Observable<boolean>;
   public parameterUpdating$: Observable<boolean>;
+  public radialLoadPossible$: Observable<boolean>;
+  public axialLoadPossible$: Observable<boolean>;
 
   private readonly destroy$ = new Subject<void>();
   public DEBOUNCE_TIME_DEFAULT = 500;
@@ -164,6 +168,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.selectedMovementType$ = this.store.select(getSelectedMovementType);
     this.loadsInputType$ = this.store.select(getLoadsInputType);
     this.parameterUpdating$ = this.store.select(getParameterUpdating);
+    this.radialLoadPossible$ = this.store.select(radialLoadPossible);
+    this.axialLoadPossible$ = this.store.select(axialLoadPossible);
 
     this.store
       .select(getParameterState)

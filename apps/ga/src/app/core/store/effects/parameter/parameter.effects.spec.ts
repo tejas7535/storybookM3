@@ -1,17 +1,22 @@
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import {
   CALCULATION_PARAMETERS_MOCK,
+  MOCK_PROPERTIES,
   MODEL_MOCK_ID,
 } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
 import {
+  getProperties,
+  getPropertiesSuccess,
   modelUpdateSuccess,
   patchParameters,
 } from '../../actions/parameters/parameters.actions';
@@ -28,7 +33,10 @@ describe('Parameter Effects', () => {
   let effects: ParameterEffects;
   let spectator: SpectatorService<ParameterEffects>;
   let restService: RestService;
+  let router: Router;
   let store: MockStore;
+
+  const mockUrl = '/grease-calculation/parameters';
 
   const createService = createServiceFactory({
     service: ParameterEffects,
@@ -59,8 +67,31 @@ describe('Parameter Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ParameterEffects);
-    store = spectator.inject(MockStore);
     restService = spectator.inject(RestService);
+    router = spectator.inject(Router);
+    store = spectator.inject(MockStore);
+
+    router.navigate = jest.fn();
+  });
+
+  describe('router$', () => {
+    it(
+      'should dispatch getCalculation',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
+
+        const result = getProperties();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.router$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('updateModel$', () => {
@@ -90,6 +121,31 @@ describe('Parameter Effects', () => {
         m.flush();
 
         expect(restService.putModelUpdate).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('properties$', () => {
+    it(
+      'should fetch grease calculation',
+      marbles((m) => {
+        const properties = MOCK_PROPERTIES;
+        const result = getPropertiesSuccess({ properties });
+
+        action = getProperties();
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: properties });
+
+        const expected = m.cold('--b', { b: result });
+
+        restService.getProperties = jest.fn(() => response);
+
+        m.expect(effects.properties$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getProperties).toHaveBeenCalled();
       })
     );
   });

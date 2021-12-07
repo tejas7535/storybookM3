@@ -1,4 +1,7 @@
-import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
+import {
+  MOCK_PROPERTIES,
+  MODEL_MOCK_ID,
+} from '../../../../../testing/mocks/rest.service.mock';
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {
@@ -6,12 +9,16 @@ import {
   ParameterState,
 } from './../../reducers/parameter/parameter.reducer';
 import {
+  axialLoadPossible,
   getCalculationParameters,
   getEnvironmentTemperatures,
+  getLoadDirections,
   getLoadsInputType,
   getParameterUpdating,
   getParameterValidity,
+  getProperties,
   getSelectedMovementType,
+  radialLoadPossible,
 } from './parameter.selector';
 
 describe('Parameter Selector', () => {
@@ -57,6 +64,68 @@ describe('Parameter Selector', () => {
   describe('getParameterUpdating', () => {
     it('should return update status of parameters', () => {
       expect(getParameterUpdating(mockState)).toEqual(false);
+    });
+  });
+
+  describe('getProperties', () => {
+    it('should return the properties of the model', () => {
+      const parameterMockState = {
+        ...mockState,
+        parameter: {
+          ...mockState.parameter,
+          properties: MOCK_PROPERTIES,
+        },
+      };
+
+      expect(getProperties(parameterMockState)).toEqual(MOCK_PROPERTIES);
+    });
+  });
+
+  describe('getLoadDirections', () => {
+    it('should return only the loadDirection properties', () => {
+      const parameterMockState = {
+        ...mockState,
+        parameter: {
+          ...mockState.parameter,
+          properties: MOCK_PROPERTIES,
+        },
+      };
+
+      const expectedResult = {
+        IDL_AXIAL_NEGATIVE_INSTALLATION_CODE: true,
+        IDL_AXIAL_POSITIVE_INSTALLATION_CODE: true,
+        IDL_RADIAL_INSTALLATION_CODE: true,
+      };
+
+      expect(getLoadDirections(parameterMockState)).toEqual(expectedResult);
+    });
+  });
+
+  describe('axialLoadPossible', () => {
+    it('should return if axial load is possible', () => {
+      const parameterMockState = {
+        ...mockState,
+        parameter: {
+          ...mockState.parameter,
+          properties: MOCK_PROPERTIES,
+        },
+      };
+
+      expect(axialLoadPossible(parameterMockState)).toEqual(true);
+    });
+  });
+
+  describe('radialLoadPossible', () => {
+    it('should return if radial load is possible', () => {
+      const parameterMockState = {
+        ...mockState,
+        parameter: {
+          ...mockState.parameter,
+          properties: MOCK_PROPERTIES,
+        },
+      };
+
+      expect(radialLoadPossible(parameterMockState)).toEqual(true);
     });
   });
 

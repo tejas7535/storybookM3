@@ -1,5 +1,12 @@
+import { MOCK_PROPERTIES } from '../../../../../testing/mocks/rest.service.mock';
 import { ParameterState } from '../../reducers/parameter/parameter.reducer';
-import { modelUpdateSuccess, patchParameters } from './parameters.actions';
+import {
+  getProperties,
+  getPropertiesFailure,
+  getPropertiesSuccess,
+  modelUpdateSuccess,
+  patchParameters,
+} from './parameters.actions';
 
 describe('Parameter Actions', () => {
   describe('Patch Parameters', () => {
@@ -20,6 +27,37 @@ describe('Parameter Actions', () => {
 
       expect(action).toEqual({
         type: '[Parameters] Model Update Success',
+      });
+    });
+  });
+
+  describe('Get Properties', () => {
+    it('getProperties', () => {
+      const action = getProperties();
+
+      expect(action).toEqual({
+        type: '[Parameters] Get Properties',
+      });
+    });
+  });
+
+  describe('[Parameters] Get Properties Success', () => {
+    it('getPropertiesSuccess', () => {
+      const action = getPropertiesSuccess({ properties: MOCK_PROPERTIES });
+
+      expect(action).toEqual({
+        type: '[Parameters] Get Properties Success',
+        properties: MOCK_PROPERTIES,
+      });
+    });
+  });
+
+  describe('Get Properties Failure', () => {
+    it('getPropertiesFailure', () => {
+      const action = getPropertiesFailure();
+
+      expect(action).toEqual({
+        type: '[Parameters] Get Properties Failure',
       });
     });
   });

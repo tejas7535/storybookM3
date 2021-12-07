@@ -37,6 +37,7 @@
           *ngIf="loadsInputType$ | ngrxPush; else exactValuesUnknown"
         >
           <ga-input
+            *ngIf="radialLoadPossible$ | ngrxPush"
             [control]="radial"
             [label]="t('radialLoad')"
             [unit]="t('loadUnit')"
@@ -44,6 +45,7 @@
             [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
           ></ga-input>
           <ga-input
+            *ngIf="axialLoadPossible$ | ngrxPush"
             [control]="axial"
             [label]="t('axialLoad')"
             [unit]="t('loadUnit')"

@@ -1,6 +1,10 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { EnvironmentImpact, Movement } from '../../../../shared/models';
+import {
+  EnvironmentImpact,
+  Movement,
+  Property,
+} from '../../../../shared/models';
 import * as ParametersActions from '../../actions/parameters/parameters.actions';
 import { RecursivePartial } from './../../../../shared/types/rescursive-partial.type';
 
@@ -32,6 +36,7 @@ export interface FullParameterState {
   };
   valid: boolean;
   updating: boolean;
+  properties: Property[];
 }
 
 export type ParameterState =
@@ -66,6 +71,7 @@ export const initialState: ParameterState = {
   },
   valid: false,
   updating: false,
+  properties: undefined,
 };
 
 export const parameterReducer = createReducer(
@@ -83,6 +89,13 @@ export const parameterReducer = createReducer(
     (state): ParameterState => ({
       ...state,
       updating: false,
+    })
+  ),
+  on(
+    ParametersActions.getPropertiesSuccess,
+    (state, { properties }): ParameterState => ({
+      ...state,
+      properties,
     })
   )
 );

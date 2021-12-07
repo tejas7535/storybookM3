@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
-import { CalculationParamters, Result } from '../../../shared/models';
+import { CalculationParamters, Property, Result } from '../../../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +20,12 @@ export class RestService {
           pattern: query,
         },
       }
+    );
+  }
+
+  public getProperties(modelId: string): Observable<Property[]> {
+    return this.httpClient.get<Property[]>(
+      `${environment.baseUrl}/${modelId}/properties`
     );
   }
 

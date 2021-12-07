@@ -1,8 +1,10 @@
 import { Action } from '@ngrx/store';
 
+import { MOCK_PROPERTIES } from '../../../../../testing/mocks/rest.service.mock';
 import { EnvironmentImpact } from '../../../../shared/models';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {
+  getPropertiesSuccess,
   modelUpdateSuccess,
   patchParameters,
 } from './../../actions/parameters/parameters.actions';
@@ -87,6 +89,20 @@ describe('Parameter Reducer', () => {
       const newState = parameterReducer(initialState, modelUpdateSuccess());
 
       expect(newState).toEqual({ ...initialState, updating: false });
+    });
+  });
+
+  describe('getPropertiesSuccess Action', () => {
+    it('should set the properties for the model', () => {
+      const newState = parameterReducer(
+        initialState,
+        getPropertiesSuccess({ properties: MOCK_PROPERTIES })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        properties: MOCK_PROPERTIES,
+      });
     });
   });
 });

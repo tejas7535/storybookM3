@@ -1,9 +1,18 @@
 import { createSelector } from '@ngrx/store';
 
-import { CalculationParamters } from '../../../../shared/models';
+import {
+  CalculationParamters,
+  InstallationMode,
+  LoadInstallation,
+  Property,
+} from '../../../../shared/models';
 import { getModelId, getSelectedBearing } from '..';
 import { getParameterState } from './../../reducers';
 import { ParameterState } from './../../reducers/parameter/parameter.reducer';
+
+interface LoadDirection {
+  [key: string]: boolean;
+}
 
 export const getSelectedMovementType = createSelector(
   getParameterState,
@@ -33,6 +42,41 @@ export const getParameterValidity = createSelector(
 export const getParameterUpdating = createSelector(
   getParameterState,
   (state: ParameterState): boolean => state?.updating
+);
+
+export const getProperties = createSelector(
+  getParameterState,
+  (state: ParameterState): Property[] => state?.properties as Property[]
+);
+
+export const getLoadDirections = createSelector(
+  getProperties,
+  (properties: Property[]): LoadDirection =>
+    properties
+      ?.filter(({ name }: Property) =>
+        Object.values(LoadInstallation).includes(name as LoadInstallation)
+      )
+      // eslint-disable-next-line unicorn/no-array-reduce
+      .reduce((loadDirections: LoadDirection, property: Property) => {
+        loadDirections[property.name] =
+          property.value === InstallationMode.fixed;
+
+        return loadDirections;
+      }, {})
+);
+
+export const axialLoadPossible = createSelector(
+  getLoadDirections,
+  (loadDirections: LoadDirection): boolean =>
+    loadDirections &&
+    (loadDirections[LoadInstallation.positiveAxial] ||
+      loadDirections[LoadInstallation.negativeAxial])
+);
+
+export const radialLoadPossible = createSelector(
+  getLoadDirections,
+  (loadDirections: LoadDirection): boolean =>
+    loadDirections && loadDirections[LoadInstallation.radial]
 );
 
 export const getCalculationParameters = createSelector(

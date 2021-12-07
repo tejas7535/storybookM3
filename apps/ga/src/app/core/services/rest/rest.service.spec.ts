@@ -6,11 +6,13 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { environment } from '../../../../environments/environment';
+import { Property } from '../../../shared/models';
 import {
   BEARING_SEARCH_RESULT_MOCK,
   CALCULATION_PARAMETERS_MOCK,
   CALCULATION_RESULT_MOCK,
   CALCULATION_RESULT_MOCK_ID,
+  MOCK_PROPERTIES,
   MODEL_MOCK_ID,
 } from './../../../../testing/mocks/rest.service.mock';
 import { RestService } from './rest.service';
@@ -48,6 +50,23 @@ describe('RestService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
+    });
+  });
+
+  describe('#getProperties', () => {
+    it('should get the properties for a model', (done) => {
+      const mockModelId = 'mockModelId';
+
+      service.getProperties(mockModelId).subscribe((result: Property[]) => {
+        expect(result).toEqual(MOCK_PROPERTIES);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${mockModelId}/properties`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(MOCK_PROPERTIES);
     });
   });
 
