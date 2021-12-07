@@ -69,10 +69,14 @@
       "anyLoad": "Eine Last muss angegeben werden"
     },
     "tooltip": {
-      "loads": "Die Grease App überprüft, ob das ausgewählte Lager Radial- bzw. Axiallasten übertragen kann. Falls die Übertragung von Lasten in radialer oder axialer Richtung nicht möglich ist, ist die entsprechende Lasteingabe deaktiviert.\n\nBei einigen Lagertypen muss das Verhältnis aus Axiallast und Radiallast einen gewissen Mindestwert aufweisen. So kann ein Kegelrollenlager oder ein Schrägkugellager nur dann Radiallast aufnehmen, wenn eine ausreichend hohe Axiallast vorliegt. Bitte beachten Sie die allgemeinen Informationen zu den Lagertypen im HR1-Katalog.",
-      "operatingTemperature": "Sollten Sie die vorliegende Betriebstemperatur nicht exakt kennen, tragen Sie bitte die geschätzte Betriebstemperatur ein. Eine Abweichung der Betriebstemperatur wirkt sich bei Multi-Purpose Greases (Mehrzweckfetten) in der Regel wie folgt aus (wenn die Temperatur oberhalb der Dauergrenztemperatur des Fettes liegt):\n\n• 15K höhere Temperatur: Verringerung der Fettgebrauchsdauer um ca. 50%\n• 10K höhere Temperatur: Verringerung der Fettgebrauchsdauer um ca. 35%\n• 5K höhere Temperatur: Verringerung der Fettgebrauchsdauer um ca. 20%\n\nEntsprechend reduziert sich auch die Nachschmierfrist bzw. es erhöht sich die automatische  Nachschmiermenge je Zeit.\n\nBitte nutzen Sie ggfs. die Funktion der Grease App, um durch Variation den Einfluss der Temperatur selbst besser einschätzen zu können.",
-      "rotationSpeed": "Bei der Relativdrehzahl handelt es sich um die Differenz zwischen der Innenring und der Außenringdrehzahl:\n\n• Bei stehendem Außenring: geben Sie bitte die Innenringdrehzahl ein.\n• Bei stehendem Innenring: geben Sie bitte die Außenringdrehzahl ein",
-      "oscillating": "Oszillierende Bewegungen beanspruchen das Schmierfett im Wälzkontakt stärker als rotative Bewegungen und werden deshalb mit dem Korrekturfaktor KR bei der Berechnung der Fettgebrauchsdauer und des Nachschmierintervalls berücksichtigt. Der Korrekturfaktor KR wirkt sich bei einem Schwenkwinkel kleiner 180° aus."
+      "radialLoad": "Last in radialer Richtung (Angabe als Betrag)",
+      "axialLoad": "Last in axialer Richtung (Angabe als Betrag)",
+      "rotationSpeed": "Relativdrehzahl zwischen Innenring und Außenring (Angabe als Betrag)",
+      "operatingTemperature": "Betriebstemperatur des Lagers (ggfs. bitte schätzen), zum Einfluss auf die Fettgebrauchsdauer siehe FAQs.",
+      "environmentTemperature": "Temperatur der Umgebung der Maschine",
+      "otherInfluences": "Faktor zum Einfluss von Feuchtigkeit, Rüttelkräften und Stößen auf die Fettgebrauchsdauer",
+      "shiftFrequency": "Anzahl der Schwenkbewegungen pro Minute (volle Bewegung, hin und her)",
+      "shiftAngle": "Winkel zwischen den Umkehrpunkten bei der Schwenkbewegung (Darstellung s. FAQs)"
     }
   },
   "report": {

@@ -40,14 +40,14 @@
             [control]="radial"
             [label]="t('radialLoad')"
             [unit]="t('loadUnit')"
-            [tooltipText]="t('tooltip.loads')"
+            [tooltipText]="t('tooltip.radialLoad')"
             [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
           ></ga-input>
           <ga-input
             [control]="axial"
             [label]="t('axialLoad')"
             [unit]="t('loadUnit')"
-            [tooltipText]="t('tooltip.loads')"
+            [tooltipText]="t('tooltip.axialLoad')"
             [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
           ></ga-input>
           <!-- TODO: enable again -->
@@ -113,13 +113,14 @@
             [control]="shiftFrequency"
             [label]="t('shiftFrequency')"
             [unit]="t('onePerMinute')"
-            [tooltipText]="t('tooltip.oscillating')"
+            [tooltipText]="t('tooltip.shiftFrequency')"
             [placeholder]="t('pleaseEnter', { label: t('shiftFrequency') })"
           ></ga-input>
           <ga-input
             [control]="shiftAngle"
             [label]="t('shiftAngle')"
             [unit]="t('degree')"
+            [tooltipText]="t('tooltip.shiftAngle')"
             [placeholder]="t('pleaseEnter', { label: t('shiftAngle') })"
           ></ga-input>
         </ng-template>
@@ -142,11 +143,13 @@
           [control]="environmentTemperature"
           [label]="t('environmentTemperature')"
           [unit]="t('degreeCelsius')"
+          [tooltipText]="t('tooltip.environmentTemperature')"
         ></ga-input>
         <ga-select
           [control]="environmentImpact"
           [label]="t('environmentalImpactOnGreaseDuration')"
           [options]="environmentImpactOptions"
+          [tooltipText]="t('tooltip.otherInfluences')"
         ></ga-select>
       </div>
     </div>

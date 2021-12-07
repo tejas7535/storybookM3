@@ -69,10 +69,14 @@
       "anyLoad": "One Load is needed"
     },
     "tooltip": {
-      "loads": "The Grease App checks whether the selected bearing can transfer radial or axial loads. If the transmission of loads in the radial or axial direction is not possible, the corresponding load input is deactivated.\n\nFor some bearing types, the ratio of axial load to radial load shall be above a certain minimum number. For example, a tapered roller bearing or an angular contact ball bearing can only take up radial load if the axial load is sufficiently high. Please note the general information on the bearing types in the HR1 catalogue.",
-      "operatingTemperature": "If you do not know the exact operating temperature, please enter the estimated operating temperature. A deviation in the operating temperature usually has the following effect for multi-purpose greases (in case the temperature is above the upper continous temperature limit):\n\n• 15K higher temperature: Reduction of grease operating life by approx. 50%\n• 10K higher temperature: Reduction of grease operating life by approx 35%\n• 5K higher temperature: Reduction of grease operating life by approx 20%\n\nPlease use the function of the Grease App in order to be able to assess the influence of the temperature by its variation.\n\nPlease use the function of the Grease App in order to be able to assess the influence of the temperature by its variation.",
-      "rotationSpeed": "The relative speed is the difference between the inner ring and the outer ring speed:\n\n• When the outer ring is standing still: please enter the inner ring speed.\n• When the inner ring is standing still: please enter the outer ring speed.",
-      "oscillating": "Oscillating motion places a greater strain on the grease in the rolling element contact than rotating motion and is therefore taken into account with the correction factor KR in the calculation of the grease operating life and relubrication interval. The correction factor KR gets relevant for oscillating angles less than 180°."
+      "radialLoad": "Load in the radial direction (to be specified as an absolute value)",
+      "axialLoad": "Load in axial direction (to be specified as an absolute value)",
+      "rotationSpeed": "Relative rotational speed between the inner and the outer ring (to be specified as an absolute value)",
+      "operatingTemperature": "Operating temperature of the bearing (eventually please estimate). For information of the influence on grease operating life, please see FAQs.",
+      "environmentTemperature": "Temperature of the surrounding of the machine.",
+      "otherInfluences": "Factor for the influence of moisture, shaking forces and slight vibrations on grease operating life.",
+      "shiftFrequency": "Number of oscillation motions per minute (full cycle, back and forth)",
+      "shiftAngle": "Angle between the turning points for oscillating motions (see also FAQs)"
     }
   },
   "report": {

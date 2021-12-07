@@ -228,6 +228,7 @@
                       class="!text-[16px] !w-4 !h-4"
                       color="primary"
                       #tooltip="matTooltip"
+                      (click)="tooltip.toggle()"
                       [matTooltip]="t(element.tooltip)"
                       >info_outline</mat-icon
                     >
