@@ -1,9 +1,11 @@
-/* eslint-disable max-lines */
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
+  QueryList,
   ViewChildren,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,7 +19,6 @@ import {
   ClientSideRowModelModule,
   ColumnApi,
   GridApi,
-  GridOptions,
   Module,
 } from '@ag-grid-community/all-modules';
 import { ColumnState, RowNode } from '@ag-grid-community/core';
@@ -56,17 +57,17 @@ import {
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
-  GRID_OPTIONS,
   SIDE_BAR_CONFIG,
 } from './table-config';
 
+/* eslint-disable max-lines */
 @Component({
   selector: 'mac-main-table',
   templateUrl: './main-table.component.html',
   styleUrls: ['./main-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainTableComponent implements OnInit, OnDestroy {
+export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public materialClassOptions$: Observable<DataFilter[]>;
   public productCategoryOptions$: Observable<DataFilter[]>;
   public optionsLoading$: Observable<boolean>;
@@ -98,7 +99,6 @@ export class MainTableComponent implements OnInit, OnDestroy {
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
-  public gridOptions: GridOptions = GRID_OPTIONS;
 
   public materialClassSelectionControl = new FormControl(undefined, [
     Validators.required,
@@ -107,7 +107,9 @@ export class MainTableComponent implements OnInit, OnDestroy {
     Validators.required,
   ]);
   public allCategoriesSelectedControl = new FormControl(false);
-  @ViewChildren('categoryOption') public categoryOptions: MatOption[];
+  @ViewChildren('categoryOption')
+  public categoryOptionsQuery: QueryList<MatOption>;
+  public categoryOptions: MatOption[];
 
   public filterForm = new FormGroup({
     materialClass: this.materialClassSelectionControl,
@@ -132,7 +134,8 @@ export class MainTableComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly agGridStateService: MsdAgGridStateService
+    private readonly agGridStateService: MsdAgGridStateService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -237,8 +240,15 @@ export class MainTableComponent implements OnInit, OnDestroy {
           this.agGridApi.setFilterModel(filterModel);
         }
       });
+  }
 
-    this.parseQueryParams();
+  public ngAfterViewInit(): void {
+    this.categoryOptionsQuery.changes
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((options: QueryList<MatOption>) => {
+        this.categoryOptions = options.toArray();
+        this.parseQueryParams();
+      });
   }
 
   public ngOnDestroy(): void {
@@ -253,10 +263,10 @@ export class MainTableComponent implements OnInit, OnDestroy {
       this.route.snapshot.queryParamMap.get('agGridFilter');
 
     if (filterParamsString) {
-      this.setParamFilter(filterParamsString);
+      this.setParamFilter(decodeURIComponent(filterParamsString));
     }
     if (agGridFilterString) {
-      this.setParamAgGridFilter(agGridFilterString);
+      this.setParamAgGridFilter(decodeURIComponent(agGridFilterString));
     }
 
     this.router.navigate([], { relativeTo: this.route, queryParams: {} });
@@ -265,16 +275,21 @@ export class MainTableComponent implements OnInit, OnDestroy {
   private setParamFilter(filterString: string): void {
     const filterParams: {
       materialClass: DataFilter;
-      productCategory: DataFilter[];
+      productCategory: DataFilter[] | string;
     } = JSON.parse(filterString);
 
     if (filterParams?.materialClass && filterParams?.productCategory) {
       this.materialClassSelectionControl.patchValue(
         filterParams.materialClass as DataFilter
       );
-      this.productCategorySelectionControl.patchValue(
-        filterParams.productCategory as DataFilter[]
-      );
+      if (filterParams.productCategory === 'all') {
+        this.changeDetectorRef.detectChanges();
+        this.allCategoriesSelectedControl.patchValue(true);
+      } else {
+        this.productCategorySelectionControl.patchValue(
+          filterParams.productCategory as DataFilter[]
+        );
+      }
       this.filterForm.markAsDirty();
     }
 
@@ -383,6 +398,8 @@ export class MainTableComponent implements OnInit, OnDestroy {
   }): void {
     this.agGridApi = api;
     this.agGridColumnApi = columnApi;
+
+    this.setAgGridFilter({ api });
 
     const filteredResult: DataResult[] = [];
     api.forEachNodeAfterFilter((rowNode: RowNode) => {

@@ -33,8 +33,8 @@ export class DataEffects {
         ]) =>
           this.msdDataService
             .getMaterials(
-              materialClass.id,
-              productCategory?.map((category: DataFilter) => category.id)
+              materialClass?.id,
+              productCategory?.map((category: DataFilter) => category?.id)
             )
             .pipe(
               map((result: DataResult[]) =>

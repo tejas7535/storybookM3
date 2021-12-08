@@ -46,8 +46,16 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
         const tree = this.router.parseUrl(this.router.url);
         tree.queryParams = params;
         const url = this.urlSerializer.serialize(tree);
-        this.clipboard.copy(`${window.location.origin}${url}`);
-        this.snackbar.open('Link copied to clipboard', 'Close');
+
+        if (url.length > 2000) {
+          this.snackbar.open(
+            'The table filter is too long to be put into a link',
+            'Close'
+          );
+        } else {
+          this.clipboard.copy(`${window.location.origin}${url}`);
+          this.snackbar.open('Link copied to clipboard', 'Close');
+        }
       });
   }
 }

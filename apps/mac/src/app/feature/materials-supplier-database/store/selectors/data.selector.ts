@@ -37,7 +37,12 @@ export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {
 export const getShareQueryParams = createSelector(
   getFilter,
   ({ materialClass, productCategory, agGridFilter }) => ({
-    filterForm: JSON.stringify({ materialClass, productCategory }),
+    filterForm: JSON.stringify({
+      materialClass: materialClass
+        ? materialClass
+        : { id: undefined, name: undefined },
+      productCategory: productCategory ? productCategory : 'all',
+    }),
     agGridFilter,
   })
 );

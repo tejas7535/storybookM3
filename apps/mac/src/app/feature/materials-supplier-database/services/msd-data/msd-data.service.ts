@@ -19,15 +19,31 @@ export class MsdDataService {
   constructor(private readonly httpClient: HttpClient) {}
 
   public getMaterialClasses(): Observable<DataFilter[]> {
-    return this.httpClient.get<DataFilter[]>(
-      `${this.BASE_URL}/materials/materialClasses`
-    );
+    return this.httpClient
+      .get<DataFilter[]>(`${this.BASE_URL}/materials/materialClasses`)
+      .pipe(
+        map((materialClasses: any[]) =>
+          materialClasses.map((materialClass: any) => {
+            const { code, ...newClass } = materialClass;
+
+            return newClass;
+          })
+        )
+      );
   }
 
   public getProductCategories(): Observable<DataFilter[]> {
-    return this.httpClient.get<DataFilter[]>(
-      `${this.BASE_URL}/materials/shapes`
-    );
+    return this.httpClient
+      .get<DataFilter[]>(`${this.BASE_URL}/materials/shapes`)
+      .pipe(
+        map((productCategories: any[]) =>
+          productCategories.map((productCategory: any) => {
+            const { code, ...newCategory } = productCategory;
+
+            return newCategory;
+          })
+        )
+      );
   }
 
   public getMaterials(

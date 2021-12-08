@@ -81,7 +81,7 @@ describe('Data Effects', () => {
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
           materialClass.id,
-          productCategory.map((category: DataFilter) => category.id)
+          productCategory.map((category: DataFilter) => category?.id)
         );
       })
     );
@@ -109,7 +109,7 @@ describe('Data Effects', () => {
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
           materialClass.id,
-          productCategory.map((category: DataFilter) => category.id)
+          productCategory.map((category: DataFilter) => category?.id)
         );
       })
     );

@@ -680,6 +680,8 @@ describe('MainTableComponent', () => {
       // eslint-disable-next-line unicorn/no-useless-undefined
       component['agGridStateService'].getColumnState = jest.fn(() => undefined);
 
+      component.setAgGridFilter = jest.fn();
+
       component['agGridApi'] = undefined;
       component['agGridColumnApi'] = undefined;
       component.rowCount = undefined;
@@ -701,6 +703,7 @@ describe('MainTableComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         setFilteredRows({ filteredResult: [mockDataResult] })
       );
+      expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
       const mockDataResult: DataResult = {
@@ -720,6 +723,7 @@ describe('MainTableComponent', () => {
 
       // eslint-disable-next-line unicorn/no-useless-undefined
       component['agGridStateService'].getColumnState = jest.fn(() => []);
+      component.setAgGridFilter = jest.fn();
 
       component['agGridApi'] = undefined;
       component['agGridColumnApi'] = undefined;
@@ -745,6 +749,7 @@ describe('MainTableComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         setFilteredRows({ filteredResult: [mockDataResult] })
       );
+      expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
     });
   });
   describe('onColumnChange', () => {
