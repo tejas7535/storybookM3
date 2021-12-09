@@ -22,25 +22,25 @@
         <div class="text-caption leading-6 whitespace-nowrap">
           <span class="pr-2 text-light">{{ t('keyAccount') }}: </span>
           <span>
-            {{ customer.keyAccount }}
+            {{ customer.keyAccount | nullableString }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
           <span class="pr-2 text-light">{{ t('subKeyAccount') }}: </span>
           <span>
-            {{ customer.subKeyAccount }}
+            {{ customer.subKeyAccount | nullableString }}
           </span>
         </div>
       </div>
       <div class="mr-12 overflow-x-hidden md:overflow-x-visible">
         <div class="text-caption leading-6 whitespace-nowrap">
           <span class="pr-2 text-light">{{ t('classification') }}: </span>
-          <span>{{ customer.abcClassification }} </span>
+          <span>{{ customer.abcClassification | nullableString }} </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
           <span class="pr-2 text-light">{{ t('sectorManagement') }}: </span>
           <span>
-            {{ customer.sectorManagement }}
+            {{ customer.sectorManagement | nullableString }}
           </span>
         </div>
       </div>
@@ -69,7 +69,7 @@
         <div class="text-caption leading-6 whitespace-nowrap">
           <span class="pr-2 text-light">{{ t('country') }}:</span>
           <span>
-            {{ customer.country }}
+            {{ customer.country | nullableString }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
@@ -80,14 +80,17 @@
         </div>
       </div>
     </div>
-    <button
-      class="!text-primary font-medium !absolute h-full top-0 right-0"
-      mat-flat-button
-      (click)="openCustomer()"
-    >
-      <mat-icon class="text-h6">arrow_forward</mat-icon>
-      {{ t('details') }}
-    </button>
+    <div class="!absolute !bg-white h-10 top-5 right-0">
+      <button
+        color="primary"
+        class="font-medium"
+        mat-button
+        (click)="openCustomer()"
+      >
+        <mat-icon class="text-h6 align-arrow-forward">arrow_forward</mat-icon>
+        {{ t('details') }}
+      </button>
+    </div>
   </div>
 </mat-card>
 <div class="bg-white absolute"></div>

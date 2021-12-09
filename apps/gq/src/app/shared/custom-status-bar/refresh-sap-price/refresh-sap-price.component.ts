@@ -33,7 +33,6 @@ export class RefreshSapPriceComponent {
     );
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-      width: '60%',
       maxHeight: '80%',
       data: { displayText, confirmButton, cancelButton },
     });

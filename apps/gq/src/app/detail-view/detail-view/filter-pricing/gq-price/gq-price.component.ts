@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
   PriceSource,
   QuotationDetail,
@@ -19,6 +17,7 @@ export class GqPriceComponent implements OnInit {
   public gpm: number;
   _isLoading: boolean;
   PriceSource = PriceSource;
+  DetailRoutePath = DetailRoutePath;
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
@@ -34,8 +33,6 @@ export class GqPriceComponent implements OnInit {
   }
 
   @Output() readonly selectGqPrice = new EventEmitter<UpdatePrice>();
-
-  constructor(private readonly router: Router) {}
 
   ngOnInit(): void {
     if (this.quotationDetail) {
@@ -59,15 +56,6 @@ export class GqPriceComponent implements OnInit {
       this.quotationDetail.strategicPrice ??
       this.quotationDetail.recommendedPrice;
     this.selectGqPrice.emit(new UpdatePrice(price, priceSource));
-  }
-
-  navigateClick(): void {
-    this.router.navigate(
-      [`${AppRoutePath.DetailViewPath}/${DetailRoutePath.TransactionsPath}`],
-      {
-        queryParamsHandling: 'preserve',
-      }
-    );
   }
 
   public trackByFn(index: number): number {

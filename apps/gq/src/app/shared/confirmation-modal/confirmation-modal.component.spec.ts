@@ -7,13 +7,16 @@ import { ConfirmationModalComponent } from './confirmation-modal.component';
 describe('ConfirmationModalComponent', () => {
   let component: ConfirmationModalComponent;
   let spectator: Spectator<ConfirmationModalComponent>;
+  const matDialogRefMock = {
+    updateSize: jest.fn(),
+  };
 
   const createComponent = createComponentFactory({
     component: ConfirmationModalComponent,
     providers: [
       {
         provide: MatDialogRef,
-        useValue: {},
+        useValue: matDialogRefMock,
       },
       {
         provide: MAT_DIALOG_DATA,
@@ -51,6 +54,14 @@ describe('ConfirmationModalComponent', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
+    });
+  });
+
+  describe('ngOnInit should', () => {
+    test('set dialog size', () => {
+      component.ngOnInit();
+
+      expect(matDialogRefMock.updateSize).toHaveBeenCalled();
     });
   });
 });

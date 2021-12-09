@@ -126,7 +126,7 @@
         "refreshSapPricing": "Refresh SAP Pricing",
         "refreshSapPricingMobile": "refresh",
         "resetAll": "Reset All",
-        "uploadSelectionToSap": "Update prices in SAP Quotation"
+        "uploadSelectionToSap": "Update prices to SAP"
       },
       "totalRowCount": {
         "total": "Total",

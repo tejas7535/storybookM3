@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
   PriceSource,
   QuotationDetail,
@@ -20,6 +18,7 @@ export class SapPriceComponent implements OnInit {
   public gpm: number;
   _isLoading: boolean;
   PriceSource = PriceSource;
+  DetailRoutePath = DetailRoutePath;
 
   @Input() userHasGPCRole: boolean;
   @Input() userHasSQVRole: boolean;
@@ -35,8 +34,6 @@ export class SapPriceComponent implements OnInit {
   }
 
   @Output() readonly selectSapPrice = new EventEmitter<UpdatePrice>();
-
-  constructor(private readonly router: Router) {}
 
   ngOnInit(): void {
     if (this.quotationDetail) {
@@ -60,15 +57,6 @@ export class SapPriceComponent implements OnInit {
           ? PriceSource.SAP_STANDARD
           : PriceSource.SAP_SPECIAL
       )
-    );
-  }
-
-  navigateClick(): void {
-    this.router.navigate(
-      [`${AppRoutePath.DetailViewPath}/${DetailRoutePath.SapPath}`],
-      {
-        queryParamsHandling: 'preserve',
-      }
     );
   }
 

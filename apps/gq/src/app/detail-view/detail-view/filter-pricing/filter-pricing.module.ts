@@ -15,6 +15,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SharedModule } from '../../../shared';
 import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
+import { DetailButtonComponent } from './detail-button/detail-button.component';
 import { FilterPricingComponent } from './filter-pricing.component';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';
@@ -32,6 +33,7 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     SapPriceComponent,
     QuantityModalComponent,
     QuantityDisplayComponent,
+    DetailButtonComponent,
   ],
   imports: [
     MatButtonModule,

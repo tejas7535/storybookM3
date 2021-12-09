@@ -45,7 +45,6 @@ export class DeleteCaseButtonComponent {
     const cancelButton = translate('caseView.confirmDeleteCases.cancelButton');
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-      width: '80%',
       maxHeight: '80%',
       data: { displayText, confirmButton, cancelButton, list },
     });

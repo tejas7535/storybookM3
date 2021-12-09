@@ -1,8 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -24,7 +22,6 @@ import { SapPriceComponent } from './sap-price.component';
 describe('SapPriceComponent', () => {
   let component: SapPriceComponent;
   let spectator: Spectator<SapPriceComponent>;
-  let router: Router;
 
   const createComponent = createComponentFactory({
     component: SapPriceComponent,
@@ -34,7 +31,6 @@ describe('SapPriceComponent', () => {
       MatIconModule,
       ReactiveComponentModule,
       LoadingSpinnerModule,
-      RouterTestingModule,
       SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -49,7 +45,6 @@ describe('SapPriceComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    router = spectator.inject(Router);
     component.quotationDetail = QUOTATION_DETAIL_MOCK;
   });
 
@@ -117,15 +112,6 @@ describe('SapPriceComponent', () => {
     });
   });
 
-  describe('navigateClick', () => {
-    test('should navigate to TransactionViewPath', () => {
-      router.navigate = jest.fn();
-
-      component.navigateClick();
-
-      expect(router.navigate).toHaveBeenCalledTimes(1);
-    });
-  });
   describe('trackByFn', () => {
     test('should return index', () => {
       const result = component.trackByFn(3);

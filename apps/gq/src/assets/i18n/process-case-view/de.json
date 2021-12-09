@@ -14,7 +14,7 @@
     "cancelButton": "zurück"
   },
   "confirmRefreshSapPricing": {
-    "text": "Möchten sie wirklich die SAP Preise für alle Positionen aktualisieren?",
+    "text": "Möchten sie wirklich die SAP Preise für alle Positionen aktualisieren? Beachten Sie, dass dadurch SAP-Daten überschrieben werden.",
     "refreshButton": "aktualisieren",
     "cancelButton": "zurück"
   },

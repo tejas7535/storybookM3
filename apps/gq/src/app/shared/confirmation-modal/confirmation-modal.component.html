@@ -7,17 +7,20 @@
       </li>
     </div>
   </div>
-  <div class="flex flex-row justify-end mt-2">
+  <div class="flex flex-row mt-11">
     <button
-      class="!text-primary text-button font-medium !mr-6"
-      mat-flat-button
+      color="primary"
+      class="text-button font-medium !mr-6"
+      mat-raised-button
       (click)="closeDialog(true)"
     >
+      <mat-icon class="align-middle">update</mat-icon>
       {{ data.confirmButton | uppercase }}
     </button>
     <button
-      class="!text-primary text-button font-medium"
-      mat-flat-button
+      color="primary"
+      class="text-button font-medium"
+      mat-stroked-button
       (click)="closeDialog(false)"
     >
       {{ data.cancelButton | uppercase }}

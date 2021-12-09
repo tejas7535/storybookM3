@@ -11,51 +11,40 @@
   >
     <div content class="mt-[10px] w-full flex flex-col md:flex-row">
       <div class="flex-grow max-w-[25%]">
-        <div class="mb-1 text-body-1 text-light">{{ t('priceLabel') }}:</div>
+        <div class="mb-1 text-body-2 text-light">{{ t('priceLabel') }}:</div>
         <span class="font-bold">{{
           quotationDetail.sapPrice | numberCurrency: currency
         }}</span>
       </div>
       <div class="flex-1" *ngIf="userHasGPCRole">
-        <div class="mb-1 text-body-1 text-light">{{ t('gpi') }}:</div>
+        <div class="mb-1 text-body-2 text-light">{{ t('gpi') }}:</div>
         <div>
           <span class="font-bold">{{ gpi || '-' }} %</span>
         </div>
       </div>
       <div class="flex-1" *ngIf="userHasSQVRole">
-        <div class="mb-1 text-body-1 text-light">{{ t('gpm') }}:</div>
+        <div class="mb-1 text-body-2 text-light">{{ t('gpm') }}:</div>
         <div>
           <span class="font-bold">{{ gpm || '-' }} %</span>
         </div>
       </div>
       <div class="flex-1">
-        <div class="mb-1 text-body-1 text-light">{{ t('quantity') }}:</div>
+        <div class="mb-1 text-body-2 text-light">{{ t('quantity') }}:</div>
         <gq-quantity-display
           [quantity]="quotationDetail.orderQuantity"
         ></gq-quantity-display>
       </div>
       <div class="flex-1" *ngIf="quotationDetail.sapPriceCondition">
-        <div class="mb-1 text-body-1 text-light">
+        <div class="mb-1 text-body-2 text-light">
           {{ t('priceCondition') }}:
         </div>
         <span class="font-bold">{{ quotationDetail.sapPriceCondition }}</span>
       </div>
     </div>
-    <div
-      class="
-        mt-6
-        text-primary text-button
-        cursor-pointer
-        !font-body
-        flex flex-row
-        items-center
-        ml-4
-      "
+    <gq-detail-button
       link
-      (click)="navigateClick()"
-    >
-      <mat-icon class="mr-2 text-h5">arrow_forward</mat-icon>
-      {{ t('details') | uppercase }}
-    </div>
+      [text]="t('details')"
+      [path]="DetailRoutePath.SapPath"
+    ></gq-detail-button>
   </gq-filter-pricing-card>
 </div>

@@ -76,7 +76,6 @@ export class DeleteItemsButtonComponent implements OnInit {
     );
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
-      width: '80%',
       maxHeight: '80%',
       data: { displayText, confirmButton, cancelButton },
     });
