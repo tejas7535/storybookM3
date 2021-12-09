@@ -46,6 +46,7 @@ describe('BreadcrumbsService', () => {
         results: undefined,
         detail: undefined,
         compare: undefined,
+        portfolioAnalysis: undefined,
       });
     });
 
@@ -80,6 +81,7 @@ describe('BreadcrumbsService', () => {
           },
           detail: undefined,
           compare: undefined,
+          portfolioAnalysis: undefined,
         });
 
         const expectedBreadcrumbs = [
@@ -111,6 +113,7 @@ describe('BreadcrumbsService', () => {
       results: undefined,
       detail: undefined,
       compare: undefined,
+      portfolioAnalysis: undefined,
     };
 
     beforeEach(() => {
@@ -204,6 +207,7 @@ describe('BreadcrumbsService', () => {
             results: undefined,
             detail: { label: 'Detail', url: '/detail' },
             compare: undefined,
+            portfolioAnalysis: undefined,
           };
 
           service.setState(mockState);
@@ -217,6 +221,7 @@ describe('BreadcrumbsService', () => {
             results: undefined,
             detail: { label: 'F-12345', url: '/detail' },
             compare: undefined,
+            portfolioAnalysis: undefined,
           };
 
           service.updateMaterialDesignation(materialDesignation);

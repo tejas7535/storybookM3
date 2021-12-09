@@ -22,6 +22,7 @@ import { Store } from '@ngrx/store';
 })
 export class CompareViewButtonComponent implements OnInit {
   public selectedNodeIds$: Observable<string[]>;
+  public appRoutePath = AppRoutePath;
 
   private gridApi: GridApi;
 

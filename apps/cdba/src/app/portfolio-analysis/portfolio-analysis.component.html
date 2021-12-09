@@ -1,0 +1,31 @@
+<div
+  class="w-full h-full bg-surface"
+  *transloco="let t; read: 'portfolioAnalysis'"
+>
+  <cdba-page-header [title]="t('title')">
+    <ng-container breadcrumbs>
+      <schaeffler-breadcrumbs
+        [breadcrumbs]="breadcrumbs$ | ngrxPush"
+      ></schaeffler-breadcrumbs>
+    </ng-container>
+    <ng-container titleContent>
+      <div class="ml-1">
+        <cdba-beta-feature-badge
+          [emailAddress]="emailAddress"
+        ></cdba-beta-feature-badge>
+      </div>
+    </ng-container>
+    <div content class="h-full">
+      <div class="py-4">
+        <cdba-portfolio-analysis-chart
+          [productCostAnalyses]="productCostAnalyses$ | ngrxPush"
+        ></cdba-portfolio-analysis-chart>
+        <div class="pl-5 pr-[75px]">
+          <cdba-portfolio-analysis-table
+            [productCostAnalyses]="productCostAnalyses$ | ngrxPush"
+          ></cdba-portfolio-analysis-table>
+        </div>
+      </div>
+    </div>
+  </cdba-page-header>
+</div>

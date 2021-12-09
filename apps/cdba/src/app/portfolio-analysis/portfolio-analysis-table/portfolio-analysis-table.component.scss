@@ -1,0 +1,22 @@
+:host {
+  ::ng-deep {
+    .ag-header {
+      @apply border-b-0;
+
+      .ag-header-cell {
+        &:hover {
+          @apply bg-transparent #{!important};
+        }
+
+        .ag-header-cell-label {
+          @apply justify-center;
+        }
+      }
+    }
+
+    .ag-row {
+      @apply border-0;
+      @apply border-t;
+    }
+  }
+}

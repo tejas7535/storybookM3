@@ -13,11 +13,13 @@
       "search": "Search",
       "results": "Results",
       "detail": "Details",
-      "compare": "Compare"
+      "compare": "Compare",
+      "portfolioAnalysis": "Portfolio Analysis"
     },
     "statusBar": {
       "detail": "Show Details",
       "compare": "Compare Details",
+      "analysis": "Portfolio Analysis",
       "loadBom": "Load Bill of Material",
       "hints": {
         "notAvailableForRfq": "Not available for RFQs"

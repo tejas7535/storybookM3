@@ -1,0 +1,15 @@
+<ag-grid-angular
+  class="ag-theme-material h-[325px]"
+  [modules]="modules"
+  [tooltipShowDelay]="200"
+  [columnDefs]="columnDefs"
+  [suppressMovableColumns]="true"
+  [suppressAggFuncInHeader]="true"
+  [suppressHorizontalScroll]="true"
+  [suppressRowHoverHighlight]="true"
+  [columnHoverHighlight]="false"
+  [rowData]="rowData"
+  (rowDataChanged)="onTableChanged($event)"
+  (gridSizeChanged)="onTableChanged($event)"
+>
+</ag-grid-angular>

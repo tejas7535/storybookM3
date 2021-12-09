@@ -1,0 +1,16 @@
+{
+  "title": "Portfolioanalyse",
+  "label": {
+    "gpc": "KHK",
+    "gpcMargin": "KHK Marge",
+    "sqv": "SAW aktuell",
+    "sqvMargin": "SAW Marge",
+    "averagePrice": "Durchschn. Preis"
+  },
+  "chart": {
+    "axes": {
+      "costs": "Preis / Kosten in {{currency}}",
+      "margin": "Bruttogewinn"
+    }
+  }
+}

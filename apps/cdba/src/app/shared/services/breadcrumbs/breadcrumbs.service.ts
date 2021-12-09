@@ -24,6 +24,7 @@ export interface BreadcrumbState {
   results: Breadcrumb;
   detail: Breadcrumb;
   compare: Breadcrumb;
+  portfolioAnalysis: Breadcrumb;
 }
 
 @Injectable({
@@ -47,6 +48,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
       results: undefined,
       detail: undefined,
       compare: undefined,
+      portfolioAnalysis: undefined,
     });
 
     this.resultsBreadcrumb$.subscribe((resultsBreadcrumb) =>
@@ -63,6 +65,11 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
     this.compareBreadcrumbs$.subscribe((compareBreadcrumb) =>
       this.setCompareBreadcrumb(compareBreadcrumb)
+    );
+
+    this.portfolioAnalysisBreadcrumbs$.subscribe(
+      (portfolioAnalysisBreadcrumb) =>
+        this.setPortfolioAnalysisBreadcrumb(portfolioAnalysisBreadcrumb)
     );
   }
 
@@ -120,6 +127,18 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
       }))
     );
 
+  private readonly portfolioAnalysisBreadcrumbs$: Observable<Breadcrumb> =
+    this.routeProps$.pipe(
+      filter((route) =>
+        route.url.split('/')[1].includes(AppRoutePath.PortfolioAnalysisPath)
+      ),
+      map(({ url, queryParams }) => ({
+        url,
+        queryParams,
+        label: translate('shared.breadcrumbs.portfolioAnalysis'),
+      }))
+    );
+
   public readonly breadcrumbs$: Observable<Breadcrumb[]> = this.select(
     (state) => {
       const breadcrumbs = [
@@ -127,6 +146,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
         state.results,
         state.detail,
         state.compare,
+        state.portfolioAnalysis,
       ].filter((elem) => elem !== undefined);
 
       const lastElement: Breadcrumb = { ...breadcrumbs.pop() };
@@ -141,6 +161,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
       ...state,
       detail: undefined,
       compare: undefined,
+      portfolioAnalysis: undefined,
       results: resultsBreadcrumb,
     })
   );
@@ -155,8 +176,18 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
         ...state,
         detail,
         compare: undefined,
+        portfolioAnalysis: undefined,
       };
     }
+  );
+
+  public readonly setPortfolioAnalysisBreadcrumb = this.updater(
+    (state, portfolioAnalysis: Breadcrumb): BreadcrumbState => ({
+      ...state,
+      portfolioAnalysis,
+      detail: undefined,
+      compare: undefined,
+    })
   );
 
   public readonly updateMaterialDesignation = this.updater(

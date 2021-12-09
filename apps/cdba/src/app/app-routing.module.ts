@@ -41,6 +41,15 @@ export const appRoutes: Routes = [
     canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
+    path: AppRoutePath.PortfolioAnalysisPath,
+    loadChildren: async () =>
+      import('./portfolio-analysis/portfolio-analysis.module').then(
+        (m) => m.PortfolioAnalysisModule
+      ),
+    canActivate: [MsalGuard],
+    canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
+  },
+  {
     path: AppRoutePath.EmptyStatesPath,
     loadChildren: async () =>
       import('./core/empty-states/empty-states.module').then(

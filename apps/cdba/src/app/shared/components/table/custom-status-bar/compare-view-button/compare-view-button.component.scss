@@ -1,13 +1,17 @@
 :host {
-  .button-wrapper {
+  .button-wrapper--outer {
     @apply py-4;
     @apply pr-4;
 
     &.not-in-view {
-      button:enabled {
+      .button-wrapper--inner {
         @apply fixed;
         @apply bottom-4;
         @apply left-5;
+
+        button:disabled {
+          display: none;
+        }
       }
     }
   }

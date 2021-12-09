@@ -170,10 +170,10 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Limit selected rows to a maximum of two
+   * Limit selected rows to a maximum
    */
   public onRowSelected({ node, api }: RowSelectedEvent): void {
-    const maxLength = 2;
+    const maxLength = 25;
 
     const previouslySelectedRows = [...this.selectedRows];
 

@@ -1,0 +1,16 @@
+{
+  "title": "Portfolio Analysis",
+  "label": {
+    "gpc": "GPC",
+    "gpcMargin": "GPC margin",
+    "sqv": "Current SQV",
+    "sqvMargin": "SQV margin",
+    "averagePrice": "Average Price"
+  },
+  "chart": {
+    "axes": {
+      "costs": "Price / Cost in {{currency}}",
+      "margin": "Gross margin"
+    }
+  }
+}

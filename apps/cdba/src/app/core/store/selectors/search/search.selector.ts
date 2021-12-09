@@ -1,4 +1,4 @@
-import { ReferenceType } from '@cdba/shared/models';
+import { ProductCostAnalysis, ReferenceType } from '@cdba/shared/models';
 import { Dictionary } from '@ngrx/entity';
 import { createSelector } from '@ngrx/store';
 
@@ -156,4 +156,25 @@ export const getMaterialDesignationOfSelectedRefType = createSelector(
     nodeIds?.length === 1
       ? referenceTypes[+nodeIds[0]]?.materialDesignation
       : undefined
+);
+
+export const getPortfolioAnalysisDataForSelectedNodes = createSelector(
+  getReferenceTypes,
+  getSelectedRefTypeNodeIds,
+  (referenceTypes, nodeIds): ProductCostAnalysis[] => {
+    if (!referenceTypes || !nodeIds) {
+      return [];
+    }
+
+    return nodeIds.map((id) => {
+      const refType: ReferenceType = referenceTypes[+id];
+
+      return new ProductCostAnalysis(
+        refType.materialDesignation,
+        refType.averagePrices[0],
+        refType.sqvSapLatestMonth,
+        refType.gpcLatestYear
+      );
+    });
+  }
 );

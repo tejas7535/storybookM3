@@ -240,11 +240,13 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should remove from selectedRows if there are to many entries', () => {
-      component.selectedRows = ['1', '3'];
+      // prettier-ignore
+      component.selectedRows = ['1', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26'];
 
       component.onRowSelected(event);
 
-      expect(component.selectedRows).toStrictEqual(['3', '2']);
+      // prettier-ignore
+      expect(component.selectedRows).toStrictEqual(['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '2']);
 
       expect(event.api.getRowNode).toHaveBeenCalledWith('1');
     });

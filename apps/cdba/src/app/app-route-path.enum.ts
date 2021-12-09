@@ -4,5 +4,6 @@ export enum AppRoutePath {
   ResultsPath = 'results',
   DetailPath = 'detail',
   ComparePath = 'compare',
+  PortfolioAnalysisPath = 'portfolio-analysis',
   EmptyStatesPath = 'empty-states',
 }

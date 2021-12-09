@@ -7,10 +7,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BetaFeatureBadgeComponent } from './beta-feature-badge.component';
 
-describe('ChargeableSoonBadgeComponent', () => {
+describe('BetaFeatureBadgeComponent', () => {
   let component: BetaFeatureBadgeComponent;
   let spectator: Spectator<BetaFeatureBadgeComponent>;
-  let chargeableSoonDialog: SpyObject<MatDialog>;
+  let betaFeatureDialog: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
     component: BetaFeatureBadgeComponent,
@@ -22,7 +22,7 @@ describe('ChargeableSoonBadgeComponent', () => {
     spectator = createComponent();
     component = spectator.component;
 
-    chargeableSoonDialog = spectator.inject(MatDialog);
+    betaFeatureDialog = spectator.inject(MatDialog);
   });
 
   it('should create', () => {
@@ -30,11 +30,11 @@ describe('ChargeableSoonBadgeComponent', () => {
   });
 
   test(
-    'should open chargeable soon dialog on button click',
+    'should open beta-feature dialog on button click',
     marbles(() => {
       component.onBadgeClick({ target: { blur: jest.fn() } });
 
-      expect(chargeableSoonDialog.open).toHaveBeenCalled();
+      expect(betaFeatureDialog.open).toHaveBeenCalled();
     })
   );
 });
