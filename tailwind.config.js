@@ -92,11 +92,10 @@ const scrollSnapUtilities = {
 
 module.exports = {
   prefix: '',
-  purge: {
+  content: {
     content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
   },
   mode: 'jit',
-  darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
       ...baseColors,
@@ -153,9 +152,6 @@ module.exports = {
         default: 'cubic-bezier(0.87, 0, 0.13, 1)',
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
     require('@tailwindcss/custom-forms'),

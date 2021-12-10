@@ -25,7 +25,7 @@
       [routerLink]="greaseCalculationLink"
     >
       <h5>{{ t('greaseCalculator') }}</h5>
-      <mat-card-content class="flex-grow">
+      <mat-card-content class="grow">
         <div class="flex flex-col h-full">
           <div class="w-1/2 md:w-full">
             <p class="text-subtitle-2 text-lowEmphasis">
@@ -34,11 +34,7 @@
             <p class="text-caption text-lowEmphasis">{{ t('description') }}</p>
           </div>
           <div
-            class="
-              flex flex-grow
-              justify-center justify-self-center
-              items-center
-            "
+            class="flex grow justify-center justify-self-center items-center"
           >
             <img
               src="../assets/images/calc.svg"
@@ -179,7 +175,7 @@
               class="
                 text-caption text-lowEmphasis text-container
                 overflow-hidden
-                flex-shrink-0
+                shrink-0
               "
             >
               {{ t('placeholderText') }}
