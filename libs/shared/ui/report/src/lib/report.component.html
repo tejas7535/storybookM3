@@ -96,7 +96,7 @@
         <div class="flex flex-col">
           <div *ngFor="let entry of subordinate.entries">{{ entry[0] }}</div>
         </div>
-        <div class="flex flex-col grow">
+        <div class="flex flex-col flex-grow">
           <div *ngFor="let entry of subordinate.entries">{{ entry[1] }}</div>
         </div>
       </div>
@@ -131,9 +131,9 @@
         <div class="flex flex-col w-56">
           <div>{{ subordinate.designation }}</div>
         </div>
-        <div class="flex flex-col grow">
+        <div class="flex flex-col flex-grow">
           <div
-            class="flex flex-row grow"
+            class="flex flex-row flex-grow"
             [ngClass]="subordinate.abbreviation ? 'justify-between' : ''"
           >
             <div *ngIf="subordinate.abbreviation">

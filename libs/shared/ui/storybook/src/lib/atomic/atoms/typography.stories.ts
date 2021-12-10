@@ -31,51 +31,51 @@ const Template: Story = (args) => ({
   template: `
     <section>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 1</span>
+        <span class="w-24 flex-shrink-0">Headline 1</span>
         <h1>{{ typographyText }}</h1>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 2</span>
+        <span class="w-24 flex-shrink-0">Headline 2</span>
         <h2>{{ typographyText }}</h2>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 3</span>
+        <span class="w-24 flex-shrink-0">Headline 3</span>
         <h3>{{ typographyText }}</h3>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 4</span>
+        <span class="w-24 flex-shrink-0">Headline 4</span>
         <h4>{{ typographyText }}</h4>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 5</span>
+        <span class="w-24 flex-shrink-0">Headline 5</span>
         <h5>{{ typographyText }}</h5>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Headline 6</span>
+        <span class="w-24 flex-shrink-0">Headline 6</span>
         <h6>{{ typographyText }}</h6>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Subtitle 1</span>
+        <span class="w-24 flex-shrink-0">Subtitle 1</span>
         <span class="text-subtitle-1">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Subtitle 2</span>
+        <span class="w-24 flex-shrink-0">Subtitle 2</span>
         <span class="text-subtitle-2">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Body 1</span>
+        <span class="w-24 flex-shrink-0">Body 1</span>
         <span class="text-body-1">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Body 2</span>
+        <span class="w-24 flex-shrink-0">Body 2</span>
         <span class="text-body-2">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Caption</span>
+        <span class="w-24 flex-shrink-0">Caption</span>
         <span class="text-caption">{{ typographyText }}</span>
       </div>
       <div class="flex flex-row items-center gap-8 py-1">
-        <span class="w-24 shrink-0">Overline</span>
+        <span class="w-24 flex-shrink-0">Overline</span>
         <span class="text-overline">{{ typographyText }}</span>
       </div>
     </section>

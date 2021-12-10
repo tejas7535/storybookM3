@@ -1,7 +1,7 @@
 <div class="grid h-full" [ngClass]="comparedData ? 'grid-cols-2' : undefined">
   <div class="flex flex-col">
     <h5 class="text-dark pl-1">{{ orgUnit }}</h5>
-    <div class="grow">
+    <div class="flex-grow">
       <ia-solid-doughnut-chart
         [initialConfig]="config"
         [data]="data"
@@ -12,7 +12,7 @@
   </div>
   <div class="flex flex-col" *ngIf="comparedData">
     <h5 class="text-dark pl-1">{{ comparedOrgUnit }}</h5>
-    <div class="grow">
+    <div class="flex-grow">
       <ia-solid-doughnut-chart
         [initialConfig]="comparedConfig"
         [data]="comparedData"

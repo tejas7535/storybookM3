@@ -7,7 +7,7 @@
     (changed)="chartTypeChanged($event)"
   ></ia-toggle-charts>
   <ia-org-chart
-    class="grow"
+    class="flex-grow"
     *ngIf="selectedChart === chartType.ORG_CHART"
     [data]="orgChart$ | ngrxPush"
     [selectedTimeRange]="selectedTimeRange$ | ngrxPush"
@@ -15,7 +15,7 @@
     (showParent)="loadParent($event)"
   ></ia-org-chart>
   <ia-world-map
-    class="grow"
+    class="flex-grow"
     *ngIf="selectedChart === chartType.WORLD_MAP"
     [data]="worldMap$ | ngrxPush"
     [continents]="worldMapContinents$ | ngrxPush"

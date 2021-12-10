@@ -24,7 +24,7 @@
       </schaeffler-under-construction>
 
       <cdba-drawings-table
-        class="grow"
+        class="flex-grow"
         [rowData]="drawings$ | ngrxPush"
         (selectionChange)="selectDrawing($event)"
       ></cdba-drawings-table>

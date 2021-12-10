@@ -1,6 +1,6 @@
 <ng-container *transloco="let t; read: 'report'">
   <schaeffler-subheader
-    class="shrink flex"
+    class="flex-shrink flex"
     [showBackButton]="true"
     [title]="t('title')"
     (backButtonClicked)="navigateBack()"
@@ -32,7 +32,7 @@
       <a
         mat-raised-button
         color="primary"
-        class="grow"
+        class="flex-grow"
         [href]="result.pdfReportUrl"
       >
         {{ t('downloadReport') }}

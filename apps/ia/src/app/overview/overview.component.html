@@ -22,7 +22,7 @@
               ></ia-kpi>
             </div>
           </div>
-          <div class="grow">
+          <div class="flex-grow">
             <ia-line-chart
               [config]="fluctuationChartData$ | ngrxPush"
               [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
@@ -56,7 +56,7 @@
               ></ia-kpi>
             </div>
           </div>
-          <div class="grow">
+          <div class="flex-grow">
             <ia-line-chart
               [config]="unforcedFluctuationChartData$ | ngrxPush"
               [isDataLoading]="isUnforcedFluctuationChartLoading$ | ngrxPush"
@@ -66,7 +66,7 @@
         </div>
       </div>
     </div>
-    <div class="shadow p-4 w-full lg:grow lg:max-w-[29%] flex flex-col">
+    <div class="shadow p-4 w-full lg:flex-grow lg:max-w-[29%] flex flex-col">
       <div class="flex-1">
         <ia-entries-exits
           [entriesDoughnutConfig]="entriesDoughnutConfig$ | ngrxPush"
@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col w-full lg:w-auto grow">
+    <div class="flex flex-col w-full lg:w-auto flex-grow">
       <div class="flex-1 flex flex-col gap-4">
         <div class="shadow p-4">
           <ia-open-positions
@@ -91,7 +91,7 @@
             [loading]="openApplicationsLoading$ | ngrxPush"
           ></ia-open-positions>
         </div>
-        <div class="shadow p-4 grow">
+        <div class="shadow p-4 flex-grow">
           <ia-resignations
             [data]="resignedEmployees$ | ngrxPush"
             [loading]="resignedEmployeesLoading$ | ngrxPush"

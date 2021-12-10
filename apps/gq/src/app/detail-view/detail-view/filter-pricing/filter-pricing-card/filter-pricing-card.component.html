@@ -4,7 +4,7 @@
   </mat-card-title>
   <div *ngIf="!isLoading; else loading">
     <div class="flex flex-row">
-      <div class="grow max-w-[80%] w-full">
+      <div class="flex-grow max-w-[80%] w-full">
         <ng-content select="[content]"></ng-content>
       </div>
       <div
