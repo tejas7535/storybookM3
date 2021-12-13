@@ -31,7 +31,7 @@
   },
   "parameters": {
     "showDetails": "Show details",
-    "requiredInformation": "required information",
+    "requiredInformation": "* required information",
     "loads": "Loads",
     "load": "Expected load",
     "radialLoad": "Radial load",

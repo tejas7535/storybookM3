@@ -32,6 +32,10 @@
       <div class="flex flex-col flex-grow max-w-sm">
         <div class="flex flex-row justify-between items-center mb-4">
           <h5>{{ t('loads') }}</h5>
+          <span
+            class="text-caption font-medium tracking-wide text-lowEmphasis"
+            >{{ t('requiredInformation') }}</span
+          >
         </div>
         <ng-container
           *ngIf="loadsInputType$ | ngrxPush; else exactValuesUnknown"
@@ -39,7 +43,7 @@
           <ga-input
             *ngIf="radialLoadPossible$ | ngrxPush"
             [control]="radial"
-            [label]="t('radialLoad')"
+            [label]="t('radialLoad') + ' *'"
             [unit]="t('loadUnit')"
             [tooltipText]="t('tooltip.radialLoad')"
             [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
@@ -47,7 +51,7 @@
           <ga-input
             *ngIf="axialLoadPossible$ | ngrxPush"
             [control]="axial"
-            [label]="t('axialLoad')"
+            [label]="t('axialLoad') + ' *'"
             [unit]="t('loadUnit')"
             [tooltipText]="t('tooltip.axialLoad')"
             [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
@@ -67,7 +71,7 @@
         <ng-template #exactValuesUnknown>
           <ga-select
             [control]="loadRatio"
-            [label]="t('load')"
+            [label]="t('load') + ' *'"
             [options]="loadRatioOptions"
           ></ga-select>
           <div class="flex flex-row -ml-4 -mt-3">
@@ -85,13 +89,21 @@
       <div class="flex flex-col flex-grow max-w-sm">
         <div class="flex flex-row justify-between items-center mb-4">
           <h5>{{ t('motionInfluences') }}</h5>
-          <span class="text-caption font-medium tracking-wide">{{
-            t('requiredInformation')
-          }}</span>
+          <span
+            class="
+              text-caption
+              font-medium
+              tracking-wide
+              text-lowEmphasis
+              hidden
+              sm:block
+            "
+            >{{ t('requiredInformation') }}</span
+          >
         </div>
         <ga-select
           [control]="type"
-          [label]="t('kindOfMotion')"
+          [label]="t('kindOfMotion') + ' *'"
           [options]="typeOptions"
         ></ga-select>
         <ng-container *ngIf="selectedMovementType$ | ngrxPush">
@@ -101,7 +113,7 @@
               else oscillatingFields
             "
             [control]="rotationalSpeed"
-            [label]="t('relativeRotationalSpeed')"
+            [label]="t('relativeRotationalSpeed') + ' *'"
             [unit]="t('onePerMinute')"
             [tooltipText]="t('tooltip.rotationSpeed')"
             [placeholder]="
@@ -113,14 +125,14 @@
         <ng-template #oscillatingFields>
           <ga-input
             [control]="shiftFrequency"
-            [label]="t('shiftFrequency')"
+            [label]="t('shiftFrequency') + ' *'"
             [unit]="t('onePerMinute')"
             [tooltipText]="t('tooltip.shiftFrequency')"
             [placeholder]="t('pleaseEnter', { label: t('shiftFrequency') })"
           ></ga-input>
           <ga-input
             [control]="shiftAngle"
-            [label]="t('shiftAngle')"
+            [label]="t('shiftAngle') + ' *'"
             [unit]="t('degree')"
             [tooltipText]="t('tooltip.shiftAngle')"
             [placeholder]="t('pleaseEnter', { label: t('shiftAngle') })"
@@ -130,26 +142,34 @@
       <div class="flex flex-col flex-grow max-w-sm">
         <div class="flex flex-row justify-between items-center mb-4">
           <h5>{{ t('otherInfluences') }}</h5>
-          <span class="text-caption font-medium tracking-wide">{{
-            t('requiredInformation')
-          }}</span>
+          <span
+            class="
+              text-caption
+              font-medium
+              tracking-wide
+              text-lowEmphasis
+              hidden
+              sm:block
+            "
+            >{{ t('requiredInformation') }}</span
+          >
         </div>
         <ga-input
           [control]="operatingTemperature"
-          [label]="t('operatingTemperature')"
+          [label]="t('operatingTemperature') + ' *'"
           [unit]="t('degreeCelsius')"
           [customErrors]="operatingTemperatureErrors"
           [tooltipText]="t('tooltip.operatingTemperature')"
         ></ga-input>
         <ga-input
           [control]="environmentTemperature"
-          [label]="t('environmentTemperature')"
+          [label]="t('environmentTemperature') + ' *'"
           [unit]="t('degreeCelsius')"
           [tooltipText]="t('tooltip.environmentTemperature')"
         ></ga-input>
         <ga-select
           [control]="environmentImpact"
-          [label]="t('environmentalImpactOnGreaseDuration')"
+          [label]="t('environmentalImpactOnGreaseDuration') + ' *'"
           [options]="environmentImpactOptions"
           [tooltipText]="t('tooltip.otherInfluences')"
         ></ga-select>
