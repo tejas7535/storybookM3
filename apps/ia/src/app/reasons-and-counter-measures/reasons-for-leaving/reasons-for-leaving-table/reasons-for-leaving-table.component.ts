@@ -42,6 +42,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.topFiveReasons.table.position'
         ),
         sort: 'asc',
+        floatingFilter: false,
       },
       {
         field: 'detailedReason',
@@ -56,6 +57,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         ),
         type: 'numericColumn',
         headerClass: 'bg-lightBg',
+        filter: 'agNumberColumnFilter',
       },
       {
         field: 'leavers',
@@ -64,6 +66,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
         ),
         type: 'numericColumn',
         headerClass: 'bg-lightBg',
+        filter: 'agNumberColumnFilter',
       },
     ];
     if (!this.data) {
