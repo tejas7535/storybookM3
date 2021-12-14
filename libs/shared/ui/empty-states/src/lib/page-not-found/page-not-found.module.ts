@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
@@ -18,12 +17,7 @@ const routes = [
 
 @NgModule({
   declarations: [PageNotFoundComponent],
-  imports: [
-    FlexLayoutModule,
-    MatButtonModule,
-    TranslocoModule,
-    RouterModule.forChild(routes),
-  ],
+  imports: [MatButtonModule, TranslocoModule, RouterModule.forChild(routes)],
   exports: [PageNotFoundComponent],
 })
 export class PageNotFoundModule {

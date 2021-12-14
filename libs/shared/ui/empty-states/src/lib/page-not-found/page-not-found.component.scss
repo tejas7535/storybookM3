@@ -1,28 +1,13 @@
-@import 'libs/shared/ui/styles/src/lib/colors';
-@import 'libs/shared/ui/styles/src/lib/fonts';
-@import 'libs/shared/ui/styles/src/lib/helpers';
-@import 'libs/shared/ui/styles/src/lib/buttons';
-
 :host {
   width: 100%;
 }
 
-.container {
-  max-width: 100%;
-  padding: 50px 20px;
-  width: 100%;
-}
-
 .page-not-found {
+  @apply mb-6;
   background: url('./png/404-error.png') no-repeat center;
   background-size: contain;
   height: 96px;
   max-height: 100%;
   max-width: 100%;
   width: 246px;
-}
-
-p {
-  max-width: 400px;
-  text-align: center;
 }
