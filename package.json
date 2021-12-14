@@ -77,7 +77,7 @@
     "@fontsource/roboto": "4.5.1",
     "@microsoft/applicationinsights-web": "2.7.2",
     "@ng-web-apis/common": "1.12.1",
-    "@ngneat/cashew": "2.3.2",
+    "@ngneat/cashew": "3.0.0",
     "@ngneat/transloco": "3.1.0",
     "@ngneat/transloco-locale": "3.0.1",
     "@ngneat/transloco-persist-lang": "3.0.1",
