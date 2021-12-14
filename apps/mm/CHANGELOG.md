@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.13](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.12...mm-v0.1.13) (2021-12-14)
+
+
+### 🎸 Features
+
+* adjust viewport meta tag for bearinx apps ([#3439](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3439)) ([2b36eb5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2b36eb57ea4873877d9befd3b97e9fd7e0d67062))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ### [0.1.12](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.12...mm-v0.1.9) (2021-12-03)
 
 
