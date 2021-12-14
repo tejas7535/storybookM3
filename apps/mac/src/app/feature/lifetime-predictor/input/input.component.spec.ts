@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import {
   FormControl,
   FormGroup,
@@ -80,16 +79,10 @@ describe('InputComponent', () => {
     ],
   });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [InputComponent],
-    }).compileComponents();
-  });
-
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = TestBed.inject(MockStore);
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {

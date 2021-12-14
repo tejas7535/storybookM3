@@ -1,7 +1,7 @@
-import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { getRoles, hasIdTokenRoles } from '@schaeffler/azure-auth';
@@ -11,6 +11,7 @@ import { RoutePath } from './../../app-routing.enum';
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {
+  let spectator: SpectatorService<RoleGuard>;
   let guard: RoleGuard;
   let store: MockStore<AppState>;
 
@@ -25,13 +26,16 @@ describe('RoleGuard', () => {
     },
   } as unknown as ActivatedRouteSnapshot;
 
+  const createService = createServiceFactory({
+    service: RoleGuard,
+    imports: [RouterTestingModule],
+    providers: [provideMockStore({})],
+  });
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      providers: [RoleGuard, provideMockStore({})],
-    });
-    guard = TestBed.inject(RoleGuard);
-    store = TestBed.inject(MockStore);
+    spectator = createService();
+    guard = spectator.inject(RoleGuard);
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {

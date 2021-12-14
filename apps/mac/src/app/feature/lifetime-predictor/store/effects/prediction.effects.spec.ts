@@ -1,8 +1,8 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
 import { Observable, of } from 'rxjs';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -16,6 +16,7 @@ import { getPredictionRequest, getStatisticalRequest } from '..';
 import { PredictionEffects } from '.';
 
 describe('PredictionEffects', () => {
+  let spectator: SpectatorService<PredictionEffects>;
   let actions: Observable<any>;
   let effects: PredictionEffects;
 
@@ -49,29 +50,32 @@ describe('PredictionEffects', () => {
     loadingType: 0,
   };
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        PredictionEffects,
-        { provide: RestService, useClass: MockService },
-        provideMockActions(() => actions),
-        provideMockStore({
-          selectors: [
-            {
-              selector: getPredictionRequest,
-              value: mockedPredictionRequest,
-            },
-            {
-              selector: getStatisticalRequest,
-              value: mockedStatisticalRequest,
-            },
-          ],
-        }),
-      ],
-      imports: [HttpClientTestingModule],
-    });
+  const createService = createServiceFactory({
+    service: PredictionEffects,
+    imports: [HttpClientTestingModule],
+    providers: [
+      PredictionEffects,
+      { provide: RestService, useClass: MockService },
+      provideMockActions(() => actions),
+      provideMockStore({
+        selectors: [
+          {
+            selector: getPredictionRequest,
+            value: mockedPredictionRequest,
+          },
+          {
+            selector: getStatisticalRequest,
+            value: mockedStatisticalRequest,
+          },
+        ],
+      }),
+    ],
+  });
 
-    effects = TestBed.inject(PredictionEffects);
+  beforeEach(() => {
+    spectator = createService();
+
+    effects = spectator.service;
   });
 
   it('should be created', () => {
