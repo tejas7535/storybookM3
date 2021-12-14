@@ -38,6 +38,8 @@
       "itemComment": "Comment",
       "followingType": "Following Type",
       "materialStatus": "Material Status",
+      "freeStock": "Free Stock",
+      "dateNextFreeAtp": "Date Next Free ATP",
       "sidebar": {
         "columns": "Columns",
         "filters": "Filters"
@@ -123,8 +125,8 @@
         "addNewItem": "add new item",
         "addNewItemMobile": "add",
         "deleteCase": "delete case",
-        "refreshSapPricing": "Refresh SAP Pricing",
-        "refreshSapPricingMobile": "refresh",
+        "refreshSapData": "Refresh SAP Data",
+        "refreshSapDataMobile": "refresh",
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update prices to SAP"
       },

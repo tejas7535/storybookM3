@@ -80,6 +80,16 @@
       "title": "Zukünftige Kosten",
       "relocationPlant": "Zukünftiges Prod.Werk",
       "relocationCost": "Zukünftige Kosten"
+    },
+    "stockAvailabilityDetails": {
+      "title": "Bestand & Verfügbarkeit",
+      "deliveryPlant": "Lieferwerk",
+      "stock": "Bestand",
+      "freeStock": "Freier Bestand",
+      "backlog": "Rückstand",
+      "nextFreeAtp": "Nächste freie ATP Menge",
+      "dateNextFreeAtp": "Termin freie ATP",
+      "deliveryDate": "Termin eintreffend"
     }
   }
 }

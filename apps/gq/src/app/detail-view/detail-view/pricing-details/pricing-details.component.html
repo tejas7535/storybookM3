@@ -17,6 +17,10 @@
             <gq-material-comparable-cost-details
               [currency]="currency"
             ></gq-material-comparable-cost-details>
+            <gq-stock-availability-details
+              [materialStockByPlant]="quotationDetail.materialStockByPlant"
+              [uom]="quotationDetail.material.baseUoM"
+            ></gq-stock-availability-details>
             <gq-relocation-cost-details
               *ngIf="quotationDetail?.relocationCost"
               [quotationDetail]="quotationDetail"

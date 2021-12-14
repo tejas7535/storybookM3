@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { DateDisplayPipe } from './date-display/date-display.pipe';
 import { GqQuotationPipe } from './gq-quotation/gq-quotation.pipe';
 import { MaterialInfoPipe } from './material-info/material-info.pipe';
 import { MaterialTransformPipe } from './material-transform/material-transform.pipe';
@@ -23,6 +24,7 @@ import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
     MultiSelectPipe,
     MillimeterUnitPipe,
     NullableStringPipe,
+    DateDisplayPipe,
   ],
   imports: [],
   exports: [
@@ -36,6 +38,7 @@ import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
     MultiSelectPipe,
     MillimeterUnitPipe,
     NullableStringPipe,
+    DateDisplayPipe,
   ],
   providers: [MaterialTransformPipe],
 })

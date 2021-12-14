@@ -1,0 +1,53 @@
+<mat-card class="mt-4" *ngIf="materialStockByPlant && uom">
+  <div
+    *transloco="
+      let t;
+      read: 'detailView.pricingDetails.stockAvailabilityDetails'
+    "
+  >
+    <p class="text-h6 text-mediumEmphasis font-medium mb-4">
+      {{ t('title') }}
+    </p>
+    <div>
+      <gq-label-text>
+        <span label>{{ t('deliveryPlant') }}</span>
+        <span text>{{ materialStockByPlant.plant | plantDisplay }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('stock') }}</span>
+        <span text>{{ materialStockByPlant.stock }} {{ uom }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('freeStock') }}</span>
+        <span text>
+          <div class="flex flex-row items-center">
+            <div
+              class="w-3 h-3 bg-primary rounded-full mr-2"
+              [ngClass]="{
+                'bg-error': materialStockByPlant.freeStock === 0,
+                'bg-warning': materialStockByPlant.freeStock <= 10
+              }"
+            ></div>
+            <span> {{ materialStockByPlant.freeStock }} {{ uom }} </span>
+          </div>
+        </span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('backlog') }}</span>
+        <span text>{{ materialStockByPlant.backlog }} {{ uom }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('nextFreeAtp') }}</span>
+        <span text>{{ materialStockByPlant.nextFree }} {{ uom }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('dateNextFreeAtp') }}</span>
+        <span text>{{ materialStockByPlant.dateNextFree | dateDisplay }}</span>
+      </gq-label-text>
+      <gq-label-text>
+        <span label>{{ t('deliveryDate') }}</span>
+        <span text>{{ materialStockByPlant.arrivalDate | dateDisplay }}</span>
+      </gq-label-text>
+    </div>
+  </div>
+</mat-card>

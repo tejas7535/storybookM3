@@ -17,7 +17,7 @@ import { CreateCustomerCase } from '../search-service/models/create-customer-cas
 })
 export class QuotationService {
   private readonly PATH_UPLOAD_SELECTION = 'upload-selection';
-  private readonly PATH_REFRESH_SAP_PRICING = 'refresh-sap-price';
+  private readonly PATH_REFRESH_SAP_PRICING = 'reload-from-sap';
   private readonly PATH_QUOTATIONS = 'quotations';
   private readonly PATH_CUSTOMER_QUOTATION = 'customers/quotations';
 

@@ -16,6 +16,7 @@ import { MaterialDetailsModule } from './material-details/material-details.modul
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
 import { RelocationCostDetailsComponent } from './relocation-cost-details/relocation-cost-details.component';
+import { StockAvailabilityDetailsComponent } from './stock-availability-details/stock-availability-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     ProductionCostDetailsComponent,
     MaterialComparableCostDetailsComponent,
     RelocationCostDetailsComponent,
+    StockAvailabilityDetailsComponent,
   ],
   imports: [
     CommonModule,

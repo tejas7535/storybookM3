@@ -178,6 +178,16 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.basicTransform,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.freeStock'),
+      field: 'materialStockByPlant.freeStock',
+      valueFormatter: ColumnUtilityService.numberDashFormatter,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
+      field: 'materialStockByPlant.dateNextFree',
+      valueFormatter: ColumnUtilityService.dateFormatter,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.rlt'),
       field: 'rlt',
       valueFormatter: ColumnUtilityService.basicTransform,

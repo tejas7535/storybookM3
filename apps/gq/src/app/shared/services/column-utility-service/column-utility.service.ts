@@ -4,6 +4,7 @@ import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
+import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
@@ -63,6 +64,10 @@ export class ColumnUtilityService {
     return HelperService.transformNumber(data.value, false);
   }
 
+  static numberDashFormatter(data: ValueFormatterParams): string {
+    return HelperService.transformNumber(data.value, false) ?? Keyboard.DASH;
+  }
+
   static numberCurrencyFormatter(params: ValueFormatterParams): string {
     const formattedNumber = HelperService.transformNumber(params.value, true);
 
@@ -116,9 +121,9 @@ export class ColumnUtilityService {
     return data.value || '';
   }
   static dateFormatter(data: any): string {
-    return data.value
-      ? new Date(data.value).toLocaleDateString()
-      : Keyboard.DASH;
+    const datePipe = new DateDisplayPipe();
+
+    return datePipe.transform(data.value);
   }
 
   static idFormatter(data: any): string {

@@ -80,6 +80,16 @@
       "title": "Relocation Cost",
       "relocationPlant": "Relocation Plant",
       "relocationCost": "Relocation Cost"
+    },
+    "stockAvailabilityDetails": {
+      "title": "Stock & Availability",
+      "deliveryPlant": "Delivery Plant",
+      "stock": "Stock",
+      "freeStock": "Free Stock",
+      "backlog": "Backlog",
+      "nextFreeAtp": "Next Free ATP",
+      "dateNextFreeAtp": "Date Next Free ATP",
+      "deliveryDate": "Delivery Date"
     }
   }
 }

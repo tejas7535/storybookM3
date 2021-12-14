@@ -1,6 +1,7 @@
 export * from './coefficients.model';
 export * from './last-offer-detail.model';
 export * from './material-details.model';
+export * from './material-stock-by-plant.model';
 export * from './plant.model';
 export * from './price-source.enum';
 export * from './quotation-detail.model';

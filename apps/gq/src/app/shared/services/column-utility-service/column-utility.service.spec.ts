@@ -126,6 +126,18 @@ describe('CreateColumnService', () => {
       expect(result).toEqual('1,234');
     });
   });
+  describe('numberDashFormatter', () => {
+    test('should render number', () => {
+      const params = {
+        value: undefined as any,
+      };
+      const result = ColumnUtilityService.numberDashFormatter(
+        params as unknown as ValueFormatterParams
+      );
+
+      expect(result).toEqual('-');
+    });
+  });
 
   describe('numberCurrencyFormatter', () => {
     test('should render number', () => {

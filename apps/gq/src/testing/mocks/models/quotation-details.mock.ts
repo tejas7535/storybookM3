@@ -5,6 +5,7 @@ import {
   SapPriceCondition,
 } from '../../../app/shared/models/quotation-detail';
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
+import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
 import { PLANT_MOCK } from './plant.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
@@ -52,6 +53,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   sapPrice: 80,
   sapPriceCondition: SapPriceCondition.STANDARD,
   discount: 50,
+  materialStockByPlant: MATERIAL_STOCK_BY_PLANT_MOCK,
 };
 
 export const QUATATION_DETAILS_MOCK = [

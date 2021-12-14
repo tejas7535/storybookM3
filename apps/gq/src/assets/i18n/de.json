@@ -38,6 +38,8 @@
       "itemComment": "Kommentar",
       "followingType": "Folgetyp",
       "materialStatus": "Materialstatus",
+      "freeStock": "Freier Bestand",
+      "dateNextFreeAtp": "Termin freie ATP",
       "sidebar": {
         "columns": "Spalten",
         "filters": "Filter"
@@ -123,8 +125,8 @@
         "addNewItem": "Neues Item hinzufügen",
         "addNewItemMobile": "Hinzufügen",
         "deleteCase": "case löschen",
-        "refreshSapPricing": "SAP Preise aktualisieren",
-        "refreshSapPricingMobile": "Aktualisieren",
+        "refreshSapData": "SAP Daten aktualisieren",
+        "refreshSapDataMobile": "Aktualisieren",
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "SAP Preise aktualisieren"
       },
