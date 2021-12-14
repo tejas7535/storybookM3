@@ -17,6 +17,8 @@ import {
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
+
 import { AppRoutePath } from '../app-route-path.enum';
 import {
   searchBearing,
@@ -42,7 +44,7 @@ export class BearingComponent implements OnInit, OnDestroy {
   minimumChars = 2;
 
   loading$: Observable<boolean> = of(false);
-  bearingResultList$: Observable<string[]>;
+  bearingResultList$: Observable<SearchAutocompleteOption[]>;
   destroy$ = new Subject<void>();
 
   selectedBearing$: Observable<string>;

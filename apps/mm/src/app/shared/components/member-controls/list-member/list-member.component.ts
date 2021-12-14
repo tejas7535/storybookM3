@@ -43,9 +43,13 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   public isBoolean = false;
 
-  public options$: Observable<(BearinxListValue & { value: string })[]> = of(
-    []
-  );
+  public options$: Observable<
+    (BearinxListValue & {
+      value: string;
+      caption: string;
+      imageUrl: string;
+    })[]
+  > = of([]);
 
   public isPictureList$: Observable<boolean>;
 

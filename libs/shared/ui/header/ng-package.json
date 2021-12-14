@@ -2,11 +2,6 @@
   "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../../dist/libs/shared/ui/header",
   "lib": {
-    "entryFile": "src/index.ts",
-    "umdModuleIds": {
-      "@ngrx/store": "@ngrx/store",
-      "@schaeffler/responsive": "@schaeffler/responsive",
-      "@schaeffler/sidebar": "@schaeffler/sidebar"
-    }
+    "entryFile": "src/index.ts"
   }
 }

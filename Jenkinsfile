@@ -478,7 +478,7 @@ pipeline {
                         echo 'Run TS Lint'
 
                         script {
-                            sh "npm run affected:lint -- --base=${buildBase} --configuration=ci --parallel --max-parallel=2 ${getNxRunnerConfig()}"
+                            sh "npm run affected:lint -- --base=${buildBase} --configuration=ci --parallel=2 ${getNxRunnerConfig()}"
                         }
                     }
                     post {
@@ -515,7 +515,7 @@ pipeline {
                         echo 'Run Unit Tests'
 
                         script {
-                            sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2 ${getNxRunnerConfig()}"
+                            sh "npm run affected:test -- --base=${buildBase} --parallel=2 ${getNxRunnerConfig()}"
                         }
                     }
                     post {
@@ -656,9 +656,9 @@ pipeline {
                             sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
                         } else {
                             if (isMaster()) {
-                                sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel"
+                                sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel=3"
                             } else {
-                                sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel"
+                                sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel=3"
                             }
 
                             for (app in affectedApps) {

@@ -34,8 +34,8 @@ export class HomeStore extends ComponentStore<HomeState> {
     });
   }
 
-  // Read
-  public readonly pagedMetas$: Observable<PagedMeta[]> = this.select(
+  // Todo: Remove any[] if dynamic-forms is correctly typed in the future
+  public readonly pagedMetas$: Observable<PagedMeta[] | any[]> = this.select(
     (state) => state.pagedMetas
   );
 

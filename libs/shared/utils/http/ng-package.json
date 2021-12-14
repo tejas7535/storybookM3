@@ -2,10 +2,6 @@
   "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../../dist/libs/shared/utils/http",
   "lib": {
-    "entryFile": "src/index.ts",
-    "umdModuleIds": {
-      "@schaeffler/snackbar": "@schaeffler/snackbar",
-      "@ngrx/store": "@ngrx/store"
-    }
+    "entryFile": "src/index.ts"
   }
 }

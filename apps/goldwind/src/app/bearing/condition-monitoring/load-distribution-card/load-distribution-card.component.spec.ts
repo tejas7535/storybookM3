@@ -51,6 +51,7 @@ describe('CenterLoadComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
+    spectator.detectChanges();
     component = spectator.debugElement.componentInstance;
   });
 

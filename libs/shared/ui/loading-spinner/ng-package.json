@@ -2,9 +2,6 @@
   "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../../dist/libs/shared/ui/loading-spinner",
   "lib": {
-    "entryFile": "src/index.ts",
-    "umdModuleIds": {
-      "@angular/material": "@angular/material"
-    }
+    "entryFile": "src/index.ts"
   }
 }

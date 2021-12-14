@@ -23,7 +23,8 @@
           "test",
           "e2e",
           "build-storybook"
-        ]
+        ],
+        "parallel": 1
       }
     },
     "ci": {
@@ -49,7 +50,11 @@
     ]
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "cache": {
+      "enabled": true,
+      "environment": "all"
+    }
   },
   "defaultProject": "helloworld-azure",
   "generators": {

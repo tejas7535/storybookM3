@@ -74,6 +74,8 @@ describe('BearingComponent', () => {
     store = spectator.inject(MockStore);
 
     store.dispatch = jest.fn();
+    component['router'].navigate = jest.fn();
+    component['snackbar'].open = jest.fn();
   });
 
   it('should create', () => {
@@ -82,8 +84,6 @@ describe('BearingComponent', () => {
 
   describe('handleBearingSelection', () => {
     it('should dispatch select bearing and show snackbar if model creation failed', () => {
-      component['router'].navigate = jest.fn();
-      component['snackbar'].open = jest.fn();
       store.overrideSelector(getModelCreationSuccess, false);
 
       component.handleBearingSelection('some bearing');
@@ -98,8 +98,6 @@ describe('BearingComponent', () => {
       );
     });
     it('should dispatch select bearing and navigate to parameters', () => {
-      component['router'].navigate = jest.fn();
-      component['snackbar'].open = jest.fn();
       store.overrideSelector(getModelCreationSuccess, true);
 
       component.handleBearingSelection('some bearing');
@@ -115,7 +113,6 @@ describe('BearingComponent', () => {
 
     it('should dispatch undefined bearing', () => {
       component.handleBearingSelection(undefined);
-      component['snackbar'].open = jest.fn();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: undefined })
@@ -125,8 +122,6 @@ describe('BearingComponent', () => {
 
   describe('navigateBack', () => {
     it('should navigate to landing page', () => {
-      component['router'].navigate = jest.fn();
-
       component.navigateBack();
 
       expect(component['router'].navigate).toHaveBeenCalledWith([

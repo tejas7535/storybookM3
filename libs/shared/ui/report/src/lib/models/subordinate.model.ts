@@ -16,4 +16,5 @@ export interface Subordinate {
   description?: Description;
   subordinates?: Subordinate[];
   defaultOpen?: boolean;
+  content?: any;
 }

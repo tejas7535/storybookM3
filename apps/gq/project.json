@@ -10,7 +10,7 @@
   "prefix": "gq",
   "targets": {
     "build": {
-      "executor": "@angular-builders/custom-webpack:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/gq",
@@ -91,7 +91,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-builders/custom-webpack:dev-server",
+      "executor": "@nrwl/angular:webpack-server",
       "options": {
         "browserTarget": "gq:build"
       },

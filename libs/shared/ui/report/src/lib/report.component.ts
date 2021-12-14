@@ -36,7 +36,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   @Input() public actionText = 'Retry';
   @Input() public type = Type.GENERIC;
 
-  public htmlResult$ = new ReplaySubject<string>();
+  public htmlResult$ = new ReplaySubject<Subordinate[]>();
   public jsonResult$ = new ReplaySubject<Subordinate[]>();
   private readonly destroy$ = new Subject<void>();
   public formattedResult: Subordinate[] = [];
@@ -66,7 +66,7 @@ export class ReportComponent implements OnInit, OnDestroy {
       .getHtmlReport(this.htmlReport as string, this.reportSelector)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (result: string) => this.htmlResult$.next(result),
+        next: (result) => this.htmlResult$.next(result),
         error: () => {
           this.snackbarService
             .showErrorMessage(this.errorMsg, this.actionText, true)

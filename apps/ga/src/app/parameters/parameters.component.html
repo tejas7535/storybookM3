@@ -43,7 +43,7 @@
           <ga-input
             *ngIf="radialLoadPossible$ | ngrxPush"
             [control]="radial"
-            [label]="t('radialLoad') + ' *'"
+            [label]="t('radialLoad')"
             [unit]="t('loadUnit')"
             [tooltipText]="t('tooltip.radialLoad')"
             [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
@@ -51,7 +51,7 @@
           <ga-input
             *ngIf="axialLoadPossible$ | ngrxPush"
             [control]="axial"
-            [label]="t('axialLoad') + ' *'"
+            [label]="t('axialLoad')"
             [unit]="t('loadUnit')"
             [tooltipText]="t('tooltip.axialLoad')"
             [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
@@ -71,7 +71,7 @@
         <ng-template #exactValuesUnknown>
           <ga-select
             [control]="loadRatio"
-            [label]="t('load') + ' *'"
+            [label]="t('load')"
             [options]="loadRatioOptions"
           ></ga-select>
           <div class="flex flex-row -ml-4 -mt-3">
@@ -103,7 +103,7 @@
         </div>
         <ga-select
           [control]="type"
-          [label]="t('kindOfMotion') + ' *'"
+          [label]="t('kindOfMotion')"
           [options]="typeOptions"
         ></ga-select>
         <ng-container *ngIf="selectedMovementType$ | ngrxPush">
@@ -113,7 +113,7 @@
               else oscillatingFields
             "
             [control]="rotationalSpeed"
-            [label]="t('relativeRotationalSpeed') + ' *'"
+            [label]="t('relativeRotationalSpeed')"
             [unit]="t('onePerMinute')"
             [tooltipText]="t('tooltip.rotationSpeed')"
             [placeholder]="
@@ -125,14 +125,14 @@
         <ng-template #oscillatingFields>
           <ga-input
             [control]="shiftFrequency"
-            [label]="t('shiftFrequency') + ' *'"
+            [label]="t('shiftFrequency')"
             [unit]="t('onePerMinute')"
             [tooltipText]="t('tooltip.shiftFrequency')"
             [placeholder]="t('pleaseEnter', { label: t('shiftFrequency') })"
           ></ga-input>
           <ga-input
             [control]="shiftAngle"
-            [label]="t('shiftAngle') + ' *'"
+            [label]="t('shiftAngle')"
             [unit]="t('degree')"
             [tooltipText]="t('tooltip.shiftAngle')"
             [placeholder]="t('pleaseEnter', { label: t('shiftAngle') })"
@@ -156,20 +156,20 @@
         </div>
         <ga-input
           [control]="operatingTemperature"
-          [label]="t('operatingTemperature') + ' *'"
+          [label]="t('operatingTemperature')"
           [unit]="t('degreeCelsius')"
           [customErrors]="operatingTemperatureErrors"
           [tooltipText]="t('tooltip.operatingTemperature')"
         ></ga-input>
         <ga-input
           [control]="environmentTemperature"
-          [label]="t('environmentTemperature') + ' *'"
+          [label]="t('environmentTemperature')"
           [unit]="t('degreeCelsius')"
           [tooltipText]="t('tooltip.environmentTemperature')"
         ></ga-input>
         <ga-select
           [control]="environmentImpact"
-          [label]="t('environmentalImpactOnGreaseDuration') + ' *'"
+          [label]="t('environmentalImpactOnGreaseDuration')"
           [options]="environmentImpactOptions"
           [tooltipText]="t('tooltip.otherInfluences')"
         ></ga-select>

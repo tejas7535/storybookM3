@@ -1,6 +1,6 @@
 // https://material.angular.io/guide/theming
 // https://glitch.com/~material-theme-builder
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @use './theme-overrides' as overrides;
 
 @import './colors.scss';

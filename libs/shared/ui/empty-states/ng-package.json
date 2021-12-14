@@ -2,11 +2,7 @@
   "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../../dist/libs/shared/ui/empty-states",
   "lib": {
-    "entryFile": "src/index.ts",
-    "umdModuleIds": {
-      "@ngneat/transloco": "@ngneat/transloco",
-      "@schaeffler/transloco": "@schaeffler/transloco"
-    }
+    "entryFile": "src/index.ts"
   },
   "assets": ["**/i18n/*.json"]
 }

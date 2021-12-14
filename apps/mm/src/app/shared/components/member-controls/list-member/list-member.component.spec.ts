@@ -223,15 +223,23 @@ describe('ListMemberComponent', () => {
   describe('preselectOnlyOption', () => {
     it('should preselect an option if there is no other available', () => {
       const listValues$ = new Subject<
-        (BearinxListValue & { value: string })[]
+        (BearinxListValue & {
+          value: string;
+          caption: string;
+          imageUrl: string;
+        })[]
       >();
-      const ops: (BearinxListValue & { value: string })[] = [
+      const ops = [
         {
           id: 'testId',
           text: 'someText',
           value: 'someValue',
         },
-      ];
+      ] as (BearinxListValue & {
+        value: string;
+        caption: string;
+        imageUrl: string;
+      })[];
 
       component.options$ = listValues$.asObservable();
       component['preselectOnlyOption']();
