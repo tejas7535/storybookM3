@@ -25,8 +25,8 @@ export const statusBarStlye = `
 ::ng-deep ag-grid-angular {
     .ag-status-bar {
     border: none !important;
-    padding-left: 23px !important;
-    padding-right: 0px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }`;
 

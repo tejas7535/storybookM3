@@ -1,5 +1,8 @@
 <div *ngIf="!(quotationLoading$ | ngrxPush); else loading">
-  <mat-card class="!pt-0 !pb-9" *ngIf="quotation$ | ngrxPush as quotation">
+  <mat-card
+    class="!pt-0 !pb-9 !shadow-none border-b border-outline"
+    *ngIf="quotation$ | ngrxPush as quotation"
+  >
     <schaeffler-subheader
       *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
       [title]="material | materialInfo"

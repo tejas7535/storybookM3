@@ -9,6 +9,7 @@ import {
 
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
+import { basicTableStyle } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { DEFAULT_COLUMN_DEFS, MODULES } from './config';
@@ -17,7 +18,7 @@ import { ColumnDefService } from './config/column-def.service';
 @Component({
   selector: 'gq-comparable-transactions',
   templateUrl: './comparable-transactions.component.html',
-  styleUrls: ['./comparable-transactions.component.scss'],
+  styles: [basicTableStyle],
 })
 export class ComparableTransactionsComponent {
   @Input() rowData: ComparableLinkedTransaction[];
