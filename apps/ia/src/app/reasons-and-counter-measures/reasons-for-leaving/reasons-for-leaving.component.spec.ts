@@ -79,6 +79,7 @@ describe('ReasonsForLeavingComponent', () => {
       expect(component.comparedSelectedOrgUnit$).toBeDefined();
       expect(component.comparedSelectedTimePeriod$).toBeDefined();
       expect(component.comparedSelectedTime$).toBeDefined();
+      expect(component.chartData$).toBeDefined();
     });
   });
 

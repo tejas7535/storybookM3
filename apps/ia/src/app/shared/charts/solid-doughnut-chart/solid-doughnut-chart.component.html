@@ -1,6 +1,7 @@
 <div class="flex flex-col relative h-full items-center">
   <div
     echarts
+    (chartInit)="onChartInit($event)"
     [options]="options"
     [merge]="mergeOptions"
     class="w-full h-full"

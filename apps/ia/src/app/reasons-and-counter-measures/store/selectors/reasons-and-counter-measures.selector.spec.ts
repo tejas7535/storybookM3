@@ -1,5 +1,7 @@
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
+import { DoughnutChartData } from '../../../shared/charts/models';
+import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { TimePeriod } from '../../../shared/models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
@@ -14,6 +16,7 @@ import {
   getPercentageValue,
   getReasonsChartConfig,
   getReasonsChartData,
+  getReasonsCombinedLegend,
   getReasonsData,
   getReasonsLoading,
   getReasonsTableData,
@@ -430,6 +433,55 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         tooltipFormatter,
         color: [],
       });
+    });
+  });
+
+  describe('getReasonsCombinedLegend', () => {
+    beforeAll(() => {
+      (utils.getTooltipFormatter as any) = jest.fn(() => tooltipFormatter);
+      (utils.getColorsForChart as any) = jest.fn((data, comparedData) =>
+        data && comparedData
+          ? ['red', 'blue', 'green', 'yellow', 'orange']
+          : ['yellow', 'orange']
+      );
+    });
+
+    test('should return legend when compared data undefined', () => {
+      const data: DoughnutChartData[] = [
+        new DoughnutChartData(0, 'January'),
+        new DoughnutChartData(1, 'February'),
+      ];
+      const expectedLegend = [
+        new ChartLegendItem(data[0].name, 'yellow', undefined, true),
+        new ChartLegendItem(data[1].name, 'orange', undefined, true),
+      ];
+
+      const result = getReasonsCombinedLegend.projector(
+        data,
+        undefined as DoughnutChartData[]
+      );
+
+      expect(result).toEqual(expectedLegend);
+    });
+
+    test('should return combined legend when compared data defined', () => {
+      const data: DoughnutChartData[] = [
+        new DoughnutChartData(0, 'January'),
+        new DoughnutChartData(1, 'February'),
+      ];
+      const comparedData: DoughnutChartData[] = [
+        new DoughnutChartData(0, 'January'),
+        new DoughnutChartData(2, 'March'),
+        new DoughnutChartData(1, 'February'),
+      ];
+      const expectedLegend = [
+        new ChartLegendItem(data[0].name, 'yellow', undefined, true),
+        new ChartLegendItem(data[1].name, 'orange', undefined, true),
+        new ChartLegendItem(comparedData[1].name, 'blue', undefined, true),
+      ];
+      const result = getReasonsCombinedLegend.projector(data, comparedData);
+
+      expect(result).toEqual(expectedLegend);
     });
   });
 });

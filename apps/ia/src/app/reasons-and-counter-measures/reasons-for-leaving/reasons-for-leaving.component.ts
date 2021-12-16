@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable, tap } from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -11,6 +11,7 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors/filter/filter.selector';
+import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../../shared/charts/models/solid-doughnut-chart-config.model';
 import {
@@ -36,6 +37,7 @@ import {
   getComparedSelectedTimeRange,
   getReasonsChartConfig,
   getReasonsChartData,
+  getReasonsCombinedLegend,
   getReasonsLoading,
   getReasonsTableData,
 } from '../store/selectors/reasons-and-counter-measures.selector';
@@ -52,6 +54,10 @@ export class ReasonsForLeavingComponent implements OnInit {
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<string>;
+
+  reasonsChartLegend$: Observable<ChartLegendItem[]>;
+
+  chartData$: Observable<[DoughnutChartData[], DoughnutChartData[]]>;
 
   reasonsChartConfig$: Observable<SolidDoughnutChartConfig>;
   reasonsChartData$: Observable<DoughnutChartData[]>;
@@ -77,17 +83,23 @@ export class ReasonsForLeavingComponent implements OnInit {
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
 
-    this.reasonsChartConfig$ = this.store.select(getReasonsChartConfig);
     this.reasonsChartData$ = this.store.select(getReasonsChartData);
+    this.comparedReasonsChartData$ = this.store.select(
+      getComparedReasonsChartData
+    );
+    this.chartData$ = combineLatest([
+      this.reasonsChartData$,
+      this.comparedReasonsChartData$,
+    ]);
+
+    this.reasonsChartLegend$ = this.store.select(getReasonsCombinedLegend);
+
+    this.reasonsChartConfig$ = this.store.select(getReasonsChartConfig);
     this.reasonsTableData$ = this.store.select(getReasonsTableData);
     this.reasonsLoading$ = this.store.select(getReasonsLoading);
 
     this.comparedReasonsChartConfig$ = this.store.select(
       getComparedReasonsChartConfig
-    );
-
-    this.comparedReasonsChartData$ = this.store.select(
-      getComparedReasonsChartData
     );
 
     this.comparedSelectedOrgUnit$ = this.store

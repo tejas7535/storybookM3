@@ -1,7 +1,9 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ECharts } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedModule } from '../../shared.module';
+import { LegendSelectAction } from '../models';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartComponent } from './solid-doughnut-chart.component';
 import * as doughnutConfig from './solid-doughnut-chart.config';
@@ -68,6 +70,7 @@ describe('SolidDoughnutChartComponent', () => {
         { value: 12, name: 'Third' },
       ];
 
+      component.reset = jest.fn();
       component.data = data;
 
       expect((component.mergeOptions.series as any[])[0].data).toHaveLength(3);
@@ -80,6 +83,7 @@ describe('SolidDoughnutChartComponent', () => {
       expect((component.mergeOptions.series as any[])[0].data).toContain(
         data[2]
       );
+      expect(component.reset).toHaveBeenCalledTimes(1);
     });
 
     test('should update legend in merge options', () => {
@@ -89,9 +93,11 @@ describe('SolidDoughnutChartComponent', () => {
         { value: 12, name: 'Third' },
       ];
 
+      component.reset = jest.fn();
       component.data = data;
 
       expect(component.mergeOptions.legend).toBeDefined();
+      expect(component.reset).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -138,6 +144,46 @@ describe('SolidDoughnutChartComponent', () => {
       component.setCurrentData();
 
       expect(component.setData).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('set legendSelectAction', () => {
+    test('should set option in echarts instance when action defined', () => {
+      component.echartsInstance = { setOption: () => {} } as unknown as ECharts;
+      const legendAction: LegendSelectAction = { gold: true };
+      component.echartsInstance.setOption = jest.fn();
+
+      component.legendSelectAction = legendAction;
+
+      expect(component.echartsInstance.setOption).toHaveBeenLastCalledWith({
+        legend: {
+          selected: legendAction,
+        },
+      });
+    });
+
+    test('should not set option in echarts instance when action undefined', () => {
+      component.echartsInstance = { setOption: () => {} } as unknown as ECharts;
+      const legendAction: LegendSelectAction = undefined;
+      component.echartsInstance.setOption = jest.fn();
+
+      component.legendSelectAction = legendAction;
+
+      expect(component.echartsInstance.setOption).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('reset', () => {
+    test('should select all legend items', () => {
+      component.echartsInstance = {
+        dispatchAction: jest.fn(),
+      } as unknown as ECharts;
+
+      component.reset();
+
+      expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
+        type: 'legendAllSelect',
+      });
     });
   });
 });

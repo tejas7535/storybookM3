@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { ChartLegendItem } from './models/chart-legend-item.model';
+import { ChartLegendItem } from '../models/chart-legend-item.model';
 
 @Component({
   selector: 'ia-chart-legend',

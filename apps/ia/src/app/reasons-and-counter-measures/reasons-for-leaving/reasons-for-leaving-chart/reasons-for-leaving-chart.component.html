@@ -1,23 +1,35 @@
-<div class="grid h-full" [ngClass]="comparedData ? 'grid-cols-2' : undefined">
-  <div class="flex flex-col">
-    <h5 class="text-dark pl-1">{{ orgUnit }}</h5>
-    <div class="flex-grow">
-      <ia-solid-doughnut-chart
-        [initialConfig]="config"
-        [data]="data"
-        [isLoading]="isLoading"
-        [titleInside]="comparedData === undefined"
-      ></ia-solid-doughnut-chart>
+<div class="h-full">
+  <div
+    class="md:h-1/2 lg:h-5/6 grid"
+    [ngClass]="{ 'grid-cols-2': comparedData !== undefined }"
+  >
+    <div class="flex flex-col">
+      <h5 class="text-dark pl-1">{{ orgUnit }}</h5>
+      <div class="flex-grow">
+        <ia-solid-doughnut-chart
+          [initialConfig]="config"
+          [data]="defaultData"
+          [isLoading]="isLoading"
+          [titleInside]="comparedData === undefined"
+          [legendSelectAction]="legendSelectAction"
+        ></ia-solid-doughnut-chart>
+      </div>
+    </div>
+    <div class="flex flex-col" *ngIf="comparedData">
+      <h5 class="text-dark pl-1">{{ comparedOrgUnit }}</h5>
+      <div class="flex-grow">
+        <ia-solid-doughnut-chart
+          [initialConfig]="comparedConfig"
+          [data]="comparedData"
+          [isLoading]="isLoading"
+          [legendSelectAction]="legendSelectAction"
+        ></ia-solid-doughnut-chart>
+      </div>
     </div>
   </div>
-  <div class="flex flex-col" *ngIf="comparedData">
-    <h5 class="text-dark pl-1">{{ comparedOrgUnit }}</h5>
-    <div class="flex-grow">
-      <ia-solid-doughnut-chart
-        [initialConfig]="comparedConfig"
-        [data]="comparedData"
-        [isLoading]="isLoading"
-      ></ia-solid-doughnut-chart>
-    </div>
-  </div>
+  <ia-external-legend
+    class="h-1/6"
+    [legend]="combinedLegend"
+    (selectedLegendItem)="onSelectedLegendItem($event)"
+  ></ia-external-legend>
 </div>

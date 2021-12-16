@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
+import { LegendSelectAction } from '../../../shared/charts/models';
+import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-doughnut-chart-config.model';
 
@@ -10,12 +12,34 @@ import { SolidDoughnutChartConfig } from '../../../shared/charts/models/solid-do
 })
 export class ReasonsForLeavingChartComponent {
   @Input() config: SolidDoughnutChartConfig;
-  @Input() data: DoughnutChartData[];
   @Input() isLoading: boolean;
   @Input() orgUnit: string;
 
   @Input() comparedConfig: SolidDoughnutChartConfig;
-  @Input() comparedData: DoughnutChartData[];
   @Input() comparedIsLoading: boolean;
   @Input() comparedOrgUnit: string;
+
+  @Input() combinedLegend: ChartLegendItem[] = [];
+
+  _data: [DoughnutChartData[], DoughnutChartData[]];
+
+  defaultData: DoughnutChartData[]; // left chart
+  comparedData: DoughnutChartData[]; // right chart
+
+  legendSelectAction: LegendSelectAction;
+
+  get data(): [DoughnutChartData[], DoughnutChartData[]] {
+    return this._data;
+  }
+
+  @Input()
+  set data(data: [DoughnutChartData[], DoughnutChartData[]]) {
+    // copy of data is needed to trigger internal reset
+    this.defaultData = data[0] ? [...data[0]] : undefined;
+    this.comparedData = data[1] ? [...data[1]] : undefined;
+  }
+
+  onSelectedLegendItem(action: LegendSelectAction): void {
+    this.legendSelectAction = action;
+  }
 }

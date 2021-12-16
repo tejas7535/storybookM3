@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { EChartsOption, SeriesOption } from 'echarts';
+import { ECharts, EChartsOption, SeriesOption } from 'echarts';
 
+// import { ECBasicOption } from 'echarts/types/dist/shared';
+import { LegendSelectAction } from '../models';
+import { ChartLegendItem } from '../models/chart-legend-item.model';
 import { DoughnutChartData } from '../models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../models/solid-doughnut-chart-config.model';
 import {
@@ -16,13 +19,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolidDoughnutChartComponent {
+  echartsInstance: ECharts;
   options: EChartsOption;
   mergeOptions: EChartsOption;
   _data: DoughnutChartData[];
+  legend: ChartLegendItem[];
 
   @Input() isLoading: boolean;
-
-  @Input() containerCss: string;
 
   @Input() set titleInside(inside: boolean) {
     this.setTitlePosition(inside);
@@ -46,8 +49,29 @@ export class SolidDoughnutChartComponent {
   @Input() set data(data: DoughnutChartData[]) {
     this._data = data;
     if (data) {
+      this.reset();
       this.setData(data);
     }
+  }
+
+  @Input() set legendSelectAction(action: LegendSelectAction) {
+    if (action) {
+      this.echartsInstance?.setOption({
+        legend: {
+          selected: action,
+        },
+      });
+    }
+  }
+
+  reset(): void {
+    this.echartsInstance?.dispatchAction({
+      type: 'legendAllSelect',
+    });
+  }
+
+  onChartInit(ec: ECharts): void {
+    this.echartsInstance = ec;
   }
 
   setData(data: DoughnutChartData[]): void {

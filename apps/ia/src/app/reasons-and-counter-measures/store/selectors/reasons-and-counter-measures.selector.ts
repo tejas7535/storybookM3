@@ -5,6 +5,7 @@ import {
   getBeautifiedSelectedTimeRange,
   getSelectedTimePeriod,
 } from '../../../core/store/selectors';
+import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import { EmployeesRequest, TimePeriod } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
@@ -13,6 +14,7 @@ import {
   selectReasonsAndCounterMeasuresState,
 } from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
+import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
 
 export const getComparedSelectedOrgUnit = createSelector(
   selectReasonsAndCounterMeasuresState,
@@ -162,6 +164,32 @@ export const getComparedReasonsChartConfig = createSelector(
     tooltipFormatter: utils.getTooltipFormatter(),
     color: utils.getColorsForChart(originalData, compareData),
   })
+);
+
+export const getReasonsCombinedLegend = createSelector(
+  getReasonsChartData,
+  getComparedReasonsChartData,
+  (data, comparedData) => {
+    const colors = getColorsForChart(data);
+    const items = utils.mapDataToLegendItems(data, colors);
+
+    if (comparedData) {
+      const comparedLegendColors = getColorsForChart(data, comparedData);
+      const comparedLegendItems: ChartLegendItem[] = utils.mapDataToLegendItems(
+        comparedData,
+        comparedLegendColors
+      );
+      const uniqueComparedItems =
+        utils.getUniqueChartLegendItemsFromComparedLegend(
+          items,
+          comparedLegendItems
+        );
+
+      return [...items, ...uniqueComparedItems];
+    } else {
+      return items;
+    }
+  }
 );
 
 export const getPercentageValue = (part: number, total: number) => {

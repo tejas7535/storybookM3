@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
-import { ChartLegendItem } from '../shared/charts/chart-legend/models/chart-legend-item.model';
+import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
 import { Employee, IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import {

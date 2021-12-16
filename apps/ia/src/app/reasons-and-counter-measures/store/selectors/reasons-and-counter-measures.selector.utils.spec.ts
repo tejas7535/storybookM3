@@ -1,3 +1,5 @@
+import { DoughnutChartData } from '../../../shared/charts/models';
+import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { Color } from '../../../shared/models/color.enum';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import * as utils from './reasons-and-counter-measures.selector.utils';
@@ -98,5 +100,45 @@ describe('getColorsForChart', () => {
       Color.COLORFUL_CHART_1,
       Color.COLORFUL_CHART_0,
     ]);
+  });
+
+  describe('mapDataToLegendItems', () => {
+    test('should map array of DoughnutChartData to array of ChartLegendItem', () => {
+      const dataToMap: DoughnutChartData[] = [
+        new DoughnutChartData(0, 'Lewandowski'),
+        new DoughnutChartData(0, 'Reus'),
+      ];
+      const colors = ['red', 'green', 'blue'];
+      const expectedResult = [
+        new ChartLegendItem(dataToMap[0].name, colors[0], undefined, true),
+        new ChartLegendItem(dataToMap[1].name, colors[1], undefined, true),
+      ];
+
+      const result = utils.mapDataToLegendItems(dataToMap, colors);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getUniqueChartLegendItemsFromComparedLegend', () => {
+    test('should get unique chart legend items', () => {
+      const legend: ChartLegendItem[] = [
+        new ChartLegendItem('Lewandowski', 'red', undefined, true),
+        new ChartLegendItem('Reus', 'blue', undefined, true),
+      ];
+      const comparedLegend: ChartLegendItem[] = [
+        new ChartLegendItem('Hummels', 'orange', undefined, true),
+        new ChartLegendItem('Lewandowski', 'black', undefined, true),
+        new ChartLegendItem('Kimmich', 'white', undefined, true),
+      ];
+      const expectedResult = [comparedLegend[0], comparedLegend[2]];
+
+      const result = utils.getUniqueChartLegendItemsFromComparedLegend(
+        legend,
+        comparedLegend
+      );
+
+      expect(result).toEqual(expectedResult);
+    });
   });
 });

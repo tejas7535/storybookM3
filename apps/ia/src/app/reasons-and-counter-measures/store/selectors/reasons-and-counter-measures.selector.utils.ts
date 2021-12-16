@@ -1,5 +1,6 @@
 import { translate } from '@ngneat/transloco';
 
+import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
 import { Color } from '../../../shared/models/color.enum';
 import { ReasonForLeavingRank } from '../../models/reason-for-leaving-rank.model';
@@ -59,7 +60,7 @@ export function getTooltipFormatter(): string {
   return `{b}<br><b>{c}</b> ${leavers} - <b>{d}%</b>`;
 }
 
-const COLOR_PALETTE = [
+export const COLOR_PALETTE = [
   Color.COLORFUL_CHART_11,
   Color.COLORFUL_CHART_10,
   Color.COLORFUL_CHART_9,
@@ -106,4 +107,29 @@ export function getColorsForChart(
     .filter((color: Color) => color !== undefined);
 
   return colorPalette;
+}
+
+export function mapDataToLegendItems(
+  data: DoughnutChartData[],
+  colors: string[]
+): ChartLegendItem[] {
+  const items: ChartLegendItem[] = [];
+
+  for (const [index, dataItem] of data.entries()) {
+    items.push(
+      new ChartLegendItem(dataItem.name, colors[index], undefined, true)
+    );
+  }
+
+  return items;
+}
+
+export function getUniqueChartLegendItemsFromComparedLegend(
+  legend: ChartLegendItem[],
+  comparedLegend: ChartLegendItem[]
+): ChartLegendItem[] {
+  return comparedLegend.filter(
+    (comparedItem) =>
+      !legend.some((legendItem) => legendItem.name === comparedItem.name)
+  );
 }

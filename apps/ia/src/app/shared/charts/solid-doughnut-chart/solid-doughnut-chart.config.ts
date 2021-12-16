@@ -23,6 +23,9 @@ export function createSolidDoughnutChartBaseOptions(
         fontSize: '1rem',
       },
     },
+    legend: {
+      show: false,
+    },
   };
   setTooltipFormatter(option, config.tooltipFormatter);
 

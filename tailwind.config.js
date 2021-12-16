@@ -12,6 +12,7 @@ const baseColors = {
   primary: '#00893D',
   secondary: '#005f14',
   disabledPrimary: '#99d0b1',
+  disabledSecondary: lightGrey,
   error: '#e62c27',
   warning: '#fccf46',
   informationAccent: '#1d9bb2',

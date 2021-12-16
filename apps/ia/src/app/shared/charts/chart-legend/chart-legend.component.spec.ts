@@ -8,8 +8,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../assets/i18n/en.json';
 import { TailwindColor } from '../../models/taliwind-color.enum';
+import { ChartLegendItem } from '../models/chart-legend-item.model';
 import { ChartLegendComponent } from './chart-legend.component';
-import { ChartLegendItem } from './models/chart-legend-item.model';
 
 describe('ChartLegendComponent', () => {
   let component: ChartLegendComponent;

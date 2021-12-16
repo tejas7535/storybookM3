@@ -34,6 +34,9 @@ describe('solid-doughnut-chart config', () => {
           },
         },
         color: [Color.COLORFUL_CHART_0],
+        legend: {
+          show: false,
+        },
       };
 
       const result = createSolidDoughnutChartBaseOptions(config);
