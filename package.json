@@ -102,7 +102,7 @@
     "@angular-devkit/architect": "0.1300.4",
     "@angular-devkit/build-angular": "13.0.2",
     "@angular-devkit/core": "13.0.2",
-    "@angular-devkit/schematics": "13.0.2",
+    "@angular-devkit/schematics": "13.1.2",
     "@angular-eslint/eslint-plugin": "12.6.1",
     "@angular-eslint/eslint-plugin-template": "12.6.1",
     "@angular-eslint/template-parser": "12.6.1",
