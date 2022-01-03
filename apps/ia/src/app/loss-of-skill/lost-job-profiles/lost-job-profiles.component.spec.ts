@@ -120,6 +120,18 @@ describe('LostJobProfilesComponent', () => {
 
       expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
     });
+
+    test('should not show loading overlay when loading not ready', () => {
+      component.gridApi = {} as GridApi;
+      component.gridApi.showLoadingOverlay = jest.fn();
+      const loadingChanges: SimpleChanges = {
+        loading: undefined as SimpleChange,
+      };
+
+      component.ngOnChanges(loadingChanges);
+
+      expect(component.gridApi.showLoadingOverlay).not.toHaveBeenCalled();
+    });
   });
 
   describe('onGridReady', () => {

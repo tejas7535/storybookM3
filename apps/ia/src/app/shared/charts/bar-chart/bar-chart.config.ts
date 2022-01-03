@@ -151,6 +151,19 @@ export function addSlider(config: BarChartConfig, option: EChartsOption): void {
         showDetail: false,
         minValueSpan: 9,
         filterMode: 'none',
+        moveHandleIcon: 'image://data:image/gif;base64',
+        moveHandleStyle: {
+          color: 'rgba(0, 0, 0, 0.38)',
+          borderCap: 'round',
+          opacity: 1,
+        },
+        moveHandleSize: 8,
+        emphasis: {
+          moveHandleStyle: {
+            color: 'rgba(0, 0, 0, 0.38)',
+            borderCap: 'round',
+          },
+        },
       },
       {
         type: 'inside',

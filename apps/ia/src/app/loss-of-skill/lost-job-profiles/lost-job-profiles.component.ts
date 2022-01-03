@@ -88,8 +88,8 @@ export class LostJobProfilesComponent implements OnChanges {
   constructor(private readonly dialog: MatDialog) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.loading.currentValue && this.gridApi) {
-      this.gridApi.showLoadingOverlay();
+    if (changes.loading?.currentValue) {
+      this.gridApi?.showLoadingOverlay();
     }
   }
 
