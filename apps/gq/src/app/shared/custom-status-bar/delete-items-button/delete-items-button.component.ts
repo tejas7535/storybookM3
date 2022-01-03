@@ -17,7 +17,7 @@ import { QuotationDetail } from '../../models/quotation-detail';
 export class DeleteItemsButtonComponent implements OnInit {
   selections: any[] = [];
   toolPanelOpened: boolean;
-
+  icon = 'delete';
   private params: IStatusPanelParams;
   sap: boolean;
 
@@ -77,7 +77,7 @@ export class DeleteItemsButtonComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
-      data: { displayText, confirmButton, cancelButton },
+      data: { displayText, confirmButton, cancelButton, icon: this.icon },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

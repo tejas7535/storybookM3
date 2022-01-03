@@ -19,6 +19,7 @@ export class UploadSelectionToSapButtonComponent {
   public sapId$: Observable<string>;
   public selections: any[] = [];
   private params: IStatusPanelParams;
+  public icon = 'cloud_upload';
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -63,7 +64,7 @@ export class UploadSelectionToSapButtonComponent {
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
-      data: { displayText, confirmButton, cancelButton },
+      data: { displayText, confirmButton, cancelButton, icon: this.icon },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

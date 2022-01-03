@@ -14,7 +14,9 @@ import { ConfirmationModalComponent } from '../../confirmation-modal/confirmatio
 })
 export class DeleteCaseButtonComponent {
   selections: any[] = [];
+  icon = 'delete';
   private params: IStatusPanelParams;
+
   constructor(
     private readonly store: Store,
     private readonly dialog: MatDialog
@@ -46,7 +48,7 @@ export class DeleteCaseButtonComponent {
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
-      data: { displayText, confirmButton, cancelButton, list },
+      data: { displayText, confirmButton, cancelButton, list, icon: this.icon },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

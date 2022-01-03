@@ -1,4 +1,5 @@
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
@@ -13,6 +14,7 @@ describe('ConfirmationModalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ConfirmationModalComponent,
+    imports: [MatIconModule],
     providers: [
       {
         provide: MatDialogRef,

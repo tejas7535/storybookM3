@@ -14,7 +14,7 @@
       mat-raised-button
       (click)="closeDialog(true)"
     >
-      <mat-icon class="align-middle">update</mat-icon>
+      <mat-icon class="align-middle">{{ data.icon }}</mat-icon>
       {{ data.confirmButton | uppercase }}
     </button>
     <button

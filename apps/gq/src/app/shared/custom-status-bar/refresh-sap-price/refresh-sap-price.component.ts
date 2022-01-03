@@ -12,6 +12,7 @@ import { ConfirmationModalComponent } from '../../confirmation-modal/confirmatio
   templateUrl: './refresh-sap-price.component.html',
 })
 export class RefreshSapPriceComponent {
+  icon = 'update';
   constructor(
     private readonly dialog: MatDialog,
     private readonly store: Store
@@ -34,7 +35,7 @@ export class RefreshSapPriceComponent {
 
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
-      data: { displayText, confirmButton, cancelButton },
+      data: { displayText, confirmButton, cancelButton, icon: this.icon },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

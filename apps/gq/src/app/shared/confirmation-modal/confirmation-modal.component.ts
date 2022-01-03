@@ -11,6 +11,7 @@ export class ConfirmationModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: {
       displayText: string;
+      icon: string;
       confirmButton: string;
       cancelButton: string;
       list?: { id: string; value: string }[];
