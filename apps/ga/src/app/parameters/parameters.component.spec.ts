@@ -1,4 +1,4 @@
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -163,18 +163,15 @@ describe('ParametersComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.rotationalSpeed.addValidators).toHaveBeenCalledWith([
-        // eslint-disable-next-line jest/unbound-method
-        Validators.required,
-      ]);
-      expect(component.shiftFrequency.removeValidators).toHaveBeenCalledWith([
-        // eslint-disable-next-line jest/unbound-method
-        Validators.required,
-      ]);
-      expect(component.shiftAngle.removeValidators).toHaveBeenCalledWith([
-        // eslint-disable-next-line jest/unbound-method
-        Validators.required,
-      ]);
+      expect(component.rotationalSpeed.addValidators).toHaveBeenCalledWith(
+        component.rotationalSpeedValidators
+      );
+      expect(component.shiftFrequency.removeValidators).toHaveBeenCalledWith(
+        component.shiftFrequencyValidators
+      );
+      expect(component.shiftAngle.removeValidators).toHaveBeenCalledWith(
+        component.shiftAngleValidators
+      );
       expect(
         component.rotationalSpeed.updateValueAndValidity
       ).toHaveBeenCalled();
@@ -209,18 +206,15 @@ describe('ParametersComponent', () => {
 
       component.ngOnInit();
 
-      expect(component.rotationalSpeed.removeValidators).toHaveBeenCalledWith([
-        // eslint-disable-next-line jest/unbound-method
-        Validators.required,
-      ]);
-      expect(component.shiftFrequency.addValidators).toHaveBeenCalledWith([
-        // eslint-disable-next-line jest/unbound-method
-        Validators.required,
-      ]);
-      expect(component.shiftAngle.addValidators).toHaveBeenCalledWith([
-        // eslint-disable-next-line jest/unbound-method
-        Validators.required,
-      ]);
+      expect(component.rotationalSpeed.removeValidators).toHaveBeenCalledWith(
+        component.rotationalSpeedValidators
+      );
+      expect(component.shiftFrequency.addValidators).toHaveBeenCalledWith(
+        component.shiftFrequencyValidators
+      );
+      expect(component.shiftAngle.addValidators).toHaveBeenCalledWith(
+        component.shiftAngleValidators
+      );
       expect(
         component.rotationalSpeed.updateValueAndValidity
       ).toHaveBeenCalled();

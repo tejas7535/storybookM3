@@ -77,19 +77,32 @@ export class ParametersComponent implements OnInit, OnDestroy {
       text: 'parameters.oscillating',
     },
   ];
-  public rotationalSpeed = new FormControl(undefined, [
+  public rotationalSpeedValidators = [
     Validators.required,
     Validators.min(0.001),
     Validators.max(1_000_000),
-  ]);
-  public shiftFrequency = new FormControl(undefined, [
+  ];
+  public rotationalSpeed = new FormControl(
+    undefined,
+    this.rotationalSpeedValidators
+  );
+
+  public shiftFrequencyValidators = [
+    Validators.required,
     Validators.min(0.001),
     Validators.max(1_000_000),
-  ]);
-  public shiftAngle = new FormControl(undefined, [
+  ];
+  public shiftFrequency = new FormControl(
+    undefined,
+    this.shiftFrequencyValidators
+  );
+
+  public shiftAngleValidators = [
+    Validators.required,
     Validators.min(0.001),
     Validators.max(10_000),
-  ]);
+  ];
+  public shiftAngle = new FormControl(undefined, this.shiftAngleValidators);
 
   public movementsForm = new FormGroup({
     type: this.type,
@@ -197,13 +210,13 @@ export class ParametersComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((movementType: string) => {
         if (movementType === Movement.rotating) {
-          this.rotationalSpeed.addValidators([Validators.required]);
-          this.shiftFrequency.removeValidators([Validators.required]);
-          this.shiftAngle.removeValidators([Validators.required]);
+          this.rotationalSpeed.addValidators(this.rotationalSpeedValidators);
+          this.shiftFrequency.removeValidators(this.shiftFrequencyValidators);
+          this.shiftAngle.removeValidators(this.shiftAngleValidators);
         } else if (movementType === Movement.oscillating) {
-          this.rotationalSpeed.removeValidators([Validators.required]);
-          this.shiftFrequency.addValidators([Validators.required]);
-          this.shiftAngle.addValidators([Validators.required]);
+          this.rotationalSpeed.removeValidators(this.rotationalSpeedValidators);
+          this.shiftFrequency.addValidators(this.shiftFrequencyValidators);
+          this.shiftAngle.addValidators(this.shiftAngleValidators);
         }
         this.rotationalSpeed.updateValueAndValidity();
         this.shiftFrequency.updateValueAndValidity();
