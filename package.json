@@ -56,9 +56,9 @@
   },
   "private": true,
   "dependencies": {
-    "@ag-grid-community/all-modules": "26.1.0",
-    "@ag-grid-community/angular": "26.1.0",
-    "@ag-grid-enterprise/all-modules": "26.1.0",
+    "@ag-grid-community/all-modules": "26.2.0",
+    "@ag-grid-community/angular": "26.2.0",
+    "@ag-grid-enterprise/all-modules": "26.2.0",
     "@altack/ngx-onetrust": "0.0.5",
     "@angular/animations": "13.0.2",
     "@angular/cdk": "13.0.2",
