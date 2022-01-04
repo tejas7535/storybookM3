@@ -9,9 +9,8 @@
 }
 
 ::ng-deep {
-  .mat-expansion-panel-body {
-    @apply px-6 pt-6 pb-4;
-    @apply border-border border-t-[1px];
+  .mat-expansion-panel-content .mat-expansion-panel-body {
+    @apply pt-4;
   }
 
   .mat-form-field {

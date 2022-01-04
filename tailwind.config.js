@@ -55,49 +55,17 @@ const fontFamilies = {
   materialIcons: ['Material Icons'],
 };
 
-const scrollSnapUtilities = {
-  '.snap-y-mandatory': {
-    'scroll-snap-type': 'y mandatory',
-  },
-  '.snap-x-mandatory': {
-    'scroll-snap-type': 'x mandatory',
-  },
-  '.snap-y-proximity': {
-    'scroll-snap-type': 'y proximity',
-  },
-  '.snap-x-proximity': {
-    'scroll-snap-type': 'x proximity',
-  },
-  '.snap-start': {
-    'scroll-snap-align': 'start',
-  },
-  '.snap-end': {
-    'scroll-snap-align': 'end',
-  },
-  '.snap-center': {
-    'scroll-snap-align': 'center',
-  },
-  '.no-snap': {
-    '.scroll-snap-type': 'none',
-  },
-  '.snap-both': {
-    'scroll-snap-direction': 'both',
-  },
-  '.snap-block': {
-    'scroll-snap-direction': 'block',
-  },
-  '.snap-inline': {
-    'scroll-snap-direction': 'inline',
-  },
-};
-
 module.exports = {
   prefix: '',
-  purge: {
-    content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
-  },
-  mode: 'jit',
-  darkMode: false, // or 'media' or 'class'
+  content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
+  safelist: [
+    /**needed to make material icons work within org chart in app IA */
+    "before:content-['\\e24b']",
+    "before:content-['\\e5d8']",
+    "before:content-['\\e313']",
+    "before:content-['\\e316']",
+    "before:content-['\\e26a']",
+  ],
   theme: {
     colors: {
       ...baseColors,
@@ -154,9 +122,6 @@ module.exports = {
         default: 'cubic-bezier(0.87, 0, 0.13, 1)',
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
     require('@tailwindcss/custom-forms'),
@@ -236,9 +201,6 @@ module.exports = {
           fontWeight: theme('fontWeight.medium'),
         },
       });
-    }),
-    plugin(function ({ addUtilities }) {
-      addUtilities(scrollSnapUtilities);
     }),
   ],
 };

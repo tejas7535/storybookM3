@@ -96,8 +96,8 @@ export class OrgChartService {
       <span>${node.data._directSubordinates}</span>   
       <span class="${
         node.children
-          ? "before:content-['keyboard_arrow_down']"
-          : "before:content-['keyboard_arrow_up']"
+          ? "before:content-['\\e313']"
+          : "before:content-['\\e316']"
       } before:font-materiaIcons"></span>
     </div>
   `;
@@ -110,7 +110,7 @@ export class OrgChartService {
           flex flex-col items-center justify-center
           absolute left-1/2 transform -translate-x-1/2 w-6 h-6 text-[24px] -top-11
           hover:text-mediumEmphasis hover:ring-1 hover:ring-mediumEmphasis">
-        <span id="show-parent" data-id="${data.nodeId}" class="before:content-['arrow_upward'] before:font-materiaIcons"></span>
+        <span id="show-parent" data-id="${data.nodeId}" class="before:content-['\\e5d8'] before:font-materiaIcons"></span>
       </div>
     `;
 
@@ -151,7 +151,7 @@ export class OrgChartService {
                 </tr>
                 <tr class="text-center h-9 divide-x divide-lightBg">
                   <td class="flex text-body-2 text-labels gap-1 items-center h-full">
-                    <span class="text-[16px] before:font-materiaIcons before:content-['insert_chart_outlined'] before:block text-success"></span>
+                    <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-success"></span>
                     <span>${data.textRowAttrition}</span>
                   </td>
                   <td class="text-body-2">${data.directAttrition}</td>
@@ -165,7 +165,7 @@ export class OrgChartService {
                 }" class="before:content-['people'] before:font-materiaIcons cursor-pointer text-[24px] text-labels hover:text-light"></span>
                 <span id="employee-node-attrition" data-id="${
                   data.nodeId
-                }" class="before:content-['insert_chart'] before:font-materiaIcons cursor-pointer text-[24px] text-labels hover:text-light"></span>
+                }" class="before:content-['\\e24b'] before:font-materiaIcons cursor-pointer text-[24px] text-labels hover:text-light"></span>
             </div>
           </div>  
         `;

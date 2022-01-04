@@ -1,197 +1,209 @@
-<div class="md:bg-background h-full" *transloco="let t; read: 'home'">
-  <div
-    class="
-      grid-container grid
-      p-4
-      grid-cols-2 grid-rows-4
-      md:grid-cols-4 md:grid-rows-3
-      gap-4
-      lg:max-w-4xl lg:relative lg:left-1/2
-      min-h-[500px]
-    "
-  >
-    <mat-card
+<div
+  class="md:bg-background h-full flex justify-center"
+  *transloco="let t; read: 'home'"
+>
+  <div class="block">
+    <div
       class="
-        card-flex
-        row-span-1
-        col-span-2
-        md:row-span-3 md:col-span-2
-        min-h-[224px]
-        sm:min-h-[200px]
-        content-between
-        md:w-full
-        cursor-pointer
+        grid
+        p-4
+        grid-cols-2 grid-rows-4
+        md:grid-cols-4 md:grid-rows-3
+        gap-4
+        lg:max-w-4xl
+        min-h-[500px]
       "
-      [routerLink]="greaseCalculationLink"
     >
-      <h5>{{ t('greaseCalculator') }}</h5>
-      <mat-card-content class="flex-grow">
-        <div class="flex flex-col h-full">
-          <div class="w-1/2 md:w-full">
-            <p class="text-subtitle-2 text-lowEmphasis">
-              {{ t('bearinxPowered') }}
-            </p>
-            <p class="text-caption text-lowEmphasis">{{ t('description') }}</p>
-          </div>
-          <div
-            class="
-              flex flex-grow
-              justify-center justify-self-center
-              items-center
-            "
-          >
-            <img
-              src="../assets/images/calc.svg"
-              class="
-                max-h-48
-                calc-img
-                absolute
-                md:static
-                right-0
-                top-0
-                object-contain
-                p-4
-                w-1/2
-              "
-            />
-          </div>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button
-          mat-button
-          color="primary"
-          class="uppercase relative right-2 md:right-1 mb-4"
-          [routerLink]="greaseCalculationLink"
-        >
-          <div class="flex justify-between">
-            <h4 class="text-primary font-normal mr-3">{{ t('startCalc') }}</h4>
-            <span
-              class="
-                bg-primary
-                rounded-full
-                w-[37px]
-                h-[37px]
-                flex
-                items-center
-                justify-center
-              "
+      <mat-card
+        class="
+          card-flex
+          row-span-1
+          col-span-2
+          md:row-span-3 md:col-span-2
+          min-h-[224px]
+          sm:min-h-[200px]
+          content-between
+          md:w-full
+          cursor-pointer
+        "
+        [routerLink]="greaseCalculationLink"
+      >
+        <h5>{{ t('greaseCalculator') }}</h5>
+        <mat-card-content class="grow">
+          <div class="flex flex-col h-full">
+            <div class="w-1/2 md:w-full">
+              <p class="text-subtitle-2 text-lowEmphasis">
+                {{ t('bearinxPowered') }}
+              </p>
+              <p class="text-caption text-lowEmphasis">
+                {{ t('description') }}
+              </p>
+            </div>
+            <div
+              class="flex grow justify-center justify-self-center items-center"
             >
+              <img
+                src="../assets/images/calc.svg"
+                class="
+                  max-h-48
+                  calc-img
+                  absolute
+                  md:static
+                  right-0
+                  top-0
+                  object-contain
+                  p-4
+                  w-1/2
+                "
+              />
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-button
+            color="primary"
+            class="uppercase relative right-2 md:right-1 mb-4"
+            [routerLink]="greaseCalculationLink"
+          >
+            <div class="flex justify-between">
+              <h4 class="text-primary font-normal mr-3">
+                {{ t('startCalc') }}
+              </h4>
               <span
                 class="
-                  bg-white
+                  bg-primary
                   rounded-full
-                  w-[31px]
-                  h-[31px]
+                  w-[37px]
+                  h-[37px]
                   flex
                   items-center
                   justify-center
                 "
               >
-                <mat-icon class="start-icon">play_arrow</mat-icon>
+                <span
+                  class="
+                    bg-white
+                    rounded-full
+                    w-[31px]
+                    h-[31px]
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <mat-icon class="start-icon">play_arrow</mat-icon>
+                </span>
               </span>
-            </span>
+            </div>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-card class="card-half">
+        <a
+          href="{{ t('greaseLink', { sources }) }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="text-overline text-center uppercase">
+            {{ t('greases') }}
           </div>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-    <mat-card class="card-half">
-      <a
-        href="{{ t('greaseLink', { sources }) }}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+          <mat-card-content class="card-content justify-center">
+            <div
+              class="arcanol bg-center bg-contain bg-no-repeat w-full h-full"
+            ></div>
+          </mat-card-content>
+        </a>
+      </mat-card>
+      <mat-card class="card-half">
+        <a
+          href="{{ t('lubricatorsLink', { sources }) }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="text-overline text-center uppercase mb-4 break-words">
+            {{ t('lubricators') }}
+          </div>
+          <mat-card-content class="card-content justify-center">
+            <div
+              class="
+                bg-no-repeat bg-center bg-contain
+                w-full
+                h-full
+                lubricators
+              "
+            ></div>
+          </mat-card-content>
+        </a>
+      </mat-card>
+      <mat-card class="card-half">
+        <a
+          href="{{ t('catalogLink', { sources }) }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="text-overline text-center uppercase">
+            {{ t('catalog') }}
+          </div>
+          <mat-card-content
+            class="card-content flex items-center justify-center"
+          >
+            <div
+              class="
+                bg-contain bg-center bg-no-repeat
+                h-full
+                w-full
+                medias
+                max-w-[85%]
+              "
+            ></div>
+          </mat-card-content>
+        </a>
+      </mat-card>
+      <mat-card class="card-half cursor-not-allowed">
         <div class="text-overline text-center uppercase">
-          {{ t('greases') }}
-        </div>
-        <mat-card-content class="card-content justify-center">
-          <div
-            class="arcanol bg-center bg-contain bg-no-repeat w-full h-full"
-          ></div>
-        </mat-card-content>
-      </a>
-    </mat-card>
-    <mat-card class="card-half">
-      <a
-        href="{{ t('lubricatorsLink', { sources }) }}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <div class="text-overline text-center uppercase mb-4 break-words">
-          {{ t('lubricators') }}
-        </div>
-        <mat-card-content class="card-content justify-center">
-          <div
-            class="bg-no-repeat bg-center bg-contain w-full h-full lubricators"
-          ></div>
-        </mat-card-content>
-      </a>
-    </mat-card>
-    <mat-card class="card-half">
-      <a
-        href="{{ t('catalogLink', { sources }) }}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <div class="text-overline text-center uppercase">
-          {{ t('catalog') }}
+          {{ t('faq') }}
         </div>
         <mat-card-content class="card-content flex items-center justify-center">
-          <div
-            class="
-              bg-contain bg-center bg-no-repeat
-              h-full
-              w-full
-              medias
-              max-w-[85%]
-            "
-          ></div>
+          <span class="text-primary text-[36px] tracking-[1px] font-bold">
+            {{ t('faq') }}
+          </span>
         </mat-card-content>
-      </a>
-    </mat-card>
-    <mat-card class="card-half cursor-not-allowed">
-      <div class="text-overline text-center uppercase">
-        {{ t('faq') }}
-      </div>
-      <mat-card-content class="card-content flex items-center justify-center">
-        <span class="text-primary text-[36px] tracking-[1px] font-bold">
-          {{ t('faq') }}
-        </span>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="col-span-2 md:w-full cursor-not-allowed">
-      <mat-card-content class="flex items-center h-full">
-        <div class="flex h-full">
-          <div
-            class="
-              w-2/4
-              h-full
-              flex
-              justify-center
-              items-center
-              arcanol
-              bg-contain bg-no-repeat bg-center
-            "
-          ></div>
-          <div class="w-2/4 h-full flex flex-col">
-            <h5 class="uppercase">{{ t('concept') }}</h5>
-            <p
+      </mat-card>
+      <mat-card class="col-span-2 md:w-full cursor-not-allowed">
+        <mat-card-content class="flex items-center h-full">
+          <div class="flex h-full">
+            <div
               class="
-                text-caption text-lowEmphasis text-container
-                overflow-hidden
-                flex-shrink-0
+                w-2/4
+                h-full
+                flex
+                justify-center
+                items-center
+                arcanol
+                bg-contain bg-no-repeat bg-center
               "
-            >
-              {{ t('placeholderText') }}
-            </p>
-            <div class="-ml-4">
-              <button mat-button color="primary" disabled>
-                <span>{{ t('learnMore') }}</span>
-              </button>
+            ></div>
+            <div class="w-2/4 h-full flex flex-col">
+              <h5 class="uppercase">{{ t('concept') }}</h5>
+              <p
+                class="
+                  text-caption text-lowEmphasis text-container
+                  overflow-hidden
+                  shrink-0
+                "
+              >
+                {{ t('placeholderText') }}
+              </p>
+              <div class="-ml-4">
+                <button mat-button color="primary" disabled>
+                  <span>{{ t('learnMore') }}</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
 </div>

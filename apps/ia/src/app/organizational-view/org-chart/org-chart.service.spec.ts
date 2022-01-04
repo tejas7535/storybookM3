@@ -125,7 +125,7 @@ describe('OrgChartService', () => {
         },
       };
       const result = service.getButtonContent(node);
-      expect(result).toContain("before:content-['keyboard_arrow_up']");
+      expect(result).toContain("before:content-['\\e316']");
     });
     test('should return node btn with arrow down', () => {
       const node = {
@@ -135,7 +135,7 @@ describe('OrgChartService', () => {
         children: {},
       };
       const result = service.getButtonContent(node);
-      expect(result).toContain("before:content-['keyboard_arrow_down']");
+      expect(result).toContain("before:content-['\\e313']");
     });
   });
 

@@ -20,18 +20,6 @@ mat-card-content.card-flex {
   background-image: url('../../assets/images/medias.png');
 }
 
-@screen md {
-  .grid-container {
-    max-height: calc(100vh - 9rem);
-  }
-}
-
-@screen lg {
-  .grid-container {
-    @apply translate-x-[-50%];
-  }
-}
-
 div span span .start-icon {
   @apply text-[24px] m-0 w-auto h-auto;
 }
