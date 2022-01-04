@@ -40,9 +40,11 @@
   >
     <div
       [ngClass]="embedded ? 'mt-5 pt-5 m-0 p-0' : 'md:m-4 px-4 pb-4'"
-      class="flex-auto bg-white"
+      class="flex-auto bg-white flex"
     >
-      <router-outlet></router-outlet>
+      <div class="flex-1">
+        <router-outlet></router-outlet>
+      </div>
       <div
         class="mx-auto max-w-screen-md w-full"
         [ngClass]="{ hidden: !isCookiePage }"
