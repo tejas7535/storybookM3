@@ -5,16 +5,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
-
 import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
+import esJson from './i18n/es.json';
+import frJson from './i18n/fr.json';
+import ruJson from './i18n/ru.json';
+import zhJson from './i18n/zh.json';
 import { ReportComponent } from './report.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 
@@ -32,17 +35,18 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     MatTableModule,
     MatDividerModule,
     MatTooltipModule,
-
-    // Todo use native snackbar
-    SnackBarModule,
+    MatSnackBarModule,
   ],
   declarations: [ReportComponent, SafeHtmlPipe],
-  providers: [SnackBarService],
   exports: [ReportComponent],
 })
 export class ReportModule {
   public constructor(private readonly translocoService: TranslocoService) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
+    this.translocoService.setTranslation(esJson, 'es');
+    this.translocoService.setTranslation(frJson, 'fr');
+    this.translocoService.setTranslation(ruJson, 'ru');
+    this.translocoService.setTranslation(zhJson, 'zh');
   }
 }

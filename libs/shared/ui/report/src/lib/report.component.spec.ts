@@ -5,13 +5,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { Observable, of, Subject, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { greaseReport } from '../mocks';
@@ -22,6 +22,7 @@ import { ReportService } from './report.service';
 describe('ReportComponent', () => {
   let component: ReportComponent;
   let spectator: Spectator<ReportComponent>;
+  let snackBar: MatSnackBar;
 
   const createComponent = createComponentFactory({
     component: ReportComponent,
@@ -37,11 +38,10 @@ describe('ReportComponent', () => {
       MatIconModule,
       MatButtonModule,
       MatExpansionModule,
-      SnackBarModule,
+      MatSnackBarModule,
     ],
     providers: [
       ReportService,
-      SnackBarService,
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
@@ -58,12 +58,14 @@ describe('ReportComponent', () => {
       }),
     });
     spectator = createComponent();
+    snackBar = spectator.inject(MatSnackBar);
     component = spectator.debugElement.componentInstance;
 
     component.jsonReport = undefined;
     component.htmlReport = undefined;
 
     component.title = 'mockTitle';
+    snackBar.open = jest.fn();
   });
 
   it('should create', () => {
@@ -100,13 +102,11 @@ describe('ReportComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should complete destroy and dismiss the snackbar', () => {
-      component['snackbarService'].dismiss = jest.fn();
       component['destroy$'].next = jest.fn();
       component['destroy$'].complete = jest.fn();
 
       component.ngOnDestroy();
 
-      expect(component['snackbarService'].dismiss).toHaveBeenCalledTimes(1);
       expect(component['destroy$'].next).toHaveBeenCalledTimes(1);
       expect(component['destroy$'].complete).toHaveBeenCalledTimes(1);
     });
@@ -133,28 +133,15 @@ describe('ReportComponent', () => {
       component.getHtmlReport();
     });
 
-    it('getHtmlReport should call snackbar service if report service throws an error', (done) => {
+    it('getHtmlReport should call snackbar service if report service throws an error', () => {
+      const showSnackBarErrorSpy = jest.spyOn(component, 'showSnackBarError');
       component['reportService'].getHtmlReport = jest
         .fn()
         .mockImplementation((_url: string) => throwError('someerror'));
 
-      const snackbarSubject = new Subject<string>();
-
-      component['snackbarService'].showErrorMessage = jest
-        .fn()
-        .mockImplementation(() => {
-          snackbarSubject.next('ok');
-
-          return new Observable<string>();
-        });
-
-      snackbarSubject.subscribe(() => {
-        expect(component['snackbarService'].showErrorMessage).toBeCalledTimes(
-          1
-        );
-        done();
-      });
       component.getHtmlReport();
+
+      expect(showSnackBarErrorSpy).toBeCalledTimes(1);
     });
   });
 
@@ -177,28 +164,23 @@ describe('ReportComponent', () => {
       component.getJsonReport();
     });
 
-    it('getJsonReport should call snackbar service if report service throws an error', (done) => {
+    it('getJsonReport should call snackbar service if report service throws an error', () => {
+      const showSnackBarErrorSpy = jest.spyOn(component, 'showSnackBarError');
+
       component['reportService'].getJsonReport = jest
         .fn()
         .mockImplementation((_url: string) => throwError('someerror'));
 
-      const snackbarSubject = new Subject<string>();
-
-      component['snackbarService'].showErrorMessage = jest
-        .fn()
-        .mockImplementation(() => {
-          snackbarSubject.next('ok');
-
-          return new Observable<string>();
-        });
-
-      snackbarSubject.subscribe(() => {
-        expect(component['snackbarService'].showErrorMessage).toBeCalledTimes(
-          1
-        );
-        done();
-      });
       component.getJsonReport();
+
+      expect(showSnackBarErrorSpy).toBeCalledTimes(1);
+    });
+  });
+
+  describe('showSnackBarError', () => {
+    it('should open the snackbar', () => {
+      component.showSnackBarError();
+      expect(snackBar.open).toBeCalledTimes(1);
     });
   });
 

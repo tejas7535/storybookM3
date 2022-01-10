@@ -1,4 +1,6 @@
 {
+  "snackbarError": "Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
+  "snackbarRetry": "Erneut versuchen",
   "allValues": "Alle Werte und Zeitspannen anzeigen",
   "hideValues": "Zusätzliche Werte verbergen",
   "guideValues": "* Alle dargestellten Zahlen sind Richtwerte",

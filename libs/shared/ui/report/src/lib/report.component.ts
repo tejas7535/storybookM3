@@ -6,11 +6,15 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
 
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
-import { SnackBarService } from '@schaeffler/snackbar';
+import { translate } from '@ngneat/transloco';
 
 import { GreaseReportService } from './grease-report.service';
 import { TableItem, Type } from './models';
@@ -31,19 +35,19 @@ export class ReportComponent implements OnInit, OnDestroy {
   @Input() public jsonReport?: string;
   @Input() public reportSelector?: string;
   @Input() public downloadReport?: string;
-  @Input() public errorMsg =
-    'Unfortunately an error occured. Please try again later.';
-  @Input() public actionText = 'Retry';
+  @Input() public errorMsg = translate('snackbarError') as string;
+  @Input() public actionText = translate('snackbarRetry') as string;
   @Input() public type = Type.GENERIC;
 
   public htmlResult$ = new ReplaySubject<Subordinate[]>();
   public jsonResult$ = new ReplaySubject<Subordinate[]>();
   private readonly destroy$ = new Subject<void>();
   public formattedResult: Subordinate[] = [];
+  public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
   public constructor(
     private readonly reportService: ReportService,
-    private readonly snackbarService: SnackBarService,
+    private readonly snackbar: MatSnackBar,
     private readonly greaseReportService: GreaseReportService
   ) {}
 
@@ -56,9 +60,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.snackbarService.dismiss();
     this.destroy$.next();
     this.destroy$.complete();
+    this.snackBarRef?.dismiss();
   }
 
   public getHtmlReport(): void {
@@ -68,8 +72,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => this.htmlResult$.next(result),
         error: () => {
-          this.snackbarService
-            .showErrorMessage(this.errorMsg, this.actionText, true)
+          this.showSnackBarError();
+          this.snackBarRef
+            ?.afterDismissed()
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => this.getHtmlReport());
         },
@@ -93,12 +98,19 @@ export class ReportComponent implements OnInit, OnDestroy {
           }
         },
         error: () => {
-          this.snackbarService
-            .showErrorMessage(this.errorMsg, this.actionText, true)
+          this.showSnackBarError();
+          this.snackBarRef
+            ?.afterDismissed()
             .pipe(takeUntil(this.destroy$))
             .subscribe(() => this.getJsonReport());
         },
       });
+  }
+
+  public showSnackBarError(): void {
+    this.snackBarRef = this.snackbar.open(this.errorMsg, this.actionText, {
+      duration: Number.POSITIVE_INFINITY,
+    });
   }
 
   public getItem(row: TableItem[], field: string): TableItem | undefined {

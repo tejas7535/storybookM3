@@ -29,9 +29,7 @@ export class ResultPageService {
         return { htmlReportUrl, pdfReportUrl };
       }),
       catchError(() =>
-        throwError(
-          () => new Error(this.translocoService.translate('error.content'))
-        )
+        throwError(() => this.translocoService.translate('error.content'))
       )
     );
   }

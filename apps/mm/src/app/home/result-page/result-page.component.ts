@@ -6,12 +6,15 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import {
+  MatSnackBar,
+  MatSnackBarRef,
+  TextOnlySnackBar,
+} from '@angular/material/snack-bar';
 
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
-
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { environment } from '../../../environments/environment';
 import { RawValue, RawValueContent, Result } from '../../shared/models';
@@ -32,17 +35,18 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   private readonly destroy$ = new Subject<void>();
   private lastFormData?: FormGroup;
   public reportSelector = environment.reportSelector;
+  public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
   public constructor(
     private readonly resultPageService: ResultPageService,
-    private readonly snackbarService: SnackBarService,
+    private readonly snackbar: MatSnackBar,
     private readonly translocoService: TranslocoService
   ) {}
 
   public ngOnChanges(changes: SimpleChanges) {
     if (!changes.active?.currentValue) {
       this.inactive$.next();
-      this.snackbarService.dismiss();
+      this.snackBarRef?.dismiss();
     }
     if (changes.active?.currentValue && this.error$.value) {
       this.send(this.lastFormData);
@@ -88,12 +92,16 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
         },
         error: (err) => {
           this.error$.next(true);
-          this.snackbarService
-            .showErrorMessage(
-              err,
-              this.translocoService.translate('error.retry'),
-              true
-            )
+          this.snackBarRef = this.snackbar.open(
+            err,
+            this.translocoService.translate('error.retry'),
+            {
+              duration: Number.POSITIVE_INFINITY,
+            }
+          );
+
+          this.snackBarRef
+            ?.afterDismissed()
             .pipe(takeUntil(this.inactive$))
             .subscribe(() => {
               this.send(form);

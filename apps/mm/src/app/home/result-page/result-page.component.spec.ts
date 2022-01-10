@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { filter, of, throwError } from 'rxjs';
 
@@ -9,7 +10,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { ReportModule } from '@schaeffler/report';
-import { SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BEARING_CALCULATION_RESULT_MOCK } from '../../../testing/mocks/rest.service.mock';
@@ -20,7 +20,7 @@ describe('ResultPageComponent', () => {
   let component: ResultPageComponent;
   let spectator: Spectator<ResultPageComponent>;
   let resultPageService: ResultPageService;
-  let snackbarService: SnackBarService;
+  let snackBar: MatSnackBar;
 
   const createComponent = createComponentFactory({
     component: ResultPageComponent,
@@ -29,6 +29,7 @@ describe('ResultPageComponent', () => {
       HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       ReportModule,
+      MatSnackBarModule,
     ],
     declarations: [ResultPageComponent],
     providers: [
@@ -42,12 +43,7 @@ describe('ResultPageComponent', () => {
           ),
         },
       },
-      {
-        provide: SnackBarService,
-        useValue: {
-          showErrorMessage: jest.fn((_msg: string) => ({})),
-        },
-      },
+
       {
         provide: ENV_CONFIG,
         useValue: {
@@ -67,7 +63,7 @@ describe('ResultPageComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     resultPageService = spectator.inject(ResultPageService);
-    snackbarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
     const location: Location = window.location;
     delete window.location;
     window.location = {
@@ -79,7 +75,6 @@ describe('ResultPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(resultPageService).toBeTruthy();
-    expect(snackbarService).toBeTruthy();
   });
 
   describe('#send', () => {
@@ -130,14 +125,11 @@ describe('ResultPageComponent', () => {
         },
       };
       const resultSpy = jest.spyOn(component['resultPageService'], 'getResult');
-      const snackSpy = jest.spyOn(
-        component['snackbarService'],
-        'showErrorMessage'
-      );
+
       component.send(mockForm as FormGroup);
 
       component.error$.pipe(filter((val) => val)).subscribe(() => {
-        expect(snackSpy).toHaveBeenCalled();
+        expect(snackBar.open).toBeCalledTimes(1);
       });
       expect(resultSpy).toHaveBeenCalled();
     });

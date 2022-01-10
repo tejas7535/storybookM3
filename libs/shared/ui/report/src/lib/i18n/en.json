@@ -1,4 +1,6 @@
 {
+  "snackbarError": "Unfortunately an error occured. Please try again later.",
+  "snackbarRetry": "Retry",
   "allValues": "Show all values & timeframes",
   "hideValues": "Hide additional values",
   "guideValues": "* All of the above are guide values",
