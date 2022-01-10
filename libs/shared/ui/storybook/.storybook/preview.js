@@ -27,6 +27,7 @@ export const parameters = {
       order: [
         NavigationMain.Atomic,
         [
+          NavigationAtomic.Foundations,
           NavigationAtomic.Atoms,
           NavigationAtomic.Molecules,
           NavigationAtomic.Organisms,

@@ -6,6 +6,7 @@ export enum NavigationMain {
 }
 
 export enum NavigationAtomic {
+  Foundations = 'Foundations',
   Atoms = 'Atoms',
   Molecules = 'Molecules',
   Organisms = 'Organisms',

@@ -10,7 +10,7 @@ import {
 import READMEMd from './responsive/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Atoms}/Responsive`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Responsive`,
   parameters: {
     notes: { markdown: READMEMd },
     badges: [Badges.Final],

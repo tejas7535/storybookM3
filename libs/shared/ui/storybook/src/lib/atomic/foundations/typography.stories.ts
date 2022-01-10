@@ -9,7 +9,7 @@ import {
 import READMEMd from './typography/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Atoms}/Typography`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Typography`,
   decorators: [
     moduleMetadata({
       imports: [],

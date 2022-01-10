@@ -10,7 +10,7 @@ import {
 import READMEMd from './elevation/README.md';
 
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Atoms}/Elevation`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Foundations}/Elevation`,
   decorators: [
     moduleMetadata({
       imports: [],
