@@ -4,5 +4,6 @@
     "emitDecoratorMetadata": true
   },
   "exclude": ["../src/test.ts", "../**/*.spec.ts"],
-  "include": ["../src/**/*"]
+  "include": ["../src/**/*"],
+  "files": ["../../../../../apps/helloworld-azure/src/polyfills.ts"]
 }

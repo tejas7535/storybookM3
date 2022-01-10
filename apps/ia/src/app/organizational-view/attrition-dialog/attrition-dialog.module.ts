@@ -14,7 +14,6 @@ import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-
 
 @NgModule({
   declarations: [AttritionDialogComponent, AttritionDialogMetaComponent],
-  entryComponents: [AttritionDialogComponent],
   imports: [
     SharedModule,
     MatDialogModule,

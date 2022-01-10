@@ -61,9 +61,6 @@
       "@schaeffler/shared/cypress-utils": [
         "libs/shared/cypress-utils/src/index.ts"
       ],
-      "@schaeffler/shared/ui/storybook": [
-        "libs/shared/ui/storybook/src/index.ts"
-      ],
       "@schaeffler/sidebar": ["libs/shared/ui/sidebar/src/index.ts"],
       "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],
       "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],

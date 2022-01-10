@@ -18,7 +18,6 @@ import { SnackBarComponent } from './snackbar.component';
     MatIconModule,
     MatSnackBarModule,
   ],
-  entryComponents: [SnackBarComponent],
   declarations: [SnackBarComponent],
   exports: [SnackBarComponent],
   providers: [

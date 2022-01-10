@@ -11,7 +11,6 @@ import { FeaturesDialogComponent } from './features-dialog.component';
 
 @NgModule({
   declarations: [FeaturesDialogComponent],
-  entryComponents: [FeaturesDialogComponent],
   imports: [
     SharedModule,
     MatDialogModule,

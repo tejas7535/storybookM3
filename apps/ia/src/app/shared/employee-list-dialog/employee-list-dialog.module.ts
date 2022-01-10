@@ -12,7 +12,6 @@ import { EmployeeListDialogComponent } from './employee-list-dialog.component';
 
 @NgModule({
   declarations: [EmployeeListDialogComponent],
-  entryComponents: [EmployeeListDialogComponent],
   imports: [
     SharedModule,
     MatDialogModule,

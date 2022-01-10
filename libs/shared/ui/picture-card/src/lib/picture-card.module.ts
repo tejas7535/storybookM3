@@ -9,7 +9,6 @@ import { PictureCardActionComponent } from './picture-card-action/picture-card-a
 
 @NgModule({
   imports: [CommonModule, MatCardModule, MatIconModule, MatButtonModule],
-  entryComponents: [PictureCardComponent],
   declarations: [PictureCardComponent, PictureCardActionComponent],
   exports: [PictureCardComponent, PictureCardActionComponent],
 })
