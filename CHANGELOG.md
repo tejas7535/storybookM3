@@ -2,6 +2,40 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 1/11/2022
+* assets: [1.12.0](libs/shared/assets/CHANGELOG.md)
+* cypress-utils: [1.13.0](libs/shared/cypress-utils/CHANGELOG.md)
+* @schaeffler/app-shell: [0.0.6](libs/shared/ui/app-shell/CHANGELOG.md)
+* @schaeffler/banner: [3.1.0](libs/shared/ui/banner/CHANGELOG.md)
+* @schaeffler/breadcrumbs: [0.5.0](libs/shared/ui/breadcrumbs/CHANGELOG.md)
+* @schaeffler/dropdown-input: [0.5.0](libs/shared/ui/dropdown-input/CHANGELOG.md)
+* @schaeffler/empty-states: [2.1.0](libs/shared/ui/empty-states/CHANGELOG.md)
+* @schaeffler/file-drop: [2.1.0](libs/shared/ui/file-drop/CHANGELOG.md)
+* @schaeffler/footer: [3.1.0](libs/shared/ui/footer/CHANGELOG.md)
+* @schaeffler/header: [3.1.0](libs/shared/ui/header/CHANGELOG.md)
+* @schaeffler/icons: [2.1.0](libs/shared/ui/icons/CHANGELOG.md)
+* @schaeffler/legal-pages: [0.1.0](libs/shared/ui/legal-pages/CHANGELOG.md)
+* @schaeffler/loading-spinner: [0.5.0](libs/shared/ui/loading-spinner/CHANGELOG.md)
+* @schaeffler/picture-card: [0.5.0](libs/shared/ui/picture-card/CHANGELOG.md)
+* @schaeffler/report: [0.5.0](libs/shared/ui/report/CHANGELOG.md)
+* @schaeffler/roles-and-rights: [0.0.2](libs/shared/ui/roles-and-rights/CHANGELOG.md)
+* @schaeffler/search-autocomplete: [0.5.0](libs/shared/ui/search-autocomplete/CHANGELOG.md)
+* @schaeffler/share-button: [0.1.0](libs/shared/ui/share-button/CHANGELOG.md)
+* @schaeffler/sidebar: [2.1.0](libs/shared/ui/sidebar/CHANGELOG.md)
+* @schaeffler/snackbar: [2.1.0](libs/shared/ui/snackbar/CHANGELOG.md)
+* @schaeffler/stepper: [0.5.0](libs/shared/ui/stepper/CHANGELOG.md)
+* storybook: [1.13.0](libs/shared/ui/storybook/CHANGELOG.md)
+* @schaeffler/styles: [1.4.0](libs/shared/ui/styles/CHANGELOG.md)
+* @schaeffler/subheader: [0.1.0](libs/shared/ui/subheader/CHANGELOG.md)
+* @schaeffler/application-insights: [0.1.3](libs/shared/utils/application-insights/CHANGELOG.md)
+* @schaeffler/azure-auth: [0.1.3](libs/shared/utils/azure-auth/CHANGELOG.md)
+* @schaeffler/http: [0.1.3](libs/shared/utils/http/CHANGELOG.md)
+* @schaeffler/responsive: [3.1.0](libs/shared/utils/responsive/CHANGELOG.md)
+* undefined: [undefined](libs/shared/utils/transloco/components/CHANGELOG.md)
+* @schaeffler/transloco: [3.1.0](libs/shared/utils/transloco/CHANGELOG.md)
+* undefined: [undefined](libs/shared/utils/transloco/testing/CHANGELOG.md)
+
+
 ## 12/14/2021
 * mm: [0.1.13](./apps/mm/CHANGELOG.md)
 

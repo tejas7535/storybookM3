@@ -1,17 +1,17 @@
 # Frontend@Schaeffler
 
-![version](https://img.shields.io/badge/version-v47.0.0-green.svg)
-![@nrwl/workspace: 13.2.3](https://img.shields.io/badge/%40nrwl%2Fworkspace-13.2.3-brightgreen)
-![typescript: 4.4.4](https://img.shields.io/badge/typescript-4.4.4-brightgreen)
-![@angular/core: 13.0.2](https://img.shields.io/badge/%40angular%2Fcore-13.0.2-brightgreen)
-![@angular/cli: 13.0.2](https://img.shields.io/badge/%40angular%2Fcli-13.0.2-brightgreen)
-![@angular/cdk: 13.0.2](https://img.shields.io/badge/%40angular%2Fcdk-13.0.2-brightgreen)
-![@angular/material: 13.0.2](https://img.shields.io/badge/%40angular%2Fmaterial-13.0.2-brightgreen)
+![version](https://img.shields.io/badge/version-v48.0.0-green.svg)
+![@nrwl/workspace: 13.4.3](https://img.shields.io/badge/%40nrwl%2Fworkspace-13.4.3-brightgreen)
+![typescript: 4.5.4](https://img.shields.io/badge/typescript-4.5.4-brightgreen)
+![@angular/core: 13.1.1](https://img.shields.io/badge/%40angular%2Fcore-13.1.1-brightgreen)
+![@angular/cli: 13.1.2](https://img.shields.io/badge/%40angular%2Fcli-13.1.2-brightgreen)
+![@angular/cdk: 13.1.1](https://img.shields.io/badge/%40angular%2Fcdk-13.1.1-brightgreen)
+![@angular/material: 13.1.1](https://img.shields.io/badge/%40angular%2Fmaterial-13.1.1-brightgreen)
 ![@ngrx/store: 13.0.2](https://img.shields.io/badge/%40ngrx%2Fstore-13.0.2-brightgreen)
 ![jest: 27.3.1](https://img.shields.io/badge/jest-27.3.1-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.4.1](https://img.shields.io/badge/prettier-2.4.1-brightgreen)
-![tailwindcss: 3.0.0](https://img.shields.io/badge/tailwindcss-3.0.0-brightgreen)
+![tailwindcss: 3.0.12](https://img.shields.io/badge/tailwindcss-3.0.12-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 
