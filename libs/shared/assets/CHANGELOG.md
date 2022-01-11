@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.11.8...assets-v1.12.0) (2022-01-11)
+
+
+### 🎸 Features
+
+* enable strictTemplate rule for all libs ([#3323](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3323)) ([55d8aef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55d8aefd36823a5774979b7393cbe4dff41ba7de))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
 ### [1.11.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.11.8...assets-v1.11.6) (2021-09-09)
 
 ### [1.11.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/assets-v1.11.7...assets-v1.11.6) (2021-09-07)
