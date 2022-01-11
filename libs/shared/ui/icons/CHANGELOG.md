@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.0.2...icons-v2.1.0) (2022-01-11)
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** icon coloring, add i18n key, responsivness in meta footer ([#2929](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2929)) ([a9cee2b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a9cee2b990a3f0f8b33d54104f2fd3426ec63987))
+
+
+### 🎸 Features
+
+* enable strictTemplate rule for all libs ([#3323](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3323)) ([55d8aef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55d8aefd36823a5774979b7393cbe4dff41ba7de))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ### [2.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.0.2...icons-v2.0.0) (2021-09-09)
 
 ### [2.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.0.1...icons-v2.0.0) (2021-09-07)
