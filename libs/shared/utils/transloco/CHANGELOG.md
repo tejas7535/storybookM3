@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.2...transloco-v3.1.0) (2022-01-11)
+
+
+### 🐛 Bug Fixes
+
+* **transloco:** 2nd entry point for testing module ([f2c1339](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f2c13390fd329ce4d1d69435d6324f91aafc21af))
+* **transloco:** imports in tests & readme updated ([c32329c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c32329ce19668460abac5b3997f0e937b3bfe5ba))
+* **transloco:** use english for missing keys ([#3234](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3234)) ([3553c7b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3553c7b93006707fd0a52f26058fdf3ae05a7774))
+
+
+### 🎸 Features
+
+* enable strictTemplate rule for all libs ([#3323](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3323)) ([55d8aef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55d8aefd36823a5774979b7393cbe4dff41ba7de))
+* **storybook:** add language select to storybook preview ([228992d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/228992dc7116e66f7551679ffed0978b682e46a5))
+* **transloco:** add transloco-locale plugin ([f8fd3dc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f8fd3dc4ce3592a026847296e6550c9d846c6a4b))
+* **transloco:** implement shared component "language-select" ([#3191](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3191)) ([a675e8a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a675e8a14572aec7dfb60da4674738ff2450b67c))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ### [3.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.2...transloco-v3.0.0) (2021-09-09)
 
 ### [3.0.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.1...transloco-v3.0.0) (2021-09-07)
