@@ -3,11 +3,16 @@
     *transloco="let t; read: 'conditionMonitoring.shaft'"
     class="flex flex-col h-full overflow-y-scroll"
   >
-    <mat-card-header>
+    <mat-card-header class="w-full">
       <mat-card-title>
-        <div class="inline-flex items-center">
-          <mat-icon>speed</mat-icon>
-          <span>{{ t('title') }}</span>
+        <div class="inline-flex items-center justify-between w-full">
+          <div class="inline-flex items-center">
+            <mat-icon>speed</mat-icon>
+            <span>{{ t('title') }}</span>
+          </div>
+          <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
+            >more_vert</mat-icon
+          >
         </div>
       </mat-card-title>
       <mat-card-subtitle class="card-subtitle">
@@ -21,6 +26,7 @@
         </div>
       </mat-card-subtitle>
     </mat-card-header>
+
     <mat-card-content>
       <div class="flex flex-col items-center">
         <div class="gauge_title">
@@ -30,7 +36,7 @@
           echarts
           [options]="chartOptions"
           [merge]="shaftLatestGraphData$ | ngrxPush"
-          class="flex dashboard-echart shaft-chart"
+          class="flex dashboard-echart"
         ></div>
       </div>
     </mat-card-content>

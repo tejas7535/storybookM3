@@ -1,8 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
@@ -17,6 +19,7 @@ import {
   getLoadDistributionTimeStamp,
 } from '../../../core/store/selectors/load-distribution/load-distribution.selector';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
+import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { config } from './polar-options.echart';
 @Component({
   selector: 'goldwind-load-distribution-card',
@@ -64,7 +67,8 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
    */
   public constructor(
     private readonly store: Store,
-    private readonly activate: ActivatedRoute
+    private readonly activate: ActivatedRoute,
+    private readonly dialog: MatDialog
   ) {}
 
   /**
@@ -97,5 +101,26 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
     this.polarSeries$ = this.store.select(getLoadDistributionSeries);
     this.timeStamp$ = this.store.select(getLoadDistributionTimeStamp);
     this.interval$ = this.store.select(getLoadAssessmentInterval);
+  }
+  /**
+   * opens a dialog with more info of the sensor
+   */
+  openMoreInfo() {
+    this.dialog.open(DashboardMoreInfoDialogComponent, {
+      maxWidth: '400px',
+      data: {
+        title: translate(
+          'conditionMonitoring.conditionMeasuringEquipment.loadSensePin'
+        ),
+        text: `
+        ${translate(
+          'conditionMonitoring.conditionMeasuringEquipment.functionality'
+        )}
+        ${translate(
+          'conditionMonitoring.conditionMeasuringEquipment.functionalityLoad'
+        )}
+        `,
+      },
+    });
   }
 }

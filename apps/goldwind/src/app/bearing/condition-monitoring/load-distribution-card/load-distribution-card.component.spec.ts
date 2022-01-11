@@ -1,5 +1,10 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSliderModule } from '@angular/material/slider';
@@ -9,6 +14,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { LoadDistributionCardComponent } from './load-distribution-card.component';
 
 describe('CenterLoadComponent', () => {
@@ -17,8 +23,9 @@ describe('CenterLoadComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LoadDistributionCardComponent,
-    detectChanges: false,
+    detectChanges: true,
     imports: [
+      MatDialogModule,
       MatCardModule,
       MatIconModule,
       MatIconTestingModule,
@@ -46,7 +53,10 @@ describe('CenterLoadComponent', () => {
         useValue: false,
       },
     ],
-    declarations: [LoadDistributionCardComponent],
+    declarations: [
+      LoadDistributionCardComponent,
+      DashboardMoreInfoDialogComponent,
+    ],
   });
 
   beforeEach(() => {

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,6 +27,7 @@ import { LoadAssessmentRoutingModule } from './load-assessment-routing.module';
     LoadDistributionCardModule,
     // UI Modules
     MatCardModule,
+    MatDialogModule,
     AssessmentLinechartModule,
     // Translation
     SharedTranslocoModule,

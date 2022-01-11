@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
@@ -17,6 +19,7 @@ import {
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
+import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 
 @Component({
   selector: 'goldwind-grease-monitor',
@@ -40,7 +43,10 @@ export class GreaseMonitorComponent implements OnInit {
   };
   refresh = UPDATE_SETTINGS.grease.refresh;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getGreaseStatusLatestGraphData({ sensor: this.sensor });
@@ -68,5 +74,25 @@ export class GreaseMonitorComponent implements OnInit {
     );
 
     this.greaseTimeStamp$ = this.store.select(getGreaseTimeStamp);
+  }
+
+  /**
+   * opens a dialog with more info of the sensor
+   */
+  openMoreInfo() {
+    this.dialog.open(DashboardMoreInfoDialogComponent, {
+      maxWidth: '400px',
+      data: {
+        title: translate('greaseStatus.title'),
+        text: `
+        ${translate(
+          'conditionMonitoring.conditionMeasuringEquipment.functionality'
+        )}
+        ${translate(
+          'conditionMonitoring.conditionMeasuringEquipment.functionalityGrease'
+        )}
+        `,
+      },
+    });
   }
 }

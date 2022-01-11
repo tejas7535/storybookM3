@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable, Subscription } from 'rxjs';
@@ -22,11 +23,11 @@ import {
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
+import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 
 @Component({
   selector: 'goldwind-edm-monitor',
   templateUrl: './edm-monitor.component.html',
-  styleUrls: ['./edm-monitor.component.scss'],
 })
 export class EdmMonitorComponent implements OnInit, OnDestroy {
   refresh = UPDATE_SETTINGS.edmhistorgram.refresh;
@@ -108,7 +109,8 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly store: Store,
-    private readonly activate: ActivatedRoute
+    private readonly activate: ActivatedRoute,
+    private readonly dialog: MatDialog
   ) {}
 
   /**
@@ -238,5 +240,22 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
   switchSensor(event: any) {
     this.channel = `edm-${event.value}`;
     this.updateEDM();
+  }
+
+  openMoreInfo() {
+    this.dialog.open(DashboardMoreInfoDialogComponent, {
+      maxWidth: '400px',
+      data: {
+        title: translate('conditionMonitoring.edmMonitor.title'),
+        text: `
+      ${translate(
+        'conditionMonitoring.conditionMeasuringEquipment.functionality'
+      )}
+      ${translate(
+        'conditionMonitoring.conditionMeasuringEquipment.functionalityEdm'
+      )}
+      `,
+      },
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -14,6 +15,7 @@ import { DATE_FORMAT } from '../../../shared/constants';
 import { DateRangeModule } from '../../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../../shared/empty-graph/empty-graph.module';
 import { SensorModule } from '../../../shared/sensor/sensor.module';
+import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { EdmMonitorComponent } from './edm-monitor.component';
 
 describe('EdmMonitorComponent', () => {
@@ -30,6 +32,7 @@ describe('EdmMonitorComponent', () => {
       MatCardModule,
       MatIconModule,
       MatIconTestingModule,
+      MatDialogModule,
       RouterTestingModule,
       MatSlideToggleModule,
       NgxEchartsModule.forRoot({
@@ -43,7 +46,7 @@ describe('EdmMonitorComponent', () => {
         useValue: false,
       },
     ],
-    declarations: [EdmMonitorComponent],
+    declarations: [EdmMonitorComponent, DashboardMoreInfoDialogComponent],
     detectChanges: false,
   });
 

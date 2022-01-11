@@ -27,6 +27,7 @@
 
 :host::ng-deep {
   .mat-card-header-text {
+    @apply w-full;
     margin: 0 !important;
   }
 

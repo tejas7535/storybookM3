@@ -24,3 +24,19 @@
     height: calc(100vh - 60px - 48px - 72px - 85px);
   }
 }
+
+:host::ng-deep {
+  .mat-card-title {
+    mat-icon:nth-child(1) {
+      font-size: 24px;
+      margin-right: 0.5rem;
+    }
+  }
+  .mat-card-header-text {
+    margin: 0 !important;
+    width: 100%;
+  }
+  .dashboard-echart {
+    width: 100%;
+  }
+}

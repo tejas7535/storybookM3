@@ -5,11 +5,24 @@
   >
     <div class="flex flex-col h-full">
       <div class="flex justify-between">
-        <mat-card-header class="h-auto">
+        <mat-card-header class="w-full">
           <mat-card-title>
-            <div class="inline-flex items-center">
-              <mat-icon svgIcon="icon-vibration"></mat-icon>
-              <span>{{ t('title') }}</span>
+            <div class="inline-flex items-center justify-between w-full">
+              <div class="inline-flex items-center">
+                <mat-icon svgIcon="icon-vibration"></mat-icon>
+                <span>{{ t('title') }}</span>
+              </div>
+              <div class="inline-flex items-center">
+                <goldwind-sensor
+                  [type]="type"
+                  [sensor]="sensor"
+                  (sensorToggle)="switchSensor($event)"
+                  class="mr-2"
+                ></goldwind-sensor>
+                <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
+                  >more_vert</mat-icon
+                >
+              </div>
             </div>
           </mat-card-title>
           <mat-card-subtitle *transloco="let t; read: 'bearing'">
@@ -25,11 +38,6 @@
             </div>
           </mat-card-subtitle>
         </mat-card-header>
-        <goldwind-sensor
-          [type]="type"
-          [sensor]="sensor"
-          (sensorToggle)="switchSensor($event)"
-        ></goldwind-sensor>
       </div>
       <mat-card-content class="h-full">
         <div class="flex flex-col h-full">

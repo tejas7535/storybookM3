@@ -1,6 +1,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -55,6 +56,7 @@ describe('LoadAssessmentComponent', () => {
     imports: [
       RouterTestingModule,
       ReactiveFormsModule,
+      MatDialogModule,
       AssessmentLinechartModule,
       LoadDistributionCardModule,
       MatIconTestingModule,
