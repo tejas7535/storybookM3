@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.12.3...cypress-utils-v1.13.0) (2022-01-11)
+
+
+### 🎸 Features
+
+* enable strictTemplate rule for all libs ([#3323](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3323)) ([55d8aef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55d8aefd36823a5774979b7393cbe4dff41ba7de))
+* **scroll-to-top:** remove shared lib ([#3046](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3046)) ([a437f27](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a437f272a3027325404a16eee00fe676e67d5e10))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+
 ### [1.12.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.12.3...cypress-utils-v1.12.1) (2021-09-09)
 
 ### [1.12.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.12.2...cypress-utils-v1.12.1) (2021-09-07)
