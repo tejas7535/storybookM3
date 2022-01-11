@@ -10,11 +10,21 @@
   >
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <input
+      *ngIf="onlyPositive; else casualInput"
       matInput
       type="number"
       [formControl]="control"
       [placeholder]="placeholder"
+      [min]="0"
     />
+    <ng-template #casualInput>
+      <input
+        matInput
+        type="number"
+        [formControl]="control"
+        [placeholder]="placeholder"
+      />
+    </ng-template>
     <div *ngIf="unit" class="relative bottom-1" matSuffix>
       {{ unit }}
     </div>

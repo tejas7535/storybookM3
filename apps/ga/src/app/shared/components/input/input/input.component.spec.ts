@@ -42,4 +42,26 @@ describe('InputComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('ngOnInit', () => {
+    it('should start subscribtion that patches negative values', () => {
+      component.onlyPositive = true;
+
+      component.control.patchValue(-5);
+
+      expect(component.control.value).toBe(5);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should call the destroy methods', () => {
+      const nextSpy = jest.spyOn(component.destroy$, 'next');
+      const completeSpy = jest.spyOn(component.destroy$, 'complete');
+
+      component.ngOnDestroy();
+
+      expect(nextSpy).toHaveBeenCalledTimes(1);
+      expect(completeSpy).toHaveBeenCalledTimes(1);
+    });
+  });
 });
