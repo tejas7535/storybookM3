@@ -746,7 +746,7 @@ pipeline {
                                 sh "echo 'email=${USERNAME}' > ~/.npmrc"
                                 sh "echo '//artifactory.schaeffler.com/artifactory/api/npm/npm/:_authToken=${API_KEY}' > ~/.npmrc"
 
-                                sh "npx nx affected --base=${buildBase} --target=publish"
+                                sh "npx nx affected --base=${buildBase} --target=publish --registry=https://artifactory.schaeffler.com/artifactory/api/npm/npm/"
                             }
                         }
                     }

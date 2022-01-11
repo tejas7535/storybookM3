@@ -38,6 +38,23 @@
         "jestConfig": "libs/shared/ui/subheader/jest.config.js",
         "passWithNoTests": true
       }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/subheader"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/subheader --tag latest"
+          }
+        ]
+      }
     }
   },
   "tags": ["scope:shared", "type:ui"],
