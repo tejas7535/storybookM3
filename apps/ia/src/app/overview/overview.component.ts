@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -48,12 +48,14 @@ export class OverviewComponent implements OnInit {
   isUnforcedFluctuationChartLoading$: Observable<boolean>;
   unforcedFluctuationKpi$: Observable<FluctuationKpi>;
 
-  attritionRateloading$: Observable<boolean>;
+  attritionRateLoading$: Observable<boolean>;
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
 
   exitsDoughnutConfig$: Observable<DoughnutConfig>;
   entriesDoughnutConfig$: Observable<DoughnutConfig>;
+  chartData$: Observable<[DoughnutConfig, DoughnutConfig]>;
+
   isLoadingDoughnutsConfig$: Observable<boolean>;
   entriesCount$: Observable<number>;
   exitsCount$: Observable<number>;
@@ -121,6 +123,11 @@ export class OverviewComponent implements OnInit {
       getOverviewFluctuationExitsDoughnutConfig
     );
 
+    this.chartData$ = combineLatest([
+      this.entriesDoughnutConfig$,
+      this.exitsDoughnutConfig$,
+    ]);
+
     this.entriesCount$ = this.store.select(getOverviewFluctuationEntriesCount);
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
     this.exitEmployees$ = this.store.select(getLeaversDataForSelectedOrgUnit);
@@ -142,7 +149,7 @@ export class OverviewComponent implements OnInit {
   }
 
   loadAttritionRateData() {
-    this.attritionRateloading$ = this.store.select(
+    this.attritionRateLoading$ = this.store.select(
       getIsLoadingAttritionOverTimeOverview
     );
     this.events$ = this.store.select(getAttritionOverTimeEvents);

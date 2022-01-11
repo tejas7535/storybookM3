@@ -13,10 +13,8 @@ export const createPieChartBaseOptions = (
     extraCssText: 'opacity: 0',
   },
   legend: {
-    bottom: 10,
-    left: 10,
     data: legend,
-    show: legend !== undefined,
+    show: false,
   },
   title: {
     text,
@@ -67,6 +65,7 @@ export const createPieChartSeries = (
         },
         itemStyle: {
           color,
+          borderRadius: ['20%', '50%'],
         },
       },
       {

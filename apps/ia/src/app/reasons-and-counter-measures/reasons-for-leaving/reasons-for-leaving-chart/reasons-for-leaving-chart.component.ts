@@ -28,10 +28,6 @@ export class ReasonsForLeavingChartComponent {
 
   legendSelectAction: LegendSelectAction;
 
-  get data(): [DoughnutChartData[], DoughnutChartData[]] {
-    return this._data;
-  }
-
   @Input()
   set data(data: [DoughnutChartData[], DoughnutChartData[]]) {
     // copy of data is needed to trigger internal reset

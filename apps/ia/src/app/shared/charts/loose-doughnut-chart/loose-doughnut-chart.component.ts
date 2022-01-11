@@ -3,6 +3,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { EChartsOption, SeriesOption } from 'echarts';
 
 import { Color } from '../../models/color.enum';
+import { ExternalLegend } from '../external-legend';
+import { LegendSelectAction } from '../models';
 import { DoughnutConfig } from '../models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../models/doughnut-series-config.model';
 import {
@@ -15,7 +17,7 @@ import {
   templateUrl: './loose-doughnut-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LooseDoughnutChartComponent {
+export class LooseDoughnutChartComponent extends ExternalLegend {
   options: EChartsOption;
   mergeOptions: EChartsOption;
 
@@ -44,6 +46,7 @@ export class LooseDoughnutChartComponent {
 
   @Input() set data(config: DoughnutConfig) {
     if (config && config.series) {
+      this.resetSelection();
       const series = this.createSeriesOptions(config);
       let totalValue = 0;
 
@@ -59,6 +62,16 @@ export class LooseDoughnutChartComponent {
         },
         series,
       };
+    }
+  }
+
+  @Input() set legendSelectAction(action: LegendSelectAction) {
+    if (action) {
+      this.echartsInstance?.setOption({
+        legend: {
+          selected: action,
+        },
+      });
     }
   }
 

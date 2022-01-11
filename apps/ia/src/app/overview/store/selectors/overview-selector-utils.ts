@@ -111,6 +111,9 @@ export function createFluctuationRateChartConfig(
       formatter: (param: any) => `${param.data}%`,
     },
     displayMode: 'multipleByCoordSys',
+    grid: {
+      left: 50,
+    },
   };
 }
 

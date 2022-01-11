@@ -1,7 +1,10 @@
-<div class="grid grid-cols-3 gap-1 cursor-pointer">
+<div
+  class="flex-wrap gap-3 items-center justify-center"
+  [ngClass]="legend?.length > 2 ? 'grid grid-cols-3' : 'flex flex-row'"
+>
   <div
     *ngFor="let item of legend; trackBy: trackByFn"
-    class="flex items-center"
+    class="flex items-center cursor-pointer"
     (click)="onLegendItemClicked(item.name)"
   >
     <div
@@ -10,7 +13,7 @@
       [style.background-color]="item.selected ? item.color : undefined"
     ></div>
     <span
-      class="inline small font-light text-caption"
+      class="inline font-light text-caption"
       [ngClass]="{ 'text-disabled': !item.selected }"
       >{{ item.name }}</span
     >

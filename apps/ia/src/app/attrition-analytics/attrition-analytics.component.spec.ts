@@ -32,6 +32,7 @@ import {
   createBarchartConfigForAge,
   createDummyBarChartSerie,
 } from './store/selectors/attrition-analytics.selector.spec.factory';
+import { LoadingSpinnerComponent } from '@schaeffler/loading-spinner';
 
 describe('AttritionAnalyticsComponent', () => {
   let component: AttritionAnalyticsComponent;
@@ -71,6 +72,7 @@ describe('AttritionAnalyticsComponent', () => {
     declarations: [
       MockComponent(BarChartComponent),
       MockComponent(FeatureImportanceComponent),
+      MockComponent(LoadingSpinnerComponent),
     ],
   });
 

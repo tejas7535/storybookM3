@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
+import { LegendSelectAction } from '../../shared/charts/models';
+import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
@@ -26,12 +28,43 @@ export class EntriesExitsComponent {
       Color.LIGHT_BLUE
     ),
   ];
-  @Input() entriesDoughnutConfig: DoughnutConfig;
+  legend: ChartLegendItem[];
+  legendSelectAction: LegendSelectAction;
+  entriesDoughnutConfig: DoughnutConfig;
+  exitsDoughnutConfig: DoughnutConfig;
+
   @Input() isDataLoading: boolean;
-  @Input() exitsDoughnutConfig: DoughnutConfig;
   @Input() entriesCount: number;
   @Input() exitsCount: number;
   @Input() exitEmployees: Employee[] = [];
   @Input() entryEmployees: Employee[] = [];
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
+
+  @Input() set data(data: [DoughnutConfig, DoughnutConfig]) {
+    // copy of data is needed to trigger internal reset
+    this.entriesDoughnutConfig = data[0];
+    this.exitsDoughnutConfig = data[1];
+    this.legend = this.getLegend();
+  }
+
+  onSelectedLegendItem(action: LegendSelectAction): void {
+    this.legendSelectAction = action;
+  }
+
+  getLegend(): ChartLegendItem[] {
+    return [
+      new ChartLegendItem(
+        translate('overview.internal'),
+        Color.LIME,
+        undefined,
+        true
+      ),
+      new ChartLegendItem(
+        translate('overview.external'),
+        Color.LIGHT_BLUE,
+        undefined,
+        true
+      ),
+    ];
+  }
 }

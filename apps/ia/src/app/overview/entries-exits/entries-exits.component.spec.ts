@@ -8,7 +8,10 @@ import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ExternalLegendComponent } from '../../shared/charts/external-legend/external-legend.component';
 import { LooseDoughnutChartComponent } from '../../shared/charts/loose-doughnut-chart/loose-doughnut-chart.component';
+import { LegendSelectAction } from '../../shared/charts/models';
+import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { KpiModule } from '../../shared/kpi/kpi.module';
@@ -61,7 +64,10 @@ describe('EntriesExitsComponent', () => {
       KpiModule,
       SharedPipesModule,
     ],
-    declarations: [MockComponent(LooseDoughnutChartComponent)],
+    declarations: [
+      MockComponent(LooseDoughnutChartComponent),
+      MockComponent(ExternalLegendComponent),
+    ],
   });
 
   beforeEach(() => {
@@ -70,33 +76,73 @@ describe('EntriesExitsComponent', () => {
     fixture = spectator.fixture;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set data', () => {
-    component.entriesDoughnutConfig = new DoughnutConfig('Demo Entries', [
-      new DoughnutSeriesConfig([{ value: 23 }], 'entries', Color.WHITE),
-    ]);
-    component.exitsDoughnutConfig = new DoughnutConfig('Demo Exits', [
-      new DoughnutSeriesConfig([{ value: 23 }], 'exits', Color.BLACK),
-    ]);
-    component.entriesCount = 65;
-    component.exitsCount = 72;
-    component.exitEmployees = [];
+  describe('template', () => {
+    test('should create template', () => {
+      component.entriesDoughnutConfig = new DoughnutConfig('Demo Entries', [
+        new DoughnutSeriesConfig([{ value: 23 }], 'entries', Color.WHITE),
+      ]);
+      component.exitsDoughnutConfig = new DoughnutConfig('Demo Exits', [
+        new DoughnutSeriesConfig([{ value: 23 }], 'exits', Color.BLACK),
+      ]);
+      component.entriesCount = 65;
+      component.exitsCount = 72;
+      component.exitEmployees = [];
 
-    fixture.detectChanges();
+      fixture.detectChanges();
 
-    const kpiValues = fixture.debugElement
-      .queryAll(By.css('h4'))
-      .map((element) => element.nativeElement.textContent);
-    const charts = fixture.debugElement.queryAll(
-      By.css('ia-loose-doughnut-chart')
-    );
+      const kpiValues = fixture.debugElement
+        .queryAll(By.css('h4'))
+        .map((element) => element.nativeElement.textContent);
+      const charts = fixture.debugElement.queryAll(
+        By.css('ia-loose-doughnut-chart')
+      );
 
-    expect(kpiValues.length).toEqual(2);
-    expect(kpiValues).toContain(component.entriesCount.toString());
-    expect(kpiValues).toContain(component.exitsCount.toString());
-    expect(charts.length).toEqual(2);
+      expect(kpiValues.length).toEqual(2);
+      expect(kpiValues).toContain(component.entriesCount.toString());
+      expect(kpiValues).toContain(component.exitsCount.toString());
+      expect(charts.length).toEqual(2);
+    });
+  });
+
+  describe('set data', () => {
+    test('should set data and legend', () => {
+      const data: [DoughnutConfig, DoughnutConfig] = [
+        new DoughnutConfig('donnut 1', []),
+        new DoughnutConfig('donnut 2', []),
+      ];
+      const legend: ChartLegendItem[] = [
+        new ChartLegendItem('donnut 1', 'red', undefined, true),
+        new ChartLegendItem('donnut 2', 'green', undefined, true),
+      ];
+      component.getLegend = jest.fn().mockReturnValue(legend);
+
+      component.data = data;
+
+      expect(component.entriesDoughnutConfig).toEqual(data[0]);
+      expect(component.exitsDoughnutConfig).toEqual(data[1]);
+      expect(component.legend).toBe(legend);
+    });
+  });
+
+  describe('onSelectedLegendItem', () => {
+    test('should set legend select action', () => {
+      const action: LegendSelectAction = { dog: true };
+
+      component.onSelectedLegendItem(action);
+
+      expect(component.legendSelectAction).toBe(action);
+    });
+  });
+
+  describe('getLegend', () => {
+    test('should get legend', () => {
+      const result = component.getLegend();
+
+      expect(result.length).toBe(2);
+    });
   });
 });

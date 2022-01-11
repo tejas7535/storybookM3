@@ -16,10 +16,8 @@ describe('loose-doughnut-chart config', () => {
           extraCssText: 'opacity: 0',
         },
         legend: {
-          bottom: 10,
-          left: 10,
           data: undefined,
-          show: undefined,
+          show: false,
         },
         title: {
           text: '',
@@ -51,7 +49,7 @@ describe('loose-doughnut-chart config', () => {
         legend: {
           ...echartsOptions.legend,
           data: legend,
-          show: true,
+          show: false,
         },
         title: {
           ...echartsOptions.title,
@@ -155,6 +153,7 @@ describe('loose-doughnut-chart config', () => {
             name: dataName,
             itemStyle: {
               color,
+              borderRadius: ['20%', '50%'],
             },
           },
           { ...seriesConfig.data[1], value: 80 },
@@ -190,6 +189,7 @@ describe('loose-doughnut-chart config', () => {
             name: dataName,
             itemStyle: {
               color,
+              borderRadius: ['20%', '50%'],
             },
           },
           { ...seriesConfig.data[1], value: 100 },

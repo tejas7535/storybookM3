@@ -69,9 +69,8 @@
     <div class="shadow p-4 w-full lg:grow lg:max-w-[29%] flex flex-col">
       <div class="flex-1">
         <ia-entries-exits
-          [entriesDoughnutConfig]="entriesDoughnutConfig$ | ngrxPush"
+          [data]="chartData$ | ngrxPush"
           [isDataLoading]="isLoadingDoughnutsConfig$ | ngrxPush"
-          [exitsDoughnutConfig]="exitsDoughnutConfig$ | ngrxPush"
           [entriesCount]="entriesCount$ | ngrxPush"
           [exitsCount]="exitsCount$ | ngrxPush"
           [exitEmployees]="exitEmployees$ | ngrxPush"
@@ -106,7 +105,7 @@
   </h5>
   <div class="bg-white">
     <ia-overview-chart
-      [loading]="attritionRateloading$ | ngrxPush"
+      [loading]="attritionRateLoading$ | ngrxPush"
       [events]="events$ | ngrxPush"
       [data]="attritionData$ | ngrxPush"
     >

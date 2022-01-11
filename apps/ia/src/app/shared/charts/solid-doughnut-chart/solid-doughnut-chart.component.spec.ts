@@ -70,7 +70,7 @@ describe('SolidDoughnutChartComponent', () => {
         { value: 12, name: 'Third' },
       ];
 
-      component.reset = jest.fn();
+      component.resetSelection = jest.fn();
       component.data = data;
 
       expect((component.mergeOptions.series as any[])[0].data).toHaveLength(3);
@@ -83,7 +83,7 @@ describe('SolidDoughnutChartComponent', () => {
       expect((component.mergeOptions.series as any[])[0].data).toContain(
         data[2]
       );
-      expect(component.reset).toHaveBeenCalledTimes(1);
+      expect(component.resetSelection).toHaveBeenCalledTimes(1);
     });
 
     test('should update legend in merge options', () => {
@@ -93,11 +93,11 @@ describe('SolidDoughnutChartComponent', () => {
         { value: 12, name: 'Third' },
       ];
 
-      component.reset = jest.fn();
+      component.resetSelection = jest.fn();
       component.data = data;
 
       expect(component.mergeOptions.legend).toBeDefined();
-      expect(component.reset).toHaveBeenCalledTimes(1);
+      expect(component.resetSelection).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -173,13 +173,13 @@ describe('SolidDoughnutChartComponent', () => {
     });
   });
 
-  describe('reset', () => {
+  describe('resetSelection', () => {
     test('should select all legend items', () => {
       component.echartsInstance = {
         dispatchAction: jest.fn(),
       } as unknown as ECharts;
 
-      component.reset();
+      component.resetSelection();
 
       expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
         type: 'legendAllSelect',

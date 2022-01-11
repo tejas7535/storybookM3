@@ -1,4 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ECharts } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -78,6 +79,33 @@ describe('LooseDoughnutChartComponent', () => {
         data.series[0].title
       );
       expect(result).toEqual([{}]);
+    });
+  });
+
+  describe('resetSelection', () => {
+    test('should dispatch legend all select action', () => {
+      component.echartsInstance = {
+        dispatchAction: () => {},
+      } as unknown as ECharts;
+      component.echartsInstance.dispatchAction = jest.fn();
+
+      component.resetSelection();
+
+      expect(component.echartsInstance.dispatchAction).toHaveBeenCalledWith({
+        type: 'legendAllSelect',
+      });
+    });
+  });
+
+  describe('onChartInit', () => {
+    test('should assign echarts object', () => {
+      const echartsInstance = {
+        dispatchAction: () => {},
+      } as unknown as ECharts;
+
+      component.onChartInit(echartsInstance);
+
+      expect(component.echartsInstance).toBe(echartsInstance);
     });
   });
 });

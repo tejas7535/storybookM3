@@ -63,12 +63,12 @@ describe('OverviewComponent', () => {
     );
 
     test(
-      'should set attritionRateloading$',
+      'should set attritionRateLoading$',
       marbles((m) => {
         const result = true;
         store.overrideSelector(getIsLoadingAttritionOverTimeOverview, result);
         component.ngOnInit();
-        m.expect(component.attritionRateloading$).toBeObservable(
+        m.expect(component.attritionRateLoading$).toBeObservable(
           m.cold('a', {
             a: result,
           })
@@ -136,6 +136,32 @@ describe('OverviewComponent', () => {
         );
         component.ngOnInit();
         m.expect(component.exitsDoughnutConfig$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set chartData$',
+      marbles((m) => {
+        const result: [DoughnutConfig, DoughnutConfig] = [
+          new DoughnutConfig('donnut 1', []),
+          new DoughnutConfig('donnut 2', []),
+        ];
+        store.overrideSelector(
+          getOverviewFluctuationEntriesDoughnutConfig,
+          result[0]
+        );
+        store.overrideSelector(
+          getOverviewFluctuationExitsDoughnutConfig,
+          result[1]
+        );
+
+        component.ngOnInit();
+
+        m.expect(component.chartData$).toBeObservable(
           m.cold('a', {
             a: result,
           })
