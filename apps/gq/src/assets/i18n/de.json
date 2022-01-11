@@ -17,7 +17,7 @@
       "gqRating": "GQ Rating",
       "gqPrice": "GQ Preis",
       "priceUnit": "pro",
-      "priceSource": "Preisherkunft",
+      "priceSource": "Preisquelle",
       "productionCity": "Ort",
       "productionCountry": "Land",
       "customerMaterial": "Kundenmaterialnummer",
@@ -30,13 +30,13 @@
       "rlm": "RLM % (Verlagerung)",
       "relocCost": " Zukünftige Kosten",
       "relocPlant": "Zukünftiges Produktionswerk",
-      "relocCity": "Stadt Produktionswerk",
-      "relocCountry": "Land Produktionswerk",
+      "relocCity": "Zukünftiger Produktionsort",
+      "relocCountry": "Zukünftiges Produktionsland",
       "lastOfferPrice": "Letzter Angebotspreis",
       "lastOfferDate": "Datum letztes Angebot",
       "reasonForRejection": "Absagegrund",
       "itemComment": "Kommentar",
-      "followingType": "Folgetyp",
+      "followingType": "Folgetype",
       "materialStatus": "Materialstatus",
       "freeStock": "Freier Bestand",
       "dateNextFreeAtp": "Termin freie ATP",
@@ -109,7 +109,7 @@
             "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
           }
         },
-        "materialDescription": "Material Beschreibung",
+        "materialDescription": "Materialbeschreibung",
         "materialNumber": "Material Nummer (15-stellig)",
         "quantity": "Menge"
       }
@@ -122,7 +122,7 @@
         "addMaterial": "hinzufügen",
         "exportToExcel": "als Excel Datei exportieren",
         "exportToExcelMobile": "Exportieren",
-        "addNewItem": "Neues Item hinzufügen",
+        "addNewItem": "Neue Position hinzufügen",
         "addNewItemMobile": "Hinzufügen",
         "deleteCase": "case löschen",
         "refreshSapData": "SAP Daten aktualisieren",

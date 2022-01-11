@@ -3,17 +3,17 @@ import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
 
-import { LanguageSettingModule } from './language-setting/language-setting.module';
+import { LanguageSelectModule } from '@schaeffler/transloco/components';
+
 import { RolesRightsModule } from './roles-rights/roles-rights.module';
 import { UserSettingsComponent } from './user-settings.component';
-
 @NgModule({
   declarations: [UserSettingsComponent],
   imports: [
     CommonModule,
-    LanguageSettingModule,
     RolesRightsModule,
     TranslocoModule,
+    LanguageSelectModule,
   ],
   providers: [
     {

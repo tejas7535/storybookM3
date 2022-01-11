@@ -4,7 +4,7 @@
   "caseTable": {
     "customerNumber": "Kundennummer",
     "customerName": "Kundenname",
-    "createdBy": "SAP erstellt von",
+    "createdBy": "SAP Angebot erstellt von",
     "creationDate": "Case erstellt am",
     "gqId": "GQ Case",
     "sapId": "SAP Angebotsnummer"

@@ -48,10 +48,10 @@
       "innerDiameter": "Innendurchmesser",
       "materialDescription": "Materialbezeichnung",
       "materialType": "Materialtyp",
-      "materialStatus": "Material Status Werk",
+      "materialStatus": "Materialstatus Werk",
       "outerDiameter": "Außendurchmesser",
-      "productHierarchy": "Produkt Hierarchie",
-      "productLine": "Produkt Linie",
+      "productHierarchy": "Produkthierarchie",
+      "productLine": "Produktlinie",
       "series": "Serie",
       "title": "Materialbezeichnung",
       "width": "Breite",
@@ -66,8 +66,8 @@
     },
     "materialComparableCostDetails": {
       "title": "Vergleichbare Kosten #{{number}}",
-      "gpc": "GPC",
-      "sqv": "SQV",
+      "gpc": "KHK",
+      "sqv": "SAW",
       "productionPlant": "Produktionswerk"
     },
     "supplyChainDetails": {

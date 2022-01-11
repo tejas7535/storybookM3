@@ -22,8 +22,8 @@
     "accountPotential": "Account-Potential",
     "keyAccountPotential": "Key-Account-Potential",
     "subKeyAccountPotential": "Sub-Key-Account-Potential",
-    "accountOwner": "Accountinhaber",
-    "accountOwnerContact": "Accountinhaberkontakt"
+    "accountOwner": "Account-Inhaber",
+    "accountOwnerContact": "Account-Inhaber Kontakt"
   },
   "keyaccount": {
     "title": "Key Account",

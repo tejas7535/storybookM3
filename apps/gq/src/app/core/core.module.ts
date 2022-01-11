@@ -23,6 +23,10 @@ import { environment } from '../../environments/environment';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { UserSettingsModule } from '../shared/components/user-settings/user-settings.module';
+import {
+  AVAILABLE_LANGUAGES,
+  FALLBACK_LANGUAGE,
+} from '../shared/constants/language';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
 
@@ -48,9 +52,9 @@ import { StoreModule } from './store';
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      [{ id: 'en', label: 'English' }],
-      'en', // default -> undefined would lead to browser detection
-      'en',
+      AVAILABLE_LANGUAGES,
+      undefined, // default -> undefined would lead to browser detection
+      FALLBACK_LANGUAGE.id, // fallback language
       true,
       !environment.localDev,
       i18nChecksumsJson
