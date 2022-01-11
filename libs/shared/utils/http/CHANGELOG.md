@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/http-v0.1.2...http-v0.1.3) (2022-01-11)
+
+
+### 🐛 Bug Fixes
+
+* **http:** add 5 sec duration to error snackbar ([70fc996](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/70fc9967b77d8eac2059e115733f1951e20418a5))
+* **transloco:** imports in tests & readme updated ([c32329c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c32329ce19668460abac5b3997f0e937b3bfe5ba))
+
+
+### 🎸 Features
+
+* enable strictTemplate rule for all libs ([#3323](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3323)) ([55d8aef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55d8aefd36823a5774979b7393cbe4dff41ba7de))
+* **http:** unify snackbar messages ([8acceb3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8acceb339911befb93abfd543d059ae9b04578bb))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ### [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/http-v0.1.2...http-v0.1.0) (2021-09-09)
 
 ### [0.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/http-v0.1.1...http-v0.1.0) (2021-09-07)
