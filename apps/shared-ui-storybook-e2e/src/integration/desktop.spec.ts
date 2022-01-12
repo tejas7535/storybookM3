@@ -8,7 +8,6 @@ import {
   testDisabledFileDrop,
   testEnabledFileDrop,
 } from '../support/file-drop.po';
-import { testFooter } from '../support/footer.po';
 import {
   testHeaderWithBurgerMenu,
   testHeaderWithUserMenu,
@@ -59,12 +58,6 @@ describe('Mobile View', () => {
 
     it('should show disabled file drop', () => {
       testDisabledFileDrop();
-    });
-  });
-
-  context('Footer', () => {
-    it('should show footer', () => {
-      testFooter();
     });
   });
 

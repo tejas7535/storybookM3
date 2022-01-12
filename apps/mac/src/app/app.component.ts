@@ -8,7 +8,6 @@ import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
-import { UserMenuEntry } from '@schaeffler/header';
 
 import { RoutePath } from './app-routing.enum';
 
@@ -22,7 +21,6 @@ export class AppComponent implements OnInit {
   public username$: Observable<string>;
   public profileImage$: Observable<string>;
 
-  userMenuEntries: UserMenuEntry[] = [];
   url: string;
 
   public constructor(

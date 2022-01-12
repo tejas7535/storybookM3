@@ -1,5 +1,4 @@
 import { SimpleChanges } from '@angular/core';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -48,7 +47,9 @@ describe('ReferenceTypesTableComponent', () => {
     ],
     declarations: [ReferenceTypesTableComponent],
     providers: [
-      ColumnDefinitionService,
+      mockProvider(ColumnDefinitionService, {
+        COLUMN_DEFINITIONS: jest.fn(() => ''),
+      }),
       mockProvider(AgGridStateService),
       TableStore,
       provideMockStore({
@@ -59,10 +60,6 @@ describe('ReferenceTypesTableComponent', () => {
           },
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

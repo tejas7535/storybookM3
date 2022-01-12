@@ -9,7 +9,6 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
-import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -28,7 +27,6 @@ import { StoreModule } from './store/store.module';
     ReactiveComponentModule,
 
     // UI Modules
-    HeaderModule,
     MatButtonModule,
     AppShellModule,
 

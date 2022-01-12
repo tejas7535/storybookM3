@@ -143,3 +143,7 @@ label {
     min-height: calc(100vh - 60px - 48px);
   }
 }
+
+schaeffler-footer footer {
+  @apply lg:justify-between;
+}

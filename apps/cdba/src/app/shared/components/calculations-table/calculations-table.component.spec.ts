@@ -1,6 +1,5 @@
 import { SimpleChange } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -48,7 +47,9 @@ describe('CalculationsTableComponent', () => {
       MockModule(CustomStatusBarModule),
     ],
     providers: [
-      ColumnDefinitionService,
+      mockProvider(ColumnDefinitionService, {
+        COLUMN_DEFINITIONS: jest.fn(() => ''),
+      }),
       mockProvider(AgGridStateService),
       provideMockStore({
         initialState: {
@@ -57,10 +58,6 @@ describe('CalculationsTableComponent', () => {
           },
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

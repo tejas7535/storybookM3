@@ -20,7 +20,6 @@ import {
   ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
-import { HeaderModule } from '@schaeffler/header';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -54,7 +53,6 @@ const azureConfig = new AzureConfig(
     LoadingSpinnerModule,
 
     // UI Modules
-    HeaderModule,
     MatButtonModule,
     MatTabsModule,
     MatSnackBarModule,

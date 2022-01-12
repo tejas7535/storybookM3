@@ -12,7 +12,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { HeaderModule } from '@schaeffler/header';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
@@ -27,7 +26,6 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       NoopAnimationsModule,
-      HeaderModule,
       MatButtonModule,
       RouterTestingModule,
       ReactiveComponentModule,

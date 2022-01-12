@@ -14,7 +14,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
-import { HeaderModule } from '@schaeffler/header';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -42,7 +41,6 @@ import { StoreModule } from './store';
 
     // UI Modules
     AppShellModule,
-    HeaderModule,
     UserSettingsModule,
     MatButtonModule,
     MatSnackBarModule,

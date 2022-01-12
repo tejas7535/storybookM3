@@ -9,7 +9,6 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
-import { UserMenuEntry } from '@schaeffler/header';
 
 @Component({
   selector: 'sedo-root',
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit {
   username$: Observable<string>;
   profileImage$: Observable<string>;
   getIsLoggedIn$: Observable<boolean>;
-  userMenuEntries: UserMenuEntry[] = [];
 
   public constructor(private readonly store: Store) {}
 

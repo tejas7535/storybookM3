@@ -5,7 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { MockModule } from 'ng-mocks';
 
 import { LanguageSelectModule } from '@schaeffler/transloco/components';
@@ -31,6 +36,7 @@ describe('UserSettingsComponent', () => {
       MockModule(LanguageSelectModule),
     ],
     providers: [
+      mockProvider(TranslocoLocaleService),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,

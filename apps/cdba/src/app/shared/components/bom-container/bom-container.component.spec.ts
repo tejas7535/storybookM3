@@ -20,6 +20,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
@@ -71,6 +72,7 @@ describe('BomContainerComponent', () => {
         },
       }),
       mockProvider(ApplicationInsightsService),
+      mockProvider(TranslocoLocaleService),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,

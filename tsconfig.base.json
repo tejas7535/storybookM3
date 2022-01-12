@@ -40,8 +40,6 @@
       ],
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/file-drop": ["libs/shared/ui/file-drop/src/index.ts"],
-      "@schaeffler/footer": ["libs/shared/ui/footer/src/index.ts"],
-      "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
       "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"],
       "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
       "@schaeffler/legal-pages": ["libs/shared/ui/legal-pages/src/index.ts"],
@@ -50,7 +48,6 @@
       ],
       "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
       "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
-      "@schaeffler/responsive": ["libs/shared/utils/responsive/src/index.ts"],
       "@schaeffler/roles-and-rights": [
         "libs/shared/ui/roles-and-rights/src/index.ts"
       ],
@@ -61,7 +58,6 @@
       "@schaeffler/shared/cypress-utils": [
         "libs/shared/cypress-utils/src/index.ts"
       ],
-      "@schaeffler/sidebar": ["libs/shared/ui/sidebar/src/index.ts"],
       "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],
       "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],
       "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],

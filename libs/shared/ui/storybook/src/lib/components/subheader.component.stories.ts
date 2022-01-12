@@ -4,10 +4,9 @@ import { RouterModule } from '@angular/router';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { HeaderModule } from '@schaeffler/header';
 import { SubheaderComponent, SubheaderModule } from '@schaeffler/subheader';
 
-import READMEMd from '../../../../sidebar/README.md';
+import READMEMd from '../../../../subheader/README.md';
 import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
 
 export default {
@@ -16,7 +15,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        HeaderModule,
         CommonModule,
         SubheaderModule,
         BreadcrumbsModule,

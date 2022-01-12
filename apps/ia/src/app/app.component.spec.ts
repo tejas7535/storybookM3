@@ -9,7 +9,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { HeaderModule } from '@schaeffler/header';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -26,7 +25,6 @@ describe('AppComponent', () => {
     detectChanges: false,
     imports: [
       NoopAnimationsModule,
-      HeaderModule,
       MatButtonModule,
       RouterTestingModule,
       ReactiveComponentModule,
