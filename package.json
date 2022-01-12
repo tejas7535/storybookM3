@@ -72,7 +72,7 @@
     "@angular/platform-browser-dynamic": "13.1.1",
     "@angular/router": "13.1.1",
     "@azure/msal-angular": "2.0.6",
-    "@azure/msal-browser": "2.20.0",
+    "@azure/msal-browser": "2.21.0",
     "@schaeffler/footer": "3.0.2",
     "@schaeffler/header": "2.3.0",
     "@schaeffler/responsive": "3.0.2",
