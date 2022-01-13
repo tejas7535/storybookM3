@@ -53,7 +53,8 @@ export const config: EChartsOption = {
     right: 0,
   },
   tooltip: {
-    position: 'top',
+    position: 'left',
+    appendToBody: true,
     formatter: (params: any) => `
       <div class="grid grid-cols-2 grid-rows-3 gap-2">
         <span>Number of Incidents:</span>
