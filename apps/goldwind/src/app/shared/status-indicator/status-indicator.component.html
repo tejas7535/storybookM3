@@ -3,8 +3,7 @@
   *transloco="let t; read: 'statusIndicator'"
 >
   <div
-    fxLayoutAlign="center center"
-    class="indicator"
+    class="flex justify-center items-center indicator"
     [class.error]="!isConnected()"
     title="{{ connectionState.toLowerCase() }}"
   >

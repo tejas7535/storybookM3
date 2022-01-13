@@ -3,27 +3,29 @@
   <ng-container *ngIf="devices$ | ngrxPush as devices; else empty_devices">
     <mat-card
       *ngFor="let device of devices; trackBy: trackByFn"
-      fxLayout="column"
-      fxLayout.gt-sm="row"
-      fxLayoutAlign="space-between"
-      fxLayoutGap="15px"
-      fxLayoutGap.gt-sm="30px"
-      class="device-card"
+      class="!flex flex-col sm:flex-row justify-between gap-4 md:gap-8 mb-4"
+      [routerLink]="['/bearing', device.deviceId]"
     >
-      <mat-card-header fxFlex>
-        <div mat-card-avatar mr="{1}" class="device-header-image"></div>
-        <mat-card-title>{{ device.deviceId }}</mat-card-title>
-        <mat-card-subtitle
-          >{{ t('version') }} {{ device.version }}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <goldwind-status-indicator
-        [connectionState]="device.connectionState"
-      ></goldwind-status-indicator>
-      <div>
-        <mat-divider fxFlex [vertical]="!isHandsetViewPort"></mat-divider>
+      <div class="flex justify-between items-center w-full sm:w-5/6">
+        <mat-card-header>
+          <div
+            mat-card-avatar
+            class="device-header-image mr-1 self-center"
+          ></div>
+          <mat-card-title>{{ device.deviceId }}</mat-card-title>
+          <mat-card-subtitle class="!mb-0"
+            >{{ t('version') }} {{ device.version }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <goldwind-status-indicator
+          [connectionState]="device.connectionState"
+        ></goldwind-status-indicator>
       </div>
-      <div fxLayout="row" fxLayoutAlign="end center">
+      <mat-divider
+        *ngIf="!isHandsetViewPort"
+        [vertical]="!isHandsetViewPort"
+      ></mat-divider>
+      <div class="flex justify-end items-center">
         <button
           mat-raised-button
           color="primary"

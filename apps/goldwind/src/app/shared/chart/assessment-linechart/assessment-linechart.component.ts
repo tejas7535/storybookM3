@@ -11,6 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import {
   MatTree,
   MatTreeFlatDataSource,
@@ -24,6 +25,7 @@ import { ECharts, EChartsOption } from 'echarts';
 
 import { Interval } from '../../../core/store/reducers/shared/models';
 import { DATE_FORMAT } from '../../constants';
+import { DashboardMoreInfoDialogComponent } from '../../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { Control, ExampleFlatNode, SensorNode } from '../../models';
 import { axisChartOptions } from '../chart';
 
@@ -44,6 +46,10 @@ export class AssessmentLinechartComponent
    * Some elements with name and label informations
    */
   @Input() ASSESSMENT_CONTROLS: Control[] = [];
+  /**
+   * A description of the current chart
+   */
+  @Input() description: string;
   /**
    * a translate object from transloco
    */
@@ -124,7 +130,11 @@ export class AssessmentLinechartComponent
    * The Instance of echarts to use the api
    */
   echartsInstance: ECharts;
-
+  /**
+   *
+   * @param dialog
+   */
+  constructor(private readonly dialog: MatDialog) {}
   /**
    * Sets the values of each checkbox and even the children nodes as well
    * @param display property to display certain fields
@@ -338,5 +348,18 @@ export class AssessmentLinechartComponent
    */
   onInit(event: any) {
     this.echartsInstance = event;
+  }
+
+  /**
+   * opens a dialog with more info of the sensor
+   */
+  openMoreInfo() {
+    this.dialog.open(DashboardMoreInfoDialogComponent, {
+      maxWidth: '400px',
+      data: {
+        title: translate(this.translateKey + '.' + 'title'),
+        text: this.description,
+      },
+    });
   }
 }

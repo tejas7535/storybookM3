@@ -10,8 +10,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { DISPLAY } from '../../../../testing/mocks';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { SensorModule } from '../../../shared/sensor/sensor.module';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { GreaseMonitorComponent } from './grease-monitor.component';
 
 describe('GreaseStatusComponent', () => {

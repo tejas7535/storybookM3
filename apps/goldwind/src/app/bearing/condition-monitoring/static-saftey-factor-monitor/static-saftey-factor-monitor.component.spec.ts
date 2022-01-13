@@ -9,7 +9,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { StaticSafteyFactorMonitorComponent } from './static-saftey-factor-monitor.component';
 
 describe('StaticSafteyFactorMonitorComponent', () => {

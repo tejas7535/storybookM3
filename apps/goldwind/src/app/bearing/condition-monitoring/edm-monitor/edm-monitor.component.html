@@ -19,9 +19,14 @@
                   (sensorToggle)="switchSensor($event)"
                   class="mr-2"
                 ></goldwind-sensor>
-                <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
-                  >more_vert</mat-icon
+                <button
+                  mat-icon-button
+                  class="flex hover:bg-hoverOverlay transition-colors"
                 >
+                  <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
+                    >more_vert</mat-icon
+                  >
+                </button>
               </div>
             </div>
           </mat-card-title>

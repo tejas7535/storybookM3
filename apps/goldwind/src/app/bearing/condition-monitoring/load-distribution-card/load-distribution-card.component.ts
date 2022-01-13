@@ -19,7 +19,7 @@ import {
   getLoadDistributionTimeStamp,
 } from '../../../core/store/selectors/load-distribution/load-distribution.selector';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { config } from './polar-options.echart';
 @Component({
   selector: 'goldwind-load-distribution-card',
@@ -106,20 +106,16 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
    * opens a dialog with more info of the sensor
    */
   openMoreInfo() {
+    const descriptionKey = this.average
+      ? 'conditionMonitoring.centerLoad.description'
+      : 'conditionMonitoring.loadDistribution.description';
     this.dialog.open(DashboardMoreInfoDialogComponent, {
       maxWidth: '400px',
       data: {
         title: translate(
           'conditionMonitoring.conditionMeasuringEquipment.loadSensePin'
         ),
-        text: `
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionality'
-        )}
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionalityLoad'
-        )}
-        `,
+        text: `${translate(descriptionKey)}`,
       },
     });
   }

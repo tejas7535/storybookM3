@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { format } from 'date-fns';
 import { EChartsOption } from 'echarts';
@@ -11,6 +13,7 @@ import {
   getGCHeatmapLoading,
 } from '../../../core/store/selectors/grease-status/heatmap.selector';
 import { GaugeColors } from '../../../shared/chart/chart';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { GCMHeatmapClassification } from '../../../shared/models';
 import { CALENDAR_OPTIONS } from './config';
 
@@ -89,8 +92,28 @@ export class GcmHeatmapCardComponent {
   };
   greaseHeatMapData$: any;
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {
     this.greaseHeatMapData$ = this.store.select(getGCHeatmapGraph);
     this.loading$ = this.store.select(getGCHeatmapLoading);
+  }
+
+  /**
+   * opens a dialog with more info of the sensor
+   */
+  openMoreInfo() {
+    this.dialog.open(DashboardMoreInfoDialogComponent, {
+      maxWidth: '400px',
+      data: {
+        title: translate('conditionMonitoring.shaft.title'),
+        text: `
+        ${translate(
+          'conditionMonitoring.conditionMeasuringEquipment.functionality'
+        )}
+        `,
+      },
+    });
   }
 }

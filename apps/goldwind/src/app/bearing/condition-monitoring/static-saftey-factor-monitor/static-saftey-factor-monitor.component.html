@@ -10,9 +10,14 @@
             <mat-icon>health_and_safety</mat-icon>
             <span>{{ t('title') }}</span>
           </div>
-          <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
-            >more_vert</mat-icon
+          <button
+            mat-icon-button
+            class="hover:bg-hoverOverlay transition-colors"
           >
+            <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
+              >more_vert</mat-icon
+            >
+          </button>
         </div>
       </mat-card-title>
       <mat-card-subtitle>

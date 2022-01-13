@@ -1,6 +1,6 @@
 <div class="w-full h-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-4">
   <div
-    *transloco="let t; read: 'greaseStatus'"
+    *transloco="let t; read: 'loadAssessment'"
     class="w-full sm:col-span-3 lg:col-span-4"
   >
     <goldwind-assessment-linechart
@@ -16,6 +16,7 @@
       (interval)="this.setInterval($event)"
       (displayChange)="this.dispatchDisplay($event)"
       (zoomChange)="this.handleZoom($event)"
+      [description]="t('description')"
     ></goldwind-assessment-linechart>
   </div>
   <goldwind-load-distribution-card

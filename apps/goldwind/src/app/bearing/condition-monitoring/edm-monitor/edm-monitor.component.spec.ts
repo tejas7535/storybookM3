@@ -12,10 +12,10 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { DATE_FORMAT } from '../../../shared/constants';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { DateRangeModule } from '../../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../../shared/empty-graph/empty-graph.module';
 import { SensorModule } from '../../../shared/sensor/sensor.module';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { EdmMonitorComponent } from './edm-monitor.component';
 
 describe('EdmMonitorComponent', () => {

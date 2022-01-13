@@ -27,7 +27,7 @@
 
 :host::ng-deep {
   .mat-card-title {
-    mat-icon:nth-child(1) {
+    div > div > mat-icon:first-child {
       font-size: 24px;
       margin-right: 0.5rem;
     }

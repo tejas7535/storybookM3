@@ -15,6 +15,7 @@ import {
 import { greaseHeatmapStatusReducer } from '../../core/store/reducers/grease-status/heatmap.reducer';
 import { maintenanceAssessmentReducer } from '../../core/store/reducers/maintenance-assessment/maintenance-assessment.reducer';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
+import { SharedModule } from '../../shared/shared.module';
 import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
 import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
 import { MaintenanceAssessmentRoutingModule } from './maintenance-assessment-routing.module';
@@ -26,6 +27,7 @@ import { MaintenanceAssessmentRoutingModule } from './maintenance-assessment-rou
     AssessmentLinechartModule,
     ReactiveFormsModule,
     GCMHeatmapCardModule,
+    SharedModule,
     SharedTranslocoModule,
     // Store
     EffectsModule.forFeature([

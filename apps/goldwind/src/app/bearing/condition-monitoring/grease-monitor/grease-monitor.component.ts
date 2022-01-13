@@ -18,13 +18,12 @@ import {
 } from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 
 @Component({
   selector: 'goldwind-grease-monitor',
   templateUrl: './grease-monitor.component.html',
-  styleUrls: ['./grease-monitor.component.scss'],
 })
 export class GreaseMonitorComponent implements OnInit {
   getGreaseStatusLatestWaterContentGraphData$: Observable<EChartsOption>;
@@ -84,14 +83,7 @@ export class GreaseMonitorComponent implements OnInit {
       maxWidth: '400px',
       data: {
         title: translate('greaseStatus.title'),
-        text: `
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionality'
-        )}
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionalityGrease'
-        )}
-        `,
+        text: `${translate('conditionMonitoring.grease.description')}`,
       },
     });
   }

@@ -15,7 +15,7 @@ import {
 } from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 
 @Component({
   selector: 'goldwind-shaft',
@@ -54,11 +54,7 @@ export class ShaftComponent implements OnInit {
       maxWidth: '400px',
       data: {
         title: translate('conditionMonitoring.shaft.title'),
-        text: `
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionality'
-        )}
-        `,
+        text: `${translate('conditionMonitoring.shaft.description')}`,
       },
     });
   }

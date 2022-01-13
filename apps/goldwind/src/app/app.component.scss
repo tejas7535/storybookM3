@@ -20,8 +20,9 @@
     stroke: $schaeffler-green-1;
   }
 }
+
 ::ng-deep schaeffler-footer > footer {
-  > div  {
+  div:nth-child(2) {
     margin-top: 0 !important;
   }
   a:-webkit-any-link {

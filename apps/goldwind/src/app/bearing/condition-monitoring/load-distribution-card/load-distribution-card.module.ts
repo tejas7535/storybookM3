@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
@@ -25,6 +26,7 @@ import { LoadDistributionCardComponent } from './load-distribution-card.componen
 
     // UI Modules
     MatCardModule,
+    MatButtonModule,
     MatSliderModule,
     MatIconModule,
 

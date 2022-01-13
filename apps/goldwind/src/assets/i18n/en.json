@@ -31,6 +31,7 @@
     "centerLoad": {
       "bearingCenterLoad": "Bearing Center Load",
       "bearingTemperature": "Bearing Temperature",
+      "description": "This chart shows the live load at the individual rolling elements (interpolated based on the 'Load Sense Pin' sensor readings).",
       "generator": "Generator",
       "generatorAverage": "Generator Average",
       "noTimestampAvailable": "No timestamp available",
@@ -71,11 +72,16 @@
       "type": "Type"
     },
     "edmMonitor": {
+      "description": "This chart shows a histogram of the last 48h of EDM signals, which are grouped and counted according to their value range (e.g. class '0 - 10', '10 - 100'). The count of a given class is visualized by means of its color (e.g. 'dark blue' stands for a high count).",
       "peakValues": "Peak values",
       "relativeAmountOfEvents": "Relative amount of events",
       "title": "EDM Monitor"
     },
+    "grease": {
+      "description": "This chart shows the live status of the grease with regards to temparature, water content as well as deterioration."
+    },
     "shaft": {
+      "description": "This chart shows the live rotational speed of the bearing.",
       "noTimestampAvailable": "No timestamp available",
       "rotorRotationSpeed": "Rotor Speed",
       "rpmRotor": "RPM Rotor",
@@ -83,6 +89,7 @@
       "updateFrequency": "Update frequency"
     },
     "static-saftey-factor-monitor": {
+      "description": "This chart shows the live Bearinx performance indicator 'Static Safety Factor'.",
       "factor": "Factor",
       "noTimestampAvailable": "No timestamp available",
       "title": "Static Safety Factor",
@@ -149,6 +156,7 @@
     "centerLoadFz": "Center Load Fz",
     "centerLoadMy": "Center Load My",
     "centerLoadMz": "Center Load Mz",
+    "description": "This chart shows the historic sensor values for the selected sensors (e.g. 'Center Load Fx') with regard to the selected date range (see 'Date Picker'). Sensor information can be exported by means of the 'Download' functionality. Furthermore, the selected date range can be further refined via the blue slider.",
     "loadMonitor": "Load Monitor",
     "lsp01Strain": "Load Sense Pin 1 (Rotor)",
     "lsp02Strain": "Load Sense Pin 2 (Generator)",
@@ -169,11 +177,13 @@
     "title": "Bearing Load Run Chart"
   },
   "loadDistribution": {
+    "description": "This chart shows the average loads on the rolling elements (interpolated based on 'Load Sense Pin' signals) for the selected date range (see 'Date Picker').",
     "title": "Bearing Load Distribution",
     "title_average": "Bearing Load Distribution Average",
     "updateFrequency": "Update frequency"
   },
   "maintenanceAssessment": {
+    "description": "This chart shows the historic sensor values for the selected sensors (e.g. 'Grease Monitor') with regard to the selected date range (see 'Date Picker'). Sensor information can be exported by means of the 'Download' functionality. Furthermore, the selected date range can be further refined via the blue slider.",
     "deterioration": "Deterioration",
     "deterioration_1": "Deterioration 1",
     "deterioration_2": "Deterioration 2",

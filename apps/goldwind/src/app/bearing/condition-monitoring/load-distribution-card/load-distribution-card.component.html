@@ -14,9 +14,15 @@
                 <span *ngSwitchCase="false">{{ t('title') }}</span>
               </span>
             </div>
-            <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
-              >more_vert</mat-icon
+
+            <button
+              mat-icon-button
+              class="hover:bg-hoverOverlay transition-colors"
             >
+              <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
+                >more_vert</mat-icon
+              >
+            </button>
           </div>
         </mat-card-title>
         <mat-card-subtitle>
@@ -51,7 +57,7 @@
             echarts
             [options]="chartOptions"
             [merge]="polarSeries$ | ngrxPush"
-            class="dashboard-echart h-5/6"
+            class="dashboard-echart h-5/6 w-full"
           ></div>
         </div>
       </mat-card-content>

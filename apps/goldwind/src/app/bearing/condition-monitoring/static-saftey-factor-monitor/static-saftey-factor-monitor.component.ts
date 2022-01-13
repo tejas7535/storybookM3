@@ -15,7 +15,7 @@ import {
 } from '../../../core/store/selectors/static-safety/static-safety.selector';
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants/update-settings';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 
 @Component({
   selector: 'goldwind-static-saftey-factor-monitor',
@@ -61,11 +61,7 @@ export class StaticSafteyFactorMonitorComponent implements OnInit {
         title: translate(
           'conditionMonitoring.static-saftey-factor-monitor.title'
         ),
-        text: `
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionality'
-        )}
-        `,
+        text: `${translate('conditionMonitoring.shaft.description')}`,
       },
     });
   }

@@ -3,24 +3,29 @@
     *transloco="let t; read: 'maintenanceAssessment.gcm-heatmap'"
     class="h-full"
   >
-    <div class="flex flex-col h-full max-h-full">
-      <mat-card-header>
-        <mat-card-title>
-          <div class="flex items-center justify-center">
+    <mat-card-header class="w-full">
+      <mat-card-title>
+        <div class="inline-flex items-center justify-between w-full">
+          <div class="inline-flex items-center">
             <mat-icon>view_module</mat-icon>
             <span>{{ t('title') }}</span>
           </div>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="flex flex-col h-full space-between items-center">
-        <div
-          echarts
-          [merge]="this.greaseHeatMapData$ | ngrxPush"
-          [options]="this.chartOptions"
-          class="h-full w-auto"
-        ></div>
-      </mat-card-content>
-    </div>
+          <button mat-icon-button>
+            <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
+              >more_vert</mat-icon
+            >
+          </button>
+        </div>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="flex flex-col h-full space-between items-center">
+      <div
+        echarts
+        [merge]="this.greaseHeatMapData$ | ngrxPush"
+        [options]="this.chartOptions"
+        class="h-full w-auto"
+      ></div>
+    </mat-card-content>
   </mat-card>
 </ng-container>
 

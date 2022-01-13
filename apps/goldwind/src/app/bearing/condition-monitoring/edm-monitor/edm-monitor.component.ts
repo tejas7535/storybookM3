@@ -22,8 +22,8 @@ import {
   getEdmLoading,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
+import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
-import { DashboardMoreInfoDialogComponent } from '../dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -247,14 +247,7 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
       maxWidth: '400px',
       data: {
         title: translate('conditionMonitoring.edmMonitor.title'),
-        text: `
-      ${translate(
-        'conditionMonitoring.conditionMeasuringEquipment.functionality'
-      )}
-      ${translate(
-        'conditionMonitoring.conditionMeasuringEquipment.functionalityEdm'
-      )}
-      `,
+        text: `${translate('conditionMonitoring.edmMonitor.description')}`,
       },
     });
   }

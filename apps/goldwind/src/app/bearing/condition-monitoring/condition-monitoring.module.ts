@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -27,11 +28,11 @@ import { loadDistributionReducer } from '../../core/store/reducers/load-distribu
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
 import { shaftReducer } from '../../core/store/reducers/shaft/shaft.reducer';
 import { staticSafetyReducer } from '../../core/store/reducers/static-safety/static-safety.reducer';
+import { DashboardMoreInfoDialogComponent } from '../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { SharedModule } from '../../shared/shared.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
-import { DashboardMoreInfoDialogComponent } from './dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
@@ -39,11 +40,7 @@ import { ShaftModule } from './shaft/shaft.module';
 import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/static-saftey-factor-monitor.module';
 
 @NgModule({
-  declarations: [
-    ConditionMonitoringComponent,
-    CmEquipmentComponent,
-    DashboardMoreInfoDialogComponent,
-  ],
+  declarations: [ConditionMonitoringComponent, CmEquipmentComponent],
   imports: [
     CommonModule,
     ConditionMonitoringRoutingModule,
@@ -57,6 +54,7 @@ import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/
     // UI Modules
     MatCardModule,
     MatButtonModule,
+    MatRippleModule,
     MatDialogModule,
     MatIconModule,
     MatTabsModule,
