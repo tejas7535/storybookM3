@@ -89,7 +89,7 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
       right: 0,
     },
     tooltip: {
-      position: 'top',
+      position: 'left',
       formatter: (params: any) => `
         <div class="grid grid-cols-2 grid-rows-3 gap-2">
           <span>Number of Incidents:</span>

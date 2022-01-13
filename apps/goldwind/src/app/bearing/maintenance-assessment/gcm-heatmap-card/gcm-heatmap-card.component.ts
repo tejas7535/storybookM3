@@ -107,11 +107,9 @@ export class GcmHeatmapCardComponent {
     this.dialog.open(DashboardMoreInfoDialogComponent, {
       maxWidth: '400px',
       data: {
-        title: translate('conditionMonitoring.shaft.title'),
+        title: translate('maintenanceAssessment.gcm-heatmap.title'),
         text: `
-        ${translate(
-          'conditionMonitoring.conditionMeasuringEquipment.functionality'
-        )}
+        ${translate('maintenanceAssessment.gcm-heatmap.description')}
         `,
       },
     });

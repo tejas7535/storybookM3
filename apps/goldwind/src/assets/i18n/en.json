@@ -191,6 +191,7 @@
     "edm01Ai02Counter": "Antenna 2",
     "edmMonitor": "Eletrical Discharge Monitor",
     "gcm-heatmap": {
+      "description": "This chart shows a heat-map for the grease status (temperature, water content as well as deterioration) for the last 365 days. <br /> <ul class='list-disc'><li> A given day is colored as 'red' if at least one threshold (temperature, water content or deterioration) was exceeded its given critical threshold for that day.</li><li> A given day is colored as 'orange' if at least one threshold (temperature, water content or deterioration) was exceeded the given warning threshold (but no sensor exceeded the critical threshold) for that day. </li><li>A given day is colored as 'green' if no threshold (temperature, water content or deterioration) was exceeded for that day.</li></ul>",
       "title": "Grease Status Overview"
     },
     "greaseMonitor": "Grease Monitor",

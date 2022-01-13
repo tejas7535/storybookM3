@@ -1,11 +1,9 @@
-<div class="relative">
-  <div class="absolute right-0">
-    <mat-icon>info</mat-icon>
-  </div>
+<div class="flex items-center mb-5">
+  <mat-icon class="mr-2 text-icon">info</mat-icon>
+  <h1 mat-dialog-title class="!m-0">
+    <span>{{ data.title }}</span>
+  </h1>
 </div>
-<h1 mat-dialog-title class="!mt-0">
-  <span>{{ data.title }}</span>
-</h1>
 <div mat-dialog-content>
-  <p>{{ data.text }}</p>
+  <div [innerHTML]="data.text"></div>
 </div>

@@ -106,15 +106,16 @@ export class LoadDistributionCardComponent implements OnInit, OnDestroy {
    * opens a dialog with more info of the sensor
    */
   openMoreInfo() {
-    const descriptionKey = this.average
+    const descriptionKey = !this.average
       ? 'conditionMonitoring.centerLoad.description'
-      : 'conditionMonitoring.loadDistribution.description';
+      : 'loadDistribution.description';
+    const descriptionTitle = !this.average
+      ? 'conditionMonitoring.conditionMeasuringEquipment.loadSensePin'
+      : 'loadDistribution.title_average';
     this.dialog.open(DashboardMoreInfoDialogComponent, {
       maxWidth: '400px',
       data: {
-        title: translate(
-          'conditionMonitoring.conditionMeasuringEquipment.loadSensePin'
-        ),
+        title: translate(descriptionTitle),
         text: `${translate(descriptionKey)}`,
       },
     });

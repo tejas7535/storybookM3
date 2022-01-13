@@ -22,10 +22,7 @@
 }
 
 ::ng-deep schaeffler-footer > footer {
-  div:nth-child(2) {
-    margin-top: 0 !important;
-  }
   a:-webkit-any-link {
-    color: $dark-secondary-text;
+    @apply text-light;
   }
 }
