@@ -2,17 +2,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
-import READMEMd from '../../../../breadcrumbs/README.md';
+import READMEMd from '../../../../../breadcrumbs/README.md';
 
 import {
   BreadcrumbsComponent,
   BreadcrumbsModule,
 } from '@schaeffler/breadcrumbs';
 
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Components}/Breadcrumbs`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Breadcrumbs`,
   component: BreadcrumbsComponent,
   decorators: [
     moduleMetadata({
@@ -21,6 +25,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.NeedsRevision],
   },
 } as Meta<BreadcrumbsComponent>;
 

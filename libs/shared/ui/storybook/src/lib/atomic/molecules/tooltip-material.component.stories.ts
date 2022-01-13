@@ -101,7 +101,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.NeedsRevision],
+    badges: [Badges.Final],
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=749%3A21',

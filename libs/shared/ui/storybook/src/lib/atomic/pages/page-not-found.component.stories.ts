@@ -35,7 +35,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.NeedsRevision],
+    badges: [Badges.Final],
   },
 } as Meta<PageNotFoundComponent>;
 
