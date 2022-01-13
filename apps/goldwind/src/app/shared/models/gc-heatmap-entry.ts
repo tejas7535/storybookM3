@@ -18,4 +18,5 @@ export enum GCMHeatmapClassification {
   WARNING = 'Warning',
   OKAY = 'Normal',
   ERROR = 'Critical',
+  EMPTY = 'Empty',
 }

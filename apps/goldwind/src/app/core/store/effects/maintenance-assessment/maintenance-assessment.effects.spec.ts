@@ -6,22 +6,16 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { RestService } from '../../../http/rest.service';
 import {
-  getEdmMainteance,
-  getGreaseStatus,
-  getGreaseStatusSuccess,
   getMaintenanceAssessmentId,
-  getShaft,
-  getShaftSuccess,
   setMaintenanceAssessmentInterval,
+  getMaintenanceAssessmentDataSuccess,
+  MaintenanceAssessmentEffects,
 } from '../..';
+import { RestService } from '../../../http/rest.service';
 import * as fromRouter from '../../reducers';
-import { GcmStatus } from '../../reducers/grease-status/models';
-import { ShaftStatus } from '../../reducers/shaft/models';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
-import { MaintenanceAssessmentEffects } from '..';
+import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 
 describe('MaintenanceAssessmentEffects', () => {
   let spectator: SpectatorService<MaintenanceAssessmentEffects>;
@@ -43,9 +37,7 @@ describe('MaintenanceAssessmentEffects', () => {
       {
         provide: RestService,
         useValue: {
-          getGreaseStatus: jest.fn(),
-          getBearingLoad: jest.fn(),
-          getShaft: jest.fn(),
+          getMaintenaceSensors: jest.fn(),
         },
       },
     ],
@@ -91,13 +83,16 @@ describe('MaintenanceAssessmentEffects', () => {
       'should return many actions',
       marbles((m) => {
         action = getMaintenanceAssessmentId();
+        const result = getMaintenanceAssessmentDataSuccess({ data: [] });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcd)', {
-          b: getGreaseStatus({ deviceId }),
-          c: getEdmMainteance({ deviceId }),
-          d: getShaft({ deviceId }),
+
+        const response = m.cold('-a|', {
+          a: [],
         });
+        restService.getMaintenaceSensors = jest.fn(() => response);
+
+        const expected = m.cold('--b', { b: result });
 
         m.expect(effects.maintenanceAssessmentId$).toBeObservable(expected);
       })
@@ -121,106 +116,6 @@ describe('MaintenanceAssessmentEffects', () => {
         });
 
         m.expect(effects.interval$).toBeObservable(expected);
-      })
-    );
-  });
-  describe('shaft$', () => {
-    beforeEach(() => {
-      action = getShaft({ deviceId });
-    });
-
-    it(
-      'should return getShaftSuccess action when REST call is successful',
-      marbles((m) => {
-        const SHAFT_MOCK: ShaftStatus[] = [
-          {
-            deviceId: 'fakedeviceid',
-            timestamp: '2020-11-12T18:31:56.954003Z',
-            rsm01ShaftSpeed: 3,
-            rsm01Shaftcountervalue: 666,
-          },
-        ];
-
-        const result = getShaftSuccess({
-          shaft: SHAFT_MOCK,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: SHAFT_MOCK,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        restService.getShaft = jest.fn(() => response);
-
-        m.expect(effects.shaft$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getShaft).toHaveBeenCalledTimes(1);
-        expect(restService.getShaft).toHaveBeenCalledWith({
-          id: deviceId,
-          start: 1_599_651_508,
-          end: 1_599_651_509,
-        });
-      })
-    );
-  });
-  describe('greaseStatus$', () => {
-    beforeEach(() => {
-      action = getGreaseStatus({ deviceId });
-    });
-
-    it(
-      'should return getGreaseStatusSuccess action when REST call is successful',
-      marbles((m) => {
-        const mockGcmStatus: GcmStatus[] = [
-          {
-            deviceId: '1',
-            gcm01TemperatureOptics: 500,
-            gcm01TemperatureOpticsMin: 1,
-            gcm01TemperatureOpticsMax: 1000,
-            gcm01Deterioration: 19,
-            gcm01DeteriorationMin: 22,
-            gcm01DeteriorationMax: 33,
-            gcm01WaterContent: 0,
-            gcm01WaterContentMin: 0,
-            gcm01WaterContentMax: 1,
-            gcm02TemperatureOptics: 0,
-            gcm02TemperatureOpticsMin: 0,
-            gcm02TemperatureOpticsMax: 0,
-            gcm02Deterioration: 0,
-            gcm02DeteriorationMin: 0,
-            gcm02DeteriorationMax: 0,
-            gcm02WaterContent: 0,
-            gcm02WaterContentMin: 0,
-            gcm02WaterContentMax: 0,
-            timestamp: '2020-08-02T16:18:59Z',
-          },
-        ];
-
-        const result = getGreaseStatusSuccess({
-          gcmStatus: mockGcmStatus,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: mockGcmStatus,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        restService.getGreaseStatus = jest.fn(() => response);
-
-        m.expect(effects.greaseStatus$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
-        expect(restService.getGreaseStatus).toHaveBeenCalledWith({
-          id: deviceId,
-          start: 1_599_651_508,
-          end: 1_599_651_509,
-        });
       })
     );
   });

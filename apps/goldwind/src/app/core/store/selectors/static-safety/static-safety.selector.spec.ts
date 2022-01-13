@@ -10,28 +10,17 @@ import {
   getStaticSafetyLatestResult,
   getStaticSafetyLatestTimeStamp,
   getStaticSafetyLoading,
-  getStaticSafetyResult,
 } from './static-safety.selector';
 
 describe('Static Safety Selector', () => {
-  const fakeSampleDate = new Date('2020-11-12T18:31:56.954003Z');
   const staticSafetyState: StaticSafetyState = {
     ...initialState,
-    result: [
-      {
-        deviceId: 'fakedeviceid',
-        property: 'whatever',
-        value: 17,
-        timestamp: fakeSampleDate,
-      },
-    ],
     loading: false,
     status: {
       result: {
         deviceId: 'fakedeviceid',
-        property: 'whatever',
-        value: 17,
-        timestamp: fakeSampleDate,
+        staticSafetyFactor: 21,
+        timestamp: new Date().toISOString(),
       },
       loading: false,
     },
@@ -52,17 +41,9 @@ describe('Static Safety Selector', () => {
   describe('getStaticSafetyLatestTimeStamp', () => {
     it('should return the latest result', () => {
       expect(getStaticSafetyLatestTimeStamp(fakeState)).toEqual(
-        new Date(fakeState.staticSafety.result[0].timestamp).toLocaleTimeString(
-          DATE_FORMAT.local,
-          DATE_FORMAT.options
-        )
-      );
-    });
-  });
-  describe('getStaticSafetyResult', () => {
-    it('should return the latest result', () => {
-      expect(getStaticSafetyResult(fakeState)).toEqual(
-        fakeState.staticSafety.result
+        new Date(
+          fakeState.staticSafety.status.result.timestamp
+        ).toLocaleTimeString(DATE_FORMAT.local, DATE_FORMAT.options)
       );
     });
   });

@@ -1,7 +1,6 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { GaugeColors } from '../../../../shared/chart/chart';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { getBearingLoadState } from '../../reducers';
 import { BearingLoadState } from '../../reducers/load-sense/load-sense.reducer';

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { RSMShaftEntity } from '../../../http/types';
 
 import {
   getShaft,
@@ -33,7 +34,7 @@ describe('Shaft Reducer', () => {
           deviceId: 'fakedeviceid',
           timestamp: '2020-11-12T18:31:56.954003Z',
           rsm01ShaftSpeed: 3,
-          rsm01Shaftcountervalue: 666,
+          rsm01ShaftCounterValue: 666,
         },
       ];
       const action = getShaftSuccess({ shaft: SHAFT_MOCK });
@@ -75,7 +76,7 @@ describe('Shaft Reducer', () => {
 
   describe('getShaftLatestSuccess', () => {
     it('should unset shaft latest loading and set shaft latest result', () => {
-      const SHAFT_MOCK: ShaftStatus = {
+      const SHAFT_MOCK: RSMShaftEntity = {
         deviceId: 'fakedeviceid',
         timestamp: '2020-11-12T18:31:56.954003Z',
         rsm01ShaftSpeed: 3,

@@ -1,24 +1,21 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
+import { StaticSafetyFactorEntity } from '../../../http/types/static-safety-factory.entity';
 import {
   getStaticSafetyLatest,
   getStaticSafetyLatestFailure,
   getStaticSafetyLatestSuccess,
 } from '../../actions/static-safety/static-safety.actions';
-import { StaticSafetyStatus } from './models/static-safety.model';
 
 export interface StaticSafetyState {
   loading: boolean;
-  result: StaticSafetyStatus[];
   status: {
     loading: boolean;
-    result: StaticSafetyStatus;
+    result: StaticSafetyFactorEntity;
   };
 }
 
 export const initialState: StaticSafetyState = {
   loading: false,
-  result: undefined,
   status: {
     loading: false,
     result: undefined,

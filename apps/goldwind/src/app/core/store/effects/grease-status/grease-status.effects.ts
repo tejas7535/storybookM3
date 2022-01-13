@@ -18,9 +18,9 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import * as A from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
+import { LiveAPIService } from '../../../http/liveapi.service';
 
 @Injectable()
 export class GreaseStatusEffects {
@@ -106,8 +106,8 @@ export class GreaseStatusEffects {
       ofType(A.getGreaseStatusLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
-        this.restService.getGreaseStatusLatest(deviceId).pipe(
-          map(([greaseStatusLatest]) =>
+        this.liveAPIService.getGcmProcessed(deviceId).pipe(
+          map((greaseStatusLatest) =>
             A.getGreaseStatusLatestSuccess({ greaseStatusLatest })
           ),
           catchError((_e) => of(A.getGreaseStatusLatestFailure()))
@@ -118,7 +118,7 @@ export class GreaseStatusEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
+    private readonly liveAPIService: LiveAPIService,
     private readonly store: Store
   ) {}
 }

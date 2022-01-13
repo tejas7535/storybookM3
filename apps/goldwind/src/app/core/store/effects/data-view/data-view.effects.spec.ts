@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { RestService } from '../../../http/rest.service';
+import { LegacyAPIService } from '../../../http/legacy.service';
 import {
   getData,
   getDataId,
@@ -23,7 +23,7 @@ describe('Data View Effects', () => {
   let action: any;
   let store: any;
   let effects: DataViewEffects;
-  let restService: RestService;
+  let legacyService: LegacyAPIService;
 
   const deviceId = '123-456-789';
   const mockUrl = `/bearing/${deviceId}/data-view`;
@@ -34,7 +34,7 @@ describe('Data View Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: RestService,
+        provide: LegacyAPIService,
         useValue: {
           getData: jest.fn(),
         },
@@ -47,7 +47,7 @@ describe('Data View Effects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
     effects = spectator.inject(DataViewEffects);
-    restService = spectator.inject(RestService);
+    legacyService = spectator.inject(LegacyAPIService);
 
     store.overrideSelector(getDataInterval, {
       startDate: 1_599_651_508,
@@ -149,13 +149,13 @@ describe('Data View Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        restService.getData = jest.fn(() => response);
+        legacyService.getData = jest.fn(() => response);
 
         m.expect(effects.data$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getData).toHaveBeenCalledTimes(1);
-        expect(restService.getData).toHaveBeenCalledWith({
+        expect(legacyService.getData).toHaveBeenCalledTimes(1);
+        expect(legacyService.getData).toHaveBeenCalledWith({
           id: deviceId,
           start: 1_599_651_508,
           end: 1_599_651_509,

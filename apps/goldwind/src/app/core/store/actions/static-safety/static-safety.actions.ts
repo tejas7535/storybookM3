@@ -1,6 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
-
-import { StaticSafetyStatus } from '../../reducers/static-safety/models/static-safety.model';
+import { StaticSafetyFactorEntity } from '../../../http/types/static-safety-factory.entity';
 
 const TOPIC = 'Static Safety';
 
@@ -16,7 +15,7 @@ export const getStaticSafetyLatest = createAction(
 
 export const getStaticSafetyLatestSuccess = createAction(
   `[${TOPIC}] Load latest ${TOPIC} Success`,
-  props<{ result: StaticSafetyStatus }>()
+  props<{ result: StaticSafetyFactorEntity }>()
 );
 
 export const getStaticSafetyLatestFailure = createAction(

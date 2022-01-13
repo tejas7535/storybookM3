@@ -7,7 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import {
   getShaftId,
   getShaftLatest,
@@ -18,6 +17,8 @@ import {
 import * as fromRouter from '../../reducers';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { ShaftEffects } from './shaft.effects';
+import { LiveAPIService } from '../../../http/liveapi.service';
+import { RSMShaftEntity } from '../../../http/types';
 
 describe('Shaft Effects', () => {
   let spectator: SpectatorService<ShaftEffects>;
@@ -26,7 +27,7 @@ describe('Shaft Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<ShaftEffects>;
   let effects: ShaftEffects;
-  let restService: RestService;
+  let liveAPIService: LiveAPIService;
 
   const deviceId = 'my-device-id';
   const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
@@ -38,7 +39,7 @@ describe('Shaft Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: RestService,
+        provide: LiveAPIService,
         useValue: {
           getShaftLatest: jest.fn(),
         },
@@ -52,7 +53,7 @@ describe('Shaft Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(ShaftEffects);
     metadata = getEffectsMetadata(effects);
-    restService = spectator.inject(RestService);
+    liveAPIService = spectator.inject(LiveAPIService);
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -167,7 +168,7 @@ describe('Shaft Effects', () => {
     it(
       'should return getShaftLatestSuccess action when REST call is successful',
       marbles((m) => {
-        const SHAFT_MOCK: ShaftStatus = {
+        const SHAFT_MOCK: RSMShaftEntity = {
           deviceId: 'fakedeviceid',
           timestamp: '2020-11-12T18:31:56.954003Z',
           rsm01ShaftSpeed: 3,
@@ -180,17 +181,17 @@ describe('Shaft Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: [SHAFT_MOCK],
+          a: SHAFT_MOCK,
         });
         const expected = m.cold('--b', { b: result });
 
-        restService.getShaftLatest = jest.fn(() => response);
+        liveAPIService.getRSMShaft = jest.fn(() => response);
 
         m.expect(effects.shaftLatest$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getShaftLatest).toHaveBeenCalledTimes(1);
-        expect(restService.getShaftLatest).toHaveBeenCalledWith(deviceId);
+        expect(liveAPIService.getRSMShaft).toHaveBeenCalledTimes(1);
+        expect(liveAPIService.getRSMShaft).toHaveBeenCalledWith(deviceId);
       })
     );
   });

@@ -5,14 +5,9 @@ import { ChartState } from '../../../../shared/chart/chart.state';
 import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { MAINTENACE_ASSESSMENT_CONTROLS } from '../../../../shared/constants/maintenance-assessment-controls';
 import { getMaintenanceAssessmentState } from '../../reducers';
-import { EdmStatus } from '../../reducers/edm-monitor/models';
-import { GcmStatus } from '../../reducers/grease-status/models';
 import { MaintenanceAssessmentDisplay } from '../../reducers/maintenance-assessment/maintenance.assessment.model';
-import { ShaftStatus } from '../../reducers/shaft/models';
 import { Interval } from '../../reducers/shared/models';
-import { getGreaseStatusResult } from '..';
-import { getEdmResult } from '../edm-monitor/edm-monitor.selector';
-import { getShaftResult } from '../shaft/shaft.selector';
+import { MaintenaceSensorData } from '../../../http/types';
 
 type DisplayOption = [any, boolean];
 
@@ -21,25 +16,26 @@ export const getMaintenanceAssessmentDisplay = createSelector(
   (state: ChartState<MaintenanceAssessmentDisplay>) => state.display
 );
 
+export const getMaintenanceAssessmentData = createSelector(
+  getMaintenanceAssessmentState,
+  (state: ChartState<MaintenanceAssessmentDisplay>) => state.result
+);
+
 export const getMaintenanceAssessmentInterval = createSelector(
   getMaintenanceAssessmentState,
   (state: ChartState<MaintenanceAssessmentDisplay>): Interval => state.interval
 );
 
 export const getAnalysisGraphDataM = createSelector(
-  getGreaseStatusResult,
-  getEdmResult,
-  getShaftResult,
+  getMaintenanceAssessmentData,
   getMaintenanceAssessmentDisplay,
   getMaintenanceAssessmentInterval,
   (
-    gcmStatus: GcmStatus[],
-    edm: EdmStatus[],
-    shaftStatus: ShaftStatus[],
+    mData: MaintenaceSensorData[],
     display: MaintenanceAssessmentDisplay | any,
     interval: Interval
   ): EChartsOption => {
-    const result = gcmStatus && {
+    const result = mData && {
       xAxis: {
         min: new Date(interval.startDate * 1000),
         max: new Date(interval.endDate * 1000),
@@ -57,11 +53,7 @@ export const getAnalysisGraphDataM = createSelector(
             key,
             value,
             MAINTENACE_ASSESSMENT_CONTROLS,
-            {
-              gcmStatus,
-              edm,
-              shaftStatus,
-            }
+            mData
           ).getData()
         ),
     };

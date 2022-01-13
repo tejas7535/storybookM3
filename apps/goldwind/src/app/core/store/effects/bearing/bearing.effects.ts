@@ -16,7 +16,6 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { RestService } from '../../../http/rest.service';
 import {
   getBearing,
   getBearingFailure,
@@ -24,6 +23,7 @@ import {
   getBearingSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { RestService } from '../../../http/rest.service';
 
 @Injectable()
 export class BearingEffects {

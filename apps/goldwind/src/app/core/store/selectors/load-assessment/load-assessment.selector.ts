@@ -3,14 +3,12 @@ import { EChartsOption } from 'echarts';
 
 import { DataToChartSeriesConverter } from '../../../../shared/chart/data-to-chart-series-converter';
 import { LOAD_ASSESSMENT_CONTROLS } from '../../../../shared/constants';
-import { CenterLoadStatus } from '../../../../shared/models';
 import { getLoadAssessmentState } from '../../reducers';
 import { LoadAssessmentState } from '../../reducers/load-assessment/load-assessment.reducer';
 import { LoadAssessmentDisplay } from '../../reducers/load-assessment/models';
-import { LoadSense } from '../../reducers/load-sense/models';
 import { Interval } from '../../reducers/shared/models';
-import { getCenterLoadResult } from '../../selectors/center-load/center-load.selector';
-import { getBearingLoadResult } from '../load-sense/load-sense.selector';
+import { LoadAssessmentData } from '../../../http/rest.service';
+
 type GreaseDisplayKeys = keyof LoadAssessmentDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
 
@@ -24,14 +22,17 @@ export const getLoadAssessmentInterval = createSelector(
   (state: LoadAssessmentState): Interval => state.interval
 );
 
+export const selectLoadAssessmentResult = createSelector(
+  getLoadAssessmentState,
+  (state: LoadAssessmentState) => state.result
+);
+
 export const getAnalysisGraphData = createSelector(
-  getBearingLoadResult,
-  getCenterLoadResult,
+  selectLoadAssessmentResult,
   getLoadAssessmentDisplay,
   getLoadAssessmentInterval,
   (
-    bearingLoad: LoadSense[],
-    centerLoad: CenterLoadStatus[],
+    loadAssessment: LoadAssessmentData[],
     display: LoadAssessmentDisplay,
     _interval: Interval
   ): EChartsOption => {
@@ -60,10 +61,12 @@ export const getAnalysisGraphData = createSelector(
       series: Object.entries(display)
         .map(([key, value]) => [key, value] as DisplayOption)
         .map(([key, value]: DisplayOption) =>
-          new DataToChartSeriesConverter(key, value, LOAD_ASSESSMENT_CONTROLS, {
-            bearingLoad,
-            centerLoad,
-          }).getData()
+          new DataToChartSeriesConverter(
+            key,
+            value,
+            LOAD_ASSESSMENT_CONTROLS,
+            loadAssessment
+          ).getData()
         ),
     };
 

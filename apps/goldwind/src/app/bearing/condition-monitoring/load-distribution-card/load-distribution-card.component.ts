@@ -18,7 +18,7 @@ import {
   getLoadDistributionSeries,
   getLoadDistributionTimeStamp,
 } from '../../../core/store/selectors/load-distribution/load-distribution.selector';
-import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
+import { UPDATE_SETTINGS } from '../../../shared/constants';
 import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { config } from './polar-options.echart';
 @Component({

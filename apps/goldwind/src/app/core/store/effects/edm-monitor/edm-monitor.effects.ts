@@ -16,14 +16,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
-import {
-  getEdmHistogram,
-  getEdmHistogramFailure,
-  getEdmHistogramSuccess,
-  stopEdmHistogramPolling,
-} from '../../actions';
+
 import {
   getEdm,
   getEdmFailure,
@@ -34,6 +27,15 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getEdmInterval } from '../../selectors';
+import {
+  getEdmHistogram,
+  getEdmHistogramFailure,
+  getEdmHistogramSuccess,
+  stopEdmHistogramPolling,
+} from '../../actions';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
+import { LegacyAPIService } from '../../../http/legacy.service';
+import { RestService } from '../../../http/rest.service';
 
 @Injectable()
 export class EdmMonitorEffects {
@@ -88,7 +90,7 @@ export class EdmMonitorEffects {
         end: interval.endDate,
       })),
       mergeMap((edmParams) =>
-        this.restService.getEdm(edmParams).pipe(
+        this.legacyAPIService.getEdm(edmParams).pipe(
           map((measurements) => getEdmSuccess({ measurements })),
           catchError((_e) => of(getEdmFailure()))
         )
@@ -100,17 +102,14 @@ export class EdmMonitorEffects {
     // eslint-disable-next-line ngrx/avoid-cyclic-effects
     return this.actions$.pipe(
       ofType(getEdmHistogram),
-      tap((action) => (this.currentDeviceId = action.deviceId)),
-      tap((action) => (this.currentChannel = action.channel)),
       withLatestFrom(this.store.select(getEdmInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        channel: action.channel,
-        start: interval.startDate,
-        end: interval.endDate,
+      map(([_action, interval]: [any, Interval]) => ({
+        id: _action?.deviceId,
+        start: interval?.startDate,
+        end: interval?.endDate,
       })),
       mergeMap((edmParams) =>
-        this.restService.getEdmHistogram(edmParams, edmParams.channel).pipe(
+        this.restService.getEdmHistogram(edmParams).pipe(
           map((histogram) => getEdmHistogramSuccess({ histogram })),
           tap(() => (this.isPolling = true)),
           catchError((_e) => of(getEdmHistogramFailure()))
@@ -126,7 +125,6 @@ export class EdmMonitorEffects {
       map(() =>
         getEdmHistogram({
           deviceId: this.currentDeviceId,
-          channel: this.currentChannel,
         })
       )
     );
@@ -144,11 +142,12 @@ export class EdmMonitorEffects {
 
   isPolling = false;
   currentDeviceId: string;
-  currentChannel: string;
+  currentChannel: any;
 
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
+    private readonly legacyAPIService: LegacyAPIService,
     private readonly store: Store
   ) {}
 }

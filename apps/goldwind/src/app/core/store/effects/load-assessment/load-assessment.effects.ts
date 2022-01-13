@@ -18,12 +18,8 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
 import {
-  getCenterLoad,
-  getCenterLoadFailure,
-  getCenterLoadSuccess,
-  getLoadDistributionLatestSuccess,
-} from '../../actions';
-import {
+  getLoadAssessmentDataFailure,
+  getLoadAssessmentDataSuccess,
   getLoadAssessmentId,
   setLoadAssessmentInterval,
 } from '../../actions/load-assessment/load-assessment.actions';
@@ -37,6 +33,13 @@ import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getLoadAssessmentInterval } from '../../selectors/load-assessment/load-assessment.selector';
 import { actionInterval } from '../utils';
+import { LegacyAPIService } from '../../../http/legacy.service';
+import {
+  getLoadDistributionLatestSuccess,
+  getCenterLoad,
+  getCenterLoadSuccess,
+  getCenterLoadFailure,
+} from '../..';
 @Injectable()
 export class LoadAssessmentEffects {
   router$ = createEffect(() => {
@@ -74,13 +77,27 @@ export class LoadAssessmentEffects {
       ofType(getLoadAssessmentId),
       withLatestFrom(this.store.select(fromRouter.getRouterState)),
       map(([_action, routerState]) => ({
-        deviceId: routerState.state.params.id,
+        id: routerState.state.params.id,
       })),
-      mergeMap(({ deviceId }) => [
-        getLoadAverage({ deviceId }),
-        getCenterLoad({ deviceId }),
-        getBearingLoad({ deviceId }),
-      ])
+      withLatestFrom(this.store.select(getLoadAssessmentInterval)),
+      map(([_action, interval]) => ({
+        ..._action,
+        start: interval.startDate,
+        end: interval.endDate,
+      })),
+      mergeMap((params) =>
+        this.restService.getLoadAssessmentDistribution(params).pipe(
+          map((data) =>
+            data.sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )
+          ),
+          map((data) => getLoadAssessmentDataSuccess({ data })),
+          catchError((_e) => of(getLoadAssessmentDataFailure()))
+        )
+      )
     );
   });
 
@@ -97,7 +114,7 @@ export class LoadAssessmentEffects {
         end: interval.endDate,
       })),
       mergeMap((greaseParams) =>
-        this.restService.getBearingLoad(greaseParams).pipe(
+        this.legacyAPIService.getBearingLoad(greaseParams).pipe(
           map((bearingLoad) =>
             bearingLoad.sort(
               (a, b) =>
@@ -119,19 +136,19 @@ export class LoadAssessmentEffects {
       map(actionInterval()),
       mergeMap(({ id, start, end }) =>
         forkJoin([
-          this.restService.getLoadDistributionAverage({
+          this.legacyAPIService.getLoadDistributionAverage({
             id,
             start,
             end,
             row: 1,
           }),
-          this.restService.getLoadDistributionAverage({
+          this.legacyAPIService.getLoadDistributionAverage({
             id,
             start,
             end,
             row: 2,
           }),
-          this.restService.getBearingLoadAverage({
+          this.legacyAPIService.getBearingLoadAverage({
             id,
             start,
             end,
@@ -175,6 +192,7 @@ export class LoadAssessmentEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
+    private readonly legacyAPIService: LegacyAPIService,
     private readonly store: Store
   ) {}
 }

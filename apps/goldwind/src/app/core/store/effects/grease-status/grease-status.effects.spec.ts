@@ -18,6 +18,8 @@ import {
 } from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
 import { GreaseStatusEffects } from './grease-status.effects';
+import { LiveAPIService } from '../../../http/liveapi.service';
+import { GcmProcessedEntity } from '../../../http/types';
 
 /* eslint-disable max-lines */
 describe('Grease Status Effects', () => {
@@ -27,7 +29,7 @@ describe('Grease Status Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<GreaseStatusEffects>;
   let effects: GreaseStatusEffects;
-  let restService: RestService;
+  let liveapiservice: LiveAPIService;
 
   const deviceId = 'device-id-in-url';
   const mockRoute = 'condition-monitoring';
@@ -40,7 +42,7 @@ describe('Grease Status Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: RestService,
+        provide: LiveAPIService,
         useValue: {
           getGreaseStatusLatest: jest.fn(),
         },
@@ -54,7 +56,7 @@ describe('Grease Status Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(GreaseStatusEffects);
     metadata = getEffectsMetadata(effects);
-    restService = spectator.inject(RestService);
+    liveapiservice = spectator.inject(LiveAPIService);
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -169,7 +171,7 @@ describe('Grease Status Effects', () => {
     it(
       'should return getGreaseStatusLatest action when REST call is successful',
       marbles((m) => {
-        const mockGreaseStatusLatest = {
+        const mockGreaseStatusLatest: GcmProcessedEntity = {
           deviceId: '1',
           gcm01TemperatureOptics: 500,
           gcm01TemperatureOpticsMin: 1,
@@ -199,19 +201,17 @@ describe('Grease Status Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: [mockGreaseStatusLatest],
+          a: mockGreaseStatusLatest,
         });
         const expected = m.cold('--b', { b: result });
 
-        restService.getGreaseStatusLatest = jest.fn(() => response);
+        liveapiservice.getGcmProcessed = jest.fn(() => response);
 
         m.expect(effects.greaseStatusLatest$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getGreaseStatusLatest).toHaveBeenCalledTimes(1);
-        expect(restService.getGreaseStatusLatest).toHaveBeenCalledWith(
-          deviceId
-        );
+        expect(liveapiservice.getGcmProcessed).toHaveBeenCalledTimes(1);
+        expect(liveapiservice.getGcmProcessed).toHaveBeenCalledWith(deviceId);
       })
     );
   });

@@ -21,16 +21,17 @@ describe('DataChatrSeriesConverter', () => {
             type: Type.grease,
           } as Control,
         ],
-        {
-          gcmStatus: [
-            {
+        [
+          {
+            timestamp: new Date(),
+            gcm: {
               deviceId: 'mega',
               gcm01Deterioration: 1337,
             } as GcmStatus,
-          ],
-        }
+          },
+        ]
       );
-      expect(gcmexample.data[0].value[1]).toBe('1337.00');
+      expect(gcmexample.data.shift().value).toContain('1337.00');
     });
 
     it('should return an series object contain transformed data array for gcm2', () => {
@@ -44,16 +45,17 @@ describe('DataChatrSeriesConverter', () => {
             type: Type.grease,
           } as Control,
         ],
-        {
-          gcmStatus: [
-            {
+        [
+          {
+            timestamp: new Date(),
+            gcm: {
               deviceId: 'megagut',
               gcm02Deterioration: 39_122,
             } as GcmStatus,
-          ],
-        }
+          },
+        ]
       );
-      expect(gcmexample.data[0].value[1]).toBe('39122.00');
+      expect(gcmexample.data.shift().value).toContain('39122.00');
     });
 
     it('missing prop should return no data in data array', () => {
@@ -67,15 +69,17 @@ describe('DataChatrSeriesConverter', () => {
             type: Type.grease,
           } as Control,
         ],
-        {
-          failed_i_hav_no_gcm: [
-            {
-              deviceId: 'megagut',
-            } as GcmStatus,
-          ],
-        }
+        [
+          {
+            failed_i_hav_no_gcm: [
+              {
+                deviceId: 'megagut',
+              } as GcmStatus,
+            ],
+          },
+        ]
       );
-      expect(gcmexample.data).toBeFalsy();
+      expect(gcmexample.data).toStrictEqual([{ value: [] }]);
     });
   });
 
@@ -91,16 +95,17 @@ describe('DataChatrSeriesConverter', () => {
             type: Type.rsm,
           } as Control,
         ],
-        {
-          shaftStatus: [
-            {
+        [
+          {
+            timestamp: new Date(),
+            rsmShaft: {
               deviceId: 'mega',
               rsm01ShaftSpeed: 39_110,
             } as ShaftStatus,
-          ],
-        }
+          },
+        ]
       );
-      expect(gcmexample.data[0].value[1]).toBe('39110.00');
+      expect(gcmexample.data.shift().value).toContain('39110.00');
     });
   });
 

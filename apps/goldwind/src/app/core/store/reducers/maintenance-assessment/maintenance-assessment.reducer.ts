@@ -3,12 +3,14 @@ import { startOfDay, sub } from 'date-fns';
 
 import { ChartState } from '../../../../shared/chart/chart.state';
 import {
+  getMaintenanceAssessmentDataSuccess,
   setMaintenanceAssessmentDisplay,
   setMaintenanceAssessmentInterval,
 } from '../../actions';
 import { MaintenanceAssessmentDisplay } from './maintenance.assessment.model';
 
 export const initialState: ChartState<MaintenanceAssessmentDisplay> = {
+  result: [],
   display: {
     deterioration_1: true,
     waterContent_1: true,
@@ -47,6 +49,16 @@ export const maintenanceAssessmentReducer = createReducer(
     ): ChartState<MaintenanceAssessmentDisplay> => ({
       ...state,
       interval,
+    })
+  ),
+  on(
+    getMaintenanceAssessmentDataSuccess,
+    (
+      state: ChartState<MaintenanceAssessmentDisplay>,
+      { data }
+    ): ChartState<MaintenanceAssessmentDisplay> => ({
+      ...state,
+      result: data,
     })
   )
 );

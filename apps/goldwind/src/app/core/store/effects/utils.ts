@@ -1,4 +1,3 @@
-import { IotParams } from '../../http/rest.service';
 import { Interval } from '../reducers/shared/models';
 
 /**

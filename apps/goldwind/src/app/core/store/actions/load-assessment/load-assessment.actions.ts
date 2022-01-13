@@ -1,20 +1,35 @@
 import { createAction, props, union } from '@ngrx/store';
+import { LoadAssessmentData } from '../../../http/rest.service';
 
 import { LoadAssessmentDisplay } from '../../reducers/load-assessment/models';
 import { Interval } from '../../reducers/shared/models';
 
+const NAMESPACE = 'Load Assessment';
+
 export const getLoadAssessmentId = createAction(
-  '[Load Assessment] Load Load Assessment ID'
+  `[${NAMESPACE}] Load ${NAMESPACE} ID`
 );
 
 export const setLoadAssessmentDisplay = createAction(
-  '[Load Assessment] Set Load Assessment Display',
+  `[${NAMESPACE}] Set ${NAMESPACE} Display`,
   props<{ loadAssessmentDisplay: LoadAssessmentDisplay }>()
 );
 
 export const setLoadAssessmentInterval = createAction(
-  '[Load Assessment] Set Interval',
+  `[${NAMESPACE}] Set Interval`,
   props<{ interval: Interval }>()
+);
+
+export const getLoadAssessmentData = createAction(
+  `[${NAMESPACE}] Get Data`,
+  props<{ deviceId: string }>()
+);
+export const getLoadAssessmentDataSuccess = createAction(
+  `[${NAMESPACE}] Return Data`,
+  props<{ data: LoadAssessmentData[] }>()
+);
+export const getLoadAssessmentDataFailure = createAction(
+  `[${NAMESPACE}] Failed Data`
 );
 
 const all = union({

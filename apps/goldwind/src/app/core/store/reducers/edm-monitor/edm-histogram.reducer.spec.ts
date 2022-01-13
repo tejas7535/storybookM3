@@ -13,7 +13,6 @@ describe('EDM Histogram Reducer', () => {
     it('should set loading', () => {
       const action = A.getEdmHistogram({
         deviceId: 'fantasyId',
-        channel: 'edm-1',
       });
       const state = edmHistogramReducer(initialState, action);
 
@@ -23,18 +22,8 @@ describe('EDM Histogram Reducer', () => {
 
   describe('getEdmSuccess', () => {
     it('should unset loading and set measurements', () => {
-      const histogram: EdmHistogram[] = [
-        {
-          deviceId: 'ipsum',
-          clazz2: 4480,
-          clazz1: 4774,
-          clazz0: 5204,
-          clazz3: 820,
-          channel: 'in occaecat tempor ullamco',
-          timestamp: '2021-09-28T12:00:34.603Z',
-          clazz4: 6287,
-        },
-      ];
+      const histogram: EdmHistogram = { edm1: [], edm2: [] };
+
       const action = A.getEdmHistogramSuccess({ histogram });
 
       const fakeState = {

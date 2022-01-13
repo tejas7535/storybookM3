@@ -14,7 +14,6 @@ import * as fromCenterLoad from './center-load/center-load.reducer';
 import * as fromDataView from './data-view/data-view.reducer';
 import * as fromDevices from './devices/devices.reducer';
 import * as fromEdmHistogram from './edm-monitor/edm-histogram.reducer';
-import { EdmHistogramState } from './edm-monitor/edm-histogram.reducer';
 import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromGreaseHeatmapStatus from './grease-status/heatmap.reducer';

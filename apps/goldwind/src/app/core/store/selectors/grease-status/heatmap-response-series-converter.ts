@@ -7,21 +7,15 @@ import {
   GCMHeatmapEntry,
 } from '../../../../shared/models';
 export class HeatmapResponseConvert {
-  series: HeatmapSeriesOption[] = Array.from({ length: 4 });
-  levelMap = {
-    [GCMHeatmapClassification.ERROR]: 3,
-    [GCMHeatmapClassification.WARNING]: 1,
-    [GCMHeatmapClassification.OKAY]: 2,
-  };
-
-  private readonly baseconfig: HeatmapSeriesOption = {
-    type: 'heatmap',
-    coordinateSystem: 'calendar',
-    calendarIndex: 0,
-    data: [],
-  };
-  CALENDER_SPLIT_COUNT = 4;
-  _data: GCMHeatmapEntry[];
+  /**
+   * the series of the heatmap with length of all years quarters
+   * For each "line" one series
+   */
+  public series: HeatmapSeriesOption[] = Array.from({ length: 4 });
+  /**
+   * stores the returned data values
+   */
+  private readonly _data: GCMHeatmapEntry[];
 
   constructor(data: GCMHeatmapEntry[]) {
     if (!data) {
@@ -60,9 +54,12 @@ export class HeatmapResponseConvert {
 
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const getBadge = (classification: GCMHeatmapClassification) => `
-            <div class="flex text-white h-5 w-max rounded p-1 text-center items-center" style="background: ${this.getClassificationColor(
-              classification
-            )}">${classification}</div>
+            <div class="flex ${!classification ? 'text-sm' : 'text-white'}
+            h-5 w-max rounded p-1 text-center items-center"
+              style="background: ${this.getClassificationColor(
+                classification
+              )}">
+              ${classification || GCMHeatmapClassification.EMPTY}</div>
           `;
 
     return `
@@ -138,8 +135,11 @@ export class HeatmapResponseConvert {
       Object.keys(e)
         .filter((key) => key.includes('Classification'))
         .map((key: string) => e[key as keyof GCMHeatmapEntry] as any)
+        .filter((_e: any) => _e)
     );
-
+    if (classprops.size === 0) {
+      return 0;
+    }
     if (classprops.has(GCMHeatmapClassification.ERROR)) {
       return 3;
     }
@@ -155,8 +155,11 @@ export class HeatmapResponseConvert {
       Object.keys(e)
         .filter((key) => key.includes('Classification'))
         .map((key: string) => e[key as keyof GCMHeatmapEntry] as any)
+        .filter((_e: any) => _e)
     );
-
+    if (classprops.size === 0) {
+      return GCMHeatmapClassification.EMPTY;
+    }
     // eslint-disable-next-line unicorn/no-array-reduce
     if (classprops.has(GCMHeatmapClassification.ERROR)) {
       return GCMHeatmapClassification.ERROR;
@@ -202,8 +205,8 @@ export class HeatmapResponseConvert {
         return 0;
     }
   }
-  /*
-   * Returns this current year
+  /**
+   *@returns this current year
    */
   get year() {
     return new Date().getFullYear();
@@ -221,9 +224,14 @@ export class HeatmapResponseConvert {
       Date.parse(timestamp) <= Date.parse(_to)
     );
   }
+  /**
+   * Returns a color mapping to the Classification
+   * @param gcm01DeteriorationClassification
+   * @returns GaugeColors
+   */
   getClassificationColor(
     gcm01DeteriorationClassification: GCMHeatmapClassification
-  ) {
+  ): GaugeColors {
     switch (gcm01DeteriorationClassification) {
       case GCMHeatmapClassification.ERROR:
         return GaugeColors.RED;
@@ -231,6 +239,8 @@ export class HeatmapResponseConvert {
         return GaugeColors.YELLOW;
       case GCMHeatmapClassification.OKAY:
         return GaugeColors.GREEN;
+      case GCMHeatmapClassification.EMPTY:
+        return GaugeColors.GREY;
       default:
         return GaugeColors.GREY;
     }

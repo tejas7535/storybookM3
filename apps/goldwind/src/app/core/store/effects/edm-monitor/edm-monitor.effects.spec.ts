@@ -1,4 +1,4 @@
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
@@ -9,6 +9,15 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { RestService } from '../../../http/rest.service';
+
+import {
+  getEdm,
+  getEdmId,
+  setEdmInterval,
+} from '../../actions/edm-monitor/edm-monitor.actions';
+import * as fromRouter from '../../reducers';
+import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
+import { EdmMonitorEffects } from './edm-monitor.effects';
 import {
   getEdmHistogram,
   getEdmHistogramFailure,
@@ -16,17 +25,10 @@ import {
   stopEdmHistogramPolling,
 } from '../..';
 import {
-  getEdm,
-  getEdmFailure,
-  getEdmId,
-  getEdmSuccess,
-  setEdmInterval,
-} from '../../actions/edm-monitor/edm-monitor.actions';
-import * as fromRouter from '../../reducers';
-import { EdmHistogram } from '../../reducers/edm-monitor/edm-histogram.reducer';
-import { EdmStatus } from '../../reducers/edm-monitor/models';
-import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
-import { EdmMonitorEffects } from './edm-monitor.effects';
+  EdmAntennaValue,
+  EdmHistogram,
+} from '../../reducers/edm-monitor/edm-histogram.reducer';
+import { LegacyAPIService } from '../../../http/legacy.service';
 
 describe('Edm Monitor Effects', () => {
   let spectator: SpectatorService<EdmMonitorEffects>;
@@ -35,6 +37,7 @@ describe('Edm Monitor Effects', () => {
   let store: any;
   let effects: EdmMonitorEffects;
   let restService: RestService;
+  let legacyService: LegacyAPIService;
 
   const deviceId = 'device-id-in-url';
   const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
@@ -50,6 +53,12 @@ describe('Edm Monitor Effects', () => {
           getEdm: jest.fn(),
         },
       },
+      {
+        provide: LegacyAPIService,
+        useValue: {
+          getEdm: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -59,6 +68,7 @@ describe('Edm Monitor Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(EdmMonitorEffects);
     restService = spectator.inject(RestService);
+    legacyService = spectator.inject(LegacyAPIService);
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -128,84 +138,23 @@ describe('Edm Monitor Effects', () => {
     );
   });
 
-  describe('edm$', () => {
-    beforeEach(() => {
-      action = getEdm({
-        deviceId,
-      });
-    });
-
-    it(
-      'should return getEdmSuccess action when REST call is successful',
-      marbles((m) => {
-        const mockMeasurements: EdmStatus[] = [
-          {
-            deviceId: 'Y-Wing',
-            timestamp: '2020-07-30T11:02:25',
-            startTimestamp: '2020-07-30T11:02:25',
-            endTimestamp: '2020-07-30T11:02:25',
-            edm01Ai01Counter: 100,
-            edm01Ai02Counter: 200,
-          },
-        ];
-
-        const result = getEdmSuccess({
-          measurements: mockMeasurements,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: mockMeasurements,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        restService.getEdm = jest.fn(() => response);
-
-        m.expect(effects.edm$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getEdm).toHaveBeenCalledTimes(1);
-        expect(restService.getEdm).toHaveBeenCalledWith({
-          id: deviceId,
-          start: 1_599_651_508,
-          end: 1_599_651_509,
-        });
-      })
-    );
-
-    it(
-      'should catch errors',
-      marbles((m) => {
-        const result = getEdmFailure();
-        restService.getEdm = jest.fn(() => throwError(() => 's'));
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-b', { b: result });
-        m.expect(effects.edm$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getEdm).toHaveBeenCalled();
-      })
-    );
-  });
-
   describe('edmHistogram$', () => {
-    const mock: EdmHistogram[] = [
-      {
-        deviceId: 'Old Deathstar',
-        channel: '1',
-        clazz0: 1,
-        clazz1: 2,
-        clazz2: 3,
-        clazz3: 4,
-        clazz4: 5,
-        timestamp: 'mu',
-      },
-    ];
+    const mock: EdmHistogram = {
+      edm1: [
+        {
+          clazz0: 1,
+          clazz1: 2,
+          clazz2: 3,
+          clazz3: 4,
+          clazz4: 5,
+          timestamp: 'mu',
+        } as EdmAntennaValue,
+      ],
+      edm2: [],
+    };
 
     beforeAll(() => {
-      action = getEdmHistogram({ deviceId, channel: '1' });
+      action = getEdmHistogram({ deviceId });
     });
 
     it(
@@ -260,11 +209,11 @@ describe('Edm Monitor Effects', () => {
       'should trigger action after delay of configured settings',
       marbles((m) => {
         actions$ = m.hot('-a', {
-          a: getEdmHistogramSuccess({ histogram: [] }),
+          a: getEdmHistogramSuccess({ histogram: { edm1: [], edm2: [] } }),
         });
 
         const expected = m.cold('-b', {
-          b: getEdmHistogram({ channel: '1', deviceId: '' }),
+          b: getEdmHistogram({ deviceId: '' }),
         });
         m.expect(effects.pollingEDMHistogram$).toBeObservable(expected);
         m.flush();

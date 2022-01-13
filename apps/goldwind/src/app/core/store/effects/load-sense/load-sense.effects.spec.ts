@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
+import { LegacyAPIService } from '../../../http/legacy.service';
 import {
   getBearingLoadLatest,
   getBearingLoadLatestFailure,
@@ -26,7 +26,7 @@ describe('Load Sense Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<BearingLoadEffects>;
   let effects: BearingLoadEffects;
-  let restService: RestService;
+  let legacyService: LegacyAPIService;
 
   const deviceId = '123';
   const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
@@ -38,7 +38,7 @@ describe('Load Sense Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: RestService,
+        provide: LegacyAPIService,
         useValue: {
           getLoad: jest.fn(),
         },
@@ -52,7 +52,7 @@ describe('Load Sense Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(BearingLoadEffects);
     metadata = getEffectsMetadata(effects);
-    restService = spectator.inject(RestService);
+    legacyService = spectator.inject(LegacyAPIService);
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -194,13 +194,15 @@ describe('Load Sense Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        restService.getBearingLoadLatest = jest.fn(() => response);
+        legacyService.getBearingLoadLatest = jest.fn(() => response);
 
         m.expect(effects.bearingLoadLatest$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getBearingLoadLatest).toHaveBeenCalledTimes(1);
-        expect(restService.getBearingLoadLatest).toHaveBeenCalledWith(deviceId);
+        expect(legacyService.getBearingLoadLatest).toHaveBeenCalledTimes(1);
+        expect(legacyService.getBearingLoadLatest).toHaveBeenCalledWith(
+          deviceId
+        );
       })
     );
   });

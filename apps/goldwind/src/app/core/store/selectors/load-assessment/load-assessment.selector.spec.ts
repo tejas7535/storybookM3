@@ -1,71 +1,21 @@
-import { LOAD_SENSE } from '../../../../../testing/mocks';
-import { CenterLoadStatus } from '../../../../shared/models';
-import { initialState } from '../../reducers/bearing/bearing.reducer';
+import { LoadAssessmentData } from '../../../http/rest.service';
+import { LoadAssessmentState } from '../../reducers/load-assessment/load-assessment.reducer';
 import {
   getAnalysisGraphData,
   getLoadAssessmentDisplay,
   getLoadAssessmentInterval,
 } from './load-assessment.selector';
-const MOCK = {
-  deviceId: 'foo',
-  timestamp: '2020-11-04T09:39:19.499Z',
-  fx: 1,
-  fy: 1,
-  fz: 1,
-  mz: 1,
-  my: 1,
-} as CenterLoadStatus;
+
 describe('Load Assessment Selector', () => {
   const fakeState = {
-    greaseStatus: {
-      ...initialState,
+    loadAssessment: {
       result: [
         {
-          timestamp: '2020-07-30T11:02:35',
-          gcm01TemperatureOptics: 99.991,
-          gcm01Deterioration: 12.121,
-          gcm01WaterContent: 69,
-          gcm02TemperatureOptics: 33.333,
-          gcm02Deterioration: 22,
-          gcm02WaterContent: 11.111,
-        },
+          timestamp: '2020-11-04T09:39:19.499Z',
+          lsp01Strain: 1,
+          fx: 1,
+        } as LoadAssessmentData,
       ],
-      loading: false,
-      status: {
-        result: {
-          timestamp: '2020-07-31T11:02:35',
-          gcm01TemperatureOptics: 99.99,
-          gcm01Deterioration: 55.55,
-          gcm01WaterContent: 12.55,
-          gcm02TemperatureOptics: 33.333,
-          gcm02Deterioration: 22,
-          gcm02WaterContent: 11.111,
-        },
-        loading: false,
-      },
-    },
-
-    loadSense: {
-      loading: false,
-      result: [LOAD_SENSE],
-      status: {
-        loading: false,
-        result: LOAD_SENSE,
-      },
-      averageResult: {
-        loading: false,
-        result: LOAD_SENSE,
-      },
-    },
-    'center-load': {
-      loading: false,
-      result: [MOCK],
-      status: {
-        loading: false,
-        result: MOCK,
-      },
-    },
-    loadAssessment: {
       display: {
         lsp01Strain: true,
         centerLoadFx: true,
@@ -74,7 +24,7 @@ describe('Load Assessment Selector', () => {
         startDate: 123_456_789,
         endDate: 987_654_321,
       },
-    },
+    } as LoadAssessmentState,
   };
 
   describe('getLoadAssessmentDisplay', () => {

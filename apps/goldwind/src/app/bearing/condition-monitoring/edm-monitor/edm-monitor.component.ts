@@ -6,12 +6,12 @@ import { Observable, Subscription } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { format } from 'date-fns';
 import { EChartsOption } from 'echarts';
 
 import {
   getEdmHeatmapSeries,
   getEdmHistogram,
+  setEdmChannel,
   stopEdmHistogramPolling,
 } from '../../../core/store';
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
@@ -24,116 +24,60 @@ import {
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
+import { config } from './heatmap-chart.config';
 
 @Component({
   selector: 'goldwind-edm-monitor',
   templateUrl: './edm-monitor.component.html',
 })
 export class EdmMonitorComponent implements OnInit, OnDestroy {
+  /**
+   * Used not for polling only displaying on the template
+   */
   refresh = UPDATE_SETTINGS.edmhistorgram.refresh;
-
+  /**
+   * Retrives the glanced data array used for echarts format
+   */
   edmGraphData$: Observable<any>;
+  /**
+   * To retrieve the correct timerange
+   */
   interval$: Observable<Interval>;
+  /**
+   * passed to the switch component
+   */
   sensor = false;
+  /**
+   * Loading indicator
+   */
   loading$: Observable<boolean>;
+  /**
+   * Used for the radio buttons
+   **/
   type = Sensor.ANTENNA;
-  chartOptions: EChartsOption = {
-    yAxis: {
-      type: 'category',
-      data: [0, 10, 100, '1k', '10k'],
-      axisLabel: {
-        color: '#646464',
-        lineHeight: -25,
-        verticalAlign: 'bottom',
-      },
-      axisLine: {
-        lineStyle: {
-          color: '#ced5da',
-        },
-      },
-    },
-    legend: {
-      show: false,
-    },
-    xAxis: {
-      type: 'category',
-      data: [],
-      splitLine: {
-        show: true,
-      },
-      axisLabel: {
-        color: '#646464',
-        formatter: (d: any) => format(new Date(d), 'YYY-MM-dd'),
-      },
-      axisLine: {
-        lineStyle: {
-          color: '#ced5da',
-        },
-      },
-    },
-    gradientColor: ['#B5ECF8', '#0E656D'],
-    visualMap: {
-      min: 0,
-      max: 100_000,
-      calculable: true,
-      orient: 'horizontal',
-      left: 'center',
-      bottom: '0%',
-      show: true,
-      z: 0,
-    },
-    series: [],
-    grid: {
-      top: 0,
-      left: 40,
-      right: 0,
-    },
-    tooltip: {
-      position: 'left',
-      formatter: (params: any) => `
-        <div class="grid grid-cols-2 grid-rows-3 gap-2">
-          <span>Number of Incidents:</span>
-          <span>${params.data[2]}</span>
-          <span>Class:</span>
-          <span>${this.getClassificationString(params.data[1])}</span>
-          <span>Time:</span> <span>${this.reformatLegendDate(
-            params.data[0]
-          )}</span>
-
-        </div>
-      `,
-    },
-  };
+  /**
+   * Config for echarts to render a heatmap
+   **/
+  chartOptions: EChartsOption = config;
+  /**
+   * The current selected Antenna Channel
+   */
   channel = 'edm-1';
+  /**
+   * A Subscription to observe the current device id within the path params
+   */
   routeParamsSub: Subscription;
-
+  /**
+   *
+   * @param store
+   * @param activate
+   */
   public constructor(
     private readonly store: Store,
     private readonly activate: ActivatedRoute,
     private readonly dialog: MatDialog
   ) {}
 
-  /**
-   *
-   * @param index
-   * @returns
-   */
-  public getClassificationString(index: number): string {
-    switch (index) {
-      case 0:
-        return '0 - 10';
-      case 1:
-        return '10 - 100';
-      case 2:
-        return '100 - 1000';
-      case 3:
-        return '1000 - 10000';
-      case 4:
-        return '> 10000';
-      default:
-        return 'n.A.';
-    }
-  }
   /**
    * Deconstructs the component and there used observables
    */
@@ -158,7 +102,6 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
       this.store.dispatch(
         getEdmHistogram({
           deviceId: params.id,
-          channel: this.channel,
         })
       );
     });
@@ -171,15 +114,7 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
   setInterval(interval: Interval): void {
     this.store.dispatch(setEdmInterval({ interval }));
   }
-  /**
-   * @deprecated can be possible replaced by using built in date formatter of echarts
-   * TODO: Refactor this
-   * @param date
-   * @returns a new formatted date
-   */
-  reformatLegendDate(date: string) {
-    return format(new Date(date), 'MM/dd/yyyy HH:mm');
-  }
+
   /**
    * @deprecated cause be dont have a legend anymore in favor of the visual map
    * @param name
@@ -239,7 +174,9 @@ export class EdmMonitorComponent implements OnInit, OnDestroy {
    */
   switchSensor(event: any) {
     this.channel = `edm-${event.value}`;
-    this.updateEDM();
+    this.store.dispatch(
+      setEdmChannel({ channel: this.channel.replace('-', '') })
+    );
   }
 
   openMoreInfo() {

@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+import { RSMShaftEntity } from '../../../http/types/rsm.entity';
 
 import { ShaftStatus } from '../../reducers/shaft/models';
 
@@ -18,7 +19,7 @@ export const stopGetShaftLatest = createAction(
 
 export const getShaftLatestSuccess = createAction(
   '[Shaft] Load Shaft Latest Success',
-  props<{ shaft: ShaftStatus }>()
+  props<{ shaft: RSMShaftEntity }>()
 );
 
 export const getShaftLatestFailure = createAction(

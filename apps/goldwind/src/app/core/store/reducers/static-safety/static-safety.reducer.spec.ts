@@ -1,12 +1,11 @@
 import { Action } from '@ngrx/store';
-
+import { StaticSafetyFactorEntity } from '../../../http/types';
 import {
   getStaticSafetyId,
   getStaticSafetyLatest,
   getStaticSafetyLatestFailure,
   getStaticSafetyLatestSuccess,
 } from '../../actions/static-safety/static-safety.actions';
-import { StaticSafetyStatus } from './models/static-safety.model';
 import {
   initialState,
   reducer,
@@ -35,12 +34,11 @@ describe('Static Safety Reducer', () => {
 
   describe('getStaticSafetyLatestSuccess', () => {
     it('should change state to passed action prop', () => {
-      const result = {
+      const result: StaticSafetyFactorEntity = {
         deviceId: 'blub',
-        property: 'blob',
-        timestamp: new Date(),
-        value: 21,
-      } as StaticSafetyStatus;
+        timestamp: new Date().toISOString(),
+        staticSafetyFactor: 21,
+      };
       const action = getStaticSafetyLatestSuccess({
         result,
       });

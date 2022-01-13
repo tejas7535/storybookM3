@@ -1,9 +1,7 @@
-import { SeriesOption } from 'echarts';
+import { EChartsOption, SeriesOption } from 'echarts';
 
+import { MaintenaceSensorData } from '../../core/http/types';
 import { EdmStatus } from '../../core/store/reducers/edm-monitor/models';
-import { GcmStatus } from '../../core/store/reducers/grease-status/models/grease-status.model';
-import { LoadSense } from '../../core/store/reducers/load-sense/models';
-import { ShaftStatus } from '../../core/store/reducers/shaft/models';
 import { CenterLoadStatus, Control, Type } from '../models';
 
 export class DataToChartSeriesConverter {
@@ -25,7 +23,7 @@ export class DataToChartSeriesConverter {
     private readonly controls: Control[], // LOAD_ASSESSMENT_CONTROLS
     private readonly dataArr: any
   ) {
-    if (!this.value || !this.dataArr) {
+    if (!this.value || !this.dataArr || this.dataArr.length <= 0) {
       return;
     }
     this.findMethodAndConvert();
@@ -78,8 +76,8 @@ export class DataToChartSeriesConverter {
    *
    * @returns centerload data array converted to a series entries format for echarts
    */
-  convertCenterLoad(): any[] {
-    return this.dataArr['centerLoad']?.map((measurement: CenterLoadStatus) => ({
+  convertCenterLoad(): EChartsOption[] {
+    return this.dataArr.map((measurement: any) => ({
       value: [
         new Date(measurement.timestamp),
         (
@@ -90,15 +88,15 @@ export class DataToChartSeriesConverter {
                 m.toLowerCase()
               ) as keyof CenterLoadStatus
           ] as number
-        ).toFixed(2),
+        )?.toFixed(2),
       ],
     }));
   }
   convertEDM(): any[] {
-    return this.dataArr['edm']?.map((measurement: EdmStatus) => ({
+    return this.dataArr.map((measurement: MaintenaceSensorData) => ({
       value: [
         new Date(measurement.timestamp),
-        measurement[this.key as keyof EdmStatus],
+        measurement.edm[this.key as keyof EdmStatus],
       ],
     }));
   }
@@ -107,10 +105,10 @@ export class DataToChartSeriesConverter {
    * @returns shaftStatus data array converted to a series entries format for echarts
    */
   convertRSM() {
-    return this.dataArr['shaftStatus']?.map((measurement: ShaftStatus) => ({
+    return this.dataArr.map((measurement: MaintenaceSensorData) => ({
       value: [
         new Date(measurement.timestamp),
-        measurement.rsm01ShaftSpeed.toFixed(2),
+        measurement?.rsmShaft?.rsm01ShaftSpeed?.toFixed(2),
       ],
     }));
   }
@@ -119,7 +117,7 @@ export class DataToChartSeriesConverter {
    * @returns bearingload data array converted to a series entries format for echarts
    */
   convertLoad() {
-    return this.dataArr['bearingLoad']?.map((measurement: LoadSense | any) => ({
+    return this.dataArr.map((measurement: any) => ({
       value: [
         new Date(measurement.timestamp),
         typeof measurement[this.key] === 'number'
@@ -133,23 +131,28 @@ export class DataToChartSeriesConverter {
    * @returns gcmStatus data array converted to a series entries format for echarts
    */
   convertGrease() {
-    return this.dataArr['gcmStatus']?.map((measurement: GcmStatus) => {
-      let measurementValue: number;
+    return this.dataArr.map((measurement: MaintenaceSensorData) => {
+      if (!measurement.gcm) {
+        return { value: [] };
+      }
+      let measurementValue: number | string;
       if (this.key.endsWith('_1')) {
-        measurementValue = (measurement as any)[
-          `gcm01${this.key.charAt(0).toUpperCase()}${this.key.slice(1, -2)}`
-        ];
+        measurementValue =
+          measurement.gcm[
+            `gcm01${this.key.charAt(0).toUpperCase()}${this.key.slice(1, -2)}`
+          ];
       } else if (this.key.endsWith('_2')) {
-        measurementValue = (measurement as any)[
-          `gcm02${this.key.charAt(0).toUpperCase()}${this.key.slice(1, -2)}`
-        ];
+        measurementValue =
+          measurement.gcm[
+            `gcm02${this.key.charAt(0).toUpperCase()}${this.key.slice(1, -2)}`
+          ];
       }
 
       return measurementValue !== null && measurementValue !== undefined
         ? {
             value: [
               new Date(measurement.timestamp),
-              measurementValue.toFixed(2),
+              Number(measurementValue).toFixed(2),
             ],
           }
         : { value: [] };

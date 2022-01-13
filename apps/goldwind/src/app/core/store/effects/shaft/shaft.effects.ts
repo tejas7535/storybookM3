@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import {
   getShaftId,
   getShaftLatest,
@@ -26,6 +25,7 @@ import {
   stopGetShaftLatest,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { LiveAPIService } from '../../../http/liveapi.service';
 
 @Injectable()
 export class ShaftEffects {
@@ -105,8 +105,8 @@ export class ShaftEffects {
       ofType(getShaftLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
-        this.restService.getShaftLatest(deviceId).pipe(
-          map(([shaft]) => getShaftLatestSuccess({ shaft })),
+        this.liveAPIService.getRSMShaft(deviceId).pipe(
+          map((shaft) => getShaftLatestSuccess({ shaft })),
           catchError((_e) => of(getShaftLatestFailure()))
         )
       )
@@ -115,7 +115,7 @@ export class ShaftEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
+    private readonly liveAPIService: LiveAPIService,
     private readonly store: Store
   ) {}
 }

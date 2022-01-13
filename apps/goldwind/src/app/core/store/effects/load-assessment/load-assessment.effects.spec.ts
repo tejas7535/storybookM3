@@ -9,11 +9,7 @@ import { marbles } from 'rxjs-marbles';
 import { LOAD_SENSE } from '../../../../../testing/mocks';
 import { RestService } from '../../../http/rest.service';
 import {
-  getCenterLoad,
-  getCenterLoadSuccess,
-  getLoadDistributionLatestSuccess,
-} from '../../actions';
-import {
+  getLoadAssessmentDataSuccess,
   getLoadAssessmentId,
   setLoadAssessmentInterval,
 } from '../../actions/load-assessment/load-assessment.actions';
@@ -21,13 +17,18 @@ import {
   getBearingLoad,
   getBearingLoadSuccess,
   getLoadAverage,
-  getLoadAverageSuccess,
 } from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { getLoadAssessmentInterval } from '../../selectors';
 import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
+import { LegacyAPIService } from '../../../http/legacy.service';
 import { LoadAssessmentEffects } from './load-assessment.effects';
+import {
+  getCenterLoad,
+  getCenterLoadSuccess,
+  getLoadDistributionLatestSuccess,
+} from '../..';
 
 /* eslint-disable max-lines */
 describe('LoadAssessmentEffects', () => {
@@ -37,6 +38,7 @@ describe('LoadAssessmentEffects', () => {
   let store: any;
   let effects: LoadAssessmentEffects;
   let restService: RestService;
+  let legacyService: LegacyAPIService;
 
   const deviceId = 'device-id-in-url';
   const mockRoute = 'load-assessment';
@@ -51,6 +53,11 @@ describe('LoadAssessmentEffects', () => {
         provide: RestService,
         useValue: {
           getLoadDistributionAverage: jest.fn(),
+        },
+      },
+      {
+        provide: LegacyAPIService,
+        useValue: {
           getGreaseStatus: jest.fn(),
           getBearingLoad: jest.fn(),
           getCenterLoad: jest.fn(),
@@ -65,6 +72,7 @@ describe('LoadAssessmentEffects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(LoadAssessmentEffects);
     restService = spectator.inject(RestService);
+    legacyService = spectator.inject(LegacyAPIService);
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -152,16 +160,33 @@ describe('LoadAssessmentEffects', () => {
       'should return many actions',
       marbles((m) => {
         action = getLoadAssessmentId();
+        const mock = [
+          { timestamp: new Date().toISOString(), fx: 1, lsp01Strain: 1 },
+        ];
+        const result = getLoadAssessmentDataSuccess({
+          data: mock,
+        });
 
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('-(bcd)', {
-          b: getLoadAverage({ deviceId }),
-          c: getCenterLoad({ deviceId }),
-          d: getBearingLoad({ deviceId }),
+        const response = m.cold('-a|', {
+          a: mock,
         });
+        const expected = m.cold('--b', { b: result });
+
+        restService.getLoadAssessmentDistribution = jest.fn(() => response);
 
         m.expect(effects.loadAssessmentId$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getLoadAssessmentDistribution).toHaveBeenCalledTimes(
+          1
+        );
+        expect(restService.getLoadAssessmentDistribution).toHaveBeenCalledWith({
+          id: deviceId,
+          start: 1_599_651_508,
+          end: 1_599_651_509,
+        });
       })
     );
   });
@@ -187,13 +212,13 @@ describe('LoadAssessmentEffects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        restService.getBearingLoad = jest.fn(() => response);
+        legacyService.getBearingLoad = jest.fn(() => response);
 
         m.expect(effects.load$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getBearingLoad).toHaveBeenCalledTimes(1);
-        expect(restService.getBearingLoad).toHaveBeenCalledWith({
+        expect(legacyService.getBearingLoad).toHaveBeenCalledTimes(1);
+        expect(legacyService.getBearingLoad).toHaveBeenCalledWith({
           id: deviceId,
           start: 1_599_651_508,
           end: 1_599_651_509,
@@ -229,12 +254,12 @@ describe('LoadAssessmentEffects', () => {
 
         actions$ = m.hot('-a', { a: action });
 
-        restService.getBearingLoadAverage = jest.fn(() =>
+        legacyService.getBearingLoadAverage = jest.fn(() =>
           m.cold('-a', {
             a: [mockAverage],
           })
         );
-        restService.getLoadDistributionAverage = jest.fn(() =>
+        legacyService.getLoadDistributionAverage = jest.fn(() =>
           m.cold('--b', { b: [mockLDRow] })
         );
 
@@ -242,8 +267,8 @@ describe('LoadAssessmentEffects', () => {
         m.expect(effects.loadAverage$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getBearingLoadAverage).toHaveBeenCalledTimes(1);
-        expect(restService.getBearingLoadAverage).toHaveBeenCalledWith({
+        expect(legacyService.getBearingLoadAverage).toHaveBeenCalledTimes(1);
+        expect(legacyService.getBearingLoadAverage).toHaveBeenCalledWith({
           id: deviceId,
           start: 1_599_651_508,
           end: 1_599_651_509,

@@ -5,12 +5,12 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { RestService } from '../../../http/rest.service';
 import {
   getLoadDistributionLatest,
   getLoadDistributionLatestSuccess,
 } from '../../actions';
 import { LoadDistribution } from '../../selectors/load-distribution/load-distribution.interface';
+import { LiveAPIService } from '../../../http/liveapi.service';
 import { LoadDistributionEffects } from '..';
 
 /* eslint-disable max-lines */
@@ -20,7 +20,7 @@ describe('LoadDistributionEffects', () => {
   let action: any;
   let store: any;
   let effects: LoadDistributionEffects;
-  let restService: RestService;
+  let liveAPIService: LiveAPIService;
 
   const deviceId = 'device-id-in-url';
   const mockRoute = 'load-assessment';
@@ -32,7 +32,7 @@ describe('LoadDistributionEffects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: RestService,
+        provide: LiveAPIService,
         useValue: {
           getLoadDistribution: jest.fn(),
           getBearingLoadLatest: jest.fn(),
@@ -46,7 +46,7 @@ describe('LoadDistributionEffects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
     effects = spectator.inject(LoadDistributionEffects);
-    restService = spectator.inject(RestService);
+    liveAPIService = spectator.inject(LiveAPIService);
   });
   describe('pollingLoadDistribution$', () => {
     it(

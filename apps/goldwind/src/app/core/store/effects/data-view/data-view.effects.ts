@@ -14,7 +14,6 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { RestService } from '../../../http/rest.service';
 import {
   getData,
   getDataFailure,
@@ -25,6 +24,7 @@ import {
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getDataInterval } from '../../selectors';
+import { LegacyAPIService } from '../../../http/legacy.service';
 
 @Injectable()
 export class DataViewEffects {
@@ -80,7 +80,7 @@ export class DataViewEffects {
         end: interval.endDate,
       })),
       mergeMap((dataPrams) =>
-        this.restService.getData(dataPrams).pipe(
+        this.legacyAPIService.getData(dataPrams).pipe(
           map((result) => getDataSuccess({ result })),
           catchError((_e) => of(getDataFailure()))
         )
@@ -90,7 +90,7 @@ export class DataViewEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
+    private readonly legacyAPIService: LegacyAPIService,
     private readonly store: Store
   ) {}
 }

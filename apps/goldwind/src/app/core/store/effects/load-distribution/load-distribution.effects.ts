@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 
-import { delay, filter, forkJoin, map, mergeMap, tap } from 'rxjs';
-
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
+import { delay, filter, map, mergeMap, tap } from 'rxjs';
 import {
   getLoadDistributionLatest,
   getLoadDistributionLatestFailure,
   getLoadDistributionLatestSuccess,
   stopLoadDistributionGet,
 } from '../..';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
+import { LiveAPIService } from '../../../http/liveapi.service';
 
 @Injectable()
 export class LoadDistributionEffects {
@@ -20,20 +18,14 @@ export class LoadDistributionEffects {
       ofType(getLoadDistributionLatest),
       tap((action) => (this.currentDeviceId = action.deviceId)),
       tap(() => (this.isPollingActive = true)),
-      map((action: any) => ({
-        deviceId: action.deviceId,
-      })),
-      mergeMap(({ deviceId }) =>
-        forkJoin([
-          this.restService.getLoadDistribution(deviceId, 1),
-          this.restService.getLoadDistribution(deviceId, 2),
-          this.restService.getBearingLoadLatest(deviceId),
-        ]).pipe(
-          map(([result, result2, _result3]) =>
+      map((action) => action.deviceId),
+      mergeMap((params) =>
+        this.liveAPIService.getLoadDistribution(params).pipe(
+          map((data) =>
             getLoadDistributionLatestSuccess({
-              row1: result.shift(),
-              row2: result2.shift(),
-              lsp: _result3.shift(),
+              row1: data.row1,
+              row2: data.row2,
+              lsp: data.lsps,
             })
           )
         )
@@ -68,6 +60,6 @@ export class LoadDistributionEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService
+    private readonly liveAPIService: LiveAPIService
   ) {}
 }

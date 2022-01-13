@@ -1,4 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
+import { GcmProcessedEntity } from '../../../http/types/gcm-processed.entity';
 
 import { GcmStatus } from '../../reducers/grease-status/models';
 
@@ -34,7 +35,7 @@ export const stopGetGreaseStatusLatest = createAction(
 
 export const getGreaseStatusLatestSuccess = createAction(
   `[${TYPE}] Load Latest ${TYPE} Success`,
-  props<{ greaseStatusLatest: GcmStatus }>()
+  props<{ greaseStatusLatest: GcmProcessedEntity }>()
 );
 
 export const getGreaseStatusLatestFailure = createAction(

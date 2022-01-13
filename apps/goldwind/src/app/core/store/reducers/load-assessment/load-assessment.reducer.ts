@@ -1,13 +1,16 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { startOfDay, sub } from 'date-fns';
+import { LoadAssessmentData } from '../../../http/rest.service';
 
 import {
+  getLoadAssessmentDataSuccess,
   setLoadAssessmentDisplay,
   setLoadAssessmentInterval,
 } from '../../actions/load-assessment/load-assessment.actions';
 import { LoadAssessmentDisplay } from './models';
 
 export interface LoadAssessmentState {
+  result: LoadAssessmentData[];
   display: LoadAssessmentDisplay;
   interval: {
     startDate: number;
@@ -16,6 +19,7 @@ export interface LoadAssessmentState {
 }
 
 export const initialState: LoadAssessmentState = {
+  result: [],
   display: {
     centerLoadFx: true,
     centerLoadFy: true,
@@ -62,6 +66,13 @@ export const loadAssessmentReducer = createReducer(
     (state: LoadAssessmentState, { interval }): LoadAssessmentState => ({
       ...state,
       interval,
+    })
+  ),
+  on(
+    getLoadAssessmentDataSuccess,
+    (state: LoadAssessmentState, { data }): LoadAssessmentState => ({
+      ...state,
+      result: data,
     })
   )
 );

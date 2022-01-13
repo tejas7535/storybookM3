@@ -8,27 +8,34 @@ export const getEdmHistogramResult = createSelector(
   getEdmHistogramState,
   (state: EdmHistogramState) => state?.result
 );
+export const getEdmHistogramChannel = createSelector(
+  getEdmHistogramState,
+  (state: EdmHistogramState) => state?.channel
+);
 
 export const getEdmHeatmapSeries = createSelector(
   getEdmHistogramResult,
-  (result): EChartsOption => {
-    if (!result || result.length <= 0) {
+  getEdmHistogramChannel,
+  (result, channel): EChartsOption => {
+    const channelData = result && channel && result[channel];
+    if (!channelData || channelData.length <= 0) {
       return {};
     }
-
     // need: [time, y-class, value]
     const data: number[][] = [];
 
-    const clazzes = Object.keys(result[0]).filter((e) => e.includes('clazz'));
+    const clazzes = Object.keys(channelData[0])?.filter((e) =>
+      e.includes('clazz')
+    );
 
-    result.forEach((edmH) =>
+    channelData.forEach((edmH) =>
       clazzes.forEach((clazz) => {
         data.push([edmH.timestamp, getIndexFromClazz(clazz), edmH[clazz]]);
       })
     );
 
     // eslint-disable-next-line unicorn/no-array-reduce
-    const max = result.reduce(
+    const max = channelData.reduce(
       (acc, key) => Math.max(acc, ...clazzes.map((c) => key[c])),
       0
     );
@@ -39,7 +46,7 @@ export const getEdmHeatmapSeries = createSelector(
       },
       xAxis: {
         type: 'category',
-        data: result.map((edmH) => edmH.timestamp),
+        data: channelData.map((edmH) => edmH.timestamp),
       },
       series: [
         {

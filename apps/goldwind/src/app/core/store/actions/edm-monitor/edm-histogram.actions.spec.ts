@@ -7,28 +7,37 @@ describe('EdmMonitor Actions', () => {
 
   describe('Get EDM Histogram Actions', () => {
     it('getEdmHistogram', () => {
-      const action = A.getEdmHistogram({ deviceId, channel });
+      const action = A.getEdmHistogram({ deviceId });
 
       expect(action).toEqual({
         deviceId,
-        channel,
         type: '[EDM Histogram] Load EDM Histogram',
       });
     });
 
     it('getEdmHistogramSuccess', () => {
-      const histogram: EdmHistogram[] = [
-        {
-          deviceId: 'ipsum',
-          clazz2: 4480,
-          clazz1: 4774,
-          clazz0: 5204,
-          clazz3: 820,
-          channel: 'in occaecat tempor ullamco',
-          timestamp: '2021-09-28T12:00:34.603Z',
-          clazz4: 6287,
-        },
-      ];
+      const histogram: EdmHistogram = {
+        edm1: [
+          {
+            clazz2: 4480,
+            clazz1: 4774,
+            clazz0: 5204,
+            clazz3: 820,
+            timestamp: '2021-09-28T12:00:34.603Z',
+            clazz4: 6287,
+          },
+        ],
+        edm2: [
+          {
+            clazz2: 4480,
+            clazz1: 4774,
+            clazz0: 5204,
+            clazz3: 820,
+            timestamp: '2021-09-28T12:00:34.603Z',
+            clazz4: 6287,
+          },
+        ],
+      };
       const action = A.getEdmHistogramSuccess({ histogram });
 
       expect(action).toEqual({

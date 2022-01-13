@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import {
   getStaticSafetyId,
   getStaticSafetyLatest,
@@ -26,6 +25,7 @@ import {
 } from '../..';
 import { getStaticSafetyLatestSuccess } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { LiveAPIService } from '../../../http/liveapi.service';
 
 @Injectable()
 export class StaticSafetyEffects {
@@ -105,8 +105,8 @@ export class StaticSafetyEffects {
       ofType(getStaticSafetyLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
-        this.restService.getStaticSafety(deviceId).pipe(
-          map(([result]) => getStaticSafetyLatestSuccess({ result })),
+        this.liveAPIService.getStaticSafetyFactor(deviceId).pipe(
+          map((result) => getStaticSafetyLatestSuccess({ result })),
           catchError((_e) => of(getStaticSafetyLatestFailure()))
         )
       )
@@ -115,7 +115,7 @@ export class StaticSafetyEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
+    private readonly liveAPIService: LiveAPIService,
     private readonly store: Store
   ) {}
 }

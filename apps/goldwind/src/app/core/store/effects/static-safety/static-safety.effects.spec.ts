@@ -7,7 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
-import { RestService } from '../../../http/rest.service';
 import {
   getStaticSafetyId,
   getStaticSafetyLatest,
@@ -18,8 +17,9 @@ import {
   getStaticSafetyLatestSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { StaticSafetyStatus } from '../../reducers/static-safety/models/static-safety.model';
 import { StaticSafetyEffects } from '..';
+import { LiveAPIService } from '../../../http/liveapi.service';
+import { StaticSafetyFactorEntity } from '../../../http/types';
 
 describe('StaticSafetyEffects', () => {
   let spectator: SpectatorService<StaticSafetyEffects>;
@@ -28,7 +28,7 @@ describe('StaticSafetyEffects', () => {
   let store: any;
   let metadata: EffectsMetadata<StaticSafetyEffects>;
   let effects: StaticSafetyEffects;
-  let restService: RestService;
+  let liveAPIService: LiveAPIService;
 
   const deviceId = 'my-device-id';
   const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
@@ -40,7 +40,7 @@ describe('StaticSafetyEffects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: RestService,
+        provide: LiveAPIService,
         useValue: {
           getShaftLatest: jest.fn(),
         },
@@ -54,7 +54,7 @@ describe('StaticSafetyEffects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(StaticSafetyEffects);
     metadata = getEffectsMetadata(effects);
-    restService = spectator.inject(RestService);
+    liveAPIService = spectator.inject(LiveAPIService);
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -168,11 +168,10 @@ describe('StaticSafetyEffects', () => {
     it(
       'should return getStaticSafetyLatest action when REST call is successful',
       marbles((m) => {
-        const STATIC_SAFETY_MOCK: StaticSafetyStatus = {
+        const STATIC_SAFETY_MOCK: StaticSafetyFactorEntity = {
           deviceId: 'fakedeviceid',
-          timestamp: new Date(),
-          value: 21,
-          property: 'fake',
+          staticSafetyFactor: 21,
+          timestamp: new Date().toISOString(),
         };
         const result = getStaticSafetyLatestSuccess({
           result: STATIC_SAFETY_MOCK,
@@ -181,17 +180,19 @@ describe('StaticSafetyEffects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: [STATIC_SAFETY_MOCK],
+          a: STATIC_SAFETY_MOCK,
         });
         const expected = m.cold('--b', { b: result });
 
-        restService.getStaticSafety = jest.fn(() => response);
+        liveAPIService.getStaticSafetyFactor = jest.fn(() => response);
 
         m.expect(effects.staticsafetyLatest$).toBeObservable(expected);
         m.flush();
 
-        expect(restService.getStaticSafety).toHaveBeenCalledTimes(1);
-        expect(restService.getStaticSafety).toHaveBeenCalledWith(deviceId);
+        expect(liveAPIService.getStaticSafetyFactor).toHaveBeenCalledTimes(1);
+        expect(liveAPIService.getStaticSafetyFactor).toHaveBeenCalledWith(
+          deviceId
+        );
       })
     );
   });

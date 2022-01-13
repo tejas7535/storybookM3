@@ -16,10 +16,10 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { RestService } from '../../../http/rest.service';
 import * as A2 from '../../actions/grease-status/gc-heatmap.actions';
 import * as A from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
+import { RestService } from '../../../http/rest.service';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
 
 @Injectable()

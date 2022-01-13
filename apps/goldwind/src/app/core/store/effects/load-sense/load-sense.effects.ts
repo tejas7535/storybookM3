@@ -17,7 +17,6 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants/update-settings';
-import { RestService } from '../../../http/rest.service';
 import {
   getBearingLoadLatest,
   getBearingLoadLatestFailure,
@@ -26,6 +25,7 @@ import {
   stopGetLoad,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { LegacyAPIService } from '../../../http/legacy.service';
 
 @Injectable()
 export class BearingLoadEffects {
@@ -100,7 +100,7 @@ export class BearingLoadEffects {
       ofType(getBearingLoadLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
-        this.restService.getBearingLoadLatest(deviceId).pipe(
+        this.legacyAPIService.getBearingLoadLatest(deviceId).pipe(
           map(([bearingLoadLatest]) =>
             getBearingLoadLatestSuccess({ bearingLoadLatest })
           ),
@@ -112,7 +112,7 @@ export class BearingLoadEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly restService: RestService,
+    private readonly legacyAPIService: LegacyAPIService,
     private readonly store: Store
   ) {}
 }

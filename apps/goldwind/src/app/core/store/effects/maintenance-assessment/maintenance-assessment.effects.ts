@@ -16,22 +16,13 @@ import { Store } from '@ngrx/store';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
-import { getLoadAssessmentInterval } from '../..';
 import {
-  getEdmFailure,
-  getEdmMainteance,
-  getEdmSuccess,
-  getGreaseStatus,
-  getGreaseStatusFailure,
-  getGreaseStatusSuccess,
+  getMaintenanceAssessmentDataFailure,
+  getMaintenanceAssessmentDataSuccess,
   getMaintenanceAssessmentId,
-  getShaft,
-  getShaftFailure,
-  getShaftSuccess,
   setMaintenanceAssessmentInterval,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { Interval } from '../../reducers/shared/models';
 import { getMaintenanceAssessmentInterval } from '../../selectors/maintenance-assessment/maintenance-assessment.selector';
 import { actionInterval } from '../utils';
 
@@ -63,76 +54,27 @@ export class MaintenanceAssessmentEffects {
       map(() => getMaintenanceAssessmentId())
     );
   });
-  /**
-   * Load Grease Status
-   */
-  greaseStatus$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getGreaseStatus),
-      withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        start: interval.startDate,
-        end: interval.endDate,
-      })),
-      mergeMap((greaseParams) =>
-        this.restService.getGreaseStatus(greaseParams).pipe(
-          map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
-          catchError((_e) => of(getGreaseStatusFailure()))
-        )
-      )
-    );
-  });
 
-  edm$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getEdmMainteance),
-      withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        start: interval.startDate,
-        end: interval.endDate,
-      })),
-      mergeMap((edmParams) =>
-        this.restService.getEdm(edmParams).pipe(
-          map((measurements) => getEdmSuccess({ measurements })),
-          catchError((_e) => of(getEdmFailure()))
-        )
-      )
-    );
-  });
-
-  /**
-   * Load Shaft
-   */
-  shaft$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getShaft),
-      withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
-      map(actionInterval()),
-      mergeMap((deviceId) =>
-        this.restService.getShaft(deviceId).pipe(
-          map((shaft) => getShaftSuccess({ shaft })),
-          catchError((_e) => of(getShaftFailure()))
-        )
-      )
-    );
-  });
   /**
    * Load Load Maintenance Id
    */
   maintenanceAssessmentId$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getMaintenanceAssessmentId),
+      withLatestFrom(this.store.select(getMaintenanceAssessmentInterval)),
+      map(actionInterval()),
       withLatestFrom(this.store.select(fromRouter.getRouterState)),
-      map(([_action, routerState]) => ({
-        deviceId: routerState.state.params.id,
+      map(([action, routerState]) => ({
+        id: routerState.state.params.id,
+        start: action.start,
+        end: action.end,
       })),
-      mergeMap(({ deviceId }) => [
-        getGreaseStatus({ deviceId }),
-        getEdmMainteance({ deviceId }),
-        getShaft({ deviceId }),
-      ])
+      mergeMap((params) =>
+        this.restService.getMaintenaceSensors(params).pipe(
+          map((data) => getMaintenanceAssessmentDataSuccess({ data })),
+          catchError((_e) => of(getMaintenanceAssessmentDataFailure()))
+        )
+      )
     );
   });
   constructor(

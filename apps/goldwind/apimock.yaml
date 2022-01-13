@@ -11,6 +11,378 @@ servers:
 security:
   - bearerAuth: []
 paths:
+  '/live/rsmshaft/{id}/data':
+    get:
+      tags:
+        - RSM Shaft Live Sensor Reading API
+      summary: Returns the latest sensor reading for rotation speed shaft.
+      operationId: getLatest
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-qa-002-astraios
+      responses:
+        '200':
+          description: A JSON with latest rotation speed shaft data
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/RsmShaft'
+        '204':
+          description: ' No data found'
+        '401':
+          description: ' Unauthorized'
+        '404':
+          description: ' Page Not Found'
+  '/live/lspstrain/{id}/data':
+    get:
+      tags:
+        - LSPStrain Live Sensor Reading API
+      summary: Returns the latest sensor reading for lsp strain.
+      operationId: getLatest_1
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-qa-002-astraios
+      responses:
+        '200':
+          description: A JSON with latest lsp strain data
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LspStrainProcessed'
+        '204':
+          description: ' No data found'
+        '401':
+          description: ' Unauthorized'
+        '404':
+          description: ' Page Not Found'
+  '/live/gcm/{id}/data':
+    get:
+      tags:
+        - Grease Check Live Sensor Reading API
+      summary: Returns the latest sensor reading for grease check.
+      operationId: getLatest_2
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-qa-002-astraios
+      responses:
+        '200':
+          description: A JSON with latest grease check data
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/GcmProcessed'
+        '204':
+          description: ' No data found'
+        '401':
+          description: ' Unauthorized'
+        '404':
+          description: ' Page Not Found'
+  '/live/analytics/{id}/static-safety-factor':
+    get:
+      tags:
+        - Bearinx KPIs Live/Anyltics Sensor Reading API
+      summary: Returns the latest analytics results for static safety factor.
+      operationId: getStaticSafetyFactorLatest
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-qa-002-astraios
+      responses:
+        '200':
+          description: A JSON with latest static safety factor
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/StaticSafetyFactor'
+        '204':
+          description: ' No data found'
+        '401':
+          description: ' Unauthorized'
+        '404':
+          description: ' Page Not Found'
+  '/live/analytics/{id}/load-distribution':
+    get:
+      tags:
+        - Load Distribution Live/Anyltics Sensor Reading API
+      summary: Returns the latest load distribution results.
+      operationId: getLoadDistributionLatest
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-qa-002-astraios
+
+      responses:
+        '200':
+          description: A JSON with latest load disitribution
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LoadDistributionDto'
+        '204':
+          description: ' No data found'
+        '401':
+          description: ' Unauthorized'
+        '404':
+          description: ' Page Not Found'
+  '/live/analytics/{id}/centerload':
+    get:
+      tags:
+        - Bearinx KPIs Live/Anyltics Sensor Reading API
+      summary: Returns the latest analytics results for center load.
+      operationId: getCenterLoadLatest
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-qa-002-astraios
+      responses:
+        '200':
+          description: A JSON with latest center load
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/CenterLoad'
+        '204':
+          description: ' No data found'
+        '401':
+          description: ' Unauthorized'
+        '404':
+          description: ' Page Not Found'
+
+  '/analyse/maintenance/{id}/sensors':
+    get:
+      tags:
+        - Maintenance API
+      summary: Loads the maintenace sensor values.
+      operationId: getMaintenanceDataInTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: start
+          in: query
+          description: Start date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636412400
+        - name: end
+          in: query
+          description: End date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636585199
+      responses:
+        '200':
+          description: ' Sensor data are loaded'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/MaintenanceDto'
+        '204':
+          description: ' No data found for time range'
+        '404':
+          description: ' Page Not Found'
+  '/analyse/maintenance/{id}/gcm/heatmap':
+    get:
+      tags:
+        - Maintenance API
+      summary: Loads the GCM sensor heatmap values.
+      operationId: getGcmHeatmapDataInTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: start
+          in: query
+          description: Start date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636412400
+        - name: end
+          in: query
+          description: End date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636585199
+      responses:
+        '200':
+          description: ' Heatmap values are loaded'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/GcmHeatmapDto'
+        '204':
+          description: ' No data found for time range'
+  '/analyse/loadassessment/{id}/distribution':
+    get:
+      tags:
+        - Load Assessments API
+      summary: Loads the load assessments distribution values.
+      operationId: getLoadDistributionDataInTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: start
+          in: query
+          description: Start date of time range (unix time)
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 1636412400
+        - name: end
+          in: query
+          description: End date of time range (unix time)
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 1636585199
+      responses:
+        '200':
+          description: ' Distribution values are loaded'
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/LoadDistributionDto'
+        '204':
+          description: ' No data found for time range'
+  '/analyse/loadassessment/{id}/runchart':
+    get:
+      tags:
+        - Load Assessments API
+      summary: Loads the load assessments centerload values.
+      operationId: getLspStrainAndCenterLoadDataInTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: start
+          in: query
+          description: Start date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636412400
+        - name: end
+          in: query
+          description: End date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636585199
+      responses:
+        '200':
+          description: ' Centerload data are loaded'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  '$ref': '#/components/schemas/LoadAssessmentDto'
+        '204':
+          description: ' No data found for time range'
+        '404':
+          description: ' Page Not Found'
+  '/analyse/dashboard/{id}/edm/histogram':
+    get:
+      tags:
+        - Dashboard API
+      summary: Load the EDM histogram data.
+      operationId: getDashboardEdmMonitorDataInTimeRange
+      parameters:
+        - name: id
+          in: path
+          description: edge device id
+          required: true
+          schema:
+            type: string
+          example: edge-goldwind-dev-001
+        - name: start
+          in: query
+          description: Start date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636412400
+        - name: end
+          in: query
+          description: End date of time range (unix time)
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1636585199
+      responses:
+        '200':
+          description: ' EDM sensor data are loaded'
+          content:
+            application/json:
+              schema:
+                '$ref': '#/components/schemas/EdmHistogramDto'
+        '204':
+          description: ' No data found for time range'
+        '404':
+          description: ' Page Not Found'
+
   '/things/{id}/sensors/rotation-speed/telemetry':
     get:
       tags:
@@ -1018,7 +1390,6 @@ components:
       properties:
         deviceId:
           type: string
-          example: 'mock-goldwind-qa-001'
         timestamp:
           type: string
           format: date-time
@@ -1027,24 +1398,1845 @@ components:
           format: int32
           minimum: 0
           maximum: 20
-          example: 14
         rsm01ShaftSpeed:
           type: number
           format: double
           minimum: 0
           maximum: 20
-          example: 14
+    LspStrainProcessed:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        lsp01Strain:
+          type: number
+          format: double
+        lsp02Strain:
+          type: number
+          format: double
+        lsp03Strain:
+          type: number
+          format: double
+        lsp04Strain:
+          type: number
+          format: double
+        lsp05Strain:
+          type: number
+          format: double
+        lsp06Strain:
+          type: number
+          format: double
+        lsp07Strain:
+          type: number
+          format: double
+        lsp08Strain:
+          type: number
+          format: double
+        lsp09Strain:
+          type: number
+          format: double
+        lsp10Strain:
+          type: number
+          format: double
+        lsp11Strain:
+          type: number
+          format: double
+        lsp12Strain:
+          type: number
+          format: double
+        lsp13Strain:
+          type: number
+          format: double
+        lsp14Strain:
+          type: number
+          format: double
+        lsp15Strain:
+          type: number
+          format: double
+        lsp16Strain:
+          type: number
+          format: double
+    GcmProcessed:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        gcm01TemperatureOptics:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm01TemperatureOpticsMin:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm01TemperatureOpticsMax:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm01Deterioration:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01DeteriorationMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01DeteriorationMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01WaterContent:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01WaterContentMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm01WaterContentMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02TemperatureOptics:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm02TemperatureOpticsMin:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm02TemperatureOpticsMax:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 120
+        gcm02Deterioration:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02DeteriorationMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02DeteriorationMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02WaterContent:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02WaterContentMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        gcm02WaterContentMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+    StaticSafetyFactor:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        staticSafetyFactor:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 50
+    LoaddistributionRow2:
+      type: object
+      properties:
+        deviceId:
+          type: string
+          writeOnly: true
+        timestamp:
+          type: string
+          format: date-time
+          writeOnly: true
+        rollingElement1:
+          type: number
+          format: double
+        rollingElement2:
+          type: number
+          format: double
+        rollingElement3:
+          type: number
+          format: double
+        rollingElement4:
+          type: number
+          format: double
+        rollingElement5:
+          type: number
+          format: double
+        rollingElement6:
+          type: number
+          format: double
+        rollingElement7:
+          type: number
+          format: double
+        rollingElement8:
+          type: number
+          format: double
+        rollingElement9:
+          type: number
+          format: double
+        rollingElement10:
+          type: number
+          format: double
+        rollingElement11:
+          type: number
+          format: double
+        rollingElement12:
+          type: number
+          format: double
+        rollingElement13:
+          type: number
+          format: double
+        rollingElement14:
+          type: number
+          format: double
+        rollingElement15:
+          type: number
+          format: double
+        rollingElement16:
+          type: number
+          format: double
+        rollingElement17:
+          type: number
+          format: double
+        rollingElement18:
+          type: number
+          format: double
+        rollingElement19:
+          type: number
+          format: double
+        rollingElement20:
+          type: number
+          format: double
+        rollingElement21:
+          type: number
+          format: double
+        rollingElement22:
+          type: number
+          format: double
+        rollingElement23:
+          type: number
+          format: double
+        rollingElement24:
+          type: number
+          format: double
+        rollingElement25:
+          type: number
+          format: double
+        rollingElement26:
+          type: number
+          format: double
+        rollingElement27:
+          type: number
+          format: double
+        rollingElement28:
+          type: number
+          format: double
+        rollingElement29:
+          type: number
+          format: double
+        rollingElement30:
+          type: number
+          format: double
+        rollingElement31:
+          type: number
+          format: double
+        rollingElement32:
+          type: number
+          format: double
+        rollingElement33:
+          type: number
+          format: double
+        rollingElement34:
+          type: number
+          format: double
+        rollingElement35:
+          type: number
+          format: double
+        rollingElement36:
+          type: number
+          format: double
+        rollingElement37:
+          type: number
+          format: double
+        rollingElement38:
+          type: number
+          format: double
+        rollingElement39:
+          type: number
+          format: double
+        rollingElement40:
+          type: number
+          format: double
+        rollingElement41:
+          type: number
+          format: double
+        rollingElement42:
+          type: number
+          format: double
+        rollingElement43:
+          type: number
+          format: double
+        rollingElement44:
+          type: number
+          format: double
+        rollingElement45:
+          type: number
+          format: double
+        rollingElement46:
+          type: number
+          format: double
+        rollingElement47:
+          type: number
+          format: double
+        rollingElement48:
+          type: number
+          format: double
+        rollingElement49:
+          type: number
+          format: double
+        rollingElement50:
+          type: number
+          format: double
+        rollingElement51:
+          type: number
+          format: double
+        rollingElement52:
+          type: number
+          format: double
+        rollingElement53:
+          type: number
+          format: double
+        rollingElement54:
+          type: number
+          format: double
+        rollingElement55:
+          type: number
+          format: double
+        rollingElement56:
+          type: number
+          format: double
+        rollingElement57:
+          type: number
+          format: double
+        rollingElement58:
+          type: number
+          format: double
+        rollingElement59:
+          type: number
+          format: double
+        rollingElement60:
+          type: number
+          format: double
+        rollingElement61:
+          type: number
+          format: double
+        rollingElement62:
+          type: number
+          format: double
+        rollingElement63:
+          type: number
+          format: double
+        rollingElement64:
+          type: number
+          format: double
+        rollingElement65:
+          type: number
+          format: double
+        rollingElement66:
+          type: number
+          format: double
+        rollingElement67:
+          type: number
+          format: double
+        rollingElement68:
+          type: number
+          format: double
+        rollingElement69:
+          type: number
+          format: double
+        rollingElement70:
+          type: number
+          format: double
+        rollingElement71:
+          type: number
+          format: double
+        rollingElement72:
+          type: number
+          format: double
+        rollingElement73:
+          type: number
+          format: double
+        rollingElement74:
+          type: number
+          format: double
+        rollingElement75:
+          type: number
+          format: double
+        rollingElement76:
+          type: number
+          format: double
+        rollingElement77:
+          type: number
+          format: double
+        rollingElement78:
+          type: number
+          format: double
+        rollingElement79:
+          type: number
+          format: double
+        rollingElement80:
+          type: number
+          format: double
+        rollingElement81:
+          type: number
+          format: double
+        rollingElement82:
+          type: number
+          format: double
+        rollingElement83:
+          type: number
+          format: double
+        rollingElement84:
+          type: number
+          format: double
+        rollingElement85:
+          type: number
+          format: double
+        rollingElement86:
+          type: number
+          format: double
+        rollingElement87:
+          type: number
+          format: double
+        rollingElement88:
+          type: number
+          format: double
+        rollingElement89:
+          type: number
+          format: double
+        rollingElement90:
+          type: number
+          format: double
+        rollingElement91:
+          type: number
+          format: double
+        rollingElement92:
+          type: number
+          format: double
+        rollingElement93:
+          type: number
+          format: double
+        rollingElement94:
+          type: number
+          format: double
+        rollingElement95:
+          type: number
+          format: double
+        rollingElement96:
+          type: number
+          format: double
+        rollingElement97:
+          type: number
+          format: double
+        rollingElement98:
+          type: number
+          format: double
+        rollingElement99:
+          type: number
+          format: double
+        rollingElement100:
+          type: number
+          format: double
+        rollingElement101:
+          type: number
+          format: double
+        rollingElement102:
+          type: number
+          format: double
+        rollingElement103:
+          type: number
+          format: double
+        rollingElement104:
+          type: number
+          format: double
+        rollingElement105:
+          type: number
+          format: double
+        rollingElement106:
+          type: number
+          format: double
+        rollingElement107:
+          type: number
+          format: double
+        rollingElement108:
+          type: number
+          format: double
+        rollingElement109:
+          type: number
+          format: double
+        rollingElement110:
+          type: number
+          format: double
+        rollingElement111:
+          type: number
+          format: double
+        rollingElement112:
+          type: number
+          format: double
+        rollingElement113:
+          type: number
+          format: double
+        rollingElement114:
+          type: number
+          format: double
+        rollingElement115:
+          type: number
+          format: double
+        rollingElement116:
+          type: number
+          format: double
+        rollingElement117:
+          type: number
+          format: double
+        rollingElement118:
+          type: number
+          format: double
+        rollingElement119:
+          type: number
+          format: double
+        rollingElement120:
+          type: number
+          format: double
+        rollingElement121:
+          type: number
+          format: double
+        rollingElement122:
+          type: number
+          format: double
+        rollingElement123:
+          type: number
+          format: double
+    CenterLoad:
+      type: object
+      properties:
+        deviceId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        centerLoadFx:
+          type: number
+          format: double
+        centerLoadFy:
+          type: number
+          format: double
+        centerLoadFz:
+          type: number
+          format: double
+        centerLoadMy:
+          type: number
+          format: double
+        centerLoadMz:
+          type: number
+          format: double
+
+    EdmDto:
+      type: object
+      properties:
+        edm01Ai01Counter:
+          type: integer
+          format: int32
+        edm01Ai01CounterMin:
+          type: integer
+          format: int32
+        edm01Ai01CounterMax:
+          type: integer
+          format: int32
+        edm01Ai02Counter:
+          type: integer
+          format: int32
+        edm01Ai02CounterMin:
+          type: integer
+          format: int32
+        edm01Ai02CounterMax:
+          type: integer
+          format: int32
+        startTimestamp:
+          type: string
+          format: date-time
+        timestamp:
+          type: string
+          format: date-time
+    GcmDto:
+      type: object
+      properties:
+        gcm01Deterioration:
+          type: number
+          format: double
+        gcm01DeteriorationMin:
+          type: number
+          format: double
+        gcm01DeteriorationMax:
+          type: number
+          format: double
+        gcm01TemperatureOptics:
+          type: integer
+          format: int32
+        gcm01TemperatureOpticsMin:
+          type: integer
+          format: int32
+        gcm01TemperatureOpticsMax:
+          type: integer
+          format: int32
+        gcm01WaterContent:
+          type: number
+          format: double
+        gcm01WaterContentMin:
+          type: number
+          format: double
+        gcm01WaterContentMax:
+          type: number
+          format: double
+        gcm02Deterioration:
+          type: number
+          format: double
+        gcm02DeteriorationMin:
+          type: number
+          format: double
+        gcm02DeteriorationMax:
+          type: number
+          format: double
+        gcm02TemperatureOptics:
+          type: integer
+          format: int32
+        gcm02TemperatureOpticsMin:
+          type: integer
+          format: int32
+        gcm02TemperatureOpticsMax:
+          type: integer
+          format: int32
+        gcm02WaterContent:
+          type: number
+          format: double
+        gcm02WaterContentMin:
+          type: number
+          format: double
+        gcm02WaterContentMax:
+          type: number
+          format: double
+    MaintenanceDto:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          x-faker: date.recent
+        gcm:
+          '$ref': '#/components/schemas/GcmDto'
+        rsmShaft:
+          '$ref': '#/components/schemas/RsmShaftDto'
+        edm:
+          '$ref': '#/components/schemas/EdmDto'
+    RsmShaftDto:
+      type: object
+      properties:
+        rsm01ShaftSpeed:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
         rsm01ShaftSpeedMin:
           type: number
           format: double
           minimum: 0
-          maximum: 20
-          example: 14
+          maximum: 100
         rsm01ShaftSpeedMax:
           type: number
           format: double
-          maximum: 20
           minimum: 0
+          maximum: 100
+        rsm01ShaftSpeedV2:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rsm01ShaftSpeedV2Min:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rsm01ShaftSpeedV2Max:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rsm01ShaftCounterValue:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+    GcmHeatmapDto:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          x-faker: date.recent
+        gcm01TemperatureOpticsMax:
+          type: integer
+          format: int32
+        gcm01TemperatureOpticsMaxClassification:
+          type: string
+          enum:
+            - Normal
+            - Warning
+            - Critical
+        gcm01DeteriorationMax:
+          type: number
+          format: double
+        gcm01DeteriorationMaxClassification:
+          type: string
+          enum:
+            - Normal
+            - Warning
+            - Critical
+        gcm01WaterContentMax:
+          type: number
+          format: double
+        gcm01WaterContentMaxClassification:
+          type: string
+          enum:
+            - Normal
+            - Warning
+            - Critical
+        gcm02TemperatureOpticsMax:
+          type: integer
+          format: int32
+        gcm02TemperatureOpticsMaxClassification:
+          type: string
+          enum:
+            - Normal
+            - Warning
+            - Critical
+        gcm02DeteriorationMax:
+          type: number
+          format: double
+        gcm02DeteriorationMaxClassification:
+          type: string
+          enum:
+            - Normal
+            - Warning
+            - Critical
+        gcm02WaterContentMax:
+          type: number
+          format: double
+        gcm02WaterContentMaxClassification:
+          type: string
+          enum:
+            - Normal
+            - Warning
+            - Critical
+    LoadDistributionDto:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        lsps:
+          '$ref': '#/components/schemas/LspStrainDto'
+        row1:
+          '$ref': '#/components/schemas/LoadDistributionRowDto'
+        row2:
+          '$ref': '#/components/schemas/LoadDistributionRowDto'
+    LoadDistributionRowDto:
+      type: object
+      properties:
+        rollingElement1:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement2:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement3:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement4:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement5:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement6:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement7:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement8:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement9:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement10:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement11:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement12:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement13:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement14:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement15:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement16:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement17:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement18:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement19:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement20:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement21:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement22:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement23:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement24:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement25:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement26:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement27:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement28:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement29:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement30:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement31:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement32:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement33:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement34:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement35:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement36:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement37:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement38:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement39:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement40:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement41:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement42:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement43:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement44:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement45:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement46:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement47:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement48:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement49:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement50:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement51:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement52:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement53:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement54:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement55:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement56:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement57:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement58:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement59:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement60:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement61:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement62:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement63:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement64:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement65:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement66:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement67:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement68:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement69:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement70:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement71:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement72:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement73:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement74:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement75:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement76:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement77:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement78:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement79:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement80:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement81:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement82:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement83:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement84:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement85:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement86:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement87:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement88:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement89:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement90:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement91:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement92:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement93:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement94:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement95:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement96:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement97:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement98:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement99:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement100:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement101:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement102:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement103:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement104:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement105:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement106:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement107:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement108:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement109:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement110:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement111:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement112:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement113:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement114:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement115:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement116:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement117:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement118:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement119:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement120:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement121:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement122:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        rollingElement123:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+    LspStrainDto:
+      type: object
+      properties:
+        lsp01Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp02Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp03Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp04Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp05Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp06Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp07Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp08Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp09Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp10Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp11Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp12Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp13Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp14Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp15Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp16Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+    LoadAssessmentDto:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          x-faker: date.recent
+        fx:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fxMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fxMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fy:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fyMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fyMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fz:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fzMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        fzMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        my:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        myMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        myMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        mz:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        mzMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        mzMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp01Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp01StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp01StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp02Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp02StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp02StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp03Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp03StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp03StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp04Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp04StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp04StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp05Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp05StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp05StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp06Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp06StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp06StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp07Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp07StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp07StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp08Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp08StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp08StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp09Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp09StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp09StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp10Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp10StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp10StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp11Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp11StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp11StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp12Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp12StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp12StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp13Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp13StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp13StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp14Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp14StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp14StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp15Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp15StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp15StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp16Strain:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp16StrainMin:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+        lsp16StrainMax:
+          type: number
+          format: double
+          minimum: 0
+          maximum: 100
+    EdmClassDto:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          x-faker: date.recent
+        clazz0:
+          type: integer
+          format: int32
+        clazz1:
+          type: integer
+          format: int32
+        clazz2:
+          type: integer
+          format: int32
+        clazz3:
+          type: integer
+          format: int32
+        clazz4:
+          type: integer
+          format: int32
+    EdmHistogramDto:
+      type: object
+      properties:
+        edm1:
+          type: array
+          items:
+            '$ref': '#/components/schemas/EdmClassDto'
+        edm2:
+          type: array
+          items:
+            '$ref': '#/components/schemas/EdmClassDto'
 
     TimestampParams:
       required:
@@ -1054,7 +3246,6 @@ components:
         timestamp:
           minimum: 1
           type: integer
-          format: date.recent
     TimerangeParams:
       required:
         - end
@@ -1191,103 +3382,6 @@ components:
             - DESC
         sortProperty:
           type: string
-    GcmProcessed:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        gcm01TemperatureOptics:
-          type: integer
-          format: int32
-          minimum: 0
-          maximum: 120
-        gcm01TemperatureOpticsMin:
-          type: integer
-          format: int32
-          minimum: 0
-        gcm01TemperatureOpticsMax:
-          type: integer
-          format: int32
-          maximum: 120
-        gcm01Deterioration:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm01DeteriorationMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm01DeteriorationMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm01WaterContent:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm01WaterContentMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm01WaterContentMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm02TemperatureOptics:
-          type: integer
-          format: int32
-          minimum: 0
-          maximum: 100
-        gcm02TemperatureOpticsMin:
-          type: integer
-          format: int32
-          minimum: 0
-          maximum: 100
-        gcm02TemperatureOpticsMax:
-          type: integer
-          format: int32
-          minimum: 0
-          maximum: 100
-        gcm02Deterioration:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm02DeteriorationMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm02DeteriorationMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm02WaterContent:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm02WaterContentMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        gcm02WaterContentMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        timestamp:
-          type: string
-          format: date-time
-          x-faker: date.recent
     EdmProcessed:
       type: object
       properties:
@@ -1771,255 +3865,6 @@ components:
         timestamp:
           type: string
           format: date-time
-    LspStrainProcessed:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-          x-faker: date.recent
-        lsp01Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp01StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp01StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp02Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp02StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp02StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp03Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp03StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp03StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp04Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp04StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp04StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp05Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp05StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp05StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp06Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp06StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp06StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp07Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp07StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp07StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp08Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp08StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp08StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp09Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp09StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp09StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp10Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp10StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp10StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp11Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp11StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp11StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp12Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp12StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp12StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp13Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp13StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp13StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp14Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp14StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp14StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp15Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp15StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp15StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp16Strain:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp16StrainMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        lsp16StrainMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
     GenericData:
       type: object
       properties:
@@ -2770,90 +4615,6 @@ components:
             - Critical
             - Normal
             - Warning
-    CenterLoad:
-      type: object
-      properties:
-        deviceId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-          x-faker: date.recent
-        fx:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fxMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fxMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fy:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fyMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fyMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fz:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fzMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        fzMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        my:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        myMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        myMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        mz:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        mzMin:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
-        mzMax:
-          type: number
-          format: double
-          minimum: 0
-          maximum: 100
     EdgeDevice:
       type: object
       properties:
