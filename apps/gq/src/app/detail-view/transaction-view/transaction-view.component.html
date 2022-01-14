@@ -3,7 +3,7 @@
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
   <mat-card
-    class="!pt-0 !shadow-none border-b border-outline"
+    class="!pt-0 !shadow-none border-b border-border"
     *transloco="let t; read: 'transactionView.header'"
   >
     <schaeffler-subheader [breadcrumbs]="breadcrumbs" [title]="t('title')">
@@ -31,7 +31,7 @@
   <ng-template #savingInProgress
     ><div class="flex flex-1 mt-4 mb-4 flex-row">
       <div class="flex ml-4 mr-2 w-1/2">
-        <mat-card class="flex-1 border-[1px] border-outline !shadow-none">
+        <mat-card class="flex-1 border-[1px] border-border !shadow-none">
           <gq-transparency-graph
             *ngIf="
               (translationsLoaded$ | ngrxPush) &&
@@ -45,7 +45,7 @@
         </mat-card>
       </div>
       <div class="flex mr-4 ml-2 w-1/2">
-        <mat-card class="flex-1 border-[1px] border-outline !shadow-none">
+        <mat-card class="flex-1 border-[1px] border-border !shadow-none">
           <gq-comparable-transactions
             *ngIf="
               (translationsLoaded$ | ngrxPush) &&

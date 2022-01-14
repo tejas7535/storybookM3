@@ -1,40 +1,26 @@
 // const defaultTheme = require('tailwindcss/defaultTheme'); // will be used as soon as the theme is extended
 const fontSizes = require('./tailwind/fontSizes.ts');
-
+const colors = require('./tailwind/colors.ts');
 const plugin = require('tailwindcss/plugin');
 
-const darkGrey = 'rgba(0,0,0,0.87)';
-const mediumGrey = 'rgba(0,0,0,0.6)';
-const lightGrey = 'rgba(0,0,0,0.38)';
-const veryLightGrey = 'rgba(0,0,0,0.12)';
-
 const baseColors = {
-  primary: '#00893D',
-  secondary: '#005f14',
-  disabledPrimary: '#99d0b1',
-  disabledSecondary: lightGrey,
-  error: '#e62c27',
-  warning: '#fccf46',
-  informationAccent: '#1d9bb2',
-  success: '#0ebc5b',
-  highlightedTableCell: '#e1eece',
-  activeTableCell: '#e5f3eb',
-  nordicBlue: '#ECF5F7',
-  infoBlue: '#4398AF',
+  primary: colors.primary,
+  'primary-variant': colors['primary-variant'],
+  secondary: colors.secondary,
+  'secondary-variant': colors['secondary-variant'],
+  'background-dark': colors['background-dark'],
+  surface: colors['surface'],
+  error: colors['error-red'],
+  'sunny-yellow': colors['sunny-yellow'],
+  'nordic-blue': colors['nordic-blue'],
+  lime: colors.lime,
 };
 
 const greys = {
-  inputFieldAltBg: '#f6f7f8',
-  hover: '#ebeef0',
-  background: '#f5f5f5',
-  border: '#ced5da',
-  labels: '#9ca2a5',
-  toastBg: '#414546',
-  disclaimerBg: '#E5F4E9',
-  lightBg: 'rgba(0,0,0,0.11)',
-  hoverOverlay: 'rgba(0,0,0,0.04)',
-  focusOverlay: 'rgba(0,0,0,0.08)',
-  disabledOverlay: 'rgba(129,129,129,0.12)',
+  'hover-overlay': 'rgba(0,0,0,0.04)',
+  'focus-overlay': 'rgba(0,0,0,0.08)',
+  'selected-overlay': 'rgba(0,0,0,0.12)',
+  'disabled-overlay': 'rgba(129,129,129,0.12)',
 };
 
 const gradientColors = {
@@ -44,10 +30,18 @@ const gradientColors = {
 };
 
 const emphasis = {
-  highEmphasis: darkGrey,
-  mediumEmphasis: mediumGrey,
-  lowEmphasis: lightGrey,
-  outline: veryLightGrey, // should be renamed to design naming
+  'high-emphasis': colors['dark-high-emphasis'],
+  'medium-emphasis': colors['dark-medium-emphasis'],
+  'low-emphasis': colors['dark-low-emphasis'],
+
+  'high-emphasis-dark-bg': colors['light-high-emphasis'],
+  'medium-emphasis-dark-bg': colors['light-medium-emphasis'],
+  'low-emphasis-dark-bg': colors['light-low-emphasis'],
+};
+
+const border = {
+  border: colors.border,
+  primary: colors.primary,
 };
 
 const fontFamilies = {
@@ -71,20 +65,15 @@ module.exports = {
       ...baseColors,
       ...greys,
       ...emphasis,
-      white: '#fff',
       transparent: 'rgba(0,0,0,0)',
     },
-    borderColor: (theme) => ({
-      ...theme('colors'),
-      ...emphasis,
-      dark: 'rgba(0,0,0,0.87)',
-      light: 'rgba(0,0,0,0.60)',
-      veryLight: 'rgba(0,0,0,0.38)',
-    }),
     gradientColorStops: (theme) => ({
       ...theme('colors'),
       ...gradientColors,
     }),
+    borderColor: {
+      ...border,
+    },
     fontSize: fontSizes,
     fontFamily: {
       // set custom utility classes
@@ -93,16 +82,9 @@ module.exports = {
       materiaIcons: fontFamilies.materialIcons,
     },
     textColor: {
-      dark: darkGrey,
-      light: mediumGrey,
-      primary: '#00893D',
-      white: '#fff',
-      disabled: lightGrey,
-      error: baseColors.error,
-      warning: baseColors.warning,
-      success: baseColors.success,
-      info: baseColors.infoBlue,
-      labels: greys.labels,
+      white: colors['secondary'],
+      error: colors['error-text'],
+      link: colors['link-text'],
       ...emphasis,
     },
     screens: {
@@ -132,7 +114,7 @@ module.exports = {
       addBase({
         body: {
           fontFamily: fontFamilies.sans,
-          color: theme('textColor.dark'),
+          color: theme('textColor.emphasis.high-emphasis'),
         },
         h1: {
           fontSize: theme('fontSize.h1-mobile'),

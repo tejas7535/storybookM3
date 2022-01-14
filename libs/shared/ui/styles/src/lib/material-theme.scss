@@ -3,21 +3,19 @@
 @use '@angular/material' as mat;
 @use './theme-overrides' as overrides;
 
-@import './colors.scss';
+@import './schaeffler-colors.scss';
 // Plus imports for other components in your app.
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$schaeffler-primary: mat.define-palette($mat-schaeffler-primary);
-$schaeffler-accent: mat.define-palette($mat-schaeffler-accent);
-$schaeffler-warn: mat.define-palette($mat-schaeffler-warn);
+$schaeffler-primary: mat.define-palette($mat-schaeffler-primary, 700);
+$schaeffler-accent: mat.define-palette($mat-schaeffler-secondary, 50);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $schaeffler-theme: mat.define-light-theme(
   $schaeffler-primary,
-  $schaeffler-accent,
-  $schaeffler-warn
+  $schaeffler-accent
 );
 
 @include mat.core();

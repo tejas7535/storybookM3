@@ -84,7 +84,7 @@
     "browserSupport": {
       "unsupportedBrowser": {
         "title": "Your browser is not supported",
-        "message": "CDBA does not support your browser. Some features might not work properly. Please use the latest versions of <a class=\"text-primary\" href=\"https://www.google.com/intl/en/chrome\" target=\"blank\">Chrome</a> or <a class=\"text-primary\" href=\"https://www.microsoft.com/en-us/edge\" target=\"blank\">Microsoft Edge</a>.\n\nContact your IV coordinator if you need support/ admin rights to install a new browser.",
+        "message": "CDBA does not support your browser. Some features might not work properly. Please use the latest versions of <a class=\"text-link\" href=\"https://www.google.com/intl/en/chrome\" target=\"blank\">Chrome</a> or <a class=\"text-link\" href=\"https://www.microsoft.com/en-us/edge\" target=\"blank\">Microsoft Edge</a>.\n\nContact your IV coordinator if you need support/ admin rights to install a new browser.",
         "confirm": "Use anyways"
       }
     }
@@ -137,8 +137,8 @@
       "productLines": "Product lines",
       "subRegions": "Sub regions",
       "hints": {
-        "default": "Please contact <a class=\"text-primary\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a> if you have any questions about your user roles or need access to additional user roles.",
-        "missingRoles": "If you need additional support on how to get access to the necessary rights please visit <a class=\"text-primary\" href=\"{{urlProductLines}}\" target=\"blank\">Product lines overview</a> for further guidance. If you don’t know how to change your role assignments please visit <a class=\"text-primary\" href=\"{{urlRoleAssignments}}\" target=\"blank\">How do role assignments work</a>.\n\nAfter the approval of the rights please note that it takes up to one day to synchronize."
+        "default": "Please contact <a class=\"text-link\" href=\"{{urlServiceNow}}\" target=\"blank\">Service Now</a> if you have any questions about your user roles or need access to additional user roles.",
+        "missingRoles": "If you need additional support on how to get access to the necessary rights please visit <a class=\"text-link\" href=\"{{urlProductLines}}\" target=\"blank\">Product lines overview</a> for further guidance. If you don’t know how to change your role assignments please visit <a class=\"text-link\" href=\"{{urlRoleAssignments}}\" target=\"blank\">How do role assignments work</a>.\n\nAfter the approval of the rights please note that it takes up to one day to synchronize."
       }
     },
     "costs": {
@@ -154,7 +154,7 @@
   "forbidden": {
     "noBasicAccess": {
       "heading": "No access to CDBA",
-      "message": "We are sorry, you don’t have access to this application.\nIf you need help requesting access for CDBA, click <a class=\"text-primary\" href=\"https://sconnect.schaeffler.com/groups/cost-database-analytics/blog/2021/01/22/how-to-get-access-to-cdba-update\" target=\"blank\">here</a>."
+      "message": "We are sorry, you don’t have access to this application.\nIf you need help requesting access for CDBA, click <a class=\"text-link\" href=\"https://sconnect.schaeffler.com/groups/cost-database-analytics/blog/2021/01/22/how-to-get-access-to-cdba-update\" target=\"blank\">here</a>."
     },
     "noFeatureAccess": {
       "heading": "Forbidden page",

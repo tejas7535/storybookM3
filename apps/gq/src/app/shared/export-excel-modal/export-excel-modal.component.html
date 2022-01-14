@@ -14,8 +14,12 @@
         class="grid grid-cols-1 divide-y !divide-light text-[12px]"
       >
         <div class="grid grid-cols-2 pb-[16px] mt-[60px]">
-          <div class="text-light ml-6">{{ t('chooseColumn.title') }}</div>
-          <div class="text-light">{{ t('descriptionColumn.title') }}</div>
+          <div class="text-medium-emphasis ml-6">
+            {{ t('chooseColumn.title') }}
+          </div>
+          <div class="text-medium-emphasis">
+            {{ t('descriptionColumn.title') }}
+          </div>
         </div>
         <div class="grid grid-cols-2 py-3">
           <div class="ml-6">
@@ -23,11 +27,11 @@
               color="primary"
               [value]="ExportExcel.BASIC_DOWNLOAD"
             ></mat-radio-button>
-            <span class="!text-dark">
+            <span class="!text-high-emphasis">
               {{ t('chooseColumn.basicDownload') }}
             </span>
           </div>
-          <div class="text-dark">
+          <div class="text-high-emphasis">
             {{ t('descriptionColumn.basicDownload') }}
           </div>
         </div>
@@ -37,11 +41,11 @@
               color="primary"
               [value]="ExportExcel.DETAILED_DOWNLOAD"
             ></mat-radio-button>
-            <span class="!text-dark">
+            <span class="!text-high-emphasis">
               {{ t('chooseColumn.detailedDownload') }}
             </span>
           </div>
-          <div class="text-dark">
+          <div class="text-high-emphasis">
             {{ t('descriptionColumn.detailedDownload') }}
           </div>
         </div>

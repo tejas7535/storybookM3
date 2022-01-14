@@ -3,19 +3,27 @@
     {{ t('metaTitle') }} ({{ meta.selectedTimeRange }})
   </h6>
   <div class="text-body-1 leading-8 flex items-center">
-    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">insert_chart</mat-icon>
-    <div class="text-light">{{ t('attritionRate') }}:</div>
-    <span class="text-dark ml-2">{{ meta.data.attritionRate }}%</span>
+    <mat-icon class="text-medium-emphasis mr-1.5 !h-4.5 !w-4.5"
+      >insert_chart</mat-icon
+    >
+    <div class="text-medium-emphasis">{{ t('attritionRate') }}:</div>
+    <span class="text-high-emphasis ml-2">{{ meta.data.attritionRate }}%</span>
   </div>
   <div class="text-body-1 leading-8 flex items-center">
-    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">insert_chart</mat-icon>
-    <div class="text-light">{{ t('unforcedAttritionRate') }}:</div>
-    <span class="text-dark ml-2">{{ meta.data.unforcedAttritionRate }}%</span>
+    <mat-icon class="text-medium-emphasis mr-1.5 !h-4.5 !w-4.5"
+      >insert_chart</mat-icon
+    >
+    <div class="text-medium-emphasis">{{ t('unforcedAttritionRate') }}:</div>
+    <span class="text-high-emphasis ml-2"
+      >{{ meta.data.unforcedAttritionRate }}%</span
+    >
   </div>
   <div class="text-body-1 leading-8 flex items-center">
-    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">person_outline</mat-icon>
-    <div class="text-light">{{ t('employeesLost') }}:</div>
-    <span class="text-dark ml-2">{{ meta.data.employeesLost }}</span>
+    <mat-icon class="text-medium-emphasis mr-1.5 !h-4.5 !w-4.5"
+      >person_outline</mat-icon
+    >
+    <div class="text-medium-emphasis">{{ t('employeesLost') }}:</div>
+    <span class="text-high-emphasis ml-2">{{ meta.data.employeesLost }}</span>
   </div>
   <div class="text-body-1 leading-8 flex">
     <mat-divider
@@ -25,31 +33,43 @@
     <div class="flex flex-col">
       <div>
         {{ t('naturalTurnover') }}:
-        <span class="text-dark ml-2">{{ meta.data.naturalTurnover }}</span>
+        <span class="text-high-emphasis ml-2">{{
+          meta.data.naturalTurnover
+        }}</span>
       </div>
       <div>
         {{ t('forcedLeavers') }}:
-        <span class="text-dark ml-2">{{ meta.data.forcedLeavers }}</span>
+        <span class="text-high-emphasis ml-2">{{
+          meta.data.forcedLeavers
+        }}</span>
       </div>
       <div>
         {{ t('unforcedLeavers') }}:
-        <span class="text-dark ml-2">{{ meta.data.unforcedLeavers }}</span>
+        <span class="text-high-emphasis ml-2">{{
+          meta.data.unforcedLeavers
+        }}</span>
       </div>
     </div>
   </div>
   <div class="text-body-1 leading-8 flex items-center">
-    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">block</mat-icon>
-    <div class="text-light">{{ t('terminationReceived') }}:</div>
-    <span class="text-dark ml-2">{{ meta.data.terminationReceived }}</span>
+    <mat-icon class="text-medium-emphasis mr-1.5 !h-4.5 !w-4.5">block</mat-icon>
+    <div class="text-medium-emphasis">{{ t('terminationReceived') }}:</div>
+    <span class="text-high-emphasis ml-2">{{
+      meta.data.terminationReceived
+    }}</span>
   </div>
   <div class="text-body-1 leading-8 flex items-center">
-    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">person_add</mat-icon>
-    <div class="text-light">{{ t('employeesAdded') }}:</div>
-    <span class="text-dark ml-2">{{ meta.data.employeesAdded }}</span>
+    <mat-icon class="text-medium-emphasis mr-1.5 !h-4.5 !w-4.5"
+      >person_add</mat-icon
+    >
+    <div class="text-medium-emphasis">{{ t('employeesAdded') }}:</div>
+    <span class="text-high-emphasis ml-2">{{ meta.data.employeesAdded }}</span>
   </div>
   <div class="text-body-1 leading-8 flex items-center">
-    <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">people_outlined</mat-icon>
-    <div class="text-light">{{ t('openPositions') }}:</div>
-    <span class="text-dark ml-2">{{ meta.data.openPositions }}</span>
+    <mat-icon class="text-medium-emphasis mr-1.5 !h-4.5 !w-4.5"
+      >people_outlined</mat-icon
+    >
+    <div class="text-medium-emphasis">{{ t('openPositions') }}:</div>
+    <span class="text-high-emphasis ml-2">{{ meta.data.openPositions }}</span>
   </div>
 </div>

@@ -11,31 +11,35 @@
   >
     <div content class="mt-[10px] w-full flex flex-col md:flex-row">
       <div class="grow max-w-[25%]">
-        <div class="mb-1 text-body-2 text-light">{{ t('priceLabel') }}:</div>
+        <div class="mb-1 text-body-2 text-medium-emphasis">
+          {{ t('priceLabel') }}:
+        </div>
         <span class="font-bold">{{
           quotationDetail.sapPrice | numberCurrency: currency
         }}</span>
       </div>
       <div class="flex-1" *ngIf="userHasGPCRole">
-        <div class="mb-1 text-body-2 text-light">{{ t('gpi') }}:</div>
+        <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
         <div>
           <span class="font-bold">{{ gpi || '-' }} %</span>
         </div>
       </div>
       <div class="flex-1" *ngIf="userHasSQVRole">
-        <div class="mb-1 text-body-2 text-light">{{ t('gpm') }}:</div>
+        <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
         <div>
           <span class="font-bold">{{ gpm || '-' }} %</span>
         </div>
       </div>
       <div class="flex-1">
-        <div class="mb-1 text-body-2 text-light">{{ t('quantity') }}:</div>
+        <div class="mb-1 text-body-2 text-medium-emphasis">
+          {{ t('quantity') }}:
+        </div>
         <gq-quantity-display
           [quantity]="quotationDetail.orderQuantity"
         ></gq-quantity-display>
       </div>
       <div class="flex-1" *ngIf="quotationDetail.sapPriceCondition">
-        <div class="mb-1 text-body-2 text-light">
+        <div class="mb-1 text-body-2 text-medium-emphasis">
           {{ t('priceCondition') }}:
         </div>
         <span class="font-bold">{{ quotationDetail.sapPriceCondition }}</span>

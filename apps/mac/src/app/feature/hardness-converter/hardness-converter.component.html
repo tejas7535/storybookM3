@@ -3,19 +3,7 @@
     <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | ngrxPush"></mac-breadcrumbs>
     <mat-card-title class="mx-4">Hardness Converter</mat-card-title>
     <div
-      class="
-        h-full
-        w-full
-        z-10
-        ease-in-out
-        duration-300
-        overflow-hidden
-        bg-white
-        opacity-70
-        justify-center
-        absolute
-        flex
-      "
+      class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden bg-surface opacity-70 justify-center absolute flex"
       [ngClass]="{ hidden: unitList.length !== 0 }"
     >
       <mat-spinner></mat-spinner>
@@ -68,19 +56,7 @@
           *ngIf="results$ | ngrxPush"
         >
           <div
-            class="
-              h-full
-              w-full
-              z-10
-              ease-in-out
-              duration-300
-              overflow-hidden
-              bg-white
-              opacity-70
-              justify-center
-              absolute
-              flex
-            "
+            class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden bg-surface opacity-70 justify-center absolute flex"
             [ngClass]="{ hidden: (resultsUpToDate$ | ngrxPush) }"
           >
             <mat-spinner></mat-spinner>
@@ -91,45 +67,19 @@
           >
             <mat-card class="w-full justify-center result-card">
               <span
-                class="
-                  min-h-[43px]
-                  flex
-                  text-body-1
-                  font-semibold
-                  justify-center
-                  items-center
-                  w-4/5
-                "
-                [ngClass]="{ 'text-warning capitalize': result.warning }"
+                class="min-h-[43px] flex text-body-1 font-semibold justify-center items-center w-4/5"
+                [ngClass]="{ 'text-[#fbe06d] capitalize': result.warning }"
               >
                 {{ getValue(result) }}</span
               >
               <span
-                class="
-                  items-center
-                  bg-primary
-                  rounded-r-md
-                  flex
-                  h-full
-                  w-1/5
-                  justify-center
-                  text-white
-                "
+                class="items-center bg-primary rounded-r-md flex h-full w-1/5 justify-center text-white"
                 *ngIf="result.unit !== 'MPa'; else withTooltip"
                 >{{ result.unit }}</span
               >
               <ng-template #withTooltip>
                 <span
-                  class="
-                    items-center
-                    bg-primary
-                    rounded-r-md
-                    flex
-                    h-full
-                    w-1/5
-                    justify-center
-                    text-white
-                  "
+                  class="items-center bg-primary rounded-r-md flex h-full w-1/5 justify-center text-white"
                   matTooltip="Ultimate Tensile Strength"
                   >{{ result.unit }}</span
                 >

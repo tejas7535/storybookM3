@@ -11,7 +11,7 @@
         (click)="deactivate()"
         class="focus:outline-none"
       >
-        <mat-icon class="text-light">clear</mat-icon>
+        <mat-icon class="text-medium-emphasis">clear</mat-icon>
       </button>
     </div>
     <h6 class="mb-3">{{ title }}</h6>
@@ -44,23 +44,10 @@
     </mat-card-actions>
   </mat-card>
   <div
-    class="
-      absolute
-      w-full
-      top-0
-      bottom-0
-      hover:cursor-pointer
-      focus:cursor-pointer
-      hover:bg-hoverOverlay
-      focus:bg-focusOverlay
-      rounded
-    "
-    [ngClass]="{ 'bg-disabledOverlay': selected }"
+    class="absolute w-full top-0 bottom-0 hover:cursor-pointer focus:cursor-pointer hover:bg-hover-overlay focus:bg-focus-overlay rounded"
+    [ngClass]="{ 'bg-disabled-overlay': selected }"
   >
-    <mat-icon
-      *ngIf="selected"
-      class="absolute top-2 right-2 text-primary"
-      filled
+    <mat-icon *ngIf="selected" class="absolute top-2 right-2 text-link" filled
       >check_circle</mat-icon
     >
   </div>

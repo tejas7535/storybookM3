@@ -3,7 +3,7 @@ $avatar-size: 64px;
 .schaeffler-user-panel {
   &__avatar {
     @apply mr-4;
-    @apply text-light;
+    @apply text-medium-emphasis;
     @apply rounded-full;
     font-size: $avatar-size;
     height: $avatar-size;

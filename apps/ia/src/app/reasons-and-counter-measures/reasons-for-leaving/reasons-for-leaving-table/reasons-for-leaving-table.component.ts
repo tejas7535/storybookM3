@@ -28,7 +28,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     floatingFilter: true,
     resizable: true,
     suppressMenu: true,
-    headerClass: () => 'bg-lightBg',
+    headerClass: () => 'bg-selected-overlay',
     flex: 1,
   };
 
@@ -56,7 +56,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.topFiveReasons.table.percentage'
         ),
         type: 'numericColumn',
-        headerClass: 'bg-lightBg',
+        headerClass: 'border-border',
         filter: 'agNumberColumnFilter',
       },
       {
@@ -65,7 +65,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.topFiveReasons.table.leavers'
         ),
         type: 'numericColumn',
-        headerClass: 'bg-lightBg',
+        headerClass: 'border-border',
         filter: 'agNumberColumnFilter',
       },
     ];

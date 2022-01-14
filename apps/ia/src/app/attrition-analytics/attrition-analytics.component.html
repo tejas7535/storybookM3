@@ -1,18 +1,10 @@
 <div
-  class="bg-white p-4"
+  class="bg-surface p-4"
   *transloco="let t; read: 'attritionAnalytics.unforcedAttritionAnalytics'"
 >
   <h5 class="font-bold mb-5">{{ t('title') }}</h5>
   <div
-    class="
-      gap-4
-      p-4
-      flex-wrap
-      lg:flex-nowrap
-      grid grid-cols-4
-      drag-list
-      border-none
-    "
+    class="gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 drag-list border-none"
     *ngIf="!(isLoading$ | ngrxPush); else loading"
     cdkDropList
     cdkDropListOrientation="horizontal"
@@ -28,11 +20,11 @@
       <div class="relative">
         <div class="absolute right-3 top-3 flex flex-row gap-2">
           <mat-icon
-            class="cursor-pointer text-light z-50"
+            class="cursor-pointer text-medium-emphasis z-50"
             (click)="openFeaturesDialog()"
             >edit</mat-icon
           >
-          <mat-icon class="cursor-move text-light z-50" cdkDragHandle
+          <mat-icon class="cursor-move text-medium-emphasis z-50" cdkDragHandle
             >open_with</mat-icon
           >
         </div>
@@ -44,23 +36,14 @@
       class="w-full h-[520px] flex items-center justify-center shadow"
     >
       <div
-        class="
-          text-center
-          w-[190px]
-          h-[190px]
-          rounded-full
-          bg-[#F5F7FA]
-          flex flex-col
-          justify-center
-          items-center
-        "
+        class="text-center w-[190px] h-[190px] rounded-full bg-[#F5F7FA] flex flex-col justify-center items-center"
         *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
       >
         <div class="cursor-pointer" (click)="openFeaturesDialog()">
-          <mat-icon class="text-light text-[48px] !w-[48px] !h-[48px]"
+          <mat-icon class="text-medium-emphasis text-[48px] !w-[48px] !h-[48px]"
             >add_circle_outline</mat-icon
           >
-          <h6 class="text-light">{{ t('buttonText') }}</h6>
+          <h6 class="text-medium-emphasis">{{ t('buttonText') }}</h6>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 <!-- start header -->
 <mat-toolbar
-  class="z-10 h-[60px] border-b border-lightBg !pl-2"
+  class="z-10 h-[60px] border-b border-border !pl-2"
   *transloco="let t"
 >
   <button
@@ -8,7 +8,7 @@
     type="button"
     mat-icon-button
     disableRipple
-    class="text-mediumEmphasis"
+    class="text-medium-emphasis"
     (click)="drawer.toggle()"
   >
     <mat-icon *ngIf="sidenavOpen; else menuIcon" [@sidenavToggleAnimation]>
@@ -19,16 +19,7 @@
     </ng-template>
   </button>
   <span
-    class="
-      text-subtitle-1
-      sm:text-h6
-      text-mediumEmphasis
-      pr-2
-      sm:pr-3
-      inline-block
-      truncate
-      outline-none
-    "
+    class="text-subtitle-1 sm:text-h6 text-medium-emphasis pr-2 sm:pr-3 inline-block truncate outline-none"
     [class.ml-1]="hasSidebarLeft"
     [class.ml-2]="!hasSidebarLeft"
     [class.cursor-pointer]="appTitleLink"
@@ -91,15 +82,7 @@
         <ng-content select="[footerContent]"></ng-content>
       </div>
       <div
-        class="
-          flex
-          md:flex-row
-          flex-col
-          justify-center
-          shrink-0
-          md:flex
-          items-center
-        "
+        class="flex md:flex-row flex-col justify-center shrink-0 md:flex items-center"
       >
         <div class="flex flex-row flex-wrap mx-4 sm:mx-0">
           <ng-container *ngFor="let footerLink of footerLinks; let i = index">
@@ -108,33 +91,28 @@
               [href]="footerLink.link"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-light text-caption leading-4 py-1"
+              class="text-medium-emphasis text-caption leading-4 py-1"
             >
               {{ footerLink.title }}
             </a>
             <div
               *ngIf="!footerLink.external"
               [routerLink]="footerLink.link"
-              class="
-                footer-link-internal
-                cursor-pointer
-                inline-block
-                text-light text-caption
-                outline-none
-                leading-4
-                py-1
-              "
+              class="footer-link-internal cursor-pointer inline-block text-medium-emphasis text-caption outline-none leading-4 py-1"
             >
               {{ footerLink.title }}
             </div>
             <span
-              class="separator text-light text-caption mx-1 leading-4 py-1"
+              class="separator text-medium-emphasis text-caption mx-1 leading-4 py-1"
               *ngIf="i !== footerLinks.length - 1 || appVersion"
               >|</span
             >
           </ng-container>
           <ng-container *ngIf="appVersion">
-            <span id="version" class="text-light text-caption leading-4 py-1">
+            <span
+              id="version"
+              class="text-medium-emphasis text-caption leading-4 py-1"
+            >
               {{ appVersion }}
             </span>
           </ng-container>

@@ -3,16 +3,18 @@
   *transloco="let t; read: 'shared.customStatusBar.materialValidationStatus'"
 >
   <div class="mr-6">
-    <span class="text-disabled text-[13px]"> {{ t('invalid') }}:&nbsp; </span>
+    <span class="text-low-emphasis text-[13px]">
+      {{ t('invalid') }}:&nbsp;
+    </span>
     <span
-      class="text-[13px] text-dark"
+      class="text-[13px] text-high-emphasis"
       [ngClass]="{ 'text-error': invalid > 0 }"
     >
       {{ invalid }}
     </span>
   </div>
   <div>
-    <span class="text-disabled text-[13px]">{{ t('total') }}:&nbsp;</span>
-    <span class="text-[13px] text-dark"> {{ total }} </span>
+    <span class="text-low-emphasis text-[13px]">{{ t('total') }}:&nbsp;</span>
+    <span class="text-[13px] text-high-emphasis"> {{ total }} </span>
   </div>
 </div>

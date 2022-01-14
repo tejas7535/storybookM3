@@ -31,7 +31,7 @@ describe('ResignationsComponent', () => {
       const getHeaderClass: any = component.defaultColDef
         .headerClass as unknown;
       expect(component.defaultColDef.sortable).toBeTruthy();
-      expect(getHeaderClass()).toEqual('bg-lightBg');
+      expect(getHeaderClass()).toEqual('bg-selected-overlay');
     });
   });
 

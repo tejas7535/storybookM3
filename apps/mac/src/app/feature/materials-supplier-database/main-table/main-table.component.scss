@@ -7,15 +7,15 @@
 }
 
 ::ng-deep .msd-list.mat-list-base .mat-list-option {
-  @apply h-10 text-body-2 text-dark;
+  @apply h-10 text-body-2 text-high-emphasis;
 }
 
 .msd-scrollbar {
   &::-webkit-scrollbar {
-    @apply w-1.5 bg-lightBg;
+    @apply w-1.5 bg-selected-overlay;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply rounded-2xl bg-lowEmphasis;
+    @apply rounded-2xl bg-low-emphasis;
   }
 }

@@ -18,7 +18,7 @@ interface AvailableOption {
   selector: 'mm-settings',
   templateUrl: './settings.component.html',
   styles: [
-    '::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick { @apply text-primary }',
+    '::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick { @apply text-link }',
   ],
 })
 export class SettingsComponent implements OnInit, OnDestroy {

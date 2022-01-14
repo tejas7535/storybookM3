@@ -27,26 +27,26 @@ const ResponsiveGridTemplate: Story = (args) => ({
 });
 
 const defaultTemplate = `
-  <div class="bg-background p-4">
+  <div class="bg-background-dark p-4">
     <h5>Documentation of responsive breakpoints</h5>
     <div class="my-4">
-      <div class="w-[1920px] p-2 mat-elevation-z2 bg-white">
+      <div class="w-[1920px] p-2 mat-elevation-z2 bg-surface">
         <p>Default</p>
       </div>
-      <div class="ml-[600px] w-[1320px] m-1 p-2 mat-elevation-z2 bg-white">
+      <div class="ml-[600px] w-[1320px] m-1 p-2 mat-elevation-z2 bg-surface">
         SM
       </div>
-      <div class="ml-[904px] w-[1016px] p-2 mat-elevation-z2 bg-white">
+      <div class="ml-[904px] w-[1016px] p-2 mat-elevation-z2 bg-surface">
         MD
       </div>
-      <div class="ml-[1239px] w-[681px] m-1 p-2 mat-elevation-z2 bg-white">
+      <div class="ml-[1239px] w-[681px] m-1 p-2 mat-elevation-z2 bg-surface">
         LG
       </div>
-      <div class="ml-[1439px] w-[481px] p-2 mat-elevation-z2 bg-white">
+      <div class="ml-[1439px] w-[481px] p-2 mat-elevation-z2 bg-surface">
         XL
       </div>
     </div>
-    <div class="flex flex-row h-[250px] w-[1920px] bg-white  text-center">
+    <div class="flex flex-row h-[250px] w-[1920px] bg-surface  text-center">
       <div class="w-[600px] mat-elevation-z2 h-full p-4">
       <p class="text-center">0-600px<p>
       Mobile<br>
@@ -75,7 +75,7 @@ const responsiveGridTemplate = `
 <div class="mb-4">
   <h5>Material.io responsive grid layout</h5>
   <a 
-    class="text-primary"  
+    class="text-link"  
     href="https://material.io/design/layout/responsive-layout-grid.html#breakpoints" 
     target="_blank" >https://material.io/design/layout/responsive-layout-grid.html#breakpoints
   </a>

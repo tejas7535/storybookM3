@@ -27,7 +27,7 @@ export class ResignationsComponent {
     suppressMenu: true,
     lockPinned: true,
     suppressMovable: true,
-    headerClass: () => 'bg-lightBg',
+    headerClass: () => 'bg-selected-overlay',
     flex: 1,
   };
 

@@ -38,9 +38,9 @@
 .ag-theme-material {
   @include ag-theme-material(
     (
-      material-primary-color: $schaeffler-green-1,
-      material-accent-color: $schaeffler-blue,
-      checkbox-checked-color: $schaeffler-green-1,
+      material-primary-color: $primary,
+      material-accent-color: $nordic-blue,
+      checkbox-checked-color: $primary,
     )
   );
   .ag-column-panel {

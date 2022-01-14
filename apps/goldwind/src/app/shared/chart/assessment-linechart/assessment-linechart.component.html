@@ -20,7 +20,9 @@
           <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
         </ng-container>
         <div class="flex flex-col h-14 max-h-full">
-          <h6 class="font-medium text-2xl leading-6 text-dark mb-4 mt-8">
+          <h6
+            class="font-medium text-2xl leading-6 text-high-emphasis mb-4 mt-8"
+          >
             {{ translate('linechart.pleaseSelectTrendsToShow') }}
           </h6>
           <mat-tree
@@ -36,13 +38,13 @@
                   [formControlName]="node.formControl"
                   type="checkbox"
                   [ngStyle]="{ color: node.color }"
-                  class="form-checkbox text-body-1 bg-toastBg"
+                  class="form-checkbox text-body-1 bg-[#414546]"
                   #nodeCbPa
                 />
                 <span
                   class="ml-2"
-                  [class.text-dark]="nodeCbPa.checked"
-                  [class.text-light]="!nodeCbPa.checked"
+                  [class.text-high-emphasis]="nodeCbPa.checked"
+                  [class.text-medium-emphasis]="!nodeCbPa.checked"
                   >{{ translate(this.translateKey + '.' + node.label) }}</span
                 >
               </label>
@@ -73,8 +75,8 @@
               </button>
               <span
                 class="ml-2 text-body-2"
-                [class.text-dark]="nodeCb.checked"
-                [class.text-light]="!nodeCb.checked"
+                [class.text-high-emphasis]="nodeCb.checked"
+                [class.text-medium-emphasis]="!nodeCb.checked"
               >
                 {{ translate(this.translateKey + '.' + node.name) }}</span
               >
@@ -109,14 +111,14 @@
           </div>
           <div class="flex">
             <button
-              class="text-primary text-button uppercase flex items-center"
+              class="text-link text-button uppercase flex items-center"
               (click)="downloadChartContent()"
             >
               <mat-icon class="text-subtitle-1 mr-2">download</mat-icon>
               <span>Download</span>
             </button>
             <button mat-icon-button (click)="openMoreInfo()">
-              <mat-icon class="text-mediumEmphasis">more_vert</mat-icon>
+              <mat-icon class="text-medium-emphasis">more_vert</mat-icon>
             </button>
           </div>
         </div>

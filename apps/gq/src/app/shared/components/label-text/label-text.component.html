@@ -1,6 +1,6 @@
 <div>
   <p
-    class="text-body-2 text-light flex flex-wrap flex-row"
+    class="text-body-2 text-medium-emphasis flex flex-wrap flex-row"
     [ngClass]="{
       'mb-2': marginBottom,
       '!text-caption': modalVersion,
@@ -8,10 +8,10 @@
       'font-medium': modalVersion
     }"
   >
-    <span class="pr-2" [ngClass]="{ 'text-disabled': modalVersion }"
+    <span class="pr-2" [ngClass]="{ 'text-low-emphasis': modalVersion }"
       ><ng-content select="[label]"></ng-content>:</span
     >
-    <span class="text-highEmphasis"
+    <span class="text-high-emphasis"
       ><ng-content select="[text]"></ng-content
     ></span>
   </p>

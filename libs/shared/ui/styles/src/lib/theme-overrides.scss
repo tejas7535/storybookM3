@@ -8,7 +8,7 @@
     @apply uppercase;
 
     &.mat-stroked-button.mat-button-disabled {
-      @apply border-outline;
+      @apply border-border;
     }
   }
 
@@ -58,7 +58,7 @@
       @apply border-l;
       @apply border-r;
       @apply border-b;
-      @apply border-lightBg;
+      @apply border-border;
 
       &:first-of-type {
         @apply border-t;

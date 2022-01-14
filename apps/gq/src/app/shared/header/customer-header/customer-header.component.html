@@ -1,18 +1,18 @@
 <mat-card
-  class="mat-elevation-z0 border border-solid border-outline mt-6"
+  class="mat-elevation-z0 border border-solid border-border mt-6"
   *transloco="let t; read: 'shared.customerHeader'"
 >
   <div class="flex flex-row">
     <div class="w-full flex flex-row pr-4" *ngIf="customer">
       <div class="mr-12">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('name') }}: </span>
+          <span class="pr-2 text-medium-emphasis">{{ t('name') }}: </span>
           <span>
             {{ customer.name }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('id') }}: </span>
+          <span class="pr-2 text-medium-emphasis">{{ t('id') }}: </span>
           <span>
             {{ customer.identifier.customerId }}
           </span>
@@ -20,13 +20,15 @@
       </div>
       <div class="mr-12 overflow-x-hidden sm:overflow-x-visible">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('keyAccount') }}: </span>
+          <span class="pr-2 text-medium-emphasis">{{ t('keyAccount') }}: </span>
           <span>
             {{ customer.keyAccount | nullableString }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('subKeyAccount') }}: </span>
+          <span class="pr-2 text-medium-emphasis"
+            >{{ t('subKeyAccount') }}:
+          </span>
           <span>
             {{ customer.subKeyAccount | nullableString }}
           </span>
@@ -34,11 +36,15 @@
       </div>
       <div class="mr-12 overflow-x-hidden md:overflow-x-visible">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('classification') }}: </span>
+          <span class="pr-2 text-medium-emphasis"
+            >{{ t('classification') }}:
+          </span>
           <span>{{ customer.abcClassification | nullableString }} </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('sectorManagement') }}: </span>
+          <span class="pr-2 text-medium-emphasis"
+            >{{ t('sectorManagement') }}:
+          </span>
           <span>
             {{ customer.sectorManagement | nullableString }}
           </span>
@@ -46,7 +52,7 @@
       </div>
       <div class="mr-12 hidden md:flex md:flex-col overflow-x-hidden">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light"
+          <span class="pr-2 text-medium-emphasis"
             >{{ t('netSalesLastYear') }} {{ lastYear }}:</span
           >
           <span>
@@ -57,7 +63,7 @@
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light"
+          <span class="pr-2 text-medium-emphasis"
             >{{ t('gpiLastYear') }} {{ lastYear }}:</span
           >
           <span>
@@ -67,20 +73,20 @@
       </div>
       <div class="hidden lg:flex lg:flex-col overflow-x-hidden">
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('country') }}:</span>
+          <span class="pr-2 text-medium-emphasis">{{ t('country') }}:</span>
           <span>
             {{ customer.country | nullableString }}
           </span>
         </div>
         <div class="text-caption leading-6 whitespace-nowrap">
-          <span class="pr-2 text-light">{{ t('currency') }}:</span>
+          <span class="pr-2 text-medium-emphasis">{{ t('currency') }}:</span>
           <span>
             {{ customer.currency }}
           </span>
         </div>
       </div>
     </div>
-    <div class="!absolute !bg-white h-10 top-5 right-0">
+    <div class="!absolute !bg-surface h-10 top-5 right-0">
       <button
         color="primary"
         class="font-medium"
@@ -93,4 +99,4 @@
     </div>
   </div>
 </mat-card>
-<div class="bg-white absolute"></div>
+<div class="bg-surface absolute"></div>

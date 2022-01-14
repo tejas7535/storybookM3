@@ -38,5 +38,5 @@
       "PRICE.MANUAL": "Diese Rolle berechtigt zur Anlage von manuellen Preisen (ZMAN)."
     }
   },
-  "contactInformation": "Kontaktieren Sie bitte: <a class='text-primary' href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.<br><br>Bitte wählen Sie Software und dann GQ – Guided Quoting aus."
+  "contactInformation": "Kontaktieren Sie bitte: <a class='text-link' href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a>, wenn Sie Fragen zu Ihren Benutzerrollen haben oder Zugang zu weiteren Benutzerrollen benötigen.<br><br>Bitte wählen Sie Software und dann GQ – Guided Quoting aus."
 }

@@ -11,7 +11,7 @@
     }
 
     .mat-expansion-indicator:after {
-      @apply text-light;
+      @apply text-medium-emphasis;
     }
   }
 
@@ -20,7 +20,7 @@
   }
 
   table {
-    @apply text-caption text-dark table-auto;
+    @apply text-caption text-high-emphasis table-auto;
 
     @screen sm {
       @apply mx-0 w-full table-fixed;
@@ -31,7 +31,7 @@
     }
 
     tr {
-      @apply border border-r-0 border-l-0 border-veryLight;
+      @apply border border-r-0 border-l-0 border-border;
     }
 
     td {

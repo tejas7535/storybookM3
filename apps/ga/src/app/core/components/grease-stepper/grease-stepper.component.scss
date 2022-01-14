@@ -5,7 +5,7 @@
 }
 ::ng-deep .mat-step-header[aria-labelledby='enabled'] {
   .mat-step-icon {
-    @apply bg-mediumEmphasis text-white;
+    @apply bg-medium-emphasis text-white;
   }
 }
 ::ng-deep .mat-step-header[aria-labelledby='active'] {
@@ -17,7 +17,7 @@
 ::ng-deep
   .mat-step-label.mat-step-label-active.mat-step-label-selected
   .mat-step-text-label {
-  @apply text-primary;
+  @apply text-link;
 }
 
 ::ng-deep mat-horizontal-stepper .mat-horizontal-content-container {

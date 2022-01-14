@@ -11,7 +11,7 @@
       }
 
       &-label {
-        @apply left-2 text-disabled text-subtitle-1 leading-6 mt-2;
+        @apply left-2 text-low-emphasis text-subtitle-1 leading-6 mt-2;
       }
     }
 
@@ -59,7 +59,7 @@
 
   .mat-option {
     height: 40px;
-    @apply text-caption text-dark;
+    @apply text-caption text-high-emphasis;
   }
 
   .mat-icon {

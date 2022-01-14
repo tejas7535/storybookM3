@@ -1,5 +1,5 @@
 <div
-  class="md:bg-background h-full flex justify-center"
+  class="md:bg-background-dark h-full flex justify-center"
   *transloco="let t; read: 'home'"
 >
   <div class="block">
@@ -14,13 +14,12 @@
         <mat-card-content class="grow">
           <div class="flex flex-col h-full">
             <div class="w-2/3 md:w-full">
-              <p class="text-subtitle-2 text-lowEmphasis">
+              <p class="text-subtitle-2 text-low-emphasis">
                 {{ t('bearinxPowered') }}
               </p>
-              <p
-                class="text-caption text-lowEmphasis"
-                [innerHTML]="t('description')"
-              ></p>
+              <p class="text-caption text-low-emphasis">
+                {{ t('description') }}
+              </p>
             </div>
             <div
               class="flex grow justify-center justify-self-center items-center"
@@ -40,14 +39,14 @@
             [routerLink]="greaseCalculationLink"
           >
             <div class="flex justify-between">
-              <h4 class="text-primary font-normal mr-3">
+              <h4 class="text-link font-normal mr-3">
                 {{ t('startCalc') }}
               </h4>
               <span
                 class="bg-primary rounded-full w-[37px] h-[37px] flex items-center justify-center"
               >
                 <span
-                  class="bg-white rounded-full w-[31px] h-[31px] flex items-center justify-center"
+                  class="bg-surface rounded-full w-[31px] h-[31px] flex items-center justify-center"
                 >
                   <mat-icon class="start-icon">play_arrow</mat-icon>
                 </span>
@@ -111,7 +110,7 @@
           {{ t('faq') }}
         </div>
         <mat-card-content class="card-content flex items-center justify-center">
-          <span class="text-primary text-[36px] tracking-[1px] font-bold">
+          <span class="text-link text-[36px] tracking-[1px] font-bold">
             {{ t('faq') }}
           </span>
         </mat-card-content>
@@ -125,7 +124,7 @@
             <div class="w-2/4 h-full flex flex-col">
               <h5 class="uppercase">{{ t('concept') }}</h5>
               <p
-                class="text-caption text-lowEmphasis text-container overflow-hidden shrink-0"
+                class="text-caption text-low-emphasis text-container overflow-hidden shrink-0"
               >
                 {{ t('placeholderText') }}
               </p>

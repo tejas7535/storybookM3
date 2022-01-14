@@ -40,9 +40,9 @@
 
   <mat-sidenav-content>
     <div *transloco="let t; read: 'shared.bom'" class="h-full flex flex-col">
-      <div class="flex justify-between bg-white">
+      <div class="flex justify-between bg-surface">
         <div>
-          <h6 class="text-mediumEmphasis mb-2">
+          <h6 class="text-medium-emphasis mb-2">
             {{
               materialDesignation$
                 | ngrxPush
@@ -51,7 +51,7 @@
           </h6>
           <div *ngrxLet="selectedCalculation$; let calculation">
             <div class="inline-block mr-4 text-body-2">
-              <span class="text-mediumEmphasis inline-block mr-2"
+              <span class="text-medium-emphasis inline-block mr-2"
                 >{{ t('costType') }}:</span
               >
               <span class="inline-block min-w-[38px]">{{
@@ -59,7 +59,7 @@
               }}</span>
             </div>
             <div class="inline-block text-body-2">
-              <span class="text-mediumEmphasis inline-block mr-2"
+              <span class="text-medium-emphasis inline-block mr-2"
                 >{{ t('calculationDate') }}:</span
               >
               <span>{{ calculation?.calculationDate | translocoDate }}</span>

@@ -71,7 +71,7 @@ const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
   >
     <ng-container headerInlineContent>
       <span>{{ headerContent }}</span>
-      <span *ngIf="headerContent" class="w-[1px] ml-1.5 sm:ml-3 h-4 sm:h-7 bg-highEmphasis"></span>
+      <span *ngIf="headerContent" class="w-[1px] ml-1.5 sm:ml-3 h-4 sm:h-7 bg-high-emphasis"></span>
     </ng-container>
     <ng-container sidenavBody>
       <h4>{{ sideNavContent }}</h4>

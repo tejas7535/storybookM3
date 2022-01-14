@@ -101,8 +101,8 @@ describe('OrgChartService', () => {
       const result = service.mapEmployeesToNodes(data);
 
       expect(result.length).toEqual(4);
-      expect(result[1].heatMapClass).toContain('bg-success');
-      expect(result[2].heatMapClass).toContain('bg-warning');
+      expect(result[1].heatMapClass).toContain('bg-lime');
+      expect(result[2].heatMapClass).toContain('bg-sunny-yellow');
       expect(result[3].heatMapClass).toContain('bg-error');
     });
   });

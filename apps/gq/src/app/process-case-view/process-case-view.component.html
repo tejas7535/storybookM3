@@ -6,7 +6,7 @@
   "
 >
   <mat-card
-    class="!pt-0 !pb-9 !shadow-none border-b border-outline"
+    class="!pt-0 !pb-9 !shadow-none border-b border-border"
     *ngIf="quotation$ | ngrxPush as quotation"
   >
     <schaeffler-subheader
@@ -14,7 +14,7 @@
       [breadcrumbs]="breadcrumbs"
     >
       <ng-container titleContent>
-        <span *ngIf="quotation.sapId" class="ml-4 text-disabled pr-4">{{
+        <span *ngIf="quotation.sapId" class="ml-4 text-low-emphasis pr-4">{{
           quotation.sapId | sapQuotation
         }}</span>
         <gq-header-content [quotation]="quotation"></gq-header-content>

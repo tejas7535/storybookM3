@@ -2,7 +2,7 @@
   class="h-full flex flex-col space-between"
   *transloco="let t; read: 'drawings'"
 >
-  <h6 class="text-mediumEmphasis mb-4" *ngIf="materialDesignation$ | ngrxPush">
+  <h6 class="text-medium-emphasis mb-4" *ngIf="materialDesignation$ | ngrxPush">
     {{
       t('title', {
         material:
@@ -40,10 +40,10 @@
         class="max-w-[90%] mb-4"
       />
       <div *transloco="let t; read: 'drawings'">
-        <h4 class="text-highEmphasis mb-4">
+        <h4 class="text-high-emphasis mb-4">
           {{ t('noDrawingsTitle') }}
         </h4>
-        <div class="text-subtitle-1 text-mediumEmphasis">
+        <div class="text-subtitle-1 text-medium-emphasis">
           {{ t('noDrawingsText') }}
         </div>
       </div>

@@ -44,7 +44,7 @@
 }
 
 h1 {
-  color: $goldwind-text-dark !important;
+  color: $goldwind-text-high-emphasis !important;
   font-size: 1.5em !important;
   margin: 1rem 0 !important;
 }
@@ -52,9 +52,9 @@ h1 {
 .ag-theme-material {
   @include ag-theme-material(
     (
-      material-primary-color: $schaeffler-green-1,
-      material-accent-color: $schaeffler-blue,
-      checkbox-checked-color: $schaeffler-green-1,
+      material-primary-color: $primary,
+      material-accent-color: $nordic-blue,
+      checkbox-checked-color: $primary,
     )
   );
 }

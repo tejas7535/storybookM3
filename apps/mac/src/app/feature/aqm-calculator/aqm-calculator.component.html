@@ -1,14 +1,5 @@
 <div
-  class="
-    sm:overflow-hidden
-    block
-    absolute
-    md:relative md:flex
-    flex-row
-    justify-center
-    items-center
-    p-8
-  "
+  class="sm:overflow-hidden block absolute md:relative md:flex flex-row justify-center items-center p-8"
 >
   <div class="flex flex-col">
     <mat-card class="aqm-calculator-card">
@@ -19,19 +10,7 @@
       <mat-card-content class="p-4">
         <h6>Alloy configuration</h6>
         <div
-          class="
-            h-full
-            w-full
-            z-10
-            ease-in-out
-            duration-300
-            overflow-hidden
-            bg-white
-            opacity-70
-            justify-center
-            absolute
-            flex
-          "
+          class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden bg-surface opacity-70 justify-center absolute flex"
           [ngClass]="{ hidden: materials }"
         >
           <mat-spinner></mat-spinner>
@@ -55,14 +34,7 @@
           </div>
           <!-- seperator horizontal -->
           <div
-            class="
-              w-full
-              flex flex-row
-              items-center
-              justify-around
-              gap-6
-              px-[15%]
-            "
+            class="w-full flex flex-row items-center justify-around gap-6 px-[15%]"
           >
             <div class="flex flex-1 h-full">
               <div class="w-full border-solid border-b"></div>
@@ -76,13 +48,7 @@
           <div class="flex flex-col justify-center items-center gap-6">
             <p>Specify the composition manually</p>
             <div
-              class="
-                flex flex-col
-                gap-2
-                items-start
-                justify-center
-                md:flex-row md:gap-6
-              "
+              class="flex flex-col gap-2 items-start justify-center md:flex-row md:gap-6"
             >
               <mat-form-field
                 appearance="outline"
@@ -117,26 +83,10 @@
             fxLayoutGap="24px"
             fxLayout.lt-md="column"
             fxLayoutAlign.lt-md="start start"
-            class="
-              w-full
-              flex flex-col
-              gap-6
-              md:justify-between md:items-stretch md:flex-row
-            "
+            class="w-full flex flex-col gap-6 md:justify-between md:items-stretch md:flex-row"
           >
             <div
-              class="
-                h-full
-                w-full
-                z-10
-                ease-in-out
-                duration-300
-                overflow-hidden
-                opacity-70
-                justify-center
-                absolute
-                flex
-              "
+              class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden opacity-70 justify-center absolute flex"
               [ngClass]="{ hidden: (aqmCalculationResult | ngrxPush)?.aqm }"
             >
               <mat-spinner></mat-spinner>

@@ -3,17 +3,17 @@
 }
 
 .mat-tab-label-content {
-  @apply text-button text-light;
+  @apply text-button text-medium-emphasis;
 }
 
 .mat-tab-label-active > .mat-tab-label-content {
-  @apply text-primary;
+  @apply text-link;
 }
 
 .mat-tab-links > .mat-tab-link {
-  @apply text-button text-light opacity-100;
+  @apply text-button text-medium-emphasis opacity-100;
 }
 
 .mat-tab-links > .mat-tab-label-active {
-  @apply text-primary;
+  @apply text-link;
 }

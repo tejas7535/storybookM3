@@ -7,7 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../assets/i18n/en.json';
-import { TailwindColor } from '../../models/taliwind-color.enum';
+import { TailwindColor } from '../../models/tailwind-color.enum';
 import { ChartLegendItem } from '../models/chart-legend-item.model';
 import { ChartLegendComponent } from './chart-legend.component';
 
@@ -27,7 +27,7 @@ describe('ChartLegendComponent', () => {
     ),
     new ChartLegendItem(
       'organizationalView.worldMap.chartLegend.ok.title',
-      TailwindColor.WARNING,
+      TailwindColor.SUNNY_YELLOW,
       'organizationalView.worldMap.chartLegend.ok.tooltip'
     ),
   ];
@@ -79,6 +79,6 @@ describe('ChartLegendComponent', () => {
 
     expect(indicators[0].nativeElement.className).toContain('bg-primary');
     expect(indicators[1].nativeElement.className).toContain('bg-error');
-    expect(indicators[2].nativeElement.className).toContain('bg-warning');
+    expect(indicators[2].nativeElement.className).toContain('bg-sunny-yellow');
   });
 });

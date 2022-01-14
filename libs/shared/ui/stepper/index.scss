@@ -2,11 +2,11 @@
   ::ng-deep {
     .mat-step {
       &-icon {
-        @apply bg-outline text-disabled;
+        @apply bg-disabled-overlay text-low-emphasis;
 
         &-state-done,
         &-state-edit {
-          @apply bg-mediumEmphasis text-white;
+          @apply bg-medium-emphasis text-white;
         }
       }
 
@@ -15,15 +15,15 @@
       }
 
       &-label {
-        @apply text-disabled font-medium hidden md:block;
+        @apply text-low-emphasis font-medium hidden md:block;
 
         &-active {
-          @apply text-light;
+          @apply text-medium-emphasis;
         }
       }
 
       &-label-selected {
-        @apply text-primary block;
+        @apply text-link block;
       }
 
       &-header {

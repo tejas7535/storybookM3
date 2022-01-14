@@ -1,5 +1,5 @@
 <div mat-dialog-title class="!flex flex-row" *ngIf="data?.headings?.header">
-  <h6 class="grow !text-dark !mt-0 !mr-0 !mb-4 !ml-1 font-medium">
+  <h6 class="grow !text-high-emphasis !mt-0 !mr-0 !mb-4 !ml-1 font-medium">
     {{ data?.headings?.header }}
   </h6>
 </div>
@@ -33,7 +33,7 @@
   </cdk-virtual-scroll-viewport>
 </mat-dialog-content>
 <mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
-  <p class="mr-auto text-labels text-caption">
+  <p class="mr-auto text-low-emphasis text-caption">
     {{
       t('total', {
         total: data.employees?.length

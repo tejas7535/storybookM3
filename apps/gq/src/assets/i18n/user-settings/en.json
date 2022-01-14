@@ -38,5 +38,5 @@
       "PRICE.MANUAL": "This role enables a user to enter a manual price (ZMAN)."
     }
   },
-  "contactInformation": "Please contact <a class='text-primary' href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a> if you have questions about your user roles or need access to additional user roles.<br><br>Please choose Software then choose GQ – Guided Quoting."
+  "contactInformation": "Please contact <a class='text-link' href='{{serivceNowAdress}}' target='_blank' rel='noopener noreferrer'>ServiceNow</a> if you have questions about your user roles or need access to additional user roles.<br><br>Please choose Software then choose GQ – Guided Quoting."
 }

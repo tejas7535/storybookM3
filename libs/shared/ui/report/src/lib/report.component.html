@@ -16,7 +16,7 @@
         class="focus:outline-none"
         [href]="downloadReport"
       >
-        <mat-icon class="text-light">save</mat-icon>
+        <mat-icon class="text-medium-emphasis">save</mat-icon>
       </a>
     </div>
     <!-- html report -- string -->
@@ -36,12 +36,7 @@
                   [ngClass]="
                     content.nodeName === 'TABLE' ? '-mx-6 md:mx-0' : 'ml-0 mr-0'
                   "
-                  class="
-                    leading-normal
-                    m-3
-                    overflow-x-scroll
-                    sm:overflow-x-visible
-                  "
+                  class="leading-normal m-3 overflow-x-scroll sm:overflow-x-visible"
                   [innerHtml]="content.outerHTML | safeHtml"
                 ></div>
               </ng-container>
@@ -199,7 +194,7 @@
           <mat-divider></mat-divider>
           <div class="p-3">
             <a
-              class="text-caption text-primary font-medium"
+              class="text-caption text-link font-medium"
               [attr.href]="
                 'https://medias.schaeffler.de/de/search/searchpage?text=' +
                 subordinate.greaseResult.title
@@ -255,7 +250,7 @@
           </table>
           <div class="p-3">
             <a
-              class="text-caption text-primary font-medium cursor-pointer"
+              class="text-caption text-link font-medium cursor-pointer"
               (click)="toggleShowValues(subordinate)"
             >
               {{

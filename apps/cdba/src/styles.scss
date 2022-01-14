@@ -48,9 +48,9 @@ button {
 .ag-theme-material {
   @include ag-theme-material(
     (
-      material-primary-color: $schaeffler-green-1,
-      material-accent-color: $schaeffler-blue,
-      checkbox-checked-color: $schaeffler-green-1,
+      material-primary-color: $primary,
+      material-accent-color: $nordic-blue,
+      checkbox-checked-color: $primary,
     )
   );
 
@@ -77,7 +77,7 @@ button {
 
   .ag-side-button-button {
     &:hover {
-      color: $schaeffler-green-1 !important;
+      color: $primary !important;
     }
   }
 

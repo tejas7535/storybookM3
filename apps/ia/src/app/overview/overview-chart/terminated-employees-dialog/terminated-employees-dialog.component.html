@@ -1,4 +1,4 @@
-<h2 mat-dialog-title class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1">
+<h2 mat-dialog-title class="!text-high-emphasis !mt-0 !mr-0 !mb-4 !ml-1">
   {{ data.title }}
 </h2>
 <mat-dialog-content
@@ -21,18 +21,20 @@
         <div matLine class="!grid grid-cols-1 gap-2">
           <div>{{ employee.employeeName }}</div>
           <div class="flex">
-            <label class="text-light uppercase leading-4 h-4 text-[12px]"
+            <label
+              class="text-medium-emphasis uppercase leading-4 h-4 text-[12px]"
               >{{ t('orgUnit') }}:&nbsp;</label
             >
-            <div class="text-[12px] text-dark leading-4">
+            <div class="text-[12px] text-high-emphasis leading-4">
               {{ employee.orgUnit }}
             </div>
           </div>
           <div class="flex">
-            <label class="text-light uppercase leading-4 h-4 text-[12px]"
+            <label
+              class="text-medium-emphasis uppercase leading-4 h-4 text-[12px]"
               >{{ t('position') }}:&nbsp;</label
             >
-            <div class="text-[12px] text-dark leading-4">
+            <div class="text-[12px] text-high-emphasis leading-4">
               {{ employee.position }}
             </div>
           </div>
@@ -46,7 +48,7 @@
   align="end"
   *transloco="let t; read: 'overview.attritionRateDetails.chart.dialog'"
 >
-  <p class="mr-auto text-labels text-caption">
+  <p class="mr-auto text-low-emphasis text-caption">
     {{
       t('total', {
         total: data.employees.length

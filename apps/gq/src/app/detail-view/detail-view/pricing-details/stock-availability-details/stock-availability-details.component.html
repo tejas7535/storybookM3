@@ -5,7 +5,7 @@
       read: 'detailView.pricingDetails.stockAvailabilityDetails'
     "
   >
-    <p class="text-h6 text-mediumEmphasis font-medium mb-4">
+    <p class="text-h6 text-medium-emphasis font-medium mb-4">
       {{ t('title') }}
     </p>
     <div>
@@ -25,7 +25,7 @@
               class="w-3 h-3 bg-primary rounded-full mr-2"
               [ngClass]="{
                 'bg-error': materialStockByPlant.freeStock === 0,
-                'bg-warning': materialStockByPlant.freeStock <= 10
+                'bg-sunny-yellow': materialStockByPlant.freeStock <= 10
               }"
             ></div>
             <span> {{ materialStockByPlant.freeStock }} {{ uom }} </span>

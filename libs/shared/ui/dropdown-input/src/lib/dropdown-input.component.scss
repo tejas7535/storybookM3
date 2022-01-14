@@ -7,11 +7,11 @@
   @apply overflow-hidden;
 
   &::-webkit-scrollbar {
-    @apply bg-hover w-1.5;
+    @apply bg-hover-overlay w-1.5;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply bg-labels rounded;
+    @apply bg-background-dark rounded;
   }
 }
 

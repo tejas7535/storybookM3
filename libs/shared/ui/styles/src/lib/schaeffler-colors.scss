@@ -1,0 +1,89 @@
+// must be same as tailwind\colors.ts
+
+// Color Schema
+$primary: #00893d;
+$primary-variant: #e5f4e9;
+
+$secondary: #ffffff;
+$secondary-variant: #f5f5f5;
+
+$background-dark: $secondary-variant;
+$surface: $secondary;
+$error-red: #a31739;
+
+// Color Accent
+$nordic-blue: #4398af;
+$sunny-yellow: #fbe06d;
+$lime: #9ac465;
+
+// Text
+$dark-high-emphasis: rgba(0, 0, 0, 0.87);
+$dark-medium-emphasis: rgba(0, 0, 0, 0.6);
+$dark-low-emphasis: rgba(0, 0, 0, 0.38);
+$dark-disabled: $dark-low-emphasis;
+
+$light-high-emphasis: #ffffff;
+$light-medium-emphasis: rgba(255, 255, 255, 0.6);
+$light-low-emphasis: rgba(255, 255, 255, 0.38);
+$light-disabled: $dark-low-emphasis;
+
+// Special Text Color
+$error-text: $error-red;
+$link-text: $secondary;
+
+// Outline
+$border: rgba(0, 0, 0, 0.12);
+
+// Palettes
+
+// Primary Palette
+$mat-schaeffler-secondary: (
+  50: $secondary,
+  100: #fafafa,
+  200: #f5f5f5,
+  300: #f0f0f0,
+  400: #dedede,
+  500: #c2c2c2,
+  600: #979797,
+  700: #818181,
+  800: #606060,
+  900: #3c3c3c,
+  contrast: (
+    50: $dark-high-emphasis,
+    100: $dark-high-emphasis,
+    200: $dark-high-emphasis,
+    300: $dark-high-emphasis,
+    400: $dark-high-emphasis,
+    500: $light-high-emphasis,
+    600: $light-high-emphasis,
+    700: $light-high-emphasis,
+    800: $light-high-emphasis,
+    900: $light-high-emphasis,
+  ),
+);
+
+// Acccent Palette
+$mat-schaeffler-primary: (
+  50: #e5f4e9,
+  100: #c0e4c9,
+  200: #98d3a7,
+  300: #6cc385,
+  400: #49b66b,
+  500: #1caa52,
+  600: #129b49,
+  700: $primary,
+  800: #007832,
+  900: #00591f,
+  contrast: (
+    50: $dark-high-emphasis,
+    100: $dark-high-emphasis,
+    200: $dark-high-emphasis,
+    300: $dark-high-emphasis,
+    400: $dark-high-emphasis,
+    500: $dark-high-emphasis,
+    600: $dark-high-emphasis,
+    700: $light-high-emphasis,
+    800: $light-high-emphasis,
+    900: $light-high-emphasis,
+  ),
+);

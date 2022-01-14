@@ -16,7 +16,7 @@
 </schaeffler-app-shell>
 
 <div *ngIf="embedded" class="h-full w-full fixed">
-  <div class="z-10 fixed bg-white">
+  <div class="z-10 fixed bg-surface">
     <button
       (click)="drawer.toggle()"
       mat-icon-button
@@ -35,12 +35,12 @@
 
 <ng-template #content>
   <div
-    [ngClass]="embedded ? 'bg-white' : 'bg-background'"
+    [ngClass]="embedded ? 'bg-surface' : 'bg-background-dark'"
     class="min-h-full flex flex-col"
   >
     <div
       [ngClass]="embedded ? 'mt-5 pt-5 m-0 p-0' : 'md:m-4 px-4 pb-4'"
-      class="flex-auto bg-white flex"
+      class="flex-auto bg-surface flex"
     >
       <div class="flex-1 max-w-full">
         <router-outlet></router-outlet>

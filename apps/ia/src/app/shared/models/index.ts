@@ -6,4 +6,4 @@ export * from './employees-request.model';
 export * from './filter';
 export * from './id-value.model';
 export * from './position.model';
-export * from './taliwind-color.enum';
+export * from './tailwind-color.enum';

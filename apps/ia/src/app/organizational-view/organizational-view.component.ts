@@ -50,7 +50,7 @@ export class OrganizationalViewComponent implements OnInit {
     ),
     new ChartLegendItem(
       'organizationalView.worldMap.chartLegend.warning.title',
-      TailwindColor.WARNING,
+      TailwindColor.SUNNY_YELLOW,
       'organizationalView.worldMap.chartLegend.warning.tooltip'
     ),
     new ChartLegendItem(

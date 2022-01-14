@@ -41,7 +41,7 @@ export class LostJobProfilesComponent implements OnChanges {
     resizable: true,
     suppressMenu: true,
     flex: 1,
-    headerClass: () => 'bg-lightBg',
+    headerClass: () => 'bg-selected-overlay',
   };
 
   currentDate = new Date();
@@ -98,7 +98,7 @@ export class LostJobProfilesComponent implements OnChanges {
     params.columnApi.autoSizeColumn('openPositions');
   }
 
-  getRowClass = () => 'border-2 border-veryLight';
+  getRowClass = () => 'border-2 border-border';
 
   handleCellClick(params: any, key: CellType): void {
     const translationKey =

@@ -7,7 +7,7 @@
 ::ng-deep
   .mat-step-label.mat-step-label-active.mat-step-label-selected
   .mat-step-text-label {
-  @apply text-primary;
+  @apply text-link;
 }
 
 ::ng-deep mat-horizontal-stepper .mat-horizontal-content-container {

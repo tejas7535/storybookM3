@@ -1,20 +1,13 @@
 <div class="flex items-center gap-4">
   <div
-    class="h-px w-full bg-lightBg mr-4"
+    class="h-px w-full bg-selected-overlay mr-4"
     [class.md:hidden]="!alwaysCentered"
   ></div>
   <span
-    class="
-      flex-1
-      sm:flex-none
-      text-light
-      uppercase
-      font-medium
-      text-center text-overline
-    "
+    class="flex-1 sm:flex-none text-medium-emphasis uppercase font-medium text-center text-overline"
   >
     {{ text }}
   </span>
   <ng-content></ng-content>
-  <div class="h-px w-full bg-lightBg"></div>
+  <div class="h-px w-full bg-selected-overlay"></div>
 </div>

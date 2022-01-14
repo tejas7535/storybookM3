@@ -5,9 +5,9 @@
     [matAutocomplete]="auto"
     matInput
     [formControl]="control"
-    class="autocomplete-input text-dark ml-2"
-    [class.text-dark]="(valueSelected$ | ngrxPush) === false"
-    [class.text-primary]="valueSelected$ | ngrxPush"
+    class="autocomplete-input text-high-emphasis ml-2"
+    [class.text-high-emphasis]="(valueSelected$ | ngrxPush) === false"
+    [class.text-link]="valueSelected$ | ngrxPush"
     (blur)="onTouched()"
   />
   <mat-autocomplete
@@ -18,14 +18,7 @@
     <div [hidden]="(showOptions$ | ngrxPush) === false">
       <mat-option
         *ngIf="loading"
-        class="
-          h-20
-          flex
-          items-center
-          justify-center
-          loading-option
-          pointer-events-none
-        "
+        class="h-20 flex items-center justify-center loading-option pointer-events-none"
       >
         <mat-spinner diameter="20"></mat-spinner>
         <span class="ml-4">{{ loadingMessage }}</span>
@@ -53,16 +46,7 @@
     </div>
   </mat-autocomplete>
   <div
-    class="
-      autocomplete-icon
-      h-full
-      absolute
-      right-3
-      top-4
-      flex
-      items-center
-      flex-col
-    "
+    class="autocomplete-icon h-full absolute right-3 top-4 flex items-center flex-col"
     [class.clear-icon]="searchStringDeletable"
     [class.search-icon]="!searchStringDeletable"
   >
