@@ -43,12 +43,10 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public radial = new FormControl(undefined, [
     Validators.min(0),
     Validators.max(1_000_000_000),
-    Validators.required,
   ]);
   public axial = new FormControl(undefined, [
     Validators.min(0),
     Validators.max(1_000_000_000),
-    Validators.required,
   ]);
   // TODO: fill with values
   public exact = new FormControl(true);
