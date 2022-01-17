@@ -210,7 +210,11 @@
             </p>
           </div>
           <!-- <pre>{{ subordinate.greaseResult | json }}</pre> -->
-          <table mat-table [dataSource]="subordinate.greaseResult.dataSource">
+          <table
+            mat-table
+            [dataSource]="subordinate.greaseResult.dataSource"
+            class="-mx-6"
+          >
             <ng-container matColumnDef="title">
               <td mat-cell *matCellDef="let element">
                 <div class="flex gap-1 content-center">
