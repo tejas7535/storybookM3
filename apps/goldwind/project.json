@@ -84,7 +84,7 @@
           "fileReplacements": [
             {
               "replace": "apps/goldwind/src/environments/environment.ts",
-              "with": "apps/goldwind/src/environments/environment.dev.ts"
+              "with": "apps/goldwind/src/environments/environment.prod.ts"
             }
           ]
         },
