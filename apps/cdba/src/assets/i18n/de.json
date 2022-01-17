@@ -87,6 +87,29 @@
         "message": "CDBA unterstützt Ihren Browser nicht. Einige Funktionen funktionieren möglicherweise nicht richtig. Bitte verwenden Sie die neuesten Versionen von <a class=\"text-link\" href=\"https://www.google.com/intl/de/chrome\" target=\"blank\">Chrome</a> oder <a class=\"text-link\" href=\"https://www.microsoft.com/de-de/edge\" target=\"blank\">Microsoft Edge</a>.\n\nWenden Sie sich an Ihren IV-Koordinator, wenn Sie Unterstützung/administrative Rechte für die Installation eines neuen Browsers benötigen.",
         "confirm": "Auf jeden Fall verwenden"
       }
+    },
+    "betaFeature": {
+      "badge": {
+        "label": "Beta"
+      },
+      "dialog": {
+        "title": {
+          "main": "Beta Feature"
+        },
+        "content": {
+          "main": "Diese Funktion befindet sich derzeit im Beta-Stadium. Beta-Tests bieten echten Nutzern die Möglichkeit, ein Produkt oder eine Funktion in einer Produktionsumgebung zu verwenden, um Fehler oder Probleme vor einer allgemeinen Freigabe aufzudecken. Beta-Tests sind die letzte Testrunde vor der Freigabe an ein breites Publikum.\n\nWenn Sie Probleme gefunden haben und/oder zusätzliche Funktionen anfordern möchten, wenden Sie sich bitte über die Schaltfläche unten an uns."
+        },
+        "action": {
+          "primary": "Feedback senden",
+          "secondary": "Schließen"
+        }
+      },
+      "feedback": {
+        "email": {
+          "subject": "Feedback zu Beta-Feature",
+          "body": "Hallo, %0D%0A %0D%0A Ich habe Feedback zu folgendem Beta-Feature: %0D%0A %0D%0A"
+        }
+      }
     }
   },
   "drawings": {

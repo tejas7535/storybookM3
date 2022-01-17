@@ -9,3 +9,4 @@ export { PageHeaderModule } from './page-header/page-header.module';
 export { RoleDescriptionsModule } from './role-descriptions/role-descriptions.module';
 export { Tab, TabsHeaderModule } from './tabs-header/index';
 export { UserSettingsModule } from './user-settings/user-settings.module';
+export { BetaFeatureModule } from './beta-feature/beta-feature.module';
