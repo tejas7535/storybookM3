@@ -96,7 +96,7 @@ export class DataToChartSeriesConverter {
     return this.dataArr.map((measurement: MaintenaceSensorData) => ({
       value: [
         new Date(measurement.timestamp),
-        measurement.edm[this.key as keyof EdmStatus],
+        measurement?.edm && measurement.edm[this.key as keyof EdmStatus],
       ],
     }));
   }

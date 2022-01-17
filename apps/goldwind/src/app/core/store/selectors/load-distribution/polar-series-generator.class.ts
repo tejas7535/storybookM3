@@ -71,7 +71,7 @@ export class PolarSeriesGenerator {
       .forEach(
         (prop: any) =>
           (data[prop.replace(keyToFind, '') - 1] =
-            response[prop as keyof LoadDistribution])
+            response[prop as keyof LoadDistribution]) || null
       );
 
     return {

@@ -23,9 +23,9 @@ export class LoadDistributionEffects {
         this.liveAPIService.getLoadDistribution(params).pipe(
           map((data) =>
             getLoadDistributionLatestSuccess({
-              row1: data.row1,
-              row2: data.row2,
-              lsp: data.lsps,
+              row1: data?.row1,
+              row2: data?.row2,
+              lsp: data?.lsps,
             })
           )
         )
