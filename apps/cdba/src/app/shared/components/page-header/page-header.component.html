@@ -7,15 +7,18 @@
       <mat-icon
         *ngIf="showBackButton"
         class="flex-none cursor-pointer text-medium-emphasis"
-        color="secondary"
         cdbaBackButton
       >
         arrow_back
       </mat-icon>
 
-      <h4 class="flex-auto">
+      <h4>
         {{ title }}
       </h4>
+
+      <div class="flex-auto">
+        <ng-content select="[titleContent]"></ng-content>
+      </div>
 
       <div class="flex-none">
         <ng-content select="[header]"></ng-content>
