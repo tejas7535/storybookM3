@@ -14,7 +14,6 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
-  BearingLoadEffects,
   EdmMonitorEffects,
   GreaseStatusEffects,
   LoadDistributionEffects,
@@ -28,7 +27,6 @@ import { loadDistributionReducer } from '../../core/store/reducers/load-distribu
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
 import { shaftReducer } from '../../core/store/reducers/shaft/shaft.reducer';
 import { staticSafetyReducer } from '../../core/store/reducers/static-safety/static-safety.reducer';
-import { DashboardMoreInfoDialogComponent } from '../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { SharedModule } from '../../shared/shared.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -64,7 +62,6 @@ import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/
 
     // Store
     EffectsModule.forFeature([
-      BearingLoadEffects,
       GreaseStatusEffects,
       EdmMonitorEffects,
       ShaftEffects,
