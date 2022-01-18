@@ -20,7 +20,8 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   modules: any[] = [ClientSideRowModelModule];
   frameworkComponents = {};
 
-  timeRangeHintValue = 'time range';
+  readonly timeRangeHintValue = 'time range';
+  readonly headerClass = 'bg-selected-overlay';
 
   defaultColDef: ColDef = {
     sortable: true,
@@ -28,7 +29,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     floatingFilter: true,
     resizable: true,
     suppressMenu: true,
-    headerClass: () => 'bg-selected-overlay',
+    headerClass: () => this.headerClass,
     flex: 1,
   };
 
@@ -56,7 +57,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.topFiveReasons.table.percentage'
         ),
         type: 'numericColumn',
-        headerClass: 'border-border',
+        headerClass: this.headerClass,
         filter: 'agNumberColumnFilter',
       },
       {
@@ -65,7 +66,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
           'reasonsAndCounterMeasures.topFiveReasons.table.leavers'
         ),
         type: 'numericColumn',
-        headerClass: 'border-border',
+        headerClass: this.headerClass,
         filter: 'agNumberColumnFilter',
       },
     ];

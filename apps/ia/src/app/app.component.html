@@ -13,7 +13,12 @@
     <div class="flex flex-col h-full w-full">
       <ia-filter-section></ia-filter-section>
 
-      <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'tabs'">
+      <nav
+        mat-tab-nav-bar
+        mat-stretch-tabs
+        *transloco="let t; read: 'tabs'"
+        class="shadow-md"
+      >
         <a
           *ngFor="let tab of tabs; trackBy: trackByFn"
           mat-tab-link

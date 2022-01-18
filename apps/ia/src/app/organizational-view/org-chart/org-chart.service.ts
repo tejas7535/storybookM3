@@ -39,7 +39,7 @@ export class OrgChartService {
 
       switch (elem.attritionMeta?.heatType) {
         case HeatType.GREEN_HEAT:
-          heatMapClass = 'bg-lime';
+          heatMapClass = 'bg-primary';
           break;
         case HeatType.ORANGE_HEAT:
           heatMapClass = 'bg-sunny-yellow';
@@ -48,7 +48,7 @@ export class OrgChartService {
           heatMapClass = 'bg-error';
           break;
         default:
-          heatMapClass = '';
+          heatMapClass = 'bg-selected-overlay';
       }
 
       // TODO: determination of root elem needs be done otherwise after PoC
@@ -89,11 +89,11 @@ export class OrgChartService {
 
   getButtonContent(node: any): string {
     return `
-    <div class="pointer-events-auto cursor-pointer w-full 
-              bg-surface border border-border hover:ring-1 hover:ring-medium-emphasis 
-                rounded-full flex flex-col items-center justify-center 
-              text-low-emphasis hover:text-medium-emphasis"> 
-      <span>${node.data._directSubordinates}</span>   
+    <div class="pointer-events-auto cursor-pointer w-full
+              bg-surface border border-border hover:ring-1 hover:ring-medium-emphasis
+                rounded-full flex flex-col items-center justify-center
+              text-low-emphasis hover:text-medium-emphasis">
+      <span>${node.data._directSubordinates}</span>
       <span class="${
         node.children
           ? "before:content-['\\e313']"
@@ -106,7 +106,7 @@ export class OrgChartService {
   getNodeContent(data: OrgChartNode): string {
     const upwardsButton = `
       <div class="
-          pointer-events-auto cursor-pointer bg-surface text-low-emphasis rounded-full 
+          pointer-events-auto cursor-pointer bg-surface text-low-emphasis rounded-full
           flex flex-col items-center justify-center
           absolute left-1/2 transform -translate-x-1/2 w-6 h-6 text-[24px] -top-11
           hover:text-medium-emphasis hover:ring-1 hover:ring-mediumEmphasis">
@@ -117,22 +117,21 @@ export class OrgChartService {
     return `
           <div class="relative border border-border rounded-sm h-full flex flex-col px-2">
             ${data.showUpperParentBtn ? upwardsButton : ''}
-            <div class="flex bg-selected-overlay justify-center rounded-2xl py-2 -my-4 ${
-              data.heatMapClass
-            }">
-              <span class="text-body-2 ${
-                data.heatMapClass !== undefined
-                  ? 'text-white'
-                  : 'text-high-emphasis'
-              }">${data.organization}</span>
+            <div class="flex justify-center rounded-2xl py-2 -my-4
+              ${data.heatMapClass}">
+                <span class="text-body-2 ${
+                  data.heatMapClass !== undefined
+                    ? 'text-white'
+                    : 'text-high-emphasis'
+                }">${data.organization}</span>
             </div>
             <div class="text-high-emphasis text-body-1 mt-6 mb-2 text-center">${
               data.name
             }</div>
-            
+
             <table class="table-fixed">
               <thead>
-                <tr class="font-semibold uppercase text-low-emphasis divide-x divide-lightBg">
+                <tr class="font-semibold uppercase text-low-emphasis divide-x divide-border">
                   <th class="w-1/3">&nbsp;</th>
                   <th class="w-1/3 tracking-widest">${
                     data.textColumnDirect
@@ -143,7 +142,7 @@ export class OrgChartService {
                 </tr>
               </thead>
               <tbody>
-                <tr class="text-center h-9 divide-x divide-lightBg">
+                <tr class="text-center h-9 divide-x divide-border">
                   <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
                     <span class="text-[16px] before:font-materiaIcons before:content-['person'] before:block text-link"></span>
                     <span>${data.textRowEmployees}</span>
@@ -151,7 +150,7 @@ export class OrgChartService {
                   <td class="text-body-2 h-9">${data.directSubordinates}</td>
                   <td class="text-body-2">${data.totalSubordinates}</td>
                 </tr>
-                <tr class="text-center h-9 divide-x divide-lightBg">
+                <tr class="text-center h-9 divide-x divide-border">
                   <td class="flex text-body-2 text-low-emphasis gap-1 items-center h-full">
                     <span class="text-[16px] before:font-materiaIcons before:content-['\\e26a'] before:block text-link"></span>
                     <span>${data.textRowAttrition}</span>
@@ -169,7 +168,7 @@ export class OrgChartService {
                   data.nodeId
                 }" class="before:content-['\\e24b'] before:font-materiaIcons cursor-pointer text-[24px] text-low-emphasis hover:text-medium-emphasis"></span>
             </div>
-          </div>  
+          </div>
         `;
   }
 }

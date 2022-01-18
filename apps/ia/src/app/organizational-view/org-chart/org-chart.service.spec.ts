@@ -54,7 +54,7 @@ describe('OrgChartService', () => {
         textColumnOverall: 'translate it',
         textRowEmployees: 'translate it',
         textRowAttrition: 'translate it',
-        heatMapClass: '',
+        heatMapClass: 'bg-selected-overlay',
         showUpperParentBtn: true,
       });
     });
@@ -101,7 +101,7 @@ describe('OrgChartService', () => {
       const result = service.mapEmployeesToNodes(data);
 
       expect(result.length).toEqual(4);
-      expect(result[1].heatMapClass).toContain('bg-lime');
+      expect(result[1].heatMapClass).toContain('bg-primary');
       expect(result[2].heatMapClass).toContain('bg-sunny-yellow');
       expect(result[3].heatMapClass).toContain('bg-error');
     });
