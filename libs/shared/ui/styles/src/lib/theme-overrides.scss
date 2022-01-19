@@ -81,4 +81,17 @@
       }
     }
   }
+
+  // tabs overrides
+  .mat-tab-labels > .mat-tab-label {
+    @apply opacity-100;
+  }
+
+  .mat-tab-label-content {
+    @apply text-button;
+    @apply uppercase;
+    @apply text-medium-emphasis;
+    @apply flex;
+    @apply flex-col;
+  }
 }
