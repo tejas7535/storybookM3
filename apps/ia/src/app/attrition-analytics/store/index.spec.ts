@@ -11,7 +11,15 @@ import {
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
+  loadFeatureImportance,
+  loadFeatureImportanceFailure,
+  loadFeatureImportanceSuccess,
 } from './actions/attrition-analytics.action';
+import {
+  Slice,
+  FeatureImportanceGroup,
+  FeatureImportanceType,
+} from '../models';
 
 describe('Attrition Analytics Reducer', () => {
   const errorMessage = 'An error occured';
@@ -109,6 +117,68 @@ describe('Attrition Analytics Reducer', () => {
       expect(state.employeeAnalytics.availableFeatures.errorMessage).toEqual(
         errorMessage
       );
+    });
+  });
+
+  describe('loadFeatureImportance', () => {
+    test('should set loading true', () => {
+      const action = loadFeatureImportance({
+        region: 'Abc',
+        year: 2020,
+        month: 8,
+        size: 8,
+        page: 0,
+      });
+
+      const state = attritionAnalyticsReducer(initialState, action);
+
+      expect(state.featureImportance.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadFeatureImportanceSuccess', () => {
+    test('should save data and set loading false', () => {
+      const data: Slice<FeatureImportanceGroup> = {
+        hasNext: true,
+        hasPrevious: false,
+        pageable: {
+          pageNumber: 0,
+          pageSize: 10,
+        },
+        content: [
+          {
+            feature: 'Test',
+            type: FeatureImportanceType.NUMERIC,
+            dataPoints: [
+              {
+                shapValue: 1,
+                value: 'test a',
+                yaxisPos: 18,
+                colorMap: 0.3,
+              },
+            ],
+          },
+        ],
+      };
+      const action = loadFeatureImportanceSuccess({ data });
+
+      const state = attritionAnalyticsReducer(initialState, action);
+
+      expect(state.featureImportance.loading).toBeFalsy();
+      expect(state.featureImportance.data).toEqual(data.content);
+      expect(state.featureImportance.hasNext).toEqual(data.hasNext);
+      expect(state.featureImportance.pageable).toEqual(data.pageable);
+    });
+  });
+
+  describe('loadFeatureImportanceFailure', () => {
+    test('should set error messageand set loading false', () => {
+      const action = loadFeatureImportanceFailure({ errorMessage });
+
+      const state = attritionAnalyticsReducer(initialState, action);
+
+      expect(state.featureImportance.loading).toBeFalsy();
+      expect(state.featureImportance.errorMessage).toEqual(errorMessage);
     });
   });
 });

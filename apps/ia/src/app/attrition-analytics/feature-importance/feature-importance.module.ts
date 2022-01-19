@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { ReactiveComponentModule } from '@ngrx/component';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ScatterChart } from 'echarts/charts';
 import {
   GridComponent,
@@ -30,6 +31,7 @@ echarts.use([
     CommonModule,
     NgxEchartsModule.forRoot({ echarts }),
     ReactiveComponentModule,
+    LoadingSpinnerModule,
   ],
   exports: [FeatureImportanceComponent],
 })

@@ -1,4 +1,5 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, props, union } from '@ngrx/store';
+import { FeatureImportanceGroup, Slice } from '../../models';
 
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
@@ -46,3 +47,41 @@ export const loadAvailableFeaturesFailure = createAction(
   '[AttritionAnalytics] Load Available Features Failure',
   props<{ errorMessage: string }>()
 );
+
+export const loadFeatureImportance = createAction(
+  '[AttritionAnalytics] Load Feature Importance',
+  props<{
+    region: string;
+    year: number;
+    month: number;
+    page: number;
+    size: number;
+  }>()
+);
+
+export const loadFeatureImportanceSuccess = createAction(
+  '[AttritionAnalytics] Load Feature Importance Success',
+  props<{ data: Slice<FeatureImportanceGroup> }>()
+);
+
+export const loadFeatureImportanceFailure = createAction(
+  '[AttritionAnalytics] Load Feature Importance Failure',
+  props<{ errorMessage: string }>()
+);
+
+const all = union({
+  loadEmployeeAnalytics,
+  loadEmployeeAnalyticsSuccess,
+  loadEmployeeAnalyticsFailure,
+  loadAvailableFeatures,
+  loadAvailableFeaturesSuccess,
+  loadAvailableFeaturesFailure,
+  changeOrderOfFeatures,
+  changeSelectedFeatures,
+  initializeSelectedFeatures,
+  loadFeatureImportance,
+  loadFeatureImportanceSuccess,
+  loadFeatureImportanceFailure,
+});
+
+export type AttritionAnalyticsActions = typeof all;

@@ -19,8 +19,11 @@ import {
 import {
   getBarChartConfigsForSelectedFeatures,
   getEmployeeAnalyticsLoading,
+  getFeatureImportanceGroups,
+  getFeatureImportanceLoading,
   getFeatureSelectors,
 } from './store/selectors/attrition-analytics.selector';
+import { FeatureImportanceGroup } from './models';
 
 @Component({
   selector: 'ia-attrition-analytics',
@@ -31,7 +34,10 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   readonly NUMBER_OF_TILES = 4;
 
   barChartConfigs$: Observable<BarChartConfig[]>;
-  isLoading$: Observable<boolean>;
+  isLoadingAnalytics$: Observable<boolean>;
+
+  isLoadingImportance$: Observable<boolean>;
+  featureImportanceGroups$: Observable<FeatureImportanceGroup[]>;
 
   allFeatureSelectors: FeatureSelector[] = [];
 
@@ -46,7 +52,12 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectDefaultFeatures();
-    this.isLoading$ = this.store.select(getEmployeeAnalyticsLoading);
+    this.isLoadingAnalytics$ = this.store.select(getEmployeeAnalyticsLoading);
+
+    this.isLoadingImportance$ = this.store.select(getFeatureImportanceLoading);
+    this.featureImportanceGroups$ = this.store.select(
+      getFeatureImportanceGroups
+    );
 
     this.subscription.add(
       this.store

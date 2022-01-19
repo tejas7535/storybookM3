@@ -9,19 +9,19 @@ import { TitleOption } from 'echarts/types/dist/shared';
 
 import { Color } from '../../shared/models/color.enum';
 import {
-  FeatureImportance,
   FeatureImportanceDataPoint,
+  FeatureImportanceGroup,
   FeatureImportanceType,
 } from '../models';
 import { calculateColor } from './feature-importance.utils';
 
 export const createFeaturesImportanceConfig = (
-  featuresImportance: FeatureImportance[],
+  featuresImportanceGroups: FeatureImportanceGroup[],
   titleText: string,
   xAxisName: string
 ): EChartsOption => {
-  const featuresNames = featuresImportance.map(
-    (featureImportance: FeatureImportance) => featureImportance.feature
+  const featuresNames = featuresImportanceGroups.map(
+    (featureImportance: FeatureImportanceGroup) => featureImportance.feature
   );
   const xAxis: XAXisComponentOption[] = [createXAxisOption(xAxisName)];
   const yAxis: YAXisComponentOption[] = [createYAxisOption(featuresNames)];
@@ -29,8 +29,8 @@ export const createFeaturesImportanceConfig = (
   const grid: GridComponentOption[] = [gridOption];
   const title: TitleOption[] = [createTitleOption(titleText)];
 
-  featuresImportance.forEach((feature) => {
-    fillDataForFeature(feature, series);
+  featuresImportanceGroups.forEach((feature, index, arr) => {
+    fillDataForFeature(feature, series, index, arr.length);
   });
 
   return {
@@ -45,6 +45,9 @@ export const createFeaturesImportanceConfig = (
   };
 };
 
+/************************************************************************
+ * All following functions are only exported for testing.
+ ************************************************************************/
 export const createXAxisOption = (name: string): XAXisComponentOption => ({
   type: 'value',
   splitArea: {
@@ -75,7 +78,6 @@ export const createYAxisOption = (
 ): YAXisComponentOption => ({
   type: 'value',
   data: featuresNames,
-  inverse: true,
   min: -1,
   max: featuresNames.length,
   interval: 1,
@@ -85,55 +87,128 @@ export const createYAxisOption = (
 });
 
 export const fillDataForFeature = (
-  feature: FeatureImportance,
-  series: ScatterSeriesOption[]
+  feature: FeatureImportanceGroup,
+  series: ScatterSeriesOption[],
+  index: number,
+  size: number
 ): void => {
   const serie: ScatterSeriesOption = {
-    animation: false,
     coordinateSystem: 'cartesian2d',
     type: 'scatter',
     symbolSize: 4,
-    progressive: 0,
   };
-  setData(feature, serie);
+  setData(feature, serie, index, size);
 
   series.push(serie);
 };
 
 export const setData = (
-  feature: FeatureImportance,
-  serie: ScatterSeriesOption
+  feature: FeatureImportanceGroup,
+  serie: ScatterSeriesOption,
+  index: number,
+  size: number
 ): void => {
+  const avgYPosOfFeature = getAverageOfYAxisInDataPoints(feature.dataPoints);
+
+  const normalizedRank = size - index - 1; // set features from top to bottom on y-axis
+
   if (feature.type === FeatureImportanceType.NUMERIC) {
-    serie.data = feature.data.map((data) => mapToValueWithStyle(data));
-    serie.tooltip = {
-      formatter: (params) =>
-        seriesTooltipFormatter((params.data as any).value as number[]),
-      position: 'right',
-    };
+    setSeriesForNumericFeature(
+      serie,
+      feature.dataPoints,
+      avgYPosOfFeature,
+      normalizedRank
+    );
   } else {
-    serie.data = feature.data;
-    serie.color = Color.DARK_GREY;
-    serie.large = true;
-    serie.tooltip = {
-      formatter: (params) => seriesTooltipFormatter(params.data as number[]),
-      position: 'right',
-    };
+    setSeriesForCategoricalFeature(
+      serie,
+      feature.dataPoints,
+      avgYPosOfFeature,
+      normalizedRank
+    );
   }
 };
 
+export const getAverageOfYAxisInDataPoints = (
+  dataPoints: FeatureImportanceDataPoint[]
+): number => {
+  const sum: number = dataPoints
+    .map((val) => val.yaxisPos)
+    .reduce((a, b) => a + b, 0);
+
+  return sum / dataPoints.length || 0;
+};
+
+export const setSeriesForNumericFeature = (
+  serie: ScatterSeriesOption,
+  dataPoints: FeatureImportanceDataPoint[],
+  avgYPosOfFeature: number,
+  normalizedRank: number
+): void => {
+  serie.data = dataPoints.map((dataPoint) =>
+    mapToValueWithStyle(
+      dataPoint,
+      dataPoint.yaxisPos - avgYPosOfFeature + normalizedRank // move entry to y-pos according to own position
+    )
+  );
+  serie.tooltip = {
+    formatter: (params) =>
+      seriesTooltipFormatter((params.data as any).value as number[]),
+    position: 'right',
+  };
+};
+
+export const setSeriesForCategoricalFeature = (
+  serie: ScatterSeriesOption,
+  dataPoints: FeatureImportanceDataPoint[],
+  avgYPosOfFeature: number,
+  normalizedRank: number
+): void => {
+  serie.data = dataPoints.map((dataPoint) =>
+    mapDataPointToScatterData(
+      dataPoint,
+      dataPoint.yaxisPos - avgYPosOfFeature + normalizedRank // move entry to y-pos according to own position: normalize to 0 -> set according own position/index -> invert to be on top
+    )
+  );
+  serie.color = Color.DARK_GREY;
+  serie.large = true;
+  serie.tooltip = {
+    formatter: (params) => seriesTooltipFormatter(params.data as number[]),
+    position: 'right',
+  };
+};
+
 export const mapToValueWithStyle = (
-  dataPoint: FeatureImportanceDataPoint
+  dataPoint: FeatureImportanceDataPoint,
+  normalizedYAxisValue: number
 ): { value: any; itemStyle: { color: string } } => ({
-  value: dataPoint,
+  value: mapDataPointToScatterData(dataPoint, normalizedYAxisValue),
   itemStyle: {
-    color: calculateColor(+dataPoint[3]), // dataPoint[3] - percentage of gradient
+    color: calculateColor(+dataPoint.colorMap),
   },
 });
 
-// dataPoint[2] - feature's value, dataPoint[0] - SHAP value
-export const seriesTooltipFormatter = (dataPoint: FeatureImportanceDataPoint) =>
-  `Value: ${dataPoint[2]}<br/> Importance: ${Number(dataPoint[0]).toPrecision(
+export const mapDataPointToScatterData = (
+  dataPoint: FeatureImportanceDataPoint,
+  normalizedYAxisValue: number
+): (number | string)[] => {
+  const result = [
+    dataPoint.shapValue,
+    normalizedYAxisValue,
+    dataPoint.yaxisPos,
+    dataPoint.value,
+  ];
+
+  // colorMap may not be set
+  if (dataPoint.colorMap !== null) {
+    result.push(dataPoint.colorMap);
+  }
+
+  return result;
+};
+
+export const seriesTooltipFormatter = (dataPoint: (string | number)[]) =>
+  `Value: ${dataPoint[3]}<br/> Importance: ${Number(dataPoint[0]).toPrecision(
     2
   )}`;
 

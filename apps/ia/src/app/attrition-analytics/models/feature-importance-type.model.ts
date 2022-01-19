@@ -1,4 +1,4 @@
 export enum FeatureImportanceType {
-  CATEGORIC = 'Categoric',
-  NUMERIC = 'Numeric',
+  CATEGORICAL = 'CATEGORICAL',
+  NUMERIC = 'NUMERIC',
 }

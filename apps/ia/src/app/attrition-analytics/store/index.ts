@@ -1,4 +1,5 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { FeatureImportanceGroup, Pageable } from '../models';
 
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import { FeatureParams } from '../models/feature-params.model';
@@ -11,6 +12,9 @@ import {
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
+  loadFeatureImportance,
+  loadFeatureImportanceFailure,
+  loadFeatureImportanceSuccess,
 } from './actions/attrition-analytics.action';
 
 export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
@@ -27,6 +31,13 @@ export interface AttritionAnalyticsState {
       loading: boolean;
       errorMessage: string;
     };
+  };
+  featureImportance: {
+    data: FeatureImportanceGroup[];
+    hasNext: boolean;
+    pageable: Pageable;
+    loading: boolean;
+    errorMessage: string;
   };
   selectedByUser: {
     features: FeatureParams[];
@@ -48,6 +59,13 @@ export const initialState: AttritionAnalyticsState = {
   },
   selectedByUser: {
     features: undefined,
+  },
+  featureImportance: {
+    data: undefined,
+    pageable: undefined,
+    hasNext: false,
+    loading: false,
+    errorMessage: undefined,
   },
 };
 
@@ -171,6 +189,46 @@ export const attritionAnalyticsReducer = createReducer(
           errorMessage,
           loading: false,
         },
+      },
+    })
+  ),
+  on(
+    loadFeatureImportance,
+    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
+      ...state,
+      featureImportance: {
+        ...state.featureImportance,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadFeatureImportanceSuccess,
+    (state: AttritionAnalyticsState, { data }): AttritionAnalyticsState => ({
+      ...state,
+      featureImportance: {
+        ...state.featureImportance,
+        data:
+          state.featureImportance.data !== undefined
+            ? state.featureImportance.data.concat(data.content)
+            : data.content,
+        hasNext: data.hasNext,
+        pageable: data.pageable,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadFeatureImportanceFailure,
+    (
+      state: AttritionAnalyticsState,
+      { errorMessage }
+    ): AttritionAnalyticsState => ({
+      ...state,
+      featureImportance: {
+        ...state.featureImportance,
+        errorMessage,
+        loading: false,
       },
     })
   )

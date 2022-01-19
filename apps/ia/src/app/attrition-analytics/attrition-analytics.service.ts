@@ -8,6 +8,7 @@ import { withCache } from '@ngneat/cashew';
 import { ApiVersion } from '../shared/models';
 import { EmployeeAnalytics } from './models/employee-analytics.model';
 import { FeatureParams } from './models/feature-params.model';
+import { FeatureImportanceGroup, Slice } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ import { FeatureParams } from './models/feature-params.model';
 export class AttritionAnalyticsService {
   readonly EMPLOYEE_ANALYTICS = 'employee-analytics';
   readonly AVAILABLE_FEATURES = 'available-features';
+  readonly FEATURE_IMPORTANCE = 'feature-importance';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -33,6 +35,28 @@ export class AttritionAnalyticsService {
     return this.http.post<EmployeeAnalytics[]>(
       `${ApiVersion.V1}/${this.EMPLOYEE_ANALYTICS}`,
       requestedFeatures
+    );
+  }
+
+  getFeatureImportance(
+    region: string,
+    year: number,
+    month: number,
+    page: number,
+    size: number
+  ): Observable<Slice<FeatureImportanceGroup>> {
+    return this.http.get<Slice<FeatureImportanceGroup>>(
+      `${ApiVersion.V1}/${this.FEATURE_IMPORTANCE}`,
+      {
+        context: withCache(),
+        params: {
+          region,
+          year,
+          month,
+          page,
+          size,
+        },
+      }
     );
   }
 }

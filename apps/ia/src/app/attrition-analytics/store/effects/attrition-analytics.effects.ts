@@ -18,6 +18,9 @@ import {
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
+  loadFeatureImportance,
+  loadFeatureImportanceFailure,
+  loadFeatureImportanceSuccess,
 } from '../actions/attrition-analytics.action';
 import {
   getSelectedFeatureParams,
@@ -102,6 +105,22 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
     );
   });
 
+  loadFeatureImportance$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadFeatureImportance),
+      switchMap(({ region, year, month, page, size }) =>
+        this.attritionAnalyticsService
+          .getFeatureImportance(region, year, month, page, size)
+          .pipe(
+            map((data) => loadFeatureImportanceSuccess({ data })),
+            catchError((error) =>
+              of(loadFeatureImportanceFailure({ errorMessage: error.message }))
+            )
+          )
+      )
+    );
+  });
+
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
@@ -110,6 +129,17 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
 
   ngrxOnInitEffects(): Action {
     this.store.dispatch(loadAvailableFeatures());
+
+    // initial paging call with fixed params
+    this.store.dispatch(
+      loadFeatureImportance({
+        region: 'China',
+        year: 2020,
+        month: 8,
+        page: 0,
+        size: 3,
+      })
+    );
 
     return triggerLoad();
   }

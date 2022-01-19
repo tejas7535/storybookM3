@@ -1,3 +1,4 @@
+import { FeatureImportanceGroup } from '../../models';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
 import {
@@ -6,6 +7,9 @@ import {
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
+  loadFeatureImportance,
+  loadFeatureImportanceFailure,
+  loadFeatureImportanceSuccess,
 } from './attrition-analytics.action';
 
 describe('Attrition Analytics Actions', () => {
@@ -56,6 +60,55 @@ describe('Attrition Analytics Actions', () => {
     expect(action).toEqual({
       type: '[AttritionAnalytics] Change Order Of Features',
       features,
+    });
+  });
+
+  test('loadFeatureImportance', () => {
+    const region = 'China';
+    const year = 2020;
+    const month = 8;
+    const page = 0;
+    const size = 10;
+
+    const action = loadFeatureImportance({ region, year, month, page, size });
+
+    expect(action).toEqual({
+      type: '[AttritionAnalytics] Load Feature Importance',
+      region,
+      year,
+      month,
+      page,
+      size,
+    });
+  });
+
+  test('loadFeatureImportanceSuccess', () => {
+    const data = {
+      hasNext: true,
+      hasPrevious: false,
+      pageable: {
+        pageNumber: 0,
+        pageSize: 10,
+      },
+      content: [] as FeatureImportanceGroup[],
+    };
+
+    const action = loadFeatureImportanceSuccess({
+      data,
+    });
+
+    expect(action).toEqual({
+      type: '[AttritionAnalytics] Load Feature Importance Success',
+      data,
+    });
+  });
+
+  test('loadFeatureImportanceFailure', () => {
+    const action = loadFeatureImportanceFailure({ errorMessage });
+
+    expect(action).toEqual({
+      type: '[AttritionAnalytics] Load Feature Importance Failure',
+      errorMessage,
     });
   });
 });

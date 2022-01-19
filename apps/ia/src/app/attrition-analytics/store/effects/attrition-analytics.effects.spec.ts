@@ -20,8 +20,16 @@ import {
   loadEmployeeAnalytics,
   loadEmployeeAnalyticsFailure,
   loadEmployeeAnalyticsSuccess,
+  loadFeatureImportance,
+  loadFeatureImportanceFailure,
+  loadFeatureImportanceSuccess,
 } from '../actions/attrition-analytics.action';
 import { AttritionAnalyticsEffects } from './attrition-analytics.effects';
+import {
+  FeatureImportanceGroup,
+  FeatureImportanceType,
+  Slice,
+} from '../../models';
 
 describe('Attrition Anayltics Effects', () => {
   let spectator: SpectatorService<AttritionAnalyticsEffects>;
@@ -297,6 +305,94 @@ describe('Attrition Anayltics Effects', () => {
     );
   });
 
+  describe('loadFeatureImportance$', () => {
+    let region: string;
+    let year: number;
+    let month: number;
+    let page: number;
+    let size: number;
+
+    beforeEach(() => {
+      region = 'China';
+      year = 2022;
+      month = 9;
+      page = 0;
+      size = 5;
+      action = loadFeatureImportance({ region, year, month, page, size });
+    });
+
+    test(
+      'should return loadFeatureImportanceSuccess when REST call is successful',
+      marbles((m) => {
+        const data: Slice<FeatureImportanceGroup> = {
+          hasNext: true,
+          hasPrevious: false,
+          pageable: {
+            pageNumber: 0,
+            pageSize: 10,
+          },
+          content: [
+            {
+              feature: 'Test',
+              type: FeatureImportanceType.NUMERIC,
+              dataPoints: [
+                {
+                  shapValue: 1,
+                  value: 'test a',
+                  yaxisPos: 18,
+                  colorMap: 0.3,
+                },
+              ],
+            },
+          ],
+        };
+        const result = loadFeatureImportanceSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        employeeAnalyticsService.getFeatureImportance = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFeatureImportance$).toBeObservable(expected);
+        m.flush();
+        expect(
+          employeeAnalyticsService.getFeatureImportance
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return loadFeatureImportanceFailure when REST call failed',
+      marbles((m) => {
+        const result = loadFeatureImportanceFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        employeeAnalyticsService.getFeatureImportance = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFeatureImportance$).toBeObservable(expected);
+        m.flush();
+        expect(
+          employeeAnalyticsService.getFeatureImportance
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
   describe('ngrxOnInitEffects', () => {
     test('should dispatch loadAvailableFeatures action', () => {
       effects['store'].dispatch = jest.fn();
@@ -305,6 +401,16 @@ describe('Attrition Anayltics Effects', () => {
 
       expect(effects['store'].dispatch).toHaveBeenCalledWith(
         loadAvailableFeatures()
+      );
+
+      expect(effects['store'].dispatch).toHaveBeenCalledWith(
+        loadFeatureImportance({
+          region: 'China',
+          year: 2020,
+          month: 8,
+          page: 0,
+          size: 3,
+        })
       );
     });
   });

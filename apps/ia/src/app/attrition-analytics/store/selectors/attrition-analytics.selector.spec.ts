@@ -6,6 +6,9 @@ import {
   getAvailableFeaturesLoading,
   getBarChartConfigsForSelectedFeatures,
   getEmployeeAnalyticsLoading,
+  getFeatureImportanceGroups,
+  getFeatureImportanceLoading,
+  getFeatureImportancePageable,
   getFeatureSelectors,
   getSelectedFeatureParams,
   getSelectedFeatures,
@@ -126,6 +129,33 @@ describe('attrition analytics selector', () => {
         average
       );
       expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getFeatureImportanceLoading', () => {
+    test('should return loading status', () => {
+      const expectedResult = fakeState.featureImportance.loading;
+      const result = getFeatureImportanceLoading.projector(fakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getFeatureImportanceGroups', () => {
+    test('should return data', () => {
+      const expectedResult = fakeState.featureImportance.data;
+      const result = getFeatureImportanceGroups.projector(fakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getFeatureImportancePageable', () => {
+    test('should return pageable', () => {
+      const expectedResult = fakeState.featureImportance.pageable;
+      const result = getFeatureImportancePageable.projector(fakeState);
+
+      expect(result).toEqual(expectedResult);
     });
   });
 });

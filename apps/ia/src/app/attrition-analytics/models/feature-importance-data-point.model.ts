@@ -1,2 +1,6 @@
-// array of values: SHAP value, Y position, feature's value, gradient percentage
-export type FeatureImportanceDataPoint = (string | number)[];
+export interface FeatureImportanceDataPoint {
+  shapValue: number;
+  yaxisPos: number;
+  value: string;
+  colorMap: number;
+}

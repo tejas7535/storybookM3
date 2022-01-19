@@ -1,42 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import { map, Observable, tap } from 'rxjs';
-
-import { TranslocoService } from '@ngneat/transloco';
 import { EChartsOption } from 'echarts';
 
-import {
-  FeatureImportanceTranslations,
-  FeatureLegendTranslations,
-} from '../models';
-import { featuresImportance } from './data/data';
+import { FeatureImportanceGroup } from '../models';
 import { createFeaturesImportanceConfig } from './feature-importance.config';
 
 @Component({
   selector: 'ia-feature-importance',
   templateUrl: './feature-importance.component.html',
 })
-export class FeatureImportanceComponent implements OnInit {
-  options: Observable<EChartsOption>;
-  translation: FeatureLegendTranslations;
+export class FeatureImportanceComponent {
+  @Input() loading: boolean;
+  @Input() title: string;
+  @Input() xAxisName: string;
+  @Input() legendTop: string;
+  @Input() legendTitle: string;
+  @Input() legendBottom: string;
+  @Input() set groups(groups: FeatureImportanceGroup[]) {
+    if (groups) {
+      this.initChart(groups);
+    }
+  }
 
-  constructor(private readonly translocoService: TranslocoService) {}
+  options: EChartsOption;
 
-  ngOnInit(): void {
-    this.options = this.translocoService
-      .selectTranslateObject('featureImportance', {}, 'attrition-analytics')
-      .pipe(
-        tap(
-          (translation: FeatureImportanceTranslations) =>
-            (this.translation = translation.legend)
-        ),
-        map((translation: FeatureImportanceTranslations) =>
-          createFeaturesImportanceConfig(
-            featuresImportance,
-            translation.title,
-            translation.xAxisName
-          )
-        )
-      );
+  initChart(groups: FeatureImportanceGroup[]): void {
+    this.options = createFeaturesImportanceConfig(
+      groups,
+      this.title,
+      this.xAxisName
+    );
   }
 }

@@ -27,7 +27,11 @@ import {
   changeSelectedFeatures,
   initializeSelectedFeatures,
 } from './store/actions/attrition-analytics.action';
-import { getEmployeeAnalyticsLoading } from './store/selectors/attrition-analytics.selector';
+import {
+  getEmployeeAnalyticsLoading,
+  getFeatureImportanceGroups,
+  getFeatureImportanceLoading,
+} from './store/selectors/attrition-analytics.selector';
 import {
   createBarchartConfigForAge,
   createDummyBarChartSerie,
@@ -97,7 +101,7 @@ describe('AttritionAnalyticsComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should set bat chart configs',
+      'should set bar chart configs',
       marbles((m) => {
         const expected = m.cold('a', { config: [] as BarChartConfig[] });
 
@@ -108,11 +112,35 @@ describe('AttritionAnalyticsComponent', () => {
     );
 
     test(
-      'should set is loading',
+      'should set isLoadingAnalytics',
       marbles((m) => {
         store.overrideSelector(getEmployeeAnalyticsLoading, true);
 
-        m.expect(component.isLoading$).toBeObservable(m.cold('a', { a: true }));
+        m.expect(component.isLoadingAnalytics$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should set isLoadingImportance',
+      marbles((m) => {
+        store.overrideSelector(getFeatureImportanceLoading, true);
+
+        m.expect(component.isLoadingImportance$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should set featureImportanceGroups',
+      marbles((m) => {
+        store.overrideSelector(getFeatureImportanceGroups, []);
+
+        m.expect(component.featureImportanceGroups$).toBeObservable(
+          m.cold('a', { a: [] })
+        );
       })
     );
 

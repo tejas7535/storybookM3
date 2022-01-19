@@ -1,11 +1,8 @@
-<div
-  class="bg-surface p-4"
-  *transloco="let t; read: 'attritionAnalytics.unforcedAttritionAnalytics'"
->
-  <h5 class="font-bold mb-5">{{ t('title') }}</h5>
+<div class="bg-surface p-4" *transloco="let t; read: 'attritionAnalytics'">
+  <h5 class="font-bold mb-5">{{ t('unforcedAttritionAnalytics.title') }}</h5>
   <div
     class="gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 drag-list border-none"
-    *ngIf="!(isLoading$ | ngrxPush); else loading"
+    *ngIf="!(isLoadingAnalytics$ | ngrxPush); else loadingAnalytics"
     cdkDropList
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="drop($event)"
@@ -48,16 +45,26 @@
       </div>
     </div>
   </div>
+  <ng-template #loadingAnalytics>
+    <div class="p-4 border-none grid grid-cols-1 md:grid-cols-4">
+      <div class="w-full h-[520px] shadow">
+        <schaeffler-loading-spinner
+          [diameter]="40"
+          [strokeWidth]="4"
+          [relative]="false"
+        ></schaeffler-loading-spinner>
+      </div>
+    </div>
+  </ng-template>
   <div class="gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 border-none">
     <ia-feature-importance
       class="shadow w-full flex flex-col col p-4"
+      [title]="t('featureImportance.title')"
+      [xAxisName]="t('featureImportance.xAxisName')"
+      [legendTop]="t('featureImportance.legend.top')"
+      [legendTitle]="t('featureImportance.legend.title')"
+      [legendBottom]="t('featureImportance.legend.bottom')"
+      [groups]="featureImportanceGroups$ | ngrxPush"
     ></ia-feature-importance>
   </div>
-  <ng-template #loading>
-    <schaeffler-loading-spinner
-      [diameter]="40"
-      [strokeWidth]="4"
-      [relative]="false"
-    ></schaeffler-loading-spinner>
-  </ng-template>
 </div>

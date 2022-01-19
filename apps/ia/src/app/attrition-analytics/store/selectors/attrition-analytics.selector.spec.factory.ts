@@ -2,6 +2,7 @@ import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.m
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { AttritionAnalyticsState } from '..';
+import { FeatureImportanceType } from '../../models';
 
 export function createFakeState(): AttritionAnalyticsState {
   return {
@@ -41,6 +42,29 @@ export function createFakeState(): AttritionAnalyticsState {
         loading: false,
         errorMessage: undefined,
       },
+    },
+    featureImportance: {
+      loading: true,
+      data: [
+        {
+          feature: 'Test a',
+          type: FeatureImportanceType.CATEGORICAL,
+          dataPoints: [
+            {
+              shapValue: 213.2,
+              yaxisPos: 12.0,
+              value: 'Unit',
+              colorMap: null,
+            },
+          ],
+        },
+      ],
+      hasNext: true,
+      pageable: {
+        pageNumber: 0,
+        pageSize: 1,
+      },
+      errorMessage: undefined,
     },
     selectedByUser: {
       features: [

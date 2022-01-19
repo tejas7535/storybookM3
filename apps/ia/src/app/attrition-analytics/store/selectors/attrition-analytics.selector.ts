@@ -68,3 +68,18 @@ export const getBarChartConfigsForSelectedFeatures = createSelector(
       : undefined;
   }
 );
+
+export const getFeatureImportanceLoading = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.featureImportance.loading
+);
+
+export const getFeatureImportanceGroups = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.featureImportance.data
+);
+
+export const getFeatureImportancePageable = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.featureImportance.pageable
+);
