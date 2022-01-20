@@ -88,7 +88,7 @@
   },
   "report": {
     "title": "Report",
-    "showCompactView": "Show compact view (preview)"
+    "showCompactView": "Show compact view"
   },
   "settings": {
     "stepper": {

@@ -7,9 +7,9 @@ export enum TitleId {
 }
 
 export enum Hint {
-  ERRORS = 'Errors',
-  WARNINGS = 'Warnings',
-  NOTES = 'Notes',
+  ERRORS = 'errors',
+  WARNINGS = 'warnings',
+  NOTES = 'notes',
 }
 
 export enum Field {

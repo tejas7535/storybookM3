@@ -212,7 +212,7 @@
           <!-- <pre>{{ subordinate.greaseResult | json }}</pre> -->
           <table
             mat-table
-            [dataSource]="subordinate.greaseResult.dataSource"
+            [dataSource]="filteredData(subordinate.greaseResult.dataSource)"
             class="-mx-6"
           >
             <ng-container matColumnDef="title">

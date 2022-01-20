@@ -170,7 +170,7 @@ export const formattedGreaseJson = [
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.088 cm³/day',
+              values: '0.0880 cm³/day',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
@@ -271,7 +271,7 @@ export const formattedGreaseJson = [
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.088 cm³/day',
+              values: '0.0880 cm³/day',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
@@ -372,7 +372,7 @@ export const formattedGreaseJson = [
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.088 cm³/day',
+              values: '0.0880 cm³/day',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
@@ -459,10 +459,11 @@ export const formattedGreaseJson = [
   {
     identifier: 'block',
     title: 'errorsWarningsNotes',
+    defaultOpen: false,
     subordinates: [
       {
         identifier: 'block',
-        title: 'Errors',
+        title: 'errors',
         subordinates: [
           {
             identifier: 'text',
@@ -495,7 +496,7 @@ export const formattedGreaseJson = [
       },
       {
         identifier: 'block',
-        title: 'Warnings',
+        title: 'warnings',
         subordinates: [
           {
             identifier: 'text',
@@ -658,7 +659,7 @@ export const formattedGreaseJson = [
       },
       {
         identifier: 'block',
-        title: 'Notes',
+        title: 'notes',
         subordinates: [
           {
             identifier: 'text',

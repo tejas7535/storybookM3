@@ -253,4 +253,13 @@ describe('ReportComponent', () => {
       expect(component.jsonResult$.next).toHaveBeenCalled();
     });
   });
+
+  describe('filteredData', () => {
+    it('should only return entries that are not undefined', () => {
+      const mockData = [undefined, { title: 'mockTitle', value: 'mockValue' }];
+      const result = component.filteredData(mockData);
+
+      expect(result).toHaveLength(1);
+    });
+  });
 });

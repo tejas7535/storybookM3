@@ -19,9 +19,8 @@ import { ReportUrls } from '../shared/models';
 export class ResultComponent implements OnInit {
   public reportUrls$: Observable<ReportUrls>;
   public reportSelector = '.content';
-  public jsonReportUrl = 'assets/mocks/grease-report.json';
   public reportType = Type.GREASE;
-  public showCompactView = false;
+  public showCompactView = true;
 
   constructor(private readonly store: Store, private readonly router: Router) {}
 

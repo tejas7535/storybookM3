@@ -26,5 +26,8 @@
   "lowFriction": "Geringe Reibung",
   "suitableForVibrations": "Eignung gegenüber Schwingungen",
   "supportForSeals": "Unterstützung der Abdichtung",
-  "H1Registration": "NSF-H1 Registrierung, Kosher bzw. Halal-Zertifizierung"
+  "H1Registration": "NSF-H1 Registrierung, Kosher bzw. Halal-Zertifizierung",
+  "errors": "Fehler",
+  "warnings": "Warnungen",
+  "notes": "Hinweise"
 }

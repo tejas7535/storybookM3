@@ -17,14 +17,15 @@
       </span>
     </mat-slide-toggle>
   </div>
-  <schaeffler-report
-    *ngIf="showCompactView"
-    [jsonReport]="jsonReportUrl"
-    [type]="reportType"
-  ></schaeffler-report>
-  <ng-container *ngIf="!showCompactView">
+  <div *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner">
     <schaeffler-report
-      *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner"
+      *ngIf="showCompactView"
+      [jsonReport]="reportUrls.jsonReportUrl"
+      [type]="reportType"
+    ></schaeffler-report>
+
+    <schaeffler-report
+      *ngIf="!showCompactView"
       [htmlReport]="reportUrls.htmlReportUrl"
       [reportSelector]="reportSelector"
     >
@@ -39,7 +40,7 @@
       </a>
     </div> -->
     </schaeffler-report>
-  </ng-container>
+  </div>
   <ng-template #loading_spinner>
     <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
   </ng-template>

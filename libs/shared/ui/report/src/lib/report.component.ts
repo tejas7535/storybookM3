@@ -133,4 +133,8 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.jsonResult$.next(activeData);
   }
+
+  public filteredData(data: any[]) {
+    return data.filter(Boolean);
+  }
 }

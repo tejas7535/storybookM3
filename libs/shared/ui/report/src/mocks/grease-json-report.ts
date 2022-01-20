@@ -2503,7 +2503,7 @@ export const greaseReport = {
     },
     {
       identifier: 'block',
-      title: 'Errors',
+      title: 'errors', // adjusted from 'Errors' for unit test
       subordinates: [
         {
           identifier: 'text',
@@ -2536,7 +2536,7 @@ export const greaseReport = {
     },
     {
       identifier: 'block',
-      title: 'Warnings',
+      title: 'warnings', // adjusted from 'Warnings' for unit test
       subordinates: [
         {
           identifier: 'text',
@@ -2699,7 +2699,7 @@ export const greaseReport = {
     },
     {
       identifier: 'block',
-      title: 'Notes',
+      title: 'notes', // adjusted from 'Notes' for unit test
       subordinates: [
         {
           identifier: 'text',

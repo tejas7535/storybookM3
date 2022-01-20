@@ -76,9 +76,14 @@ export const CALCULATION_RESULT_MOCK: Result = {
       href: `https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.2/greaseservice/${CALCULATION_RESULT_MOCK_ID}`,
       rel: 'html',
     },
+    {
+      href: `https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.2/greaseservice/${CALCULATION_RESULT_MOCK_ID}`,
+      rel: 'output',
+    },
   ],
 };
 
 export const REPORT_URLS_MOCK: ReportUrls = {
   htmlReportUrl: `${environment.baseUrl}/${MODEL_MOCK_ID}/body/${CALCULATION_RESULT_MOCK_ID}`,
+  jsonReportUrl: `${environment.baseUrl}/${MODEL_MOCK_ID}/output/${CALCULATION_RESULT_MOCK_ID}`,
 };
