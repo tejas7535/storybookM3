@@ -1,13 +1,27 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+
+import { LabelValue } from '@schaeffler/label-value';
 
 import { Role } from '../../models';
+import { adaptLabelValuesFromRoles } from '../../utils/role-data.utils';
 
 @Component({
   selector: 'schaeffler-roles',
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RolesComponent {
+export class RolesComponent implements OnInit {
   @Input() public roles?: Role[];
   @Input() public standalone?: boolean;
+
+  public labelValues: LabelValue[] | undefined;
+
+  ngOnInit() {
+    this.labelValues = adaptLabelValuesFromRoles(this.roles);
+  }
 }

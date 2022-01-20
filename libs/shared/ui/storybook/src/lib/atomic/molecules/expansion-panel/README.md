@@ -1,4 +1,4 @@
-# Material Snackbar Documentation
+# Material Expansion Panel Documentation
 
 This molecule is based on the [Angular Material Expansion Panel](https://material.angular.io/components/expansion/overview).
 

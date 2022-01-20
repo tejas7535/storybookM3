@@ -3,22 +3,5 @@
   class="max-h-[220px] overflow-hidden overflow-y-auto border-border"
   [ngClass]="{ 'rounded border': standalone, 'border-t': !standalone }"
 >
-  <div *ngFor="let role of roles; let i = index">
-    <div
-      class="flex flex-row border-t border-border"
-      [ngClass]="{ 'border-t border-border': i > 0 }"
-    >
-      <div
-        class="bg-primary bg-opacity-[0.07] px-6 pt-3 pb-6 text-caption text-high-emphasis"
-      >
-        {{ role.title }}
-      </div>
-      <div
-        class="px-6 pt-3 pb-6 text-caption text-high-emphasis"
-        [ngClass]="{ 'text-error': role.rightsMissing }"
-      >
-        {{ role.rights }}
-      </div>
-    </div>
-  </div>
+  <schaeffler-label-value [labelValues]="labelValues"></schaeffler-label-value>
 </div>

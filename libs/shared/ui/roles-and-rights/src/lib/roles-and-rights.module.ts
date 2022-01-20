@@ -4,6 +4,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
+import { LabelValueModule } from '@schaeffler/label-value';
+
 import { RolesComponent } from './components/roles/roles.component';
 import { RolesAndRightsComponent } from './components/roles-and-rights/roles-and-rights.component';
 import { RolesGroupsComponent } from './components/roles-groups/roles-groups.component';
@@ -15,7 +17,12 @@ import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
 
 @NgModule({
-  imports: [CommonModule, TranslocoModule, MatExpansionModule],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    MatExpansionModule,
+    LabelValueModule,
+  ],
   declarations: [RolesAndRightsComponent, RolesGroupsComponent, RolesComponent],
   exports: [RolesAndRightsComponent],
 })

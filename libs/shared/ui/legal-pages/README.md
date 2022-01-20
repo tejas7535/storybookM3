@@ -1,4 +1,4 @@
-# frontend@schaeffler Loading Spinner Documentation
+# frontend@schaeffler Legal Pages Documentation
 
 Legal pages to be added to a project. available in English and German. The routes are exposed 
 
