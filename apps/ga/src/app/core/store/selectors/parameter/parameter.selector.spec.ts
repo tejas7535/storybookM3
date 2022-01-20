@@ -1,3 +1,4 @@
+import { LoadTypes, SelectedGreases } from 'apps/ga/src/app/shared/models';
 import {
   MOCK_PROPERTIES,
   MODEL_MOCK_ID,
@@ -153,6 +154,8 @@ describe('Parameter Selector', () => {
         options: {
           idcO_DESIGNATION: 'mockBearing',
           idlC_TYPE_OF_MOVEMENT: initialState.movements.type,
+          idscO_GREASE_SELECTION_ARCANOL: SelectedGreases.no,
+          idcO_LOAD_INPUT_GREASE_APP: LoadTypes.LB_ENTER_LOAD,
           idL_RELATIVE_SPEED_WITHOUT_SIGN: `${validMockState.parameter.movements.rotationalSpeed.toFixed(
             1
           )}`,

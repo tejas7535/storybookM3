@@ -37,9 +37,7 @@
             >{{ t('requiredInformation') }}</span
           >
         </div>
-        <ng-container
-          *ngIf="loadsInputType$ | ngrxPush; else exactValuesUnknown"
-        >
+        <ng-container *ngIf="this.exact.value; else exactValuesUnknown">
           <ga-input
             *ngIf="radialLoadPossible$ | ngrxPush"
             [control]="radial"
@@ -58,17 +56,17 @@
             [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
             [onlyPositive]="true"
           ></ga-input>
-          <!-- TODO: enable again -->
-          <!-- <div class="flex flex-row -ml-4 -mt-3">
-          <button
-            mat-button
-            color="primary"
-            [disableRipple]="true"
-            class="focus:outline-none tracking-wider uppercase"
-          >
-            {{ t('loadsUnknown') }}
-          </button>
-        </div> -->
+          <div class="flex flex-row -ml-4 -mt-3">
+            <button
+              mat-button
+              color="primary"
+              [disableRipple]="true"
+              class="focus:outline-none tracking-wider uppercase"
+              (click)="toggleLoadsType()"
+            >
+              {{ t('loadsUnknown') }}
+            </button>
+          </div>
         </ng-container>
         <ng-template #exactValuesUnknown>
           <ga-select
@@ -82,6 +80,7 @@
               color="primary"
               [disableRipple]="true"
               class="focus:outline-none tracking-wider uppercase"
+              (click)="toggleLoadsType()"
             >
               {{ t('enterRadialAndAxialLoad') }}
             </button>
@@ -91,10 +90,6 @@
       <div class="flex flex-col grow max-w-sm">
         <div class="flex flex-row justify-between items-center mb-4">
           <h5>{{ t('motionInfluences') }}</h5>
-          <span
-            class="text-caption font-medium tracking-wide text-low-emphasis hidden sm:block"
-            >{{ t('requiredInformation') }}</span
-          >
         </div>
         <ga-select
           [control]="type"
@@ -140,10 +135,6 @@
       <div class="flex flex-col grow max-w-sm">
         <div class="flex flex-row justify-between items-center mb-4">
           <h5>{{ t('otherInfluences') }}</h5>
-          <span
-            class="text-caption font-medium tracking-wide text-low-emphasis hidden sm:block"
-            >{{ t('requiredInformation') }}</span
-          >
         </div>
         <ga-input
           [control]="operatingTemperature"

@@ -1,0 +1,4 @@
+export enum LoadTypes {
+  LB_ENTER_LOAD = 'LB_ENTER_LOAD',
+  LB_INPUT_VIA_LOAD_LEVELS = 'LB_INPUT_VIA_LOAD_LEVELS',
+}

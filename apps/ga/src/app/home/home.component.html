@@ -17,9 +17,10 @@
               <p class="text-subtitle-2 text-low-emphasis">
                 {{ t('bearinxPowered') }}
               </p>
-              <p class="text-caption text-low-emphasis">
-                {{ t('description') }}
-              </p>
+              <p
+                class="text-caption text-low-emphasis"
+                [innerHTML]="t('description')"
+              ></p>
             </div>
             <div
               class="flex grow justify-center justify-self-center items-center"

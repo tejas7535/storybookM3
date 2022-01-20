@@ -7,7 +7,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { GreaseCalculationPath } from '../../../../grease-calculation/grease-calculation-path.enum';
-import { RestService } from '../../../services/rest/rest.service';
+import { RestService, ErrorService } from '../../../services';
 import {
   calculationError,
   calculationSuccess,
@@ -48,9 +48,19 @@ export class ResultEffects {
     );
   });
 
+  calculationError$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(calculationError),
+        map(() => this.errorService.openGenericSnackBar())
+      ),
+    { dispatch: false }
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly errorService: ErrorService
   ) {}
 }

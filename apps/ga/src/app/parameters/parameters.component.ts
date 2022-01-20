@@ -32,6 +32,15 @@ import {
 } from './../core/store/selectors/parameter/parameter.selector';
 import { EnvironmentImpact } from './../shared/models/parameters/environment-impact.model';
 import { Movement } from './../shared/models/parameters/movement.model';
+import {
+  loadValidators,
+  rotationalSpeedValidators,
+  shiftAngleValidators,
+  shiftFrequencyValidators,
+  environmentImpactOptions,
+  typeOptions,
+  loadRatioOptions,
+} from './parameter-constants';
 
 @Component({
   selector: 'ga-parameters',
@@ -40,18 +49,12 @@ import { Movement } from './../shared/models/parameters/movement.model';
 export class ParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
 
-  public radial = new FormControl(undefined, [
-    Validators.min(0),
-    Validators.max(1_000_000_000),
-  ]);
-  public axial = new FormControl(undefined, [
-    Validators.min(0),
-    Validators.max(1_000_000_000),
-  ]);
-  // TODO: fill with values
+  public radial = new FormControl(undefined, loadValidators);
+  public axial = new FormControl(undefined, loadValidators);
+
   public exact = new FormControl(true);
   public loadRatio = new FormControl();
-  public loadRatioOptions: any[] = [];
+  public loadRatioOptions = loadRatioOptions;
 
   public loadsForm = new FormGroup(
     {
@@ -64,43 +67,16 @@ export class ParametersComponent implements OnInit, OnDestroy {
   );
 
   public type = new FormControl(Movement.rotating, [Validators.required]);
-  public typeOptions: any[] = [
-    {
-      id: Movement.rotating,
-      text: 'parameters.rotating',
-      default: true,
-    },
-    {
-      id: Movement.oscillating,
-      text: 'parameters.oscillating',
-    },
-  ];
-  public rotationalSpeedValidators = [
-    Validators.required,
-    Validators.min(0.001),
-    Validators.max(1_000_000),
-  ];
+  public typeOptions = typeOptions;
+
   public rotationalSpeed = new FormControl(
     undefined,
-    this.rotationalSpeedValidators
+    rotationalSpeedValidators
   );
 
-  public shiftFrequencyValidators = [
-    Validators.required,
-    Validators.min(0.001),
-    Validators.max(1_000_000),
-  ];
-  public shiftFrequency = new FormControl(
-    undefined,
-    this.shiftFrequencyValidators
-  );
+  public shiftFrequency = new FormControl(undefined, shiftFrequencyValidators);
 
-  public shiftAngleValidators = [
-    Validators.required,
-    Validators.min(0.001),
-    Validators.max(10_000),
-  ];
-  public shiftAngle = new FormControl(undefined, this.shiftAngleValidators);
+  public shiftAngle = new FormControl(undefined, shiftAngleValidators);
 
   public movementsForm = new FormGroup({
     type: this.type,
@@ -121,6 +97,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
     Validators.min(-40),
     this.operatingTemperatureValidator(),
   ]);
+
   public operatingTemperatureErrors: { name: string; message: string }[] = [
     {
       name: 'lowerThanEnvironmentTemperature',
@@ -131,21 +108,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public environmentImpact = new FormControl(EnvironmentImpact.moderate, [
     Validators.required,
   ]);
-  public environmentImpactOptions: any[] = [
-    {
-      id: EnvironmentImpact.low,
-      text: 'parameters.low',
-    },
-    {
-      id: EnvironmentImpact.moderate,
-      text: 'parameters.moderate',
-      default: true,
-    },
-    {
-      id: EnvironmentImpact.high,
-      text: 'parameters.high',
-    },
-  ];
+
+  public environmentImpactOptions = environmentImpactOptions;
 
   public environmentForm = new FormGroup({
     operatingTemperature: this.operatingTemperature,
@@ -160,7 +124,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
   });
 
   public selectedBearing$: Observable<string>;
-  public selectedMovementType$: Observable<string>;
+  public selectedMovementType$: Observable<Movement>;
   public loadsInputType$: Observable<boolean>;
   public parameterUpdating$: Observable<boolean>;
   public radialLoadPossible$: Observable<boolean>;
@@ -177,7 +141,6 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedMovementType$ = this.store.select(getSelectedMovementType);
-    this.loadsInputType$ = this.store.select(getLoadsInputType);
     this.parameterUpdating$ = this.store.select(getParameterUpdating);
     this.radialLoadPossible$ = this.store.select(radialLoadPossible);
     this.axialLoadPossible$ = this.store.select(axialLoadPossible);
@@ -193,6 +156,11 @@ export class ParametersComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.store
+      .select(getLoadsInputType)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: boolean) => this.toggleLoadValidators(value));
+
     this.form.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(this.DEBOUNCE_TIME_DEFAULT))
       .subscribe((formValue: ParameterState) => {
@@ -206,20 +174,9 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
     this.selectedMovementType$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((movementType: string) => {
-        if (movementType === Movement.rotating) {
-          this.rotationalSpeed.addValidators(this.rotationalSpeedValidators);
-          this.shiftFrequency.removeValidators(this.shiftFrequencyValidators);
-          this.shiftAngle.removeValidators(this.shiftAngleValidators);
-        } else if (movementType === Movement.oscillating) {
-          this.rotationalSpeed.removeValidators(this.rotationalSpeedValidators);
-          this.shiftFrequency.addValidators(this.shiftFrequencyValidators);
-          this.shiftAngle.addValidators(this.shiftAngleValidators);
-        }
-        this.rotationalSpeed.updateValueAndValidity();
-        this.shiftFrequency.updateValueAndValidity();
-        this.shiftAngle.updateValueAndValidity();
-      });
+      .subscribe((movementType: Movement) =>
+        this.toggleMovementValidators(movementType)
+      );
 
     this.store
       .select(getEnvironmentTemperatures)
@@ -232,6 +189,40 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public toggleLoadValidators(value: boolean) {
+    if (value) {
+      this.axial.addValidators(loadValidators);
+      this.radial.addValidators(loadValidators);
+      this.loadRatio.removeValidators(Validators.required);
+    } else {
+      this.axial.removeValidators(loadValidators);
+      this.radial.removeValidators(loadValidators);
+      this.loadRatio.addValidators(Validators.required);
+    }
+    this.axial.updateValueAndValidity();
+    this.radial.updateValueAndValidity();
+    this.loadRatio.updateValueAndValidity();
+  }
+
+  public toggleMovementValidators(movementType: Movement) {
+    if (movementType === Movement.rotating) {
+      this.rotationalSpeed.addValidators(rotationalSpeedValidators);
+      this.shiftFrequency.removeValidators(shiftFrequencyValidators);
+      this.shiftAngle.removeValidators(shiftAngleValidators);
+    } else if (movementType === Movement.oscillating) {
+      this.rotationalSpeed.removeValidators(rotationalSpeedValidators);
+      this.shiftFrequency.addValidators(shiftFrequencyValidators);
+      this.shiftAngle.addValidators(shiftAngleValidators);
+    }
+    this.rotationalSpeed.updateValueAndValidity();
+    this.shiftFrequency.updateValueAndValidity();
+    this.shiftAngle.updateValueAndValidity();
+  }
+
+  public toggleLoadsType() {
+    this.exact.patchValue(!this.exact.value);
   }
 
   public completeStep(): void {
@@ -247,7 +238,6 @@ export class ParametersComponent implements OnInit, OnDestroy {
   }
 
   public resetForm(): void {
-    // TODO: change when defaults come from API
     this.form.reset(initialState);
   }
 
@@ -273,8 +263,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
       const anyLoadApplied = radial > 0 || axial > 0;
 
-      // TODO: adjust condition when there is just one load possible
-      if (!anyLoadApplied) {
+      if (!anyLoadApplied && this.exact.value) {
         this.setLoadErrors(group, Load.radial);
         this.setLoadErrors(group, Load.axial);
       } else {

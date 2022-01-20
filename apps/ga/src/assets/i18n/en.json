@@ -68,6 +68,13 @@
       "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature",
       "anyLoad": "One Load is needed"
     },
+    "loadLevel": {
+      "veryLow": "very low (C0/P approx. 30)",
+      "low": "low (C0/P approx. 15)",
+      "moderate": "moderate (C0/P approx. 10)",
+      "high": "high (C0/P approx. 5)",
+      "veryHigh": "very high (C0/P approx. 2)"
+    },
     "tooltip": {
       "radialLoad": "Load in the radial direction (to be specified as an absolute value)",
       "axialLoad": "Load in axial direction (to be specified as an absolute value)",
@@ -97,5 +104,10 @@
     "termsOfUse": "Terms of Use",
     "cookiePolicy": "Cookie Policy",
     "cookieSettings": "Cookie Settings"
+  },
+  "error": {
+    "content": "Unfortunately an error occured. Please try again later.",
+    "confirm": "Confirm",
+    "retry": "Retry"
   }
 }

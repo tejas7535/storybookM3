@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,6 +19,12 @@ import { EnvironmentImpact } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
 import { Movement } from './../shared/models/parameters/movement.model';
+import {
+  loadValidators,
+  rotationalSpeedValidators,
+  shiftAngleValidators,
+  shiftFrequencyValidators,
+} from './parameter-constants';
 import { ParametersComponent } from './parameters.component';
 
 describe('ParametersComponent', () => {
@@ -152,7 +158,9 @@ describe('ParametersComponent', () => {
         done();
       }, component.DEBOUNCE_TIME_DEFAULT + 100);
     });
+  });
 
+  describe('toggleMovementValidators', () => {
     it('should select movement type and set validators for rotational', () => {
       component.rotationalSpeed.addValidators = jest.fn();
       component.shiftFrequency.removeValidators = jest.fn();
@@ -161,16 +169,16 @@ describe('ParametersComponent', () => {
       component.shiftFrequency.updateValueAndValidity = jest.fn();
       component.shiftAngle.updateValueAndValidity = jest.fn();
 
-      component.ngOnInit();
+      component.toggleMovementValidators(Movement.rotating);
 
       expect(component.rotationalSpeed.addValidators).toHaveBeenCalledWith(
-        component.rotationalSpeedValidators
+        rotationalSpeedValidators
       );
       expect(component.shiftFrequency.removeValidators).toHaveBeenCalledWith(
-        component.shiftFrequencyValidators
+        shiftFrequencyValidators
       );
       expect(component.shiftAngle.removeValidators).toHaveBeenCalledWith(
-        component.shiftAngleValidators
+        shiftAngleValidators
       );
       expect(
         component.rotationalSpeed.updateValueAndValidity
@@ -182,21 +190,6 @@ describe('ParametersComponent', () => {
     });
 
     it('should select movement type and set validators for oscillating', () => {
-      store.setState({
-        bearing: {
-          loading: false,
-          result: undefined,
-          selectedBearing: 'selected bearing',
-        },
-        parameter: {
-          ...initialState,
-          movements: {
-            ...initialState.movements,
-            type: Movement.oscillating,
-          },
-        },
-      });
-
       component.rotationalSpeed.removeValidators = jest.fn();
       component.shiftFrequency.addValidators = jest.fn();
       component.shiftAngle.addValidators = jest.fn();
@@ -204,16 +197,16 @@ describe('ParametersComponent', () => {
       component.shiftFrequency.updateValueAndValidity = jest.fn();
       component.shiftAngle.updateValueAndValidity = jest.fn();
 
-      component.ngOnInit();
+      component.toggleMovementValidators(Movement.oscillating);
 
       expect(component.rotationalSpeed.removeValidators).toHaveBeenCalledWith(
-        component.rotationalSpeedValidators
+        rotationalSpeedValidators
       );
       expect(component.shiftFrequency.addValidators).toHaveBeenCalledWith(
-        component.shiftFrequencyValidators
+        shiftFrequencyValidators
       );
       expect(component.shiftAngle.addValidators).toHaveBeenCalledWith(
-        component.shiftAngleValidators
+        shiftAngleValidators
       );
       expect(
         component.rotationalSpeed.updateValueAndValidity
@@ -222,6 +215,69 @@ describe('ParametersComponent', () => {
         component.shiftFrequency.updateValueAndValidity
       ).toHaveBeenCalled();
       expect(component.shiftAngle.updateValueAndValidity).toHaveBeenCalled();
+    });
+  });
+
+  describe('toggleLoadValidators', () => {
+    it('should select movement type and set validators for rotational', () => {
+      component.axial.addValidators = jest.fn();
+      component.radial.addValidators = jest.fn();
+      component.loadRatio.removeValidators = jest.fn();
+      component.axial.updateValueAndValidity = jest.fn();
+      component.radial.updateValueAndValidity = jest.fn();
+      component.loadRatio.updateValueAndValidity = jest.fn();
+
+      component.toggleLoadValidators(true);
+
+      expect(component.axial.addValidators).toHaveBeenCalledWith(
+        loadValidators
+      );
+      expect(component.radial.addValidators).toHaveBeenCalledWith(
+        loadValidators
+      );
+      expect(component.loadRatio.removeValidators).toHaveBeenCalledWith(
+        Validators.required
+      );
+
+      expect(component.axial.updateValueAndValidity).toHaveBeenCalled();
+      expect(component.radial.updateValueAndValidity).toHaveBeenCalled();
+      expect(component.loadRatio.updateValueAndValidity).toHaveBeenCalled();
+    });
+
+    it('should select movement type and set validators for rotational', () => {
+      component.axial.removeValidators = jest.fn();
+      component.radial.removeValidators = jest.fn();
+      component.loadRatio.addValidators = jest.fn();
+      component.axial.updateValueAndValidity = jest.fn();
+      component.radial.updateValueAndValidity = jest.fn();
+      component.loadRatio.updateValueAndValidity = jest.fn();
+
+      component.toggleLoadValidators(false);
+
+      expect(component.axial.removeValidators).toHaveBeenCalledWith(
+        loadValidators
+      );
+      expect(component.radial.removeValidators).toHaveBeenCalledWith(
+        loadValidators
+      );
+      expect(component.loadRatio.addValidators).toHaveBeenCalledWith(
+        Validators.required
+      );
+
+      expect(component.axial.updateValueAndValidity).toHaveBeenCalled();
+      expect(component.radial.updateValueAndValidity).toHaveBeenCalled();
+      expect(component.loadRatio.updateValueAndValidity).toHaveBeenCalled();
+    });
+  });
+
+  describe('toggleLoadsType', () => {
+    it('should call the patchValue method of the "exact" formControl', () => {
+      const patchValueSpy = jest.spyOn(component.exact, 'patchValue');
+      component.exact.patchValue(true);
+
+      component.toggleLoadsType();
+
+      expect(patchValueSpy).toBeCalledWith(false);
     });
   });
 

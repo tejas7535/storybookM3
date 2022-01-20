@@ -1,10 +1,13 @@
 import { createSelector } from '@ngrx/store';
 
 import {
-  CalculationParamters,
+  CalculationParameters,
   InstallationMode,
   LoadInstallation,
+  LoadTypes,
+  Movement,
   Property,
+  SelectedGreases,
 } from '../../../../shared/models';
 import { getModelId, getSelectedBearing } from '..';
 import { getParameterState } from './../../reducers';
@@ -16,7 +19,7 @@ interface LoadDirection {
 
 export const getSelectedMovementType = createSelector(
   getParameterState,
-  (state: ParameterState): string => state.movements.type
+  (state: ParameterState): Movement => state.movements.type
 );
 
 export const getEnvironmentTemperatures = createSelector(
@@ -87,7 +90,7 @@ export const getCalculationParameters = createSelector(
     state: ParameterState,
     bearing: string,
     modelId: string
-  ): { modelId: string; options: CalculationParamters } => {
+  ): { modelId: string; options: CalculationParameters } => {
     const oscillating = state.movements.shiftAngle &&
       state.movements.shiftFrequency && {
         idlC_OSCILLATION_ANGLE: `${state.movements.shiftAngle.toFixed(1)}`,
@@ -100,6 +103,17 @@ export const getCalculationParameters = createSelector(
       )}`,
     };
 
+    const loads = state.loads.exact
+      ? {
+          idcO_LOAD_INPUT_GREASE_APP: LoadTypes.LB_ENTER_LOAD,
+          idcO_RADIAL_LOAD: `${(state.loads.radial || 0).toFixed(1)}`,
+          idcO_AXIAL_LOAD: `${(state.loads.axial || 0).toFixed(1)}`,
+        }
+      : {
+          idcO_LOAD_INPUT_GREASE_APP: LoadTypes.LB_INPUT_VIA_LOAD_LEVELS,
+          idcO_LOAD_LEVELS: state.loads.loadRatio,
+        };
+
     return (
       state &&
       state?.valid &&
@@ -109,16 +123,17 @@ export const getCalculationParameters = createSelector(
         options: {
           idcO_DESIGNATION: `${bearing}`,
           idlC_TYPE_OF_MOVEMENT: state.movements.type,
-          idcO_RADIAL_LOAD: `${(state.loads.radial || 0).toFixed(1)}`,
-          idcO_AXIAL_LOAD: `${(state.loads.axial || 0).toFixed(1)}`,
+
           idscO_OILTEMP: `${state.environment.operatingTemperature.toFixed(1)}`,
           idslC_TEMPERATURE: `${state.environment.environmentTemperature.toFixed(
             1
           )}`,
+          idscO_GREASE_SELECTION_ARCANOL: SelectedGreases.no,
           idscO_INFLUENCE_OF_AMBIENT: state.environment.environmentImpact,
+          ...loads,
           ...rotating,
           ...oscillating,
-        },
+        } as CalculationParameters,
       }
     );
   }

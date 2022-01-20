@@ -16,7 +16,7 @@
       <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     </mat-select>
     <mat-error *ngIf="control.hasError('required')">{{
-      t('required')
+      t('parameters.errors.required')
     }}</mat-error>
 
     <ng-container *transloco="let t; read: 'parameters.errors'">

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { MOCK_PROPERTIES } from '../../../../../testing/mocks/rest.service.mock';
-import { EnvironmentImpact } from '../../../../shared/models';
+import { EnvironmentImpact, LoadLevels } from '../../../../shared/models';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {
   getPropertiesSuccess,
@@ -33,7 +33,7 @@ describe('Parameter Reducer', () => {
           radial: 10,
           axial: 10,
           exact: false,
-          loadRatio: 1,
+          loadRatio: LoadLevels.LB_MODERATE,
         },
         movements: {
           type: Movement.oscillating,

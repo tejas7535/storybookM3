@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   EnvironmentImpact,
+  LoadLevels,
   Movement,
   Property,
 } from '../../../../shared/models';
@@ -13,7 +14,7 @@ export interface FullParameterState {
     radial: number;
     axial: number;
     exact: boolean;
-    loadRatio: number;
+    loadRatio: LoadLevels;
   };
   movements: {
     type: Movement;

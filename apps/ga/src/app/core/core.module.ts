@@ -15,6 +15,7 @@ import { environment } from '../../environments/environment';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from './store/store.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export const availableLanguages: { id: string; label: string }[] = [
   { id: 'de', label: 'Deutsch' },
@@ -36,6 +37,7 @@ export const availableLanguages: { id: string; label: string }[] = [
 
     // Material Modules
     MatSidenavModule,
+    MatSnackBarModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

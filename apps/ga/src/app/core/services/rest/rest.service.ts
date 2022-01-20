@@ -4,7 +4,11 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { environment } from '../../../../environments/environment';
-import { CalculationParamters, Property, Result } from '../../../shared/models';
+import {
+  CalculationParameters,
+  Property,
+  Result,
+} from '../../../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +42,7 @@ export class RestService {
 
   public putModelUpdate(
     modelId: string,
-    options: CalculationParamters
+    options: CalculationParameters
   ): Observable<string> {
     return this.httpClient.put<string>(
       `${environment.baseUrl}/${modelId}/update`,

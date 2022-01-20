@@ -2,15 +2,16 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { Actions } from '@ngrx/effects';
+import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
-import { RestService } from '../../../services/rest/rest.service';
+import { RestService, ErrorService } from '../../../services';
 import {
+  calculationError,
   calculationSuccess,
   getCalculation,
 } from '../../actions/result/result.actions';
@@ -20,8 +21,10 @@ describe('Bearing Effects', () => {
   let action: any;
   let actions$: any;
   let effects: ResultEffects;
+  let metadata: EffectsMetadata<ResultEffects>;
   let spectator: SpectatorService<ResultEffects>;
   let restService: RestService;
+  let errorService: ErrorService;
   let router: Router;
   let store: MockStore;
 
@@ -38,6 +41,12 @@ describe('Bearing Effects', () => {
           postGreaseCalculation: jest.fn(),
         },
       },
+      {
+        provide: ErrorService,
+        useValue: {
+          openGenericSnackBar: jest.fn(),
+        },
+      },
       provideMockStore(),
     ],
   });
@@ -46,7 +55,9 @@ describe('Bearing Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ResultEffects);
+    metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
+    errorService = spectator.inject(ErrorService);
     router = spectator.inject(Router);
     store = spectator.inject(MockStore);
 
@@ -94,6 +105,30 @@ describe('Bearing Effects', () => {
         m.flush();
 
         expect(restService.getGreaseCalculation).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('calculationError$', () => {
+    it('should not return an action', () => {
+      expect(metadata.calculationError$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    it(
+      'trigger the errorService openGenericSnackBar method',
+      marbles((m) => {
+        action = calculationError();
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: undefined });
+
+        m.expect(effects.calculationError$).toBeObservable(expected);
+        m.flush();
+
+        expect(errorService.openGenericSnackBar).toHaveBeenCalledTimes(1);
       })
     );
   });
