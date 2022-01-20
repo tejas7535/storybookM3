@@ -28,6 +28,7 @@
     "shared-ui-empty-states": "libs/shared/ui/empty-states",
     "shared-ui-file-drop": "libs/shared/ui/file-drop",
     "shared-ui-icons": "libs/shared/ui/icons",
+    "shared-ui-label-value": "libs/shared/ui/label-value",
     "shared-ui-legal-pages": "libs/shared/ui/legal-pages",
     "shared-ui-loading-spinner": "libs/shared/ui/loading-spinner",
     "shared-ui-picture-card": "libs/shared/ui/picture-card",

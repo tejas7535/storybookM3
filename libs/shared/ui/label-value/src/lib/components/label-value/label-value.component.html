@@ -1,0 +1,45 @@
+<div
+  *ngIf="labelValues && labelValues.length"
+  class="grid grid-cols-[auto_1fr] gap-0 text-caption text-high-emphasis"
+>
+  <ng-container *ngFor="let labelValue of labelValues; let i = index">
+    <div
+      class="px-6 pt-3 pb-6 bg-primary bg-opacity-[0.07]"
+      [ngClass]="i > 0 ? 'border-t border-border' : ''"
+    >
+      {{ labelValue.label }}
+    </div>
+    <div
+      class="bg-surface"
+      [ngClass]="[
+        labelValue.valueTextClass ? 'text-' + labelValue.valueTextClass : '',
+        i > 0 ? 'border-t border-border' : ''
+      ]"
+    >
+      <ng-container
+        *ngIf="labelValue.values && labelValue.values.length; else singleValue"
+      >
+        <div
+          class="grid gap-0"
+          [ngClass]="'grid-cols-' + labelValue.values.length"
+        >
+          <div
+            *ngFor="let value of labelValue.values; let i = index"
+            class="px-6 pt-3 pb-6"
+            [ngClass]="[
+              value.valueTextClass ? 'text-' + value.valueTextClass : '',
+              i > 0 ? 'border-l border-border' : ''
+            ]"
+          >
+            {{ value.valueText }}
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #singleValue>
+        <div class="px-6 pt-3 pb-6">
+          {{ labelValue.value }}
+        </div>
+      </ng-template>
+    </div>
+  </ng-container>
+</div>
