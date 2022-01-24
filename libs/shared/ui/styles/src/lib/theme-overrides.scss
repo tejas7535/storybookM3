@@ -85,6 +85,13 @@
   // tabs overrides
   .mat-tab-labels > .mat-tab-label {
     @apply opacity-100;
+    @apply h-auto;
+    @apply px-6;
+    @apply py-4;
+  }
+
+  .mat-tab-label-active > .mat-tab-label-content {
+    @apply text-link;
   }
 
   .mat-tab-label-content {
