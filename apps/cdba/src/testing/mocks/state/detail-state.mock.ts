@@ -19,7 +19,7 @@ export const DETAIL_STATE_MOCK: DetailState = {
     ...initialState.detail,
     loading: true,
     referenceType: REFERENCE_TYPE_MOCK,
-    error: 'Error',
+    errorMessage: 'Error',
   },
   calculations: {
     ...initialState.calculations,
@@ -35,7 +35,7 @@ export const DETAIL_STATE_MOCK: DetailState = {
     loading: true,
     items: BOM_MOCK,
     selectedItem: BOM_MOCK[0],
-    error: 'Error',
+    errorMessage: 'Error',
   },
   drawings: {
     loading: true,
@@ -44,7 +44,7 @@ export const DETAIL_STATE_MOCK: DetailState = {
       nodeId: '3',
       drawing: DRAWINGS_MOCK[2],
     },
-    error: '404',
+    errorMessage: '404',
   },
 };
 
@@ -55,7 +55,7 @@ export const DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK: DetailState = {
     ...initialState.detail,
     loading: true,
     referenceType: REFERENCE_TYPE_MOCK_WITHOUT_SALES_INFORMATION,
-    error: 'Error',
+    errorMessage: 'Error',
   },
   calculations: {
     ...initialState.calculations,
@@ -71,7 +71,7 @@ export const DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK: DetailState = {
     loading: true,
     items: BOM_MOCK,
     selectedItem: BOM_MOCK[0],
-    error: 'Error',
+    errorMessage: 'Error',
   },
   drawings: {
     loading: true,
@@ -80,6 +80,6 @@ export const DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK: DetailState = {
       nodeId: '3',
       drawing: DRAWINGS_MOCK[2],
     },
-    error: '404',
+    errorMessage: '404',
   },
 };

@@ -1,5 +1,6 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 /* eslint-disable no-invalid-this */
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Params, Router } from '@angular/router';
@@ -72,9 +73,12 @@ export class DetailEffects {
           map((item: ReferenceTypeResult) =>
             loadReferenceTypeSuccess({ item })
           ),
-          catchError((errorResponse) =>
+          catchError((error: HttpErrorResponse) =>
             of(
-              loadReferenceTypeFailure({ error: JSON.stringify(errorResponse) })
+              loadReferenceTypeFailure({
+                errorMessage: error.error.detail || error.message,
+                statusCode: error.status,
+              })
             )
           )
         )
@@ -100,15 +104,21 @@ export class DetailEffects {
                 map((items: Calculation[]) =>
                   loadCalculationsSuccess({ items })
                 ),
-                catchError((errorResponse) =>
+                catchError((error: HttpErrorResponse) =>
                   of(
                     loadCalculationsFailure({
-                      error: JSON.stringify(errorResponse),
+                      errorMessage: error.error.detail || error.message,
+                      statusCode: error.status,
                     })
                   )
                 )
               )
-          : of(loadCalculationsFailure({ error: 'unauthorized' }));
+          : of(
+              loadCalculationsFailure({
+                errorMessage: 'User has no valid cost roles.',
+                statusCode: undefined,
+              })
+            );
       })
     );
   });
@@ -123,8 +133,13 @@ export class DetailEffects {
       mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
         this.detailService.getDrawings(materialNumber, plant).pipe(
           map((items: Drawing[]) => loadDrawingsSuccess({ items })),
-          catchError((errorResponse) =>
-            of(loadDrawingsFailure({ error: JSON.stringify(errorResponse) }))
+          catchError((error: HttpErrorResponse) =>
+            of(
+              loadDrawingsFailure({
+                errorMessage: error.error.detail || error.message,
+                statusCode: error.status,
+              })
+            )
           )
         )
       )
@@ -151,11 +166,21 @@ export class DetailEffects {
         return hasPricingRole
           ? this.detailService.getBom(action.bomIdentifier).pipe(
               map((items: BomItem[]) => loadBomSuccess({ items })),
-              catchError((errorResponse) =>
-                of(loadBomFailure({ error: JSON.stringify(errorResponse) }))
+              catchError((error: HttpErrorResponse) =>
+                of(
+                  loadBomFailure({
+                    errorMessage: error.error.detail || error.message,
+                    statusCode: error.status,
+                  })
+                )
               )
             )
-          : of(loadBomFailure({ error: 'unauthorized' }));
+          : of(
+              loadBomFailure({
+                errorMessage: 'User has no valid cost roles.',
+                statusCode: undefined,
+              })
+            );
       })
     );
   });

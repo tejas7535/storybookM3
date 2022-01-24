@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -30,8 +29,11 @@ describe('DetailFailureEffects', () => {
   let httpErrorService: HttpErrorService;
   let router: Router;
 
-  const forbiddenError = JSON.stringify(new HttpErrorResponse({ status: 403 }));
-  const serverError = JSON.stringify(new HttpErrorResponse({ status: 500 }));
+  const forbiddenError = { statusCode: 403, errorMessage: 'Forbidden Action' };
+  const serverError = {
+    statusCode: 500,
+    errorMessage: 'Internal Server Error',
+  };
 
   const createService = createServiceFactory({
     service: DetailFailureEffects,
@@ -72,18 +74,13 @@ describe('DetailFailureEffects', () => {
       'should navigate to forbidden page',
       marbles((m) => {
         router.navigate = jest.fn().mockImplementation();
-
-        const loadBomForbiddenFailureAction = loadBomFailure({
-          error: forbiddenError,
-        });
-        const loadCalculationsForbiddenFailureAction = loadCalculationsFailure({
-          error: forbiddenError,
-        });
-        const loadDrawingsForbiddenFailureAction = loadDrawingsFailure({
-          error: forbiddenError,
-        });
+        const loadBomForbiddenFailureAction = loadBomFailure(forbiddenError);
+        const loadCalculationsForbiddenFailureAction =
+          loadCalculationsFailure(forbiddenError);
+        const loadDrawingsForbiddenFailureAction =
+          loadDrawingsFailure(forbiddenError);
         const loadReferenceTypeForbiddenFailureAction =
-          loadReferenceTypeFailure({ error: forbiddenError });
+          loadReferenceTypeFailure(forbiddenError);
 
         actions$ = m.hot('-a-b-c-d', {
           a: loadBomForbiddenFailureAction,
@@ -107,18 +104,13 @@ describe('DetailFailureEffects', () => {
       marbles((m) => {
         httpErrorService.handleHttpErrorDefault = jest.fn();
 
-        const loadBomServerFailureAction = loadBomFailure({
-          error: serverError,
-        });
-        const loadCalculationsServerFailureAction = loadCalculationsFailure({
-          error: serverError,
-        });
-        const loadDrawingsServerFailureAction = loadDrawingsFailure({
-          error: serverError,
-        });
-        const loadReferenceTypeServernFailureAction = loadReferenceTypeFailure({
-          error: serverError,
-        });
+        const loadBomServerFailureAction = loadBomFailure(serverError);
+        const loadCalculationsServerFailureAction =
+          loadCalculationsFailure(serverError);
+        const loadDrawingsServerFailureAction =
+          loadDrawingsFailure(serverError);
+        const loadReferenceTypeServernFailureAction =
+          loadReferenceTypeFailure(serverError);
 
         actions$ = m.hot('-a-b-c-d', {
           a: loadBomServerFailureAction,

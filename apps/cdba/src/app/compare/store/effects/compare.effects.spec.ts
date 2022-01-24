@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -50,7 +50,10 @@ describe('CompareEffects', () => {
   let store: any;
   let router: Router;
 
-  const error = new HttpErrorResponse({});
+  const error = new HttpErrorResponse({
+    status: HttpStatusCode.BadRequest,
+    error: { detail: 'Error Message' },
+  });
   const bomIdentifier = BOM_IDENTIFIER_MOCK;
 
   const createService = createServiceFactory({
@@ -232,7 +235,8 @@ describe('CompareEffects', () => {
 
         const result = loadCalculationHistoryFailure({
           index,
-          error: JSON.stringify(error),
+          errorMessage: 'Error Message',
+          statusCode: 400,
         });
 
         const response = m.cold('-#|', undefined, error);
@@ -276,7 +280,11 @@ describe('CompareEffects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadBomFailure({ index, error: JSON.stringify(error) });
+        const result = loadBomFailure({
+          index,
+          errorMessage: 'Error Message',
+          statusCode: 400,
+        });
 
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
@@ -354,70 +362,68 @@ describe('CompareEffects', () => {
   });
 
   describe('check roles and rights', () => {
-    const actionPayloadMock = {
-      index: 3,
-      materialNumber: 'abc',
-      plant: 'def',
-    };
-
     const stateWithoutRoles: any = {
-      ...AUTH_STATE_MOCK,
-      accountInfo: AUTH_STATE_MOCK.accountInfo,
-      idTokenClaims: {
-        ...AUTH_STATE_MOCK.accountInfo.idTokenClaims,
-        roles: [],
+      'azure-auth': {
+        ...AUTH_STATE_MOCK,
+        accountInfo: {
+          ...AUTH_STATE_MOCK.accountInfo,
+          idTokenClaims: {
+            roles: [],
+          },
+        },
       },
     };
-    const result = loadCalculationHistoryFailure({
-      error: 'unauthorized',
-      index: actionPayloadMock.index,
-    });
 
     beforeEach(() => {
-      store.dispatch = jest.fn();
       store.setState(stateWithoutRoles);
     });
 
-    test('before loading calculations', () => {
-      action = loadCalculationHistory(actionPayloadMock);
-
+    test(
+      'before loading calculations',
       marbles((m) => {
+        const actionPayloadMock = {
+          index: 3,
+          materialNumber: 'abc',
+          plant: 'def',
+        };
+        action = loadCalculationHistory(actionPayloadMock);
+
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('--b', { b: result });
+        const result = loadCalculationHistoryFailure({
+          statusCode: undefined,
+          errorMessage: 'User has no valid cost roles.',
+          index: actionPayloadMock.index,
+        });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
         m.flush();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          loadCalculationHistoryFailure({
-            error: 'unauthorized',
-            index: actionPayloadMock.index,
-          })
-        );
-      });
-    });
+      })
+    );
 
-    test('before loading bom', () => {
-      action = loadBom({
-        bomIdentifier: BOM_IDENTIFIER_MOCK,
-        index: actionPayloadMock.index,
-      });
-
+    test(
+      'before loading bom',
       marbles((m) => {
+        const actionPayloadMock = {
+          index: 3,
+          bomIdentifier: BOM_IDENTIFIER_MOCK,
+        };
+        action = loadBom(actionPayloadMock);
+
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('--b', { b: result });
+        const result = loadBomFailure({
+          statusCode: undefined,
+          errorMessage: 'User has no valid cost roles.',
+          index: actionPayloadMock.index,
+        });
+        const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
+        m.expect(effects.loadBillOfMaterial$).toBeObservable(expected);
         m.flush();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          loadBomFailure({
-            error: 'unauthorized',
-            index: actionPayloadMock.index,
-          })
-        );
-      });
-    });
+      })
+    );
   });
 
   describe('mapQueryParams', () => {

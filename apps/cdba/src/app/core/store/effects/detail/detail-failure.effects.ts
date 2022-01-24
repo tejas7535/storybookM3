@@ -30,9 +30,7 @@ export class DetailFailureEffects {
           loadDrawingsFailure
         ),
         tap(async (action) => {
-          const error = JSON.parse(action.error);
-
-          if (error && error.status === HttpStatusCode.Forbidden) {
+          if (action.statusCode === HttpStatusCode.Forbidden) {
             await this.router.navigate([
               AppRoutePath.EmptyStatesPath,
               EmptyStatesPath.ForbiddenPath,

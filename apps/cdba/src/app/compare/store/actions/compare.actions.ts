@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import {
   BomIdentifier,
   BomItem,
@@ -30,7 +31,7 @@ export const loadProductDetailsSuccess = createAction(
 
 export const loadProductDetailsFailure = createAction(
   '[Compare] Load Product Details Failure',
-  props<{ error: string; index: number }>()
+  props<{ errorMessage: string; statusCode: HttpStatusCode; index: number }>()
 );
 
 export const loadCalculations = createAction('[Compare] Load Calculations');
@@ -47,7 +48,7 @@ export const loadCalculationHistorySuccess = createAction(
 
 export const loadCalculationHistoryFailure = createAction(
   '[Compare] Load Calculation History Failure',
-  props<{ error: string; index: number }>()
+  props<{ errorMessage: string; statusCode: HttpStatusCode; index: number }>()
 );
 
 export const selectCalculation = createAction(
@@ -70,7 +71,7 @@ export const loadBomSuccess = createAction(
 
 export const loadBomFailure = createAction(
   '[Compare] Load BOM Failure',
-  props<{ error: string; index: number }>()
+  props<{ errorMessage: string; statusCode: HttpStatusCode; index: number }>()
 );
 
 export const selectBomItem = createAction(

@@ -19,7 +19,8 @@ export const getSelectedReferenceTypeIdentifiers = createSelector(
 
 export const getProductError = createSelector(
   getCompareState,
-  (state: CompareState, index: number): string => state[index]?.details?.error
+  (state: CompareState, index: number): string =>
+    state[index]?.details?.errorMessage
 );
 
 export const getDimensionAndWeightDetails = createSelector(
@@ -113,7 +114,8 @@ export const getCalculationsLoading = createSelector(
 
 export const getCalculationsError = createSelector(
   getCompareState,
-  (state: CompareState, index: number) => state[index]?.calculations?.error
+  (state: CompareState, index: number) =>
+    state[index]?.calculations?.errorMessage
 );
 
 export const getSelectedCalculationNodeId = createSelector(
@@ -142,7 +144,8 @@ export const getBomLoading = createSelector(
 
 export const getBomError = createSelector(
   getCompareState,
-  (state: CompareState, index: number) => state[index]?.billOfMaterial?.error
+  (state: CompareState, index: number) =>
+    state[index]?.billOfMaterial?.errorMessage
 );
 
 export const getChildrenOfSelectedBomItem = createSelector(

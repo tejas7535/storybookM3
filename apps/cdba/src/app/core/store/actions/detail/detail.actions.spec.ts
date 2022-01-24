@@ -1,3 +1,5 @@
+import { HttpStatusCode } from '@angular/common/http';
+
 import { BomItem, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
@@ -26,7 +28,8 @@ import {
 describe('Detail Actions', () => {
   let action: DetailActions;
   let referenceTypeIdentifier: ReferenceTypeIdentifier;
-  let error: string;
+  const errorMessage = 'An error occured';
+  const statusCode = HttpStatusCode.BadRequest;
 
   beforeEach(() => {
     action = undefined;
@@ -36,8 +39,6 @@ describe('Detail Actions', () => {
       plant: 'Beautiful Plant',
       identificationHash: 'unique identifier',
     };
-
-    error = 'An error occured';
   });
 
   test('selectReferenceType', () => {
@@ -69,10 +70,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadItemFailure', () => {
-      action = loadReferenceTypeFailure({ error });
+      action = loadReferenceTypeFailure({ errorMessage, statusCode });
 
       expect(action).toEqual({
-        error,
+        errorMessage,
+        statusCode,
         type: '[Detail] Load Reference Type Failure',
       });
     });
@@ -100,10 +102,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadBomFailure', () => {
-      action = loadBomFailure({ error });
+      action = loadBomFailure({ errorMessage, statusCode });
 
       expect(action).toEqual({
-        error,
+        errorMessage,
+        statusCode,
         type: '[Detail] Load BOM Failure',
       });
     });
@@ -142,10 +145,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsFailure', () => {
-      action = loadCalculationsFailure({ error });
+      action = loadCalculationsFailure({ errorMessage, statusCode });
 
       expect(action).toEqual({
-        error,
+        errorMessage,
+        statusCode,
         type: '[Detail] Load Calculations Failure',
       });
     });
@@ -171,10 +175,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadDrawingsFailure', () => {
-      action = loadDrawingsFailure({ error });
+      action = loadDrawingsFailure({ errorMessage, statusCode });
 
       expect(action).toEqual({
-        error,
+        errorMessage,
+        statusCode,
         type: '[Detail] Load Drawings Failure',
       });
     });

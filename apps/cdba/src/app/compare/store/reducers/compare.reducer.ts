@@ -27,20 +27,20 @@ export interface CompareState {
     details?: {
       item: ReferenceType;
       loading: boolean;
-      error: string;
+      errorMessage: string;
     };
     calculations?: {
       items?: Calculation[];
       selected?: Calculation;
       selectedNodeId?: string;
       loading?: boolean;
-      error?: string;
+      errorMessage?: string;
     };
     billOfMaterial?: {
       items?: BomItem[];
       selected?: BomItem;
       loading?: boolean;
-      error?: string;
+      errorMessage?: string;
     };
   };
 }
@@ -72,7 +72,7 @@ export const compareReducer = createReducer(
               details: {
                 ...state[index].details,
                 item: undefined,
-                error: undefined,
+                errorMessage: undefined,
                 loading: true,
               },
             },
@@ -98,7 +98,7 @@ export const compareReducer = createReducer(
   ),
   on(
     loadProductDetailsFailure,
-    (state, { error, index }): CompareState =>
+    (state, { errorMessage, index }): CompareState =>
       state[index]
         ? {
             ...state,
@@ -106,7 +106,7 @@ export const compareReducer = createReducer(
               ...state[index],
               details: {
                 ...state[index].details,
-                error,
+                errorMessage,
                 item: undefined,
                 loading: false,
               },
@@ -149,14 +149,14 @@ export const compareReducer = createReducer(
   ),
   on(
     loadBomFailure,
-    (state, { error, index }): CompareState =>
+    (state, { errorMessage, index }): CompareState =>
       state[index]
         ? {
             ...state,
             [index]: {
               ...state[index],
               billOfMaterial: {
-                error,
+                errorMessage,
                 items: [],
                 loading: false,
               },
@@ -228,7 +228,7 @@ export const compareReducer = createReducer(
   }),
   on(
     loadCalculationHistoryFailure,
-    (state, { error, index }): CompareState =>
+    (state, { errorMessage, index }): CompareState =>
       state[index]
         ? {
             ...state,
@@ -236,13 +236,13 @@ export const compareReducer = createReducer(
               ...state[index],
               calculations: {
                 ...state[index].calculations,
-                error,
+                errorMessage,
                 items: [],
                 loading: false,
               },
               billOfMaterial: {
                 ...state[index].billOfMaterial,
-                error,
+                errorMessage,
                 items: [],
                 loading: false,
               },

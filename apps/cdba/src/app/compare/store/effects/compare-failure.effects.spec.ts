@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -30,8 +29,11 @@ describe('CompareFailureEffects', () => {
   let router: Router;
 
   const index = 0;
-  const forbiddenError = JSON.stringify(new HttpErrorResponse({ status: 403 }));
-  const serverError = JSON.stringify(new HttpErrorResponse({ status: 500 }));
+  const forbiddenError = { statusCode: 403, errorMessage: 'Forbidden Action' };
+  const serverError = {
+    statusCode: 500,
+    errorMessage: 'Internal Server Error',
+  };
 
   const createService = createServiceFactory({
     service: CompareFailureEffects,
@@ -75,19 +77,19 @@ describe('CompareFailureEffects', () => {
 
         const loadBomForbiddenFailureAction = loadBomFailure({
           index,
-          error: forbiddenError,
+          ...forbiddenError,
         });
 
         const loadCalculationHistoryForbiddenFailureAction =
           loadCalculationHistoryFailure({
             index,
-            error: forbiddenError,
+            ...forbiddenError,
           });
 
         const loadProductDetailsForbiddenFailureAction =
           loadProductDetailsFailure({
             index,
-            error: forbiddenError,
+            ...forbiddenError,
           });
 
         actions$ = m.hot('-a-b-c', {
@@ -113,19 +115,19 @@ describe('CompareFailureEffects', () => {
 
         const loadBomServerFailureAction = loadBomFailure({
           index,
-          error: serverError,
+          ...serverError,
         });
 
         const loadCalculationHistoryServerFailureAction =
           loadCalculationHistoryFailure({
             index,
-            error: serverError,
+            ...serverError,
           });
 
         const loadProductDetailsServerFailureAction = loadProductDetailsFailure(
           {
             index,
-            error: serverError,
+            ...serverError,
           }
         );
 

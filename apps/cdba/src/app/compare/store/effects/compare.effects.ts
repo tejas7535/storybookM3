@@ -1,5 +1,6 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Params, Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -107,10 +108,11 @@ export class CompareEffects {
               index: action.index,
             })
           ),
-          catchError((errorResponse) =>
+          catchError((error: HttpErrorResponse) =>
             of(
               loadProductDetailsFailure({
-                error: JSON.stringify(errorResponse),
+                errorMessage: error.error.detail || error.message,
+                statusCode: error.status,
                 index: action.index,
               })
             )
@@ -151,10 +153,11 @@ export class CompareEffects {
                 map((items: Calculation[]) =>
                   loadCalculationHistorySuccess({ items, index: action.index })
                 ),
-                catchError((errorResponse) =>
+                catchError((error: HttpErrorResponse) =>
                   of(
                     loadCalculationHistoryFailure({
-                      error: JSON.stringify(errorResponse),
+                      errorMessage: error.error.detail || error.message,
+                      statusCode: error.status,
                       index: action.index,
                     })
                   )
@@ -162,7 +165,8 @@ export class CompareEffects {
               )
           : of(
               loadCalculationHistoryFailure({
-                error: 'unauthorized',
+                errorMessage: 'User has no valid cost roles.',
+                statusCode: undefined,
                 index: action.index,
               })
             );
@@ -180,10 +184,11 @@ export class CompareEffects {
               map((items: BomItem[]) =>
                 loadBomSuccess({ items, index: action.index })
               ),
-              catchError((errorResponse) =>
+              catchError((error: HttpErrorResponse) =>
                 of(
                   loadBomFailure({
-                    error: JSON.stringify(errorResponse),
+                    errorMessage: error.error.detail || error.message,
+                    statusCode: error.status,
                     index: action.index,
                   })
                 )
@@ -191,7 +196,8 @@ export class CompareEffects {
             )
           : of(
               loadBomFailure({
-                error: 'unauthorized',
+                errorMessage: 'User has no valid cost roles.',
+                statusCode: undefined,
                 index: action.index,
               })
             );

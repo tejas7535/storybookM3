@@ -32,26 +32,26 @@ export interface DetailState {
   detail: {
     loading: boolean;
     referenceType: ReferenceType;
-    error: string;
+    errorMessage: string;
   };
   calculations: {
     loading: boolean;
     items: Calculation[];
     selectedNodeIds: string[];
     selectedCalculation: { nodeId: string; calculation: Calculation };
-    error: string;
+    errorMessage: string;
   };
   bom: {
     loading: boolean;
     items: BomItem[];
     selectedItem: BomItem;
-    error: string;
+    errorMessage: string;
   };
   drawings: {
     loading: boolean;
     items: Drawing[];
     selected: { nodeId: string; drawing: Drawing };
-    error: string;
+    errorMessage: string;
   };
 }
 
@@ -60,26 +60,26 @@ export const initialState: DetailState = {
   detail: {
     loading: false,
     referenceType: undefined,
-    error: undefined,
+    errorMessage: undefined,
   },
   calculations: {
     loading: false,
     items: undefined,
     selectedNodeIds: undefined,
     selectedCalculation: undefined,
-    error: undefined,
+    errorMessage: undefined,
   },
   bom: {
     loading: false,
     items: undefined,
     selectedItem: undefined,
-    error: undefined,
+    errorMessage: undefined,
   },
   drawings: {
     loading: false,
     items: undefined,
     selected: undefined,
-    error: undefined,
+    errorMessage: undefined,
   },
 };
 
@@ -114,11 +114,11 @@ export const detailReducer = createReducer(
   ),
   on(
     loadReferenceTypeFailure,
-    (state: DetailState, { error }): DetailState => ({
+    (state: DetailState, { errorMessage }): DetailState => ({
       ...state,
       detail: {
         ...state.detail,
-        error,
+        errorMessage,
         loading: false,
       },
     })
@@ -155,17 +155,17 @@ export const detailReducer = createReducer(
   ),
   on(
     loadCalculationsFailure,
-    (state: DetailState, { error }): DetailState => ({
+    (state: DetailState, { errorMessage }): DetailState => ({
       ...state,
       calculations: {
         ...state.calculations,
-        error,
+        errorMessage,
         items: [],
         loading: false,
       },
       bom: {
         ...state.bom,
-        error,
+        errorMessage,
         items: [],
         loading: false,
       },
@@ -218,11 +218,11 @@ export const detailReducer = createReducer(
   ),
   on(
     loadDrawingsFailure,
-    (state: DetailState, { error }): DetailState => ({
+    (state: DetailState, { errorMessage }): DetailState => ({
       ...state,
       drawings: {
         ...state.drawings,
-        error,
+        errorMessage,
         items: [],
         loading: false,
       },
@@ -259,11 +259,11 @@ export const detailReducer = createReducer(
   ),
   on(
     loadBomFailure,
-    (state: DetailState, { error }): DetailState => ({
+    (state: DetailState, { errorMessage }): DetailState => ({
       ...state,
       bom: {
         ...state.bom,
-        error,
+        errorMessage,
         items: [],
         loading: false,
       },

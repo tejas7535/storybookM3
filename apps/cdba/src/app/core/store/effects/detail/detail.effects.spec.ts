@@ -1,8 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RoleFacade } from '@cdba/core/auth/role.facade';
 
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
@@ -59,13 +60,17 @@ describe('Detail Effects', () => {
   let router: Router;
   let snackBar: MatSnackBar;
 
-  const error = new HttpErrorResponse({});
+  const error = new HttpErrorResponse({
+    status: HttpStatusCode.BadRequest,
+    error: { detail: 'Error Message' },
+  });
 
   const createService = createServiceFactory({
     service: DetailEffects,
     imports: [RouterTestingModule, MatSnackBarModule],
     providers: [
       mockProvider(DetailService),
+      RoleFacade,
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -154,7 +159,8 @@ describe('Detail Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = loadReferenceTypeFailure({
-          error: JSON.stringify(error),
+          errorMessage: 'Error Message',
+          statusCode: 400,
         });
 
         const response = m.cold('-#|', undefined, error);
@@ -206,7 +212,8 @@ describe('Detail Effects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const result = loadCalculationsFailure({
-          error: JSON.stringify(error),
+          errorMessage: 'Error Message',
+          statusCode: 400,
         });
 
         const response = m.cold('-#|', undefined, error);
@@ -223,53 +230,58 @@ describe('Detail Effects', () => {
 
   describe('check roles and rights', () => {
     const stateWithoutRoles: any = {
-      ...AUTH_STATE_MOCK,
-      accountInfo: AUTH_STATE_MOCK.accountInfo,
-      idTokenClaims: {
-        ...AUTH_STATE_MOCK.accountInfo.idTokenClaims,
-        roles: [],
+      'azure-auth': {
+        ...AUTH_STATE_MOCK,
+        accountInfo: {
+          ...AUTH_STATE_MOCK.accountInfo,
+          idTokenClaims: {
+            roles: [],
+          },
+        },
       },
     };
-    const result = loadCalculationsFailure({
-      error: 'unauthorized',
-    });
 
     beforeEach(() => {
-      store.dispatch = jest.fn();
       store.setState(stateWithoutRoles);
+      store.overrideSelector(
+        getSelectedReferenceTypeIdentifier,
+        REFERENCE_TYPE_IDENTIFIER_MOCK
+      );
     });
 
-    test('before loading calculations', () => {
-      action = loadCalculations();
-
+    test(
+      'before loading calculations',
       marbles((m) => {
+        action = loadCalculations();
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('--b', { b: result });
+        const result = loadCalculationsFailure({
+          statusCode: undefined,
+          errorMessage: 'User has no valid cost roles.',
+        });
+        const expected = m.cold('-b', { b: result });
 
         m.expect(effects.loadCalculations$).toBeObservable(expected);
         m.flush();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          loadCalculationsFailure({ error: 'unauthorized' })
-        );
-      });
-    });
+      })
+    );
 
-    test('before loading bom', () => {
-      action = loadBom({ bomIdentifier: BOM_IDENTIFIER_MOCK });
-
+    test(
+      'before loading bom',
       marbles((m) => {
+        action = loadBom({ bomIdentifier: BOM_IDENTIFIER_MOCK });
         actions$ = m.hot('-a', { a: action });
 
-        const expected = m.cold('--b', { b: result });
+        const result = loadBomFailure({
+          statusCode: undefined,
+          errorMessage: 'User has no valid cost roles.',
+        });
+        const expected = m.cold('-b', { b: result });
 
-        m.expect(effects.loadCalculations$).toBeObservable(expected);
+        m.expect(effects.loadBom$).toBeObservable(expected);
         m.flush();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          loadBomFailure({ error: 'unauthorized' })
-        );
-      });
-    });
+      })
+    );
   });
 
   describe('loadDrawings$', () => {
@@ -308,7 +320,10 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadDrawingsFailure({ error: JSON.stringify(error) });
+        const result = loadDrawingsFailure({
+          errorMessage: 'Error Message',
+          statusCode: 400,
+        });
 
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
@@ -354,7 +369,10 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = loadBomFailure({ error: JSON.stringify(error) });
+        const result = loadBomFailure({
+          errorMessage: 'Error Message',
+          statusCode: 400,
+        });
 
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
