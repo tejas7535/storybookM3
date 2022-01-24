@@ -109,13 +109,15 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/sedo/src/**/*.ts", "apps/sedo/src/**/*.html"]
       },
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/sedo/checkstyle.xml"
+          "outputFile": "checkstyle/apps/sedo/checkstyle.xml",
+          "force": true
         }
       }
     },

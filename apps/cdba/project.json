@@ -113,13 +113,15 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/cdba/src/**/*.ts", "apps/cdba/src/**/*.html"]
       },
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/cdba/checkstyle.xml"
+          "outputFile": "checkstyle/apps/cdba/checkstyle.xml",
+          "force": true
         }
       }
     },

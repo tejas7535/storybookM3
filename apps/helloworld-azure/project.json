@@ -111,6 +111,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "apps/helloworld-azure/src/**/*.ts",
@@ -120,7 +121,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml"
+          "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml",
+          "force": true
         }
       }
     },

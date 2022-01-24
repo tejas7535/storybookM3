@@ -123,6 +123,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "apps/goldwind/src/**/*.ts",
@@ -132,7 +133,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/goldwind/checkstyle.xml"
+          "outputFile": "checkstyle/apps/goldwind/checkstyle.xml",
+          "force": true
         }
       }
     },

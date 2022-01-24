@@ -117,13 +117,15 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/ga/src/**/*.ts", "apps/ga/src/**/*.html"]
       },
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/ga/checkstyle.xml"
+          "outputFile": "checkstyle/apps/ga/checkstyle.xml",
+          "force": true
         }
       }
     },

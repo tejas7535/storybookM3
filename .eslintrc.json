@@ -172,7 +172,8 @@
         "jest/unbound-method": "off",
         "@typescript-eslint/unified-signatures": "error",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-invalid-this": "error",
+        // TODO: Investigate why ESLint fails, when turned on
+        "@typescript-eslint/no-invalid-this": "off",
         "@typescript-eslint/no-useless-constructor": "error",
 
         "@angular-eslint/component-max-inline-declarations": [

@@ -8,9 +8,9 @@
 ![@angular/cdk: 13.1.1](https://img.shields.io/badge/%40angular%2Fcdk-13.1.1-brightgreen)
 ![@angular/material: 13.1.1](https://img.shields.io/badge/%40angular%2Fmaterial-13.1.1-brightgreen)
 ![@ngrx/store: 13.0.2](https://img.shields.io/badge/%40ngrx%2Fstore-13.0.2-brightgreen)
-![jest: 27.3.1](https://img.shields.io/badge/jest-27.3.1-brightgreen)
+![jest: 27.4.7](https://img.shields.io/badge/jest-27.4.7-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
-![prettier: 2.4.1](https://img.shields.io/badge/prettier-2.4.1-brightgreen)
+![prettier: 2.5.1](https://img.shields.io/badge/prettier-2.5.1-brightgreen)
 ![tailwindcss: 3.0.12](https://img.shields.io/badge/tailwindcss-3.0.12-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.

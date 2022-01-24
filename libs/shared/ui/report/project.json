@@ -18,6 +18,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "libs/shared/ui/report/src/**/*.ts",
@@ -27,7 +28,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/ui/report/checkstyle.xml"
+          "outputFile": "checkstyle/libs/shared/ui/report/checkstyle.xml",
+          "force": true
         }
       }
     },

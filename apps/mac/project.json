@@ -109,13 +109,15 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/mac/src/**/*.ts", "apps/mac/src/**/*.html"]
       },
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/mac/checkstyle.xml"
+          "outputFile": "checkstyle/apps/mac/checkstyle.xml",
+          "force": true
         }
       }
     },

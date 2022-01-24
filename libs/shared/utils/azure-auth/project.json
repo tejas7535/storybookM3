@@ -18,6 +18,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "libs/shared/utils/azure-auth/src/**/*.ts",
@@ -27,7 +28,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/utils/azure-auth/checkstyle.xml"
+          "outputFile": "checkstyle/libs/shared/utils/azure-auth/checkstyle.xml",
+          "force": true
         }
       }
     },

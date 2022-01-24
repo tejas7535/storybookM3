@@ -18,6 +18,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "apps/shared-ui-storybook-e2e/src/**/*.ts",
@@ -27,7 +28,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/apps/shared-ui-storybook-e2e/checkstyle.xml"
+          "outputFile": "checkstyle/apps/shared-ui-storybook-e2e/checkstyle.xml",
+          "force": true
         }
       }
     }

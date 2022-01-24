@@ -19,6 +19,7 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "libs/shared/utils/http/src/**/*.ts",
@@ -28,7 +29,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/utils/http/checkstyle.xml"
+          "outputFile": "checkstyle/libs/shared/utils/http/checkstyle.xml",
+          "force": true
         }
       }
     },

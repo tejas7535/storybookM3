@@ -6,6 +6,7 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "libs/shared/cypress-utils/src/**/*.ts",
@@ -15,7 +16,8 @@
       "configurations": {
         "ci": {
           "format": "checkstyle",
-          "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml"
+          "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml",
+          "force": true
         }
       }
     },
