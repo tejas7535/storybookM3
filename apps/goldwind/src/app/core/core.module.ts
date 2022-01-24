@@ -10,7 +10,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -47,9 +46,6 @@ import { StoreModule } from './store/store.module';
       true,
       !environment.localDev
     ),
-
-    // HTTP
-    HttpModule.forRoot({ environment }),
 
     // Notifications
     SnackBarModule,

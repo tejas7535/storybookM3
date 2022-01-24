@@ -8,7 +8,6 @@ import { filter, of, throwError } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { ENV_CONFIG } from '@schaeffler/http';
 import { ReportModule } from '@schaeffler/report';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -41,15 +40,6 @@ describe('ResultPageComponent', () => {
               ? throwError(() => new Error('sometext'))
               : of(BEARING_CALCULATION_RESULT_MOCK)
           ),
-        },
-      },
-
-      {
-        provide: ENV_CONFIG,
-        useValue: {
-          environment: {
-            baseUrl: '',
-          },
         },
       },
       {

@@ -17,7 +17,6 @@ import {
   ApplicationInsightsService,
   COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
-import { HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -117,7 +116,6 @@ if (window.self !== window.top) {
     // HTTP
     HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
-    HttpModule.forRoot({ environment }),
   ],
   exports: [SettingsComponent, PagesStepperModule],
   providers,

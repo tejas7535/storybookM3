@@ -43,7 +43,6 @@
     "shared-ui-subheader": "libs/shared/ui/subheader",
     "shared-utils-application-insights": "libs/shared/utils/application-insights",
     "shared-utils-azure-auth": "libs/shared/utils/azure-auth",
-    "shared-utils-http": "libs/shared/utils/http",
     "shared-utils-transloco": "libs/shared/utils/transloco"
   }
 }
