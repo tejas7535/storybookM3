@@ -1,8 +1,0 @@
-{
-  "/api/*": {
-    "target": "https://cdba-d.dev.dp.schaeffler",
-    "secure": false,
-    "logLevel": "debug",
-    "changeOrigin": true
-  }
-}

@@ -97,7 +97,7 @@
       "configurations": {
         "local": {
           "browserTarget": "cdba:build:local",
-          "proxyConfig": "apps/cdba/proxy.conf.json"
+          "proxyConfig": "apps/cdba/proxy.conf.js"
         },
         "dev": {
           "browserTarget": "cdba:build:dev"
