@@ -2,7 +2,20 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
-import { Field, Hint, Subordinate, TableItem, TitleId } from './models';
+import { Field, Hint, Subordinate, TableItem, TitleId } from '../models';
+
+import {
+  mass,
+  findItem,
+  initalGreaseQuantity,
+  manualRelubricationQuantity,
+  manualRelubricationQuantitySpan,
+  automaticRelubricationQuantityPerDay,
+  automaticRelubricationPerWeek,
+  automaticRelubricationPerMonth,
+  automaticRelubricationPerYear,
+  automaticRelubricationQuantityUnit,
+} from './grease-helpers';
 
 @Injectable()
 export class GreaseReportService {
@@ -51,12 +64,7 @@ export class GreaseReportService {
             ...(table2?.data?.items
               .slice(0, 3)
               .map((item: TableItem[], index: number) => {
-                const table1Values = table1?.data?.items[index];
-
-                const findItem = (searchField: Field): TableItem =>
-                  table1Values?.find(
-                    ({ field }: TableItem) => field === searchField
-                  ) as TableItem;
+                const table1Values = table1?.data?.items[index] as TableItem[];
 
                 const greaseResult = {
                   title: '',
@@ -66,104 +74,124 @@ export class GreaseReportService {
                   showValues: false,
                   displayedColumns: ['title', 'values'],
                   dataSource: [
-                    findItem(Field.QVIN)?.value && {
+                    findItem(table1Values, Field.QVIN)?.value && {
                       title: 'initalGreaseQuantity',
-                      values: `${findItem(Field.QVIN).value} ${
-                        findItem(Field.QVIN).unit
-                      }`,
+                      values: `${initalGreaseQuantity(table1Values)}</br>${mass(
+                        item,
+                        findItem(table1Values, Field.QVIN).value as number
+                      )}`,
                     },
-                    (findItem(Field.QVRE_MAN_MIN) as any)?.value && {
+                    findItem(table1Values, Field.QVRE_MAN_MIN)?.value && {
                       title: 'manualRelubricationQuantityInterval',
-                      values: `${
-                        (+(findItem(Field.QVRE_MAN_MIN) as any).value +
-                          +(findItem(Field.QVRE_MAN_MAX) as any).value) /
-                        2
-                      } ${findItem(Field.QVRE_MAN_MIN).unit}/${Math.round(
-                        (+(findItem(Field.TFR_MIN) as any).value +
-                          +(findItem(Field.TFR_MIN) as any).value) /
-                          2 /
-                          24
-                      )} d`,
+                      values: `${manualRelubricationQuantity(table1Values)} ${
+                        findItem(table1Values, Field.QVRE_MAN_MIN).unit
+                      }/${manualRelubricationQuantitySpan(
+                        table1Values
+                      )}<br>${mass(
+                        item,
+                        manualRelubricationQuantity(table1Values),
+                        manualRelubricationQuantitySpan(table1Values)
+                      )}`,
                       tooltip: 'manualRelubricationQuantityIntervalTooltip',
                     },
-                    (findItem(Field.QVRE_AUT_MIN) as any)?.value && {
+                    findItem(table1Values, Field.QVRE_AUT_MIN)?.value && {
                       title: 'automaticRelubricationQuantityPerDay',
-                      values: `${(
-                        (+(findItem(Field.QVRE_AUT_MIN) as any).value +
-                          +(findItem(Field.QVRE_AUT_MAX) as any).value) /
-                        2
-                      ).toFixed(4)} ${findItem(Field.QVRE_AUT_MIN).unit}`,
+                      values: `${automaticRelubricationQuantityPerDay(
+                        table1Values
+                      )} ${automaticRelubricationQuantityUnit(
+                        table1Values
+                      )}/${translate('day')}<br>${mass(
+                        item,
+                        automaticRelubricationQuantityPerDay(table1Values),
+                        translate('day')
+                      )}`,
                       tooltip: 'automaticRelubricationQuantityPerDayTooltip',
                     },
                   ],
                 };
 
-                (greaseResult.dataSource as any)[3] = (
-                  findItem(Field.QVRE_AUT_MIN) as any
+                (greaseResult.dataSource as any)[3] = findItem(
+                  table1Values,
+                  Field.QVRE_AUT_MIN
                 )?.value && {
                   title: 'automaticRelubricationPerWeek',
                   values: `${Number(
-                    ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
-                      +(findItem(Field.QVRE_AUT_MAX) as any).value) /
-                      2) *
-                      7
-                  ).toFixed(2)} ${findItem(Field.QVIN).unit}/7d`,
+                    automaticRelubricationPerWeek(table1Values)
+                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    table1Values
+                  )}/7 ${translate('days')}<br>${mass(
+                    item,
+                    automaticRelubricationPerWeek(table1Values),
+                    `7 ${translate('days')}`
+                  )}`,
                   display: false,
                 };
-                (greaseResult.dataSource as any)[4] = (
-                  findItem(Field.QVRE_AUT_MIN) as any
+                (greaseResult.dataSource as any)[4] = findItem(
+                  table1Values,
+                  Field.QVRE_AUT_MIN
                 )?.value && {
                   title: 'automaticRelubricationPerMonth',
                   values: `${Number(
-                    ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
-                      +(findItem(Field.QVRE_AUT_MAX) as any).value) /
-                      2) *
-                      30
-                  ).toFixed(2)} ${findItem(Field.QVIN).unit}/30d`,
+                    automaticRelubricationPerMonth(table1Values)
+                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    table1Values
+                  )}/30 ${translate('days')}<br>${mass(
+                    item,
+                    automaticRelubricationPerMonth(table1Values),
+                    `30 ${translate('days')}`
+                  )}`,
                   display: false,
                 };
-                (greaseResult.dataSource as any)[5] = (
-                  findItem(Field.QVRE_AUT_MIN) as any
+                (greaseResult.dataSource as any)[5] = findItem(
+                  table1Values,
+                  Field.QVRE_AUT_MIN
                 )?.value && {
                   title: 'automaticRelubricationPerYear',
                   values: `${Number(
-                    ((+(findItem(Field.QVRE_AUT_MIN) as any).value +
-                      +(findItem(Field.QVRE_AUT_MAX) as any).value) /
-                      2) *
-                      365
-                  ).toFixed(2)} ${findItem(Field.QVIN).unit}/365d`,
+                    automaticRelubricationPerYear(table1Values)
+                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    table1Values
+                  )}/365 ${translate('days')}<br>${mass(
+                    item,
+                    automaticRelubricationPerYear(table1Values),
+                    `365 ${translate('days')}`
+                  )}`,
                   display: false,
                 };
-                (greaseResult.dataSource as any)[9] = (
-                  findItem(Field.TFG_MIN) as any
+                (greaseResult.dataSource as any)[9] = findItem(
+                  table1Values,
+                  Field.TFG_MIN
                 )?.value && {
                   title: 'greaseServiceLife',
                   values: `~ ${Math.round(
-                    (+(findItem(Field.TFG_MIN) as any).value +
-                      +(findItem(Field.TFG_MAX) as any).value) /
+                    (+(findItem(table1Values, Field.TFG_MIN) as any).value +
+                      +(findItem(table1Values, Field.TFG_MAX) as any).value) /
                       2 /
                       24
-                  )} d`,
+                  )} ${translate('day')}`,
                   display: false,
                 };
-                (greaseResult.dataSource as any)[10] = findItem(Field.ADD_REQ)
-                  ?.value && {
+                (greaseResult.dataSource as any)[10] = findItem(
+                  table1Values,
+                  Field.ADD_REQ
+                )?.value && {
                   title: 'additiveRequired',
-                  values: `${findItem(Field.ADD_REQ).value}`,
+                  values: `${findItem(table1Values, Field.ADD_REQ).value}`,
                   display: false,
                   tooltip: 'additiveRequiredTooltip',
                 };
-                (greaseResult.dataSource as any)[11] = findItem(Field.ADD_W)
-                  ?.value && {
+                (greaseResult.dataSource as any)[11] = findItem(
+                  table1Values,
+                  Field.ADD_W
+                )?.value && {
                   title: 'effectiveEpAdditivation',
-                  values: `${findItem(Field.ADD_W).value}`,
+                  values: `${findItem(table1Values, Field.ADD_W).value}`,
                   display: false,
                 };
 
                 item.forEach(
                   ({ field, value, unit }: TableItem, index: number) => {
                     if (index === 0) greaseResult.title = `${value}`;
-
                     switch (field) {
                       case Field.BASEOIL:
                         greaseResult.subtitlePart1 = `${value}`;

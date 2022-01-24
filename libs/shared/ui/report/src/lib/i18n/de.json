@@ -20,7 +20,7 @@
   "baseOilViscosityAt40": "Grundölviskosität bei 40°C",
   "lowerTemperatureLimit": "Untere Gebrauchstemperatur",
   "lowerTemperatureLimitTooltip": " Unteres Limit für die Temperatur beim Anlaufen des Lagers, siehe FAQs.",
-  "upperTemperatureLimit": "Obere Gebrauchstemperaturt",
+  "upperTemperatureLimit": "Obere Gebrauchstemperatur",
   "upperTemperatureLimitTooltip": " Ein Betrieb oberhalb dieser Temperatur führt zu sehr kurzen Fettgebrauchsdauern, s. FAQs.",
   "density": "Dichte",
   "lowFriction": "Geringe Reibung",
@@ -29,5 +29,7 @@
   "H1Registration": "NSF-H1 Registrierung, Kosher bzw. Halal-Zertifizierung",
   "errors": "Fehler",
   "warnings": "Warnungen",
-  "notes": "Hinweise"
+  "notes": "Hinweise",
+  "day": "Tag",
+  "days": "Tage"
 }

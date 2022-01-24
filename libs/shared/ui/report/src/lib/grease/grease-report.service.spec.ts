@@ -2,9 +2,13 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { activeGreaseJson, formattedGreaseJson, greaseReport } from '../mocks';
+import {
+  activeGreaseJson,
+  formattedGreaseJson,
+  greaseReport,
+} from '../../mocks';
 import { GreaseReportService } from './grease-report.service';
-import { TitleId } from './models';
+import { TitleId } from '../models';
 
 describe('ReportService testing', () => {
   let spectator: SpectatorService<GreaseReportService>;

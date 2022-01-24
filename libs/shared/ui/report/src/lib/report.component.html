@@ -238,9 +238,7 @@
 
             <ng-container matColumnDef="values">
               <td mat-cell *matCellDef="let element">
-                <p class="text-center">
-                  {{ element.values }}
-                </p>
+                <p class="text-center" [innerHTML]="element.values"></p>
               </td>
             </ng-container>
 

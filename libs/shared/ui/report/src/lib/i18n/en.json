@@ -29,5 +29,7 @@
   "H1Registration": "H1 registration (NSF-H1 kosher and halal certification)",
   "errors": "Errors",
   "warnings": "Warnings",
-  "notes": "Notes"
+  "notes": "Notes",
+  "day": "day",
+  "days": "days"
 }

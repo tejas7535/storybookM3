@@ -161,31 +161,37 @@ export const formattedGreaseJson = [
           dataSource: [
             {
               title: 'initalGreaseQuantity',
-              values: '66 cm³',
+              values:
+                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
-              values: '43 cm³/393 d',
+              values:
+                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.0880 cm³/day',
+              values:
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
-              values: '0.62 cm³/7d',
+              values:
+                '0.62 cm³/7 days<br><span class="text-low-emphasis">0.55 g/7 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerMonth',
-              values: '2.64 cm³/30d',
+              values:
+                '2.64 cm³/30 days<br><span class="text-low-emphasis">2.38 g/30 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerYear',
-              values: '32.12 cm³/365d',
+              values:
+                '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
               display: false,
             },
             {
@@ -207,7 +213,7 @@ export const formattedGreaseJson = [
             },
             {
               title: 'greaseServiceLife',
-              values: '~ 941 d',
+              values: '~ 941 day',
               display: false,
             },
             {
@@ -262,31 +268,37 @@ export const formattedGreaseJson = [
           dataSource: [
             {
               title: 'initalGreaseQuantity',
-              values: '66 cm³',
+              values:
+                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
-              values: '43 cm³/393 d',
+              values:
+                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.0880 cm³/day',
+              values:
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
-              values: '0.62 cm³/7d',
+              values:
+                '0.62 cm³/7 days<br><span class="text-low-emphasis">0.55 g/7 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerMonth',
-              values: '2.64 cm³/30d',
+              values:
+                '2.64 cm³/30 days<br><span class="text-low-emphasis">2.38 g/30 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerYear',
-              values: '32.12 cm³/365d',
+              values:
+                '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
               display: false,
             },
             {
@@ -308,7 +320,7 @@ export const formattedGreaseJson = [
             },
             {
               title: 'greaseServiceLife',
-              values: '~ 941 d',
+              values: '~ 941 day',
               display: false,
             },
             {
@@ -363,31 +375,37 @@ export const formattedGreaseJson = [
           dataSource: [
             {
               title: 'initalGreaseQuantity',
-              values: '66 cm³',
+              values:
+                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
-              values: '43 cm³/393 d',
+              values:
+                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.0880 cm³/day',
+              values:
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
-              values: '0.62 cm³/7d',
+              values:
+                '0.62 cm³/7 days<br><span class="text-low-emphasis">0.55 g/7 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerMonth',
-              values: '2.64 cm³/30d',
+              values:
+                '2.64 cm³/30 days<br><span class="text-low-emphasis">2.38 g/30 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerYear',
-              values: '32.12 cm³/365d',
+              values:
+                '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
               display: false,
             },
             {
@@ -409,7 +427,7 @@ export const formattedGreaseJson = [
             },
             {
               title: 'greaseServiceLife',
-              values: '~ 941 d',
+              values: '~ 941 day',
               display: false,
             },
             {

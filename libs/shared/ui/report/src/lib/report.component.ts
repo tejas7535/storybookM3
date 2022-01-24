@@ -16,7 +16,7 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import { GreaseReportService } from './grease-report.service';
+import { GreaseReportService } from './grease/grease-report.service';
 import { TableItem, Type } from './models';
 import { Subordinate } from './models/subordinate.model';
 import { ReportService } from './report.service';

@@ -161,16 +161,19 @@ export const activeGreaseJson = [
           dataSource: [
             {
               title: 'initalGreaseQuantity',
-              values: '66 cm³',
+              values:
+                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
-              values: '43 cm³/393 d',
+              values:
+                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.0880 cm³/day',
+              values:
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
           ],
@@ -189,16 +192,19 @@ export const activeGreaseJson = [
           dataSource: [
             {
               title: 'initalGreaseQuantity',
-              values: '66 cm³',
+              values:
+                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
-              values: '43 cm³/393 d',
+              values:
+                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.0880 cm³/day',
+              values:
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
           ],
@@ -217,16 +223,19 @@ export const activeGreaseJson = [
           dataSource: [
             {
               title: 'initalGreaseQuantity',
-              values: '66 cm³',
+              values:
+                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
-              values: '43 cm³/393 d',
+              values:
+                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
-              values: '0.0880 cm³/day',
+              values:
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
           ],
