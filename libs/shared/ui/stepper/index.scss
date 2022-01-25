@@ -15,7 +15,7 @@
       }
 
       &-label {
-        @apply text-low-emphasis font-medium hidden md:block;
+        @apply hidden font-medium text-low-emphasis md:block;
 
         &-active {
           @apply text-medium-emphasis;
@@ -23,7 +23,7 @@
       }
 
       &-label-selected {
-        @apply text-link block;
+        @apply block text-link;
       }
 
       &-header {
