@@ -1,12 +1,12 @@
-<div class="flex flex-col md:flex-row m-4">
-  <mat-card class="md:mr-4 md:mt-0 md:w-[380px] w-full">
+<div class="m-4 flex flex-col md:flex-row">
+  <mat-card class="w-full md:mr-4 md:mt-0 md:w-[380px]">
     <gq-basic-customer
       [customer]="customer"
       [lastYear]="lastYear"
       [currentYear]="currentYear"
     ></gq-basic-customer>
   </mat-card>
-  <mat-card class="md:mr-4 mt-4 md:mt-0 md:w-[380px] w-full">
+  <mat-card class="mt-4 w-full md:mr-4 md:mt-0 md:w-[380px]">
     <gq-keyaccount
       [customer]="customer"
       [lastYear]="lastYear"
@@ -14,7 +14,7 @@
     ></gq-keyaccount>
   </mat-card>
   <mat-card
-    class="mt-4 md:mt-0 md:w-[380px] w-full"
+    class="mt-4 w-full md:mt-0 md:w-[380px]"
     *ngIf="customer.accountPotential"
   >
     <gq-salesforce

@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col h-full"
+  class="flex h-full flex-col"
   *transloco="let t; read: 'caseView.caseCreation.createCustomerCase'"
 >
   <gq-dialog-header
@@ -7,10 +7,10 @@
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
   <div
-    class="flex flex-col h-full"
+    class="flex h-full flex-col"
     *ngIf="(createCaseLoading$ | ngrxPush) === false; else loading"
   >
-    <div class="flex mt-8">
+    <div class="mt-8 flex">
       <div class="w-5/6" *ngIf="customer$ | ngrxPush as customer">
         <gq-autocomplete-input
           #autocompleteComponent
@@ -29,18 +29,18 @@
     <div class="mt-8 flex h-full w-full flex-col">
       <div class="flex flex-row">
         <div class="w-1/2">
-          <span class="text-h6 text-medium-emphasis font-medium">
+          <span class="text-h6 font-medium text-medium-emphasis">
             {{ t('includeMaterials.title') }}
           </span>
         </div>
         <div class="w-1/2">
-          <span class="text-h6 text-medium-emphasis font-medium">
+          <span class="text-h6 font-medium text-medium-emphasis">
             {{ t('additionalMaterials.title') }}
           </span>
         </div>
       </div>
       <hr class="opacity-[12%]" />
-      <div class="flex flex-row mt-5 h-full">
+      <div class="mt-5 flex h-full flex-row">
         <div class="w-1/2">
           <gq-material-selection
             [customerId]="selectedCustomerId$ | ngrxPush"

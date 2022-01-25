@@ -1,13 +1,13 @@
 <div
-  class="w-full flex flex-col flex-1 h-full"
+  class="flex h-full w-full flex-1 flex-col"
   *transloco="let t; read: 'caseView'"
 >
-  <div class="p-4 flex bg-surface">
+  <div class="flex bg-surface p-4">
     <div class="w-full">
       <p class="text-h4 text-high-emphasis">{{ t('title') }}</p>
     </div>
   </div>
-  <mat-card class="h-full m-4">
+  <mat-card class="m-4 h-full">
     <gq-case-table
       *ngIf="
         (quotationsLoading$ | ngrxPush) === false &&

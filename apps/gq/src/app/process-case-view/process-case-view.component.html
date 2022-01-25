@@ -1,12 +1,12 @@
 <div
-  class="flex flex-col h-full"
+  class="flex h-full flex-col"
   *ngIf="
     !(isCustomerLoading$ | ngrxPush) && !(isQuotationLoading$ | ngrxPush);
     else loading
   "
 >
   <mat-card
-    class="!pt-0 !pb-9 !shadow-none border-b border-border"
+    class="border-b border-border !pt-0 !pb-9 !shadow-none"
     *ngIf="quotation$ | ngrxPush as quotation"
   >
     <schaeffler-subheader
@@ -14,7 +14,7 @@
       [breadcrumbs]="breadcrumbs"
     >
       <ng-container titleContent>
-        <span *ngIf="quotation.sapId" class="ml-4 text-low-emphasis pr-4">{{
+        <span *ngIf="quotation.sapId" class="ml-4 pr-4 text-low-emphasis">{{
           quotation.sapId | sapQuotation
         }}</span>
         <gq-header-content [quotation]="quotation"></gq-header-content>
@@ -29,7 +29,7 @@
     </schaeffler-subheader>
   </mat-card>
   <mat-card
-    class="flex h-full m-4 mt-5"
+    class="m-4 mt-5 flex h-full"
     *ngIf="!(quotation$ | ngrxPush).calculationInProgress; else calcInProgress"
   >
     <gq-quotation-details-table

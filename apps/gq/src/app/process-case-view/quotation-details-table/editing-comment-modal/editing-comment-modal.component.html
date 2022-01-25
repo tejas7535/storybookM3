@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col h-full"
+  class="flex h-full flex-col"
   *transloco="let t; read: 'processCaseView.editingCommentModal'"
 >
   <gq-dialog-header
@@ -8,7 +8,7 @@
   >
   </gq-dialog-header>
   <div
-    class="flex flex-col h-full"
+    class="flex h-full flex-col"
     *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
   >
     <div class="h-full">
@@ -40,7 +40,7 @@
         <span> {{ t('confirm') | uppercase }} </span>
       </button>
       <button
-        class="!pl-8 !pr-8 !ml-6"
+        class="!ml-6 !pl-8 !pr-8"
         color="primary"
         mat-stroked-button
         (click)="closeDialog()"

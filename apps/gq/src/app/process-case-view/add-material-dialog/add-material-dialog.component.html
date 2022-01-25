@@ -1,15 +1,15 @@
 <div
-  class="flex flex-col h-full"
+  class="flex h-full flex-col"
   *transloco="let t; read: 'shared.caseMaterial.addEntry.processCase'"
 >
   <h2 mat-dialog-title>
     {{ t('dialogTitle') }}
-    <mat-icon class="cursor-pointer float-right" (click)="closeDialog()"
+    <mat-icon class="float-right cursor-pointer" (click)="closeDialog()"
       >close</mat-icon
     >
   </h2>
   <div
-    class="flex flex-col h-full"
+    class="flex h-full flex-col"
     *ngIf="!(updateLoading$ | ngrxPush); else loading"
   >
     <gq-add-entry></gq-add-entry>

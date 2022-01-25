@@ -6,8 +6,8 @@
     (selectManualPrice)="selectPrice()"
     [isLoading]="isLoading"
   >
-    <div content class="mt-[10px] w-full flex">
-      <div class="grow max-w-[25%]">
+    <div content class="mt-[10px] flex w-full">
+      <div class="max-w-[25%] grow">
         <div class="mb-1 text-body-2 text-medium-emphasis">
           {{ t('priceLabel') }}:
         </div>
@@ -46,7 +46,7 @@
               trackBy: trackByFn
             "
           >
-            <mat-icon class="text-link mr-1">star</mat-icon>
+            <mat-icon class="mr-1 text-link">star</mat-icon>
           </ng-container>
           <ng-container
             *ngFor="
@@ -54,7 +54,7 @@
               trackBy: trackByFn
             "
           >
-            <mat-icon class="text-link mr-1">star_border</mat-icon>
+            <mat-icon class="mr-1 text-link">star_border</mat-icon>
           </ng-container>
         </div>
       </div>

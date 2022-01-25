@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col">
+<div class="flex h-full flex-col">
   <div class="h-full overflow-y-auto">
     <span> {{ data.displayText }}</span>
     <div class="mt-2" *ngIf="data.list">
@@ -7,10 +7,10 @@
       </li>
     </div>
   </div>
-  <div class="flex flex-row mt-11">
+  <div class="mt-11 flex flex-row">
     <button
       color="primary"
-      class="text-button font-medium !mr-6"
+      class="!mr-6 text-button font-medium"
       mat-raised-button
       (click)="closeDialog(true)"
     >

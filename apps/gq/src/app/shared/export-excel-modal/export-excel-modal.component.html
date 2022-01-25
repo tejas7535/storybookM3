@@ -1,5 +1,5 @@
 <div
-  class="h-full flex flex-col"
+  class="flex h-full flex-col"
   *transloco="let t; read: 'processCaseView.exportExcelModal'"
 >
   <div *ngIf="!(transactionsLoading$ | ngrxPush); else loading" class="h-full">
@@ -11,10 +11,10 @@
       <mat-radio-group
         [(ngModel)]="exportExcelOption"
         aria-labelledby="example-radio-group-label"
-        class="grid grid-cols-1 divide-y !divide-light text-[12px]"
+        class="!divide-light grid grid-cols-1 divide-y text-[12px]"
       >
-        <div class="grid grid-cols-2 pb-[16px] mt-[60px]">
-          <div class="text-medium-emphasis ml-6">
+        <div class="mt-[60px] grid grid-cols-2 pb-[16px]">
+          <div class="ml-6 text-medium-emphasis">
             {{ t('chooseColumn.title') }}
           </div>
           <div class="text-medium-emphasis">

@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col h-full"
+  class="flex h-full flex-col"
   *transloco="let t; read: 'caseView.caseCreation.createManualCase'"
 >
   <gq-dialog-header
@@ -7,7 +7,7 @@
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
   <div
-    class="mt-8 flex flex-col h-full"
+    class="mt-8 flex h-full flex-col"
     *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
   >
     <div class="flex">

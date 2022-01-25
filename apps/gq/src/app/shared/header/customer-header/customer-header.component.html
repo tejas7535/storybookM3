@@ -1,17 +1,17 @@
 <mat-card
-  class="mat-elevation-z0 border border-solid border-border mt-6"
+  class="mat-elevation-z0 mt-6 border border-solid border-border"
   *transloco="let t; read: 'shared.customerHeader'"
 >
   <div class="flex flex-row">
-    <div class="w-full flex flex-row pr-4" *ngIf="customer">
+    <div class="flex w-full flex-row pr-4" *ngIf="customer">
       <div class="mr-12">
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('name') }}: </span>
           <span>
             {{ customer.name }}
           </span>
         </div>
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('id') }}: </span>
           <span>
             {{ customer.identifier.customerId }}
@@ -19,13 +19,13 @@
         </div>
       </div>
       <div class="mr-12 overflow-x-hidden sm:overflow-x-visible">
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('keyAccount') }}: </span>
           <span>
             {{ customer.keyAccount | nullableString }}
           </span>
         </div>
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis"
             >{{ t('subKeyAccount') }}:
           </span>
@@ -35,13 +35,13 @@
         </div>
       </div>
       <div class="mr-12 overflow-x-hidden md:overflow-x-visible">
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis"
             >{{ t('classification') }}:
           </span>
           <span>{{ customer.abcClassification | nullableString }} </span>
         </div>
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis"
             >{{ t('sectorManagement') }}:
           </span>
@@ -50,8 +50,8 @@
           </span>
         </div>
       </div>
-      <div class="mr-12 hidden md:flex md:flex-col overflow-x-hidden">
-        <div class="text-caption leading-6 whitespace-nowrap">
+      <div class="mr-12 hidden overflow-x-hidden md:flex md:flex-col">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis"
             >{{ t('netSalesLastYear') }} {{ lastYear }}:</span
           >
@@ -62,7 +62,7 @@
             }}
           </span>
         </div>
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis"
             >{{ t('gpiLastYear') }} {{ lastYear }}:</span
           >
@@ -71,14 +71,14 @@
           </span>
         </div>
       </div>
-      <div class="hidden lg:flex lg:flex-col overflow-x-hidden">
-        <div class="text-caption leading-6 whitespace-nowrap">
+      <div class="hidden overflow-x-hidden lg:flex lg:flex-col">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('country') }}:</span>
           <span>
             {{ customer.country | nullableString }}
           </span>
         </div>
-        <div class="text-caption leading-6 whitespace-nowrap">
+        <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('currency') }}:</span>
           <span>
             {{ customer.currency }}
@@ -86,17 +86,17 @@
         </div>
       </div>
     </div>
-    <div class="!absolute !bg-surface h-10 top-5 right-0">
+    <div class="!absolute top-5 right-0 h-10 !bg-surface">
       <button
         color="primary"
         class="font-medium"
         mat-button
         (click)="openCustomer()"
       >
-        <mat-icon class="text-h6 align-arrow-forward">arrow_forward</mat-icon>
+        <mat-icon class="align-arrow-forward text-h6">arrow_forward</mat-icon>
         {{ t('details') }}
       </button>
     </div>
   </div>
 </mat-card>
-<div class="bg-surface absolute"></div>
+<div class="absolute bg-surface"></div>

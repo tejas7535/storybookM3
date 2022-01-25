@@ -1,13 +1,13 @@
 <div
   *transloco="let t; read: 'caseView.caseCreation.importCase'"
-  class="flex flex-col h-full"
+  class="flex h-full flex-col"
 >
   <gq-dialog-header
     [title]="title$ | ngrxPush"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
   <div
-    class="mt-8 flex flex-col h-full"
+    class="mt-8 flex h-full flex-col"
     *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
   >
     <div class="h-full" *ngIf="quotation$ | ngrxPush as quotation">
