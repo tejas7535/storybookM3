@@ -29,7 +29,7 @@
         <ng-container
           *ngIf="(activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE"
         >
-          <div class="mt-8 sm:mb-8 mb-4 max-w-sm">
+          <div class="mt-8 mb-4 max-w-sm sm:mb-8">
             <mm-bearing-search
               (bearing)="selectBearing($event)"
               [selectedBearing]="selectedBearingOption$ | ngrxPush"
@@ -72,7 +72,7 @@
                   >
                     <div
                       [ngClass]="{
-                        'max-w-md sm:w-[26rem] border p-4 border-border rounded mt-8':
+                        'mt-8 max-w-md rounded border border-border p-4 sm:w-[26rem]':
                           meta.member.id === IDMM_MEASSURING_METHOD
                       }"
                     >
@@ -132,13 +132,13 @@
 
               <div
                 [ngClass]="{
-                  'w-full border border-border p-4 rounded mt-8':
+                  'mt-8 w-full rounded border border-border p-4':
                     isCalculationOptions(pagedMeta.page.id)
                 }"
               >
                 <div
                   [ngClass]="{
-                    'border border-border p-4 rounded mt-8 sm:max-w-xs':
+                    'mt-8 rounded border border-border p-4 sm:max-w-xs':
                       pagedMeta.page.id === RSY_PAGE_BEARING_TYPE &&
                       form.value.objects[0].properties[0].value
                   }"
@@ -172,7 +172,7 @@
                         next(pagedMeta.page.id, pagedMetas, stepper);
                         stepper.hasResultNext && resultPage.send(form)
                       "
-                      class="uppercase w-full md:max-w-xs"
+                      class="w-full uppercase md:max-w-xs"
                     >
                       {{
                         stepper.hasResultNext

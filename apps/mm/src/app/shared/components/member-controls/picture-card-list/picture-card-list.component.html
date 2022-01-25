@@ -1,14 +1,7 @@
 <mm-magnetic-slider *transloco="let t">
   <div *ngFor="let option of options" class="snap-center">
     <div
-      class="
-        w-[calc(100vw-8rem)]
-        max-w-[320px]
-        h-[calc(100%)]
-        py-4
-        sm:w-auto
-        px-0.5
-      "
+      class="h-[calc(100%)] w-[calc(100vw-8rem)] max-w-[320px] py-4 px-0.5 sm:w-auto"
     >
       <schaeffler-picture-card
         [title]="translationRequired ? t(option.value) : option.value"

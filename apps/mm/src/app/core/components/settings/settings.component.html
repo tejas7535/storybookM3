@@ -1,6 +1,6 @@
 <div *transloco="let t; read: 'sidebar'">
-  <div class="w-full md:w-80 px-4" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
-    <mat-form-field appearance="outline" class="w-full mt-1">
+  <div class="w-full px-4 md:w-80" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
+    <mat-form-field appearance="outline" class="mt-1 w-full">
       <mat-label>{{ t('languageSelectLabel') }}</mat-label>
       <mat-select
         [formControl]="languageSelectControl"

@@ -4,21 +4,11 @@
     {{ t(pageMeta.children[1].page.page.text) }}
   </h6>
   <div
-    class="
-      md:flex
-      min-w-[calc(100vw
-      -
-      4rem)]
-      md:items-start
-      space-y-4
-      md:space-y-0
-      gap-4
-      my-4
-    "
+    class="min-w-[calc(100vw - 4rem)] my-4 gap-4 space-y-4 md:flex md:items-start md:space-y-0"
   >
     <div
       *ngFor="let metaGroup of pageMeta.children; trackBy: trackByFn"
-      class="md:w-[50%] h-full"
+      class="h-full md:w-[50%]"
     >
       <mat-expansion-panel
         class="calculation-panel h-[calc(100%)]"
@@ -30,7 +20,7 @@
         <div class="flex flex-wrap">
           <div
             *ngFor="let meta of metaGroup.metas"
-            class="w-full md:w-[50%] control-wrapper"
+            class="control-wrapper w-full md:w-[50%]"
           >
             <cae-member-control
               [class.wide]="true"

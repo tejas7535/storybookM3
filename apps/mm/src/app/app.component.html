@@ -15,8 +15,8 @@
   </ng-container>
 </schaeffler-app-shell>
 
-<div *ngIf="embedded" class="h-full w-full fixed">
-  <div class="z-10 fixed bg-surface">
+<div *ngIf="embedded" class="fixed h-full w-full">
+  <div class="fixed z-10 bg-surface">
     <button
       (click)="drawer.toggle()"
       mat-icon-button
@@ -36,17 +36,17 @@
 <ng-template #content>
   <div
     [ngClass]="embedded ? 'bg-surface' : 'bg-background-dark'"
-    class="min-h-full flex flex-col"
+    class="flex min-h-full flex-col"
   >
     <div
-      [ngClass]="embedded ? 'mt-5 pt-5 m-0 p-0' : 'md:m-4 px-4 pb-4'"
-      class="flex-auto bg-surface flex"
+      [ngClass]="embedded ? 'm-0 mt-5 p-0 pt-5' : 'px-4 pb-4 md:m-4'"
+      class="flex flex-auto bg-surface"
     >
-      <div class="flex-1 max-w-full">
+      <div class="max-w-full flex-1">
         <router-outlet></router-outlet>
       </div>
       <div
-        class="mx-auto max-w-screen-md w-full"
+        class="mx-auto w-full max-w-screen-md"
         [ngClass]="{ hidden: !isCookiePage }"
       >
         <div class="py-3">
