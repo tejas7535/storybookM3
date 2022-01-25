@@ -1,4 +1,3 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -15,12 +14,7 @@ describe('PcmCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PcmCellRendererComponent,
-    imports: [
-      MatChipsModule,
-      MatTooltipModule,
-      FlexLayoutModule,
-      TranslocoTestingModule,
-    ],
+    imports: [MatChipsModule, MatTooltipModule, TranslocoTestingModule],
     providers: [
       {
         provide: MATERIAL_SANITY_CHECKS,

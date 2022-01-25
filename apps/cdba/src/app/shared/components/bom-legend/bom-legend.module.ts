@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
@@ -12,7 +11,6 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
   declarations: [BomLegendComponent, MaterialDesignationCellRendererComponent],
   imports: [
     CommonModule,
-    FlexLayoutModule,
     AgGridModule.withComponents([MaterialDesignationCellRendererComponent]),
 
     MaterialNumberModule,

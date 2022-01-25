@@ -1,5 +1,3 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
-
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import {
@@ -19,7 +17,6 @@ describe('BomLegendComponent', () => {
     component: BomLegendComponent,
     declarations: [MaterialDesignationCellRendererComponent],
     imports: [
-      FlexLayoutModule,
       AgGridModule.withComponents([MaterialDesignationCellRendererComponent]),
     ],
     providers: [
