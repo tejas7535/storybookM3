@@ -1,7 +1,7 @@
 $footer-min-height: 48px;
 
 :host {
-  @apply fixed w-full h-full inset-0;
+  @apply fixed inset-0 h-full w-full;
   padding: constant(safe-area-inset-top) constant(safe-area-inset-right)
     constant(safe-area-inset-bottom) constant(safe-area-inset-left);
   padding: env(safe-area-inset-top) env(safe-area-inset-right)

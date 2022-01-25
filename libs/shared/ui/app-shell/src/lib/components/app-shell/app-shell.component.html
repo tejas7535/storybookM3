@@ -19,7 +19,7 @@
     </ng-template>
   </button>
   <span
-    class="text-subtitle-1 sm:text-h6 text-medium-emphasis pr-2 sm:pr-3 inline-block truncate outline-none"
+    class="inline-block truncate pr-2 text-subtitle-1 text-medium-emphasis outline-none sm:pr-3 sm:text-h6"
     [class.ml-1]="hasSidebarLeft"
     [class.ml-2]="!hasSidebarLeft"
     [class.cursor-pointer]="appTitleLink"
@@ -42,7 +42,7 @@
 <!-- end header -->
 
 <!-- start content container -->
-<mat-sidenav-container class="flex flex-col h-full overflow-hidden">
+<mat-sidenav-container class="flex h-full flex-col overflow-hidden">
   <!-- start left sidebar -->
   <mat-sidenav
     #drawer
@@ -82,28 +82,28 @@
         <ng-content select="[footerContent]"></ng-content>
       </div>
       <div
-        class="flex md:flex-row flex-col justify-center shrink-0 md:flex items-center"
+        class="flex shrink-0 flex-col items-center justify-center md:flex md:flex-row"
       >
-        <div class="flex flex-row flex-wrap mx-4 sm:mx-0">
+        <div class="mx-4 flex flex-row flex-wrap sm:mx-0">
           <ng-container *ngFor="let footerLink of footerLinks; let i = index">
             <a
               *ngIf="footerLink.external"
               [href]="footerLink.link"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-medium-emphasis text-caption leading-4 py-1"
+              class="py-1 text-caption leading-4 text-medium-emphasis"
             >
               {{ footerLink.title }}
             </a>
             <div
               *ngIf="!footerLink.external"
               [routerLink]="footerLink.link"
-              class="footer-link-internal cursor-pointer inline-block text-medium-emphasis text-caption outline-none leading-4 py-1"
+              class="footer-link-internal inline-block cursor-pointer py-1 text-caption leading-4 text-medium-emphasis outline-none"
             >
               {{ footerLink.title }}
             </div>
             <span
-              class="separator text-medium-emphasis text-caption mx-1 leading-4 py-1"
+              class="separator mx-1 py-1 text-caption leading-4 text-medium-emphasis"
               *ngIf="i !== footerLinks.length - 1 || appVersion"
               >|</span
             >
@@ -111,7 +111,7 @@
           <ng-container *ngIf="appVersion">
             <span
               id="version"
-              class="text-medium-emphasis text-caption leading-4 py-1"
+              class="py-1 text-caption leading-4 text-medium-emphasis"
             >
               {{ appVersion }}
             </span>
