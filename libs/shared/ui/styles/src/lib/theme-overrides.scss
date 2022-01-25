@@ -14,7 +14,7 @@
 
   .mat-button-base:not(.mat-fab):not(.mat-mini-fab):not(.mat-icon-button) {
     mat-icon {
-      @apply w-[18px] h-[18px] text-[18px] -ml-1.5 mr-2;
+      @apply -ml-1.5 mr-2 h-[18px] w-[18px] text-[18px];
     }
   }
 
@@ -47,7 +47,7 @@
 
   // tooltip overrides
   mat-tooltip-component .mat-tooltip {
-    @apply whitespace-pre-line text-caption py-2 px-4;
+    @apply whitespace-pre-line py-2 px-4 text-caption;
     background: $schaeffler-carbon-gray; // Todo: change to whatever the new primary-900 will be called
   }
 
