@@ -1,10 +1,10 @@
 <div
-  class="flex flex-row justify-between items-baseline w-full gap-4"
+  class="flex w-full flex-row items-baseline justify-between gap-4"
   *transloco="let t"
 >
   <mat-form-field
     appearance="outline"
-    class="grow flex flex-row hover:outline-none pb-4"
+    class="flex grow flex-row pb-4 hover:outline-none"
   >
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <mat-select [formControl]="control" [placeholder]="placeholder">

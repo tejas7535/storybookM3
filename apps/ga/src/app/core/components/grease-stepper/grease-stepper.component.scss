@@ -1,7 +1,7 @@
 @import 'libs/shared/ui/stepper';
 
 ::ng-deep .mat-step-header[aria-labelledby='disabled'] {
-  @apply cursor-not-allowed pointer-events-none opacity-60;
+  @apply pointer-events-none cursor-not-allowed opacity-60;
 }
 ::ng-deep .mat-step-header[aria-labelledby='enabled'] {
   .mat-step-icon {
@@ -38,7 +38,7 @@
   @apply max-h-12;
 
   mat-step-header {
-    @apply pl-4 max-h-12;
+    @apply max-h-12 pl-4;
   }
 
   .mat-stepper-horizontal-line {

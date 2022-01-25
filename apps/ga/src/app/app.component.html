@@ -5,10 +5,10 @@
   [footerLinks]="footerLinks$ | ngrxPush"
 >
   <ng-container sidenavBody>
-    <div class="flex flex-row m-4" *transloco="let t">
+    <div class="m-4 flex flex-row" *transloco="let t">
       <mat-form-field
         appearance="outline"
-        class="grow flex hover:outline-none pb-4"
+        class="flex grow pb-4 hover:outline-none"
       >
         <mat-label>{{ t('settings.language') }}</mat-label>
         <mat-select [formControl]="languageControl">

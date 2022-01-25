@@ -1,6 +1,6 @@
 mat-card-content.card-content {
   height: calc(100% - 18px);
-  @apply md:w-full flex min-h-[150px] md:min-h-0;
+  @apply flex min-h-[150px] md:min-h-0 md:w-full;
 }
 
 mat-card.card-flex,
@@ -21,5 +21,5 @@ mat-card-content.card-flex {
 }
 
 div span span .start-icon {
-  @apply text-[24px] m-0 w-auto h-auto;
+  @apply m-0 h-auto w-auto text-[24px];
 }
