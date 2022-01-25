@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'parameters'">
-  <div class="h-full flex flex-col">
+  <div class="flex h-full flex-col">
     <schaeffler-subheader
-      class="shrink flex"
+      class="flex shrink"
       [showBackButton]="true"
       [title]="(selectedBearing$ | ngrxPush) || 'Title'"
       (backButtonClicked)="navigateBack()"
@@ -28,9 +28,9 @@
         </div>
       </ng-container> -->
     </schaeffler-subheader>
-    <div class="flex flex-col sm:flex-row gap-5 sm:gap-16 pt-2">
-      <div class="flex flex-col grow max-w-sm">
-        <div class="flex flex-row justify-between items-center mb-4">
+    <div class="flex flex-col gap-5 pt-2 md:flex-row md:gap-16">
+      <div class="flex max-w-sm grow flex-col">
+        <div class="mb-4 flex flex-row items-center justify-between">
           <h5>{{ t('loads') }}</h5>
           <span
             class="text-caption font-medium tracking-wide text-low-emphasis"
@@ -56,12 +56,12 @@
             [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
             [onlyPositive]="true"
           ></ga-input>
-          <div class="flex flex-row -ml-4 -mt-3">
+          <div class="-ml-4 -mt-3 flex flex-row">
             <button
               mat-button
               color="primary"
               [disableRipple]="true"
-              class="focus:outline-none tracking-wider uppercase"
+              class="uppercase tracking-wider focus:outline-none"
               (click)="toggleLoadsType()"
             >
               {{ t('loadsUnknown') }}
@@ -74,12 +74,12 @@
             [label]="t('load')"
             [options]="loadRatioOptions"
           ></ga-select>
-          <div class="flex flex-row -ml-4 -mt-3">
+          <div class="-ml-4 -mt-3 flex flex-row">
             <button
               mat-button
               color="primary"
               [disableRipple]="true"
-              class="focus:outline-none tracking-wider uppercase"
+              class="uppercase tracking-wider focus:outline-none"
               (click)="toggleLoadsType()"
             >
               {{ t('enterRadialAndAxialLoad') }}
@@ -87,8 +87,8 @@
           </div>
         </ng-template>
       </div>
-      <div class="flex flex-col grow max-w-sm">
-        <div class="flex flex-row justify-between items-center mb-4">
+      <div class="flex max-w-sm grow flex-col">
+        <div class="mb-4 flex flex-row items-center justify-between">
           <h5>{{ t('motionInfluences') }}</h5>
         </div>
         <ga-select
@@ -132,8 +132,8 @@
           ></ga-input>
         </ng-template>
       </div>
-      <div class="flex flex-col grow max-w-sm">
-        <div class="flex flex-row justify-between items-center mb-4">
+      <div class="flex max-w-sm grow flex-col">
+        <div class="mb-4 flex flex-row items-center justify-between">
           <h5>{{ t('otherInfluences') }}</h5>
         </div>
         <ga-input
@@ -157,7 +157,7 @@
         ></ga-select>
       </div>
     </div>
-    <div class="flex-1 flex flex-col place-content-end gap-2">
+    <div class="flex flex-1 flex-col place-content-end gap-2">
       <button
         mat-raised-button
         color="primary"
