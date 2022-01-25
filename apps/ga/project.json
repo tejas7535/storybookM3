@@ -1,11 +1,16 @@
 {
   "projectType": "application",
+  "generators": {
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
   "root": "apps/ga",
   "sourceRoot": "apps/ga/src",
   "prefix": "ga",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/ga",
@@ -135,6 +140,13 @@
       "options": {
         "jestConfig": "apps/ga/jest.config.js",
         "passWithNoTests": true
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "apps/ga"
       }
     }
   },
