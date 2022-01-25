@@ -5,12 +5,12 @@
   >
     <mat-icon
       *ngIf="i > 0"
-      class="text-link mr-2 pl-2 !text-body-1 !leading-none"
+      class="mr-2 pl-2 !text-body-1 !leading-none text-link"
       >chevron_right</mat-icon
     >
     <span *ngIf="breadcrumb.url; else nolink">
       <span
-        class="text-link cursor-pointer"
+        class="cursor-pointer text-link"
         [routerLink]="breadcrumb.url"
         [queryParams]="breadcrumb.queryParams"
         >{{ breadcrumb.label }}</span
