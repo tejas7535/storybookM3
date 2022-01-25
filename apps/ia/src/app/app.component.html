@@ -10,7 +10,7 @@
   </ng-container>
 
   <ng-container mainContent>
-    <div class="flex flex-col h-full w-full">
+    <div class="flex h-full w-full flex-col">
       <ia-filter-section></ia-filter-section>
 
       <nav
@@ -30,7 +30,7 @@
           >{{ t(tab.label) | uppercase }}</a
         >
       </nav>
-      <div class="flex flex-col overflow-y-auto grow p-4 border-border">
+      <div class="flex grow flex-col overflow-y-auto border-border p-4">
         <div class="flex-1">
           <router-outlet></router-outlet>
         </div>

@@ -1,6 +1,6 @@
 <div class="py-4 px-5" *transloco="let t; read: 'userSettings'">
-  <div class="text-subtitle-1 mb-1">{{ t('language.title.main') }}</div>
-  <mat-form-field appearance="outline" class="w-full mb-3">
+  <div class="mb-1 text-subtitle-1">{{ t('language.title.main') }}</div>
+  <mat-form-field appearance="outline" class="mb-3 w-full">
     <mat-label>{{ t('language.languageSelect.label') }}</mat-label>
     <mat-select [formControl]="languageSelectControl">
       <mat-option *ngFor="let lang of availableLanguages" [value]="lang.id">

@@ -18,15 +18,15 @@
 }
 
 .drag-list-wrapper {
-  @apply w-[400px] max-w-full flex flex-col;
+  @apply flex w-[400px] max-w-full flex-col;
 }
 
 .drag-list {
-  @apply border border-border rounded mt-2 bg-surface min-h-[60px] flex-1;
+  @apply mt-2 min-h-[60px] flex-1 rounded border border-border bg-surface;
 }
 
 .drag-list-item {
-  @apply border-b border-border px-3 py-4 cursor-move text-high-emphasis bg-surface;
+  @apply cursor-move border-b border-border bg-surface px-3 py-4 text-high-emphasis;
 }
 
 .drag-list-item:last-child {

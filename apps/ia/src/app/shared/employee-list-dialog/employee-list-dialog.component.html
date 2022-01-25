@@ -1,12 +1,12 @@
 <div mat-dialog-title class="!flex flex-row" *ngIf="data?.headings?.header">
-  <h6 class="grow !text-high-emphasis !mt-0 !mr-0 !mb-4 !ml-1 font-medium">
+  <h6 class="!mt-0 !mr-0 !mb-4 !ml-1 grow font-medium !text-high-emphasis">
     {{ data?.headings?.header }}
   </h6>
 </div>
 <mat-dialog-content class="!overflow-hidden">
   <h6
     *ngIf="data?.headings?.contentTitle"
-    class="text-overline font-medium leading-3 uppercase mt-0 mr-0 mb-2 ml-1"
+    class="mt-0 mr-0 mb-2 ml-1 text-overline font-medium uppercase leading-3"
   >
     {{ data?.headings?.contentTitle }}
   </h6>
@@ -33,7 +33,7 @@
   </cdk-virtual-scroll-viewport>
 </mat-dialog-content>
 <mat-dialog-actions align="end" *transloco="let t; read: 'employeeListDialog'">
-  <p class="mr-auto text-low-emphasis text-caption">
+  <p class="mr-auto text-caption text-low-emphasis">
     {{
       t('total', {
         total: data.employees?.length

@@ -1,19 +1,19 @@
 <div
-  class="flex-wrap gap-3 items-center justify-center"
+  class="flex-wrap items-center justify-center gap-3"
   [ngClass]="legend?.length > 2 ? 'grid grid-cols-3' : 'flex flex-row'"
 >
   <div
     *ngFor="let item of legend; trackBy: trackByFn"
-    class="flex items-center cursor-pointer"
+    class="flex cursor-pointer items-center"
     (click)="onLegendItemClicked(item.name)"
   >
     <div
-      class="inline-block flex-row h-3.5 w-7 rounded mr-1"
+      class="mr-1 inline-block h-3.5 w-7 flex-row rounded"
       [ngClass]="{ 'bg-disabledSecondary': !item.selected }"
       [style.background-color]="item.selected ? item.color : undefined"
     ></div>
     <span
-      class="inline font-light text-caption"
+      class="inline text-caption font-light"
       [ngClass]="{ 'text-low-emphasis': !item.selected }"
       >{{ item.name }}</span
     >

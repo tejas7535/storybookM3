@@ -1,7 +1,7 @@
 <div
   #chartContainer
   id="chartContainer"
-  class="grow overflow-hidden flex flex-col h-full"
+  class="flex h-full grow flex-col overflow-hidden"
   *transloco="let t; read: 'organizationalView.orgChart'"
 >
   <schaeffler-loading-spinner
@@ -9,7 +9,7 @@
     [diameter]="40"
     [strokeWidth]="4"
   ></schaeffler-loading-spinner>
-  <div *ngIf="!chartData?.length" class="grow flex justify-center items-center">
+  <div *ngIf="!chartData?.length" class="flex grow items-center justify-center">
     <div *ngIf="!isLoading">
       <span class="self-center">{{ t('noData') }}</span>
     </div>

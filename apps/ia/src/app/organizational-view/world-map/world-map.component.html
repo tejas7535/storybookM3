@@ -4,7 +4,7 @@
   [merge]="mergeOptions"
   (chartInit)="onChartInit($event)"
   (chartClick)="showCountryData($event)"
-  class="overflow-hidden h-full min-h-[400px]"
+  class="h-full min-h-[400px] overflow-hidden"
 ></div>
 <schaeffler-loading-spinner
   *ngIf="isLoading"

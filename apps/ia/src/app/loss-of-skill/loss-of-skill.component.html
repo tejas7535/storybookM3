@@ -1,9 +1,9 @@
 <div
-  class="grid gap-3 grid-cols-2 bg-surface p-4"
+  class="grid grid-cols-2 gap-3 bg-surface p-4"
   *transloco="let t; read: 'lossOfSkill'"
 >
   <mat-card class="!flex flex-col pb-2">
-    <h5 class="font-bold mb-5">{{ t('lostJobProfiles.title') }}</h5>
+    <h5 class="mb-5 font-bold">{{ t('lostJobProfiles.title') }}</h5>
     <ia-lost-job-profiles
       class="h-[390px]"
       [loading]="lostJobProfilesLoading$ | ngrxPush"
@@ -11,7 +11,7 @@
     ></ia-lost-job-profiles>
   </mat-card>
   <mat-card class="pb-2">
-    <h5 class="font-bold mb-5">{{ t('riskOfLeaving.title') }}</h5>
+    <h5 class="mb-5 font-bold">{{ t('riskOfLeaving.title') }}</h5>
     <ia-risk-of-leaving></ia-risk-of-leaving>
   </mat-card>
 </div>
