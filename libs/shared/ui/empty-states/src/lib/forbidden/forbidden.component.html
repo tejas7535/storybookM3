@@ -1,17 +1,17 @@
 <div
-  class="w-full h-full flex flex-col items-center justify-center text-center"
+  class="flex h-full w-full flex-col items-center justify-center text-center"
   data-cy="forbidden"
   *transloco="let t"
 >
   <div class="forbidden"></div>
-  <h4 class="text-high-emphasis mb-4">
+  <h4 class="mb-4 text-high-emphasis">
     {{ t(routeData.headingText || 'forbiddenHeadingDefault') }}
   </h4>
   <p
-    class="text-subtitle-1 text-medium-emphasis whitespace-pre-line"
+    class="whitespace-pre-line text-subtitle-1 text-medium-emphasis"
     [innerHTML]="t(routeData.messageText || 'forbiddenMessageDefault')"
   ></p>
-  <div class="p-8 flex justify-center gap-4">
+  <div class="flex justify-center gap-4 p-8">
     <ng-container *ngIf="routeData.action">
       <button
         *ngIf="routeData.action === 'event'; else actionButtonAsLink"
