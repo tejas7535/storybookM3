@@ -166,7 +166,7 @@
     "markdown-include": "0.4.3",
     "markdown-magic": "2.5.2",
     "markdown-magic-version-badge": "1.1.1",
-    "ng-mocks": "13.0.0-alpha.2",
+    "ng-mocks": "13.0.0",
     "ng-packagr": "13.1.2",
     "npm-audit-html": "1.5.0",
     "npm-force-resolutions": "0.0.10",
