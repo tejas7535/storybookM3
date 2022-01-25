@@ -2,7 +2,7 @@
   ::ng-deep {
     .mat-form-field {
       &-infix {
-        @apply box-border border-border border rounded-md w-96 p-2 h-14 flex items-center;
+        @apply box-border flex h-14 w-96 items-center rounded-md border border-border p-2;
         transition: 0.3s ease-in-out border;
       }
 
@@ -11,7 +11,7 @@
       }
 
       &-label {
-        @apply left-2 text-low-emphasis text-subtitle-1 leading-6 mt-2;
+        @apply left-2 mt-2 text-subtitle-1 leading-6 text-low-emphasis;
       }
     }
 

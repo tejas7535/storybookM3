@@ -1,11 +1,11 @@
 <mat-form-field floatLabel="never" class="max-w-full">
-  <mat-label class="ml-2 divide-veryLight">{{ label }}</mat-label>
+  <mat-label class="divide-veryLight ml-2">{{ label }}</mat-label>
   <input
     type="text"
     [matAutocomplete]="auto"
     matInput
     [formControl]="control"
-    class="autocomplete-input text-high-emphasis ml-2"
+    class="autocomplete-input ml-2 text-high-emphasis"
     [class.text-high-emphasis]="(valueSelected$ | ngrxPush) === false"
     [class.text-link]="valueSelected$ | ngrxPush"
     (blur)="onTouched()"
@@ -18,21 +18,21 @@
     <div [hidden]="(showOptions$ | ngrxPush) === false">
       <mat-option
         *ngIf="loading"
-        class="h-20 flex items-center justify-center loading-option pointer-events-none"
+        class="loading-option pointer-events-none flex h-20 items-center justify-center"
       >
         <mat-spinner diameter="20"></mat-spinner>
         <span class="ml-4">{{ loadingMessage }}</span>
       </mat-option>
       <mat-option
         *ngIf="noResults(filteredOptions$ | async)"
-        class="h-20 flex items-center justify-center pointer-events-none"
+        class="pointer-events-none flex h-20 items-center justify-center"
         >{{ noResultsText }}</mat-option
       >
       <mat-option
         *ngIf="error"
-        class="h-20 flex items-center justify-center pointer-events-none"
+        class="pointer-events-none flex h-20 items-center justify-center"
       >
-        <mat-icon class="text-error icon">cancel</mat-icon>
+        <mat-icon class="icon text-error">cancel</mat-icon>
         <span>Error. Please try again</span>
       </mat-option>
       <div [hidden]="loading && !error">
@@ -46,7 +46,7 @@
     </div>
   </mat-autocomplete>
   <div
-    class="autocomplete-icon h-full absolute right-3 top-4 flex items-center flex-col"
+    class="autocomplete-icon absolute right-3 top-4 flex h-full flex-col items-center"
     [class.clear-icon]="searchStringDeletable"
     [class.search-icon]="!searchStringDeletable"
   >
