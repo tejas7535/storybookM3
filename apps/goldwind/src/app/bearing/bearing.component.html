@@ -1,5 +1,5 @@
 <div
-  class="flex flex-col w-full h-full max-h-full"
+  class="flex h-full max-h-full w-full flex-col"
   *transloco="let t; read: 'bearing'"
 >
   <schaeffler-subheader
@@ -21,7 +21,7 @@
       {{ t(tabLink.name) | uppercase }}
     </a>
   </nav>
-  <div class="bg-background-dark box-border flex p-4 h-full w-full">
+  <div class="box-border flex h-full w-full bg-background-dark p-4">
     <router-outlet></router-outlet>
   </div>
 </div>

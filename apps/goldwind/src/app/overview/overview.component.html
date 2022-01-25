@@ -3,10 +3,10 @@
   <ng-container *ngIf="devices$ | ngrxPush as devices; else empty_devices">
     <mat-card
       *ngFor="let device of devices; trackBy: trackByFn"
-      class="!flex flex-col sm:flex-row justify-between gap-4 md:gap-8 mb-4"
+      class="mb-4 !flex flex-col justify-between gap-4 sm:flex-row md:gap-8"
       [routerLink]="['/bearing', device.deviceId]"
     >
-      <div class="flex justify-between items-center w-full sm:w-5/6">
+      <div class="flex w-full items-center justify-between sm:w-5/6">
         <mat-card-header>
           <div
             mat-card-avatar
@@ -25,7 +25,7 @@
         *ngIf="!isHandsetViewPort"
         [vertical]="!isHandsetViewPort"
       ></mat-divider>
-      <div class="flex justify-end items-center">
+      <div class="flex items-center justify-end">
         <button
           mat-raised-button
           color="primary"

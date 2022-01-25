@@ -1,9 +1,9 @@
 <div
-  class="flex justify-start items-center gap-3"
+  class="flex items-center justify-start gap-3"
   *transloco="let t; read: 'statusIndicator'"
 >
   <div
-    class="flex justify-center items-center indicator"
+    class="indicator flex items-center justify-center"
     [class.error]="!isConnected()"
     title="{{ connectionState.toLowerCase() }}"
   >

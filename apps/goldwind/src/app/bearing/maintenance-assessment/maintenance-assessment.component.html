@@ -1,9 +1,9 @@
 <div
-  class="flex flex-col gap-4 w-full h-full max-h-full lg:grid lg:grid-cols-6"
+  class="flex h-full max-h-full w-full flex-col gap-4 lg:grid lg:grid-cols-6"
 >
   <div
     *transloco="let t; read: 'maintenanceAssessment'"
-    class="w-full md:h-full min-h-screen md:min-h-full md:col-span-4"
+    class="min-h-screen w-full md:col-span-4 md:h-full md:min-h-full"
   >
     <goldwind-assessment-linechart
       #maintenanceAssessmentChart
@@ -20,7 +20,7 @@
       [description]="t('description')"
     ></goldwind-assessment-linechart>
   </div>
-  <div class="md:col-span-2 md:h-full min-h-screen md:min-h-full">
+  <div class="min-h-screen md:col-span-2 md:h-full md:min-h-full">
     <goldwind-gcm-heatmap-card></goldwind-gcm-heatmap-card>
   </div>
 </div>

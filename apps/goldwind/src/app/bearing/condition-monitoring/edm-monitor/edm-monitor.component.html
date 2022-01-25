@@ -3,11 +3,11 @@
     *transloco="let t; read: 'conditionMonitoring.edmMonitor'"
     class="h-full overflow-y-scroll"
   >
-    <div class="flex flex-col h-full">
+    <div class="flex h-full flex-col">
       <div class="flex justify-between">
         <mat-card-header class="w-full">
           <mat-card-title>
-            <div class="inline-flex items-center justify-between w-full">
+            <div class="inline-flex w-full items-center justify-between">
               <div class="inline-flex items-center">
                 <mat-icon svgIcon="icon-vibration"></mat-icon>
                 <span>{{ t('title') }}</span>
@@ -21,7 +21,7 @@
                 ></goldwind-sensor>
                 <button
                   mat-icon-button
-                  class="flex hover:bg-hoverOverlay transition-colors"
+                  class="hover:bg-hoverOverlay flex transition-colors"
                 >
                   <mat-icon (click)="openMoreInfo()" class="text-mediumEmphasis"
                     >more_vert</mat-icon
@@ -45,7 +45,7 @@
         </mat-card-header>
       </div>
       <mat-card-content class="h-full">
-        <div class="flex flex-col h-full">
+        <div class="flex h-full flex-col">
           <ng-container *ngrxLet="edmGraphData$ as graphData">
             <goldwind-empty-graph
               [graphData]="graphData"

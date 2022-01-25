@@ -1,11 +1,11 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'greaseStatus'"
-    class="flex flex-col h-full overflow-y-scroll"
+    class="flex h-full flex-col overflow-y-scroll"
   >
     <mat-card-header class="w-full">
       <mat-card-title>
-        <div class="inline-flex items-center justify-between w-full">
+        <div class="inline-flex w-full items-center justify-between">
           <div class="inline-flex items-center">
             <mat-icon>opacity</mat-icon>
             <span>{{ t('title') }}</span>
@@ -41,9 +41,9 @@
     </mat-card-header>
     <mat-card-content>
       <div
-        class="flex flex-col sm:flex-row gap-2 items-center text-center justify-center"
+        class="flex flex-col items-center justify-center gap-2 text-center sm:flex-row"
       >
-        <div class="flex flex-col w-full md:w-1/3 justify-between text-center">
+        <div class="flex w-full flex-col justify-between text-center md:w-1/3">
           <div class="gauge_title">
             <span>{{ t('waterContent') }}</span>
           </div>
@@ -57,7 +57,7 @@
             class="grease-monitor-chart dashboard-echart"
           ></div>
         </div>
-        <div class="flex w-full md:w-1/3 flex-col justify-between text-center">
+        <div class="flex w-full flex-col justify-between text-center md:w-1/3">
           <div class="gauge_title">
             <span
               ><span>{{ t('temperatureOptics') }}</span></span
@@ -73,7 +73,7 @@
             class="grease-monitor-chart dashboard-echart"
           ></div>
         </div>
-        <div class="flex w-full md:w-1/3 flex-col justify-between text-center">
+        <div class="flex w-full flex-col justify-between text-center md:w-1/3">
           <div class="gauge_title">
             <span
               ><span>{{ t('deterioration') }}</span></span

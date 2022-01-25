@@ -1,11 +1,11 @@
 <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
   <mat-card
     *transloco="let t; read: 'conditionMonitoring.static-saftey-factor-monitor'"
-    class="h-full flex flex-col overflow-y-scroll"
+    class="flex h-full flex-col overflow-y-scroll"
   >
     <mat-card-header class="w-full">
       <mat-card-title>
-        <div class="inline-flex items-center justify-between w-full">
+        <div class="inline-flex w-full items-center justify-between">
           <div class="inline-flex items-center">
             <mat-icon>health_and_safety</mat-icon>
             <span>{{ t('title') }}</span>
@@ -41,7 +41,7 @@
           echarts
           [options]="chartOptions"
           [merge]="this.staticSafetyLatestGraphData$ | ngrxPush"
-          class="flex dashboard-echart"
+          class="dashboard-echart flex"
         ></div>
       </div>
     </mat-card-content>
