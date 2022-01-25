@@ -21,7 +21,7 @@ import READMEMd from './snackbar/README.md';
 @Component({
   selector: 'snack-bar-component-example',
   template: `
-    <h4 class="text-h4 mb-6">
+    <h4 class="mb-6 text-h4">
       Select the options and trigger the snackbar with the button.
     </h4>
     <mat-form-field appearance="fill" class="mr-4 mb-8">

@@ -62,7 +62,7 @@ import READMEMd from './tooltip/README.md';
           </button>
         </div>
       </div>
-      <div class="sm:ml-32 text-center sm:text-left">
+      <div class="text-center sm:ml-32 sm:text-left">
         <button
           #tooltip="matTooltip"
           (click)="tooltip.toggle()"
