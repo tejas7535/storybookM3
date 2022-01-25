@@ -4,21 +4,6 @@ import { FILTER_PARAMS } from './filter-params';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
-    field: 'manufacturerSupplierName',
-    headerName: 'Manufacturer Supplier',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'manufacturerSupplierPlant',
-    headerName: 'Manufacturer Plant',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'manufacturerSupplierKind',
-    headerName: 'Manufacturer Kind',
-    filterParams: FILTER_PARAMS,
-  },
-  {
     field: 'materialStandardMaterialName',
     headerName: 'Material Name',
     filter: false,
@@ -47,33 +32,18 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     suppressFiltersToolPanel: true,
   },
   {
-    field: 'isPrematerial',
-    headerName: 'Is Prematerial',
+    field: 'manufacturerSupplierName',
+    headerName: 'Manufacturer Supplier',
     filterParams: FILTER_PARAMS,
   },
   {
-    field: 'materialCategory',
-    headerName: 'Material Category',
+    field: 'manufacturerSupplierPlant',
+    headerName: 'Manufacturer Plant',
     filterParams: FILTER_PARAMS,
   },
   {
-    field: 'shapeName',
-    headerName: 'Shape',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'shapeCode',
-    headerName: 'Shape Code',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'castingMode',
-    headerName: 'Casting Mode',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'castingDiameter',
-    headerName: 'Casting Diameter',
+    field: 'manufacturerSupplierKind',
+    headerName: 'Manufacturer Kind',
     filterParams: FILTER_PARAMS,
   },
   {
@@ -87,29 +57,28 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    field: 'co2PerTon',
-    headerName: 'kg CO₂e / t',
-    filter: 'agNumberColumnFilter',
-  },
-  {
     field: 'ratingCode',
     headerName: 'Rating Code',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'ratingBarDiameter',
     headerName: 'Bar Diameter',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'ratingSquareDiameter',
     headerName: 'Square Diameter',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'ratingRemark',
     headerName: 'Remark',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'ratingKindName',
@@ -120,41 +89,89 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'ratingKindCode',
     headerName: 'Rating Kind Code',
     filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
+    field: 'co2PerTon',
+    headerName: 'kg CO₂e / t',
+    filter: 'agNumberColumnFilter',
+  },
+  {
+    field: 'materialCategory',
+    headerName: 'Material Category',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'isPrematerial',
+    headerName: 'Is Prematerial',
+    filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
+    field: 'shapeName',
+    headerName: 'Shape',
+    filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
+    field: 'shapeCode',
+    headerName: 'Shape Code',
+    filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
+    field: 'castingMode',
+    headerName: 'Casting Mode',
+    filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
+    field: 'castingDiameter',
+    headerName: 'Casting Diameter',
+    filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'steelMakingProcess',
     headerName: 'Steel Making Process',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'releaseDateYear',
     headerName: 'Release Date Year',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'releaseDateMonth',
     headerName: 'Release Date Month',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'releaseRestrictions',
     headerName: 'Release Restrictions',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'esr',
     headerName: 'ESR',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'var',
     headerName: 'VAR',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'export',
     headerName: 'Approved for export',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'materialNumbers',
