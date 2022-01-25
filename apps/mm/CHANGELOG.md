@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.14](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.13...mm-v0.1.14) (2022-01-25)
+
+
+### 🐛 Bug Fixes
+
+* **mm:** center empty states vertically ([#3516](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3516)) ([6abf0e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6abf0e03025cb8258135cd6d5124440d6670a4c1))
+* **mm:** fix mobile layout ([#3555](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3555)) ([7235df0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7235df0decb43bfcbbc98707ee55ddcdc8d21f3d))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### 🎸 Features
+
+* remove shared-utils-http lib ([#3597](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3597)) ([d99605b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d99605ba78d64991f480ae239c414fd6de3f7ec9))
+* **report:** adjust for translated errors and default snackbar (UFTABI-4948) ([#3511](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3511)) ([6108d2b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6108d2b15deed7bc86be55b89258800f8779366f))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+
 ### [0.1.13](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.12...mm-v0.1.13) (2021-12-14)
 
 
