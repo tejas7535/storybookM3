@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full">
+<div class="flex h-full flex-col">
   <div class="pl-9 pt-5 pr-5" *ngIf="breadcrumbs.length > 0">
     <schaeffler-breadcrumbs
       [breadcrumbs]="breadcrumbs"
@@ -7,16 +7,16 @@
   <div class="flex flex-row items-center">
     <mat-icon
       *ngIf="showBackButton"
-      class="flex-none cursor-pointer text-high-emphasis !w-4"
+      class="!w-4 flex-none cursor-pointer text-high-emphasis"
       color="secondary"
       (click)="clickBackButton()"
       >arrow_back</mat-icon
     >
-    <h4 class="!text-[22px] sm:!text-h4 ml-5 flex-auto truncate">
+    <h4 class="ml-5 flex-auto truncate !text-[22px] sm:!text-h4">
       {{ title }}
       <ng-content select="[titleContent]"></ng-content>
     </h4>
-    <div class="flex-none ml-5">
+    <div class="ml-5 flex-none">
       <ng-content select="[header]"></ng-content>
     </div>
   </div>
