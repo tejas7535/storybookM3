@@ -3,7 +3,7 @@
 #schaeffler-report {
   mat-card-content {
     h2 {
-      @apply text-h6 font-medium mt-6;
+      @apply mt-6 text-h6 font-medium;
     }
 
     h6 {
@@ -20,7 +20,7 @@
   }
 
   table {
-    @apply text-caption text-high-emphasis table-auto;
+    @apply table-auto text-caption text-high-emphasis;
 
     @screen sm {
       @apply mx-0 w-full table-fixed;
