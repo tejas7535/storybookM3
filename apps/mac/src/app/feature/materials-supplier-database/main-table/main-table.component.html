@@ -1,10 +1,10 @@
-<div class="flex w-full h-full">
-  <div class="flex flex-col w-full flex-1 p-6 py-8 gap-6">
+<div class="flex h-full w-full">
+  <div class="flex w-full flex-1 flex-col gap-6 p-6 py-8">
     <ng-container *ngIf="!(optionsLoading$ | ngrxPush); else loading">
       <div class="flex flex-row">
         <h6>Please choose your class and category</h6>
       </div>
-      <div class="flex flex-col lg:flex-row md:gap-8">
+      <div class="flex flex-col md:gap-8 lg:flex-row">
         <div class="flex flex-row gap-6">
           <mat-form-field appearance="fill" class="w-80">
             <mat-label>Material Class</mat-label>
@@ -30,7 +30,7 @@
               [compareWith]="compareDataFilters"
               multiple
             >
-              <div class="px-4 h-12 flex flex-row place-items-center">
+              <div class="flex h-12 flex-row place-items-center px-4">
                 <mat-checkbox
                   class="w-full"
                   [formControl]="allCategoriesSelectedControl"
@@ -55,7 +55,7 @@
           </mat-form-field>
         </div>
 
-        <div class="flex flex-row grow justify-between gap-4">
+        <div class="flex grow flex-row justify-between gap-4">
           <div class="flex flex-row place-items-center gap-4">
             <button
               mat-raised-button
@@ -79,15 +79,15 @@
           <!-- find replacement for bg-[#E5F4E9] -->
           <div
             *ngIf="co2ColumnVisible$ | ngrxPush"
-            class="flex flex-row my-auto bg-surface rounded-md"
+            class="my-auto flex flex-row rounded-md bg-surface"
           >
             <div
-              class="flex flex-row gap-4 my-auto border border-[#4398AF] bg-[#ECF5F7] rounded-md p-3"
+              class="my-auto flex flex-row gap-4 rounded-md border border-[#4398AF] bg-[#ECF5F7] p-3"
             >
               <mat-icon class="material-icons-outlined text-[#4398AF]"
                 >info_outline</mat-icon
               >
-              <div class="text-caption max-w-sm">
+              <div class="max-w-sm text-caption">
                 Presented CO2 values are for internal use only - data must not
                 be used for communication with customers
               </div>
@@ -97,9 +97,9 @@
       </div>
       <ng-container *ngIf="!(resultLoading$ | ngrxPush); else loading">
         <mat-card class="msd-card" *ngIf="result$ | ngrxPush">
-          <div class="flex flex-col w-full flex-1 gap-4">
+          <div class="flex w-full flex-1 flex-col gap-4">
             <div
-              class="flex flex-row-reverse w-full justify-between place-items-center"
+              class="flex w-full flex-row-reverse place-items-center justify-between"
             >
               <button mat-icon-button [matMenuTriggerFor]="tableMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -127,18 +127,18 @@
               </h6>
             </div>
             <div
-              class="flex flex-row w-full h-[232px]"
+              class="flex h-[232px] w-full flex-row"
               *ngIf="filterLists$ | ngrxPush"
             >
-              <div class="w-1/3 flex flex-col gap-2">
+              <div class="flex w-1/3 flex-col gap-2">
                 <div class="h-6">
-                  <div class="text-subtitle-2 text-medium-emphasis pl-4">
+                  <div class="pl-4 text-subtitle-2 text-medium-emphasis">
                     Material name
                   </div>
                 </div>
 
                 <div
-                  class="h-40 lg:h-[200px] border-l border-t border-b border-border border-solid overflow-y-scroll msd-scrollbar"
+                  class="msd-scrollbar h-40 overflow-y-scroll border-l border-t border-b border-solid border-border lg:h-[200px]"
                 >
                   <mat-selection-list
                     class="msd-list"
@@ -162,14 +162,14 @@
                   </mat-selection-list>
                 </div>
               </div>
-              <div class="w-1/3 flex flex-col gap-2">
+              <div class="flex w-1/3 flex-col gap-2">
                 <div class="h-6">
-                  <div class="text-subtitle-2 text-medium-emphasis pl-4">
+                  <div class="pl-4 text-subtitle-2 text-medium-emphasis">
                     Group Standard
                   </div>
                 </div>
                 <div
-                  class="h-40 lg:h-[200px] border-t border-b border-border border-solid overflow-y-scroll msd-scrollbar"
+                  class="msd-scrollbar h-40 overflow-y-scroll border-t border-b border-solid border-border lg:h-[200px]"
                 >
                   <mat-selection-list
                     class="msd-list"
@@ -193,14 +193,14 @@
                   </mat-selection-list>
                 </div>
               </div>
-              <div class="w-1/3 flex flex-col gap-2">
+              <div class="flex w-1/3 flex-col gap-2">
                 <div class="h-6">
-                  <div class="text-subtitle-2 text-medium-emphasis pl-4">
+                  <div class="pl-4 text-subtitle-2 text-medium-emphasis">
                     Material Number
                   </div>
                 </div>
                 <div
-                  class="h-40 lg:h-[200px] border-r border-t border-b border-border border-solid overflow-y-scroll msd-scrollbar"
+                  class="msd-scrollbar h-40 overflow-y-scroll border-r border-t border-b border-solid border-border lg:h-[200px]"
                 >
                   <mat-selection-list
                     class="msd-list"
@@ -246,7 +246,7 @@
     </ng-container>
     <ng-template #loading>
       <div
-        class="flex flex-col flex-1 w-full justify-center place-items-center h-full"
+        class="flex h-full w-full flex-1 flex-col place-items-center justify-center"
       >
         <mat-spinner></mat-spinner>
       </div>

@@ -1,6 +1,6 @@
-<div class="p-8 overflow-auto">
+<div class="overflow-auto p-8">
   <h3 class="leading-none text-medium-emphasis">Overview</h3>
-  <div class="text-subtitle-1 my-4">
+  <div class="my-4 text-subtitle-1">
     The Materials App Center gives access to services provided to you by
     Schaeffler
     <a
@@ -19,33 +19,33 @@
     >
     department.
   </div>
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 flex-wrap">
+  <div class="grid grid-cols-2 flex-wrap gap-4 md:grid-cols-4">
     <ng-container *ngFor="let elem of elements; trackBy: trackByFn">
-      <div class="col-span-1 row-span-1 flex flex-col grow">
+      <div class="col-span-1 row-span-1 flex grow flex-col">
         <div
           *ngIf="!elem.externalLink"
-          class="flex flex-col flex-1"
+          class="flex flex-1 flex-col"
           [ngClass]="{ 'cursor-pointer': elem.url }"
           [routerLink]="elem.url ? elem.url : undefined"
           (click)="trackCall(elem.title)"
         >
-          <mat-card class="flex flex-1 overview-card">
+          <mat-card class="overview-card flex flex-1">
             <div
-              class="h-full w-full flex flex-col flex-1 place-items-center justify-around py-4 md:py-8 lg:py-12"
+              class="flex h-full w-full flex-1 flex-col place-items-center justify-around py-4 md:py-8 lg:py-12"
             >
               <div
-                class="w-full flex-1 flex-col flex place-items-center justify-center md:justify-between gap-6 md:gap-2"
+                class="flex w-full flex-1 flex-col place-items-center justify-center gap-6 md:justify-between md:gap-2"
               >
-                <div class="w-2/5 h-2/5 sm:h-3/5 lg:h-3/4">
+                <div class="h-2/5 w-2/5 sm:h-3/5 lg:h-3/4">
                   <img
                     [src]="elem.img"
-                    class="w-full max-h-full"
+                    class="max-h-full w-full"
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   />
                 </div>
-                <div class="flex-1 max-h-[114px] lg:h-1/4">
+                <div class="max-h-[114px] flex-1 lg:h-1/4">
                   <h4
-                    class="text-center leading-snug text-h5 lg:text-h4"
+                    class="text-center text-h5 leading-snug lg:text-h4"
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   >
                     {{ elem.title }}
@@ -58,29 +58,29 @@
 
         <a
           *ngIf="elem.externalLink"
-          class="no-underline flex flex-col flex-1"
+          class="flex flex-1 flex-col no-underline"
           [ngClass]="{ 'cursor-pointer': elem.url }"
           [href]="elem.url ? elem.url : undefined"
           target="_blank"
           (click)="trackCall(elem.title)"
         >
-          <mat-card class="flex flex-1 overview-card">
+          <mat-card class="overview-card flex flex-1">
             <div
-              class="h-full w-full flex flex-col flex-1 place-items-center justify-around py-4 md:py-8 lg:py-12"
+              class="flex h-full w-full flex-1 flex-col place-items-center justify-around py-4 md:py-8 lg:py-12"
             >
               <div
-                class="w-full flex-1 flex-col flex place-items-center justify-center md:justify-between gap-6 md:gap-2"
+                class="flex w-full flex-1 flex-col place-items-center justify-center gap-6 md:justify-between md:gap-2"
               >
-                <div class="w-2/5 h-2/5 sm:h-3/5 lg:h-3/4">
+                <div class="h-2/5 w-2/5 sm:h-3/5 lg:h-3/4">
                   <img
                     [src]="elem.img"
-                    class="w-full max-h-full"
+                    class="max-h-full w-full"
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   />
                 </div>
-                <div class="flex-1 max-h-[114px] lg:h-1/4">
+                <div class="max-h-[114px] flex-1 lg:h-1/4">
                   <h4
-                    class="text-center leading-snug text-h5 lg:text-h4"
+                    class="text-center text-h5 leading-snug lg:text-h4"
                     [ngClass]="{ 'opacity-40': !elem.url }"
                   >
                     {{ elem.title }}

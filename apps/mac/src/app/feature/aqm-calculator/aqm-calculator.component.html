@@ -1,5 +1,5 @@
 <div
-  class="sm:overflow-hidden block absolute md:relative md:flex flex-row justify-center items-center p-8"
+  class="absolute block flex-row items-center justify-center p-8 sm:overflow-hidden md:relative md:flex"
 >
   <div class="flex flex-col">
     <mat-card class="aqm-calculator-card">
@@ -10,14 +10,14 @@
       <mat-card-content class="p-4">
         <h6>Alloy configuration</h6>
         <div
-          class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden bg-surface opacity-70 justify-center absolute flex"
+          class="absolute z-10 flex h-full w-full justify-center overflow-hidden bg-surface opacity-70 duration-300 ease-in-out"
           [ngClass]="{ hidden: materials }"
         >
           <mat-spinner></mat-spinner>
         </div>
         <div class="flex flex-col">
           <!-- select alloy -->
-          <div class="flex flex-col justify-center items-center">
+          <div class="flex flex-col items-center justify-center">
             <p>Choose a specific alloy</p>
             <mat-form-field appearance="outline">
               <mat-select
@@ -34,21 +34,21 @@
           </div>
           <!-- seperator horizontal -->
           <div
-            class="w-full flex flex-row items-center justify-around gap-6 px-[15%]"
+            class="flex w-full flex-row items-center justify-around gap-6 px-[15%]"
           >
-            <div class="flex flex-1 h-full">
-              <div class="w-full border-solid border-b"></div>
+            <div class="flex h-full flex-1">
+              <div class="w-full border-b border-solid"></div>
             </div>
             <p>OR</p>
             <div class="flex grow">
-              <div class="w-full border-solid border-b"></div>
+              <div class="w-full border-b border-solid"></div>
             </div>
           </div>
           <!-- input composition -->
-          <div class="flex flex-col justify-center items-center gap-6">
+          <div class="flex flex-col items-center justify-center gap-6">
             <p>Specify the composition manually</p>
             <div
-              class="flex flex-col gap-2 items-start justify-center md:flex-row md:gap-6"
+              class="flex flex-col items-start justify-center gap-2 md:flex-row md:gap-6"
             >
               <mat-form-field
                 appearance="outline"
@@ -83,10 +83,10 @@
             fxLayoutGap="24px"
             fxLayout.lt-md="column"
             fxLayoutAlign.lt-md="start start"
-            class="w-full flex flex-col gap-6 md:justify-between md:items-stretch md:flex-row"
+            class="flex w-full flex-col gap-6 md:flex-row md:items-stretch md:justify-between"
           >
             <div
-              class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden opacity-70 justify-center absolute flex"
+              class="absolute z-10 flex h-full w-full justify-center overflow-hidden opacity-70 duration-300 ease-in-out"
               [ngClass]="{ hidden: (aqmCalculationResult | ngrxPush)?.aqm }"
             >
               <mat-spinner></mat-spinner>
@@ -112,7 +112,7 @@
                   <p>{{ (aqmCalculationResult | ngrxPush)?.aqm?.error }}</p>
                 </ng-template>
               </div>
-              <div class="flex flex-row justify-between items-center">
+              <div class="flex flex-row items-center justify-between">
                 <p>Sum value (Si + Mn + Cr):</p>
                 <p>
                   {{
@@ -125,9 +125,9 @@
             </div>
             <!-- seperator vertical -->
             <div
-              class="hidden md:flex pt-6 flex-col justify-center items-center"
+              class="hidden flex-col items-center justify-center pt-6 md:flex"
             >
-              <div class="flex flex-1 border-solid border-r"></div>
+              <div class="flex flex-1 border-r border-solid"></div>
             </div>
             <!-- results limits -->
             <div class="flex flex-col">
@@ -140,7 +140,7 @@
                       | keyvalue;
                     trackBy: trackByFn
                   "
-                  class="flex flex-row justify-between items-center gap-1"
+                  class="flex flex-row items-center justify-between gap-1"
                 >
                   <mat-icon [color]="item.value ? 'primary' : 'error'">{{
                     item.value ? 'check_circle' : 'error'

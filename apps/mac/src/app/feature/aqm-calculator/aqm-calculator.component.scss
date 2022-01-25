@@ -2,7 +2,7 @@
 @import 'libs/shared/ui/styles/src/lib/mediaqueries';
 
 .aqm-calculator-card {
-  @apply p-0 sm:mt-14 md:mt-16 max-w-full;
+  @apply max-w-full p-0 sm:mt-14 md:mt-16;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick {

@@ -1,9 +1,9 @@
-<div class="overflow-hidden m-10 sm:max-w-lg sm:mx-auto p-4">
-  <mat-card class="mx-auto hardness-converter-card">
+<div class="m-10 overflow-hidden p-4 sm:mx-auto sm:max-w-lg">
+  <mat-card class="hardness-converter-card mx-auto">
     <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | ngrxPush"></mac-breadcrumbs>
     <mat-card-title class="mx-4">Hardness Converter</mat-card-title>
     <div
-      class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden bg-surface opacity-70 justify-center absolute flex"
+      class="absolute z-10 flex h-full w-full justify-center overflow-hidden bg-surface opacity-70 duration-300 ease-in-out"
       [ngClass]="{ hidden: unitList.length !== 0 }"
     >
       <mat-spinner></mat-spinner>
@@ -11,7 +11,7 @@
     <mat-card-content>
       <div class="px-4 pb-4">
         <form [formGroup]="hardness">
-          <div class="md:flex md:w-full justify-between gap-4">
+          <div class="justify-between gap-4 md:flex md:w-full">
             <mat-form-field class="w-full">
               <mat-label>Value</mat-label>
               <input
@@ -56,30 +56,30 @@
           *ngIf="results$ | ngrxPush"
         >
           <div
-            class="h-full w-full z-10 ease-in-out duration-300 overflow-hidden bg-surface opacity-70 justify-center absolute flex"
+            class="absolute z-10 flex h-full w-full justify-center overflow-hidden bg-surface opacity-70 duration-300 ease-in-out"
             [ngClass]="{ hidden: (resultsUpToDate$ | ngrxPush) }"
           >
             <mat-spinner></mat-spinner>
           </div>
           <div
             *ngFor="let result of results$ | ngrxPush; trackBy: trackByFn"
-            class="w-full md:w-1/2 flex justify-center my-2 px-2"
+            class="my-2 flex w-full justify-center px-2 md:w-1/2"
           >
-            <mat-card class="w-full justify-center result-card">
+            <mat-card class="result-card w-full justify-center">
               <span
-                class="min-h-[43px] flex text-body-1 font-semibold justify-center items-center w-4/5"
-                [ngClass]="{ 'text-[#fbe06d] capitalize': result.warning }"
+                class="flex min-h-[43px] w-4/5 items-center justify-center text-body-1 font-semibold"
+                [ngClass]="{ 'capitalize text-[#fbe06d]': result.warning }"
               >
                 {{ getValue(result) }}</span
               >
               <span
-                class="items-center bg-primary rounded-r-md flex h-full w-1/5 justify-center text-white"
+                class="flex h-full w-1/5 items-center justify-center rounded-r-md bg-primary text-white"
                 *ngIf="result.unit !== 'MPa'; else withTooltip"
                 >{{ result.unit }}</span
               >
               <ng-template #withTooltip>
                 <span
-                  class="items-center bg-primary rounded-r-md flex h-full w-1/5 justify-center text-white"
+                  class="flex h-full w-1/5 items-center justify-center rounded-r-md bg-primary text-white"
                   matTooltip="Ultimate Tensile Strength"
                   >{{ result.unit }}</span
                 >
@@ -90,7 +90,7 @@
         <mat-error
           *ngIf="error"
           [@inOutAnimation]
-          class="items-center h-12 justify-center hardness-error"
+          class="hardness-error h-12 items-center justify-center"
           >{{ error }}</mat-error
         >
       </div>

@@ -2,7 +2,7 @@
 @import 'libs/shared/ui/styles/src/lib/mediaqueries';
 
 .mat-input-element {
-  @apply text-body-1 font-semibold text-center;
+  @apply text-center text-body-1 font-semibold;
 }
 
 .hardness-error {
