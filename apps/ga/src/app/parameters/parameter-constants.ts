@@ -69,7 +69,6 @@ export const loadRatioOptions: DropdowOption[] = [
   {
     id: LoadLevels.LB_MODERATE,
     text: 'parameters.loadLevel.moderate',
-    default: true,
   },
   {
     id: LoadLevels.LB_HIGH,

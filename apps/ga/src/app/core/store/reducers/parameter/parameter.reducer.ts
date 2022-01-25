@@ -48,7 +48,7 @@ export const initialState: ParameterState = {
   loads: {
     radial: undefined,
     axial: undefined,
-    exact: true,
+    exact: false,
     loadRatio: undefined,
   },
   movements: {

@@ -52,7 +52,7 @@ describe('Parameter Selector', () => {
 
   describe('getLoadsInputType', () => {
     it('should return loads input type', () => {
-      expect(getLoadsInputType(mockState)).toEqual(true);
+      expect(getLoadsInputType(mockState)).toEqual(false);
     });
   });
 
@@ -140,6 +140,7 @@ describe('Parameter Selector', () => {
             ...mockState.parameter.loads,
             radial: 700,
             axial: 500,
+            exact: true,
           },
           movements: {
             ...mockState.parameter.movements,

@@ -52,7 +52,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public radial = new FormControl(undefined, loadValidators);
   public axial = new FormControl(undefined, loadValidators);
 
-  public exact = new FormControl(true);
+  public exact = new FormControl(false);
   public loadRatio = new FormControl();
   public loadRatioOptions = loadRatioOptions;
 

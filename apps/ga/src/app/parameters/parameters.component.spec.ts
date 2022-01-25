@@ -15,11 +15,12 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { AppRoutePath } from '../app-route-path.enum';
 import { initialState } from '../core/store/reducers/parameter/parameter.reducer';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { EnvironmentImpact } from '../shared/models';
+import { EnvironmentImpact, LoadLevels } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
 import { Movement } from './../shared/models/parameters/movement.model';
 import {
+  loadRatioOptions,
   loadValidators,
   rotationalSpeedValidators,
   shiftAngleValidators,
@@ -108,7 +109,7 @@ describe('ParametersComponent', () => {
               loads: {
                 axial: undefined,
                 radial: 500,
-                exact: true,
+                exact: false,
                 loadRatio: undefined,
               },
               movements: {
@@ -127,8 +128,7 @@ describe('ParametersComponent', () => {
 
     it('should dispatch with valid on valid form change', (done) => {
       component.rotationalSpeed.patchValue(1);
-      component.radial.patchValue(2);
-      component.axial.patchValue(3);
+      component.loadRatio.patchValue(loadRatioOptions[0].id);
 
       setTimeout(() => {
         expect(store.dispatch).toHaveBeenCalledWith(
@@ -140,10 +140,10 @@ describe('ParametersComponent', () => {
                 operatingTemperature: 70,
               },
               loads: {
-                radial: 2,
-                axial: 3,
-                exact: true,
-                loadRatio: undefined,
+                radial: undefined,
+                axial: undefined,
+                exact: false,
+                loadRatio: LoadLevels.LB_VERY_LOW,
               },
               movements: {
                 type: Movement.rotating,
@@ -348,6 +348,7 @@ describe('ParametersComponent', () => {
 
   describe('loadValidator', () => {
     it('should set the anyLoad error if both fields are 0', () => {
+      component.exact.setValue(true);
       component.radial.setValue(0);
       component.axial.setValue(0);
 
