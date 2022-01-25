@@ -7,11 +7,11 @@
   @apply overflow-hidden;
 
   &::-webkit-scrollbar {
-    @apply bg-hover-overlay w-1.5;
+    @apply w-1.5 bg-hover-overlay;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply bg-background-dark rounded;
+    @apply rounded bg-background-dark;
   }
 }
 
@@ -47,5 +47,5 @@
 }
 
 ::ng-deep .custom-scrollbar .mat-option {
-  @apply border-none border-0;
+  @apply border-0 border-none;
 }
