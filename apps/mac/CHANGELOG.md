@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.1.2...mac-v0.2.0) (2022-01-25)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** fix empty filter (UFTABI-5243) ([#3400](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3400)) ([72dd9a8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/72dd9a829e2db3aaea98e1e75a3e5ee3fa95cb45))
+* **mac:** fix html format issues ([201db5c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/201db5cb9adb3f72f9d5ff34b68229f94d56e96f))
+* **mac:** review improvements (UFTABI-5272) ([#3435](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3435)) ([4d2bf64](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4d2bf642369d1e5d061a2b9ed6b56ca7fa08a28d))
+* **transloco:** imports in tests & readme updated ([c32329c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c32329ce19668460abac5b3997f0e937b3bfe5ba))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### 🎸 Features
+
+* **mac:** add disclaimer (UFTABI-5163) ([#3359](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3359)) ([47ef276](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47ef276f4b6eaab01cad842599b16ff5144f24bb))
+* **mac:** add msd (UFTABI-5203) ([#3252](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3252)) ([0b0be40](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0b0be4082dcb236fb4cf1ee55c9977baa655f835))
+* **mac:** add ui improvements ([#3403](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3403)) ([0b8384d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0b8384d6cafb84be9e050b4104079ce10381fc17))
+* **mac:** adjust msd columns ([#3609](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3609)) ([0fc761d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0fc761d28ab82cde2ed41f8c0557a9e3cbe9b199))
+* **mac:** change title depending on current app ([#3401](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3401)) ([ee1bdb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee1bdb0389634887bd4851cef1d47438f340edf8))
+* **mac:** improve msd share button (UFTABI-4695) ([#3441](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3441)) ([c3a4e25](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c3a4e253be9ed740948af0cf5545da30efd7fb77))
+* **mac:** remove http lib ([5fdb699](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5fdb6990f434cc88e9a3f8ee43070f2164a27949))
+* **mac:** use app shell ([#3140](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3140)) ([3b15f80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3b15f806ac6e170b7b3e4c2f7733c40964b459cd))
+* **mac:** use HV as default unit ([#3239](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3239)) ([467cc8d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/467cc8df1ad7ef02183e5430dd8ae8725057f40b))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **shared-ui:** remove deprecated libs in favour of npm packages ([#3520](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3520)) ([a2bf36b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2bf36bf950ba4d8bd1d27ed9754565f9e364b90))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ### [0.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.1.2...mac-v0.1.1) (2021-08-24)
 
 
