@@ -1,5 +1,11 @@
 :host {
-  ::ng-deep .mat-tab-body-wrapper {
-    height: 100% !important;
+  ::ng-deep {
+    .mat-tab-group {
+      height: calc(100% - 50px);
+
+      .mat-tab-body-wrapper {
+        @apply h-full;
+      }
+    }
   }
 }
