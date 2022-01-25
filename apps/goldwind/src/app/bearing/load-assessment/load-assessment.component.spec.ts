@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { DISPLAY } from '../../../testing/mocks';
 import {
@@ -17,6 +18,7 @@ import { BearingMetadata } from '../../core/store/reducers/bearing/models';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { LoadDistributionCardModule } from '../condition-monitoring/load-distribution-card/load-distribution-card.module';
 import { LoadAssessmentComponent } from './load-assessment.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('LoadAssessmentComponent', () => {
   let component: LoadAssessmentComponent;

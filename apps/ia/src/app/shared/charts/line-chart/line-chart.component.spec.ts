@@ -2,8 +2,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { LineChartComponent } from './line-chart.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('LineChartComponent', () => {
   let component: LineChartComponent;

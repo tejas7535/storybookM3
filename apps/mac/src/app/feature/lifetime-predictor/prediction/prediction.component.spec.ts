@@ -29,6 +29,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ParseConfig, ParseResult } from 'ngx-papaparse';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { BannerModule, BannerState } from '@schaeffler/banner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -45,6 +46,7 @@ import { ChartModule } from './chart/chart.module';
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 jest.mock('../../../shared/change-favicon.ts', () => ({
   changeFavicon: jest.fn(() => {}),

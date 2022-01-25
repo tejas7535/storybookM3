@@ -1,12 +1,18 @@
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { MockModule } from 'ng-mocks';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
-import { FeatureImportanceComponent } from './feature-importance.component';
-
-import * as featureImportanceConfig from './feature-importance.config';
-import { FeatureImportanceGroup } from '../models';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { FeatureImportanceGroup } from '../models';
+import { FeatureImportanceComponent } from './feature-importance.component';
+import * as featureImportanceConfig from './feature-importance.config';
+window.ResizeObserver = resize_observer_polyfill;
 
 jest.mock('./feature-importance.config', () => ({
   ...(jest.requireActual('./feature-importance.config') as any),
@@ -24,6 +30,8 @@ describe('FeatureImportanceComponent', () => {
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
+      MockModule(MatIconModule),
+      MockModule(MatTooltipModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
   });

@@ -1,10 +1,12 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { TransparencyGraphComponent } from './transparency-graph.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('TransparencyGraphComponent', () => {
   let component: TransparencyGraphComponent;

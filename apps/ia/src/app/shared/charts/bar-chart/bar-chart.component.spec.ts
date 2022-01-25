@@ -1,9 +1,11 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockComponent } from 'ng-mocks';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { BarChartConfig } from '../models/bar-chart-config.model';
 import { BarChartComponent } from './bar-chart.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 jest.mock('./bar-chart.config', () => ({
   ...(jest.requireActual('./bar-chart.config') as any),

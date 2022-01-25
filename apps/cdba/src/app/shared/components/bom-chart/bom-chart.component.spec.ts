@@ -11,6 +11,7 @@ import {
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -22,6 +23,7 @@ import {
   Y_AXIS_CONFIG,
 } from './bom-chart.constants';
 import { BomChartConfigService } from './bom-chart-config.service';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('BomChartComponent', () => {
   let specatator: Spectator<BomChartComponent>;

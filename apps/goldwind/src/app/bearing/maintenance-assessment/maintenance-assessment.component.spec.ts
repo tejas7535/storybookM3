@@ -4,11 +4,14 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { setMaintenanceAssessmentDisplay } from '../../core/store';
 import { AssessmentLinechartModule } from '../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { GCMHeatmapCardModule } from './gcm-heatmap-card/gcm-heatmap-card.module';
 import { MaintenanceAssessmentComponent } from './maintenance-assessment.component';
+window.ResizeObserver = resize_observer_polyfill;
+
 describe('MaintenanceAssessmentComponent', () => {
   let component: MaintenanceAssessmentComponent;
   let spectator: Spectator<MaintenanceAssessmentComponent>;

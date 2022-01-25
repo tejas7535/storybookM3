@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -15,6 +16,7 @@ import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 import { LoadDistributionCardModule } from './load-distribution-card/load-distribution-card.module';
 import { ShaftModule } from './shaft/shaft.module';
 import { StaticSafteyFactorMonitorModule } from './static-saftey-factor-monitor/static-saftey-factor-monitor.module';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;

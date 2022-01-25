@@ -7,9 +7,11 @@ import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { AssessmentLinechartModule } from '../../../shared/chart/assessment-linechart/assessment-linechart.module';
 import { GcmHeatmapCardComponent } from './gcm-heatmap-card.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('GcmHeatmapCardComponent', () => {
   let component: GcmHeatmapCardComponent;

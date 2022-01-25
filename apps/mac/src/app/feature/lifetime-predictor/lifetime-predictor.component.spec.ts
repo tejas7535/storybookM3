@@ -8,6 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BannerModule } from '@schaeffler/banner';
@@ -19,6 +20,7 @@ import { LifetimePredictorComponent } from './lifetime-predictor.component';
 import { PredictionModule } from './prediction/prediction.module';
 import { initialState as initialInputState } from './store/reducers/input.reducer';
 import { initialState as initialPredictionState } from './store/reducers/prediction.reducer';
+window.ResizeObserver = resize_observer_polyfill;
 
 jest.mock('../../shared/change-favicon.ts', () => ({
   changeFavicon: jest.fn(() => {}),

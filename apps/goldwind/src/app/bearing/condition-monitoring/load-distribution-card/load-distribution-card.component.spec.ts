@@ -13,9 +13,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { DashboardMoreInfoDialogComponent } from '../../../shared/dashboard-more-info-dialog/dashboard-more-info-dialog.component';
 import { LoadDistributionCardComponent } from './load-distribution-card.component';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('CenterLoadComponent', () => {
   let component: LoadDistributionCardComponent;

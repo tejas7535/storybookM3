@@ -5,10 +5,11 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
-
-import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { PortfolioAnalysisChartComponent } from './portfolio-analysis-chart.component';
+import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('PortfolioAnalysisChartComponent', () => {
   let spectator: Spectator<PortfolioAnalysisChartComponent>;
