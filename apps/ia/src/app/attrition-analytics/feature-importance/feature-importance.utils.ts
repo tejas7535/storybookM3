@@ -2,7 +2,7 @@ import { Color } from '../../shared/models/color.enum';
 
 export const calculateColor = (weight: number): string => {
   if (weight === undefined || weight <= 0) {
-    return Color.DARK_GREY;
+    return 'rgb(3, 147, 240)';
   }
   if (weight >= 1) {
     return Color.RED_RGB;

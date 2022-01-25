@@ -8,7 +8,7 @@ import { withCache } from '@ngneat/cashew';
 import { ApiVersion } from '../shared/models';
 import { EmployeeAnalytics } from './models/employee-analytics.model';
 import { FeatureParams } from './models/feature-params.model';
-import { FeatureImportanceGroup, Slice } from './models';
+import { FeatureImportanceGroup, Slice, SortDirection } from './models';
 
 @Injectable({
   providedIn: 'root',
@@ -43,18 +43,22 @@ export class AttritionAnalyticsService {
     year: number,
     month: number,
     page: number,
-    size: number
+    size: number,
+    sortProperty: string,
+    sortDirection: SortDirection
   ): Observable<Slice<FeatureImportanceGroup>> {
+    const sortQueryParam = `${sortProperty},${sortDirection}`;
+
     return this.http.get<Slice<FeatureImportanceGroup>>(
       `${ApiVersion.V1}/${this.FEATURE_IMPORTANCE}`,
       {
-        context: withCache(),
         params: {
           region,
           year,
           month,
           page,
           size,
+          sort: sortQueryParam,
         },
       }
     );

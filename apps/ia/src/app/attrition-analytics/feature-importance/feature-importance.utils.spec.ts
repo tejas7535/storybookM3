@@ -7,12 +7,12 @@ import {
 
 describe('feature-imoprtance-utils', () => {
   describe('calculateColor', () => {
-    test('should return dark grey when weight undefined', () => {
-      expect(calculateColor(undefined as number)).toEqual(Color.DARK_GREY);
+    test('should return blue when weight undefined', () => {
+      expect(calculateColor(undefined as number)).toEqual('rgb(3, 147, 240)');
     });
 
-    test('should return dark grey when weight equals 0', () => {
-      expect(calculateColor(0)).toEqual(Color.DARK_GREY);
+    test('should return blue when weight equals 0', () => {
+      expect(calculateColor(0)).toEqual('rgb(3, 147, 240)');
     });
 
     test('should return red when weight equals 1', () => {

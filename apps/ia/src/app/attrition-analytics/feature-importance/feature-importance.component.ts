@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EChartsOption } from 'echarts';
 
-import { FeatureImportanceGroup } from '../models';
+import { FeatureImportanceGroup, SortDirection } from '../models';
 import { createFeaturesImportanceConfig } from './feature-importance.config';
 
 @Component({
@@ -11,24 +11,32 @@ import { createFeaturesImportanceConfig } from './feature-importance.config';
 })
 export class FeatureImportanceComponent {
   @Input() loading: boolean;
-  @Input() title: string;
-  @Input() xAxisName: string;
-  @Input() legendTop: string;
-  @Input() legendTitle: string;
-  @Input() legendBottom: string;
   @Input() set groups(groups: FeatureImportanceGroup[]) {
     if (groups) {
       this.initChart(groups);
     }
   }
+  @Input() hasNextFeatures: boolean;
+  @Input() sortDirection: SortDirection;
+
+  @Output()
+  private readonly loadNext: EventEmitter<void> = new EventEmitter();
+
+  @Output()
+  private readonly toggleSort: EventEmitter<void> = new EventEmitter();
 
   options: EChartsOption;
+  sortDirectionEnum = SortDirection;
 
   initChart(groups: FeatureImportanceGroup[]): void {
-    this.options = createFeaturesImportanceConfig(
-      groups,
-      this.title,
-      this.xAxisName
-    );
+    this.options = createFeaturesImportanceConfig(groups);
+  }
+
+  loadNextFeatures(): void {
+    this.loadNext.emit();
+  }
+
+  toggleSortDirection(): void {
+    this.toggleSort.emit();
   }
 }

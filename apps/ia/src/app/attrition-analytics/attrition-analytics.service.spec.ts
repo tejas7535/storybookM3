@@ -6,7 +6,12 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { AttritionAnalyticsService } from './attrition-analytics.service';
-import { Slice, FeatureImportanceGroup, FeatureImportanceType } from './models';
+import {
+  Slice,
+  FeatureImportanceGroup,
+  FeatureImportanceType,
+  SortDirection,
+} from './models';
 import { EmployeeAnalytics } from './models/employee-analytics.model';
 import { FeatureParams } from './models/feature-params.model';
 
@@ -93,14 +98,24 @@ describe('AttritionAnalyticsService', () => {
       const month = 8;
       const page = 0;
       const size = 10;
+      const sortProperty = 'max_y_post';
+      const sortDirection = SortDirection.DESC;
       service
-        .getFeatureImportance(region, year, month, page, size)
+        .getFeatureImportance(
+          region,
+          year,
+          month,
+          page,
+          size,
+          sortProperty,
+          sortDirection
+        )
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
       const req = httpMock.expectOne(
-        `api/v1/feature-importance?region=${region}&year=${year}&month=${month}&page=${page}&size=${size}`
+        `api/v1/feature-importance?region=${region}&year=${year}&month=${month}&page=${page}&size=${size}&sort=${sortProperty},${sortDirection}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

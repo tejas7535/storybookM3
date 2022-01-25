@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, of, switchMap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  of,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -21,8 +29,12 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  toggleFeatureImportanceSort,
 } from '../actions/attrition-analytics.action';
 import {
+  getFeatureImportanceHasNext,
+  getFeatureImportancePageable,
+  getFeatureImportanceSort,
   getSelectedFeatureParams,
   getSelectedFeatures,
 } from '../selectors/attrition-analytics.selector';
@@ -105,12 +117,26 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
     );
   });
 
-  loadFeatureImportance$ = createEffect(() => {
+  loadNextFeatureImportance$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadFeatureImportance),
-      switchMap(({ region, year, month, page, size }) =>
+      ofType(loadFeatureImportance, toggleFeatureImportanceSort),
+      withLatestFrom(
+        this.store.select(getFeatureImportanceHasNext),
+        this.store.select(getFeatureImportancePageable),
+        this.store.select(getFeatureImportanceSort)
+      ),
+      filter(([_action, hasNext, _pageable, _sort]) => hasNext),
+      switchMap(([_action, _hasNext, pageable, sort]) =>
         this.attritionAnalyticsService
-          .getFeatureImportance(region, year, month, page, size)
+          .getFeatureImportance(
+            'China', // hardcoded for now
+            2020,
+            8,
+            pageable.pageNumber + 1, // load next features
+            pageable.pageSize,
+            sort.property,
+            sort.direction
+          )
           .pipe(
             map((data) => loadFeatureImportanceSuccess({ data })),
             catchError((error) =>
@@ -130,16 +156,7 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   ngrxOnInitEffects(): Action {
     this.store.dispatch(loadAvailableFeatures());
 
-    // initial paging call with fixed params
-    this.store.dispatch(
-      loadFeatureImportance({
-        region: 'China',
-        year: 2020,
-        month: 8,
-        page: 0,
-        size: 3,
-      })
-    );
+    this.store.dispatch(loadFeatureImportance());
 
     return triggerLoad();
   }

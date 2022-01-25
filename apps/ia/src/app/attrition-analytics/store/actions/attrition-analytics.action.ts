@@ -49,14 +49,7 @@ export const loadAvailableFeaturesFailure = createAction(
 );
 
 export const loadFeatureImportance = createAction(
-  '[AttritionAnalytics] Load Feature Importance',
-  props<{
-    region: string;
-    year: number;
-    month: number;
-    page: number;
-    size: number;
-  }>()
+  '[AttritionAnalytics] Load Feature Importance'
 );
 
 export const loadFeatureImportanceSuccess = createAction(
@@ -67,6 +60,10 @@ export const loadFeatureImportanceSuccess = createAction(
 export const loadFeatureImportanceFailure = createAction(
   '[AttritionAnalytics] Load Feature Importance Failure',
   props<{ errorMessage: string }>()
+);
+
+export const toggleFeatureImportanceSort = createAction(
+  '[AttritionAnalytics] Toggle Feature Importance Sort'
 );
 
 const all = union({
@@ -82,6 +79,7 @@ const all = union({
   loadFeatureImportance,
   loadFeatureImportanceSuccess,
   loadFeatureImportanceFailure,
+  toggleFeatureImportanceSort,
 });
 
 export type AttritionAnalyticsActions = typeof all;

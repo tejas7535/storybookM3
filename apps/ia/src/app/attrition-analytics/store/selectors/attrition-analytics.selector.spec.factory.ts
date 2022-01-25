@@ -2,7 +2,7 @@ import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.m
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { AttritionAnalyticsState } from '..';
-import { FeatureImportanceType } from '../../models';
+import { FeatureImportanceType, SortDirection } from '../../models';
 
 export function createFakeState(): AttritionAnalyticsState {
   return {
@@ -63,6 +63,10 @@ export function createFakeState(): AttritionAnalyticsState {
       pageable: {
         pageNumber: 0,
         pageSize: 1,
+      },
+      sort: {
+        property: 'max_y_pos',
+        direction: SortDirection.DESC,
       },
       errorMessage: undefined,
     },

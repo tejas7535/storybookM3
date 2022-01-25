@@ -83,3 +83,18 @@ export const getFeatureImportancePageable = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) => state.featureImportance.pageable
 );
+
+export const getFeatureImportanceHasNext = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.featureImportance.hasNext
+);
+
+export const getFeatureImportanceSort = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.featureImportance.sort
+);
+
+export const getFeatureImportanceSortDirection = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.featureImportance.sort.direction
+);

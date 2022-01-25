@@ -98,10 +98,9 @@ describe('FeatureImoprtanceConfig', () => {
       };
       const series: ScatterSeriesOption[] = [];
       const index = 0;
-      const size = 0;
       const mockSetData = jest.spyOn(config, 'setData').mockReturnValue();
 
-      config.fillDataForFeature(featureImportance, series, index, size);
+      config.fillDataForFeature(featureImportance, series, index);
 
       expect(series[0]).toBeDefined();
       expect(series[0].coordinateSystem).toEqual('cartesian2d');
@@ -110,8 +109,7 @@ describe('FeatureImoprtanceConfig', () => {
       expect(mockSetData).toHaveBeenCalledWith(
         featureImportance,
         series[0],
-        index,
-        size
+        index
       );
     });
   });
@@ -125,8 +123,7 @@ describe('FeatureImoprtanceConfig', () => {
           type: FeatureImportanceType.NUMERIC,
         },
       ];
-      const titleText = 'I am the title';
-      const xAxisName = 'I am the X Axis Name';
+      const translateMock = 'translate it';
       const mockCreateXAxisOption = jest
         .spyOn(config, 'createXAxisOption')
         .mockReturnValue({});
@@ -140,16 +137,12 @@ describe('FeatureImoprtanceConfig', () => {
         .spyOn(config, 'fillDataForFeature')
         .mockReturnValue();
 
-      const result = config.createFeaturesImportanceConfig(
-        featuresImportance,
-        titleText,
-        xAxisName
-      );
+      const result = config.createFeaturesImportanceConfig(featuresImportance);
 
       expect(result).toBeDefined();
-      expect(mockCreateXAxisOption).toHaveBeenCalledWith(xAxisName);
+      expect(mockCreateXAxisOption).toHaveBeenCalledWith(translateMock);
       expect(mockCreateYAxisOption).toHaveBeenCalledWith(['Age']);
-      expect(mockCreateTitleOption).toHaveBeenCalledWith(titleText);
+      expect(mockCreateTitleOption).toHaveBeenCalledWith(translateMock);
       expect(mockFillDataForFeature).toHaveBeenCalledTimes(
         featuresImportance.length
       );
@@ -186,10 +179,9 @@ describe('FeatureImoprtanceConfig', () => {
         type: FeatureImportanceType.NUMERIC,
       };
       const serie: ScatterSeriesOption = {};
-      const size = 10;
       const index = 0;
 
-      config.setData(featureImportance, serie, index, size);
+      config.setData(featureImportance, serie, index);
 
       expect(mockGetAverageOfYAxisInDataPoints).toHaveBeenCalledWith(
         featureImportance.dataPoints
@@ -198,7 +190,7 @@ describe('FeatureImoprtanceConfig', () => {
         serie,
         featureImportance.dataPoints,
         mockAvg,
-        size - index - 1
+        index
       );
       expect(mockSetSeriesForCategoricalFeature).not.toHaveBeenCalled();
     });
@@ -209,10 +201,9 @@ describe('FeatureImoprtanceConfig', () => {
         type: FeatureImportanceType.CATEGORICAL,
       };
       const serie: ScatterSeriesOption = {};
-      const size = 10;
       const index = 0;
 
-      config.setData(featureImportance, serie, index, size);
+      config.setData(featureImportance, serie, index);
 
       expect(mockGetAverageOfYAxisInDataPoints).toHaveBeenCalledWith(
         featureImportance.dataPoints
@@ -221,7 +212,7 @@ describe('FeatureImoprtanceConfig', () => {
         serie,
         featureImportance.dataPoints,
         mockAvg,
-        size - index - 1
+        index
       );
       expect(mockSetSeriesForNumericFeature).not.toHaveBeenCalled();
     });

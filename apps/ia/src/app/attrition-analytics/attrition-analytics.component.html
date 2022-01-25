@@ -1,7 +1,7 @@
 <div class="bg-surface p-4" *transloco="let t; read: 'attritionAnalytics'">
-  <h5 class="font-bold mb-5">{{ t('unforcedAttritionAnalytics.title') }}</h5>
+  <h5 class="mb-5 font-bold">{{ t('unforcedAttritionAnalytics.title') }}</h5>
   <div
-    class="gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 drag-list border-none"
+    class="drag-list grid grid-cols-4 flex-wrap gap-4 border-none p-4 lg:flex-nowrap"
     *ngIf="!(isLoadingAnalytics$ | ngrxPush); else loadingAnalytics"
     cdkDropList
     cdkDropListOrientation="horizontal"
@@ -11,17 +11,26 @@
       cdkDrag
       cdkDragLockAxis="x"
       cdkDragBoundary=".drag-list"
-      class="shadow w-full flex flex-col"
+      class="flex w-full flex-col shadow"
       *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
     >
       <div class="relative">
-        <div class="absolute right-3 top-3 flex flex-row gap-2">
-          <mat-icon
-            class="cursor-pointer text-medium-emphasis z-50"
+        <div class="absolute right-3 top-1 flex flex-row gap-2">
+          <button
+            class="z-50 text-medium-emphasis"
+            mat-icon-button
+            [attr.aria-label]="t('edit')"
+            [matTooltip]="t('edit')"
             (click)="openFeaturesDialog()"
-            >edit</mat-icon
           >
-          <mat-icon class="cursor-move text-medium-emphasis z-50" cdkDragHandle
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <mat-icon
+            class="z-50 mt-2 cursor-move text-medium-emphasis"
+            cdkDragHandle
+            [attr.aria-label]="t('move')"
+            [matTooltip]="t('move')"
             >open_with</mat-icon
           >
         </div>
@@ -30,14 +39,19 @@
     </div>
     <div
       *ngIf="(barChartConfigs$ | ngrxPush)?.length < NUMBER_OF_TILES"
-      class="w-full h-[520px] flex items-center justify-center shadow"
+      class="flex h-[520px] w-full items-center justify-center shadow"
     >
       <div
-        class="text-center w-[190px] h-[190px] rounded-full bg-[#F5F7FA] flex flex-col justify-center items-center"
+        class="flex h-[190px] w-[190px] flex-col items-center justify-center rounded-full bg-[#F5F7FA] text-center"
         *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
       >
-        <div class="cursor-pointer" (click)="openFeaturesDialog()">
-          <mat-icon class="text-medium-emphasis text-[48px] !w-[48px] !h-[48px]"
+        <div
+          class="cursor-pointer"
+          (click)="openFeaturesDialog()"
+          [attr.aria-label]="t('add')"
+          [matTooltip]="t('add')"
+        >
+          <mat-icon class="!h-[48px] !w-[48px] text-[48px] text-medium-emphasis"
             >add_circle_outline</mat-icon
           >
           <h6 class="text-medium-emphasis">{{ t('buttonText') }}</h6>
@@ -46,8 +60,8 @@
     </div>
   </div>
   <ng-template #loadingAnalytics>
-    <div class="p-4 border-none grid grid-cols-1 md:grid-cols-4">
-      <div class="w-full h-[520px] shadow">
+    <div class="grid grid-cols-1 border-none p-4 md:grid-cols-4">
+      <div class="h-[520px] w-full shadow">
         <schaeffler-loading-spinner
           [diameter]="40"
           [strokeWidth]="4"
@@ -56,15 +70,14 @@
       </div>
     </div>
   </ng-template>
-  <div class="gap-4 p-4 flex-wrap lg:flex-nowrap grid grid-cols-4 border-none">
+  <div class="grid grid-cols-3 flex-wrap gap-4 border-none p-4 lg:flex-nowrap">
     <ia-feature-importance
-      class="shadow w-full flex flex-col col p-4"
-      [title]="t('featureImportance.title')"
-      [xAxisName]="t('featureImportance.xAxisName')"
-      [legendTop]="t('featureImportance.legend.top')"
-      [legendTitle]="t('featureImportance.legend.title')"
-      [legendBottom]="t('featureImportance.legend.bottom')"
+      [loading]="featureImportanceLoading$ | ngrxPush"
+      [hasNextFeatures]="featureImportanceHasNext$ | ngrxPush"
       [groups]="featureImportanceGroups$ | ngrxPush"
+      [sortDirection]="featureImportanceSortDirection$ | ngrxPush"
+      (loadNext)="loadNextFeatureImportance()"
+      (toggleSort)="toggleSortFeatureImportance()"
     ></ia-feature-importance>
   </div>
 </div>

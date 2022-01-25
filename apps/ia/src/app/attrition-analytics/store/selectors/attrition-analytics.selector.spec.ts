@@ -7,8 +7,11 @@ import {
   getBarChartConfigsForSelectedFeatures,
   getEmployeeAnalyticsLoading,
   getFeatureImportanceGroups,
+  getFeatureImportanceHasNext,
   getFeatureImportanceLoading,
   getFeatureImportancePageable,
+  getFeatureImportanceSort,
+  getFeatureImportanceSortDirection,
   getFeatureSelectors,
   getSelectedFeatureParams,
   getSelectedFeatures,
@@ -154,6 +157,33 @@ describe('attrition analytics selector', () => {
     test('should return pageable', () => {
       const expectedResult = fakeState.featureImportance.pageable;
       const result = getFeatureImportancePageable.projector(fakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getFeatureImportanceHasNext', () => {
+    test('should return hasNext', () => {
+      const expectedResult = fakeState.featureImportance.hasNext;
+      const result = getFeatureImportanceHasNext.projector(fakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getFeatureImportanceSort', () => {
+    test('should return sort', () => {
+      const expectedResult = fakeState.featureImportance.sort;
+      const result = getFeatureImportanceSort.projector(fakeState);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
+
+  describe('getFeatureImportanceSortDirection', () => {
+    test('should return sort direction', () => {
+      const expectedResult = fakeState.featureImportance.sort.direction;
+      const result = getFeatureImportanceSortDirection.projector(fakeState);
 
       expect(result).toEqual(expectedResult);
     });

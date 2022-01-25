@@ -26,17 +26,23 @@ import { initialState } from './store';
 import {
   changeSelectedFeatures,
   initializeSelectedFeatures,
+  loadFeatureImportance,
+  toggleFeatureImportanceSort,
 } from './store/actions/attrition-analytics.action';
 import {
   getEmployeeAnalyticsLoading,
   getFeatureImportanceGroups,
+  getFeatureImportanceHasNext,
   getFeatureImportanceLoading,
+  getFeatureImportanceSortDirection,
 } from './store/selectors/attrition-analytics.selector';
 import {
   createBarchartConfigForAge,
   createDummyBarChartSerie,
 } from './store/selectors/attrition-analytics.selector.spec.factory';
 import { LoadingSpinnerComponent } from '@schaeffler/loading-spinner';
+import { SortDirection } from './models';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('AttritionAnalyticsComponent', () => {
   let component: AttritionAnalyticsComponent;
@@ -57,6 +63,7 @@ describe('AttritionAnalyticsComponent', () => {
       FeaturesDialogModule,
       MatDialogModule,
       MatIconModule,
+      MatTooltipModule,
     ],
     providers: [
       {
@@ -123,11 +130,11 @@ describe('AttritionAnalyticsComponent', () => {
     );
 
     test(
-      'should set isLoadingImportance',
+      'should set featureImportanceLoading',
       marbles((m) => {
         store.overrideSelector(getFeatureImportanceLoading, true);
 
-        m.expect(component.isLoadingImportance$).toBeObservable(
+        m.expect(component.featureImportanceLoading$).toBeObservable(
           m.cold('a', { a: true })
         );
       })
@@ -140,6 +147,31 @@ describe('AttritionAnalyticsComponent', () => {
 
         m.expect(component.featureImportanceGroups$).toBeObservable(
           m.cold('a', { a: [] })
+        );
+      })
+    );
+
+    test(
+      'should set featureImportanceHasNext',
+      marbles((m) => {
+        store.overrideSelector(getFeatureImportanceHasNext, true);
+
+        m.expect(component.featureImportanceHasNext$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+
+    test(
+      'should set featureImportanceSortDirection',
+      marbles((m) => {
+        store.overrideSelector(
+          getFeatureImportanceSortDirection,
+          SortDirection.ASC
+        );
+
+        m.expect(component.featureImportanceSortDirection$).toBeObservable(
+          m.cold('a', { a: SortDirection.ASC })
         );
       })
     );
@@ -289,6 +321,24 @@ describe('AttritionAnalyticsComponent', () => {
       component.ngOnDestroy();
 
       expect(component['subscription'].unsubscribe).toBeCalledTimes(1);
+    });
+  });
+
+  describe('loadNextFeatureImportance', () => {
+    test('should dispatch action', () => {
+      component.loadNextFeatureImportance();
+
+      expect(store.dispatch).toHaveBeenCalledWith(loadFeatureImportance());
+    });
+  });
+
+  describe('toggleSortFeatureImportance', () => {
+    test('should dispatch action', () => {
+      component.toggleSortFeatureImportance();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        toggleFeatureImportanceSort()
+      );
     });
   });
 });

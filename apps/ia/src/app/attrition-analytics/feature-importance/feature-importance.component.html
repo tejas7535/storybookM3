@@ -1,29 +1,55 @@
-<div class="flex-row grid grid-cols-12 items-center">
-  <div
-    echarts
-    [options]="options"
-    class="h-[600px] col-span-10"
-    *ngIf="!loading && this.options !== undefined; else loadingImportance"
-  ></div>
-  <ng-template #loadingImportance>
-    <div class="h-[600px] col-span-10 relative">
+<div
+  class="relative p-4 shadow"
+  *transloco="let t; read: 'attritionAnalytics.featureImportance'"
+>
+  <div class="absolute top-6 right-3 flex flex-row">
+    <button
+      class="text-medium-emphasis"
+      mat-icon-button
+      [attr.aria-label]="t('loadMore')"
+      [matTooltip]="t('loadMore')"
+      (click)="loadNextFeatures()"
+      [disabled]="!hasNextFeatures"
+    >
+      <mat-icon>sync</mat-icon>
+    </button>
+    <button
+      class="text-medium-emphasis"
+      mat-icon-button
+      [attr.aria-label]="t('sortBy')"
+      [matTooltip]="t('sortBy')"
+      (click)="toggleSortDirection()"
+      [disabled]="loading"
+    >
+      <mat-icon *ngIf="sortDirection === sortDirectionEnum.DESC; else arrowUp"
+        >arrow_downward</mat-icon
+      >
+      <ng-template #arrowUp>
+        <mat-icon>arrow_upward</mat-icon>
+      </ng-template>
+    </button>
+  </div>
+  <div class="grid grid-cols-12 items-center">
+    <div class="relative col-span-10 h-[520px]">
+      <div echarts [options]="options" class="h-[520px]"></div>
       <schaeffler-loading-spinner
+        *ngIf="loading"
         [diameter]="40"
         [strokeWidth]="4"
         [relative]="false"
       ></schaeffler-loading-spinner>
     </div>
-  </ng-template>
-  <div
-    class="flex flex-col justify-between h-[80%] ml-auto w-1.5 bg-gradient-to-t from-heatmapBlue via-heatmapDeepMagenta to-heatmapRed"
-  ></div>
-  <div class="h-[88%] flex flex-col justify-between">
-    <label class="text-subtitle-2">{{ legendTop }}</label>
-    <label
-      class="transform origin-left -rotate-90 ml-4 whitespace-nowrap text-subtitle-2"
-    >
-      {{ legendTitle }}
-    </label>
-    <label class="text-subtitle-2">{{ legendBottom }}</label>
+    <div
+      class="ml-auto flex h-[70%] w-1.5 flex-col justify-between bg-gradient-to-t from-heatmapBlue via-heatmapDeepMagenta to-heatmapRed"
+    ></div>
+    <div class="flex h-[78%] flex-col justify-between">
+      <label class="text-subtitle-2">{{ t('legend.top') }}</label>
+      <label
+        class="ml-4 origin-left -rotate-90 transform whitespace-nowrap text-subtitle-2"
+      >
+        {{ t('legend.title') }}
+      </label>
+      <label class="text-subtitle-2">{{ t('legend.bottom') }}</label>
+    </div>
   </div>
 </div>

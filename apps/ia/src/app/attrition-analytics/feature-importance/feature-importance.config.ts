@@ -1,3 +1,4 @@
+import { translate } from '@ngneat/transloco';
 import {
   EChartsOption,
   GridComponentOption,
@@ -16,21 +17,26 @@ import {
 import { calculateColor } from './feature-importance.utils';
 
 export const createFeaturesImportanceConfig = (
-  featuresImportanceGroups: FeatureImportanceGroup[],
-  titleText: string,
-  xAxisName: string
+  featuresImportanceGroups: FeatureImportanceGroup[]
 ): EChartsOption => {
   const featuresNames = featuresImportanceGroups.map(
     (featureImportance: FeatureImportanceGroup) => featureImportance.feature
   );
-  const xAxis: XAXisComponentOption[] = [createXAxisOption(xAxisName)];
+
+  const xAxisname: string = translate(
+    'attritionAnalytics.featureImportance.xAxisName'
+  );
+  const titleText: string = translate(
+    'attritionAnalytics.featureImportance.title'
+  );
+  const xAxis: XAXisComponentOption[] = [createXAxisOption(xAxisname)];
   const yAxis: YAXisComponentOption[] = [createYAxisOption(featuresNames)];
   const series: ScatterSeriesOption[] = [];
   const grid: GridComponentOption[] = [gridOption];
   const title: TitleOption[] = [createTitleOption(titleText)];
 
-  featuresImportanceGroups.forEach((feature, index, arr) => {
-    fillDataForFeature(feature, series, index, arr.length);
+  featuresImportanceGroups.forEach((feature, index) => {
+    fillDataForFeature(feature, series, index);
   });
 
   return {
@@ -89,15 +95,14 @@ export const createYAxisOption = (
 export const fillDataForFeature = (
   feature: FeatureImportanceGroup,
   series: ScatterSeriesOption[],
-  index: number,
-  size: number
+  index: number
 ): void => {
   const serie: ScatterSeriesOption = {
     coordinateSystem: 'cartesian2d',
     type: 'scatter',
     symbolSize: 4,
   };
-  setData(feature, serie, index, size);
+  setData(feature, serie, index);
 
   series.push(serie);
 };
@@ -105,26 +110,23 @@ export const fillDataForFeature = (
 export const setData = (
   feature: FeatureImportanceGroup,
   serie: ScatterSeriesOption,
-  index: number,
-  size: number
+  index: number
 ): void => {
   const avgYPosOfFeature = getAverageOfYAxisInDataPoints(feature.dataPoints);
-
-  const normalizedRank = size - index - 1; // set features from top to bottom on y-axis
 
   if (feature.type === FeatureImportanceType.NUMERIC) {
     setSeriesForNumericFeature(
       serie,
       feature.dataPoints,
       avgYPosOfFeature,
-      normalizedRank
+      index
     );
   } else {
     setSeriesForCategoricalFeature(
       serie,
       feature.dataPoints,
       avgYPosOfFeature,
-      normalizedRank
+      index
     );
   }
 };
@@ -143,12 +145,12 @@ export const setSeriesForNumericFeature = (
   serie: ScatterSeriesOption,
   dataPoints: FeatureImportanceDataPoint[],
   avgYPosOfFeature: number,
-  normalizedRank: number
+  index: number
 ): void => {
   serie.data = dataPoints.map((dataPoint) =>
     mapToValueWithStyle(
       dataPoint,
-      dataPoint.yaxisPos - avgYPosOfFeature + normalizedRank // move entry to y-pos according to own position
+      dataPoint.yaxisPos - avgYPosOfFeature + index // move value entries to correct y-position according own index
     )
   );
   serie.tooltip = {
@@ -162,12 +164,12 @@ export const setSeriesForCategoricalFeature = (
   serie: ScatterSeriesOption,
   dataPoints: FeatureImportanceDataPoint[],
   avgYPosOfFeature: number,
-  normalizedRank: number
+  index: number
 ): void => {
   serie.data = dataPoints.map((dataPoint) =>
     mapDataPointToScatterData(
       dataPoint,
-      dataPoint.yaxisPos - avgYPosOfFeature + normalizedRank // move entry to y-pos according to own position: normalize to 0 -> set according own position/index -> invert to be on top
+      dataPoint.yaxisPos - avgYPosOfFeature + index // move value entries to correct y-position according own index
     )
   );
   serie.color = Color.DARK_GREY;
@@ -213,8 +215,9 @@ export const seriesTooltipFormatter = (dataPoint: (string | number)[]) =>
   )}`;
 
 export const gridOption: GridComponentOption = {
-  left: 100,
-  right: 8,
+  left: 12,
+  right: 0,
+  containLabel: true,
 };
 
 export const createTitleOption = (text: string): TitleOption =>

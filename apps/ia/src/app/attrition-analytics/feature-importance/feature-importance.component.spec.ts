@@ -6,6 +6,7 @@ import { FeatureImportanceComponent } from './feature-importance.component';
 
 import * as featureImportanceConfig from './feature-importance.config';
 import { FeatureImportanceGroup } from '../models';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 jest.mock('./feature-importance.config', () => ({
   ...(jest.requireActual('./feature-importance.config') as any),
@@ -23,6 +24,7 @@ describe('FeatureImportanceComponent', () => {
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 
@@ -36,17 +38,13 @@ describe('FeatureImportanceComponent', () => {
 
   describe('initChart', () => {
     test('should create chart option', () => {
-      const title = 'title';
-      const xAxisName = 'x axis name';
       const groups: FeatureImportanceGroup[] = [];
 
-      component.xAxisName = xAxisName;
-      component.title = title;
       component.initChart(groups);
 
       expect(
         featureImportanceConfig.createFeaturesImportanceConfig
-      ).toHaveBeenCalledWith(groups, title, xAxisName);
+      ).toHaveBeenCalledWith(groups);
     });
   });
 
@@ -65,6 +63,26 @@ describe('FeatureImportanceComponent', () => {
       component.groups = groups;
 
       expect(component.initChart).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('loadNextFeatures', () => {
+    test('should emit loadNext', () => {
+      component['loadNext'].emit = jest.fn();
+
+      component.loadNextFeatures();
+
+      expect(component['loadNext'].emit).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('toggleSortDirection', () => {
+    test('should emit toggleSort', () => {
+      component['toggleSort'].emit = jest.fn();
+
+      component.toggleSortDirection();
+
+      expect(component['toggleSort'].emit).toHaveBeenCalledTimes(1);
     });
   });
 });

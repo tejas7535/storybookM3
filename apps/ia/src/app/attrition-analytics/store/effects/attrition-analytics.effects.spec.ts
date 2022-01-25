@@ -23,13 +23,20 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  toggleFeatureImportanceSort,
 } from '../actions/attrition-analytics.action';
 import { AttritionAnalyticsEffects } from './attrition-analytics.effects';
 import {
   FeatureImportanceGroup,
   FeatureImportanceType,
   Slice,
+  SortDirection,
 } from '../../models';
+import {
+  getFeatureImportanceHasNext,
+  getFeatureImportancePageable,
+  getFeatureImportanceSort,
+} from '../selectors/attrition-analytics.selector';
 
 describe('Attrition Anayltics Effects', () => {
   let spectator: SpectatorService<AttritionAnalyticsEffects>;
@@ -305,20 +312,21 @@ describe('Attrition Anayltics Effects', () => {
     );
   });
 
-  describe('loadFeatureImportance$', () => {
-    let region: string;
-    let year: number;
-    let month: number;
-    let page: number;
-    let size: number;
-
+  describe('loadNextFeatureImportance$ with loadFeatureImportance', () => {
     beforeEach(() => {
-      region = 'China';
-      year = 2022;
-      month = 9;
-      page = 0;
-      size = 5;
-      action = loadFeatureImportance({ region, year, month, page, size });
+      const pageable = {
+        pageNumber: -1,
+        pageSize: 10,
+      };
+      const sort = {
+        property: 'max_y_pos',
+        direction: SortDirection.DESC,
+      };
+
+      store.overrideSelector(getFeatureImportanceHasNext, true);
+      store.overrideSelector(getFeatureImportancePageable, pageable);
+      store.overrideSelector(getFeatureImportanceSort, sort);
+      action = loadFeatureImportance();
     });
 
     test(
@@ -346,6 +354,7 @@ describe('Attrition Anayltics Effects', () => {
             },
           ],
         };
+
         const result = loadFeatureImportanceSuccess({
           data,
         });
@@ -361,7 +370,7 @@ describe('Attrition Anayltics Effects', () => {
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadFeatureImportance$).toBeObservable(expected);
+        m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         m.flush();
         expect(
           employeeAnalyticsService.getFeatureImportance
@@ -384,11 +393,133 @@ describe('Attrition Anayltics Effects', () => {
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadFeatureImportance$).toBeObservable(expected);
+        m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         m.flush();
         expect(
           employeeAnalyticsService.getFeatureImportance
         ).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should do nothing when filtered out',
+      marbles((m) => {
+        store.overrideSelector(getFeatureImportanceHasNext, false);
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('----');
+
+        employeeAnalyticsService.getFeatureImportance = jest.fn();
+
+        m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
+        expect(
+          employeeAnalyticsService.getFeatureImportance
+        ).not.toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('loadNextFeatureImportance$ with toggleFeatureImportanceSort', () => {
+    beforeEach(() => {
+      const pageable = {
+        pageNumber: -1,
+        pageSize: 10,
+      };
+      const sort = {
+        property: 'max_y_pos',
+        direction: SortDirection.DESC,
+      };
+
+      store.overrideSelector(getFeatureImportanceHasNext, true);
+      store.overrideSelector(getFeatureImportancePageable, pageable);
+      store.overrideSelector(getFeatureImportanceSort, sort);
+      action = toggleFeatureImportanceSort();
+    });
+
+    test(
+      'should return loadFeatureImportanceSuccess when REST call is successful',
+      marbles((m) => {
+        const data: Slice<FeatureImportanceGroup> = {
+          hasNext: true,
+          hasPrevious: false,
+          pageable: {
+            pageNumber: 0,
+            pageSize: 10,
+          },
+          content: [
+            {
+              feature: 'Test',
+              type: FeatureImportanceType.NUMERIC,
+              dataPoints: [
+                {
+                  shapValue: 1,
+                  value: 'test a',
+                  yaxisPos: 18,
+                  colorMap: 0.3,
+                },
+              ],
+            },
+          ],
+        };
+
+        const result = loadFeatureImportanceSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        employeeAnalyticsService.getFeatureImportance = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
+        m.flush();
+        expect(
+          employeeAnalyticsService.getFeatureImportance
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return loadFeatureImportanceFailure when REST call failed',
+      marbles((m) => {
+        const result = loadFeatureImportanceFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        employeeAnalyticsService.getFeatureImportance = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
+        m.flush();
+        expect(
+          employeeAnalyticsService.getFeatureImportance
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should do nothing when filtered out',
+      marbles((m) => {
+        store.overrideSelector(getFeatureImportanceHasNext, false);
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('----');
+
+        employeeAnalyticsService.getFeatureImportance = jest.fn();
+
+        m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
+        expect(
+          employeeAnalyticsService.getFeatureImportance
+        ).not.toHaveBeenCalled();
       })
     );
   });
@@ -404,13 +535,7 @@ describe('Attrition Anayltics Effects', () => {
       );
 
       expect(effects['store'].dispatch).toHaveBeenCalledWith(
-        loadFeatureImportance({
-          region: 'China',
-          year: 2020,
-          month: 8,
-          page: 0,
-          size: 3,
-        })
+        loadFeatureImportance()
       );
     });
   });

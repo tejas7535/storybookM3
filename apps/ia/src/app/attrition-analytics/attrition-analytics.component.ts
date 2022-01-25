@@ -15,15 +15,19 @@ import { FeatureSelector } from './models/feature-selector.model';
 import {
   changeSelectedFeatures,
   initializeSelectedFeatures,
+  loadFeatureImportance,
+  toggleFeatureImportanceSort,
 } from './store/actions/attrition-analytics.action';
 import {
   getBarChartConfigsForSelectedFeatures,
   getEmployeeAnalyticsLoading,
   getFeatureImportanceGroups,
+  getFeatureImportanceHasNext,
   getFeatureImportanceLoading,
+  getFeatureImportanceSortDirection,
   getFeatureSelectors,
 } from './store/selectors/attrition-analytics.selector';
-import { FeatureImportanceGroup } from './models';
+import { FeatureImportanceGroup, SortDirection } from './models';
 
 @Component({
   selector: 'ia-attrition-analytics',
@@ -36,8 +40,10 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
   barChartConfigs$: Observable<BarChartConfig[]>;
   isLoadingAnalytics$: Observable<boolean>;
 
-  isLoadingImportance$: Observable<boolean>;
+  featureImportanceLoading$: Observable<boolean>;
   featureImportanceGroups$: Observable<FeatureImportanceGroup[]>;
+  featureImportanceHasNext$: Observable<boolean>;
+  featureImportanceSortDirection$: Observable<SortDirection>;
 
   allFeatureSelectors: FeatureSelector[] = [];
 
@@ -54,9 +60,17 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
     this.selectDefaultFeatures();
     this.isLoadingAnalytics$ = this.store.select(getEmployeeAnalyticsLoading);
 
-    this.isLoadingImportance$ = this.store.select(getFeatureImportanceLoading);
+    this.featureImportanceLoading$ = this.store.select(
+      getFeatureImportanceLoading
+    );
     this.featureImportanceGroups$ = this.store.select(
       getFeatureImportanceGroups
+    );
+    this.featureImportanceHasNext$ = this.store.select(
+      getFeatureImportanceHasNext
+    );
+    this.featureImportanceSortDirection$ = this.store.select(
+      getFeatureImportanceSortDirection
     );
 
     this.subscription.add(
@@ -150,5 +164,13 @@ export class AttritionAnalyticsComponent implements OnInit, OnDestroy {
 
     moveItemInArray(selectedFeatures, event.previousIndex, event.currentIndex);
     this.onSelectedFeatures(selectedFeatures);
+  }
+
+  loadNextFeatureImportance(): void {
+    this.store.dispatch(loadFeatureImportance());
+  }
+
+  toggleSortFeatureImportance(): void {
+    this.store.dispatch(toggleFeatureImportanceSort());
   }
 }

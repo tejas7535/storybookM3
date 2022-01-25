@@ -8,3 +8,5 @@ export * from './feature-params.model';
 export * from './slice.model';
 export * from './feature-importance-group.model';
 export * from './pageable.model';
+export * from './sort-direction.enum';
+export * from './sort.model';

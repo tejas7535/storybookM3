@@ -11,8 +11,11 @@
       "confirm": "Confirm",
       "amountSelected": "{{ selected }} of {{ total }} selected",
       "selectedFeaturesMaxInfo": "You may only select up to {{ selectedFeaturesMax }} features"
-    }
+    },
+    "add": "Add analysis"
   },
+  "edit": "Edit",
+  "move": "Move",
   "barChart": {
     "belowOverall": "Below Overall",
     "aboveOverall": "Above Overall",
@@ -27,6 +30,8 @@
       "title": "Feature Value",
       "top": "High",
       "bottom": "Low"
-    }
+    },
+    "loadMore": "Load more features",
+    "sortBy": "Sort by feature importance"
   }
 }

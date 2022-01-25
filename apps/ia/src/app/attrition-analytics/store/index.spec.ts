@@ -14,11 +14,13 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  toggleFeatureImportanceSort,
 } from './actions/attrition-analytics.action';
 import {
   Slice,
   FeatureImportanceGroup,
   FeatureImportanceType,
+  SortDirection,
 } from '../models';
 
 describe('Attrition Analytics Reducer', () => {
@@ -122,13 +124,7 @@ describe('Attrition Analytics Reducer', () => {
 
   describe('loadFeatureImportance', () => {
     test('should set loading true', () => {
-      const action = loadFeatureImportance({
-        region: 'Abc',
-        year: 2020,
-        month: 8,
-        size: 8,
-        page: 0,
-      });
+      const action = loadFeatureImportance();
 
       const state = attritionAnalyticsReducer(initialState, action);
 
@@ -179,6 +175,18 @@ describe('Attrition Analytics Reducer', () => {
 
       expect(state.featureImportance.loading).toBeFalsy();
       expect(state.featureImportance.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('toggleFeatureImportanceSort', () => {
+    test('should set loading true, reset data/pageable and toggle sort', () => {
+      const action = toggleFeatureImportanceSort();
+
+      const state = attritionAnalyticsReducer(initialState, action);
+
+      expect(state.featureImportance.loading).toBeTruthy();
+      expect(state.featureImportance.data).toBeUndefined();
+      expect(state.featureImportance.sort.direction).toEqual(SortDirection.ASC);
     });
   });
 });

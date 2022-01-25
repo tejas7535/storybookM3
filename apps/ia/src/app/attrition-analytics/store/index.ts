@@ -1,5 +1,10 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { FeatureImportanceGroup, Pageable } from '../models';
+import {
+  FeatureImportanceGroup,
+  Pageable,
+  Sort,
+  SortDirection,
+} from '../models';
 
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import { FeatureParams } from '../models/feature-params.model';
@@ -15,6 +20,7 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  toggleFeatureImportanceSort,
 } from './actions/attrition-analytics.action';
 
 export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
@@ -36,6 +42,7 @@ export interface AttritionAnalyticsState {
     data: FeatureImportanceGroup[];
     hasNext: boolean;
     pageable: Pageable;
+    sort: Sort;
     loading: boolean;
     errorMessage: string;
   };
@@ -62,8 +69,15 @@ export const initialState: AttritionAnalyticsState = {
   },
   featureImportance: {
     data: undefined,
-    pageable: undefined,
-    hasNext: false,
+    pageable: {
+      pageNumber: -1, // will automatically use pageNumber + 1
+      pageSize: 3,
+    },
+    sort: {
+      property: 'max_y_pos',
+      direction: SortDirection.DESC,
+    },
+    hasNext: true, // initial call
     loading: false,
     errorMessage: undefined,
   },
@@ -210,8 +224,8 @@ export const attritionAnalyticsReducer = createReducer(
         ...state.featureImportance,
         data:
           state.featureImportance.data !== undefined
-            ? state.featureImportance.data.concat(data.content)
-            : data.content,
+            ? [...data.content].reverse().concat(state.featureImportance.data) // reverse to have most important feature on top
+            : [...data.content].reverse(),
         hasNext: data.hasNext,
         pageable: data.pageable,
         loading: false,
@@ -229,6 +243,28 @@ export const attritionAnalyticsReducer = createReducer(
         ...state.featureImportance,
         errorMessage,
         loading: false,
+      },
+    })
+  ),
+  on(
+    toggleFeatureImportanceSort,
+    (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
+      ...state,
+      featureImportance: {
+        ...state.featureImportance,
+        data: undefined,
+        loading: true,
+        pageable: {
+          ...state.featureImportance.pageable,
+          pageNumber: -1,
+        },
+        sort: {
+          ...state.featureImportance.sort,
+          direction:
+            state.featureImportance.sort.direction === SortDirection.DESC
+              ? SortDirection.ASC
+              : SortDirection.DESC,
+        },
       },
     })
   )
