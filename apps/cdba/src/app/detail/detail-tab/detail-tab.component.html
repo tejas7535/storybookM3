@@ -1,17 +1,5 @@
 <div
-  class="
-    h-full
-    w-full
-    px-4
-    pt-4
-    justify-center
-    grid grid-cols-1
-    sm:grid-cols-2
-    md:grid-cols-3
-    lg:grid-cols-5
-    gap-4
-    auto-cols-fr
-  "
+  class="grid h-full w-full auto-cols-fr grid-cols-1 justify-center gap-4 px-4 pt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
 >
   <ng-container *ngIf="!(isLoading$ | ngrxPush); else loading">
     <div>

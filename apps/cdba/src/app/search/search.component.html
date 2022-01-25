@@ -1,20 +1,20 @@
 <div
-  class="h-full py-4 flex flex-col items-center justify-center gap-12 bg-surface"
+  class="flex h-full flex-col items-center justify-center gap-12 bg-surface py-4"
 >
-  <img src="/assets/images/logo.png" alt="Logo" class="w-[124px] h-[50px]" />
+  <img src="/assets/images/logo.png" alt="Logo" class="h-[50px] w-[124px]" />
   <ng-container *ngIf="tooManyResults$ | ngrxPush">
     <div
       class="flex flex-col items-center justify-center text-center"
       *transloco="let t; read: 'search.tooManyResults'"
     >
-      <h4 class="text-h4 text-high-emphasis mb-4">
+      <h4 class="mb-4 text-h4 text-high-emphasis">
         {{
           t('message', {
             resultCount: resultCount$ | ngrxPush | translocoDecimal
           })
         }}
       </h4>
-      <h6 class="text-subtitle-1 text-medium-emphasis whitespace-pre-line">
+      <h6 class="whitespace-pre-line text-subtitle-1 text-medium-emphasis">
         {{ t('hint', { tooManyResultsThreshold: tooManyResultsThreshold }) }}
       </h6>
     </div>
@@ -25,10 +25,10 @@
       class="flex flex-col items-center justify-center text-center"
       *transloco="let t; read: 'search.noResults'"
     >
-      <h4 class="text-h4 text-high-emphasis mb-4">
+      <h4 class="mb-4 text-h4 text-high-emphasis">
         {{ t('message') }}
       </h4>
-      <h6 class="text-subtitle-1 text-medium-emphasis whitespace-pre-line">
+      <h6 class="whitespace-pre-line text-subtitle-1 text-medium-emphasis">
         {{ t('hint') }}
       </h6>
     </div>

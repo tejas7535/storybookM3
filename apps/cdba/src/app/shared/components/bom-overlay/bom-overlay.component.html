@@ -1,13 +1,13 @@
 <div
-  class="h-full flex flex-col"
+  class="flex h-full flex-col"
   *transloco="let t; read: 'shared.bom.additionalInformation'"
 >
   <div
-    class="cursor-pointer h-[50px] flex items-center"
+    class="flex h-[50px] cursor-pointer items-center"
     matRipple
     (click)="onClose()"
   >
-    <mat-icon class="text-medium-emphasis mx-4">close</mat-icon>
+    <mat-icon class="mx-4 text-medium-emphasis">close</mat-icon>
     <span>{{ t('title') }}</span>
   </div>
   <mat-tab-group mat-stretch-tabs class="flex-1">

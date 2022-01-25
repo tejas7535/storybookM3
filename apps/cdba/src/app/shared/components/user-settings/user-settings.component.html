@@ -1,13 +1,13 @@
 <div *transloco="let t; read: 'userSettings'">
-  <div class="text-subtitle-1 text-medium-emphasis mb-1">
+  <div class="mb-1 text-subtitle-1 text-medium-emphasis">
     {{ t('language.title.main') }}
   </div>
-  <div class="text-caption text-medium-emphasis mb-4">
+  <div class="mb-4 text-caption text-medium-emphasis">
     {{ t('language.title.sub') }}
   </div>
   <schaeffler-language-select
     [reloadOnLanguageChange]="true"
-    class="block mb-3"
+    class="mb-3 block"
   ></schaeffler-language-select>
   <schaeffler-locale-select
     [reloadOnLocaleChange]="true"
