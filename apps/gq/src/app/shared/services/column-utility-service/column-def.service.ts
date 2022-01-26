@@ -67,8 +67,8 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceSource'),
-      field: 'priceSource',
-      valueFormatter: ColumnUtilityService.basicTransform,
+      field: ColumnFields.PRICE_SOURCE,
+      valueFormatter: ColumnUtilityService.transformPriceSource,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqPrice'),

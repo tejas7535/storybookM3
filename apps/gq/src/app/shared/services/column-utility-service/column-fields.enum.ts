@@ -6,6 +6,7 @@ export enum ColumnFields {
   RLM = 'rlm',
   PRICE_UNIT = 'priceUnit',
   PRICE = 'price',
+  PRICE_SOURCE = 'priceSource',
   NET_VALUE = 'netValue',
   ORDER_QUANTITY = 'orderQuantity',
   GPC = 'gpc',

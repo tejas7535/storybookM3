@@ -7,6 +7,7 @@ import {
 } from '../../../../testing/mocks';
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
+import { PriceSource } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
@@ -258,6 +259,21 @@ describe('CreateColumnService', () => {
       GqQuotationPipe.prototype.transform = jest.fn();
       ColumnUtilityService.idFormatter('11');
       expect(GqQuotationPipe.prototype.transform).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('transformPriceSource', () => {
+    test('should return transformation for price source sap special', () => {
+      const result = ColumnUtilityService.transformPriceSource({
+        value: PriceSource.SAP_SPECIAL,
+      } as ValueFormatterParams);
+      expect(result).toEqual('SAP_ZP05-ZP17');
+    });
+    test('should return untransformed price source', () => {
+      const result = ColumnUtilityService.transformPriceSource({
+        value: PriceSource.GQ,
+      } as ValueFormatterParams);
+      expect(result).toEqual(PriceSource.GQ);
     });
   });
 });

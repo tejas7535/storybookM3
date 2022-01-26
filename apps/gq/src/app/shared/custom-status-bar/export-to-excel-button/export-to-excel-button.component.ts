@@ -53,6 +53,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.LAST_CUSTOMER_PRICE_DATE,
     ColumnFields.LAST_OFFER_PRICE_DATE,
     ColumnFields.FOLLOWING_TYPE,
+    ColumnFields.PRICE_SOURCE,
   ];
 
   constructor(

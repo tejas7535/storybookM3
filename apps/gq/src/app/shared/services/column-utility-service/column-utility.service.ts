@@ -4,6 +4,7 @@ import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
+import { PriceSource } from '../../models/quotation-detail';
 import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
@@ -133,5 +134,11 @@ export class ColumnUtilityService {
   }
   static transformPer(): string {
     return '1';
+  }
+
+  static transformPriceSource(data: ValueFormatterParams): string {
+    return data.value === PriceSource.SAP_SPECIAL
+      ? 'SAP_ZP05-ZP17'
+      : data.value;
   }
 }
