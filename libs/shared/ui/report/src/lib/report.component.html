@@ -55,7 +55,22 @@
           >
             <mat-expansion-panel-header class="text-body-1">
               <mat-panel-title *transloco="let t">
-                {{ section.title }}
+                <span
+                  *ngIf="
+                    isGreaseResultSection(section.titleID);
+                    else regular_title
+                  "
+                >
+                  {{
+                    t('results', {
+                      amount: limitResults ? resultAmount : allResultAmount,
+                      complete: allResultAmount
+                    })
+                  }}
+                </span>
+                <ng-template #regular_title>
+                  <span>{{ section.title }}</span>
+                </ng-template>
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="px-6 pb-4">
@@ -67,7 +82,7 @@
                 >
                   {{
                     t(limitResults ? 'allResults' : 'limitResults', {
-                      amount: 3
+                      amount: resultAmount
                     })
                   }}
                 </a>

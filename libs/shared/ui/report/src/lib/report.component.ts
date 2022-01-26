@@ -41,6 +41,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   @Input() public resultAmount = 3;
 
   public limitResults = true;
+  public allResultAmount: number | undefined;
   public htmlResult$ = new ReplaySubject<Subordinate[]>();
   public jsonResult$ = new ReplaySubject<Subordinate[]>();
   private readonly destroy$ = new Subject<void>();
@@ -95,6 +96,7 @@ export class ReportComponent implements OnInit, OnDestroy {
             this.jsonResult$.next(
               this.greaseReportService.showActiveData(this.formattedResult)
             );
+            this.getResultAmount();
           } else {
             this.jsonResult$.next(result);
           }
@@ -150,6 +152,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     return this.isGreaseResultSection(titleID) && this.limitResults
       ? subordinates.slice(0, this.resultAmount)
       : subordinates;
+  }
+
+  public getResultAmount(): void {
+    this.allResultAmount = this.greaseReportService.getResultAmount(
+      this.formattedResult
+    );
   }
 
   public filteredData(data: any[]) {

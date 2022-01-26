@@ -59,10 +59,6 @@ export class GreaseReportService {
         ...formattedResult,
         {
           ...resultSection,
-          title: translate('results', {
-            amount: 3,
-            complete: table2?.data?.items.length,
-          }), // language change not considered
           defaultOpen: true,
           subordinates: [
             ...(table2?.data?.items.map((item: TableItem[], index: number) => {
@@ -367,5 +363,14 @@ export class GreaseReportService {
           }
         : section
     ) as Subordinate[];
+  }
+
+  public getResultAmount(formattedResult: Subordinate[]): number {
+    return (
+      formattedResult.find(
+        (section: Subordinate) =>
+          section.titleID === TitleId.STRING_OUTP_RESULTS
+      )?.subordinates?.length ?? 0
+    );
   }
 }
