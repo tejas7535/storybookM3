@@ -1336,7 +1336,7 @@
                   ["tfR_max: ", "Oberer Richtwert für die Nachschmierfrist"],
                   ["tfG_min: ", "Unterer Richtwert für die Fettgebrauchsdauer"],
                   ["tfG_max: ", "Oberer Richtwert für die Fettgebrauchsdauer"],
-                  ["Qvin: ", "Anhaltswert für Erstbefettungsmenge"],
+                  ["Qvin: ", "Erstbefettungsmenge"],
                   [
                     "Qvre_man_min: ",
                     "Anhaltswert für minimale manuelle Nachschmiermenge"

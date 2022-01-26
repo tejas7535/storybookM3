@@ -76,7 +76,7 @@
             <div class="px-6 pb-4">
               <div *ngIf="isGreaseResultSection(section.titleID)" class="p-3">
                 <a
-                  class="cursor-pointer text-caption font-medium text-link"
+                  class="cursor-pointer font-medium text-link"
                   (click)="toggleLimitResults()"
                   *transloco="let t"
                 >
@@ -222,7 +222,7 @@
           <mat-divider></mat-divider>
           <div class="p-3">
             <a
-              class="text-caption font-medium text-link"
+              class="font-medium text-link"
               [attr.href]="
                 'https://medias.schaeffler.de/de/search/searchpage?text=' +
                 subordinate.greaseResult.title
@@ -279,7 +279,7 @@
           </table>
           <div class="p-3">
             <a
-              class="cursor-pointer text-caption font-medium text-link"
+              class="cursor-pointer font-medium text-link"
               (click)="toggleShowValues(subordinate)"
             >
               {{
@@ -293,7 +293,7 @@
           </div>
           <mat-divider class="relative-divider"></mat-divider>
           <div class="p-3">
-            <span>{{ t('guideValues') }}</span>
+            <span class="text-caption">{{ t('guideValues') }}</span>
           </div>
         </div>
       </div>
