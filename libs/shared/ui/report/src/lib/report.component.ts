@@ -17,7 +17,7 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 
 import { GreaseReportService } from './grease/grease-report.service';
-import { TableItem, Type } from './models';
+import { TableItem, TitleId, Type } from './models';
 import { Subordinate } from './models/subordinate.model';
 import { ReportService } from './report.service';
 
@@ -38,7 +38,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   @Input() public errorMsg = translate('snackbarError') as string;
   @Input() public actionText = translate('snackbarRetry') as string;
   @Input() public type = Type.GENERIC;
+  @Input() public resultAmount = 3;
 
+  public limitResults = true;
   public htmlResult$ = new ReplaySubject<Subordinate[]>();
   public jsonResult$ = new ReplaySubject<Subordinate[]>();
   private readonly destroy$ = new Subject<void>();
@@ -132,6 +134,22 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
 
     this.jsonResult$.next(activeData);
+  }
+
+  public isGreaseResultSection = (titleID: TitleId | string) =>
+    titleID === TitleId.STRING_OUTP_RESULTS;
+
+  public toggleLimitResults(): void {
+    this.limitResults = !this.limitResults;
+  }
+
+  public limitSubordinates(
+    subordinates: Subordinate[],
+    titleID: TitleId
+  ): Subordinate[] {
+    return this.isGreaseResultSection(titleID) && this.limitResults
+      ? subordinates.slice(0, this.resultAmount)
+      : subordinates;
   }
 
   public filteredData(data: any[]) {

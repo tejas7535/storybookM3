@@ -59,6 +59,19 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="px-6 pb-4">
+              <div *ngIf="isGreaseResultSection(section.titleID)" class="p-3">
+                <a
+                  class="cursor-pointer text-caption font-medium text-link"
+                  (click)="toggleLimitResults()"
+                  *transloco="let t"
+                >
+                  {{
+                    t(limitResults ? 'allResults' : 'limitResults', {
+                      amount: 3
+                    })
+                  }}
+                </a>
+              </div>
               <ng-template
                 [ngTemplateOutlet]="subordinateTemplate"
                 [ngTemplateOutletContext]="{
@@ -153,10 +166,10 @@
           >
             <ng-container [matColumnDef]="'' + field + i">
               <th mat-header-cell *matHeaderCellDef>
-                {{ field
-                }}<span class="ml-1" *ngIf="subordinate.data.unitFields[i]">{{
-                  subordinate.data.unitFields[i].unit
-                }}</span>
+                {{ field }}
+                <span class="ml-1" *ngIf="subordinate.data.unitFields[i]">
+                  {{ subordinate.data.unitFields[i].unit }}
+                </span>
               </th>
               <td mat-cell *matCellDef="let row">
                 <ng-container *ngIf="getItem(row, field) as element">
@@ -209,7 +222,6 @@
               {{ subordinate.greaseResult.subtitlePart3 }}
             </p>
           </div>
-          <!-- <pre>{{ subordinate.greaseResult | json }}</pre> -->
           <table
             mat-table
             [dataSource]="filteredData(subordinate.greaseResult.dataSource)"
@@ -274,7 +286,14 @@
 
     <!-- recursive nested subordinates -->
     <ng-container *ngIf="subordinate.subordinates">
-      <ng-container *ngFor="let nestedSubordinate of subordinate.subordinates">
+      <ng-container
+        *ngFor="
+          let nestedSubordinate of limitSubordinates(
+            subordinate.subordinates,
+            subordinate.titleID
+          )
+        "
+      >
         <ng-container
           [ngTemplateOutlet]="subordinateTemplate"
           [ngTemplateOutletContext]="{
