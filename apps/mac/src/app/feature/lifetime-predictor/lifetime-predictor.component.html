@@ -22,7 +22,7 @@
         <button
           mat-icon-button
           (click)="settingsSidebar.toggle()"
-          *ngIf="isMobileViewPort$ | ngrxPush"
+          *ngIf="isLessThanMediumViewPort$ | ngrxPush"
         >
           <mat-icon>tune</mat-icon>
         </button>
@@ -32,7 +32,9 @@
     <mat-sidenav-content>
       <button
         mat-icon-button
-        *ngIf="(isMobileViewPort$ | ngrxPush) && !settingsSidebar.opened"
+        *ngIf="
+          (isLessThanMediumViewPort$ | ngrxPush) && !settingsSidebar.opened
+        "
         (click)="settingsSidebar.toggle()"
         class="sidebar-button"
       >
