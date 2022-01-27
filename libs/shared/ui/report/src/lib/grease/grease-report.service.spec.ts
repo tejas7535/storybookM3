@@ -70,4 +70,12 @@ describe('ReportService testing', () => {
       expect(result).toStrictEqual(activeGreaseJson);
     });
   });
+
+  describe('getResultAmount', () => {
+    it('return a number describing the length of the greases', () => {
+      const result = spectator.service.getResultAmount(formattedGreaseJson);
+
+      expect(result).toStrictEqual(3);
+    });
+  });
 });

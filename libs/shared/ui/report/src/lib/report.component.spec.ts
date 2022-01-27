@@ -14,7 +14,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { greaseReport } from '../mocks';
+import { formattedGreaseJson, greaseReport } from '../mocks';
 import { TitleId } from './models';
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
@@ -251,6 +251,77 @@ describe('ReportComponent', () => {
       expect(showActiveDataSpy).toHaveBeenCalledTimes(1);
 
       expect(component.jsonResult$.next).toHaveBeenCalled();
+    });
+  });
+
+  describe('isGreaseResultSection', () => {
+    it('should return true if the titleID is the result titleID', () => {
+      const result = component.isGreaseResultSection(
+        TitleId.STRING_OUTP_RESULTS
+      );
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if the titleID is not the result titleID', () => {
+      const result = component.isGreaseResultSection(TitleId.STRING_OUTP_INPUT);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('toggleLimitResults', () => {
+    it('should toggle the limitResults component var', () => {
+      component.limitResults = false;
+
+      component.toggleLimitResults();
+
+      expect(component.limitResults).toBeTruthy();
+    });
+  });
+
+  describe('limitSubordinates', () => {
+    it('should limit the subordinate to the amount of limitResults', () => {
+      component.limitResults = true;
+      const mockLength = 2;
+      component.resultAmount = mockLength;
+
+      const result = component.limitSubordinates(
+        formattedGreaseJson[1].subordinates,
+        TitleId.STRING_OUTP_RESULTS
+      );
+
+      expect(result).toHaveLength(mockLength);
+    });
+
+    it('should not limit the subordinate to the amount of limitResults', () => {
+      component.limitResults = false;
+      const mockLength = 2;
+      component.resultAmount = mockLength;
+
+      const result = component.limitSubordinates(
+        formattedGreaseJson[1].subordinates,
+        TitleId.STRING_OUTP_RESULTS
+      );
+
+      expect(result).toHaveLength(formattedGreaseJson[1].subordinates.length);
+    });
+  });
+
+  describe('getResultAmount', () => {
+    it('should set the length of allResultAmount', () => {
+      const getResultAmountSpy = jest.spyOn(
+        component['greaseReportService'],
+        'getResultAmount'
+      );
+      component.formattedResult = formattedGreaseJson;
+
+      component.getResultAmount();
+
+      expect(getResultAmountSpy).toHaveBeenCalledTimes(1);
+      expect(component.allResultAmount).toBe(
+        formattedGreaseJson[1].subordinates.length
+      );
     });
   });
 

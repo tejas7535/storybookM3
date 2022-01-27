@@ -138,21 +138,20 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.jsonResult$.next(activeData);
   }
 
-  public isGreaseResultSection = (titleID: TitleId | string) =>
+  public isGreaseResultSection = (titleID: TitleId | string): boolean =>
     titleID === TitleId.STRING_OUTP_RESULTS;
 
   public toggleLimitResults(): void {
     this.limitResults = !this.limitResults;
   }
 
-  public limitSubordinates(
+  public limitSubordinates = (
     subordinates: Subordinate[],
     titleID: TitleId
-  ): Subordinate[] {
-    return this.isGreaseResultSection(titleID) && this.limitResults
+  ): Subordinate[] =>
+    this.isGreaseResultSection(titleID) && this.limitResults
       ? subordinates.slice(0, this.resultAmount)
       : subordinates;
-  }
 
   public getResultAmount(): void {
     this.allResultAmount = this.greaseReportService.getResultAmount(
@@ -160,7 +159,5 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
   }
 
-  public filteredData(data: any[]) {
-    return data.filter(Boolean);
-  }
+  public filteredData = (data: any[]): any[] => data.filter(Boolean);
 }
