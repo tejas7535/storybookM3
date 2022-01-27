@@ -138,8 +138,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.jsonResult$.next(activeData);
   }
 
-  public isGreaseResultSection = (titleID: TitleId | string): boolean =>
-    titleID === TitleId.STRING_OUTP_RESULTS;
+  public isGreaseResultSection = (
+    titleID: TitleId | string | undefined
+  ): boolean => titleID === TitleId.STRING_OUTP_RESULTS;
 
   public toggleLimitResults(): void {
     this.limitResults = !this.limitResults;

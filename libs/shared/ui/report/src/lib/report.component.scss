@@ -73,4 +73,19 @@
   mat-card .relative-divider.mat-divider-horizontal {
     @apply relative;
   }
+
+  // report specific extension panel adjustments
+  .mat-expansion-panel-header.mat-expanded {
+    @apply h-auto py-6;
+  }
+
+  .mat-expansion-panel:not(.mat-expanded) {
+    .mat-expansion-panel-header-title {
+      @apply w-full;
+    }
+
+    span {
+      @apply overflow-hidden text-ellipsis whitespace-nowrap;
+    }
+  }
 }

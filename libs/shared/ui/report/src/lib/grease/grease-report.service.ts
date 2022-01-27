@@ -3,18 +3,17 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { Field, Hint, Subordinate, TableItem, TitleId } from '../models';
-
 import {
-  mass,
+  automaticRelubricationPerMonth,
+  automaticRelubricationPerWeek,
+  automaticRelubricationPerYear,
+  automaticRelubricationQuantityPerDay,
+  automaticRelubricationQuantityUnit,
   findItem,
   initalGreaseQuantity,
   manualRelubricationQuantity,
   manualRelubricationQuantitySpan,
-  automaticRelubricationQuantityPerDay,
-  automaticRelubricationPerWeek,
-  automaticRelubricationPerMonth,
-  automaticRelubricationPerYear,
-  automaticRelubricationQuantityUnit,
+  mass,
 } from './grease-helpers';
 
 @Injectable()
@@ -188,8 +187,11 @@ export class GreaseReportService {
               };
 
               item.forEach(
-                ({ field, value, unit }: TableItem, index: number) => {
-                  if (index === 0) greaseResult.title = `${value}`;
+                ({ field, value, unit }: TableItem, itemIndex: number) => {
+                  if (itemIndex === 0) {
+                    greaseResult.title = `${value}`;
+                  }
+
                   switch (field) {
                     case Field.BASEOIL:
                       greaseResult.subtitlePart1 = `${value}`;
