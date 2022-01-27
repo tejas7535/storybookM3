@@ -92,7 +92,7 @@
     "@schaeffler/responsive": "3.0.2",
     "core-js": "3.19.3",
     "d3-org-chart": "2.6.0",
-    "date-fns": "2.25.0",
+    "date-fns": "2.28.0",
     "echarts": "5.2.2",
     "jwt-decode": "3.1.2",
     "ngx-echarts": "8.0.1",
