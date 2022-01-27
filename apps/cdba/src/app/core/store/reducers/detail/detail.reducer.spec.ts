@@ -138,7 +138,7 @@ describe('Detail Reducer', () => {
     test('should unset loading and set calculations', () => {
       const item = new CalculationsResult(CALCULATIONS_MOCK);
 
-      const action = loadCalculationsSuccess({ items: item.items });
+      const action = loadCalculationsSuccess({ calculations: item.items });
 
       const state = detailReducer(fakeState, action);
 
@@ -150,7 +150,7 @@ describe('Detail Reducer', () => {
     test('should select the first calculation', () => {
       const item = new CalculationsResult(CALCULATIONS_MOCK);
 
-      const action = loadCalculationsSuccess({ items: item.items });
+      const action = loadCalculationsSuccess({ calculations: item.items });
 
       const state = detailReducer(fakeState, action);
 

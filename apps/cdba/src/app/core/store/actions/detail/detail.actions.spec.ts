@@ -135,11 +135,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsSuccess', () => {
-      const items = CALCULATIONS_MOCK;
-      action = loadCalculationsSuccess({ items });
+      const calculations = CALCULATIONS_MOCK;
+      action = loadCalculationsSuccess({ calculations });
 
       expect(action).toEqual({
-        items,
+        calculations,
         type: '[Detail] Load Calculations Success',
       });
     });

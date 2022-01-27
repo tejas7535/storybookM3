@@ -278,8 +278,9 @@ describe('Compare Reducer', () => {
     describe('loadCalculationHistorySuccess', () => {
       it('should reset loading and should set items and selected', () => {
         const index = 3;
+        const plant = '0060';
         const items = CALCULATIONS_MOCK;
-        action = loadCalculationHistorySuccess({ items, index });
+        action = loadCalculationHistorySuccess({ items, plant, index });
 
         const expectedItems = CALCULATIONS_MOCK;
         const expectedSelectedItem = CALCULATIONS_MOCK[0];
@@ -296,8 +297,9 @@ describe('Compare Reducer', () => {
 
       it('should return previous state for undefined index', () => {
         const index = 99;
+        const plant = '0061';
         const items: Calculation[] = undefined;
-        action = loadCalculationHistorySuccess({ items, index });
+        action = loadCalculationHistorySuccess({ items, plant, index });
 
         state = compareReducer(mockState, action);
 

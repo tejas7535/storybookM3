@@ -197,7 +197,10 @@ describe('Detail Effects', () => {
         });
         detailService.getCalculations = jest.fn(() => response);
 
-        const result = loadCalculationsSuccess({ items });
+        const result = loadCalculationsSuccess({
+          calculations: items,
+          referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
+        });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadCalculations$).toBeObservable(expected);
@@ -417,7 +420,7 @@ describe('Detail Effects', () => {
       'should return loadBom Action when calculation were loaded successfully',
       marbles((m) => {
         action = loadCalculationsSuccess({
-          items: CALCULATIONS_MOCK,
+          calculations: CALCULATIONS_MOCK,
         });
 
         actions$ = m.hot('-a', { a: action });

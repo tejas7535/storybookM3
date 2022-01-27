@@ -151,7 +151,11 @@ export class CompareEffects {
               .getCalculations(action.materialNumber, action.plant)
               .pipe(
                 map((items: Calculation[]) =>
-                  loadCalculationHistorySuccess({ items, index: action.index })
+                  loadCalculationHistorySuccess({
+                    items,
+                    plant: action.plant,
+                    index: action.index,
+                  })
                 ),
                 catchError((error: HttpErrorResponse) =>
                   of(

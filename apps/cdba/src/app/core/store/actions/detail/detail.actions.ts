@@ -52,7 +52,10 @@ export const loadCalculations = createAction('[Detail] Load Calculations');
 
 export const loadCalculationsSuccess = createAction(
   '[Detail] Load Calculations Success',
-  props<{ items: Calculation[] }>()
+  props<{
+    calculations: Calculation[];
+    referenceTypeIdentifier?: ReferenceTypeIdentifier;
+  }>()
 );
 
 export const loadCalculationsFailure = createAction(

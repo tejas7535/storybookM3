@@ -131,12 +131,14 @@ describe('Compare Actions', () => {
     test('loadCalculationHistorySuccess', () => {
       action = loadCalculationHistorySuccess({
         index,
+        plant,
         items: calculationItems,
       });
       expectedType = '[Compare] Load Calculation History Success';
 
       expect(action).toEqual({
         index,
+        plant,
         items: calculationItems,
         type: expectedType,
       });

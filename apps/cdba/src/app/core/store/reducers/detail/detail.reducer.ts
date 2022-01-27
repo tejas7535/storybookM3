@@ -139,19 +139,34 @@ export const detailReducer = createReducer(
   ),
   on(
     loadCalculationsSuccess,
-    (state: DetailState, { items }): DetailState => ({
-      ...state,
-      calculations: {
-        ...state.calculations,
-        items,
-        selectedNodeIds: ['0'],
-        selectedCalculation: {
-          nodeId: '0',
-          calculation: items[0],
+    (
+      state: DetailState,
+      { calculations, referenceTypeIdentifier }
+    ): DetailState => {
+      const selectedCalculation = referenceTypeIdentifier
+        ? calculations.find(
+            (calculation) => calculation.plant === referenceTypeIdentifier.plant
+          )
+        : calculations[0];
+
+      const nodeId: string = (
+        calculations.indexOf(selectedCalculation) || 0
+      ).toString();
+
+      return {
+        ...state,
+        calculations: {
+          ...state.calculations,
+          items: calculations,
+          selectedNodeIds: [nodeId],
+          selectedCalculation: {
+            nodeId,
+            calculation: selectedCalculation,
+          },
+          loading: false,
         },
-        loading: false,
-      },
-    })
+      };
+    }
   ),
   on(
     loadCalculationsFailure,

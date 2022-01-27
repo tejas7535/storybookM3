@@ -221,7 +221,7 @@ describe('CompareEffects', () => {
         });
         detailService.getCalculations = jest.fn(() => response);
 
-        const result = loadCalculationHistorySuccess({ index, items });
+        const result = loadCalculationHistorySuccess({ index, plant, items });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
@@ -298,6 +298,7 @@ describe('CompareEffects', () => {
 
   describe('triggerBomLoad$', () => {
     const index = 1;
+    const plant = '0061';
     const result = loadBom({ index, bomIdentifier });
 
     beforeEach(() =>
@@ -329,6 +330,7 @@ describe('CompareEffects', () => {
       marbles((m) => {
         action = loadCalculationHistorySuccess({
           index,
+          plant,
           items: CALCULATIONS_MOCK,
         });
 

@@ -43,7 +43,7 @@ export const loadCalculationHistory = createAction(
 
 export const loadCalculationHistorySuccess = createAction(
   '[Compare] Load Calculation History Success',
-  props<{ items: Calculation[]; index: number }>()
+  props<{ items: Calculation[]; plant: string; index: number }>()
 );
 
 export const loadCalculationHistoryFailure = createAction(

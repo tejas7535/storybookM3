@@ -101,8 +101,11 @@ export class DetailEffects {
                 referenceTypeIdentifier.plant
               )
               .pipe(
-                map((items: Calculation[]) =>
-                  loadCalculationsSuccess({ items })
+                map((calculations: Calculation[]) =>
+                  loadCalculationsSuccess({
+                    calculations,
+                    referenceTypeIdentifier,
+                  })
                 ),
                 catchError((error: HttpErrorResponse) =>
                   of(

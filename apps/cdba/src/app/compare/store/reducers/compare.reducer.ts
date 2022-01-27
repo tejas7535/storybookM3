@@ -204,28 +204,39 @@ export const compareReducer = createReducer(
           }
         : state
   ),
-  on(loadCalculationHistorySuccess, (state, { items, index }): CompareState => {
-    if (!state[index]) {
-      return state;
-    }
+  on(
+    loadCalculationHistorySuccess,
+    (state, { items, plant, index }): CompareState => {
+      if (!state[index]) {
+        return state;
+      }
 
-    const selectedNodeId: string =
-      state[index].calculations?.selectedNodeId || '0';
+      const selectedCalculation = plant
+        ? items.find((calculation) => calculation.plant === plant)
+        : items[0];
 
-    return {
-      ...state,
-      [index]: {
-        ...state[index],
-        calculations: {
-          ...state[index].calculations,
-          items,
-          selectedNodeId,
-          selected: items[+selectedNodeId],
-          loading: false,
+      const nodeId: string = (
+        items.indexOf(selectedCalculation) || 0
+      ).toString();
+
+      const selectedNodeId: string =
+        state[index].calculations?.selectedNodeId || nodeId;
+
+      return {
+        ...state,
+        [index]: {
+          ...state[index],
+          calculations: {
+            ...state[index].calculations,
+            items,
+            selectedNodeId,
+            selected: items[+selectedNodeId],
+            loading: false,
+          },
         },
-      },
-    };
-  }),
+      };
+    }
+  ),
   on(
     loadCalculationHistoryFailure,
     (state, { errorMessage, index }): CompareState =>
