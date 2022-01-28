@@ -3,14 +3,13 @@ import {
   ScatterSeriesOption,
   TooltipComponentOption,
 } from 'echarts';
-import { Color } from '../../shared/models';
 
+import { Color } from '../../shared/models';
 import {
   FeatureImportanceDataPoint,
   FeatureImportanceGroup,
   FeatureImportanceType,
 } from '../models';
-
 import * as config from './feature-importance.config';
 
 jest.mock('./feature-importance.utils', () => ({
@@ -351,6 +350,7 @@ describe('FeatureImoprtanceConfig', () => {
         shapValue: 10,
         value: 'test',
         yaxisPos: 13,
+        // eslint-disable-next-line unicorn/no-null
         colorMap: null as any,
       };
 

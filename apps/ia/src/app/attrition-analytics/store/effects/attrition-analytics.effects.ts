@@ -7,14 +7,22 @@ import {
   mergeMap,
   of,
   switchMap,
+  tap,
   withLatestFrom,
 } from 'rxjs';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import {
+  Actions,
+  concatLatestFrom,
+  createEffect,
+  ofType,
+  OnInitEffects,
+} from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
 import { triggerLoad } from '../../../core/store/actions';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
+import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
 import { FeatureChange } from '../../models';
 import {
   changeOrderOfFeatures,
@@ -92,7 +100,8 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   changeSelectedFeatures$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(changeSelectedFeatures),
-      withLatestFrom(this.store.select(getSelectedFeatures)),
+      concatLatestFrom(() => this.store.select(getSelectedFeatures)),
+      tap(([action]) => this.stateService.setSelectedFeatures(action.features)),
       map(([params, currentSelectedFilters]) =>
         didFeaturesChange(params.features, currentSelectedFilters)
       ),
@@ -107,7 +116,7 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   changeOrderOfFeatures$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(changeOrderOfFeatures),
-      withLatestFrom(this.store.select(getSelectedFeatures)),
+      concatLatestFrom(() => this.store.select(getSelectedFeatures)),
       map(([params, features]) =>
         sortFeaturesBasedOnParams(features, params.features)
       ),
@@ -150,12 +159,22 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
   constructor(
     private readonly store: Store,
     private readonly actions$: Actions,
-    private readonly attritionAnalyticsService: AttritionAnalyticsService
+    private readonly attritionAnalyticsService: AttritionAnalyticsService,
+    private readonly stateService: AttritionAnalyticsStateService
   ) {}
 
   ngrxOnInitEffects(): Action {
+    // load available features
     this.store.dispatch(loadAvailableFeatures());
 
+    // set default features
+    this.store.dispatch(
+      initializeSelectedFeatures({
+        features: this.stateService.getSelectedFeatures(),
+      })
+    );
+
+    // load feature importance shap data
     this.store.dispatch(loadFeatureImportance());
 
     return triggerLoad();

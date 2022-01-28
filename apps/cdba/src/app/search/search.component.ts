@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-
 import { TOO_MANY_RESULTS_THRESHOLD } from '@cdba/core/store/reducers/search/search.reducer';
 import { Store } from '@ngrx/store';
 

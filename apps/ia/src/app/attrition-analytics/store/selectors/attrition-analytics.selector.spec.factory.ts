@@ -1,8 +1,8 @@
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
+import { FeatureImportanceType, SortDirection } from '../../models';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { AttritionAnalyticsState } from '..';
-import { FeatureImportanceType, SortDirection } from '../../models';
 
 export function createFakeState(): AttritionAnalyticsState {
   return {
@@ -52,8 +52,9 @@ export function createFakeState(): AttritionAnalyticsState {
           dataPoints: [
             {
               shapValue: 213.2,
-              yaxisPos: 12.0,
+              yaxisPos: 12,
               value: 'Unit',
+              // eslint-disable-next-line unicorn/no-null
               colorMap: null,
             },
           ],
@@ -98,7 +99,15 @@ export function createDummyBarchartConfig(
   name: string,
   serie: BarChartSerie
 ): BarChartConfig {
-  return new BarChartConfig(name, [serie], ['18', '19', '20'], 45);
+  return new BarChartConfig(
+    name,
+    [serie],
+    ['18', '19', '20'],
+    45,
+    'translate it',
+    'translate it',
+    'translate it'
+  );
 }
 
 export function createBarchartConfigForAge(
@@ -109,7 +118,7 @@ export function createBarchartConfigForAge(
 
 export function createDummyBarChartSerie(color: string): BarChartSerie {
   return new BarChartSerie(
-    [],
+    ['translate it', 'translate it'],
     [
       [4, 50],
       [10.2, 49],

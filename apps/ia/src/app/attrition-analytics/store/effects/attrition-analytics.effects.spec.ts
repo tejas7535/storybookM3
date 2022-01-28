@@ -7,6 +7,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
+import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
+import {
+  FeatureImportanceGroup,
+  FeatureImportanceType,
+  Slice,
+  SortDirection,
+} from '../../models';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
 import { AttritionAnalyticsState } from '..';
@@ -25,23 +32,18 @@ import {
   loadFeatureImportanceSuccess,
   toggleFeatureImportanceSort,
 } from '../actions/attrition-analytics.action';
-import { AttritionAnalyticsEffects } from './attrition-analytics.effects';
-import {
-  FeatureImportanceGroup,
-  FeatureImportanceType,
-  Slice,
-  SortDirection,
-} from '../../models';
 import {
   getFeatureImportanceHasNext,
   getFeatureImportancePageable,
   getFeatureImportanceSort,
 } from '../selectors/attrition-analytics.selector';
+import { AttritionAnalyticsEffects } from './attrition-analytics.effects';
 
 describe('Attrition Anayltics Effects', () => {
   let spectator: SpectatorService<AttritionAnalyticsEffects>;
   let actions$: any;
   let employeeAnalyticsService: AttritionAnalyticsService;
+  let stateService: AttritionAnalyticsStateService;
   let action: any;
   let effects: AttritionAnalyticsEffects;
   let store: MockStore;
@@ -74,6 +76,13 @@ describe('Attrition Anayltics Effects', () => {
           getEmployeeAnalytics: jest.fn(),
         },
       },
+      {
+        provide: AttritionAnalyticsStateService,
+        useValue: {
+          getSelectedFeatures: jest.fn(() => []),
+          setSelectedFeatures: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -83,6 +92,7 @@ describe('Attrition Anayltics Effects', () => {
     effects = spectator.inject(AttritionAnalyticsEffects);
     employeeAnalyticsService = spectator.inject(AttritionAnalyticsService);
     store = spectator.inject(MockStore);
+    stateService = spectator.inject(AttritionAnalyticsStateService);
   });
 
   describe('loadAvailableFeatures$', () => {
@@ -259,6 +269,9 @@ describe('Attrition Anayltics Effects', () => {
 
         m.expect(effects.changeSelectedFeatures$).toBeObservable(expected);
         m.flush();
+        expect(stateService.setSelectedFeatures).toHaveBeenLastCalledWith(
+          featureParams
+        );
       })
     );
 
@@ -278,6 +291,9 @@ describe('Attrition Anayltics Effects', () => {
         const expected = m.cold('-b', { b: result });
 
         m.expect(effects.changeSelectedFeatures$).toBeObservable(expected);
+        expect(stateService.setSelectedFeatures).toHaveBeenLastCalledWith(
+          featureParams
+        );
       })
     );
   });
@@ -532,6 +548,12 @@ describe('Attrition Anayltics Effects', () => {
 
       expect(effects['store'].dispatch).toHaveBeenCalledWith(
         loadAvailableFeatures()
+      );
+
+      expect(effects['store'].dispatch).toHaveBeenCalledWith(
+        initializeSelectedFeatures({
+          features: [],
+        })
       );
 
       expect(effects['store'].dispatch).toHaveBeenCalledWith(

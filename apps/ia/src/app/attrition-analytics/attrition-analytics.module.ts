@@ -1,22 +1,16 @@
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BarChartModule } from '../shared/charts/bar-chart/bar-chart.module';
 import { SharedModule } from '../shared/shared.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { AttritionAnalyticsRoutingModule } from './attrition-analytics.routing.module';
+import { FeatureAnalysisModule } from './feature-analysis/feature-analysis.module';
 import { FeatureImportanceModule } from './feature-importance/feature-importance.module';
-import { FeaturesDialogModule } from './features-dialog/features-dialog.module';
 import * as fromAttritionAnalytics from './store';
 import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.effects';
 
@@ -30,15 +24,9 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
       fromAttritionAnalytics.reducer
     ),
     EffectsModule.forFeature([AttritionAnalyticsEffects]),
-    MatIconModule,
     SharedTranslocoModule,
-    FeaturesDialogModule,
     FeatureImportanceModule,
-    LoadingSpinnerModule,
-    DragDropModule,
-    BarChartModule,
-    MatTooltipModule,
-    MatButtonModule,
+    FeatureAnalysisModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'attrition-analytics' }],
 })

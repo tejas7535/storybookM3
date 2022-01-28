@@ -1,3 +1,5 @@
+import { translate } from '@ngneat/transloco';
+
 import { getPercentageValue } from '../../../overview/store/selectors/overview-selector-utils';
 import { BarChartConfig } from '../../../shared/charts/models/bar-chart-config.model';
 import { BarChartSerie } from '../../../shared/charts/models/bar-chart-serie.model';
@@ -11,7 +13,11 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
   color: string
 ): BarChartConfig {
   let values: number[][] = [];
-  const barChartSerie: BarChartSerie = new BarChartSerie([], [], color);
+  const names: string[] = [
+    translate('attritionAnalytics.barChart.attritionRate'),
+    translate('attritionAnalytics.barChart.numEmployees'),
+  ];
+  const barChartSerie: BarChartSerie = new BarChartSerie(names, [], color);
   for (const feature of features) {
     for (let index = 0; index < feature.values.length; index += 1) {
       const attrition =
@@ -38,7 +44,10 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
         features[0].feature,
         [barChartSerie],
         categories,
-        getPercentageValue(overallAttritionRate)
+        getPercentageValue(overallAttritionRate),
+        translate('attritionAnalytics.barChart.overallAttritionRate'),
+        translate('attritionAnalytics.barChart.belowOverall'),
+        translate('attritionAnalytics.barChart.aboveOverall')
       )
     : undefined;
 }

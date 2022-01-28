@@ -1,75 +1,11 @@
 <div class="bg-surface p-4" *transloco="let t; read: 'attritionAnalytics'">
   <h5 class="mb-5 font-bold">{{ t('unforcedAttritionAnalytics.title') }}</h5>
-  <div
-    class="drag-list grid grid-cols-4 flex-wrap gap-4 border-none p-4 lg:flex-nowrap"
-    *ngIf="!(isLoadingAnalytics$ | ngrxPush); else loadingAnalytics"
-    cdkDropList
-    cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="drop($event)"
-  >
-    <div
-      cdkDrag
-      cdkDragLockAxis="x"
-      cdkDragBoundary=".drag-list"
-      class="flex w-full flex-col shadow"
-      *ngFor="let config of barChartConfigs$ | ngrxPush; trackBy: trackByFn"
-    >
-      <div class="relative">
-        <div class="absolute right-3 top-1 flex flex-row gap-2">
-          <button
-            class="z-50 text-medium-emphasis"
-            mat-icon-button
-            [attr.aria-label]="t('edit')"
-            [matTooltip]="t('edit')"
-            (click)="openFeaturesDialog()"
-          >
-            <mat-icon>edit</mat-icon>
-          </button>
-
-          <mat-icon
-            class="z-50 mt-2 cursor-move text-medium-emphasis"
-            cdkDragHandle
-            [attr.aria-label]="t('move')"
-            [matTooltip]="t('move')"
-            >open_with</mat-icon
-          >
-        </div>
-        <ia-bar-chart [config]="config"></ia-bar-chart>
-      </div>
-    </div>
-    <div
-      *ngIf="(barChartConfigs$ | ngrxPush)?.length < NUMBER_OF_TILES"
-      class="flex h-[520px] w-full items-center justify-center shadow"
-    >
-      <div
-        class="flex h-[190px] w-[190px] flex-col items-center justify-center rounded-full bg-[#F5F7FA] text-center"
-        *transloco="let t; read: 'attritionAnalytics.addAnalysis'"
-      >
-        <div
-          class="cursor-pointer"
-          (click)="openFeaturesDialog()"
-          [attr.aria-label]="t('add')"
-          [matTooltip]="t('add')"
-        >
-          <mat-icon class="!h-[48px] !w-[48px] text-[48px] text-medium-emphasis"
-            >add_circle_outline</mat-icon
-          >
-          <h6 class="text-medium-emphasis">{{ t('buttonText') }}</h6>
-        </div>
-      </div>
-    </div>
-  </div>
-  <ng-template #loadingAnalytics>
-    <div class="grid grid-cols-1 border-none p-4 md:grid-cols-4">
-      <div class="h-[520px] w-full shadow">
-        <schaeffler-loading-spinner
-          [diameter]="40"
-          [strokeWidth]="4"
-          [relative]="false"
-        ></schaeffler-loading-spinner>
-      </div>
-    </div>
-  </ng-template>
+  <ia-feature-analysis
+    (selectFeatures)="onSelectedFeatures($event)"
+    [barChartConfigs]="barChartConfigs$ | ngrxPush"
+    [loading]="featureAnalysisLoading$ | ngrxPush"
+    [allFeatureSelectors]="featureAnalysisSelectors$ | ngrxPush"
+  ></ia-feature-analysis>
   <div class="grid grid-cols-3 flex-wrap gap-4 border-none p-4 lg:flex-nowrap">
     <ia-feature-importance
       [loading]="featureImportanceLoading$ | ngrxPush"

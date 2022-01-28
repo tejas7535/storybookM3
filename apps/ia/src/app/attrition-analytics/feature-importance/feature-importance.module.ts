@@ -1,13 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 
-import { ReactiveComponentModule } from '@ngrx/component';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ScatterChart } from 'echarts/charts';
 import {
   GridComponent,
@@ -19,6 +15,10 @@ import * as echarts from 'echarts/core';
 import { SVGRenderer } from 'echarts/renderers';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { SharedModule } from '../../shared/shared.module';
 import { FeatureImportanceComponent } from './feature-importance.component';
 
 echarts.use([
@@ -33,9 +33,8 @@ echarts.use([
 @NgModule({
   declarations: [FeatureImportanceComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     NgxEchartsModule.forRoot({ echarts }),
-    ReactiveComponentModule,
     LoadingSpinnerModule,
     MatButtonModule,
     MatIconModule,

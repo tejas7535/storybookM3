@@ -51,9 +51,9 @@ export const createFeaturesImportanceConfig = (
   };
 };
 
-/************************************************************************
+/**
  * All following functions are only exported for testing.
- ************************************************************************/
+ **/
 export const createXAxisOption = (name: string): XAXisComponentOption => ({
   type: 'value',
   splitArea: {
