@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+import { ConfirmationModalData } from './models/confirmation-modal-data.model';
 @Component({
   selector: 'gq-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
@@ -9,13 +10,7 @@ export class ConfirmationModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ConfirmationModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: {
-      displayText: string;
-      icon: string;
-      confirmButton: string;
-      cancelButton: string;
-      list?: { id: string; value: string }[];
-    }
+    public data: ConfirmationModalData
   ) {}
 
   ngOnInit(): void {

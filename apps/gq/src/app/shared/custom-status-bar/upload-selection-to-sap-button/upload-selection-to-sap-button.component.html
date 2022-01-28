@@ -1,13 +1,19 @@
 <div *ngIf="sapId$ | ngrxPush">
-  <button
-    class="!m-4 !ml-0"
-    mat-raised-button
-    color="primary"
+  <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
-    [disabled]="selections.length === 0"
-    (click)="uploadSelectionToSap()"
+    [matTooltip]="t('uploadSelectionToSapInfoText')"
+    [matTooltipDisabled]="!uploadDisabled"
+    matTooltipPosition="above"
   >
-    <mat-icon class="!align-text-bottom !text-[20px]">{{ icon }}</mat-icon>
-    {{ t('uploadSelectionToSap') }}
-  </button>
+    <button
+      class="!m-4 !ml-0"
+      mat-raised-button
+      color="primary"
+      [disabled]="uploadDisabled"
+      (click)="uploadSelectionToSap()"
+    >
+      <mat-icon class="!align-text-bottom !text-[20px]">{{ icon }}</mat-icon>
+      {{ t('uploadSelectionToSap') }}
+    </button>
+  </div>
 </div>

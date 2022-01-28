@@ -128,7 +128,8 @@
         "refreshSapData": "Refresh SAP Data",
         "refreshSapDataMobile": "refresh",
         "resetAll": "Reset All",
-        "uploadSelectionToSap": "Update prices to SAP"
+        "uploadSelectionToSap": "Update prices to SAP",
+        "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP."
       },
       "totalRowCount": {
         "total": "Total",

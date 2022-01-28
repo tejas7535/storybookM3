@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -50,6 +51,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     CommonModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     RouterModule,
     SharedTranslocoModule,
     ReactiveComponentModule,

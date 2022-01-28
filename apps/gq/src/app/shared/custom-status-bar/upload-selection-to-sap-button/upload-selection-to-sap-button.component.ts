@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 
 import { getSapId, uploadSelectionToSap } from '../../../core/store';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
@@ -16,8 +17,10 @@ import { QuotationDetail } from '../../models/quotation-detail';
   templateUrl: './upload-selection-to-sap-button.component.html',
 })
 export class UploadSelectionToSapButtonComponent {
+  private readonly QUOTATION_POSITION_UPLOAD_LIMIT = 100;
   public sapId$: Observable<string>;
   public selections: any[] = [];
+  public uploadDisabled = true;
   private params: IStatusPanelParams;
   public icon = 'cloud_upload';
 
@@ -36,6 +39,9 @@ export class UploadSelectionToSapButtonComponent {
 
   onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
+    this.uploadDisabled =
+      this.selections.length === 0 ||
+      this.selections.length > this.QUOTATION_POSITION_UPLOAD_LIMIT;
   }
 
   constructor(
@@ -49,22 +55,27 @@ export class UploadSelectionToSapButtonComponent {
     const gqPositionIds = this.selections.map(
       (val: QuotationDetail) => val.gqPositionId
     );
-    const displayText = translate(
+    const displayText = translate<string>(
       'processCaseView.confirmUploadPositions.text',
       { variable: gqPositionIds.length }
     );
-
-    const confirmButton = (
-      translate('processCaseView.confirmUploadPositions.uploadButton') as string
+    const confirmButton = translate<string>(
+      'processCaseView.confirmUploadPositions.uploadButton'
     ).toUpperCase();
 
-    const cancelButton = (
-      translate('processCaseView.confirmUploadPositions.cancelButton') as string
+    const cancelButton = translate<string>(
+      'processCaseView.confirmUploadPositions.cancelButton'
     ).toUpperCase();
 
+    const data: ConfirmationModalData = {
+      displayText,
+      confirmButton,
+      cancelButton,
+      icon: this.icon,
+    };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      data,
       maxHeight: '80%',
-      data: { displayText, confirmButton, cancelButton, icon: this.icon },
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { deleteCase } from '../../../core/store';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
 
 @Component({
   selector: 'gq-delete-case-button',
@@ -38,17 +39,27 @@ export class DeleteCaseButtonComponent {
       id: item.customer.name,
       value: item.gqId,
     }));
-    const displayText = translate('caseView.confirmDeleteCases.text', {
+    const displayText = translate<string>('caseView.confirmDeleteCases.text', {
       variable: list.length,
     });
 
-    const confirmButton = translate('caseView.confirmDeleteCases.deleteButton');
+    const confirmButton = translate<string>(
+      'caseView.confirmDeleteCases.deleteButton'
+    );
 
-    const cancelButton = translate('caseView.confirmDeleteCases.cancelButton');
-
+    const cancelButton = translate<string>(
+      'caseView.confirmDeleteCases.cancelButton'
+    );
+    const data: ConfirmationModalData = {
+      displayText,
+      confirmButton,
+      cancelButton,
+      list,
+      icon: this.icon,
+    };
     const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       maxHeight: '80%',
-      data: { displayText, confirmButton, cancelButton, list, icon: this.icon },
+      data,
     });
 
     dialogRef.afterClosed().subscribe((result) => {

@@ -128,7 +128,8 @@
         "refreshSapData": "SAP Daten aktualisieren",
         "refreshSapDataMobile": "Aktualisieren",
         "resetAll": "Zurücksetzen",
-        "uploadSelectionToSap": "SAP Preise aktualisieren"
+        "uploadSelectionToSap": "SAP Preise aktualisieren",
+        "uploadSelectionToSapInfoText": "Selektieren Sie bis zu 100 Positionen für den SAP Upload."
       },
       "totalRowCount": {
         "total": "Anzahl",
