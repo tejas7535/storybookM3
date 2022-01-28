@@ -9,7 +9,7 @@ export const environment: Environment = {
   localDev: true,
   devToolsEnabled: true,
   baseUrl: 'https://caeonlinecalculation-q.schaeffler.com/mountingmanager/v1',
-  reportSelector: '.content',
+  reportSelector: 'body',
   oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6-test',
   preflightPath: 'bearing-preflight',
   materialsPath: 'materialdata/id/',
