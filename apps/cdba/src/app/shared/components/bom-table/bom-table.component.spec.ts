@@ -156,20 +156,6 @@ describe('BomTableComponent', () => {
       expect(params.api.addEventListener).toHaveBeenCalled();
     });
 
-    it('should hide loading spinner when data is not loading', () => {
-      const params = {
-        api: {
-          addEventListener: jest.fn(),
-          showNoRowsOverlay: jest.fn(),
-        },
-      } as unknown as GridReadyEvent;
-      component.isLoading = false;
-
-      component.onGridReady(params);
-
-      expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
-    });
-
     it('should emit event to expose GridApi', () => {
       const params = {
         api: {

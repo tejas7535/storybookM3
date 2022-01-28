@@ -275,10 +275,6 @@ export class BomTableComponent implements OnChanges {
       this.onRowGroupOpened.bind(this)
     );
 
-    if (!this.isLoading) {
-      this.gridApi.showNoRowsOverlay();
-    }
-
     this.gridReady.emit(this.gridApi);
   }
 
