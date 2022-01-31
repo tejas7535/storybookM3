@@ -82,10 +82,10 @@
   .mat-expansion-panel:not(.mat-expanded) {
     .mat-expansion-panel-header-title {
       @apply w-full;
-    }
 
-    span {
-      @apply overflow-hidden text-ellipsis whitespace-nowrap;
+      span {
+        @apply truncate;
+      }
     }
   }
 }
