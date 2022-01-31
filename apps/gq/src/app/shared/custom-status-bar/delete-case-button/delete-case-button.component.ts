@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { deleteCase } from '../../../core/store';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
+import { ViewQuotation } from '../../../case-view/models/view-quotation.model';
 
 @Component({
   selector: 'gq-delete-case-button',
@@ -35,8 +36,8 @@ export class DeleteCaseButtonComponent {
   }
 
   deleteCase(): void {
-    const list = this.selections.map((item) => ({
-      id: item.customer.name,
+    const list = this.selections.map((item: ViewQuotation) => ({
+      id: item.customerName,
       value: item.gqId,
     }));
     const displayText = translate<string>('caseView.confirmDeleteCases.text', {

@@ -77,7 +77,7 @@ describe('DeleteCaseButtonComponent', () => {
     test('should open dialog', () => {
       store.dispatch = jest.fn();
 
-      component.selections = [{ customer: { name: '1' }, gqId: '123' }];
+      component.selections = [{ customerName: 'customerName', gqId: '123' }];
       component.deleteCase();
 
       expect(matDialogSpyObject.open).toHaveBeenCalledTimes(1);
