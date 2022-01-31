@@ -52,7 +52,8 @@
         "eslint-plugin-unicorn",
         "eslint-plugin-prefer-arrow",
         "eslint-plugin-import",
-        "simple-import-sort"
+        "simple-import-sort",
+        "unused-imports"
       ],
       "extends": [
         "eslint:recommended",
@@ -163,7 +164,6 @@
         "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
         "@typescript-eslint/no-unnecessary-type-arguments": "error",
         "@typescript-eslint/no-unused-expressions": "error",
-        "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-readonly": "error",
@@ -227,7 +227,18 @@
             ]
           }
         ],
-        "simple-import-sort/exports": "error"
+        "simple-import-sort/exports": "error",
+        "@typescript-eslint/no-unused-vars": "off",
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+          "error",
+          {
+            "vars": "all",
+            "varsIgnorePattern": "^_",
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
+          }
+        ]
       }
     },
     {
