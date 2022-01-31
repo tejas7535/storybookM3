@@ -35,11 +35,11 @@ export class ColumnDefService {
     },
     {
       headerName: translate('caseView.caseTable.customerNumber'),
-      field: 'customer.identifier.customerId',
+      field: 'customerIdentifiers.customerId',
     },
     {
       headerName: translate('caseView.caseTable.customerName'),
-      field: 'customer.name',
+      field: 'customerName',
     },
   ];
 }

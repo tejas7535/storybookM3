@@ -1,10 +1,9 @@
 import { ViewQuotation } from '../../../app/case-view/models/view-quotation.model';
-import { CUSTOMER_MOCK } from './customer.mock';
 
 export const VIEW_QUOTATION_MOCK: ViewQuotation = {
   gqId: '1234',
-  customer: CUSTOMER_MOCK,
-  name: 'name',
+  customerName: 'name',
+  customerIdentifiers: { customerId: '1234', salesOrg: '0672' },
   imported: true,
   sapCreated: new Date(),
   sapCreatedByUser: { id: 'userid', name: 'username' },

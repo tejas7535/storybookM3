@@ -42,7 +42,7 @@ describe('GqIdComponent', () => {
       const event = { preventDefault: jest.fn() };
       component['router'].navigate = jest.fn();
       component.quotation = {
-        customer: { identifier: { customerId: '1', salesOrg: '267' } } as any,
+        customerIdentifiers: { customerId: '1', salesOrg: '267' },
       } as any;
 
       component.navigate(event as any);

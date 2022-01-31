@@ -22,7 +22,7 @@ export class GqIdComponent {
 
   navigate(event: MouseEvent): void {
     event.preventDefault();
-    const { customerId, salesOrg } = this.quotation.customer.identifier;
+    const { customerId, salesOrg } = this.quotation.customerIdentifiers;
     this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
       queryParamsHandling: 'merge',
       queryParams: {

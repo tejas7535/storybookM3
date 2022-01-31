@@ -1,10 +1,8 @@
 import { User } from '../../shared/models';
-import { Customer } from '../../shared/models/customer';
+import { CustomerIds } from '../../shared/models/customer';
 
 export class ViewQuotation {
   public gqId: string;
-  public customer: Customer;
-  public name: string;
   public imported: boolean;
   public sapCreated: Date;
   public sapCreatedByUser: User;
@@ -13,4 +11,6 @@ export class ViewQuotation {
   public gqCreatedByUser: User;
   public gqLastUpdatedByUser: User;
   public gqLastUpdated: Date;
+  public customerIdentifiers: CustomerIds;
+  public customerName: string;
 }
