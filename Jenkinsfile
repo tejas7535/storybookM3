@@ -37,6 +37,10 @@ boolean isBugfix() {
     return "${BRANCH_NAME}".startsWith('bugfix/')
 }
 
+boolean isDepUpdate() {
+    return "${BRANCH_NAME}".startsWith('dependabot/') || "${BRANCH_NAME}".startsWith('renovate/')
+}
+
 boolean isMaster() {
     return "${BRANCH_NAME}" == 'master'
 }
@@ -59,15 +63,43 @@ boolean isNightly() {
     return isStartedByTimer && isMaster()
 }
 
-def buildStorybook() {
+boolean buildStorybook() {
     return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
 }
 
-def publishStorybook() {
+boolean publishStorybook() {
+    // should only run if
+    // pipeline runs on master branch
+    // storybook project is affected
+    // buildStorybook returns true
+
     return isMaster () && buildStorybook() && storybookAffected
 }
 
-def defineBuildBase() {
+boolean runQualityStage() {
+    // should always run except in these scenarios:
+    // skipBuild flag is set
+    // nightly pipeline run
+    // libs or app release
+
+    return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
+}
+
+boolean runDeliverAppsStage() {
+    return !isLibsRelease() && !isDepUpdate()
+}
+
+boolean runTriggerAppDeploymentsStage() {
+    // the stage trigger app deployments should only run if the following conditions are met
+    // skipBuild flag is not present
+    // it is not a nightly pipeline run
+    // it is not a libs release
+    // it is not a dep update branch
+
+    return !skipBuild && !isNightly() && !isLibsRelease() && !isDepUpdate()
+}
+
+void defineBuildBase() {
     if (isAppRelease() || isLibsRelease()) {
         latestTag = getLatestGitTag("${env.RELEASE_SCOPE}")
 
@@ -126,7 +158,6 @@ def defineAffectedAppsAndLibs() {
     )
 
     affectedApps = mapAffectedStringToArray(apps)
-
 
     affectedLibs = mapAffectedStringToArray(libs)
 
@@ -203,7 +234,7 @@ def getCodeOwners(appName) {
 def getBuildTriggerUser() {
     def jenkinsUserId = "${currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause').userId}".replace('[', '').replace(']', '').toLowerCase()
 
-    if (jenkinsUserId.contains("schaeffler")) {
+    if (jenkinsUserId.contains('schaeffler')) {
         return jenkinsUserId.split('@')[0]
     } else {
         // for non schaeffler users / external developers
@@ -242,8 +273,8 @@ def getNxRunnerConfig() {
     return '--runner=ci'
 }
 
-void cleanWorkspace() { 
-    sh "rm -rf checkstyle coverage dist node_modules reports"
+void cleanWorkspace() {
+    sh 'rm -rf checkstyle coverage dist node_modules reports'
 }
 
 /****************************************************************/
@@ -327,7 +358,6 @@ pipeline {
                                 }
                             }
                             println("User ${userWhoTriggeredBuild} passed codeowner check for ${env.RELEASE_SCOPE}")
-
                         } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
                             aborted = true
                         }
@@ -443,11 +473,11 @@ pipeline {
 
                             // delete nx-cache only when disk usage is over 75%
                             if (diskUsagePercentString.toInteger() > 75) {
-                                sh "rm -rf /home/adp-jenkins/temp/nx-cache"
-                                sh "mkdir /home/adp-jenkins/temp/nx-cache"
+                                sh 'rm -rf /home/adp-jenkins/temp/nx-cache'
+                                sh 'mkdir /home/adp-jenkins/temp/nx-cache'
 
-                                sh "rm -rf /home/adp-jenkins/temp/jest-cache"
-                                sh "mkdir /home/adp-jenkins/temp/jest-cache"
+                                sh 'rm -rf /home/adp-jenkins/temp/jest-cache'
+                                sh 'mkdir /home/adp-jenkins/temp/jest-cache'
                             }
                         }
                     }
@@ -458,7 +488,7 @@ pipeline {
         stage('Quality') {
             when {
                 expression {
-                    return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
+                    return runQualityStage()
                 }
             }
             failFast true
@@ -569,12 +599,12 @@ pipeline {
                     def targetBranch = 'master'
                     try {
                         sh "git branch -D ${targetBranch}"
-                    } catch(error) {
+                    } catch (error) {
                         echo "${targetBranch} does not exist"
                     }
 
                     // Generate Changelog, update Readme
-                    github.executeAsGithubUser('github-jenkins-access-token','git fetch --all')
+                    github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
                     sh "git checkout ${targetBranch}"
 
                     // generate project specific changelog
@@ -662,11 +692,11 @@ pipeline {
                             }
 
                             for (app in affectedApps) {
-                               try {
-                                   sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
+                                try {
+                                    sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
                                } catch (error) {
-                                   echo "No translations found to optimize in app ${app}"
-                               }
+                                    echo "No translations found to optimize in app ${app}"
+                                }
 
                                 sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open || true"
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
@@ -688,7 +718,7 @@ pipeline {
                 stage('Deliver:Apps') {
                     when {
                         expression {
-                            return !isLibsRelease()
+                            return runDeliverAppsStage()
                         }
                     }
                     steps {
@@ -762,8 +792,8 @@ pipeline {
                         echo 'Deliver Storybook to Artifactory'
 
                         script {
-                            zip dir: "dist/storybook/shared-ui-storybook",  glob: '', zipFile: "dist/zips/storybook/next.zip"
-                            uploadFile = "dist/zips/storybook/next.zip"
+                            zip dir: 'dist/storybook/shared-ui-storybook',  glob: '', zipFile: 'dist/zips/storybook/next.zip'
+                            uploadFile = 'dist/zips/storybook/next.zip'
                             checksum = sh (
                                 script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
                                 returnStdout: true
@@ -796,7 +826,7 @@ pipeline {
                 echo 'Release new version'
 
                 script {
-                    github.executeAsGithubUser('github-jenkins-access-token','git push --follow-tags')
+                    github.executeAsGithubUser('github-jenkins-access-token', 'git push --follow-tags')
                 }
             }
         }
@@ -806,7 +836,7 @@ pipeline {
                 stage('Trigger App Deployments') {
                     when {
                         expression {
-                            return !skipBuild && !isNightly() && !isLibsRelease()
+                            return runTriggerAppDeploymentsStage()
                         }
                     }
                     steps {
@@ -847,24 +877,24 @@ pipeline {
                         }
                     }
                     steps {
-                        echo "Deploy Storybook to GH-Pages"
+                        echo 'Deploy Storybook to GH-Pages'
 
                         script {
                             // Checkout gh-pages branch and clean folder
                             github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
-                            sh "git checkout -- ."
-                            sh "git checkout gh-pages"
-                            sh "rm -rf *"
+                            sh 'git checkout -- .'
+                            sh 'git checkout gh-pages'
+                            sh 'rm -rf *'
 
                             // download latest storybook bundle
                             String target = "${artifactoryBasePath}/storybook/next.zip"
-                            String output = "storybook.zip"
+                            String output = 'storybook.zip'
                             downloadArtifact(target, output)
 
                             // unzip bundle
-                            sh "mkdir docs"
-                            fileOperations([fileUnZipOperation(filePath: "storybook.zip", targetLocation: './docs')])
-                            sh "rm storybook.zip"
+                            sh 'mkdir docs'
+                            fileOperations([fileUnZipOperation(filePath: 'storybook.zip', targetLocation: './docs')])
+                            sh 'rm storybook.zip'
 
                             try {
                                 // commit and push back to remote
