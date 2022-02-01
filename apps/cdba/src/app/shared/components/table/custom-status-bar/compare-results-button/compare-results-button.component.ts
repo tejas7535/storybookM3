@@ -16,11 +16,11 @@ import {
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'cdba-compare-view-button',
-  templateUrl: './compare-view-button.component.html',
-  styleUrls: ['./compare-view-button.component.scss'],
+  selector: 'cdba-compare-results-button',
+  templateUrl: './compare-results-button.component.html',
+  styleUrls: ['./compare-results-button.component.scss'],
 })
-export class CompareViewButtonComponent implements OnInit {
+export class CompareResultsButtonComponent implements OnInit {
   public selectedNodeIds$: Observable<string[]>;
   public appRoutePath = AppRoutePath;
 

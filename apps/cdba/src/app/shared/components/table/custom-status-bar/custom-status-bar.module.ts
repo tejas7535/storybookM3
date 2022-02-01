@@ -8,7 +8,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { CompareViewButtonComponent } from './compare-view-button/compare-view-button.component';
+import { CompareCalculationsButtonComponent } from './compare-calculations-button/compare-calculations-button.component';
+import { CompareResultsButtonComponent } from './compare-results-button/compare-results-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
 import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.component';
 
@@ -16,7 +17,8 @@ import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.compon
   declarations: [
     DetailViewButtonComponent,
     LoadBomButtonComponent,
-    CompareViewButtonComponent,
+    CompareResultsButtonComponent,
+    CompareCalculationsButtonComponent,
   ],
   imports: [
     RouterModule,
@@ -29,7 +31,8 @@ import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.compon
   exports: [
     DetailViewButtonComponent,
     LoadBomButtonComponent,
-    CompareViewButtonComponent,
+    CompareResultsButtonComponent,
+    CompareCalculationsButtonComponent,
   ],
 })
 export class CustomStatusBarModule {}

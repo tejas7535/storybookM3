@@ -43,7 +43,7 @@ import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
 } from '../../shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CompareViewButtonComponent } from '../../shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
+import { CompareResultsButtonComponent } from '../../shared/components/table/custom-status-bar/compare-results-button/compare-results-button.component';
 import { DetailViewButtonComponent } from '../../shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import {
   ColumnDefinitionService,
@@ -89,7 +89,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
 
   public frameworkComponents = {
     detailViewButtonComponent: DetailViewButtonComponent,
-    compareViewButtonComponent: CompareViewButtonComponent,
+    compareResultsButtonComponent: CompareResultsButtonComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
     pcmCellRenderer: PcmCellRendererComponent,
   };

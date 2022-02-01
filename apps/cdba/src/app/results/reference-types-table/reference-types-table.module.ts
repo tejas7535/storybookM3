@@ -10,7 +10,7 @@ import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-stat
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { CompareViewButtonComponent } from '../../shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
+import { CompareResultsButtonComponent } from '../../shared/components/table/custom-status-bar/compare-results-button/compare-results-button.component';
 import { DetailViewButtonComponent } from '../../shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
@@ -22,7 +22,7 @@ import { TableStore } from './table.store';
     CommonModule,
     AgGridModule.withComponents([
       DetailViewButtonComponent,
-      CompareViewButtonComponent,
+      CompareResultsButtonComponent,
       PcmCellRendererComponent,
     ]),
     MatButtonModule,

@@ -16,11 +16,11 @@ import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CompareViewButtonComponent } from './compare-view-button.component';
+import { CompareResultsButtonComponent } from './compare-results-button.component';
 
-describe('CompareViewButtonComponent', () => {
-  let spectator: Spectator<CompareViewButtonComponent>;
-  let component: CompareViewButtonComponent;
+describe('CompareCalculationsButtonComponent', () => {
+  let spectator: Spectator<CompareResultsButtonComponent>;
+  let component: CompareResultsButtonComponent;
   let router: Router;
 
   const params: IStatusPanelParams = {
@@ -30,7 +30,7 @@ describe('CompareViewButtonComponent', () => {
   } as unknown as IStatusPanelParams;
 
   const createComponent = createComponentFactory({
-    component: CompareViewButtonComponent,
+    component: CompareResultsButtonComponent,
     imports: [
       ReactiveComponentModule,
       MatButtonModule,

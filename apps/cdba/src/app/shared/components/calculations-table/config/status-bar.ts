@@ -5,7 +5,7 @@ export const STATUS_BAR_CONFIG: {
 } = {
   statusPanels: [
     { statusPanel: 'loadBomButtonComponent', align: 'left' },
-    { statusPanel: 'compareViewButtonComponent', align: 'left' },
+    { statusPanel: 'compareCalculationsButtonComponent', align: 'left' },
     {
       statusPanel: 'agAggregationComponent',
       statusPanelParams: {
