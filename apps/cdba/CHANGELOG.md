@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.7.0...cdba-v2.8.0) (2022-02-01)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** adjust bom sidebar height (DSCDA-2826) ([#3603](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3603)) ([8cf6802](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8cf6802aac39a64ce192902fca6e6ccd20a37488))
+* **cdba:** fix error message in ag grid tables ([#3572](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3572)) ([c27910c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c27910c72cf6fa5488cf65973bc97a5603dacedf))
+* **cdba:** fix html format issues ([f539664](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f539664466ede7ec043a9996b5e91a6bc91df2f4))
+* **cdba:** insert "plant" in calculation identification (DSCDA-2801) ([#3606](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3606)) ([d2d9a36](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d2d9a36aaf0ed82d0ed753d65b1d88dc5b61d68f))
+* **cdba:** remove obsolete "now rows" call from bom table (DSCDA-2825) ([#3616](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3616)) ([529c224](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/529c2243f11379ab8b62e4df3dc69ebd3c7ea0c3))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+* **workspace:** fix unit tests after dependency update ([8560848](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85608482566a4dbc3cec33e460daacdc3cad7549))
+
+
+### 🎸 Features
+
+* **cdba:** add title content area to page header ([fea98e9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fea98e91e05dae5450cafec6074189d3acdf6cc9))
+* **cdba:** exchange locale select component ([#3192](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3192)) ([50adbdc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/50adbdca39b15d69a722eec496436cac33960a30))
+* **cdba:** implement portfolio analysis (DSCDA-2619) ([53e23df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53e23df7fbdce7e89dbaabb8d095eb05f51f0e2b))
+* **cdba:** introduce beta-feature component module ([d3bd346](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d3bd34611fd1297ef7881bad375fdefc90e4d243))
+* **ia:** refactor analytics page ([#3617](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3617)) ([3d1a2c8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3d1a2c8fc5196de92b971649ff352d7b8ea29b03))
+* install prettier-plugin-tailwindcss ([#3604](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3604)) ([6e65a9b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6e65a9bbe763305a49d2fcf5b418da12ab37bb73))
+* **shared-ui:** remove deprecated libs in favour of npm packages ([#3520](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3520)) ([a2bf36b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2bf36bf950ba4d8bd1d27ed9754565f9e364b90))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ## [2.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.6.0...cdba-v2.7.0) (2021-12-06)
 
 
