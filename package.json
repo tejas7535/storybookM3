@@ -164,7 +164,7 @@
     "jest-preset-angular": "11.0.1",
     "lint-staged": "11.2.6",
     "markdown-include": "0.4.3",
-    "markdown-magic": "2.5.2",
+    "markdown-magic": "2.6.0",
     "markdown-magic-version-badge": "1.1.1",
     "ng-mocks": "13.0.0",
     "ng-packagr": "13.1.2",
