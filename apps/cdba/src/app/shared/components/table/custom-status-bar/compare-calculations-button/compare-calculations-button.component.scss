@@ -9,8 +9,12 @@
         @apply bottom-4;
         @apply left-5;
 
-        button:disabled {
+        * {
           display: none;
+        }
+
+        button:enabled {
+          display: block;
         }
       }
     }

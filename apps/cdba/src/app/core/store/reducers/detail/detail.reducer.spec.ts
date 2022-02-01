@@ -4,6 +4,7 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -28,7 +29,7 @@ import {
   selectReferenceType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
-import { CalculationsResult, ReferenceTypeResult } from './models';
+import { CalculationsResponse, ReferenceTypeResult } from './models';
 
 describe('Detail Reducer', () => {
   const fakeState = {
@@ -136,9 +137,15 @@ describe('Detail Reducer', () => {
 
   describe('loadCalculationsSuccess', () => {
     test('should unset loading and set calculations', () => {
-      const item = new CalculationsResult(CALCULATIONS_MOCK);
+      const item = new CalculationsResponse(
+        CALCULATIONS_MOCK,
+        EXCLUDED_CALCULATIONS_MOCK
+      );
 
-      const action = loadCalculationsSuccess({ calculations: item.items });
+      const action = loadCalculationsSuccess({
+        calculations: item.items,
+        excludedCalculations: item.excludedItems,
+      });
 
       const state = detailReducer(fakeState, action);
 
@@ -148,9 +155,15 @@ describe('Detail Reducer', () => {
     });
 
     test('should select the first calculation', () => {
-      const item = new CalculationsResult(CALCULATIONS_MOCK);
+      const item = new CalculationsResponse(
+        CALCULATIONS_MOCK,
+        EXCLUDED_CALCULATIONS_MOCK
+      );
 
-      const action = loadCalculationsSuccess({ calculations: item.items });
+      const action = loadCalculationsSuccess({
+        calculations: item.items,
+        excludedCalculations: item.excludedItems,
+      });
 
       const state = detailReducer(fakeState, action);
 

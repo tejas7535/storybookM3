@@ -5,6 +5,7 @@ import {
   BomItem,
   Calculation,
   Drawing,
+  ExcludedCalculations,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { createAction, props, union } from '@ngrx/store';
@@ -54,6 +55,7 @@ export const loadCalculationsSuccess = createAction(
   '[Detail] Load Calculations Success',
   props<{
     calculations: Calculation[];
+    excludedCalculations: ExcludedCalculations;
     referenceTypeIdentifier?: ReferenceTypeIdentifier;
   }>()
 );

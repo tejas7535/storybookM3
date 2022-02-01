@@ -1,8 +1,10 @@
 import { HttpStatusCode } from '@angular/common/http';
+
 import {
   BomIdentifier,
   BomItem,
   Calculation,
+  ExcludedCalculations,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
@@ -43,7 +45,12 @@ export const loadCalculationHistory = createAction(
 
 export const loadCalculationHistorySuccess = createAction(
   '[Compare] Load Calculation History Success',
-  props<{ items: Calculation[]; plant: string; index: number }>()
+  props<{
+    items: Calculation[];
+    excludedItems: ExcludedCalculations;
+    plant: string;
+    index: number;
+  }>()
 );
 
 export const loadCalculationHistoryFailure = createAction(

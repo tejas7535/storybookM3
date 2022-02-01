@@ -1,4 +1,4 @@
-import { Calculation } from '@cdba/shared/models';
+import { Calculation, ExcludedCalculations } from '@cdba/shared/models';
 
 export const CALCULATIONS_MOCK = [
   new Calculation(
@@ -123,3 +123,9 @@ export const CALCULATIONS_MOCK = [
     'SQB'
   ),
 ];
+
+export const EXCLUDED_CALCULATIONS_MOCK: ExcludedCalculations = {
+  count: 32,
+  missingCostRoles: ['CDBA_COST_TYPE_GPC'],
+  excludedPlants: ['0005', '0060'],
+};

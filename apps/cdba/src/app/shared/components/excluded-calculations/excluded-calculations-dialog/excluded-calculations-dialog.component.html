@@ -1,0 +1,56 @@
+<ng-container
+  *transloco="let t; read: 'shared.calculations.excludedCalculations.dialog'"
+>
+  <h6 mat-dialog-title>
+    {{ t('title.main') }}
+    <mat-icon mat-dialog-close class="float-right cursor-pointer">
+      close
+    </mat-icon>
+  </h6>
+  <div mat-dialog-content class="text-body-1">
+    <div class="mb-4">
+      {{ t('content.intro', { count: excludedCalculations.count }) }}
+    </div>
+    <div
+      *ngIf="
+        excludedCalculations.missingCostRoles &&
+        excludedCalculations.missingCostRoles.length
+      "
+      class="mb-4"
+    >
+      {{
+        t('content.costRoles', {
+          costRoleType: formatMissingCostRoles(
+            excludedCalculations.missingCostRoles
+          )
+        })
+      }}
+    </div>
+    <div
+      *ngIf="
+        excludedCalculations.excludedPlants &&
+        excludedCalculations.excludedPlants.length
+      "
+      [innerHTML]="
+        t('content.regionalRoles', {
+          plants: excludedCalculations.excludedPlants.join(', ')
+        })
+      "
+      class="mb-4"
+    ></div>
+    <div
+      [innerHTML]="
+        t('content.outro', { urlRoleAssignments: urlRoleAssignments })
+      "
+      class="mb-4"
+    ></div>
+  </div>
+  <div mat-dialog-actions>
+    <a [href]="urlSams" mat-flat-button color="primary" class="!mr-2">
+      {{ t('action.primary') }}
+    </a>
+    <button mat-dialog-close mat-stroked-button color="primary">
+      {{ t('action.secondary') }}
+    </button>
+  </div>
+</ng-container>

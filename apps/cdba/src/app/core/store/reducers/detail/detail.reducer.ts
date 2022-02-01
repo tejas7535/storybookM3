@@ -2,6 +2,7 @@ import {
   BomItem,
   Calculation,
   Drawing,
+  ExcludedCalculations,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
@@ -37,6 +38,7 @@ export interface DetailState {
   calculations: {
     loading: boolean;
     items: Calculation[];
+    excludedItems: ExcludedCalculations;
     selectedNodeIds: string[];
     selectedCalculation: { nodeId: string; calculation: Calculation };
     errorMessage: string;
@@ -65,6 +67,7 @@ export const initialState: DetailState = {
   calculations: {
     loading: false,
     items: undefined,
+    excludedItems: undefined,
     selectedNodeIds: undefined,
     selectedCalculation: undefined,
     errorMessage: undefined,
@@ -141,7 +144,7 @@ export const detailReducer = createReducer(
     loadCalculationsSuccess,
     (
       state: DetailState,
-      { calculations, referenceTypeIdentifier }
+      { calculations, excludedCalculations, referenceTypeIdentifier }
     ): DetailState => {
       const selectedCalculation = referenceTypeIdentifier
         ? calculations.find(
@@ -158,6 +161,7 @@ export const detailReducer = createReducer(
         calculations: {
           ...state.calculations,
           items: calculations,
+          excludedItems: excludedCalculations,
           selectedNodeIds: [nodeId],
           selectedCalculation: {
             nodeId,

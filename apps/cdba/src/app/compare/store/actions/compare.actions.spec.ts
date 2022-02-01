@@ -3,6 +3,7 @@ import {
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -41,6 +42,7 @@ describe('Compare Actions', () => {
   const referenceTypeIdentifier = REFERENCE_TYPE_IDENTIFIER_MOCK;
   const referenceType = REFERENCE_TYPE_MOCK;
   const calculationItems = CALCULATIONS_MOCK;
+  const excludedCalculationItems = EXCLUDED_CALCULATIONS_MOCK;
   const calculation = CALCULATIONS_MOCK[3];
   const nodeId = '4';
   const bomItems = BOM_MOCK;
@@ -133,6 +135,7 @@ describe('Compare Actions', () => {
         index,
         plant,
         items: calculationItems,
+        excludedItems: excludedCalculationItems,
       });
       expectedType = '[Compare] Load Calculation History Success';
 
@@ -140,6 +143,7 @@ describe('Compare Actions', () => {
         index,
         plant,
         items: calculationItems,
+        excludedItems: excludedCalculationItems,
         type: expectedType,
       });
     });

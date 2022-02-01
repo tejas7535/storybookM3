@@ -8,15 +8,15 @@ import { API, DetailPath } from '@cdba/shared/constants/api';
 import {
   BomIdentifier,
   BomItem,
-  Calculation,
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks/index';
 import { withCache } from '@ngneat/cashew';
 
 import {
   BomResult,
-  CalculationsResult,
+  CalculationsResponse,
   ReferenceTypeResult,
 } from '../../core/store/reducers/detail/models';
 
@@ -123,17 +123,22 @@ export class DetailService {
   public getCalculations(
     materialNumber: string,
     plant: string
-  ): Observable<Calculation[]> {
+  ): Observable<CalculationsResponse> {
     const params = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
       .set(this.PARAM_PLANT, plant);
 
     return this.httpClient
-      .get<CalculationsResult>(`${API.v1}/${DetailPath.Calculations}`, {
+      .get<CalculationsResponse>(`${API.v2}/${DetailPath.Calculations}`, {
         params,
         context: withCache(),
       })
-      .pipe(map((response: CalculationsResult) => response.items));
+      .pipe(
+        map((response: CalculationsResponse) => ({
+          ...response,
+          excludedItems: EXCLUDED_CALCULATIONS_MOCK,
+        }))
+      );
   }
 
   public getBom(bomIdentifier: BomIdentifier): Observable<BomItem[]> {

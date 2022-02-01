@@ -1,6 +1,6 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -14,7 +14,6 @@ import { DetailService } from '@cdba/detail/service/detail.service';
 import {
   BomIdentifier,
   BomItem,
-  Calculation,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -150,9 +149,10 @@ export class CompareEffects {
           ? this.detailService
               .getCalculations(action.materialNumber, action.plant)
               .pipe(
-                map((items: Calculation[]) =>
+                map((result) =>
                   loadCalculationHistorySuccess({
-                    items,
+                    items: result.items,
+                    excludedItems: result.excludedItems,
                     plant: action.plant,
                     index: action.index,
                   })

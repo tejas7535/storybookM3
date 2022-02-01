@@ -1,6 +1,7 @@
 import {
   BomItem,
   Calculation,
+  ExcludedCalculations,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
@@ -31,6 +32,7 @@ export interface CompareState {
     };
     calculations?: {
       items?: Calculation[];
+      excludedItems?: ExcludedCalculations;
       selected?: Calculation;
       selectedNodeId?: string;
       loading?: boolean;
@@ -206,7 +208,7 @@ export const compareReducer = createReducer(
   ),
   on(
     loadCalculationHistorySuccess,
-    (state, { items, plant, index }): CompareState => {
+    (state, { items, excludedItems, plant, index }): CompareState => {
       if (!state[index]) {
         return state;
       }
@@ -229,6 +231,7 @@ export const compareReducer = createReducer(
           calculations: {
             ...state[index].calculations,
             items,
+            excludedItems,
             selectedNodeId,
             selected: items[+selectedNodeId],
             loading: false,

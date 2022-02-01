@@ -3,6 +3,7 @@ import {
   BomItem,
   Calculation,
   Drawing,
+  ExcludedCalculations,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
@@ -135,6 +136,11 @@ export const getProductionDetails = createSelector(
 export const getCalculations = createSelector(
   getDetailState,
   (state: DetailState): Calculation[] => state.calculations.items
+);
+
+export const getExcludedCalculations = createSelector(
+  getDetailState,
+  (state: DetailState): ExcludedCalculations => state.calculations.excludedItems
 );
 
 export const getCalculationsLoading = createSelector(

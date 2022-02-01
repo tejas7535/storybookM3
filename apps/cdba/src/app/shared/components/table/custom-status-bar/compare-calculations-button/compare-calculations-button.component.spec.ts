@@ -8,10 +8,12 @@ import {
   IStatusPanelParams,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
+import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations/index';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -36,6 +38,7 @@ describe('CompareCalculationsButtonComponent', () => {
       MatButtonModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
+      MockModule(ExcludedCalculationsModule),
     ],
     providers: [
       provideMockStore({

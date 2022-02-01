@@ -12,12 +12,7 @@ import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { URL_FAQ } from '@cdba/shared/constants/urls';
-import {
-  BomItem,
-  Calculation,
-  Drawing,
-  ReferenceTypeIdentifier,
-} from '@cdba/shared/models';
+import { BomItem, Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -101,9 +96,10 @@ export class DetailEffects {
                 referenceTypeIdentifier.plant
               )
               .pipe(
-                map((calculations: Calculation[]) =>
+                map((result) =>
                   loadCalculationsSuccess({
-                    calculations,
+                    calculations: result.items,
+                    excludedCalculations: result.excludedItems,
                     referenceTypeIdentifier,
                   })
                 ),

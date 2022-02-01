@@ -9,6 +9,7 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 import { withCache } from '@ngneat/cashew';
@@ -16,7 +17,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import {
   BomResult,
-  CalculationsResult,
+  CalculationsResponse,
   ReferenceTypeResult,
 } from '../../core/store/reducers/detail/models';
 import { DetailService } from './detail.service';
@@ -67,7 +68,10 @@ describe('DetailService', () => {
 
   describe('calculations', () => {
     test('should get calculations result', () => {
-      const mock = new CalculationsResult(CALCULATIONS_MOCK);
+      const mock = new CalculationsResponse(
+        CALCULATIONS_MOCK,
+        EXCLUDED_CALCULATIONS_MOCK
+      );
 
       service.getCalculations('2345', '0060').subscribe((response) => {
         expect(response).toEqual(mock);

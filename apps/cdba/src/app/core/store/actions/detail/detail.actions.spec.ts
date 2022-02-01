@@ -5,6 +5,7 @@ import {
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -136,10 +137,12 @@ describe('Detail Actions', () => {
 
     test('loadCalculationsSuccess', () => {
       const calculations = CALCULATIONS_MOCK;
-      action = loadCalculationsSuccess({ calculations });
+      const excludedCalculations = EXCLUDED_CALCULATIONS_MOCK;
+      action = loadCalculationsSuccess({ calculations, excludedCalculations });
 
       expect(action).toEqual({
         calculations,
+        excludedCalculations,
         type: '[Detail] Load Calculations Success',
       });
     });

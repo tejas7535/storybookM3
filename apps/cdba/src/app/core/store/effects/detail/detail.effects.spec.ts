@@ -13,6 +13,7 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -43,7 +44,10 @@ import {
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
-import { ReferenceTypeResult } from '../../reducers/detail/models';
+import {
+  CalculationsResponse,
+  ReferenceTypeResult,
+} from '../../reducers/detail/models';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
@@ -190,15 +194,17 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const items = CALCULATIONS_MOCK;
+        const calculations = CALCULATIONS_MOCK;
+        const excludedCalculations = EXCLUDED_CALCULATIONS_MOCK;
 
         const response = m.cold('-a|', {
-          a: items,
+          a: new CalculationsResponse(calculations, excludedCalculations),
         });
         detailService.getCalculations = jest.fn(() => response);
 
         const result = loadCalculationsSuccess({
-          calculations: items,
+          calculations,
+          excludedCalculations,
           referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
         });
         const expected = m.cold('--b', { b: result });
@@ -421,6 +427,7 @@ describe('Detail Effects', () => {
       marbles((m) => {
         action = loadCalculationsSuccess({
           calculations: CALCULATIONS_MOCK,
+          excludedCalculations: EXCLUDED_CALCULATIONS_MOCK,
         });
 
         actions$ = m.hot('-a', { a: action });

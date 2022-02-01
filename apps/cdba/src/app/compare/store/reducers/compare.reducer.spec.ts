@@ -1,6 +1,7 @@
 import {
   BomItem,
   Calculation,
+  ExcludedCalculations,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import {
@@ -8,6 +9,7 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -280,7 +282,13 @@ describe('Compare Reducer', () => {
         const index = 3;
         const plant = '0060';
         const items = CALCULATIONS_MOCK;
-        action = loadCalculationHistorySuccess({ items, plant, index });
+        const excludedItems = EXCLUDED_CALCULATIONS_MOCK;
+        action = loadCalculationHistorySuccess({
+          items,
+          excludedItems,
+          plant,
+          index,
+        });
 
         const expectedItems = CALCULATIONS_MOCK;
         const expectedSelectedItem = CALCULATIONS_MOCK[0];
@@ -299,7 +307,13 @@ describe('Compare Reducer', () => {
         const index = 99;
         const plant = '0061';
         const items: Calculation[] = undefined;
-        action = loadCalculationHistorySuccess({ items, plant, index });
+        const excludedItems: ExcludedCalculations = undefined;
+        action = loadCalculationHistorySuccess({
+          items,
+          excludedItems,
+          plant,
+          index,
+        });
 
         state = compareReducer(mockState, action);
 

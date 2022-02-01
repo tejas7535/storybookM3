@@ -10,6 +10,7 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
+  getExcludedCalculations,
   getSelectedCalculationNodeIds,
   getSelectedRefTypeNodeIds,
 } from '@cdba/core/store';
@@ -21,6 +22,7 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./compare-calculations-button.component.scss'],
 })
 export class CompareCalculationsButtonComponent implements OnInit {
+  excludedCalculations$ = this.store.select(getExcludedCalculations);
   public selectedNodeIds$: Observable<string[]>;
   public appRoutePath = AppRoutePath;
 

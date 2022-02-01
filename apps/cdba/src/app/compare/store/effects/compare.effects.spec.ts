@@ -2,6 +2,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { CalculationsResponse } from '@cdba/core/store/reducers/detail/models/index';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
@@ -10,6 +11,7 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
+  EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
 import {
@@ -215,13 +217,19 @@ describe('CompareEffects', () => {
         actions$ = m.hot('-a', { a: action });
 
         const items = CALCULATIONS_MOCK;
+        const excludedItems = EXCLUDED_CALCULATIONS_MOCK;
 
         const response = m.cold('-a|', {
-          a: items,
+          a: new CalculationsResponse(items, excludedItems),
         });
         detailService.getCalculations = jest.fn(() => response);
 
-        const result = loadCalculationHistorySuccess({ index, plant, items });
+        const result = loadCalculationHistorySuccess({
+          index,
+          plant,
+          items,
+          excludedItems,
+        });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
@@ -332,6 +340,7 @@ describe('CompareEffects', () => {
           index,
           plant,
           items: CALCULATIONS_MOCK,
+          excludedItems: EXCLUDED_CALCULATIONS_MOCK,
         });
 
         actions$ = m.hot('-a', { a: action });

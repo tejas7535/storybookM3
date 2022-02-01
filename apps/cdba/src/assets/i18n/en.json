@@ -81,6 +81,26 @@
         "lotSize": "Lot Size",
         "costingVersion": "Costing Version",
         "rfqNumber": "RFQ Number"
+      },
+      "excludedCalculations": {
+        "button": {
+          "label": "View {{count}} more calculations"
+        },
+        "dialog": {
+          "title": {
+            "main": "Incomplete Information due to missing roles"
+          },
+          "content": {
+            "intro": "There are currently {{count}} items excluded from the list due to missing roles.",
+            "costRoles": "In order to see the full list you need to request access to the missing role {{costRoleType}} via Sams.",
+            "regionalRoles": "In order to see the full list you need to request access to the missing regional role via Sams for the following plants {{plants}}.",
+            "outro": "For more information on this topic, please visit our <a class=\"text-link\" href=\"{{urlRoleAssignments}}\", target=\"blank\">S-Connect</a> page."
+          },
+          "action": {
+            "primary": "Jump to Sams",
+            "secondary": "Close"
+          }
+        }
       }
     },
     "browserSupport": {

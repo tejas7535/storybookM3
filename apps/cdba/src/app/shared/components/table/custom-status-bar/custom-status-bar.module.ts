@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
+import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations/index';
 import { InViewModule } from '@cdba/shared/directives/in-view';
 import { ReactiveComponentModule } from '@ngrx/component';
 
@@ -27,6 +28,7 @@ import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.compon
     MatButtonModule,
     MatTooltipModule,
     InViewModule,
+    ExcludedCalculationsModule,
   ],
   exports: [
     DetailViewButtonComponent,
