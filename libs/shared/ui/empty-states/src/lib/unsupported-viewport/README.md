@@ -7,9 +7,9 @@ This lib depends on the `@schaeffler/styles`, which can be installed with npm:
 ```css
 /* styles.scss */
 
-@import '@schaffler/styles/src/lib/material-theme';  
-@include mat-core();
-@include angular-material-theme($schaeffler-theme);
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 ```
 
 Import into your project like:
@@ -18,7 +18,6 @@ Import into your project like:
 // myModule.module.ts
 
 import { UnsupportedViewportModule } from '@schaeffler/empty-states';
-import { HttpClientModule } from '@angular/common/http';
 
 import { environment } from '../environments/environment';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -26,7 +25,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 @NgModule({
   ...
   imports: [
-    HttpClientModule,
     SharedTranslocoModule.forRoot(
       environment.production,
       ['en'],

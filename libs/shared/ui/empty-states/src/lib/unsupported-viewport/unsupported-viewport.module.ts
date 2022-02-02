@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 
@@ -10,7 +9,7 @@ import enJson from './i18n/en.json';
 import { UnsupportedViewportComponent } from './unsupported-viewport.component';
 
 @NgModule({
-  imports: [SharedTranslocoModule, FlexLayoutModule, TranslocoModule],
+  imports: [SharedTranslocoModule, TranslocoModule],
   declarations: [UnsupportedViewportComponent],
   exports: [UnsupportedViewportComponent],
 })
