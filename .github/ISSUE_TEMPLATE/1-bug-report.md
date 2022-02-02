@@ -6,7 +6,7 @@ labels: type:bugfix
 assignees: ''
 ---
 
-<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understanding the issue.**⚠️ -->
+<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understand the issue.**⚠️ -->
 
 # Bug Report
 
@@ -16,19 +16,23 @@ assignees: ''
 
 <!-- Please select the affected scope(s) -->
 
-- [] General / Workspace
-- [] Build Pipeline
-- [] Shared User Interface Library
-- [] Shared Utility Library
-- [] Don't known / other
+```
+- [ ] General / Workspace
+- [ ] Build Pipeline
+- [ ] Shared User Interface Library
+- [ ] Shared Utility Library
+- [ ] Don't known / other
+```
 
 ## Is this a regression?
 
 <!-- Did it work in a previous version? -->
 
-- [] Yes
-- [] No
-- [] Don't known
+```
+- [ ] Yes
+- [ ] No
+- [ ] Don't know
+```
 
 ## Description
 
@@ -36,7 +40,7 @@ assignees: ''
 
 ## Expected Behaviour
 
-<!-- Please describe the behaviour that you would have expected -->
+<!-- Please describe the behavior that you would have expected -->
 
 ## Reproduction
 

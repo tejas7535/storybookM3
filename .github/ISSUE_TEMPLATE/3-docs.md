@@ -6,7 +6,7 @@ labels: type:documentation
 assignees: ''
 ---
 
-<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understanding the issue.**⚠️ -->
+<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understand the issue.**⚠️ -->
 
 # Docs (Confluence, Workspace, Storybook)
 
@@ -20,7 +20,7 @@ assignees: ''
 
 <!-- Please provide the steps to reproduce the issue -->
 
-## Expected vs. actual behaviour
+## Expected vs. actual behavior
 
 <!-- Please provide the expected behavior vs the actual behavior you encountered -->
 

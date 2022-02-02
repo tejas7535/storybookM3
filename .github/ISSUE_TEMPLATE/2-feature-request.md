@@ -6,7 +6,7 @@ labels: type:feature
 assignees: ''
 ---
 
-<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understanding the issue.**⚠️ -->
+<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understand the issue.**⚠️ -->
 
 # Feature Request
 
@@ -16,11 +16,13 @@ assignees: ''
 
 <!-- Please select the affected scope(s) -->
 
-- [] General / Workspace
-- [] Build Pipeline
-- [] Shared User Interface Library
-- [] Shared Utility Library
-- [] Don't known / other
+```
+- [ ] General / Workspace
+- [ ] Build Pipeline
+- [ ] Shared User Interface Library
+- [ ] Shared Utility Library
+- [ ] Don't known / other
+```
 
 ## Description
 
