@@ -5,8 +5,6 @@
     "cdba-e2e": "apps/cdba-e2e",
     "ga": "apps/ga",
     "ga-e2e": "apps/ga-e2e",
-    "goldwind": "apps/goldwind",
-    "goldwind-e2e": "apps/goldwind-e2e",
     "gq": "apps/gq",
     "gq-e2e": "apps/gq-e2e",
     "helloworld-azure": "apps/helloworld-azure",
