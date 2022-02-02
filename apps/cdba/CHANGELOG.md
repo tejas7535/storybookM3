@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.8.0...cdba-v2.8.1) (2022-02-02)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** split compare button components ([d7203e0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d7203e0b6392e77a270cf4c8eab4b86f04e07180))
+
 ## [2.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.7.0...cdba-v2.8.0) (2022-02-01)
 
 
