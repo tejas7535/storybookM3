@@ -5,10 +5,6 @@ import {
   testUnsupportedViewport,
 } from '../support/empty-states.po';
 import {
-  testDisabledFileDrop,
-  testEnabledFileDrop,
-} from '../support/file-drop.po';
-import {
   testHeaderWithBurgerMenu,
   testHeaderWithUserMenu,
 } from '../support/header.po';
@@ -50,16 +46,6 @@ describe('Mobile View', () => {
       it('should show unsupported viewport empty state', () => {
         testUnsupportedViewport();
       });
-    });
-  });
-
-  context('File Drop', () => {
-    it('should show enbaled file drop', () => {
-      testEnabledFileDrop();
-    });
-
-    it('should show disabled file drop', () => {
-      testDisabledFileDrop();
     });
   });
 
