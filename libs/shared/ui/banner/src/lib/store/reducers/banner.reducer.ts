@@ -1,11 +1,12 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
+import { BannerIconType } from '../../banner-text/banner-text.component';
 import * as BannerActions from '../actions/banner.actions';
 
 export interface BannerState {
   text: string;
   buttonText: string;
-  icon: string;
+  icon: BannerIconType;
   truncateSize: number;
   showFullText: boolean;
   open: boolean;

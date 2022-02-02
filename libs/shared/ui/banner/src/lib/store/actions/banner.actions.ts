@@ -1,11 +1,13 @@
 import { createAction, props } from '@ngrx/store';
 
+import { BannerIconType } from '../../banner-text/banner-text.component';
+
 export const openBanner = createAction(
   '[Banner] Open Banner',
   props<{
     text: string;
     buttonText: string;
-    icon: string;
+    icon: BannerIconType;
     truncateSize: number;
   }>()
 );

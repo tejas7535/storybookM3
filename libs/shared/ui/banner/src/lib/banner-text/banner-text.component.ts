@@ -7,16 +7,16 @@ import {
   Output,
 } from '@angular/core';
 
+export type BannerIconType = 'info' | 'success' | 'error' | 'warning' | '';
 @Component({
   selector: 'schaeffler-banner-text',
   templateUrl: './banner-text.component.html',
-  styleUrls: ['./banner-text.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerTextComponent implements OnInit {
   @Input() public text = '';
   @Input() public showFullText = false;
-  @Input() public bannerIcon = '';
+  @Input() public bannerIcon: BannerIconType = '';
   @Input() public truncateSize = 120;
   @Input() public buttonText = '';
 

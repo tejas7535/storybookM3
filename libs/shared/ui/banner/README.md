@@ -1,17 +1,22 @@
 # frontend@schaeffler Banner Documentation
 
-This lib depends on the `schaeffler-icons`, which can be installed with npm:
+This lib depends on `tailwind`, which has to be included in your app.
 
-`npm i schaeffler-icons`
+```css
+/* styles.scss */
 
-Afterwards the `styles` section in the `angular.json` has to be adjusted: 
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-```json
-"styles": [
-  ...
-  "node_modules/schaeffler-icons/style.css"
-],
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 ```
+
+Import into your project like:
+
+```typescript
 
 This lib has few dependencies which also have to be installed and then imported. Check out their documentation as well.
 

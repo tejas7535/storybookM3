@@ -1,4 +1,3 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -16,11 +15,7 @@ describe('BannerTextComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BannerTextComponent,
-    imports: [
-      provideTranslocoTestingModule({ en }),
-      FlexLayoutModule,
-      MatIconModule,
-    ],
+    imports: [provideTranslocoTestingModule({ en }), MatIconModule],
     providers: [
       {
         provide: MATERIAL_SANITY_CHECKS,

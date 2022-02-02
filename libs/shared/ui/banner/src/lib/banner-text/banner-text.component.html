@@ -1,25 +1,28 @@
 <div
-  id="banner-container"
   *transloco="let t"
-  fxLayout="row"
-  fxLayout.lt-md="column"
-  fxLayoutAlign="space-between center"
-  fxLayoutGap="20px"
+  class="relative flex min-h-[100px] flex-col content-center items-center justify-between gap-5 bg-surface py-7 px-5 md:flex-row md:px-7"
 >
   <mat-icon
     *ngIf="bannerIcon"
-    fxHide.lt-md
-    class="banner-icon"
-    [ngClass]="bannerIcon"
+    class="!hidden text-icon md:!block"
+    [ngClass]="{
+      'text-[#4398af]': bannerIcon === 'info',
+      'text-[#fbe06d]': bannerIcon === 'warning',
+      'text-error': bannerIcon === 'error',
+      'text-link': bannerIcon === 'success'
+    }"
     >{{ icon }}
   </mat-icon>
-  <div fxFlex="grow">
+  <div class="flex-shrink flex-grow">
     <p
       *ngIf="!showFullText && truncateSize > 0"
       [innerHTML]="text | truncate: truncateSize"
     ></p>
     <p *ngIf="showFullText" [innerHTML]="text"></p>
-    <span *ngIf="truncateSize > 0" class="read-more">
+    <span
+      *ngIf="truncateSize > 0"
+      class="-ml-1 cursor-pointer p-1 tracking-wider text-link"
+    >
       <span *ngIf="!showFullText" (click)="toggleText()">
         {{ t('readMore') }}
       </span>
@@ -33,11 +36,10 @@
     </span>
   </div>
   <button
-    id="info-banner-button"
-    fxFlex="nogrow"
+    class="flex-initial"
+    color="primary"
     (click)="clickButton()"
     mat-button
-    ngClass.gt-sm="banner-close-button"
   >
     {{ buttonText }}
   </button>

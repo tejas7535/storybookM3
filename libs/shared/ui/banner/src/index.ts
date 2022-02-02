@@ -1,6 +1,9 @@
 export { BannerComponent } from './lib/banner.component';
 export { BannerModule } from './lib/banner.module';
-export { BannerTextComponent } from './lib/banner-text/banner-text.component';
+export {
+  BannerIconType,
+  BannerTextComponent,
+} from './lib/banner-text/banner-text.component';
 export {
   closeBanner,
   openBanner,
