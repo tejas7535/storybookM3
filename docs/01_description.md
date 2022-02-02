@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE:link=false&prefix=version) -->
 
-![version](https://img.shields.io/badge/version-v52.0.0-green.svg)
+![version](https://img.shields.io/badge/version-v53.0.0-green.svg)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nrwl/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
@@ -15,7 +15,7 @@
 ![jest: 27.4.7](https://img.shields.io/badge/jest-27.4.7-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.5.1](https://img.shields.io/badge/prettier-2.5.1-brightgreen)
-![tailwindcss: 3.0.17](https://img.shields.io/badge/tailwindcss-3.0.17-brightgreen)
+![tailwindcss: 3.0.18](https://img.shields.io/badge/tailwindcss-3.0.18-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
