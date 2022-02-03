@@ -1,0 +1,12 @@
+<ng-container *ngrxLet="selectedNodeIds$; let nodeIds">
+  <button
+    mat-flat-button
+    color="primary"
+    class="!mr-4"
+    *transloco="let t; read: 'shared.statusBar'"
+    [disabled]="nodeIds?.length < 2 || nodeIds?.length > 25"
+    [routerLink]="'/' + appRoutePath.PortfolioAnalysisPath"
+  >
+    {{ t('analysis') }}
+  </button>
+</ng-container>

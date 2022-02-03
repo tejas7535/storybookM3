@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
-import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { GridApi } from '@ag-grid-enterprise/all-modules';
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
 import { Store } from '@ngrx/store';
@@ -9,18 +9,15 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'cdba-load-bom-button',
   templateUrl: './load-bom-button.component.html',
-  styleUrls: ['./load-bom-button.component.scss'],
 })
 export class LoadBomButtonComponent {
-  selections: Calculation[] = [];
+  @Input() public gridApi: GridApi;
 
-  private gridApi: GridApi;
+  selections: Calculation[] = [];
 
   constructor(private readonly store: Store) {}
 
-  agInit(params: IStatusPanelParams): void {
-    this.gridApi = params.api;
-  }
+  agInit(): void {}
 
   loadBom(): void {
     const nodeSelected = this.selectedNodes()[0];

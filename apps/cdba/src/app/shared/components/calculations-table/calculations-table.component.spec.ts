@@ -1,7 +1,4 @@
 import { SimpleChange } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
@@ -20,12 +17,9 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
 import { AgGridStateService } from '../../services/ag-grid-state/ag-grid-state.service';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
-import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
+import { CalculationsStatusBarModule } from '../table/status-bar/calculations-status-bar';
 import { CalculationsTableComponent } from './calculations-table.component';
 import { ColumnDefinitionService } from './config';
 
@@ -37,14 +31,9 @@ describe('CalculationsTableComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationsTableComponent,
     imports: [
-      SharedTranslocoModule,
       MockModule(AgGridModule.withComponents([])),
-      MatCardModule,
-      MatIconModule,
-      RouterTestingModule,
-      provideTranslocoTestingModule({ en: {} }),
       MockModule(CustomOverlayModule),
-      MockModule(CustomStatusBarModule),
+      MockModule(CalculationsStatusBarModule),
     ],
     providers: [
       mockProvider(ColumnDefinitionService, {

@@ -68,12 +68,6 @@ describe('LoadBomButtonComponent', () => {
       } as unknown as IStatusPanelParams;
     });
 
-    test('agInit should set params and add listeners', () => {
-      component.agInit(params as unknown as IStatusPanelParams);
-
-      expect(component['gridApi']).toEqual(params.api);
-    });
-
     test('should dispatch selectCalculation action on loadBom call', () => {
       store.dispatch = jest.fn();
 

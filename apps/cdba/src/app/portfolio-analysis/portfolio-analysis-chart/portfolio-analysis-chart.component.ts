@@ -5,9 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { EChartsOption } from 'echarts';
-
 import { ProductCostAnalysis } from '@cdba/shared/models';
+import { EChartsOption } from 'echarts';
 
 import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
 

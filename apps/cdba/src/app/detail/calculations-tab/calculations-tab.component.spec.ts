@@ -7,7 +7,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { selectCalculations } from '../../core/store';
-import { CustomStatusBarModule } from '../../shared/components/table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
 
 describe('CalculationsTabComponent', () => {
@@ -17,11 +16,7 @@ describe('CalculationsTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationsTabComponent,
-    imports: [
-      ReactiveComponentModule,
-      MockModule(CalculationsTableModule),
-      MockModule(CustomStatusBarModule),
-    ],
+    imports: [ReactiveComponentModule, MockModule(CalculationsTableModule)],
     providers: [
       provideMockStore({
         initialState: {

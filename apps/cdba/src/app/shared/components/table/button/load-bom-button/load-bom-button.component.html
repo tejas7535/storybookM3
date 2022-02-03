@@ -1,13 +1,12 @@
 <div
   *transloco="let t; read: 'shared.statusBar'"
-  class="button-wrapper"
-  cdbaInView
   [matTooltip]="t('hints.notAvailableForRfq')"
   [matTooltipDisabled]="tooltipDisabled()"
 >
   <button
     mat-flat-button
     color="primary"
+    class="!mr-4"
     [disabled]="buttonDisabled()"
     [routerLink]="['/detail', 'bom']"
     queryParamsHandling="merge"

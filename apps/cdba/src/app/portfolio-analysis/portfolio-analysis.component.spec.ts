@@ -1,14 +1,13 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Spectator, createComponentFactory } from '@ngneat/spectator/jest';
+import { PageHeaderModule } from '@cdba/shared/components';
+import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-
-import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks/index';
-import { PageHeaderModule } from '@cdba/shared/components/index';
 
 import { PortfolioAnalysisComponent } from './portfolio-analysis.component';
 

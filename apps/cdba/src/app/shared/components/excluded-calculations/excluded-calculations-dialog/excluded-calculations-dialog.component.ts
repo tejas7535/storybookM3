@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CostRoles } from '@cdba/core/auth/auth.config';
 import * as urls from '@cdba/shared/constants/urls';
-import { ExcludedCalculations } from '@cdba/shared/models/index';
+import { ExcludedCalculations } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-excluded-calculations-dialog',

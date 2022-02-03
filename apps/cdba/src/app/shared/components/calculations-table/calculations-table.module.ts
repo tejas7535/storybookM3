@@ -6,19 +6,19 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CompareCalculationsButtonComponent } from '../table/custom-status-bar/compare-calculations-button/compare-calculations-button.component';
-import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
-import { LoadBomButtonComponent } from '../table/custom-status-bar/load-bom-button/load-bom-button.component';
+import {
+  CalculationsStatusBarComponent,
+  CalculationsStatusBarModule,
+} from '../table/status-bar/calculations-status-bar';
 import { CalculationsTableComponent } from './calculations-table.component';
 
 @NgModule({
   declarations: [CalculationsTableComponent],
   imports: [
-    CustomStatusBarModule,
+    CalculationsStatusBarModule,
     SharedTranslocoModule,
     AgGridModule.withComponents([
-      LoadBomButtonComponent,
-      CompareCalculationsButtonComponent,
+      CalculationsStatusBarComponent,
       CustomLoadingOverlayComponent,
       CustomNoRowsOverlayComponent,
     ]),

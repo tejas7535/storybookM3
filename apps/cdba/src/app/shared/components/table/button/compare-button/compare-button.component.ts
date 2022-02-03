@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
-import {
-  GridApi,
-  IStatusPanelParams,
-  RowNode,
-} from '@ag-grid-enterprise/all-modules';
+import { GridApi, RowNode } from '@ag-grid-enterprise/all-modules';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getSelectedCalculationNodeIds,
@@ -16,15 +12,14 @@ import {
 import { Store } from '@ngrx/store';
 
 @Component({
-  selector: 'cdba-compare-results-button',
-  templateUrl: './compare-results-button.component.html',
-  styleUrls: ['./compare-results-button.component.scss'],
+  selector: 'cdba-compare-button',
+  templateUrl: './compare-button.component.html',
 })
-export class CompareResultsButtonComponent implements OnInit {
+export class CompareButtonComponent implements OnInit {
+  @Input() public gridApi: GridApi;
+
   public selectedNodeIds$: Observable<string[]>;
   public appRoutePath = AppRoutePath;
-
-  private gridApi: GridApi;
 
   public constructor(
     private readonly router: Router,
@@ -39,9 +34,7 @@ export class CompareResultsButtonComponent implements OnInit {
       : this.store.select(getSelectedCalculationNodeIds);
   }
 
-  public agInit(params: IStatusPanelParams): void {
-    this.gridApi = params.api;
-  }
+  public agInit(): void {}
 
   public showCompareView(nodeIds: string[]): void {
     const queryParams: Params = {};

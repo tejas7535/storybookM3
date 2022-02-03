@@ -4,8 +4,7 @@ export const STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];
 } = {
   statusPanels: [
-    { statusPanel: 'loadBomButtonComponent', align: 'left' },
-    { statusPanel: 'compareCalculationsButtonComponent', align: 'left' },
+    { statusPanel: 'calculationsStatusBarComponent', align: 'left' },
     {
       statusPanel: 'agAggregationComponent',
       statusPanelParams: {

@@ -1,6 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PortfolioAnalysisTableService } from './portfolio-analysis-table.service';

@@ -70,8 +70,8 @@ export class PortfolioAnalysisTableService {
     }
   };
 
-  private readonly formatMarginValue = (value: number): string => {
-    return value
+  private readonly formatMarginValue = (value: number): string =>
+    value
       ? `${this.localeService.localizeNumber(
           value * 100,
           'decimal',
@@ -81,11 +81,7 @@ export class PortfolioAnalysisTableService {
           }
         )}%`
       : '';
-  };
 
-  private readonly formatPriceValue = (value: number): string => {
-    return value
-      ? `${this.localeService.localizeNumber(value, 'decimal')}`
-      : '';
-  };
+  private readonly formatPriceValue = (value: number): string =>
+    value ? `${this.localeService.localizeNumber(value, 'decimal')}` : '';
 }

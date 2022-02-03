@@ -1,11 +1,9 @@
 import { CustomLoadingOverlayComponent } from '../../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CompareCalculationsButtonComponent } from '../../table/custom-status-bar/compare-calculations-button/compare-calculations-button.component';
-import { LoadBomButtonComponent } from '../../table/custom-status-bar/load-bom-button/load-bom-button.component';
+import { CalculationsStatusBarComponent } from '../../table/status-bar/calculations-status-bar';
 
 export const FRAMEWORK_COMPONENTS = {
-  loadBomButtonComponent: LoadBomButtonComponent,
-  compareCalculationsButtonComponent: CompareCalculationsButtonComponent,
+  calculationsStatusBarComponent: CalculationsStatusBarComponent,
   customLoadingOverlay: CustomLoadingOverlayComponent,
   customNoRowsOverlay: CustomNoRowsOverlayComponent,
 };

@@ -1,6 +1,4 @@
 import { SimpleChanges } from '@angular/core';
-import { MatIconModule } from '@angular/material/icon';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
@@ -11,7 +9,7 @@ import {
   RowSelectedEvent,
   SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
-import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
+import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 import { CALCULATIONS_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
@@ -22,9 +20,6 @@ import {
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
@@ -38,12 +33,8 @@ describe('ReferenceTypesTableComponent', () => {
   const createComponent = createComponentFactory({
     component: ReferenceTypesTableComponent,
     imports: [
-      SharedTranslocoModule,
       MockModule(AgGridModule.withComponents([])),
-      MatIconModule,
-      RouterTestingModule,
-      provideTranslocoTestingModule({ en: {} }),
-      MockModule(CustomStatusBarModule),
+      MockModule(ResultsStatusBarModule),
     ],
     declarations: [ReferenceTypesTableComponent],
     providers: [

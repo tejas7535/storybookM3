@@ -1,3 +1,4 @@
+export { BetaFeatureModule } from './beta-feature/beta-feature.module';
 export { BlockUiModule } from './block-ui/block-ui.module';
 export { BomContainerModule } from './bom-container/bom-container.module';
 export { BomOverlayModule } from './bom-overlay/bom-overlay.module';
@@ -7,6 +8,5 @@ export { CalculationsTableModule } from './calculations-table/calculations-table
 export { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
 export { PageHeaderModule } from './page-header/page-header.module';
 export { RoleDescriptionsModule } from './role-descriptions/role-descriptions.module';
-export { Tab, TabsHeaderModule } from './tabs-header/index';
+export { Tab, TabsHeaderModule } from './tabs-header';
 export { UserSettingsModule } from './user-settings/user-settings.module';
-export { BetaFeatureModule } from './beta-feature/beta-feature.module';

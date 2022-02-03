@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ExcludedCalculations } from '@cdba/shared/models/index';
+import { ExcludedCalculations } from '@cdba/shared/models';
 
 import { ExcludedCalculationsDialogComponent } from '../excluded-calculations-dialog/excluded-calculations-dialog.component';
 

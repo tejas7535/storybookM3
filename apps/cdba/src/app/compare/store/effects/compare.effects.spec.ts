@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CalculationsResponse } from '@cdba/core/store/reducers/detail/models/index';
+import { CalculationsResponse } from '@cdba/core/store/reducers/detail/models';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 
 import { NgxEchartsModule } from 'ngx-echarts';
-import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
 
 import { PortfolioAnalysisChartComponent } from './portfolio-analysis-chart.component';
+import { PortfolioAnalysisChartService } from './portfolio-analysis-chart.service';
 
 @NgModule({
   declarations: [PortfolioAnalysisChartComponent],

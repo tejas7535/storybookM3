@@ -7,8 +7,8 @@ import {
 } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
-import { PortfolioAnalysisTableService } from './portfolio-analysis-table.service';
 import { PortfolioAnalysisTableComponent } from './portfolio-analysis-table.component';
+import { PortfolioAnalysisTableService } from './portfolio-analysis-table.service';
 
 describe('PortfolioAnalysisTableComponent', () => {
   let spectator: Spectator<PortfolioAnalysisTableComponent>;

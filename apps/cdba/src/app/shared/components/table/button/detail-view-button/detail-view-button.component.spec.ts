@@ -1,11 +1,11 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -32,7 +32,7 @@ describe('DetailViewButtonComponent', () => {
     component: DetailViewButtonComponent,
     imports: [
       ReactiveComponentModule,
-      MatButtonModule,
+      MockModule(MatButtonModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -51,10 +51,6 @@ describe('DetailViewButtonComponent', () => {
           navigate: jest.fn(),
         },
       },
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 
@@ -67,14 +63,6 @@ describe('DetailViewButtonComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('agInit', () => {
-    test('should set grid api', () => {
-      component.agInit(params as unknown as IStatusPanelParams);
-
-      expect(component['gridApi']).toEqual(params.api);
-    });
   });
 
   describe('showDetailView', () => {

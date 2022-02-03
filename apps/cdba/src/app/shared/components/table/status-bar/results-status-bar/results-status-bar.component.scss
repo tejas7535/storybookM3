@@ -1,0 +1,23 @@
+:host {
+  .button-wrapper--outer {
+    @apply py-4;
+
+    &.not-in-view {
+      .button-wrapper--inner {
+        @apply fixed;
+        @apply bottom-4;
+        @apply left-5;
+
+        ::ng-deep {
+          cdba-detail-view-button,
+          cdba-compare-button,
+          cdba-portfolio-analysis-button {
+            button:disabled {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

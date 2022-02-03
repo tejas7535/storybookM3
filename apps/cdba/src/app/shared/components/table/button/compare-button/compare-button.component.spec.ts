@@ -1,39 +1,29 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  GridApi,
-  IStatusPanelParams,
-  RowNode,
-} from '@ag-grid-enterprise/all-modules';
+import { GridApi, RowNode } from '@ag-grid-enterprise/all-modules';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CompareResultsButtonComponent } from './compare-results-button.component';
+import { CompareButtonComponent } from './compare-button.component';
 
-describe('CompareCalculationsButtonComponent', () => {
-  let spectator: Spectator<CompareResultsButtonComponent>;
-  let component: CompareResultsButtonComponent;
+describe('CompareButtonComponent', () => {
+  let spectator: Spectator<CompareButtonComponent>;
+  let component: CompareButtonComponent;
   let router: Router;
 
-  const params: IStatusPanelParams = {
-    api: {
-      getSelectedNodes: jest.fn(),
-    },
-  } as unknown as IStatusPanelParams;
-
   const createComponent = createComponentFactory({
-    component: CompareResultsButtonComponent,
+    component: CompareButtonComponent,
     imports: [
       ReactiveComponentModule,
-      MatButtonModule,
+      MockModule(MatButtonModule),
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -48,10 +38,6 @@ describe('CompareCalculationsButtonComponent', () => {
           detail: DETAIL_STATE_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 
@@ -98,14 +84,6 @@ describe('CompareCalculationsButtonComponent', () => {
         );
       })
     );
-  });
-
-  describe('agInit', () => {
-    test('should set grid api', () => {
-      component.agInit(params as unknown as IStatusPanelParams);
-
-      expect(component['gridApi']).toEqual(params.api);
-    });
   });
 
   describe('showCompareView', () => {

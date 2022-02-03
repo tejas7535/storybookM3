@@ -1,7 +1,6 @@
 :host {
   .button-wrapper--outer {
     @apply py-4;
-    @apply pr-4;
 
     &.not-in-view {
       .button-wrapper--inner {
@@ -9,8 +8,17 @@
         @apply bottom-4;
         @apply left-5;
 
-        button:disabled {
+        cdba-excluded-calculations-button {
           display: none;
+        }
+
+        ::ng-deep {
+          cdba-load-bom-button,
+          cdba-compare-button {
+            button:disabled {
+              display: none;
+            }
+          }
         }
       }
     }

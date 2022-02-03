@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { EChartsOption } from 'echarts';
 
@@ -30,8 +30,7 @@ export class PortfolioAnalysisChartService {
       },
       tooltip: {
         trigger: 'axis',
-        formatter: (params: any) => {
-          const template = `
+        formatter: (params: any) => `
           <span class="flex text-body-2">${
             params[0].value.materialDesignation
           }</span>
@@ -41,22 +40,17 @@ export class PortfolioAnalysisChartService {
               const component = param.dimensionNames[param.componentIndex + 1];
 
               return data[component]
-                ? '<span class="flex justify-between pt-1 text-body-2">' +
-                    '<span>' +
-                    param.marker +
-                    param.seriesName +
-                    ': </span>' +
-                    '<span class="font-medium ml-4">' +
-                    this.formatValue(data[component], param.seriesType) +
-                    '</span>' +
-                    '</span>'
+                ? `<span class="flex justify-between pt-1 text-body-2">` +
+                    `<span>${param.marker}${param.seriesName}: </span>` +
+                    `<span class="font-medium ml-4">${this.formatValue(
+                      data[component],
+                      param.seriesType
+                    )}</span>` +
+                    `</span>`
                 : '';
             })
             .join('')}
-          `;
-
-          return template;
-        },
+          `,
       },
       xAxis: {
         type: 'category',
@@ -165,18 +159,11 @@ export class PortfolioAnalysisChartService {
     }
   };
 
-  private readonly formatLineValue = (value: number): string => {
-    return `${this.localeService.localizeNumber(
-      value * 100,
-      'decimal',
-      undefined,
-      {
-        maximumFractionDigits: 2,
-      }
-    )}%`;
-  };
+  private readonly formatLineValue = (value: number): string =>
+    `${this.localeService.localizeNumber(value * 100, 'decimal', undefined, {
+      maximumFractionDigits: 2,
+    })}%`;
 
-  private readonly formatScatterValue = (value: number): string => {
-    return `${this.localeService.localizeNumber(value, 'decimal')}`;
-  };
+  private readonly formatScatterValue = (value: number): string =>
+    `${this.localeService.localizeNumber(value, 'decimal')}`;
 }

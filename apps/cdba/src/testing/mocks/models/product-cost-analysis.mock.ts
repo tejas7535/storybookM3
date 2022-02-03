@@ -1,4 +1,4 @@
-import { ProductCostAnalysis } from '@cdba/shared/models/index';
+import { ProductCostAnalysis } from '@cdba/shared/models';
 
 import { REFERENCE_TYPE_MOCK } from './reference-type.mock';
 

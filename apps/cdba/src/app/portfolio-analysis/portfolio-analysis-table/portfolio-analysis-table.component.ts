@@ -6,13 +6,12 @@ import {
 } from '@angular/core';
 
 import {
+  AgGridEvent,
   ClientSideRowModelModule,
   ColDef,
   GridApi,
-  AgGridEvent,
 } from '@ag-grid-enterprise/all-modules';
-
-import { ProductCostAnalysis } from '@cdba/shared/models/index';
+import { ProductCostAnalysis } from '@cdba/shared/models';
 
 import { TransposedRowData } from './portfolio-analysis-table.models';
 import { PortfolioAnalysisTableService } from './portfolio-analysis-table.service';

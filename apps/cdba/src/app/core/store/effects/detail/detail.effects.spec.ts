@@ -3,8 +3,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoleFacade } from '@cdba/core/auth/role.facade';
 
+import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {

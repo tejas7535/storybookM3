@@ -29,6 +29,7 @@ import {
   StatusBarModule,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
+import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
@@ -43,8 +44,6 @@ import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
 } from '../../shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CompareResultsButtonComponent } from '../../shared/components/table/custom-status-bar/compare-results-button/compare-results-button.component';
-import { DetailViewButtonComponent } from '../../shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
@@ -88,8 +87,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   public rowHeight = 30;
 
   public frameworkComponents = {
-    detailViewButtonComponent: DetailViewButtonComponent,
-    compareResultsButtonComponent: CompareResultsButtonComponent,
+    resultsStatusBarComponent: ResultsStatusBarComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
     pcmCellRenderer: PcmCellRendererComponent,
   };

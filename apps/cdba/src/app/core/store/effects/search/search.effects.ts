@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -59,7 +59,7 @@ export class SearchEffects {
   search$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(search),
-      withLatestFrom(this.store.select(getSelectedFilters)),
+      concatLatestFrom(() => this.store.select(getSelectedFilters)),
       map(([_action, items]) => items),
       mergeMap((items) =>
         this.searchService.search(items).pipe(

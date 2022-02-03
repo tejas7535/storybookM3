@@ -1,0 +1,12 @@
+<ng-container *ngrxLet="selectedNodeIds$; let nodeIds">
+  <button
+    mat-flat-button
+    color="primary"
+    class="!mr-4"
+    *transloco="let t; read: 'shared.statusBar'"
+    [disabled]="nodeIds?.length !== 1"
+    (click)="showDetailView(nodeIds[0])"
+  >
+    {{ t('detail') }}
+  </button>
+</ng-container>

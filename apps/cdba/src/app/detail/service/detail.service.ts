@@ -11,7 +11,7 @@ import {
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks/index';
+import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import { withCache } from '@ngneat/cashew';
 
 import {
