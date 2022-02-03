@@ -72,7 +72,7 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.gqPrice'),
-      field: 'recommendedPrice',
+      field: ColumnFields.RECOMMENDED_PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {
@@ -82,12 +82,22 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapPrice'),
-      field: 'sapPrice',
+      field: ColumnFields.SAP_PRICE,
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.rsp'),
+      field: ColumnFields.RSP,
+      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.msp'),
+      field: ColumnFields.MSP,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapGrossPrice'),
-      field: 'sapGrossPrice',
+      field: ColumnFields.SAP_GROSS_PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
     },
     {

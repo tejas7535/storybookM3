@@ -1,12 +1,13 @@
 import { createSelector } from '@ngrx/store';
 
 import { getSapPriceDetailsState } from '../../reducers';
-import { SapPriceDetail } from '../../reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { SapPriceDetailsState } from '../../reducers/sap-price-details/sap-price-details.reducer';
 
 export const getSapPriceDetails = createSelector(
   getSapPriceDetailsState,
-  (state: SapPriceDetailsState): SapPriceDetail[] => state.sapPriceDetails
+  (state: SapPriceDetailsState): SapPriceConditionDetail[] =>
+    state.sapPriceDetails
 );
 
 export const getSapPriceDetailsLoading = createSelector(

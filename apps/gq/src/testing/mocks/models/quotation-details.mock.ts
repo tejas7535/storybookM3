@@ -7,6 +7,7 @@ import {
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
 import { PLANT_MOCK } from './plant.mock';
+import { SAP_PRICE_DETAIL_MOCK } from './sap-price-condition-detail.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
@@ -54,6 +55,9 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   sapPriceCondition: SapPriceCondition.STANDARD,
   discount: 50,
   materialStockByPlant: MATERIAL_STOCK_BY_PLANT_MOCK,
+  filteredSapConditionDetails: [SAP_PRICE_DETAIL_MOCK],
+  msp: 0,
+  rsp: 0,
 };
 
 export const QUATATION_DETAILS_MOCK = [

@@ -5,7 +5,7 @@ import { ComparableLinkedTransaction } from '../../../core/store/reducers/transa
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceUnitForQuotationItemId } from '../../models/quotation-detail/price-units-for-quotation-item-ids.model';
 import { StatusBarCalculation } from './models/status-bar-calculation.model';
-
+import { SapConditionType } from '../../../core/store/reducers/sap-price-details/models/';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,6 +30,7 @@ export class PriceService {
       detail.price,
       detail.relocationCost
     );
+    PriceService.calculateSapPriceValues(detail);
   }
 
   static calculatePriceUnitValues(detail: QuotationDetail): void {
@@ -204,5 +205,25 @@ export class PriceService {
     });
 
     return [...filtered.values()];
+  }
+
+  static calculateSapPriceValues(detail: QuotationDetail): void {
+    if (detail.filteredSapConditionDetails) {
+      detail.rsp = detail.filteredSapConditionDetails.find(
+        (el) => el.sapConditionType == SapConditionType.ZMIN
+      )?.amount;
+
+      const zrtu = detail.filteredSapConditionDetails.find(
+        (el) => el.sapConditionType === SapConditionType.ZRTU
+      )?.amount;
+      detail.msp =
+        zrtu && detail.rsp
+          ? PriceService.calculateMsp(detail.rsp, zrtu)
+          : undefined;
+    }
+  }
+
+  static calculateMsp(rsp: number, zrtu: number): number {
+    return rsp * (1 - zrtu / 100);
   }
 }

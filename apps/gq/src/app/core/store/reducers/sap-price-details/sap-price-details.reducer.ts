@@ -5,11 +5,11 @@ import {
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../../actions/sap-price-details/sap-price-details.actions';
-import { SapPriceDetail } from './models/sap-price-detail.model';
+import { SapPriceConditionDetail } from './models/sap-price-condition-detail.model';
 
 export interface SapPriceDetailsState {
   gqPositionId: string;
-  sapPriceDetails: SapPriceDetail[];
+  sapPriceDetails: SapPriceConditionDetail[];
   sapPriceDetailsLoading: boolean;
   errorMessage: string;
 }

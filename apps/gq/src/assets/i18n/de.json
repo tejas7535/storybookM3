@@ -46,7 +46,9 @@
       },
       "sapGrossPrice": "SAP Bruttopreis",
       "discount": "Rabatt %",
-      "sapPrice": "SAP Preis"
+      "sapPrice": "SAP Preis",
+      "rsp": "RSP",
+      "msp": "MSP"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

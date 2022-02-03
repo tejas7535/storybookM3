@@ -1,3 +1,4 @@
+import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
 import { MaterialStockByPlant } from './material-stock-by-plant.model';
@@ -42,6 +43,7 @@ export class QuotationDetail {
   public sapPriceCondition: SapPriceCondition;
   public sapGrossPrice: number;
   public materialStockByPlant: MaterialStockByPlant;
+  public filteredSapConditionDetails: SapPriceConditionDetail[];
 
   // properties added in GQ application
   public netValue: number;
@@ -49,4 +51,6 @@ export class QuotationDetail {
   public gpm: number;
   public rlm: number;
   public discount: number;
+  public msp: number;
+  public rsp: number;
 }

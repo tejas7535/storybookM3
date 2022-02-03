@@ -1,6 +1,6 @@
 import { CalculationType } from './calculation-type.enum';
 
-export interface SapPriceDetail {
+export interface SapPriceConditionDetail {
   sapConditionType: string;
   conditionTypeDescription: string;
   amount: number;

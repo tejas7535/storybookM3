@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { SapPriceDetail } from '../../reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
 
 export const loadSapPriceDetails = createAction(
   '[SAP Price Details] Load SAP Price Details for QuotationDetail',
@@ -9,7 +9,7 @@ export const loadSapPriceDetails = createAction(
 
 export const loadSapPriceDetailsSuccess = createAction(
   '[SAP Price Details] Load SAP Price Details for QuotationDetail Success',
-  props<{ sapPriceDetails: SapPriceDetail[] }>()
+  props<{ sapPriceDetails: SapPriceConditionDetail[] }>()
 );
 
 export const loadSapPriceDetailsFailure = createAction(

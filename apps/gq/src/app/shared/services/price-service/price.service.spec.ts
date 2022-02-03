@@ -4,6 +4,11 @@ import {
   QUATATION_DETAILS_MOCK,
   QUOTATION_DETAIL_MOCK,
 } from '../../../../testing/mocks';
+import {
+  SapConditionType,
+  SapPriceConditionDetail,
+} from '../../../core/store/reducers/sap-price-details/models';
+import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from './price.service';
 
 describe('PriceService', () => {
@@ -216,6 +221,34 @@ describe('PriceService', () => {
           price: EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price * priceUnit,
         },
       ]);
+    });
+  });
+  describe('calculateMsp', () => {
+    test('should return msp', () => {
+      var result = PriceService.calculateMsp(100, 15);
+
+      expect(result).toEqual(85);
+    });
+  });
+  describe('calculateSapPriceValues', () => {
+    test('should set msp & rsp', () => {
+      var detail = {
+        filteredSapConditionDetails: [
+          {
+            sapConditionType: SapConditionType.ZMIN,
+            amount: 100,
+          } as SapPriceConditionDetail,
+          {
+            sapConditionType: SapConditionType.ZRTU,
+            amount: 15,
+          } as SapPriceConditionDetail,
+        ],
+      } as QuotationDetail;
+      PriceService.calculateMsp = jest.fn(() => 85);
+
+      PriceService.calculateSapPriceValues(detail);
+      expect(detail.msp).toEqual(85);
+      expect(detail.rsp).toEqual(100);
     });
   });
 });

@@ -14,7 +14,7 @@ import {
   loadSapPriceDetailsSuccess,
 } from '../../actions';
 import { RouterStateUrl } from '../../reducers';
-import { SapPriceDetail } from '../../reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
 
 @Injectable()
 export class SapPriceDetailsEffects {
@@ -41,7 +41,7 @@ export class SapPriceDetailsEffects {
       map((action: any) => action.gqPositionId),
       mergeMap((gqPositionId: string) =>
         this.quotationDetailsService.getSapPriceDetails(gqPositionId).pipe(
-          map((sapPriceDetails: SapPriceDetail[]) =>
+          map((sapPriceDetails: SapPriceConditionDetail[]) =>
             loadSapPriceDetailsSuccess({ sapPriceDetails })
           ),
           catchError((errorMessage) =>

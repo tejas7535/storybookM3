@@ -20,6 +20,11 @@ export enum ColumnFields {
   DISCOUNT = 'discount',
   INPUT_QUANTITY = 'inputQuantity',
   QUANTITY = 'quantity',
+  RSP = 'rsp',
+  MSP = 'msp',
+  SAP_GROSS_PRICE = 'sapGrossPrice',
+  SAP_PRICE = 'sapPrice',
+  RECOMMENDED_PRICE = 'recommendedPrice',
 }
 
 export const PriceColumns = [
@@ -29,6 +34,11 @@ export const PriceColumns = [
   ColumnFields.SQV,
   ColumnFields.LAST_CUSTOMER_PRICE,
   ColumnFields.RELOCATION_COST,
+  ColumnFields.RSP,
+  ColumnFields.MSP,
+  ColumnFields.SAP_GROSS_PRICE,
+  ColumnFields.SAP_PRICE,
+  ColumnFields.RECOMMENDED_PRICE,
 ];
 
 export const PercentColumns = [

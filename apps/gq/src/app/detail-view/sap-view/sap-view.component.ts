@@ -16,7 +16,7 @@ import {
   getTableContextQuotation,
   isQuotationLoading,
 } from '../../core/store';
-import { SapPriceDetail } from '../../core/store/reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { Customer } from '../../shared/models/customer';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
@@ -39,7 +39,7 @@ export class SapViewComponent implements OnInit {
   public translationsLoaded$: Observable<boolean>;
   public sapPriceDetailsLoading$: Observable<boolean>;
   public breadcrumbs: Breadcrumb[];
-  public rowData$: Observable<SapPriceDetail[]>;
+  public rowData$: Observable<SapPriceConditionDetail[]>;
   public tableContext$: Observable<TableContext>;
 
   private readonly subscription: Subscription = new Subscription();

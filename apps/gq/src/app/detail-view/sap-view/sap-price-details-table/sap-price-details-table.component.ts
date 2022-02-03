@@ -8,7 +8,7 @@ import {
   SortChangedEvent,
 } from '@ag-grid-community/all-modules';
 
-import { SapPriceDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import {
   basicTableStyle,
@@ -32,11 +32,11 @@ export class SapPriceDetailsTableComponent {
     private readonly columnDefService: SapPriceDetailsColumnDefService
   ) {}
 
-  @Input() rowData: SapPriceDetail[];
+  @Input() rowData: SapPriceConditionDetail[];
   @Input() tableContext: TableContext;
 
   private readonly TABLE_KEY = 'sap-price-details';
-  public rowData$: Observable<SapPriceDetail[]>;
+  public rowData$: Observable<SapPriceConditionDetail[]>;
   public defaultColumnDefs = SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
   public modules = SAP_PRICE_DETAILS_MODULE;

@@ -8,7 +8,7 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '../../../../core/store/reducers/process-case/models';
-import { SapPriceDetail } from '../../../../core/store/reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
@@ -89,8 +89,10 @@ export class QuotationDetailsService {
     );
   }
 
-  getSapPriceDetails(gqPositionId: string): Observable<SapPriceDetail[]> {
-    return this.http.get<SapPriceDetail[]>(
+  getSapPriceDetails(
+    gqPositionId: string
+  ): Observable<SapPriceConditionDetail[]> {
+    return this.http.get<SapPriceConditionDetail[]>(
       `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_SAP_PRICE_DETAILS}`
     );
   }

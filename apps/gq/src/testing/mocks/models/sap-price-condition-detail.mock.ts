@@ -1,7 +1,7 @@
 import { CalculationType } from '../../../app/core/store/reducers/sap-price-details/models/calculation-type.enum';
-import { SapPriceDetail } from '../../../app/core/store/reducers/sap-price-details/models/sap-price-detail.model';
+import { SapPriceConditionDetail } from '../../../app/core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 
-export const SAP_PRICE_DETAIL_MOCK: SapPriceDetail = {
+export const SAP_PRICE_DETAIL_MOCK: SapPriceConditionDetail = {
   sapConditionType: 'condition_type_mock',
   conditionTypeDescription: 'condition_type_description_mock',
   amount: 1,
