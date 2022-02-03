@@ -64,9 +64,8 @@ export class LegalComponent implements OnInit, OnDestroy {
           case LegalPath.TermsPath: {
             if (this.termsOfUse) {
               this.custom = this.termsOfUse;
-            } else {
-              this.legal = 'termsOfUse';
             }
+            this.legal = 'termsOfUse';
             break;
           }
           case LegalPath.CookiePath: {

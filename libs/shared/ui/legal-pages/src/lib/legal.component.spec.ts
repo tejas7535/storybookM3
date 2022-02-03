@@ -17,7 +17,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
-import { PERSON_RESPONSIBLE } from './legal.model';
+import { PERSON_RESPONSIBLE, TERMS_OF_USE } from './legal.model';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 const routerMock = {
@@ -55,6 +55,10 @@ describe('LegalComponent', () => {
         provide: PERSON_RESPONSIBLE,
         useValue:
           'Jumbo Schreiner der gerne den besten Döner der Welt in Berlin isst',
+      },
+      {
+        provide: TERMS_OF_USE,
+        useValue: "I don't care about the law",
       },
       {
         provide: MATERIAL_SANITY_CHECKS,
