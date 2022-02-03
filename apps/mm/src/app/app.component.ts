@@ -84,7 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private updateFooterLinks(): AppShellFooterLink[] {
-    return [
+    const footerLinks = [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
         title: this.translocoService.translate('legal.imprint'),
@@ -100,12 +100,17 @@ export class AppComponent implements OnInit, OnDestroy {
         title: this.translocoService.translate('legal.termsOfUse'),
         external: false,
       },
-      {
-        link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: this.translocoService.translate('legal.cookiePolicy'),
-        external: false,
-      },
     ];
+    const legalLink = {
+      link: `${LegalRoute}/${LegalPath.CookiePath}`,
+      title: this.translocoService.translate('legal.cookiePolicy'),
+      external: false,
+    };
+    if (!window.origin.includes('capacitor://')) {
+      footerLinks.push(legalLink);
+    }
+
+    return footerLinks;
   }
 
   public checkIframe(): void {

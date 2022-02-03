@@ -74,8 +74,8 @@ describe('AppComponent', () => {
 
   describe('#updateFooterLinks', () => {
     it('should contain translated footerLinks', () => {
+      window.origin = 'undefined';
       const footerLinksResult = component['updateFooterLinks']();
-
       expect(footerLinksResult).toStrictEqual([
         {
           link: `${LegalRoute}/${LegalPath.ImprintPath}`,
@@ -95,6 +95,28 @@ describe('AppComponent', () => {
         {
           link: `${LegalRoute}/${LegalPath.CookiePath}`,
           title: 'legal.cookiePolicy',
+          external: false,
+        },
+      ]);
+    });
+
+    it('should contain translated footerLinks for capacitor app', () => {
+      window.origin = 'capacitor://';
+      const footerLinksResult = component['updateFooterLinks']();
+      expect(footerLinksResult).toStrictEqual([
+        {
+          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+          title: 'legal.imprint',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          title: 'legal.dataPrivacy',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.TermsPath}`,
+          title: 'legal.termsOfUse',
           external: false,
         },
       ]);
