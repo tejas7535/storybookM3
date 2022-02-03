@@ -6,7 +6,7 @@ This is a unified but also flexible component to display the user's rights and r
 
 ### Prerequisites
 
-As this lib depends on [Angular Material](https://material.angular.io) and [Tailwind](https://tailwindcss.com/docs). Material Icons should not used from CDN but installed e.g. with [https://fontsource.org/docs/icons/material-icons](). It is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
+This lib depends on [Angular Material](https://material.angular.io) and [Tailwind](https://tailwindcss.com/docs). Material Icons should not be used from CDN but installed e.g. with [https://fontsource.org/docs/icons/material-icons](). It is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
 
 ``` scss
 /***************************************************************************************************
