@@ -11,7 +11,6 @@ import {
   Drawing,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import { withCache } from '@ngneat/cashew';
 
 import {
@@ -128,17 +127,13 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
       .set(this.PARAM_PLANT, plant);
 
-    return this.httpClient
-      .get<CalculationsResponse>(`${API.v2}/${DetailPath.Calculations}`, {
+    return this.httpClient.get<CalculationsResponse>(
+      `${API.v2}/${DetailPath.Calculations}`,
+      {
         params,
         context: withCache(),
-      })
-      .pipe(
-        map((response: CalculationsResponse) => ({
-          ...response,
-          excludedItems: EXCLUDED_CALCULATIONS_MOCK,
-        }))
-      );
+      }
+    );
   }
 
   public getBom(bomIdentifier: BomIdentifier): Observable<BomItem[]> {

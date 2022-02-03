@@ -78,7 +78,7 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        'api/v1/calculations?material_number=2345&plant=0060'
+        'api/v2/calculations?material_number=2345&plant=0060'
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());
