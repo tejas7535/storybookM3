@@ -71,7 +71,6 @@ Example:
 You have to set the font-family, ideally for the whole appp in the `styles.scss`
 
 ```scss
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 .material-icons {
   font-family: 'Material Icons' !important;

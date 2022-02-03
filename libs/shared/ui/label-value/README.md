@@ -6,7 +6,7 @@ This is a unified but also flexible component to display the label-value pairs.
 
 ### Prerequisites
 
-As this lib depends on [Tailwind](https://tailwindcss.com/docs), it is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
+As this lib depends on [Tailwind](https://tailwindcss.com/docs). Material Icons should not used from CDN but installed e.g. with [https://fontsource.org/docs/icons/material-icons](). It is necessary to import the following styles in your app's `styles.scss` as shown in the recommended order:
 
 ``` scss
 /***************************************************************************************************

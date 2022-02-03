@@ -20,4 +20,16 @@ Configuration:
 Styles:
 
 - Import common styles from the `@schaeffler/styles` package with `@import 'libs/shared/ui/styles/src/<package>';` to your app's `styles.scss`. Be cautious: Only import what you need, in order to keep the bundle size small.
-- Add `@import 'https://fonts.googleapis.com/icon?family=Material+Icons';` to your app's `styles.scss` to support Material Icons
+- Add required fonts to your style section in the `angular.json` or `project.json` like so:
+
+```
+...
+"styles": [
+    "apps/cdba/src/styles.scss",
+    "node_modules/@fontsource/material-icons/400.css",
+    "node_modules/@fontsource/roboto/300.css",
+    "node_modules/@fontsource/roboto/400.css",
+    "node_modules/@fontsource/roboto/500.css"
+],
+...
+```
