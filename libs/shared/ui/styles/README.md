@@ -12,6 +12,5 @@
     - `@import '@schaeffler/styles/src/lib/helpers';`  
     - `@import '@schaeffler/styles/src/lib/material-theme';`  
     - `@import '@schaeffler/styles/src/lib/mediaqueries';`  
-    - `@import '@schaeffler/styles/src/lib/tabs';` 
     - `@import '@schaeffler/styles/src/lib/ghost-animation';` 
 
