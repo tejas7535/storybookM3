@@ -30,7 +30,7 @@
         "config": {
           "configFolder": "libs/shared/ui/storybook/.storybook"
         },
-        "projectBuildConfig": "shared-ui-storybook:build-storybook"
+        "projectBuildConfig": "helloworld-azure"
       },
       "configurations": {
         "ci": {
