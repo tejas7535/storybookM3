@@ -20,7 +20,10 @@
         "tsConfig": "apps/ia/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/ia/src/favicon.ico", "apps/ia/src/assets"],
-        "styles": ["apps/ia/src/styles.scss"],
+        "styles": [
+          "apps/ia/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css"
+        ],
         "scripts": [],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/shared/ui/styles/src"]
