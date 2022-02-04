@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.15](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.14...mm-v0.1.15) (2022-02-04)
+
+
+### 🐛 Bug Fixes
+
+* **mm:** fix html format issues ([7d2589f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7d2589f7e5aeaf66e73ff3117733f6b8a15322b3))
+
+
+### 🎸 Features
+
+* **ga:** modify footer if capacitor app ([e966b29](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e966b2984a2cf0258810eafbaf4b7f4836a0de6f))
+* **legal-pages:** further adjust shared imprint texts ([8c59d9d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c59d9d5246ca365abcc3a3edb2f95bcadc5553d))
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+* **mm:** adjust html report selector ([584a54e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/584a54e06a3bb4142b16d41a6f584aa45973ded8))
+
 ### [0.1.14](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.13...mm-v0.1.14) (2022-01-25)
 
 
