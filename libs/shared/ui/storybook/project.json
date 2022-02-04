@@ -29,8 +29,7 @@
         "outputPath": "dist/storybook/shared-ui-storybook",
         "config": {
           "configFolder": "libs/shared/ui/storybook/.storybook"
-        },
-        "projectBuildConfig": "shared-ui-storybook:build-storybook"
+        }
       },
       "configurations": {
         "ci": {
