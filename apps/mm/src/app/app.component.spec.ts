@@ -50,6 +50,8 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
+    window.origin = 'localhost://';
+
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
   });
@@ -75,7 +77,9 @@ describe('AppComponent', () => {
   describe('#updateFooterLinks', () => {
     it('should contain translated footerLinks', () => {
       window.origin = 'localhost://';
+
       const footerLinksResult = component['updateFooterLinks']();
+
       expect(footerLinksResult).toStrictEqual([
         {
           link: `${LegalRoute}/${LegalPath.ImprintPath}`,
@@ -102,7 +106,9 @@ describe('AppComponent', () => {
 
     it('should contain translated footerLinks for capacitor app', () => {
       window.origin = 'capacitor://';
+
       const footerLinksResult = component['updateFooterLinks']();
+
       expect(footerLinksResult).toStrictEqual([
         {
           link: `${LegalRoute}/${LegalPath.ImprintPath}`,
