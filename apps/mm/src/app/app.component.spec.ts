@@ -74,7 +74,7 @@ describe('AppComponent', () => {
 
   describe('#updateFooterLinks', () => {
     it('should contain translated footerLinks', () => {
-      window.origin = 'undefined';
+      window.origin = 'localhost://';
       const footerLinksResult = component['updateFooterLinks']();
       expect(footerLinksResult).toStrictEqual([
         {
