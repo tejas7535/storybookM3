@@ -4,6 +4,6 @@ export class EmployeeAnalyticsTranslations {
     public aboveOverall: string,
     public attritionRate: string,
     public overallAttritionRate: string,
-    public numEmployees: string
+    public totalEmployees: string
   ) {}
 }

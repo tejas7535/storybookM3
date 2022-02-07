@@ -93,8 +93,16 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
         const values = config.series[param.seriesIndex].values[param.dataIndex];
 
         return `
-          <b>${values[0]}%</b>&emsp;${param.dimensionNames[0]}<br>
-          <b>${values[1]}</b>&emsp;${param.dimensionNames[1]}
+          <table>
+            <tr>
+              <td class="pr-4"><b>${values[0]}%</b></td>
+              <td>${param.dimensionNames[0]}</td>
+            </tr>
+            <tr>
+              <td class="pr-4"><b>${values[1]}</b></td>
+              <td>${param.dimensionNames[1]}</td>
+            </tr>
+          </table>
         `;
       },
       confine: true,

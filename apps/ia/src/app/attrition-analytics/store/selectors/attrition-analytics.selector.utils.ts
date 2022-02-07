@@ -15,7 +15,7 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
   let values: number[][] = [];
   const names: string[] = [
     translate('attritionAnalytics.barChart.attritionRate'),
-    translate('attritionAnalytics.barChart.numEmployees'),
+    translate('attritionAnalytics.barChart.totalEmployees'),
   ];
   const barChartSerie: BarChartSerie = new BarChartSerie(names, [], color);
   for (const feature of features) {

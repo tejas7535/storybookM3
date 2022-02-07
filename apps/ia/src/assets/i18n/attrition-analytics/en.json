@@ -21,7 +21,7 @@
     "aboveOverall": "Above Overall",
     "overallAttritionRate": "Overall Unforced Fluctuation Rate",
     "attritionRate": "Unforced Fluctuation Rate",
-    "numEmployees": "num. Employees"
+    "totalEmployees": "Total Employees"
   },
   "featureImportance": {
     "title": "Feature Importance",
