@@ -270,7 +270,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         )
       ).toEqual({
         title: beutifiedTimeRange,
-        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        subTitle: undefined,
         tooltipFormatter,
         color: [],
       });
@@ -288,7 +288,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         )
       ).toEqual({
         title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
-        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        subTitle: undefined,
         tooltipFormatter,
         color: [],
       });
@@ -391,7 +391,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         )
       ).toEqual({
         title: beutifiedTimeRange,
-        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        subTitle: undefined,
         tooltipFormatter,
         color: [],
       });
@@ -410,7 +410,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         )
       ).toEqual({
         title: translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`),
-        subTitle: 'reasonsAndCounterMeasures.topFiveReasons.title',
+        subTitle: undefined,
         tooltipFormatter,
         color: [],
       });

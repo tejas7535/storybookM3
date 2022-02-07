@@ -70,11 +70,11 @@ export const getReasonsChartConfig = createSelector(
   ) => ({
     title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
-      stats?.length > 0
-        ? translate<string>('reasonsAndCounterMeasures.topFiveReasons.title')
-        : translate<string>(
+      stats === undefined || stats.length === 0
+        ? translate<string>(
             'reasonsAndCounterMeasures.topFiveReasons.chart.noData'
-          ),
+          )
+        : undefined,
     tooltipFormatter: utils.getTooltipFormatter(),
     color: utils.getColorsForChart(originalData),
   })
@@ -156,11 +156,11 @@ export const getComparedReasonsChartConfig = createSelector(
   ) => ({
     title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
-      stats?.length > 0
-        ? translate<string>('reasonsAndCounterMeasures.topFiveReasons.title')
-        : translate<string>(
+      stats === undefined || stats.length === 0
+        ? translate<string>(
             'reasonsAndCounterMeasures.topFiveReasons.chart.noData'
-          ),
+          )
+        : undefined,
     tooltipFormatter: utils.getTooltipFormatter(),
     color: utils.getColorsForChart(originalData, compareData),
   })
