@@ -210,7 +210,7 @@
         /** Other performance recommendations **/
         "indent": "off",
         "@typescript-eslint/indent": "off",
-        /** Other performance recommendations  **/
+        /** Other performance recommendations end **/
         "import/no-unassigned-import": "off",
         "ngrx/avoid-dispatching-multiple-actions-sequentially": "off",
         "simple-import-sort/imports": [
@@ -237,6 +237,13 @@
             "varsIgnorePattern": "^_",
             "args": "after-used",
             "argsIgnorePattern": "^_"
+          }
+        ],
+        "ngrx/prefix-selectors-with-select": "off",
+        "unicorn/consistent-function-scoping": [
+          "warn",
+          {
+            "checkArrowFunctions": false
           }
         ]
       }
