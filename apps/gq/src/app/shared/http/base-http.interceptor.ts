@@ -15,7 +15,7 @@ import { translate, TranslocoService } from '@ngneat/transloco';
 
 import deJson from '../../../assets/i18n/http/de.json';
 import enJson from '../../../assets/i18n/http/en.json';
-import { URL_SUPPORT } from './constants/urls';
+import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 
 @Injectable()
 export class BaseHttpInterceptor implements HttpInterceptor {
@@ -50,15 +50,17 @@ export class BaseHttpInterceptor implements HttpInterceptor {
           // default error message
           errorMessage += translate('errorInterceptorMessageDefault');
         }
-
-        this.snackbar
-          .open(errorMessage, translate('errorInterceptorActionDefault'), {
-            duration,
-          })
-          .onAction()
-          .subscribe(() => {
-            window.open(URL_SUPPORT, '_blank').focus();
-          });
+        // only show toasts for errors not triggered by auth lib
+        if (!AUTH_URLS.some((authUrl) => error.url.startsWith(authUrl))) {
+          this.snackbar
+            .open(errorMessage, translate('errorInterceptorActionDefault'), {
+              duration,
+            })
+            .onAction()
+            .subscribe(() => {
+              window.open(URL_SUPPORT, '_blank').focus();
+            });
+        }
 
         return throwError(errorMessage);
       })

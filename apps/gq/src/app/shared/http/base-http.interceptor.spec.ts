@@ -158,6 +158,7 @@ describe(`BaseHttpInterceptor`, () => {
         httpRequest.error(undefined as unknown as ErrorEvent);
       })
     );
+
     test(
       'should toast sap error message in error case',
       waitForAsync(() => {
@@ -166,6 +167,7 @@ describe(`BaseHttpInterceptor`, () => {
             expect(true).toEqual(false);
           },
           error: (_response) => {
+            expect(snackBar.open).toHaveBeenCalledTimes(1);
             expect(snackBar.open).toHaveBeenCalledWith(
               'V102: test sap error message',
               'translate it',
@@ -186,5 +188,29 @@ describe(`BaseHttpInterceptor`, () => {
         } as unknown as ErrorEvent);
       })
     );
+    test('should show no error on auth error', () => {
+      service.getPosts().subscribe(
+        () => {
+          expect(true).toEqual(false);
+        },
+        (_response) => {
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
+        }
+      );
+
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error({
+        status: 400,
+        error: {
+          url: 'https://login.microsoftonline',
+          message: 'error',
+          title: 'Service Unavailable',
+          detail: 'Damn monkey',
+        },
+      } as unknown as ErrorEvent);
+    });
   });
 });
