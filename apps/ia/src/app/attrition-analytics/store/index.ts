@@ -1,11 +1,11 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
+
 import {
   FeatureImportanceGroup,
   Pageable,
   Sort,
   SortDirection,
 } from '../models';
-
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import { FeatureParams } from '../models/feature-params.model';
 import {
@@ -71,7 +71,7 @@ export const initialState: AttritionAnalyticsState = {
     data: undefined,
     pageable: {
       pageNumber: -1, // will automatically use pageNumber + 1
-      pageSize: 3,
+      pageSize: 10,
     },
     sort: {
       property: 'max_y_pos',
@@ -224,7 +224,7 @@ export const attritionAnalyticsReducer = createReducer(
         ...state.featureImportance,
         data:
           state.featureImportance.data !== undefined
-            ? [...data.content].reverse().concat(state.featureImportance.data) // reverse to have most important feature on top
+            ? [...[...data.content].reverse(), ...state.featureImportance.data] // reverse to have most important feature on top
             : [...data.content].reverse(),
         hasNext: data.hasNext,
         pageable: data.pageable,

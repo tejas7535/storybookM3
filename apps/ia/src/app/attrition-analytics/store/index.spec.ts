@@ -1,5 +1,11 @@
 import { Action } from '@ngrx/store';
 
+import {
+  FeatureImportanceGroup,
+  FeatureImportanceType,
+  Slice,
+  SortDirection,
+} from '../models';
 import { EmployeeAnalytics } from '../models/employee-analytics.model';
 import { FeatureParams } from '../models/feature-params.model';
 import { attritionAnalyticsReducer, initialState, reducer } from '.';
@@ -16,12 +22,6 @@ import {
   loadFeatureImportanceSuccess,
   toggleFeatureImportanceSort,
 } from './actions/attrition-analytics.action';
-import {
-  Slice,
-  FeatureImportanceGroup,
-  FeatureImportanceType,
-  SortDirection,
-} from '../models';
 
 describe('Attrition Analytics Reducer', () => {
   const errorMessage = 'An error occured';
