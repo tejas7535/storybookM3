@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -11,8 +11,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
-
-import { SnackBarModule } from '@schaeffler/snackbar';
 
 import {
   CUSTOMER_MOCK,
@@ -98,7 +96,7 @@ describe('ProcessCaseEffect', () => {
 
   const createService = createServiceFactory({
     service: ProcessCaseEffect,
-    imports: [SnackBarModule, RouterTestingModule, HttpClientTestingModule],
+    imports: [MatSnackBarModule, RouterTestingModule, HttpClientTestingModule],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockActions(() => actions$),

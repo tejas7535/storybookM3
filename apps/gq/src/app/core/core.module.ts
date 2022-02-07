@@ -1,7 +1,10 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {
+  MatSnackBarModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+} from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -15,7 +18,6 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -67,12 +69,13 @@ import { StoreModule } from './store';
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
-
-    // notifications
-    SnackBarModule,
   ],
   exports: [AppComponent],
   providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { duration: 5000 },
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseHttpInterceptor,

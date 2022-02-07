@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -9,8 +9,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { marbles } from 'rxjs-marbles';
-
-import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
@@ -38,7 +36,7 @@ describe('View Cases Effects', () => {
   const createService = createServiceFactory({
     service: ViewCasesEffect,
     imports: [
-      SnackBarModule,
+      MatSnackBarModule,
       RouterTestingModule.withRoutes([]),
       HttpClientTestingModule,
     ],
