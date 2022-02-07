@@ -418,17 +418,18 @@ pipeline {
                 stage('Audit') {
                     steps {
                         echo 'Run NPM Audit'
+						script {
+                            def result = sh (returnStatus: true, script: '''
+                                mkdir -p reports
+                                npm audit --json | npx npm-audit-html --output reports/npm-audit.html
+                                npm audit --json | node ./tools/npm-scripts/transform-audit.js > reports/npm-audit.log
+                            ''') as int
 
-                        script {
-                            sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html"'
-                            sh 'npm audit --json | node ./tools/npm-scripts/transform-audit.js > ./reports/npm-audit.json'
-                        }
-                    }
-
-                    post {
-                        always {
                             publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: './reports', reportFiles: 'npm-audit.html', reportName: 'npm vulnerability report', reportTitles: 'vulnerability report'])
-                            recordIssues(tool: issues(name: 'NPM Audit', pattern:'**/reports/npm-audit.json'))
+                            recordIssues(tool: groovyScript(parserId: 'npm-audit', pattern: 'reports/npm-audit.log'))
+
+                            if (result != 0)
+                                unstable 'NPM audit failed'
                         }
                     }
                 }
