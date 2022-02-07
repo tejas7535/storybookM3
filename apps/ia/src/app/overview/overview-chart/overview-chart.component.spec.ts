@@ -14,7 +14,6 @@ import {
 import { TerminatedEmployee } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
-import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
@@ -35,7 +34,6 @@ describe('OverviewChartComponent', () => {
       MatDialogModule,
       TerminatedEmployeesDialogModule,
     ],
-    declarations: [OverviewChartLegendComponent],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 

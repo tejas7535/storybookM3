@@ -17,7 +17,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
-import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
 echarts.use([
@@ -30,7 +29,7 @@ echarts.use([
 ]);
 
 @NgModule({
-  declarations: [OverviewChartComponent, OverviewChartLegendComponent],
+  declarations: [OverviewChartComponent],
   imports: [
     SharedModule,
     NgxEchartsModule.forRoot({ echarts }),

@@ -1,15 +1,8 @@
-<div class="grid h-[400px] w-full grid-cols-4 bg-surface">
+<div class="h-[400px] w-full bg-surface">
   <div
-    class="col-span-3"
     echarts
     [options]="options"
     (chartInit)="onChartInit($event)"
     (chartClick)="onChartClick($event)"
   ></div>
-
-  <ia-overview-chart-legend
-    class="pt-10"
-    [series]="chartSeries"
-    (toggleSeries)="toggleChartSeries($event)"
-  ></ia-overview-chart-legend>
 </div>
