@@ -106,17 +106,25 @@
           </mat-card-content>
         </a>
       </mat-card>
-      <mat-card class="card-half cursor-not-allowed">
-        <div class="text-center text-overline uppercase">
-          {{ t('faq') }}
-        </div>
-        <mat-card-content class="card-content flex items-center justify-center">
-          <span class="text-[36px] font-bold tracking-[1px] text-link">
+      <mat-card class="card-half">
+        <a
+          href="{{ t('faqLink', { sources }) }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div class="text-center text-overline uppercase">
             {{ t('faq') }}
-          </span>
-        </mat-card-content>
+          </div>
+          <mat-card-content
+            class="card-content flex items-center justify-center"
+          >
+            <span class="text-[36px] font-bold tracking-[1px] text-link">
+              {{ t('faq') }}
+            </span>
+          </mat-card-content>
+        </a>
       </mat-card>
-      <mat-card class="col-span-2 cursor-not-allowed md:w-full">
+      <!-- <mat-card class="col-span-2 cursor-not-allowed md:w-full">
         <mat-card-content class="flex h-full items-center">
           <div class="flex h-full">
             <div
@@ -137,7 +145,7 @@
             </div>
           </div>
         </mat-card-content>
-      </mat-card>
+      </mat-card> -->
     </div>
   </div>
 </div>

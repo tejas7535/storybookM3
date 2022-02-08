@@ -10,6 +10,7 @@
     "concept": "Konzept",
     "placeholderText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum ornare bibendum. Duis imperdiet lacinia magna, ut tempor ligula molestie ut. Pellentesque ac suscipit nisi, eu fermentum magna.",
     "faq": "FAQ",
+    "faqLink": "https://medias.schaeffler.de/de/faq/grease-app{{sources}}",
     "catalog": "Produktkatalog",
     "catalogLink": "https://medias.schaeffler.de/de",
     "greases": "Fette",
