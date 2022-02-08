@@ -3,7 +3,10 @@
     [title]="t('goToHome')"
     (backButtonClicked)="navigate()"
   ></schaeffler-subheader>
-  <div *ngIf="custom; else translation_content" [innerHTML]="custom"></div>
+  <div
+    *ngIf="custom; else translation_content"
+    [innerHTML]="termsOfUse | ngrxPush"
+  ></div>
   <ng-template #translation_content>
     <div [innerHTML]="t(legal, { responsible: responsible })"></div>
   </ng-template>

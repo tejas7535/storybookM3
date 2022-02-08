@@ -1,7 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 
@@ -13,7 +15,6 @@ import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
 import { LegalComponent } from './legal.component';
 import { LegalRoutingModule } from './legal-routing.module';
-import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [LegalComponent],
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
     SubheaderModule,
     TranslocoModule,
     RouterModule,
+    ReactiveComponentModule,
   ],
   exports: [LegalComponent],
 })

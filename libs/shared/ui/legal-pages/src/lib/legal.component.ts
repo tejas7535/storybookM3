@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { filter, startWith, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
@@ -23,13 +23,13 @@ import { LegalPath } from './legal-route-path.enum';
 })
 export class LegalComponent implements OnInit, OnDestroy {
   public responsible?: string = undefined;
-  public custom: boolean | string = false;
+  public custom = false;
   public legal = 'imprint';
   public destroy$ = new Subject<void>();
 
   public constructor(
     @Inject(PERSON_RESPONSIBLE) private readonly personResponsible: string,
-    @Inject(TERMS_OF_USE) private readonly termsOfUse: string,
+    @Inject(TERMS_OF_USE) public termsOfUse: Observable<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -63,7 +63,7 @@ export class LegalComponent implements OnInit, OnDestroy {
           }
           case LegalPath.TermsPath: {
             if (this.termsOfUse) {
-              this.custom = this.termsOfUse;
+              this.custom = true;
             }
             this.legal = 'termsOfUse';
             break;

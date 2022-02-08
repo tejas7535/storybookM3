@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { PERSON_RESPONSIBLE, TERMS_OF_USE } from '@schaeffler/legal-pages';
@@ -12,16 +13,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { responsiblePerson } from './shared/constants';
-import { TranslocoService } from '@ngneat/transloco';
 
-export class DynamicTermsOfUse extends String {
-  public constructor(protected translocoService: TranslocoService) {
-    super('');
-  }
-
-  public toString() {
-    return this.translocoService.translate('legal.termsOfUseContent');
-  }
+export function DynamicTermsOfUse(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('legal.termsOfUseContent');
 }
 
 @NgModule({
@@ -42,7 +36,7 @@ export class DynamicTermsOfUse extends String {
     },
     {
       provide: TERMS_OF_USE,
-      useClass: DynamicTermsOfUse,
+      useFactory: DynamicTermsOfUse,
       deps: [TranslocoService],
     },
   ],
