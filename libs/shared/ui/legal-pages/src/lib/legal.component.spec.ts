@@ -7,10 +7,11 @@ import {
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -36,6 +37,7 @@ describe('LegalComponent', () => {
       RouterTestingModule,
       TranslocoTestingModule,
       SubheaderModule,
+      ReactiveComponentModule,
       provideTranslocoTestingModule({ 'forbidden/en': en }),
     ],
     providers: [
@@ -58,7 +60,7 @@ describe('LegalComponent', () => {
       },
       {
         provide: TERMS_OF_USE,
-        useValue: "I don't care about the law",
+        useValue: of("I don't care about the law"),
       },
       {
         provide: MATERIAL_SANITY_CHECKS,
