@@ -13,10 +13,17 @@ import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
 import { LegalComponent } from './legal.component';
 import { LegalRoutingModule } from './legal-routing.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [LegalComponent],
-  imports: [LegalRoutingModule, SubheaderModule, TranslocoModule, RouterModule],
+  imports: [
+    CommonModule,
+    LegalRoutingModule,
+    SubheaderModule,
+    TranslocoModule,
+    RouterModule,
+  ],
   exports: [LegalComponent],
 })
 export class LegalModule {

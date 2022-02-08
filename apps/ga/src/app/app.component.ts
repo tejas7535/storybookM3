@@ -99,11 +99,12 @@ export class AppComponent implements OnInit, OnDestroy {
         title: translate<string>('legal.termsOfUse'),
         external: false,
       },
-      {
-        link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: translate<string>('legal.cookiePolicy'),
-        external: false,
-      },
+      // Disabled until Cookies are active
+      // {
+      //   link: `${LegalRoute}/${LegalPath.CookiePath}`,
+      //   title: translate<string>('legal.cookiePolicy'),
+      //   external: false,
+      // },
     ];
   }
 }

@@ -3,5 +3,8 @@
     [title]="t('goToHome')"
     (backButtonClicked)="navigate()"
   ></schaeffler-subheader>
-  <div [innerHTML]="t(legal, { responsible: responsible })"></div>
+  <div *ngIf="custom; else translation_content" [innerHTML]="custom"></div>
+  <ng-template #translation_content>
+    <div [innerHTML]="t(legal, { responsible: responsible })"></div>
+  </ng-template>
 </div>

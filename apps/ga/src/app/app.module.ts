@@ -11,7 +11,18 @@ import { PERSON_RESPONSIBLE, TERMS_OF_USE } from '@schaeffler/legal-pages';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { responsiblePerson, termsOfUse } from './shared/constants';
+import { responsiblePerson } from './shared/constants';
+import { TranslocoService } from '@ngneat/transloco';
+
+export class DynamicTermsOfUse extends String {
+  public constructor(protected translocoService: TranslocoService) {
+    super('');
+  }
+
+  public toString() {
+    return this.translocoService.translate('legal.termsOfUseContent');
+  }
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +42,8 @@ import { responsiblePerson, termsOfUse } from './shared/constants';
     },
     {
       provide: TERMS_OF_USE,
-      useValue: termsOfUse,
+      useClass: DynamicTermsOfUse,
+      deps: [TranslocoService],
     },
   ],
   bootstrap: [AppComponent],
