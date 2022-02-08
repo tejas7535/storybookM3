@@ -6,12 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { PERSON_RESPONSIBLE } from '@schaeffler/legal-pages';
+import { PERSON_RESPONSIBLE, TERMS_OF_USE } from '@schaeffler/legal-pages';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { responsiblePerson } from './shared/constants';
+import { responsiblePerson, termsOfUse } from './shared/constants';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +28,10 @@ import { responsiblePerson } from './shared/constants';
     {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,
+    },
+    {
+      provide: TERMS_OF_USE,
+      useValue: termsOfUse,
     },
   ],
   bootstrap: [AppComponent],

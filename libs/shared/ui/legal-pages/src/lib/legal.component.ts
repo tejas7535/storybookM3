@@ -12,7 +12,7 @@ import { filter, startWith, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
-import { PERSON_RESPONSIBLE } from './legal.model';
+import { PERSON_RESPONSIBLE, TERMS_OF_USE } from './legal.model';
 import { LegalPath } from './legal-route-path.enum';
 
 @Component({
@@ -28,6 +28,7 @@ export class LegalComponent implements OnInit, OnDestroy {
 
   public constructor(
     @Inject(PERSON_RESPONSIBLE) private readonly personResponsible: string,
+    @Inject(TERMS_OF_USE) private readonly termsOfUse: string,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -56,7 +57,7 @@ export class LegalComponent implements OnInit, OnDestroy {
             this.legal = 'dataPrivacy';
             break;
           case LegalPath.TermsPath:
-            this.legal = 'termsOfUse';
+            this.legal = this.termsOfUse ?? 'termsOfUse';
             break;
           case LegalPath.CookiePath:
             this.legal = 'cookiePolicy';
