@@ -1,6 +1,5 @@
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { CompareButtonModule } from '@cdba/shared/components/table/button/compare-button';
-import { DetailViewButtonModule } from '@cdba/shared/components/table/button/detail-view-button';
 import { PortfolioAnalysisButtonModule } from '@cdba/shared/components/table/button/portfolio-analysis-button';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
@@ -16,7 +15,6 @@ describe('ResultsStatusBarComponent', () => {
     component: ResultsStatusBarComponent,
     imports: [
       MockModule(CompareButtonModule),
-      MockModule(DetailViewButtonModule),
       MockModule(PortfolioAnalysisButtonModule),
     ],
   });

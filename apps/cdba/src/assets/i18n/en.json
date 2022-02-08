@@ -17,12 +17,13 @@
       "portfolioAnalysis": "Portfolio Analysis"
     },
     "statusBar": {
-      "detail": "Show Details",
       "compare": "Compare Details",
       "analysis": "Portfolio Analysis",
       "loadBom": "Load Bill of Material",
       "hints": {
-        "notAvailableForRfq": "Not available for RFQs"
+        "notAvailableForRfq": "Not available for RFQs",
+        "minCount": "Select {{ count }} items minimum",
+        "maxCount": "Select {{ count }} items maximum"
       }
     },
     "table": {

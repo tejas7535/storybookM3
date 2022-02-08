@@ -17,12 +17,13 @@
       "portfolioAnalysis": "Portfolioanalyse"
     },
     "statusBar": {
-      "detail": "Details anzeigen",
       "compare": "Details vergleichen",
       "analysis": "Portfolio Analyse",
       "loadBom": "Stückliste laden",
       "hints": {
-        "notAvailableForRfq": "Nicht verfügbar für RFQs"
+        "notAvailableForRfq": "Nicht verfügbar für RFQs",
+        "minCount": "Wählen Sie mindestens {{ count }} Elemente",
+        "maxCount": "Wählen Sie maximal {{ count }} Elemente"
       }
     },
     "table": {

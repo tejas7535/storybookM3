@@ -31,6 +31,7 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
+import { PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT } from '@cdba/shared/constants/table';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 import { arrayEquals } from '@cdba/shared/utils';
@@ -49,6 +50,7 @@ import {
   DEFAULT_COLUMN_DEFINITION,
   STATUS_BAR_CONFIG,
 } from './config';
+import { MaterialDesignationCellRenderComponent } from './material-designation-cell-render/material-designation-cell-render.component';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
 import { TableStore } from './table.store';
 
@@ -89,6 +91,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   public frameworkComponents = {
     resultsStatusBarComponent: ResultsStatusBarComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
+    materialDesignationCellRender: MaterialDesignationCellRenderComponent,
     pcmCellRenderer: PcmCellRendererComponent,
   };
 
@@ -171,7 +174,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
    * Limit selected rows to a maximum
    */
   public onRowSelected({ node, api }: RowSelectedEvent): void {
-    const maxLength = 25;
+    const maxLength = PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT;
 
     const previouslySelectedRows = [...this.selectedRows];
 

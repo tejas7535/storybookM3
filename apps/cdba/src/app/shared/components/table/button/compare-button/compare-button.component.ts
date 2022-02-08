@@ -9,6 +9,10 @@ import {
   getSelectedCalculationNodeIds,
   getSelectedRefTypeNodeIds,
 } from '@cdba/core/store';
+import {
+  COMPARE_ITEMS_MAX_COUNT,
+  COMPARE_ITEMS_MIN_COUNT,
+} from '@cdba/shared/constants/table';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -20,6 +24,8 @@ export class CompareButtonComponent implements OnInit {
 
   public selectedNodeIds$: Observable<string[]>;
   public appRoutePath = AppRoutePath;
+  public minCount = COMPARE_ITEMS_MIN_COUNT;
+  public maxCount = COMPARE_ITEMS_MAX_COUNT;
 
   public constructor(
     private readonly router: Router,

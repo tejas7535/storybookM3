@@ -19,6 +19,7 @@ import {
   SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
+import { COMPARE_ITEMS_MAX_COUNT } from '@cdba/shared/constants/table';
 import { arrayEquals } from '@cdba/shared/utils';
 
 import { Calculation } from '../../models';
@@ -110,7 +111,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
    */
   public onRowSelected({ node, api }: RowSelectedEvent): void {
     setTimeout(() => {
-      const maxLength = this.minified ? 1 : 2;
+      const maxLength = this.minified ? 1 : COMPARE_ITEMS_MAX_COUNT;
 
       const previouslySelectedRows = this.selectedNodeIds
         ? [...this.selectedNodeIds]

@@ -1,12 +1,24 @@
 <ng-container *ngrxLet="selectedNodeIds$; let nodeIds">
-  <button
-    mat-flat-button
-    color="primary"
-    class="!mr-4"
+  <div
     *transloco="let t; read: 'shared.statusBar'"
-    [disabled]="nodeIds?.length < 2 || nodeIds?.length > 25"
-    [routerLink]="'/' + appRoutePath.PortfolioAnalysisPath"
+    [matTooltip]="
+      t(nodeIds?.length < minCount ? 'hints.minCount' : 'hints.maxCount', {
+        count: nodeIds?.length < minCount ? minCount : maxCount
+      })
+    "
+    [matTooltipDisabled]="
+      nodeIds?.length >= minCount && nodeIds?.length <= maxCount
+    "
+    class="inline-block"
   >
-    {{ t('analysis') }}
-  </button>
+    <button
+      mat-flat-button
+      color="primary"
+      class="!mr-4"
+      [disabled]="nodeIds?.length < minCount || nodeIds?.length > maxCount"
+      [routerLink]="'/' + appRoutePath.PortfolioAnalysisPath"
+    >
+      {{ t('analysis') }}
+    </button>
+  </div>
 </ng-container>

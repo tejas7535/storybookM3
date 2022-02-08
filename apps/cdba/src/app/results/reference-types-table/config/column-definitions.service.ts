@@ -23,7 +23,6 @@ export class ColumnDefinitionService {
 
   COLUMN_DEFINITIONS: ColDef[] = [
     {
-      suppressMovable: true,
       checkboxSelection: true,
       sortable: false,
       filter: false,
@@ -32,17 +31,13 @@ export class ColumnDefinitionService {
       enableRowGroup: false,
       filterParams: false,
       suppressMenu: true,
-      suppressColumnsToolPanel: true,
       width: 0,
       maxWidth: 50,
       pinned: 'left',
-    },
-    {
-      field: columnDefinitionToReferenceTypeProp('isPcmRow'),
-      headerName: translate('results.referenceTypesTable.headers.pcmRow'),
-      headerTooltip: translate('results.referenceTypesTable.tooltips.pcmRow'),
-      cellRenderer: 'pcmCellRenderer',
-      pinned: 'left',
+      suppressColumnsToolPanel: true,
+      suppressMovable: true,
+      lockPosition: true,
+      lockVisible: true,
     },
     {
       field: columnDefinitionToReferenceTypeProp('materialDesignation'),
@@ -53,6 +48,18 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.materialDesignation'
       ),
       valueFormatter: scrambleMaterialDesignation,
+      cellRenderer: 'materialDesignationCellRender',
+      pinned: 'left',
+      suppressColumnsToolPanel: true,
+      suppressMovable: true,
+      lockPosition: true,
+      lockVisible: true,
+    },
+    {
+      field: columnDefinitionToReferenceTypeProp('isPcmRow'),
+      headerName: translate('results.referenceTypesTable.headers.pcmRow'),
+      headerTooltip: translate('results.referenceTypesTable.tooltips.pcmRow'),
+      cellRenderer: 'pcmCellRenderer',
     },
     {
       field: columnDefinitionToReferenceTypeProp('materialNumber'),

@@ -13,16 +13,22 @@ import {
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { MaterialDesignationCellRenderComponent } from './material-designation-cell-render/material-designation-cell-render.component';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
 import { TableStore } from './table.store';
 
 @NgModule({
-  declarations: [ReferenceTypesTableComponent, PcmCellRendererComponent],
+  declarations: [
+    ReferenceTypesTableComponent,
+    MaterialDesignationCellRenderComponent,
+    PcmCellRendererComponent,
+  ],
   imports: [
     CommonModule,
     AgGridModule.withComponents([
       ResultsStatusBarComponent,
+      MaterialDesignationCellRenderComponent,
       PcmCellRendererComponent,
     ]),
     MatButtonModule,

@@ -8,6 +8,10 @@ import {
   getSelectedCalculationNodeIds,
   getSelectedRefTypeNodeIds,
 } from '@cdba/core/store';
+import {
+  PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT,
+  PORTFOLIO_ANALYSIS_ITEMS_MIN_COUNT,
+} from '@cdba/shared/constants/table';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -17,6 +21,8 @@ import { Store } from '@ngrx/store';
 export class PortfolioAnalysisButtonComponent implements OnInit {
   public selectedNodeIds$: Observable<string[]>;
   public appRoutePath = AppRoutePath;
+  public minCount = PORTFOLIO_ANALYSIS_ITEMS_MIN_COUNT;
+  public maxCount = PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT;
 
   public constructor(
     private readonly router: Router,

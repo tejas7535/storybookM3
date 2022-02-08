@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -12,6 +13,7 @@ import { PortfolioAnalysisButtonComponent } from './portfolio-analysis-button.co
   imports: [
     RouterModule,
     MatButtonModule,
+    MatTooltipModule,
     SharedTranslocoModule,
     ReactiveComponentModule,
   ],

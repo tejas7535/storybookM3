@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -9,14 +9,20 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { DetailViewButtonComponent } from './detail-view-button.component';
+import { MaterialDesignationCellRenderComponent } from './material-designation-cell-render.component';
 
-describe('DetailViewButtonComponent', () => {
-  let spectator: Spectator<DetailViewButtonComponent>;
-  let component: DetailViewButtonComponent;
+describe('MaterialDesignationCellRenderComponent', () => {
+  let spectator: Spectator<MaterialDesignationCellRenderComponent>;
+  let component: MaterialDesignationCellRenderComponent;
   let router: Router;
 
   const params = {
+    data: {
+      materialNumber: '12345',
+      plant: '0060',
+      identificationHash: 'foo',
+    },
+    value: '12345',
     api: {
       getRowNode: jest.fn(() => ({
         data: {
@@ -24,12 +30,14 @@ describe('DetailViewButtonComponent', () => {
           plant: '0060',
           identificationHash: 'foo',
         },
+        setSelected: jest.fn(),
       })),
     },
-  } as unknown as IStatusPanelParams;
+    node: { id: 2 },
+  } as unknown as ICellRendererParams;
 
   const createComponent = createComponentFactory({
-    component: DetailViewButtonComponent,
+    component: MaterialDesignationCellRenderComponent,
     imports: [
       ReactiveComponentModule,
       MockModule(MatButtonModule),
@@ -59,6 +67,11 @@ describe('DetailViewButtonComponent', () => {
     component = spectator.component;
 
     router = spectator.inject(Router);
+    jest.useFakeTimers('legacy');
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it('should create', () => {
@@ -69,7 +82,9 @@ describe('DetailViewButtonComponent', () => {
     test('should navigate to correct detail page', () => {
       router.navigate = jest.fn();
       component['gridApi'] = params.api;
-      component.showDetailView('2');
+      component.agInit(params);
+
+      component.onMaterialDesignationClick();
 
       const expectedQueryParams = {
         material_number: '12345',
@@ -77,6 +92,8 @@ describe('DetailViewButtonComponent', () => {
         identification_hash: 'foo',
       };
 
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      jest.advanceTimersByTime(10);
       expect(router.navigate).toHaveBeenCalledWith(['detail/detail'], {
         queryParams: expectedQueryParams,
       });

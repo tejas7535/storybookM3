@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -24,6 +25,7 @@ describe('CompareButtonComponent', () => {
     imports: [
       ReactiveComponentModule,
       MockModule(MatButtonModule),
+      MockModule(MatTooltipModule),
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
