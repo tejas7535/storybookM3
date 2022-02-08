@@ -1,37 +1,36 @@
 /***************************************************************************************************
- * COMPONENTS AND THEMES
- */
+* COMPONENTS AND THEMES
+*/
 
 /*
- * Angular Material, material design components
- * see https://material.angular.io
-
- */
+* Angular Material, material design components
+* see https://material.angular.io
+*/
 
 @import 'libs/shared/ui/styles/src/lib/material-theme';
 
 /*
-  * ag grid components
-  * see https://www.ag-grid.com/angular-grid
-  */
+* ag grid components
+* see https://www.ag-grid.com/angular-grid
+*/
 @import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
 @import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
 
 /***************************************************************************************************
-  * UTILITIES
-  */
+* UTILITIES
+*/
 
 /*
-  * TailwindCSS, utility-first css framework
-  * see https://tailwindcss.com/docs
-  */
+* TailwindCSS, utility-first css framework
+* see https://tailwindcss.com/docs
+*/
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
 /***************************************************************************************************
-  * OVERRIDES
-  */
+* OVERRIDES
+*/
 
 // custom overrides for native elements
 button {
@@ -45,8 +44,16 @@ button {
       material-primary-color: $primary,
       material-accent-color: $nordic-blue,
       checkbox-checked-color: $primary,
+      row-group-indent-size: 12px,
     )
   );
+
+  .ag-row {
+    border-color: rgba($color: #000000, $alpha: 0.12);
+    border-width: 0.5px;
+
+    border-top: none;
+  }
 
   .ag-column-panel {
     border-left: 1px solid ag-param(border-color);
@@ -78,5 +85,27 @@ button {
   .ag-status-bar {
     @apply border-0 #{!important};
     @apply p-0 #{!important};
+  }
+
+  .ag-group-expanded {
+    margin-right: 4px !important;
+  }
+
+  .ag-group-contracted {
+    margin-right: 4px !important;
+  }
+
+  .ag-row-level-0 {
+    &:not(.ag-row-group) {
+      > .ag-cell {
+        padding-left: 32px;
+      }
+    }
+  }
+
+  @for $i from 1 to 20 {
+    .ag-row-level-#{$i} .ag-row-group-leaf-indent {
+      margin-left: 22px !important;
+    }
   }
 }
