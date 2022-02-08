@@ -68,6 +68,9 @@
       },
       "noBom": {
         "text": "Unfortunately, we could not find any bill of material for the selected calculation."
+      },
+      "statusBar": {
+        "title": "Share of total costs"
       }
     },
     "calculations": {

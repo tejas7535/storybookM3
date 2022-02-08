@@ -151,6 +151,7 @@ describe('BomContainerComponent', () => {
             toolingFactor: 2,
             totalPricePerPc: 13,
             unitOfMeasure: 'pc',
+            costShareOfParent: 1,
           },
         ];
 

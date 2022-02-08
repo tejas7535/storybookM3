@@ -18,12 +18,14 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { MockModule } from 'ng-mocks';
 
 import { BomItem } from '../../models';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { BomTableComponent } from './bom-table.component';
+import { BomTableStatusBarComponentModule } from './bom-table-status-bar/bom-table-status-bar.component';
 
 /* eslint-disable max-lines */
 describe('BomTableComponent', () => {
@@ -39,6 +41,7 @@ describe('BomTableComponent', () => {
       ]),
       CustomOverlayModule,
       MaterialNumberModule,
+      MockModule(BomTableStatusBarComponentModule),
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },
@@ -71,31 +74,18 @@ describe('BomTableComponent', () => {
   });
 
   describe('rowClassRules', () => {
-    it('should have css classes for 9 levels', () => {
-      expect(
-        component.rowClassRules['padding-left-40']({ data: { level: 2 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-80']({ data: { level: 3 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-120']({ data: { level: 4 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-160']({ data: { level: 5 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-200']({ data: { level: 6 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-240']({ data: { level: 7 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-280']({ data: { level: 8 } })
-      ).toBeTruthy();
-      expect(
-        component.rowClassRules['padding-left-320']({ data: { level: 9 } })
-      ).toBeTruthy();
+    it('should have css classes for 15 levels', () => {
+      const rowClassRules: any = component.rowClassRules;
+
+      for (let i = 2; i <= 15; i += 1) {
+        const cssClass = `row-level-${i}`;
+
+        expect(
+          rowClassRules[cssClass]({
+            data: { level: i },
+          })
+        ).toBeTruthy();
+      }
     });
   });
 
@@ -353,10 +343,16 @@ describe('BomTableComponent', () => {
       component.currentSelectedRow.node.id = '1';
 
       const params = {
+        data: {
+          totalPricePerPc: 1.5,
+        },
         node: {
           id: '2',
           parent: {
             id: '1',
+            data: {
+              totalPricePerPc: 10,
+            },
           },
           childIndex: 4,
         },
@@ -364,31 +360,7 @@ describe('BomTableComponent', () => {
 
       const result = component.getRowClass(params);
 
-      expect(result).toEqual('second-level-row-4');
-    });
-
-    it('should return appropriate third or more row when it is a deeper child', () => {
-      component.currentSelectedRow.node.id = '1';
-      component.nonLevel2Children = ['3', '4'];
-
-      const params = {
-        node: {
-          id: '3',
-          parent: {
-            id: '2',
-            childIndex: 2,
-            parent: {
-              id: '1',
-              childIndex: 5,
-            },
-          },
-          childIndex: 3,
-        },
-      };
-
-      const result = component.getRowClass(params);
-
-      expect(result).toEqual('third-or-more-row-2');
+      expect(result).toEqual('row-medium-cost-share');
     });
   });
 

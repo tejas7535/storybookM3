@@ -19,11 +19,13 @@ import {
   RowClickedEvent,
   RowGroupingModule,
   RowNode,
+  StatusBarModule,
 } from '@ag-grid-enterprise/all-modules';
 import {
   ScrambleMaterialDesignationPipe,
   ScrambleMaterialNumberPipe,
 } from '@cdba/shared/pipes';
+import { CostShareService } from '@cdba/shared/services';
 import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../models';
@@ -33,6 +35,8 @@ import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
 } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { BomTableStatusBarComponent } from './bom-table-status-bar/bom-table-status-bar.component';
+import { STATUS_BAR_CONFIG } from './status-bar';
 
 @Component({
   selector: 'cdba-bom-table',
@@ -44,7 +48,8 @@ export class BomTableComponent implements OnChanges {
   public constructor(
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
     protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe,
-    private readonly columnUtilsService: ColumnUtilsService
+    private readonly columnUtilsService: ColumnUtilsService,
+    private readonly costShareService: CostShareService
   ) {}
 
   @Input() index: number;
@@ -77,23 +82,6 @@ export class BomTableComponent implements OnChanges {
     minWidth: 300,
     cellRendererParams: {
       suppressCount: true,
-    },
-    cellClassRules: {
-      'indent-0': (params: any) => params.data.level === 1,
-      'indent-1': (params: any) => params.data.level === 2,
-      'indent-2': (params: any) => params.data.level === 3,
-      'indent-3': (params: any) => params.data.level === 4,
-      'indent-4': (params: any) => params.data.level === 5,
-      'indent-5': (params: any) => params.data.level === 6,
-      'indent-6': (params: any) => params.data.level === 7,
-      'indent-7': (params: any) => params.data.level === 8,
-      'indent-8': (params: any) => params.data.level === 9,
-      'indent-9': (params: any) => params.data.level === 10,
-      'indent-10': (params: any) => params.data.level === 11,
-      'indent-11': (params: any) => params.data.level === 12,
-      'indent-12': (params: any) => params.data.level === 13,
-      'indent-13': (params: any) => params.data.level === 14,
-      'indent-14': (params: any) => params.data.level === 15,
     },
   };
 
@@ -168,7 +156,14 @@ export class BomTableComponent implements OnChanges {
     },
   ];
 
-  modules = [ClientSideRowModelModule, RowGroupingModule, ExcelExportModule];
+  modules = [
+    ClientSideRowModelModule,
+    RowGroupingModule,
+    ExcelExportModule,
+    StatusBarModule,
+  ];
+
+  statusBar = STATUS_BAR_CONFIG;
 
   excelStyles = [
     ...this.createIndentExcelStyles(),
@@ -216,25 +211,26 @@ export class BomTableComponent implements OnChanges {
   ];
 
   rowClassRules = {
-    'padding-left-40': (params: any) => params.data.level === 2,
-    'padding-left-80': (params: any) => params.data.level === 3,
-    'padding-left-120': (params: any) => params.data.level === 4,
-    'padding-left-160': (params: any) => params.data.level === 5,
-    'padding-left-200': (params: any) => params.data.level === 6,
-    'padding-left-240': (params: any) => params.data.level === 7,
-    'padding-left-280': (params: any) => params.data.level === 8,
-    'padding-left-320': (params: any) => params.data.level === 9,
-    'padding-left-360': (params: any) => params.data.level === 10,
-    'padding-left-400': (params: any) => params.data.level === 11,
-    'padding-left-440': (params: any) => params.data.level === 12,
-    'padding-left-480': (params: any) => params.data.level === 13,
-    'padding-left-520': (params: any) => params.data.level === 14,
-    'padding-left-560': (params: any) => params.data.level === 15,
+    'row-level-2': (params: any) => params.data.level === 2,
+    'row-level-3': (params: any) => params.data.level === 3,
+    'row-level-4': (params: any) => params.data.level === 4,
+    'row-level-5': (params: any) => params.data.level === 5,
+    'row-level-6': (params: any) => params.data.level === 6,
+    'row-level-7': (params: any) => params.data.level === 7,
+    'row-level-8': (params: any) => params.data.level === 8,
+    'row-level-9': (params: any) => params.data.level === 9,
+    'row-level-10': (params: any) => params.data.level === 10,
+    'row-level-11': (params: any) => params.data.level === 11,
+    'row-level-12': (params: any) => params.data.level === 12,
+    'row-level-13': (params: any) => params.data.level === 13,
+    'row-level-14': (params: any) => params.data.level === 14,
+    'row-level-15': (params: any) => params.data.level === 15,
   };
 
   frameworkComponents = {
     customLoadingOverlay: CustomLoadingOverlayComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
+    bomTableStatusBar: BomTableStatusBarComponent,
   };
   loadingOverlayComponent = 'customLoadingOverlay';
 
@@ -330,18 +326,14 @@ export class BomTableComponent implements OnChanges {
 
     // second level row
     if (params.node.parent.id === this.currentSelectedRow.node.id) {
-      return `second-level-row-${params.node.childIndex}`;
-    }
+      const totalCosts = params.node.parent.data.totalPricePerPc;
+      const costs = params.data.totalPricePerPc;
+      const costShare = costs / totalCosts;
 
-    // third or more level row
-    if (this.nonLevel2Children.includes(params.node.id)) {
-      let tmpNode = params.node;
+      const costCategory =
+        this.costShareService.getCostShareCategory(costShare);
 
-      while (tmpNode.parent.id !== this.currentSelectedRow.node.id) {
-        tmpNode = tmpNode.parent;
-      }
-
-      return `third-or-more-row-${tmpNode.childIndex}`;
+      return `row-${costCategory}-cost-share`;
     }
 
     return '';

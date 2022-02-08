@@ -50,9 +50,8 @@ button {
 
   .ag-row {
     border-color: rgba($color: #000000, $alpha: 0.12);
-    border-width: 0.5px;
-
     border-top: none;
+    border-width: 0.5px;
   }
 
   .ag-column-panel {
@@ -97,7 +96,7 @@ button {
 
   .ag-row-level-0 {
     &:not(.ag-row-group) {
-      > .ag-cell {
+      > .ag-cell:first-of-type {
         padding-left: 32px;
       }
     }

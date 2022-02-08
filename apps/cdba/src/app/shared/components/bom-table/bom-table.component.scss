@@ -1,18 +1,19 @@
 :host ::ng-deep {
-  height: 100%;
-  width: 100%;
+  @apply h-full w-full;
 
   // coloring
   .top-level-row {
-    background-color: #73a195 !important;
-    color: white;
+    @apply bg-selected-overlay;
   }
 
-  [class*='padding-left-'] {
-    background-clip: content-box;
+  @for $i from 1 to 15 {
+    .row-level-#{$i} {
+      background-clip: content-box;
+      padding-left: $i * 12px;
+    }
   }
 
-  .row-highest-price-share {
+  .row-highest-cost-share {
     @apply bg-secondary-800 text-white;
 
     .ag-icon {
@@ -20,112 +21,27 @@
     }
   }
 
-  .second-level-row-0 {
-    background-color: rgba(192, 198, 191, 0.87) !important;
-  }
-  .third-or-more-row-0 {
-    background-color: rgba(192, 198, 191, 0.38) !important;
+  .row-high-cost-share {
+    @apply bg-secondary-600;
   }
 
-  .second-level-row-1 {
-    background-color: rgba(135, 135, 135, 0.87) !important;
-  }
-  .third-or-more-row-1 {
-    background-color: rgba(135, 135, 135, 0.38) !important;
+  .row-medium-cost-share {
+    @apply bg-secondary-400;
   }
 
-  .second-level-row-2 {
-    background-color: rgba(29, 155, 178, 0.87) !important;
-  }
-  .third-or-more-row-2 {
-    background-color: rgba(29, 155, 178, 0.38) !important;
+  .row-low-cost-share {
+    @apply bg-secondary-200;
   }
 
-  .second-level-row-3 {
-    background-color: rgba(182, 186, 194, 0.87) !important;
-  }
-  .third-or-more-row-3 {
-    background-color: rgba(182, 186, 194, 0.38) !important;
+  .row-lowest-cost-share {
+    @apply bg-secondary-50;
   }
 
-  .second-level-row-4 {
-    background-color: rgba(161, 200, 97, 0.87) !important;
-  }
-  .third-or-more-row-4 {
-    background-color: rgba(161, 200, 97, 0.38) !important;
-  }
-
-  .second-level-row-5 {
-    background-color: rgba(38, 166, 154, 0.87) !important;
-  }
-  .third-or-more-row-5 {
-    background-color: rgba(38, 166, 154, 0.38) !important;
-  }
-
-  .second-level-row-6 {
-    background-color: rgba(3, 101, 144, 0.87) !important;
-  }
-  .third-or-more-row-6 {
-    background-color: rgba(3, 101, 144, 0.38) !important;
-  }
-
-  .second-level-row-7 {
-    background-color: rgba(126, 167, 194, 0.87) !important;
-  }
-  .third-or-more-row-7 {
-    background-color: rgba(126, 167, 194, 0.38) !important;
-  }
-
-  .second-level-row-8 {
-    background-color: rgba(0, 110, 93, 0.87) !important;
-  }
-  .third-or-more-row-8 {
-    background-color: rgba(0, 110, 93, 0.38) !important;
-  }
-
-  .second-level-row-9 {
-    background-color: rgba(100, 106, 99, 0.87) !important;
-  }
-  .third-or-more-row-9 {
-    background-color: rgba(100, 106, 99, 0.38) !important;
-  }
-
-  .second-level-row-10 {
-    background-color: rgba(0, 110, 93, 0.87) !important;
-  }
-  .third-or-more-row-10 {
-    background-color: rgba(0, 110, 93, 0.38) !important;
-  }
-
-  .second-level-row-11 {
-    background-color: rgba(66, 158, 167, 0.87) !important;
-  }
-  .third-or-more-row-11 {
-    background-color: rgba(66, 158, 167, 0.38) !important;
-  }
-
-  .second-level-row-12 {
-    background-color: rgba(69, 90, 100, 0.87) !important;
-  }
-  .third-or-more-row-12 {
-    background-color: rgba(69, 90, 100, 0.38) !important;
-  }
-
-  .second-level-row-13 {
-    background-color: rgba(20, 150, 196, 0.87) !important;
-  }
-  .third-or-more-row-13 {
-    background-color: rgba(20, 150, 196, 0.38) !important;
-  }
-
-  .second-level-row-143 {
-    background-color: rgba(24, 119, 86, 0.87) !important;
-  }
-  .third-or-more-row-14 {
-    background-color: rgba(24, 119, 86, 0.38) !important;
+  .row-negative-cost-share {
+    @apply bg-light-red;
   }
 }
 
 ag-grid-angular {
-  height: 100%;
+  @apply h-full;
 }

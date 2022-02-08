@@ -5,7 +5,6 @@ import {
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
-import { COLOR_PLATTE } from './bom-chart.constants';
 import { BomChartConfigService } from './bom-chart-config.service';
 
 describe('BomChartConfigService', () => {
@@ -30,14 +29,14 @@ describe('BomChartConfigService', () => {
     const barChartData = [
       {
         itemStyle: {
-          color: COLOR_PLATTE[0],
+          color: 'red',
         },
         name: 'FE-2313',
         value: 13,
       },
       {
         itemStyle: {
-          color: COLOR_PLATTE[1],
+          color: 'green',
         },
         name: 'FE-2315',
         value: 13,

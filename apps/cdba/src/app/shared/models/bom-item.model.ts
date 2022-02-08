@@ -28,6 +28,7 @@ export class BomItem {
     public bomReferenceObject: string,
     public bomValuationVariant: string,
     public rowId: number,
-    public predecessorsInTree: string[] = []
+    public predecessorsInTree: string[] = [],
+    public costShareOfParent?: number
   ) {}
 }

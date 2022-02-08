@@ -128,8 +128,7 @@ export class BomContainerComponent implements OnInit {
       this.index
     );
     this.childrenOfSelectedBomItem$ = this.store.select(
-      fromCompare.getChildrenOfSelectedBomItem,
-      this.index
+      fromCompare.getChildrenOfSelectedBomItem(this.index)
     );
   }
 

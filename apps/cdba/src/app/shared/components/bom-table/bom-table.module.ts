@@ -7,6 +7,10 @@ import { CustomOverlayModule } from '@cdba/shared/components/table/custom-overla
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 
 import { BomTableComponent } from './bom-table.component';
+import {
+  BomTableStatusBarComponent,
+  BomTableStatusBarComponentModule,
+} from './bom-table-status-bar/bom-table-status-bar.component';
 
 @NgModule({
   declarations: [BomTableComponent],
@@ -14,8 +18,10 @@ import { BomTableComponent } from './bom-table.component';
     AgGridModule.withComponents([
       CustomLoadingOverlayComponent,
       CustomNoRowsOverlayComponent,
+      BomTableStatusBarComponent,
     ]),
     CustomOverlayModule,
+    BomTableStatusBarComponentModule,
     MaterialNumberModule,
   ],
   exports: [BomTableComponent],

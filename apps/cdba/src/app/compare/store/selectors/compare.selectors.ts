@@ -148,17 +148,23 @@ export const getBomError = createSelector(
     state[index]?.billOfMaterial?.errorMessage
 );
 
-export const getChildrenOfSelectedBomItem = createSelector(
-  getCompareState,
-  (state: CompareState, index: number): BomItem[] =>
+export const getChildrenOfSelectedBomItem = (index: number) =>
+  createSelector(getCompareState, (state: CompareState): BomItem[] =>
     state[index]?.billOfMaterial?.selected
-      ? state[index].billOfMaterial.items.filter(
-          (item: BomItem) =>
-            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
-            state[index].billOfMaterial.selected.materialDesignation
-        )
+      ? state[index].billOfMaterial.items
+          .filter(
+            (item: BomItem) =>
+              item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+              state[index].billOfMaterial.selected.materialDesignation
+          )
+          .map((item) => ({
+            ...item,
+            costShareOfParent:
+              item.totalPricePerPc /
+              state[index].billOfMaterial.selected.totalPricePerPc,
+          }))
       : undefined
-);
+  );
 
 export const getMaterialDesignation = createSelector(
   getCompareState,

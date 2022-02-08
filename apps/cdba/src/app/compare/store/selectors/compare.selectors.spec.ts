@@ -341,12 +341,12 @@ describe('Compare Selectors', () => {
 
   describe('getChildrenOfSelectedBomItem', () => {
     it('should return undefined for non existing index', () => {
-      result = getChildrenOfSelectedBomItem(fakeState, 99);
+      result = getChildrenOfSelectedBomItem(99).projector(fakeState.compare);
 
       expect(result).toBeUndefined();
     });
     it('should return undefined for non existing bom for provided index', () => {
-      result = getChildrenOfSelectedBomItem(fakeState, 3);
+      result = getChildrenOfSelectedBomItem(3).projector(fakeState.compare);
 
       expect(result).toBeUndefined();
     });
@@ -354,7 +354,7 @@ describe('Compare Selectors', () => {
     it('should return children of selected bom item', () => {
       expected = [];
 
-      result = getChildrenOfSelectedBomItem(fakeState, 0);
+      result = getChildrenOfSelectedBomItem(0).projector(fakeState.compare);
 
       expect(result).toEqual(expected);
     });

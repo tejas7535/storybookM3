@@ -6,14 +6,12 @@ import {
 } from '@angular/core';
 
 import { BomChartConfigService } from '@cdba/shared/components/bom-chart/bom-chart-config.service';
+import { COST_SHARE_CATEGORY_COLORS } from '@cdba/shared/constants/colors';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
+import { CostShareService } from '@cdba/shared/services';
 
 import { BomItem } from '../../models';
-import {
-  COLOR_PLATTE,
-  TOOLTIP_CONFIG,
-  Y_AXIS_CONFIG,
-} from './bom-chart.constants';
+import { TOOLTIP_CONFIG, Y_AXIS_CONFIG } from './bom-chart.constants';
 import { DataPoint } from './data-point.model';
 
 @Component({
@@ -25,7 +23,8 @@ import { DataPoint } from './data-point.model';
 export class BomChartComponent implements OnChanges {
   public constructor(
     protected bomChartConfigService: BomChartConfigService,
-    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
+    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
+    private readonly costShareService: CostShareService
   ) {}
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
@@ -37,8 +36,8 @@ export class BomChartComponent implements OnChanges {
     let totalCosts = 0;
     this.hasNegativeCostValues = false;
 
-    data.forEach((value: BomItem, index: number) => {
-      this.barChartData.push(this.createDataPoint(value, index));
+    data.forEach((value: BomItem) => {
+      this.barChartData.push(this.createDataPoint(value));
       totalCosts += value.totalPricePerPc;
 
       this.hasNegativeCostValues = this.hasNegativeCostValues
@@ -58,13 +57,17 @@ export class BomChartComponent implements OnChanges {
 
   options: any;
 
-  createDataPoint(bomItem: BomItem, index: number): DataPoint {
+  createDataPoint(bomItem: BomItem): DataPoint {
     return {
       name: this.scrambleMaterialDesignationPipe.transform(
         bomItem.materialDesignation
       ),
       value: bomItem.totalPricePerPc,
-      itemStyle: { color: COLOR_PLATTE[index] },
+      itemStyle: {
+        color: COST_SHARE_CATEGORY_COLORS.get(
+          this.costShareService.getCostShareCategory(bomItem.costShareOfParent)
+        ),
+      },
     };
   }
 

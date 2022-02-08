@@ -60,7 +60,8 @@ export const BOM_MOCK: BomItem[] = [
     'ref',
     'var',
     2,
-    ['FE-2313', 'FE-2315']
+    ['FE-2313', 'FE-2315'],
+    1
   ),
   new BomItem(
     2,
@@ -153,3 +154,5 @@ export const BOM_MOCK: BomItem[] = [
     5
   ),
 ];
+
+export const BOM_ITEM_MOCK = BOM_MOCK[1];

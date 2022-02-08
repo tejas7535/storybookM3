@@ -1,13 +1,16 @@
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { BOM_ITEM_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';
+import { COST_SHARE_CATEGORY_COLORS } from '../../../constants/colors';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer.component';
 
 describe('MaterialDesignationCellRendererComponent', () => {
   let spectator: Spectator<MaterialDesignationCellRendererComponent>;
   let component: MaterialDesignationCellRendererComponent;
+
+  const params = { value: 'F-2312', rowIndex: 2, data: BOM_ITEM_MOCK };
 
   const createComponent = createComponentFactory({
     component: MaterialDesignationCellRendererComponent,
@@ -26,23 +29,23 @@ describe('MaterialDesignationCellRendererComponent', () => {
 
   describe('agInit', () => {
     it('should set color and material designation', () => {
-      const params = { value: 'F-2312', rowIndex: 2 };
-
       component.agInit(params);
 
       expect(component.materialDesignation).toEqual('F-2312');
-      expect(component.color).toEqual(COLOR_PLATTE[2]);
+      expect(component.color).toEqual(
+        COST_SHARE_CATEGORY_COLORS.get('highest')
+      );
     });
   });
 
   describe('refresh', () => {
     it('should refresh variables correctly', () => {
-      const params = { value: 'F-2312', rowIndex: 2 };
-
       const result = component.refresh(params);
 
       expect(component.materialDesignation).toEqual('F-2312');
-      expect(component.color).toEqual(COLOR_PLATTE[2]);
+      expect(component.color).toEqual(
+        COST_SHARE_CATEGORY_COLORS.get('highest')
+      );
       expect(result).toBeTruthy();
     });
   });

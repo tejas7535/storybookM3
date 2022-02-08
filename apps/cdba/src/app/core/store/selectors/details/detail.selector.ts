@@ -190,11 +190,17 @@ export const getChildrenOfSelectedBomItem = createSelector(
   getDetailState,
   (state: DetailState): BomItem[] =>
     state.bom.items
-      ? state.bom.items.filter(
-          (item: BomItem) =>
-            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
-            state.bom.selectedItem.materialDesignation
-        )
+      ? state.bom.items
+          .filter(
+            (item: BomItem) =>
+              item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+              state.bom.selectedItem.materialDesignation
+          )
+          .map((item) => ({
+            ...item,
+            costShareOfParent:
+              item.totalPricePerPc / state.bom.selectedItem.totalPricePerPc,
+          }))
       : undefined
 );
 

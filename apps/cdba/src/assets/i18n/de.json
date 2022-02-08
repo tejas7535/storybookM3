@@ -68,6 +68,9 @@
       },
       "noBom": {
         "text": "Für die ausgewählte Kalkulation konnten wir leider keine Stückliste finden."
+      },
+      "statusBar": {
+        "title": "Anteil an den Gesamtkosten"
       }
     },
     "calculations": {

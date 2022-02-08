@@ -3,8 +3,9 @@ import { Component } from '@angular/core';
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import { ICellRendererParams } from '@ag-grid-community/core/dist/cjs/rendering/cellRenderers/iCellRenderer';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
+import { CostShareService } from '@cdba/shared/services';
 
-import { COLOR_PLATTE } from '../../bom-chart/bom-chart.constants';
+import { COST_SHARE_CATEGORY_COLORS } from '../../../constants/colors';
 
 @Component({
   selector: 'cdba-material-designation-cell-renderer',
@@ -14,7 +15,8 @@ export class MaterialDesignationCellRendererComponent
   implements ICellRendererAngularComp
 {
   public constructor(
-    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe
+    protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
+    private readonly costShareService: CostShareService
   ) {}
 
   public materialDesignation: string;
@@ -34,6 +36,8 @@ export class MaterialDesignationCellRendererComponent
     this.materialDesignation = this.scrambleMaterialDesignationPipe.transform(
       params.value
     );
-    this.color = COLOR_PLATTE[params.rowIndex];
+    this.color = COST_SHARE_CATEGORY_COLORS.get(
+      this.costShareService.getCostShareCategory(params.data.costShareOfParent)
+    );
   }
 }

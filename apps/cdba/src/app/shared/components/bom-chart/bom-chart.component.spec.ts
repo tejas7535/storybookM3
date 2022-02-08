@@ -17,11 +17,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BomItem } from '../../models';
 import { BomChartComponent } from './bom-chart.component';
-import {
-  COLOR_PLATTE,
-  TOOLTIP_CONFIG,
-  Y_AXIS_CONFIG,
-} from './bom-chart.constants';
+import { TOOLTIP_CONFIG, Y_AXIS_CONFIG } from './bom-chart.constants';
 import { BomChartConfigService } from './bom-chart-config.service';
 window.ResizeObserver = resize_observer_polyfill;
 
@@ -30,7 +26,7 @@ describe('BomChartComponent', () => {
   let component: BomChartComponent;
   let configService: BomChartConfigService;
 
-  const data: BomItem[] = [BOM_MOCK[0], BOM_MOCK[1]];
+  const data: BomItem[] = [BOM_MOCK[1], BOM_MOCK[2]];
 
   const createComponent = createComponentFactory({
     component: BomChartComponent,
@@ -78,14 +74,14 @@ describe('BomChartComponent', () => {
       expect(component['barChartData']).toEqual([
         {
           itemStyle: {
-            color: COLOR_PLATTE[0],
+            color: '#007832',
           },
-          name: 'FE-2313',
+          name: 'FE-2315',
           value: 13,
         },
         {
           itemStyle: {
-            color: COLOR_PLATTE[1],
+            color: undefined,
           },
           name: 'FE-2315',
           value: 13,
