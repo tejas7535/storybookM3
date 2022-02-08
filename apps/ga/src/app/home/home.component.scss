@@ -1,6 +1,5 @@
 mat-card-content.card-content {
-  height: calc(100% - 18px);
-  @apply flex min-h-[150px] md:min-h-0 md:w-full;
+  @apply flex h-[calc(100%-18px)] min-h-[150px] md:min-h-0 md:w-full;
 }
 
 mat-card.card-flex,
