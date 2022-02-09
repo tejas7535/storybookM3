@@ -15,6 +15,7 @@ import {
   LegalModule,
   LegalRoute,
   PERSON_RESPONSIBLE,
+  TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
 
 import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
@@ -49,6 +50,10 @@ export default {
         {
           provide: PERSON_RESPONSIBLE,
           useValue: 'Channing Matthew Tatum',
+        },
+        {
+          provide: TERMS_OF_USE,
+          useValue: of(false),
         },
       ],
     }),
