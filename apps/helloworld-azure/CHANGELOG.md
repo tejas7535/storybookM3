@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.0.0...hellworld-azure-v3.1.0) (2022-02-09)
+
+
+### 📈 Improvements
+
+* **helloworld:** replace GitLab with GitHub link ([#3445](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3445)) ([0ce8f9a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ce8f9a846fc950fe5735a33623b20b790c16b5f))
+
+
+### 🐛 Bug Fixes
+
+* **hello-world:** fix html format issues ([5cd28e3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5cd28e3d182952ce6439f617900bcdc624d5773c))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### 🎸 Features
+
+* **app-shell:** extend app shell ([#3003](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3003)) ([781c13d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/781c13d61fac9aea94800e5e008cbfbd320de411))
+* **helloworld-azure:** add proxy config for local development against multiple backends ([#2880](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/2880)) ([d3b996c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d3b996cc3e827547fcb81394dfb0e2759a3b8e3d))
+* **helloworld-azure:** get rid of flex-layout dep ([#3590](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3590)) ([f33b184](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f33b184b19ff34a5dec7d1b5258c8c4548ccfad7))
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+* reduce css bundle sizes ([#3348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3348)) ([#3377](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3377)) ([1978d74](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1978d745d959d521f060f51e98ab85a2390612bf))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **workspace:** individual project configurations instead of one global ([#3248](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3248)) ([ba451ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ba451ef87c9c9cff99440b9739c9ebf4069a16dc))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ## [3.0.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.0.0...hellworld-azure-v2.2.2) (2021-08-31)
 
 
