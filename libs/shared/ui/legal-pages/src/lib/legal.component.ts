@@ -3,6 +3,7 @@ import {
   Inject,
   OnDestroy,
   OnInit,
+  Optional,
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -28,7 +29,7 @@ export class LegalComponent implements OnInit, OnDestroy {
 
   public constructor(
     @Inject(PERSON_RESPONSIBLE) private readonly personResponsible: string,
-    @Inject(TERMS_OF_USE) public termsOfUse: Observable<any>,
+    @Optional() @Inject(TERMS_OF_USE) public termsOfUse: Observable<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}

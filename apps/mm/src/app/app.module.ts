@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { of } from 'rxjs';
-
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { PERSON_RESPONSIBLE, TERMS_OF_USE } from '@schaeffler/legal-pages';
+import { PERSON_RESPONSIBLE } from '@schaeffler/legal-pages';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,10 +28,6 @@ import { MaterialModule } from './shared/material.module';
     {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,
-    },
-    {
-      provide: TERMS_OF_USE,
-      useValue: of(false),
     },
   ],
   bootstrap: [AppComponent],

@@ -73,9 +73,10 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,
     },
-     {
+    // optional terms of use
+    {
       provide: TERMS_OF_USE,
-      useValue: DynamicTermsOfUse || of(false ) 
+      useValue: DynamicTermsOfUse  
     },
   ],
   ...

@@ -51,10 +51,6 @@ export default {
           provide: PERSON_RESPONSIBLE,
           useValue: 'Channing Matthew Tatum',
         },
-        {
-          provide: TERMS_OF_USE,
-          useValue: of(false),
-        },
       ],
     }),
   ],
