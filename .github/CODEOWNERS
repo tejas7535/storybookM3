@@ -8,8 +8,8 @@
 ############
 
 # helloworld-azure
-apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT
-apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT
+apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT @meiswjn_SGGIT @ortuzfan_SGGIT @kemmemha_SGGIT @bauerfla_SGGIT @fischaxe_SGGIT @leviptr_SGGIT
+apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT @meiswjn_SGGIT @ortuzfan_SGGIT @kemmemha_SGGIT @bauerfla_SGGIT @fischaxe_SGGIT @leviptr_SGGIT
 
 # CDBA
 apps/cdba @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
