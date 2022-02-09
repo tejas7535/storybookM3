@@ -12,17 +12,12 @@
     background-clip: content-box;
   }
 
-  .padding-left-40 {
-    padding-left: 40px;
-  }
-  .padding-left-80 {
-    padding-left: 80px;
-  }
-  .padding-left-120 {
-    padding-left: 120px;
-  }
-  .padding-left-160 {
-    padding-left: 160px;
+  .row-highest-price-share {
+    @apply bg-secondary-800 text-white;
+
+    .ag-icon {
+      @apply text-white;
+    }
   }
 
   .second-level-row-0 {
