@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.2.0...gq-v2.3.0) (2022-02-09)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fix delete case bug ([#3651](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3651)) ([341d8e7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/341d8e71703a0654ad2aba7e0857c12316a3c81e))
+* **gq:** fix html format issues ([5846d7a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5846d7aaf7fda04c945dcc01a6a3cd4573b6d289))
+* **gq:** fix http interceptor for auth errors (GQUOTE-1175) ([6c5808c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6c5808c0b0f334883af5ff8bf15e24e810b74294))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+* **workspace:** fix unit tests after dependency update ([8560848](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85608482566a4dbc3cec33e460daacdc3cad7549))
+
+
+### 🎸 Features
+
+* **gq:** adjust confirmation modal (GQUOTE-1125) ([#3497](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3497)) ([7a97444](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7a974447df4a74ad6f8916b70d802a8156f9801c))
+* **gq:** adjust view quotation data model (GQUOTE-1120) ([#3631](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3631)) ([e01c93b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e01c93b1f3eed28b33db21440071465c33cde1a7))
+* **gq:** automatic refresh on quotation calculation (GQUOTE-1180) ([#3708](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3708)) ([4831ba2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4831ba2e6d5a6cabf23461de1e1b00c0fef62b51))
+* **gq:** change sap special price displaying (GQUOTE-1104) ([#3613](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3613)) ([59d30a2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59d30a274ffdfc1de63b1f5dfd2c59535c091e97))
+* **gq:** display atp data (GQUOTE-825) ([#3442](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3442)) ([bfa85e4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bfa85e496a48aef0c41048c1a4c83dbe61ca9d96))
+* **gq:** enable language switch ([#3512](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3512)) ([ad1b0f4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ad1b0f4aa2547240c96b47fcfba3a4cbd7eabf8b))
+* **gq:** fix ui/ux review findings (GQUOTE-1100) ([#3492](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3492)) ([b2985f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b2985f7338dbe4add647c600b95784af3cc45438))
+* **gq:** limit quotation position upload to 100 (GQUOTE-1172) ([#3619](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3619)) ([36298fc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/36298fcf997a3953be328b6d42dde6568a79a942))
+* **gq:** show rsp and msp in the application (GQUOTE-1117) ([#3672](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3672)) ([b132b64](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b132b640c64892cc6c97066695bd3f81278dbd37))
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+* **shared-ui:** remove deprecated libs in favour of npm packages ([#3520](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3520)) ([a2bf36b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2bf36bf950ba4d8bd1d27ed9754565f9e364b90))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **workspace:** update core dependencies ([#3381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3381)) ([#3383](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3383)) ([3c7b0a3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c7b0a37be3104fc216c3ee6506d5f8ce2cadb21))
+* **workspace:** use eslint for sorting of imports ([#3424](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3424)) ([546e884](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/546e8845a9250580ccdc982e3f5c1d818f8678bd))
+
 ## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.2.0...gq-v2.1.1) (2021-11-30)
 
 
