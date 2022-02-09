@@ -1,17 +1,17 @@
 # Frontend@Schaeffler
 
-![version](https://img.shields.io/badge/version-v54.0.0-green.svg)
-![@nrwl/workspace: 13.7.1](https://img.shields.io/badge/%40nrwl%2Fworkspace-13.7.1-brightgreen)
+![version](https://img.shields.io/badge/version-v55.0.0-green.svg)
+![@nrwl/workspace: 13.7.3](https://img.shields.io/badge/%40nrwl%2Fworkspace-13.7.3-brightgreen)
 ![typescript: 4.5.5](https://img.shields.io/badge/typescript-4.5.5-brightgreen)
 ![@angular/core: 13.2.0](https://img.shields.io/badge/%40angular%2Fcore-13.2.0-brightgreen)
 ![@angular/cli: 13.2.0](https://img.shields.io/badge/%40angular%2Fcli-13.2.0-brightgreen)
 ![@angular/cdk: 13.2.0](https://img.shields.io/badge/%40angular%2Fcdk-13.2.0-brightgreen)
 ![@angular/material: 13.2.0](https://img.shields.io/badge/%40angular%2Fmaterial-13.2.0-brightgreen)
 ![@ngrx/store: 13.0.2](https://img.shields.io/badge/%40ngrx%2Fstore-13.0.2-brightgreen)
-![jest: 27.4.7](https://img.shields.io/badge/jest-27.4.7-brightgreen)
+![jest: 27.5.1](https://img.shields.io/badge/jest-27.5.1-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.5.1](https://img.shields.io/badge/prettier-2.5.1-brightgreen)
-![tailwindcss: 3.0.18](https://img.shields.io/badge/tailwindcss-3.0.18-brightgreen)
+![tailwindcss: 3.0.19](https://img.shields.io/badge/tailwindcss-3.0.19-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 
