@@ -60,8 +60,8 @@ export class OrgChartComponent implements AfterViewInit {
   ) {}
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
-    const node: Element = event.target;
-    const employeeId = node.getAttribute('data-id');
+    const node: HTMLElement = event.target;
+    const employeeId = node.dataset.id;
     const employee = this.data.find((elem) => elem.employeeId === employeeId);
 
     switch (node.id) {

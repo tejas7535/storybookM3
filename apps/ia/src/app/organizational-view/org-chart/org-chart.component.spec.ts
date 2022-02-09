@@ -88,7 +88,9 @@ describe('OrgChartComponent', () => {
       component.clickout({
         target: {
           id: 'employee-node-attrition',
-          getAttribute: () => '123',
+          dataset: {
+            id: '123',
+          },
         },
       });
 
@@ -116,7 +118,9 @@ describe('OrgChartComponent', () => {
       component.clickout({
         target: {
           id: 'employee-node-people',
-          getAttribute: () => '123',
+          dataset: {
+            id: '123',
+          },
         },
       });
 
@@ -133,7 +137,9 @@ describe('OrgChartComponent', () => {
       component.clickout({
         target: {
           id: 'show-parent',
-          getAttribute: () => '123',
+          dataset: {
+            id: '123',
+          },
         },
       });
 
