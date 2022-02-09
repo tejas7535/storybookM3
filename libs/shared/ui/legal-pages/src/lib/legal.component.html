@@ -1,10 +1,17 @@
-<div class="mx-auto w-full max-w-screen-md bg-surface p-4" *transloco="let t">
+<div
+  id="legal-pages"
+  class="mx-auto w-full max-w-screen-md bg-surface p-4"
+  *transloco="let t"
+>
   <schaeffler-subheader
     [title]="t('goToHome')"
     (backButtonClicked)="navigate()"
   ></schaeffler-subheader>
   <div
-    *ngIf="custom; else translation_content"
+    *ngIf="
+      (termsOfUse | ngrxPush) && legal === 'termsOfUse';
+      else translation_content
+    "
     [innerHTML]="termsOfUse | ngrxPush"
   ></div>
   <ng-template #translation_content>

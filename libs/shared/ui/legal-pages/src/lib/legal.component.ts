@@ -23,7 +23,6 @@ import { LegalPath } from './legal-route-path.enum';
 })
 export class LegalComponent implements OnInit, OnDestroy {
   public responsible?: string = undefined;
-  public custom = false;
   public legal = 'imprint';
   public destroy$ = new Subject<void>();
 
@@ -51,28 +50,22 @@ export class LegalComponent implements OnInit, OnDestroy {
         const url = (event as NavigationEnd).url?.split('/').pop();
 
         switch (url) {
-          case LegalPath.ImprintPath: {
-            this.custom = false;
+          case LegalPath.ImprintPath:
             this.legal = 'imprint';
             break;
-          }
-          case LegalPath.DataprivacyPath: {
-            this.custom = false;
+
+          case LegalPath.DataprivacyPath:
             this.legal = 'dataPrivacy';
             break;
-          }
-          case LegalPath.TermsPath: {
-            if (this.termsOfUse) {
-              this.custom = true;
-            }
+
+          case LegalPath.TermsPath:
             this.legal = 'termsOfUse';
             break;
-          }
-          case LegalPath.CookiePath: {
-            this.custom = false;
+
+          case LegalPath.CookiePath:
             this.legal = 'cookiePolicy';
             break;
-          }
+
           default:
             break;
         }

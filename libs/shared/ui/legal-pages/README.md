@@ -61,6 +61,10 @@ export const appRoutePaths = [
   },
 ];
 
+export function DynamicTermsOfUse(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('key.to.translation');
+}
+
 @NgModule({
   imports: [RouterModule.forRoot(appRoutePaths)],
   providers: [
@@ -68,6 +72,10 @@ export const appRoutePaths = [
     {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,
+    },
+     {
+      provide: TERMS_OF_USE,
+      useValue: DynamicTermsOfUse || of(false ) 
     },
   ],
   ...
