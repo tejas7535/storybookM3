@@ -18,8 +18,8 @@ import {
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
-  loadQuotation,
   loadQuotationFailure,
+  loadQuotationInInterval,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
@@ -129,7 +129,7 @@ export const processCaseReducer = createReducer(
     })
   ),
   on(
-    loadQuotation,
+    loadQuotationInInterval,
     (state: ProcessCaseState): ProcessCaseState => ({
       ...state,
       quotation: {

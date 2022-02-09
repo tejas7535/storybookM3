@@ -49,6 +49,8 @@ import {
 } from '../../actions';
 import {
   loadQuotationFromUrl,
+  loadQuotationInInterval,
+  loadQuotationSuccessFullyCompleted,
   loadSelectedQuotationDetailFromUrl,
   refreshSapPricing,
   refreshSapPricingFailure,
@@ -189,18 +191,39 @@ describe('ProcessCaseEffect', () => {
     });
 
     test(
-      'should return loadQuotationSuccess action when REST call is successful',
+      'should return loadQuotationSuccess action when REST call is successful and calculation completed',
       marbles((m) => {
         quotationService.getQuotation = jest.fn(() => response);
         const item = QUOTATION_MOCK;
-        const result = loadQuotationSuccess({ item });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
           a: item,
         });
-        const expected = m.cold('--b', { b: result });
+        const expected = m.cold('--(bc)', {
+          b: loadQuotationSuccess({ item }),
+          c: loadQuotationSuccessFullyCompleted(),
+        });
+
+        m.expect(effects.quotation$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+        expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
+      })
+    );
+    test(
+      'should return loadQuotationSuccess action when REST call is successful and calculation not completed',
+      marbles((m) => {
+        quotationService.getQuotation = jest.fn(() => response);
+        const item = { ...QUOTATION_MOCK, calculationInProgress: true };
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: loadQuotationSuccess({ item }) });
 
         m.expect(effects.quotation$).toBeObservable(expected);
         m.flush();
@@ -239,7 +262,7 @@ describe('ProcessCaseEffect', () => {
         actions$ = m.hot('-a', { a: action });
 
         const expected = m.cold('-(bc)', {
-          b: loadQuotation(),
+          b: loadQuotationInInterval(),
           c: loadCustomer(),
         });
 

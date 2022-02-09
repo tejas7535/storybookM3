@@ -1,19 +1,20 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import { of } from 'rxjs';
+import { from, of, timer } from 'rxjs';
 import {
   catchError,
   filter,
   map,
   mergeMap,
+  takeUntil,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
@@ -40,7 +41,9 @@ import {
   loadQuotation,
   loadQuotationFailure,
   loadQuotationFromUrl,
+  loadQuotationInInterval,
   loadQuotationSuccess,
+  loadQuotationSuccessFullyCompleted,
   loadSelectedQuotationDetailFromUrl,
   pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
@@ -78,7 +81,7 @@ export class ProcessCaseEffect {
   customerDetails$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadCustomer),
-      withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),
+      concatLatestFrom(() => this.store.select(getSelectedQuotationIdentifier)),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
         this.searchService.getCustomer(quotationIdentifier).pipe(
@@ -98,18 +101,23 @@ export class ProcessCaseEffect {
   quotation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadQuotation),
-      withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),
+      concatLatestFrom(() => this.store.select(getSelectedQuotationIdentifier)),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
         this.quotationService.getQuotation(quotationIdentifier.gqId).pipe(
           tap((item) =>
             PriceService.addCalculationsForDetails(item.quotationDetails)
           ),
-          map((item: Quotation) =>
-            loadQuotationSuccess({
-              item,
-            })
-          ),
+          mergeMap((item: Quotation) => {
+            if (!item.calculationInProgress) {
+              return [
+                loadQuotationSuccess({ item }),
+                loadQuotationSuccessFullyCompleted(),
+              ];
+            }
+
+            return [loadQuotationSuccess({ item })];
+          }),
           catchError((errorMessage) =>
             of(loadQuotationFailure({ errorMessage }))
           )
@@ -118,11 +126,24 @@ export class ProcessCaseEffect {
     );
   });
 
+  quotationInterval$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadQuotationInInterval),
+      mergeMap(() =>
+        timer(0, 60_000).pipe(
+          mergeMap(() => from([{ type: loadQuotation.type }])),
+          takeUntil(
+            this.actions$.pipe(ofType(loadQuotationSuccessFullyCompleted))
+          )
+        )
+      )
+    );
+  });
   triggerDataLoad$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(selectQuotation),
       mergeMap(() => {
-        return [loadQuotation(), loadCustomer()];
+        return [loadQuotationInInterval(), loadCustomer()];
       })
     );
   });
@@ -185,7 +206,7 @@ export class ProcessCaseEffect {
 
         return quotationIdentifier !== undefined;
       }),
-      withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),
+      concatLatestFrom(() => this.store.select(getSelectedQuotationIdentifier)),
       filter(
         ([identifierFromRoute, identifierCurrent]) =>
           !ProcessCaseEffect.checkEqualityOfIdentifier(
@@ -206,7 +227,7 @@ export class ProcessCaseEffect {
   validate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(pasteRowDataItemsToAddMaterial.type),
-      withLatestFrom(this.store.select(getAddMaterialRowData)),
+      concatLatestFrom(() => this.store.select(getAddMaterialRowData)),
       map(([_action, tableData]) => tableData),
       mergeMap((tableData: MaterialTableItem[]) =>
         this.materialService.validateMaterials(tableData).pipe(
@@ -224,7 +245,7 @@ export class ProcessCaseEffect {
   addMaterials$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(addMaterials.type),
-      withLatestFrom(this.store.select(getAddQuotationDetailsRequest)),
+      concatLatestFrom(() => this.store.select(getAddQuotationDetailsRequest)),
       map(
         ([_action, addQuotationDetailsRequest]) => addQuotationDetailsRequest
       ),
@@ -253,7 +274,9 @@ export class ProcessCaseEffect {
   removePositions$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(removePositions.type),
-      withLatestFrom(this.store.select(getRemoveQuotationDetailsRequest)),
+      concatLatestFrom(() =>
+        this.store.select(getRemoveQuotationDetailsRequest)
+      ),
       map(([_action, qgPositionIds]) => qgPositionIds),
       mergeMap((qgPositionIds: string[]) =>
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
@@ -326,7 +349,7 @@ export class ProcessCaseEffect {
   refreshSapPricing$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(refreshSapPricing),
-      withLatestFrom(this.store.select(getGqId)),
+      concatLatestFrom(() => this.store.select(getGqId)),
       map(([_action, gqId]) => gqId),
       mergeMap((gqId: number) =>
         this.quotationService.refreshSapPricing(gqId).pipe(

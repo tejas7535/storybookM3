@@ -22,8 +22,8 @@ import {
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
-  loadQuotation,
   loadQuotationFailure,
+  loadQuotationInInterval,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
   refreshSapPricing,
@@ -124,7 +124,7 @@ describe('Quotation Reducer', () => {
 
     describe('quotationDetails', () => {
       test('should set quotationDetails loading', () => {
-        const action = loadQuotation();
+        const action = loadQuotationInInterval();
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state).toEqual({

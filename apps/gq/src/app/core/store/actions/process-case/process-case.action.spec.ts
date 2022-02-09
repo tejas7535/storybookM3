@@ -19,7 +19,9 @@ import {
   loadQuotation,
   loadQuotationFailure,
   loadQuotationFromUrl,
+  loadQuotationInInterval,
   loadQuotationSuccess,
+  loadQuotationSuccessFullyCompleted,
   loadSelectedQuotationDetailFromUrl,
   removePositions,
   removePositionsFailure,
@@ -73,7 +75,14 @@ describe('CaseActions', () => {
   });
 
   describe('Quotation Details Actions', () => {
-    test('quotation', () => {
+    test('loadQuotationInInterval', () => {
+      action = loadQuotationInInterval();
+
+      expect(action).toEqual({
+        type: '[Process Case] Get Quotation Details in Interval',
+      });
+    });
+    test('loadQuotation', () => {
       action = loadQuotation();
 
       expect(action).toEqual({
@@ -89,6 +98,14 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         item,
         type: '[Process Case] Get Quotation Details Success',
+      });
+    });
+
+    test('loadQuotationSuccessFullyCompleted', () => {
+      action = loadQuotationSuccessFullyCompleted();
+
+      expect(action).toEqual({
+        type: '[Process Case] Get Quotation Details with Calculation Completed',
       });
     });
 

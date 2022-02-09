@@ -24,6 +24,9 @@ export const loadCustomerFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadQuotationInInterval = createAction(
+  '[Process Case] Get Quotation Details in Interval'
+);
 export const loadQuotation = createAction(
   '[Process Case] Get Quotation Details'
 );
@@ -31,6 +34,10 @@ export const loadQuotation = createAction(
 export const loadQuotationSuccess = createAction(
   '[Process Case] Get Quotation Details Success',
   props<{ item: Quotation }>()
+);
+
+export const loadQuotationSuccessFullyCompleted = createAction(
+  '[Process Case] Get Quotation Details with Calculation Completed'
 );
 
 export const loadQuotationFailure = createAction(
@@ -166,8 +173,10 @@ const all = union({
   loadCustomerFailure,
   loadCustomerSuccess,
   loadQuotation,
+  loadQuotationInInterval,
   loadQuotationFailure,
   loadQuotationSuccess,
+  loadQuotationSuccessFullyCompleted,
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
