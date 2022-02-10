@@ -167,7 +167,7 @@ export const activeGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
+                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
@@ -198,7 +198,7 @@ export const activeGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
+                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
@@ -229,7 +229,7 @@ export const activeGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
+                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {

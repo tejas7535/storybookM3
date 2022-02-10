@@ -167,7 +167,7 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
+                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
@@ -193,6 +193,11 @@ export const formattedGreaseJson = [
               values:
                 '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
               display: false,
+            },
+            {
+              display: false,
+              title: 'viscosityRatio',
+              values: '2.33',
             },
             {
               title: 'baseOilViscosityAt40',
@@ -274,7 +279,7 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
+                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
@@ -300,6 +305,11 @@ export const formattedGreaseJson = [
               values:
                 '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
               display: false,
+            },
+            {
+              display: false,
+              title: 'viscosityRatio',
+              values: '2.47',
             },
             {
               title: 'baseOilViscosityAt40',
@@ -381,7 +391,7 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/393 days<br><span class="text-low-emphasis">38.70 g/393 days</span>',
+                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
@@ -407,6 +417,11 @@ export const formattedGreaseJson = [
               values:
                 '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
               display: false,
+            },
+            {
+              display: false,
+              title: 'viscosityRatio',
+              values: '3.26',
             },
             {
               title: 'baseOilViscosityAt40',
