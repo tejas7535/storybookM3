@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { AttritionOverTime, Employee, IdValue } from '../../shared/models';
+import { AttritionOverTime, Employee } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
@@ -29,7 +29,6 @@ export interface OrganizationalViewState {
   };
   worldMap: {
     data: CountryData[];
-    continents: IdValue[];
     loading: boolean;
     errorMessage: string;
   };
@@ -49,21 +48,6 @@ export const initialState: OrganizationalViewState = {
   },
   worldMap: {
     data: [],
-    // Hardcoded for PoC
-    continents: [
-      {
-        id: 'europe',
-        value: 'Europe',
-      },
-      {
-        id: 'asia',
-        value: 'Asia Pacific',
-      },
-      {
-        id: 'americas',
-        value: 'Americas',
-      },
-    ],
     loading: false,
     errorMessage: undefined,
   },

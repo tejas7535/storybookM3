@@ -6,19 +6,19 @@ import { Store } from '@ngrx/store';
 
 import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
-import { Employee, IdValue, TailwindColor } from '../shared/models';
+import { Employee, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import {
   chartTypeSelected,
   loadParent,
 } from './store/actions/organizational-view.action';
 import {
+  getContinents,
   getIsLoadingOrgChart,
   getIsLoadingWorldMap,
   getOrgChart,
   getSelectedChartType,
   getWorldMap,
-  getWorldMapContinents,
 } from './store/selectors/organizational-view.selector';
 import { CountryData } from './world-map/models/country-data.model';
 
@@ -39,7 +39,7 @@ export class OrganizationalViewComponent implements OnInit {
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
   worldMap$: Observable<CountryData[]>;
-  worldMapContinents$: Observable<IdValue[]>;
+  continents$: Observable<string[]>;
   selectedTimeRange$: Observable<string>;
 
   chartLegendItems = [
@@ -70,7 +70,7 @@ export class OrganizationalViewComponent implements OnInit {
     this.isLoadingWorldMap$ = this.store.select(getIsLoadingWorldMap);
     this.selectedChartType$ = this.store.select(getSelectedChartType);
     this.worldMap$ = this.store.select(getWorldMap);
-    this.worldMapContinents$ = this.store.select(getWorldMapContinents);
+    this.continents$ = this.store.select(getContinents);
     this.selectedTimeRange$ = this.store.select(getBeautifiedSelectedTimeRange);
   }
 

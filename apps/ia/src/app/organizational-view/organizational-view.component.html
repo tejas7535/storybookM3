@@ -17,7 +17,7 @@
     <ia-world-map
       *ngIf="selectedChart === chartType.WORLD_MAP"
       [data]="worldMap$ | ngrxPush"
-      [continents]="worldMapContinents$ | ngrxPush"
+      [continents]="continents$ | ngrxPush"
       [selectedTimeRange]="selectedTimeRange$ | ngrxPush"
       [isLoading]="isLoadingWorldMap$ | ngrxPush"
     ></ia-world-map>

@@ -9,10 +9,6 @@
     "noData": "No Data Available."
   },
   "worldMap": {
-    "europe": "Europe",
-    "asia": "Asia",
-    "americas": "Americas",
-    "continentNotFound": "No data for {{value}} found. Please update filters.",
     "chartLegend": {
       "title": "Attrition:",
       "danger": {

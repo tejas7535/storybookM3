@@ -13,7 +13,6 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ChartLegendModule } from '../../shared/charts/chart-legend/chart-legend.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -34,7 +33,6 @@ echarts.use([
     NgxEchartsModule.forRoot({ echarts }),
     LoadingSpinnerModule,
     MatButtonModule,
-    SharedTranslocoModule,
     AttritionDialogModule,
     ChartLegendModule,
     MatTooltipModule,

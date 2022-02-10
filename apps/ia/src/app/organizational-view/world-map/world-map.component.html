@@ -12,22 +12,17 @@
   [strokeWidth]="4"
 ></schaeffler-loading-spinner>
 
-<div
-  class="absolute right-10 top-40 flex flex-col"
-  *transloco="let t; read: 'organizationalView.worldMap'"
->
+<div class="absolute right-10 top-40 flex flex-col">
   <div
-    *ngFor="let continent of continentButtons; trackBy: trackByFn"
-    [matTooltip]="t('continentNotFound', { value: t(continent.id) })"
-    [matTooltipDisabled]="continent.enabled"
+    *ngFor="let continent of continents; trackBy: trackByFn"
+    [matTooltip]="continent"
   >
     <button
       mat-stroked-button
-      (click)="openDialog(continent.value)"
-      class="m-b-5 w-[120px]"
-      [disabled]="!continent.enabled"
+      (click)="openDialogWithContinentData(continent)"
+      class="m-b-5 w-[150px]"
     >
-      {{ t(continent.id) }}
+      {{ continent }}
     </button>
   </div>
 </div>

@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { withCache } from '@ngneat/cashew';
 
+import worldJson from '../../assets/world.json';
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
   ApiVersion,
@@ -47,6 +48,15 @@ export class OrganizationalViewService {
       .pipe(map((response) => response.employees));
   }
 
+  addContinentToCountryData(countryData: CountryData[]): CountryData[] {
+    return countryData.map((country) => ({
+      ...country,
+      continent: (worldJson as any).features.find(
+        (elem: any) => elem.properties.name === country.name
+      )?.properties.continent,
+    }));
+  }
+
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
       employeesRequest.orgUnit,
@@ -58,7 +68,10 @@ export class OrganizationalViewService {
         params,
         context: withCache(),
       })
-      .pipe(map((response) => response.data));
+      .pipe(
+        map((response) => response.data),
+        map((countryData) => this.addContinentToCountryData(countryData))
+      );
   }
 
   getParentEmployee(childEmployeeId: string): Observable<Employee> {

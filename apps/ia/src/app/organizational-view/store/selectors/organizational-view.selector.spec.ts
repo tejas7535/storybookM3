@@ -11,7 +11,6 @@ import {
   getOrgChart,
   getSelectedChartType,
   getWorldMap,
-  getWorldMapContinents,
 } from './organizational-view.selector';
 
 describe('Organizational View Selector', () => {
@@ -33,16 +32,6 @@ describe('Organizational View Selector', () => {
         data: [
           { name: 'Germany' } as unknown as CountryData,
           { name: 'Poland' } as unknown as CountryData,
-        ],
-        continents: [
-          {
-            id: 'europe',
-            value: 'Europe',
-          },
-          {
-            id: 'asia',
-            value: 'Asia',
-          },
         ],
         loading: true,
         errorMessage: undefined,
@@ -69,14 +58,6 @@ describe('Organizational View Selector', () => {
     test('should return country data for world map', () => {
       expect(getWorldMap(fakeState)).toEqual(
         fakeState.organizationalView.worldMap.data
-      );
-    });
-  });
-
-  describe('getWorldMapContinents', () => {
-    test('should return continents', () => {
-      expect(getWorldMapContinents(fakeState)).toEqual(
-        fakeState.organizationalView.worldMap.continents
       );
     });
   });

@@ -4,6 +4,7 @@ import { createSelector } from '@ngrx/store';
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import { AttritionOverTime, AttritionSeries } from '../../../shared/models';
 import { Color } from '../../../shared/models/color.enum';
+import { CountryData } from '../../world-map/models';
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 
 export const getSelectedChartType = createSelector(
@@ -31,11 +32,6 @@ export const getWorldMap = createSelector(
   (state: OrganizationalViewState) => state.worldMap.data
 );
 
-export const getWorldMapContinents = createSelector(
-  selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.worldMap.continents
-);
-
 const getAttritionOverTime = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) => state.attritionOverTime?.data
@@ -50,6 +46,13 @@ export const getAttritionOverTimeOrgChartData = createSelector(
 export const getIsLoadingAttritionOverTimeOrgChart = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) => state.attritionOverTime?.loading
+);
+
+export const getContinents = createSelector(
+  getWorldMap,
+  (countryData: CountryData[]) => [
+    ...new Set(countryData.map((country) => country.continent)),
+  ]
 );
 
 export function mapDataToChartOption(data: AttritionSeries) {

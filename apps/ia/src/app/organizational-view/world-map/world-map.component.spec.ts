@@ -6,10 +6,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as en from '../../../assets/i18n/en.json';
-import { HeatType, IdValue } from '../../shared/models';
+import { HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { CountryData } from './models/country-data.model';
@@ -31,7 +29,6 @@ describe('WorldMapComponent', () => {
         echarts: async () => import('echarts'),
       }),
       LoadingSpinnerModule,
-      provideTranslocoTestingModule({ en }),
       MatTooltipModule,
       MatDialogModule,
     ],
@@ -87,36 +84,8 @@ describe('WorldMapComponent', () => {
       );
       expect(component.createAreaDataObj).toHaveBeenCalledTimes(data.length);
     });
-
-    test('should set empty array if geo json data not found', () => {
-      const data: CountryData[] = [];
-
-      component.getAreaColorFromHeatType = jest.fn();
-      component.createAreaDataObj = jest.fn();
-
-      component.data = data;
-
-      expect(component.mergeOptions.series.data.length).toEqual(0);
-      expect(component.getAreaColorFromHeatType).not.toHaveBeenCalled();
-      expect(component.createAreaDataObj).not.toHaveBeenCalled();
-    });
   });
 
-  describe('set continents', () => {
-    test('should update continent buttons and call update', () => {
-      component.updateContinents = jest.fn();
-
-      const values = [new IdValue('europe', 'Europe')];
-
-      component.continents = values;
-
-      expect(component.updateContinents).toHaveBeenCalled();
-      expect(component.continentButtons[0]).toEqual({
-        ...values[0],
-        enabled: false,
-      });
-    });
-  });
   describe('ngOnInit', () => {
     test('should register map and set options', () => {
       component.ngOnInit();
@@ -140,15 +109,15 @@ describe('WorldMapComponent', () => {
 
   describe('showCountryData', () => {
     test('should do nothing when data undefined', () => {
-      component.openDialog = jest.fn();
+      component.openDialogWithCountryData = jest.fn();
 
       component.showCountryData({});
 
-      expect(component.openDialog).not.toHaveBeenCalled();
+      expect(component.openDialogWithCountryData).not.toHaveBeenCalled();
     });
 
     test('should open dialog when data defined', () => {
-      component.openDialog = jest.fn();
+      component.openDialogWithCountryData = jest.fn();
       const evt = {
         data: {
           name: 'Canada',
@@ -157,49 +126,56 @@ describe('WorldMapComponent', () => {
 
       component.showCountryData(evt);
 
-      expect(component.openDialog).toHaveBeenCalledWith(evt.data.name);
+      expect(component.openDialogWithCountryData).toHaveBeenCalledWith(
+        evt.data.name
+      );
     });
   });
 
-  describe('updateContinents', () => {
-    test('should enable buttons if provided data contains data for related continent', () => {
-      component.continentButtons = [
+  describe('openDialogWithCountryData', () => {
+    test('should open dialog with attrition meta', () => {
+      component.openDialog = jest.fn();
+      const data = [
         {
-          id: 'europe',
-          value: 'Europe',
-          enabled: false,
-        },
-        {
-          id: 'asia',
-          value: 'Asia',
-          enabled: false,
-        },
+          name: 'Italy',
+          attritionMeta: {},
+        } as CountryData,
       ];
 
-      component.data = [
+      component.data = data;
+
+      component.openDialogWithCountryData('Italy');
+
+      expect(component.openDialog).toHaveBeenCalledWith(data[0].attritionMeta);
+    });
+
+    test('should call open dialog with unedefined if country not found', () => {
+      component.openDialog = jest.fn();
+      const data = [
         {
-          name: 'Europe',
-        } as unknown as CountryData,
+          name: 'Italy',
+          attritionMeta: {},
+        } as CountryData,
       ];
 
-      component.updateContinents();
+      component.data = data;
 
-      expect(component.continentButtons[0].enabled).toBeTruthy();
-      expect(component.continentButtons[1].enabled).toBeFalsy();
+      component.openDialogWithCountryData('Norway');
+
+      expect(component.openDialog).toHaveBeenCalledWith(undefined);
     });
   });
 
   describe('openDialog', () => {
-    test('should open dialog with provided data', () => {
+    test('should open dialog with provided country data', () => {
       const elem = {
         name: 'Switzerland',
         attritionMeta: {},
       } as unknown as CountryData;
 
-      component.data = [elem];
       component['dialog'].open = jest.fn();
 
-      component.openDialog('Switzerland');
+      component.openDialog(elem.attritionMeta);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,

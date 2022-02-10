@@ -41,6 +41,11 @@ describe('OrganizationalViewComponent', () => {
 
       expect(component.orgChart$).toBeDefined();
       expect(component.isLoadingOrgChart$).toBeDefined();
+      expect(component.isLoadingWorldMap$).toBeDefined();
+      expect(component.selectedChartType$).toBeDefined();
+      expect(component.worldMap$).toBeDefined();
+      expect(component.continents$).toBeDefined();
+      expect(component.selectedTimeRange$).toBeDefined();
     });
   });
 

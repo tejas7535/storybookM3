@@ -9,11 +9,10 @@ import { MatDialog } from '@angular/material/dialog';
 import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
-import { HeatType, IdValue } from '../../shared/models';
+import { EmployeeAttritionMeta, HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
-import { ContinentButton } from './models/continent-button.model';
 import { CountryData } from './models/country-data.model';
 
 @Component({
@@ -30,23 +29,14 @@ export class WorldMapComponent implements OnInit {
 
   @Input() set data(countryData: CountryData[]) {
     const selectedAreas = [];
-    this._data = countryData;
+    this._data = [...countryData];
 
-    for (const data of countryData) {
-      // find data in world map geo data
-      const geoJsonData = (worldJson as any).features.find(
-        (elem: any) => elem.properties.name === data.name
+    for (const data of this._data) {
+      const areaColor = this.getAreaColorFromHeatType(
+        data.attritionMeta.heatType
       );
 
-      if (geoJsonData) {
-        const areaColor = this.getAreaColorFromHeatType(
-          data.attritionMeta.heatType
-        );
-
-        selectedAreas.push(
-          this.createAreaDataObj(geoJsonData.properties.name, areaColor)
-        );
-      }
+      selectedAreas.push(this.createAreaDataObj(data.name, areaColor));
     }
 
     // update world map
@@ -55,28 +45,17 @@ export class WorldMapComponent implements OnInit {
         data: selectedAreas,
       },
     };
-
-    this.updateContinents();
   }
 
   get data(): CountryData[] {
     return this._data;
   }
 
-  @Input() set continents(continents: IdValue[]) {
-    // add enabled property
-    this.continentButtons = continents.map((continent) => ({
-      ...continent,
-      enabled: false,
-    }));
-
-    this.updateContinents();
-  }
+  @Input() continents: string[];
 
   mergeOptions: any;
   options: any;
   echartsInstance: any;
-  continentButtons: ContinentButton[] = [];
 
   constructor(private readonly dialog: MatDialog) {}
 
@@ -128,22 +107,68 @@ export class WorldMapComponent implements OnInit {
     if (event.data !== undefined) {
       const country = event.data.name;
 
-      this.openDialog(country);
+      this.openDialogWithCountryData(country);
     }
   }
 
-  updateContinents(): void {
-    // set enabled property according to provided countryData
-    this.continentButtons = this.continentButtons.map((button) => ({
-      ...button,
-      enabled: this.data
-        .map((elem: CountryData) => elem.name)
-        .includes(button.value),
-    }));
+  /** FIXME: remove this by an appropriate backend calculation as soon as area tables are available */
+  openDialogWithContinentData(continent: string): void {
+    const relevantCountries = this.data.filter(
+      (countryData) => countryData.continent === continent
+    );
+    let employeesLost = 0;
+    let naturalTurnover = 0;
+    let forcedLeavers = 0;
+    let unforcedLeavers = 0;
+    let terminationReceived = 0;
+    let employeesAdded = 0;
+    let openPositions = 0;
+    let avgAttritionRate = 0;
+    let unforcedAvgAttritionRate = 0;
+
+    relevantCountries.forEach((country) => {
+      employeesLost += country.attritionMeta.employeesLost;
+      naturalTurnover += country.attritionMeta.naturalTurnover;
+      forcedLeavers += country.attritionMeta.forcedLeavers;
+      unforcedLeavers += country.attritionMeta.unforcedLeavers;
+      terminationReceived += country.attritionMeta.terminationReceived;
+      employeesAdded += country.attritionMeta.employeesAdded;
+      openPositions += country.attritionMeta.openPositions;
+      avgAttritionRate += country.attritionMeta.attritionRate;
+      unforcedAvgAttritionRate += country.attritionMeta.unforcedAttritionRate;
+    });
+
+    // as we do not have the total employees in the frontend we just calculate the average
+    const attritionRate = +(
+      avgAttritionRate / relevantCountries.length
+    ).toFixed(2);
+    const unforcedAttritionRate = +(
+      unforcedAvgAttritionRate / relevantCountries.length
+    ).toFixed(2);
+
+    const attritionMeta = new EmployeeAttritionMeta(
+      continent,
+      attritionRate,
+      unforcedAttritionRate,
+      employeesLost,
+      naturalTurnover,
+      forcedLeavers,
+      unforcedLeavers,
+      terminationReceived,
+      employeesAdded,
+      openPositions
+    );
+
+    this.openDialog(attritionMeta);
   }
 
-  openDialog(name: string): void {
-    const { attritionMeta } = this.data.find((elem) => elem.name === name);
+  openDialogWithCountryData(name: string): void {
+    const meta = this.data.find((elem) => elem.name === name);
+
+    this.openDialog(meta?.attritionMeta);
+  }
+
+  openDialog(attritionMeta: EmployeeAttritionMeta): void {
     const data = new AttritionDialogMeta(attritionMeta, this.selectedTimeRange);
 
     this.dialog.open(AttritionDialogComponent, {

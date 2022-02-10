@@ -13,7 +13,7 @@ import {
 } from '../shared/models';
 import { OrgChartResponse, ParentEmployeeResponse } from './org-chart/models';
 import { OrganizationalViewService } from './organizational-view.service';
-import { WorldMapResponse } from './world-map/models';
+import { CountryData, WorldMapResponse } from './world-map/models';
 
 describe('OrganizationalViewService', () => {
   let httpMock: HttpTestingController;
@@ -58,15 +58,34 @@ describe('OrganizationalViewService', () => {
     });
   });
 
+  describe('addContinentToCountryData', () => {
+    test('should look for correct continent and set it', () => {
+      const data = [
+        {
+          name: 'Germany',
+        } as CountryData,
+      ];
+
+      const result = service.addContinentToCountryData(data);
+
+      expect(result.length).toEqual(1);
+      expect(result[0].continent).toEqual('Europe');
+    });
+  });
+
   describe('getWorldMap', () => {
     test('should get country data for world map', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '123-321';
       const mock: WorldMapResponse = { data: [] };
       const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
+      service.addContinentToCountryData = jest.fn(() => mock.data);
 
       service.getWorldMap(request).subscribe((response) => {
         expect(response).toEqual(mock);
+        expect(service.addContinentToCountryData).toHaveBeenCalledWith(
+          mock.data
+        );
       });
 
       const req = httpMock.expectOne(
