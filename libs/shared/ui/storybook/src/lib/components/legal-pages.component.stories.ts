@@ -15,7 +15,6 @@ import {
   LegalModule,
   LegalRoute,
   PERSON_RESPONSIBLE,
-  TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
 
 import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
