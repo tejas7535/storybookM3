@@ -3,4 +3,6 @@ export interface Environment {
   localDev: boolean;
   devToolsEnabled: boolean;
   baseUrl: string;
+  tenantId: string;
+  groupId: string;
 }

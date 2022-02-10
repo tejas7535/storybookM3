@@ -4,6 +4,7 @@ export const environment: Environment = {
   production: true,
   localDev: false,
   devToolsEnabled: false,
-  baseUrl:
-    'https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.2/greaseservice',
+  baseUrl: 'https://bearinx.schaeffler.com/api/v1.2/greaseservice',
+  tenantId: '035a32aa-f517-4698-a818-e756af53c99e',
+  groupId: 'c4c115f9-a73a-4761-a7d1-daa07e6deda1',
 };

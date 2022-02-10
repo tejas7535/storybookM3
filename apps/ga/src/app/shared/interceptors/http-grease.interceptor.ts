@@ -10,6 +10,8 @@ import { Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
+import { environment } from './../../../environments/environment';
+
 @Injectable()
 export class HttpGreaseInterceptor implements HttpInterceptor {
   constructor(private readonly translocoService: TranslocoService) {}
@@ -34,8 +36,8 @@ export class HttpGreaseInterceptor implements HttpInterceptor {
 
     const modifiedReq = req.clone({
       headers: req.headers
-        .set('x-bearinx-tenantid', 'c6bd4298-997b-4600-a90a-1adb997581b7')
-        .set('x-bearinx-groupId', '111ab140-8e82-4ac4-a424-81edf0167301')
+        .set('x-bearinx-tenantid', environment.tenantId)
+        .set('x-bearinx-groupId', environment.groupId)
         .set('x-bearinx-language', bearinxLanguage)
         .set('x-bearinx-unitset', 'ID_UNIT_SET_SI'),
     });
