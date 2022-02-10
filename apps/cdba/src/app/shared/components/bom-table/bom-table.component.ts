@@ -71,8 +71,8 @@ export class BomTableComponent implements OnChanges {
   };
   nonLevel2Children: any[] = [];
 
-  autoGroupColumnDef = {
-    headerName: 'Material Designation',
+  autoGroupColumnDef: ColDef = {
+    headerName: translate('shared.bom.headers.materialDesignation'),
     resizable: true,
     minWidth: 300,
     cellRendererParams: {

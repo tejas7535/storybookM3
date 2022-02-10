@@ -52,6 +52,7 @@
       "costType": "Kostentyp",
       "calculationDate": "Kalkulationsdatum",
       "headers": {
+        "materialDesignation": "Materialbezeichnung",
         "totalPricePerPc": "Kosten",
         "currency": "Währung",
         "materialNumber": "Materialnummer",
