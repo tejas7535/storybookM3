@@ -71,7 +71,8 @@
       },
       "statusBar": {
         "title": "Share of total costs"
-      }
+      },
+      "navigateToDetailTooltip": "click to open"
     },
     "calculations": {
       "pcmRowHint": "PCM materials are calculations only without relevant production information",

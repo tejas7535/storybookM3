@@ -238,6 +238,7 @@ describe('BomTableComponent', () => {
     const evt = {
       node: {
         id: '2',
+        setExpanded: jest.fn(),
       },
       data: {
         id: 1,

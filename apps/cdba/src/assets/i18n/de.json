@@ -71,7 +71,8 @@
       },
       "statusBar": {
         "title": "Anteil an den Gesamtkosten"
-      }
+      },
+      "navigateToDetailTooltip": "zum Öffnen klicken"
     },
     "calculations": {
       "pcmRowHint": "PCM-Materialien sind nur Kalkulationen ohne relevante Produktionsinformationen",

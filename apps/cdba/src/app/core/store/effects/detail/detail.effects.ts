@@ -239,10 +239,9 @@ export class DetailEffects {
   ): ReferenceTypeIdentifier {
     const materialNumber = queryParams['material_number'];
     const identificationHash = queryParams['identification_hash'];
-
     const { plant } = queryParams;
 
-    return materialNumber && plant && identificationHash
+    return materialNumber && plant
       ? {
           materialNumber,
           plant,

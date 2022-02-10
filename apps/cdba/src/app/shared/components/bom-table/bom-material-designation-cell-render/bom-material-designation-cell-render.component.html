@@ -1,0 +1,13 @@
+<div class="flex h-7 items-center gap-2" *transloco="let t; read: 'shared.bom'">
+  <span>
+    {{ materialDesignation }}
+  </span>
+  <mat-icon
+    *ngIf="isRouterLink"
+    class="!h-4 !w-4 cursor-pointer !text-[16px]"
+    (click)="navigateToDetailPage()"
+    [matTooltip]="t('navigateToDetailTooltip')"
+    matTooltipShowDelay="500"
+    >open_in_new</mat-icon
+  >
+</div>
