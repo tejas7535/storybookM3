@@ -1,4 +1,5 @@
 import { translate } from '@ngneat/transloco';
+
 import { Field, TableItem } from '../models';
 
 export const findItem = (
@@ -36,7 +37,7 @@ export const manualRelubricationQuantitySpan = (
 ): string =>
   `${Math.round(
     (+(findItem(table1Values, Field.TFR_MIN) as any).value +
-      +(findItem(table1Values, Field.TFR_MIN) as any).value) /
+      +(findItem(table1Values, Field.TFR_MAX) as any).value) /
       2 /
       24
   )} ${translate('days')}`;
