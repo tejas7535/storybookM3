@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -39,6 +40,7 @@ describe('AttritionAnalyticsComponent', () => {
     imports: [
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
+      MatCardModule,
     ],
     providers: [
       provideMockStore({

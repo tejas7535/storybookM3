@@ -1,8 +1,8 @@
 <mat-card *transloco="let t; read: 'reasonsAndCounterMeasures'">
-  <h5 class="col-span-3 mb-5 font-bold">
+  <h5 class="mb-5 font-bold">
     {{ t('topFiveReasons.title') }}
   </h5>
-  <div class="grid w-full grid-cols-1 gap-4 bg-surface p-4 lg:grid-cols-3">
+  <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-3">
     <ia-filter
       class="order-1"
       [orgUnits]="orgUnits$ | ngrxPush"

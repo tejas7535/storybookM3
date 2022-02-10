@@ -1,19 +1,22 @@
 <div class="bg-surface p-4" *transloco="let t; read: 'attritionAnalytics'">
-  <h5 class="mb-5 font-bold">{{ t('unforcedAttritionAnalytics.title') }}</h5>
-  <ia-feature-analysis
-    (selectFeatures)="onSelectedFeatures($event)"
-    [barChartConfigs]="barChartConfigs$ | ngrxPush"
-    [loading]="featureAnalysisLoading$ | ngrxPush"
-    [allFeatureSelectors]="featureAnalysisSelectors$ | ngrxPush"
-  ></ia-feature-analysis>
-  <div class="grid grid-cols-3 flex-wrap gap-4 border-none p-4 lg:flex-nowrap">
-    <ia-feature-importance
-      [loading]="featureImportanceLoading$ | ngrxPush"
-      [hasNextFeatures]="featureImportanceHasNext$ | ngrxPush"
-      [groups]="featureImportanceGroups$ | ngrxPush"
-      [sortDirection]="featureImportanceSortDirection$ | ngrxPush"
-      (loadNext)="loadNextFeatureImportance()"
-      (toggleSort)="toggleSortFeatureImportance()"
-    ></ia-feature-importance>
-  </div>
+  <mat-card>
+    <h5 class="mb-5 font-bold">{{ t('unforcedAttritionAnalytics.title') }}</h5>
+    <div class="flex flex-col gap-4">
+      <ia-feature-analysis
+        (selectFeatures)="onSelectedFeatures($event)"
+        [barChartConfigs]="barChartConfigs$ | ngrxPush"
+        [loading]="featureAnalysisLoading$ | ngrxPush"
+        [allFeatureSelectors]="featureAnalysisSelectors$ | ngrxPush"
+      ></ia-feature-analysis>
+      <ia-feature-importance
+        class="w-full"
+        [loading]="featureImportanceLoading$ | ngrxPush"
+        [hasNextFeatures]="featureImportanceHasNext$ | ngrxPush"
+        [groups]="featureImportanceGroups$ | ngrxPush"
+        [sortDirection]="featureImportanceSortDirection$ | ngrxPush"
+        (loadNext)="loadNextFeatureImportance()"
+        (toggleSort)="toggleSortFeatureImportance()"
+      ></ia-feature-importance>
+    </div>
+  </mat-card>
 </div>
