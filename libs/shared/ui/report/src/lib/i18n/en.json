@@ -21,6 +21,7 @@
   "additiveRequiredTooltip": "Assessment for the prevailing operating conditions (load and viscosity ratio kappa), see also FAQ.",
   "effectiveEpAdditivation": "Effective EP-additivation",
   "baseOilViscosityAt40": "Base oil viscosity at 40°C",
+  "viscosityRatio": "Viscosity ratio",
   "lowerTemperatureLimit": "Lower temperature limit",
   "lowerTemperatureLimitTooltip": "Lower limit for the temperature at the start of motion for the bearing, see also FAQs.",
   "upperTemperatureLimit": "Upper temperature limit",

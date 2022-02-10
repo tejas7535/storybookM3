@@ -155,7 +155,12 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[9] = findItem(
+              (greaseResult.dataSource as any)[6] = {
+                title: 'viscosityRatio',
+                values: `${(findItem(table1Values, Field.KAPPA) as any).value}`,
+                display: false,
+              };
+              (greaseResult.dataSource as any)[10] = findItem(
                 table1Values,
                 Field.TFG_MIN
               )?.value && {
@@ -168,7 +173,7 @@ export class GreaseReportService {
                 )} ${translate('day')}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[10] = findItem(
+              (greaseResult.dataSource as any)[11] = findItem(
                 table1Values,
                 Field.ADD_REQ
               )?.value && {
@@ -177,7 +182,7 @@ export class GreaseReportService {
                 display: false,
                 tooltip: 'additiveRequiredTooltip',
               };
-              (greaseResult.dataSource as any)[11] = findItem(
+              (greaseResult.dataSource as any)[12] = findItem(
                 table1Values,
                 Field.ADD_W
               )?.value && {
@@ -203,14 +208,14 @@ export class GreaseReportService {
                       greaseResult.subtitlePart3 = `${value}`;
                       break;
                     case Field.NY40:
-                      (greaseResult.dataSource as any)[6] = {
+                      (greaseResult.dataSource as any)[7] = {
                         title: 'baseOilViscosityAt40',
                         values: `${value} ${unit}`,
                         display: false,
                       };
                       break;
                     case Field.T_LIM_LOW:
-                      (greaseResult.dataSource as any)[7] = {
+                      (greaseResult.dataSource as any)[8] = {
                         title: 'lowerTemperatureLimit',
                         values: `${value} ${unit}`,
                         display: false,
@@ -218,7 +223,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.T_LIM_UP:
-                      (greaseResult.dataSource as any)[8] = {
+                      (greaseResult.dataSource as any)[9] = {
                         title: 'upperTemperatureLimit',
                         values: `${value} ${unit}`,
                         display: false,
@@ -226,14 +231,14 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.RHO:
-                      (greaseResult.dataSource as any)[12] = {
+                      (greaseResult.dataSource as any)[13] = {
                         title: 'density',
                         values: `${value} ${unit}`,
                         display: false,
                       };
                       break;
                     case Field.F_LOW:
-                      (greaseResult.dataSource as any)[13] = {
+                      (greaseResult.dataSource as any)[14] = {
                         title: 'lowFriction',
                         values: value
                           ? `${value} (${this.checkSuitablity(
@@ -244,7 +249,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.VIP:
-                      (greaseResult.dataSource as any)[14] = {
+                      (greaseResult.dataSource as any)[15] = {
                         title: 'suitableForVibrations',
                         values: value
                           ? `${value} (${this.checkSuitablity(
@@ -255,7 +260,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.SEAL:
-                      (greaseResult.dataSource as any)[15] = {
+                      (greaseResult.dataSource as any)[16] = {
                         title: 'supportForSeals',
                         values: value
                           ? `${value} (${this.checkSuitablity(
@@ -266,7 +271,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.NSF_H1:
-                      (greaseResult.dataSource as any)[16] = {
+                      (greaseResult.dataSource as any)[17] = {
                         title: 'H1Registration',
                         values: `${value}`,
                         display: false,

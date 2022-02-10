@@ -36,4 +36,5 @@ export enum Field {
   VIP = 'vib',
   SEAL = 'seal',
   NSF_H1 = 'NSF-H1',
+  KAPPA = 'kappa',
 }
