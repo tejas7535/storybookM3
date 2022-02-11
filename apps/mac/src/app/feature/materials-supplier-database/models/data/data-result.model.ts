@@ -6,9 +6,7 @@ export interface DataResult {
   manufacturerSupplierKind: string;
   materialStandardId: number;
   materialStandardMaterialName: string;
-  materialStandardMaterialNameHiddenFilter: string;
   materialStandardStandardDocument: string;
-  materialStandardStandardDocumentHiddenFilter: string;
   isPrematerial: boolean;
   materialCategory: string;
   materialClassId: number;

@@ -24,11 +24,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { DataFilter, DataResult } from '../models';
-import {
-  fetchMaterials,
-  setAgGridFilter,
-  setFilteredRows,
-} from '../store/actions';
+import { fetchMaterials, setAgGridFilter } from '../store/actions';
 import { initialState as initialDataState } from '../store/reducers/data.reducer';
 import {
   resetResult,
@@ -123,38 +119,6 @@ describe('MainTableComponent', () => {
         component.allCategoriesSelectedControl.patchValue(true);
 
         expect(component.toggleAllCategories).toHaveBeenCalledWith(true);
-      });
-
-      it('should call applyAgGridFilter on material name list change', () => {
-        component.applyAgGridFilter = jest.fn();
-
-        component.materialNameFilterList.patchValue(['something']);
-
-        expect(component.applyAgGridFilter).toHaveBeenCalledWith(
-          'materialStandardMaterialNameHiddenFilter',
-          ['something']
-        );
-      });
-      it('should call applyAgGridFilter on standard document list change', () => {
-        component.applyAgGridFilter = jest.fn();
-
-        component.standardDocumentFilterList.patchValue(['something']);
-
-        expect(component.applyAgGridFilter).toHaveBeenCalledWith(
-          'materialStandardStandardDocumentHiddenFilter',
-          ['something']
-        );
-      });
-
-      it('should call applyAgGridFilter on material number list change', () => {
-        component.applyAgGridFilter = jest.fn();
-
-        component.materialNumbersFilterList.patchValue(['something']);
-
-        expect(component.applyAgGridFilter).toHaveBeenCalledWith(
-          'materialNumbers',
-          ['something']
-        );
       });
 
       it('should dispatch setFilterModel on filterForm change', async () => {
@@ -356,20 +320,9 @@ describe('MainTableComponent', () => {
       // eslint-disable-next-line unicorn/no-useless-undefined
       JSON.parse = jest.fn(() => undefined);
 
-      component.materialNameFilterList.setValue = jest.fn();
-      component.standardDocumentFilterList.setValue = jest.fn();
-      component.materialNumbersFilterList.setValue = jest.fn();
-
       component['setParamAgGridFilter'](mockFilterString);
 
       expect(store.dispatch).not.toHaveBeenCalled();
-      expect(component.materialNameFilterList.setValue).not.toHaveBeenCalled();
-      expect(
-        component.standardDocumentFilterList.setValue
-      ).not.toHaveBeenCalled();
-      expect(
-        component.materialNumbersFilterList.setValue
-      ).not.toHaveBeenCalled();
     });
     it('should dispatch agGridFilter and set list controls if filter is defined', () => {
       const mockFilterString = 'some filter';
@@ -381,31 +334,14 @@ describe('MainTableComponent', () => {
         },
         materialNumbers: { values: mockFilterValue },
       };
-      const options = {
-        onlySelf: true,
-        emitEvent: false,
-      };
       // eslint-disable-next-line unicorn/no-useless-undefined
       JSON.parse = jest.fn(() => mockFilterModel);
-
-      component.materialNameFilterList.setValue = jest.fn();
-      component.standardDocumentFilterList.setValue = jest.fn();
-      component.materialNumbersFilterList.setValue = jest.fn();
 
       component['setParamAgGridFilter'](mockFilterString);
 
       expect(store.dispatch).toHaveBeenLastCalledWith(
         setAgGridFilter({ filterModel: mockFilterModel })
       );
-      expect(
-        component.materialNameFilterList.setValue
-      ).toHaveBeenLastCalledWith(mockFilterValue, options);
-      expect(
-        component.standardDocumentFilterList.setValue
-      ).toHaveBeenLastCalledWith(mockFilterValue, options);
-      expect(
-        component.materialNumbersFilterList.setValue
-      ).toHaveBeenLastCalledWith(mockFilterValue, options);
     });
   });
   describe('toggleAllCategories', () => {
@@ -456,10 +392,6 @@ describe('MainTableComponent', () => {
         ),
       };
 
-      component.materialNameFilterList.setValue = jest.fn();
-      component.standardDocumentFilterList.setValue = jest.fn();
-      component.materialNumbersFilterList.setValue = jest.fn();
-
       component.onFilterChange({ api: mockApi as unknown as GridApi });
 
       expect(mockApi.getFilterModel).toHaveBeenCalled();
@@ -467,17 +399,6 @@ describe('MainTableComponent', () => {
       expect(store.dispatch).toBeCalledWith(
         setAgGridFilter({ filterModel: mockFilterModel })
       );
-      expect(store.dispatch).toBeCalledWith(
-        setFilteredRows({ filteredResult: [mockDataResult] })
-      );
-
-      expect(component.materialNameFilterList.setValue).not.toHaveBeenCalled();
-      expect(
-        component.standardDocumentFilterList.setValue
-      ).not.toHaveBeenCalled();
-      expect(
-        component.materialNumbersFilterList.setValue
-      ).not.toHaveBeenCalled();
     });
     it('should dispatch agGridFilter and filtered rows and reset the list controls on empty filter', () => {
       const mockFilterModel = {};
@@ -487,8 +408,6 @@ describe('MainTableComponent', () => {
       } as DataResult;
       const mockRowNodes = [{ data: mockDataResult }];
 
-      const options = { onlySelf: true, emitEvent: false };
-
       const mockApi = {
         getFilterModel: jest.fn(() => mockFilterModel),
         forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
@@ -496,31 +415,12 @@ describe('MainTableComponent', () => {
         ),
       };
 
-      component.materialNameFilterList.setValue = jest.fn();
-      component.standardDocumentFilterList.setValue = jest.fn();
-      component.materialNumbersFilterList.setValue = jest.fn();
-
       component.onFilterChange({ api: mockApi as unknown as GridApi });
 
       expect(mockApi.getFilterModel).toHaveBeenCalled();
 
       expect(store.dispatch).toBeCalledWith(
         setAgGridFilter({ filterModel: mockFilterModel })
-      );
-      expect(store.dispatch).toBeCalledWith(
-        setFilteredRows({ filteredResult: [mockDataResult] })
-      );
-
-      expect(component.materialNameFilterList.setValue).toHaveBeenCalledWith(
-        [undefined],
-        options
-      );
-      expect(
-        component.standardDocumentFilterList.setValue
-      ).toHaveBeenCalledWith([undefined], options);
-      expect(component.materialNumbersFilterList.setValue).toHaveBeenCalledWith(
-        [undefined],
-        options
       );
     });
   });
@@ -700,9 +600,6 @@ describe('MainTableComponent', () => {
       expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(mockApi.getDisplayedRowCount).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        setFilteredRows({ filteredResult: [mockDataResult] })
-      );
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
@@ -746,9 +643,6 @@ describe('MainTableComponent', () => {
       });
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(mockApi.getDisplayedRowCount).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        setFilteredRows({ filteredResult: [mockDataResult] })
-      );
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
     });
   });

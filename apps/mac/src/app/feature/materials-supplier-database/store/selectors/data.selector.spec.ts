@@ -30,12 +30,6 @@ describe('DataSelectors', () => {
     });
   });
 
-  it('should get list fitlers', () => {
-    expect(DataSelectors.getListFilters.projector(initialState.filter)).toEqual(
-      initialState.filter.listFilters
-    );
-  });
-
   it('should get data loading', () => {
     expect(DataSelectors.getLoading.projector(initialState)).toEqual(undefined);
   });
@@ -99,68 +93,6 @@ describe('DataSelectors', () => {
       filterForm: JSON.stringify({ materialClass, productCategory }),
       agGridFilter,
     });
-  });
-
-  it('should get unfiltered result if no filter is set', () => {
-    const agGridFilter = JSON.stringify({});
-
-    expect(
-      DataSelectors.getFilteredResult.projector({
-        ...initialState,
-        filter: {
-          ...initialState.filter,
-          agGridFilter,
-        },
-        result: [],
-        filteredResult: undefined,
-      })
-    ).toEqual([]);
-  });
-  it('should get filtered result', () => {
-    const agGridFilter = JSON.stringify({ something: 'some value' });
-
-    expect(
-      DataSelectors.getFilteredResult.projector({
-        ...initialState,
-        filter: {
-          ...initialState.filter,
-          agGridFilter,
-        },
-        result: undefined,
-        filteredResult: [],
-      })
-    ).toEqual([]);
-  });
-
-  it('should return undefined if result is not available', () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    expect(DataSelectors.getFilterLists.projector(undefined)).toEqual(
-      undefined
-    );
-  });
-  it('should return an object with the filter lists', () => {
-    const result = [
-      {
-        materialStandardMaterialName: 'etwas',
-        materialStandardStandardDocument: 'irgendwas',
-      },
-      {
-        materialStandardMaterialName: 'etwas',
-        materialStandardStandardDocument: 'irgendwas',
-      },
-    ];
-
-    const expected: {
-      materialNames: string[];
-      materialStandards: string[];
-      materialNumbers: string[];
-    } = {
-      materialNames: ['etwas'],
-      materialStandards: ['irgendwas'],
-      materialNumbers: [],
-    };
-
-    expect(DataSelectors.getFilterLists.projector(result)).toEqual(expected);
   });
 
   it('should return ag grid columns', () => {

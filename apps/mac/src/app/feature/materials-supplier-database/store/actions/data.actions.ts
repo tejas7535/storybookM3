@@ -53,20 +53,6 @@ export const setAgGridFilter = createAction(
   props<{ filterModel: { [key: string]: any } }>()
 );
 
-export const setFilteredRows = createAction(
-  '[MSD - Data] Set Filtered Rows',
-  props<{ filteredResult: DataResult[] }>()
-);
-
-export const setListFilters = createAction(
-  '[MSD - Data] Set List Filters',
-  props<{
-    materialStandardMaterialName: string[];
-    materialStandardStandardDocument: string[];
-    materialNumber: string[];
-  }>()
-);
-
 export const resetResult = createAction('[MSD - Data] Reset Result');
 
 export const setAgGridColumns = createAction(

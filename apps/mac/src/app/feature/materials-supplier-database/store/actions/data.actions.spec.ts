@@ -7,7 +7,6 @@ import {
   setAgGridColumns,
   setAgGridFilter,
   setFilter,
-  setFilteredRows,
 } from './data.actions';
 
 describe('Data Actions', () => {
@@ -68,16 +67,6 @@ describe('Data Actions', () => {
       expect(action).toEqual({
         filterModel: {},
         type: '[MSD - Data] Set AgGrid Filter',
-      });
-    });
-  });
-  describe('Set Filtered Rows', () => {
-    it('setAgGridFilter', () => {
-      const action = setFilteredRows({ filteredResult: [] });
-
-      expect(action).toEqual({
-        filteredResult: [],
-        type: '[MSD - Data] Set Filtered Rows',
       });
     });
   });

@@ -16,8 +16,6 @@ import {
   fetchClassOptionsSuccess,
   resetResult,
   setAgGridColumns,
-  setFilteredRows,
-  setListFilters,
 } from './../actions/data.actions';
 
 export interface DataState {
@@ -26,11 +24,6 @@ export interface DataState {
     productCategory: DataFilter[];
     agGridFilter: string;
     loading: boolean;
-    listFilters: {
-      materialName: string;
-      standardDocument: string;
-      materialNumber: string;
-    };
   };
   agGridColumns: string;
   materialClassOptions: DataFilter[];
@@ -38,7 +31,6 @@ export interface DataState {
   materialClassLoading: boolean;
   productCategoryLoading: boolean;
   result: DataResult[];
-  filteredResult: DataResult[];
 }
 
 export const initialState: DataState = {
@@ -47,11 +39,6 @@ export const initialState: DataState = {
     productCategory: undefined,
     agGridFilter: JSON.stringify({}),
     loading: undefined,
-    listFilters: {
-      materialName: undefined,
-      standardDocument: undefined,
-      materialNumber: undefined,
-    },
   },
   agGridColumns: undefined,
   materialClassOptions: [],
@@ -59,7 +46,6 @@ export const initialState: DataState = {
   materialClassLoading: undefined,
   productCategoryLoading: undefined,
   result: undefined,
-  filteredResult: undefined,
 };
 
 export const dataReducer = createReducer(
@@ -115,38 +101,6 @@ export const dataReducer = createReducer(
         agGridFilter: filterModel
           ? JSON.stringify(filterModel)
           : initialState.filter.agGridFilter,
-      },
-    })
-  ),
-  on(
-    setFilteredRows,
-    (state, { filteredResult }): DataState => ({
-      ...state,
-      filteredResult,
-    })
-  ),
-  on(
-    setListFilters,
-    (
-      state,
-      {
-        materialStandardMaterialName,
-        materialStandardStandardDocument,
-        materialNumber,
-      }
-    ): DataState => ({
-      ...state,
-      filter: {
-        ...state.filter,
-        listFilters: {
-          materialName: materialStandardMaterialName
-            ? materialStandardMaterialName[0]
-            : undefined,
-          standardDocument: materialStandardStandardDocument
-            ? materialStandardStandardDocument[0]
-            : undefined,
-          materialNumber: materialNumber ? materialNumber[0] : undefined,
-        },
       },
     })
   ),

@@ -40,7 +40,6 @@ import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-gr
 import {
   getAgGridFilter,
   getCo2ColumnVisible,
-  getFilterLists,
   getFilters,
   getLoading,
   getMaterialClassOptions,
@@ -52,7 +51,6 @@ import {
   fetchClassAndCategoryOptions,
   resetResult,
   setAgGridColumns,
-  setFilteredRows,
 } from './../store/actions/data.actions';
 import {
   COLUMN_DEFINITIONS,
@@ -64,7 +62,6 @@ import {
 @Component({
   selector: 'mac-main-table',
   templateUrl: './main-table.component.html',
-  styleUrls: ['./main-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -116,16 +113,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     productCategory: this.productCategorySelectionControl,
   });
 
-  public materialNameFilterList = new FormControl([]);
-  public standardDocumentFilterList = new FormControl([]);
-  public materialNumbersFilterList = new FormControl([]);
-
-  public tableFilterForm = new FormGroup({
-    materialStandardMaterialName: this.materialNameFilterList,
-    materialStandardStandardDocument: this.standardDocumentFilterList,
-    materialNumber: this.materialNumbersFilterList,
-  });
-
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
   private readonly TABLE_KEY = 'msdMainTable';
@@ -144,7 +131,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.optionsLoading$ = this.store.select(getOptionsLoading);
     this.resultLoading$ = this.store.select(getLoading);
     this.result$ = this.store.select(getResult);
-    this.filterLists$ = this.store.select(getFilterLists);
     this.co2ColumnVisible$ = this.store.select(getCo2ColumnVisible);
 
     this.store.dispatch(fetchClassAndCategoryOptions());
@@ -168,30 +154,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.allCategoriesSelectedControl.valueChanges.subscribe((value: boolean) =>
       this.toggleAllCategories(value)
     );
-
-    this.materialNameFilterList.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((values: string[]) =>
-        this.applyAgGridFilter(
-          'materialStandardMaterialNameHiddenFilter',
-          values
-        )
-      );
-
-    this.standardDocumentFilterList.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((values: string[]) =>
-        this.applyAgGridFilter(
-          'materialStandardStandardDocumentHiddenFilter',
-          values
-        )
-      );
-
-    this.materialNumbersFilterList.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((values: string[]) =>
-        this.applyAgGridFilter('materialNumbers', values)
-      );
 
     this.store
       .select(getFilters)
@@ -304,28 +266,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
     this.store.dispatch(setAgGridFilter({ filterModel }));
-    const options = {
-      onlySelf: true,
-      emitEvent: false,
-    };
-    if (filterModel['materialStandardMaterialNameHiddenFilter']) {
-      this.materialNameFilterList.setValue(
-        filterModel['materialStandardMaterialNameHiddenFilter'].values,
-        options
-      );
-    }
-    if (filterModel['materialStandardStandardDocumentHiddenFilter']) {
-      this.standardDocumentFilterList.setValue(
-        filterModel['materialStandardStandardDocumentHiddenFilter'].values,
-        options
-      );
-    }
-    if (filterModel['materialNumbers']) {
-      this.materialNumbersFilterList.setValue(
-        filterModel['materialNumbers'].values,
-        options
-      );
-    }
   }
 
   public toggleAllCategories(select: boolean): void {
@@ -342,18 +282,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     api.forEachNodeAfterFilter((rowNode: RowNode) => {
       filteredResult.push(rowNode.data);
     });
-    if (Object.keys(filterModel).length === 0) {
-      const options = {
-        onlySelf: true,
-        emitEvent: false,
-      };
-      this.materialNameFilterList.setValue([undefined], options);
-      this.standardDocumentFilterList.setValue([undefined], options);
-      this.materialNumbersFilterList.setValue([undefined], options);
-    }
 
     this.store.dispatch(setAgGridFilter({ filterModel }));
-    this.store.dispatch(setFilteredRows({ filteredResult }));
   }
 
   public setAgGridFilter({ api }: { api: GridApi }): void {
@@ -410,7 +340,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       columnApi.applyColumnState({ state, applyOrder: true });
     }
     this.rowCount = this.agGridApi.getDisplayedRowCount();
-    this.store.dispatch(setFilteredRows({ filteredResult }));
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {

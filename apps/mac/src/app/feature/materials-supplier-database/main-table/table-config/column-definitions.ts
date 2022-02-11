@@ -6,30 +6,17 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'materialStandardMaterialName',
     headerName: 'Material Name',
-    filter: false,
-    suppressFiltersToolPanel: true,
-  },
-  {
-    field: 'materialStandardMaterialNameHiddenFilter',
-    headerName: 'Material Name Filter',
     filterParams: FILTER_PARAMS,
-    hide: true,
-    suppressColumnsToolPanel: true,
-    suppressFiltersToolPanel: true,
   },
   {
     field: 'materialStandardStandardDocument',
     headerName: 'Standard Document',
-    filter: false,
-    suppressFiltersToolPanel: true,
+    filterParams: FILTER_PARAMS,
   },
   {
-    field: 'materialStandardStandardDocumentHiddenFilter',
-    headerName: 'Standard Document Filter',
+    field: 'materialNumbers',
+    headerName: 'Material Numbers',
     filterParams: FILTER_PARAMS,
-    hide: true,
-    suppressColumnsToolPanel: true,
-    suppressFiltersToolPanel: true,
   },
   {
     field: 'manufacturerSupplierName',
@@ -172,13 +159,5 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Approved for export',
     filterParams: FILTER_PARAMS,
     hide: true,
-  },
-  {
-    field: 'materialNumbers',
-    headerName: 'Material Numbers',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-    suppressColumnsToolPanel: true,
-    suppressFiltersToolPanel: true,
   },
 ];

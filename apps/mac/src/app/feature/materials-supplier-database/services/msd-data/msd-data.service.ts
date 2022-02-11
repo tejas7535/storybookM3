@@ -89,11 +89,7 @@ export class MsdDataService {
                 materialStandardId: materialResponse.materialStandard?.id,
                 materialStandardMaterialName:
                   materialResponse.materialStandard?.materialName,
-                materialStandardMaterialNameHiddenFilter:
-                  materialResponse.materialStandard?.materialName,
                 materialStandardStandardDocument:
-                  materialResponse.materialStandard?.standardDocument,
-                materialStandardStandardDocumentHiddenFilter:
                   materialResponse.materialStandard?.standardDocument,
                 isPrematerial: materialResponse.isPrematerial,
                 materialCategory: materialResponse.materialCategory,

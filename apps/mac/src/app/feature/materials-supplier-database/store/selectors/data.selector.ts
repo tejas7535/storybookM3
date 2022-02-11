@@ -1,7 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
 import * as fromStore from '../reducers';
-import { standardDocumentMaterialNumbers } from './../../constants/standard-document-material-numbers';
 
 export const sortAlphabetically = (a: string, b: string): number =>
   a.localeCompare(b);
@@ -19,11 +18,6 @@ export const getFilter = createSelector(
 export const getFilters = createSelector(
   getFilter,
   ({ materialClass, productCategory }) => ({ materialClass, productCategory })
-);
-
-export const getListFilters = createSelector(
-  getFilter,
-  ({ listFilters }) => listFilters
 );
 
 export const getAgGridFilter = createSelector(getFilter, ({ agGridFilter }) => {
@@ -63,47 +57,6 @@ export const getResult = createSelector(
   getDataState,
   (dataState) => dataState.result
 );
-
-export const getFilteredResult = createSelector(getDataState, (dataState) =>
-  dataState.filter.agGridFilter !== JSON.stringify({})
-    ? dataState.filteredResult
-    : dataState.result
-);
-
-export const getFilterLists = createSelector(getFilteredResult, (result) => {
-  if (!result) {
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    return undefined;
-  }
-
-  let materialNames: string[] = result.map(
-    (entry) => entry.materialStandardMaterialName
-  );
-  materialNames = materialNames
-    .filter((materialName, i) => i === materialNames.indexOf(materialName))
-    .sort(sortAlphabetically);
-  let materialStandards: string[] = result.map(
-    (entry) => entry.materialStandardStandardDocument
-  );
-  materialStandards = materialStandards
-    .filter(
-      (materialStandard, i) => i === materialStandards.indexOf(materialStandard)
-    )
-    .sort(sortAlphabetically);
-  let materialNumbers: string[] = [];
-  materialStandards.map((standardDocument) =>
-    materialNumbers.push(
-      ...(standardDocumentMaterialNumbers[standardDocument] || [])
-    )
-  );
-  materialNumbers = materialNumbers
-    .filter(
-      (materialNumber, i) => i === materialNumbers.indexOf(materialNumber)
-    )
-    .sort(sortAlphabetically);
-
-  return { materialNames, materialStandards, materialNumbers };
-});
 
 export const getOptionsLoading = createSelector(
   getDataState,
