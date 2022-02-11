@@ -104,7 +104,29 @@ describe('AppComponent', () => {
       ]);
     });
 
-    it('should contain translated footerLinks for capacitor app', () => {
+    it('should contain translated footerLinks for capacitor android app', () => {
+      window.origin = 'http://localhost';
+      const footerLinksResult = component['updateFooterLinks']();
+      expect(footerLinksResult).toStrictEqual([
+        {
+          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+          title: 'legal.imprint',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          title: 'legal.dataPrivacy',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.TermsPath}`,
+          title: 'legal.termsOfUse',
+          external: false,
+        },
+      ]);
+    });
+
+    it('should contain translated footerLinks for capacitor ios app', () => {
       window.origin = 'capacitor://';
 
       const footerLinksResult = component['updateFooterLinks']();

@@ -106,7 +106,10 @@ export class AppComponent implements OnInit, OnDestroy {
       title: this.translocoService.translate('legal.cookiePolicy'),
       external: false,
     };
-    if (!window.origin.includes('capacitor://')) {
+    if (
+      !window.origin.includes('capacitor://') &&
+      window.origin !== 'http://localhost'
+    ) {
       footerLinks.push(legalLink);
     }
 

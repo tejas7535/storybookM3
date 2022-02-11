@@ -77,7 +77,11 @@ let providers = [
   DecimalPipe,
 ];
 
-if (window.self !== window.top || window.origin.includes('capacitor://')) {
+if (
+  window.self !== window.top ||
+  window.origin.includes('capacitor://') ||
+  window.origin === 'http://localhost'
+) {
   Tracking = [];
   providers = providers.slice(1); // Removes OneTrust Provider
 }
