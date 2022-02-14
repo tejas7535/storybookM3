@@ -11,6 +11,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 
 import { of } from 'rxjs';
@@ -19,8 +20,6 @@ import { RowNode } from '@ag-grid-community/core';
 import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/app-state-mock';
 import { salesSummaryMock } from '../../../testing/mocks/sales-summary.mock';
@@ -36,7 +35,7 @@ describe('SalesRowDetailsComponent', () => {
   let component: SalesRowDetailsComponent;
   let spectator: Spectator<SalesRowDetailsComponent>;
   let dataService: DataService;
-  let snackBarService: SnackBarService;
+  let snackBar: MatSnackBar;
   let matDialog: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
@@ -53,7 +52,7 @@ describe('SalesRowDetailsComponent', () => {
       MatDialogModule,
       BrowserDynamicTestingModule,
       HttpClientTestingModule,
-      SnackBarModule,
+      MatSnackBarModule,
     ],
     providers: [
       {
@@ -76,7 +75,7 @@ describe('SalesRowDetailsComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     dataService = spectator.inject(DataService);
-    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
     matDialog = spectator.inject(MatDialog);
   });
 
@@ -231,9 +230,7 @@ describe('SalesRowDetailsComponent', () => {
         } as unknown as RowNode;
 
         dataService.updateDates = jest.fn().mockResolvedValue({});
-        snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
-        snackBarService.showErrorMessage = jest.fn();
-        snackBarService.showWarningMessage = jest.fn();
+        snackBar.open = jest.fn();
 
         component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
@@ -278,13 +275,11 @@ describe('SalesRowDetailsComponent', () => {
             dateString
           );
 
-          expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-          expect(snackBarService.showSuccessMessage).toHaveBeenCalledWith(
-            'Update successful'
-          );
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith('Update successful');
 
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(0);
-          expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
         });
       })
     );
@@ -293,8 +288,7 @@ describe('SalesRowDetailsComponent', () => {
       'should show an error message on error',
       waitForAsync(() => {
         dataService.updateDates = jest.fn().mockRejectedValue({});
-        snackBarService.showSuccessMessage = jest.fn();
-        snackBarService.showErrorMessage = jest.fn().mockReturnValue(of());
+        snackBar.open = jest.fn();
 
         component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
@@ -329,18 +323,16 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
 
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(1);
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledWith(
-            'Update failed'
-          );
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith('Update failed');
         });
       })
     );
 
     it('should do nothing if datesFormGroup is not valid and show warning for EOP field', async () => {
-      snackBarService.showWarningMessage = jest.fn();
+      snackBar.open = jest.fn();
       dataService.updateDates = jest.fn();
 
       SalesRowDetailsComponent['convertToIsoDateString'] = jest.fn();
@@ -355,14 +347,14 @@ describe('SalesRowDetailsComponent', () => {
         SalesRowDetailsComponent['convertToIsoDateString']
       ).toHaveBeenCalledTimes(0);
 
-      expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledWith(
         'Cannot update with invalid or empty EOP Date field'
       );
     });
 
     it('should do nothing if datesFormGroup is not valid and show warning for EDO field', async () => {
-      snackBarService.showWarningMessage = jest.fn();
+      snackBar.open = jest.fn();
       dataService.updateDates = jest.fn();
 
       SalesRowDetailsComponent['convertToIsoDateString'] = jest.fn();
@@ -379,8 +371,8 @@ describe('SalesRowDetailsComponent', () => {
         SalesRowDetailsComponent['convertToIsoDateString']
       ).toHaveBeenCalledTimes(0);
 
-      expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledWith(
         'Cannot update with invalid or empty EDO Date field'
       );
     });
@@ -395,9 +387,7 @@ describe('SalesRowDetailsComponent', () => {
         } as unknown as RowNode;
 
         dataService.updateIgnoreFlag = jest.fn().mockResolvedValue({});
-        snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
-        snackBarService.showErrorMessage = jest.fn();
-        snackBarService.showWarningMessage = jest.fn();
+        snackBar.open = jest.fn();
 
         component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
@@ -422,13 +412,11 @@ describe('SalesRowDetailsComponent', () => {
             mockIgnoreFlag
           );
 
-          expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-          expect(snackBarService.showSuccessMessage).toHaveBeenCalledWith(
-            'Update successful'
-          );
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith('Update successful');
 
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(0);
-          expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
         });
       })
     );
@@ -437,8 +425,7 @@ describe('SalesRowDetailsComponent', () => {
       'should show an error message on error',
       waitForAsync(() => {
         dataService.updateIgnoreFlag = jest.fn().mockRejectedValue({});
-        snackBarService.showSuccessMessage = jest.fn();
-        snackBarService.showErrorMessage = jest.fn().mockReturnValue(of());
+        snackBar.open = jest.fn();
 
         component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
@@ -457,12 +444,10 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledTimes(0);
 
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(1);
-          expect(snackBarService.showErrorMessage).toHaveBeenCalledWith(
-            'Update failed'
-          );
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith('Update failed');
         });
       })
     );

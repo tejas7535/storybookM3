@@ -9,11 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBarModule,
+} from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-
-import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { IgnoreFlagDialogModule } from './sales-row-details/ignore-flag-dialog/ignore-flag-dialog.module';
 import { SalesRowDetailsComponent } from './sales-row-details/sales-row-details.component';
@@ -42,8 +44,13 @@ import { TimeoutWarningRendererComponent } from './timeout-warning/timeout-warni
     MatTooltipModule,
     SalesSummaryRoutingModule,
     IgnoreFlagDialogModule,
-    SnackBarModule,
+    MatSnackBarModule,
   ],
-  providers: [SnackBarService],
+  providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { duration: 5000 },
+    },
+  ],
 })
 export class SalesSummaryModule {}

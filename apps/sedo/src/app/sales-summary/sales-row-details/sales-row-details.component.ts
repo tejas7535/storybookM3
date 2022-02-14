@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Subscription } from 'rxjs';
 
@@ -15,7 +16,6 @@ import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import { Store } from '@ngrx/store';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
-import { SnackBarService } from '@schaeffler/snackbar';
 
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
 import { UpdateIgnoreFlagParams } from '../../shared/models/ignore-flag-update.model';
@@ -46,7 +46,7 @@ export class SalesRowDetailsComponent
   constructor(
     private readonly store: Store,
     private readonly dataService: DataService,
-    private readonly snackBarService: SnackBarService,
+    private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog
   ) {}
 
@@ -98,23 +98,23 @@ export class SalesRowDetailsComponent
               'edoDate',
               this.datesFormGroup.get('edoDateControl').value
             );
-            this.snackBarService.showSuccessMessage('Update successful');
+            this.snackBar.open('Success: Update successful');
 
             resolve();
           })
           .catch(() => {
-            this.snackBarService.showErrorMessage('Update failed');
+            this.snackBar.open('Error: Update failed');
 
             resolve();
           });
       } else {
         if (!this.datesFormGroup.get('eopDateControl').valid) {
-          this.snackBarService.showWarningMessage(
-            'Cannot update with invalid or empty EOP Date field'
+          this.snackBar.open(
+            'Warning: Cannot update with invalid or empty EOP Date field'
           );
         } else if (!this.datesFormGroup.get('edoDateControl').valid) {
-          this.snackBarService.showWarningMessage(
-            'Cannot update with invalid or empty EDO Date field'
+          this.snackBar.open(
+            'Warning: Cannot update with invalid or empty EDO Date field'
           );
         }
         resolve();
@@ -136,12 +136,12 @@ export class SalesRowDetailsComponent
             updateIgnoreFlagParams.ignoreFlag
           );
 
-          this.snackBarService.showSuccessMessage('Update successful');
+          this.snackBar.open('Success Update successful');
 
           resolve();
         })
         .catch(() => {
-          this.snackBarService.showErrorMessage('Update failed');
+          this.snackBar.open('Error: Update failed');
 
           resolve();
         });
