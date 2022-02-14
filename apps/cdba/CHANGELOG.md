@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.8.1...cdba-v2.9.0) (2022-02-14)
+
+
+### 🎸 Features
+
+* **cdba:** add router links to bom table items (DSCDA-2832) ([#3721](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3721)) ([74c201c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/74c201c4b5b6c85332712c8e5be7f5df53eeb43c))
+* **cdba:** extend workspace tailwind config ([364b4af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/364b4af2a8776a6845ca64b8c363cbb83891dd5c))
+* **cdba:** implement "excluded calculations" (#DSCDA-2847) ([db036ec](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db036ec0d7f8178b5d1ac643c5071adbf9a34b8c)), closes [#DSCDA-2847](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/DSCDA-2847)
+* **cdba:** implement new bom coloring ([8edc186](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8edc18639f86589cc43f280cf4c5fc6111010caa))
+* **cdba:** improve results table navigation (#DSCDA-2695) ([#3691](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3691)) ([1506036](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/150603695653246166d0f513451754f3018063d9)), closes [#DSCDA-2695](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/DSCDA-2695)
+* **cdba:** switch to api v2 for calculations (#DSCDA-2847) ([2ba4304](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2ba4304193afe13aa5a4635b357da7c8e43c1487)), closes [#DSCDA-2847](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/DSCDA-2847)
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** add translation for material designation header in bom table ([4f207e4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4f207e484ee08b91691e83255a9876dd917e39bb))
+* **cdba:** colorize ag-icons correctly in bom table ([af29811](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/af29811e81144b4719aaa54ffec5f79d02a0a8f6))
+* **cdba:** deselect all rows before detail navigation (DSCDA-2866) ([#3747](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3747)) ([b56a483](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b56a4835c1b4c46c49726500b8b5cd4fbbd8274b))
+* **cdba:** fix appearance of legend entries with long descriptions ([6691b80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6691b805c94eb00cdd9fd8a879ef0db5e9a78494))
+* **cdba:** improve and fix indentation of bom table groups ([dccd67e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dccd67ebb9712a04ea5c5fe3dee86f6e36b62a98))
+
 ### [2.8.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.8.0...cdba-v2.8.1) (2022-02-02)
 
 
