@@ -1,9 +1,9 @@
 <form
   [formGroup]="materialForm"
-  fxLayout="column"
+  class="flex flex-col"
   *transloco="let t; read: 'ltp'"
 >
-  <mat-form-field fxFlex>
+  <mat-form-field class="flex">
     <mat-label>{{ t('material') }}</mat-label>
     <mat-select
       [formControl]="materialForm.controls.materialControl"
@@ -20,7 +20,7 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field fxFlex>
+  <mat-form-field class="flex">
     <mat-label>{{ t('heatTreatment') }}</mat-label>
     <mat-select
       [formControl]="materialForm.controls.heatTreatmentControl"

@@ -1,4 +1,3 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,7 +25,6 @@ describe('OverviewComponent', () => {
       OverviewRoutingModule,
       MatCardModule,
       MatIconModule,
-      FlexLayoutModule,
       RouterTestingModule,
     ],
     providers: [

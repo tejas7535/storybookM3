@@ -7,7 +7,6 @@ import { ECharts, EChartsOption } from 'echarts';
 @Component({
   selector: 'mac-ltp-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent {
   @Input() chartSettings: EChartsOption;

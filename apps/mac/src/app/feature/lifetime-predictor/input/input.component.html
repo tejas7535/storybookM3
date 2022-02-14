@@ -11,7 +11,7 @@
         [ngClass]="{ 'panel-always-visible': controlGroup.alwaysVisible }"
       >
         <mat-expansion-panel-header>
-          <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="flex flex-row place-items-center justify-between">
             <span class="text-body-1 font-semibold">{{
               t(controlGroup.name)
             }}</span>
@@ -23,36 +23,38 @@
             ></mac-tooltip>
           </div>
         </mat-expansion-panel-header>
-        <mat-slide-toggle
-          *ngIf="controlGroup.name === 'HV'"
-          color="primary"
-          [checked]="material"
-          (change)="material = $event.source.checked"
-        >
-          {{ t('HV_FROM_PLS_DATA') }}
-        </mat-slide-toggle>
-        <mac-ltp-material
-          *ngIf="dropdownHardness(controlGroup.name)"
-        ></mac-ltp-material>
-        <ng-container *ngIf="sliderHardness(controlGroup.name)">
-          <div
-            *ngFor="let control of controlGroup.controls; trackBy: trackByFn"
-            class="input-control"
+        <div class="flex flex-col px-6">
+          <mat-slide-toggle
+            *ngIf="controlGroup.name === 'HV'"
+            color="primary"
+            [checked]="material"
+            (change)="material = $event.source.checked"
           >
-            <mac-ltp-slider
-              [control]="control"
-              *ngIf="isSlider(control)"
-            ></mac-ltp-slider>
-            <mac-ltp-select
-              [control]="control"
-              *ngIf="isSelect(control)"
-            ></mac-ltp-select>
-            <mac-ltp-toggle
-              [control]="control"
-              *ngIf="isToggle(control)"
-            ></mac-ltp-toggle>
-          </div>
-        </ng-container>
+            {{ t('HV_FROM_PLS_DATA') }}
+          </mat-slide-toggle>
+          <mac-ltp-material
+            *ngIf="dropdownHardness(controlGroup.name)"
+          ></mac-ltp-material>
+          <ng-container *ngIf="sliderHardness(controlGroup.name)">
+            <div
+              *ngFor="let control of controlGroup.controls; trackBy: trackByFn"
+              class="input-control"
+            >
+              <mac-ltp-slider
+                [control]="control"
+                *ngIf="isSlider(control)"
+              ></mac-ltp-slider>
+              <mac-ltp-select
+                [control]="control"
+                *ngIf="isSelect(control)"
+              ></mac-ltp-select>
+              <mac-ltp-toggle
+                [control]="control"
+                *ngIf="isToggle(control)"
+              ></mac-ltp-toggle>
+            </div>
+          </ng-container>
+        </div>
         <!-- <mac-ltp-limits
             *ngIf="controlGroup.name == 'hv'"
             [hv]="(predictionRequest | ngrxPush).hv"

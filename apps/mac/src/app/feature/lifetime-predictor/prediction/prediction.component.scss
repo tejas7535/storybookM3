@@ -1,81 +1,22 @@
-.ltp-prediction-card {
-  background: #ffffff 0% 0% no-repeat padding-box;
-  box-shadow: 0 3px 6px #00000033;
-  padding: 0;
-}
-
 mat-card-title {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-.ltp-prediction-container {
-  @apply mb-0 p-4 pt-0;
-}
-
-.sidenav-content-container {
-  min-height: 100%;
-  min-width: 100%;
-  padding: 20px;
-}
-
-.full-height {
-  height: 100%;
-}
-
-.ltp-prediction-container-bottom {
-  padding: 20px;
-  padding-bottom: 0;
-}
-
-.ltp-prediction-kpi-headline {
-  text-align: center;
-}
-
-.ltp-prediction-border-bottom {
-  border-bottom: 1px solid #0000001f;
-}
-
-.ltp-prediction-padding-bottom {
-  padding-bottom: 10px;
-}
-
-.ltp-prediction-legend-header {
-  color: #646464;
-  font: Bold 16px/25px Arial;
-  letter-spacing: 0.64px;
-  opacity: 1;
-  text-align: left;
+  @apply px-4;
 }
 
 .mat-divider {
-  margin-left: 10px;
-  margin-right: 10px;
+  @apply m-2;
   position: relative !important;
 }
 
-.download-button {
-  text-decoration: none;
-}
-
 ::ng-deep .mat-tab-labels > .mat-tab-label {
-  opacity: 1;
+  @apply opacity-100;
 }
 
 ::ng-deep .mat-tab-header {
-  border-bottom: none;
-}
-
-::ng-deep .mat-tab-body-wrapper {
-  display: none !important;
+  @apply border-b-0;
 }
 
 ::ng-deep .mat-tab-label-active > .mat-tab-label-content > h4 {
-  color: #00893d;
-}
-
-::ng-deep .mat-menu-panel {
-  min-height: auto;
+  @apply placeholder-primary;
 }
 
 ::ng-deep .mat-menu-panel,
@@ -86,14 +27,4 @@ mat-card-title {
 ::ng-deep .mat-menu-content {
   padding-bottom: 0 !important;
   padding-top: 0 !important;
-}
-
-mat-icon {
-  font-size: 14px;
-  height: 14px;
-  width: 14px;
-}
-
-.export-icon {
-  rotate: 90;
 }

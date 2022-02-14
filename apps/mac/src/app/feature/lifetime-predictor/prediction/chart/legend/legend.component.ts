@@ -5,7 +5,6 @@ import { LegendSquare } from '../../../models';
 @Component({
   selector: 'mac-ltp-legend',
   templateUrl: './legend.component.html',
-  styleUrls: ['./legend.component.scss'],
 })
 export class LegendComponent {
   @Input() graphs: LegendSquare[];

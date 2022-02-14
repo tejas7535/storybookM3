@@ -1,4 +1,3 @@
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
@@ -44,7 +43,6 @@ describe('AqmCalculatorComponent', () => {
     component: AqmCalculatorComponent,
     imports: [
       BrowserAnimationsModule,
-      FlexLayoutModule,
       MatProgressSpinnerModule,
       ReactiveFormsModule,
       MatFormFieldModule,

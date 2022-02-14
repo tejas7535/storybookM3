@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -44,7 +43,6 @@ import { ToggleComponent } from './toggle/toggle.component';
     MatSlideToggleModule,
     SharedTranslocoModule,
     TooltipModule,
-    FlexLayoutModule,
     FormsModule,
     MatInputModule,
     MatButtonModule,

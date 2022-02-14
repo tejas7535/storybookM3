@@ -1,20 +1,12 @@
 <div
-  fxLayout="column"
-  fxLayoutAlign="space-around start"
-  fxLayoutGap="5px"
+  class="flex flex-col items-start justify-around gap-1"
   *transloco="let t; read: 'ltp'"
 >
   <div
     *ngFor="let graph of graphs; trackBy: trackByFn"
-    fxLayout="row"
-    fxLayoutAlign="start start"
-    fxLayoutGap="10px"
+    class="flex flex-row items-center justify-start gap-2"
   >
-    <div
-      class="ltp-prediction-legend-square-container"
-      fxLayout="column"
-      fxLayoutAlign="center center"
-    >
+    <div class="flex h-full flex-col items-center justify-center pb-0.5">
       <div
         [style.height.px]="14 - 2 * (graph.borderWidth || 0)"
         [style.width.px]="14 - 2 * (graph.borderWidth || 0)"
@@ -25,9 +17,8 @@
       ></div>
     </div>
     <span
-      class="ltp-chart-legend-text"
+      class="flex flex-row items-baseline text-body-1"
       [innerHtml]="t(graph.name)"
-      fxFlex
     ></span>
   </div>
 </div>

@@ -32,16 +32,16 @@
         />
       </mat-form-field>
       <br />
-      <h3>{{ t('meanStressCorrection') }}</h3>
+      <h5>{{ t('meanStressCorrection') }}</h5>
       <mat-label>
         {{ t('meanStressCorrectionMethod') }}
       </mat-label>
       <mat-radio-group
-        class="load-radio-group"
+        class="mt-4 flex flex-col"
         [formControl]="loadForm.controls.method"
       >
         <mat-radio-button
-          class="load-radio-button"
+          class="m-1"
           *ngFor="let method of methods; trackBy: trackByFn"
           [value]="method"
         >
@@ -50,7 +50,7 @@
       </mat-radio-group>
     </form>
   </div>
-  <div mat-dialog-actions fxLayoutAlign="end center">
+  <div mat-dialog-actions class="flex flex-row items-center justify-end">
     <button mat-button mat-dialog-close>{{ t('abort') }}</button>
     <button
       [disabled]="!loadForm.valid"

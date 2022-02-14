@@ -1,7 +1,11 @@
-<form [formGroup]="limitForm" fxLayout="column" *transloco="let t; read: 'ltp'">
+<form
+  [formGroup]="limitForm"
+  class="flex flex-col"
+  *transloco="let t; read: 'ltp'"
+>
   <label>{{ t('hvLowerAndUpperLimit') }}</label>
-  <div fxLayout="row" fxLayoutAlign="none top">
-    <mat-form-field fxFlex="20">
+  <div class="flex flex-row">
+    <mat-form-field class="w-1/5">
       <input
         matInput
         [formControl]="limitForm.controls.hv_lower"
@@ -11,22 +15,24 @@
         type="number"
       />
     </mat-form-field>
-    <mat-slider
-      fxFlex="30"
-      [formControl]="limitForm.controls.hv_lower"
-      (change)="patchLimits($event.value, 'hv_lower')"
-      [max]="hv"
-      [min]="lowerMin"
-      class="limit-slider-inverted"
-    ></mat-slider>
-    <mat-slider
-      fxFlex="30"
-      [formControl]="limitForm.controls.hv_upper"
-      (change)="patchLimits($event.value, 'hv_upper')"
-      [max]="upperMax"
-      [min]="hv"
-    ></mat-slider>
-    <mat-form-field fxFlex="20">
+    <div class="flex w-3/5 flex-row">
+      <mat-slider
+        class="w-1/2"
+        [formControl]="limitForm.controls.hv_lower"
+        (change)="patchLimits($event.value, 'hv_lower')"
+        [max]="hv"
+        [min]="lowerMin"
+        class="limit-slider-inverted"
+      ></mat-slider>
+      <mat-slider
+        class="w-1/2"
+        [formControl]="limitForm.controls.hv_upper"
+        (change)="patchLimits($event.value, 'hv_upper')"
+        [max]="upperMax"
+        [min]="hv"
+      ></mat-slider>
+    </div>
+    <mat-form-field class="w-1/5">
       <input
         matInput
         [formControl]="limitForm.controls.hv_upper"

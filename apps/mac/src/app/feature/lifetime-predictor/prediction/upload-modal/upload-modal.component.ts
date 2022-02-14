@@ -4,7 +4,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'mac-ltp-upload-modal',
   templateUrl: './upload-modal.component.html',
-  styleUrls: ['./upload-modal.component.scss'],
 })
 export class UploadModalComponent {
   loadForm = new FormGroup({

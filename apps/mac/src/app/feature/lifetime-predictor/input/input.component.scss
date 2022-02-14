@@ -1,31 +1,31 @@
 .panel-always-visible {
-  background-color: #f6f7f8;
+  @apply bg-secondary-variant;
 }
 
 .mat-accordion .mat-expansion-panel {
-  border-radius: 0;
+  @apply rounded-none;
 }
 
 ltp-tooltip {
-  margin-right: 10px;
+  @apply mr-2;
 }
 
 ::ng-deep div.mat-expansion-panel-body {
-  padding: 0 24px 16px 54px;
+  @apply pt-0 pr-6 pb-4 pl-14;
 }
 
 .panel-always-visible mat-expansion-panel-header {
-  margin-right: 8px;
+  @apply mr-2;
 }
 
 .input-control:not(:last-child) {
-  margin-bottom: 20px;
+  @apply mb-5;
 }
 
 .mat-divider.mat-divider-inset {
-  margin: 0 24px;
+  @apply mt-0 mr-6;
 }
 
 mat-slide-toggle {
-  margin-bottom: 28px;
+  @apply mb-7;
 }

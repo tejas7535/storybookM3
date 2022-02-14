@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -23,7 +22,6 @@ describe('ChartComponent', () => {
     declarations: [ChartComponent, LegendComponent],
     imports: [
       CommonModule,
-      FlexLayoutModule,
       ReactiveComponentModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),

@@ -1,19 +1,12 @@
 <div
-  class="ltp-kpi-container ltp-widget-padding"
-  fxLayout="column"
-  fxLayoutAlign="start center"
-  fxLayoutAlign.lt-lg="space-around start"
-  fxLayoutAlign.lt-sm="space-around center"
-  fxLayoutGap="10px"
-  fxFlex
+  class="flex flex-1 flex-col items-center justify-start gap-2 sm:justify-around"
   *transloco="let t; read: 'ltp'"
 >
-  <div fxLayout="row">
-    <span class="ltp-kpi-value">{{ value }}</span>
-    <div fxLayout="column" fxLayoutAlign="start center">
+  <div class="flex flex-row">
+    <span class="text-center text-h4">{{ value }}</span>
+    <div class="flex flex-col items-center justify-start">
       <mac-tooltip
         *ngIf="tooltip"
-        class="kpi-tooltip"
         (click)="$event.stopPropagation()"
         [content]="t(tooltip)"
         manualcolor="#1d9bb2"
@@ -23,12 +16,12 @@
   </div>
   <label
     *ngIf="!descriptionParams"
-    class="ltp-kpi-label"
+    class="text-center text-body-1"
     [innerHtml]="t(description)"
   ></label>
   <label
     *ngIf="descriptionParams"
-    class="ltp-kpi-label"
+    class="text-center text-body-1"
     [innerHtml]="t(description, this.descriptionParams)"
   ></label>
 </div>

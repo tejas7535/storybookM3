@@ -1,12 +1,12 @@
 <div
-  fxLayout="column"
+  class="m-auto flex h-full max-w-full flex-col"
   #chartContainer
   id="chart-container"
   *transloco="let t; read: 'ltp'"
 >
   <div
     #ltpChart
-    fxFlex
+    class="flex h-full flex-1"
     echarts
     [options]="chartSettings"
     [merge]="mergeData$ | ngrxPush"

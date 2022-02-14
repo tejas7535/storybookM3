@@ -1,262 +1,259 @@
-<schaeffler-banner></schaeffler-banner>
-<div class="sidenav-content-container">
-  <div fxFlex="1 0 calc(100% - 40px)">
-    <mat-card class="ltp-prediction-card" fxLayout="column" fxFlexFill>
-      <mac-breadcrumbs
-        [breadcrumbs]="breadcrumbs$ | ngrxPush"
-      ></mac-breadcrumbs>
-      <mat-card-title>{{ 'ltp.home.headline' | transloco }}</mat-card-title>
-      <div fxFlex>
-        <mat-card-content
-          class="ltp-prediction-container"
-          fxLayout="column"
-          fxFlexFill
-        >
-          <div
-            class="ltp-prediction-border-bottom"
-            fxLayout="row"
-            fxLayoutAlign="space-between stretch"
-            *transloco="let t; read: 'ltp.prediction'"
+<div class="flex h-full flex-col">
+  <schaeffler-banner></schaeffler-banner>
+  <div class="flex flex-1 flex-col sm:p-6">
+    <!-- <div class="flex"> -->
+    <mat-card
+      class="flex flex-1 flex-col bg-secondary bg-clip-padding bg-no-repeat p-0 shadow-sm"
+    >
+      <div class="flex h-full flex-col">
+        <mac-breadcrumbs
+          [breadcrumbs]="breadcrumbs$ | ngrxPush"
+        ></mac-breadcrumbs>
+        <mat-card-title>{{ 'ltp.home.headline' | transloco }}</mat-card-title>
+        <div class="flex flex-1 flex-col">
+          <mat-card-content
+            class="mb-0 flex h-full max-w-full flex-1 flex-col p-0"
           >
-            <div fxLayout="row" fxLayoutAlign="start stretch">
-              <mat-tab-group
-                mat-align-tabs="center"
-                (selectedTabChange)="selectChartType($event.index)"
-              >
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                    <h6>{{ t('woehler') }}</h6>
-                  </ng-template>
-                </mat-tab>
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                    <h6>{{ t('haigh') }}</h6>
-                  </ng-template>
-                </mat-tab>
-              </mat-tab-group>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="end stretch">
-              <button mat-button [matMenuTriggerFor]="uploadMenu">
-                <span
-                  fxLayout="row"
-                  fxLayoutAlign="space-between center"
-                  fxLayoutGap="5px"
-                >
-                  <mat-icon>publish</mat-icon>
-                  <span fxHide.lt-sm>{{ t('upload') }}</span>
-                  <mat-icon>expand_more</mat-icon>
-                </span>
-              </button>
-              <mat-menu #uploadMenu="matMenu">
-                <button
-                  mat-menu-item
-                  (click)="fileInput.click()"
-                  disabled="false"
-                >
-                  <span>{{ t('csv') }}</span>
-                  <input
-                    hidden
-                    #fileInput
-                    type="file"
-                    id="file"
-                    accept=".csv, text/plain"
-                    (change)="
-                      handleFileInput($event.target.files); fileInput.value = ''
-                    "
-                  />
-                </button>
-                <button
-                  mat-menu-item
-                  (click)="handleDummyLoad()"
-                  disabled="false"
-                >
-                  <span translate>{{ t('csv_dummy') }}</span>
-                </button>
-              </mat-menu>
-              <button mat-button [matMenuTriggerFor]="exportMenu">
-                <span
-                  fxLayout="row"
-                  fxLayoutAlign="space-between center"
-                  fxLayoutGap="5px"
-                >
-                  <mat-icon>download</mat-icon>
-                  <span fxHide.lt-sm>{{ t('export') }}</span>
-                  <mat-icon>expand_more</mat-icon>
-                </span>
-              </button>
-              <mat-menu #exportMenu="matMenu">
-                <a
-                  [href]="chart.imgUrl"
-                  [download]="chart.filename"
-                  (click)="chart.exportChart()"
-                  class="download-button"
-                >
-                  <button mat-menu-item>
-                    <!-- <button mat-menu-item (click)="chart.exportChart()"> -->
-                    <span>{{ t('png') }}</span>
-                  </button>
-                </a>
-              </mat-menu>
-            </div>
-          </div>
-          <div
-            class="ltp-prediction-container-bottom"
-            fxLayout="row"
-            fxLayout.lt-lg="column"
-            fxLayoutAlign="space-between stretch"
-            fxLayoutGap.gt-md="20px"
-            fxFlex
-          >
-            <div fxFlex="50%" fxLayout.gt-md="column" fxFlex.gt-md="70%">
-              <mac-ltp-chart
-                #chart
-                [chartSettings]="chartOptions"
-                [mergeData$]="mergeData$"
-                class="full-height"
-              ></mac-ltp-chart>
-            </div>
-            <div fxLayout="column" fxFlex="50%" fxFlex.gt-md="30%">
+            <div class="flex h-full flex-col">
               <div
-                class="ltp-prediction-padding-bottom"
-                fxLayout="column"
-                fxLayoutAlign="space-around stretch"
-                fxLayoutGap="20px"
-                *transloco="let t; read: 'ltp.prediction.chart'"
+                class="flex flex-row items-stretch justify-between border-b border-solid border-border"
+                *transloco="let t; read: 'ltp.prediction'"
               >
-                <mat-accordion displayMode="flat" fxHide.gt-md>
-                  <ng-container>
-                    <mat-expansion-panel class="mat-elevation-z0">
-                      <mat-expansion-panel-header>
-                        <div
-                          fxLayout="row"
-                          fxLayoutAlign="space-between center"
-                        >
-                          <mat-panel-title>
-                            <span class="ltp-prediction-legend-header">{{
-                              t('legend')
-                            }}</span>
-                          </mat-panel-title>
-                          <mat-panel-description>
-                            <mac-tooltip
-                              (click)="$event.stopPropagation()"
-                              [content]="t('legendDescription')"
-                              manualcolor="#1d9bb2"
-                              icon="info"
-                            ></mac-tooltip>
-                          </mat-panel-description>
+                <div class="flex flex-row items-stretch justify-start">
+                  <mat-tab-group
+                    mat-align-tabs="center"
+                    (selectedTabChange)="selectChartType($event.index)"
+                  >
+                    <mat-tab class="px-2 md:px-6">
+                      <ng-template mat-tab-label>
+                        <div class="text-button md:text-h6">
+                          {{ t('woehler') }}
                         </div>
-                      </mat-expansion-panel-header>
-                      <ng-container>
+                      </ng-template>
+                    </mat-tab>
+                    <mat-tab>
+                      <ng-template mat-tab-label>
+                        <div class="text-button md:text-h6">
+                          {{ t('haigh') }}
+                        </div>
+                      </ng-template>
+                    </mat-tab>
+                  </mat-tab-group>
+                </div>
+                <div class="flex flex-row items-stretch justify-end">
+                  <button mat-button [matMenuTriggerFor]="uploadMenu">
+                    <span
+                      class="flex flex-row items-center justify-between md:gap-1"
+                    >
+                      <mat-icon>publish</mat-icon>
+                      <span class="hidden sm:block">{{ t('upload') }}</span>
+                      <mat-icon class="hidden sm:block">expand_more</mat-icon>
+                    </span>
+                  </button>
+                  <mat-menu #uploadMenu="matMenu">
+                    <button
+                      mat-menu-item
+                      (click)="fileInput.click()"
+                      disabled="false"
+                    >
+                      <span>{{ t('csv') }}</span>
+                      <input
+                        hidden
+                        #fileInput
+                        type="file"
+                        id="file"
+                        accept=".csv, text/plain"
+                        (change)="
+                          handleFileInput($event.target.files);
+                          fileInput.value = ''
+                        "
+                      />
+                    </button>
+                    <button
+                      mat-menu-item
+                      (click)="handleDummyLoad()"
+                      disabled="false"
+                    >
+                      <span translate>{{ t('csv_dummy') }}</span>
+                    </button>
+                  </mat-menu>
+                  <button mat-button [matMenuTriggerFor]="exportMenu">
+                    <span
+                      class="flex flex-row items-center justify-between md:gap-1"
+                    >
+                      <mat-icon>download</mat-icon>
+                      <span class="hidden sm:block">{{ t('export') }}</span>
+                      <mat-icon class="hidden sm:block">expand_more</mat-icon>
+                    </span>
+                  </button>
+                  <mat-menu #exportMenu="matMenu">
+                    <a
+                      [href]="chart.imgUrl"
+                      [download]="chart.filename"
+                      (click)="chart.exportChart()"
+                    >
+                      <button mat-menu-item>
+                        <!-- <button mat-menu-item (click)="chart.exportChart()"> -->
+                        <span>{{ t('png') }}</span>
+                      </button>
+                    </a>
+                  </mat-menu>
+                </div>
+              </div>
+              <div class="flex flex-1">
+                <div
+                  class="flex max-w-full flex-1 flex-col items-stretch justify-between p-5 pb-0 md:h-full md:flex-row md:gap-4"
+                >
+                  <div class="flex min-h-fit max-w-full flex-col md:w-4/6">
+                    <mac-ltp-chart
+                      #chart
+                      [chartSettings]="chartOptions"
+                      [mergeData$]="mergeData$"
+                      class="h-full"
+                    ></mac-ltp-chart>
+                  </div>
+                  <div class="flex max-w-full flex-1 flex-col md:w-2/6">
+                    <div
+                      class="flex flex-col items-stretch justify-around gap-4 pb-2"
+                      *transloco="let t; read: 'ltp.prediction.chart'"
+                    >
+                      <mat-accordion displayMode="flat" class="md:hidden">
+                        <ng-container>
+                          <mat-expansion-panel class="mat-elevation-z0">
+                            <mat-expansion-panel-header>
+                              <div
+                                class="flex flex-row items-center justify-between"
+                              >
+                                <mat-panel-title>
+                                  <span
+                                    class="text-left text-subtitle-1 text-high-emphasis"
+                                    >{{ t('legend') }}</span
+                                  >
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                  <mac-tooltip
+                                    (click)="$event.stopPropagation()"
+                                    [content]="t('legendDescription')"
+                                    manualcolor="#1d9bb2"
+                                    icon="info"
+                                  ></mac-tooltip>
+                                </mat-panel-description>
+                              </div>
+                            </mat-expansion-panel-header>
+                            <ng-container>
+                              <mac-ltp-legend
+                                [graphs]="legendGraphs"
+                              ></mac-ltp-legend>
+                            </ng-container>
+                          </mat-expansion-panel>
+                        </ng-container>
+                      </mat-accordion>
+
+                      <div
+                        class="hidden flex-col items-center justify-around gap-2 md:flex md:items-start"
+                      >
+                        <div class="flex flex-row items-center justify-between">
+                          <span
+                            class="text-left text-subtitle-1 text-high-emphasis"
+                            >{{ t('legend') }}</span
+                          >
+                          <mac-tooltip
+                            (click)="$event.stopPropagation()"
+                            [content]="t('legendDescription')"
+                            manualcolor="#1d9bb2"
+                            icon="info"
+                          ></mac-tooltip>
+                        </div>
                         <mac-ltp-legend
                           [graphs]="legendGraphs"
                         ></mac-ltp-legend>
-                      </ng-container>
-                    </mat-expansion-panel>
-                  </ng-container>
-                </mat-accordion>
+                        <mat-divider></mat-divider>
+                      </div>
+                    </div>
+                    <div
+                      class="flex flex-col items-center justify-around sm:items-stretch md:items-center md:justify-end"
+                      *transloco="let t; read: 'ltp.prediction.kpi'"
+                    >
+                      <h6 class="text-center">
+                        {{ t('headline') }}
+                      </h6>
+                      <mac-ltp-kpi
+                        *ngIf="showWoehler()"
+                        [value]="
+                          (predictionResult | ngrxPush).kpi?.fatigue.toFixed(0)
+                        "
+                        description="prediction.kpi.fatigue"
+                      ></mac-ltp-kpi>
+                      <mac-ltp-kpi
+                        *ngIf="showWoehler()"
+                        [value]="
+                          (predictionResult | ngrxPush).kpi?.slope?.toFixed(
+                            2
+                          ) || t('rrelNA')
+                        "
+                        description="prediction.kpi.slope"
+                        [tooltip]="
+                          !(predictionResult | ngrxPush).kpi?.slope
+                            ? 'rrelNAInfo'
+                            : undefined
+                        "
+                      ></mac-ltp-kpi>
+                      <mac-ltp-kpi
+                        *ngIf="showWoehler()"
+                        [value]="
+                          !(predictionResult | ngrxPush).kpi?.slope
+                            ? t('countNA')
+                            : (predictionResult | ngrxPush).kpi?.count === -1
+                            ? '∞'
+                            : (predictionResult | ngrxPush).kpi?.count
+                        "
+                        [description]="
+                          (predictionResult | ngrxPush).kpi?.count === -1
+                            ? 'prediction.kpi.survivor'
+                            : 'prediction.kpi.count'
+                        "
+                        [descriptionParams]="{
+                          mpa: (predictionResult | ngrxPush)?.kpi?.mpa || ''
+                        }"
+                        [tooltip]="
+                          !(predictionResult | ngrxPush).kpi?.slope
+                            ? 'countNAInfo'
+                            : undefined
+                        "
+                      ></mac-ltp-kpi>
 
-                <div
-                  fxLayout="column"
-                  fxLayoutAlign="space-around stretch"
-                  fxLayoutGap="10px"
-                  fxHide.lt-lg
-                >
-                  <div fxLayout="row" fxLayoutAlign="space-between center">
-                    <span class="ltp-prediction-legend-header">{{
-                      t('legend')
-                    }}</span>
-                    <mac-tooltip
-                      (click)="$event.stopPropagation()"
-                      [content]="t('legendDescription')"
-                      manualcolor="#1d9bb2"
-                      icon="info"
-                    ></mac-tooltip>
+                      <mac-ltp-kpi
+                        *ngIf="!showWoehler()"
+                        [value]="
+                          (predictionResult | ngrxPush).kpi?.fatigue.toFixed(0)
+                        "
+                        description="prediction.kpi.fatigue0"
+                      ></mac-ltp-kpi>
+                      <mac-ltp-kpi
+                        *ngIf="!showWoehler()"
+                        [value]="
+                          (predictionResult | ngrxPush).kpi?.fatigue1.toFixed(0)
+                        "
+                        description="prediction.kpi.fatigue1"
+                      ></mac-ltp-kpi>
+                      <mac-ltp-kpi
+                        *ngIf="!showWoehler()"
+                        [value]="
+                          (predictionResult | ngrxPush).kpi?.meanStress.toFixed(
+                            2
+                          )
+                        "
+                        description="prediction.kpi.meanStress"
+                      ></mac-ltp-kpi>
+                    </div>
                   </div>
-                  <mac-ltp-legend [graphs]="legendGraphs"></mac-ltp-legend>
-                  <mat-divider></mat-divider>
                 </div>
               </div>
-              <div
-                fxLayout="column"
-                fxFlex
-                fxLayoutAlign="end center"
-                fxLayoutAlign.lt-lg="space-around stretch"
-                fxLayoutAlign.lt-sm="space-around center"
-                *transloco="let t; read: 'ltp.prediction.kpi'"
-              >
-                <h6 class="ltp-prediction-kpi-headline">
-                  {{ t('headline') }}
-                </h6>
-                <mac-ltp-kpi
-                  *ngIf="showWoehler()"
-                  [value]="
-                    (predictionResult | ngrxPush).kpi?.fatigue.toFixed(0)
-                  "
-                  description="prediction.kpi.fatigue"
-                ></mac-ltp-kpi>
-                <mac-ltp-kpi
-                  *ngIf="showWoehler()"
-                  [value]="
-                    (predictionResult | ngrxPush).kpi?.slope?.toFixed(2) ||
-                    t('rrelNA')
-                  "
-                  description="prediction.kpi.slope"
-                  [tooltip]="
-                    !(predictionResult | ngrxPush).kpi?.slope
-                      ? 'rrelNAInfo'
-                      : undefined
-                  "
-                ></mac-ltp-kpi>
-                <mac-ltp-kpi
-                  *ngIf="showWoehler()"
-                  [value]="
-                    !(predictionResult | ngrxPush).kpi?.slope
-                      ? t('countNA')
-                      : (predictionResult | ngrxPush).kpi?.count === -1
-                      ? '∞'
-                      : (predictionResult | ngrxPush).kpi?.count
-                  "
-                  [description]="
-                    (predictionResult | ngrxPush).kpi?.count === -1
-                      ? 'prediction.kpi.survivor'
-                      : 'prediction.kpi.count'
-                  "
-                  [descriptionParams]="{
-                    mpa: (predictionResult | ngrxPush)?.kpi?.mpa || ''
-                  }"
-                  [tooltip]="
-                    !(predictionResult | ngrxPush).kpi?.slope
-                      ? 'countNAInfo'
-                      : undefined
-                  "
-                ></mac-ltp-kpi>
-
-                <mac-ltp-kpi
-                  *ngIf="!showWoehler()"
-                  [value]="
-                    (predictionResult | ngrxPush).kpi?.fatigue.toFixed(0)
-                  "
-                  description="prediction.kpi.fatigue0"
-                ></mac-ltp-kpi>
-                <mac-ltp-kpi
-                  *ngIf="!showWoehler()"
-                  [value]="
-                    (predictionResult | ngrxPush).kpi?.fatigue1.toFixed(0)
-                  "
-                  description="prediction.kpi.fatigue1"
-                ></mac-ltp-kpi>
-                <mac-ltp-kpi
-                  *ngIf="!showWoehler()"
-                  [value]="
-                    (predictionResult | ngrxPush).kpi?.meanStress.toFixed(2)
-                  "
-                  description="prediction.kpi.meanStress"
-                ></mac-ltp-kpi>
-              </div>
             </div>
-          </div>
-        </mat-card-content>
+          </mat-card-content>
+        </div>
       </div>
     </mat-card>
+    <!-- </div> -->
   </div>
 </div>

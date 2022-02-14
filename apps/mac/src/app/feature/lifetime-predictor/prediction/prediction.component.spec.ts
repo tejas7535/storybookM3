@@ -1,6 +1,5 @@
 import { DecimalPipe } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -70,7 +69,6 @@ describe('PredictionComponent', () => {
     declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
     imports: [
       NoopAnimationsModule,
-      FlexLayoutModule,
       MatButtonModule,
       MatMenuModule,
       MatTabsModule,
