@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.16](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.15...mm-v0.1.16) (2022-02-14)
+
+
+### 🐛 Bug Fixes
+
+* **legal-pages:** handle apps with no custom terms of use ([8dd1103](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8dd11032303080d78e0114f917f1b7bf6ad1aa1b))
+* **legal-pages:** terms of use optional ([b37a7db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b37a7db3ba4214866eca11371950842aebcc1324))
+
+
+### 🎸 Features
+
+* **mm:** android footer handling ([3631b5b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3631b5b6e907b697d69c6d8df0437671f1a85e64))
+
 ### [0.1.15](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.14...mm-v0.1.15) (2022-02-04)
 
 
