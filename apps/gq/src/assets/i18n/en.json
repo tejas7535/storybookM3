@@ -13,7 +13,7 @@
       "materialNumber": "Material",
       "netValue": "Net Value",
       "price": "Net Price",
-      "percentDifference": "Price Diff %",
+      "priceDiff": "Price Diff %",
       "gqPrice": "GQ Price",
       "gqRating": "GQ Rating",
       "priceUnit": "per",
@@ -138,12 +138,14 @@
         "selected": "Selected"
       },
       "quotationDetailsStatus": {
-        "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
-        "selectedAverageGPM": "Selected Weigh. Avg. GPM %",
-        "selectedNetValue": "Selected Net Value",
-        "totalAverageGPI": "Total Weigh. Avg. GPI %",
-        "totalAverageGPM": "Total Weigh. Avg. GPM %",
+        "selectedAverageGPI": "Select. WAvg. GPI",
+        "selectedAverageGPM": "Select. WAvg. GPM",
+        "selectedNetValue": "Select. Net Value",
+        "selectedPriceDiff": "Select. Price Diff. %",
+        "totalAverageGPI": "Total WAvg. GPI",
+        "totalAverageGPM": "Total WAvg. GPM",
         "totalNetValue": "Total Net Value",
+        "totalPriceDiff": "Total Price Diff. %",
         "showAll": "Show All",
         "modalTitle": "Table Summary Figures"
       },
@@ -188,6 +190,7 @@
           "quoteNetValue": "Quote Net Value",
           "quoteWeightedAverageGPM": "Quote Weighted Average GPM%",
           "quoteWeightedAverageGPI": "Quote Weighted Average GPI%",
+          "quotePriceDifference": "Quote Price Difference%",
           "currencyUsed": "Currency Used"
         },
         "customerOverview": {

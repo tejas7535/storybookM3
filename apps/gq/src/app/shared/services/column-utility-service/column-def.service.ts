@@ -166,8 +166,8 @@ export class ColumnDefService {
       filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
-      headerName: translate('shared.quotationDetailsTable.percentDifference'),
-      field: 'percentDifference',
+      headerName: translate('shared.quotationDetailsTable.priceDiff'),
+      field: 'priceDiff',
       valueFormatter: ColumnUtilityService.percentageFormatter,
     },
     {

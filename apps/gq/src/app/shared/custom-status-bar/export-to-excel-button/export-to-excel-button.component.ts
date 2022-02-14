@@ -273,7 +273,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addQuotationSummary(quotation: Quotation): ExcelCell[][] {
-    const statusBarCalculation = PriceService.calculateStatusBarValues(
+    const statusBarProperties = PriceService.calculateStatusBarValues(
       quotation.quotationDetails
     );
 
@@ -333,7 +333,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           data: {
             type: typeString,
             value: HelperService.transformMarginDetails(
-              statusBarCalculation?.totalNetValue,
+              statusBarProperties?.netValue,
               quotation.customer.currency
             ),
           },
@@ -353,9 +353,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformPercentage(
-              statusBarCalculation.totalWeightedGPM
-            ),
+            value: HelperService.transformPercentage(statusBarProperties.gpm),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -373,8 +371,26 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
+            value: HelperService.transformPercentage(statusBarProperties.gpi),
+          },
+          styleId: excelStyleObjects.excelTextBorder.id,
+        },
+      ],
+      [
+        {
+          data: {
+            type: typeString,
+            value: translate(
+              'shared.customStatusBar.excelExport.quotationSummary.quotePriceDifference'
+            ),
+          },
+          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+        },
+        {
+          data: {
+            type: typeString,
             value: HelperService.transformPercentage(
-              statusBarCalculation.totalWeightedGPI
+              statusBarProperties.priceDiff
             ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,

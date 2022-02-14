@@ -1,13 +1,14 @@
 import {
   COMPARABLE_LINKED_TRANSACTION_MOCK,
   EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
-  QUATATION_DETAILS_MOCK,
   QUOTATION_DETAIL_MOCK,
+  QUOTATION_DETAILS_MOCK,
 } from '../../../../testing/mocks';
 import {
   SapConditionType,
   SapPriceConditionDetail,
 } from '../../../core/store/reducers/sap-price-details/models';
+import { StatusBarProperties } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from './price.service';
 
@@ -16,7 +17,7 @@ describe('PriceService', () => {
     test('should return detail', () => {
       const detail = QUOTATION_DETAIL_MOCK;
       detail.gpi = 0;
-      detail.percentDifference = 0;
+      detail.priceDiff = 0;
       detail.netValue = 0;
       detail.strategicPrice = 10;
 
@@ -45,7 +46,7 @@ describe('PriceService', () => {
     });
   });
 
-  describe('calculatePercentDifference should', () => {
+  describe('calculatepriceDiff should', () => {
     test.each([
       { lastCustomerPrice: 110, price: 120, expected: 9.09 },
       { lastCustomerPrice: 100, price: 50, expected: -50 },
@@ -58,7 +59,7 @@ describe('PriceService', () => {
         price,
       } as any;
 
-      const result = PriceService.calculatePercentDifference(detail);
+      const result = PriceService.calculatepriceDiff(detail);
 
       expect(result).toEqual(expected);
     });
@@ -140,29 +141,30 @@ describe('PriceService', () => {
 
       const result = PriceService.calculateStatusBarValues(details);
 
-      expect(result).toEqual({
-        totalNetValue: QUOTATION_DETAIL_MOCK.netValue,
-        totalWeightedGPI: QUOTATION_DETAIL_MOCK.gpi,
-        totalWeightedGPM: QUOTATION_DETAIL_MOCK.gpm,
-      });
+      expect(result).toEqual(
+        new StatusBarProperties(
+          QUOTATION_DETAIL_MOCK.netValue,
+          QUOTATION_DETAIL_MOCK.gpi,
+          QUOTATION_DETAIL_MOCK.gpm,
+          QUOTATION_DETAIL_MOCK.priceDiff,
+          details.length
+        )
+      );
     });
     test('only use max quantity to calculate StatusBarCalculation, if same materialNumber15 appear', () => {
       const result = PriceService.calculateStatusBarValues(
-        QUATATION_DETAILS_MOCK
+        QUOTATION_DETAILS_MOCK
       );
-
-      expect(result).toEqual({
-        totalNetValue: 2020.4,
-        totalWeightedGPI: 24.74,
-        totalWeightedGPM: 0.99,
-      });
+      expect(result).toEqual(
+        new StatusBarProperties(2020.4, 24.74, 0.99, 0.2, 3)
+      );
     });
   });
 
   describe('keepMaxQuantityIfDuplicate should', () => {
     test('only use max quantity to calculate StatusBarCalculation, if same materialNumber15 appear', () => {
       const result = PriceService.keepMaxQuantityIfDuplicate(
-        QUATATION_DETAILS_MOCK
+        QUOTATION_DETAILS_MOCK
       );
 
       expect(result.length).toEqual(2);
@@ -225,14 +227,14 @@ describe('PriceService', () => {
   });
   describe('calculateMsp', () => {
     test('should return msp', () => {
-      var result = PriceService.calculateMsp(100, 15);
+      const result = PriceService.calculateMsp(100, 15);
 
       expect(result).toEqual(85);
     });
   });
   describe('calculateSapPriceValues', () => {
     test('should set msp & rsp', () => {
-      var detail = {
+      const detail = {
         filteredSapConditionDetails: [
           {
             sapConditionType: SapConditionType.ZMIN,

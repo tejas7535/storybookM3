@@ -24,24 +24,8 @@ export class QuotationDetailsStatusComponent implements OnInit {
   showGPI$: Observable<boolean>;
   showGPM$: Observable<boolean>;
   customerCurrency$: Observable<string>;
-  statusBar: StatusBar = {
-    rows: {
-      total: 0,
-      selected: 0,
-    },
-    netValue: {
-      total: 0,
-      selected: 0,
-    },
-    gpi: {
-      total: 0,
-      selected: 0,
-    },
-    gpm: {
-      total: 0,
-      selected: 0,
-    },
-  };
+  statusBar = new StatusBar();
+
   selections: QuotationDetail[] = [];
   private params: IStatusPanelParams;
 
@@ -74,22 +58,15 @@ export class QuotationDetailsStatusComponent implements OnInit {
 
     const details: QuotationDetail[] = [];
     this.params.api.forEachNode((row: RowNode) => details.push(row.data));
-    const allRows = PriceService.calculateStatusBarValues(details);
-    this.statusBar.rows.total = details.length;
-    this.statusBar.netValue.total = allRows.totalNetValue;
-    this.statusBar.gpi.total = allRows.totalWeightedGPI;
-    this.statusBar.gpm.total = allRows.totalWeightedGPM;
+
+    this.statusBar.total = PriceService.calculateStatusBarValues(details);
   }
 
   onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
-    const selectedDetails = PriceService.calculateStatusBarValues(
+    this.statusBar.selected = PriceService.calculateStatusBarValues(
       this.selections
     );
-    this.statusBar.rows.selected = this.selections.length;
-    this.statusBar.netValue.selected = selectedDetails.totalNetValue;
-    this.statusBar.gpi.selected = selectedDetails.totalWeightedGPI;
-    this.statusBar.gpm.selected = selectedDetails.totalWeightedGPM;
   }
 
   showAll(): void {

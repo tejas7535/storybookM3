@@ -13,7 +13,7 @@
       "materialNumber": "Material",
       "netValue": "Nettowert",
       "price": "Nettopreis",
-      "percentDifference": "Preisunterschied %",
+      "priceDiff": "Preisunterschied %",
       "gqRating": "GQ Rating",
       "gqPrice": "GQ Preis",
       "priceUnit": "pro",
@@ -138,12 +138,14 @@
         "selected": "Ausgewählt"
       },
       "quotationDetailsStatus": {
-        "selectedAverageGPI": "Ausgewählter gew. ø GPI",
-        "selectedAverageGPM": "Ausgewählter gew. ø GPM",
-        "selectedNetValue": "Ausgewählter Nettowert",
-        "totalAverageGPI": "Gesamt gew. ø GPI",
-        "totalAverageGPM": "Gesamt gew. ø GPM",
-        "totalNetValue": "Gesamt Nettowert",
+        "selectedAverageGPI": "Ausgew. gew. ø GPI",
+        "selectedAverageGPM": "Ausgew. gew. ø GPM",
+        "selectedNetValue": "Ausgew. Nettowert",
+        "selectedPriceDiff": "Ausgew. Price Diff. %",
+        "totalAverageGPI": "Ges. gew. ø GPI",
+        "totalAverageGPM": "Ges. gew. ø GPM",
+        "totalNetValue": "Ges. Nettowert",
+        "totalPriceDiff": "Ges. Preisdiff. %",
         "showAll": "Alle anzeigen",
         "modalTitle": "Tabelle Übersichtszahlen"
       },
@@ -188,6 +190,7 @@
           "quoteNetValue": "Angebotsnettowert",
           "quoteWeightedAverageGPM": "Gesamt gew. ø GPI%",
           "quoteWeightedAverageGPI": "Gesamt gew. ø GPI%",
+          "quotePriceDifference": "Gesamte Preisdifferenz%",
           "currencyUsed": "Währung"
         },
         "customerOverview": {

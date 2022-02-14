@@ -33,7 +33,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   strategicPrice: undefined,
   lastCustomerPrice: 170,
   lastCustomerPriceDate: '2020-12-17T09:29:34',
-  percentDifference: 17.65,
+  priceDiff: 17.65,
   gpc: 20,
   sqv: 30,
   rlt: 20,
@@ -60,12 +60,13 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   rsp: 0,
 };
 
-export const QUATATION_DETAILS_MOCK = [
+export const QUOTATION_DETAILS_MOCK = [
   {
     gpi: 43.28,
     gpm: 25.37,
     netValue: 13.4,
     orderQuantity: 10,
+    priceDiff: 0.1,
     material: {
       materialNumber15: '093328702000010',
     } as MaterialDetails,
@@ -75,6 +76,7 @@ export const QUATATION_DETAILS_MOCK = [
     gpm: 0.99,
     netValue: 2020,
     orderQuantity: 2000,
+    priceDiff: 0.2,
     material: {
       materialNumber15: '093328702000010',
     } as MaterialDetails,
@@ -84,6 +86,7 @@ export const QUATATION_DETAILS_MOCK = [
     gpm: 0,
     netValue: 0.4,
     orderQuantity: 20,
+    priceDiff: 0,
     material: {
       materialNumber15: '093328702000020',
     } as MaterialDetails,

@@ -15,11 +15,11 @@
       <div class="mt-8 flex flex-row">
         <gq-label-text class="w-1/2" [modalVersion]="true">
           <span label>{{ t('total') }}</span>
-          <span text>{{ statusBar.rows.total }} </span>
+          <span text>{{ statusBar.total.rows }} </span>
         </gq-label-text>
         <gq-label-text class="w-1/2" [modalVersion]="true">
           <span label>{{ t('selected') }}</span>
-          <span text>{{ statusBar.rows.selected }}</span>
+          <span text>{{ statusBar.selected.rows }}</span>
         </gq-label-text>
       </div>
       <gq-horizontal-divider></gq-horizontal-divider>
@@ -30,42 +30,54 @@
           <gq-label-text [modalVersion]="true">
             <span label>{{ t('totalNetValue') }}</span>
             <span text>{{
-              statusBar.netValue.total | numberCurrency: currency
+              statusBar.total.netValue | numberCurrency: currency
             }}</span>
           </gq-label-text>
         </div>
         <div class="mt-4" *ngIf="showGPM$ | ngrxPush">
           <gq-label-text [modalVersion]="true">
             <span label>{{ t('totalAverageGPM') }}</span>
-            <span text>{{ statusBar.gpm.total | percentage }}</span>
+            <span text>{{ statusBar.total.gpm | percentage }}</span>
           </gq-label-text>
         </div>
         <div class="mt-4" *ngIf="showGPI$ | ngrxPush">
           <gq-label-text [modalVersion]="true">
             <span label>{{ t('totalAverageGPI') }}</span>
-            <span text>{{ statusBar.gpi.total | percentage }}</span>
+            <span text>{{ statusBar.total.gpi | percentage }}</span>
+          </gq-label-text>
+        </div>
+        <div class="mt-4">
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('totalPriceDiff') }}</span>
+            <span text>{{ statusBar.total.priceDiff | percentage }}</span>
           </gq-label-text>
         </div>
       </div>
-      <div *ngIf="true" class="flex w-1/2 flex-col">
+      <div class="flex w-1/2 flex-col">
         <div>
           <gq-label-text [modalVersion]="true">
             <span label>{{ t('selectedNetValue') }}</span>
             <span text>{{
-              statusBar.netValue.selected | numberCurrency: currency
+              statusBar.selected.netValue | numberCurrency: currency
             }}</span>
           </gq-label-text>
         </div>
         <div class="mt-4" *ngIf="showGPM$ | ngrxPush">
           <gq-label-text [modalVersion]="true">
             <span label>{{ t('selectedAverageGPM') }}</span>
-            <span text>{{ statusBar.gpm.selected | percentage }}</span>
+            <span text>{{ statusBar.selected.gpm | percentage }}</span>
           </gq-label-text>
         </div>
         <div class="mt-4" *ngIf="showGPI$ | ngrxPush">
           <gq-label-text [modalVersion]="true">
             <span label>{{ t('selectedAverageGPI') }}</span>
-            <span text>{{ statusBar.gpi.selected | percentage }}</span>
+            <span text>{{ statusBar.selected.gpi | percentage }}</span>
+          </gq-label-text>
+        </div>
+        <div class="mt-4">
+          <gq-label-text [modalVersion]="true">
+            <span label>{{ t('selectedPriceDiff') }}</span>
+            <span text>{{ statusBar.selected.priceDiff | percentage }}</span>
           </gq-label-text>
         </div>
       </div>

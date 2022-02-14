@@ -21,6 +21,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   CUSTOMER_MOCK,
   EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
+  QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/models/extended-comparable-linked-transaction.mock';
@@ -466,6 +467,22 @@ describe('ExportToExcelButtonComponent', () => {
             data: {
               type,
               value: `90 %`,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
+          },
+        ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
+          },
+          {
+            data: {
+              type,
+              value: `${QUOTATION_DETAIL_MOCK.priceDiff} %`,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },

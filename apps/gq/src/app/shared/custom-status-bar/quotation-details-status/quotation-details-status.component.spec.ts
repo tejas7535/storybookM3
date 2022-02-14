@@ -19,6 +19,7 @@ import {
   QUOTATION_DETAIL_MOCK,
 } from '../../../../testing/mocks';
 import { StatusBarModalComponent } from '../../components/status-bar-modal/status-bar-modal.component';
+import { StatusBarProperties } from '../../models';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { PriceService } from '../../services/price-service/price.service';
@@ -99,21 +100,31 @@ describe('QuotationDetailsStatusComponent', () => {
           gpi: QUOTATION_DETAIL_MOCK.gpi,
         },
       };
-      PriceService.calculateStatusBarValues = jest.fn(() => ({
-        totalNetValue: QUOTATION_DETAIL_MOCK.netValue,
-        totalWeightedGPI: QUOTATION_DETAIL_MOCK.gpi,
-        totalWeightedGPM: QUOTATION_DETAIL_MOCK.gpm,
-      }));
+      PriceService.calculateStatusBarValues = jest.fn(
+        () =>
+          new StatusBarProperties(
+            QUOTATION_DETAIL_MOCK.netValue,
+            QUOTATION_DETAIL_MOCK.gpi,
+            QUOTATION_DETAIL_MOCK.gpm,
+            QUOTATION_DETAIL_MOCK.priceDiff,
+            1
+          )
+      );
       component['params'].api.forEachNode = jest.fn((callback) =>
         callback(rowNode as any, 1)
       );
 
       component.rowValueChanges();
 
-      expect(component.statusBar.netValue.total).toEqual(
+      expect(component.statusBar.total.netValue).toEqual(
         QUOTATION_DETAIL_MOCK.netValue
       );
-      expect(component.statusBar.gpi.total).toEqual(QUOTATION_DETAIL_MOCK.gpi);
+      expect(component.statusBar.total.gpi).toEqual(QUOTATION_DETAIL_MOCK.gpi);
+      expect(component.statusBar.total.gpm).toEqual(QUOTATION_DETAIL_MOCK.gpm);
+      expect(component.statusBar.total.priceDiff).toEqual(
+        QUOTATION_DETAIL_MOCK.priceDiff
+      );
+      expect(component.statusBar.total.rows).toEqual(1);
       expect(PriceService.calculateStatusBarValues).toHaveBeenCalledTimes(1);
       expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
     });
@@ -125,12 +136,19 @@ describe('QuotationDetailsStatusComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
-      expect(component.statusBar.gpi.selected).toEqual(
-        QUOTATION_DETAIL_MOCK.gpi
-      );
-      expect(component.statusBar.netValue.selected).toEqual(
+      expect(component.statusBar.selected.netValue).toEqual(
         QUOTATION_DETAIL_MOCK.netValue
       );
+      expect(component.statusBar.selected.gpi).toEqual(
+        QUOTATION_DETAIL_MOCK.gpi
+      );
+      expect(component.statusBar.selected.gpm).toEqual(
+        QUOTATION_DETAIL_MOCK.gpm
+      );
+      expect(component.statusBar.selected.priceDiff).toEqual(
+        QUOTATION_DETAIL_MOCK.priceDiff
+      );
+      expect(component.statusBar.selected.rows).toEqual(1);
     });
   });
   describe('showAll', () => {

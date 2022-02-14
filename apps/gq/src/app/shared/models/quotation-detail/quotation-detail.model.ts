@@ -25,7 +25,7 @@ export class QuotationDetail {
   public recommendedPrice: number;
   public lastCustomerPrice: number;
   public lastCustomerPriceDate: string;
-  public percentDifference: number;
+
   public gpc: number;
   public sqv: number;
   public rlt: number;
@@ -46,6 +46,7 @@ export class QuotationDetail {
   public filteredSapConditionDetails: SapPriceConditionDetail[];
 
   // properties added in GQ application
+  public priceDiff: number;
   public netValue: number;
   public gpi: number;
   public gpm: number;

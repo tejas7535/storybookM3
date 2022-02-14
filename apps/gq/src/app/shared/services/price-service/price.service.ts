@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import { SapConditionType } from '../../../core/store/reducers/sap-price-details/models/';
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { StatusBarProperties } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceUnitForQuotationItemId } from '../../models/quotation-detail/price-units-for-quotation-item-ids.model';
-import { StatusBarCalculation } from './models/status-bar-calculation.model';
-import { SapConditionType } from '../../../core/store/reducers/sap-price-details/models/';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +19,7 @@ export class PriceService {
       detail.price,
       detail.orderQuantity
     );
-    detail.percentDifference = PriceService.calculatePercentDifference(detail);
+    detail.priceDiff = PriceService.calculatepriceDiff(detail);
     detail.discount = PriceService.calculateDiscount(detail);
     // calculate priceUnit dependent values
     PriceService.calculatePriceUnitValues(detail);
@@ -59,7 +59,7 @@ export class PriceService {
       : undefined;
   }
 
-  static calculatePercentDifference(detail: QuotationDetail): number {
+  static calculatepriceDiff(detail: QuotationDetail): number {
     const lastPrice = detail.lastCustomerPrice;
     const currentPrice = detail.price;
 
@@ -120,13 +120,16 @@ export class PriceService {
    */
   static calculateStatusBarValues(
     details: QuotationDetail[]
-  ): StatusBarCalculation {
+  ): StatusBarProperties {
     let totalNetValue = 0;
     let netValueGPM = 0;
     let sumGPINetValue = 0;
     let sumGPMNetValue = 0;
     let totalWeightedGPI = 0;
     let totalWeightedGPM = 0;
+    let sumPriceDiffNetValue = 0;
+    let sumPriceDiff = 0;
+    let totalPriceDiff = 0;
 
     this.keepMaxQuantityIfDuplicate(details).forEach((row: QuotationDetail) => {
       if (row.netValue) {
@@ -137,6 +140,10 @@ export class PriceService {
         if (row.gpm) {
           netValueGPM += row.netValue;
           sumGPMNetValue += row.gpm * row.netValue;
+        }
+        if (row.priceDiff) {
+          sumPriceDiff += row.netValue * row.priceDiff;
+          sumPriceDiffNetValue += row.netValue;
         }
       }
     });
@@ -151,8 +158,19 @@ export class PriceService {
       );
       totalNetValue = PriceService.roundToTwoDecimals(totalNetValue);
     }
+    if (sumPriceDiffNetValue !== 0) {
+      totalPriceDiff = PriceService.roundToTwoDecimals(
+        sumPriceDiff / sumPriceDiffNetValue
+      );
+    }
 
-    return { totalNetValue, totalWeightedGPI, totalWeightedGPM };
+    return new StatusBarProperties(
+      totalNetValue,
+      totalWeightedGPI,
+      totalWeightedGPM,
+      totalPriceDiff,
+      details.length
+    );
   }
 
   static roundPercentageToTwoDecimals(number: number): number {
@@ -210,7 +228,7 @@ export class PriceService {
   static calculateSapPriceValues(detail: QuotationDetail): void {
     if (detail.filteredSapConditionDetails) {
       detail.rsp = detail.filteredSapConditionDetails.find(
-        (el) => el.sapConditionType == SapConditionType.ZMIN
+        (el) => el.sapConditionType === SapConditionType.ZMIN
       )?.amount;
 
       const zrtu = detail.filteredSapConditionDetails.find(

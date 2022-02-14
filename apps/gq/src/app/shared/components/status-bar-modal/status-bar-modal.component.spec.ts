@@ -9,6 +9,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
+import { StatusBar } from '../../models';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { HorizontalDividerModule } from '../horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../label-text/label-text.module';
@@ -42,24 +43,7 @@ describe('StatusBarModalComponent', () => {
       },
       {
         provide: MAT_DIALOG_DATA,
-        useValue: {
-          rows: {
-            total: 0,
-            selected: 0,
-          },
-          netValue: {
-            selected: 0,
-            total: 0,
-          },
-          gpi: {
-            total: 0,
-            selected: 0,
-          },
-          gpm: {
-            total: 0,
-            selected: 0,
-          },
-        },
+        useValue: new StatusBar(),
       },
     ],
   });
