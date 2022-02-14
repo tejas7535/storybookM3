@@ -27,9 +27,9 @@ export class MaterialDesignationCellRenderComponent {
   }
 
   public onMaterialDesignationClick(): void {
-    setTimeout(() => {
-      this.gridApi.getRowNode(this.node.id).setSelected(true, true, true);
+    this.gridApi.deselectAll();
 
+    setTimeout(() => {
       this.router.navigate(
         [`${AppRoutePath.DetailPath}/${DetailRoutePath.DetailsPath}`],
         {

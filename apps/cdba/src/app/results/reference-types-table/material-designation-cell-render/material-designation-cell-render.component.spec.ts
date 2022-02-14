@@ -24,13 +24,13 @@ describe('MaterialDesignationCellRenderComponent', () => {
     },
     value: '12345',
     api: {
+      deselectAll: jest.fn(),
       getRowNode: jest.fn(() => ({
         data: {
           materialNumber: '12345',
           plant: '0060',
           identificationHash: 'foo',
         },
-        setSelected: jest.fn(),
       })),
     },
     node: { id: 2 },
