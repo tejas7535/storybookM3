@@ -8,7 +8,8 @@
       "executor": "@nrwl/angular:package",
       "outputs": ["dist/libs/shared/ui/breadcrumbs"],
       "options": {
-        "project": "libs/shared/ui/breadcrumbs/ng-package.json"
+        "project": "libs/shared/ui/breadcrumbs/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/breadcrumbs/tailwind.config.js"
       },
       "configurations": {
         "production": {
