@@ -14,11 +14,16 @@ export const findItem = (
 export const mass = (
   item: TableItem[],
   amount: number,
-  timespan?: string
-): string =>
-  `<span class="text-low-emphasis">${(
-    (item.find(({ field }) => field === Field.RHO)?.value as number) * amount
-  ).toFixed(2)} g${timespan ? `/${timespan}` : ''}</span>`;
+  timespan?: string,
+  tiny = false
+): string => {
+  const value =
+    (item.find(({ field }) => field === Field.RHO)?.value as number) * amount;
+
+  return `<span class="text-low-emphasis">${
+    tiny ? formatDecimals(value) : value.toFixed(2)
+  } g${timespan ? `/${timespan}` : ''}</span>`;
+};
 
 export const initalGreaseQuantity = (table1Values: TableItem[]) =>
   `${findItem(table1Values, Field.QVIN).value} ${
@@ -64,3 +69,9 @@ export const automaticRelubricationPerMonth = (
 export const automaticRelubricationPerYear = (
   table1Values: TableItem[]
 ): number => automaticRelubricationQuantityPerDay(table1Values) * 365;
+
+export const formatDecimals = (value: number) =>
+  value.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 4,
+  });

@@ -10,6 +10,7 @@ import {
   automaticRelubricationQuantityPerDay,
   automaticRelubricationQuantityUnit,
   findItem,
+  formatDecimals,
   initalGreaseQuantity,
   manualRelubricationQuantity,
   manualRelubricationQuantitySpan,
@@ -93,14 +94,15 @@ export class GreaseReportService {
                   },
                   findItem(table1Values, Field.QVRE_AUT_MIN)?.value && {
                     title: 'automaticRelubricationQuantityPerDay',
-                    values: `${automaticRelubricationQuantityPerDay(
-                      table1Values
+                    values: `${formatDecimals(
+                      automaticRelubricationQuantityPerDay(table1Values)
                     )} ${automaticRelubricationQuantityUnit(
                       table1Values
                     )}/${translate('day')}<br>${mass(
                       item,
                       automaticRelubricationQuantityPerDay(table1Values),
-                      translate('day')
+                      translate('day'),
+                      true
                     )}`,
                     tooltip: 'automaticRelubricationQuantityPerDayTooltip',
                   },
@@ -112,14 +114,15 @@ export class GreaseReportService {
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerWeek',
-                values: `${Number(
+                values: `${formatDecimals(
                   automaticRelubricationPerWeek(table1Values)
-                ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                )} ${automaticRelubricationQuantityUnit(
                   table1Values
                 )}/7 ${translate('days')}<br>${mass(
                   item,
                   automaticRelubricationPerWeek(table1Values),
-                  `7 ${translate('days')}`
+                  `7 ${translate('days')}`,
+                  true
                 )}`,
                 display: false,
               };
