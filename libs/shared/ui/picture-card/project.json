@@ -8,7 +8,8 @@
       "executor": "@nrwl/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/picture-card/tsconfig.lib.json",
-        "project": "libs/shared/ui/picture-card/ng-package.json"
+        "project": "libs/shared/ui/picture-card/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/picture-card/tailwind.config.js"
       },
       "configurations": {
         "production": {
