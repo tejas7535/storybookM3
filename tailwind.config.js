@@ -50,8 +50,6 @@ const fontFamilies = {
 };
 
 module.exports = {
-  prefix: '',
-  content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
   theme: {
     colors: {
       ...baseColors,
