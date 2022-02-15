@@ -8,7 +8,8 @@
       "executor": "@nrwl/angular:package",
       "options": {
         "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.json",
-        "project": "libs/shared/ui/search-autocomplete/ng-package.json"
+        "project": "libs/shared/ui/search-autocomplete/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/search-autocomplete/tailwind.config.js"
       },
       "configurations": {
         "production": {
