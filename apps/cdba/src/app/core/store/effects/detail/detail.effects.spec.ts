@@ -1,6 +1,4 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -62,7 +60,6 @@ describe('Detail Effects', () => {
   let detailService: DetailService;
   let store: MockStore;
   let router: Router;
-  let snackBar: MatSnackBar;
 
   const error = new HttpErrorResponse({
     status: HttpStatusCode.BadRequest,
@@ -71,7 +68,7 @@ describe('Detail Effects', () => {
 
   const createService = createServiceFactory({
     service: DetailEffects,
-    imports: [RouterTestingModule, MatSnackBarModule],
+    imports: [RouterTestingModule],
     providers: [
       mockProvider(DetailService),
       RoleFacade,
@@ -81,10 +78,6 @@ describe('Detail Effects', () => {
           'azure-auth': AUTH_STATE_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 
@@ -95,7 +88,6 @@ describe('Detail Effects', () => {
     detailService = spectator.inject(DetailService);
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
-    snackBar = spectator.inject(MatSnackBar);
   });
 
   describe('loadReferenceType$', () => {
@@ -119,7 +111,6 @@ describe('Detail Effects', () => {
           a: item,
         });
         detailService.getDetails = jest.fn(() => response);
-        const openSnackBar = jest.spyOn(snackBar, 'open');
 
         const result = loadReferenceTypeSuccess({ item });
         const expected = m.cold('--b', { b: result });
@@ -128,32 +119,6 @@ describe('Detail Effects', () => {
         m.flush();
 
         expect(detailService.getDetails).toHaveBeenCalled();
-        expect(openSnackBar).not.toHaveBeenCalled();
-      })
-    );
-
-    test(
-      'should call showInfoMessage',
-      marbles((m) => {
-        actions$ = m.hot('-a', { a: action });
-
-        const item = new ReferenceTypeResult({
-          ...REFERENCE_TYPE_MOCK,
-          isPcmRow: true,
-        });
-
-        const response = m.cold('-a|', {
-          a: item,
-        });
-        detailService.getDetails = jest.fn(() => response);
-        const openSnackBar = jest.spyOn(snackBar, 'open');
-
-        const result = loadReferenceTypeSuccess({ item });
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.loadReferenceType$).toBeObservable(expected);
-        m.flush();
-        expect(openSnackBar).toHaveBeenCalled();
       })
     );
 

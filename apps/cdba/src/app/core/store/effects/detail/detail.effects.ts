@@ -2,18 +2,15 @@
 /* eslint-disable no-invalid-this */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Params, Router } from '@angular/router';
 
 import { exhaustMap, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
-import { URL_FAQ } from '@cdba/shared/constants/urls';
 import { BomItem, Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
-import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -51,20 +48,6 @@ export class DetailEffects {
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap((refTypeIdentifier: ReferenceTypeIdentifier) =>
         this.detailService.getDetails(refTypeIdentifier).pipe(
-          tap((item) =>
-            item.referenceTypeDto.isPcmRow
-              ? this.snackbar
-                  .open(
-                    translate('shared.calculations.pcmRowHint'),
-                    translate('shared.basic.learnMore'),
-                    { duration: 5000 }
-                  )
-                  .onAction()
-                  .subscribe(() => {
-                    window.open(URL_FAQ, '_blank').focus();
-                  })
-              : undefined
-          ),
           map((item: ReferenceTypeResult) =>
             loadReferenceTypeSuccess({ item })
           ),
@@ -230,8 +213,7 @@ export class DetailEffects {
     private readonly detailService: DetailService,
     private readonly store: Store,
     private readonly roleFacade: RoleFacade,
-    private readonly router: Router,
-    private readonly snackbar: MatSnackBar
+    private readonly router: Router
   ) {}
 
   private static mapQueryParamsToIdentifier(

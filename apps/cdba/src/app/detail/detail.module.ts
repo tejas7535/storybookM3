@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
@@ -26,7 +25,6 @@ import { DetailRoutingModule } from './detail-routing.module';
     DetailRoutingModule,
     StoreModule.forFeature('detail', detailReducer),
     EffectsModule.forFeature([DetailEffects, DetailFailureEffects]),
-    MatSnackBarModule,
     MaterialNumberModule,
     PageHeaderModule,
     TabsHeaderModule,
