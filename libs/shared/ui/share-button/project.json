@@ -8,7 +8,8 @@
       "executor": "@nrwl/angular:package",
       "outputs": ["dist/libs/shared/ui/share-button"],
       "options": {
-        "project": "libs/shared/ui/share-button/ng-package.json"
+        "project": "libs/shared/ui/share-button/ng-package.json",
+        "tailwindConfig": "libs/shared/ui/share-button/tailwind.config.js"
       },
       "configurations": {
         "production": {
