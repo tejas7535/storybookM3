@@ -61,6 +61,7 @@ export class PortfolioAnalysisChartService {
       yAxis: [
         {
           type: 'value',
+          alignTicks: true,
           name: this.translocoService.translate(
             'portfolioAnalysis.chart.axes.costs',
             { currency: this.currencyService.getCurrency() }
@@ -71,6 +72,7 @@ export class PortfolioAnalysisChartService {
         },
         {
           type: 'value',
+          alignTicks: true,
           name: this.translocoService.translate(
             'portfolioAnalysis.chart.axes.margin'
           ),
