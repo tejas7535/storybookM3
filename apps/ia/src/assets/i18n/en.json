@@ -13,6 +13,7 @@
       "year": "Year",
       "month": "Month",
       "custom": "Custom",
+      "referenceDate": "reference date",
       "timePeriodLabel": "Time period",
       "timePeriodHint": "Select a period",
       "timeRangeLabel": "Time range",

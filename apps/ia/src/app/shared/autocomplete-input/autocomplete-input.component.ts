@@ -121,7 +121,7 @@ export class AutocompleteInputComponent
   private filterOptions(value: string): IdValue[] {
     const filterValue = value?.toLowerCase() ?? '';
 
-    return this.filter.options.filter((option: IdValue) =>
+    return this.filter?.options.filter((option: IdValue) =>
       option.value.toLowerCase().includes(filterValue)
     );
   }

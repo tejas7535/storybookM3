@@ -1,56 +1,23 @@
-<div class="my-9 flex flex-wrap gap-8 px-4">
-  <div
-    class="w-full lg:w-auto"
-    *transloco="let t; read: 'filters.organization'"
-  >
-    <div class="flex flex-col">
-      <h6 class="m-b-5">
-        {{ t('title') }}
-        <mat-icon
-          [matTooltip]="t('organizationTooltip')"
-          class="h-[20px] w-[20px] cursor-default text-[20px]"
-        >
-          info
-        </mat-icon>
-      </h6>
-      <div class="flex gap-4">
-        <ia-autocomplete-input
-          [filter]="orgUnits$ | ngrxPush"
-          [label]="t('organizationLabel')"
-          [hint]="t('organizationHint')"
-          [value]="selectedOrgUnit$ | ngrxPush"
-          (selected)="optionSelected($event)"
-          (invalidFormControl)="orgUnitInvalid($event)"
-        ></ia-autocomplete-input>
-      </div>
+<mat-accordion>
+  <mat-expansion-panel class="mat-elevation-z0">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Global Filter </mat-panel-title>
+      <!-- <mat-panel-description>
+        Type your name and age
+      </mat-panel-description> -->
+    </mat-expansion-panel-header>
+    <div class="mb-4 px-6">
+      <ia-expanded-filters
+        [orgUnits]="orgUnits$ | ngrxPush"
+        [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
+        [timePeriods]="timePeriods$ | ngrxPush"
+        [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
+        [selectedTime]="selectedTime$ | ngrxPush"
+        (selectOption)="optionSelected($event)"
+        (selectTimePeriod)="timePeriodSelected($event)"
+        (selectTimeRange)="timeRangeSelected($event)"
+      >
+      </ia-expanded-filters>
     </div>
-  </div>
-  <div
-    class="w-full lg:w-auto"
-    *transloco="let t; read: 'filters.periodOfTime'"
-  >
-    <div class="flex flex-col">
-      <h6 class="m-b-5">{{ t('title') }}</h6>
-      <div class="flex flex-wrap gap-4">
-        <ia-select-input
-          [options]="timePeriods$ | ngrxPush"
-          [selectedOption]="selectedTimePeriod$ | ngrxPush"
-          [label]="t('timePeriodLabel')"
-          [hint]="t('timePeriodHint')"
-          [disabled]="disabledTimeRangeFilter"
-          (selected)="timePeriodSelected($event)"
-        ></ia-select-input>
-        <ia-date-input
-          [timePeriod]="selectedTimePeriod$ | ngrxPush"
-          [label]="t('timeRangeLabel')"
-          [hint]="t('timeRangeHint', { value: timeRangeHintValue })"
-          [placeholderStart]="t('timeRangePlaceholderStart')"
-          [placeholderEnd]="t('timeRangePlaceholderEnd')"
-          [disabled]="disabledTimeRangeFilter"
-          (selected)="timeRangeSelected($event)"
-          [selectedTime]="selectedTime$ | ngrxPush"
-        ></ia-date-input>
-      </div>
-    </div>
-  </div>
-</div>
+  </mat-expansion-panel>
+</mat-accordion>

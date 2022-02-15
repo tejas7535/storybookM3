@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
@@ -18,7 +17,6 @@ import {
   getTimePeriods,
 } from '../core/store/selectors';
 import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
-import { getTimeRangeHint } from '../shared/utils/utilities';
 
 @Component({
   selector: 'ia-filter-section',
@@ -31,24 +29,13 @@ export class FilterSectionComponent implements OnInit {
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<string>;
 
-  timeRangeHintValue = 'time range';
-  disabledTimeRangeFilter = true;
-
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.orgUnits$ = this.store.select(getOrgUnits);
     this.timePeriods$ = this.store.select(getTimePeriods);
-    this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod).pipe(
-      tap((timePeriod) => {
-        this.timeRangeHintValue = getTimeRangeHint(timePeriod);
-      })
-    );
-    this.selectedOrgUnit$ = this.store
-      .select(getSelectedOrgUnit)
-      .pipe(
-        tap((value) => (this.disabledTimeRangeFilter = value === undefined))
-      );
+    this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
+    this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
   }
 
@@ -56,14 +43,8 @@ export class FilterSectionComponent implements OnInit {
     this.store.dispatch(filterSelected({ filter }));
   }
 
-  timePeriodSelected(idValue: IdValue): void {
-    this.store.dispatch(
-      timePeriodSelected({ timePeriod: idValue.id as unknown as TimePeriod })
-    );
-  }
-
-  orgUnitInvalid(orgUnitIsInvalid: boolean): void {
-    this.disabledTimeRangeFilter = orgUnitIsInvalid;
+  timePeriodSelected(timePeriod: TimePeriod): void {
+    this.store.dispatch(timePeriodSelected({ timePeriod }));
   }
 
   timeRangeSelected(timeRange: string): void {

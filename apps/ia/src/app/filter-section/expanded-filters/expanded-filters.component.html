@@ -1,0 +1,56 @@
+<div class="flex flex-wrap gap-8">
+  <div
+    class="w-full lg:w-auto"
+    *transloco="let t; read: 'filters.organization'"
+  >
+    <div class="flex flex-col">
+      <h6 class="m-b-5">
+        {{ t('title') }}
+        <mat-icon
+          [matTooltip]="t('organizationTooltip')"
+          class="h-[20px] w-[20px] cursor-default text-[20px]"
+        >
+          info
+        </mat-icon>
+      </h6>
+      <div class="flex gap-4">
+        <ia-autocomplete-input
+          [filter]="orgUnits"
+          [label]="t('organizationLabel')"
+          [hint]="t('organizationHint')"
+          [value]="selectedOrgUnit"
+          (selected)="optionSelected($event)"
+          (invalidFormControl)="orgUnitInvalid($event)"
+        ></ia-autocomplete-input>
+      </div>
+    </div>
+  </div>
+  <div
+    class="w-full lg:w-auto"
+    *transloco="let t; read: 'filters.periodOfTime'"
+  >
+    <div class="flex flex-col">
+      <h6 class="m-b-5">{{ t('title') }}</h6>
+      <div class="flex flex-wrap gap-4">
+        <ia-select-input
+          [options]="timePeriods"
+          [selectedOption]="selectedTimePeriod"
+          [label]="t('timePeriodLabel')"
+          [hint]="t('timePeriodHint')"
+          [disabled]="disabledTimeRangeFilter"
+          (selected)="timePeriodSelected($event)"
+        ></ia-select-input>
+        <ia-date-input
+          [timePeriod]="selectedTimePeriod"
+          [label]="t('timeRangeLabel')"
+          [hint]="t('timeRangeHint', { value: timeRangeHintValue })"
+          [placeholderStart]="t('timeRangePlaceholderStart')"
+          [placeholderEnd]="t('timeRangePlaceholderEnd')"
+          [disabled]="disabledTimeRangeFilter"
+          (selected)="timeRangeSelected($event)"
+          [selectedTime]="selectedTime"
+        ></ia-date-input>
+      </div>
+    </div>
+  </div>
+</div>

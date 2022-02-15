@@ -1,20 +1,30 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
 import { filterSelected, timeRangeSelected } from '../core/store/actions';
-import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
-import { DateInputModule } from '../shared/date-input/date-input.module';
-import { IdValue, SelectedFilter, TimePeriod } from '../shared/models';
-import { SelectInputModule } from '../shared/select-input/select-input.module';
+import {
+  getOrgUnits,
+  getSelectedOrgUnit,
+  getSelectedTimePeriod,
+  getSelectedTimeRange,
+  getTimePeriods,
+} from '../core/store/selectors';
+import {
+  Filter,
+  FilterKey,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../shared/models';
+import { ExpandedFiltersModule } from './expanded-filters/expanded-filters.module';
 import { FilterSectionComponent } from './filter-section.component';
 
 describe('FilterSectionComponent', () => {
@@ -26,13 +36,10 @@ describe('FilterSectionComponent', () => {
     component: FilterSectionComponent,
     imports: [
       NoopAnimationsModule,
-      AutocompleteInputModule,
-      provideTranslocoTestingModule({ en }),
       ReactiveComponentModule,
-      SelectInputModule,
-      DateInputModule,
-      MatIconModule,
-      MatTooltipModule,
+      MatExpansionModule,
+      ExpandedFiltersModule,
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({
@@ -47,7 +54,6 @@ describe('FilterSectionComponent', () => {
           },
         },
       }),
-      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });
 
@@ -62,11 +68,71 @@ describe('FilterSectionComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should set observables', () => {
-      component.ngOnInit();
+    test(
+      'should set orgUnits',
+      marbles((m) => {
+        const result = new Filter(FilterKey.ORG_UNIT, []);
+        store.overrideSelector(getOrgUnits, result);
+        component.ngOnInit();
 
-      expect(component.orgUnits$).toBeDefined();
-    });
+        m.expect(component.orgUnits$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+      })
+    );
+
+    test(
+      'should set timePeriods',
+      marbles((m) => {
+        const result: IdValue[] = [];
+        store.overrideSelector(getTimePeriods, result);
+        component.ngOnInit();
+
+        m.expect(component.timePeriods$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+      })
+    );
+
+    test(
+      'should set selectedTimePeriod',
+      marbles((m) => {
+        const result = TimePeriod.CUSTOM;
+        store.overrideSelector(getSelectedTimePeriod, result);
+        component.ngOnInit();
+
+        m.expect(component.selectedTimePeriod$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+      })
+    );
+
+    test(
+      'should set selectedOrgUnit',
+      marbles((m) => {
+        const result = 'Org123';
+        store.overrideSelector(getSelectedOrgUnit, result);
+        component.ngOnInit();
+
+        m.expect(component.selectedOrgUnit$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+        expect(component.selectedTime$).toBeDefined();
+      })
+    );
+
+    test(
+      'should set selectedTime',
+      marbles((m) => {
+        const result = '1-2';
+        store.overrideSelector(getSelectedTimeRange, result);
+        component.ngOnInit();
+
+        m.expect(component.selectedTime$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+      })
+    );
   });
 
   describe('optionSelected', () => {
@@ -77,23 +143,13 @@ describe('FilterSectionComponent', () => {
       component.optionSelected(filter);
 
       expect(store.dispatch).toHaveBeenCalledWith(filterSelected({ filter }));
-
-      expect(component.orgUnits$).toBeDefined();
-    });
-  });
-
-  describe('orgUnitInvalid', () => {
-    test('should set disabledTimeRangeFilter', () => {
-      component.orgUnitInvalid(false);
-
-      expect(component.disabledTimeRangeFilter).toBeFalsy();
     });
   });
 
   describe('timePeriodSelected', () => {
     test('should dispatch timePeriodSelected', () => {
       store.dispatch = jest.fn();
-      component.timePeriodSelected(new IdValue(TimePeriod.CUSTOM, 'custom'));
+      component.timePeriodSelected(TimePeriod.CUSTOM);
 
       expect(store.dispatch).toHaveBeenCalledWith({
         timePeriod: TimePeriod.CUSTOM,
