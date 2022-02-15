@@ -9,7 +9,8 @@
       "options": {
         "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
         "project": "libs/shared/utils/transloco/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "tailwindConfig": "libs/shared/utils/transloco/tailwind.config.js"
       },
       "configurations": {
         "production": {
