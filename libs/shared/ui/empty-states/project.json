@@ -9,7 +9,8 @@
       "options": {
         "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.json",
         "project": "libs/shared/ui/empty-states/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "tailwindConfig": "libs/shared/ui/empty-states/tailwind.config.js"
       },
       "configurations": {
         "production": {
