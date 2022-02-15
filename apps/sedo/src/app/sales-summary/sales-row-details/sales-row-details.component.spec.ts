@@ -276,10 +276,9 @@ describe('SalesRowDetailsComponent', () => {
           );
 
           expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('Update successful');
-
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'Success: Update successful'
+          );
         });
       })
     );
@@ -323,10 +322,8 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
-
           expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('Update failed');
+          expect(snackBar.open).toHaveBeenCalledWith('Error: Update failed');
         });
       })
     );
@@ -349,7 +346,7 @@ describe('SalesRowDetailsComponent', () => {
 
       expect(snackBar.open).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledWith(
-        'Cannot update with invalid or empty EOP Date field'
+        'Warning: Cannot update with invalid or empty EOP Date field'
       );
     });
 
@@ -373,7 +370,7 @@ describe('SalesRowDetailsComponent', () => {
 
       expect(snackBar.open).toHaveBeenCalledTimes(1);
       expect(snackBar.open).toHaveBeenCalledWith(
-        'Cannot update with invalid or empty EDO Date field'
+        'Warning: Cannot update with invalid or empty EDO Date field'
       );
     });
   });
@@ -413,10 +410,9 @@ describe('SalesRowDetailsComponent', () => {
           );
 
           expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('Update successful');
-
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'Success: Update successful'
+          );
         });
       })
     );
@@ -444,10 +440,8 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(snackBar.open).toHaveBeenCalledTimes(0);
-
           expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('Update failed');
+          expect(snackBar.open).toHaveBeenCalledWith('Error: Update failed');
         });
       })
     );

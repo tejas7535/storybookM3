@@ -136,7 +136,7 @@ export class SalesRowDetailsComponent
             updateIgnoreFlagParams.ignoreFlag
           );
 
-          this.snackBar.open('Success Update successful');
+          this.snackBar.open('Success: Update successful');
 
           resolve();
         })
