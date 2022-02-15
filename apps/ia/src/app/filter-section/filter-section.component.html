@@ -1,10 +1,17 @@
-<mat-accordion>
-  <mat-expansion-panel class="mat-elevation-z0">
+<mat-accordion *transloco="let t; read: 'filters'">
+  <mat-expansion-panel
+    [expanded]="true"
+    class="mat-elevation-z0"
+    (opened)="expansionPanelToggled(true)"
+    (closed)="expansionPanelToggled(false)"
+  >
     <mat-expansion-panel-header>
-      <mat-panel-title> Global Filter </mat-panel-title>
-      <!-- <mat-panel-description>
-        Type your name and age
-      </mat-panel-description> -->
+      <mat-panel-title> {{ t('globalFilters') }} </mat-panel-title>
+      <mat-panel-description *ngIf="!isExpanded">
+        <ia-collapsed-filters
+          [filters]="selectedFilterValues$ | ngrxPush"
+        ></ia-collapsed-filters>
+      </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="mb-4 px-6">
       <ia-expanded-filters

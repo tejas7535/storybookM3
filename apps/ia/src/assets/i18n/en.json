@@ -23,7 +23,9 @@
     },
     "invalidInputHint": "Please select a valid input from the dropdown",
     "invalidStartDateHint": "Invalid start date (minimum: 01/01/2019)",
-    "invalidEndDateHint": "Invalid end date (maximum: 12/31/2020)"
+    "invalidEndDateHint": "Invalid end date (maximum: 12/31/2020)",
+    "globalFilters": "Global Filters",
+    "noFiltersSelected": "~no filters selected~"
   },
   "tabs": {
     "overview": "Overview",

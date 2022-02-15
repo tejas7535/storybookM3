@@ -1,0 +1,20 @@
+<div *transloco="let t; read: 'filters'">
+  <mat-chip-list
+    [attr.aria-label]="t('globalFilters')"
+    *ngIf="filters?.length > 0; else noFilters"
+  >
+    <mat-chip
+      *ngFor="let filter of filters; trackBy: trackByFn"
+      color="primary"
+      selected
+      disableRipple="true"
+      selectable="false"
+      class="after:!bg-transparent"
+      (click)="$event.stopPropagation()"
+      >{{ filter }}</mat-chip
+    >
+  </mat-chip-list>
+  <ng-template #noFilters>
+    <i>{{ t('noFiltersSelected') }}</i>
+  </ng-template>
+</div>

@@ -11,6 +11,7 @@ import {
 } from '../core/store/actions';
 import {
   getOrgUnits,
+  getSelectedFilterValues,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -23,11 +24,14 @@ import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
   templateUrl: './filter-section.component.html',
 })
 export class FilterSectionComponent implements OnInit {
+  isExpanded = true;
+
   orgUnits$: Observable<Filter>;
   selectedOrgUnit$: Observable<string>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<string>;
+  selectedFilterValues$: Observable<(string | number)[]>;
 
   constructor(private readonly store: Store) {}
 
@@ -37,6 +41,7 @@ export class FilterSectionComponent implements OnInit {
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit);
     this.selectedTime$ = this.store.select(getSelectedTimeRange);
+    this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
   }
 
   optionSelected(filter: SelectedFilter): void {
@@ -53,5 +58,9 @@ export class FilterSectionComponent implements OnInit {
         timeRange,
       })
     );
+  }
+
+  expansionPanelToggled(expanded: boolean): void {
+    this.isExpanded = expanded;
   }
 }

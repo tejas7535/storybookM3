@@ -62,9 +62,9 @@ export const getBeautifiedSelectedTimeRange = createSelector(
     const dates = timeRange?.split('|');
 
     return timeRange
-      ? `${new Date(+dates[0]).toLocaleDateString()} - ${new Date(
+      ? `${new Date(+dates[0]).toLocaleDateString('en-US')} - ${new Date(
           +dates[1]
-        ).toLocaleDateString()}`
+        ).toLocaleDateString('en-US')}`
       : undefined;
   }
 );
@@ -102,4 +102,13 @@ export const getSelectedOrgUnit = createSelector(
     filters
       .find((filter) => filter.name === FilterKey.ORG_UNIT)
       ?.value?.toString()
+);
+
+export const getSelectedFilterValues = createSelector(
+  getAllSelectedFilters,
+  getBeautifiedSelectedTimeRange,
+  (filters: SelectedFilter[], timeRange: string) => [
+    ...filters.map((filter) => filter.value),
+    timeRange,
+  ]
 );

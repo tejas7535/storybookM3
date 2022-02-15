@@ -12,6 +12,7 @@ import * as en from '../../assets/i18n/en.json';
 import { filterSelected, timeRangeSelected } from '../core/store/actions';
 import {
   getOrgUnits,
+  getSelectedFilterValues,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -133,6 +134,19 @@ describe('FilterSectionComponent', () => {
         );
       })
     );
+
+    test(
+      'should set selectedFilterValues',
+      marbles((m) => {
+        const result = ['Offenbach', '01.01.2019 - 01.03.2019'];
+        store.overrideSelector(getSelectedFilterValues, result);
+        component.ngOnInit();
+
+        m.expect(component.selectedFilterValues$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+      })
+    );
   });
 
   describe('optionSelected', () => {
@@ -167,6 +181,16 @@ describe('FilterSectionComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         timeRangeSelected({ timeRange })
       );
+    });
+  });
+
+  describe('expansionPanelToggled', () => {
+    test('should set isExpanded', () => {
+      component.isExpanded = true;
+
+      component.expansionPanelToggled(false);
+
+      expect(component.isExpanded).toBeFalsy();
     });
   });
 });

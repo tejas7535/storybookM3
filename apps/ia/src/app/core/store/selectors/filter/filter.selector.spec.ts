@@ -7,6 +7,7 @@ import {
   getInitialFiltersLoading,
   getOrgUnits,
   getSelectedFilters,
+  getSelectedFilterValues,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -115,6 +116,13 @@ describe('Filter Selector', () => {
   describe('getSelectedOrgUnit', () => {
     test('should return selected org unit', () => {
       expect(getSelectedOrgUnit(fakeState)).toEqual('Schaeffler_IT_1');
+    });
+  });
+
+  describe('getSelectedFilterValues', () => {
+    test('should return selected filter values', () => {
+      const expectedResult = ['Schaeffler_IT_1', '1/1/2020 - 12/31/2020'];
+      expect(getSelectedFilterValues(fakeState)).toEqual(expectedResult);
     });
   });
 });
