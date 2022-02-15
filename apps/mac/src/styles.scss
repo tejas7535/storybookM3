@@ -25,9 +25,9 @@
   * TailwindCSS, utility-first css framework
   * see https://tailwindcss.com/docs
   */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /***************************************************************************************************
   * OVERRIDES
