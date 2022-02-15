@@ -7,6 +7,14 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   presets: [require('../../tailwind.config')],
+  safelist: [
+    /**needed to make material icons work within org chart in app IA */
+    "before:content-['\\e24b']",
+    "before:content-['\\e5d8']",
+    "before:content-['\\e313']",
+    "before:content-['\\e316']",
+    "before:content-['\\e26a']",
+  ],
   theme: {
     extend: {},
   },

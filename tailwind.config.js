@@ -52,14 +52,6 @@ const fontFamilies = {
 module.exports = {
   prefix: '',
   content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
-  safelist: [
-    /**needed to make material icons work within org chart in app IA */
-    "before:content-['\\e24b']",
-    "before:content-['\\e5d8']",
-    "before:content-['\\e313']",
-    "before:content-['\\e316']",
-    "before:content-['\\e26a']",
-  ],
   theme: {
     colors: {
       ...baseColors,
