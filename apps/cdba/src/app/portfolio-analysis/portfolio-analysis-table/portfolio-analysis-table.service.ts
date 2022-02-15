@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
@@ -13,7 +14,8 @@ export class PortfolioAnalysisTableService {
 
   constructor(
     private readonly localeService: TranslocoLocaleService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly currencyService: CurrencyService
   ) {
     this.labelColumn = {
       field: 'label',
@@ -79,9 +81,14 @@ export class PortfolioAnalysisTableService {
           {
             maximumFractionDigits: 2,
           }
-        )}%`
+        )} %`
       : '';
 
   private readonly formatPriceValue = (value: number): string =>
-    value ? `${this.localeService.localizeNumber(value, 'decimal')}` : '';
+    value
+      ? `${this.localeService.localizeNumber(
+          value,
+          'decimal'
+        )} ${this.currencyService.getCurrency()}`
+      : '';
 }

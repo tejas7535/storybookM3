@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { DataPoint } from './data-point.model';
 
 @Injectable()
 export class BomChartConfigService {
-  constructor(private readonly localeService: TranslocoLocaleService) {}
+  constructor(
+    private readonly localeService: TranslocoLocaleService,
+    private readonly currencyService: CurrencyService
+  ) {}
 
   public getXAxisConfig = (hasNegativeCostValues: boolean) => [
     {
@@ -16,7 +20,7 @@ export class BomChartConfigService {
         show: false,
       },
       axisLabel: {
-        formatter: '{value} €',
+        formatter: `{value} ${this.currencyService.getCurrency()}`,
         color: '#646464',
       },
     },
@@ -73,11 +77,11 @@ export class BomChartConfigService {
     `${params.name}: ${this.localeService.localizeNumber(
       params.value,
       'decimal'
-    )}€`;
+    )}${this.currencyService.getCurrency()}`;
 
   private readonly linechartTooltipFormatter = (params: {
     value: number;
     [key: string]: any;
   }): string =>
-    `${this.localeService.localizeNumber(params.value, 'decimal')}%`;
+    `${this.localeService.localizeNumber(params.value, 'decimal')} %`;
 }

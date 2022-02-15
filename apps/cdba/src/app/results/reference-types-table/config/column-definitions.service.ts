@@ -13,13 +13,17 @@ import {
   valueGetterArray,
   valueGetterDate,
 } from '@cdba/shared/components/table';
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { translate } from '@ngneat/transloco';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColumnDefinitionService {
-  constructor(private readonly columnUtilsService: ColumnUtilsService) {}
+  constructor(
+    private readonly columnUtilsService: ColumnUtilsService,
+    private readonly currencyService: CurrencyService
+  ) {}
 
   COLUMN_DEFINITIONS: ColDef[] = [
     {
@@ -308,6 +312,7 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.netSales',
         {
           year: currentYear - 1,
+          currency: this.currencyService.getCurrency(),
         }
       ),
       type: 'numericColumn',

@@ -1,3 +1,5 @@
+import { Currency } from '@cdba/shared/constants/currency';
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
@@ -13,11 +15,20 @@ describe('PortfolioAnalysisChartService', () => {
   const localizeNumber = jest.fn();
   const numberInput = 1_234_567.891_011;
   const numberOutput = '1.234.567,89';
+  const currency: `${Currency}` = 'EUR';
 
   const createService = createServiceFactory({
     service: PortfolioAnalysisChartService,
     imports: [provideTranslocoTestingModule({ en: {} })],
-    providers: [mockProvider(TranslocoLocaleService, { localizeNumber })],
+    providers: [
+      mockProvider(TranslocoLocaleService, { localizeNumber }),
+      {
+        provide: CurrencyService,
+        useValue: {
+          getCurrency: jest.fn(() => currency),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
@@ -43,12 +54,12 @@ describe('PortfolioAnalysisChartService', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const lineValueFormat = service.formatValue(numberInput, 'line');
-    expect(lineValueFormat).toEqual(`${numberOutput}%`);
+    expect(lineValueFormat).toEqual(`${numberOutput} %`);
 
     // tests private method
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const scatterValueFormat = service.formatValue(numberInput, 'scatter');
-    expect(scatterValueFormat).toEqual(numberOutput);
+    expect(scatterValueFormat).toEqual(`${numberOutput} ${currency}`);
   });
 });

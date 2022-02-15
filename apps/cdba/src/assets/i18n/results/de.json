@@ -63,7 +63,7 @@
       "salesOrganization": "Vierstellige Nummer zur Identifizierung der Vertriebsorganisation",
       "customerGroup": "Key Account, z.B.: VW (umfasst Audi, Skoda, Porsche, etc.)",
       "actualQuantity": "Ist-Stückzahl",
-      "netSales": "Gesamtumsatz im Jahr {{year}} in EUR für alle Kunden",
+      "netSales": "Gesamtumsatz im Jahr {{year}} in {{currency}} für alle Kunden",
       "budgetQuantitySoco": "Budegtierte Stückzahl im Jahr {{year}} aus dem SAP BW SOCO Report",
       "plannedQuantity": "Geplante Stückzahl aus dem SAP BW SOCO Report",
       "projectName": "Name des Kundenprojektes",

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { EChartsOption } from 'echarts';
@@ -12,7 +13,8 @@ export class PortfolioAnalysisChartService {
 
   constructor(
     private readonly localeService: TranslocoLocaleService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly currencyService: CurrencyService
   ) {}
 
   public readonly getEChartsOption = (
@@ -61,7 +63,7 @@ export class PortfolioAnalysisChartService {
           type: 'value',
           name: this.translocoService.translate(
             'portfolioAnalysis.chart.axes.costs',
-            { currency: '€' }
+            { currency: this.currencyService.getCurrency() }
           ),
           nameLocation: 'end',
           position: 'left',
@@ -162,8 +164,11 @@ export class PortfolioAnalysisChartService {
   private readonly formatLineValue = (value: number): string =>
     `${this.localeService.localizeNumber(value * 100, 'decimal', undefined, {
       maximumFractionDigits: 2,
-    })}%`;
+    })} %`;
 
   private readonly formatScatterValue = (value: number): string =>
-    `${this.localeService.localizeNumber(value, 'decimal')}`;
+    `${this.localeService.localizeNumber(
+      value,
+      'decimal'
+    )} ${this.currencyService.getCurrency()}`;
 }

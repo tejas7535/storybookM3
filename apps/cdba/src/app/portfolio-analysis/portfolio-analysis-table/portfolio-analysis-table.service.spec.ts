@@ -1,3 +1,5 @@
+import { Currency } from '@cdba/shared/constants/currency';
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { mockProvider } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -12,11 +14,20 @@ describe('PortfolioAnalysisTableService', () => {
   const localizeNumber = jest.fn();
   const numberInput = 1_234_567.891_011;
   const numberOutput = '1.234.567,89';
+  const currency: `${Currency}` = 'EUR';
 
   const createService = createServiceFactory({
     service: PortfolioAnalysisTableService,
     imports: [provideTranslocoTestingModule({ en: {} })],
-    providers: [mockProvider(TranslocoLocaleService, { localizeNumber })],
+    providers: [
+      mockProvider(TranslocoLocaleService, { localizeNumber }),
+      {
+        provide: CurrencyService,
+        useValue: {
+          getCurrency: jest.fn(() => currency),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
@@ -43,12 +54,12 @@ describe('PortfolioAnalysisTableService', () => {
 
   it('should format the table values', () => {
     const sqvValueFormat = service.formatValue(numberInput, 'sqvMargin');
-    expect(sqvValueFormat).toEqual(`${numberOutput}%`);
+    expect(sqvValueFormat).toEqual(`${numberOutput} %`);
 
     const gpcValueFormat = service.formatValue(numberInput, 'gpcMargin');
-    expect(gpcValueFormat).toEqual(`${numberOutput}%`);
+    expect(gpcValueFormat).toEqual(`${numberOutput} %`);
 
     const defaultValueFormat = service.formatValue(numberInput, 'default');
-    expect(defaultValueFormat).toEqual(numberOutput);
+    expect(defaultValueFormat).toEqual(`${numberOutput} ${currency}`);
   });
 });

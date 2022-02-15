@@ -6,6 +6,8 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { BomItem } from '@cdba/shared/models';
+import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
+import { translate } from '@ngneat/transloco';
 
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer/material-designation-cell-renderer.component';
 
@@ -17,12 +19,16 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
 export class BomLegendComponent {
   @Input() data: BomItem[];
 
-  constructor(private readonly columnUtilsService: ColumnUtilsService) {}
+  constructor(
+    private readonly columnUtilsService: ColumnUtilsService,
+    private readonly currencyService: CurrencyService
+  ) {}
 
   public modules = [ClientSideRowModelModule];
   public columnDefs: ColDef[] = [
     {
       field: 'materialDesignation',
+      headerName: translate('shared.bom.headers.materialDesignation'),
       flex: 2,
       cellRendererFramework: MaterialDesignationCellRendererComponent,
       cellRendererParams: {
@@ -31,7 +37,9 @@ export class BomLegendComponent {
     },
     {
       field: 'totalPricePerPc',
-      headerName: 'Cost (EUR)',
+      headerName: `${translate(
+        'shared.bom.headers.totalPricePerPc'
+      )} (${this.currencyService.getCurrency()})`,
       flex: 1,
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {

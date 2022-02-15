@@ -63,7 +63,7 @@
       "salesOrganization": "4-digit number related to Schaeffler internal sales organizations",
       "customerGroup": "Customer Group",
       "actualQuantity": "Actual produced quantity of the part regarding SOCO (Kind of a turnover report)",
-      "netSales": "Summed up Net Sales in {{year}} in EUR for all customers",
+      "netSales": "Summed up Net Sales in {{year}} in {{currency}} for all customers",
       "budgetQuantitySoco": "Quantity that is in Budget of Controlling to be produced in {{year}}",
       "plannedQuantity": "Quantity that is planned to be produced and given by the SOCO report",
       "projectName": "Name of the project which the part is related to",
