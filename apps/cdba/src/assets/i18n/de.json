@@ -1,14 +1,11 @@
 {
   "shared": {
     "basic": {
-      "learnMore": "Weiter",
-      "dismissMessage": "Schließen"
+      "learnMore": "Weiter"
     },
     "blockUi": {
       "inProgress": "Ihre Anfrage wird bearbeitet!"
     },
-    "learnMore": "Weiter",
-    "dismissMessage": "Schließen",
     "breadcrumbs": {
       "search": "Suche",
       "results": "Ergebnisse",
