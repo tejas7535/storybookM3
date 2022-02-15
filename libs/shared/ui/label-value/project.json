@@ -9,7 +9,8 @@
       "options": {
         "tsConfig": "libs/shared/ui/label-value/tsconfig.lib.json",
         "project": "libs/shared/ui/label-value/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "tailwindConfig": "libs/shared/ui/label-value/tailwind.config.js"
       },
       "configurations": {
         "production": {
