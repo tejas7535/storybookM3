@@ -248,7 +248,6 @@ export class CompareEffects {
     const mappingTable: { [key: string]: string } = {
       material_number: 'materialNumber',
       plant: 'plant',
-      identification_hash: 'identificationHash',
       node_id: 'nodeId',
     };
 

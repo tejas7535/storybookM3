@@ -94,10 +94,8 @@ describe('CompareEffects', () => {
               queryParams: {
                 material_number_item_1: '456789',
                 plant_item_1: '0060',
-                identification_hash_item_1: 'identifier',
                 material_number_item_2: '4123789',
                 plant_item_2: '0076',
-                identification_hash_item_2: 'identifier 2',
               },
             },
             event: {
@@ -114,14 +112,8 @@ describe('CompareEffects', () => {
           nodeId: string,
           referenceTypeIdentifier: ReferenceTypeIdentifier
         ][] = [
-          [
-            undefined,
-            new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
-          ],
-          [
-            undefined,
-            new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
-          ],
+          [undefined, new ReferenceTypeIdentifier('456789', '0060')],
+          [undefined, new ReferenceTypeIdentifier('4123789', '0076')],
         ];
 
         const result = selectCompareItems({ items });
@@ -173,8 +165,8 @@ describe('CompareEffects', () => {
         action = loadCalculations();
 
         const referenceTypeIdentifiers = [
-          new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
-          new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+          new ReferenceTypeIdentifier('456789', '0060'),
+          new ReferenceTypeIdentifier('4123789', '0076'),
         ];
         store.overrideSelector(
           getSelectedReferenceTypeIdentifiers,
@@ -441,11 +433,9 @@ describe('CompareEffects', () => {
     const queryParams: Params = {
       material_number_item_1: '456789',
       plant_item_1: '0060',
-      identification_hash_item_1: 'identifier',
       node_id_item_1: '1',
       material_number_item_2: '4123789',
       plant_item_2: '0076',
-      identification_hash_item_2: 'identifier 2',
       node_id_item_2: '2',
     };
     test('should return undefined for incomplete query params', () => {
@@ -461,7 +451,6 @@ describe('CompareEffects', () => {
       const invalidQueryParams = {
         material_number_item_1: '456789',
         plant_item_1: '0060',
-        identification_hash_item_1: 'identifier',
       };
 
       const result = CompareEffects['mapQueryParams'](invalidQueryParams);
@@ -471,8 +460,8 @@ describe('CompareEffects', () => {
 
     test('should return list of nodeIds and referencetypeidentifiers', () => {
       const expected = [
-        ['1', new ReferenceTypeIdentifier('456789', '0060', 'identifier')],
-        ['2', new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2')],
+        ['1', new ReferenceTypeIdentifier('456789', '0060')],
+        ['2', new ReferenceTypeIdentifier('4123789', '0076')],
       ];
       const result = CompareEffects['mapQueryParams'](queryParams);
 

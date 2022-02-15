@@ -1,7 +1,3 @@
 export class ReferenceTypeIdentifier {
-  public constructor(
-    public materialNumber: string,
-    public plant: string,
-    public identificationHash?: string
-  ) {}
+  public constructor(public materialNumber: string, public plant: string) {}
 }

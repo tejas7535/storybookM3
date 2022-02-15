@@ -25,7 +25,6 @@ import {
 export class DetailService {
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
-  private readonly PARAM_IDENTIFICATION_HASH = 'identification_hash';
 
   private readonly PARAM_BOM_COSTING_DATE = 'bom_costing_date';
   private readonly PARAM_BOM_COSTING_NUMBER = 'bom_costing_number';
@@ -110,9 +109,7 @@ export class DetailService {
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant);
 
-    const path = `${API.v1}/${DetailPath.Detail}?${params.toString()}&${
-      this.PARAM_IDENTIFICATION_HASH
-    }=${encodeURIComponent(item.identificationHash)}`;
+    const path = `${API.v1}/${DetailPath.Detail}?${params.toString()}`;
 
     return this.httpClient.get<ReferenceTypeResult>(path, {
       context: withCache(),

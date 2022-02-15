@@ -36,7 +36,6 @@ export class MaterialDesignationCellRenderComponent {
           queryParams: {
             material_number: this.referenceType.materialNumber,
             plant: this.referenceType.plant,
-            identification_hash: this.referenceType.identificationHash,
           },
         }
       );

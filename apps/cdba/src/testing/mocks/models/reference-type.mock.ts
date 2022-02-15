@@ -44,7 +44,6 @@ export const REFERENCE_TYPE_MOCK: ReferenceType = new ReferenceType(
   '0060',
   'description lorem ipsum',
   0.566,
-  'uniqueIdentifier',
   false
 );
 
@@ -93,6 +92,5 @@ export const REFERENCE_TYPE_MOCK_WITHOUT_SALES_INFORMATION: ReferenceType =
     '0060',
     'description lorem ipsum',
     0.566,
-    'uniqueIdentifier',
     false
   );

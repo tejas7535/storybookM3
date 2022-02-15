@@ -479,7 +479,6 @@ describe('Detail Effects', () => {
               queryParams: {
                 material_number: '456789',
                 plant: '0060',
-                identification_hash: 'identifier',
               },
             },
           },
@@ -489,8 +488,7 @@ describe('Detail Effects', () => {
 
         const referenceTypeIdentifier = new ReferenceTypeIdentifier(
           '456789',
-          '0060',
-          'identifier'
+          '0060'
         );
 
         const result = selectReferenceType({ referenceTypeIdentifier });
@@ -541,13 +539,11 @@ describe('Detail Effects', () => {
       queryParams = {
         material_number: '23',
         plant: '0060',
-        identification_hash: 'identification',
       };
 
       expect(DetailEffects['mapQueryParamsToIdentifier'](queryParams)).toEqual({
         materialNumber: '23',
         plant: '0060',
-        identificationHash: 'identification',
       });
     });
   });
@@ -576,7 +572,7 @@ describe('Detail Effects', () => {
       fromRoute = REFERENCE_TYPE_IDENTIFIER_MOCK;
       current = {
         ...REFERENCE_TYPE_IDENTIFIER_MOCK,
-        identificationHash: 'new id',
+        plant: 'other plant',
       };
 
       result = DetailEffects['checkEqualityOfIdentifier'](fromRoute, current);

@@ -278,8 +278,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: '  ',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
       {
         materialNumber: '073569674000010',
@@ -326,8 +324,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: 'L0',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
       {
         materialNumber: '073569674000011',
@@ -374,8 +370,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: 'L0',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
       {
         materialNumber: '0753552640000',
@@ -422,8 +416,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: '  ',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
       {
         materialNumber: '075355264000010',
@@ -470,8 +462,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: undefined,
         specialProcurement: undefined,
         isPcmRow: true,
-        identificationHash:
-          'o+SY5pVx42rkXghSgaWCig21hsad6Zbln/+lkK71OOcdhTbV/if2yv5a+YIfVKV39qSlcahJPP7vywdRjGMQP8Dk5J/uNWe5Wyn6j+ARBiXveiWK5ivc9j7qgDB9RdwhJdGAeAY3Yd3BQSfhV3F/2kD8vJnac+RQDwD0fGSCzqdtmdHsouwk5kSE+OFF/8pr',
       },
       {
         materialNumber: '075355264000010',
@@ -518,8 +508,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: undefined,
         specialProcurement: undefined,
         isPcmRow: true,
-        identificationHash:
-          'y2t4q8a0Bg8jLeDQa4E4ig21hsad6Zbln/+lkK71OOcdhTbV/if2yv5a+YIfVKV3sleeK+1oKM/a2iObsEU/b9ayL0nL5jfKGMTiyhm+hbXveiWK5ivc9j7qgDB9Rdwhs2gm/z8srvtPXVCx0ZPl2kGU85OQ5IYuJZsITczGcRuvqO9Bx96yiD3UdBoR3e/xcIGQMkm5EV9SEu8hZesYQg==',
       },
       {
         materialNumber: '075355264000010',
@@ -566,8 +554,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: undefined,
         specialProcurement: undefined,
         isPcmRow: true,
-        identificationHash:
-          'JVtoL4pAOGabr0My9I4yfQ21hsad6Zbln/+lkK71OOeZS2ky3ASVDA3kYjm8sll006TbguuqqYPDGmbtO6/d3hOA7lWxA6aOR+3pjYqFGpOZPjiS8fHSLHkeU/IHUv0iT8XyKwzr/Yw9nC0q7O1wWClm3ucOscHh0FB2GGptvCbAkbxvsqAV3/O1w4WhhptS',
       },
       {
         materialNumber: '075355264000011',
@@ -614,8 +600,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: '  ',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
       {
         materialNumber: '075355264000012',
@@ -662,8 +646,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: '  ',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
       {
         materialNumber: '075355264000013',
@@ -710,8 +692,6 @@ export const SEARCH_STATE_MOCK: SearchState = {
         productDescription: 'Schlepphebel-System Ventiltb',
         specialProcurement: 'L0',
         isPcmRow: false,
-        identificationHash:
-          'n7fYWXMl782+y8AEXyWlhj1hUpQXUulMaLVo2AkaWuSsO9zxJSnpV9cwGw+uRp9TYduCDtj/SzuPJppFXoK8voovNJgfSOD9FEKghe59tq/dON7O0yot321kraj2YVG3rvj1WpPZeK6+LYf1F080sla6CWjyhPiC28Bu4Mu7zKk=',
       },
     ],
   },

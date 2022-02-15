@@ -125,39 +125,5 @@ describe('CompareButtonComponent', () => {
         },
       });
     });
-
-    test('should add id hash and should route to compare screen', () => {
-      mockSelections = [
-        {
-          id: '0',
-          data: {
-            materialNumber: '1234',
-            plant: '0060',
-            identificationHash: 'foo',
-          },
-        } as unknown as RowNode,
-        {
-          id: '1',
-          data: {
-            materialNumber: '5678',
-            plant: '0076',
-            identificationHash: 'bar',
-          },
-        } as unknown as RowNode,
-      ];
-
-      component.showCompareView(['0', '1']);
-
-      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
-        queryParams: {
-          material_number_item_1: '1234',
-          plant_item_1: '0060',
-          identification_hash_item_1: 'foo',
-          material_number_item_2: '5678',
-          plant_item_2: '0076',
-          identification_hash_item_2: 'bar',
-        },
-      });
-    });
   });
 });

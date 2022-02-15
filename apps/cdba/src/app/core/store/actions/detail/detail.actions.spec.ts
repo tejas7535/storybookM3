@@ -38,7 +38,6 @@ describe('Detail Actions', () => {
     referenceTypeIdentifier = {
       materialNumber: '1234',
       plant: 'Beautiful Plant',
-      identificationHash: 'unique identifier',
     };
   });
 

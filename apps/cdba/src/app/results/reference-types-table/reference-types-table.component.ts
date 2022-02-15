@@ -164,7 +164,6 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
    */
   public onFirstDataRendered(params: FirstDataRenderedEvent): void {
     params.columnApi.autoSizeAllColumns(false);
-    params.columnApi.setColumnVisible('identificationHash', false);
 
     params.api.setFilterModel(this.tableFilters);
     this.selectNodes();

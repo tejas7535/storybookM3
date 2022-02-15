@@ -645,12 +645,6 @@ export class ColumnDefinitionService {
         ),
       valueFormatter: this.columnUtilsService.formatDate,
     },
-    {
-      colId: 'identificationHash',
-      field: columnDefinitionToReferenceTypeProp('identificationHash'),
-      hide: true,
-      suppressColumnsToolPanel: true,
-    },
   ];
   // eslint-disable-next-line max-lines
 }

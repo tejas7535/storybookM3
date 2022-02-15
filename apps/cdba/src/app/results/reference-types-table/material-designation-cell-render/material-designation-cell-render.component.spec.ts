@@ -20,7 +20,6 @@ describe('MaterialDesignationCellRenderComponent', () => {
     data: {
       materialNumber: '12345',
       plant: '0060',
-      identificationHash: 'foo',
     },
     value: '12345',
     api: {
@@ -29,7 +28,6 @@ describe('MaterialDesignationCellRenderComponent', () => {
         data: {
           materialNumber: '12345',
           plant: '0060',
-          identificationHash: 'foo',
         },
       })),
     },
@@ -89,7 +87,6 @@ describe('MaterialDesignationCellRenderComponent', () => {
       const expectedQueryParams = {
         material_number: '12345',
         plant: '0060',
-        identification_hash: 'foo',
       };
 
       expect(setTimeout).toHaveBeenCalledTimes(1);

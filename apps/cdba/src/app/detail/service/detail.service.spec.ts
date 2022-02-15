@@ -49,8 +49,7 @@ describe('DetailService', () => {
         .getDetails(
           new ReferenceTypeIdentifier(
             mock.referenceTypeDto.materialNumber,
-            mock.referenceTypeDto.plant,
-            '+42'
+            mock.referenceTypeDto.plant
           )
         )
         .subscribe((response) => {
@@ -58,7 +57,7 @@ describe('DetailService', () => {
         });
 
       const req = httpMock.expectOne(
-        `api/v1/detail?${expectedParams.toString()}&identification_hash=%2B42`
+        `api/v1/detail?${expectedParams.toString()}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());

@@ -53,26 +53,18 @@ describe('Compare Selectors', () => {
         {
           materialNumber: '0943578620000',
           plant: '0074',
-          identificationHash:
-            'pXk%2BO1VaSyYhxLnPpiEHcw21hsad6Zbln%2F%2BlkK71OOcdhTbV%2Fif2yv5a%2BYIfVKV3dJwMJoRF3DDvhzael0%2F%2FS1hl%2FbbpmzdZGUn4YUVsNguwXBbIEM9q%2FcI2zIoCbC6lx9wVOAC5FwOchyI3y6NWj5KGQDd2hu2CqLJwUf9G2MvVOryPqsmn5zb6fQYzqhifB%2FFtJdC77Zv%2FyydEmNlzog%3D%3D',
         },
         {
           materialNumber: '0943572680000',
           plant: '0060',
-          identificationHash:
-            'pXk%2BO1VaSyYhxLnPpiEHcw21hsad6Zbln%2F%2BlkK71OOcdhTbV%2Fif2yv5a%2BYIfVKV3dJwMJoRF3DDvhzael0%2F%2FS1hl%2FbbpmzdZGUn4YUVsNguwXBbIEM9q%2FcI2zIoCbC6lx9wVOAC5FwOchyI3y6NWj5KGQDd2hu2CqLJwUf9G2MvVOryPqsmn5zb6fQYzqhifB%2FFtJdC77Zv%2FyydEmNlzog%3D%3D',
         },
         {
           materialNumber: '0943482680000',
           plant: '0060',
-          identificationHash:
-            'pXk%2BO1VaSyYhxLnPpiEHcw21hsad6Zbln%2F%2BlkK71OOcdhTbV%2Fif2yv5a%2BYIfVKV3dJwMJoRF3DDvhzael0%2F%2FS1hl%2FbbpmzdZGUn4YUVsNguwXBbIEM9q%2FcI2zIoCbC6lx9wVOAC5FwOchyI3y6NWj5KGQDd2hu2CqLJwUf9G2MvVOryPqsmn5zb6fQYzqhifB%2FFtJdC77Zv%2FyydEmNlzog%3D%3D',
         },
         {
           materialNumber: '0943482680000',
           plant: '0076',
-          identificationHash:
-            'pXk%2BO1VaSyYhxLnPpiEHcw21hsad6Zbln%2F%2BlkK71OOcdhTbV%2Fif2yv5a%2BYIfVKV3dJwMJoRF3DDvhzael0%2F%2FS1hl%2FbbpmzdZGUn4YUVsNguwXBbIEM9q%2FcI2zIoCbC6lx9wVOAC5FwOchyI3y6NWj5KGQDd2hu2CqLJwUf9G2MvVOryPqsmn5zb6fQYzqhifB%2FFtJdC77Zv%2FyydEmNlzog%3D%3D',
         },
       ];
       result = getSelectedReferenceTypeIdentifiers(fakeState);

@@ -238,14 +238,12 @@ export class DetailEffects {
     queryParams: Params
   ): ReferenceTypeIdentifier {
     const materialNumber = queryParams['material_number'];
-    const identificationHash = queryParams['identification_hash'];
     const { plant } = queryParams;
 
     return materialNumber && plant
       ? {
           materialNumber,
           plant,
-          identificationHash,
         }
       : undefined;
   }
@@ -256,8 +254,7 @@ export class DetailEffects {
   ): boolean {
     return (
       fromRoute.materialNumber === current?.materialNumber &&
-      fromRoute.plant === current.plant &&
-      fromRoute.identificationHash === current.identificationHash
+      fromRoute.plant === current.plant
     );
   }
 }

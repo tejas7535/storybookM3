@@ -52,12 +52,7 @@ export class CompareButtonComponent implements OnInit {
         queryParams[`material_number_item_${index + 1}`] =
           selection.data.materialNumber;
         queryParams[`plant_item_${index + 1}`] = selection.data.plant;
-        queryParams[`identification_hash_item_${index + 1}`] =
-          selection.data.identificationHash;
-        queryParams[`node_id_item_${index + 1}`] = !selection.data
-          .identificationHash
-          ? selection.id
-          : undefined;
+        queryParams[`node_id_item_${index + 1}`] = selection.id;
       });
 
     this.router.navigate(route, {
