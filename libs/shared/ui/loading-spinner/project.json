@@ -9,7 +9,8 @@
       "options": {
         "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
         "project": "libs/shared/ui/loading-spinner/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "tailwindConfig": "libs/shared/ui/loading-spinner/tailwind.config.js"
       },
       "configurations": {
         "production": {
