@@ -71,7 +71,10 @@ export const automaticRelubricationPerYear = (
 ): number => automaticRelubricationQuantityPerDay(table1Values) * 365;
 
 export const formatDecimals = (value: number) =>
-  value.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 4,
-  });
+  value.toLocaleString(
+    'en-US', // should be dynamic at some point
+    {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4,
+    }
+  );

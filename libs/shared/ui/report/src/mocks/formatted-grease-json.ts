@@ -167,19 +167,19 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
+                '43.00 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values:
-                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.0792 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
               values:
-                '0.62 cm³/7 days<br><span class="text-low-emphasis">0.55 g/7 days</span>',
+                '0.616 cm³/7 days<br><span class="text-low-emphasis">0.5544 g/7 days</span>',
               display: false,
             },
             {
@@ -279,19 +279,19 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
+                '43.00 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values:
-                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.0792 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
               values:
-                '0.62 cm³/7 days<br><span class="text-low-emphasis">0.55 g/7 days</span>',
+                '0.616 cm³/7 days<br><span class="text-low-emphasis">0.5544 g/7 days</span>',
               display: false,
             },
             {
@@ -391,19 +391,19 @@ export const formattedGreaseJson = [
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
+                '43.00 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values:
-                '0.088 cm³/day<br><span class="text-low-emphasis">0.08 g/day</span>',
+                '0.088 cm³/day<br><span class="text-low-emphasis">0.0792 g/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
               values:
-                '0.62 cm³/7 days<br><span class="text-low-emphasis">0.55 g/7 days</span>',
+                '0.616 cm³/7 days<br><span class="text-low-emphasis">0.5544 g/7 days</span>',
               display: false,
             },
             {

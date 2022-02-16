@@ -81,7 +81,9 @@ export class GreaseReportService {
                   },
                   findItem(table1Values, Field.QVRE_MAN_MIN)?.value && {
                     title: 'manualRelubricationQuantityInterval',
-                    values: `${manualRelubricationQuantity(table1Values)} ${
+                    values: `${manualRelubricationQuantity(
+                      table1Values
+                    ).toFixed(2)} ${
                       findItem(table1Values, Field.QVRE_MAN_MIN).unit
                     }/${manualRelubricationQuantitySpan(
                       table1Values
