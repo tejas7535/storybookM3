@@ -1,9 +1,5 @@
 import { testExpandedBanner, testPrimaryBanner } from '../support/banner.po';
-import {
-  testForbidden,
-  testPageNotFound,
-  testUnsupportedViewport,
-} from '../support/empty-states.po';
+import { testForbidden, testPageNotFound } from '../support/empty-states.po';
 import {
   testHeaderWithBurgerMenu,
   testHeaderWithUserMenu,
@@ -37,12 +33,6 @@ describe('Mobile View', () => {
     context('Not Found', () => {
       it('should show not found empty state', () => {
         testPageNotFound();
-      });
-    });
-
-    context('Unsupported Viewport', () => {
-      it('should show unsupported viewport empty state', () => {
-        testUnsupportedViewport();
       });
     });
   });

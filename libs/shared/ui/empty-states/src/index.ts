@@ -8,5 +8,3 @@ export { PageNotFoundComponent } from './lib/page-not-found/page-not-found.compo
 export { PageNotFoundModule } from './lib/page-not-found/page-not-found.module';
 export { UnderConstructionComponent } from './lib/under-construction/under-construction.component';
 export { UnderConstructionModule } from './lib/under-construction/under-construction.module';
-export { UnsupportedViewportComponent } from './lib/unsupported-viewport/unsupported-viewport.component';
-export { UnsupportedViewportModule } from './lib/unsupported-viewport/unsupported-viewport.module';

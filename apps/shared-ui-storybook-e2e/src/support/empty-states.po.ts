@@ -12,7 +12,3 @@ export const testPageNotFound = () => {
     .get('[data-cy="visitHome"]')
     .should('exist');
 };
-
-export const testUnsupportedViewport = () => {
-  cy.visit('/iframe.html?id=unsupported-viewport--primary');
-};
