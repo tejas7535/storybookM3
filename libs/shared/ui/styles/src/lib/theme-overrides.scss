@@ -83,18 +83,30 @@
   }
 
   // tabs overrides
-  .mat-tab-labels > .mat-tab-label {
+  .mat-tab-labels > .mat-tab-label,
+  .mat-tab-links > .mat-tab-link {
     @apply opacity-100;
     @apply h-auto;
-    @apply px-6;
-    @apply py-4;
+    @apply min-h-[48px];
+    @apply pb-4;
+    @apply pt-3;
   }
 
-  .mat-tab-label-active > .mat-tab-label-content {
+  .mat-tab-labels > .mat-tab-label {
+    @apply items-end;
+  }
+
+  .mat-tab-links > .mat-tab-link {
+    @apply justify-end;
+  }
+
+  .mat-tab-label-active > .mat-tab-label-content,
+  .mat-tab-links > .mat-tab-label-active {
     @apply text-link;
   }
 
-  .mat-tab-label-content {
+  .mat-tab-label-content,
+  .mat-tab-link {
     @apply text-button;
     @apply uppercase;
     @apply text-medium-emphasis;

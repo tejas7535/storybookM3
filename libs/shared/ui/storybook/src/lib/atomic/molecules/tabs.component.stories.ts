@@ -25,6 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
         <mat-tab label="Second">Content 2</mat-tab>
         <mat-tab label="Third">Content 3</mat-tab>
       </mat-tab-group>
+
       <mat-tab-group mat-stretch-tabs animationDuration="0ms">
         <mat-tab>
           <ng-template mat-tab-label>
@@ -48,6 +49,7 @@ import { MatIconModule } from '@angular/material/icon';
           Content 3
         </mat-tab>
       </mat-tab-group>
+
       <mat-tab-group mat-stretch-tabs animationDuration="0ms">
         <mat-tab>
           <ng-template mat-tab-label>
@@ -68,11 +70,29 @@ import { MatIconModule } from '@angular/material/icon';
           Content 3
         </mat-tab>
       </mat-tab-group>
+
+      <nav
+        mat-tab-nav-bar
+        mat-stretch-tabs
+        animationDuration="0ms"
+        [tabPanel]="tabPanel"
+      >
+        <a
+          mat-tab-link
+          *ngFor="let link of links"
+          (click)="activeLink = link"
+          [active]="activeLink == link"
+        >
+          {{ link }}
+        </a>
+      </nav>
+      <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
     </div>
   `,
 })
 class TabsExampleComponent {
-  // x: 'x';
+  links = ['First', 'Second', 'Third'];
+  activeLink = this.links[0];
 }
 
 export default {
@@ -91,7 +111,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.InProgress],
+    badges: [Badges.Final],
     design: {
       type: 'figma',
       url: 'https://www.figma.com/file/hhhgg57rQRgJ3YJwOHewZ9/DS-Test?node-id=739%3A39934',
