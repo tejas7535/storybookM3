@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { EffectsModule } from '@ngrx/effects';
@@ -25,6 +26,7 @@ import { reducers } from './store/reducers';
     HttpClientModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatIconModule,
   ],
 })
 export class MaterialsSupplierDatabaseModule {}

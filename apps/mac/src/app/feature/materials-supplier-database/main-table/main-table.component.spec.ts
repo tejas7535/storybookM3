@@ -1,13 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS, MatOption } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,11 +23,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { DataFilter, DataResult } from '../models';
 import { fetchMaterials, setAgGridFilter } from '../store/actions';
 import { initialState as initialDataState } from '../store/reducers/data.reducer';
-import {
-  resetResult,
-  setAgGridColumns,
-  setFilter,
-} from './../store/actions/data.actions';
+import { setAgGridColumns, setFilter } from './../store/actions/data.actions';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { COLUMN_DEFINITIONS } from './table-config/column-definitions';
@@ -56,12 +49,9 @@ describe('MainTableComponent', () => {
       MatSelectModule,
       ReactiveComponentModule,
       MatButtonModule,
-      MatCardModule,
       LoadingSpinnerModule,
-      MatListModule,
-      MatMenuModule,
-      MatIconModule,
       MatCheckboxModule,
+      MatIconModule,
     ],
     providers: [
       provideMockStore({ initialState }),
@@ -345,6 +335,17 @@ describe('MainTableComponent', () => {
     });
   });
   describe('toggleAllCategories', () => {
+    it('should do nothing if categoryOptions are not defined', () => {
+      const mockSelectFn = jest.fn();
+      const mockDeselectFn = jest.fn();
+      component.categoryOptions = undefined;
+
+      component.toggleAllCategories(true);
+
+      expect(mockSelectFn).not.toHaveBeenCalled();
+      expect(mockDeselectFn).not.toHaveBeenCalled();
+    });
+
     it('should select all categoryOptions', () => {
       const mockSelectFn = jest.fn();
       const mockDeselectFn = jest.fn();
@@ -390,6 +391,7 @@ describe('MainTableComponent', () => {
         forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
           mockRowNodes.map((rowNode) => fn(rowNode as RowNode))
         ),
+        getDisplayedRowCount: jest.fn(() => 0),
       };
 
       component.onFilterChange({ api: mockApi as unknown as GridApi });
@@ -413,6 +415,7 @@ describe('MainTableComponent', () => {
         forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
           mockRowNodes.map((rowNode) => fn(rowNode as RowNode))
         ),
+        getDisplayedRowCount: jest.fn(() => 0),
       };
 
       component.onFilterChange({ api: mockApi as unknown as GridApi });
@@ -571,7 +574,7 @@ describe('MainTableComponent', () => {
         forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
           mockRowNodes.map((rowNode) => fn(rowNode as RowNode))
         ),
-        getDisplayedRowCount: jest.fn(() => 42),
+        getDisplayedRowCount: jest.fn(() => 0),
       };
       const mockColumnApi = {
         applyColumnState: jest.fn(),
@@ -584,7 +587,6 @@ describe('MainTableComponent', () => {
 
       component['agGridApi'] = undefined;
       component['agGridColumnApi'] = undefined;
-      component.rowCount = undefined;
 
       component.onGridReady({
         api: mockApi as unknown as GridApi,
@@ -595,11 +597,9 @@ describe('MainTableComponent', () => {
       expect(component['agGridColumnApi']).toEqual(
         mockColumnApi as unknown as ColumnApi
       );
-      expect(component.rowCount).toBe(42);
 
       expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
-      expect(mockApi.getDisplayedRowCount).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
@@ -612,7 +612,7 @@ describe('MainTableComponent', () => {
         forEachNodeAfterFilter: jest.fn((fn: (rowNode: RowNode) => any) =>
           mockRowNodes.map((rowNode) => fn(rowNode as RowNode))
         ),
-        getDisplayedRowCount: jest.fn(() => 42),
+        getDisplayedRowCount: jest.fn(() => 0),
       };
       const mockColumnApi = {
         applyColumnState: jest.fn(),
@@ -624,7 +624,6 @@ describe('MainTableComponent', () => {
 
       component['agGridApi'] = undefined;
       component['agGridColumnApi'] = undefined;
-      component.rowCount = undefined;
 
       component.onGridReady({
         api: mockApi as unknown as GridApi,
@@ -635,14 +634,12 @@ describe('MainTableComponent', () => {
       expect(component['agGridColumnApi']).toEqual(
         mockColumnApi as unknown as ColumnApi
       );
-      expect(component.rowCount).toBe(42);
 
       expect(mockColumnApi.applyColumnState).toHaveBeenCalledWith({
         state: [],
         applyOrder: true,
       });
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
-      expect(mockApi.getDisplayedRowCount).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
     });
   });
@@ -802,19 +799,430 @@ describe('MainTableComponent', () => {
     });
   });
   describe('resetForm', () => {
-    it('should reset the filter form', () => {
+    it('should reset the filter form if it is not default', () => {
       component.filterForm = {
         reset: jest.fn(),
         markAsUntouched: jest.fn(),
         markAsPristine: jest.fn(),
       } as unknown as FormGroup;
+      component.materialClassSelectionControl.patchValue = jest.fn();
+      component.toggleAllCategories = jest.fn();
+      component.isDefaultFilterForm = jest.fn(() => false);
+      component.isDefaultAgGridFilter = jest.fn(() => true);
+
+      component.resetAgGridFilter = jest.fn();
+
+      const mockDefaultMaterialClass = {
+        id: 0,
+        name: 'test',
+      };
+      const mockDefaultFormValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: mockDefaultMaterialClass,
+        productCategory: [],
+      };
+
+      component['defaultMaterialClass'] = mockDefaultMaterialClass;
+      component.defaultFilterFormValue = mockDefaultFormValue;
 
       component.resetForm();
 
-      expect(component.filterForm.reset).toHaveBeenCalled();
-      expect(component.filterForm.markAsUntouched).toHaveBeenCalled();
-      expect(component.filterForm.markAsPristine).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledWith(resetResult());
+      expect(component.filterForm.reset).toHaveBeenCalledWith(
+        mockDefaultFormValue
+      );
+      expect(
+        component.materialClassSelectionControl.patchValue
+      ).toHaveBeenCalledWith(mockDefaultMaterialClass, {
+        emitEvent: false,
+        onlySelf: true,
+      });
+      expect(component.toggleAllCategories).toHaveBeenCalledWith(true);
+      expect(component.resetAgGridFilter).not.toHaveBeenCalled();
+    });
+
+    it('should reset the agGrid filter if it is not default', () => {
+      component.filterForm = {
+        reset: jest.fn(),
+        markAsUntouched: jest.fn(),
+        markAsPristine: jest.fn(),
+      } as unknown as FormGroup;
+      component.materialClassSelectionControl.patchValue = jest.fn();
+      component.toggleAllCategories = jest.fn();
+      component.isDefaultFilterForm = jest.fn(() => true);
+      component.isDefaultAgGridFilter = jest.fn(() => false);
+
+      component.resetAgGridFilter = jest.fn();
+
+      component.resetForm();
+
+      expect(component.filterForm.reset).not.toHaveBeenCalled();
+      expect(
+        component.materialClassSelectionControl.patchValue
+      ).not.toHaveBeenCalledWith();
+      expect(component.toggleAllCategories).not.toHaveBeenCalledWith();
+      expect(component.resetAgGridFilter).toHaveBeenCalled();
+    });
+
+    it('should not reset anything if everything is default', () => {
+      component.filterForm = {
+        reset: jest.fn(),
+        markAsUntouched: jest.fn(),
+        markAsPristine: jest.fn(),
+      } as unknown as FormGroup;
+      component.materialClassSelectionControl.patchValue = jest.fn();
+      component.toggleAllCategories = jest.fn();
+      component.isDefaultFilterForm = jest.fn(() => true);
+      component.isDefaultAgGridFilter = jest.fn(() => true);
+
+      component.resetAgGridFilter = jest.fn();
+
+      component.resetForm();
+
+      expect(component.filterForm.reset).not.toHaveBeenCalled();
+      expect(
+        component.materialClassSelectionControl.patchValue
+      ).not.toHaveBeenCalledWith();
+      expect(component.toggleAllCategories).not.toHaveBeenCalledWith();
+      expect(component.resetAgGridFilter).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('isDefaultAgGridFilter', () => {
+    it('should return true if agGridApi is undefined', () => {
+      component['agGridApi'] = undefined;
+
+      const result = component.isDefaultAgGridFilter();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return true if agGrid filterModel is undefined', () => {
+      component['agGridApi'] = {
+        getFilterModel: jest.fn(),
+      } as unknown as GridApi;
+
+      const result = component.isDefaultAgGridFilter();
+
+      expect(result).toBe(true);
+    });
+    it('should return true if agGrid filterModel is empty', () => {
+      component['agGridApi'] = {
+        getFilterModel: jest.fn(() => {}),
+      } as unknown as GridApi;
+
+      const result = component.isDefaultAgGridFilter();
+
+      expect(result).toBe(true);
+    });
+    it('should return false if agGrid filter is set', () => {
+      component['agGridApi'] = {
+        getFilterModel: jest.fn(() => ({ someFilter: 'someValue' })),
+      } as unknown as GridApi;
+
+      const result = component.isDefaultAgGridFilter();
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isDefaultFilterForm', () => {
+    it('should return true if the form value and the default value are equal', () => {
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+
+      component.defaultFilterFormValue = mockValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if the form materialClass is not the defaultMaterialClass (id)', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 1,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if the form materialClass is not the defaultMaterialClass (name)', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test2',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if not all defaultProductCategories are currently selected (id)', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 2, name: 'test2' },
+        ],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if not all defaultProductCategories are currently selected (name)', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test3' },
+        ],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if not all defaultProductCategories are currently selected', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [{ id: 0, name: 'test' }],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+    it('should return false if no materialClass is selected', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        // eslint-disable-next-line unicorn/no-null
+        materialClass: null,
+        productCategory: [{ id: 0, name: 'test' }],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if no productCategory is selected', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        // eslint-disable-next-line unicorn/no-null
+        productCategory: null,
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false if no productCategory is selected (empty)', () => {
+      const mockDefaultValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [
+          { id: 0, name: 'test' },
+          { id: 1, name: 'test2' },
+        ],
+      };
+      const mockValue: {
+        materialClass: DataFilter;
+        productCategory: DataFilter[];
+      } = {
+        materialClass: {
+          id: 0,
+          name: 'test',
+        },
+        productCategory: [],
+      };
+
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockValue);
+
+      const result = component.isDefaultFilterForm();
+
+      expect(result).toBe(false);
     });
   });
 });

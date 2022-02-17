@@ -12,7 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, withLatestFrom } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
 import {
@@ -39,17 +39,16 @@ import { fetchMaterials, setAgGridFilter, setFilter } from '../store/actions';
 import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-grid-state.service';
 import {
   getAgGridFilter,
-  getCo2ColumnVisible,
   getFilters,
   getLoading,
   getMaterialClassOptions,
   getOptionsLoading,
   getProductCategoryOptions,
   getResult,
+  getResultCount,
 } from './../store';
 import {
   fetchClassAndCategoryOptions,
-  resetResult,
   setAgGridColumns,
 } from './../store/actions/data.actions';
 import {
@@ -75,12 +74,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     materialStandards: string[];
     materialNumbers: string[];
   }>;
-  public co2ColumnVisible$: Observable<boolean>;
+  public resultCount$: Observable<number>;
+  public displayCount = 0;
 
   public selectedClass: string;
   public selectedCategory: string[];
-
-  public rowCount: number;
 
   public destroy$ = new Subject<void>();
 
@@ -112,6 +110,12 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     materialClass: this.materialClassSelectionControl,
     productCategory: this.productCategorySelectionControl,
   });
+  public defaultFilterFormValue!: {
+    materialClass: DataFilter;
+    productCategory: DataFilter[];
+  };
+
+  private defaultMaterialClass!: DataFilter;
 
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
@@ -131,7 +135,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.optionsLoading$ = this.store.select(getOptionsLoading);
     this.resultLoading$ = this.store.select(getLoading);
     this.result$ = this.store.select(getResult);
-    this.co2ColumnVisible$ = this.store.select(getCo2ColumnVisible);
+    this.resultCount$ = this.store.select(getResultCount);
 
     this.store.dispatch(fetchClassAndCategoryOptions());
 
@@ -191,6 +195,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
               : productCategory,
           };
           this.store.dispatch(setFilter(filters));
+          if (this.filterForm.valid) {
+            this.fetchMaterials();
+          }
         }
       );
 
@@ -206,9 +213,22 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.categoryOptionsQuery.changes
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((options: QueryList<MatOption>) => {
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(50),
+        withLatestFrom(this.materialClassOptions$)
+      )
+      .subscribe(([options, materialClassOptions]) => {
         this.categoryOptions = options.toArray();
+        this.defaultMaterialClass = materialClassOptions.find(
+          (option) => option.name === 'Steel'
+        ) || { id: undefined, name: undefined };
+        this.materialClassSelectionControl.patchValue(
+          this.defaultMaterialClass
+        );
+        this.allCategoriesSelectedControl.patchValue(true);
+        this.defaultFilterFormValue = this.filterForm.value;
+
         this.parseQueryParams();
       });
   }
@@ -269,6 +289,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public toggleAllCategories(select: boolean): void {
+    if (!this.categoryOptions) {
+      return;
+    }
+
     if (select) {
       this.categoryOptions.map((categoryOption) => categoryOption.select());
     } else {
@@ -284,6 +308,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.store.dispatch(setAgGridFilter({ filterModel }));
+    this.displayCount = api.getDisplayedRowCount();
   }
 
   public setAgGridFilter({ api }: { api: GridApi }): void {
@@ -339,7 +364,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     if (state) {
       columnApi.applyColumnState({ state, applyOrder: true });
     }
-    this.rowCount = this.agGridApi.getDisplayedRowCount();
+
+    this.displayCount = api.getDisplayedRowCount();
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
@@ -385,9 +411,48 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public resetForm(): void {
-    this.filterForm.reset();
-    this.filterForm.markAsUntouched();
-    this.filterForm.markAsPristine();
-    this.store.dispatch(resetResult());
+    if (!this.isDefaultAgGridFilter()) {
+      this.resetAgGridFilter();
+    }
+
+    if (!this.isDefaultFilterForm()) {
+      this.filterForm.reset(this.defaultFilterFormValue);
+      this.materialClassSelectionControl.patchValue(this.defaultMaterialClass, {
+        emitEvent: false,
+        onlySelf: true,
+      });
+      this.toggleAllCategories(true);
+    }
+  }
+
+  public isDefaultAgGridFilter(): boolean {
+    return !(
+      this.agGridApi &&
+      this.agGridApi.getFilterModel() &&
+      Object.keys(this.agGridApi.getFilterModel()).length > 0
+    );
+  }
+
+  public isDefaultFilterForm(): boolean {
+    const value: { materialClass: DataFilter; productCategory: DataFilter[] } =
+      this.filterForm.value;
+    if (value?.materialClass !== this.defaultFilterFormValue?.materialClass) {
+      return false;
+    }
+
+    let isDefault = true;
+    this.defaultFilterFormValue?.productCategory?.map((defaultCategory) => {
+      const found = value?.productCategory?.find(
+        (category) =>
+          defaultCategory.id === category.id &&
+          defaultCategory.name === category.name
+      );
+
+      if (!found) {
+        isDefault = false;
+      }
+    });
+
+    return isDefault;
   }
 }

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router, UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -42,6 +43,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
       HttpClientTestingModule,
       MatButtonModule,
       MatSnackBarModule,
+      MatIconModule,
     ],
     providers: [
       provideMockStore({ initialState }),
@@ -98,6 +100,38 @@ describe('MaterialsSupplierDatabaseComponent', () => {
       expect(component['clipboard'].copy).toHaveBeenCalled();
       expect(component['snackbar'].open).toHaveBeenCalledWith(
         'Link copied to clipboard',
+        'Close'
+      );
+    });
+
+    it('should display an error snackbar if the share link is too long', () => {
+      const mockParams = {
+        filterForm: 'some filter',
+        agGridFilter: 'some ag grid filter',
+      };
+      store.select = jest.fn(() => of(mockParams));
+
+      const mockTree = { queryParams: {} };
+      router.parseUrl = jest.fn(() => mockTree as UrlTree);
+
+      component['urlSerializer'].serialize = jest.fn(
+        () =>
+          'the url which is very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very long'
+      );
+      component['clipboard'].copy = jest.fn();
+      component['snackbar'].open = jest.fn();
+
+      component.shareButtonFn();
+
+      expect(store.select).toHaveBeenCalled();
+      expect(router.parseUrl).toHaveBeenCalled();
+      expect(component['urlSerializer'].serialize).toHaveBeenCalledWith({
+        ...mockTree,
+        queryParams: mockParams,
+      });
+      expect(component['clipboard'].copy).not.toHaveBeenCalled();
+      expect(component['snackbar'].open).toHaveBeenCalledWith(
+        'The table filter is too long to be put into a link',
         'Close'
       );
     });

@@ -68,23 +68,7 @@ export const getAgGridColumns = createSelector(
   (state) => state.agGridColumns
 );
 
-export const getCo2ColumnVisible = createSelector(
+export const getResultCount = createSelector(
   getResult,
-  getAgGridColumns,
-  (result, columnString): boolean => {
-    if (!result) {
-      return false;
-    }
-    try {
-      const columns: { colId: string; hide: boolean }[] =
-        JSON.parse(columnString);
-      const hidden = columns.find(
-        (column) => column.colId === 'co2PerTon'
-      )?.hide;
-
-      return !(hidden as boolean);
-    } catch {
-      return true;
-    }
-  }
+  (result) => result?.length || 0
 );

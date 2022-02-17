@@ -1,3 +1,4 @@
+import { DataResult } from '../../models';
 import { initialState } from './../reducers/data.reducer';
 import * as DataSelectors from './data.selector';
 import { sortAlphabetically } from './data.selector';
@@ -104,36 +105,19 @@ describe('DataSelectors', () => {
     expect(result).toEqual('columns');
   });
 
-  it('should return false if result is undefined', () => {
-    const result = DataSelectors.getCo2ColumnVisible.projector(
-      undefined,
-      '[{"colId":"co2PerTon", "hide": false}]'
-    );
+  it('should get result count', () => {
+    const result = DataSelectors.getResultCount.projector([
+      {} as DataResult,
+      {} as DataResult,
+      {} as DataResult,
+    ]);
 
-    expect(result).toEqual(false);
+    expect(result).toEqual(3);
   });
-  it('should return false if column is hidden', () => {
-    const result = DataSelectors.getCo2ColumnVisible.projector(
-      [],
-      '[{"colId":"co2PerTon", "hide": true}]'
-    );
 
-    expect(result).toEqual(false);
-  });
-  it('should return true if column is not hidden', () => {
-    const result = DataSelectors.getCo2ColumnVisible.projector(
-      [],
-      '[{"colId":"co2PerTon", "hide": false}]'
-    );
+  it('should get 0 if result is not defined', () => {
+    const result = DataSelectors.getResultCount.projector(initialState.result);
 
-    expect(result).toEqual(true);
-  });
-  it('should return true if agGridColumns is not a json string', () => {
-    const result = DataSelectors.getCo2ColumnVisible.projector(
-      [],
-      'something weird or undefined'
-    );
-
-    expect(result).toEqual(true);
+    expect(result).toEqual(0);
   });
 });

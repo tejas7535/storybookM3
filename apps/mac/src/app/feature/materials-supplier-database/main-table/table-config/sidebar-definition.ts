@@ -15,6 +15,14 @@ export const SIDE_BAR_CONFIG: SideBarDef = {
         suppressRowGroups: true,
       },
     },
+    {
+      id: 'filters',
+      labelDefault: 'Filters',
+      labelKey: 'filters',
+      iconKey: 'filter',
+      toolPanel: 'agFiltersToolPanel',
+    },
   ],
   hiddenByDefault: false,
+  defaultToolPanel: 'columns',
 };
