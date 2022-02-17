@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -25,7 +24,6 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     DetailViewRoutingModule,
     FilterPricingModule,
     MatButtonModule,
-    MatCardModule,
     MatSidenavModule,
     ReactiveFormsModule,
     ReactiveComponentModule,

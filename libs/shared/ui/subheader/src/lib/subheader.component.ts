@@ -11,6 +11,7 @@ export class SubheaderComponent {
   @Input() public showBackButton = true;
   @Input() public title = '';
   @Input() public breadcrumbs: Breadcrumb[] = [];
+  @Input() public hideLine? = false;
   @Output() public backButtonClicked = new EventEmitter();
 
   public constructor(private readonly router: Router) {}

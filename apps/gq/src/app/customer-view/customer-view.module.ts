@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -21,7 +20,6 @@ import { CustomerViewRoutingModule } from './customer-view-routing.module';
     CommonModule,
     CustomerInformationModule,
     CustomerViewRoutingModule,
-    MatCardModule,
     MatSidenavModule,
     SharedModule,
     LoadingSpinnerModule,

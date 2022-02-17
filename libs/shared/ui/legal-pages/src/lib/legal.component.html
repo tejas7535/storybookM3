@@ -3,10 +3,13 @@
   class="mx-auto w-full max-w-screen-md bg-surface p-4"
   *transloco="let t"
 >
-  <schaeffler-subheader
-    [title]="t('goToHome')"
-    (backButtonClicked)="navigate()"
-  ></schaeffler-subheader>
+  <div class="-ml-4">
+    <schaeffler-subheader
+      [title]="t('goToHome')"
+      (backButtonClicked)="navigate()"
+      [hideLine]="true"
+    ></schaeffler-subheader>
+  </div>
   <div
     *ngIf="
       (termsOfUse | ngrxPush) && legal === 'termsOfUse';

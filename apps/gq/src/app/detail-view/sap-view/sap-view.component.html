@@ -2,10 +2,7 @@
   class="flex h-full flex-1 flex-col"
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
-  <mat-card
-    class="border-b border-border !pt-0 !shadow-none"
-    *transloco="let t; read: 'sapView.header'"
-  >
+  <div *transloco="let t; read: 'sapView.header'">
     <schaeffler-subheader
       [title]="t('title')"
       [breadcrumbs]="breadcrumbs"
@@ -27,7 +24,7 @@
         </gq-customer-header>
       </ng-container>
     </schaeffler-subheader>
-  </mat-card>
+  </div>
   <mat-card class="m-4 h-full">
     <gq-sap-price-details-table
       *ngIf="

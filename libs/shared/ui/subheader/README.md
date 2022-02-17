@@ -71,6 +71,8 @@ API of Subheader Component:
 
   @Input() title = '' // title of the subheader
 
+  @Input() hideLine = boolean // false on default, optinal hiding of line under the subheader
+
   @Output() backButtonClicked // only is emitted if there are no breadcrumbs as input or breadcrumb.length < 2
 ```
 

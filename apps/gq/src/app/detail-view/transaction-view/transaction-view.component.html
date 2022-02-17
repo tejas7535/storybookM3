@@ -2,10 +2,7 @@
   class="flex h-full flex-1 flex-col"
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
-  <mat-card
-    class="border-b border-border !pt-0 !shadow-none"
-    *transloco="let t; read: 'transactionView.header'"
-  >
+  <div *transloco="let t; read: 'transactionView.header'">
     <schaeffler-subheader [breadcrumbs]="breadcrumbs" [title]="t('title')">
       <ng-container titleContent>
         <gq-material-price-header-content
@@ -19,7 +16,7 @@
         <schaeffler-share-button></schaeffler-share-button>
       </ng-container>
     </schaeffler-subheader>
-  </mat-card>
+  </div>
   <gq-saving-in-progress
     *ngIf="
       !(transactionsLoading$ | ngrxPush) &&

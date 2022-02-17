@@ -3,9 +3,10 @@
   class="flex h-full max-w-full flex-col"
 >
   <schaeffler-subheader
-    class="mb-5 flex shrink"
+    class="-ml-4"
     [showBackButton]="true"
     [title]="t('bearingSelection')"
+    [hideLine]="true"
     (backButtonClicked)="navigateBack()"
   >
     <ng-container content>

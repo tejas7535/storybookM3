@@ -4,17 +4,15 @@
     else loading
   "
 >
-  <mat-card class="border-b border-border !pt-0 !shadow-none">
-    <schaeffler-subheader
-      *ngIf="customer$ | ngrxPush as customer"
-      [breadcrumbs]="breadcrumbs"
-      [title]="customer.name"
-    >
-      <ng-container header>
-        <schaeffler-share-button></schaeffler-share-button>
-      </ng-container>
-    </schaeffler-subheader>
-  </mat-card>
+  <schaeffler-subheader
+    *ngIf="customer$ | ngrxPush as customer"
+    [breadcrumbs]="breadcrumbs"
+    [title]="customer.name"
+  >
+    <ng-container header>
+      <schaeffler-share-button></schaeffler-share-button>
+    </ng-container>
+  </schaeffler-subheader>
   <gq-customer-information
     [customer]="customer$ | ngrxPush"
   ></gq-customer-information>

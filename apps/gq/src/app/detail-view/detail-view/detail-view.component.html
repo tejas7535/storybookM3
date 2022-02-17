@@ -1,8 +1,5 @@
 <div *ngIf="!(quotationLoading$ | ngrxPush); else loading">
-  <mat-card
-    class="border-b border-border !pt-0 !pb-9 !shadow-none"
-    *ngIf="quotation$ | ngrxPush as quotation"
-  >
+  <div *ngIf="quotation$ | ngrxPush as quotation">
     <schaeffler-subheader
       *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
       [title]="material | materialInfo"
@@ -17,7 +14,7 @@
         </gq-customer-header>
       </ng-container>
     </schaeffler-subheader>
-  </mat-card>
+  </div>
   <div class="mx-4 mt-4 flex flex-col md:flex-row">
     <div class="w-full md:w-3/5">
       <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">

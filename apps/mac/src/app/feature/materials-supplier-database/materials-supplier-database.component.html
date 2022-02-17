@@ -1,14 +1,12 @@
 <div class="flex h-full w-full flex-col">
-  <div class="fixed z-10 w-full bg-surface px-4 pb-6 shadow-md">
+  <div class="fixed z-10 w-full">
     <schaeffler-subheader [title]="title" [breadcrumbs]="breadcrumbs">
       <ng-container header>
-        <button mat-raised-button (click)="shareButtonFn()" class="!my-auto">
-          Share
-        </button>
+        <button mat-raised-button (click)="shareButtonFn()">Share</button>
       </ng-container>
     </schaeffler-subheader>
   </div>
-  <div class="mt-[108px] w-full flex-1 overflow-y-auto">
+  <div class="mt-[105px] w-full flex-1 overflow-y-auto">
     <div class="h-full">
       <router-outlet></router-outlet>
     </div>

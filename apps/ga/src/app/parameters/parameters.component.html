@@ -1,9 +1,10 @@
 <ng-container *transloco="let t; read: 'parameters'">
   <div class="flex h-full flex-col">
     <schaeffler-subheader
-      class="flex shrink"
+      class="-ml-4"
       [showBackButton]="true"
       [title]="(selectedBearing$ | ngrxPush) || 'Title'"
+      [hideLine]="true"
       (backButtonClicked)="navigateBack()"
     >
       <!-- TODO: enable again -->

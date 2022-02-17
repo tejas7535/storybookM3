@@ -5,29 +5,24 @@
     else loading
   "
 >
-  <mat-card
-    class="border-b border-border !pt-0 !pb-9 !shadow-none"
+  <schaeffler-subheader
     *ngIf="quotation$ | ngrxPush as quotation"
+    [title]="quotation.gqId | gqQuotation"
+    [breadcrumbs]="breadcrumbs"
   >
-    <schaeffler-subheader
-      [title]="quotation.gqId | gqQuotation"
-      [breadcrumbs]="breadcrumbs"
-    >
-      <ng-container titleContent>
-        <span *ngIf="quotation.sapId" class="ml-4 pr-4 text-low-emphasis">{{
-          quotation.sapId | sapQuotation
-        }}</span>
-        <gq-header-content [quotation]="quotation"></gq-header-content>
-      </ng-container>
-      <ng-container header>
-        <schaeffler-share-button></schaeffler-share-button>
-      </ng-container>
-      <ng-container content>
-        <gq-customer-header [customer]="quotation.customer">
-        </gq-customer-header>
-      </ng-container>
-    </schaeffler-subheader>
-  </mat-card>
+    <ng-container titleContent>
+      <span *ngIf="quotation.sapId" class="ml-4 pr-4 text-low-emphasis">{{
+        quotation.sapId | sapQuotation
+      }}</span>
+      <gq-header-content [quotation]="quotation"></gq-header-content>
+    </ng-container>
+    <ng-container header>
+      <schaeffler-share-button></schaeffler-share-button>
+    </ng-container>
+    <ng-container content>
+      <gq-customer-header [customer]="quotation.customer"> </gq-customer-header>
+    </ng-container>
+  </schaeffler-subheader>
   <mat-card
     class="m-4 mt-5 flex h-full"
     *ngIf="!(quotation$ | ngrxPush).calculationInProgress; else calcInProgress"
