@@ -302,10 +302,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onFilterChange({ api }: { api: GridApi }): void {
     const filterModel = api.getFilterModel();
-    const filteredResult: DataResult[] = [];
-    api.forEachNodeAfterFilter((rowNode: RowNode) => {
-      filteredResult.push(rowNode.data);
-    });
 
     this.store.dispatch(setAgGridFilter({ filterModel }));
     this.displayCount = api.getDisplayedRowCount();

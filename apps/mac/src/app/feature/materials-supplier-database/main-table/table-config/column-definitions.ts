@@ -1,5 +1,6 @@
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 
+import { BOOLEAN_VALUE_GETTER } from './boolean-value-getter';
 import { FILTER_PARAMS } from './filter-params';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
@@ -58,6 +59,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'isPrematerial',
     headerName: 'Is Prematerial',
     filterParams: FILTER_PARAMS,
+    filterValueGetter: BOOLEAN_VALUE_GETTER,
     hide: true,
   },
   {
@@ -112,18 +114,21 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'esr',
     headerName: 'ESR',
     filterParams: FILTER_PARAMS,
+    filterValueGetter: BOOLEAN_VALUE_GETTER,
     hide: true,
   },
   {
     field: 'var',
     headerName: 'VAR',
     filterParams: FILTER_PARAMS,
+    filterValueGetter: BOOLEAN_VALUE_GETTER,
     hide: true,
   },
   {
     field: 'export',
     headerName: 'Approved for export',
     filterParams: FILTER_PARAMS,
+    filterValueGetter: BOOLEAN_VALUE_GETTER,
     hide: true,
   },
 ];
