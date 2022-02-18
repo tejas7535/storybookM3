@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
 import {
   ResultsStatusBarComponent,
   ResultsStatusBarModule,
@@ -33,8 +32,7 @@ import { TableStore } from './table.store';
     ]),
     MatButtonModule,
     MatIconModule,
-    MatChipsModule,
-    MatTooltipModule,
+    PcmBadgeModule,
     ResultsStatusBarModule,
     SharedTranslocoModule,
   ],

@@ -1,8 +1,4 @@
-<mat-chip-list *ngIf="isPcmRow === true || isPcmRow === 'true'">
-  <mat-chip
-    *transloco="let t; read: 'shared.calculations'"
-    matTooltip="{{ t('pcmRowHint') }}"
-    matTooltipPosition="right"
-    >PCM</mat-chip
-  >
-</mat-chip-list>
+<cdba-pcm-badge
+  *ngIf="isPcmRow === true || isPcmRow === 'true'"
+  size="small"
+></cdba-pcm-badge>

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
@@ -13,6 +14,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { DetailFailureEffects } from '../core/store/effects/detail/detail-failure.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
+import { PcmBadgeModule } from '../shared/components/pcm-badge';
 import { MaterialNumberModule } from '../shared/pipes/material-number/material-number.module';
 import { DetailComponent } from './detail.component';
 import { DetailRoutingModule } from './detail-routing.module';
@@ -20,6 +22,7 @@ import { DetailRoutingModule } from './detail-routing.module';
 @NgModule({
   declarations: [DetailComponent],
   imports: [
+    CommonModule,
     ReactiveComponentModule,
     SharedTranslocoModule,
     DetailRoutingModule,
@@ -30,6 +33,7 @@ import { DetailRoutingModule } from './detail-routing.module';
     TabsHeaderModule,
     ShareButtonModule,
     BreadcrumbsModule,
+    PcmBadgeModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail' }],
 })

@@ -1,10 +1,7 @@
-import { MatChipsModule } from '@angular/material/chips';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
 import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
+import { MockModule } from 'ng-mocks';
 
 import { PcmCellRendererComponent } from './pcm-cell-renderer.component';
 
@@ -14,13 +11,7 @@ describe('PcmCellRendererComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PcmCellRendererComponent,
-    imports: [MatChipsModule, MatTooltipModule, TranslocoTestingModule],
-    providers: [
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
+    imports: [MockModule(PcmBadgeModule)],
     declarations: [PcmCellRendererComponent],
   });
 

@@ -11,6 +11,11 @@
         : t('errorTitle')
     "
   >
+    <cdba-pcm-badge
+      *ngIf="referenceType?.isPcmRow"
+      titleContent
+      size="large"
+    ></cdba-pcm-badge>
     <ng-container breadcrumbs>
       <schaeffler-breadcrumbs
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
