@@ -9,6 +9,7 @@ import {
   BomIdentifier,
   BomItem,
   Drawing,
+  ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { withCache } from '@ngneat/cashew';
@@ -16,7 +17,6 @@ import { withCache } from '@ngneat/cashew';
 import {
   BomResult,
   CalculationsResponse,
-  ReferenceTypeResult,
 } from '../../core/store/reducers/detail/models';
 
 @Injectable({
@@ -102,16 +102,15 @@ export class DetailService {
     return DetailService.defineBomTreeForAgGrid(items, nextIdx);
   }
 
-  public getDetails(
-    item: ReferenceTypeIdentifier
-  ): Observable<ReferenceTypeResult> {
+  public getDetails(item: ReferenceTypeIdentifier): Observable<ReferenceType> {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant);
 
-    const path = `${API.v1}/${DetailPath.Detail}?${params.toString()}`;
+    const path = `${API.v2}/${DetailPath.Detail}`;
 
-    return this.httpClient.get<ReferenceTypeResult>(path, {
+    return this.httpClient.get<ReferenceType>(path, {
+      params,
       context: withCache(),
     });
   }

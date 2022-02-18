@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { AdditionalInformation } from './additional-information.model';
+import { AdditionalInformationDetails } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-additional-information-widget',
@@ -8,7 +8,7 @@ import { AdditionalInformation } from './additional-information.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdditionalInformationWidgetComponent {
-  @Input() public data: AdditionalInformation;
+  @Input() public additionalInformation: AdditionalInformationDetails;
 
   public currentYear = new Date().getFullYear();
 }

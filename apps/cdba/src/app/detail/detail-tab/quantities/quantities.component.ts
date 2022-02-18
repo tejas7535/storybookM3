@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { QuantitiesDetails } from './model/quantities.model';
+import { QuantitiesDetails } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-quantities',

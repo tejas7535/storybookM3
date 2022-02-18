@@ -1,4 +1,4 @@
-import { ProductionDetails } from '@cdba/detail/detail-tab/production/model/production.details.model';
+import { ProductionDetails } from '@cdba/shared/models';
 
 import { REFERENCE_TYPE_MOCK } from './reference-type.mock';
 

@@ -1,6 +1,8 @@
+import { PcmCalculation } from './pcm-calculation.model';
+
 export class QuantitiesDetails {
   constructor(
-    public pcmQuantity: number,
+    public pcmCalculations: PcmCalculation[],
     public netSales: number[],
     public budgetQuantityCurrentYear: number,
     public budgetQuantitySoco: number,

@@ -57,7 +57,7 @@ describe('SearchService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('api/v1/search');
+      const req = httpMock.expectOne('api/v2/search');
       expect(req.request.method).toBe('POST');
       req.flush(mock);
     });

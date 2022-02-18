@@ -1,44 +1,71 @@
 <div
-  class="grid h-full w-full auto-cols-fr grid-cols-1 justify-center gap-4 px-4 pt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
+  *transloco="let t; read: 'detail.detailTab'"
+  class="grid h-full w-full auto-cols-fr grid-cols-1 justify-center gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
 >
   <ng-container *ngIf="!(isLoading$ | ngrxPush); else loading">
     <div>
-      <mat-card class="mb-4">
+      <div
+        class="mb-4 overflow-hidden rounded border border-border bg-surface p-4"
+      >
+        <h6 class="mb-4 text-medium-emphasis">
+          {{ t('salesAndDescription.title') }}
+        </h6>
         <cdba-sales-and-description
           [salesDetails]="salesDetails$ | ngrxPush"
         ></cdba-sales-and-description>
-      </mat-card>
-      <mat-card>
+      </div>
+      <div class="overflow-hidden rounded border border-border bg-surface p-4">
+        <h6 class="mb-4 text-medium-emphasis">{{ t('production.title') }}</h6>
         <cdba-production
           [productionDetails]="productionDetails$ | ngrxPush"
         ></cdba-production>
-      </mat-card>
+      </div>
     </div>
     <div>
-      <mat-card class="mb-4">
-        <cdba-pricing [salesPrice]="salesPrice$ | ngrxPush"></cdba-pricing>
-      </mat-card>
-      <mat-card>
+      <div class="mb-4 overflow-hidden rounded border border-border bg-surface">
+        <h6 class="p-4 text-medium-emphasis">
+          {{ t('pcmCalculations.title') }}
+        </h6>
+        <cdba-pcm-calculations
+          [priceDetails]="priceDetails$ | ngrxPush"
+        ></cdba-pcm-calculations>
+      </div>
+      <div
+        class="mb-4 overflow-hidden rounded border border-border bg-surface p-4"
+      >
+        <h6 class="mb-4 text-medium-emphasis">{{ t('pricing.title') }}</h6>
+        <cdba-pricing [priceDetails]="priceDetails$ | ngrxPush"></cdba-pricing>
+      </div>
+      <div class="overflow-hidden rounded border border-border bg-surface p-4">
+        <h6 class="mb-4 text-medium-emphasis">
+          {{ t('dimensionAndWeight.title') }}
+        </h6>
         <cdba-dimension-and-weight
-          [dimensionAndWeight]="dimensionAndWeight$ | ngrxPush"
+          [dimensionAndWeightDetails]="dimensionAndWeightDetails$ | ngrxPush"
         ></cdba-dimension-and-weight>
-      </mat-card>
+      </div>
     </div>
     <div>
-      <mat-card class="mb-4">
+      <div
+        class="mb-4 overflow-hidden rounded border border-border bg-surface p-4"
+      >
+        <h6 class="mb-4 text-medium-emphasis">{{ t('quantities.title') }}</h6>
         <cdba-quantities
           [quantitiesDetails]="quantitiesDetails$ | ngrxPush"
         ></cdba-quantities>
-      </mat-card>
-      <mat-card>
+      </div>
+      <div class="overflow-hidden rounded border border-border bg-surface p-4">
+        <h6 class="mb-4 text-medium-emphasis">{{ t('customer.title') }}</h6>
         <cdba-customer
           [customerDetails]="customerDetails$ | ngrxPush"
         ></cdba-customer>
-      </mat-card>
+      </div>
     </div>
-    <mat-card class="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-2">
+    <div
+      class="col-span-1 overflow-hidden rounded border border-border bg-surface p-4 sm:col-span-2 lg:col-span-3 xl:col-span-2"
+    >
       <cdba-drawings></cdba-drawings>
-    </mat-card>
+    </div>
   </ng-container>
 </div>
 

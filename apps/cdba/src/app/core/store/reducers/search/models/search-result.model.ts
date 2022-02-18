@@ -5,7 +5,7 @@ import { FilterItem } from './filter-item.model';
 export class SearchResult {
   public constructor(
     public filters: FilterItem[],
-    public result: ReferenceType[],
+    public results: ReferenceType[],
     public resultCount: number
   ) {}
 }

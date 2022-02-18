@@ -47,7 +47,7 @@ export class SearchService {
   public search(
     items: (FilterItemRangeUpdate | FilterItemIdValueUpdate)[]
   ): Observable<SearchResult> {
-    return this.httpClient.post<SearchResult>(`${API.v1}/${this.SEARCH}`, {
+    return this.httpClient.post<SearchResult>(`${API.v2}/${this.SEARCH}`, {
       items,
     });
   }

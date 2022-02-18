@@ -6,6 +6,7 @@ import {
   scrambleMaterialDesignation,
   valueGetterDate,
 } from '@cdba/shared/components/table';
+import { Drawing } from '@cdba/shared/models';
 import { translate } from '@ngneat/transloco';
 
 @Injectable({
@@ -37,7 +38,7 @@ export class ColumnDefinitionService {
       field: 'date',
       colId: 'date',
       headerName: translate('drawings.headers.date'),
-      valueGetter: (params) => valueGetterDate(params, 'date'),
+      valueGetter: (params) => valueGetterDate<Drawing>(params, 'date'),
       valueFormatter: this.columnUtilsService.formatDate,
       initialSort: 'desc',
       filter: 'agDateColumnFilter',

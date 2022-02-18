@@ -6,11 +6,10 @@ import {
   Calculation,
   Drawing,
   ExcludedCalculations,
+  ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { createAction, props, union } from '@ngrx/store';
-
-import { ReferenceTypeResult } from '../../reducers/detail/models';
 
 export const selectReferenceType = createAction(
   '[Detail] Select Reference Type',
@@ -21,7 +20,7 @@ export const loadReferenceType = createAction('[Detail] Load Reference Type');
 
 export const loadReferenceTypeSuccess = createAction(
   '[Detail] Load Reference Type Success',
-  props<{ item: ReferenceTypeResult }>()
+  props<{ referenceType: ReferenceType }>()
 );
 
 export const loadReferenceTypeFailure = createAction(

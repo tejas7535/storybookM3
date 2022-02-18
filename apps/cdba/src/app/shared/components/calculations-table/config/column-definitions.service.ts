@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { Calculation } from '@cdba/shared/models';
 import { translate } from '@ngneat/transloco';
 
 import { ColumnUtilsService, valueGetterDate } from '../../table';
@@ -32,7 +33,8 @@ export class ColumnDefinitionService {
       field: 'calculationDate',
       headerName: translate('shared.calculations.table.calculationDate'),
       headerTooltip: translate('shared.calculations.table.calculationDate'),
-      valueGetter: (params) => valueGetterDate(params, 'calculationDate'),
+      valueGetter: (params) =>
+        valueGetterDate<Calculation>(params, 'calculationDate'),
       valueFormatter: this.columnUtilsService.formatDate,
       filter: 'agDateColumnFilter',
     },

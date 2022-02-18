@@ -1,7 +1,7 @@
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks/index';
+import { EXCLUDED_CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';

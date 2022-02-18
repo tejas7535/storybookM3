@@ -1,85 +1,54 @@
 <div *transloco="let t; read: 'detail.detailTab.pricing'">
-  <h6 class="mb-4 text-medium-emphasis">{{ t('title') }}</h6>
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('averagePrice')"
     [value]="
-      (salesPrice?.averagePrice
+      (priceDetails?.averagePrice
         | translocoDecimal: { minimumFractionDigits: 3 }
         | undefinedAttributeFallback) +
       ' ' +
-      (salesPrice?.averagePrice && salesPrice?.currency
-        ? t('pricePerUnit', { currency: salesPrice?.currency })
+      (priceDetails?.averagePrice && priceDetails?.currency
+        ? t('pricePerUnit', { currency: priceDetails?.currency })
         : '')
-    "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
-    [label]="t('pcmSqv')"
-    [value]="
-      (salesPrice?.pcmSqv
-        | translocoDecimal: { minimumFractionDigits: 3 }
-        | undefinedAttributeFallback) +
-      ' ' +
-      (salesPrice?.pcmSqv && salesPrice?.currency
-        ? t('pricePerUnit', { currency: salesPrice?.currency })
-        : '')
-    "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
-    [label]="t('toolingCost')"
-    [value]="
-      (salesPrice?.toolingCost
-        | translocoDecimal: { maximumFractionDigits: 0 }
-        | undefinedAttributeFallback) +
-      ' ' +
-      (salesPrice?.currency ? ' ' + salesPrice?.currency : '')
-    "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
-    [label]="t('pcmCalculationDate')"
-    [value]="
-      salesPrice?.pcmCalculationDate
-        | translocoDate
-        | undefinedAttributeFallback
     "
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('sqvSapLatestMonth')"
     [value]="
-      (salesPrice?.sqvSapLatestMonth
+      (priceDetails?.sqvSapLatestMonth
         | translocoDecimal: { minimumFractionDigits: 3 }
         | undefinedAttributeFallback) +
       ' ' +
-      (salesPrice?.sqvSapLatestMonth && salesPrice?.currency
-        ? t('pricePerUnit', { currency: salesPrice?.currency })
+      (priceDetails?.sqvSapLatestMonth && priceDetails?.currency
+        ? t('pricePerUnit', { currency: priceDetails?.currency })
         : '')
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('sqvDate')"
-    [value]="salesPrice?.sqvDate | translocoDate | undefinedAttributeFallback"
+    [value]="priceDetails?.sqvDate | translocoDate | undefinedAttributeFallback"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
+  ></cdba-details-label-value>
 
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('gpcLatestYear')"
     [value]="
-      (salesPrice?.gpcLatestYear
+      (priceDetails?.gpcLatestYear
         | translocoDecimal: { minimumFractionDigits: 3 }
         | undefinedAttributeFallback) +
       ' ' +
-      (salesPrice?.gpcLatestYear && salesPrice?.currency
-        ? t('pricePerUnit', { currency: salesPrice?.currency })
+      (priceDetails?.gpcLatestYear && priceDetails?.currency
+        ? t('pricePerUnit', { currency: priceDetails?.currency })
         : '')
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('gpcDate')"
-    [value]="salesPrice?.gpcDate | translocoDate | undefinedAttributeFallback"
+    [value]="priceDetails?.gpcDate | translocoDate | undefinedAttributeFallback"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('puUm')"
-    [value]="salesPrice?.puUm | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
+    [value]="priceDetails?.puUm | undefinedAttributeFallback"
+  ></cdba-details-label-value>
 </div>

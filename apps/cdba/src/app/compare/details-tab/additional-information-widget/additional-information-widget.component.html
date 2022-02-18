@@ -1,85 +1,98 @@
-<ng-container *ngIf="data">
+<ng-container *ngIf="additionalInformation">
   <ng-container
     *transloco="let t; read: 'compare.details.additionalInformation'"
   >
-    <cdba-label-value
+    <cdba-compare-label-value
       [label]="t('plant')"
-      [value]="data.plant | undefinedAttributeFallback"
+      [value]="additionalInformation.plant | undefinedAttributeFallback"
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('procurementType')"
-      [value]="data.procurementType | undefinedAttributeFallback"
+      [value]="
+        additionalInformation.procurementType | undefinedAttributeFallback
+      "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
+      *ngFor="
+        let salesOrganization of additionalInformation?.salesOrganizations
+      "
       [label]="t('salesOrganization')"
-      [value]="data.salesOrganization | undefinedAttributeFallback"
+      [value]="salesOrganization | undefinedAttributeFallback"
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       class="content"
       [label]="t('actualQuantity', { year: currentYear - 4 })"
       [value]="
-        data.actualQuantities[3] | translocoDecimal | undefinedAttributeFallback
+        additionalInformation.actualQuantities[3]
+          | translocoDecimal
+          | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('actualQuantity', { year: currentYear - 3 })"
       [value]="
-        data.actualQuantities[2] | translocoDecimal | undefinedAttributeFallback
+        additionalInformation.actualQuantities[2]
+          | translocoDecimal
+          | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('actualQuantity', { year: currentYear - 2 })"
       [value]="
-        data.actualQuantities[1] | translocoDecimal | undefinedAttributeFallback
+        additionalInformation.actualQuantities[1]
+          | translocoDecimal
+          | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('actualQuantity', { year: currentYear - 1 })"
       [value]="
-        data.actualQuantities[0] | translocoDecimal | undefinedAttributeFallback
+        additionalInformation.actualQuantities[0]
+          | translocoDecimal
+          | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('plannedQuantity', { year: currentYear })"
       [value]="
-        data.plannedQuantities[0]
+        additionalInformation.plannedQuantities[0]
           | translocoDecimal
           | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('plannedQuantity', { year: currentYear + 1 })"
       [value]="
-        data.plannedQuantities[1]
+        additionalInformation.plannedQuantities[1]
           | translocoDecimal
           | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('plannedQuantity', { year: currentYear + 2 })"
       [value]="
-        data.plannedQuantities[2]
+        additionalInformation.plannedQuantities[2]
           | translocoDecimal
           | undefinedAttributeFallback
       "
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('plannedQuantity', { year: currentYear + 3 })"
       [value]="
-        data.plannedQuantities[3]
+        additionalInformation.plannedQuantities[3]
           | translocoDecimal
           | undefinedAttributeFallback
       "
-    ></cdba-label-value>
+    ></cdba-compare-label-value>
   </ng-container>
 </ng-container>

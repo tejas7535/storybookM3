@@ -3,7 +3,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { DetailsLabelValueModule } from '../details-label-value';
 import { PricingComponent } from './pricing.component';
 
 describe('PricingComponent', () => {
@@ -15,7 +15,7 @@ describe('PricingComponent', () => {
     imports: [
       UndefinedAttributeFallbackModule,
       provideTranslocoTestingModule({ en: {} }),
-      LabelValueModule,
+      DetailsLabelValueModule,
     ],
   });
 

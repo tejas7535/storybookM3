@@ -1,48 +1,42 @@
-export class ReferenceType {
-  constructor(
-    public materialNumber: string,
-    public plant: string,
-    public budgetQuantityCurrentYear: number,
-    public budgetQuantitySoco: number,
-    public currency: string,
-    public gpcDate: number,
-    public gpcLatestYear: number,
-    public height: number,
-    public length: number,
-    public width: number,
-    public unitOfDimension: string,
-    public materialDesignation: string,
-    public materialShortDescription: string,
-    public procurementType: string,
-    public productLine: string,
-    public purchasePriceValidFrom: number,
-    public purchasePriceValidUntil: number,
-    public puUm: string,
-    public specialProcurement: string,
-    public sqvDate: number,
-    public supplier: string,
-    public volumeCubic: number,
-    public volumeUnit: string,
-    public weight: number,
-    public weightUnit: string,
-    public inquiryType: string,
-    public pcmCalculationDate: number,
-    public pcmQuantity: number,
-    public pcmSqv: number,
-    public projectName: string,
-    public quotationNumber: string,
-    public rfq: string,
-    public sopPcm: number,
-    public toolingCost: number,
-    public netSales: number[],
-    public averagePrices: number[],
-    public actualQuantities: number[],
-    public plannedQuantities: number[],
-    public customerGroup: string,
-    public customer: string,
-    public salesOrganization: string,
-    public productDescription: string,
-    public sqvSapLatestMonth: number,
-    public isPcmRow: boolean
-  ) {}
+import { PcmCalculation } from './pcm-calculation.model';
+
+export interface ReferenceType {
+  materialNumber: string;
+  plant: string;
+  budgetQuantityCurrentYear: number;
+  budgetQuantitySoco: number;
+  currency: string;
+  gpcDate: string;
+  gpcLatestYear: number;
+  height: number;
+  length: number;
+  width: number;
+  unitOfDimension: string;
+  materialDesignation: string;
+  materialShortDescription: string;
+  procurementType: string;
+  productLine: string;
+  purchasePriceValidFrom: string;
+  purchasePriceValidUntil: string;
+  puUm: string;
+  specialProcurement: string;
+  sqvDate: string;
+  supplier: string;
+  volumeCubic: number;
+  volumeUnit: string;
+  weight: number;
+  weightUnit: string;
+  inquiryType: string;
+  pcmCalculations: PcmCalculation[];
+  quotationNumber: string;
+  netSales: number[];
+  averagePrices: number[];
+  actualQuantities: number[];
+  plannedQuantities: number[];
+  customerGroups: string[];
+  customers: string[];
+  salesOrganizations: string[];
+  productDescription: string;
+  sqvSapLatestMonth: number;
+  isPcmRow: boolean;
 }

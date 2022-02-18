@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import {
+  CustomerDetails,
+  DimensionAndWeightDetails,
+  PriceDetails,
+  ProductionDetails,
+  QuantitiesDetails,
+  SalesDetails,
+} from '@cdba/shared/models';
 import { Store } from '@ngrx/store';
 
 import {
@@ -13,12 +21,6 @@ import {
   getReferenceTypeLoading,
   getSalesDetails,
 } from '../../core/store';
-import { CustomerDetails } from './customer/model/customer.details.model';
-import { DimensionAndWeightDetails } from './dimension-and-weight/model/dimension-and-weight-details.model';
-import { PriceDetails } from './pricing/model/price.details.model';
-import { ProductionDetails } from './production/model/production.details.model';
-import { QuantitiesDetails } from './quantities/model/quantities.model';
-import { SalesDetails } from './sales-and-description/model/sales-details.model';
 
 @Component({
   selector: 'cdba-detail-tab',
@@ -28,8 +30,8 @@ export class DetailTabComponent implements OnInit {
   isLoading$: Observable<boolean>;
 
   customerDetails$: Observable<CustomerDetails>;
-  dimensionAndWeight$: Observable<DimensionAndWeightDetails>;
-  salesPrice$: Observable<PriceDetails>;
+  dimensionAndWeightDetails$: Observable<DimensionAndWeightDetails>;
+  priceDetails$: Observable<PriceDetails>;
   productionDetails$: Observable<ProductionDetails>;
   quantitiesDetails$: Observable<QuantitiesDetails>;
   salesDetails$: Observable<SalesDetails>;
@@ -40,8 +42,10 @@ export class DetailTabComponent implements OnInit {
     this.isLoading$ = this.store.select(getReferenceTypeLoading);
 
     this.customerDetails$ = this.store.select(getCustomerDetails);
-    this.dimensionAndWeight$ = this.store.select(getDimensionAndWeightDetails);
-    this.salesPrice$ = this.store.select(getPriceDetails);
+    this.dimensionAndWeightDetails$ = this.store.select(
+      getDimensionAndWeightDetails
+    );
+    this.priceDetails$ = this.store.select(getPriceDetails);
     this.productionDetails$ = this.store.select(getProductionDetails);
     this.quantitiesDetails$ = this.store.select(getQuantitiesDetails);
     this.salesDetails$ = this.store.select(getSalesDetails);

@@ -1,3 +1,4 @@
+export * from './additional-information-details.mock';
 export * from './auth.mock';
 export * from './bom.mock';
 export * from './bom-identifier.mock';

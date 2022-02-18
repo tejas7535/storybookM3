@@ -22,8 +22,8 @@ jest.mock('../../../shared/components/table/column-utils', () => ({
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
   ...jest.requireActual<any>('../../../shared/components/table/column-utils'),
   valueGetterDate: jest.fn(),
-  valueGetterArray: jest.fn(),
-  formatNumber: jest.fn(),
+  valueGetterFromArray: jest.fn(),
+  valueGetterFromArrayOfObjects: jest.fn(),
 }));
 
 describe('ColumnDefinitions', () => {
@@ -69,8 +69,9 @@ describe('ColumnDefinitions', () => {
       }
     });
 
-    expect(utils.valueGetterArray).toHaveBeenCalledTimes(10);
-    expect(utils.valueGetterDate).toHaveBeenCalledTimes(5);
+    expect(utils.valueGetterFromArray).toHaveBeenCalledTimes(10);
+    expect(utils.valueGetterFromArrayOfObjects).toHaveBeenCalledTimes(6);
+    expect(utils.valueGetterDate).toHaveBeenCalledTimes(4);
     expect(formatNumberSpy).toHaveBeenCalledTimes(23);
   });
 });

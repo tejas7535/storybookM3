@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { SalesDetails } from './model/sales-details.model';
+import { SalesDetails } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-sales-and-description',

@@ -1,19 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { DetailsLabelValueModule } from '../details-label-value';
 import { CustomerComponent } from './customer.component';
 
 @NgModule({
   declarations: [CustomerComponent],
-  imports: [
-    SharedTranslocoModule,
-    UndefinedAttributeFallbackModule,
-    LabelValueModule,
-  ],
+  imports: [SharedTranslocoModule, DetailsLabelValueModule, CommonModule],
   exports: [CustomerComponent],
 })
 export class CustomerModule {}

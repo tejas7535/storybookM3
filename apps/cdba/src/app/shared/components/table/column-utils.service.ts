@@ -59,7 +59,7 @@ export class ColumnUtilsService {
    *
    * ### options
    *
-   * Supported Intl calender types
+   * Supports Intl calendar types
    *
    * For further information on ag grid value formatters see
    * https://www.ag-grid.com/angular-data-grid/value-formatters
@@ -68,5 +68,7 @@ export class ColumnUtilsService {
     params: ValueFormatterParams,
     options?: DateFormatOptions
   ): string =>
-    this.localeService.localizeDate(params.value, undefined, options);
+    params.value
+      ? this.localeService.localizeDate(params.value, undefined, options)
+      : '';
 }

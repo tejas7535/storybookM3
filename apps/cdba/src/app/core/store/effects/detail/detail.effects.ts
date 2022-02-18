@@ -31,7 +31,6 @@ import {
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
-import { ReferenceTypeResult } from '../../reducers/detail/models';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
@@ -48,9 +47,7 @@ export class DetailEffects {
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap((refTypeIdentifier: ReferenceTypeIdentifier) =>
         this.detailService.getDetails(refTypeIdentifier).pipe(
-          map((item: ReferenceTypeResult) =>
-            loadReferenceTypeSuccess({ item })
-          ),
+          map((referenceType) => loadReferenceTypeSuccess({ referenceType })),
           catchError((error: HttpErrorResponse) =>
             of(
               loadReferenceTypeFailure({

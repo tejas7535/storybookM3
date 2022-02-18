@@ -5,7 +5,7 @@ import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { CompareLabelValueModule } from '../compare-label-value';
 import { AdditionalInformationWidgetComponent } from './additional-information-widget.component';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { AdditionalInformationWidgetComponent } from './additional-information-w
   imports: [
     CommonModule,
     SharedTranslocoModule,
-    LabelValueModule,
+    CompareLabelValueModule,
     UndefinedAttributeFallbackModule,
   ],
   exports: [AdditionalInformationWidgetComponent],

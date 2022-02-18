@@ -1,4 +1,4 @@
-import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
+import { DimensionAndWeightDetails } from '@cdba/shared/models';
 import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import {
   createComponentFactory,
@@ -11,7 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as compareEnJson from '../../../../assets/i18n/compare/en.json';
 import * as sharedEnJson from '../../../../assets/i18n/en.json';
-import { LabelValueModule } from '../label-value/label-value.module';
+import { CompareLabelValueModule } from '../compare-label-value';
 import { DimensionsWidgetComponent } from './dimensions-widget.component';
 
 describe('DimensionsWidgetComponent', () => {
@@ -27,7 +27,7 @@ describe('DimensionsWidgetComponent', () => {
       provideTranslocoTestingModule({
         en: { compare: compareEnJson, ...sharedEnJson },
       }),
-      LabelValueModule,
+      CompareLabelValueModule,
     ],
     providers: [mockProvider(TranslocoLocaleService, { localizeNumber })],
   });

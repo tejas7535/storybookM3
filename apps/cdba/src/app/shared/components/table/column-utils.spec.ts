@@ -13,8 +13,8 @@ import {
   formatMaterialNumberFromString,
   getMainMenuItems,
   matchAllFractionsForIntegerValue,
-  valueGetterArray,
   valueGetterDate,
+  valueGetterFromArray,
 } from './column-utils';
 
 describe('ColumnUtils', () => {
@@ -88,9 +88,9 @@ describe('ColumnUtils', () => {
     let result: number;
 
     it('should return undefined if data is not defined', () => {
-      result = valueGetterArray(
+      result = valueGetterFromArray(
         {} as unknown as ValueGetterParams,
-        undefined,
+        'key',
         0
       );
 
@@ -100,7 +100,7 @@ describe('ColumnUtils', () => {
     it('should return undefined if key is not defined', () => {
       key = 'plannedQuantities';
 
-      result = valueGetterArray(params, key, 0);
+      result = valueGetterFromArray(params, key, 0);
 
       expect(result).toBeUndefined();
     });
@@ -108,7 +108,7 @@ describe('ColumnUtils', () => {
     it('should return the correct value', () => {
       key = 'actualQuantities';
 
-      result = valueGetterArray(params, key, 1);
+      result = valueGetterFromArray(params, key, 1);
 
       expect(result).toEqual(20);
     });

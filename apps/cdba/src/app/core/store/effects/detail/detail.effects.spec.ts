@@ -42,10 +42,7 @@ import {
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
-import {
-  CalculationsResponse,
-  ReferenceTypeResult,
-} from '../../reducers/detail/models';
+import { CalculationsResponse } from '../../reducers/detail/models';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
@@ -105,14 +102,14 @@ describe('Detail Effects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const item = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
+        const referenceType = REFERENCE_TYPE_MOCK;
 
         const response = m.cold('-a|', {
-          a: item,
+          a: referenceType,
         });
         detailService.getDetails = jest.fn(() => response);
 
-        const result = loadReferenceTypeSuccess({ item });
+        const result = loadReferenceTypeSuccess({ referenceType });
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadReferenceType$).toBeObservable(expected);

@@ -9,7 +9,6 @@ import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { RouterStateUrl } from '@cdba/core/store';
-import { ReferenceTypeResult } from '@cdba/core/store/reducers/detail/models';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import {
   BomIdentifier,
@@ -101,9 +100,9 @@ export class CompareEffects {
       ofType(loadProductDetails),
       mergeMap((action) =>
         this.detailService.getDetails(action.referenceTypeIdentifier).pipe(
-          map((item: ReferenceTypeResult) =>
+          map((item) =>
             loadProductDetailsSuccess({
-              item: item.referenceTypeDto,
+              item,
               index: action.index,
             })
           ),

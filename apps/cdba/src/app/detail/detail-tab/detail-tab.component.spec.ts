@@ -1,6 +1,3 @@
-import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -10,14 +7,7 @@ import { MockModule } from 'ng-mocks';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CustomerModule } from './customer/customer.module';
 import { DetailTabComponent } from './detail-tab.component';
-import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
-import { DrawingsModule } from './drawings/drawings.module';
-import { PricingModule } from './pricing/pricing.module';
-import { ProductionModule } from './production/production.module';
-import { QuantitiesModule } from './quantities/quantities.module';
-import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 describe('DetailTabComponent', () => {
   let spectator: Spectator<DetailTabComponent>;
@@ -28,15 +18,7 @@ describe('DetailTabComponent', () => {
     imports: [
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
-      MatCardModule,
-      CustomerModule,
-      DimensionAndWeightModule,
-      PricingModule,
-      ProductionModule,
-      QuantitiesModule,
-      SalesAndDescriptionModule,
-      MockModule(DrawingsModule),
-      LoadingSpinnerModule,
+      MockModule(LoadingSpinnerModule),
     ],
     providers: [
       provideMockStore({
@@ -44,10 +26,6 @@ describe('DetailTabComponent', () => {
           detail: DETAIL_STATE_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 
@@ -66,8 +44,8 @@ describe('DetailTabComponent', () => {
 
       expect(component.isLoading$).toBeDefined();
       expect(component.customerDetails$).toBeDefined();
-      expect(component.dimensionAndWeight$).toBeDefined();
-      expect(component.salesPrice$).toBeDefined();
+      expect(component.dimensionAndWeightDetails$).toBeDefined();
+      expect(component.priceDetails$).toBeDefined();
       expect(component.productionDetails$).toBeDefined();
       expect(component.quantitiesDetails$).toBeDefined();
       expect(component.salesDetails$).toBeDefined();

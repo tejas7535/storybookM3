@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'cdba-label-value',
-  templateUrl: './label-value.component.html',
+  selector: 'cdba-compare-label-value',
+  templateUrl: './compare-label-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LabelValueComponent {
+export class CompareLabelValueComponent {
   @Input() label: string;
   @Input() value: string;
   @Input() borderBottom: boolean;

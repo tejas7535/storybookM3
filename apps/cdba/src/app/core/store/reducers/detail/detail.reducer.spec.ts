@@ -29,7 +29,7 @@ import {
   selectReferenceType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
-import { CalculationsResponse, ReferenceTypeResult } from './models';
+import { CalculationsResponse } from './models';
 
 describe('Detail Reducer', () => {
   const fakeState = {
@@ -90,14 +90,14 @@ describe('Detail Reducer', () => {
 
   describe('loadReferenceTypeSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const item = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
+      const referenceType = REFERENCE_TYPE_MOCK;
 
-      const action = loadReferenceTypeSuccess({ item });
+      const action = loadReferenceTypeSuccess({ referenceType });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.detail.loading).toBeFalsy();
-      expect(state.detail.referenceType).toEqual(item.referenceTypeDto);
+      expect(state.detail.referenceType).toEqual(referenceType);
       expect(state.detail.errorMessage).toBeUndefined();
     });
   });

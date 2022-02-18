@@ -1,9 +1,9 @@
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { DetailsLabelValueModule } from '../details-label-value';
 import { CustomerComponent } from './customer.component';
 
 describe('CustomerComponent', () => {
@@ -13,9 +13,8 @@ describe('CustomerComponent', () => {
   const createComponent = createComponentFactory({
     component: CustomerComponent,
     imports: [
-      UndefinedAttributeFallbackModule,
       provideTranslocoTestingModule({ en: {} }),
-      LabelValueModule,
+      MockModule(DetailsLabelValueModule),
     ],
   });
 

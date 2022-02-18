@@ -1,12 +1,11 @@
 <div *transloco="let t; read: 'detail.detailTab.customer'">
-  <h6 class="mb-4 text-medium-emphasis">{{ t('title') }}</h6>
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('customers')"
-    [value]="customerDetails?.customer | undefinedAttributeFallback"
+    [values]="customerDetails?.customers"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('customerGroup')"
-    [value]="customerDetails?.customerGroup | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
+    [values]="customerDetails?.customerGroups"
+  ></cdba-details-label-value>
 </div>

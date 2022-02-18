@@ -5,6 +5,7 @@ import {
   ValueGetterParams,
 } from '@ag-grid-enterprise/all-modules';
 import { getEnv } from '@cdba/environments/environment.provider';
+import { getValueFromObject } from '@cdba/shared/utils';
 import { translate } from '@ngneat/transloco';
 
 import {
@@ -43,12 +44,12 @@ export const formatLongValue = (
   return value?.length > maxChars ? `${value.slice(0, maxChars)}...` : value;
 };
 
-export const valueGetterDate = (params: ValueGetterParams, key: string) =>
+export const valueGetterDate = <T>(params: ValueGetterParams, key: keyof T) =>
   params?.data?.[key] ? new Date(params.data[key]) : undefined;
 
-export const valueGetterArray = (
+export const valueGetterFromArray = <T>(
   params: ValueGetterParams,
-  key: string,
+  key: keyof T,
   index: number
 ) => {
   const { data } = params;
@@ -56,13 +57,22 @@ export const valueGetterArray = (
   return data?.[key]?.[index];
 };
 
+export const valueGetterFromArrayOfObjects = <T, TObj>(
+  params: ValueGetterParams,
+  key: keyof T,
+  index: number,
+  objectKey: keyof TObj
+) => {
+  const { data } = params;
+
+  return getValueFromObject<TObj>(data?.[key]?.[index], objectKey);
+};
+
 /**
  * Map column definition field to related property of ReferenceType.
  */
 export const columnDefinitionToReferenceTypeProp = (def: string) => {
   switch (def) {
-    case 'averagePrice':
-      return 'averagePrices';
     case 'actualQuantityLastYear':
       return 'actualQuantities';
     case 'actualQuantityLastYearMinus1':
@@ -71,14 +81,6 @@ export const columnDefinitionToReferenceTypeProp = (def: string) => {
       return 'actualQuantities';
     case 'actualQuantityLastYearMinus3':
       return 'actualQuantities';
-    case 'netSalesLastYear':
-      return 'netSales';
-    case 'netSalesLastYearMinus1':
-      return 'netSales';
-    case 'netSalesLastYearMinus2':
-      return 'netSales';
-    case 'netSalesLastYearMinus3':
-      return 'netSales';
     case 'plannedQuantityCurrentYear':
       return 'plannedQuantities';
     case 'plannedQuantityCurrentYearPlus1':
@@ -87,8 +89,6 @@ export const columnDefinitionToReferenceTypeProp = (def: string) => {
       return 'plannedQuantities';
     case 'plannedQuantityCurrentYearPlus3':
       return 'plannedQuantities';
-    case 'msd':
-      return 'materialShortDescription';
     default:
       return def;
   }

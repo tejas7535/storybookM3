@@ -5,7 +5,7 @@ export class SalesDetails {
     public materialShortDescription: string,
     public productLine: string,
     public rfq: string,
-    public salesOrganization: string,
+    public salesOrganizations: string[],
     public projectName: string,
     public productDescription: string
   ) {}

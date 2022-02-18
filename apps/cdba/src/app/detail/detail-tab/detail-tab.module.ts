@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
@@ -12,6 +11,7 @@ import { DetailTabComponent } from './detail-tab.component';
 import { DetailTabRoutingModule } from './detail-tab-routing.module';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { DrawingsModule } from './drawings/drawings.module';
+import { PcmCalculationsModule } from './pcm-calculations/pcm-calculations.module';
 import { PricingModule } from './pricing/pricing.module';
 import { ProductionModule } from './production/production.module';
 import { QuantitiesModule } from './quantities/quantities.module';
@@ -22,17 +22,17 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
   imports: [
     CommonModule,
     ReactiveComponentModule,
-    DetailTabRoutingModule,
     SharedTranslocoModule,
-    MatCardModule,
-    SalesAndDescriptionModule,
-    PricingModule,
-    DimensionAndWeightModule,
-    CustomerModule,
-    QuantitiesModule,
-    ProductionModule,
-    DrawingsModule,
+    DetailTabRoutingModule,
     LoadingSpinnerModule,
+    CustomerModule,
+    DrawingsModule,
+    DimensionAndWeightModule,
+    PricingModule,
+    QuantitiesModule,
+    PcmCalculationsModule,
+    ProductionModule,
+    SalesAndDescriptionModule,
   ],
 })
 export class DetailTabModule {}

@@ -1,3 +1,4 @@
+import { ReferenceType } from '@cdba/shared/models';
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
@@ -40,7 +41,7 @@ export interface SearchState {
   };
   referenceTypes: {
     loading: boolean;
-    items: any[];
+    items: ReferenceType[];
     selectedNodeIds: string[];
     tooManyResults: boolean;
     resultCount: number;
@@ -161,7 +162,7 @@ export const searchReducer = createReducer(
       },
       referenceTypes: {
         ...state.referenceTypes,
-        items: searchResult.result,
+        items: searchResult.results,
         loading: false,
         tooManyResults: searchResult.resultCount > TOO_MANY_RESULTS_THRESHOLD,
         resultCount: searchResult.resultCount,
@@ -205,9 +206,9 @@ export const searchReducer = createReducer(
       },
       referenceTypes: {
         ...state.referenceTypes,
-        items: searchResult.result,
+        items: searchResult.results,
         loading: false,
-        tooManyResults: !searchResult.result,
+        tooManyResults: !searchResult.results,
       },
     })
   ),

@@ -1,14 +1,13 @@
 <div *transloco="let t; read: 'detail.detailTab.salesAndDescription'">
-  <h6 class="mb-4 text-medium-emphasis">{{ t('title') }}</h6>
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('materialDesignation')"
     [value]="
       salesDetails?.materialDesignation
         | scrambleMaterialDesignation: 0
         | undefinedAttributeFallback
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('materialNumber')"
     [value]="
       salesDetails?.materialNumber
@@ -16,34 +15,34 @@
         | scrambleMaterialDesignation: 0
         | undefinedAttributeFallback
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('materialShortDescription')"
     [value]="
       salesDetails?.materialShortDescription | undefinedAttributeFallback
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('productLine')"
     [value]="salesDetails?.productLine | undefinedAttributeFallback"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('rfq')"
     [value]="salesDetails?.rfq | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('salesOrganization')"
-    [value]="salesDetails?.salesOrganization | undefinedAttributeFallback"
+    [values]="salesDetails?.salesOrganizations"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('projectName')"
     [value]="salesDetails?.projectName | undefinedAttributeFallback"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('productDescription')"
     [value]="salesDetails?.productDescription | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
+  ></cdba-details-label-value>
 </div>

@@ -5,7 +5,7 @@ import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { DetailsLabelValueModule } from '../details-label-value';
 import { QuantitiesComponent } from './quantities.component';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { QuantitiesComponent } from './quantities.component';
     CommonModule,
     SharedTranslocoModule,
     UndefinedAttributeFallbackModule,
-    LabelValueModule,
+    DetailsLabelValueModule,
   ],
   exports: [QuantitiesComponent],
 })

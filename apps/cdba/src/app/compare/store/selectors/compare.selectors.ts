@@ -1,14 +1,14 @@
 import { getCompareState } from '@cdba/core/store/reducers';
-import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 import {
+  AdditionalInformationDetails,
   BomIdentifier,
   BomItem,
   Calculation,
+  DimensionAndWeightDetails,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { createSelector } from '@ngrx/store';
 
-import { AdditionalInformation } from '../../details-tab/additional-information-widget/additional-information.model';
 import { CompareState } from '../reducers/compare.reducer';
 
 export const getSelectedReferenceTypeIdentifiers = createSelector(
@@ -45,14 +45,14 @@ export const getDimensionAndWeightDetails = createSelector(
 
 export const getAdditionalInformation = createSelector(
   getCompareState,
-  (state: CompareState, index: number): AdditionalInformation => {
+  (state: CompareState, index: number): AdditionalInformationDetails => {
     const referenceType = state[index]?.details?.item;
 
     if (referenceType) {
       const {
         plant,
         procurementType,
-        salesOrganization,
+        salesOrganizations,
         plannedQuantities,
         actualQuantities,
       } = referenceType;
@@ -60,7 +60,7 @@ export const getAdditionalInformation = createSelector(
       return {
         plant,
         procurementType,
-        salesOrganization,
+        salesOrganizations,
         plannedQuantities,
         actualQuantities,
       };

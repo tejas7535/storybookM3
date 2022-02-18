@@ -1,0 +1,28 @@
+<div
+  class="border-border text-body-2"
+  [ngClass]="{ 'mb-4 border-b pb-3': borderBottom, 'pb-1': !borderBottom }"
+>
+  <span class="mr-2 mb-1 inline-block text-medium-emphasis">{{ label }}:</span>
+  <div
+    *ngIf="values && values.length; else singleValue"
+    class="mb-1"
+    [ngClass]="[
+      values.length === 1
+        ? 'inline-block'
+        : 'max-h-[110px] overflow-hidden overflow-y-auto'
+    ]"
+  >
+    <span
+      *ngFor="let value of values"
+      class="block text-high-emphasis"
+      [ngClass]="{ 'inline-block': values.length === 1 }"
+    >
+      {{ value | undefinedAttributeFallback }}
+    </span>
+  </div>
+  <ng-template #singleValue>
+    <span class="mb-1 inline-block text-high-emphasis">{{
+      value | undefinedAttributeFallback
+    }}</span>
+  </ng-template>
+</div>

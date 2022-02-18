@@ -1,28 +1,28 @@
 <ng-container *ngIf="dimensionData">
   <ng-container *transloco="let t; read: 'compare.details.dimensions'">
-    <cdba-label-value
+    <cdba-compare-label-value
       [label]="t('length')"
       [value]="dimensionData.length | undefinedAttributeFallback"
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('width')"
       [value]="dimensionData.width | undefinedAttributeFallback"
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('height')"
       [value]="dimensionData.height | undefinedAttributeFallback"
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('weight')"
       [value]="dimensionData.weight | undefinedAttributeFallback"
       [borderBottom]="true"
-    ></cdba-label-value>
-    <cdba-label-value
+    ></cdba-compare-label-value>
+    <cdba-compare-label-value
       [label]="t('volume')"
       [value]="dimensionData.volume | undefinedAttributeFallback"
-    ></cdba-label-value>
+    ></cdba-compare-label-value>
   </ng-container>
 </ng-container>

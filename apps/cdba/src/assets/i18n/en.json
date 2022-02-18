@@ -72,7 +72,10 @@
       "navigateToDetailTooltip": "click to open"
     },
     "calculations": {
-      "pcmRowHint": "PCM materials are calculations only without relevant production information",
+      "pcmRow": {
+        "label": "Pcm",
+        "hint": "PCM materials are calculations only without relevant production information"
+      },
       "table": {
         "calculationDate": "Calculation Date",
         "costType": "Cost Type",

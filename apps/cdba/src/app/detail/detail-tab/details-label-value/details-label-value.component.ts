@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'cdba-detail-label-value',
-  templateUrl: './label-value.component.html',
+  selector: 'cdba-details-label-value',
+  templateUrl: './details-label-value.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LabelValueComponent {
+export class DetailsLabelValueComponent {
   @Input() label: string;
   @Input() value: string;
+  @Input() values: string[];
   @Input() borderBottom?: boolean;
 }

@@ -6,6 +6,7 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -60,11 +61,12 @@ describe('Detail Actions', () => {
     });
 
     test('loadItemSuccess', () => {
-      const item: any = {};
-      action = loadReferenceTypeSuccess({ item });
+      const referenceType = REFERENCE_TYPE_MOCK;
+
+      action = loadReferenceTypeSuccess({ referenceType });
 
       expect(action).toEqual({
-        item,
+        referenceType,
         type: '[Detail] Load Reference Type Success',
       });
     });

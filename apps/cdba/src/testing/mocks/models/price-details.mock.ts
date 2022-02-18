@@ -1,11 +1,9 @@
-import { PriceDetails } from '@cdba/detail/detail-tab/pricing/model/price.details.model';
+import { PriceDetails } from '@cdba/shared/models';
 
 import { REFERENCE_TYPE_MOCK } from './reference-type.mock';
 
 export const PRICE_DETAILS_MOCK = new PriceDetails(
-  REFERENCE_TYPE_MOCK.pcmSqv,
-  REFERENCE_TYPE_MOCK.toolingCost,
-  REFERENCE_TYPE_MOCK.pcmCalculationDate,
+  REFERENCE_TYPE_MOCK.pcmCalculations,
   REFERENCE_TYPE_MOCK.sqvSapLatestMonth,
   REFERENCE_TYPE_MOCK.sqvDate,
   REFERENCE_TYPE_MOCK.gpcLatestYear,

@@ -1,12 +1,12 @@
+import { PcmCalculation } from './pcm-calculation.model';
+
 export class PriceDetails {
   constructor(
-    public pcmSqv: number,
-    public toolingCost: number,
-    public pcmCalculationDate: number,
+    public pcmCalculations: PcmCalculation[],
     public sqvSapLatestMonth: number,
-    public sqvDate: number,
+    public sqvDate: string,
     public gpcLatestYear: number,
-    public gpcDate: number,
+    public gpcDate: string,
     public puUm: string,
     public currency: string,
     public averagePrice: number

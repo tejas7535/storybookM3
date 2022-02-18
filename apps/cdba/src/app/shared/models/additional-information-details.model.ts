@@ -1,7 +1,7 @@
-export interface AdditionalInformation {
+export interface AdditionalInformationDetails {
   plant: string;
   procurementType: string;
-  salesOrganization: string;
+  salesOrganizations: string[];
   actualQuantities: number[];
   plannedQuantities: number[];
 }

@@ -18,7 +18,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import {
   BomResult,
   CalculationsResponse,
-  ReferenceTypeResult,
 } from '../../core/store/reducers/detail/models';
 import { DetailService } from './detail.service';
 
@@ -40,24 +39,21 @@ describe('DetailService', () => {
 
   describe('getDetails', () => {
     test('should get detail result', () => {
-      const mock = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
+      const mock = REFERENCE_TYPE_MOCK;
       const expectedParams = new HttpParams()
-        .set('material_number', mock.referenceTypeDto.materialNumber)
-        .set('plant', mock.referenceTypeDto.plant);
+        .set('material_number', mock.materialNumber)
+        .set('plant', mock.plant);
 
       service
         .getDetails(
-          new ReferenceTypeIdentifier(
-            mock.referenceTypeDto.materialNumber,
-            mock.referenceTypeDto.plant
-          )
+          new ReferenceTypeIdentifier(mock.materialNumber, mock.plant)
         )
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
       const req = httpMock.expectOne(
-        `api/v1/detail?${expectedParams.toString()}`
+        `api/v2/detail?${expectedParams.toString()}`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.context).toEqual(withCache());

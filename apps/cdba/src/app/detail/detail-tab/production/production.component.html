@@ -1,36 +1,35 @@
 <div *transloco="let t; read: 'detail.detailTab.production'">
-  <h6 class="mb-4 text-medium-emphasis">{{ t('title') }}</h6>
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('procurementType')"
     [value]="productionDetails?.procurementType | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('plant')"
     [value]="productionDetails?.plant | undefinedAttributeFallback"
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('specialProcurement')"
     [value]="productionDetails?.specialProcurement | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('purchasePriceValidFrom')"
     [value]="
       productionDetails?.purchasePriceValidFrom
         | translocoDate
         | undefinedAttributeFallback
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('purchasePriceValidUntil')"
     [value]="
       productionDetails?.purchasePriceValidUntil
         | translocoDate
         | undefinedAttributeFallback
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('supplier')"
     [value]="productionDetails?.supplier | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
+  ></cdba-details-label-value>
 </div>

@@ -95,10 +95,9 @@ describe('Search Reducer', () => {
 
   describe('searchSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref],
+        [REFERENCE_TYPE_MOCK],
         2
       );
       const expectedEntities = {
@@ -119,15 +118,14 @@ describe('Search Reducer', () => {
 
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeFalsy();
-      expect(state.referenceTypes.items).toEqual(searchResult.result);
+      expect(state.referenceTypes.items).toEqual(searchResult.results);
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
     test('should unset loading and keep old filter if searchCount is zero', () => {
-      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref],
+        [REFERENCE_TYPE_MOCK],
         0
       );
 
@@ -144,7 +142,7 @@ describe('Search Reducer', () => {
 
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeFalsy();
-      expect(state.referenceTypes.items).toEqual(searchResult.result);
+      expect(state.referenceTypes.items).toEqual(searchResult.results);
       expect(state.filters.items).toEqual(fakeState.filters.items);
     });
 
@@ -172,7 +170,7 @@ describe('Search Reducer', () => {
 
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeTruthy();
-      expect(state.referenceTypes.items).toEqual(searchResult.result);
+      expect(state.referenceTypes.items).toEqual(searchResult.results);
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
   });
@@ -207,10 +205,9 @@ describe('Search Reducer', () => {
 
   describe('applyTextSearchSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref],
+        [REFERENCE_TYPE_MOCK],
         2
       );
       const expectedEntities = {
@@ -231,7 +228,7 @@ describe('Search Reducer', () => {
 
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeFalsy();
-      expect(state.referenceTypes.items).toEqual(searchResult.result);
+      expect(state.referenceTypes.items).toEqual(searchResult.results);
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
@@ -259,7 +256,7 @@ describe('Search Reducer', () => {
 
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeTruthy();
-      expect(state.referenceTypes.items).toEqual(searchResult.result);
+      expect(state.referenceTypes.items).toEqual(searchResult.results);
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
   });

@@ -1,14 +1,5 @@
 <div *transloco="let t; read: 'detail.detailTab.quantities'">
-  <h6 class="mb-4 text-medium-emphasis">{{ t('title') }}</h6>
-  <cdba-detail-label-value
-    [label]="t('pcmQuantity')"
-    [value]="
-      quantitiesDetails?.pcmQuantity
-        | translocoDecimal
-        | undefinedAttributeFallback
-    "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('netSales', { year: currentYear - 1 })"
     [value]="
       (quantitiesDetails?.netSales[0]
@@ -16,16 +7,16 @@
         | undefinedAttributeFallback) +
       (quantitiesDetails?.currency ? ' ' + quantitiesDetails?.currency : '')
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('budgetQuantity', { year: currentYear })"
     [value]="
       quantitiesDetails?.budgetQuantityCurrentYear
         | translocoDecimal
         | undefinedAttributeFallback
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('budgetQuantitySoco', { year: currentYear })"
     [value]="
       quantitiesDetails?.budgetQuantitySoco
@@ -36,8 +27,8 @@
       quantitiesDetails?.actualQuantities.length > 0 ||
       quantitiesDetails?.plannedQuantities.length > 0
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     *ngFor="
       let actualQuantity of quantitiesDetails?.actualQuantities
         .slice()
@@ -51,13 +42,13 @@
     "
     [value]="actualQuantity | translocoDecimal | undefinedAttributeFallback"
     [borderBottom]="i + 1 === quantitiesDetails?.actualQuantities.length"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     *ngFor="
       let plannedQuantity of quantitiesDetails?.plannedQuantities;
       index as i
     "
     [label]="t('plannedQuantity', { year: currentYear + i })"
     [value]="plannedQuantity | translocoDecimal | undefinedAttributeFallback"
-  ></cdba-detail-label-value>
+  ></cdba-details-label-value>
 </div>

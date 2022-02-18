@@ -2,20 +2,20 @@ import {
   BomIdentifier,
   BomItem,
   Calculation,
+  CustomerDetails,
+  DimensionAndWeightDetails,
   Drawing,
   ExcludedCalculations,
+  PriceDetails,
+  ProductionDetails,
+  QuantitiesDetails,
   ReferenceType,
   ReferenceTypeIdentifier,
+  SalesDetails,
 } from '@cdba/shared/models';
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { CustomerDetails } from '../../../../detail/detail-tab/customer/model/customer.details.model';
-import { DimensionAndWeightDetails } from '../../../../detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
-import { PriceDetails } from '../../../../detail/detail-tab/pricing/model/price.details.model';
-import { ProductionDetails } from '../../../../detail/detail-tab/production/model/production.details.model';
-import { QuantitiesDetails } from '../../../../detail/detail-tab/quantities/model/quantities.model';
-import { SalesDetails } from '../../../../detail/detail-tab/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
 
@@ -48,9 +48,9 @@ export const getSalesDetails = createSelector(
           referenceType.materialDesignation,
           referenceType.materialShortDescription,
           referenceType.productLine,
-          referenceType.rfq,
-          referenceType.salesOrganization,
-          referenceType.projectName,
+          referenceType.pcmCalculations?.[0]?.rfq,
+          referenceType.salesOrganizations,
+          referenceType.pcmCalculations?.[0]?.projectName,
           referenceType.productDescription
         )
       : undefined
@@ -61,9 +61,7 @@ export const getPriceDetails = createSelector(
   (referenceType: ReferenceType): PriceDetails =>
     referenceType
       ? new PriceDetails(
-          referenceType.pcmSqv,
-          referenceType.toolingCost,
-          referenceType.pcmCalculationDate,
+          referenceType.pcmCalculations,
           referenceType.sqvSapLatestMonth,
           referenceType.sqvDate,
           referenceType.gpcLatestYear,
@@ -98,7 +96,10 @@ export const getCustomerDetails = createSelector(
   getReferenceType,
   (referenceType: ReferenceType) =>
     referenceType
-      ? new CustomerDetails(referenceType.customer, referenceType.customerGroup)
+      ? new CustomerDetails(
+          referenceType.customers,
+          referenceType.customerGroups
+        )
       : undefined
 );
 
@@ -107,7 +108,7 @@ export const getQuantitiesDetails = createSelector(
   (referenceType: ReferenceType): QuantitiesDetails =>
     referenceType
       ? new QuantitiesDetails(
-          referenceType.pcmQuantity,
+          referenceType.pcmCalculations,
           referenceType.netSales,
           referenceType.budgetQuantityCurrentYear,
           referenceType.budgetQuantitySoco,

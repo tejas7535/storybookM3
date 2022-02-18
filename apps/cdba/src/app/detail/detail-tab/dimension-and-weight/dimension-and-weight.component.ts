@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { DimensionAndWeightDetails } from './model/dimension-and-weight-details.model';
+import { DimensionAndWeightDetails } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-dimension-and-weight',
@@ -8,5 +8,5 @@ import { DimensionAndWeightDetails } from './model/dimension-and-weight-details.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DimensionAndWeightComponent {
-  @Input() dimensionAndWeight: DimensionAndWeightDetails;
+  @Input() dimensionAndWeightDetails: DimensionAndWeightDetails;
 }

@@ -13,10 +13,11 @@ import {
   getMaterialDesignation,
   getProductError,
 } from '@cdba/compare/store';
-import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
+import {
+  AdditionalInformationDetails,
+  DimensionAndWeightDetails,
+} from '@cdba/shared/models';
 import { Store } from '@ngrx/store';
-
-import { AdditionalInformation } from '../additional-information-widget/additional-information.model';
 
 @Component({
   selector: 'cdba-material-card',
@@ -28,7 +29,7 @@ export class MaterialCardComponent implements OnInit {
 
   public materialDesignation$: Observable<string>;
   public dimensionAndWeightDetails$: Observable<DimensionAndWeightDetails>;
-  public additionalInformation$: Observable<AdditionalInformation>;
+  public additionalInformation$: Observable<AdditionalInformationDetails>;
   public errorMessage$: Observable<string>;
 
   public constructor(private readonly store: Store) {}

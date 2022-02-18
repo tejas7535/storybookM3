@@ -1,4 +1,5 @@
 import {
+  ADDITIONAL_INFORMATION_DETAILS_MOCK,
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -126,13 +127,7 @@ describe('Compare Selectors', () => {
 
     it('should return dimension data for provided index', () => {
       result = getAdditionalInformation(fakeState, 0);
-      expected = {
-        actualQuantities: [250_000, 200_000, 44_444, 2_345_345],
-        plannedQuantities: [30_000, 350_000, 400_000, 500_000],
-        plant: 'IWS',
-        procurementType: 'in-house',
-        salesOrganization: '0060',
-      };
+      expected = ADDITIONAL_INFORMATION_DETAILS_MOCK;
 
       expect(result).toEqual(expected);
     });

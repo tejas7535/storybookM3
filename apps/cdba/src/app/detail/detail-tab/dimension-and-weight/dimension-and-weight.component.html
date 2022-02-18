@@ -1,64 +1,68 @@
 <div *transloco="let t; read: 'detail.detailTab.dimensionAndWeight'">
-  <h6 class="mb-4 text-medium-emphasis">{{ t('title') }}</h6>
-  <cdba-detail-label-value
+  <cdba-details-label-value
     [label]="t('length')"
     [value]="
-      (dimensionAndWeight?.length
+      (dimensionAndWeightDetails?.length
         | translocoDecimal
         | undefinedAttributeFallback) +
       ' ' +
-      (dimensionAndWeight?.length && dimensionAndWeight?.unitOfDimension
-        ? dimensionAndWeight?.unitOfDimension
+      (dimensionAndWeightDetails?.length &&
+      dimensionAndWeightDetails?.unitOfDimension
+        ? dimensionAndWeightDetails?.unitOfDimension
         : '')
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('width')"
     [value]="
-      (dimensionAndWeight?.width
+      (dimensionAndWeightDetails?.width
         | translocoDecimal
         | undefinedAttributeFallback) +
       ' ' +
-      (dimensionAndWeight?.width && dimensionAndWeight?.unitOfDimension
-        ? dimensionAndWeight?.unitOfDimension
+      (dimensionAndWeightDetails?.width &&
+      dimensionAndWeightDetails?.unitOfDimension
+        ? dimensionAndWeightDetails?.unitOfDimension
         : '')
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('height')"
     [value]="
-      (dimensionAndWeight?.height
+      (dimensionAndWeightDetails?.height
         | translocoDecimal
         | undefinedAttributeFallback) +
       ' ' +
-      (dimensionAndWeight?.height && dimensionAndWeight?.unitOfDimension
-        ? dimensionAndWeight?.unitOfDimension
+      (dimensionAndWeightDetails?.height &&
+      dimensionAndWeightDetails?.unitOfDimension
+        ? dimensionAndWeightDetails?.unitOfDimension
         : '')
     "
     [borderBottom]="true"
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('weight')"
     [value]="
-      (dimensionAndWeight?.weight
+      (dimensionAndWeightDetails?.weight
         | translocoDecimal
         | undefinedAttributeFallback) +
       ' ' +
-      (dimensionAndWeight?.weight && dimensionAndWeight?.weightUnit
-        ? dimensionAndWeight?.weightUnit
+      (dimensionAndWeightDetails?.weight &&
+      dimensionAndWeightDetails?.weightUnit
+        ? dimensionAndWeightDetails?.weightUnit
         : '')
     "
-  ></cdba-detail-label-value>
-  <cdba-detail-label-value
+  ></cdba-details-label-value>
+  <cdba-details-label-value
     [label]="t('volumeCubic')"
     [value]="
-      (dimensionAndWeight?.volumeCubic
+      (dimensionAndWeightDetails?.volumeCubic
         | translocoDecimal
         | undefinedAttributeFallback) +
       ' ' +
-      (dimensionAndWeight?.volumeCubic && dimensionAndWeight?.volumeUnit
-        ? dimensionAndWeight?.volumeUnit
+      (dimensionAndWeightDetails?.volumeCubic &&
+      dimensionAndWeightDetails?.volumeUnit
+        ? dimensionAndWeightDetails?.volumeUnit
         : '')
     "
-  ></cdba-detail-label-value>
+  ></cdba-details-label-value>
 </div>

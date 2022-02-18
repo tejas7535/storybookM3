@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import {
@@ -7,7 +8,7 @@ import {
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { DetailsLabelValueModule } from '../details-label-value';
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
 @NgModule({
@@ -16,7 +17,8 @@ import { SalesAndDescriptionComponent } from './sales-and-description.component'
     SharedTranslocoModule,
     MaterialNumberModule,
     UndefinedAttributeFallbackModule,
-    LabelValueModule,
+    DetailsLabelValueModule,
+    CommonModule,
   ],
   exports: [SalesAndDescriptionComponent],
 })

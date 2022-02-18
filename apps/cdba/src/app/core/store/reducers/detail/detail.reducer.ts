@@ -107,11 +107,11 @@ export const detailReducer = createReducer(
   ),
   on(
     loadReferenceTypeSuccess,
-    (state: DetailState, { item }): DetailState => ({
+    (state: DetailState, { referenceType }): DetailState => ({
       ...state,
       detail: {
         ...initialState.detail,
-        referenceType: item.referenceTypeDto,
+        referenceType,
       },
     })
   ),

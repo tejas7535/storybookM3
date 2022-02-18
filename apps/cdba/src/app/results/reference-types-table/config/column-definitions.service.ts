@@ -10,9 +10,11 @@ import {
   formatLongValue,
   formatMaterialNumber,
   scrambleMaterialDesignation,
-  valueGetterArray,
   valueGetterDate,
+  valueGetterFromArray,
+  valueGetterFromArrayOfObjects,
 } from '@cdba/shared/components/table';
+import { PcmCalculation, ReferenceType } from '@cdba/shared/models';
 import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
 import { translate } from '@ngneat/transloco';
 
@@ -44,7 +46,7 @@ export class ColumnDefinitionService {
       lockVisible: true,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('materialDesignation'),
+      field: 'materialDesignation',
       headerName: translate(
         'results.referenceTypesTable.headers.materialDesignation'
       ),
@@ -60,13 +62,13 @@ export class ColumnDefinitionService {
       lockVisible: true,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('isPcmRow'),
+      field: 'isPcmRow',
       headerName: translate('results.referenceTypesTable.headers.pcmRow'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.pcmRow'),
       cellRenderer: 'pcmCellRenderer',
     },
     {
-      field: columnDefinitionToReferenceTypeProp('materialNumber'),
+      field: 'materialNumber',
       headerName: translate(
         'results.referenceTypesTable.headers.materialNumber'
       ),
@@ -76,29 +78,43 @@ export class ColumnDefinitionService {
       valueFormatter: formatMaterialNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('pcmQuantity'),
+      colId: 'pcmQuantity',
       headerName: translate('results.referenceTypesTable.headers.pcmQuantity'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.pcmQuantity'
       ),
       filter: 'agNumberColumnFilter',
       type: 'numericColumn',
+      valueGetter: (params) =>
+        valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
+          params,
+          'pcmCalculations',
+          0,
+          'quantity'
+        ),
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('pcmSqv'),
+      field: 'pcmSqv',
       headerName: translate('results.referenceTypesTable.headers.pcmSqv'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.pcmSqv'),
       filter: 'agNumberColumnFilter',
       filterParams: filterParamsForDecimalValues,
       type: 'numericColumn',
+      valueGetter: (params) =>
+        valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
+          params,
+          'pcmCalculations',
+          0,
+          'cost'
+        ),
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
           minimumFractionDigits: 3,
         }),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('budgetQuantityCurrentYear'),
+      field: 'budgetQuantityCurrentYear',
       headerName: translate(
         'results.referenceTypesTable.headers.budgetQuantity',
         {
@@ -114,7 +130,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('sqvSapLatestMonth'),
+      field: 'sqvSapLatestMonth',
       headerName: translate(
         'results.referenceTypesTable.headers.sqvSapLatestMonth'
       ),
@@ -130,7 +146,7 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('gpcLatestYear'),
+      field: 'gpcLatestYear',
       headerName: translate(
         'results.referenceTypesTable.headers.gpcLatestYear'
       ),
@@ -168,24 +184,20 @@ export class ColumnDefinitionService {
           minimumFractionDigits: 3,
         }),
       valueGetter: (params) =>
-        valueGetterArray(
-          params,
-          columnDefinitionToReferenceTypeProp('averagePrices'),
-          0
-        ),
+        valueGetterFromArray<ReferenceType>(params, 'averagePrices', 0),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('currency'),
+      field: 'currency',
       headerName: translate('results.referenceTypesTable.headers.currency'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.currency'),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('puUm'),
+      field: 'puUm',
       headerName: translate('results.referenceTypesTable.headers.puUm'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.puUm'),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('procurementType'),
+      field: 'procurementType',
       headerName: translate(
         'results.referenceTypesTable.headers.procurementType'
       ),
@@ -194,12 +206,12 @@ export class ColumnDefinitionService {
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('plant'),
+      field: 'plant',
       headerName: translate('results.referenceTypesTable.headers.plant'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.plant'),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('salesOrganization'),
+      field: 'salesOrganizations',
       headerName: translate(
         'results.referenceTypesTable.headers.salesOrganization'
       ),
@@ -209,7 +221,7 @@ export class ColumnDefinitionService {
       valueFormatter: formatLongValue,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('customerGroup'),
+      field: 'customerGroups',
       headerName: translate(
         'results.referenceTypesTable.headers.customerGroup'
       ),
@@ -233,9 +245,9 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('actualQuantities'),
+          columnDefinitionToReferenceTypeProp('actualQuantityLastYear'),
           0
         ),
     },
@@ -254,9 +266,9 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('actualQuantities'),
+          columnDefinitionToReferenceTypeProp('actualQuantityLastYearMinus1'),
           1
         ),
     },
@@ -275,9 +287,9 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('actualQuantities'),
+          columnDefinitionToReferenceTypeProp('actualQuantityLastYearMinus2'),
           2
         ),
     },
@@ -296,14 +308,14 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('actualQuantities'),
+          columnDefinitionToReferenceTypeProp('actualQuantityLastYearMinus3'),
           3
         ),
     },
     {
-      colId: 'netSalesLastYear',
+      colId: 'netSales',
       filter: 'agNumberColumnFilter',
       headerName: translate('results.referenceTypesTable.headers.netSales', {
         year: currentYear - 1,
@@ -318,14 +330,10 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
-          params,
-          columnDefinitionToReferenceTypeProp('netSales'),
-          0
-        ),
+        valueGetterFromArray<ReferenceType>(params, 'netSales', 0),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('budgetQuantitySoco'),
+      field: 'budgetQuantitySoco',
       filter: 'agNumberColumnFilter',
       headerName: translate(
         'results.referenceTypesTable.headers.budgetQuantitySoco',
@@ -353,9 +361,9 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('plannedQuantities'),
+          columnDefinitionToReferenceTypeProp('plannedQuantityCurrentYear'),
           0
         ),
     },
@@ -374,9 +382,11 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('plannedQuantities'),
+          columnDefinitionToReferenceTypeProp(
+            'plannedQuantityCurrentYearPlus1'
+          ),
           1
         ),
     },
@@ -395,9 +405,11 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('plannedQuantities'),
+          columnDefinitionToReferenceTypeProp(
+            'plannedQuantityCurrentYearPlus2'
+          ),
           2
         ),
     },
@@ -416,21 +428,30 @@ export class ColumnDefinitionService {
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
       valueGetter: (params) =>
-        valueGetterArray(
+        valueGetterFromArray(
           params,
-          columnDefinitionToReferenceTypeProp('plannedQuantities'),
+          columnDefinitionToReferenceTypeProp(
+            'plannedQuantityCurrentYearPlus3'
+          ),
           3
         ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('projectName'),
+      colId: 'projectName',
       headerName: translate('results.referenceTypesTable.headers.projectName'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.projectName'
       ),
+      valueGetter: (params) =>
+        valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
+          params,
+          'pcmCalculations',
+          0,
+          'projectName'
+        ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('productDescription'),
+      field: 'productDescription',
       headerName: translate(
         'results.referenceTypesTable.headers.productDescription'
       ),
@@ -439,7 +460,7 @@ export class ColumnDefinitionService {
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('materialShortDescription'),
+      field: 'materialShortDescription',
       headerName: translate(
         'results.referenceTypesTable.headers.materialShortDescription'
       ),
@@ -448,21 +469,21 @@ export class ColumnDefinitionService {
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('productLine'),
+      field: 'productLine',
       headerName: translate('results.referenceTypesTable.headers.productLine'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.productLine'
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('inquiryType'),
+      field: 'inquiryType',
       headerName: translate('results.referenceTypesTable.headers.inquiryType'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.inquiryType'
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('length'),
+      field: 'length',
       headerName: translate('results.referenceTypesTable.headers.length'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.length'),
       filter: 'agNumberColumnFilter',
@@ -471,7 +492,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('width'),
+      field: 'width',
       headerName: translate('results.referenceTypesTable.headers.width'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.width'),
       filter: 'agNumberColumnFilter',
@@ -480,7 +501,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('height'),
+      field: 'height',
       headerName: translate('results.referenceTypesTable.headers.height'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.height'),
       filter: 'agNumberColumnFilter',
@@ -489,7 +510,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('unitOfDimension'),
+      field: 'unitOfDimension',
       headerName: translate(
         'results.referenceTypesTable.headers.unitOfDimension'
       ),
@@ -498,7 +519,7 @@ export class ColumnDefinitionService {
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('weight'),
+      field: 'weight',
       headerName: translate('results.referenceTypesTable.headers.weight'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.weight'),
       filter: 'agNumberColumnFilter',
@@ -507,14 +528,14 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('weightUnit'),
+      field: 'weightUnit',
       headerName: translate('results.referenceTypesTable.headers.weightUnit'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.weightUnit'
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('volumeCubic'),
+      field: 'volumeCubic',
       headerName: translate('results.referenceTypesTable.headers.volumeCubic'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.volumeCubic'
@@ -525,26 +546,33 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('volumeUnit'),
+      field: 'volumeUnit',
       headerName: translate('results.referenceTypesTable.headers.volumeUnit'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.volumeUnit'
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('customer'),
+      field: 'customers',
       headerName: translate('results.referenceTypesTable.headers.customer'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.customer'),
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('rfq'),
+      colId: 'rfq',
       headerName: translate('results.referenceTypesTable.headers.rfq'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.rfq'),
+      valueGetter: (params) =>
+        valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
+          params,
+          'pcmCalculations',
+          0,
+          'rfq'
+        ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('quotationNumber'),
+      field: 'quotationNumber',
       headerName: translate(
         'results.referenceTypesTable.headers.quotationNumber'
       ),
@@ -553,13 +581,20 @@ export class ColumnDefinitionService {
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('toolingCost'),
+      colId: 'toolingCost',
       filter: 'agNumberColumnFilter',
       headerName: translate('results.referenceTypesTable.headers.toolingCost'),
       headerTooltip: translate(
         'results.referenceTypesTable.tooltips.toolingCost'
       ),
       type: 'numericColumn',
+      valueGetter: (params) =>
+        valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
+          params,
+          'pcmCalculations',
+          0,
+          'toolingCost'
+        ),
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
           maximumFractionDigits: 0,
@@ -575,9 +610,11 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.pcmCalculationDate'
       ),
       valueGetter: (params) =>
-        valueGetterDate(
+        valueGetterFromArrayOfObjects<ReferenceType, PcmCalculation>(
           params,
-          columnDefinitionToReferenceTypeProp('pcmCalculationDate')
+          'pcmCalculations',
+          0,
+          'date'
         ),
       valueFormatter: this.columnUtilsService.formatDate,
     },
@@ -587,7 +624,7 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.gpcDate'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.gpcDate'),
       valueGetter: (params) =>
-        valueGetterDate(params, columnDefinitionToReferenceTypeProp('gpcDate')),
+        valueGetterDate<ReferenceType>(params, 'gpcDate'),
       valueFormatter: this.columnUtilsService.formatDate,
     },
     {
@@ -596,11 +633,11 @@ export class ColumnDefinitionService {
       headerName: translate('results.referenceTypesTable.headers.sqvDate'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.sqvDate'),
       valueGetter: (params) =>
-        valueGetterDate(params, columnDefinitionToReferenceTypeProp('sqvDate')),
+        valueGetterDate<ReferenceType>(params, 'sqvDate'),
       valueFormatter: this.columnUtilsService.formatDate,
     },
     {
-      field: columnDefinitionToReferenceTypeProp('specialProcurement'),
+      field: 'specialProcurement',
       headerName: translate(
         'results.referenceTypesTable.headers.specialProcurement'
       ),
@@ -609,7 +646,7 @@ export class ColumnDefinitionService {
       ),
     },
     {
-      field: columnDefinitionToReferenceTypeProp('supplier'),
+      field: 'supplier',
       headerName: translate('results.referenceTypesTable.headers.supplier'),
       headerTooltip: translate('results.referenceTypesTable.tooltips.supplier'),
     },
@@ -623,10 +660,7 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.purchasePriceValidFrom'
       ),
       valueGetter: (params) =>
-        valueGetterDate(
-          params,
-          columnDefinitionToReferenceTypeProp('purchasePriceValidFrom')
-        ),
+        valueGetterDate<ReferenceType>(params, 'purchasePriceValidFrom'),
       valueFormatter: this.columnUtilsService.formatDate,
     },
     {
@@ -639,10 +673,7 @@ export class ColumnDefinitionService {
         'results.referenceTypesTable.tooltips.purchasePriceValidUntil'
       ),
       valueGetter: (params) =>
-        valueGetterDate(
-          params,
-          columnDefinitionToReferenceTypeProp('purchasePriceValidUntil')
-        ),
+        valueGetterDate<ReferenceType>(params, 'purchasePriceValidUntil'),
       valueFormatter: this.columnUtilsService.formatDate,
     },
   ];

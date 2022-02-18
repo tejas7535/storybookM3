@@ -4,7 +4,7 @@ import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LabelValueModule } from '../label-value/label-value.module';
+import { DetailsLabelValueModule } from '../details-label-value';
 import { DimensionAndWeightComponent } from './dimension-and-weight.component';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { DimensionAndWeightComponent } from './dimension-and-weight.component';
   imports: [
     SharedTranslocoModule,
     UndefinedAttributeFallbackModule,
-    LabelValueModule,
+    DetailsLabelValueModule,
   ],
   exports: [DimensionAndWeightComponent],
 })

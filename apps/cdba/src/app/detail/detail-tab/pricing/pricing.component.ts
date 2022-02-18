@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { PriceDetails } from './model/price.details.model';
+import { PriceDetails } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-pricing',
@@ -8,7 +8,7 @@ import { PriceDetails } from './model/price.details.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricingComponent {
-  @Input() salesPrice: PriceDetails;
+  @Input() priceDetails: PriceDetails;
 
   currentYear = new Date().getFullYear();
 }

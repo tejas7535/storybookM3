@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { ProductionDetails } from './model/production.details.model';
+import { ProductionDetails } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-production',

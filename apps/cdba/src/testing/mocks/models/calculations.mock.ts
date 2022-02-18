@@ -1,4 +1,8 @@
-import { Calculation, ExcludedCalculations } from '@cdba/shared/models';
+import {
+  Calculation,
+  ExcludedCalculations,
+  PcmCalculation,
+} from '@cdba/shared/models';
 
 export const CALCULATIONS_MOCK = [
   new Calculation(
@@ -128,4 +132,13 @@ export const EXCLUDED_CALCULATIONS_MOCK: ExcludedCalculations = {
   count: 32,
   missingCostRoles: ['CDBA_COST_TYPE_GPC'],
   excludedPlants: ['0005', '0060'],
+};
+
+export const PCM_CALCULATIONS_MOCK: PcmCalculation = {
+  date: '2017-11-01',
+  quantity: 100_000,
+  cost: 0.2261,
+  toolingCost: 23.999,
+  rfq: 'RFC-9345',
+  projectName: 'CDBA',
 };

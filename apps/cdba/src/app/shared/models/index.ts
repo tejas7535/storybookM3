@@ -1,9 +1,17 @@
+export { AdditionalInformationDetails } from './additional-information-details.model';
 export { BomIdentifier } from './bom-identifier.model';
 export { BomItem } from './bom-item.model';
 export { Calculation } from './calculation.model';
 export { CostShareCategory } from './cost-share-category.type';
+export { CustomerDetails } from './customer-details.model';
+export { DimensionAndWeightDetails } from './dimension-and-weight-details.model';
 export { Drawing } from './drawing.model';
 export { ExcludedCalculations } from './excluded-calculation.model';
+export { PcmCalculation } from './pcm-calculation.model';
+export { PriceDetails } from './price-details.model';
 export { ProductCostAnalysis } from './product-cost-analysis.model';
+export { ProductionDetails } from './production-details.model';
+export { QuantitiesDetails } from './quantities-details.model';
 export { ReferenceType } from './reference-type.model';
 export { ReferenceTypeIdentifier } from './reference-type-identifier.model';
+export { SalesDetails } from './sales-details.model';

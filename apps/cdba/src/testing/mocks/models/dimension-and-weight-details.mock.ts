@@ -1,4 +1,4 @@
-import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
+import { DimensionAndWeightDetails } from '@cdba/shared/models';
 
 import { REFERENCE_TYPE_MOCK } from './reference-type.mock';
 
