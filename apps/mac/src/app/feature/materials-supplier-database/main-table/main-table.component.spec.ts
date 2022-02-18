@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { ValueGetterParams } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ColumnApi, IFilterComp, RowNode } from '@ag-grid-community/core';
 import { ColDef, ColumnState, GridApi } from '@ag-grid-enterprise/all-modules';
@@ -26,6 +27,7 @@ import { initialState as initialDataState } from '../store/reducers/data.reducer
 import { setAgGridColumns, setFilter } from './../store/actions/data.actions';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { BOOLEAN_VALUE_GETTER } from './table-config/boolean-value-getter';
 import { COLUMN_DEFINITIONS } from './table-config/column-definitions';
 
 describe('MainTableComponent', () => {
@@ -1223,6 +1225,26 @@ describe('MainTableComponent', () => {
       const result = component.isDefaultFilterForm();
 
       expect(result).toBe(false);
+    });
+  });
+
+  describe('BOOLEAN_VALUE_GETTER', () => {
+    it('should return a comparable string value of a boolean value', () => {
+      const mockGetId = jest.fn(() => 'columnId');
+      const mockGetValue = jest.fn(() => 1);
+      const mockValueGetterParams = {
+        column: {
+          getId: mockGetId,
+        },
+        getValue: mockGetValue,
+      } as unknown as ValueGetterParams;
+
+      const expected = '1';
+      const result = BOOLEAN_VALUE_GETTER(mockValueGetterParams);
+
+      expect(result).toEqual(expected);
+      expect(mockGetId).toHaveBeenCalled();
+      expect(mockGetValue).toHaveBeenCalledWith('columnId');
     });
   });
 });
