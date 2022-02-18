@@ -36,9 +36,6 @@
               >Select All</mat-checkbox
             >
           </div>
-          <mat-option [value]="{ id: undefined, name: 'empty' }" #categoryOption
-            >(Blanks)</mat-option
-          >
           <mat-option
             *ngFor="let option of productCategoryOptions$ | ngrxPush"
             [value]="option"

@@ -20,17 +20,17 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'manufacturerSupplierName',
-    headerName: 'Manufacturer Supplier',
+    headerName: 'Supplier Name',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'manufacturerSupplierPlant',
-    headerName: 'Manufacturer Plant',
+    headerName: 'Supplier Plant',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'manufacturerSupplierKind',
-    headerName: 'Manufacturer Kind',
+    headerName: 'Kind',
     filterParams: FILTER_PARAMS,
   },
   {
@@ -45,36 +45,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'ratingCode',
-    headerName: 'Rating Code',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-  },
-  {
-    field: 'ratingBarDiameter',
-    headerName: 'Bar Diameter',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-  },
-  {
-    field: 'ratingSquareDiameter',
-    headerName: 'Square Diameter',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-  },
-  {
-    field: 'ratingRemark',
-    headerName: 'Remark',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-  },
-  {
-    field: 'ratingKindName',
-    headerName: 'Rating Kind',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'ratingKindCode',
-    headerName: 'Rating Kind Code',
+    headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
     hide: true,
   },
@@ -84,11 +55,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    field: 'materialCategory',
-    headerName: 'Material Category',
-    filterParams: FILTER_PARAMS,
-  },
-  {
     field: 'isPrematerial',
     headerName: 'Is Prematerial',
     filterParams: FILTER_PARAMS,
@@ -96,13 +62,13 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'shapeName',
-    headerName: 'Shape',
+    headerName: 'Product Category',
     filterParams: FILTER_PARAMS,
     hide: true,
   },
   {
     field: 'shapeCode',
-    headerName: 'Shape Code',
+    headerName: 'Product Category Code',
     filterParams: FILTER_PARAMS,
     hide: true,
   },
