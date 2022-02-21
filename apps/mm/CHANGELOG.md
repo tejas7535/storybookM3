@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.17](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.16...mm-v0.1.17) (2022-02-21)
+
+
+### 🎸 Features
+
+* **mm:** add custom property ([9869941](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/986994178c21d6d57398e4a360e5620e3d5b9705))
+* **mm:** add custom tracking events ([96e3f4b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/96e3f4b6984f8eb6bda692b8d78f34786a2b1924))
+
 ### [0.1.16](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.15...mm-v0.1.16) (2022-02-14)
 
 
