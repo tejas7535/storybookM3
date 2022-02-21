@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import {
   ActivatedRoute,
   ActivatedRouteSnapshot,
@@ -25,21 +25,26 @@ import { AI_COOKIES } from './cookie-groups';
 })
 export class ApplicationInsightsService {
   public constructor(
+    @Optional()
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {
-    this.appInsights = new ApplicationInsights({
-      config: this.moduleConfig.applicationInsightsConfig,
-    });
+    if (this.moduleConfig?.applicationInsightsConfig) {
+      this.appInsights = new ApplicationInsights({
+        config: this.moduleConfig.applicationInsightsConfig,
+      });
 
-    if (!this.moduleConfig.consent) {
-      this.startTracking(false);
+      this.appInsights.loadAppInsights();
+
+      if (!this.moduleConfig.consent) {
+        this.startTracking(false);
+      }
     }
   }
 
-  private appInsights: ApplicationInsights;
+  private readonly appInsights!: ApplicationInsights;
   private readonly destroy$ = new Subject<void>();
   private initial = true;
 
@@ -50,21 +55,14 @@ export class ApplicationInsightsService {
   }
 
   public startTracking(cookieEnabled: boolean): void {
-    this.appInsights = new ApplicationInsights({
-      config: {
-        ...this.moduleConfig.applicationInsightsConfig,
-        disableCookiesUsage: !cookieEnabled,
-      },
-    });
-
     // delete cookies since app insights only disable usage of them
     if (!cookieEnabled) {
       AI_COOKIES.forEach((aiCookie) =>
-        this.appInsights.getCookieMgr().del(aiCookie)
+        this.appInsights?.getCookieMgr().del(aiCookie)
       );
     }
 
-    this.appInsights.loadAppInsights();
+    this.appInsights?.getCookieMgr().setEnabled(cookieEnabled);
 
     // track visitor before consent but only once
     if (!!this.moduleConfig.consent && this.initial) {
@@ -81,15 +79,15 @@ export class ApplicationInsightsService {
     const telemetryInitializer = (envelope: ITelemetryItem) => {
       envelope.data = { ...envelope.data, [tag]: value };
     };
-    this.appInsights.addTelemetryInitializer(telemetryInitializer);
+    this.appInsights?.addTelemetryInitializer(telemetryInitializer);
   }
 
   public logPageView(name?: string, uri?: string): void {
-    this.appInsights.trackPageView({ name, uri });
+    this.appInsights?.trackPageView({ name, uri });
   }
 
   public logEvent(name: string, properties?: { [key: string]: any }): void {
-    this.appInsights.trackEvent({ name }, properties);
+    this.appInsights?.trackEvent({ name }, properties);
   }
 
   public logMetric(
@@ -97,15 +95,15 @@ export class ApplicationInsightsService {
     average: number,
     properties?: { [key: string]: any }
   ): void {
-    this.appInsights.trackMetric({ name, average }, properties);
+    this.appInsights?.trackMetric({ name, average }, properties);
   }
 
   public logException(exception: Error, severityLevel?: number): void {
-    this.appInsights.trackException({ exception, severityLevel });
+    this.appInsights?.trackException({ exception, severityLevel });
   }
 
   public logTrace(message: string, properties?: { [key: string]: any }): void {
-    this.appInsights.trackTrace({ message }, properties);
+    this.appInsights?.trackTrace({ message }, properties);
   }
 
   private createRouterSubscription(): void {
