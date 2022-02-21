@@ -39,6 +39,11 @@ export function appInitializer(
   oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
+  const tag = 'application';
+  const value = '[Bearinx - MountingManager]';
+
+  applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+
   oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
     applicationInsightsService.startTracking(
       cookiesGroups.get(CookiesGroups.PerformanceCookies) || false
