@@ -530,17 +530,6 @@ pipeline {
                     }
                 }
 
-                stage('Lint:SCSS') {
-                    steps {
-                        echo 'Run SCSS Lint'
-
-                        // no checkstyle output
-                        script {
-                            sh 'npm run lint:scss'
-                        }
-                    }
-                }
-
                 stage('Test:Unit') {
                     steps {
                         echo 'Run Unit Tests'

@@ -32,7 +32,6 @@ You will be prompted to install the following extensions upon the first opening 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [HTMLHint - Static Code Analyzer](https://marketplace.visualstudio.com/items?itemName=mkaufman.HTMLHint)
-- [Stylelint - SCSS/CSS/Less Linter](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)
 - [TypeScript Hero - TypeScript Utilities](https://marketplace.visualstudio.com/items?itemName=rbbit.typescript-hero)
 - [RxJS Cheatsheet](https://marketplace.visualstudio.com/items?itemName=dzhavat.rxjs-cheatsheet)
 - [Nx Console - UI for NX workspace](https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console)
@@ -85,7 +84,6 @@ The repository contains software that affects the core business of Schaeffler. T
 
 In order to keep up a well formatted and consistent code all over the repository you should use following tools locally as they are also part of our CI / CD pipeline:
 
-- stylelint
 - htmlhint
 - prettier
 - eslint

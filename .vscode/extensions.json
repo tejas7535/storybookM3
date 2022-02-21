@@ -2,7 +2,6 @@
   "recommendations": [
     "esbenp.prettier-vscode",
     "mkaufman.htmlhint",
-    "stylelint.vscode-stylelint",
     "dzhavat.rxjs-cheatsheet",
     "nrwl.angular-console",
     "firsttris.vscode-jest-runner",
