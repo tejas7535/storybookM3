@@ -11,6 +11,8 @@ import { MatStepper } from '@angular/material/stepper';
 
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 // TODO use Ids for active state
 @Component({
   selector: 'mm-pages-stepper',
@@ -30,6 +32,10 @@ export class PagesStepperComponent implements OnChanges {
   @Output() public activePageIdChange = new EventEmitter<string>();
 
   @ViewChild('stepper') private readonly stepper: MatStepper;
+
+  public constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService
+  ) {}
 
   public get hasNext(): boolean {
     const lastPage = this.getVisiblePages().slice(-1).pop();
@@ -61,6 +67,17 @@ export class PagesStepperComponent implements OnChanges {
         .map((step: any, index: number) => ({ ...step, index }))
         .find((step: any) => step.label === this.activePageId).index;
     }
+
+    const step = this.stepper?.selectedIndex ?? 0;
+    const name = `[Step ${step + 1}: ${this.pages[step].id}]`;
+
+    this.trackSteps(name);
+  }
+
+  public trackSteps(name: string): void {
+    this.applicationInsightsService.logEvent(name, {
+      name: 'Stepname',
+    });
   }
 
   public activate(event: StepperSelectionEvent): void {

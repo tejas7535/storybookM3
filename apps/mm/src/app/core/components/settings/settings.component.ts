@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { LanguageConfirmationDialogComponent } from '../../../shared/components/language-confirmation-dialog/language-confirmation-dialog.component';
 import { locales, MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
@@ -39,7 +41,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly localeService: LocaleService,
-    public readonly dialog: MatDialog
+    public readonly dialog: MatDialog,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -48,6 +51,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.localeService.language$.subscribe((language: MMLocales) => {
         this.currentLanguage = language;
+        this.trackLanguage(language);
         this.languageSelectControl.setValue(language);
         this.separatorSelectControl.setValue(
           locales[language].defaultSeparator
@@ -59,6 +63,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.separatorSelectControl.setValue(separator);
       })
     );
+  }
+
+  public trackLanguage(language: string): void {
+    this.applicationInsightsService.logEvent('[Language]', {
+      value: language,
+    });
   }
 
   public ngOnDestroy(): void {

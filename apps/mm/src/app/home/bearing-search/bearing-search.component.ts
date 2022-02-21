@@ -20,9 +20,10 @@ import {
   tap,
 } from 'rxjs';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { BearingOption, SearchEntry } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
-
 @Component({
   selector: 'mm-bearing-search',
   templateUrl: './bearing-search.component.html',
@@ -39,7 +40,10 @@ export class BearingSearchComponent implements OnInit {
 
   public loading$ = new BehaviorSubject<boolean>(false);
 
-  public constructor(private readonly restService: RestService) {}
+  public constructor(
+    private readonly restService: RestService,
+    private readonly applicationInsightsService: ApplicationInsightsService
+  ) {}
 
   public ngOnInit(): void {
     this.options$ = this.myControl.valueChanges.pipe(
@@ -70,6 +74,16 @@ export class BearingSearchComponent implements OnInit {
   }
 
   public handleSelection(selectionId: string): void {
+    const bearing = this.myControl.value.title;
+    this.trackBearingSelection(bearing, selectionId);
+
     this.bearing.emit(selectionId);
+  }
+
+  public trackBearingSelection(bearing: string, selectionId: string): void {
+    this.applicationInsightsService.logEvent('[Bearing]', {
+      name: bearing,
+      id: selectionId,
+    });
   }
 }

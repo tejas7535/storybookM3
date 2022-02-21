@@ -18,8 +18,10 @@ import {
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { environment } from '../../environments/environment';
 import { LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX } from '../../testing/mocks/rest.service.mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
 import { PagesStepperModule } from '../core/components/pages-stepper/pages-stepper.module';
@@ -88,6 +90,7 @@ describe('HomeComponent', () => {
       RouterTestingModule,
 
       provideTranslocoTestingModule({ en: {} }),
+      ApplicationInsightsModule.forRoot(environment.applicationInsights),
     ],
     providers: [
       RuntimeRequestService,

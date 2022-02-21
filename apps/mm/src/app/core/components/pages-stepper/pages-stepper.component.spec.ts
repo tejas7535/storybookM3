@@ -6,6 +6,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { PageBeforePipe } from './page-before.pipe';
 import { PagesStepperComponent } from './pages-stepper.component';
 
@@ -21,6 +23,12 @@ describe('PagesStepperComponent', () => {
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
       },
     ],
     detectChanges: false,
@@ -221,6 +229,23 @@ describe('PagesStepperComponent', () => {
           visible: true,
         },
       ]);
+    });
+  });
+
+  describe('#trackLanguage', () => {
+    it('should call the logEvent method', () => {
+      const mockStep = `[Step 1]: Very important Step of many`;
+
+      const trackingSpy = jest.spyOn(
+        component['applicationInsightsService'],
+        'logEvent'
+      );
+
+      component.trackSteps(mockStep);
+
+      expect(trackingSpy).toHaveBeenCalledWith(mockStep, {
+        name: 'Stepname',
+      });
     });
   });
 });

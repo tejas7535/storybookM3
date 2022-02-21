@@ -9,7 +9,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { COOKIE_GROUPS } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -38,6 +41,7 @@ describe('AppComponent', () => {
       // TOOD: remove when sidebar component has its module
       ReactiveFormsModule,
       MaterialModule,
+      ApplicationInsightsModule.forRoot(environment.applicationInsights),
     ],
     providers: [
       provideMockStore(),

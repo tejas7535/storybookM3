@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { MaterialModule } from '../../../shared/material.module';
@@ -60,6 +61,12 @@ describe('SidebarComponent', () => {
         provide: MatDialog,
         useValue: {
           open: jest.fn(() => mockDialogRef),
+        },
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
         },
       },
       {
@@ -129,6 +136,23 @@ describe('SidebarComponent', () => {
       const result = component.trackByFn(index);
 
       expect(result).toBe(index);
+    });
+  });
+
+  describe('#trackLanguage', () => {
+    it('should call the logEvent method', () => {
+      const mockLanguage = 'de';
+
+      const trackingSpy = jest.spyOn(
+        component['applicationInsightsService'],
+        'logEvent'
+      );
+
+      component.trackLanguage(mockLanguage);
+
+      expect(trackingSpy).toHaveBeenCalledWith('[Language]', {
+        value: mockLanguage,
+      });
     });
   });
 });

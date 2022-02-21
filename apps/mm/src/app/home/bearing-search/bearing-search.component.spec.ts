@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
 import { BEARING_SEARCH_RESULT_MOCK } from './../../../testing/mocks/rest.service.mock';
@@ -28,6 +29,12 @@ describe('BearingSearchComponent', () => {
         provide: RestService,
         useValue: {
           getBearingSearch: jest.fn(() => of(BEARING_SEARCH_RESULT_MOCK)),
+        },
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
         },
       },
       {
@@ -75,13 +82,47 @@ describe('BearingSearchComponent', () => {
   });
 
   describe('#handleSelection', () => {
-    it('should emit the bearing', () => {
+    it('should emit the bearing and track Bearing select event', () => {
       const mockSelectionId = 'mockAutoCompleteId';
+      const mockBearingName = 'mockBearingName';
+
+      component.myControl.setValue({
+        title: mockBearingName,
+        id: mockSelectionId,
+      });
+
       const spy = jest.spyOn(component.bearing, 'emit');
+      const trackintrackBearingSelectionSpy = jest.spyOn(
+        component,
+        'trackBearingSelection'
+      );
 
       component.handleSelection(mockSelectionId);
 
       expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
+      expect(trackintrackBearingSelectionSpy).toHaveBeenCalledWith(
+        mockBearingName,
+        mockSelectionId
+      );
+    });
+  });
+
+  describe('#trackBearingSelection', () => {
+    it('should call the logEvent method', () => {
+      const mockSelectionId = 'mockAutoCompleteId';
+      const mockBearingName = 'mockBearingName';
+
+      const trackingSpy = jest.spyOn(
+        component['applicationInsightsService'],
+        'logEvent'
+      );
+
+      component.trackBearingSelection(mockBearingName, mockSelectionId);
+
+      expect(trackingSpy).toHaveBeenCalledWith('[Bearing]', {
+        name: mockBearingName,
+        id: mockSelectionId,
+      });
     });
   });
 });
