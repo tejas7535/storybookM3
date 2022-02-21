@@ -8,4 +8,14 @@ export const environment: Environment = {
     'https://caeonlinecalculation-d.schaeffler.com/BearinxWebApi/v1.2/greaseservice',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: '1c13d904-fb90-4598-82b4-ebba31a8e172',
+      disableCookiesUsage: false,
+      autoTrackPageVisitTime: true,
+    },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };

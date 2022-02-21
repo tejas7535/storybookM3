@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
@@ -9,13 +10,16 @@ import {
 } from '@ngneat/transloco-persist-lang';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+} from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from './store/store.module';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 export const availableLanguages: { id: string; label: string }[] = [
   { id: 'de', label: 'Deutsch' },
@@ -25,6 +29,16 @@ export const availableLanguages: { id: string; label: string }[] = [
   // { id: 'ru', label: 'русский' },
   // { id: 'zh', label: '中国' },
 ];
+
+export function appInitializer(
+  applicationInsightsService: ApplicationInsightsService
+) {
+  const tag = 'application';
+  const value = '[Bearinx - Greaseapp]';
+
+  return () =>
+    applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+}
 
 @NgModule({
   imports: [
@@ -58,8 +72,17 @@ export const availableLanguages: { id: string; label: string }[] = [
 
     // HTTP
     HttpClientModule,
+
+    // Application Insights
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      deps: [ApplicationInsightsService],
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpGreaseInterceptor,
