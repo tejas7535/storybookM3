@@ -189,7 +189,8 @@ describe('FeatureImoprtanceConfig', () => {
         serie,
         featureImportance.dataPoints,
         mockAvg,
-        index
+        index,
+        featureImportance.feature
       );
       expect(mockSetSeriesForCategoricalFeature).not.toHaveBeenCalled();
     });
@@ -211,7 +212,8 @@ describe('FeatureImoprtanceConfig', () => {
         serie,
         featureImportance.dataPoints,
         mockAvg,
-        index
+        index,
+        featureImportance.feature
       );
       expect(mockSetSeriesForNumericFeature).not.toHaveBeenCalled();
     });
@@ -267,12 +269,14 @@ describe('FeatureImoprtanceConfig', () => {
       ];
       const avgYPosOfFeature = 10;
       const normalizedRank = 0;
+      const feature = 'Age';
 
       config.setSeriesForNumericFeature(
         serie,
         dataPoints,
         avgYPosOfFeature,
-        normalizedRank
+        normalizedRank,
+        feature
       );
 
       expect(serie.data).toEqual([mockVal]);
@@ -302,12 +306,14 @@ describe('FeatureImoprtanceConfig', () => {
       ];
       const avgYPosOfFeature = 10;
       const normalizedRank = 0;
+      const feature = 'Age';
 
       config.setSeriesForCategoricalFeature(
         serie,
         dataPoints,
         avgYPosOfFeature,
-        normalizedRank
+        normalizedRank,
+        feature
       );
 
       expect(serie.data).toEqual([mockVal]);
@@ -387,11 +393,26 @@ describe('FeatureImoprtanceConfig', () => {
 
   describe('seriesTooltipFormatter', () => {
     test('should format text of tooltip', () => {
-      const data = [1, 3, 2, 'Hey', 0.5];
+      const dataPoint = [1, 3, 2, 'Hey', 0.5];
+      const feature = 'Age';
+      const expectedResult = `<table>
+      <tr>
+        <td class="pr-4">Feature:</td>
+        <td><b>${feature}</b></td>
+      </tr>
+      <tr>
+      <td class="pr-4">Value:</td>
+      <td><b>${dataPoint[3]}</b></td>
+      </tr>
+      <tr>
+        <td class="pr-4">Importance:</td>
+        <td><b>${Number(dataPoint[0]).toPrecision(2)}</b></td>
+      </tr>
+      </table>`;
 
-      const result = config.seriesTooltipFormatter(data);
+      const result = config.seriesTooltipFormatter(dataPoint, feature);
 
-      expect(result).toBe('Value: Hey<br/> Importance: 1.0');
+      expect(result).toBe(expectedResult);
     });
   });
 });

@@ -119,14 +119,16 @@ export const setData = (
       serie,
       feature.dataPoints,
       avgYPosOfFeature,
-      index
+      index,
+      feature.feature
     );
   } else {
     setSeriesForCategoricalFeature(
       serie,
       feature.dataPoints,
       avgYPosOfFeature,
-      index
+      index,
+      feature.feature
     );
   }
 };
@@ -145,7 +147,8 @@ export const setSeriesForNumericFeature = (
   serie: ScatterSeriesOption,
   dataPoints: FeatureImportanceDataPoint[],
   avgYPosOfFeature: number,
-  index: number
+  index: number,
+  feature: string
 ): void => {
   serie.data = dataPoints.map((dataPoint) =>
     mapToValueWithStyle(
@@ -155,7 +158,7 @@ export const setSeriesForNumericFeature = (
   );
   serie.tooltip = {
     formatter: (params) =>
-      seriesTooltipFormatter((params.data as any).value as number[]),
+      seriesTooltipFormatter((params.data as any).value as number[], feature),
     position: 'right',
   };
 };
@@ -164,7 +167,8 @@ export const setSeriesForCategoricalFeature = (
   serie: ScatterSeriesOption,
   dataPoints: FeatureImportanceDataPoint[],
   avgYPosOfFeature: number,
-  index: number
+  index: number,
+  feature: string
 ): void => {
   serie.data = dataPoints.map((dataPoint) =>
     mapDataPointToScatterData(
@@ -175,7 +179,8 @@ export const setSeriesForCategoricalFeature = (
   serie.color = Color.DARK_GREY;
   serie.large = true;
   serie.tooltip = {
-    formatter: (params) => seriesTooltipFormatter(params.data as number[]),
+    formatter: (params) =>
+      seriesTooltipFormatter(params.data as number[], feature),
     position: 'right',
   };
 };
@@ -209,10 +214,27 @@ export const mapDataPointToScatterData = (
   return result;
 };
 
-export const seriesTooltipFormatter = (dataPoint: (string | number)[]) =>
-  `Value: ${dataPoint[3]}<br/> Importance: ${Number(dataPoint[0]).toPrecision(
-    2
-  )}`;
+export const seriesTooltipFormatter = (
+  dataPoint: (string | number)[],
+  feature: string
+) => {
+  const tooltipText = `<table>
+      <tr>
+        <td class="pr-4">Feature:</td>
+        <td><b>${feature}</b></td>
+      </tr>
+      <tr>
+      <td class="pr-4">Value:</td>
+      <td><b>${dataPoint[3]}</b></td>
+      </tr>
+      <tr>
+        <td class="pr-4">Importance:</td>
+        <td><b>${Number(dataPoint[0]).toPrecision(2)}</b></td>
+      </tr>
+      </table>`;
+
+  return tooltipText;
+};
 
 export const gridOption: GridComponentOption = {
   left: 12,
