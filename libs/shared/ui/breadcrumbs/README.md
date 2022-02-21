@@ -64,21 +64,7 @@ import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 })
 ```
 
-API of Breadcrumb Component:
-
-```typescript
-  @Input() breadcrumbs!: Breadcrumb[]; // mandatory input of Breacrumbs containing a label, a url and queryparams for routing
-```
-
 Use like:
-
-```html
-<!-- comp-xy.component.html -->
-
-<schaeffler-breadcrumbs
-  [breadcrumbs]="breadcrumbs"
-></schaeffler-breadcrumbs>
-```
 
 ```typescript
 // comp-xy.component.ts
@@ -93,6 +79,7 @@ public breadcrumbs: Breadcrumb[] = [
   {
     label: 'Search',
     url: '/search',
+    tooltip: 'Search everything from A to B'
   },
   {
     label: 'Results',
@@ -106,4 +93,43 @@ public breadcrumbs: Breadcrumb[] = [
     // when you don't provide a url, the breadcrumb item is not linked, which is usually intended for the last item 
   },
 ];
+```
+
+```html
+<!-- comp-xy.component.html -->
+
+<!--Show regular breadcrumbs items-->
+<schaeffler-breadcrumbs
+  [breadcrumbs]="breadcrumbs"
+></schaeffler-breadcrumbs>
+
+<!-- or -->
+
+<!--Add a truncation of the breadcrumbs items at a certain point, counted from the top-->
+<schaeffler-breadcrumbs
+  [breadcrumbs]="breadcrumbs"
+  [truncateAfter]="2"
+></schaeffler-breadcrumbs>
+
+```
+
+### API
+
+| Name                      | Description                                                                                   |
+| --------------------------| ----------------------------------------------------------------------------------------------|
+| breadcrumbs: Breadcrumb[] | Array of breadcrumbs items                                                                    |
+| truncateAfter: number     | (optional) Add a truncation of the breadcrumbs items at a certain point, counted from the top |
+
+
+#### Interfaces
+
+###### `Breadcrumb`
+
+```typescript
+{
+  label: string;
+  url?: string;
+  queryParams?: Params; //angular router URL parameters
+  tooltip?: string;
+}
 ```

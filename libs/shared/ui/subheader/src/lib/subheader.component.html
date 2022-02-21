@@ -5,6 +5,7 @@
   <div class="pl-9 pt-5 pr-5" *ngIf="breadcrumbs.length > 0">
     <schaeffler-breadcrumbs
       [breadcrumbs]="breadcrumbs"
+      [truncateAfter]="truncateBreadcrumbsAfter"
     ></schaeffler-breadcrumbs>
   </div>
   <div class="flex flex-row items-center">

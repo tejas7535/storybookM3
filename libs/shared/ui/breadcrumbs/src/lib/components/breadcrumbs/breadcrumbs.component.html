@@ -1,0 +1,53 @@
+<div
+  *ngIf="breadcrumbs && breadcrumbs.length"
+  class="flex items-center pb-2 text-caption text-medium-emphasis"
+>
+  <ng-container
+    *ngFor="let breadcrumb of breadcrumbs; let i = index; trackBy: trackByFn"
+  >
+    <schaeffler-breadcrumbs-item
+      *ngIf="showItemBeforeTruncateMenu(i)"
+      [breadcrumb]="breadcrumb"
+      [hasFollowerBreadcrumb]="i < breadcrumbs.length - 1"
+    ></schaeffler-breadcrumbs-item>
+  </ng-container>
+  <ng-container *ngIf="showTruncation()">
+    <ng-container *ngIf="showTruncateMenu()">
+      <span
+        [matMenuTriggerFor]="breadcrumbsTruncateMenu"
+        class="flex cursor-pointer items-center rounded bg-secondary-variant px-2"
+      >
+        <mat-icon class="!h-[auto] !w-[auto] !text-[16px]">more_horiz</mat-icon>
+      </span>
+      <mat-menu
+        #breadcrumbsTruncateMenu="matMenu"
+        class="!max-h-[260px] !w-[260px]"
+      >
+        <ng-container
+          *ngFor="
+            let breadcrumb of breadcrumbs;
+            let i = index;
+            trackBy: trackByFn
+          "
+        >
+          <schaeffler-breadcrumbs-menu-item
+            *ngIf="showItemInTruncateMenu(i)"
+            [breadcrumb]="breadcrumb"
+          ></schaeffler-breadcrumbs-menu-item>
+        </ng-container>
+      </mat-menu>
+      <mat-icon class="mx-2 !h-[auto] !w-[auto] !text-[16px]"
+        >chevron_right</mat-icon
+      >
+    </ng-container>
+    <ng-container
+      *ngFor="let breadcrumb of breadcrumbs; let i = index; trackBy: trackByFn"
+    >
+      <schaeffler-breadcrumbs-item
+        *ngIf="showItemAfterTruncateMenu(i)"
+        [breadcrumb]="breadcrumb"
+        [hasFollowerBreadcrumb]="i < breadcrumbs.length - 1"
+      ></schaeffler-breadcrumbs-item>
+    </ng-container>
+  </ng-container>
+</div>

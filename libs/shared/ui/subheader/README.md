@@ -71,7 +71,9 @@ API of Subheader Component:
 
   @Input() title = '' // title of the subheader
 
-  @Input() hideLine = boolean // false on default, optinal hiding of line under the subheader
+  @Input() hideLine: boolean // false on default, optinal hiding of line under the subheader
+
+  @Input() truncateBreadcrumbsAfter: number // 0 on default, optinal, adds a truncation of the breadcrumbs items at a certain point, counted from the top, see breadcrumbs component
 
   @Output() backButtonClicked // only is emitted if there are no breadcrumbs as input or breadcrumb.length < 2
 ```

@@ -1,0 +1,10 @@
+<button *ngIf="breadcrumb" mat-menu-item [routerLink]="breadcrumb.url">
+  {{ breadcrumb.label }}
+  <mat-icon
+    *ngIf="breadcrumb.tooltip"
+    class="ml-1 !mr-0 !h-[auto] !w-[auto] cursor-help !text-[16px] text-medium-emphasis"
+    [matTooltip]="breadcrumb.tooltip"
+    matTooltipPosition="after"
+    >info_outline</mat-icon
+  >
+</button>

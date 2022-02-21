@@ -4,4 +4,5 @@ export interface Breadcrumb {
   label: string;
   url?: string;
   queryParams?: Params;
+  tooltip?: string;
 }

@@ -1,4 +1,5 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
@@ -20,6 +21,7 @@ export default {
     moduleMetadata({
       imports: [
         CommonModule,
+        NoopAnimationsModule,
         SubheaderModule,
         BreadcrumbsModule,
         RouterModule.forRoot([{ path: 'base', component: SubheaderComponent }]),
@@ -46,14 +48,17 @@ const Template: Story<SubheaderComponent> = (args: SubheaderComponent) => ({
 });
 
 const breadcrumbs: Breadcrumb[] = [
-  {
-    label: 'Search',
-    url: '/search',
-  },
-  { label: 'Results (250)' },
+  { label: 'Home', url: '/url', tooltip: 'More homepage information' },
+  { label: 'Page 1', url: '/url', tooltip: 'First page after home' },
+  { label: 'Page 2', url: '/url', tooltip: '' },
+  { label: 'Page 3', url: '/url', tooltip: '' },
+  { label: 'Page 4', url: '/url', tooltip: '' },
+  { label: 'Page 5', url: '/url', tooltip: 'What a page' },
+  { label: 'Page 6', tooltip: '' },
 ];
 
 export const Primary = Template.bind({});
 Primary.args = {
   breadcrumbs,
+  truncateBreadcrumbsAfter: 0,
 };
