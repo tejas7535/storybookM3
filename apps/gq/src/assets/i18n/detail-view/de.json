@@ -91,5 +91,9 @@
       "dateNextFreeAtp": "Termin freie ATP",
       "deliveryDate": "Termin eintreffend"
     }
+  },
+  "headerContent": {
+    "slowMover": "Slow mover",
+    "excessStock": "Excess stock"
   }
 }

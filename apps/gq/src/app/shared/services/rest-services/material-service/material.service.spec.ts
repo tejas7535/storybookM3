@@ -71,4 +71,23 @@ describe('MaterialService', () => {
       );
     });
   });
+
+  describe('getMaterialStock', () => {
+    test('should call', () => {
+      const productionPlantId = '0215';
+      const materialNumber15 = '123456789012345';
+
+      service
+        .getMaterialStock(productionPlantId, materialNumber15)
+        .subscribe((response) => {
+          expect(response).toEqual([]);
+        });
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_MATERIAL_STOCK']}?${service['PRODUCTION_PLANT_PARAM_KEY']}=${productionPlantId}&${service['MATERIAL_NUMBER_PARAM_KEY']}=${materialNumber15}`
+      );
+
+      expect(req.request.method).toBe('GET');
+    });
+  });
 });

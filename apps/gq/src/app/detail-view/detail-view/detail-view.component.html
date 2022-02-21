@@ -5,7 +5,12 @@
       [title]="material | materialInfo"
       [breadcrumbs]="breadcrumbs"
     >
-      <ng-container titleContent> </ng-container>
+      <ng-container titleContent>
+        <gq-detail-view-header-content
+          [materialStock]="materialStock$ | ngrxPush"
+          [materialStockLoading]="materialStockLoading$ | ngrxPush"
+        ></gq-detail-view-header-content>
+      </ng-container>
       <ng-container header>
         <schaeffler-share-button></schaeffler-share-button>
       </ng-container>

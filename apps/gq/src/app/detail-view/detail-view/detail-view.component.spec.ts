@@ -11,6 +11,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -18,7 +19,12 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
+import {
+  MATERIAL_STOCK_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_MOCK,
+} from '../../../testing/mocks';
+import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
 import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
@@ -36,7 +42,6 @@ describe('DetailViewComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DetailViewComponent,
-    detectChanges: false,
     imports: [
       BrowserAnimationsModule,
       FilterPricingModule,
@@ -56,21 +61,11 @@ describe('DetailViewComponent', () => {
       mockProvider(ApplicationInsightsService),
       provideMockStore({
         initialState: {
-          detailCase: {
-            detailCase: {},
-          },
-          processCase: {
-            customer: {
-              item: CUSTOMER_MOCK,
-            },
-            quotation: {
-              item: QUOTATION_MOCK,
-            },
-          },
+          processCase: PROCESS_CASE_STATE_MOCK,
+          materialStock: MATERIAL_STOCK_STATE_MOCK,
         },
       }),
     ],
-    declarations: [DetailViewComponent],
   });
 
   beforeEach(() => {
@@ -83,11 +78,26 @@ describe('DetailViewComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should set observables', () => {
-      component.ngOnInit();
-
-      expect(component.quotation$).toBeDefined();
-    });
+    test(
+      'should initialize observables',
+      marbles((m) => {
+        m.expect(component.quotation$).toBeObservable(
+          m.cold('a', { a: QUOTATION_MOCK })
+        );
+        m.expect(component.quotationLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+        m.expect(component.quotationDetail$).toBeObservable(
+          m.cold('a', { a: undefined })
+        );
+        m.expect(component.materialStock$).toBeObservable(
+          m.cold('a', { a: MATERIAL_STOCK_MOCK })
+        );
+        m.expect(component.materialStockLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
     test('should add subscriptions', () => {
       component['subscription'].add = jest.fn();
 

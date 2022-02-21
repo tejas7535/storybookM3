@@ -14,14 +14,15 @@ import { SharedModule } from '../../shared';
 import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
+import { DetailViewHeaderContentModule } from './detail-view-header-content/detail-view-header-content.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
-
 @NgModule({
   declarations: [DetailViewComponent],
   imports: [
     DetailViewRoutingModule,
+    DetailViewHeaderContentModule,
     FilterPricingModule,
     MatButtonModule,
     MatSidenavModule,

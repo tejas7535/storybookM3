@@ -2,6 +2,7 @@ export * from './create-case/create-case.selector';
 export * from './health-check/health-check.selector';
 export * from './material-comparable-costs/material-comparable-costs.selector';
 export * from './material-sales-org/material-sales-org.selector';
+export * from './material-stock/material-stock.selectors';
 export * from './process-case/process-case.selectors';
 export * from './roles/roles.selector';
 export * from './sap-price-details/sap-price-details.selector';

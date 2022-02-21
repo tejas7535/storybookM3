@@ -4,6 +4,7 @@ export * from './extended-comparable-linked-transactions-state.mock';
 export * from './health-check-state.mock';
 export * from './material-comparable-cost-state.mock';
 export * from './material-sales-org-state.mock';
+export * from './material-stock-state.mock';
 export * from './process-case-state.mock';
 export * from './sap-price-details-state.mock';
 export * from './transactions-state.mock';
