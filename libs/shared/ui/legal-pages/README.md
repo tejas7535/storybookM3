@@ -65,10 +65,15 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('key.to.translation');
 }
 
+export function DynamicPurpose(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('key.to.translation');
+}
+
 @NgModule({
   imports: [RouterModule.forRoot(appRoutePaths)],
   providers: [
     ...
+    // optional responsible person & company, shown imprint and data privacy
     {
       provide: PERSON_RESPONSIBLE,
       useValue: responsiblePerson,
@@ -77,6 +82,11 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
     {
       provide: TERMS_OF_USE,
       useValue: DynamicTermsOfUse  
+    },
+    // optional purpose, shown in data privacy section 3
+    {
+      provide: PURPOSE
+      useValue: DynamicPurpose
     },
   ],
   ...

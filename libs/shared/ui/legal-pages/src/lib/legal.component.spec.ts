@@ -18,7 +18,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
-import { PERSON_RESPONSIBLE, TERMS_OF_USE } from './legal.model';
+import { PERSON_RESPONSIBLE, PURPOSE, TERMS_OF_USE } from './legal.model';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 const routerMock = {
@@ -61,6 +61,12 @@ describe('LegalComponent', () => {
       {
         provide: TERMS_OF_USE,
         useValue: of("I don't care about the law"),
+      },
+      {
+        provide: PURPOSE,
+        useValue: of(
+          'When not even life has a clear purpose, why care about this boring legal doc'
+        ),
       },
       {
         provide: MATERIAL_SANITY_CHECKS,

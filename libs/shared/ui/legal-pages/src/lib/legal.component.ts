@@ -13,7 +13,7 @@ import { filter, startWith, takeUntil } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
-import { PERSON_RESPONSIBLE, TERMS_OF_USE } from './legal.model';
+import { PERSON_RESPONSIBLE, PURPOSE, TERMS_OF_USE } from './legal.model';
 import { LegalPath } from './legal-route-path.enum';
 
 @Component({
@@ -24,12 +24,14 @@ import { LegalPath } from './legal-route-path.enum';
 })
 export class LegalComponent implements OnInit, OnDestroy {
   public responsible?: string = undefined;
+  public purpose?: string = undefined;
   public legal = 'imprint';
   public destroy$ = new Subject<void>();
 
   public constructor(
-    @Inject(PERSON_RESPONSIBLE) private readonly personResponsible: string,
-    @Optional() @Inject(TERMS_OF_USE) public termsOfUse: Observable<any>,
+    @Optional() @Inject(PERSON_RESPONSIBLE) public personResponsible: string,
+    @Optional() @Inject(PURPOSE) public purpose$: Observable<any>,
+    @Optional() @Inject(TERMS_OF_USE) public termsOfUse$: Observable<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -40,6 +42,8 @@ export class LegalComponent implements OnInit, OnDestroy {
       translate('responsibleIntro', {
         personResponsible: this.personResponsible,
       });
+
+    this.purpose$.subscribe((value) => (this.purpose = value));
 
     this.router.events
       .pipe(

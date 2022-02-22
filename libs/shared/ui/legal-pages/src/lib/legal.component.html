@@ -12,12 +12,21 @@
   </div>
   <div
     *ngIf="
-      (termsOfUse | ngrxPush) && legal === 'termsOfUse';
+      (termsOfUse$ | ngrxPush) && legal === 'termsOfUse';
       else translation_content
     "
-    [innerHTML]="termsOfUse | ngrxPush"
+    [innerHTML]="termsOfUse$ | ngrxPush"
   ></div>
   <ng-template #translation_content>
-    <div [innerHTML]="t(legal, { responsible: responsible })"></div>
+    <div
+      [innerHTML]="
+        t(legal, {
+          responsible,
+          purpose,
+          personResponsible:
+            personResponsible || 'Schaeffler Technologies AG & Co. KG'
+        })
+      "
+    ></div>
   </ng-template>
 </div>
