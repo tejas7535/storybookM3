@@ -91,6 +91,7 @@
     "dataPrivacy": "Datenschutzerklärung",
     "termsOfUse": "Nutzungsbedingungen",
     "cookiePolicy": "Cookie-Richtlinie",
-    "cookieSettings": "Cookie Einstellungen"
+    "cookieSettings": "Cookie Einstellungen",
+    "purpose": "Im Mounting Manager werden durch Nutzereingaben wie Lagerauswahl und Betriebsparameter Berechnungen durchgeführt, um eine Montageempfehlung auszugeben."
   }
 }
