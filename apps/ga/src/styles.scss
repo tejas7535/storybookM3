@@ -25,3 +25,7 @@
 .mat-button-base.mat-button .mat-button-focus-overlay {
   @apply hidden;
 }
+
+button {
+  outline: none !important;
+}
