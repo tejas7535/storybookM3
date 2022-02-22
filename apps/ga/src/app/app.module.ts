@@ -7,7 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { PERSON_RESPONSIBLE, TERMS_OF_USE } from '@schaeffler/legal-pages';
+import {
+  PERSON_RESPONSIBLE,
+  PURPOSE,
+  TERMS_OF_USE,
+} from '@schaeffler/legal-pages';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +20,10 @@ import { responsiblePerson } from './shared/constants';
 
 export function DynamicTermsOfUse(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.termsOfUseContent');
+}
+
+export function DynamicPurpose(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('legal.purpose');
 }
 
 @NgModule({
@@ -37,6 +45,11 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
     {
       provide: TERMS_OF_USE,
       useFactory: DynamicTermsOfUse,
+      deps: [TranslocoService],
+    },
+    {
+      provide: PURPOSE,
+      useFactory: DynamicPurpose,
       deps: [TranslocoService],
     },
   ],
