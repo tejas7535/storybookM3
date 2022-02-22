@@ -5,6 +5,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import {
+  CookiesGroups,
+  OneTrustModule,
+  OneTrustService,
+} from '@altack/ngx-onetrust';
+import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
@@ -13,6 +18,7 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import {
   ApplicationInsightsModule,
   ApplicationInsightsService,
+  COOKIE_GROUPS,
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -31,13 +37,54 @@ export const availableLanguages: { id: string; label: string }[] = [
 ];
 
 export function appInitializer(
+  oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
   const tag = 'application';
   const value = '[Bearinx - Greaseapp]';
 
-  return () =>
-    applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+  applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+
+  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
+    applicationInsightsService.startTracking(
+      cookiesGroups.get(CookiesGroups.PerformanceCookies) || false
+    );
+  });
+
+  return () => oneTrustService.loadOneTrust();
+}
+
+let Tracking = [
+  ApplicationInsightsModule.forRoot(environment.applicationInsights),
+  OneTrustModule.forRoot({
+    cookiesGroups: COOKIE_GROUPS,
+    domainScript: environment.oneTrustId,
+  }),
+];
+
+let providers = [
+  // OneTrust Provider must be first entry
+  {
+    provide: APP_INITIALIZER,
+    useFactory: appInitializer,
+    deps: [OneTrustService, ApplicationInsightsService],
+    multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpGreaseInterceptor,
+    multi: true,
+  },
+];
+
+// needed for mobile app and medias
+if (
+  window.self !== window.top ||
+  window.origin.includes('capacitor://') ||
+  window.origin === 'http://localhost'
+) {
+  Tracking = [];
+  providers = providers.slice(1); // Removes OneTrust Provider
 }
 
 @NgModule({
@@ -69,6 +116,8 @@ export function appInitializer(
         useValue: localStorage,
       },
     }),
+    // Monitoring
+    ...Tracking,
 
     // HTTP
     HttpClientModule,
@@ -76,19 +125,7 @@ export function appInitializer(
     // Application Insights
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      deps: [ApplicationInsightsService],
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpGreaseInterceptor,
-      multi: true,
-    },
-  ],
+  providers,
   exports: [AppShellModule, StoreModule, SharedTranslocoModule],
 })
 export class CoreModule {}

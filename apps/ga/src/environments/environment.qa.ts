@@ -8,6 +8,7 @@ export const environment: Environment = {
     'https://caeonlinecalculation-q.schaeffler.com/BearinxWebApi/v1.2/greaseservice',
   tenantId: 'c6bd4298-997b-4600-a90a-1adb997581b7',
   groupId: '111ab140-8e82-4ac4-a424-81edf0167301',
+  oneTrustId: 'dee97f13-442a-41ec-aea5-0dbd09b754bf',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '3d8a728a-165f-4dfa-bb4c-670ebd88c0e6',

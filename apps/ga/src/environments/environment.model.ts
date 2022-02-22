@@ -5,6 +5,7 @@ export interface Environment {
   baseUrl: string;
   tenantId: string;
   groupId: string;
+  oneTrustId: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;

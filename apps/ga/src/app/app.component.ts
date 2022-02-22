@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Meta, MetaDefinition } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
 
-import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, startWith, Subject, takeUntil } from 'rxjs';
 
 import {
   LoadedEvent,
@@ -25,27 +26,29 @@ import { setLanguage } from './core/store/actions/settings/settings.actions';
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Grease App';
   metaTags: MetaDefinition[] = [
-    { name: 'title', content: translate<string>('meta.title') },
-    { name: 'description', content: translate<string>('meta.description') },
+    { name: 'title', content: translate('meta.title') },
+    { name: 'description', content: translate('meta.description') },
     // Open Graph / Facebook
-    { name: 'og:title', content: translate<string>('meta.title') },
-    { name: 'og:description', content: translate<string>('meta.description') },
+    { name: 'og:title', content: translate('meta.title') },
+    { name: 'og:description', content: translate('meta.description') },
     // Twitter
-    { name: 'twitter:title', content: translate<string>('meta.title') },
+    { name: 'twitter:title', content: translate('meta.title') },
     {
       name: 'twitter:description',
-      content: translate<string>('meta.description'),
+      content: translate('meta.description'),
     },
   ];
 
   public footerLinks$: BehaviorSubject<AppShellFooterLink[]> =
     new BehaviorSubject(this.updateFooterLinks());
   public destroy$: Subject<void> = new Subject<void>();
-
+  public isCookiePage = false;
+  public cookieSettings = translate('legal.cookieSettings');
   public availableLanguages = availableLanguages;
   public languageControl = new FormControl();
 
   constructor(
+    private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly store: Store,
     private readonly meta: Meta
@@ -75,6 +78,18 @@ export class AppComponent implements OnInit, OnDestroy {
         this.store.dispatch(setLanguage({ language }))
       );
     this.languageControl.setValue(this.translocoService.getActiveLang());
+
+    this.router.events
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((event) => event instanceof NavigationEnd),
+        startWith('')
+      )
+      .subscribe((event) => {
+        const url = (event as NavigationEnd).url?.split('/').pop();
+
+        this.isCookiePage = url === LegalPath.CookiePath;
+      });
   }
 
   public ngOnDestroy(): void {
@@ -86,22 +101,22 @@ export class AppComponent implements OnInit, OnDestroy {
     return [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-        title: translate<string>('legal.imprint'),
+        title: translate('legal.imprint'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-        title: translate<string>('legal.dataPrivacy'),
+        title: translate('legal.dataPrivacy'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.TermsPath}`,
-        title: translate<string>('legal.termsOfUse'),
+        title: translate('legal.termsOfUse'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: translate<string>('legal.cookiePolicy'),
+        title: translate('legal.cookiePolicy'),
         external: false,
       },
     ];
