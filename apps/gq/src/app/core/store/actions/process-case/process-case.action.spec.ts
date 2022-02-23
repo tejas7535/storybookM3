@@ -2,11 +2,15 @@ import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
+  VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import {
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
+  updateCaseName,
+  updateCaseNameFailure,
+  updateCaseNameSuccess,
 } from '..';
 import {
   addMaterials,
@@ -298,6 +302,41 @@ describe('CaseActions', () => {
         expect(action).toEqual({
           errorMessage,
           type: '[Process Case] Refresh SAP Pricing Failure',
+        });
+      });
+    });
+  });
+
+  describe('updateCaseName Actions', () => {
+    describe('updateCaseName', () => {
+      test('should updateCaseName', () => {
+        const caseName = 'name';
+        action = updateCaseName({ caseName });
+
+        expect(action).toEqual({
+          caseName,
+          type: '[Process Case] Update Case Name',
+        });
+      });
+    });
+    describe('updateCaseNameSuccess', () => {
+      test('should updateCaseNameSuccess', () => {
+        const quotation = VIEW_QUOTATION_MOCK;
+        action = updateCaseNameSuccess({ quotation });
+
+        expect(action).toEqual({
+          quotation,
+          type: '[Process Case] Update Case Name Success',
+        });
+      });
+    });
+    describe('updateCaseNameFailure', () => {
+      test('should updateCaseNameFailure', () => {
+        action = updateCaseNameFailure({ errorMessage });
+
+        expect(action).toEqual({
+          errorMessage,
+          type: '[Process Case] Update Case Name Failure',
         });
       });
     });

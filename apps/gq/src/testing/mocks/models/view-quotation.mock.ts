@@ -1,15 +1,16 @@
 import { ViewQuotation } from '../../../app/case-view/models/view-quotation.model';
 
 export const VIEW_QUOTATION_MOCK: ViewQuotation = {
-  gqId: '1234',
+  gqId: 1234,
+  caseName: 'caseName',
   customerName: 'name',
   customerIdentifiers: { customerId: '1234', salesOrg: '0672' },
   imported: true,
-  sapCreated: new Date(),
+  sapCreated: '2022-02-21T09:14:17.2994738+01:00',
   sapCreatedByUser: { id: 'userid', name: 'username' },
   sapId: '1234',
-  gqCreated: new Date(),
+  gqCreated: '2022-02-21T09:14:17.2994738+01:00',
   gqCreatedByUser: { id: 'userid', name: 'username' },
   gqLastUpdatedByUser: { id: 'userid', name: 'username' },
-  gqLastUpdated: new Date(),
+  gqLastUpdated: '2022-02-21T09:14:17.2994738+01:00',
 };

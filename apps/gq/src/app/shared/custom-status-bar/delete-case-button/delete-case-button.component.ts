@@ -5,10 +5,10 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { ViewQuotation } from '../../../case-view/models/view-quotation.model';
 import { deleteCase } from '../../../core/store';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
-import { ViewQuotation } from '../../../case-view/models/view-quotation.model';
 
 @Component({
   selector: 'gq-delete-case-button',
@@ -40,17 +40,13 @@ export class DeleteCaseButtonComponent {
       id: item.customerName,
       value: item.gqId,
     }));
-    const displayText = translate<string>('caseView.confirmDeleteCases.text', {
+    const displayText = translate('caseView.confirmDeleteCases.text', {
       variable: list.length,
     });
 
-    const confirmButton = translate<string>(
-      'caseView.confirmDeleteCases.deleteButton'
-    );
+    const confirmButton = translate('caseView.confirmDeleteCases.deleteButton');
 
-    const cancelButton = translate<string>(
-      'caseView.confirmDeleteCases.cancelButton'
-    );
+    const cancelButton = translate('caseView.confirmDeleteCases.cancelButton');
     const data: ConfirmationModalData = {
       displayText,
       confirmButton,

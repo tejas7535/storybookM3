@@ -7,7 +7,8 @@
     "createdBy": "SAP Created By",
     "creationDate": "Case Created On",
     "gqId": "GQ Case",
-    "sapId": "SAP Quotation"
+    "sapId": "SAP Quotation",
+    "caseName": "Case name"
   },
   "caseCreation": {
     "importCase": {

@@ -1,7 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -9,14 +17,27 @@ import { Quotation } from '../../shared/models';
 
 @Component({
   selector: 'gq-header-content',
+  styleUrls: ['./header-content.component.scss'],
   templateUrl: './header-content.component.html',
 })
-export class HeaderContentComponent {
+export class HeaderContentComponent implements OnInit, OnDestroy {
   public gqHeader$: Observable<string>;
   public sapHeader$: Observable<string>;
+  public editCaseNameMode = false;
+  public caseName: string;
+  public caseNameInput: string;
+  public saveCaseNameEnabled = false;
+  public caseNameFormControl: FormControl = new FormControl();
+
+  private readonly subscription: Subscription = new Subscription();
+
+  @Output() displayTitle = new EventEmitter<boolean>();
+  @Output() updateCaseName = new EventEmitter<string>();
 
   @Input() set quotation(value: Quotation) {
     if (value) {
+      this.caseName = value.caseName;
+      this.caseNameFormControl.setValue(this.caseName);
       const datePipe = new DatePipe('en');
       const transformFormat = 'dd.MM.yyyy HH:mm';
 
@@ -55,4 +76,32 @@ export class HeaderContentComponent {
   }
 
   constructor(private readonly translocoService: TranslocoService) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.caseNameFormControl.valueChanges.subscribe((value) => {
+        this.caseNameInput = value.trim();
+        this.saveCaseNameEnabled =
+          this.caseName === undefined
+            ? this.caseNameInput.length > 0
+            : this.caseNameInput !== this.caseName;
+      })
+    );
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public toggleCaseNameEditing(display: boolean): void {
+    this.editCaseNameMode = display;
+    this.displayTitle.emit(!display);
+  }
+
+  public saveCaseName(): void {
+    if (this.saveCaseNameEnabled) {
+      this.updateCaseName.emit(this.caseNameInput);
+
+      this.toggleCaseNameEditing(false);
+    }
+  }
 }

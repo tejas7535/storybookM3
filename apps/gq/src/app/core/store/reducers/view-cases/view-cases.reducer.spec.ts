@@ -51,7 +51,7 @@ describe('View Cases Reducer', () => {
   });
   describe('deleteCase', () => {
     test('should set deleteloading true', () => {
-      const gqIds = ['1'];
+      const gqIds = [1];
       const action = deleteCase({ gqIds });
       const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
 

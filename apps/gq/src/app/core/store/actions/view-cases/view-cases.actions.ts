@@ -15,7 +15,7 @@ export const loadCasesFailure = createAction(
 );
 export const deleteCase = createAction(
   '[View Cases] Delete Selected Cases For Authenticated User',
-  props<{ gqIds: string[] }>()
+  props<{ gqIds: number[] }>()
 );
 export const deleteCasesSuccess = createAction(
   '[View Cases] Delete Selected Cases for Authenticated User Success'

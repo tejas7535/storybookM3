@@ -19,6 +19,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
@@ -54,6 +55,9 @@ import {
   removePositionsSuccess,
   selectQuotation,
   setSelectedQuotationDetail,
+  updateCaseName,
+  updateCaseNameFailure,
+  updateCaseNameSuccess,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
@@ -254,7 +258,7 @@ export class ProcessCaseEffect {
           .addMaterial(addQuotationDetailsRequest)
           .pipe(
             tap(() => {
-              const successMessage = translate<string>(
+              const successMessage = translate(
                 'shared.snackBarMessages.materialAdded'
               );
               this.snackBar.open(successMessage);
@@ -281,7 +285,7 @@ export class ProcessCaseEffect {
       mergeMap((qgPositionIds: string[]) =>
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
           tap(() => {
-            const successMessage = translate<string>(
+            const successMessage = translate(
               'shared.snackBarMessages.materialDeleted'
             );
             this.snackBar.open(successMessage);
@@ -332,7 +336,7 @@ export class ProcessCaseEffect {
       mergeMap((gqPositionIds: string[]) =>
         this.quotationService.uploadSelectionToSap(gqPositionIds).pipe(
           tap(() => {
-            const successMessage = translate<string>(
+            const successMessage = translate(
               'shared.snackBarMessages.uploadSelectionSuccess'
             );
             this.snackBar.open(successMessage);
@@ -354,7 +358,7 @@ export class ProcessCaseEffect {
       mergeMap((gqId: number) =>
         this.quotationService.refreshSapPricing(gqId).pipe(
           tap(() => {
-            const successMessage = translate<string>(
+            const successMessage = translate(
               'shared.snackBarMessages.refreshSapPricingSuccess'
             );
             this.snackBar.open(successMessage);
@@ -365,6 +369,23 @@ export class ProcessCaseEffect {
           map((quotation) => refreshSapPricingSuccess({ quotation })),
           catchError((errorMessage) =>
             of(refreshSapPricingFailure({ errorMessage }))
+          )
+        )
+      )
+    );
+  });
+
+  updateCaseName$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateCaseName),
+      concatLatestFrom(() => this.store.select(getGqId)),
+      mergeMap(([action, gqId]) =>
+        this.quotationService.updateCaseName(action.caseName, gqId).pipe(
+          map((quotation: ViewQuotation) =>
+            updateCaseNameSuccess({ quotation })
+          ),
+          catchError((errorMessage) =>
+            of(updateCaseNameFailure({ errorMessage }))
           )
         )
       )

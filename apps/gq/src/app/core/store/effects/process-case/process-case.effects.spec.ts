@@ -17,6 +17,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
+  VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
@@ -56,6 +57,9 @@ import {
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
   setSelectedQuotationDetail,
+  updateCaseName,
+  updateCaseNameFailure,
+  updateCaseNameSuccess,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   uploadSelectionToSap,
@@ -840,5 +844,48 @@ describe('ProcessCaseEffect', () => {
       );
     });
   });
+
+  describe('updateCaseName$', () => {
+    beforeEach(() => {
+      const caseName = 'caseName';
+      action = updateCaseName({ caseName });
+    });
+    test(
+      'should return updateCaseNameSuccess',
+      marbles((m) => {
+        quotationService.updateCaseName = jest.fn(() => response);
+        const quotation = VIEW_QUOTATION_MOCK;
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: quotation });
+        const expected = m.cold('--b', {
+          b: updateCaseNameSuccess({ quotation }),
+        });
+
+        m.expect(effects.updateCaseName$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.updateCaseName).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
+      'should return updateCaseNameFailure',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const result = updateCaseNameFailure({ errorMessage });
+
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.updateCaseName = jest.fn(() => response);
+
+        m.expect(effects.updateCaseName$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.updateCaseName).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
   // eslint-disable-next-line max-lines
 });

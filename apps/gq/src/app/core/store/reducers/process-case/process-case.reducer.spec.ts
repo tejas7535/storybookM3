@@ -5,7 +5,9 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
+  VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models/';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
@@ -34,6 +36,9 @@ import {
   removePositionsSuccess,
   selectQuotation,
   setSelectedQuotationDetail,
+  updateCaseName,
+  updateCaseNameFailure,
+  updateCaseNameSuccess,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
@@ -594,6 +599,42 @@ describe('Quotation Reducer', () => {
         const state = processCaseReducer(fakeState, action);
 
         expect(state.quotation.updateLoading).toEqual(false);
+        expect(state.quotation.errorMessage).toEqual(errorMessage);
+      });
+    });
+  });
+
+  describe('updateCaseName Reducers', () => {
+    describe('updateCaseName', () => {
+      test('should set updateLoading true', () => {
+        const action = updateCaseName({ caseName: 'caseName' });
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+        expect(state.quotation.quotationLoading).toBeTruthy();
+      });
+    });
+    describe('updateCaseNameSuccess', () => {
+      test('should set updateLoading false and set quotation', () => {
+        const quotation: ViewQuotation = VIEW_QUOTATION_MOCK;
+        const action = updateCaseNameSuccess({ quotation });
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+        expect(state.quotation.quotationLoading).toBeFalsy();
+        expect(state.quotation.item.caseName).toEqual(quotation.caseName);
+        expect(state.quotation.item.gqLastUpdated).toEqual(
+          quotation.gqLastUpdated
+        );
+        expect(state.quotation.item.gqCreatedByUser).toEqual(
+          quotation.gqCreatedByUser
+        );
+      });
+    });
+    describe('updateCaseNameFailure', () => {
+      test('should set updateLoading', () => {
+        const action = updateCaseNameFailure({ errorMessage });
+        const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+        expect(state.quotation.quotationLoading).toBeFalsy();
         expect(state.quotation.errorMessage).toEqual(errorMessage);
       });
     });

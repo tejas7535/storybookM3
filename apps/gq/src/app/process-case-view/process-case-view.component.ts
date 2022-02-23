@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
+import { updateCaseName } from '../core/store';
 import {
   getGqId,
   getQuotation,
@@ -26,6 +27,7 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   public isQuotationLoading$: Observable<boolean>;
   public isUpdateLoading$: Observable<boolean>;
   public breadcrumbs: Breadcrumb[];
+  public displayTitle = true;
 
   private readonly subscription: Subscription = new Subscription();
 
@@ -53,5 +55,11 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+  public toggleDisplayTitle(display: boolean): void {
+    this.displayTitle = display;
+  }
+  public updateCaseName(caseName: string): void {
+    this.store.dispatch(updateCaseName({ caseName }));
   }
 }

@@ -3,5 +3,5 @@ export interface ConfirmationModalData {
   icon: string;
   confirmButton: string;
   cancelButton: string;
-  list?: { id: string; value: string }[];
+  list?: { id: string; value: number }[];
 }

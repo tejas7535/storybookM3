@@ -100,4 +100,14 @@ export class QuotationService {
         })
       );
   }
+
+  public updateCaseName(
+    caseName: string,
+    gqId: number
+  ): Observable<ViewQuotation> {
+    return this.http.put<ViewQuotation>(
+      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${gqId}`,
+      { caseName }
+    );
+  }
 }

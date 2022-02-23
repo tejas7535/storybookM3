@@ -7,14 +7,29 @@
 >
   <schaeffler-subheader
     *ngIf="quotation$ | ngrxPush as quotation"
-    [title]="quotation.gqId | gqQuotation"
+    [title]="
+      displayTitle
+        ? quotation.caseName
+          ? quotation.caseName
+          : (quotation.gqId | gqQuotation)
+        : ''
+    "
     [breadcrumbs]="breadcrumbs"
   >
     <ng-container titleContent>
-      <span *ngIf="quotation.sapId" class="ml-4 pr-4 text-low-emphasis">{{
-        quotation.sapId | sapQuotation
-      }}</span>
-      <gq-header-content [quotation]="quotation"></gq-header-content>
+      <div
+        class="flex"
+        [ngClass]="displayTitle ? 'flex-row' : 'flex-row-reverse'"
+      >
+        <span *ngIf="quotation.sapId" class="ml-4 text-low-emphasis">{{
+          quotation.sapId | sapQuotation
+        }}</span>
+        <gq-header-content
+          [quotation]="quotation"
+          (displayTitle)="toggleDisplayTitle($event)"
+          (updateCaseName)="updateCaseName($event)"
+        ></gq-header-content>
+      </div>
     </ng-container>
     <ng-container header>
       <schaeffler-share-button></schaeffler-share-button>

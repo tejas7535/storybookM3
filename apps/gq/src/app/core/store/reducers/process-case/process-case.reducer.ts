@@ -30,6 +30,9 @@ import {
   removePositionsSuccess,
   selectQuotation,
   setSelectedQuotationDetail,
+  updateCaseName,
+  updateCaseNameFailure,
+  updateCaseNameSuccess,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
@@ -461,6 +464,43 @@ export const processCaseReducer = createReducer(
         ...state.quotation,
         errorMessage,
         updateLoading: false,
+      },
+    })
+  ),
+  on(
+    updateCaseName,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        quotationLoading: true,
+      },
+    })
+  ),
+  on(
+    updateCaseNameSuccess,
+    (state: ProcessCaseState, { quotation }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: {
+          ...state.quotation.item,
+          gqLastUpdated: quotation.gqLastUpdated,
+          gqCreatedByUser: quotation.gqLastUpdatedByUser,
+          caseName: quotation.caseName,
+        },
+        quotationLoading: false,
+      },
+    })
+  ),
+  on(
+    updateCaseNameFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        quotationLoading: false,
+        errorMessage,
       },
     })
   )

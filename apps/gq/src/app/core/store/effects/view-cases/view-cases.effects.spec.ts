@@ -125,7 +125,7 @@ describe('View Cases Effects', () => {
   });
   describe('deleteCase$', () => {
     beforeEach(() => {
-      const gqIds = ['1'];
+      const gqIds = [1];
       action = deleteCase({ gqIds });
     });
     test(

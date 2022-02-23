@@ -166,4 +166,19 @@ describe('QuotationService', () => {
       req.flush(mockBody);
     });
   });
+
+  describe('updateCaseName', () => {
+    test('should call', () => {
+      const caseName = 'caseName';
+      const gqId = 12_345;
+      service.updateCaseName(caseName, gqId).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}/${gqId}`
+      );
+      expect(req.request.method).toBe(HttpMethod.PUT);
+      req.flush(caseName);
+    });
+  });
 });

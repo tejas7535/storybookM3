@@ -26,6 +26,10 @@ export class ColumnDefService {
       filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
+      headerName: translate('caseView.caseTable.caseName'),
+      field: 'caseName',
+    },
+    {
       headerName: translate('caseView.caseTable.sapId'),
       field: 'sapId',
     },

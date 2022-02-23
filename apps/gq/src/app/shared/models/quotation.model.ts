@@ -4,6 +4,7 @@ import { User } from './user.model';
 
 export class Quotation {
   public gqId: number;
+  public caseName: string;
   public imported: boolean;
   public reImported: boolean;
   public sapId: string;
