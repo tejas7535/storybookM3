@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -8,7 +9,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
@@ -23,8 +23,8 @@ import { AddMaterialDialogComponent } from './add-material-dialog.component';
     MatIconModule,
     LoadingSpinnerModule,
     ReactiveComponentModule,
-    SharedModule,
     SharedTranslocoModule,
+    CommonModule,
   ],
   exports: [AddMaterialDialogComponent],
 })

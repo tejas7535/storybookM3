@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -5,7 +6,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../../../shared';
 import { HorizontalDividerModule } from '../../../../shared/components/horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
@@ -16,12 +16,12 @@ import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/m
   declarations: [MaterialDetailsComponent, MaterialSalesOrgDetailsComponent],
   imports: [
     MatCardModule,
-    SharedModule,
     SharedTranslocoModule,
     SharedPipesModule,
     LabelTextModule,
     HorizontalDividerModule,
     ReactiveComponentModule,
+    CommonModule,
   ],
   exports: [MaterialDetailsComponent],
 })

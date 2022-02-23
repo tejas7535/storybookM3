@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +13,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../../shared';
 import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { DetailButtonComponent } from './detail-button/detail-button.component';
@@ -44,10 +44,10 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     ReactiveFormsModule,
     ReactiveComponentModule,
     SharedPipesModule,
-    SharedModule,
     DialogHeaderModule,
     LoadingSpinnerModule,
     SharedTranslocoModule,
+    CommonModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],

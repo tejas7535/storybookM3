@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +10,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared';
 import { InfoIconModule } from '../../shared/info-icon/info-icon.module';
 import { HeaderContentComponent } from './header-content.component';
 
@@ -17,13 +17,14 @@ import { HeaderContentComponent } from './header-content.component';
   declarations: [HeaderContentComponent],
   imports: [
     InfoIconModule,
-    SharedModule,
     MatIconModule,
     MatButtonModule,
     SharedTranslocoModule,
     ReactiveComponentModule,
     ReactiveFormsModule,
     MatInputModule,
+    SharedTranslocoModule,
+    CommonModule,
   ],
   exports: [HeaderContentComponent],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],

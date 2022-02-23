@@ -17,7 +17,6 @@ import { AppComponent } from './app.component';
 import { AppRoutePath } from './app-route-path.enum';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared';
 
 const azureConfig = new AzureConfig(
   new MsalInstanceConfig(
@@ -35,7 +34,6 @@ const azureConfig = new AzureConfig(
     AppRoutingModule,
     HttpClientModule,
     CoreModule,
-    SharedModule,
     SharedAzureAuthModule.forRoot(azureConfig),
   ],
   providers: [],

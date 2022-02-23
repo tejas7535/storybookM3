@@ -1,4 +1,5 @@
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +12,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared';
 import { EditingModalComponent } from '../../shared/components/editing-modal/editing-modal.component';
 import { StatusBarModalModule } from '../../shared/components/status-bar-modal/status-bar-modal.module';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
@@ -27,7 +27,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     EditingModalComponent,
   ],
   imports: [
-    SharedModule,
+    CommonModule,
     AgGridModule.withComponents([QuotationDetailsStatusComponent]),
     ReactiveComponentModule,
     SharedTranslocoModule,

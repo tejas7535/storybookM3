@@ -20,7 +20,6 @@ import {
   setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import { SharedModule } from '../../../shared';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AutocompleteSearch, IdValue } from '../../models/search';
@@ -49,7 +48,6 @@ describe('AddEntryComponent', () => {
       MatIconModule,
       InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
-      SharedModule,
       ReactiveFormsModule,
       ReactiveComponentModule,
       MatSnackBarModule,

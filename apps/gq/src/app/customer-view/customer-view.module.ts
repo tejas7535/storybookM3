@@ -9,7 +9,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { SharedModule } from '../shared';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewComponent } from './customer-view.component';
 import { CustomerViewRoutingModule } from './customer-view-routing.module';
@@ -21,7 +20,6 @@ import { CustomerViewRoutingModule } from './customer-view-routing.module';
     CustomerInformationModule,
     CustomerViewRoutingModule,
     MatSidenavModule,
-    SharedModule,
     LoadingSpinnerModule,
     ReactiveComponentModule,
     BreadcrumbsModule,

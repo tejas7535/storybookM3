@@ -14,7 +14,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../testing/mocks';
-import { SharedModule } from '../../shared';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
@@ -42,7 +41,6 @@ describe('AddMaterialDialogComponent', () => {
       MatDialogModule,
       MatIconModule,
       ReactiveComponentModule,
-      SharedModule,
       provideTranslocoTestingModule({ en: {} }),
       MatSnackBarModule,
     ],

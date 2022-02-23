@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +10,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../../shared';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
@@ -23,10 +23,10 @@ import { AddEntryComponent } from './add-entry.component';
     MatCardModule,
     MatIconModule,
     SharedTranslocoModule,
-    SharedModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
     InfoIconModule,
+    CommonModule,
   ],
   exports: [AddEntryComponent],
 })

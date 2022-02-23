@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +11,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { SharedModule } from '../../shared';
 import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
@@ -29,13 +29,13 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     ReactiveFormsModule,
     ReactiveComponentModule,
     SharedPipesModule,
-    SharedModule,
     PricingDetailsModule,
     LoadingSpinnerModule,
     SubheaderModule,
     BreadcrumbsModule,
     CustomerHeaderModule,
     ShareButtonModule,
+    CommonModule,
   ],
 })
 export class DetailViewModule {}

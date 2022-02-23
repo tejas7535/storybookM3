@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -9,7 +10,6 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { SharedModule } from '../../shared';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/material-price-header-content/material-price-header-content.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
@@ -25,13 +25,13 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     ComparableTransactionsModule,
     TransparencyGraphModule,
     MatCardModule,
-    SharedModule,
     ReactiveComponentModule,
     LoadingSpinnerModule,
     MaterialPriceHeaderContentModule,
     SubheaderModule,
     BreadcrumbsModule,
     ShareButtonModule,
+    CommonModule,
   ],
   providers: [
     {

@@ -25,7 +25,6 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../testing/mocks';
-import { SharedModule } from '../shared';
 import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
 import { AddItemsButtonComponent } from '../shared/custom-status-bar/add-items-button/add-items-button.component';
@@ -75,7 +74,6 @@ describe('ProcessCaseViewComponent', () => {
       ProcessCaseViewRoutingModule,
       QuotationDetailsTableModule,
       RouterTestingModule,
-      SharedModule,
       HeaderContentModule,
       provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,

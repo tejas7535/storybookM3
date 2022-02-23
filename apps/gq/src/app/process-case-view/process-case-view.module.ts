@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
@@ -16,7 +17,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effects';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
-import { SharedModule } from '../shared';
 import { ExportExcelModalModule } from '../shared/export-excel-modal/export-excel-modal.module';
 import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
@@ -30,12 +30,12 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
 @NgModule({
   declarations: [ProcessCaseViewComponent, CalculationInProgressComponent],
   imports: [
+    CommonModule,
     EffectsModule.forFeature([ProcessCaseEffect]),
     MatSidenavModule,
     HeaderContentModule,
     ProcessCaseViewRoutingModule,
     QuotationDetailsTableModule,
-    SharedModule,
     SharedPipesModule,
     StoreModule.forFeature('processCase', processCaseReducer),
     AddMaterialDialogModule,
