@@ -33,7 +33,6 @@
         "@angular/compiler-cli",
         "@angular/compiler",
         "@angular/core",
-        "@angular/flex-layout",
         "@angular/forms",
         "@angular/language-service",
         "@angular/material",

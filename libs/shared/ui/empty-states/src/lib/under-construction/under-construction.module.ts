@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
@@ -17,7 +16,7 @@ const routes = [
 
 @NgModule({
   declarations: [UnderConstructionComponent],
-  imports: [FlexLayoutModule, TranslocoModule, RouterModule.forChild(routes)],
+  imports: [TranslocoModule, RouterModule.forChild(routes)],
   exports: [UnderConstructionComponent],
 })
 export class UnderConstructionModule {
