@@ -6,6 +6,7 @@ import { MsalRedirectComponent } from '@azure/msal-angular';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 import { AppShellModule } from '@schaeffler/app-shell';
+import { PERSON_RESPONSIBLE } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -32,6 +33,12 @@ import { UserSettingsModule } from './shared/user-settings/user-settings.module'
     AppShellModule,
     FilterSectionModule,
     UserSettingsModule,
+  ],
+  providers: [
+    {
+      provide: PERSON_RESPONSIBLE,
+      useValue: 'Marius Rößner',
+    },
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

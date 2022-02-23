@@ -39,7 +39,7 @@ const azureConfig = new AzureConfig(
   new MsalInterceptorConfig([
     new ProtectedResource('/api/*', [environment.appScope]),
   ]),
-  new MsalGuardConfig(`/${AppRoutePath.Forbidden}`, [environment.appScope])
+  new MsalGuardConfig(`/${AppRoutePath.ForbiddenPath}`, [environment.appScope])
 );
 
 @NgModule({

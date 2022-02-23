@@ -48,5 +48,10 @@
         "hint": "For now, only English is supported"
       }
     }
+  },
+  "legal": {
+    "imprint": "Imprint",
+    "dataPrivacy": "Data Privacy",
+    "termsOfUse": "Terms of Use"
   }
 }

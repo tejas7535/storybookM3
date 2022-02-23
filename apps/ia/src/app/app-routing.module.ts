@@ -18,7 +18,7 @@ export const appRoutePaths: Routes = [
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
       {
-        path: AppRoutePath.OrganizationalView,
+        path: AppRoutePath.OrganizationalViewPath,
         loadChildren: async () =>
           import('./organizational-view/organizational-view.module').then(
             (m) => m.OrganizationalViewModule
@@ -48,9 +48,14 @@ export const appRoutePaths: Routes = [
     ],
   },
   {
-    path: AppRoutePath.Forbidden,
+    path: AppRoutePath.ForbiddenPath,
     loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+  },
+  {
+    path: AppRoutePath.LegalPath,
+    loadChildren: async () =>
+      import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {
     path: '**',
