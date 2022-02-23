@@ -11,7 +11,7 @@ body:
         - Build Pipeline
         - Shared User Interface Library
         - Shared Utility Library
-        - Don't known / other
+        - Unknown / other
       multiple: true
     validations:
       required: true

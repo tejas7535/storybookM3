@@ -1,17 +1,17 @@
-name: 'Feature Request'
-description: Suggest a feature for the frontend-schaeffler Monorepository and its packages
+name: 'Refactoring Request'
+description: Suggest something that needs to be refactored in the frontend-schaeffler Monorepository and its packages
 
 body:
   - type: dropdown
     id: affected-packages
     attributes:
-      label: Which projects are relevant/releated to the feature request?
+      label: Which projects are relevant/releated to the refactoring request?
       options:
         - General / Workspace
         - Build Pipeline
         - Shared User Interface Library
         - Shared Utility Library
-        - Don't known / other
+        - Unknown / other
       multiple: true
 
   - type: textarea
@@ -34,3 +34,10 @@ body:
       label: Alternatives considered
     validations:
       required: true
+
+  - type: textarea
+    id: additional-hints
+    attributes:
+      label: Additional Hints
+    validations:
+      required: false

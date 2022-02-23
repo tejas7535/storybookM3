@@ -1,8 +1,11 @@
 <!-- # Info
 
-⚠️**Please name the title of this merge request like the desired commit message (`conventional commit style`) when merging this MR to master. You may add the related JIRA issue in brackets**⚠️
+⚠️**Please name the title of this merge request like the desired commit message (`conventional commit style`) when merging this MR to master. You may add the related JIRA/GitHub issue in brackets**⚠️
 
-Example: feat(scope): added contact form to home (JIRA-132) -->
+Examples:
+* feat(scope): added contact form to home (JIRA-132)
+* feat(scope): added contact form to home (#132)
+-->
 
 ## Description
 
@@ -10,6 +13,10 @@ A few sentences describing the overall goals of this MR.
 
 ## Relevant Issues
 
+<!-- if GitHub issue - connect PR and issue and close issue automatically -->
+
+- closes #{issueNumber}
+<!-- if JIRA Issue -->
 - Reference Jira Issues User Stories / (Sub-)Tasks here
 
 ## How to test

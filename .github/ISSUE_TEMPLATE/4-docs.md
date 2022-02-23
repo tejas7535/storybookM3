@@ -6,7 +6,7 @@ labels: type:documentation
 assignees: ''
 ---
 
-<!-- ⚠️**Please fill out the below sections carefully! This helps us triaging and understand the issue.**⚠️ -->
+<!-- ⚠️**Please fill out the below sections carefully! This helps us to triage and understand the issue.**⚠️ -->
 
 # Docs (Confluence, Workspace, Storybook)
 
