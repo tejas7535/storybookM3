@@ -99,6 +99,10 @@ export function addSeries(config: BarChartConfig, option: EChartsOption): void {
               <td>${param.dimensionNames[0]}</td>
             </tr>
             <tr>
+              <td class="pr-4"><b>${values[2]}</b></td>
+              <td>${param.dimensionNames[2]}</td>
+            </tr>
+            <tr>
               <td class="pr-4"><b>${values[1]}</b></td>
               <td>${param.dimensionNames[1]}</td>
             </tr>

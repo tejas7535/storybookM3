@@ -118,11 +118,11 @@ export function createBarchartConfigForAge(
 
 export function createDummyBarChartSerie(color: string): BarChartSerie {
   return new BarChartSerie(
-    ['translate it', 'translate it'],
+    ['translate it', 'translate it', 'translate it'],
     [
-      [4, 50],
-      [10.2, 49],
-      [11.86, 59],
+      [4, 50, 2],
+      [10.2, 49, 5],
+      [11.86, 59, 7],
     ],
     color
   );

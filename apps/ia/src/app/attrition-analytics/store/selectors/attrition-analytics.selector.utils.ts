@@ -16,6 +16,7 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
   const names: string[] = [
     translate('attritionAnalytics.barChart.attritionRate'),
     translate('attritionAnalytics.barChart.totalEmployees'),
+    translate('attritionAnalytics.barChart.totalUnforcedLeavers'),
   ];
   const barChartSerie: BarChartSerie = new BarChartSerie(names, [], color);
   for (const feature of features) {
@@ -27,6 +28,7 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
       values.push([
         getPercentageValue(attrition),
         feature.employeeCount[index],
+        feature.attritionCount[index],
       ]);
     }
 
