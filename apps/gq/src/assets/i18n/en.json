@@ -183,6 +183,7 @@
         },
         "sapQuote": "SAP Quote:",
         "gqCase": "GQ Case:",
+        "gqCreated": "Created on Date",
         "quotationSummary": {
           "title": "Quotation Summary",
           "customerNumber": "Customer Number",

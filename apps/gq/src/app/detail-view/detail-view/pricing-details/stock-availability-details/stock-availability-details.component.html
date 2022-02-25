@@ -25,7 +25,9 @@
               class="mr-2 h-3 w-3 rounded-full bg-primary"
               [ngClass]="{
                 'bg-error': materialStockByPlant.freeStock === 0,
-                'bg-sunny-yellow': materialStockByPlant.freeStock <= 10
+                'bg-sunny-yellow':
+                  materialStockByPlant.freeStock <= 10 &&
+                  materialStockByPlant.freeStock > 0
               }"
             ></div>
             <span> {{ materialStockByPlant.freeStock }} {{ uom }} </span>

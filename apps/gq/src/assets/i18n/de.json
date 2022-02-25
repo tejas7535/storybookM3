@@ -156,6 +156,7 @@
       "excelExport": {
         "guidedQuoting": "Guided Quoting",
         "summary": "Zusammenfassung",
+        "gqCreated": "Erstellt am",
         "comparableTransactions": "Vergleichbare Transaktionen",
         "noComparableTransactionsWarning": "Leider gibt es für den ausgewählten Case keine vergleichbaren Transaktionen.",
         "extendedComparableLinkedTransactions": {

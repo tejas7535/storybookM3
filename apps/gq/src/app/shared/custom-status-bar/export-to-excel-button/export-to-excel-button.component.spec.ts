@@ -369,9 +369,25 @@ describe('ExportToExcelButtonComponent', () => {
             styleId: excelStyleObjects.excelText.id,
           },
         ],
+        [
+          {
+            data: {
+              type,
+              value: 'translate it',
+            },
+            styleId: excelStyleObjects.excelText.id,
+          },
+          {
+            data: {
+              type,
+              value: new Date(QUOTATION_MOCK.gqCreated).toLocaleDateString(),
+            },
+            styleId: excelStyleObjects.excelText.id,
+          },
+        ],
         [],
       ];
-      expect(result.length).toEqual(3);
+      expect(result.length).toEqual(4);
       expect(result).toEqual(expected);
     });
   });

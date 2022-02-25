@@ -224,12 +224,19 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addSummaryHeader(quotation: Quotation): ExcelCell[][] {
+    const createdOnDate = new Date(quotation.gqCreated).toLocaleDateString();
     const result: ExcelCell[][] = [
       [
         this.getExcelCell(
           translate('shared.customStatusBar.excelExport.gqCase')
         ),
         this.getExcelCell(quotation.gqId.toString()),
+      ],
+      [
+        this.getExcelCell(
+          translate('shared.customStatusBar.excelExport.gqCreated')
+        ),
+        this.getExcelCell(createdOnDate),
       ],
       [],
     ];
