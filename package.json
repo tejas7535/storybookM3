@@ -162,7 +162,7 @@
     "ng-packagr": "13.2.1",
     "npm-audit-html": "2.0.0beta.2",
     "npm-force-resolutions": "0.0.10",
-    "postcss": "8.4.6",
+    "postcss": "8.4.7",
     "postcss-import": "14.0.2",
     "postcss-preset-env": "7.4.1",
     "postcss-url": "10.1.3",
