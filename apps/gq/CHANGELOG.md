@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.3.0...gq-v2.4.0) (2022-02-25)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fix wrong translation ([#3809](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3809)) ([a80a5a6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a80a5a61d53bd4d2ecfc3a5463058af536110d94))
+
+
+### 🎸 Features
+
+* **gq:** add case name editing in subheader (GQUOTE-724) ([#3788](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3788)) ([238818a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/238818a8c16788d38c3527997d5dbc074dda93d2))
+* **gq:** add gq created on date to excel download (GQUOTE-1135) ([#3803](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3803)) ([cedf12b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cedf12bc086d4fea673970176da23cf6fa4b5acf))
+* **gq:** add material stock indications on detail view header (GQUOTE-1033) ([#3777](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3777)) ([fdd9834](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fdd9834a65ff3b26ed9cb6b9793eada26101f00a))
+* **gq:** add price diff to status bar (GQUOTE-1053) ([#3739](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3739)) ([d1edba2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d1edba25f55a346e27bc0e6eee92f556810a174c))
+* **gq:** extend root tailwind config ([f6135e7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f6135e7f660617eb1e723835a59f33429c07d1da))
+
 ## [2.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.2.0...gq-v2.3.0) (2022-02-09)
 
 
