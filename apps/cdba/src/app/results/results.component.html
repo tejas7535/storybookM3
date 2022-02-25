@@ -3,6 +3,7 @@
     <ng-container breadcrumbs>
       <schaeffler-breadcrumbs
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
+        [truncateAfter]="4"
       ></schaeffler-breadcrumbs>
     </ng-container>
     <div content class="h-full min-h-[780px]">

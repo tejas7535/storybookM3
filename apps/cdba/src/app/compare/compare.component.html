@@ -2,6 +2,7 @@
   <ng-container breadcrumbs>
     <schaeffler-breadcrumbs
       [breadcrumbs]="breadcrumbs$ | ngrxPush"
+      [truncateAfter]="4"
     ></schaeffler-breadcrumbs>
   </ng-container>
   <schaeffler-share-button header></schaeffler-share-button>
