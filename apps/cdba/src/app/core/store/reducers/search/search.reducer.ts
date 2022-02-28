@@ -254,9 +254,7 @@ export const searchReducer = createReducer(
         ),
       },
       referenceTypes: {
-        ...state.referenceTypes,
-        items: initialState.referenceTypes.items,
-        loading: false,
+        ...initialState.referenceTypes,
       },
     })
   ),

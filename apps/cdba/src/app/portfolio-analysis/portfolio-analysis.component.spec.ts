@@ -1,8 +1,13 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { PageHeaderModule } from '@cdba/shared/components';
+import { BreadcrumbsService } from '@cdba/shared/services';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -23,6 +28,7 @@ describe('PortfolioAnalysisComponent', () => {
       MockModule(BreadcrumbsModule),
     ],
     providers: [
+      mockProvider(BreadcrumbsService),
       provideMockStore({
         initialState: {
           search: SEARCH_STATE_MOCK,

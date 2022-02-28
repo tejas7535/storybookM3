@@ -1,11 +1,14 @@
+import { Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
+import { DETAIL_STATE_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
+
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { BreadcrumbsService, BreadcrumbState } from './breadcrumbs.service';
 
@@ -21,6 +24,7 @@ describe('BreadcrumbsService', () => {
       provideMockStore({
         initialState: {
           detail: DETAIL_STATE_MOCK,
+          search: SEARCH_STATE_MOCK,
         },
       }),
     ],
@@ -36,52 +40,24 @@ describe('BreadcrumbsService', () => {
   });
 
   describe('breadcrumbs$', () => {
-    beforeEach(() => {
-      service.setState({
-        search: {
-          label: 'Search',
-          url: '/search',
-          queryParams: undefined,
-        },
-        results: undefined,
-        detail: undefined,
-        compare: undefined,
-        portfolioAnalysis: undefined,
-      });
-    });
-
-    it(
-      'should filter out undefined breadcrumbs',
-      marbles((m) => {
-        const expectedBreadcrumbs = [
-          {
-            label: 'Search',
-            url: undefined as any,
-            queryParams: undefined as any,
-          },
-        ];
-
-        m.expect(service.breadcrumbs$).toBeObservable(
-          m.cold('a', { a: expectedBreadcrumbs })
-        );
-      })
-    );
-
     it(
       'should remove the url of the last element',
       marbles((m) => {
         service.setState({
-          search: {
-            label: 'Search',
-            url: '/search',
-          },
-          results: {
-            label: 'Results',
-            url: '/results',
-          },
-          detail: undefined,
-          compare: undefined,
-          portfolioAnalysis: undefined,
+          items: [
+            {
+              label: 'Search',
+              url: '/search',
+            },
+            {
+              label: 'Results',
+              url: '/results',
+            },
+            {
+              label: 'Detail',
+              url: '/detail/detail',
+            },
+          ],
         });
 
         const expectedBreadcrumbs = [
@@ -91,6 +67,10 @@ describe('BreadcrumbsService', () => {
           },
           {
             label: 'Results',
+            url: '/results',
+          },
+          {
+            label: 'Detail',
             url: undefined,
           },
         ];
@@ -105,15 +85,13 @@ describe('BreadcrumbsService', () => {
   describe('updater methods', () => {
     let expectedState: BreadcrumbState;
     const defaultState: BreadcrumbState = {
-      search: {
-        label: 'Search',
-        url: '/search',
-        queryParams: undefined,
-      },
-      results: undefined,
-      detail: undefined,
-      compare: undefined,
-      portfolioAnalysis: undefined,
+      items: [
+        {
+          label: 'Search',
+          url: '/search',
+          queryParams: undefined,
+        },
+      ],
     };
 
     beforeEach(() => {
@@ -124,24 +102,38 @@ describe('BreadcrumbsService', () => {
 
     describe('setResultsBreadcrumb', () => {
       it(
-        'should set new resultsBreadcrumb and should reset detail and compare',
+        'should add new resultsBreadcrumb to items if not existing yet',
         marbles((m) => {
-          service.setState({
-            ...defaultState,
-            detail: {
-              label: 'detail',
-            },
-            compare: { label: 'compare' },
-          });
-
           const resultsBreadcrumb = {
             label: 'Results (330)',
             url: '/results',
           };
 
-          expectedState = { ...defaultState, results: resultsBreadcrumb };
+          expectedState = { items: [...defaultState.items, resultsBreadcrumb] };
 
           service.setResultsBreadcrumb(resultsBreadcrumb);
+
+          m.expect(service.state$).toBeObservable(
+            m.cold('a', { a: expectedState })
+          );
+        })
+      );
+    });
+
+    describe('setPortfolioAnalysisBreadcrumb', () => {
+      it(
+        'should add new portfolioAnalysis breadcrumb to items if not existing yet',
+        marbles((m) => {
+          const portfolioAnalysisBreadcrumb = {
+            label: 'Portfolio Analysis',
+            url: '/portfolio-analysis',
+          };
+
+          expectedState = {
+            items: [...defaultState.items, portfolioAnalysisBreadcrumb],
+          };
+
+          service.setPortfolioAnalysisBreadcrumb(portfolioAnalysisBreadcrumb);
 
           m.expect(service.state$).toBeObservable(
             m.cold('a', { a: expectedState })
@@ -154,11 +146,15 @@ describe('BreadcrumbsService', () => {
       const detailBreadcrumb = {
         label: 'Detail',
         url: '/detail/calculations',
+        queryParams: {
+          materialNumber: '10000-10-15',
+          plant: '0060',
+        },
       };
       it(
-        'should set new detail breadcrumb if detail state does not exist yet',
+        'should add new detail breadcrumb if last entry was not for the same page',
         marbles((m) => {
-          expectedState = { ...defaultState, detail: detailBreadcrumb };
+          expectedState = { items: [...defaultState.items, detailBreadcrumb] };
 
           service.setDetailBreadcrumb(detailBreadcrumb);
 
@@ -169,19 +165,34 @@ describe('BreadcrumbsService', () => {
       );
 
       it(
-        'should set new detail breadcrumb but should keep existing label if detail state alredy exists',
+        'should just update the url of the last breadcrumb item if there was already a fitting entry',
         marbles((m) => {
           service.setState({
-            ...defaultState,
-            detail: {
-              label: 'F-12345',
-              url: '/detail/detail',
-            },
+            items: [
+              ...defaultState.items,
+              {
+                label: 'Detail',
+                url: '/detail/detail',
+                queryParams: {
+                  materialNumber: '10000-10-15',
+                  plant: '0060',
+                },
+              },
+            ],
           });
 
           expectedState = {
-            ...defaultState,
-            detail: { label: 'F-12345', url: '/detail/calculations' },
+            items: [
+              ...defaultState.items,
+              {
+                label: 'Detail',
+                url: '/detail/calculations',
+                queryParams: {
+                  materialNumber: '10000-10-15',
+                  plant: '0060',
+                },
+              },
+            ],
           };
 
           service.setDetailBreadcrumb(detailBreadcrumb);
@@ -196,32 +207,17 @@ describe('BreadcrumbsService', () => {
     describe('updateMaterialDesignation', () => {
       const materialDesignation = 'F-12345';
       it(
-        'should update label of detail breadcrumb, if detail breadcrumb is already existing',
+        'should update label of detail breadcrumb, if last item is a detail breadcrumb',
         marbles((m) => {
-          const mockState: BreadcrumbState = {
-            search: {
-              label: 'Search',
-              url: '/search',
-              queryParams: undefined,
-            },
-            results: undefined,
-            detail: { label: 'Detail', url: '/detail' },
-            compare: undefined,
-            portfolioAnalysis: undefined,
-          };
-
-          service.setState(mockState);
+          service.setState({
+            items: [...defaultState.items, { label: 'Detail', url: '/detail' }],
+          });
 
           expectedState = {
-            search: {
-              label: 'Search',
-              url: '/search',
-              queryParams: undefined,
-            },
-            results: undefined,
-            detail: { label: 'F-12345', url: '/detail' },
-            compare: undefined,
-            portfolioAnalysis: undefined,
+            items: [
+              ...defaultState.items,
+              { label: 'F-12345', url: '/detail' },
+            ],
           };
 
           service.updateMaterialDesignation(materialDesignation);
@@ -233,7 +229,7 @@ describe('BreadcrumbsService', () => {
       );
 
       it(
-        'should not update the state, if detail does not exist yet',
+        'should not update the state, if last item is not a detail breadcrumb',
         marbles((m) => {
           service.updateMaterialDesignation(materialDesignation);
 
@@ -246,10 +242,10 @@ describe('BreadcrumbsService', () => {
 
     describe('setCompareBreadcrumb', () => {
       it(
-        'should extends state by new compare breadcrumb',
+        'should add new compare breadcrumb if last entry was not for the same page',
         marbles((m) => {
           const compareBreadcrumb = { label: 'Compare', url: '/compare' };
-          expectedState = { ...defaultState, compare: compareBreadcrumb };
+          expectedState = { items: [...defaultState.items, compareBreadcrumb] };
 
           service.setCompareBreadcrumb(compareBreadcrumb);
 
@@ -258,6 +254,239 @@ describe('BreadcrumbsService', () => {
           );
         })
       );
+
+      it(
+        'should just update the url of the last breadcrumb item if there was already a fitting entry',
+        marbles((m) => {
+          service.setState({
+            items: [
+              ...defaultState.items,
+              {
+                label: 'Compare',
+                url: '/compare/detail',
+                queryParams: {
+                  material_number_1: '10000-10-15',
+                  material_number_2: '10000-11-13',
+                },
+              },
+            ],
+          });
+
+          const compareBreadcrumb = {
+            label: 'Compare',
+            url: '/compare/bom',
+            queryParams: {
+              material_number_1: '10000-10-15',
+              material_number_2: '10000-11-13',
+            },
+          };
+
+          expectedState = {
+            items: [
+              ...defaultState.items,
+              {
+                label: 'Compare',
+                url: '/compare/bom',
+                queryParams: {
+                  material_number_1: '10000-10-15',
+                  material_number_2: '10000-11-13',
+                },
+              },
+            ],
+          };
+
+          service.setCompareBreadcrumb(compareBreadcrumb);
+
+          m.expect(service.state$).toBeObservable(
+            m.cold('a', { a: expectedState })
+          );
+        })
+      );
+    });
+
+    describe('resetBreacrumbItems', () => {
+      it(
+        'should return initial state',
+        marbles((m) => {
+          service.setState({
+            items: [
+              ...defaultState.items,
+              {
+                label: 'Detail',
+                url: '/detail/detail',
+                queryParams: {
+                  materialNumber: '10000-10-15',
+                  plant: '0060',
+                },
+              },
+            ],
+          });
+
+          expectedState = {
+            items: [
+              {
+                label: 'shared.breadcrumbs.search',
+                url: '/search',
+                queryParams: {},
+              },
+            ],
+          };
+
+          service.resetBreadcrumbItems(true);
+
+          m.expect(service.state$).toBeObservable(
+            m.cold('a', { a: expectedState })
+          );
+        })
+      );
+    });
+  });
+
+  describe('addBreadcrumb', () => {
+    let state: BreadcrumbState;
+    let breadcrumb: Breadcrumb;
+    let updatedState: BreadcrumbState;
+
+    beforeEach(() => {
+      state = undefined;
+      breadcrumb = undefined;
+      updatedState = undefined;
+    });
+    it('should return breadcrumb items with the new breadcrumb appended', () => {
+      state = { items: [{ url: 'foo', label: 'Foo' }] };
+      breadcrumb = { url: 'bar', label: 'Bar' };
+
+      updatedState = service['addBreadcrumb'](state, breadcrumb);
+
+      expect(updatedState.items.length).toBe(2);
+      expect(updatedState.items[1]).toEqual(breadcrumb);
+    });
+
+    it('should return sliced breadcrumb items if item already existed', () => {
+      state = {
+        items: [
+          { url: 'foo', label: 'Foo' },
+          { url: 'bar', label: 'Bar' },
+          { url: 'baz', label: 'Baz' },
+        ],
+      };
+      breadcrumb = { url: 'bar', label: 'Bar' };
+
+      updatedState = service['addBreadcrumb'](state, breadcrumb);
+
+      expect(updatedState.items.length).toBe(2);
+      expect(updatedState.items[1]).toEqual(breadcrumb);
+    });
+  });
+
+  describe('helper methods', () => {
+    let path: string;
+    let result: any;
+    beforeEach(() => {
+      path = undefined;
+      result = undefined;
+    });
+    describe('isSearchRoute', () => {
+      it('should return true/false if the given path contains /search', () => {
+        path = '/search';
+        result = service['isSearchRoute'](path);
+        expect(result).toBe(true);
+
+        path = '/detail/detail';
+        result = service['isSearchRoute'](path);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('isResultsRoute', () => {
+      it('should return true/false if the given path contains /results', () => {
+        path = '/results';
+        result = service['isResultsRoute'](path);
+        expect(result).toBe(true);
+
+        path = '/detail/detail';
+        result = service['isResultsRoute'](path);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('isDetailRoute', () => {
+      it('should return true/false if the given path contains /detail', () => {
+        path = '/detail';
+        result = service['isDetailRoute'](path);
+        expect(result).toBe(true);
+
+        path = '/compare/detail';
+        result = service['isDetailRoute'](path);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('isCompareRoute', () => {
+      it('should return true/false if the given path contains /compare', () => {
+        path = '/compare';
+        result = service['isCompareRoute'](path);
+        expect(result).toBe(true);
+
+        path = '/detail/bom';
+        result = service['isCompareRoute'](path);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('isPortfolioAnalysisRoute', () => {
+      it('should return true/false if the given path contains /portfolio-analysis', () => {
+        path = '/portfolio-analysis';
+        result = service['isPortfolioAnalysisRoute'](path);
+        expect(result).toBe(true);
+
+        path = '/detail/detail';
+        result = service['isPortfolioAnalysisRoute'](path);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('checkQueryParamsEquality', () => {
+      let queryParams1: Params;
+      let queryParams2: Params;
+
+      beforeEach(() => {
+        queryParams1 = undefined;
+        queryParams2 = undefined;
+      });
+      it('should return true for same queryParams', () => {
+        queryParams1 = {
+          // x: 'y',
+          foo: 'bar',
+        };
+        queryParams2 = {
+          foo: 'bar',
+          // x: 'y',
+        };
+
+        result = service['checkQueryParamsEquality'](
+          queryParams1,
+          queryParams2
+        );
+
+        expect(result).toBe(true);
+      });
+
+      it('should return false for different queryParams', () => {
+        queryParams1 = {
+          foo: 'bar',
+        };
+        queryParams2 = {
+          foo: 'baz',
+        };
+
+        result = service['checkQueryParamsEquality'](
+          queryParams1,
+          queryParams2
+        );
+
+        expect(result).toBe(false);
+      });
     });
   });
 });
