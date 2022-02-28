@@ -14,8 +14,14 @@ import {
 } from '../../../../.storybook/storybook-navigation.constants';
 import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
 
+interface SubheaderStorybookTemplate {
+  subheaderTitleContent?: string;
+  subheaderInlineContent?: string;
+  subheaderBlockContent?: string;
+}
+
 export default {
-  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Subheader`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Templates}/Subheader`,
   component: SubheaderComponent,
   decorators: [
     moduleMetadata({
@@ -31,18 +37,31 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
-    badges: [Badges.NeedsRevision],
+    badges: [Badges.Final],
   },
 } as Meta<SubheaderComponent>;
 
-const Template: Story<SubheaderComponent> = (args: SubheaderComponent) => ({
+const Template: Story<SubheaderComponent | SubheaderStorybookTemplate> = (
+  args
+) => ({
   component: SubheaderComponent,
   props: args,
   template: `
     <schaeffler-subheader
-      title="Search Results | 69 Findings"
+      [subheaderTitle]="title"
       [breadcrumbs]="breadcrumbs"
     >
+      <ng-container subheaderTitleContent>
+        <div class="flex flex-col justify-center px-2">
+          <span *ngIf="subheaderTitleContent" class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1 text-caption">{{ subheaderTitleContent }}</span>
+        </div>
+      </ng-container>
+      <ng-container subheaderInlineContent>
+        <span *ngIf="subheaderInlineContent" class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1 text-button">{{ subheaderInlineContent }}</span>
+      </ng-container>
+      <ng-container subheaderBlockContent>
+        <div *ngIf="subheaderBlockContent" class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary p-4">{{ subheaderBlockContent }}</div>
+      </ng-container>
     </schaeffler-subheader>
   `,
 });
@@ -59,6 +78,11 @@ const breadcrumbs: Breadcrumb[] = [
 
 export const Primary = Template.bind({});
 Primary.args = {
+  subheaderTitle: 'Title',
   breadcrumbs,
   truncateBreadcrumbsAfter: 0,
+  hideLine: false,
+  subheaderTitleContent: 'Title Content',
+  subheaderInlineContent: 'Inline Content',
+  subheaderBlockContent: 'Subheader Block Content',
 };

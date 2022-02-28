@@ -9,7 +9,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 })
 export class SubheaderComponent {
   @Input() public showBackButton = true;
-  @Input() public title = '';
+  @Input() public subheaderTitle = '';
   @Input() public breadcrumbs: Breadcrumb[] = [];
   @Input() public truncateBreadcrumbsAfter = 0;
   @Input() public hideLine? = false;

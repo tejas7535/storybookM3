@@ -70,11 +70,10 @@ const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
     [userImageUrl]="userImageUrl"
   >
     <ng-container headerInlineContent>
-      <span>{{ headerContent }}</span>
-      <span *ngIf="headerContent" class="w-[1px] ml-1.5 sm:ml-3 h-4 sm:h-7 bg-high-emphasis"></span>
+      <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ headerContent }}</span>
     </ng-container>
     <ng-container sidenavBody>
-      <h4>{{ sideNavContent }}</h4>
+      <div class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1 m-2">{{ sideNavContent }}</div>
     </ng-container>
     <ng-container mainContent>
       <div class="h-full w-full">
@@ -87,7 +86,7 @@ const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
       </div>
     </ng-container>
     <ng-container footerContent>
-      <span>{{ footerContent }}</span>
+      <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ footerContent }}</span>
     </ng-container>
   </schaeffler-app-shell>
   `,

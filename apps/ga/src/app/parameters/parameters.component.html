@@ -3,12 +3,12 @@
     <schaeffler-subheader
       class="-ml-4"
       [showBackButton]="true"
-      [title]="(selectedBearing$ | ngrxPush) || 'Title'"
+      [subheaderTitle]="(selectedBearing$ | ngrxPush) || 'Title'"
       [hideLine]="true"
       (backButtonClicked)="navigateBack()"
     >
       <!-- TODO: enable again -->
-      <!-- <ng-container content>
+      <!-- <ng-container subheaderContent>
         <div class="flex flex-col">
           <div class="flex flex-row">
             <span class="text-subtitle-1">some bearing description</span>

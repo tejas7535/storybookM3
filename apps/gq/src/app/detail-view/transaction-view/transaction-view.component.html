@@ -3,8 +3,11 @@
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
   <div *transloco="let t; read: 'transactionView.header'">
-    <schaeffler-subheader [breadcrumbs]="breadcrumbs" [title]="t('title')">
-      <ng-container titleContent>
+    <schaeffler-subheader
+      [breadcrumbs]="breadcrumbs"
+      [subheaderTitle]="t('title')"
+    >
+      <ng-container subheaderTitleContent>
         <gq-material-price-header-content
           [quotationDetail]="quotationDetail$ | ngrxPush"
           [currency]="currency$ | ngrxPush"
@@ -12,7 +15,7 @@
         >
         </gq-material-price-header-content>
       </ng-container>
-      <ng-container header>
+      <ng-container subheaderInlineContent>
         <schaeffler-share-button></schaeffler-share-button>
       </ng-container>
     </schaeffler-subheader>

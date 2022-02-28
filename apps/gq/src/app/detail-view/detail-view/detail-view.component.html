@@ -2,19 +2,19 @@
   <div *ngIf="quotation$ | ngrxPush as quotation">
     <schaeffler-subheader
       *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
-      [title]="material | materialInfo"
+      [subheaderTitle]="material | materialInfo"
       [breadcrumbs]="breadcrumbs"
     >
-      <ng-container titleContent>
+      <ng-container subheaderTitleContent>
         <gq-detail-view-header-content
           [materialStock]="materialStock$ | ngrxPush"
           [materialStockLoading]="materialStockLoading$ | ngrxPush"
         ></gq-detail-view-header-content>
       </ng-container>
-      <ng-container header>
+      <ng-container subheaderInlineContent>
         <schaeffler-share-button></schaeffler-share-button>
       </ng-container>
-      <ng-container content>
+      <ng-container subheaderBlockContent>
         <gq-customer-header [customer]="quotation.customer">
         </gq-customer-header>
       </ng-container>

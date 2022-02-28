@@ -7,9 +7,9 @@
   <schaeffler-subheader
     *ngIf="customer$ | ngrxPush as customer"
     [breadcrumbs]="breadcrumbs"
-    [title]="customer.name"
+    [subheaderTitle]="customer.name"
   >
-    <ng-container header>
+    <ng-container subheaderInlineContent>
       <schaeffler-share-button></schaeffler-share-button>
     </ng-container>
   </schaeffler-subheader>

@@ -7,7 +7,7 @@
 >
   <schaeffler-subheader
     *ngIf="quotation$ | ngrxPush as quotation"
-    [title]="
+    [subheaderTitle]="
       displayTitle
         ? quotation.caseName
           ? quotation.caseName
@@ -16,7 +16,7 @@
     "
     [breadcrumbs]="breadcrumbs"
   >
-    <ng-container titleContent>
+    <ng-container subheaderTitleContent>
       <div
         class="flex"
         [ngClass]="displayTitle ? 'flex-row' : 'flex-row-reverse'"
@@ -31,10 +31,10 @@
         ></gq-header-content>
       </div>
     </ng-container>
-    <ng-container header>
+    <ng-container subheaderInlineContent>
       <schaeffler-share-button></schaeffler-share-button>
     </ng-container>
-    <ng-container content>
+    <ng-container subheaderBlockContent>
       <gq-customer-header [customer]="quotation.customer"> </gq-customer-header>
     </ng-container>
   </schaeffler-subheader>

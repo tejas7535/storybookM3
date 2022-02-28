@@ -48,7 +48,7 @@ This lib depends on [Angular Material](https://material.angular.io) (including [
 ### Import the Module
 
 ```typescript
-// app.modules.ts or core.modules.ts
+// app.module.ts / core.module.ts or feature.modile.ts
 
 import { SubheaderModule } from '@schaeffler/subheader';
 
@@ -69,7 +69,7 @@ API of Subheader Component:
 
   @Input() breadcrumbs: Breadcrumb[] // list of breadcrumbs for schaeffler-breadcrumbs. If this input is provided, the backButton automatically navigates to second to last breadcrumb 
 
-  @Input() title = '' // title of the subheader
+  @Input() subheaderTitle = '' // title of the subheader
 
   @Input() hideLine: boolean // false on default, optinal hiding of line under the subheader
 
@@ -83,13 +83,13 @@ Use like:
 ```html
 <!-- comp-xy.component.html -->
 <schaeffler-subheader title="Search Results | 69 Findings" [breadcrumbs]="breadcrumbs">  
-  <ng-container titleContent>
+  <ng-container subheaderTitleContent>
     place your own custom addtional title content here
   </ng-container>
-  <ng-container header>
+  <ng-container subheaderInlineContent>
     place content here
   <ng-container>
-  <ng-container content>
+  <ng-container subheaderBlockContent>
     place content here
   <ng-container>
 </schaeffler-subheader>

@@ -4,11 +4,11 @@
 >
   <div *transloco="let t; read: 'sapView.header'">
     <schaeffler-subheader
-      [title]="t('title')"
+      [subheaderTitle]="t('title')"
       [breadcrumbs]="breadcrumbs"
       *ngIf="quotationDetail$ | ngrxPush"
     >
-      <ng-container titleContent>
+      <ng-container subheaderTitleContent>
         <gq-material-price-header-content
           [quotationDetail]="quotationDetail$ | ngrxPush"
           [currency]="(customer$ | ngrxPush).currency"
@@ -16,10 +16,10 @@
         >
         </gq-material-price-header-content>
       </ng-container>
-      <ng-container header>
+      <ng-container subheaderInlineContent>
         <schaeffler-share-button></schaeffler-share-button>
       </ng-container>
-      <ng-container content>
+      <ng-container subheaderBlockContent>
         <gq-customer-header [customer]="customer$ | ngrxPush">
         </gq-customer-header>
       </ng-container>
