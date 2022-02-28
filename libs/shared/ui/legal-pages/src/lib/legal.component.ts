@@ -1,85 +1,78 @@
 import {
   Component,
   Inject,
-  OnDestroy,
   OnInit,
   Optional,
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { Observable, Subject } from 'rxjs';
-import { filter, startWith, takeUntil } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, mergeMap, startWith } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
-import { PERSON_RESPONSIBLE, PURPOSE, TERMS_OF_USE } from './legal.model';
+import {
+  CUSTOM_DATA_PRIVACY,
+  PERSON_RESPONSIBLE,
+  PURPOSE,
+  TERMS_OF_USE,
+} from './legal.model';
 import { LegalPath } from './legal-route-path.enum';
-
 @Component({
   selector: 'schaeffler-legal',
   templateUrl: './legal.component.html',
   styleUrls: ['./legal.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LegalComponent implements OnInit, OnDestroy {
-  public responsible?: string = undefined;
-  public purpose?: string = undefined;
-  public legal = 'imprint';
-  public destroy$ = new Subject<void>();
+export class LegalComponent implements OnInit {
+  public LegalRoutePath = LegalPath;
+  public translationContent$!: Observable<string>;
+  public lastPath$!: Observable<string>;
 
   public constructor(
-    @Optional() @Inject(PERSON_RESPONSIBLE) public personResponsible: string,
+    @Inject(PERSON_RESPONSIBLE) public personResponsible: string,
     @Optional() @Inject(PURPOSE) public purpose$: Observable<any>,
     @Optional() @Inject(TERMS_OF_USE) public termsOfUse$: Observable<any>,
+    @Optional()
+    @Inject(CUSTOM_DATA_PRIVACY)
+    public customDataPrivacy$: Observable<string>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
-    this.responsible =
-      this.personResponsible &&
-      translate('responsibleIntro', {
-        personResponsible: this.personResponsible,
-      });
+    this.lastPath$ = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      startWith({ url: this.route.snapshot.url[0].path } as NavigationEnd),
+      map((event) => (event as NavigationEnd).url.split('/').pop() as string)
+    );
 
-    this.purpose$.subscribe((value) => (this.purpose = value));
-
-    this.router.events
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((event) => event instanceof NavigationEnd),
-        startWith({ url: this.route.snapshot.url[0].path } as NavigationEnd)
-      )
-      .subscribe((event) => {
-        const url = (event as NavigationEnd).url?.split('/').pop();
-
-        switch (url) {
-          case LegalPath.ImprintPath:
-            this.legal = 'imprint';
-            break;
-
-          case LegalPath.DataprivacyPath:
-            this.legal = 'dataPrivacy';
-            break;
-
-          case LegalPath.TermsPath:
-            this.legal = 'termsOfUse';
-            break;
-
-          case LegalPath.CookiePath:
-            this.legal = 'cookiePolicy';
-            break;
-
-          default:
-            break;
+    this.translationContent$ = this.lastPath$.pipe(
+      mergeMap((path) => {
+        if (path === LegalPath.DataprivacyPath && this.customDataPrivacy$) {
+          return this.customDataPrivacy$;
         }
-      });
-  }
 
-  public ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+        const defaultTranslateOptions = {
+          responsible: translate('responsibleIntro', {
+            personResponsible: this.personResponsible,
+          }),
+          personResponsible: this.personResponsible,
+        };
+
+        return (
+          this.purpose$?.pipe(
+            map((purpose) =>
+              translate(path, {
+                ...defaultTranslateOptions,
+                purpose,
+              })
+            )
+          ) ?? of(translate(path, defaultTranslateOptions))
+        );
+      })
+    );
   }
 
   public navigate(): void {

@@ -7,18 +7,25 @@ import {
 } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
+import { translate, TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { LegalPath, LegalRoute } from '..';
 import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
-import { PERSON_RESPONSIBLE, PURPOSE, TERMS_OF_USE } from './legal.model';
+import {
+  CUSTOM_DATA_PRIVACY,
+  PERSON_RESPONSIBLE,
+  PURPOSE,
+  TERMS_OF_USE,
+} from './legal.model';
 
 const eventSubject = new ReplaySubject<RouterEvent>(1);
 const routerMock = {
@@ -26,6 +33,7 @@ const routerMock = {
   events: eventSubject.asObservable(),
   url: 'someUrl',
 };
+const customDataPrivacy = 'Custom data privacy';
 
 describe('LegalComponent', () => {
   let component: LegalComponent;
@@ -33,6 +41,7 @@ describe('LegalComponent', () => {
 
   const createComponent = createComponentFactory({
     component: LegalComponent,
+    detectChanges: false,
     imports: [
       RouterTestingModule,
       TranslocoTestingModule,
@@ -45,7 +54,7 @@ describe('LegalComponent', () => {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {
-            url: '/imprint',
+            url: [{ path: `/${LegalPath.ImprintPath}` }],
           },
         },
       },
@@ -69,11 +78,14 @@ describe('LegalComponent', () => {
         ),
       },
       {
+        provide: CUSTOM_DATA_PRIVACY,
+        useValue: of(customDataPrivacy),
+      },
+      {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
     ],
-    declarations: [LegalComponent],
   });
 
   beforeEach(() => {
@@ -85,41 +97,103 @@ describe('LegalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnDestroy', () => {
-    it('should call the destroy methods', () => {
-      const nextSpy = jest.spyOn(component.destroy$, 'next');
-      const completeSpy = jest.spyOn(component.destroy$, 'complete');
+  describe('ngOnInit', () => {
+    test(
+      'should set lastPath$ correctly',
+      marbles((m) => {
+        component.ngOnInit();
 
-      component.ngOnDestroy();
-      expect(nextSpy).toHaveBeenCalledTimes(1);
-      expect(completeSpy).toHaveBeenCalledTimes(1);
-    });
-  });
+        const newEvent = new NavigationEnd(
+          0,
+          `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          `${LegalRoute}/${LegalPath.DataprivacyPath}`
+        );
+        eventSubject.next(newEvent);
 
-  describe('route subscribtion within ngOnInit', () => {
-    it('should load the terms of use content if the route says so', () => {
-      eventSubject.next(new NavigationEnd(1, '/terms-of-use', ''));
+        m.expect(component.lastPath$).toBeObservable(
+          m.cold('(ab)', {
+            a: LegalPath.ImprintPath,
+            b: LegalPath.DataprivacyPath,
+          })
+        );
+      })
+    );
 
-      expect(component.legal).toEqual('termsOfUse');
-    });
+    test(
+      'should set translationContent$ to customDataPrivacy',
+      marbles((m) => {
+        component.ngOnInit();
 
-    it('should load the imprint content if the route says so', () => {
-      eventSubject.next(new NavigationEnd(1, '/imprint', ''));
+        const newEvent = new NavigationEnd(
+          0,
+          `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          `${LegalRoute}/${LegalPath.DataprivacyPath}`
+        );
+        eventSubject.next(newEvent);
 
-      expect(component.legal).toEqual('imprint');
-    });
+        m.expect(component.translationContent$).toBeObservable(
+          m.cold('(ab)', {
+            a: LegalPath.ImprintPath,
+            b: customDataPrivacy,
+          })
+        );
+      })
+    );
+    test(
+      'should set translationContent$ to default data privacy with purpose',
+      marbles((m) => {
+        component.ngOnInit();
 
-    it('should load the data privacy content if the route says so', () => {
-      eventSubject.next(new NavigationEnd(1, '/data-privacy', ''));
+        const newEvent = new NavigationEnd(
+          0,
+          `${LegalRoute}/${LegalPath.CookiePath}`,
+          `${LegalRoute}/${LegalPath.CookiePath}`
+        );
+        eventSubject.next(newEvent);
 
-      expect(component.legal).toEqual('dataPrivacy');
-    });
+        m.expect(component.translationContent$).toBeObservable(
+          m.cold('(ab)', {
+            a: LegalPath.ImprintPath,
+            b: LegalPath.CookiePath,
+          })
+        );
+        m.flush();
+        expect(translate).toHaveBeenCalledWith('cookie-policy', {
+          personResponsible:
+            'Jumbo Schreiner der gerne den besten Döner der Welt in Berlin isst',
+          purpose:
+            'When not even life has a clear purpose, why care about this boring legal doc',
+          responsible: 'responsibleIntro',
+        });
+      })
+    );
+    test(
+      'should set translationContent$ to default data privacy without purpose',
+      marbles((m) => {
+        component.purpose$ = undefined as unknown as Observable<string>;
+        component.ngOnInit();
 
-    it('should load the cookie policy content if the route says so', () => {
-      eventSubject.next(new NavigationEnd(1, '/cookie-policy', ''));
+        const newEvent = new NavigationEnd(
+          0,
+          `${LegalRoute}/${LegalPath.CookiePath}`,
+          `${LegalRoute}/${LegalPath.CookiePath}`
+        );
+        eventSubject.next(newEvent);
 
-      expect(component.legal).toEqual('cookiePolicy');
-    });
+        m.expect(component.translationContent$).toBeObservable(
+          m.cold('(ab)', {
+            a: LegalPath.ImprintPath,
+            b: LegalPath.CookiePath,
+          })
+        );
+        m.flush();
+        expect(translate).toHaveBeenCalledWith('cookie-policy', {
+          personResponsible:
+            'Jumbo Schreiner der gerne den besten Döner der Welt in Berlin isst',
+          responsible: 'responsibleIntro',
+        });
+      })
+    );
   });
 
   describe('navigate', () => {

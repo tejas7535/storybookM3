@@ -69,6 +69,10 @@ export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('key.to.translation');
 }
 
+export function DynamicDataPrivacy(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('key.to.translation');
+}
+
 @NgModule({
   imports: [RouterModule.forRoot(appRoutePaths)],
   providers: [
@@ -88,6 +92,11 @@ export function DynamicPurpose(translocoService: TranslocoService) {
       provide: PURPOSE
       useValue: DynamicPurpose
     },
+    // optional custom data privacy, shown in data privacy section
+    {
+      provide: CUSTOM_DATA_PRIVACY,
+      useValue: DynamicDataPrivacy
+    }
   ],
   ...
 })
