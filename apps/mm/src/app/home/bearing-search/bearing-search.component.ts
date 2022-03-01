@@ -22,6 +22,7 @@ import {
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { BEARING } from '../../shared/constants/tracking-names';
 import { BearingOption, SearchEntry } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 @Component({
@@ -81,7 +82,7 @@ export class BearingSearchComponent implements OnInit {
   }
 
   public trackBearingSelection(bearing: string, selectionId: string): void {
-    this.applicationInsightsService.logEvent('[Bearing]', {
+    this.applicationInsightsService.logEvent(BEARING, {
       name: bearing,
       id: selectionId,
     });

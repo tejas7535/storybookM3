@@ -8,6 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { STEPNAME } from '../../../shared/constants/tracking-names';
 import { PageBeforePipe } from './page-before.pipe';
 import { PagesStepperComponent } from './pages-stepper.component';
 
@@ -244,7 +245,7 @@ describe('PagesStepperComponent', () => {
       component.trackSteps(mockStep);
 
       expect(trackingSpy).toHaveBeenCalledWith(mockStep, {
-        name: 'Stepname',
+        name: STEPNAME,
       });
     });
   });

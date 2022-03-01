@@ -2,15 +2,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { filter, of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { ReportModule } from '@schaeffler/report';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { environment } from '../../../environments/environment';
 import { BEARING_CALCULATION_RESULT_MOCK } from '../../../testing/mocks/rest.service.mock';
 import { ResultPageComponent } from './result-page.component';
 import { ResultPageService } from './result-page.service';
@@ -29,6 +32,8 @@ describe('ResultPageComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       ReportModule,
       MatSnackBarModule,
+      RouterTestingModule,
+      ApplicationInsightsModule.forRoot(environment.applicationInsights),
     ],
     declarations: [ResultPageComponent],
     providers: [

@@ -116,15 +116,13 @@ describe('ApplicationInsightService', () => {
   });
 
   describe('startTracking', () => {
-    it('should call trackInitalPageView', () => {
-      service['trackInitalPageView'] = jest.fn();
-      service['initial'] = true;
-      service['moduleConfig'].consent = true;
+    beforeEach(() => {
+      service['createRouterSubscription'] = jest.fn();
+    });
+    it('should call loadAppInsights', () => {
+      service.startTracking();
 
-      service.startTracking(false);
-
-      expect(service['trackInitalPageView']).toHaveBeenCalled();
-      expect(service['initial']).toBeFalsy();
+      expect(service['createRouterSubscription']).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -269,26 +267,6 @@ describe('ApplicationInsightService', () => {
         expect(service.logPageView).not.toHaveBeenCalled();
       })
     );
-  });
-
-  describe('trackInitalPageView', () => {
-    beforeEach(() => {
-      service['trackPageView'] = jest.fn();
-    });
-    it('should call logPageView', () => {
-      const snapshot = {
-        url: '/legal',
-        component: { name: 'MockComponent' },
-        firstChild: undefined,
-      } as unknown as ActivatedRouteSnapshot;
-
-      service['trackInitalPageView']();
-
-      expect(service['trackPageView']).toHaveBeenCalledWith(
-        snapshot,
-        '/foo/bar'
-      );
-    });
   });
 
   describe('trackPageView', () => {

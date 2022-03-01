@@ -9,6 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
+import { BEARING } from '../../shared/constants/tracking-names';
 import { BEARING_SEARCH_RESULT_MOCK } from './../../../testing/mocks/rest.service.mock';
 import { RestService } from './../../core/services/rest/rest.service';
 import { BearingSearchComponent } from './bearing-search.component';
@@ -92,7 +93,7 @@ describe('BearingSearchComponent', () => {
       });
 
       const spy = jest.spyOn(component.bearing, 'emit');
-      const trackintrackBearingSelectionSpy = jest.spyOn(
+      const trackBearingSelectionSpy = jest.spyOn(
         component,
         'trackBearingSelection'
       );
@@ -100,7 +101,7 @@ describe('BearingSearchComponent', () => {
       component.handleSelection(mockSelectionId);
 
       expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
-      expect(trackintrackBearingSelectionSpy).toHaveBeenCalledWith(
+      expect(trackBearingSelectionSpy).toHaveBeenCalledWith(
         mockBearingName,
         mockSelectionId
       );
@@ -119,7 +120,7 @@ describe('BearingSearchComponent', () => {
 
       component.trackBearingSelection(mockBearingName, mockSelectionId);
 
-      expect(trackingSpy).toHaveBeenCalledWith('[Bearing]', {
+      expect(trackingSpy).toHaveBeenCalledWith(BEARING, {
         name: mockBearingName,
         id: mockSelectionId,
       });

@@ -13,6 +13,8 @@ import { PageMetaStatus } from '@caeonline/dynamic-forms';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { STEPNAME } from '../../../shared/constants/tracking-names';
+
 // TODO use Ids for active state
 @Component({
   selector: 'mm-pages-stepper',
@@ -76,7 +78,7 @@ export class PagesStepperComponent implements OnChanges {
 
   public trackSteps(name: string): void {
     this.applicationInsightsService.logEvent(name, {
-      name: 'Stepname',
+      name: STEPNAME,
     });
   }
 

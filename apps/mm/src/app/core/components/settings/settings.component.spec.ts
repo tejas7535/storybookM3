@@ -11,6 +11,7 @@ import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { LANGUAGE } from '../../../shared/constants/tracking-names';
 import { MaterialModule } from '../../../shared/material.module';
 import { MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
@@ -150,7 +151,7 @@ describe('SidebarComponent', () => {
 
       component.trackLanguage(mockLanguage);
 
-      expect(trackingSpy).toHaveBeenCalledWith('[Language]', {
+      expect(trackingSpy).toHaveBeenCalledWith(LANGUAGE, {
         value: mockLanguage,
       });
     });

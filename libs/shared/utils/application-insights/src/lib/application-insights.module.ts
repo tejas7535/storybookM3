@@ -31,7 +31,6 @@ export class ApplicationInsightsModule {
           provide: APPLICATION_INSIGHTS_CONFIG,
           useValue: config,
         },
-        ApplicationInsightsService,
         ...(config.enableGlobalErrorHandler
           ? [
               {

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { LanguageConfirmationDialogComponent } from '../../../shared/components/language-confirmation-dialog/language-confirmation-dialog.component';
+import { LANGUAGE } from '../../../shared/constants/tracking-names';
 import { locales, MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
@@ -66,7 +67,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   public trackLanguage(language: string): void {
-    this.applicationInsightsService.logEvent('[Language]', {
+    this.applicationInsightsService.logEvent(LANGUAGE, {
       value: language,
     });
   }

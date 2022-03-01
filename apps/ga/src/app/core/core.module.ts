@@ -43,12 +43,13 @@ export function appInitializer(
   const tag = 'application';
   const value = '[Bearinx - Greaseapp]';
 
-  applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
-
   oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
-    applicationInsightsService.startTracking(
-      cookiesGroups.get(CookiesGroups.PerformanceCookies) || false
-    );
+    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
+      applicationInsightsService.startTelemetry();
+      applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+    } else {
+      applicationInsightsService.deleteCookies();
+    }
   });
 
   return () => oneTrustService.loadOneTrust();

@@ -4,6 +4,9 @@ import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
+import { PROPERTIES } from '../../shared/constants/tracking-names';
 import { Report, Result } from '../../shared/models';
 import { RestService } from './../../core/services/rest/rest.service';
 
@@ -11,10 +14,13 @@ import { RestService } from './../../core/services/rest/rest.service';
 export class ResultPageService {
   public constructor(
     private readonly restService: RestService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public getResult(formProperties: any): Observable<Result> {
+    this.trackProperties(formProperties);
+
     return this.restService.getBearingCalculationResult(formProperties).pipe(
       map((response) => response._links), // eslint-disable-line no-underscore-dangle
       map((reports: Report[]) => {
@@ -32,5 +38,11 @@ export class ResultPageService {
         throwError(() => this.translocoService.translate('error.content'))
       )
     );
+  }
+
+  public trackProperties(properties: any): void {
+    this.applicationInsightsService.logEvent(PROPERTIES, {
+      properties,
+    });
   }
 }
