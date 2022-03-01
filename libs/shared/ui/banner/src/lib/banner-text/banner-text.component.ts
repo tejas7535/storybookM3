@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 
@@ -13,14 +12,12 @@ export type BannerIconType = 'info' | 'success' | 'error' | 'warning' | '';
   templateUrl: './banner-text.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BannerTextComponent implements OnInit {
+export class BannerTextComponent {
   @Input() public text = '';
   @Input() public showFullText = false;
   @Input() public bannerIcon: BannerIconType = '';
   @Input() public truncateSize = 120;
   @Input() public buttonText = '';
-
-  public icon: string | undefined;
 
   @Output()
   public readonly closeBanner: EventEmitter<void> = new EventEmitter<void>();
@@ -28,26 +25,18 @@ export class BannerTextComponent implements OnInit {
   @Output()
   public readonly toggleFullText: EventEmitter<void> = new EventEmitter<void>();
 
-  public ngOnInit(): void {
-    this.setBannerIcon();
-  }
-
-  public setBannerIcon(): void {
+  public setBannerIcon(): string | undefined {
     switch (this.bannerIcon) {
       case 'info':
-        this.icon = 'info';
-        break;
+        return 'info';
       case 'warning':
-        this.icon = 'warning';
-        break;
+        return 'warning';
       case 'error':
-        this.icon = 'cancel';
-        break;
+        return 'cancel';
       case 'success':
-        this.icon = 'check_circle';
-        break;
+        return 'check_circle';
       default:
-        this.icon = undefined;
+        return undefined;
     }
   }
 

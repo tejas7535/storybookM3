@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material/icon';
 
 import { TranslocoModule } from '@ngneat/transloco';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
@@ -7,13 +6,21 @@ import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/bann
 
 import { BannerTextComponent, BannerIconType } from '@schaeffler/banner';
 
-import READMEMd from '../../../../banner/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
-import { StorybookTranslocoModule } from '../../../.storybook/storybook-transloco.module';
+import READMEMd from '../../../../../banner/README.md';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { StorybookTranslocoModule } from '../../../../.storybook/storybook-transloco.module';
+import { Badges } from 'libs/shared/ui/storybook/.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Components}/Banner`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Banner`,
   component: BannerTextComponent,
+  parameters: {
+    notes: { markdown: READMEMd },
+    badges: [Badges.Final],
+  },
   decorators: [
     moduleMetadata({
       imports: [
@@ -21,13 +28,9 @@ export default {
         BannerTextModule,
         StorybookTranslocoModule,
         TranslocoModule,
-        MatIconModule,
       ],
     }),
   ],
-  parameters: {
-    notes: { markdown: READMEMd },
-  },
 } as Meta<BannerTextComponent>;
 
 const Template: Story<BannerTextComponent> = (args: BannerTextComponent) => ({
