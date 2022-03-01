@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.9.0...cdba-v2.10.0) (2022-03-01)
+
+
+### 🎸 Features
+
+* **cdba:** add pcm badge to details page (DSCDA-2868) ([52e4a6f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/52e4a6f16fa8fd33b7b81e8f7aa55186ecbfd08e))
+* **cdba:** align y-axis in portfolio chart (DSCDA-2863) ([936f9fb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/936f9fb414bb3e54156d89d8a09b3add88f7a9bd))
+* **cdba:** move to api version 2 for reference types (DSCDA-2868) ([efe2c92](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/efe2c9200274753bac595a83f720bc3b680ce3e4))
+* **cdba:** remove pcm-hint snackbar from details page (DSCDA-2868) ([777cee7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/777cee7576aec8936e57b47ebd04fb7676fb5722))
+* **cdba:** unify currency and percent value formats (DSCDA-2862) ([8561d89](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8561d897f3b93cb63d12b9da91133e4c5529f04d))
+
 ## [2.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.8.1...cdba-v2.9.0) (2022-02-14)
 
 
