@@ -25,8 +25,8 @@ export class BannerTextComponent {
   @Output()
   public readonly toggleFullText: EventEmitter<void> = new EventEmitter<void>();
 
-  public setBannerIcon(): string | undefined {
-    switch (this.bannerIcon) {
+  public setBannerIcon(bannerIcon: string): string | undefined {
+    switch (bannerIcon) {
       case 'info':
         return 'info';
       case 'warning':

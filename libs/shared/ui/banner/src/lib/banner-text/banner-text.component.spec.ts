@@ -36,21 +36,13 @@ describe('BannerTextComponent', () => {
 
   describe('setBannerIcon', () => {
     it('should be set to the correct one depending on input var', () => {
-      component.bannerIcon = 'info';
+      expect(component.setBannerIcon('info')).toStrictEqual('info');
 
-      expect(component.setBannerIcon()).toStrictEqual('info');
+      expect(component.setBannerIcon('warning')).toStrictEqual('warning');
 
-      component.bannerIcon = 'warning';
+      expect(component.setBannerIcon('error')).toStrictEqual('cancel');
 
-      expect(component.setBannerIcon()).toStrictEqual('warning');
-
-      component.bannerIcon = 'error';
-
-      expect(component.setBannerIcon()).toStrictEqual('cancel');
-
-      component.bannerIcon = 'success';
-
-      expect(component.setBannerIcon()).toStrictEqual('check_circle');
+      expect(component.setBannerIcon('success')).toStrictEqual('check_circle');
     });
   });
 
