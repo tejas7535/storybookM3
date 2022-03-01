@@ -1,4 +1,9 @@
-<button *ngIf="breadcrumb" mat-menu-item [routerLink]="breadcrumb.url">
+<button
+  *ngIf="breadcrumb"
+  mat-menu-item
+  [routerLink]="breadcrumb.url"
+  [queryParams]="breadcrumb.queryParams"
+>
   {{ breadcrumb.label }}
   <mat-icon
     *ngIf="breadcrumb.tooltip"
