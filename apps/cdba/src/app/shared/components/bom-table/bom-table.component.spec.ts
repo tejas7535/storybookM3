@@ -361,7 +361,7 @@ describe('BomTableComponent', () => {
 
       const result = component.getRowClass(params);
 
-      expect(result).toEqual('row-medium-cost-share');
+      expect(result).toEqual('row-low-cost-share');
     });
   });
 
