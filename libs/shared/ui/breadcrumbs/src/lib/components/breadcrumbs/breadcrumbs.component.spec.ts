@@ -3,9 +3,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { MockModule } from 'ng-mocks';
 
+import { Breadcrumb } from '../../breadcrumb.model';
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 
 describe('BreadcrumbsComponent', () => {
@@ -89,30 +89,6 @@ describe('BreadcrumbsComponent', () => {
       expect(component.showItemBeforeTruncateMenu(0)).toEqual(true);
       expect(component.showItemBeforeTruncateMenu(1)).toEqual(false);
       expect(component.showItemBeforeTruncateMenu(breadcrumbsIndexMax)).toEqual(
-        false
-      );
-    });
-  });
-
-  describe('showItemInTruncateMenu', () => {
-    test('should return status for items in the truncate menu', () => {
-      expect(component.showItemInTruncateMenu(0)).toEqual(false);
-      expect(component.showItemInTruncateMenu(1)).toEqual(false);
-      expect(component.showItemInTruncateMenu(breadcrumbsIndexMax)).toEqual(
-        false
-      );
-
-      component.truncateAfter = breadcrumbsIndexMax;
-      expect(component.showItemInTruncateMenu(0)).toEqual(false);
-      expect(component.showItemInTruncateMenu(1)).toEqual(false);
-      expect(component.showItemInTruncateMenu(breadcrumbsIndexMax)).toEqual(
-        false
-      );
-
-      component.truncateAfter = breadcrumbsIndexMax - 1;
-      expect(component.showItemInTruncateMenu(0)).toEqual(false);
-      expect(component.showItemInTruncateMenu(1)).toEqual(true);
-      expect(component.showItemInTruncateMenu(breadcrumbsIndexMax)).toEqual(
         false
       );
     });

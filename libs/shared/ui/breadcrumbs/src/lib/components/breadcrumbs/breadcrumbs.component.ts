@@ -33,14 +33,6 @@ export class BreadcrumbsComponent {
     );
   }
 
-  public showItemInTruncateMenu(index: number): boolean {
-    return (
-      this.showTruncation() &&
-      index > 0 &&
-      index < this.breadcrumbs.length - this.truncateAfter
-    );
-  }
-
   public showItemAfterTruncateMenu(index: number): boolean {
     return (
       this.showTruncation() &&
