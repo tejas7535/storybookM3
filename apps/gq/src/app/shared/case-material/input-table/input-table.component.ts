@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ColDef } from '@ag-grid-community/core';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 
 import { StatusBarConfig } from '../../models/table';
 import { HelperService } from '../../services/helper-service/helper-service.service';

@@ -2,7 +2,8 @@ import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
+import { StatusPanelDef } from '@ag-grid-community/core';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { Keyboard } from '../../models';

@@ -1,7 +1,7 @@
-import { ColDef } from '@ag-grid-community/core';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 
+import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
-import { ColumnUtilityService } from '../../../../shared/services/column-utility-service/column-utility.service';
 import {
   filterRoles,
   getAllRoles,

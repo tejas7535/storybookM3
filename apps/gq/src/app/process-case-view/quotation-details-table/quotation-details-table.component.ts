@@ -15,12 +15,14 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getColumnDefsForRoles } from '../../core/store';
+import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
+import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
+import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
 import { basicTableStyle, statusBarStlye } from '../../shared/constants';
 import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
-import { ColumnDefService } from '../../shared/services/column-utility-service/column-def.service';
 import {
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,
@@ -42,9 +44,7 @@ export class QuotationDetailsTableComponent implements OnInit {
     toolPanels: [
       {
         id: 'columns',
-        labelDefault: translate<string>(
-          'shared.quotationDetailsTable.sidebar.columns'
-        ),
+        labelDefault: translate('shared.quotationDetailsTable.sidebar.columns'),
         labelKey: 'columns',
         iconKey: 'columns',
         toolPanel: 'agColumnsToolPanel',
@@ -56,9 +56,7 @@ export class QuotationDetailsTableComponent implements OnInit {
       },
       {
         id: 'filters',
-        labelDefault: translate<string>(
-          'shared.quotationDetailsTable.sidebar.filters'
-        ),
+        labelDefault: translate('shared.quotationDetailsTable.sidebar.filters'),
         labelKey: 'filters',
         iconKey: 'filter',
         toolPanel: 'agFiltersToolPanel',
@@ -86,17 +84,20 @@ export class QuotationDetailsTableComponent implements OnInit {
   public columnDefs$: Observable<ColDef[]>;
   public rowSelection = 'multiple';
   public excelStyles: ExcelStyle[] = excelStyles;
+  public localeText$: Observable<AgGridLocale>;
 
   constructor(
     private readonly store: Store,
     private readonly agGridStateService: AgGridStateService,
-    private readonly columnDefinitionService: ColumnDefService
+    private readonly columnDefinitionService: ColumnDefService,
+    private readonly localizationService: LocalizationService
   ) {}
 
   ngOnInit(): void {
     this.columnDefs$ = this.store.select(
       getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS)
     );
+    this.localeText$ = this.localizationService.locale$;
   }
 
   public onColumnChange(event: SortChangedEvent): void {

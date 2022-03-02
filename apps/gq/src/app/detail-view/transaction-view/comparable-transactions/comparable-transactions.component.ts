@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import {
   ColumnState,
@@ -9,6 +11,8 @@ import {
 
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
+import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
+import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';
 import { basicTableStyle } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
@@ -20,7 +24,7 @@ import { ColumnDefService } from './config/column-def.service';
   templateUrl: './comparable-transactions.component.html',
   styles: [basicTableStyle],
 })
-export class ComparableTransactionsComponent {
+export class ComparableTransactionsComponent implements OnInit {
   @Input() rowData: ComparableLinkedTransaction[];
   @Input() set currency(currency: string) {
     this.tableContext.quotation.customer.currency = currency;
@@ -30,6 +34,7 @@ export class ComparableTransactionsComponent {
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
+  public localeText$: Observable<AgGridLocale>;
 
   tableContext: TableContext = {
     quotation: { customer: {} } as unknown as Quotation,
@@ -37,8 +42,13 @@ export class ComparableTransactionsComponent {
 
   constructor(
     private readonly columnDefService: ColumnDefService,
-    private readonly agGridStateService: AgGridStateService
+    private readonly agGridStateService: AgGridStateService,
+    private readonly localizationService: LocalizationService
   ) {}
+
+  ngOnInit(): void {
+    this.localeText$ = this.localizationService.locale$;
+  }
 
   public onColumnChange(event: SortChangedEvent): void {
     const columnState: ColumnState[] = event.columnApi.getColumnState();

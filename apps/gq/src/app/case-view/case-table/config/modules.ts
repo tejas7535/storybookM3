@@ -5,6 +5,7 @@ import {
   MenuModule,
   Module,
   RowGroupingModule,
+  SetFilterModule,
   StatusBarModule,
 } from '@ag-grid-enterprise/all-modules';
 
@@ -15,4 +16,5 @@ export const MODULES: Module[] = [
   MenuModule,
   RowGroupingModule,
   StatusBarModule,
+  SetFilterModule,
 ];

@@ -1,11 +1,11 @@
-import { ColDef } from '@ag-grid-community/core';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { createSelector } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
+import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 import { RoleGroup } from '../../../../shared/models';
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
-import { ColumnUtilityService } from '../../../../shared/services/column-utility-service/column-utility.service';
 
 export const getAllRoles = createSelector(
   getRoles,

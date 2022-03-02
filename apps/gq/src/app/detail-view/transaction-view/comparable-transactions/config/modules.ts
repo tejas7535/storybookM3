@@ -3,10 +3,12 @@ import {
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
   Module,
+  SetFilterModule,
 } from '@ag-grid-enterprise/all-modules';
 
 export const MODULES: Module[] = [
   ClientSideRowModelModule,
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
+  SetFilterModule,
 ];

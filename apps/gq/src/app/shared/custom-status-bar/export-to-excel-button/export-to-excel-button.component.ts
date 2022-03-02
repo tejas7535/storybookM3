@@ -23,15 +23,15 @@ import { Store } from '@ngrx/store';
 
 import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { getExtendedComparableLinkedTransactions } from '../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
-import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
-import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
-import { Keyboard, Quotation } from '../../models';
 import {
   ColumnFields,
   ExportExcelNumberColumns,
   PercentColumns,
   PriceColumns,
-} from '../../services/column-utility-service/column-fields.enum';
+} from '../../ag-grid/constants/column-fields.enum';
+import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
+import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
+import { Keyboard, Quotation } from '../../models';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';

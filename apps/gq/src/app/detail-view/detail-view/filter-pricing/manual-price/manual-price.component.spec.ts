@@ -19,13 +19,13 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../../shared/components/editing-modal/editing-modal.component';
 import {
   PriceSource,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
-import { ColumnFields } from '../../../../shared/services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';

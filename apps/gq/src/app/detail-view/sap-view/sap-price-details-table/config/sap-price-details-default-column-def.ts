@@ -1,4 +1,4 @@
-import { ColDef } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 
 export const SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS: ColDef = {
   enablePivot: false,

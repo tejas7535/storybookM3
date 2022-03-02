@@ -1,7 +1,7 @@
-import { ColDef } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { ColumnUtilityService } from '../../../services/column-utility-service/column-utility.service';
+import { ColumnUtilityService } from '../../../ag-grid/services/column-utility.service';
 
 export const BASE_COLUMN_DEFS: ColDef[] = [
   {
@@ -15,7 +15,7 @@ export const BASE_COLUMN_DEFS: ColDef[] = [
     field: 'materialNumber',
     flex: 0.3,
     sortable: true,
-    valueFormatter: ColumnUtilityService.transformMaterial,
+    valueFormatter: ColumnUtilityService.materialTransform,
   },
   {
     headerName: translate('shared.caseMaterial.table.quantity'),

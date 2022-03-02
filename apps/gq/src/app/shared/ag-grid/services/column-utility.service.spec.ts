@@ -1,7 +1,11 @@
-import { ValueFormatterParams } from '@ag-grid-community/all-modules';
+import {
+  ValueFormatterParams,
+  ValueGetterParams,
+} from '@ag-grid-community/all-modules';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import {
+  QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
   SAP_PRICE_DETAIL_MOCK,
 } from '../../../../testing/mocks';
@@ -11,7 +15,7 @@ import { PriceSource } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
-import { ColumnFields } from './column-fields.enum';
+import { ColumnFields } from '../constants/column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -230,11 +234,20 @@ describe('CreateColumnService', () => {
       expect(res).toEqual(-1);
     });
   });
-  describe('transformMaterial', () => {
+  describe('materialTransform', () => {
     test('should call pipe transform', () => {
       const data = { value: 'any' } as any as ValueFormatterParams;
-      const result = ColumnUtilityService.transformMaterial(data);
+      const result = ColumnUtilityService.materialTransform(data);
       expect(result).toEqual(data.value);
+    });
+  });
+  describe('materialGetter', () => {
+    test('should call pipe transform', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+      } as any as ValueGetterParams;
+      const result = ColumnUtilityService.materialGetter(params);
+      expect(result).toEqual(QUOTATION_DETAIL_MOCK.material.materialNumber15);
     });
   });
   describe('dateFormatter', () => {

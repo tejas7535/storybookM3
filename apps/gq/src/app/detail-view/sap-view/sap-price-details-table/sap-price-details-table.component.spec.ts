@@ -1,6 +1,9 @@
 import { AgGridModule } from '@ag-grid-community/angular';
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SapPriceDetailsTableComponent } from './sap-price-details-table.component';
 
@@ -10,7 +13,11 @@ describe('SapConditionsTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SapPriceDetailsTableComponent,
-    imports: [AgGridModule.withComponents({})],
+    imports: [
+      AgGridModule.withComponents({}),
+      provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
+    ],
   });
 
   beforeEach(() => {

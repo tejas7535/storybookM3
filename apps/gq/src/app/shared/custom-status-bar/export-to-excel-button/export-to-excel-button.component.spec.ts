@@ -25,11 +25,11 @@ import {
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../testing/mocks/models/extended-comparable-linked-transaction.mock';
-import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import {
   ColumnFields,
   PriceColumns,
-} from '../../services/column-utility-service/column-fields.enum';
+} from '../../ag-grid/constants/column-fields.enum';
+import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';

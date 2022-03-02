@@ -1,4 +1,4 @@
-import { ColDef } from '@ag-grid-community/core';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';

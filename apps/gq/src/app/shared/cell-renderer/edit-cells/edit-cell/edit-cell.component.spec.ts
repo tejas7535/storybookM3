@@ -9,8 +9,8 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { EditingModalComponent } from '../../../components/editing-modal/editing-modal.component';
-import { ColumnFields } from '../../../services/column-utility-service/column-fields.enum';
 import { EditCellComponent } from './edit-cell.component';
 
 describe('EditCellComponent', () => {

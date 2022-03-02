@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
+import {
+  ColDef,
+  ValueFormatterParams,
+  ValueGetterParams,
+} from '@ag-grid-enterprise/all-modules';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
-import { PriceSource } from '../../models/quotation-detail';
+import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
-import { HelperService } from '../helper-service/helper-service.service';
-import { PriceService } from '../price-service/price.service';
-import { ColumnFields } from './column-fields.enum';
+import { HelperService } from '../../services/helper-service/helper-service.service';
+import { PriceService } from '../../services/price-service/price.service';
+import { ColumnFields } from '../constants/column-fields.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColumnUtilityService {
+  static materialPipe = new MaterialTransformPipe();
+
   static dateFilterParams = {
     comparator: (compareDate: Date, cellDate: string) => {
       const newCellDate = new Date(cellDate);
@@ -109,10 +115,16 @@ export class ColumnUtilityService {
     return 0;
   }
 
-  static transformMaterial(data: ValueFormatterParams): string {
-    const materialPipe = new MaterialTransformPipe();
+  static materialTransform(data: ValueFormatterParams): string {
+    return ColumnUtilityService.materialPipe.transform(data.value);
+  }
 
-    return materialPipe.transform(data.value);
+  static materialGetter(params: ValueGetterParams): string {
+    const detail = params.data as QuotationDetail;
+
+    return ColumnUtilityService.materialPipe.transform(
+      detail.material.materialNumber15
+    );
   }
 
   static basicTransform(data: ValueFormatterParams): string {

@@ -12,11 +12,11 @@ import {
   updateQuotationDetails,
 } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
+import { ColumnFields } from '../../../shared/ag-grid/constants/column-fields.enum';
 import {
   PriceSource,
   QuotationDetail,
 } from '../../../shared/models/quotation-detail';
-import { ColumnFields } from '../../../shared/services/column-utility-service/column-fields.enum';
 import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../shared/services/price-service/price.service';
 

@@ -3,6 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -25,6 +26,7 @@ describe('ComparableTransactionsComponent', () => {
       AgGridModule,
       InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
+      ReactiveComponentModule,
     ],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });

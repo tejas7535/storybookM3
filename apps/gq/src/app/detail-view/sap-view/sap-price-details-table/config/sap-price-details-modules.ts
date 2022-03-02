@@ -4,6 +4,7 @@ import {
   FiltersToolPanelModule,
   MenuModule,
   Module,
+  SetFilterModule,
 } from '@ag-grid-enterprise/all-modules';
 
 export const SAP_PRICE_DETAILS_MODULE: Module[] = [
@@ -11,4 +12,5 @@ export const SAP_PRICE_DETAILS_MODULE: Module[] = [
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
   MenuModule,
+  SetFilterModule,
 ];

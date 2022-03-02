@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -10,6 +10,8 @@ import {
 
 import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
+import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
+import { LocalizationService } from '../../../shared/ag-grid/services/localization.service';
 import {
   basicTableStyle,
   disableTableHorizontalScrollbar,
@@ -26,10 +28,11 @@ import {
   templateUrl: './sap-price-details-table.component.html',
   styles: [basicTableStyle, disableTableHorizontalScrollbar],
 })
-export class SapPriceDetailsTableComponent {
+export class SapPriceDetailsTableComponent implements OnInit {
   constructor(
     private readonly agGridStateService: AgGridStateService,
-    private readonly columnDefService: SapPriceDetailsColumnDefService
+    private readonly columnDefService: SapPriceDetailsColumnDefService,
+    private readonly localizationService: LocalizationService
   ) {}
 
   @Input() rowData: SapPriceConditionDetail[];
@@ -40,7 +43,11 @@ export class SapPriceDetailsTableComponent {
   public defaultColumnDefs = SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
   public modules = SAP_PRICE_DETAILS_MODULE;
+  public localeText$: Observable<AgGridLocale>;
 
+  ngOnInit(): void {
+    this.localeText$ = this.localizationService.locale$;
+  }
   public onColumnChange(event: SortChangedEvent): void {
     const columnState: ColumnState[] = event.columnApi.getColumnState();
 
