@@ -1,6 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+
+import { of } from 'rxjs';
 
 import {
   AdditionalInformationDetails,
@@ -15,10 +16,10 @@ import { marbles } from 'rxjs-marbles/marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as enJson from '../../../../assets/i18n/compare/en.json';
 import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
 import { DimensionsWidgetModule } from '../dimensions-widget/dimensions-widget.module';
 import { MaterialCardComponent } from './material-card.component';
+import { MaterialCardStore } from './material-card.store';
 
 describe('MaterialCardComponent', () => {
   let component: MaterialCardComponent;
@@ -28,17 +29,21 @@ describe('MaterialCardComponent', () => {
     component: MaterialCardComponent,
     imports: [
       ReactiveComponentModule,
-      MatCardModule,
-      MatExpansionModule,
-      provideTranslocoTestingModule({ en: enJson }),
+      MockModule(MatCardModule),
+      MockModule(MatExpansionModule),
+      provideTranslocoTestingModule({ en: {} }),
       MockModule(DimensionsWidgetModule),
       MockModule(AdditionalInformationWidgetModule),
     ],
     providers: [
       provideMockStore({ initialState: { compare: COMPARE_STATE_MOCK } }),
       {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
+        provide: MaterialCardStore,
+        useValue: {
+          expandedItems$: of([0, 1]),
+          addExpandedItem: jest.fn(),
+          removeExpandedItem: jest.fn(),
+        },
       },
     ],
   });
@@ -92,5 +97,23 @@ describe('MaterialCardComponent', () => {
         );
       })
     );
+  });
+
+  describe('onExpansionOpened', () => {
+    it('should add store item', () => {
+      component.addExpandedItem(0);
+
+      expect(component['materialCardStore'].addExpandedItem).toBeCalledWith(0);
+    });
+  });
+
+  describe('onExpansionClosed', () => {
+    it('should remove store item', () => {
+      component.removeExpandedItem(0);
+
+      expect(component['materialCardStore'].removeExpandedItem).toBeCalledWith(
+        0
+      );
+    });
   });
 });

@@ -14,6 +14,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AdditionalInformationWidgetModule } from '../additional-information-widget/additional-information-widget.module';
 import { DimensionsWidgetModule } from '../dimensions-widget/dimensions-widget.module';
 import { MaterialCardComponent } from './material-card.component';
+import { MaterialCardStore } from './material-card.store';
 
 const defaultOptions: MatExpansionPanelDefaultOptions = {
   expandedHeight: '56px',
@@ -33,6 +34,7 @@ const defaultOptions: MatExpansionPanelDefaultOptions = {
   ],
   providers: [
     { provide: MAT_EXPANSION_PANEL_DEFAULT_OPTIONS, useValue: defaultOptions },
+    MaterialCardStore,
   ],
   exports: [MaterialCardComponent],
 })
