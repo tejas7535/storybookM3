@@ -128,7 +128,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
         api.getRowNode(newSelectedRows.shift()).setSelected(false, false, true);
       }
 
-      if (!arrayEquals(newSelectedRows, previouslySelectedRows)) {
+      if (!arrayEquals<string>(newSelectedRows, previouslySelectedRows)) {
         const selections: {
           nodeId: string;
           calculation: Calculation;

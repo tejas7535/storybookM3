@@ -188,7 +188,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
       api.getRowNode(this.selectedRows.shift()).setSelected(false, false, true);
     }
 
-    if (!arrayEquals(this.selectedRows, previouslySelectedRows)) {
+    if (!arrayEquals<string>(this.selectedRows, previouslySelectedRows)) {
       this.selectionChange.emit(this.selectedRows);
     }
   }
