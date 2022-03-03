@@ -125,7 +125,8 @@
           "main": "Beta Feature"
         },
         "content": {
-          "main": "Diese Funktion befindet sich derzeit im Beta-Stadium. Beta-Tests bieten echten Nutzern die Möglichkeit, ein Produkt oder eine Funktion in einer Produktionsumgebung zu verwenden, um Fehler oder Probleme vor einer allgemeinen Freigabe aufzudecken. Beta-Tests sind die letzte Testrunde vor der Freigabe an ein breites Publikum.\n\nWenn Sie Probleme gefunden haben und/oder zusätzliche Funktionen anfordern möchten, wenden Sie sich bitte über die Schaltfläche unten an uns."
+          "general": "Beta-Tests bieten echten Nutzern die Möglichkeit, ein Produkt oder eine Funktion in einer Produktionsumgebung zu verwenden, um Fehler oder Probleme vor einer allgemeinen Freigabe aufzudecken. Beta-Tests sind die letzte Testrunde vor der Freigabe an ein breites Publikum.\n\nWenn Sie Probleme gefunden haben und/oder zusätzliche Funktionen anfordern möchten, wenden Sie sich bitte über die Schaltfläche unten an uns.",
+          "specific": "Diese Funktion befindet sich derzeit im Beta-Stadium. Beta-Tests bieten echten Nutzern die Möglichkeit, ein Produkt oder eine Funktion in einer Produktionsumgebung zu verwenden, um Fehler oder Probleme vor einer allgemeinen Freigabe aufzudecken. Beta-Tests sind die letzte Testrunde vor der Freigabe an ein breites Publikum.\n\nWenn Sie Probleme gefunden haben und/oder zusätzliche Funktionen anfordern möchten, wenden Sie sich bitte über die Schaltfläche unten an uns."
         },
         "action": {
           "primary": "Feedback senden",

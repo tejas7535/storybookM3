@@ -1,34 +1,9 @@
 import { ColumnState } from '@ag-grid-enterprise/all-modules';
+import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { AgGridStateService } from './ag-grid-state.service';
-
-class LocalStorageMock {
-  public store: { [key: string]: string } = {};
-
-  setStore(store: { [key: string]: string }): void {
-    this.store = store;
-  }
-
-  clear(): void {
-    this.store = {};
-  }
-
-  getItem(key: string): string {
-    // eslint-disable-next-line unicorn/no-null
-    return this.store[key] || null;
-  }
-
-  setItem(key: string, value: string): void {
-    this.store[key] = value;
-  }
-
-  removeItem(key: string): void {
-    // eslint-disable-next-line unicorn/no-null
-    delete this.store[key];
-  }
-}
 
 describe('AgGridStateService', () => {
   let spectator: SpectatorService<AgGridStateService>;

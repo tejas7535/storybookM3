@@ -15,4 +15,5 @@ export enum CostRoles {
 export const authConfig: AuthConfig = {
   basicRoles: ['CDBA_BASIC'],
   pricingRoles: [...adminRoles, CostRoles.Sqv, CostRoles.Gpc],
+  betaUserRole: 'CDBA_BETA_USER',
 };

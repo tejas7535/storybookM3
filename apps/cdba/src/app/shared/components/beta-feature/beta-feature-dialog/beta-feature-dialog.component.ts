@@ -13,10 +13,14 @@ export class BetaFeatureDialogComponent {
 
   constructor(
     private readonly translocoService: TranslocoService,
-    @Inject(MAT_DIALOG_DATA) public emailAddress: string = EMAIL_DEFAULT
+    @Inject(MAT_DIALOG_DATA)
+    public modalData: {
+      emailAddress: string;
+      contentType: 'specific' | 'general';
+    }
   ) {
     this.emailTemplate = `mailto:${
-      this.emailAddress
+      this.modalData.emailAddress || EMAIL_DEFAULT
     }?subject=${this.translocoService.translate(
       'shared.betaFeature.feedback.email.subject'
     )}&body=${this.translocoService.translate(

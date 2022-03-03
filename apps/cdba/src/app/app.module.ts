@@ -7,6 +7,7 @@ import { MsalRedirectComponent } from '@azure/msal-angular';
 import { CoreModule } from '@cdba/core';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import {
+  BetaFeatureModule,
   BrowserSupportModule,
   LoadingSpinnerModule,
   RoleDescriptionsModule,
@@ -35,6 +36,7 @@ import { AppRoutingModule } from './app-routing.module';
     // ui and app root modules
     MatDividerModule,
     LoadingSpinnerModule,
+    BetaFeatureModule,
     BrowserSupportModule,
     AppShellModule,
     UserSettingsModule,

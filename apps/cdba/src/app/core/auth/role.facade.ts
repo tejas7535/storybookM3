@@ -11,6 +11,7 @@ import {
   getIsLoggedIn,
   getRoles,
   hasAnyIdTokenRole,
+  hasIdTokenRole,
 } from '@schaeffler/azure-auth';
 
 import { authConfig } from './auth.config';
@@ -28,6 +29,7 @@ export class RoleFacade {
   hasAnyPricingRole$ = this.store.select(
     hasAnyIdTokenRole(authConfig.pricingRoles)
   );
+  hasBetaUserRole$ = this.store.select(hasIdTokenRole(authConfig.betaUserRole));
 
   constructor(private readonly store: Store) {}
 }

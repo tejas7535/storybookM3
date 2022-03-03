@@ -1,8 +1,8 @@
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
+  BetaFeatureModule,
   BrowserSupportModule,
   LoadingSpinnerModule,
   RoleDescriptionsModule,
@@ -28,8 +28,9 @@ describe('AppComponent', () => {
     imports: [
       RouterTestingModule,
       ReactiveComponentModule,
-      MatDividerModule,
+      MockModule(MatDividerModule),
       MockModule(AppShellModule),
+      MockModule(BetaFeatureModule),
       MockModule(BrowserSupportModule),
       MockModule(LoadingSpinnerModule),
       MockModule(RoleDescriptionsModule),
@@ -49,10 +50,6 @@ describe('AppComponent', () => {
           roles: ROLES_STATE_SUCCESS_MOCK,
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 

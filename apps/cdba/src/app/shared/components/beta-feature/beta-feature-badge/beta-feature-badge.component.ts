@@ -11,6 +11,7 @@ import { BetaFeatureDialogComponent } from '../beta-feature-dialog/beta-feature-
 })
 export class BetaFeatureBadgeComponent {
   @Input() emailAddress: string = EMAIL_DEFAULT;
+  @Input() public contentType: 'specific' | 'general' = 'specific';
 
   public constructor(private readonly dialog: MatDialog) {}
 
@@ -26,7 +27,10 @@ export class BetaFeatureBadgeComponent {
       disableClose: true,
       maxWidth: 400,
       autoFocus: false,
-      data: this.emailAddress,
+      data: {
+        emailAddress: this.emailAddress,
+        contentType: this.contentType,
+      },
     });
   }
 }

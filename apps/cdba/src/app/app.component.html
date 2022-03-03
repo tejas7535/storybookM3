@@ -18,6 +18,12 @@
       <div class="py-4">
         <cdba-role-descriptions></cdba-role-descriptions>
       </div>
+      <ng-container *ngIf="hasBetaUserRole$ | ngrxPush">
+        <mat-divider></mat-divider>
+        <div class="py-4">
+          <cdba-beta-feature-settings></cdba-beta-feature-settings>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
   <ng-container mainContent>

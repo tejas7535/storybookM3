@@ -1,0 +1,10 @@
+::ng-deep .high-five-dialog {
+  @apply w-full #{!important};
+  @apply max-w-full #{!important};
+
+  .mat-dialog-container {
+    @apply p-0 #{!important};
+    @apply bg-transparent #{!important};
+    @apply shadow-none #{!important};
+  }
+}

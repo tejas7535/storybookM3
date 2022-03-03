@@ -1,0 +1,34 @@
+<div class="mb-4 flex justify-between text-subtitle-1 text-medium-emphasis">
+  <span>Beta Features</span>
+  <cdba-beta-feature-badge contentType="general"></cdba-beta-feature-badge>
+</div>
+
+<ng-template #highFiveDialog>
+  <div
+    class="flex h-screen w-full flex-col items-center justify-center overflow-hidden p-6 text-center"
+    (click)="onHighFiveClick()"
+  >
+    <div class="mb-8 text-h2">
+      <span class="font-bold">Thank you</span><br />for helping us with the
+      development of<br /><span class="cursor-pointer text-link">CDBA</span>
+    </div>
+    <div class="animate-bounce text-h1">🙌 🙌 🙌</div>
+  </div>
+</ng-template>
+
+<!--oData-->
+<ng-container *ngIf="showODataToggle">
+  <div class="mb-2 text-subtitle-1">OData API</div>
+  <div class="mb-2 text-caption">
+    Activate to get the CDBA data via new OData interface.<br />The application
+    will be refreshed.
+  </div>
+  <mat-slide-toggle
+    color="primary"
+    [checked]="oDataActivated"
+    [disabled]="disableToggles"
+    (change)="onODataFeatureToggleChange($event)"
+  >
+    Activate OData
+  </mat-slide-toggle>
+</ng-container>

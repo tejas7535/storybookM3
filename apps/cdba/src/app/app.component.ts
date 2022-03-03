@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { FOOTER_LINKS } from '@cdba/shared/constants/footer';
 import { Store } from '@ngrx/store';
 
@@ -25,6 +26,10 @@ export class AppComponent {
   isLoggedIn$ = this.store.select(getIsLoggedIn);
   username$ = this.store.select(getUsername);
   profileImage$ = this.store.select(getProfileImage);
+  hasBetaUserRole$ = this.roleFacade.hasBetaUserRole$;
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly roleFacade: RoleFacade
+  ) {}
 }
