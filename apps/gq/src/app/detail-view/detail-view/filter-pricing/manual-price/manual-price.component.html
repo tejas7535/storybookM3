@@ -14,8 +14,8 @@
   (selectManualPrice)="selectPrice()"
   [isLoading]="isLoading"
 >
-  <div class="mt-[10px] flex w-full" content>
-    <div class="max-w-[25%] grow">
+  <div class="flex w-full flex-col flex-wrap sm:flex-row" content>
+    <div class="min-w-[8rem] max-w-[25%] grow pt-4">
       <div class="mb-1 text-body-2 text-medium-emphasis">
         <span>{{ t('label') }}</span
         ><span *ngIf="editMode"> ({{ currency }})</span>
@@ -52,7 +52,7 @@
         </ng-template>
       </div>
     </div>
-    <div class="flex-1" *ngIf="userHasGPCRole">
+    <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
       <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
@@ -63,7 +63,7 @@
         >
       </div>
     </div>
-    <div class="flex-1" *ngIf="userHasSQVRole">
+    <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
       <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
       <div>
         <span class="font-bold">{{ gpm || '-' }} %</span>
@@ -74,7 +74,7 @@
         >
       </div>
     </div>
-    <div class="flex-1">
+    <div class="min-w-[8rem] pt-4">
       <div class="mb-1 text-body-2 text-medium-emphasis">
         {{ t('quantity') }}:
       </div>
@@ -82,7 +82,7 @@
         [quantity]="quotationDetail.orderQuantity"
       ></gq-quantity-display>
     </div>
-    <div class="flex-1">
+    <div class="min-w-[8rem] pt-4">
       <div class="mb-1 text-body-2 text-medium-emphasis">
         {{ t('priceUnit') }}:
       </div>
