@@ -4,23 +4,6 @@
   "sourceRoot": "libs/shared/ui/legal-pages/src",
   "prefix": "schaeffler",
   "targets": {
-    "build": {
-      "executor": "@nrwl/angular:package",
-      "outputs": ["dist/libs/shared/ui/legal-pages"],
-      "options": {
-        "project": "libs/shared/ui/legal-pages/ng-package.json",
-        "tailwindConfig": "libs/shared/ui/legal-pages/tailwind.config.js"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/shared/ui/legal-pages/tsconfig.lib.json"
-        }
-      },
-      "defaultConfiguration": "production"
-    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/legal-pages"],
@@ -51,16 +34,6 @@
       "options": {
         "command": "npx standard-version --no-verify {args.params}",
         "cwd": "libs/shared/ui/legal-pages"
-      }
-    },
-    "publish": {
-      "executor": "@nrwl/workspace:run-commands",
-      "options": {
-        "commands": [
-          {
-            "command": "npm publish dist/libs/shared/ui/legal-pages --tag latest"
-          }
-        ]
       }
     }
   },
