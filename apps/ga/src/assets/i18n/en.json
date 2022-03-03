@@ -18,13 +18,12 @@
     "learnMore": "Learn More"
   },
   "meta": {
-    "title": "Grease App",
-    "description": "The Schaeffler Grease App comfortably assists in selecting the right greasing for a certain bearing application and offers following possibilities: lists recommended grease products (Arcanol), calculates necessary greasing amount and greasing intervals, links to online platform Medias"
+    "title": "Grease App"
   },
   "bearing": {
     "bearingSelection": "Bearing Selection",
     "subtitle": "For which bearing should the calculation be done?",
-    "searchPlaceholder": "Search for bearing...",
+    "searchPlaceholder": "Search for bearing designation, e.g. 6215",
     "narrowDownSelection": "Narrow down bearing selection?",
     "noResults": "No results",
     "modelCreationError": "Currently a calculation for the bearing {{bearing}} is not possible.",

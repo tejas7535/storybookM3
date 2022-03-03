@@ -4,7 +4,7 @@
 >
   <div class="block">
     <div
-      class="grid min-h-[500px] grid-cols-2 gap-4 p-4 md:grid-cols-4 md:grid-rows-2 lg:max-w-4xl"
+      class="grid grid-cols-2 gap-4 p-4 md:grid-cols-4 md:grid-rows-2 lg:max-w-4xl"
     >
       <mat-card
         class="card-flex col-span-2 row-span-1 min-h-[224px] cursor-pointer content-between sm:min-h-[200px] md:col-span-2 md:row-span-2 md:w-full"
@@ -17,10 +17,6 @@
               <p class="text-subtitle-2 text-low-emphasis">
                 {{ t('bearinxPowered') }}
               </p>
-              <p
-                class="text-caption text-low-emphasis"
-                [innerHTML]="t('description')"
-              ></p>
             </div>
             <div
               class="flex grow items-center justify-center justify-self-center"
@@ -40,7 +36,7 @@
             [routerLink]="greaseCalculationLink"
           >
             <div class="flex justify-between">
-              <h4 class="mr-3 font-normal text-link">
+              <h4 class="mr-3 self-center font-normal !leading-none text-link">
                 {{ t('startCalc') }}
               </h4>
               <span
@@ -56,7 +52,7 @@
           </button>
         </mat-card-actions>
       </mat-card>
-      <mat-card class="card-half">
+      <mat-card>
         <a
           href="{{ t('greaseLink', { sources }) }}"
           target="_blank"
@@ -72,7 +68,7 @@
           </mat-card-content>
         </a>
       </mat-card>
-      <mat-card class="card-half">
+      <mat-card>
         <a
           href="{{ t('lubricatorsLink', { sources }) }}"
           target="_blank"
@@ -88,7 +84,7 @@
           </mat-card-content>
         </a>
       </mat-card>
-      <mat-card class="card-half">
+      <mat-card>
         <a
           href="{{ t('catalogLink', { sources }) }}"
           target="_blank"
@@ -106,7 +102,7 @@
           </mat-card-content>
         </a>
       </mat-card>
-      <mat-card class="card-half">
+      <mat-card>
         <a
           href="{{ t('faqLink', { sources }) }}"
           target="_blank"
