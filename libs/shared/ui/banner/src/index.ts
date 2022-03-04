@@ -1,8 +1,8 @@
 export { BannerComponent } from './lib/banner.component';
 export { BannerModule } from './lib/banner.module';
 export {
-  BannerIconType,
   BannerTextComponent,
+  BannerType,
 } from './lib/banner-text/banner-text.component';
 export {
   closeBanner,

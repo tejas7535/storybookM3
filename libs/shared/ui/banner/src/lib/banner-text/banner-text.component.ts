@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-export type BannerIconType = 'info' | 'success' | 'error' | 'warning' | '';
+export type BannerType = 'info' | 'success' | 'error' | 'warning' | '';
 @Component({
   selector: 'schaeffler-banner-text',
   templateUrl: './banner-text.component.html',
@@ -15,7 +15,7 @@ export type BannerIconType = 'info' | 'success' | 'error' | 'warning' | '';
 export class BannerTextComponent {
   @Input() public text = '';
   @Input() public showFullText = false;
-  @Input() public bannerIcon: BannerIconType = '';
+  @Input() public bannerIcon: BannerType = '';
   @Input() public truncateSize = 120;
   @Input() public buttonText = '';
 
@@ -25,7 +25,7 @@ export class BannerTextComponent {
   @Output()
   public readonly toggleFullText: EventEmitter<void> = new EventEmitter<void>();
 
-  public setBannerIcon(bannerIcon: string): string | undefined {
+  public setBannerIcon(bannerIcon: BannerType): string | undefined {
     switch (bannerIcon) {
       case 'info':
         return 'info';

@@ -1,4 +1,4 @@
-import { BannerIconType } from '../../banner-text/banner-text.component';
+import { BannerType } from '../../banner-text/banner-text.component';
 import * as fromBannerActions from '../actions/banner.actions';
 import { initialState, reducer } from './banner.reducer';
 
@@ -6,7 +6,7 @@ describe('In BannerReducer', () => {
   const openBanner = (
     text: string,
     buttonText: string,
-    icon: BannerIconType,
+    icon: BannerType,
     truncateSize: number
   ) =>
     fromBannerActions.openBanner({

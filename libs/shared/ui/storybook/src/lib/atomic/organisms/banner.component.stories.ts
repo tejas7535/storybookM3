@@ -4,7 +4,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
-import { BannerTextComponent, BannerIconType } from '@schaeffler/banner';
+import { BannerTextComponent, BannerType } from '@schaeffler/banner';
 
 import READMEMd from '../../../../../banner/README.md';
 import {
@@ -38,7 +38,7 @@ const Template: Story<BannerTextComponent> = (args: BannerTextComponent) => ({
   props: args,
 });
 
-const props = (icon: BannerIconType, fullText = false) => ({
+const props = (icon: BannerType, fullText = false) => ({
   text: 'This text can be modified to be longer.',
   showFullText: fullText,
   bannerIcon: icon,

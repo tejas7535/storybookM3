@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { BannerIconType } from '..';
+import { BannerType } from '..';
 import * as bannerActions from './store/actions/banner.actions';
 import * as bannerSelectors from './store/selectors/banner.selectors';
 
@@ -16,7 +16,7 @@ export class BannerComponent implements OnInit {
   public showBanner$!: Observable<boolean>;
   public bannerText$!: Observable<string>;
   public bannerButtonText$!: Observable<string>;
-  public bannerIcon$!: Observable<BannerIconType>;
+  public bannerIcon$!: Observable<BannerType>;
   public truncateSize$!: Observable<number>;
   public showFullText$!: Observable<boolean>;
 
