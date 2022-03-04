@@ -8,12 +8,14 @@ export const environment: Environment = {
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
   appScope: 'api://acea7ac1-13bb-44b3-be1e-76fc729472be/gqapi',
   envName: 'https://guided-quoting-d.dev.dp.schaeffler (dev)',
+  oneTrustId: '769f7370-251f-48bd-abe1-cf7907e49189',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'f05bb411-2544-4614-816c-ba9f772dd3b0',
-      disableCookiesUsage: true,
+      disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
+    consent: true,
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { filter, Observable, startWith, Subject, takeUntil } from 'rxjs';
 
+import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
@@ -10,6 +12,7 @@ import {
   getProfileImage,
   getUsername,
 } from '@schaeffler/azure-auth';
+import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
@@ -23,12 +26,34 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Guided Quoting';
   titleLink = AppRoutePath.CaseViewPath;
 
+  public isCookiePage = false;
+  public cookieSettings = translate('legal.cookieSettings');
   public appVersion = packageJson.version;
   public footerLinks: AppShellFooterLink[] = [
+    {
+      link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+      title: this.translocoService.translate('legal.imprint'),
+      external: false,
+    },
+    {
+      link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+      title: this.translocoService.translate('legal.dataPrivacy'),
+      external: false,
+    },
+    {
+      link: `${LegalRoute}/${LegalPath.TermsPath}`,
+      title: this.translocoService.translate('legal.termsOfUse'),
+      external: false,
+    },
+    {
+      link: `${LegalRoute}/${LegalPath.CookiePath}`,
+      title: this.translocoService.translate('legal.cookiePolicy'),
+      external: false,
+    },
     {
       link: 'https://sconnect.schaeffler.com/groups/guided-quoting',
       title: 'GQ@SConnect',
@@ -46,8 +71,13 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   healthCheckLoading$: Observable<boolean>;
   isHealthCheckAvailable$: Observable<boolean>;
+  destroy$: Subject<void> = new Subject<void>();
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly translocoService: TranslocoService
+  ) {}
 
   public ngOnInit(): void {
     this.username$ = this.store.select(getUsername);
@@ -55,5 +85,21 @@ export class AppComponent implements OnInit {
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
     this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
     this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
+
+    this.router.events
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((event) => event instanceof NavigationEnd),
+        startWith('')
+      )
+      .subscribe((event) => {
+        const url = (event as NavigationEnd).url?.split('/').pop();
+
+        this.isCookiePage = url === LegalPath.CookiePath;
+      });
+  }
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

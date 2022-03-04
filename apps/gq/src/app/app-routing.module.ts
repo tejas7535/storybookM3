@@ -3,11 +3,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
+import { LegalRoute } from '@schaeffler/legal-pages';
+
 import { AppRoutePath } from './app-route-path.enum';
 import { RoleGuard } from './core/guards';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutePaths: Routes = [
+  {
+    path: LegalRoute,
+    loadChildren: async () =>
+      import('@schaeffler/legal-pages').then((m) => m.LegalModule),
+  },
   {
     path: AppRoutePath.BasePath,
     redirectTo: `/${AppRoutePath.CaseViewPath}`,

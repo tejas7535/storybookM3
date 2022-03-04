@@ -71,4 +71,16 @@ describe('AppComponent', () => {
       expect(component.username$).toBeDefined();
     });
   });
+
+  describe('ngOnDestroy', () => {
+    it('should complete destroy$', () => {
+      component.destroy$.next = jest.fn();
+      component.destroy$.complete = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component.destroy$.next).toHaveBeenCalled();
+      expect(component.destroy$.complete).toHaveBeenCalled();
+    });
+  });
 });

@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
@@ -9,13 +9,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import {
+  CookiesGroups,
+  OneTrustModule,
+  OneTrustService,
+} from '@altack/ngx-onetrust';
+import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -31,6 +40,25 @@ import {
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
 
+export function appInitializer(
+  oneTrustService: OneTrustService,
+  applicationInsightsService: ApplicationInsightsService
+) {
+  const tag = 'application';
+  const value = '[GQ - Guided Quoting]';
+
+  applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+
+  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
+    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
+      applicationInsightsService.startTelemetry();
+    } else {
+      applicationInsightsService.deleteCookies();
+    }
+  });
+
+  return () => oneTrustService.loadOneTrust();
+}
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -66,12 +94,23 @@ import { StoreModule } from './store';
         useValue: localStorage,
       },
     }),
+    // Cookie Tracking
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
+    OneTrustModule.forRoot({
+      cookiesGroups: COOKIE_GROUPS,
+      domainScript: environment.oneTrustId,
+    }),
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
-  exports: [AppComponent],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      deps: [OneTrustService, ApplicationInsightsService],
+      multi: true,
+    },
     {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
       useValue: { duration: 5000 },
@@ -82,5 +121,6 @@ import { StoreModule } from './store';
       multi: true,
     },
   ],
+  exports: [AppComponent],
 })
 export class CoreModule {}

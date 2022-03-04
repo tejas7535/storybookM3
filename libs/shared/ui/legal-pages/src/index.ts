@@ -1,5 +1,6 @@
 export { LegalComponent } from './lib/legal.component';
 export {
+  CUSTOM_DATA_PRIVACY,
   LegalOptions,
   PERSON_RESPONSIBLE,
   PURPOSE,
