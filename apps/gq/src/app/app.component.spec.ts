@@ -1,14 +1,18 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
+
+import { ReplaySubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { MaintenanceModule } from '@schaeffler/empty-states';
+import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -21,6 +25,14 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn(() => 'translate it'),
 }));
 
+const eventSubject = new ReplaySubject<RouterEvent>(1);
+
+const routerMock = {
+  navigate: jest.fn(),
+  events: eventSubject.asObservable(),
+  url: `legal/foo`,
+};
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let spectator: Spectator<AppComponent>;
@@ -29,7 +41,6 @@ describe('AppComponent', () => {
   const createComponent = createComponentFactory({
     component: AppComponent,
     imports: [
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       AppShellModule,
@@ -48,6 +59,18 @@ describe('AppComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      {
+        provide: Router,
+        useValue: routerMock,
+      },
+      {
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            url: [{ path: `/${LegalPath.ImprintPath}` }],
+          },
+        },
+      },
     ],
     declarations: [AppComponent],
   });
@@ -65,22 +88,37 @@ describe('AppComponent', () => {
   describe('ngOnInit', () => {
     test('should set observables and dispatch login', () => {
       store.dispatch = jest.fn();
+      component.handleCurrentRoute = jest.fn();
 
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
+      expect(component.handleCurrentRoute).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('ngOnDestroy', () => {
-    it('should complete destroy$', () => {
-      component.destroy$.next = jest.fn();
-      component.destroy$.complete = jest.fn();
+  describe('handleCurrentRoute', () => {
+    test(
+      'should consider initial routing event - cookie route inactive',
+      marbles((m) => {
+        component.handleCurrentRoute();
 
-      component.ngOnDestroy();
+        m.expect(component.isCookieRouteActive$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
 
-      expect(component.destroy$.next).toHaveBeenCalled();
-      expect(component.destroy$.complete).toHaveBeenCalled();
-    });
+    test(
+      'should consider initial routing event - cookie route active',
+      marbles((m) => {
+        routerMock.url = `${LegalRoute}/${LegalPath.CookiePath}`;
+        component.handleCurrentRoute();
+
+        m.expect(component.isCookieRouteActive$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
   });
 });

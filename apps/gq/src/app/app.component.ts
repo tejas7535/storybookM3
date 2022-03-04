@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { filter, Observable, startWith, Subject, takeUntil } from 'rxjs';
+import { filter, map, merge, Observable, of, take } from 'rxjs';
 
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -26,7 +26,7 @@ import {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit {
   title = 'Guided Quoting';
   titleLink = AppRoutePath.CaseViewPath;
 
@@ -71,7 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn$: Observable<boolean>;
   healthCheckLoading$: Observable<boolean>;
   isHealthCheckAvailable$: Observable<boolean>;
-  destroy$: Subject<void> = new Subject<void>();
+  isCookieRouteActive$: Observable<boolean>;
 
   public constructor(
     private readonly store: Store,
@@ -85,21 +85,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isLoggedIn$ = this.store.select(getIsLoggedIn);
     this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
     this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
-
-    this.router.events
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((event) => event instanceof NavigationEnd),
-        startWith('')
-      )
-      .subscribe((event) => {
-        const url = (event as NavigationEnd).url?.split('/').pop();
-
-        this.isCookiePage = url === LegalPath.CookiePath;
-      });
+    this.handleCurrentRoute();
   }
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+
+  handleCurrentRoute(): void {
+    // on first load app component loads after router event
+    const initialLoad = of(this.router).pipe(
+      take(1),
+      map((router) => router.url)
+    );
+    // listen to all subsequent route changes
+    const routerEvents = this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => (event as unknown as NavigationEnd)?.url)
+    );
+    // check if current route is cookie page
+    this.isCookieRouteActive$ = merge(initialLoad, routerEvents).pipe(
+      map((url) => url.split('/').pop() === LegalPath.CookiePath)
+    );
   }
 }
