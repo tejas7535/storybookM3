@@ -181,7 +181,7 @@ def defineAffectedAppsAndLibs() {
 boolean ciSkip() {
     Integer ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
 
-    if ((ciSkip == 0 && isMaster()) || "${BRANCH_NAME}" == 'gh-pages') {
+    if ((ciSkip == 0 && isMaster() && !(isAppRelease() || isLibsRelease())) || "${BRANCH_NAME}" == 'gh-pages') {
         currentBuild.description = 'CI SKIP'
         currentBuild.result = 'SUCCESS'
         skipBuild = true
