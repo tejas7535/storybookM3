@@ -13,7 +13,12 @@
 
   <ng-container mainContent>
     <div class="flex h-full w-full flex-col">
-      <ng-container *ngIf="!(isLegalRouteActive$ | ngrxPush)">
+      <ng-container
+        *ngIf="
+          !(isLegalRouteActive$ | ngrxPush) &&
+          !(isCookieRouteActive$ | ngrxPush)
+        "
+      >
         <ia-filter-section></ia-filter-section>
 
         <nav
@@ -38,6 +43,20 @@
       <div class="flex grow flex-col overflow-y-auto border-border p-4">
         <div class="flex-1">
           <router-outlet></router-outlet>
+        </div>
+      </div>
+      <div
+        class="mx-auto w-full max-w-screen-md bg-surface"
+        *transloco="let t; read: 'legal'"
+        [ngClass]="{ hidden: !(isCookieRouteActive$ | ngrxPush) }"
+      >
+        <div class="py-3 px-4">
+          <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+            {{ t('cookieSettings') }}
+          </button>
+        </div>
+        <div class="py-3 md:px-4">
+          <div id="ot-sdk-cookie-policy"></div>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
@@ -9,9 +9,18 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import {
+  CookiesGroups,
+  OneTrustModule,
+  OneTrustService,
+} from '@altack/ngx-onetrust';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import {
   AzureConfig,
   MsalGuardConfig,
@@ -41,6 +50,21 @@ const azureConfig = new AzureConfig(
   ]),
   new MsalGuardConfig(`/${AppRoutePath.ForbiddenPath}`, [environment.appScope])
 );
+
+function appInitializer(
+  oneTrustService: OneTrustService,
+  applicationInsightsService: ApplicationInsightsService
+) {
+  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
+    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
+      applicationInsightsService.startTelemetry();
+    } else {
+      applicationInsightsService.deleteCookies();
+    }
+  });
+
+  return () => oneTrustService.loadOneTrust();
+}
 
 @NgModule({
   imports: [
@@ -76,8 +100,22 @@ const azureConfig = new AzureConfig(
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
+    OneTrustModule.forRoot({
+      cookiesGroups: COOKIE_GROUPS,
+      domainScript: environment.oneTrustId,
+    }),
+
+    // Monitoring
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   providers: [
+    // OneTrust Provider must be first entry
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      deps: [OneTrustService, ApplicationInsightsService],
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseHttpInterceptor,

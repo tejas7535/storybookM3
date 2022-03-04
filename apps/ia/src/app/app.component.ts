@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
 
   isLegalRouteActive$: Observable<boolean>;
+  isCookieRouteActive$: Observable<boolean>;
   // eslint-disable-next-line no-useless-escape
   private readonly legalRouteRegExp = new RegExp(`^\/${LegalRoute}\/.*`);
 
@@ -80,6 +81,11 @@ export class AppComponent implements OnInit {
       title: translate('legal.termsOfUse'),
       external: false,
     },
+    {
+      link: `${LegalRoute}/${LegalPath.CookiePath}`,
+      title: translate('legal.cookiePolicy'),
+      external: false,
+    },
   ];
 
   constructor(private readonly store: Store, private readonly router: Router) {}
@@ -112,6 +118,11 @@ export class AppComponent implements OnInit {
     // check if current route is a legal route
     this.isLegalRouteActive$ = merge(initialLoad, routerEvents).pipe(
       map((url) => url.match(this.legalRouteRegExp) !== null)
+    );
+
+    // check if current route is cookie page
+    this.isCookieRouteActive$ = merge(initialLoad, routerEvents).pipe(
+      map((url) => url.split('/').pop() === LegalPath.CookiePath)
     );
   }
 }

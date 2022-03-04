@@ -8,6 +8,9 @@ export interface Environment {
   clientId: string;
   appScope: string;
 
+  // Cookie Consent Banner
+  oneTrustId: string;
+
   // Application Insights
   applicationInsights: {
     applicationInsightsConfig: {
@@ -18,5 +21,6 @@ export interface Environment {
     enableGlobalErrorHandler: boolean;
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];
+    consent: boolean;
   };
 }
