@@ -23,4 +23,5 @@ export class Quotation {
   public requestedDelDate: string;
   public validTo: string;
   public calculationInProgress: boolean;
+  public sapCallInProgress: boolean;
 }

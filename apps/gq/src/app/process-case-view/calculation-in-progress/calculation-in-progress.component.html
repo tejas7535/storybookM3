@@ -1,6 +1,11 @@
 <div
   class="flex flex-col items-center justify-center"
-  *transloco="let t; read: 'processCaseView.calcInProgress'"
+  *transloco="
+    let t;
+    read: isSapRefreshInProgress
+      ? 'processCaseView.sapRefreshInProgress'
+      : 'processCaseView.calcInProgress'
+  "
 >
   <div class="cursor-pointer" (click)="reload()">
     <img [src]="imagePath" />

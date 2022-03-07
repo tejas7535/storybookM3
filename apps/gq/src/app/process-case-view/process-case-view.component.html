@@ -40,7 +40,11 @@
   </schaeffler-subheader>
   <mat-card
     class="m-4 mt-5 flex h-full"
-    *ngIf="!(quotation$ | ngrxPush).calculationInProgress; else calcInProgress"
+    *ngIf="
+      !(quotation$ | ngrxPush).calculationInProgress &&
+        !(quotation$ | ngrxPush).sapCallInProgress;
+      else taskInProgress
+    "
   >
     <gq-quotation-details-table
       *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
@@ -50,9 +54,10 @@
       <schaeffler-loading-spinner></schaeffler-loading-spinner>
     </ng-template>
   </mat-card>
-  <ng-template #calcInProgress>
+  <ng-template #taskInProgress>
     <gq-calculation-in-progress
       [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
+      [isSapRefreshInProgress]="(quotation$ | ngrxPush).sapCallInProgress"
     >
     </gq-calculation-in-progress>
   </ng-template>

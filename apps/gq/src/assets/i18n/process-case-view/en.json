@@ -25,6 +25,12 @@
     "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
     "refreshText": "Please refresh the page to check if your case is available"
   },
+  "sapRefreshInProgress": {
+    "header": "We are refreshing SAP data ({{variable}} positions)",
+    "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
+    "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
+    "refreshText": "Please refresh the page to check if your case is available"
+  },
   "editingCommentModal": {
     "title": "Edit comment for Item {{id}}",
     "confirm": "Confirm",

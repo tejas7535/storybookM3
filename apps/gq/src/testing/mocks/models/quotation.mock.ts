@@ -23,4 +23,5 @@ export const QUOTATION_MOCK: Quotation = {
   requestedDelDate: '2021-04-21T00:00:00',
   validTo: '2021-03-21T00:00:00',
   calculationInProgress: false,
+  sapCallInProgress: false,
 };
