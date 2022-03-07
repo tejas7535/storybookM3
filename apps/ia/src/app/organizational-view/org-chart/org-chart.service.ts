@@ -22,16 +22,16 @@ export class OrgChartService {
       const totalSubordinates = elem.totalSubordinates;
       const directAttrition = elem.directAttrition;
       const totalAttrition = elem.totalAttrition;
-      const textColumnDirect = translate<string>(
+      const textColumnDirect = translate(
         'organizationalView.orgChart.table.columnDirect'
       );
-      const textColumnOverall = translate<string>(
+      const textColumnOverall = translate(
         'organizationalView.orgChart.table.columnOverall'
       );
-      const textRowEmployees = translate<string>(
+      const textRowEmployees = translate(
         'organizationalView.orgChart.table.rowEmployees'
       );
-      const textRowAttrition = translate<string>(
+      const textRowAttrition = translate(
         'organizationalView.orgChart.table.rowAttrition'
       );
 

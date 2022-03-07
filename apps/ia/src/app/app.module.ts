@@ -18,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
 import { FilterSectionModule } from './filter-section/filter-section.module';
 import { SharedModule } from './shared/shared.module';
-import { UserSettingsModule } from './shared/user-settings/user-settings.module';
+import { UserSettingsModule } from './user-settings/user-settings.module';
 
 function DynamicPurpose(
   translocoService: TranslocoService
@@ -39,8 +39,8 @@ function DynamicPurpose(
 
     LoadingSpinnerModule,
     AppShellModule,
-    FilterSectionModule,
     UserSettingsModule,
+    FilterSectionModule,
   ],
   providers: [
     {

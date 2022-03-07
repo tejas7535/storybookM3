@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { fromEvent, Observable, Subscription } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
@@ -66,6 +67,8 @@ export class AutocompleteInputComponent
       this.inputControl.setValue(value);
     }
   }
+
+  @Input() appearance: MatFormFieldAppearance = 'fill';
 
   @Output()
   readonly selected: EventEmitter<SelectedFilter> = new EventEmitter();

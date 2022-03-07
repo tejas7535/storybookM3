@@ -1,0 +1,29 @@
+<h2 mat-dialog-title *transloco="let t; read: 'userSettings'">
+  {{ t('title') }}
+</h2>
+<mat-dialog-content class="h-[300px]" *transloco="let t; read: 'userSettings'">
+  <h4>{{ t('dialog.welcomeTitle') }}</h4>
+  <p>{{ t('dialog.instruction') }}</p>
+  <p>{{ t('dialog.hint') }}</p>
+  <div class="mt-10 flex justify-center">
+    <ia-autocomplete-input
+      [filter]="resorts"
+      [label]="t('resortLabel')"
+      [hint]="t('resortHint')"
+      [appearance]="'outline'"
+      (selected)="optionSelected($event)"
+      (invalidFormControl)="resortInvalid($event)"
+    ></ia-autocomplete-input>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *transloco="let t; read: 'userSettings.dialog'">
+  <button
+    mat-button
+    mat-dialog-close
+    color="primary"
+    (click)="updateUserSettings()"
+    [disabled]="invalidResortInput || !selected"
+  >
+    {{ t('confirm') }}
+  </button>
+</mat-dialog-actions>

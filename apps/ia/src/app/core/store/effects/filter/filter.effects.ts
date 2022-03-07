@@ -59,7 +59,6 @@ export class FilterEffects {
   loginSuccessful$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loginSuccess.type),
-      // eslint-disable-next-line rxjs/no-unsafe-first
       take(1),
       map(loadInitialFilters)
     );

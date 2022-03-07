@@ -1,4 +1,4 @@
-import { defer } from 'rxjs';
+import { defer, of } from 'rxjs';
 
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { InteractionStatus } from '@azure/msal-browser';
@@ -158,7 +158,7 @@ describe('Azure Auth Effects', () => {
           nonce: '123',
         },
       } as unknown as AccountInfo;
-      authService.handleAccount = jest.fn(() => accountInfo);
+      authService.handleAccount = jest.fn(() => of(accountInfo));
     });
     test(
       'should do nothing when event not NONE',

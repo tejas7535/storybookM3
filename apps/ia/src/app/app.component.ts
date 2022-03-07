@@ -87,8 +87,10 @@ export class AppComponent implements OnInit {
       external: false,
     },
   ];
-
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.username$ = this.store.select(getUsername);

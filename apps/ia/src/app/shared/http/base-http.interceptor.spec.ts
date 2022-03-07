@@ -25,8 +25,8 @@ class ExampleService {
 
   public constructor(private readonly http: HttpClient) {}
 
-  public getPosts(): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/test`);
+  public getPosts(param?: string): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/${param ?? 'test'}`);
   }
 }
 
@@ -164,6 +164,32 @@ describe(`BaseHttpInterceptor`, () => {
 
       httpRequest.error({
         status: 403,
+        error: {
+          message: 'error',
+          title: 'Service Unavailable',
+          detail: 'Damn monkey',
+        },
+      } as unknown as ErrorEvent);
+    });
+
+    test('should do nothing when error is part of IGNORE_HTTP_CALLS', () => {
+      service.getPosts('user-settings').subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).not.toHaveBeenCalled();
+        },
+      });
+
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/user-settings`
+      );
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error({
+        status: 404,
         error: {
           message: 'error',
           title: 'Service Unavailable',

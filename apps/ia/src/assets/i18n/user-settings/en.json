@@ -1,0 +1,13 @@
+{
+  "title": "User Settings",
+  "resortLabel": "Select resort",
+  "resortHint": "Please select the resort for the application data",
+  "dialog": {
+    "confirm": "Confirm",
+    "welcomeTitle": "Welcome to Insight Attrition!",
+    "instruction": "Please select the resort for the application data.",
+    "hint": "You can change it later. By clicking on hamburger icon in the top left corner, in User Settings."
+  },
+  "saveSuccessful": "User settings successfully updated",
+  "saveFailed": "Failed to update user settings"
+}

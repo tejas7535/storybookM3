@@ -38,17 +38,6 @@
     "close": "Close",
     "total": "Total: {{total}}"
   },
-  "userSettings": {
-    "language": {
-      "title": {
-        "main": "Language Settings"
-      },
-      "languageSelect": {
-        "label": "Select language",
-        "hint": "For now, only English is supported"
-      }
-    }
-  },
   "legal": {
     "imprint": "Imprint",
     "dataPrivacy": "Data Privacy",

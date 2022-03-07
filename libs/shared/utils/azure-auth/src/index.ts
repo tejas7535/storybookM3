@@ -11,6 +11,7 @@ export { login, loginSuccess, logout } from './lib/store/actions/auth.actions';
 export { AuthState } from './lib/store/reducers/auth.reducer';
 export {
   getAccountInfo,
+  getBackendRoles,
   getIsLoggedIn,
   getProfileImage,
   getRoles,

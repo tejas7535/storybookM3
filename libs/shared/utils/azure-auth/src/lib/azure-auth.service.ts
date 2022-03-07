@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { from, Observable } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { EMPTY, from, Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 
 import {
   MSAL_GUARD_CONFIG,
+  MsalGuardAuthRequest,
   MsalGuardConfiguration,
   MsalService,
 } from '@azure/msal-angular';
@@ -103,7 +104,7 @@ export class AzureAuthService {
     this.authService.instance.setActiveAccount(acc);
   }
 
-  public handleAccount(): AccountInfo {
+  public handleAccount(): Observable<AccountInfo> {
     let activeAccount = this.authService.instance.getActiveAccount();
 
     // take first available account -> could be extended by some other logic
@@ -120,9 +121,35 @@ export class AzureAuthService {
       const department =
         AzureAuthService.extractDepartmentFromAzureAccountInfo(activeAccount);
 
-      return { ...activeAccount, department };
+      return this.authService
+        .acquireTokenSilent({
+          account: activeAccount,
+          scopes: (this.msalGuardConfig.authRequest as MsalGuardAuthRequest)
+            .scopes,
+        })
+        .pipe(
+          map((account) => {
+            const backendRoles = this.decodeAccessToken(
+              account.accessToken
+            ).roles;
+
+            return { ...activeAccount, department, backendRoles };
+          })
+        );
     }
 
-    return undefined;
+    return EMPTY;
+  }
+
+  public decodeAccessToken(accessToken: string): any {
+    const base64Url = accessToken.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      [...atob(base64)]
+        .map((c) => `%${`00${c.codePointAt(0).toString(16)}`.slice(-2)}`)
+        .join('')
+    );
+
+    return JSON.parse(jsonPayload);
   }
 }

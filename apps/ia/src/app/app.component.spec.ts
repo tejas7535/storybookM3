@@ -44,15 +44,7 @@ describe('AppComponent', () => {
       LoadingSpinnerModule,
     ],
     providers: [
-      provideMockStore({
-        initialState: {
-          auth: {
-            user: {
-              username: 'Hans',
-            },
-          },
-        },
-      }),
+      provideMockStore(),
       {
         provide: Router,
         useValue: routerMock,

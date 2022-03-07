@@ -35,7 +35,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import * as i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppRoutePath } from '../app-route-path.enum';
-import { FilterSectionModule } from '../filter-section/filter-section.module';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
 
@@ -95,18 +94,12 @@ function appInitializer(
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
 
-    // filter section at the top
-    FilterSectionModule,
-
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
     OneTrustModule.forRoot({
       cookiesGroups: COOKIE_GROUPS,
       domainScript: environment.oneTrustId,
     }),
-
-    // Monitoring
-    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   providers: [
     // OneTrust Provider must be first entry

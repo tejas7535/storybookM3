@@ -36,7 +36,8 @@ This library provides the following selectors that can be used from within your 
 - `getUserDepartment`: get department of the user
 - `getUserUniqueIdentifier`: get the uid of an user (e.g. 'kauppfbi')
 - `getIsLoggedIn`: get logged in status
-- `getRoles`: get roles of user
+- `getRoles`: get frontend roles of user
+- `getBackendRoles`: get backend roles of user
 - `getAccountInfo`: get whole account information from user
 - `getProfileImage`: get url to load the profile image
 

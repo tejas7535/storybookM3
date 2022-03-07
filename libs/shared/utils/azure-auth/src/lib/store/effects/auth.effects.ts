@@ -78,7 +78,7 @@ export class AuthEffects {
   public inProgress$ = createEffect(() => {
     return this.msalBroadcastService.inProgress$.pipe(
       filter((status: InteractionStatus) => status === InteractionStatus.None),
-      map(() => this.authService.handleAccount()),
+      mergeMap(() => this.authService.handleAccount()),
       filter((accountInfo: AccountInfo) => accountInfo !== undefined),
       distinctUntilChanged((old: AccountInfo, current: AccountInfo) => {
         return (

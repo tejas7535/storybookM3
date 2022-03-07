@@ -1,4 +1,4 @@
-import { FeatureImportanceType, FeatureImportanceDataPoint } from './';
+import { FeatureImportanceDataPoint, FeatureImportanceType } from './';
 
 export interface FeatureImportanceGroup {
   feature: string;

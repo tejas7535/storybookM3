@@ -119,6 +119,28 @@ describe('Azure Auth selectors', () => {
       });
     });
 
+    describe('backend role selectors', () => {
+      describe('getBackendRoles', () => {
+        test('should return backend roles', () => {
+          const accountInfo = {
+            backendRoles: ['Admin'],
+          } as unknown as AccountInfo;
+
+          expect(
+            fromAuthSelectors.getBackendRoles.projector({ accountInfo })
+          ).toEqual(['Admin']);
+        });
+
+        test('should return empty array if no backend roles are present', () => {
+          const accountInfo = { name: 'Test' } as unknown as AccountInfo;
+
+          expect(
+            fromAuthSelectors.getBackendRoles.projector({ accountInfo })
+          ).toEqual([]);
+        });
+      });
+    });
+
     describe('hasIdTokenRole', () => {
       test('should return true if given role exists', () => {
         idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];

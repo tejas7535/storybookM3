@@ -7,9 +7,9 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { AttritionAnalyticsService } from './attrition-analytics.service';
 import {
-  Slice,
   FeatureImportanceGroup,
   FeatureImportanceType,
+  Slice,
   SortDirection,
 } from './models';
 import { EmployeeAnalytics } from './models/employee-analytics.model';

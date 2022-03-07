@@ -8,9 +8,11 @@ import { of } from 'rxjs';
 import { MSAL_GUARD_CONFIG, MsalService } from '@azure/msal-angular';
 import {
   AccountInfo as AzureAccountInfo,
+  AuthenticationResult,
   InteractionType,
 } from '@azure/msal-browser';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { marbles } from 'rxjs-marbles';
 
 import { AzureAuthService } from './azure-auth.service';
 import { AccountInfo } from './models';
@@ -240,47 +242,92 @@ describe('Azure Auth Service', () => {
 
   describe('handleAccount', () => {
     let accInfos: AzureAccountInfo[];
+    const backendRoles = ['ADMIN'];
 
     beforeEach(() => {
-      const accInfo = { username: 'Hans' } as unknown as AzureAccountInfo;
-      const accInfo2 = { username: 'Dieter' } as unknown as AzureAccountInfo;
-      const accInfo3 = { username: 'Werner' } as unknown as AzureAccountInfo;
+      const accInfo = {
+        name: 'Hans Christian, Wolter SF/HZA',
+      } as unknown as AzureAccountInfo;
+      const accInfo2 = {
+        name: 'Dieter, Stein SF/MNC',
+      } as unknown as AzureAccountInfo;
+      const accInfo3 = {
+        name: 'Werner, Kross SZ/HMB',
+      } as unknown as AzureAccountInfo;
       accInfos = [accInfo, accInfo2, accInfo3];
       msalService.instance.getAllAccounts = jest.fn(() => accInfos);
 
       msalService.instance.setActiveAccount = jest.fn();
     });
-    test('should return active acc if possible', () => {
-      const activeAcc = {
-        username: 'Chung',
-        name: 'Cho, Chung SF/HZA',
-      } as unknown as AzureAccountInfo;
-      msalService.instance.getActiveAccount = jest.fn(() => activeAcc);
 
-      const expected = { ...activeAcc, department: 'SF/HZA' };
+    test(
+      'should return active acc if possible',
+      marbles((m) => {
+        const activeAcc = {
+          name: 'Cho, Chung SF/HZA',
+        } as unknown as AzureAccountInfo;
+        msalService.instance.getActiveAccount = jest.fn(() => activeAcc);
+        msalService.acquireTokenSilent = jest.fn(() =>
+          of({} as AuthenticationResult)
+        );
+        service.decodeAccessToken = jest.fn(() => ({ roles: backendRoles }));
+        const expectedAccountInfo = {
+          ...activeAcc,
+          department: 'SF/HZA',
+          backendRoles,
+        };
+        const expected$ = m.cold('(a|)', { a: expectedAccountInfo });
 
-      const result = service.handleAccount();
+        const result = service.handleAccount();
 
-      expect(result).toEqual(expected);
+        m.expect(result).toBeObservable(expected$);
+        expect(msalService.instance.getActiveAccount).toHaveBeenCalledTimes(1);
+        expect(msalService.instance.getAllAccounts).not.toHaveBeenCalled();
+      })
+    );
 
-      expect(msalService.instance.getActiveAccount).toHaveBeenCalledTimes(1);
-      expect(msalService.instance.getAllAccounts).not.toHaveBeenCalled();
-    });
+    test(
+      'should return first acc from available accs',
+      marbles((m) => {
+        msalService.instance.getActiveAccount = jest.fn(
+          () => undefined as AccountInfo
+        );
+        msalService.acquireTokenSilent = jest.fn(() =>
+          of({} as AuthenticationResult)
+        );
+        service.decodeAccessToken = jest.fn(() => ({ roles: backendRoles }));
+        const expectedAccountInfo = {
+          ...accInfos[0],
+          department: 'SF/HZA',
+          backendRoles,
+        };
+        const expected$ = m.cold('(a|)', { a: expectedAccountInfo });
 
-    test('should return first acc from available accs', () => {
-      msalService.instance.getActiveAccount = jest.fn(
-        () => undefined as AccountInfo
-      );
+        const result = service.handleAccount();
 
-      const result = service.handleAccount();
+        m.expect(result).toBeObservable(expected$);
+        expect(msalService.instance.getActiveAccount).toHaveBeenCalledTimes(1);
+        expect(msalService.instance.getAllAccounts).toHaveBeenCalledTimes(2);
+        expect(msalService.instance.setActiveAccount).toHaveBeenCalledWith(
+          accInfos[0]
+        );
+      })
+    );
+  });
 
-      expect(result).toEqual(accInfos[0]);
+  describe('decodeAccessToken', () => {
+    test('should decode access token', () => {
+      const accessToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+      eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0Ij
+      oxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`;
 
-      expect(msalService.instance.getActiveAccount).toHaveBeenCalledTimes(1);
-      expect(msalService.instance.getAllAccounts).toHaveBeenCalledTimes(2);
-      expect(msalService.instance.setActiveAccount).toHaveBeenCalledWith(
-        accInfos[0]
-      );
+      const decodedToken = service.decodeAccessToken(accessToken);
+
+      expect(decodedToken).toEqual({
+        iat: 1_516_239_022,
+        sub: '1234567890',
+        name: 'John Doe',
+      });
     });
   });
 });

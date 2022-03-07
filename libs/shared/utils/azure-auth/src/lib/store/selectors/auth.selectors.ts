@@ -32,6 +32,11 @@ export const getRoles = createSelector(
   (state): string[] => (state.accountInfo?.idTokenClaims as any)?.roles || []
 );
 
+export const getBackendRoles = createSelector(
+  getAuthState,
+  (state): string[] => state.accountInfo?.backendRoles || []
+);
+
 export const hasIdTokenRole = (role: string) =>
   createSelector(getRoles, (idTokenRoles): boolean =>
     idTokenRoles?.includes(role)

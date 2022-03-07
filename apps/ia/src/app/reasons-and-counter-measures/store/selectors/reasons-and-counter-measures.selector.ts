@@ -71,9 +71,7 @@ export const getReasonsChartConfig = createSelector(
     title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
       stats === undefined || stats.length === 0
-        ? translate<string>(
-            'reasonsAndCounterMeasures.topFiveReasons.chart.noData'
-          )
+        ? translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData')
         : undefined,
     tooltipFormatter: utils.getTooltipFormatter(),
     color: utils.getColorsForChart(originalData),
@@ -157,9 +155,7 @@ export const getComparedReasonsChartConfig = createSelector(
     title: getTimeRangeTitle(timePeriod, timeRange),
     subTitle:
       stats === undefined || stats.length === 0
-        ? translate<string>(
-            'reasonsAndCounterMeasures.topFiveReasons.chart.noData'
-          )
+        ? translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData')
         : undefined,
     tooltipFormatter: utils.getTooltipFormatter(),
     color: utils.getColorsForChart(originalData, compareData),
