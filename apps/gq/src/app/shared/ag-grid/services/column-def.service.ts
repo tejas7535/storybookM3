@@ -64,6 +64,12 @@ export class ColumnDefService {
       filter: NUMBER_COLUMN_FILTER,
     },
     {
+      headerName: translate('shared.quotationDetailsTable.priceSource'),
+      field: ColumnFields.PRICE_SOURCE,
+      valueFormatter: ColumnUtilityService.transformPriceSource,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
       field: 'material.priceUnit',
       valueFormatter: ColumnUtilityService.numberFormatter,
@@ -80,12 +86,7 @@ export class ColumnDefService {
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
       filter: NUMBER_COLUMN_FILTER,
     },
-    {
-      headerName: translate('shared.quotationDetailsTable.priceSource'),
-      field: ColumnFields.PRICE_SOURCE,
-      valueFormatter: ColumnUtilityService.transformPriceSource,
-      filterParams: FILTER_PARAMS,
-    },
+
     {
       headerName: translate('shared.quotationDetailsTable.gqPrice'),
       field: ColumnFields.RECOMMENDED_PRICE,
