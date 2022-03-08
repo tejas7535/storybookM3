@@ -287,7 +287,7 @@ describe('HomeComponent', () => {
       const mockedPagedMetas: PagedMeta[] = [
         {
           metas: [],
-          controls: [],
+          controls: [{ pristine: false } as any],
           valid$: of(true),
           page: {
             id: PAGE_MOUNTING_MANAGER_SEAT,
@@ -318,7 +318,7 @@ describe('HomeComponent', () => {
       const mockedPagedMetas: PagedMeta[] = [
         {
           metas: [],
-          controls: [],
+          controls: [{ pristine: false } as any],
           valid$: of(true),
           page: {
             id: PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
@@ -519,8 +519,8 @@ describe('HomeComponent', () => {
       );
 
       expect(mockFormGroupBearing.value.patchValue).not.toHaveBeenCalled();
-      expect(mockFormGroupBearing.value.markAsPristine).not.toHaveBeenCalled();
-      expect(mockFormGroupBearing.value.markAsUntouched).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsPristine).toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsUntouched).toHaveBeenCalled();
 
       expect(mockFormGroupBearingSeat.value.patchValue).toHaveBeenCalled();
       expect(mockFormGroupBearingSeat.value.markAsPristine).toHaveBeenCalled();
@@ -576,16 +576,12 @@ describe('HomeComponent', () => {
       );
 
       expect(mockFormGroupBearing.value.patchValue).not.toHaveBeenCalled();
-      expect(mockFormGroupBearing.value.markAsPristine).not.toHaveBeenCalled();
-      expect(mockFormGroupBearing.value.markAsUntouched).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsPristine).toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsUntouched).toHaveBeenCalled();
 
       expect(mockFormGroupBearingSeat.value.patchValue).not.toHaveBeenCalled();
-      expect(
-        mockFormGroupBearingSeat.value.markAsPristine
-      ).not.toHaveBeenCalled();
-      expect(
-        mockFormGroupBearingSeat.value.markAsUntouched
-      ).not.toHaveBeenCalled();
+      expect(mockFormGroupBearingSeat.value.markAsPristine).toHaveBeenCalled();
+      expect(mockFormGroupBearingSeat.value.markAsUntouched).toHaveBeenCalled();
 
       expect(
         mockFormGroupMeasuringAndMounting.value.patchValue
@@ -641,26 +637,22 @@ describe('HomeComponent', () => {
       );
 
       expect(mockFormGroupBearing.value.patchValue).not.toHaveBeenCalled();
-      expect(mockFormGroupBearing.value.markAsPristine).not.toHaveBeenCalled();
-      expect(mockFormGroupBearing.value.markAsUntouched).not.toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsPristine).toHaveBeenCalled();
+      expect(mockFormGroupBearing.value.markAsUntouched).toHaveBeenCalled();
 
       expect(mockFormGroupBearingSeat.value.patchValue).not.toHaveBeenCalled();
-      expect(
-        mockFormGroupBearingSeat.value.markAsPristine
-      ).not.toHaveBeenCalled();
-      expect(
-        mockFormGroupBearingSeat.value.markAsUntouched
-      ).not.toHaveBeenCalled();
+      expect(mockFormGroupBearingSeat.value.markAsPristine).toHaveBeenCalled();
+      expect(mockFormGroupBearingSeat.value.markAsUntouched).toHaveBeenCalled();
 
       expect(
         mockFormGroupMeasuringAndMounting.value.patchValue
       ).not.toHaveBeenCalled();
       expect(
         mockFormGroupMeasuringAndMounting.value.markAsPristine
-      ).not.toHaveBeenCalled();
+      ).toHaveBeenCalled();
       expect(
         mockFormGroupMeasuringAndMounting.value.markAsUntouched
-      ).not.toHaveBeenCalled();
+      ).toHaveBeenCalled();
 
       expect(
         mockFormGroupCalculationOptions.value.patchValue

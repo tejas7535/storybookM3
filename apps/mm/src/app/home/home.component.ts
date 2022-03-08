@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import {
@@ -176,8 +176,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           ) {
             return;
           }
-          this.resetFormValue(prev, next);
           this.checkTriggerNext(activePageId, pagedMetas);
+          this.resetFormValue(prev, next);
         }
       );
 
@@ -189,6 +189,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       (pagedMeta: PagedMeta) => pagedMeta.page.id === activePageId
     );
 
+    const currentPageTouched = currentPagedMeta?.controls.find(
+      ({ pristine }: FormControl) => !pristine
+    );
+
     if (
       currentPagedMeta &&
       (currentPagedMeta.page.id === PAGE_MOUNTING_MANAGER_SEAT ||
@@ -196,7 +200,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS)
     ) {
       currentPagedMeta.valid$.pipe(take(1)).subscribe((valid: any) => {
-        if (valid) {
+        if (valid && currentPageTouched) {
           this.next(currentPagedMeta.page.id, pagedMetas, this.stepper);
           if (this.stepper.hasResultNext) {
             this.resultPage.send(this.form);
@@ -290,9 +294,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           control
             .get('value')
             .patchValue(initialValue, { onlySelf: false, emitEvent: false });
-          control.get('value').markAsPristine();
-          control.get('value').markAsUntouched();
         }
+        control.get('value').markAsUntouched();
+        control.get('value').markAsPristine();
       });
   }
 
