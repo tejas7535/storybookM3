@@ -17,7 +17,7 @@
       "title": "Weitere Informationen",
       "plant": "Werk",
       "procurementType": "Beschaffungstyp",
-      "salesOrganization": "Vertriebsorganisation",
+      "salesOrganizations": "Vertriebsorganisation(en)",
       "plannedQuantity": "Geplante Stückzahl {{year}}",
       "actualQuantity": "Stückzahl {{year}}"
     }

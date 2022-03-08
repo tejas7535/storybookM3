@@ -15,11 +15,11 @@
       [borderBottom]="true"
     ></cdba-compare-label-value>
     <cdba-compare-label-value
-      *ngFor="
-        let salesOrganization of additionalInformation?.salesOrganizations
+      [label]="t('salesOrganizations')"
+      [value]="
+        concatValues(additionalInformation?.salesOrganizations)
+          | undefinedAttributeFallback
       "
-      [label]="t('salesOrganization')"
-      [value]="salesOrganization | undefinedAttributeFallback"
       [borderBottom]="true"
     ></cdba-compare-label-value>
     <cdba-compare-label-value

@@ -17,7 +17,7 @@
       "title": "Additional Information",
       "plant": "Plant",
       "procurementType": "Procurement Type",
-      "salesOrganization": "Sales Organization",
+      "salesOrganizations": "Sales Organization(s)",
       "plannedQuantity": "Planned Quantity {{year}}",
       "actualQuantity": "Quantity {{year}}"
     }

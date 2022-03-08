@@ -27,4 +27,14 @@ describe('AdditionalInformationWidgetComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('concatValues', () => {
+    it('should return concatenated array as comma separated string', () => {
+      expect(component.concatValues(['foo, bar'])).toBe('foo, bar');
+    });
+
+    it('should return undefined', () => {
+      expect(component.concatValues(undefined)).toBeUndefined();
+    });
+  });
 });

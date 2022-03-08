@@ -11,4 +11,8 @@ export class AdditionalInformationWidgetComponent {
   @Input() public additionalInformation: AdditionalInformationDetails;
 
   public currentYear = new Date().getFullYear();
+
+  public concatValues(values: string[] | number[]): string {
+    return values ? values.join(', ') : undefined;
+  }
 }
