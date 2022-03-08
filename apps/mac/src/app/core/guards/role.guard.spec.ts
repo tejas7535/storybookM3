@@ -4,7 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles, hasIdTokenRoles } from '@schaeffler/azure-auth';
+import {
+  getIsLoggedIn,
+  getRoles,
+  hasIdTokenRoles,
+} from '@schaeffler/azure-auth';
 
 import { AppState } from '../store';
 import { RoutePath } from './../../app-routing.enum';
@@ -56,6 +60,7 @@ describe('RoleGuard', () => {
         hasIdTokenRoles(mockProtectedRoute.data.requiredRoles),
         true
       );
+      store.overrideSelector(getIsLoggedIn, true);
 
       guard
         .canActivateChild(mockProtectedRoute)
@@ -71,6 +76,7 @@ describe('RoleGuard', () => {
         hasIdTokenRoles(mockProtectedRoute.data.reqiredRoles),
         false
       );
+      store.overrideSelector(getIsLoggedIn, true);
       store.refreshState();
       guard['router'].navigate = jest.fn().mockImplementation();
 

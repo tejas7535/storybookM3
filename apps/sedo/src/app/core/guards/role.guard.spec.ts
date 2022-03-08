@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/azure-auth';
+import { getIsLoggedIn, getRoles } from '@schaeffler/azure-auth';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { RoleGuard } from './role.guard';
@@ -36,6 +36,7 @@ describe('RoleGuard', () => {
       'should grant access, if user has base role',
       waitForAsync(() => {
         store.overrideSelector(getRoles, ['USER_READ']);
+        store.overrideSelector(getIsLoggedIn, true);
 
         guard
           .canActivateChild(undefined, undefined)
@@ -47,6 +48,7 @@ describe('RoleGuard', () => {
       'should not grant access if user is lacking base role',
       waitForAsync(() => {
         store.overrideSelector(getRoles, []);
+        store.overrideSelector(getIsLoggedIn, true);
         guard['router'].navigate = jest.fn().mockImplementation();
 
         guard
@@ -57,6 +59,7 @@ describe('RoleGuard', () => {
 
     test('should redirect to forbidden page if user is not authorized', () => {
       store.overrideSelector(getRoles, []);
+      store.overrideSelector(getIsLoggedIn, true);
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard.canActivateChild(undefined, undefined).subscribe();

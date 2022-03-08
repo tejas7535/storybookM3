@@ -36,6 +36,7 @@ describe('PricingRoleGuard', () => {
       'should grant access, if user has pricing role',
       marbles((m) => {
         roleFacade.hasAnyPricingRole$ = m.cold('a', { a: true });
+        roleFacade.isLoggedIn$ = m.cold('a', { a: true });
         guard
           .canActivateChild()
           .subscribe((granted) => expect(granted).toBeTruthy());
@@ -46,6 +47,7 @@ describe('PricingRoleGuard', () => {
       'should not grant access if user is lacking pricing role',
       marbles((m) => {
         roleFacade.hasAnyPricingRole$ = m.cold('a', { a: false });
+        roleFacade.isLoggedIn$ = m.cold('a', { a: true });
         guard['router'].navigate = jest.fn().mockImplementation();
 
         guard
@@ -58,6 +60,7 @@ describe('PricingRoleGuard', () => {
       'should redirect to forbidden page if user is not authorized',
       marbles((m) => {
         roleFacade.hasAnyPricingRole$ = m.cold('a', { a: false });
+        roleFacade.isLoggedIn$ = m.cold('a', { a: true });
         guard['router'].navigate = jest.fn().mockImplementation();
 
         guard.canActivateChild().subscribe((granted) => {

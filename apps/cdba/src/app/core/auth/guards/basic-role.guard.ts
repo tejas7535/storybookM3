@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { CanActivateChild, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
+
+import { concatLatestFrom } from '@ngrx/effects';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
 import { EmptyStatesPath } from '../../empty-states/empty-states-path.enum';
@@ -19,6 +21,9 @@ export class BasicRoleGuard implements CanActivateChild {
 
   canActivateChild(): Observable<boolean> {
     return this.roleFacade.hasBasicRole$.pipe(
+      concatLatestFrom(() => this.roleFacade.isLoggedIn$),
+      filter(([_hasBasicRole, isLoggedIn]) => isLoggedIn),
+      map(([hasBasicRole, _isLoggedIn]) => hasBasicRole),
       tap(async (hasBasicRole) => {
         if (!hasBasicRole) {
           await this.router.navigate([

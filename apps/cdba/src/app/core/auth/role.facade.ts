@@ -7,7 +7,11 @@ import {
 } from '@cdba/core/store/selectors/roles/roles.selector';
 import { Store } from '@ngrx/store';
 
-import { getRoles, hasAnyIdTokenRole } from '@schaeffler/azure-auth';
+import {
+  getIsLoggedIn,
+  getRoles,
+  hasAnyIdTokenRole,
+} from '@schaeffler/azure-auth';
 
 import { authConfig } from './auth.config';
 
@@ -15,6 +19,7 @@ import { authConfig } from './auth.config';
   providedIn: 'root',
 })
 export class RoleFacade {
+  isLoggedIn$ = this.store.select(getIsLoggedIn);
   roles$ = this.store.select(getRoles);
   roleDescriptions$ = this.store.select(getRoleDescriptions);
   roleDescriptionsLoaded$ = this.store.select(getRoleDescriptionsLoaded);
