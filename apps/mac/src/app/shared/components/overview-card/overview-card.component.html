@@ -1,0 +1,140 @@
+<mat-card class="h-full w-full border border-border !p-0 !shadow-none">
+  <div class="flex h-full flex-col">
+    <div
+      class="flex h-48 w-full flex-col items-center justify-center"
+      (mouseenter)="hovered$.next(true)"
+      (mouseleave)="hovered$.next(false)"
+      [routerLink]="!external && link ? link : undefined"
+    >
+      <ng-container *ngIf="!noAccess; else noAccessImage">
+        <ng-container *ngIf="!disableImageHoverEffect; else noImageHoverEffect">
+          <a
+            [target]="external && link ? '_blank' : ''"
+            [href]="link"
+            [ngClass]="{ 'cursor-pointer': link }"
+            (click)="!external ? $event.preventDefault() : undefined"
+          >
+            <div class="h-full w-full">
+              <ng-container>
+                <div class="h-full w-full">
+                  <ng-container *ngIf="!inverted; else invertedImage">
+                    <img [src]="image" class="m-auto max-h-full max-w-full" />
+                  </ng-container>
+                  <ng-template #invertedImage>
+                    <div
+                      class="flex h-full w-full flex-col items-center justify-center"
+                    >
+                      <mat-icon
+                        [svgIcon]="icon"
+                        class="!block !h-24 !w-24 text-link"
+                      ></mat-icon>
+                    </div>
+                  </ng-template>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="hovered$ | ngrxPush" #currentlyHovered>
+                <ng-container *ngIf="!inverted; else invertedHover">
+                  <div
+                    class="absolute top-0 bottom-32 left-0 right-0 flex flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.5)] p-12"
+                  >
+                    <mat-icon
+                      [svgIcon]="icon"
+                      class="!h-12 !w-12 text-h1-mobile text-white"
+                      [inline]="false"
+                    ></mat-icon>
+                    <div class="text-center text-caption text-white">
+                      {{
+                        !external
+                          ? 'Open application'
+                          : 'Open application in new tab'
+                      }}
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-template #invertedHover>
+                  <div class="absolute top-0 bottom-32 left-0 right-0">
+                    <img [src]="image" class="m-auto max-h-full max-w-full" />
+                  </div>
+                  <div
+                    class="absolute top-0 bottom-32 left-0 right-0 flex flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.5)] p-12"
+                  >
+                    <mat-icon
+                      [svgIcon]="icon"
+                      class="!h-24 !w-24 text-white"
+                    ></mat-icon>
+                    <div
+                      class="absolute bottom-6 text-center text-caption text-white"
+                    >
+                      {{
+                        !external
+                          ? 'Open application'
+                          : 'Open application in new tab'
+                      }}
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </div>
+          </a>
+        </ng-container>
+        <ng-template #noImageHoverEffect>
+          <ng-container *ngIf="!inverted; else invertedWithoutHoverEffect">
+            <div class="h-full w-full">
+              <img [src]="image" class="max-h-full max-w-full" />
+            </div>
+          </ng-container>
+          <ng-template #invertedWithoutHoverEffect>
+            <div
+              class="flex h-full w-full flex-col items-center justify-center"
+            >
+              <mat-icon
+                [svgIcon]="icon"
+                class="!block !h-24 !w-24 text-link"
+              ></mat-icon>
+            </div>
+          </ng-template>
+        </ng-template>
+      </ng-container>
+
+      <ng-template #noAccessImage>
+        <div
+          class="flex h-full w-full flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.2)]"
+        >
+          <mat-icon class="text-white">lock</mat-icon>
+          <div class="text-caption text-white">{{ noAccessText }}</div>
+        </div>
+      </ng-template>
+    </div>
+    <div class="flex h-32 w-full flex-col items-start justify-start p-4">
+      <div
+        class="line-clamp-1 text-subtitle-2 overflow-hidden text-high-emphasis"
+      >
+        {{ title }}
+      </div>
+      <div class="h-10 flex-1">
+        <div class="line-clamp-2 text-body-2 text-medium-emphasis">
+          {{ description }}
+        </div>
+      </div>
+      <div class="flex flex-col items-start justify-end">
+        <ng-container *ngIf="learnMoreLink">
+          <ng-container *ngIf="!learnMoreExternal; else externalLearnMoreLink">
+            <div
+              class="mt-2 cursor-pointer text-caption text-link"
+              [routerLink]="learnMoreLink"
+            >
+              Learn more
+            </div>
+          </ng-container>
+          <ng-template #externalLearnMoreLink>
+            <a target="_blank" [href]="learnMoreLink">
+              <div class="mt-2 cursor-pointer text-caption text-link">
+                Learn more
+              </div>
+            </a>
+          </ng-template>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</mat-card>

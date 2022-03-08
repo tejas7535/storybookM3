@@ -3,8 +3,12 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import { SubheaderModule } from '@schaeffler/subheader';
+
+import { OverviewCardModule } from './../../shared/components/overview-card/overview-card.module';
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
 
@@ -16,6 +20,9 @@ import { OverviewRoutingModule } from './overview-routing.module';
     MatCardModule,
     MatIconModule,
     ApplicationInsightsModule,
+    OverviewCardModule,
+    SubheaderModule,
+    ReactiveComponentModule,
   ],
 })
 export class OverviewModule {}

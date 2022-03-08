@@ -1,96 +1,94 @@
-<div class="overflow-auto p-8">
-  <h3 class="leading-none text-medium-emphasis">Overview</h3>
-  <div class="my-4 text-subtitle-1">
-    The Materials App Center gives access to services provided to you by
-    Schaeffler
-    <a
-      class="text-link"
-      href="https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials"
-      >Materials Technologies</a
-    >
-    department. For more information please contact
-    <a class="text-link" href="mailto:materials-app-center@schaeffler.com"
-      >Materials App Center</a
-    >. The implementation has been done by
-    <a
-      class="text-link"
-      href="https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions"
-      >Data Science Solutions</a
-    >
-    department.
-  </div>
-  <div class="grid grid-cols-2 flex-wrap gap-4 md:grid-cols-4">
-    <ng-container *ngFor="let elem of elements; trackBy: trackByFn">
-      <div class="col-span-1 row-span-1 flex grow flex-col">
-        <div
-          *ngIf="!elem.externalLink"
-          class="flex flex-1 flex-col"
-          [ngClass]="{ 'cursor-pointer': elem.url }"
-          [routerLink]="elem.url ? elem.url : undefined"
-          (click)="trackCall(elem.title)"
-        >
-          <mat-card class="overview-card flex flex-1">
-            <div
-              class="flex h-full w-full flex-1 flex-col place-items-center justify-around py-4 md:py-8 lg:py-12"
-            >
-              <div
-                class="flex w-full flex-1 flex-col place-items-center justify-center gap-6 md:justify-between md:gap-2"
-              >
-                <div class="h-2/5 w-2/5 sm:h-3/5 lg:h-3/4">
-                  <img
-                    [src]="elem.img"
-                    class="max-h-full w-full"
-                    [ngClass]="{ 'opacity-40': !elem.url }"
-                  />
-                </div>
-                <div class="max-h-[114px] flex-1 lg:h-1/4">
-                  <h4
-                    class="text-center text-h5 leading-snug lg:text-h4"
-                    [ngClass]="{ 'opacity-40': !elem.url }"
-                  >
-                    {{ elem.title }}
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </mat-card>
+<div class="flex h-full w-full flex-col overflow-auto bg-surface">
+  <div class="fixed z-10 w-full">
+    <schaeffler-subheader subheaderTitle="" [showBackButton]="false">
+      <ng-container subheaderTitleContent>
+        <div class="flex w-full flex-row items-center justify-start gap-3">
+          <mat-icon class="flex-none text-medium-emphasis">home</mat-icon>
+          {{ title }}
         </div>
-
-        <a
-          *ngIf="elem.externalLink"
-          class="flex flex-1 flex-col no-underline"
-          [ngClass]="{ 'cursor-pointer': elem.url }"
-          [href]="elem.url ? elem.url : undefined"
-          target="_blank"
-          (click)="trackCall(elem.title)"
-        >
-          <mat-card class="overview-card flex flex-1">
+      </ng-container>
+      <ng-container subheaderBlockContent>
+        <div class="line-clamp-1 ml-9 text-subtitle-1 text-medium-emphasis">
+          The Materials App Center gives access to services provided to you by
+          Schaeffler
+          <a
+            class="text-link"
+            href="https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials"
+            >Materials Technologies</a
+          >
+          department.
+        </div>
+      </ng-container>
+    </schaeffler-subheader>
+  </div>
+  <div class="mt-[105px] flex w-full flex-col gap-5 p-4">
+    <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-5">
+      <ng-container *ngFor="let card of integratedApps">
+        <div class="col-span-1">
+          <mac-overview-card
+            [image]="card.image"
+            [icon]="card.icon"
+            [title]="card.title"
+            [description]="card.description"
+            [link]="card.link"
+            [learnMoreLink]="card.learnMoreLink"
+            [external]="card.external"
+            [learnMoreExternal]="card.learnMoreExternal"
+            [noAccess]="!(hasRequiredRoles(card.requiredRoles) | ngrxPush)"
+            [inverted]="card.inverted"
+            [disableImageHoverEffect]="card.disableImageHoverEffect"
+          ></mac-overview-card>
+        </div>
+      </ng-container>
+    </div>
+    <div class="text-h6 text-high-emphasis">Linked Apps</div>
+    <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-5">
+      <ng-container *ngFor="let card of linkedApps">
+        <div class="col-span-1">
+          <mac-overview-card
+            [image]="card.image"
+            [icon]="card.icon"
+            [title]="card.title"
+            [description]="card.description"
+            [link]="card.link"
+            [learnMoreLink]="card.learnMoreLink"
+            [external]="card.external"
+            [learnMoreExternal]="card.learnMoreExternal"
+            [inverted]="card.inverted"
+            [disableImageHoverEffect]="card.disableImageHoverEffect"
+          ></mac-overview-card>
+        </div>
+      </ng-container>
+    </div>
+    <div class="text-h6 text-high-emphasis">Links</div>
+    <div class="flex flex-col items-start justify-start gap-3">
+      <ng-container *ngFor="let link of links">
+        <a target="_blank" [href]="link.link">
+          <div class="justfy-start flex flex-row items-center gap-3">
+            <mat-icon class="text-medium-emphasis">{{
+              link.externalLink ? 'exit_to_app' : 'link'
+            }}</mat-icon>
             <div
-              class="flex h-full w-full flex-1 flex-col place-items-center justify-around py-4 md:py-8 lg:py-12"
+              class="line-clamp-1 text-body-2 text-medium-emphasis text-link hover:underline"
             >
-              <div
-                class="flex w-full flex-1 flex-col place-items-center justify-center gap-6 md:justify-between md:gap-2"
-              >
-                <div class="h-2/5 w-2/5 sm:h-3/5 lg:h-3/4">
-                  <img
-                    [src]="elem.img"
-                    class="max-h-full w-full"
-                    [ngClass]="{ 'opacity-40': !elem.url }"
-                  />
-                </div>
-                <div class="max-h-[114px] flex-1 lg:h-1/4">
-                  <h4
-                    class="text-center text-h5 leading-snug lg:text-h4"
-                    [ngClass]="{ 'opacity-40': !elem.url }"
-                  >
-                    {{ elem.title }}
-                  </h4>
-                </div>
-              </div>
+              {{ link.text }}
             </div>
-          </mat-card>
+          </div>
         </a>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
+    <div class="text-h6 text-high-emphasis">Contact</div>
+    <div class="pb-4 text-body-2 text-high-emphasis">
+      For more information please contact
+      <a class="text-link" href="mailto:materials-app-center@schaeffler.com"
+        >Materials App Center</a
+      >. The implementation has been done by
+      <a
+        class="text-link"
+        href="https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions"
+        >Data Science Solutions</a
+      >
+      department.
+    </div>
   </div>
 </div>

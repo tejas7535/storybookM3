@@ -3,7 +3,11 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -18,6 +22,7 @@ describe('OverviewComponent', () => {
   let component: OverviewComponent;
   let spectator: Spectator<OverviewComponent>;
   let appInsightsService: ApplicationInsightsService;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: OverviewComponent,
@@ -26,8 +31,10 @@ describe('OverviewComponent', () => {
       MatCardModule,
       MatIconModule,
       RouterTestingModule,
+      ReactiveComponentModule,
     ],
     providers: [
+      provideMockStore({}),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
@@ -41,6 +48,7 @@ describe('OverviewComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     appInsightsService = spectator.inject(ApplicationInsightsService);
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
@@ -60,6 +68,44 @@ describe('OverviewComponent', () => {
       appInsightsService.logEvent = jest.fn();
       component.trackCall('element1');
       expect(appInsightsService.logEvent).toHaveBeenCalled();
+    });
+  });
+
+  describe('hasRequiredRoles', () => {
+    it('should return true if no roles are required (empty)', () => {
+      store.select = jest.fn();
+
+      component.hasRequiredRoles([]).subscribe((result) => {
+        expect(result).toBe(true);
+        expect(store.select).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should return true if no roles are required', () => {
+      store.select = jest.fn();
+
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      component.hasRequiredRoles(undefined).subscribe((result) => {
+        expect(result).toBe(true);
+        expect(store.select).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should return true if required roles are present', () => {
+      store.select = jest.fn(() => of(true));
+
+      component.hasRequiredRoles(['role']).subscribe((result) => {
+        expect(result).toBe(true);
+        expect(store.select).toHaveBeenCalled();
+      });
+    });
+    it('should return false if required roles are missing', () => {
+      store.select = jest.fn(() => of(false));
+
+      component.hasRequiredRoles(['role']).subscribe((result) => {
+        expect(result).toBe(false);
+        expect(store.select).toHaveBeenCalled();
+      });
     });
   });
 });
