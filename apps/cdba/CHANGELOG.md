@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.10.0...cdba-v2.11.0) (2022-03-08)
+
+
+### 🎸 Features
+
+* **cdba:** change bom coloring ranges (DSCDA-2879) ([#3827](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3827)) ([59390f4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59390f45558637ee3b821c47040ba4bbfa16dc49))
+* **cdba:** revise breacrumb logic ([5d8bf7a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5d8bf7a36d841aa9f5b609a4ba7a952cbb8f7330))
+* **cdba:** set truncate settings for breadcrumbs ([4c35cda](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c35cda5c540161b3cd3e609e4e96bc4c354fabe))
+* **cdba:** synchronize expansions panels (DSCDA-2602) ([035e4a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/035e4a1710489e2f5357b17887fa9d18e66943eb))
+
+
+### 🐛 Bug Fixes
+
+* **azure-auth:** wait for login to complete before getting roles ([#3855](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3855)) ([d9e5470](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9e5470eb2f9e0638fd0f28abc0bfcfc4ed41c98))
+* **cdba:** restrict drawings loading spinner to drawings widget ([#3822](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3822)) ([d6fd454](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6fd454cc3dedb51165b94bc2ca7f93e7bd8e503))
+* **cdba:** sales organizations in compare screen (DSCDA-2899) ([#3839](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3839)) ([3c766a7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c766a7737b5aa27c9b20291e6ead2869d61f933))
+
 ## [2.10.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.9.0...cdba-v2.10.0) (2022-03-01)
 
 
