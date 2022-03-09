@@ -43,6 +43,12 @@ export const createPieChartSeries = (
   dataName: string
 ) => {
   const counterValue = totalValue ? totalValue - value : 100;
+  const formatter = `<table>
+    <tr>
+      <td class="pr-4"><b>{c}</b></td>
+      <td>Employees</td>
+    </tr>
+  </table>`;
 
   return {
     name: seriesName,
@@ -60,7 +66,7 @@ export const createPieChartSeries = (
         name: dataName,
         tooltip: {
           trigger: 'item',
-          formatter: '{a} <br/>{b}: {c}',
+          formatter,
           extraCssText: 'opacity: 1',
         },
         itemStyle: {

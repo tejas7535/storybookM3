@@ -85,6 +85,13 @@ describe('loose-doughnut-chart config', () => {
   describe('createPieChartSeries', () => {
     let seriesConfig: any;
 
+    const formatter = `<table>
+    <tr>
+      <td class="pr-4"><b>{c}</b></td>
+      <td>Employees</td>
+    </tr>
+  </table>`;
+
     beforeEach(() => {
       seriesConfig = {
         name: '',
@@ -102,7 +109,7 @@ describe('loose-doughnut-chart config', () => {
             name: undefined,
             tooltip: {
               trigger: 'item',
-              formatter: '{a} <br/>{b}: {c}',
+              formatter,
               extraCssText: 'opacity: 1',
             },
             itemStyle: {
