@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.11.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.11.0...cdba-v2.11.1) (2022-03-09)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** only add node_id as url param for detail comparison ([#3864](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3864)) ([df00c13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/df00c13dc8ae0887bc510ef3d36fd601ad17d71d))
+
 ## [2.11.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.10.0...cdba-v2.11.0) (2022-03-08)
 
 
