@@ -41,8 +41,6 @@ export class ResultPageService {
   }
 
   public trackProperties(properties: any): void {
-    this.applicationInsightsService.logEvent(PROPERTIES, {
-      properties,
-    });
+    this.applicationInsightsService.logEvent(PROPERTIES, properties);
   }
 }

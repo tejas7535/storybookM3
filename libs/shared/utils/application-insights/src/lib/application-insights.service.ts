@@ -1,5 +1,10 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  ResolveEnd,
+  Router,
+} from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
@@ -23,25 +28,25 @@ export class ApplicationInsightsService {
     @Optional()
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
-    // eslint-disable-next-line no-console
-    console.log('*** tracking startup happening once ***');
+    if (this.moduleConfig) {
+      this.appInsights = new ApplicationInsights({
+        config: {
+          ...this.moduleConfig.applicationInsightsConfig,
+          disableTelemetry: true,
+        },
+      });
 
-    this.appInsights = new ApplicationInsights({
-      config: {
-        ...this.moduleConfig.applicationInsightsConfig,
-        disableTelemetry: true,
-      },
-    });
+      this.appInsights.loadAppInsights();
 
-    this.appInsights.loadAppInsights();
+      if (!moduleConfig.consent) {
+        this.startTelemetry();
+      }
 
-    if (!moduleConfig.consent) {
-      this.startTelemetry();
+      this.startTracking();
     }
-
-    this.startTracking();
   }
 
   private readonly appInsights!: ApplicationInsights;
@@ -62,7 +67,7 @@ export class ApplicationInsightsService {
   public deleteCookies(): void {
     // delete cookies since app insights only disable usage of them
     AI_COOKIES.forEach((aiCookie) =>
-      this.appInsights.getCookieMgr().del(aiCookie)
+      this.appInsights?.getCookieMgr().del(aiCookie)
     );
   }
 
@@ -70,15 +75,15 @@ export class ApplicationInsightsService {
     const telemetryInitializer = (envelope: ITelemetryItem) => {
       envelope.data = { ...envelope.data, [tag]: value };
     };
-    this.appInsights.addTelemetryInitializer(telemetryInitializer);
+    this.appInsights?.addTelemetryInitializer(telemetryInitializer);
   }
 
   public logPageView(name?: string, uri?: string): void {
-    this.appInsights.trackPageView({ name, uri });
+    this.appInsights?.trackPageView({ name, uri });
   }
 
   public logEvent(name: string, properties?: { [key: string]: any }): void {
-    this.appInsights.trackEvent({ name }, properties);
+    this.appInsights?.trackEvent({ name }, properties);
   }
 
   public logMetric(
@@ -90,11 +95,11 @@ export class ApplicationInsightsService {
   }
 
   public logException(exception: Error, severityLevel?: number): void {
-    this.appInsights.trackException({ exception, severityLevel });
+    this.appInsights?.trackException({ exception, severityLevel });
   }
 
   public logTrace(message: string, properties?: { [key: string]: any }): void {
-    this.appInsights.trackTrace({ message }, properties);
+    this.appInsights?.trackTrace({ message }, properties);
   }
 
   private createRouterSubscription(): void {
@@ -121,5 +126,9 @@ export class ApplicationInsightsService {
 
   public startTelemetry(): void {
     this.appInsights.config.disableTelemetry = false;
+  }
+
+  public trackInitalPageView(): void {
+    this.trackPageView(this.route.snapshot, this.router.url);
   }
 }

@@ -52,6 +52,7 @@ export function appInitializer(
   oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
     if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
       applicationInsightsService.startTelemetry();
+      applicationInsightsService.trackInitalPageView();
     } else {
       applicationInsightsService.deleteCookies();
     }

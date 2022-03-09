@@ -47,6 +47,7 @@ export function appInitializer(
     if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
       applicationInsightsService.startTelemetry();
       applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
+      applicationInsightsService.trackInitalPageView();
     } else {
       applicationInsightsService.deleteCookies();
     }

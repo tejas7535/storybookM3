@@ -110,9 +110,7 @@ describe('ResultPageService testing', () => {
 
       service.trackProperties(mockFormProperties);
 
-      expect(trackingSpy).toHaveBeenCalledWith(PROPERTIES, {
-        properties: mockFormProperties,
-      });
+      expect(trackingSpy).toHaveBeenCalledWith(PROPERTIES, mockFormProperties);
     });
   });
 });

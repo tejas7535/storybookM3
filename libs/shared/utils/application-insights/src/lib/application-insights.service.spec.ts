@@ -288,4 +288,35 @@ describe('ApplicationInsightService', () => {
       );
     });
   });
+
+  describe('trackInitalPageView', () => {
+    beforeEach(() => {
+      service['trackPageView'] = jest.fn();
+    });
+    it('should call logPageView', () => {
+      const snapshot = {
+        url: '/legal',
+        component: { name: 'MockComponent' },
+        firstChild: undefined,
+      } as unknown as ActivatedRouteSnapshot;
+
+      service['trackInitalPageView']();
+
+      expect(service['trackPageView']).toHaveBeenCalledWith(
+        snapshot,
+        '/foo/bar'
+      );
+    });
+  });
+
+  describe('deleteCookies', () => {
+    beforeEach(() => {
+      jest.spyOn(service['appInsights']['getCookieMgr'](), 'del');
+    });
+    it('should delete cookies', () => {
+      service.deleteCookies();
+
+      expect(service['appInsights']['getCookieMgr']().del).toHaveBeenCalled();
+    });
+  });
 });
