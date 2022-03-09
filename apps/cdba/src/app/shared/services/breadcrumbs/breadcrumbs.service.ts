@@ -10,7 +10,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getMaterialDesignation,
   getMaterialDesignationOfSelectedRefType,
@@ -18,6 +17,7 @@ import {
 } from '@cdba/core/store';
 import { getEnv } from '@cdba/environments/environment.provider';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
+import * as routeUtils from '@cdba/shared/utils/routes';
 import { translate } from '@ngneat/transloco';
 import { ComponentStore } from '@ngrx/component-store';
 import { concatLatestFrom } from '@ngrx/effects';
@@ -60,8 +60,8 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
     const { url, queryParams } = this.extractCurrentRouteProps();
 
-    const isDetailRoute = this.isDetailRoute(url);
-    const isCompareRoute = this.isCompareRoute(url);
+    const isDetailRoute = routeUtils.isDetailRoute(url);
+    const isCompareRoute = routeUtils.isCompareRoute(url);
 
     if (isDetailRoute) {
       this.setDetailBreadcrumb({
@@ -100,7 +100,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
   private readonly resultsBreadcrumb$: Observable<Breadcrumb> =
     this.routeProps$.pipe(
-      filter((route) => this.isResultsRoute(route.url)),
+      filter((route) => routeUtils.isResultsRoute(route.url)),
       concatLatestFrom(() => this.store.select(getResultCount)),
       map(([{ url, queryParams }, resultCount]) => ({
         url,
@@ -110,13 +110,13 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
     );
 
   private readonly search$: Observable<boolean> = this.routeProps$.pipe(
-    filter((route) => this.isSearchRoute(route.url)),
+    filter((route) => routeUtils.isSearchRoute(route.url)),
     mapTo(true)
   );
 
   private readonly detailBreadcrumbs$: Observable<Breadcrumb> =
     this.routeProps$.pipe(
-      filter((route) => this.isDetailRoute(route.url)),
+      filter((route) => routeUtils.isDetailRoute(route.url)),
       withLatestFrom(this.materialDesignation$),
       map(([{ url, queryParams }, materialDesignation]) => ({
         url,
@@ -132,7 +132,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
   private readonly compareBreadcrumbs$: Observable<Breadcrumb> =
     this.routeProps$.pipe(
-      filter((route) => this.isCompareRoute(route.url)),
+      filter((route) => routeUtils.isCompareRoute(route.url)),
       map(({ url, queryParams }) => ({
         url,
         queryParams,
@@ -142,7 +142,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
 
   private readonly portfolioAnalysisBreadcrumbs$: Observable<Breadcrumb> =
     this.routeProps$.pipe(
-      filter((route) => this.isPortfolioAnalysisRoute(route.url)),
+      filter((route) => routeUtils.isPortfolioAnalysisRoute(route.url)),
       map(({ url, queryParams }) => ({
         url,
         queryParams,
@@ -170,8 +170,8 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
     (state, compareBreadcrumb: Breadcrumb): BreadcrumbState => {
       const lastItem = state.items[state.items.length - 1];
       if (
-        this.isCompareRoute(lastItem.url) &&
-        this.checkQueryParamsEquality(
+        routeUtils.isCompareRoute(lastItem.url) &&
+        routeUtils.checkQueryParamsEquality(
           lastItem.queryParams,
           compareBreadcrumb.queryParams
         )
@@ -198,7 +198,7 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
     (state, materialDesignation: string): BreadcrumbState => {
       const lastItem = state.items[state.items.length - 1];
 
-      if (this.isDetailRoute(lastItem.url)) {
+      if (routeUtils.isDetailRoute(lastItem.url)) {
         // just update the link
         const items = [...state.items];
 
@@ -219,8 +219,8 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
     (state, detailBreadcrumb: Breadcrumb): BreadcrumbState => {
       const lastItem = state.items[state.items.length - 1];
       if (
-        this.isDetailRoute(lastItem.url) &&
-        this.checkQueryParamsEquality(
+        routeUtils.isDetailRoute(lastItem.url) &&
+        routeUtils.checkQueryParamsEquality(
           lastItem.queryParams,
           detailBreadcrumb.queryParams
         )
@@ -247,26 +247,6 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
     queryParams: this.activatedRoute.snapshot.queryParams,
   });
 
-  private readonly checkQueryParamsEquality = (
-    queryParams1: Params,
-    queryParams2: Params
-  ): boolean => JSON.stringify(queryParams1) === JSON.stringify(queryParams2);
-
-  private readonly isSearchRoute = (path: string): boolean =>
-    !!path.split('/')[1]?.includes(AppRoutePath.SearchPath);
-
-  private readonly isResultsRoute = (path: string): boolean =>
-    !!path.split('/')[1]?.includes(AppRoutePath.ResultsPath);
-
-  private readonly isDetailRoute = (path: string): boolean =>
-    !!path.split('/')[1]?.includes(AppRoutePath.DetailPath);
-
-  private readonly isCompareRoute = (path: string): boolean =>
-    !!path.split('/')[1]?.includes(AppRoutePath.ComparePath);
-
-  private readonly isPortfolioAnalysisRoute = (path: string): boolean =>
-    !!path.split('/')[1]?.includes(AppRoutePath.PortfolioAnalysisPath);
-
   private readonly addBreadcrumb = (
     state: BreadcrumbState,
     breadcrumb: Breadcrumb
@@ -274,7 +254,10 @@ export class BreadcrumbsService extends ComponentStore<BreadcrumbState> {
     const index = state.items.findIndex(
       (item) =>
         item.url === breadcrumb.url &&
-        this.checkQueryParamsEquality(item.queryParams, breadcrumb.queryParams)
+        routeUtils.checkQueryParamsEquality(
+          item.queryParams,
+          breadcrumb.queryParams
+        )
     );
 
     const items =

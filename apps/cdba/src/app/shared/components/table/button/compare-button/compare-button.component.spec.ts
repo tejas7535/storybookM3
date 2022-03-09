@@ -100,7 +100,7 @@ describe('CompareButtonComponent', () => {
         ),
       } as unknown as GridApi;
     });
-    test('should add node id and should route to compare screen', () => {
+    test('should add node id and should route to compare screen if coming from detail page', () => {
       mockSelections = [
         {
           id: '0',
@@ -112,6 +112,8 @@ describe('CompareButtonComponent', () => {
         } as unknown as RowNode,
       ];
 
+      router.routerState.snapshot.url = '/detail/detail';
+
       component.showCompareView(['0', '1']);
 
       expect(router.navigate).toHaveBeenCalledWith(['compare'], {
@@ -122,6 +124,31 @@ describe('CompareButtonComponent', () => {
           material_number_item_2: '5678',
           plant_item_2: '0076',
           node_id_item_2: '1',
+        },
+      });
+    });
+
+    test('should not add node id and should route to compare screen if coming from results page', () => {
+      mockSelections = [
+        {
+          id: '0',
+          data: { materialNumber: '1234', plant: '0060' },
+        } as unknown as RowNode,
+        {
+          id: '1',
+          data: { materialNumber: '5678', plant: '0076' },
+        } as unknown as RowNode,
+      ];
+
+      router.routerState.snapshot.url = '/results';
+      component.showCompareView(['0', '1']);
+
+      expect(router.navigate).toHaveBeenCalledWith(['compare'], {
+        queryParams: {
+          material_number_item_1: '1234',
+          plant_item_1: '0060',
+          material_number_item_2: '5678',
+          plant_item_2: '0076',
         },
       });
     });

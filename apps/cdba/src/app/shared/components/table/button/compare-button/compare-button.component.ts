@@ -13,6 +13,7 @@ import {
   COMPARE_ITEMS_MAX_COUNT,
   COMPARE_ITEMS_MIN_COUNT,
 } from '@cdba/shared/constants/table';
+import { isDetailRoute } from '@cdba/shared/utils';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -46,13 +47,17 @@ export class CompareButtonComponent implements OnInit {
     const queryParams: Params = {};
     const route: string[] = [AppRoutePath.ComparePath];
 
+    const currentPath = this.router.routerState.snapshot.url.split('?')[0];
+
     nodeIds
       .map((id) => this.gridApi.getRowNode(id))
       .forEach((selection: RowNode, index: number) => {
         queryParams[`material_number_item_${index + 1}`] =
           selection.data.materialNumber;
         queryParams[`plant_item_${index + 1}`] = selection.data.plant;
-        queryParams[`node_id_item_${index + 1}`] = selection.id;
+        queryParams[`node_id_item_${index + 1}`] = isDetailRoute(currentPath)
+          ? selection.id
+          : undefined;
       });
 
     this.router.navigate(route, {
