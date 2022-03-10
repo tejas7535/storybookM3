@@ -36,8 +36,11 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
 
   @Input() set quotation(value: Quotation) {
     if (value) {
-      this.caseName = value.caseName;
-      this.caseNameFormControl.setValue(this.caseName);
+      if (value.caseName) {
+        this.caseName = value.caseName;
+        this.caseNameFormControl.setValue(this.caseName);
+      }
+
       const datePipe = new DatePipe('en');
       const transformFormat = 'dd.MM.yyyy HH:mm';
 
@@ -79,7 +82,7 @@ export class HeaderContentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.caseNameFormControl.valueChanges.subscribe((value) => {
+      this.caseNameFormControl.valueChanges.subscribe((value: string) => {
         this.caseNameInput = value.trim();
         this.saveCaseNameEnabled =
           this.caseName === undefined

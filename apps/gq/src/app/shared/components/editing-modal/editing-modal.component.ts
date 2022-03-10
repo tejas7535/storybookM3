@@ -1,4 +1,13 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -24,13 +33,15 @@ import { PriceService } from '../../../shared/services/price-service/price.servi
   selector: 'gq-editing-modal',
   templateUrl: './editing-modal.component.html',
 })
-export class EditingModalComponent implements OnInit, OnDestroy {
+export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly subscription: Subscription = new Subscription();
   confirmDisabled = true;
   editFormControl: FormControl;
   updateLoading$: Observable<boolean>;
   value: string;
   quotationDetail: QuotationDetail;
+
+  @ViewChild('edit') editInputField: ElementRef;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -39,7 +50,8 @@ export class EditingModalComponent implements OnInit, OnDestroy {
       field: keyof QuotationDetail;
     },
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.value =
       this.modalData.quotationDetail[this.modalData.field]?.toString() || '0';
@@ -47,14 +59,21 @@ export class EditingModalComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.editFormControl = new FormControl(this.value);
+    this.editFormControl = new FormControl();
     this.updateLoading$ = this.store.select(getUpdateLoading);
 
     this.addSubscriptions();
   }
+
+  ngAfterViewInit(): void {
+    this.editInputField?.nativeElement.focus();
+    this.cdr.detectChanges();
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   addSubscriptions(): void {
     const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
       pairwise(),
@@ -74,18 +93,20 @@ export class EditingModalComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.editFormControl.valueChanges.subscribe((val: string) => {
+      this.editFormControl.valueChanges.subscribe((val: string | number) => {
+        const value = val.toString();
+
         this.confirmDisabled =
-          val === null ||
+          value === null ||
           // dynamic to value
-          val === this.value ||
+          value === this.value ||
           // dynamic to value
-          (val !== null && val.length === 0) ||
-          (val !== null && val.trim() === this.value) ||
+          (value !== null && value.length === 0) ||
+          (value !== null && value.trim() === this.value) ||
           (![ColumnFields.PRICE, ColumnFields.ORDER_QUANTITY].includes(
             this.modalData.field as ColumnFields
           ) &&
-            Number.parseFloat(val) >= 100);
+            Number.parseFloat(value) >= 100);
       })
     );
   }

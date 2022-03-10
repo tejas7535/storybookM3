@@ -19,11 +19,13 @@
   >
     <div class="h-full">
       <mat-form-field class="w-full">
+        <mat-label></mat-label>
         <input
           class="text-overline !leading-7"
           [formControl]="editFormControl"
           (keydown)="onKeyPress($event, edit)"
           (paste)="onPaste($event)"
+          [placeholder]="value"
           type="text"
           autocomplete="off"
           cdkTextareaAutosize

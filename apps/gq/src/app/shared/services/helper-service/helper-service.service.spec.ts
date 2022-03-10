@@ -169,6 +169,33 @@ describe('HelperServiceService', () => {
 
       expect(event.preventDefault).toHaveBeenCalledTimes(0);
     });
+
+    test('should not prevent Default when input is paste event', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: true,
+      } as any;
+      const manualPriceInput = { value: 20 } as any;
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default when input is paste event on Mac', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: false,
+        metaKey: true,
+      } as any;
+      const manualPriceInput = { value: 20 } as any;
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
   });
   describe('onPaste', () => {
     test('should set price', () => {
@@ -226,6 +253,18 @@ describe('HelperServiceService', () => {
       HelperService.validateQuantityInputKeyPress(event);
       expect(event.preventDefault).toHaveBeenCalledTimes(0);
     });
+
+    test('should not prevent default when input is paste event on macOs', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: false,
+        metaKey: true,
+      } as any;
+      HelperService.validateQuantityInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
     test('should not prevent default when input is delete key', () => {
       const event = {
         key: Keyboard.BACKSPACE,
@@ -246,10 +285,22 @@ describe('HelperServiceService', () => {
       HelperService.validateQuantityInputPaste(event as any);
       expect(event.preventDefault).toHaveBeenCalledTimes(0);
     });
+
     test('should prevent default on invalid input', () => {
       const event = {
         clipboardData: {
           getData: jest.fn(() => 'aaa'),
+        },
+        preventDefault: jest.fn(),
+      };
+      HelperService.validateQuantityInputPaste(event as any);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+
+    test('should prevent default on float input', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => '12345.67'),
         },
         preventDefault: jest.fn(),
       };

@@ -75,6 +75,7 @@ export class HelperService {
 
     return [...colDef, actionCell];
   }
+
   static validateNumberInputKeyPress(
     event: KeyboardEvent,
     manualPriceInput: HTMLInputElement
@@ -87,7 +88,10 @@ export class HelperService {
       '.',
     ].includes(event.key);
 
-    if (event.key === ',' || (!isValidNumber && !inputIsAllowedSpecialKey)) {
+    if (
+      event.key === ',' ||
+      (!isValidNumber && !inputIsAllowedSpecialKey && !isPaste(event))
+    ) {
       event.preventDefault();
     } else {
       const { value } = manualPriceInput;
@@ -148,20 +152,23 @@ export class HelperService {
   static validateQuantityInputKeyPress(event: KeyboardEvent): void {
     const inputIsAllowedSpecialKey =
       Keyboard.BACKSPACE === event.key || Keyboard.DELETE === event.key;
-    const isPaste = event.ctrlKey && event.key === 'v';
 
     if (
       Number.isNaN(Number.parseInt(event.key, 10)) &&
       !inputIsAllowedSpecialKey &&
-      !isPaste
+      !isPaste(event)
     ) {
       event.preventDefault();
     }
   }
+
   static validateQuantityInputPaste(event: ClipboardEvent): void {
-    const quantity = Number.parseInt(event.clipboardData.getData('text'), 10);
-    if (Number.isNaN(quantity)) {
+    const quantity = Number.parseFloat(event.clipboardData.getData('text'));
+    if (Number.isNaN(quantity) || !Number.isInteger(quantity)) {
       event.preventDefault();
     }
   }
 }
+
+const isPaste = (event: KeyboardEvent): boolean =>
+  (event.ctrlKey && event.key === 'v') || (event.metaKey && event.key === 'v'); // support for macOs
