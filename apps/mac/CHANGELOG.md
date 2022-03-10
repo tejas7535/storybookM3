@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.2.0...mac-v0.3.0) (2022-03-10)
+
+
+### 🐛 Bug Fixes
+
+* **azure-auth:** wait for login to complete before getting roles ([#3855](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3855)) ([d9e5470](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9e5470eb2f9e0638fd0f28abc0bfcfc4ed41c98))
+* **mac:** add subheader padding ([#3858](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3858)) ([9dd4948](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9dd49488cdf87a394b796f007ba27d4e5b3c375d))
+* **mac:** add unit test ([91a13cb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/91a13cb604162c384b0dd7f3b0c9f9aa5528b94a))
+* **mac:** fix boolean agGrid filter ([bb7931c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb7931cc1c16b4fa2ac90da486cf8ea58ad02eb5))
+* **workspace:** fix unit tests after dependency update ([8560848](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/85608482566a4dbc3cec33e460daacdc3cad7549))
+
+
+### 🎸 Features
+
+* load material icons from npm module ([0ba3a13](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0ba3a138b9f07f56f2a4309a7b6954c45d7ead77))
+* **mac:** add new wiam icon ([#3867](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3867)) ([487de66](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/487de663d651379c11bd33d9a9b1d8ff5b642fdc))
+* **mac:** apply feedback from Johannes ([#3781](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3781)) ([f71e952](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f71e9527ebe45a6e15ad7eed05368b61d47713fa))
+* **mac:** apply new msd design (UFTABI-5408) ([#3771](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3771)) ([762ad7b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/762ad7bcda763b56a28336fd9777974ba781c916))
+* **mac:** extend root tailwind config ([73d7a3e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/73d7a3e6de9adb4405a72cef2350c24255a023bb))
+* **mac:** remove @schaeffler/responsive usage ([#3521](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3521)) ([5082154](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/50821541a316fe3192873ba3ae3289c609935e63))
+* **mac:** remove Angular FlexLayout ([#3583](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3583)) ([#3742](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3742)) ([a6ce811](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a6ce8115dadefdb0ee572e05bd588f7d54457ff1))
+* **mac:** remove contextual filters (UFTABI-5389) ([#3735](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3735)) ([4c8c59a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4c8c59af0ced33b6a39c01bc48fe188a217e4fa5))
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.1.2...mac-v0.2.0) (2022-01-25)
 
 
