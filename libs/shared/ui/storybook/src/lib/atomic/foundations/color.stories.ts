@@ -94,6 +94,8 @@ const Template: Story = (args) => ({
       <div class="mat-elevation-z0 bg-secondary flex flex-row justify-between">
         <div class="p-4 pt-[60px] text-error">text-error</div>
         <div class="p-4 pt-[60px] text-link">text-link</div>
+        <div class="p-4 pt-[60px] text-info">text-info</div>
+        <div class="p-4 pt-[60px] text-warning">text-warning</div>
       </div>
 
       <h4 class="mt-20">Outline</h4>
@@ -101,8 +103,14 @@ const Template: Story = (args) => ({
         <div class="p-4 pt-[60px]">border-border</div>
       </div>
       <div class="mat-elevation-z0 bg-secondary border border-primary">
-      <div class="p-4 pt-[60px]">border-primary</div>
-    </div>
+        <div class="p-4 pt-[60px]">border-primary</div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-info">
+        <div class="p-4 pt-[60px]">border-info</div>
+      </div>
+      <div class="mat-elevation-z0 bg-secondary border border-warning">
+            <div class="p-4 pt-[60px]">border-warning</div>    
+      </div>
     </section>
   `,
 });

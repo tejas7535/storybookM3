@@ -6,8 +6,8 @@
     *ngIf="bannerIcon"
     class="!hidden text-icon md:!block"
     [ngClass]="{
-      'text-[#4398af]': bannerIcon === 'info',
-      'text-[#fbe06d]': bannerIcon === 'warning',
+      'text-info': bannerIcon === 'info',
+      'text-warning': bannerIcon === 'warning',
       'text-error': bannerIcon === 'error',
       'text-link': bannerIcon === 'success'
     }"

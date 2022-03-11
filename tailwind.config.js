@@ -42,6 +42,8 @@ const emphasis = {
 const border = {
   border: colors.border,
   primary: colors.primary,
+  info: colors['nordic-blue'],
+  warning: colors['sunny-yellow'],
 };
 
 const fontFamilies = {
@@ -75,6 +77,8 @@ module.exports = {
       white: colors['secondary'],
       error: colors['error-text'],
       link: colors['link-text'],
+      info: colors['nordic-blue'],
+      warning: colors['sunny-yellow'],
       ...emphasis,
     },
     screens: {
