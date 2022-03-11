@@ -14,25 +14,59 @@
   </gq-dialog-header>
 
   <div
-    class="flex h-full flex-col"
+    class="mt-6 flex h-full flex-col"
     *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
   >
-    <div class="h-full">
-      <mat-form-field class="w-full">
-        <mat-label></mat-label>
+    <div class="flex h-full flex-row">
+      <mat-form-field class="w-2/3" appearance="outline">
+        <mat-label>{{ t('labels.' + modalData.field) }}</mat-label>
         <input
           class="text-overline !leading-7"
           [formControl]="editFormControl"
           (keydown)="onKeyPress($event, edit)"
           (paste)="onPaste($event)"
-          [placeholder]="value"
+          [placeholder]="value?.toString()"
           type="text"
           autocomplete="off"
           cdkTextareaAutosize
           matInput
           #edit
         />
+        <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
       </mat-form-field>
+      <div class="ml-4 mt-3 flex flex-col gap-2">
+        <mat-icon class="cursor-pointer" (click)="increment()">add </mat-icon>
+        <mat-icon class="cursor-pointer" (click)="decrement()">remove</mat-icon>
+      </div>
+    </div>
+    <div class="mt-2" *ngIf="affectedKpis?.length > 0">
+      <div
+        class="grid w-4/5 grid-cols-2"
+        *transloco="let t; read: 'shared.editingModal.kpis'"
+      >
+        <div class="mt-4 flex flex-row pr-12" *ngFor="let kpi of affectedKpis">
+          <div class="pr-6">
+            <h6>{{ t(kpi.key) }}</h6>
+            <span class="text-caption">{{
+              t('previous', {
+                fieldTranslation: t(kpi.key)
+              })
+            }}</span>
+          </div>
+          <div>
+            <h6>{{ kpi.value }}</h6>
+            <span class="text-caption">{{
+              modalData.quotationDetail[kpi.key]
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="mt-6 flex flex-row rounded-md border-info bg-nordic-blue bg-opacity-10 py-3 px-3"
+    >
+      <mat-icon class="mr-4 align-middle !text-info">warning_amber</mat-icon>
+      <div class="text-caption">{{ t('warning') }}</div>
     </div>
     <div class="pt-8">
       <button
@@ -42,7 +76,7 @@
         [disabled]="confirmDisabled"
         (click)="confirmEditing()"
       >
-        <span> {{ t('confirm') | uppercase }} </span>
+        <span> {{ t('confirm.' + modalData.field) | uppercase }} </span>
       </button>
       <button
         class="!ml-4 !pl-8 !pr-8"

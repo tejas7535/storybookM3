@@ -8,6 +8,8 @@ import {
   SapConditionType,
   SapPriceConditionDetail,
 } from '../../../core/store/reducers/sap-price-details/models';
+import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
+import { KpiValue } from '../../components/editing-modal/kpi-value.model';
 import { StatusBarProperties } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from './price.service';
@@ -105,7 +107,7 @@ describe('PriceService', () => {
         material: { priceUnit: 1 },
       } as any;
 
-      const result = PriceService.calculateDiscount(detail);
+      const result = PriceService.calculateDiscount(detail.price, detail);
 
       expect(result).toEqual(50);
     });
@@ -115,7 +117,7 @@ describe('PriceService', () => {
         price: 100,
       } as any;
 
-      const result = PriceService.calculateDiscount(detail);
+      const result = PriceService.calculateDiscount(detail.price, detail);
 
       expect(result).toEqual(undefined);
     });
@@ -251,6 +253,94 @@ describe('PriceService', () => {
       PriceService.calculateSapPriceValues(detail);
       expect(detail.msp).toEqual(85);
       expect(detail.rsp).toEqual(100);
+    });
+  });
+  describe('calculateAffectedKPIs', () => {
+    test('should return empty array for quantity', () => {
+      const result = PriceService.calculateAffectedKPIs(
+        1,
+        ColumnFields.ORDER_QUANTITY,
+        QUOTATION_DETAIL_MOCK
+      );
+      expect(result).toEqual([]);
+    });
+    test('should return kpis for price', () => {
+      PriceService.multiplyAndRoundValues = jest.fn(() => 1);
+      PriceService.calculateMargin = jest.fn(() => 2);
+      PriceService.calculateDiscount = jest.fn(() => 3);
+      const result = PriceService.calculateAffectedKPIs(
+        1,
+        ColumnFields.PRICE,
+        QUOTATION_DETAIL_MOCK
+      );
+
+      const expected: KpiValue[] = [
+        { key: ColumnFields.PRICE, value: 1 },
+        { key: ColumnFields.GPI, value: 2 },
+        { key: ColumnFields.GPM, value: 2 },
+        { key: ColumnFields.DISCOUNT, value: 3 },
+      ];
+      expect(result).toEqual(expected);
+    });
+    test('should return kpis for gpi', () => {
+      PriceService.calculateMargin = jest.fn(() => 1);
+      PriceService.getManualPriceByMarginAndCost = jest.fn(() => 23);
+      PriceService.calculateDiscount = jest.fn(() => 3);
+      const result = PriceService.calculateAffectedKPIs(
+        1,
+        ColumnFields.GPI,
+        QUOTATION_DETAIL_MOCK
+      );
+
+      const expected: KpiValue[] = [
+        { key: ColumnFields.PRICE, value: 23 },
+        { key: ColumnFields.GPM, value: 1 },
+        { key: ColumnFields.DISCOUNT, value: 3 },
+      ];
+      expect(result).toEqual(expected);
+    });
+    test('should return kpis for gpm', () => {
+      PriceService.calculateMargin = jest.fn(() => 1);
+      PriceService.getManualPriceByMarginAndCost = jest.fn(() => 23);
+      PriceService.calculateDiscount = jest.fn(() => 3);
+      const result = PriceService.calculateAffectedKPIs(
+        1,
+        ColumnFields.GPM,
+        QUOTATION_DETAIL_MOCK
+      );
+
+      const expected: KpiValue[] = [
+        { key: ColumnFields.PRICE, value: 23 },
+        { key: ColumnFields.GPI, value: 1 },
+        { key: ColumnFields.DISCOUNT, value: 3 },
+      ];
+      expect(result).toEqual(expected);
+    });
+    test('should return kpis for discount', () => {
+      PriceService.calculateMargin = jest.fn(() => 1);
+      PriceService.getManualPriceByDiscount = jest.fn(() => 23);
+      PriceService.calculateDiscount = jest.fn(() => 3);
+      const result = PriceService.calculateAffectedKPIs(
+        1,
+        ColumnFields.DISCOUNT,
+        QUOTATION_DETAIL_MOCK
+      );
+
+      const expected: KpiValue[] = [
+        { key: ColumnFields.PRICE, value: 23 },
+        { key: ColumnFields.GPI, value: 1 },
+        { key: ColumnFields.GPM, value: 1 },
+      ];
+      expect(result).toEqual(expected);
+    });
+    test('should throw error for other columns', () => {
+      expect(() =>
+        PriceService.calculateAffectedKPIs(
+          1,
+          ColumnFields.FOLLOWING_TYPE,
+          QUOTATION_DETAIL_MOCK
+        )
+      ).toThrowError(new Error('No matching Column Field for computation'));
     });
   });
 });

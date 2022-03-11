@@ -240,8 +240,36 @@
       "discount": "Rabatt %",
       "price": "Preis",
       "orderQuantity": "Menge",
-      "confirm": "Bestätigen",
-      "cancel": "Zurück"
+      "confirm": {
+        "price": "Neuen Preis setzen",
+        "gpi": "Neuen GPI setzen",
+        "gpm": "Neuen GP; setzen",
+        "discount": "Neuen Rabatt setzen",
+        "orderQuantity": "Neue Menge setzen"
+      },
+      "labels": {
+        "price": "Preisänderung in %",
+        "gpi": "GPI Änderung in %",
+        "gpm": "GPM Änderung in %",
+        "discount": "Rabattänderung in %",
+        "orderQuantity": "Mengenänderung"
+      },
+      "hints": {
+        "price": "Preis ändern",
+        "gpi": "GPI ändern",
+        "gpm": "GPM ändern",
+        "discount": "Rabatt ändern",
+        "orderQuantity": "Menge ändern"
+      },
+      "kpis": {
+        "price": "Nettopreis",
+        "previous": "Vorheriger {{fieldTranslation}}",
+        "gpi": "GPI%",
+        "gpm": "GPM%",
+        "discount": "Rabatt"
+      },
+      "cancel": "Zurück",
+      "warning": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann."
     }
   },
   "legal": {

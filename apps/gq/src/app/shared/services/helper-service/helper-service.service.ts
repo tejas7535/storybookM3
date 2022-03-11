@@ -82,15 +82,31 @@ export class HelperService {
   ): void {
     const parsedInput = Number.parseInt(event.key, 10);
     const isValidNumber = parsedInput === 0 || !Number.isNaN(parsedInput);
+    // Allowed keys besides numbers
     const inputIsAllowedSpecialKey = [
       Keyboard.BACKSPACE,
       Keyboard.DELETE,
-      '.',
-    ].includes(event.key);
+      Keyboard.DOT,
+      Keyboard.DASH,
+    ].includes(event.key as Keyboard);
 
     if (
-      event.key === ',' ||
-      (!isValidNumber && !inputIsAllowedSpecialKey && !isPaste(event))
+      // prevent on invalid number
+      (!isValidNumber && !inputIsAllowedSpecialKey && !isPaste(event)) ||
+      // prevent more than two decimal places
+      ((manualPriceInput.value + event.key)
+        .toString()
+        .replace(Keyboard.DASH, Keyboard.EMPTY)
+        .split(Keyboard.DOT)[0].length > 2 &&
+        !inputIsAllowedSpecialKey &&
+        !isPaste(event)) ||
+      // prevent dot and dash expect for first char and digits
+      ([Keyboard.DOT, Keyboard.DASH].some((char) =>
+        manualPriceInput.value.startsWith(char)
+      ) &&
+        [Keyboard.DOT, Keyboard.DASH].includes(event.key as Keyboard) &&
+        manualPriceInput.value.length === 1) ||
+      (manualPriceInput.value.length > 1 && event.key === Keyboard.DASH)
     ) {
       event.preventDefault();
     } else {
@@ -114,7 +130,7 @@ export class HelperService {
       Math.round(Number.parseFloat(event.clipboardData.getData('text')) * 100) /
       100;
 
-    if (price) {
+    if (price < 100) {
       formControl.setValue(price);
     }
   }

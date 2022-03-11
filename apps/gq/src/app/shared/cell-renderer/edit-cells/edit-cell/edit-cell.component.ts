@@ -27,13 +27,13 @@ export class EditCellComponent {
       !(
         params.field === ColumnFields.ORDER_QUANTITY &&
         !!(params.context as TableContext).quotation.sapId
-      );
+      ) &&
+      !(params.field === ColumnFields.PRICE && params.data.price === undefined);
   }
 
   onIconClick(): void {
     this.dialog.open(EditingModalComponent, {
-      width: '50%',
-      height: '200px',
+      width: '634px',
       data: {
         quotationDetail: this.params.data as QuotationDetail,
         field: this.params.field,

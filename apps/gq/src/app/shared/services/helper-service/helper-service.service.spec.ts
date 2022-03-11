@@ -146,7 +146,7 @@ describe('HelperServiceService', () => {
   describe('validateNumberInputKeyPress', () => {
     test('should prevent Default', () => {
       const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 } as any;
+      const manualPriceInput = { value: '20.22' } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
@@ -154,7 +154,7 @@ describe('HelperServiceService', () => {
     });
     test('should not prevent Default', () => {
       const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20 } as any;
+      const manualPriceInput = { value: '2' } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
@@ -163,7 +163,7 @@ describe('HelperServiceService', () => {
 
     test('should not prevent Default when delete key is pressed', () => {
       const event = { key: Keyboard.DELETE, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 } as any;
+      const manualPriceInput = { value: '20.022' } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
@@ -176,7 +176,7 @@ describe('HelperServiceService', () => {
         preventDefault: jest.fn(),
         ctrlKey: true,
       } as any;
-      const manualPriceInput = { value: 20 } as any;
+      const manualPriceInput = { value: '20' } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
@@ -190,18 +190,34 @@ describe('HelperServiceService', () => {
         ctrlKey: false,
         metaKey: true,
       } as any;
-      const manualPriceInput = { value: 20 } as any;
+      const manualPriceInput = { value: '20' } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
       expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+    test('should prevent default for multiple dots/dashs', () => {
+      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '20.' } as any;
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+    test('should prevent default for multiple dashs', () => {
+      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '-' } as any;
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
     });
   });
   describe('onPaste', () => {
     test('should set price', () => {
       const event = {
         clipboardData: {
-          getData: jest.fn(() => 20.022),
+          getData: jest.fn(() => '20.022'),
         },
         preventDefault: jest.fn(),
       } as any;

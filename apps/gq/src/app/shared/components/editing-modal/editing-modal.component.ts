@@ -28,7 +28,7 @@ import {
 } from '../../../shared/models/quotation-detail';
 import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../shared/services/price-service/price.service';
-
+import { KpiValue } from './kpi-value.model';
 @Component({
   selector: 'gq-editing-modal',
   templateUrl: './editing-modal.component.html',
@@ -38,8 +38,8 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   confirmDisabled = true;
   editFormControl: FormControl;
   updateLoading$: Observable<boolean>;
-  value: string;
-  quotationDetail: QuotationDetail;
+  value: number;
+  affectedKpis: KpiValue[];
 
   @ViewChild('edit') editInputField: ElementRef;
 
@@ -47,16 +47,12 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     @Inject(MAT_DIALOG_DATA)
     public modalData: {
       quotationDetail: QuotationDetail;
-      field: keyof QuotationDetail;
+      field: ColumnFields;
     },
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef
-  ) {
-    this.value =
-      this.modalData.quotationDetail[this.modalData.field]?.toString() || '0';
-    this.quotationDetail = this.modalData.quotationDetail;
-  }
+  ) {}
 
   ngOnInit(): void {
     this.editFormControl = new FormControl();
@@ -66,10 +62,18 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.value =
+      this.modalData.field === ColumnFields.PRICE
+        ? 0
+        : (this.modalData.quotationDetail[
+            this.modalData.field as keyof QuotationDetail
+          ] as number);
+
+    this.setAffectedKpis(this.value);
+
     this.editInputField?.nativeElement.focus();
     this.cdr.detectChanges();
   }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -93,21 +97,31 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     this.subscription.add(
-      this.editFormControl.valueChanges.subscribe((val: string | number) => {
-        const value = val.toString();
+      this.editFormControl.valueChanges.subscribe((val: string) => {
+        const parsedValue = Number.parseFloat(val);
 
         this.confirmDisabled =
-          value === null ||
+          !val ||
+          Number.isNaN(parsedValue) ||
           // dynamic to value
-          value === this.value ||
+          val === this.value?.toString() ||
           // dynamic to value
-          (value !== null && value.length === 0) ||
-          (value !== null && value.trim() === this.value) ||
-          (![ColumnFields.PRICE, ColumnFields.ORDER_QUANTITY].includes(
+          (![ColumnFields.ORDER_QUANTITY].includes(
             this.modalData.field as ColumnFields
           ) &&
-            Number.parseFloat(value) >= 100);
+            parsedValue >= 100);
+
+        // trigger dynamic kpi simulation
+        this.setAffectedKpis(parsedValue);
       })
+    );
+  }
+
+  setAffectedKpis(val: number): void {
+    this.affectedKpis = PriceService.calculateAffectedKPIs(
+      val,
+      this.modalData.field,
+      this.modalData.quotationDetail
     );
   }
   closeDialog(): void {
@@ -136,24 +150,25 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       ) {
         newPrice = PriceService.getManualPriceByMarginAndCost(
           this.modalData.field === ColumnFields.GPM
-            ? this.quotationDetail.sqv
-            : this.quotationDetail.gpc,
+            ? this.modalData.quotationDetail.sqv
+            : this.modalData.quotationDetail.gpc,
           value
         );
       } else if (this.modalData.field === ColumnFields.DISCOUNT) {
         newPrice = PriceService.getManualPriceByDiscount(
-          this.quotationDetail.sapGrossPrice,
+          this.modalData.quotationDetail.sapGrossPrice,
           value
         );
       } else {
         newPrice = value;
       }
-      const price = newPrice / this.quotationDetail.material.priceUnit;
+      const price =
+        newPrice / this.modalData.quotationDetail.material.priceUnit;
 
       const updateQuotationDetailList: UpdateQuotationDetail[] = [
         {
           price,
-          gqPositionId: this.quotationDetail.gqPositionId,
+          gqPositionId: this.modalData.quotationDetail.gqPositionId,
           priceSource: PriceSource.MANUAL,
         },
       ];
@@ -161,8 +176,8 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
         updateQuotationDetails({ updateQuotationDetailList })
       );
     }
-    // eslint-disable-next-line unicorn/prefer-ternary
   }
+
   onKeyPress(event: KeyboardEvent, value: HTMLInputElement): void {
     if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
       HelperService.validateQuantityInputKeyPress(event);
@@ -176,6 +191,37 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       HelperService.validateQuantityInputPaste(event);
     } else {
       HelperService.validateNumberInputPaste(event, this.editFormControl);
+    }
+  }
+
+  increment(): void {
+    // margins and discounts should not be higher than 99 %
+    if (
+      [ColumnFields.ORDER_QUANTITY, ColumnFields.PRICE].includes(
+        this.modalData.field
+      ) ||
+      this.editFormControl.value < 99
+    ) {
+      this.editFormControl.setValue(
+        PriceService.roundToTwoDecimals(
+          (this.editFormControl.value ?? this.value) + 1
+        )
+      );
+    }
+  }
+
+  decrement(): void {
+    if (
+      (this.modalData.field !== ColumnFields.ORDER_QUANTITY &&
+        (this.editFormControl.value ?? this.value) > -99) ||
+      (this.modalData.field === ColumnFields.ORDER_QUANTITY &&
+        (this.editFormControl.value ?? this.value) > 1)
+    ) {
+      this.editFormControl.setValue(
+        PriceService.roundToTwoDecimals(
+          (this.editFormControl.value ?? this.value) - 1
+        )
+      );
     }
   }
 }

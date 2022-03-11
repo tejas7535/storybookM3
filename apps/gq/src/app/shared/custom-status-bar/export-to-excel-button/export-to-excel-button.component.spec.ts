@@ -906,7 +906,7 @@ describe('ExportToExcelButtonComponent', () => {
     test('does not transform, if columnFields is not equal to Price', () => {
       expect(
         component.hasDelimiterProblemInExcelGreaterEqual1000(
-          ColumnFields.QUANTITY,
+          ColumnFields.ORDER_QUANTITY,
           1000
         )
       ).toBeFalsy();
@@ -935,7 +935,7 @@ describe('ExportToExcelButtonComponent', () => {
     test('does not transform, if columnFields is not equal to Price', () => {
       expect(
         component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
-          { field: ColumnFields.QUANTITY } as ColDef,
+          { field: ColumnFields.ORDER_QUANTITY } as ColDef,
           { value: 1000 } as ProcessCellForExportParams
         )
       ).toBeFalsy();

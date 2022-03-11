@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { SapConditionType } from '../../../core/store/reducers/sap-price-details/models/';
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
+import { KpiValue } from '../../components/editing-modal/kpi-value.model';
 import { StatusBarProperties } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceUnitForQuotationItemId } from '../../models/quotation-detail/price-units-for-quotation-item-ids.model';
@@ -20,7 +22,7 @@ export class PriceService {
       detail.orderQuantity
     );
     detail.priceDiff = PriceService.calculatepriceDiff(detail);
-    detail.discount = PriceService.calculateDiscount(detail);
+    detail.discount = PriceService.calculateDiscount(detail.price, detail);
     // calculate priceUnit dependent values
     PriceService.calculatePriceUnitValues(detail);
 
@@ -88,10 +90,10 @@ export class PriceService {
     return undefined;
   }
 
-  static calculateDiscount(detail: QuotationDetail): number {
-    if (detail.price && detail.sapGrossPrice) {
+  static calculateDiscount(price: number, detail: QuotationDetail): number {
+    if (price && detail.sapGrossPrice) {
       const discount =
-        1 - (detail.price * detail.material.priceUnit) / detail.sapGrossPrice;
+        1 - (price * detail.material.priceUnit) / detail.sapGrossPrice;
 
       return PriceService.roundPercentageToTwoDecimals(discount);
     }
@@ -243,5 +245,80 @@ export class PriceService {
 
   static calculateMsp(rsp: number, zrtu: number): number {
     return rsp * (1 - zrtu / 100);
+  }
+
+  static calculateAffectedKPIs(
+    value: number,
+    field: ColumnFields,
+    detail: QuotationDetail
+  ): KpiValue[] {
+    if (field === ColumnFields.ORDER_QUANTITY) {
+      return [];
+    }
+    const result: KpiValue[] = [];
+    let updatedPrice: number;
+
+    switch (field) {
+      case ColumnFields.PRICE:
+        updatedPrice = PriceService.multiplyAndRoundValues(
+          detail.price,
+          1 + value / 100
+        );
+        break;
+      case ColumnFields.GPI:
+        updatedPrice = PriceService.getManualPriceByMarginAndCost(
+          detail.gpc,
+          value
+        );
+        break;
+      case ColumnFields.GPM:
+        updatedPrice = PriceService.getManualPriceByMarginAndCost(
+          detail.sqv,
+          value
+        );
+        break;
+      case ColumnFields.DISCOUNT:
+        updatedPrice = PriceService.getManualPriceByDiscount(
+          detail.sapGrossPrice,
+          value
+        );
+        break;
+      default:
+        throw new Error('No matching Column Field for computation');
+    }
+
+    result.push({
+      key: ColumnFields.PRICE,
+      value: updatedPrice,
+    });
+
+    // calc gpi
+    if (field !== ColumnFields.GPI) {
+      const gpi = PriceService.calculateMargin(updatedPrice, detail.gpc);
+      result.push({
+        key: ColumnFields.GPI,
+        value: gpi,
+      });
+    }
+
+    // calc gpm
+    if (field !== ColumnFields.GPM) {
+      const gpm = PriceService.calculateMargin(updatedPrice, detail.sqv);
+      result.push({
+        key: ColumnFields.GPM,
+        value: gpm,
+      });
+    }
+
+    // calc discount
+    if (field !== ColumnFields.DISCOUNT) {
+      const discount = PriceService.calculateDiscount(updatedPrice, detail);
+      result.push({
+        key: ColumnFields.DISCOUNT,
+        value: discount,
+      });
+    }
+
+    return result;
   }
 }

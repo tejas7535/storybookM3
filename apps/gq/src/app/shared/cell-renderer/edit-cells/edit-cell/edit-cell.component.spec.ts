@@ -55,6 +55,20 @@ describe('EditCellComponent', () => {
       expect(component.params).toEqual(params);
       expect(component.isCellEditingAllowed).toBeTruthy();
     });
+    test('should set params and disable cellEditing for missing price', () => {
+      const params = {
+        data: { price: undefined },
+        condition: {
+          enabled: true,
+          conditionField: ColumnFields.PRICE,
+        },
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeFalsy();
+    });
     test('should set params but disabled cellEditing for orderQuantity', () => {
       const params = {
         data: QUOTATION_DETAIL_MOCK,
@@ -83,8 +97,7 @@ describe('EditCellComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditingModalComponent,
         {
-          width: '50%',
-          height: '200px',
+          width: '634px',
           data: {
             quotationDetail: QUOTATION_DETAIL_MOCK,
             field: ColumnFields.GPM,

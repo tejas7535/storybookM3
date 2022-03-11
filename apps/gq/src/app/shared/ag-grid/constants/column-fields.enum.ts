@@ -19,7 +19,6 @@ export enum ColumnFields {
   FOLLOWING_TYPE = 'material.followingType',
   DISCOUNT = 'discount',
   INPUT_QUANTITY = 'inputQuantity',
-  QUANTITY = 'quantity',
   RSP = 'rsp',
   MSP = 'msp',
   SAP_GROSS_PRICE = 'sapGrossPrice',
@@ -51,6 +50,13 @@ export const PercentColumns = [
 export const ExportExcelNumberColumns = [
   ...PriceColumns,
   ...PercentColumns,
-  ColumnFields.QUANTITY,
   ColumnFields.INPUT_QUANTITY,
+];
+
+// list of related and editable KPIs
+export const RelatedKPIs = [
+  ColumnFields.PRICE,
+  ColumnFields.GPI,
+  ColumnFields.GPM,
+  ColumnFields.DISCOUNT,
 ];
