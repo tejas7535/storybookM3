@@ -1,32 +1,29 @@
 <div
-  class="h-full w-full bg-surface"
+  class="flex h-full w-full flex-col bg-surface"
   *transloco="let t; read: 'portfolioAnalysis'"
 >
-  <cdba-page-header [title]="t('title')">
-    <ng-container breadcrumbs>
-      <schaeffler-breadcrumbs
-        [breadcrumbs]="breadcrumbs$ | ngrxPush"
-        [truncateAfter]="4"
-      ></schaeffler-breadcrumbs>
-    </ng-container>
-    <ng-container titleContent>
-      <div class="ml-1">
-        <cdba-beta-feature-badge
-          [emailAddress]="emailAddress"
-        ></cdba-beta-feature-badge>
-      </div>
-    </ng-container>
-    <div content class="h-full">
-      <div class="py-4">
-        <cdba-portfolio-analysis-chart
+  <schaeffler-subheader
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
+    [truncateBreadcrumbsAfter]="4"
+  >
+    <div class="flex items-center gap-3" subheaderTitleContent>
+      <div>{{ t('title') }}</div>
+      <cdba-beta-feature-badge
+        [emailAddress]="emailAddress"
+        class="block leading-[0]"
+      ></cdba-beta-feature-badge>
+    </div>
+  </schaeffler-subheader>
+  <div class="grow">
+    <div class="py-4">
+      <cdba-portfolio-analysis-chart
+        [productCostAnalyses]="productCostAnalyses$ | ngrxPush"
+      ></cdba-portfolio-analysis-chart>
+      <div class="pl-5 pr-[75px]">
+        <cdba-portfolio-analysis-table
           [productCostAnalyses]="productCostAnalyses$ | ngrxPush"
-        ></cdba-portfolio-analysis-chart>
-        <div class="pl-5 pr-[75px]">
-          <cdba-portfolio-analysis-table
-            [productCostAnalyses]="productCostAnalyses$ | ngrxPush"
-          ></cdba-portfolio-analysis-table>
-        </div>
+        ></cdba-portfolio-analysis-table>
       </div>
     </div>
-  </cdba-page-header>
+  </div>
 </div>

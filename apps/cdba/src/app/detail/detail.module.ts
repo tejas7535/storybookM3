@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
+import { TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { ShareButtonModule } from '@schaeffler/share-button';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
@@ -29,10 +29,9 @@ import { DetailRoutingModule } from './detail-routing.module';
     StoreModule.forFeature('detail', detailReducer),
     EffectsModule.forFeature([DetailEffects, DetailFailureEffects]),
     MaterialNumberModule,
-    PageHeaderModule,
     TabsHeaderModule,
     ShareButtonModule,
-    BreadcrumbsModule,
+    SubheaderModule,
     PcmBadgeModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail' }],

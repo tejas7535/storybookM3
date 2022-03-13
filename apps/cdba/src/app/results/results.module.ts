@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 
-import { PageHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
@@ -16,10 +15,9 @@ import { ResultsRoutingModule } from './results-routing.module';
   imports: [
     ReactiveComponentModule,
     SharedTranslocoModule,
+    SubheaderModule,
     ResultsRoutingModule,
-    PageHeaderModule,
     ReferenceTypesTableModule,
-    BreadcrumbsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'results' }],
 })

@@ -1,7 +1,6 @@
 import { Router } from '@angular/router';
 
 import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
-import { PageHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import {
@@ -14,7 +13,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
@@ -30,9 +29,8 @@ describe('ResultsComponent', () => {
     imports: [
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(PageHeaderModule),
+      MockModule(SubheaderModule),
       MockModule(ReferenceTypesTableModule),
-      MockModule(BreadcrumbsModule),
     ],
     providers: [
       mockProvider(BreadcrumbsService),

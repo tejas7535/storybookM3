@@ -1,12 +1,10 @@
-<cdba-page-header *transloco="let t; read: 'compare'" [title]="t('title')">
-  <ng-container breadcrumbs>
-    <schaeffler-breadcrumbs
-      [breadcrumbs]="breadcrumbs$ | ngrxPush"
-      [truncateAfter]="4"
-    ></schaeffler-breadcrumbs>
-  </ng-container>
-  <schaeffler-share-button header></schaeffler-share-button>
-  <div content class="h-full min-h-[830px]">
-    <cdba-tabs-header [tabs]="tabs"> </cdba-tabs-header>
-  </div>
-</cdba-page-header>
+<div class="flex h-full w-full flex-col" *transloco="let t; read: 'compare'">
+  <schaeffler-subheader
+    [subheaderTitle]="t('title')"
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
+    [truncateBreadcrumbsAfter]="4"
+  >
+    <schaeffler-share-button subheaderInlineContent></schaeffler-share-button>
+  </schaeffler-subheader>
+  <cdba-tabs-header class="grow" [tabs]="tabs"></cdba-tabs-header>
+</div>

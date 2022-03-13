@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
+import { TabsHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 import {
@@ -12,8 +12,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { ShareButtonModule } from '@schaeffler/share-button';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CompareComponent } from './compare.component';
@@ -29,9 +29,8 @@ describe('CompareComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       MockModule(TabsHeaderModule),
-      MockModule(PageHeaderModule),
+      MockModule(SubheaderModule),
       MockModule(ShareButtonModule),
-      MockModule(BreadcrumbsModule),
     ],
     providers: [
       mockProvider(BreadcrumbsService),

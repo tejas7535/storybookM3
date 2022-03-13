@@ -1,17 +1,14 @@
-<div class="h-full w-full" *transloco="let t; read: 'results'">
-  <cdba-page-header [title]="t('title', { count: resultCount$ | ngrxPush })">
-    <ng-container breadcrumbs>
-      <schaeffler-breadcrumbs
-        [breadcrumbs]="breadcrumbs$ | ngrxPush"
-        [truncateAfter]="4"
-      ></schaeffler-breadcrumbs>
-    </ng-container>
-    <div content class="h-full min-h-[780px]">
-      <cdba-reference-types-table
-        [rowData]="referenceTypesData$ | ngrxPush"
-        [selectedNodeIds]="selectedReferenceTypeIds$ | ngrxPush"
-        (selectionChange)="selectReferenceTypes($event)"
-      ></cdba-reference-types-table>
-    </div>
-  </cdba-page-header>
+<div class="flex h-full w-full flex-col" *transloco="let t; read: 'results'">
+  <schaeffler-subheader
+    [subheaderTitle]="t('title', { count: resultCount$ | ngrxPush })"
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
+    [truncateBreadcrumbsAfter]="4"
+  ></schaeffler-subheader>
+  <div class="min-h-[780px] grow">
+    <cdba-reference-types-table
+      [rowData]="referenceTypesData$ | ngrxPush"
+      [selectedNodeIds]="selectedReferenceTypeIds$ | ngrxPush"
+      (selectionChange)="selectReferenceTypes($event)"
+    ></cdba-reference-types-table>
+  </div>
 </div>

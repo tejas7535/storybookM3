@@ -1,6 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { PageHeaderModule } from '@cdba/shared/components';
 import { BreadcrumbsService } from '@cdba/shared/services';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import {
@@ -11,7 +10,7 @@ import {
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PortfolioAnalysisComponent } from './portfolio-analysis.component';
@@ -24,8 +23,7 @@ describe('PortfolioAnalysisComponent', () => {
     imports: [
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(PageHeaderModule),
-      MockModule(BreadcrumbsModule),
+      MockModule(SubheaderModule),
     ],
     providers: [
       mockProvider(BreadcrumbsService),

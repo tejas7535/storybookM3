@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { BetaFeatureModule, PageHeaderModule } from '@cdba/shared/components';
+import { BetaFeatureModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PortfolioAnalysisComponent } from './portfolio-analysis.component';
@@ -18,8 +18,7 @@ import { PortfolioAnalysisTableModule } from './portfolio-analysis-table/portfol
     ReactiveComponentModule,
     SharedTranslocoModule,
     PortfolioAnalysisRoutingModule,
-    BreadcrumbsModule,
-    PageHeaderModule,
+    SubheaderModule,
     BetaFeatureModule,
     PortfolioAnalysisChartModule,
     PortfolioAnalysisTableModule,

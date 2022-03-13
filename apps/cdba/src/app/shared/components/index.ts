@@ -6,7 +6,6 @@ export { BomTableModule } from './bom-table/bom-table.module';
 export { BrowserSupportModule } from './browser-support/browser-support.module';
 export { CalculationsTableModule } from './calculations-table/calculations-table.module';
 export { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
-export { PageHeaderModule } from './page-header/page-header.module';
 export { RoleDescriptionsModule } from './role-descriptions/role-descriptions.module';
 export { Tab, TabsHeaderModule } from './tabs-header';
 export { UserSettingsModule } from './user-settings/user-settings.module';

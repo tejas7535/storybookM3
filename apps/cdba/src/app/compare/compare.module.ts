@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 
-import { PageHeaderModule, TabsHeaderModule } from '@cdba/shared/components';
+import { TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { ShareButtonModule } from '@schaeffler/share-button';
+import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CompareComponent } from './compare.component';
@@ -24,9 +24,8 @@ import { compareReducer } from './store/reducers/compare.reducer';
     SharedTranslocoModule,
     StoreModule.forFeature('compare', compareReducer),
     EffectsModule.forFeature([CompareEffects, CompareFailureEffects]),
-    PageHeaderModule,
+    SubheaderModule,
     TabsHeaderModule,
-    BreadcrumbsModule,
     ShareButtonModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'compare' }],
