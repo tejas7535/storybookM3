@@ -162,7 +162,11 @@
       "groupName": "@azure/msal"
     },
     {
-      "packageNames": ["@commitlint/cli", "@commitlint/config-conventional"],
+      "packageNames": [
+        "@commitlint/cli",
+        "@commitlint/config-conventional",
+        "@commitlint/cz-commitlint"
+      ],
       "groupName": "commitlint"
     }
   ]
