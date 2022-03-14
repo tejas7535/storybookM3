@@ -94,13 +94,13 @@ button {
     margin-right: 4px !important;
   }
 
-  .ag-row-level-0 {
-    &:not(.ag-row-group) {
-      > .ag-cell:first-of-type {
-        padding-left: 32px;
-      }
-    }
-  }
+  //.ag-row-level-0 {
+  //  &:not(.ag-row-group) {
+  //    > .ag-cell:first-of-type {
+  //      padding-left: 32px;
+  //    }
+  //  }
+  //}
 
   @for $i from 1 to 20 {
     .ag-row-level-#{$i} .ag-row-group-leaf-indent {

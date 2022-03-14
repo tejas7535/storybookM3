@@ -23,6 +23,7 @@ import { BomItem, Calculation } from '../../models';
   selector: 'cdba-bom-container',
   templateUrl: './bom-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./bom-container.component.scss'],
 })
 export class BomContainerComponent implements OnInit {
   @Input() index: number;
@@ -44,6 +45,9 @@ export class BomContainerComponent implements OnInit {
   bomErrorMessage$: Observable<string>;
   childrenOfSelectedBomItem$: Observable<BomItem[]>;
   bomItems$: Observable<BomItem[]>;
+
+  public selectedBomItem: BomItem;
+  public showSidenavContent = false;
 
   private gridApi: GridApi;
 
@@ -77,6 +81,8 @@ export class BomContainerComponent implements OnInit {
   }
 
   public selectBomItem(item: BomItem): void {
+    this.selectedBomItem = item;
+
     if (this.index !== undefined) {
       this.store.dispatch(
         fromCompare.selectBomItem({ item, index: this.index })

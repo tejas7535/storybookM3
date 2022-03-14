@@ -8,11 +8,14 @@
     mode="over"
     position="end"
     [autoFocus]="false"
-    class="w-[500px]"
+    [(opened)]="showSidenavContent"
+    [cdbaResizableWidth]="true"
+    resizableAlignment="right"
   >
     <cdba-bom-overlay (closeOverlay)="additionalInformation.close()">
       <ng-container calculations>
         <cdba-calculations-table
+          *ngIf="showSidenavContent"
           [minified]="true"
           [rowData]="calculations$ | ngrxPush"
           [selectedNodeIds]="selectedCalculationNodeId$ | ngrxPush"
@@ -23,7 +26,13 @@
       </ng-container>
       <ng-container chart>
         <ng-container *ngIf="childrenOfSelectedBomItem$ | ngrxPush as children">
-          <cdba-bom-chart [data]="children"></cdba-bom-chart>
+          <cdba-bom-chart
+            *ngIf="showSidenavContent"
+            [data]="children"
+            [materialDesignation]="materialDesignation"
+            [selectedBomItem]="selectedBomItem"
+            [selectedCalculation]="selectedCalculation"
+          ></cdba-bom-chart>
           <cdba-bom-legend
             *ngIf="children.length > 0"
             [data]="children"

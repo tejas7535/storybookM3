@@ -41,8 +41,6 @@ import {
   templateUrl: './calculations-table.component.html',
 })
 export class CalculationsTableComponent implements OnInit, OnChanges {
-  private static readonly TABLE_KEY = 'calculations';
-
   @Input() minified = false;
   @Input() rowData: Calculation[];
   @Input() selectedNodeIds: string[];
@@ -84,6 +82,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public getMainMenuItems = getMainMenuItems;
 
   private gridApi: GridApi;
+  private storageKey: string;
 
   public constructor(
     private readonly agGridStateService: AgGridStateService,
@@ -91,6 +90,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.storageKey = `calculations_${this.minified ? 'minified' : 'default'}`;
     this.setTableProperties(this.minified);
   }
 
@@ -143,12 +143,13 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   }
 
   public onFirstDataRendered(event: FirstDataRenderedEvent): void {
-    event.columnApi.autoSizeColumns(
-      event.columnApi
-        .getAllColumns()
-        .filter((column: Column) => column.getId() !== 'checkbox'),
-      this.minified
-    );
+    if (!this.minified) {
+      event.columnApi.autoSizeColumns(
+        event.columnApi
+          .getAllColumns()
+          .filter((column: Column) => column.getId() !== 'checkbox')
+      );
+    }
 
     this.selectNodes();
   }
@@ -159,18 +160,13 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public columnChange(event: SortChangedEvent): void {
     const columnState = event.columnApi.getColumnState();
 
-    this.agGridStateService.setColumnState(
-      CalculationsTableComponent.TABLE_KEY,
-      columnState
-    );
+    this.agGridStateService.setColumnState(this.storageKey, columnState);
   }
 
   public onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
 
-    const state = this.agGridStateService.getColumnState(
-      CalculationsTableComponent.TABLE_KEY
-    );
+    const state = this.agGridStateService.getColumnState(this.storageKey);
 
     params.columnApi.applyColumnState({
       state,

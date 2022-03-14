@@ -6,10 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BomOverlayComponent } from './bom-overlay.component';
+
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('BomOverlayComponent', () => {
   let spectator: Spectator<BomOverlayComponent>;

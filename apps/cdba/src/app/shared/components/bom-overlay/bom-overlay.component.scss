@@ -1,4 +1,7 @@
 :host {
+  @apply block;
+  @apply h-full;
+
   ::ng-deep {
     .mat-tab-group {
       height: calc(100% - 50px);

@@ -9,6 +9,7 @@ import { GridApi } from '@ag-grid-enterprise/all-modules';
 import * as compareActions from '@cdba/compare/store/actions/compare.actions';
 import * as detailActions from '@cdba/core/store/actions/detail/detail.actions';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { ResizeModule } from '@cdba/shared/directives/resize/index';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
   BOM_MOCK,
@@ -55,12 +56,13 @@ describe('BomContainerComponent', () => {
       MatMenuModule,
       MatButtonModule,
       MatSidenavModule,
-      BomOverlayModule,
+      MockModule(BomOverlayModule),
       MockModule(BomTableModule),
       MockModule(CalculationsTableModule),
       MockModule(BomChartModule),
       MockModule(BomLegendModule),
       MockModule(LoadingSpinnerModule),
+      MockModule(ResizeModule),
       MaterialNumberModule,
     ],
     providers: [

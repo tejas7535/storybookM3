@@ -33,6 +33,7 @@ export class ColumnDefinitionService {
       field: 'calculationDate',
       headerName: translate('shared.calculations.table.calculationDate'),
       headerTooltip: translate('shared.calculations.table.calculationDate'),
+      width: 170,
       valueGetter: (params) =>
         valueGetterDate<Calculation>(params, 'calculationDate'),
       valueFormatter: this.columnUtilsService.formatDate,
@@ -42,11 +43,13 @@ export class ColumnDefinitionService {
       field: 'costType',
       headerName: translate('shared.calculations.table.costType'),
       headerTooltip: translate('shared.calculations.table.costType'),
+      minWidth: 120,
     },
     price: {
       field: 'price',
       headerName: translate('shared.calculations.table.price'),
       headerTooltip: translate('shared.calculations.table.price'),
+      width: 110,
       filter: 'agNumberColumnFilter',
       type: 'numericColumn',
       valueFormatter: (params) =>
@@ -58,21 +61,25 @@ export class ColumnDefinitionService {
       field: 'currency',
       headerName: translate('shared.calculations.table.currency'),
       headerTooltip: translate('shared.calculations.table.currency'),
+      width: 130,
     },
     priceUnit: {
       field: 'priceUnit',
       headerName: translate('shared.calculations.table.priceUnit'),
       headerTooltip: translate('shared.calculations.table.priceUnit'),
+      width: 120,
     },
     plant: {
       field: 'plant',
       headerName: translate('shared.calculations.table.plant'),
       headerTooltip: translate('shared.calculations.table.plant'),
+      width: 110,
     },
     quantity: {
       field: 'quantity',
       headerName: translate('shared.calculations.table.quantity'),
       headerTooltip: translate('shared.calculations.table.quantity'),
+      width: 120,
       filter: 'agNumberColumnFilter',
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
@@ -81,6 +88,7 @@ export class ColumnDefinitionService {
       field: 'lotSize',
       headerName: translate('shared.calculations.table.lotSize'),
       headerTooltip: translate('shared.calculations.table.lotSize'),
+      width: 120,
       filter: 'agNumberColumnFilter',
       type: 'numericColumn',
       valueFormatter: this.columnUtilsService.formatNumber,
@@ -89,11 +97,13 @@ export class ColumnDefinitionService {
       field: 'bomCostingVersion',
       headerName: translate('shared.calculations.table.costingVersion'),
       headerTooltip: translate('shared.calculations.table.costingVersion'),
+      width: 160,
     },
     rfqNumber: {
       field: 'rfqNumber',
       headerName: translate('shared.calculations.table.rfqNumber'),
       headerTooltip: translate('shared.calculations.table.rfqNumber'),
+      width: 150,
     },
   };
 }

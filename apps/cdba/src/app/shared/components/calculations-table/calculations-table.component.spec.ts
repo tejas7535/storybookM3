@@ -258,7 +258,7 @@ describe('CalculationsTableComponent', () => {
 
       expect(mockEvent.columnApi.getColumnState).toHaveBeenCalled();
       expect(stateService.setColumnState).toHaveBeenCalledWith(
-        'calculations',
+        'calculations_default',
         []
       );
     });

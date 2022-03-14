@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { ResizeModule } from '@cdba/shared/directives/resize';
 import {
   MaterialNumberModule,
   UndefinedAttributeFallbackModule,
@@ -41,6 +42,7 @@ import { BomContainerComponent } from './bom-container.component';
     BomOverlayModule,
     UndefinedAttributeFallbackModule,
     MaterialNumberModule,
+    ResizeModule,
   ],
   exports: [BomContainerComponent],
 })
