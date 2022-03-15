@@ -28,6 +28,7 @@ export class OrganizationalViewService {
   readonly ATTRITION_OVER_TIME = 'attrition-over-time';
 
   readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
+  readonly PARAM_CHILD_EMPLOYEE_REPORT_DATE = 'child_employee_report_date';
 
   constructor(
     private readonly http: HttpClient,
@@ -74,11 +75,13 @@ export class OrganizationalViewService {
       );
   }
 
-  getParentEmployee(childEmployeeId: string): Observable<Employee> {
-    const params = new HttpParams().set(
-      this.PARAM_CHILD_EMPLOYEE_ID,
-      childEmployeeId
-    );
+  getParentEmployee(
+    childEmployeeId: string,
+    childEmployeeReportDate: string
+  ): Observable<Employee> {
+    const params = new HttpParams()
+      .set(this.PARAM_CHILD_EMPLOYEE_ID, childEmployeeId)
+      .set(this.PARAM_CHILD_EMPLOYEE_REPORT_DATE, childEmployeeReportDate);
 
     return this.http
       .get<ParentEmployeeResponse>(`${ApiVersion.V1}/${this.EMPLOYEE}`, {

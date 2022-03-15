@@ -93,14 +93,16 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadParent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParent),
-      map((action) => action.employee.employeeId),
-      switchMap((childEmployeeId: string) =>
-        this.organizationalViewService.getParentEmployee(childEmployeeId).pipe(
-          map((employee: Employee) => loadParentSuccess({ employee })),
-          catchError((error) =>
-            of(loadParentFailure({ errorMessage: error.message }))
+      map((action) => action.employee),
+      switchMap((childEmployee: Employee) =>
+        this.organizationalViewService
+          .getParentEmployee(childEmployee.employeeId, childEmployee.reportDate)
+          .pipe(
+            map((employee: Employee) => loadParentSuccess({ employee })),
+            catchError((error) =>
+              of(loadParentFailure({ errorMessage: error.message }))
+            )
           )
-        )
       )
     );
   });

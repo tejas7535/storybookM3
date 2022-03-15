@@ -270,6 +270,7 @@ describe('Organizational View Effects', () => {
 
   describe('loadParent$', () => {
     let childEmployeeId: string;
+    let childEmployeeReportDate: string;
 
     beforeEach(() => {
       childEmployeeId = '123';
@@ -284,6 +285,7 @@ describe('Organizational View Effects', () => {
       marbles((m) => {
         const resultEmployee = {
           employeeId: '12',
+          reportDate: '123',
         } as unknown as Employee;
         const response = m.cold('-a|', {
           a: resultEmployee,
@@ -301,7 +303,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getParentEmployee
-        ).toHaveBeenCalledWith(childEmployeeId);
+        ).toHaveBeenCalledWith(childEmployeeId, childEmployeeReportDate);
       })
     );
 
@@ -324,7 +326,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getParentEmployee
-        ).toHaveBeenCalledWith(childEmployeeId);
+        ).toHaveBeenCalledWith(childEmployeeId, childEmployeeReportDate);
       })
     );
   });

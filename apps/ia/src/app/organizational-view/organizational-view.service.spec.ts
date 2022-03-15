@@ -101,14 +101,17 @@ describe('OrganizationalViewService', () => {
       const mock: ParentEmployeeResponse = {
         employee: {} as unknown as Employee,
       };
-      const request = '123';
+      const childEmployeeId = '123';
+      const childEmployeeReportDate = '345';
 
-      service.getParentEmployee(request).subscribe((response) => {
-        expect(response).toEqual(mock);
-      });
+      service
+        .getParentEmployee(childEmployeeId, childEmployeeReportDate)
+        .subscribe((response) => {
+          expect(response).toEqual(mock);
+        });
 
       const req = httpMock.expectOne(
-        'api/v1/parent-employee?child_employee_id=123'
+        'api/v1/parent-employee?child_employee_id=123&child_employee_report_date=345'
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
