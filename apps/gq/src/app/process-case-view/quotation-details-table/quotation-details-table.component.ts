@@ -3,11 +3,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
+  AgGridEvent,
   ColDef,
   ColumnApi,
   ExcelStyle,
   FirstDataRenderedEvent,
   GridReadyEvent,
+  RowNode,
   SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
@@ -101,6 +103,12 @@ export class QuotationDetailsTableComponent implements OnInit {
   }
 
   public onColumnChange(event: SortChangedEvent): void {
+    const columnData = this.buildColumnData(event);
+
+    this.agGridStateService.setColumnData(
+      this.tableContext.quotation.gqId.toString(),
+      columnData
+    );
     this.agGridStateService.setColumnState(
       this.TABLE_KEY,
       event.columnApi.getColumnState()
@@ -108,11 +116,26 @@ export class QuotationDetailsTableComponent implements OnInit {
   }
 
   public onGridReady(event: GridReadyEvent): void {
+    const quotationId = this.tableContext.quotation.gqId.toString();
+    if (!this.agGridStateService.getColumnData(quotationId)) {
+      const columnData = this.buildColumnData(event);
+      this.agGridStateService.setColumnData(quotationId, columnData);
+    }
+
     const state = this.agGridStateService.getColumnState(this.TABLE_KEY);
     if (state) {
       event.columnApi.setColumnState(state);
     }
   }
+
+  private readonly buildColumnData = (event: AgGridEvent) => {
+    const columnData: QuotationDetail[] = [];
+    event.api.forEachNodeAfterFilterAndSort((node: RowNode) => {
+      columnData.push(node.data);
+    });
+
+    return columnData;
+  };
 
   public onFirstDataRendered(event: FirstDataRenderedEvent): void {
     const gridColumnApi: ColumnApi = event.columnApi;

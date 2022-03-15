@@ -31,6 +31,18 @@
     </div>
   </div>
 </div>
+
+<ng-container *ngrxLet="quotationDetail$ as quotationDetail">
+  <gq-detail-view-navigation-bar
+    *ngIf="quotationDetail && quotations && quotations.length >= 2"
+    [numberOfCases]="quotations.length"
+    [selectedCaseIndex]="
+      getSelectedQuotationIndex(quotationDetail.gqPositionId)
+    "
+    (navigateToCase)="onNavigateToQuotationByIndex($event)"
+  ></gq-detail-view-navigation-bar>
+</ng-container>
+
 <ng-template #loading>
   <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

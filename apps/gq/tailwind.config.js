@@ -8,7 +8,12 @@ module.exports = {
   ],
   presets: [require('../../tailwind.config')],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'navy-blue': '#16223B',
+        'navy-gray': '#444E61',
+      },
+    },
   },
   plugins: [],
 };

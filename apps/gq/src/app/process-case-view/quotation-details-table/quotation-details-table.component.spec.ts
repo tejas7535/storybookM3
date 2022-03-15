@@ -3,6 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgGridEvent } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -18,6 +19,7 @@ import {
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
+import { Quotation } from '../../shared/models';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -58,6 +60,7 @@ describe('QuotationDetailsTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    component.quotation = { gqId: 12 } as Quotation;
   });
 
   test('should create', () => {
@@ -83,49 +86,104 @@ describe('QuotationDetailsTableComponent', () => {
   });
 
   describe('columnChange', () => {
-    test('should set column state', () => {
-      const event = {
+    let event: any;
+
+    beforeEach(() => {
+      event = {
         columnApi: {
           getColumnState: jest.fn(),
         },
+        api: {
+          forEachNodeAfterFilterAndSort: jest.fn(),
+        },
       } as any;
+
+      component['agGridStateService'].setColumnData = jest.fn();
       component['agGridStateService'].setColumnState = jest.fn();
+    });
+
+    test('should set column state', () => {
       component.onColumnChange(event);
 
       expect(
         component['agGridStateService'].setColumnState
       ).toHaveBeenCalledTimes(1);
     });
+
+    test('should set column data', () => {
+      component['agGridStateService'].setColumnState = jest.fn();
+      component.onColumnChange(event);
+
+      expect(
+        component['agGridStateService'].setColumnData
+      ).toHaveBeenCalledTimes(1);
+    });
   });
+
   describe('onGridReady', () => {
-    test('should set columnState', () => {
-      const event = {
+    let mockEvent: AgGridEvent;
+
+    beforeEach(() => {
+      mockEvent = {
         columnApi: {
           setColumnState: jest.fn(),
+        },
+        api: {
+          forEachNodeAfterFilterAndSort: jest.fn(),
         },
       } as any;
 
+      component['agGridStateService'].getColumnState = jest.fn();
+      component['agGridStateService'].getColumnData = jest.fn();
+      component['agGridStateService'].setColumnData = jest.fn();
+    });
+
+    test('should set columnState', () => {
       component['agGridStateService'].getColumnState = jest
         .fn()
         .mockReturnValue('state');
-      component.onGridReady(event);
+      component.onGridReady(mockEvent);
+
       expect(
         component['agGridStateService'].getColumnState
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.setColumnState).toHaveBeenCalledTimes(1);
+      expect(mockEvent.columnApi.setColumnState).toHaveBeenCalledTimes(1);
     });
+
     test('should not set columnState', () => {
-      const event = {
-        columnApi: {
-          setColumnState: jest.fn(),
-        },
-      } as any;
-      component['agGridStateService'].getColumnState = jest.fn();
-      component.onGridReady(event);
+      component.onGridReady(mockEvent);
+
       expect(
         component['agGridStateService'].getColumnState
       ).toHaveBeenCalledTimes(1);
-      expect(event.columnApi.setColumnState).toHaveBeenCalledTimes(0);
+      expect(mockEvent.columnApi.setColumnState).toHaveBeenCalledTimes(0);
+    });
+
+    test("should set column data if it doesn't exist", () => {
+      component['agGridStateService'].getColumnData = jest
+        .fn()
+        .mockImplementation(() => {});
+      component.onGridReady(mockEvent);
+
+      expect(
+        component['agGridStateService'].setColumnData
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    test('should NOT set column data if already exist', () => {
+      component['agGridStateService'].getColumnData = jest
+        .fn()
+        .mockImplementation(() => [
+          {
+            gqPositionId: '123',
+            quotationItemId: '456',
+          },
+        ]);
+      component.onGridReady(mockEvent);
+
+      expect(
+        component['agGridStateService'].setColumnData
+      ).toHaveBeenCalledTimes(0);
     });
   });
 

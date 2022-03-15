@@ -15,6 +15,7 @@ import { CustomerHeaderModule } from '../../shared/header/customer-header/custom
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
 import { DetailViewHeaderContentModule } from './detail-view-header-content/detail-view-header-content.module';
+import { DetailViewNavigationBarModule } from './detail-view-navigation-bar/detail-view-navigation-bar.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
@@ -23,6 +24,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
   imports: [
     DetailViewRoutingModule,
     DetailViewHeaderContentModule,
+    DetailViewNavigationBarModule,
     FilterPricingModule,
     MatButtonModule,
     MatSidenavModule,

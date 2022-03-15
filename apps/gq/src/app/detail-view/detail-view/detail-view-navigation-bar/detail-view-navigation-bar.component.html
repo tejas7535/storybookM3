@@ -1,0 +1,73 @@
+<div
+  class="bg-navy-blue absolute bottom-16 left-1/2 flex -translate-x-1/2 flex-row items-center rounded-md py-4"
+>
+  <button
+    class="ml-6 flex items-center justify-center"
+    (click)="onFirstCaseClicked()"
+    [disabled]="selectedCaseIndex === 0"
+  >
+    <mat-icon
+      class="cursor-pointer text-icon"
+      [ngClass]="{
+        'text-white': selectedCaseIndex > 0,
+        'text-low-emphasis-dark-bg': selectedCaseIndex === 0
+      }"
+      >first_page</mat-icon
+    >
+  </button>
+
+  <button
+    class="mx-6 flex items-center justify-center"
+    (click)="onPrevCaseClicked()"
+    [disabled]="selectedCaseIndex === 0"
+  >
+    <mat-icon
+      class="cursor-pointer text-icon"
+      [ngClass]="{
+        'text-white': selectedCaseIndex > 0,
+        'text-low-emphasis-dark-bg': selectedCaseIndex === 0
+      }"
+      >arrow_back</mat-icon
+    >
+  </button>
+
+  <input
+    matInput
+    class="bg-navy-gray w-24 appearance-none rounded-md px-3 py-2 text-center text-white outline-none placeholder:text-white focus:placeholder:text-low-emphasis-dark-bg"
+    type="text"
+    placeholder="{{ selectedCaseIndex + 1 }} / {{ numberOfCases }}"
+    [formControl]="customIndexFormControl"
+    (blur)="onCustomIndexEntered()"
+    (keydown.enter)="onCustomIndexEntered()"
+  />
+
+  <button
+    class="mx-6 flex items-center justify-center"
+    (click)="onNextCaseClicked()"
+    [disabled]="selectedCaseIndex >= numberOfCases - 1"
+  >
+    <mat-icon
+      class="cursor-pointer text-icon"
+      [ngClass]="{
+        'text-white': selectedCaseIndex < numberOfCases - 1,
+        'text-low-emphasis-dark-bg': selectedCaseIndex >= numberOfCases - 1
+      }"
+      >arrow_forward</mat-icon
+    >
+  </button>
+
+  <button
+    class="mr-6 flex items-center justify-center"
+    (click)="onLastCaseClicked()"
+    [disabled]="selectedCaseIndex >= numberOfCases - 1"
+  >
+    <mat-icon
+      class="cursor-pointer pr-6 text-icon"
+      [ngClass]="{
+        'text-white': selectedCaseIndex < numberOfCases - 1,
+        'text-low-emphasis-dark-bg': selectedCaseIndex >= numberOfCases - 1
+      }"
+      >last_page</mat-icon
+    >
+  </button>
+</div>

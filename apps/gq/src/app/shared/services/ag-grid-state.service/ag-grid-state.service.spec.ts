@@ -2,6 +2,8 @@ import { ColumnState } from '@ag-grid-enterprise/all-modules';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import { QuotationDetail } from '../../models/quotation-detail';
 import { AgGridStateService } from './ag-grid-state.service';
 
 class LocalStorageMock {
@@ -89,6 +91,73 @@ describe('AgGridStateService', () => {
       service.setColumnState('key', columnState);
 
       expect(localStorage.store.key).toEqual(expected);
+    });
+  });
+
+  describe('getColumnData', () => {
+    test('should return null if theres no entry in localstorage', () => {
+      expect(service.getColumnData('1234')).toBeNull();
+    });
+
+    test('should return data', () => {
+      const columnData = [
+        {
+          gqPositionId: '53c0bea0-532c-4b27-8cf6-0293d8543bcf',
+          quotationItemId: '220',
+        },
+      ];
+      const fakeStore = { '1234_items': JSON.stringify(columnData) };
+
+      localStorage.setStore(fakeStore);
+
+      const result = service.getColumnData('1234');
+
+      expect(result).toEqual(columnData);
+    });
+  });
+
+  describe('setColumnData', () => {
+    test('should save the gqPositionId and quotationId of quotation details to the local storage', () => {
+      service.localStorage.setStore({});
+
+      const quotationDetails: QuotationDetail[] = [
+        {
+          ...QUOTATION_DETAIL_MOCK,
+          gqPositionId: '53c0bea0-532c-4b27-8cf6-0293d8543bcf',
+          quotationItemId: 220,
+        },
+      ];
+      const expected =
+        '[{"gqPositionId":"53c0bea0-532c-4b27-8cf6-0293d8543bcf","quotationItemId":220}]';
+
+      service.setColumnData('1234', quotationDetails);
+
+      expect(localStorage.store['1234_items']).toEqual(expected);
+    });
+
+    test('should replace entry in localstorage if key is already present', () => {
+      const fakeStore = {
+        key: JSON.stringify({
+          columnData:
+            '[{"gqPositionId":"53c0bea0-532c-4b27-8cf6-0293d8543bcf","quotationItemId":220}]',
+        }),
+      };
+
+      service.localStorage.setStore(fakeStore);
+
+      const quotationDetails: QuotationDetail[] = [
+        {
+          ...QUOTATION_DETAIL_MOCK,
+          gqPositionId: '5ac062e6-8c0b-4457-8548-3e126bd9a96f',
+          quotationItemId: 330,
+        },
+      ];
+      const expected =
+        '[{"gqPositionId":"5ac062e6-8c0b-4457-8548-3e126bd9a96f","quotationItemId":330}]';
+
+      service.setColumnData('1234', quotationDetails);
+
+      expect(localStorage.store['1234_items']).toEqual(expected);
     });
   });
 });
