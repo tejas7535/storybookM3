@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -15,6 +16,7 @@ import { CalculationsTableComponent } from './calculations-table.component';
 @NgModule({
   declarations: [CalculationsTableComponent],
   imports: [
+    CommonModule,
     CalculationsStatusBarModule,
     SharedTranslocoModule,
     AgGridModule.withComponents([

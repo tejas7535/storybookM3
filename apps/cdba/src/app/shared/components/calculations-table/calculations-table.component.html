@@ -1,5 +1,6 @@
 <ag-grid-angular
   class="ag-theme-material h-full"
+  [ngClass]="{ 'embedded-table': minified }"
   [rowData]="rowData"
   [defaultColDef]="defaultColDef"
   [columnDefs]="columnDefs"

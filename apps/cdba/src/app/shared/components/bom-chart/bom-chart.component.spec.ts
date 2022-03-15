@@ -22,7 +22,7 @@ import { BomChartConfigService } from './bom-chart-config.service';
 window.ResizeObserver = resize_observer_polyfill;
 
 describe('BomChartComponent', () => {
-  let specatator: Spectator<BomChartComponent>;
+  let spectator: Spectator<BomChartComponent>;
   let component: BomChartComponent;
   let configService: BomChartConfigService;
 
@@ -55,12 +55,12 @@ describe('BomChartComponent', () => {
   });
 
   beforeEach(() => {
-    specatator = createComponent();
-    configService = specatator.inject(BomChartConfigService);
-    component = specatator.component;
+    spectator = createComponent();
+    configService = spectator.inject(BomChartConfigService);
+    component = spectator.component;
     component.data = data;
 
-    specatator.detectChanges();
+    spectator.detectChanges();
   });
 
   it('should create', () => {

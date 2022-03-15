@@ -10,7 +10,7 @@ import { COST_SHARE_CATEGORY_COLORS } from '@cdba/shared/constants/colors';
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService } from '@cdba/shared/services';
 
-import { BomItem } from '../../models';
+import { BomItem, Calculation } from '../../models';
 import { TOOLTIP_CONFIG, Y_AXIS_CONFIG } from './bom-chart.constants';
 import { DataPoint } from './data-point.model';
 
@@ -26,6 +26,10 @@ export class BomChartComponent implements OnChanges {
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
     private readonly costShareService: CostShareService
   ) {}
+
+  @Input() public materialDesignation: string;
+  @Input() public selectedBomItem: BomItem;
+  @Input() public selectedCalculation: Calculation;
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input() public set data(data: BomItem[]) {

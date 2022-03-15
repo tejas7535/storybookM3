@@ -107,4 +107,11 @@ button {
       margin-left: 22px !important;
     }
   }
+
+  &.embedded-table {
+    .ag-row {
+      border-left: none;
+      border-right: none;
+    }
+  }
 }

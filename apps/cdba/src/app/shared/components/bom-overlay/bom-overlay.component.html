@@ -3,21 +3,21 @@
   *transloco="let t; read: 'shared.bom.additionalInformation'"
 >
   <div
-    class="flex h-[50px] cursor-pointer items-center"
+    class="flex h-[50px] cursor-pointer items-center justify-between px-4"
     matRipple
     (click)="onClose()"
   >
-    <mat-icon class="mx-4 text-medium-emphasis">close</mat-icon>
     <span>{{ t('title') }}</span>
+    <mat-icon class="text-medium-emphasis">close</mat-icon>
   </div>
   <mat-tab-group mat-stretch-tabs class="flex-1">
+    <mat-tab label="{{ t('chart') | uppercase }}">
+      <ng-content select="[chart]"></ng-content>
+    </mat-tab>
     <mat-tab label="{{ t('calculations') | uppercase }}">
       <div class="h-full">
         <ng-content select="[calculations]"></ng-content>
       </div>
-    </mat-tab>
-    <mat-tab label="{{ t('chart') | uppercase }}">
-      <ng-content select="[chart]"></ng-content>
     </mat-tab>
   </mat-tab-group>
 </div>

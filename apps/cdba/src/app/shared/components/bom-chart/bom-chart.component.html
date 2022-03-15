@@ -1,4 +1,13 @@
 <ng-container *ngIf="barChartData.length > 0; else showSelectionHint">
+  <div class="p-4 text-caption">
+    <span class="mr-3 inline-block">{{
+      selectedBomItem?.materialDesignation || materialDesignation
+        | scrambleMaterialDesignation
+    }}</span>
+    <span class="text-medium-emphasis">{{
+      selectedCalculation?.calculationDate | translocoDate
+    }}</span>
+  </div>
   <div echarts [options]="options"></div>
 </ng-container>
 
