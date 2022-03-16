@@ -30,16 +30,22 @@ This library provides the following actions for you to dispatch from within your
 
 ### NGRX Selectors
 
-This library provides the following selectors that can be used from within your application to retrieve auth information:
+This library provides the following (piped) selectors that can be used from within your application to retrieve auth information:
 
-- `getUsername`: get username
-- `getUserDepartment`: get department of the user
-- `getUserUniqueIdentifier`: get the uid of an user (e.g. 'kauppfbi')
-- `getIsLoggedIn`: get logged in status
-- `getRoles`: get frontend roles of user
-- `getBackendRoles`: get backend roles of user
-- `getAccountInfo`: get whole account information from user
-- `getProfileImage`: get url to load the profile image
+| selector               | description | ngrx selector  | usage | comment | 
+| -----------------------| ------------| ------------------| ----- | ------- |
+| `getUsername` | get username | ✅ | `this.store.select(getUsername)` | |
+| `getUserDepartment` | get department of the user | ✅ | `this.store.select(getUserDepartment)` | |
+| `getUserUniqueIdentifier` | get the uid of an user (e.g. 'kauppfbi') | ✅ | `this.store.select(getUserUniqueIdentifier)` | |
+| `getIsLoggedIn` | get logged in status | ✅ | `this.store.select(getIsLoggedIn)` | |
+| `getAccountInfo` | get whole account information from user | ✅ | `this.store.select(getAccountInfo)` | |
+| `getProfileImage` | get url to load the profile image | ✅ | `this.store.select(getProfileImage)` | |
+| `getBackendRoles` | get backend roles (accessToken) of user | ✅  | `this.store.select(getBackendRoles)` | These roles should not be used in AuthGuards or similar. Please only display them to give your user better transparency |
+| | | | | | 
+| `getRoles` | get id token roles of user | ❌ | `this.store.pipe(getRoles)` | only emits a value when user is logged in | 
+| `hasIdTokenRole` | check if user has specific role | ❌ | `this.store.pipe(hasIdTokenRole('BasicRole'))` | only emits a value when user is logged in | 
+| `hasIdTokenRoles` | check if user has all given roles | ❌ | `this.store.pipe(hasIdTokenRoles(['Role-A', 'Role-B']))` | only emits a value when user is logged in | 
+| `hasAnyIdTokenRole` | ckeck if user has one of the given roles | ❌ | `this.store.pipe(hasAnyIdTokenRole(['Role-A', 'Role-B']))` | only emits a value when user is logged in | 
 
 ### Guards
 

@@ -1,4 +1,10 @@
+import { TestBed } from '@angular/core/testing';
+
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
+
 import { AccountInfo } from '../../models';
+import { AuthState } from '../reducers/auth.reducer';
 import * as fromAuthSelectors from './auth.selectors';
 
 describe('Azure Auth selectors', () => {
@@ -90,190 +96,305 @@ describe('Azure Auth selectors', () => {
     ).toBeFalsy();
   });
 
-  describe('role selectors', () => {
-    let idTokenRoles: string[];
-
-    beforeEach(() => {
-      idTokenRoles = undefined;
-    });
-    describe('getRoles', () => {
-      test('should return roles', () => {
-        const accountInfo = {
-          name: 'Test',
-          idTokenClaims: {
-            roles: ['User'],
-          },
-        } as unknown as AccountInfo;
-
-        expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([
-          'User',
-        ]);
-      });
-
-      test('should return empty array if no roles are present', () => {
-        const accountInfo = { name: 'Test' } as unknown as AccountInfo;
-
-        expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual(
-          []
-        );
-      });
-    });
-
-    describe('backend role selectors', () => {
-      describe('getBackendRoles', () => {
-        test('should return backend roles', () => {
-          const accountInfo = {
-            backendRoles: ['Admin'],
-          } as unknown as AccountInfo;
-
-          expect(
-            fromAuthSelectors.getBackendRoles.projector({ accountInfo })
-          ).toEqual(['Admin']);
-        });
-
-        test('should return empty array if no backend roles are present', () => {
-          const accountInfo = { name: 'Test' } as unknown as AccountInfo;
-
-          expect(
-            fromAuthSelectors.getBackendRoles.projector({ accountInfo })
-          ).toEqual([]);
-        });
-      });
-    });
-
-    describe('hasIdTokenRole', () => {
-      test('should return true if given role exists', () => {
-        idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors.hasIdTokenRole('BaseAccess').projector(idTokenRoles)
-        ).toBeTruthy();
-      });
-
-      test('should return false if given role does not exists', () => {
-        idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors.hasIdTokenRole('User').projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if given role is undefined', () => {
-        idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
-
-        expect(
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          fromAuthSelectors.hasIdTokenRole(undefined).projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if idTokenRoles are undefined', () => {
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        idTokenRoles = undefined;
-
-        expect(
-          fromAuthSelectors.hasIdTokenRole('User').projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-    });
-    describe('hasIdTokenRoles', () => {
-      test('should return true if given roles exists', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors
-            .hasIdTokenRoles(['BaseAccess', 'User'])
-            .projector(idTokenRoles)
-        ).toBeTruthy();
-      });
-
-      test('should return false if given roles do not exist', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors
-            .hasIdTokenRoles(['Admin', 'SuperUser'])
-            .projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if not all given roles exist', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors
-            .hasIdTokenRoles(['User', 'Admin'])
-            .projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if given roles array is undefined', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          fromAuthSelectors.hasIdTokenRoles(undefined).projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if idTokenRoles are undefined', () => {
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        idTokenRoles = undefined;
-
-        expect(
-          fromAuthSelectors.hasIdTokenRoles(['User']).projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-    });
-
-    describe('hasAnyIdTokenRole', () => {
-      test('should return true if any of given roles exists', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors
-            .hasAnyIdTokenRole(['BaseAccess', 'User'])
-            .projector(idTokenRoles)
-        ).toBeTruthy();
-      });
-
-      test('should return false if no of given roles exist', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          fromAuthSelectors
-            .hasAnyIdTokenRole(['Admin', 'SuperUser'])
-            .projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if given roles are undefined', () => {
-        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
-
-        expect(
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          fromAuthSelectors.hasAnyIdTokenRole(undefined).projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-
-      test('should return false if idTokenRoles are undefined', () => {
-        // eslint-disable-next-line unicorn/no-useless-undefined
-        idTokenRoles = undefined;
-
-        expect(
-          fromAuthSelectors
-            .hasAnyIdTokenRole(['User', 'Foo', 'Bar'])
-            .projector(idTokenRoles)
-        ).toBeFalsy();
-      });
-    });
-  });
-
   test('should return profile image url', () => {
     const url = 'my-sweet-img.png';
 
     expect(
       fromAuthSelectors.getProfileImage.projector({ profileImage: { url } })
     ).toEqual(url);
+  });
+
+  describe('role selectors', () => {
+    let store: MockStore;
+    let idTokenRoles: string[];
+    let expected: any;
+    let result: any;
+
+    beforeEach(() =>
+      TestBed.configureTestingModule({
+        providers: [provideMockStore()],
+      })
+    );
+
+    beforeEach(() => {
+      store = TestBed.inject(MockStore);
+
+      idTokenRoles = undefined;
+      expected = undefined;
+      result = undefined;
+    });
+
+    const prepareMockState = (authState: Partial<AuthState>) => ({
+      'azure-auth': authState,
+    });
+
+    const prepareAuthMockStateWithRoles = (roles: string[]) =>
+      prepareMockState({
+        accountInfo: {
+          name: 'Test',
+          idTokenClaims: {
+            roles,
+          },
+        } as unknown as AccountInfo,
+      });
+
+    describe('getRoles', () => {
+      test(
+        'should return roles',
+        marbles((m) => {
+          const accountInfo = {
+            name: 'Test',
+            idTokenClaims: {
+              roles: ['User'],
+            },
+          } as unknown as AccountInfo;
+
+          store.setState(prepareMockState({ accountInfo }));
+          expected = m.cold('a', { a: ['User'] });
+
+          result = store.pipe(fromAuthSelectors.getRoles);
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return empty array if no roles are present',
+        marbles((m) => {
+          const accountInfo = { name: 'Test' } as unknown as AccountInfo;
+
+          store.setState(prepareMockState({ accountInfo }));
+          expected = m.cold('a', { a: [] });
+
+          result = store.pipe(fromAuthSelectors.getRoles);
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+    });
+
+    describe('hasIdTokenRole', () => {
+      test(
+        'should return true if given role exists',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: true });
+          result = store.pipe(fromAuthSelectors.hasIdTokenRole('BaseAccess'));
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if given role does not exists',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+          result = store.pipe(fromAuthSelectors.hasIdTokenRole('User'));
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if given role is undefined',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          result = store.pipe(fromAuthSelectors.hasIdTokenRole(undefined));
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if idTokenRoles are undefined',
+        marbles((m) => {
+          idTokenRoles = undefined;
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+          result = store.pipe(fromAuthSelectors.hasIdTokenRole('User'));
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+    });
+
+    describe('hasIdTokenRoles', () => {
+      test(
+        'should return true if given roles exists',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: true });
+          result = store.pipe(
+            fromAuthSelectors.hasIdTokenRoles(['BaseAccess', 'User'])
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if given roles do not exist',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          result = store.pipe(
+            fromAuthSelectors.hasIdTokenRoles(['Admin', 'SuperUser'])
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if not all given roles exist',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          result = store.pipe(
+            fromAuthSelectors.hasIdTokenRoles(['User', 'Admin'])
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if given roles array is undefined',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          result = store.pipe(fromAuthSelectors.hasIdTokenRoles(undefined));
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if idTokenRoles are undefined',
+        marbles((m) => {
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          idTokenRoles = undefined;
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          result = store.pipe(fromAuthSelectors.hasIdTokenRoles(['User']));
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+    });
+
+    describe('hasAnyIdTokenRole', () => {
+      test(
+        'should return true if any of given roles exists',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: true });
+
+          result = store.pipe(
+            fromAuthSelectors.hasAnyIdTokenRole(['BaseAccess', 'User'])
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if no of given roles exist',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          result = store.pipe(
+            fromAuthSelectors.hasAnyIdTokenRole(['Admin', 'SuperUser'])
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if given roles are undefined',
+        marbles((m) => {
+          idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          result = store.pipe(
+            // eslint-disable-next-line unicorn/no-useless-undefined
+            fromAuthSelectors.hasAnyIdTokenRole(undefined)
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+
+      test(
+        'should return false if idTokenRoles are undefined',
+        marbles((m) => {
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          idTokenRoles = undefined;
+          store.setState(prepareAuthMockStateWithRoles(idTokenRoles));
+
+          expected = m.cold('a', { a: false });
+
+          result = store.pipe(
+            fromAuthSelectors.hasAnyIdTokenRole(['User', 'Foo', 'Bar'])
+          );
+
+          m.expect(result).toBeObservable(expected);
+        })
+      );
+    });
+  });
+
+  describe('backend role selectors', () => {
+    describe('getBackendRoles', () => {
+      test('should return backend roles', () => {
+        const accountInfo = {
+          backendRoles: ['Admin'],
+        } as unknown as AccountInfo;
+
+        expect(
+          fromAuthSelectors.getBackendRoles.projector({ accountInfo })
+        ).toEqual(['Admin']);
+      });
+
+      test('should return empty array if no backend roles are present', () => {
+        const accountInfo = { name: 'Test' } as unknown as AccountInfo;
+
+        expect(
+          fromAuthSelectors.getBackendRoles.projector({ accountInfo })
+        ).toEqual([]);
+      });
+    });
   });
 });
