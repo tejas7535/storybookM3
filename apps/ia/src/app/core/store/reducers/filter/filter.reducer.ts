@@ -3,6 +3,10 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
+  getMonth12MonthsAgo,
+  getTimeRangeFromDates,
+} from '../../../../shared/utils/utilities';
+import {
   filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -22,6 +26,13 @@ export interface FilterState {
   selectedTimePeriod: TimePeriod;
   selectedTimeRange: string;
 }
+
+const getInitialSelectedTimeRange = () => {
+  const nowDate = new Date();
+  const oldDate = getMonth12MonthsAgo(nowDate);
+
+  return getTimeRangeFromDates(oldDate, nowDate);
+};
 
 export const initialState: FilterState = {
   orgUnits: [],
@@ -47,7 +58,7 @@ export const initialState: FilterState = {
   errorMessage: undefined,
   selectedFilters: filterAdapter.getInitialState(),
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
-  selectedTimeRange: undefined,
+  selectedTimeRange: getInitialSelectedTimeRange(),
 };
 
 export const filterReducer = createReducer(

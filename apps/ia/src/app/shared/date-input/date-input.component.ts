@@ -12,6 +12,7 @@ import {
 } from '@angular/material/datepicker';
 
 import { TimePeriod } from '../models';
+import { getMonth12MonthsAgo, getTimeRangeFromDates } from '../utils/utilities';
 
 @Component({
   selector: 'ia-date-input',
@@ -89,9 +90,7 @@ export class DateInputComponent {
         break;
       }
       case TimePeriod.LAST_12_MONTHS: {
-        const old = new Date(this.nowDate.getTime());
-        old.setMonth(this.nowDate.getMonth() - 12);
-        old.setDate(old.getDate() + 1);
+        const old = getMonth12MonthsAgo(this.nowDate);
         this.rangeInput.controls.start.setValue(old);
         this.rangeInput.controls.end.setValue(this.nowDate);
         break;
@@ -164,7 +163,10 @@ export class DateInputComponent {
   emitChange(): void {
     // emit from|to dates
     this.selected.emit(
-      `${this.rangeInput.controls.start.value.getTime()}|${this.rangeInput.controls.end.value.getTime()}`
+      getTimeRangeFromDates(
+        this.rangeInput.controls.start.value,
+        this.rangeInput.controls.end.value
+      )
     );
   }
 }

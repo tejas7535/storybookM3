@@ -1,5 +1,5 @@
 import { IdValue } from '../../shared/models/id-value.model';
 
-export interface InitialFiltersResponse {
-  orgUnits: IdValue[];
+export interface AutoCompleteResponse {
+  items: IdValue[];
 }

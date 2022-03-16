@@ -5,23 +5,33 @@ import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
+import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import { ApiVersion } from '../shared/models';
-import { InitialFiltersResponse } from './models/initial-filters-response.model';
+import { AutoCompleteResponse } from './models/auto-complete-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
-  readonly INITIAL_FILTERS = 'initial-filters';
+  readonly AUTOCOMPLETE_ORG_UNITS = 'org-units';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly paramsCreator: ParamsCreatorService
+  ) {}
 
-  getInitialFilters(): Observable<InitialFiltersResponse> {
-    return this.http.get<InitialFiltersResponse>(
-      `${ApiVersion.V1}/${this.INITIAL_FILTERS}`,
-      {
-        context: withCache(),
-      }
+  getOrgUnits(
+    searchFor: string,
+    timeRange: string
+  ): Observable<AutoCompleteResponse> {
+    const params = this.paramsCreator.createHttpParamsForAutoCompleteOrgUnits(
+      searchFor,
+      timeRange
+    );
+
+    return this.http.get<AutoCompleteResponse>(
+      `${ApiVersion.V1}/${this.AUTOCOMPLETE_ORG_UNITS}`,
+      { params, context: withCache() }
     );
   }
 }

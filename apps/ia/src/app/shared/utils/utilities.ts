@@ -18,3 +18,14 @@ export const getTimeRangeHint = (timePeriod: TimePeriod): string => {
     }
   }
 };
+
+export const getMonth12MonthsAgo = (refDate: Date): Date => {
+  const old = new Date(refDate.getTime());
+  old.setMonth(refDate.getMonth() - 12);
+  old.setDate(old.getDate() + 1);
+
+  return old;
+};
+
+export const getTimeRangeFromDates = (dateOne: Date, dateTwo: Date): string =>
+  `${dateOne.getTime()}|${dateTwo.getTime()}`;
