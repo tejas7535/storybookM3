@@ -1,3 +1,5 @@
+import { map, pipe } from 'rxjs';
+
 import { adminRoles, RolePrefix } from '@cdba/core/auth/auth.config';
 import { RoleDescriptions } from '@cdba/core/auth/models/roles.models';
 import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
@@ -22,9 +24,9 @@ export const getRoleDescriptionsErrorMessage = createSelector(
   (state: RolesState) => state.roleDescriptions.errorMessage
 );
 
-export const getHasDescriptiveRoles = createSelector(
+export const getHasDescriptiveRoles = pipe(
   getRoles,
-  (roles): boolean => {
+  map((roles): boolean => {
     if (roles.some((role) => adminRoles.includes(role))) {
       return true;
     }
@@ -37,5 +39,5 @@ export const getHasDescriptiveRoles = createSelector(
     );
 
     return plRoles.length > 0 && srRoles.length > 0;
-  }
+  })
 );

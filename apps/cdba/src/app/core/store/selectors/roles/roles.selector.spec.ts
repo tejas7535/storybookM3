@@ -1,3 +1,5 @@
+import { TestBed } from '@angular/core/testing';
+
 import { AuthRoles } from '@cdba/core/auth/models/auth.models';
 import { RolesState } from '@cdba/core/store/reducers/roles/models/roles-state.model';
 import { initialState as initialStateRoles } from '@cdba/core/store/reducers/roles/roles.reducer';
@@ -8,6 +10,8 @@ import {
   ROLES_STATE_ERROR_MOCK,
   ROLES_STATE_SUCCESS_MOCK,
 } from '@cdba/testing/mocks';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { AuthState } from '@schaeffler/azure-auth';
 
@@ -86,47 +90,94 @@ describe('Roles Selectors', () => {
   });
 
   describe('getHasDescriptiveRoles', () => {
-    test('should return falsy value with initial state', () => {
-      expect(getHasDescriptiveRoles(mockStateInitial)).toBe(false);
+    let store: MockStore;
+    let expected: any;
+    let result: any;
+
+    beforeEach(() =>
+      TestBed.configureTestingModule({
+        providers: [provideMockStore({ initialState: mockStateInitial })],
+      })
+    );
+
+    beforeEach(() => {
+      store = TestBed.inject(MockStore);
+
+      expected = undefined;
+      result = undefined;
     });
 
-    test('should return false with missing product line role', () => {
-      expect(
-        getHasDescriptiveRoles({
+    test(
+      'should not return a value with initial state',
+      marbles((m) => {
+        expected = m.cold('-');
+        result = store.pipe(getHasDescriptiveRoles);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return false with missing product line role',
+      marbles((m) => {
+        store.setState({
           ...mockStateSuccess,
           'azure-auth': getMockAuthState(['CDBA_SUB_REGION_21']),
-        })
-      ).toBe(false);
-    });
+        });
+        expected = m.cold('a', { a: false });
 
-    test('should return false with missing sub-region role', () => {
-      expect(
-        getHasDescriptiveRoles({
+        result = store.pipe(getHasDescriptiveRoles);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return false with missing sub-region role',
+      marbles((m) => {
+        store.setState({
           ...mockStateSuccess,
           'azure-auth': getMockAuthState(['CDBA_PRODUCT_LINE_03']),
-        })
-      ).toBe(false);
-    });
+        });
+        expected = m.cold('a', { a: false });
 
-    test('should return true with necessary roles', () => {
-      expect(
-        getHasDescriptiveRoles({
+        result = store.pipe(getHasDescriptiveRoles);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return true with necessary roles',
+      marbles((m) => {
+        store.setState({
           ...mockStateSuccess,
           'azure-auth': getMockAuthState([
             'CDBA_PRODUCT_LINE_03',
             'CDBA_SUB_REGION_21',
           ]),
-        })
-      ).toBe(true);
-    });
+        });
+        expected = m.cold('a', { a: true });
 
-    test('should return true with admin role', () => {
-      expect(
-        getHasDescriptiveRoles({
+        result = store.pipe(getHasDescriptiveRoles);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
+
+    test(
+      'should return true with admin role',
+      marbles((m) => {
+        store.setState({
           ...mockStateSuccess,
           'azure-auth': getMockAuthState(['CDBA_ADMIN']),
-        })
-      ).toBe(true);
-    });
+        });
+        expected = m.cold('a', { a: true });
+
+        result = store.pipe(getHasDescriptiveRoles);
+
+        m.expect(result).toBeObservable(expected);
+      })
+    );
   });
 });

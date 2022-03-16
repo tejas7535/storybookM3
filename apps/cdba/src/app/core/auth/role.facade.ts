@@ -8,7 +8,6 @@ import {
 import { Store } from '@ngrx/store';
 
 import {
-  getIsLoggedIn,
   getRoles,
   hasAnyIdTokenRole,
   hasIdTokenRole,
@@ -20,16 +19,15 @@ import { authConfig } from './auth.config';
   providedIn: 'root',
 })
 export class RoleFacade {
-  isLoggedIn$ = this.store.select(getIsLoggedIn);
-  roles$ = this.store.select(getRoles);
+  roles$ = this.store.pipe(getRoles);
   roleDescriptions$ = this.store.select(getRoleDescriptions);
   roleDescriptionsLoaded$ = this.store.select(getRoleDescriptionsLoaded);
-  hasDescriptiveRoles$ = this.store.select(getHasDescriptiveRoles);
-  hasBasicRole$ = this.store.select(hasAnyIdTokenRole(authConfig.basicRoles));
-  hasAnyPricingRole$ = this.store.select(
+  hasDescriptiveRoles$ = this.store.pipe(getHasDescriptiveRoles);
+  hasBasicRole$ = this.store.pipe(hasAnyIdTokenRole(authConfig.basicRoles));
+  hasAnyPricingRole$ = this.store.pipe(
     hasAnyIdTokenRole(authConfig.pricingRoles)
   );
-  hasBetaUserRole$ = this.store.select(hasIdTokenRole(authConfig.betaUserRole));
+  hasBetaUserRole$ = this.store.pipe(hasIdTokenRole(authConfig.betaUserRole));
 
   constructor(private readonly store: Store) {}
 }

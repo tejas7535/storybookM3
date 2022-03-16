@@ -33,10 +33,9 @@ describe('BasicRoleGuard', () => {
 
   describe('canActivateChild', () => {
     test(
-      'should grant access, if user has base role and is logged in',
+      'should grant access, if user has base role',
       marbles((m) => {
         roleFacade.hasBasicRole$ = m.cold('a', { a: true });
-        roleFacade.isLoggedIn$ = m.cold('a', { a: true });
 
         guard
           .canActivateChild()
@@ -48,7 +47,6 @@ describe('BasicRoleGuard', () => {
       'should not grant access if user is lacking base role',
       marbles((m) => {
         roleFacade.hasBasicRole$ = m.cold('a', { a: false });
-        roleFacade.isLoggedIn$ = m.cold('a', { a: true });
         guard['router'].navigate = jest.fn().mockImplementation();
 
         guard
@@ -61,7 +59,6 @@ describe('BasicRoleGuard', () => {
       'should redirect to no-access page if user is not authorized',
       marbles((m) => {
         roleFacade.hasBasicRole$ = m.cold('a', { a: false });
-        roleFacade.isLoggedIn$ = m.cold('a', { a: true });
         guard['router'].navigate = jest.fn().mockImplementation();
 
         guard.canActivateChild().subscribe((granted) => {

@@ -7,8 +7,6 @@ import {
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getIsLoggedIn } from '@schaeffler/azure-auth';
-
 import { DescriptiveRoleGuard } from './descriptive-role.guard';
 
 describe('DescriptiveRoleGuard', () => {
@@ -35,7 +33,6 @@ describe('DescriptiveRoleGuard', () => {
   describe('activate methods', () => {
     test('should grant access', () => {
       store.setState(ROLES_STATE_SUCCESS_MOCK);
-      store.overrideSelector(getIsLoggedIn, true);
 
       guard.canActivate().subscribe((granted) => expect(granted).toBeTruthy());
 
@@ -46,7 +43,6 @@ describe('DescriptiveRoleGuard', () => {
 
     test('should not grant access and redirect to missing-roles path', () => {
       store.setState(ROLES_STATE_ERROR_MOCK);
-      store.overrideSelector(getIsLoggedIn, true);
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard.canActivate().subscribe((granted) => {
