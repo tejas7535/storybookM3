@@ -5,8 +5,12 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
-import { FeatureImportanceGroup, FeatureParams, SortDirection } from './models';
-import { FeatureSelector } from './models/feature-selector.model';
+import { SortDirection } from '../shared/models';
+import {
+  FeatureImportanceGroup,
+  FeatureParams,
+  FeatureSelector,
+} from './models';
 import {
   changeSelectedFeatures,
   loadFeatureImportance,

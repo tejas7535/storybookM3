@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 
 import { withCache } from '@ngneat/cashew';
 
-import { ApiVersion } from '../shared/models';
-import { FeatureImportanceGroup, Slice, SortDirection } from './models';
+import { ApiVersion, Slice, SortDirection } from '../shared/models';
+import { FeatureImportanceGroup } from './models';
 import { EmployeeAnalytics } from './models/employee-analytics.model';
 import { FeatureParams } from './models/feature-params.model';
 

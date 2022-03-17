@@ -1,13 +1,11 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
+import { Pageable, Sort, SortDirection } from '../../shared/models';
 import {
+  EmployeeAnalytics,
   FeatureImportanceGroup,
-  Pageable,
-  Sort,
-  SortDirection,
+  FeatureParams,
 } from '../models';
-import { EmployeeAnalytics } from '../models/employee-analytics.model';
-import { FeatureParams } from '../models/feature-params.model';
 import {
   changeOrderOfFeatures,
   changeSelectedFeatures,

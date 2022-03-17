@@ -1,8 +1,11 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { FeatureImportanceGroup, Slice } from '../../models';
-import { EmployeeAnalytics } from '../../models/employee-analytics.model';
-import { FeatureParams } from '../../models/feature-params.model';
+import { Slice } from '../../../shared/models';
+import {
+  EmployeeAnalytics,
+  FeatureImportanceGroup,
+  FeatureParams,
+} from '../../models';
 
 export const loadEmployeeAnalytics = createAction(
   '[AttritionAnalytics] Load Employee Analytics',

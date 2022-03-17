@@ -5,5 +5,6 @@ export * from './employee';
 export * from './employees-request.model';
 export * from './filter';
 export * from './id-value.model';
+export * from './pageable';
 export * from './position.model';
 export * from './tailwind-color.enum';

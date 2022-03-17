@@ -6,7 +6,4 @@ export * from './feature-importance-data-point.model';
 export * from './feature-importance-group.model';
 export * from './feature-importance-type.model';
 export * from './feature-params.model';
-export * from './pageable.model';
-export * from './slice.model';
-export * from './sort.model';
-export * from './sort-direction.enum';
+export * from './feature-selector.model';

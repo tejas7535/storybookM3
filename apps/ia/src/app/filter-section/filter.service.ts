@@ -6,8 +6,7 @@ import { map, Observable } from 'rxjs';
 import { withCache } from '@ngneat/cashew';
 
 import { ParamsCreatorService } from '../shared/http/params-creator.service';
-import { ApiVersion, IdValue } from '../shared/models';
-import { AutoCompleteResponse } from './models/auto-complete-response.model';
+import { ApiVersion, IdValue, Slice } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +27,10 @@ export class FilterService {
     );
 
     return this.http
-      .get<AutoCompleteResponse>(
+      .get<Slice<IdValue>>(
         `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.AUTOCOMPLETE_ORG_UNITS}`,
         { params, context: withCache() }
       )
-      .pipe(map((result) => result.items));
+      .pipe(map((result) => result.content));
   }
 }

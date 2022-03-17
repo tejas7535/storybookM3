@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EChartsOption } from 'echarts';
 
-import { FeatureImportanceGroup, SortDirection } from '../models';
+import { SortDirection } from '../../shared/models';
+import { FeatureImportanceGroup } from '../models';
 import { createFeaturesImportanceConfig } from './feature-importance.config';
 
 @Component({
