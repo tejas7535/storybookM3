@@ -12,9 +12,9 @@ import { updateUserSettings } from '../store/actions/user-settings.action';
 })
 export class UserSettingsDialogComponent {
   selected: SelectedFilter;
-  invalidResortInput: boolean;
-  resorts: Filter = {
-    name: FilterKey.RESORT,
+  invalidOrgUnitInput: boolean;
+  orgUnit: Filter = {
+    name: FilterKey.ORG_UNIT,
     options: [
       { id: 'HR', value: 'HR' },
       { id: 'IT', value: 'IT' },
@@ -28,12 +28,12 @@ export class UserSettingsDialogComponent {
     this.selected = option;
   }
 
-  resortInvalid(invalid: boolean): void {
-    this.invalidResortInput = invalid;
+  orgUnitInvalid(invalid: boolean): void {
+    this.invalidOrgUnitInput = invalid;
   }
 
   updateUserSettings(): void {
-    const data = { resort: this.selected.value as string };
+    const data = { orgUnit: this.selected.id };
     this.store.dispatch(updateUserSettings({ data }));
   }
 }

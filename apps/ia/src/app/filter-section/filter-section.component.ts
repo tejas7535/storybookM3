@@ -6,11 +6,13 @@ import { Store } from '@ngrx/store';
 
 import {
   filterSelected,
+  loadOrgUnits,
   timePeriodSelected,
   timeRangeSelected,
 } from '../core/store/actions';
 import {
-  getOrgUnits,
+  getOrgUnitsFilter,
+  getOrgUnitsLoading,
   getSelectedFilterValues,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
@@ -26,17 +28,19 @@ import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 export class FilterSectionComponent implements OnInit {
   isExpanded = true;
 
-  orgUnits$: Observable<Filter>;
+  orgUnitsFilter$: Observable<Filter>;
+  orgUnitsLoading$: Observable<boolean>;
   selectedOrgUnit$: Observable<string>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<string>;
-  selectedFilterValues$: Observable<(string | number)[]>;
+  selectedFilterValues$: Observable<string[]>;
 
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.orgUnits$ = this.store.select(getOrgUnits);
+    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
+    this.orgUnitsLoading$ = this.store.select(getOrgUnitsLoading);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
     this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit);
@@ -62,5 +66,9 @@ export class FilterSectionComponent implements OnInit {
 
   expansionPanelToggled(expanded: boolean): void {
     this.isExpanded = expanded;
+  }
+
+  autoCompleteOrgUnitsChange(searchFor: string): void {
+    this.store.dispatch(loadOrgUnits({ searchFor }));
   }
 }

@@ -19,14 +19,14 @@ import {
   selectAllSelectedFilters,
 } from '../../reducers/filter/filter.reducer';
 
-export const getInitialFiltersLoading = createSelector(
+export const getOrgUnitsFilter = createSelector(
   selectFilterState,
-  (state: FilterState) => state.loading
+  (state: FilterState) => new Filter(FilterKey.ORG_UNIT, state.orgUnits.items)
 );
 
-export const getOrgUnits = createSelector(
+export const getOrgUnitsLoading = createSelector(
   selectFilterState,
-  (state: FilterState) => new Filter(FilterKey.ORG_UNIT, state.orgUnits)
+  (state: FilterState) => state.orgUnits.loading
 );
 
 export const getCurrentRoute = createSelector(
@@ -86,7 +86,7 @@ export const getCurrentFiltersAndTime = createSelector(
     // eslint-disable-next-line unicorn/no-array-reduce
     filters.reduce(
       (map: any, filter) => {
-        map[filter.name] = filter.value;
+        map[filter.name] = filter.id;
 
         return map;
       },
@@ -99,16 +99,14 @@ export const getCurrentFiltersAndTime = createSelector(
 export const getSelectedOrgUnit = createSelector(
   getAllSelectedFilters,
   (filters: SelectedFilter[]) =>
-    filters
-      .find((filter) => filter.name === FilterKey.ORG_UNIT)
-      ?.value?.toString()
+    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.id
 );
 
 export const getSelectedFilterValues = createSelector(
   getAllSelectedFilters,
   getBeautifiedSelectedTimeRange,
   (filters: SelectedFilter[], timeRange: string) => [
-    ...filters.map((filter) => filter.value),
+    ...filters.map((filter) => filter.id),
     timeRange,
   ]
 );

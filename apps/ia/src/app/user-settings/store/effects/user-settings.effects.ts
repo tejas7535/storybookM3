@@ -30,7 +30,7 @@ export class UserSettingsEffects implements OnInitEffects {
           switchMap((data) => {
             const result: Action[] = [loadUserSettingsSuccess({ data })];
 
-            if (data?.resort === undefined) {
+            if (data?.orgUnit === undefined) {
               result.push(showUserSettingsDialog());
             }
 

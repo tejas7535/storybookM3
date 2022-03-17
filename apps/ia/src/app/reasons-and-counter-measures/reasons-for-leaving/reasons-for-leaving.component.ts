@@ -5,7 +5,7 @@ import { combineLatest, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getOrgUnits,
+  getOrgUnitsFilter,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -49,7 +49,7 @@ import {
 export class ReasonsForLeavingComponent implements OnInit {
   timeRangeHintValue = 'time range';
 
-  orgUnits$: Observable<Filter>;
+  orgUnitsFilter$: Observable<Filter>;
   selectedOrgUnit$: Observable<string>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
@@ -77,7 +77,7 @@ export class ReasonsForLeavingComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.orgUnits$ = this.store.select(getOrgUnits);
+    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
     this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store.select(getSelectedTimePeriod);
@@ -133,7 +133,7 @@ export class ReasonsForLeavingComponent implements OnInit {
   comparedOptionSelected(comparedSelectedOrgUnit: SelectedFilter): void {
     this.store.dispatch(
       changeComparedFilter({
-        comparedSelectedOrgUnit: comparedSelectedOrgUnit.value?.toString(),
+        comparedSelectedOrgUnit: comparedSelectedOrgUnit.id,
       })
     );
   }

@@ -7,23 +7,35 @@
     [formControl]="inputControl"
     [matAutocomplete]="auto"
     [errorStateMatcher]="errorStateMatcher"
-    [iaValidInput]="filter?.options"
+    iaValidInput
     #matInput
-    (input)="validateInput($event)"
   />
+  <mat-spinner
+    [ngClass]="{ invisible: !autoCompleteLoading }"
+    matSuffix
+    [diameter]="18"
+  ></mat-spinner>
   <mat-error>
     {{ inputControl.errors?.invalidInput }}
   </mat-error>
   <mat-hint align="start">{{ hint }} </mat-hint>
-  <mat-autocomplete
-    #auto="matAutocomplete"
-    (optionSelected)="optionSelected($event)"
-  >
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
     <mat-option
-      *ngFor="let option of filteredOptions | ngrxPush; trackBy: trackByFn"
-      [value]="option.id"
+      *ngFor="let option of filter?.options; trackBy: trackByFn"
+      [value]="option"
     >
       {{ option.value }}
+    </mat-option>
+    <mat-option
+      disabled
+      *ngIf="
+        filter?.options.length === 0 &&
+        !isTyping &&
+        !autoCompleteLoading &&
+        inputControl.value?.length > ONE_CHAR_LENGTH
+      "
+    >
+      {{ noResultMessage }}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>

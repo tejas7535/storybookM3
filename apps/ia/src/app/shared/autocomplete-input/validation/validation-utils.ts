@@ -1,13 +1,31 @@
 import { FormControl } from '@angular/forms';
 
-import { IdValue } from '../../models';
-
 export const ValidationUtils = {
-  isInputInvalid(items: IdValue[], control: FormControl): boolean {
-    const inputExists =
-      control.value === null ||
-      (items && items.map((item) => item.value).includes(control.value));
+  isInputInvalid(control: FormControl): boolean {
+    return !!(
+      control &&
+      (control.dirty || control.touched) &&
+      (ValidationUtils.isInputValueFromTyping(control) ||
+        ValidationUtils.isInitialEmptyState(control) ||
+        ValidationUtils.isInputTooShort(control))
+    );
+  },
 
-    return !!(control && (control.dirty || control.touched) && !inputExists);
+  isInputValueFromTyping(control: FormControl): boolean {
+    // if a value is selected, then it is of type object
+    return (
+      control.value === null ||
+      control.value === undefined ||
+      typeof control.value === 'string'
+    );
+  },
+
+  isInitialEmptyState(control: FormControl): boolean {
+    // if nothing has ben selected yet and user focus/unfocus the input
+    return typeof control.value === 'object' && control.value === null;
+  },
+
+  isInputTooShort(control: FormControl): boolean {
+    return typeof control.value === 'string' && control.value.length <= 1;
   },
 };

@@ -15,12 +15,15 @@
       </h6>
       <div class="flex gap-4">
         <ia-autocomplete-input
-          [filter]="orgUnits"
+          [filter]="orgUnitsFilter"
+          [autoCompleteLoading]="orgUnitsLoading"
           [label]="t('organizationLabel')"
           [hint]="t('organizationHint')"
+          [noResultMessage]="t('nothingFound')"
           [value]="selectedOrgUnit"
           (selected)="optionSelected($event)"
           (invalidFormControl)="orgUnitInvalid($event)"
+          (autoComplete)="autoCompleteOrgUnitsChange($event)"
         ></ia-autocomplete-input>
       </div>
     </div>

@@ -15,7 +15,8 @@
     </mat-expansion-panel-header>
     <div class="mb-4 px-6">
       <ia-expanded-filters
-        [orgUnits]="orgUnits$ | ngrxPush"
+        [orgUnitsFilter]="orgUnitsFilter$ | ngrxPush"
+        [orgUnitsLoading]="orgUnitsLoading$ | ngrxPush"
         [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
@@ -23,6 +24,7 @@
         (selectOption)="optionSelected($event)"
         (selectTimePeriod)="timePeriodSelected($event)"
         (selectTimeRange)="timeRangeSelected($event)"
+        (autoCompleteOrgUnits)="autoCompleteOrgUnitsChange($event)"
       >
       </ia-expanded-filters>
     </div>

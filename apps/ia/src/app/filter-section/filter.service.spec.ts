@@ -5,7 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { FilterService } from './filter-service.service';
+import { FilterService } from './filter.service';
 import { InitialFiltersResponse } from './models/initial-filters-response.model';
 
 describe('FilterService', () => {

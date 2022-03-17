@@ -1,23 +1,17 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
-import { fromEvent, Observable, Subscription } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
-
-import { translate } from '@ngneat/transloco';
+import { EMPTY, Subscription, timer } from 'rxjs';
+import { debounce, filter, tap } from 'rxjs/operators';
 
 import { Filter, IdValue, SelectedFilter } from '../models';
 import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
@@ -27,44 +21,28 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
   templateUrl: './autocomplete-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutocompleteInputComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
-  private _filter: Filter;
-  private _disabled: boolean;
+export class AutocompleteInputComponent implements OnInit, OnDestroy {
+  @Input() autoCompleteLoading = false;
   @Input() label: string;
   @Input() hint: string;
+  @Input() noResultMessage: string;
   @Input() set disabled(disable: boolean) {
-    this._disabled = disable;
     if (disable) {
       this.inputControl.disable();
     } else {
       this.inputControl.enable();
     }
   }
-  @Input() set filter(filter: Filter) {
-    this._filter = filter;
-    if (
-      this._filter === undefined ||
-      this._filter.options.length === 0 ||
-      this._disabled
-    ) {
-      this.inputControl.disable();
-    } else {
-      this.inputControl.enable();
-    }
-    this.errorStateMatcher = new InputErrorStateMatcher(this.filter?.options);
-  }
-  get filter(): Filter {
-    return this._filter;
-  }
+  @Input() filter: Filter;
 
   @Input() set value(value: string) {
     if (!value) {
       this.inputControl.reset();
-      this.lastEmittedValue = '';
     } else {
-      this.inputControl.setValue(value);
+      // set ID value instead of string to be able to differentiate between typing & selection
+      const idValue = this.filter?.options?.find((elem) => elem.id === value);
+
+      this.inputControl.setValue(idValue, { emitEvent: false });
     }
   }
 
@@ -76,44 +54,54 @@ export class AutocompleteInputComponent
   @Output()
   readonly invalidFormControl: EventEmitter<boolean> = new EventEmitter();
 
-  @ViewChild('matInput') private readonly matInput: ElementRef;
+  @Output()
+  private readonly autoComplete: EventEmitter<string> = new EventEmitter();
 
-  readonly subscription: Subscription = new Subscription();
+  private readonly subscription: Subscription = new Subscription();
+  private readonly DEBOUNCE_TIME_DEFAULT = 500;
+  readonly ONE_CHAR_LENGTH = 1;
+
   inputControl = new FormControl();
-  filteredOptions: Observable<IdValue[]>;
-  errorStateMatcher: ErrorStateMatcher;
-
-  private lastEmittedValue = '';
+  isTyping = false;
+  errorStateMatcher = new InputErrorStateMatcher();
 
   ngOnInit(): void {
-    this.filteredOptions = this.inputControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this.filterOptions(value))
+    const optionSelected$ = this.inputControl.valueChanges.pipe(
+      filter((val) => typeof val === 'object' && val !== null)
     );
-  }
+    const searchOptions$ = this.inputControl.valueChanges.pipe(
+      filter((val) => typeof val === 'string')
+    );
 
-  ngAfterViewInit(): void {
     this.subscription.add(
-      fromEvent(this.matInput.nativeElement, 'blur')
-        .pipe(debounceTime(200))
-        .subscribe((event: any) => {
-          const value = event.target.value;
-          const option = this.filter.options.find((opt) => opt.id === value);
-
-          if (!option) {
-            this.inputControl.setErrors({
-              invalidInput: translate('filters.invalidInputHint'),
-            });
-          } else {
-            if (this.lastEmittedValue !== value) {
-              this.lastEmittedValue = value;
-              this.selected.emit({
-                name: this.filter.name,
-                value: option.id,
-              });
-            }
-          }
+      searchOptions$
+        .pipe(
+          tap(() => (this.isTyping = true)),
+          debounce(() =>
+            this.inputControl.value.length > this.ONE_CHAR_LENGTH
+              ? timer(this.DEBOUNCE_TIME_DEFAULT)
+              : EMPTY
+          )
+        )
+        .subscribe((searchFor: string) => {
+          this.autoComplete.emit(searchFor);
+          this.isTyping = false;
+          this.invalidFormControl.emit(
+            this.inputControl.hasError('invalidInput')
+          );
         })
+    );
+
+    this.subscription.add(
+      optionSelected$.subscribe(({ id }) => {
+        this.selected.emit({
+          name: this.filter.name,
+          id,
+        });
+        this.invalidFormControl.emit(
+          this.inputControl.hasError('invalidInput')
+        );
+      })
     );
   }
 
@@ -121,26 +109,11 @@ export class AutocompleteInputComponent
     this.subscription.unsubscribe();
   }
 
-  private filterOptions(value: string): IdValue[] {
-    const filterValue = value?.toLowerCase() ?? '';
-
-    return this.filter?.options.filter((option: IdValue) =>
-      option.value.toLowerCase().includes(filterValue)
-    );
-  }
-
-  validateInput(event: any): void {
-    const value = event.target.value;
-    const option = this.filter.options.find((opt) => opt.id === value);
-
-    this.invalidFormControl.emit(option === undefined);
-  }
-
-  optionSelected(_evt: any): void {
-    this.matInput.nativeElement.blur();
-  }
-
   trackByFn(index: number): number {
     return index;
+  }
+
+  displayFn(idValue: IdValue): string {
+    return idValue?.value;
   }
 }

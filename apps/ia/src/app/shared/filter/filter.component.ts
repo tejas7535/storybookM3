@@ -18,7 +18,7 @@ export class FilterComponent {
   _selectedTimePeriod: TimePeriod;
   timeRangeHintValue = 'time range';
 
-  @Input() orgUnits: Filter;
+  @Input() orgUnitsFilter: Filter;
   @Input() selectedOrgUnit: string;
   @Input() selectedTime: string;
   @Input() timePeriods: IdValue[];

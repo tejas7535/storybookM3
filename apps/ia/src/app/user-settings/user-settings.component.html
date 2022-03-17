@@ -13,11 +13,11 @@
         class="mb-3 block"
       ></schaeffler-language-select>
       <ia-autocomplete-input
-        [filter]="resorts"
-        [label]="t('resortLabel')"
-        [hint]="t('resortHint')"
+        [filter]="orgUnits"
+        [label]="t('orgUnitLabel')"
+        [hint]="t('orgUnitHint')"
         [appearance]="'outline'"
-        [value]="selectedResort$ | ngrxPush"
+        [value]="selectedOrgUnit$ | ngrxPush"
         (selected)="optionSelected($event)"
       ></ia-autocomplete-input>
     </div>

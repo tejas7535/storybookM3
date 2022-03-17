@@ -1,6 +1,6 @@
 <div class="flex flex-col" *transloco="let t; read: 'filters'">
   <ia-autocomplete-input
-    [filter]="orgUnits"
+    [filter]="orgUnitsFilter"
     [label]="t('organization.organizationLabel')"
     [hint]="disableFilters ? undefined : t('organization.organizationHint')"
     [value]="selectedOrgUnit"

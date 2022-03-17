@@ -7,7 +7,7 @@ export const getUserSettings = createSelector(
   (state: UserSettingsState) => state.data
 );
 
-export const getUserResort = createSelector(
+export const getUserOrgUnit = createSelector(
   selectUserSettingsState,
-  (state: UserSettingsState) => state.data?.resort
+  (state: UserSettingsState) => state.data?.orgUnit
 );

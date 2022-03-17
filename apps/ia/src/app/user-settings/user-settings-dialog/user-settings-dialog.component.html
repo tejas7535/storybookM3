@@ -7,12 +7,12 @@
   <p>{{ t('dialog.hint') }}</p>
   <div class="mt-10 flex justify-center">
     <ia-autocomplete-input
-      [filter]="resorts"
-      [label]="t('resortLabel')"
-      [hint]="t('resortHint')"
+      [filter]="orgUnit"
+      [label]="t('orgUnitLabel')"
+      [hint]="t('orgUnitHint')"
       [appearance]="'outline'"
       (selected)="optionSelected($event)"
-      (invalidFormControl)="resortInvalid($event)"
+      (invalidFormControl)="orgUnitInvalid($event)"
     ></ia-autocomplete-input>
   </div>
 </mat-dialog-content>
@@ -22,7 +22,7 @@
     mat-dialog-close
     color="primary"
     (click)="updateUserSettings()"
-    [disabled]="invalidResortInput || !selected"
+    [disabled]="invalidOrgUnitInput || !selected"
   >
     {{ t('confirm') }}
   </button>

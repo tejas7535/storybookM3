@@ -8,9 +8,9 @@ import {
 } from '../../../../shared/utils/utilities';
 import {
   filterSelected,
-  loadInitialFilters,
-  loadInitialFiltersFailure,
-  loadInitialFiltersSuccess,
+  loadOrgUnits,
+  loadOrgUnitsFailure,
+  loadOrgUnitsSuccess,
   timePeriodSelected,
   timeRangeSelected,
 } from '../../actions/filter/filter.action';
@@ -18,10 +18,12 @@ import { filterAdapter } from '../filter/selected-filter.entity';
 
 export const filterKey = 'filter';
 export interface FilterState {
-  orgUnits: IdValue[];
+  orgUnits: {
+    loading: boolean;
+    items: IdValue[];
+    errorMessage: string;
+  };
   timePeriods: IdValue[];
-  loading: boolean;
-  errorMessage: string;
   selectedFilters: EntityState<SelectedFilter>; // currently selected filters
   selectedTimePeriod: TimePeriod;
   selectedTimeRange: string;
@@ -35,7 +37,11 @@ const getInitialSelectedTimeRange = () => {
 };
 
 export const initialState: FilterState = {
-  orgUnits: [],
+  orgUnits: {
+    loading: false,
+    items: [],
+    errorMessage: undefined,
+  },
   timePeriods: [
     {
       id: TimePeriod.YEAR,
@@ -54,8 +60,6 @@ export const initialState: FilterState = {
       value: TimePeriod.CUSTOM,
     },
   ],
-  loading: false,
-  errorMessage: undefined,
   selectedFilters: filterAdapter.getInitialState(),
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
   selectedTimeRange: getInitialSelectedTimeRange(),
@@ -63,29 +67,37 @@ export const initialState: FilterState = {
 
 export const filterReducer = createReducer(
   initialState,
-  // initial filters
+  // // initial filters
   on(
-    loadInitialFilters,
+    loadOrgUnits,
     (state: FilterState): FilterState => ({
       ...state,
-      loading: true,
-      errorMessage: initialState.errorMessage,
+      orgUnits: {
+        ...state.orgUnits,
+        loading: true,
+      },
     })
   ),
   on(
-    loadInitialFiltersSuccess,
-    (state: FilterState, { filters }): FilterState => ({
+    loadOrgUnitsSuccess,
+    (state: FilterState, { items }): FilterState => ({
       ...state,
-      ...filters,
-      loading: false,
+      orgUnits: {
+        ...state.orgUnits,
+        loading: false,
+        items,
+      },
     })
   ),
   on(
-    loadInitialFiltersFailure,
+    loadOrgUnitsFailure,
     (state: FilterState, { errorMessage }): FilterState => ({
       ...state,
-      errorMessage,
-      loading: false,
+      orgUnits: {
+        ...state.orgUnits,
+        errorMessage,
+        loading: false,
+      },
     })
   ),
   on(

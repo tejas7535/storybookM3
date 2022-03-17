@@ -1,46 +1,37 @@
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, take } from 'rxjs/operators';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { loginSuccess } from '@schaeffler/azure-auth';
-
-import { FilterService } from '../../../../filter-section/filter-service.service';
-import { InitialFiltersResponse } from '../../../../filter-section/models/initial-filters-response.model';
+import { FilterService } from '../../../../filter-section/filter.service';
+import { IdValue } from '../../../../shared/models';
 import {
-  loadInitialFilters,
-  loadInitialFiltersFailure,
-  loadInitialFiltersSuccess,
+  loadOrgUnits,
+  loadOrgUnitsFailure,
+  loadOrgUnitsSuccess,
 } from '../../actions';
 import { getSelectedTimeRange } from '../../selectors';
-
 @Injectable()
 export class FilterEffects {
-  loadInitialFilters$ = createEffect(() => {
+  loadOrgUnits$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadInitialFilters),
+      ofType(loadOrgUnits),
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
-      map(([_action, timeRange]) => timeRange),
-      mergeMap((timeRange: string) =>
-        this.filterService.getInitialFilters(timeRange).pipe(
-          map((filters: InitialFiltersResponse) =>
-            loadInitialFiltersSuccess({ filters })
-          ),
+      mergeMap(([action, timeRange]) =>
+        this.filterService.getOrgUnits(action.searchFor, timeRange).pipe(
+          map((items: IdValue[]) => loadOrgUnitsSuccess({ items })),
           catchError((error) =>
-            of(loadInitialFiltersFailure({ errorMessage: error.message }))
+            of(loadOrgUnitsFailure({ errorMessage: error.message }))
           )
         )
       )
     );
   });
-
   // setInitialFilters$ = createEffect(() => {
   //   return this.actions$.pipe(
   //     ofType(loadInitialFiltersSuccess),
-
   //     mergeMap(() =>
   //       this.filterService.getInitialFilters().pipe(
   //         map((filters) =>
@@ -58,18 +49,16 @@ export class FilterEffects {
   //     )
   //   );
   // });
-
-  loginSuccessful$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loginSuccess.type),
-      take(1),
-      map(loadInitialFilters)
-    );
-  });
-
+  // loginSuccessful$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(loginSuccess.type),
+  //     take(1),
+  //     map(loadInitialFilters)
+  //   );
+  // });
   constructor(
     private readonly actions$: Actions,
-    private readonly filterService: FilterService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly filterService: FilterService
   ) {}
 }

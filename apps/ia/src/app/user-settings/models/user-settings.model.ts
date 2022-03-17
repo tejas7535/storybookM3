@@ -1,3 +1,3 @@
 export interface UserSettings {
-  resort: string;
+  orgUnit: string;
 }

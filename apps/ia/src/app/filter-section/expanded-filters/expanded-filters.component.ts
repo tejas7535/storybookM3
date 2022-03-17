@@ -26,7 +26,8 @@ export class ExpandedFiltersComponent {
   disabledTimeRangeFilter = true;
   timeRangeHintValue = '';
 
-  @Input() orgUnits: Filter;
+  @Input() orgUnitsFilter: Filter;
+  @Input() orgUnitsLoading: boolean;
   @Input() set selectedOrgUnit(selectedOrgUnit: string) {
     this._selectedOrgUnit = selectedOrgUnit;
     this.disabledTimeRangeFilter = selectedOrgUnit === undefined;
@@ -53,6 +54,9 @@ export class ExpandedFiltersComponent {
     new EventEmitter();
   @Output() readonly selectTimeRange: EventEmitter<string> = new EventEmitter();
 
+  @Output() readonly autoCompleteOrgUnits: EventEmitter<string> =
+    new EventEmitter();
+
   optionSelected(filter: SelectedFilter): void {
     this.selectOption.emit(filter);
   }
@@ -67,5 +71,9 @@ export class ExpandedFiltersComponent {
 
   timeRangeSelected(timeRange: string): void {
     this.selectTimeRange.emit(timeRange);
+  }
+
+  autoCompleteOrgUnitsChange(searchFor: string): void {
+    this.autoCompleteOrgUnits.emit(searchFor);
   }
 }

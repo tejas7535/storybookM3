@@ -5,7 +5,8 @@
       "organization": "Organization",
       "organizationLabel": "Organization",
       "organizationHint": "Select an organization",
-      "organizationTooltip": "The shown figures and KPIs are based on ALL org units below and including the selected one."
+      "organizationTooltip": "The shown figures and KPIs are based on ALL org units below and including the selected one.",
+      "nothingFound": "Nothing found"
     },
     "periodOfTime": {
       "title": "Select period of time",
@@ -21,7 +22,8 @@
       "timeRangePlaceholderStart": "Start date",
       "timeRangePlaceholderEnd": "End date"
     },
-    "invalidInputHint": "Please select a valid input from the dropdown",
+    "invalidInputDropdownHint": "Please select a valid input from the dropdown",
+    "invalidInputTooShortHint": "Please type at least two characters to trigger autocomplete",
     "invalidStartDateHint": "Invalid start date (minimum: 01/01/2019)",
     "invalidEndDateHint": "Invalid end date (maximum: 12/31/2020)",
     "globalFilters": "Global Filters",

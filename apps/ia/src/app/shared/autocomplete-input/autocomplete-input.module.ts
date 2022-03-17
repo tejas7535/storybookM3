@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-
-import { ReactiveComponentModule } from '@ngrx/component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { InputValidatorDirective } from './validation/input-validator.directive';
@@ -17,7 +16,7 @@ import { InputValidatorDirective } from './validation/input-validator.directive'
     MatAutocompleteModule,
     MatInputModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    MatProgressSpinnerModule,
   ],
   exports: [AutocompleteInputComponent],
 })

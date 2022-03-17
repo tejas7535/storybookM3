@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import {
+  Actions,
+  concatLatestFrom,
+  createEffect,
+  ofType,
+  OnInitEffects,
+} from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
 import {
@@ -49,7 +48,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
   filterChange$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(filterSelected, timeRangeSelected, triggerLoad),
-      withLatestFrom(this.store.select(getCurrentFiltersAndTime)),
+      concatLatestFrom(() => this.store.select(getCurrentFiltersAndTime)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
@@ -112,7 +111,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadParentSuccess),
       map((action) => ({
         name: FilterKey.ORG_UNIT,
-        value: action.employee.orgUnit,
+        id: action.employee.orgUnit,
       })),
       map((selectedFilter: SelectedFilter) =>
         filterSelected({ filter: selectedFilter })

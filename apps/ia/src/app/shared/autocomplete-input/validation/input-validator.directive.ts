@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive } from '@angular/core';
 import {
   FormControl,
   NG_VALIDATORS,
@@ -8,7 +8,6 @@ import {
 
 import { translate } from '@ngneat/transloco';
 
-import { IdValue } from '../../models';
 import { ValidationUtils } from './validation-utils';
 
 @Directive({
@@ -22,11 +21,18 @@ import { ValidationUtils } from './validation-utils';
   ],
 })
 export class InputValidatorDirective implements Validator {
-  @Input('iaValidInput') items: IdValue[];
-
   public validate(control: FormControl): ValidationErrors | null {
-    return ValidationUtils.isInputInvalid(this.items, control)
-      ? { invalidInput: translate('filters.invalidInputHint') }
-      : undefined;
+    let message: string;
+
+    if (
+      ValidationUtils.isInitialEmptyState(control) ||
+      ValidationUtils.isInputTooShort(control)
+    ) {
+      message = 'filters.invalidInputTooShortHint';
+    } else if (ValidationUtils.isInputValueFromTyping(control)) {
+      message = 'filters.invalidInputDropdownHint';
+    }
+
+    return message ? { invalidInput: translate(message) } : undefined;
   }
 }

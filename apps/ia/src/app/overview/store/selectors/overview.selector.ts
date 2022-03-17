@@ -43,7 +43,7 @@ export const getLeaversDataForSelectedOrgUnit = createSelector(
     selectedOrgUnit: string
   ) =>
     overviewFluctuationRates?.exitEmployees.filter(
-      (employee) => employee.orgUnit?.indexOf(selectedOrgUnit.toString()) === 0
+      (employee) => employee.orgUnit?.indexOf(selectedOrgUnit) === 0
     )
 );
 
