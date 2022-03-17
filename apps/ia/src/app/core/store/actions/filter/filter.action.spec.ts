@@ -1,9 +1,9 @@
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
-  loadInitialFilters,
-  loadInitialFiltersFailure,
-  loadInitialFiltersSuccess,
+  loadOrgUnits,
+  loadOrgUnitsFailure,
+  loadOrgUnitsSuccess,
   timePeriodSelected,
   timeRangeSelected,
   triggerLoad,
@@ -13,32 +13,32 @@ describe('Filter Actions', () => {
   const errorMessage = 'An error occured';
 
   describe('Get initial filters actions', () => {
-    test('loadInitialFilters', () => {
-      const action = loadInitialFilters();
+    test('loadOrgUnits', () => {
+      const searchFor = 'search';
+      const action = loadOrgUnits({ searchFor });
 
       expect(action).toEqual({
-        type: '[Filter] Load Initial Filters',
+        searchFor,
+        type: '[Filter] Load Org Units',
       });
     });
 
-    test('loadInitialFiltersSuccess', () => {
-      const filters = {
-        orgUnits: [new IdValue('Department1', 'Department1')],
-      };
-      const action = loadInitialFiltersSuccess({ filters });
+    test('loadOrgUnitsSuccess', () => {
+      const items = [new IdValue('Department1', 'Department1')];
+      const action = loadOrgUnitsSuccess({ items });
 
       expect(action).toEqual({
-        filters,
-        type: '[Filter] Load Initial Filters Success',
+        items,
+        type: '[Filter] Load Org Units Success',
       });
     });
 
-    test('loadInitialFiltersFailure', () => {
-      const action = loadInitialFiltersFailure({ errorMessage });
+    test('loadOrgUnitsFailure', () => {
+      const action = loadOrgUnitsFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
-        type: '[Filter] Load Initial Filters Failure',
+        type: '[Filter] Load Org Units Failure',
       });
     });
 

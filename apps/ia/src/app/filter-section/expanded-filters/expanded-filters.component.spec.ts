@@ -62,7 +62,7 @@ describe('ExpandedFiltersComponent', () => {
   describe('optionSelected', () => {
     test('should emit filter', () => {
       component.selectOption.emit = jest.fn();
-      const filter = { name: 'test', value: 12 };
+      const filter = { name: 'test', id: '12' };
 
       component.optionSelected(filter);
 
@@ -100,6 +100,19 @@ describe('ExpandedFiltersComponent', () => {
       component.timeRangeSelected(timeRange);
 
       expect(component.selectTimeRange.emit).toHaveBeenCalledWith(timeRange);
+    });
+  });
+
+  describe('autoCompleteOrgUnitsChange', () => {
+    test('should emit autoCompleteOrgUnits', () => {
+      component.autoCompleteOrgUnits.emit = jest.fn();
+      const searchFor = 'search';
+
+      component.autoCompleteOrgUnitsChange(searchFor);
+
+      expect(component.autoCompleteOrgUnits.emit).toHaveBeenCalledWith(
+        searchFor
+      );
     });
   });
 });

@@ -4,8 +4,8 @@ import {
   getAllSelectedFilters,
   getCurrentFiltersAndTime,
   getCurrentRoute,
-  getInitialFiltersLoading,
-  getOrgUnits,
+  getOrgUnitsFilter,
+  getOrgUnitsLoading,
   getSelectedFilters,
   getSelectedFilterValues,
   getSelectedOrgUnit,
@@ -18,14 +18,18 @@ describe('Filter Selector', () => {
   const fakeState = {
     filter: {
       ...initialState,
-      orgUnits: [new IdValue('dep1', 'Department 1')],
+      orgUnits: {
+        loading: true,
+        items: [new IdValue('dep1', 'Department 1')],
+        errorMessage: '',
+      },
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
       selectedFilters: {
         ids: [FilterKey.ORG_UNIT],
         entities: {
           orgUnit: {
             name: FilterKey.ORG_UNIT,
-            value: 'Schaeffler_IT_1',
+            id: 'Schaeffler_IT_1',
           },
         },
       },
@@ -37,15 +41,15 @@ describe('Filter Selector', () => {
     },
   };
 
-  describe('getInitialFiltersLoading', () => {
-    test('should return loading status', () => {
-      expect(getInitialFiltersLoading(fakeState)).toBeFalsy();
+  describe('getOrgUnitsFilter', () => {
+    test('should return organization units filter', () => {
+      expect(getOrgUnitsFilter(fakeState).options.length).toEqual(1);
     });
   });
 
-  describe('getOrgUnits', () => {
-    test('should return organizations', () => {
-      expect(getOrgUnits(fakeState).options.length).toEqual(1);
+  describe('getOrgUnitsLoading', () => {
+    test('should return loading status', () => {
+      expect(getOrgUnitsLoading(fakeState)).toBeTruthy();
     });
   });
 
@@ -98,7 +102,7 @@ describe('Filter Selector', () => {
       expect(getAllSelectedFilters(fakeState)).toEqual([
         {
           name: FilterKey.ORG_UNIT,
-          value: 'Schaeffler_IT_1',
+          id: 'Schaeffler_IT_1',
         },
       ]);
     });

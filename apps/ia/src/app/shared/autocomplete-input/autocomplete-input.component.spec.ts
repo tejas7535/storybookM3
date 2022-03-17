@@ -1,12 +1,11 @@
-import { fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
 
 import { FilterKey } from '../../shared/models';
 import { Filter, IdValue } from '../models';
@@ -27,7 +26,7 @@ describe('AutocompleteInputComponent', () => {
       FormsModule,
       ReactiveFormsModule,
       MatFormFieldModule,
-      ReactiveComponentModule,
+      MatProgressSpinnerModule,
     ],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
@@ -54,15 +53,31 @@ describe('AutocompleteInputComponent', () => {
   describe('set value', () => {
     test('should set value of input', () => {
       component.inputControl.setValue = jest.fn();
+      component.filter = new Filter(FilterKey.ORG_UNIT, [
+        { id: '123', value: '123' },
+      ]);
+      component.value = '123';
+
+      expect(component.inputControl.setValue).toHaveBeenCalledWith(
+        {
+          id: '123',
+          value: '123',
+        },
+        { emitEvent: false }
+      );
+    });
+
+    test('should set value to undefined if value does not match filter', () => {
+      component.inputControl.setValue = jest.fn();
 
       component.value = '123';
 
-      expect(component.inputControl.setValue).toHaveBeenCalledWith('123');
+      expect(component.inputControl.setValue).toHaveBeenCalledWith(undefined, {
+        emitEvent: false,
+      });
     });
 
     test('should reset control if input undefined', () => {
-      component['lastEmittedValue'] = 'last val';
-
       component.inputControl.setValue = jest.fn();
       component.inputControl.reset = jest.fn();
 
@@ -74,124 +89,55 @@ describe('AutocompleteInputComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should set error state matcher', () => {
+    test('should listen to typing input changes', (done) => {
+      component['autoComplete'].emit = jest.fn();
+      component['invalidFormControl'].emit = jest.fn();
       component.ngOnInit();
 
-      expect(component.errorStateMatcher).toBeDefined();
+      component.inputControl.setValue('1234');
+
+      setTimeout(() => {
+        expect(component['autoComplete'].emit).toHaveBeenCalledWith('1234');
+        expect(component['invalidFormControl'].emit).toHaveBeenCalledWith(
+          component.inputControl.hasError('invalidInput')
+        );
+        done();
+      }, component['DEBOUNCE_TIME_DEFAULT']);
     });
 
-    test('should listen to input changes', () => {
-      component['filterOptions'] = jest.fn();
-
+    test('should listen to selected input changes', () => {
+      component['selected'].emit = jest.fn();
+      component['invalidFormControl'].emit = jest.fn();
       component.ngOnInit();
 
-      component.filteredOptions.subscribe();
-
-      component.inputControl.setValue('test');
-
-      expect(component['filterOptions']).toHaveBeenCalledWith('test');
-    });
-  });
-
-  describe('filter', () => {
-    test('should filter options that do not include the value', () => {
-      const value = 'cherry';
-
-      const filtered = component['filterOptions'](value);
-
-      expect(filtered).toEqual([
-        new IdValue('1', 'cherryo'),
-        new IdValue('3', 'cherry'),
-        new IdValue('4', 'cherrygold'),
+      const val = {
+        id: '123',
+        value: '123',
+      };
+      component.filter = new Filter(FilterKey.ORG_UNIT, [
+        { id: '123', value: '123' },
       ]);
-    });
-  });
 
-  describe('validateInput', () => {
-    test('should emit false  when input is valid', () => {
-      component.filter.options = [{ id: 'Schaeffler', value: 'Schaeffler' }];
-      component.invalidFormControl.emit = jest.fn();
-      component.validateInput({ target: { value: 'Schaeffler' } });
+      component.inputControl.setValue(val);
 
-      expect(component.invalidFormControl.emit).toHaveBeenCalledWith(false);
-    });
-    test('should emit true  when input is invalid', () => {
-      component.filter.options = [{ id: 'Schaeffler', value: 'Schaeffler' }];
-      component.invalidFormControl.emit = jest.fn();
-      component.validateInput({ target: { value: 'ABC' } });
-
-      expect(component.invalidFormControl.emit).toHaveBeenCalledWith(true);
-    });
-  });
-
-  describe('optionSelected', () => {
-    test('should blur input', () => {
-      component['matInput'].nativeElement.blur = jest.fn();
-
-      component.optionSelected({});
-
-      expect(component['matInput'].nativeElement.blur).toHaveBeenCalled();
+      expect(component['selected'].emit).toHaveBeenCalledWith({
+        name: component.filter.name,
+        id: val.id,
+      });
+      expect(component['invalidFormControl'].emit).toHaveBeenCalledWith(
+        component.inputControl.hasError('invalidInput')
+      );
     });
   });
 
   describe('ngOnDestroy', () => {
     test('should unsubscribe', () => {
-      component.subscription.unsubscribe = jest.fn();
+      component['subscription'].unsubscribe = jest.fn();
 
       component.ngOnDestroy();
 
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component['subscription'].unsubscribe).toHaveBeenCalled();
     });
-  });
-
-  describe('ngAfterViewInit', () => {
-    test('should add blur subscription and set error when option is not valid', fakeAsync(() => {
-      component.inputControl.setErrors = jest.fn();
-
-      component.ngAfterViewInit();
-      component.inputControl.setValue('test');
-      const input = spectator.query('input');
-      input.dispatchEvent(new Event('blur'));
-
-      tick(250);
-
-      expect(component.inputControl.setErrors).toHaveBeenCalled();
-    }));
-
-    test('should add blur subscription and do nothing when value did not change', fakeAsync(() => {
-      component.inputControl.setErrors = jest.fn();
-      component['lastEmittedValue'] = '3';
-      component.selected.emit = jest.fn();
-
-      component.ngAfterViewInit();
-      component.inputControl.setValue('3');
-      const input = spectator.query('input');
-      input.dispatchEvent(new Event('blur'));
-
-      tick(250);
-
-      expect(component.inputControl.setErrors).not.toHaveBeenCalled();
-      expect(component.selected.emit).not.toHaveBeenCalled();
-    }));
-
-    test('should add blur subscription and emit event when value is valid and changes', fakeAsync(() => {
-      component['lastEmittedValue'] = '';
-      component.selected.emit = jest.fn();
-      component.inputControl.setErrors = jest.fn();
-
-      component.ngAfterViewInit();
-      component.inputControl.setValue('3');
-      const input = spectator.query('input');
-      input.dispatchEvent(new Event('blur'));
-
-      tick(250);
-
-      expect(component.inputControl.setErrors).not.toHaveBeenCalled();
-      expect(component.selected.emit).toHaveBeenCalledWith({
-        name: 'orgUnit',
-        value: '3',
-      });
-    }));
   });
 
   describe('trackByFn', () => {
@@ -199,6 +145,18 @@ describe('AutocompleteInputComponent', () => {
       const result = component.trackByFn(0);
 
       expect(result).toEqual(0);
+    });
+  });
+
+  describe('displayFn', () => {
+    test('should return value', () => {
+      const idVal = {
+        id: '123',
+        value: '123',
+      };
+      const result = component.displayFn(idVal);
+
+      expect(result).toEqual(idVal.value);
     });
   });
 });

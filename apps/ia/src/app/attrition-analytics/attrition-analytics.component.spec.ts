@@ -11,10 +11,10 @@ import { LoadingSpinnerComponent } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
+import { SortDirection } from '../shared/models';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { FeatureAnalysisComponent } from './feature-analysis/feature-analysis.component';
 import { FeatureImportanceComponent } from './feature-importance/feature-importance.component';
-import { SortDirection } from './models';
 import { FeatureParams } from './models/feature-params.model';
 import { initialState } from './store';
 import {

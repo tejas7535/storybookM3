@@ -18,16 +18,16 @@ describe('User Settings Reducer', () => {
   });
 
   test('loadUserSettingsSuccess', () => {
-    const resort = 'IT';
+    const orgUnit = 'IT';
     const action = loadUserSettingsSuccess({
       data: {
-        resort,
+        orgUnit,
       },
     });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeFalsy();
-    expect(state.data.resort).toEqual(resort);
+    expect(state.data.orgUnit).toEqual(orgUnit);
     expect(state.errorMessage).toBeUndefined();
   });
 
@@ -41,8 +41,8 @@ describe('User Settings Reducer', () => {
   });
 
   test('updateUserSettings', () => {
-    const resort = 'IT';
-    const action = updateUserSettings({ data: { resort } });
+    const orgUnit = 'IT';
+    const action = updateUserSettings({ data: { orgUnit } });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeTruthy();
@@ -50,12 +50,12 @@ describe('User Settings Reducer', () => {
   });
 
   test('updateUserSettingsSuccess', () => {
-    const resort = 'IT';
-    const action = updateUserSettingsSuccess({ data: { resort } });
+    const orgUnit = 'IT';
+    const action = updateUserSettingsSuccess({ data: { orgUnit } });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeFalsy();
-    expect(state.data.resort).toEqual(resort);
+    expect(state.data.orgUnit).toEqual(orgUnit);
     expect(state.errorMessage).toBeUndefined();
   });
 

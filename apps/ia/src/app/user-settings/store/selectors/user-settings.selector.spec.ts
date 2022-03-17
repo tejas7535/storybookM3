@@ -1,23 +1,23 @@
 import { UserSettingsState } from '..';
-import { getUserResort, getUserSettings } from './user-settings.selector';
+import { getUserOrgUnit, getUserSettings } from './user-settings.selector';
 
 describe('User Settings Selector', () => {
-  const resort = 'Sales';
+  const orgUnit = 'Sales';
   const state = {
-    data: { resort },
+    data: { orgUnit },
   } as UserSettingsState;
 
   describe('getUserSettings', () => {
     test('should return user settings', () => {
       expect(getUserSettings.projector(state)).toEqual({
-        resort,
+        orgUnit,
       });
     });
   });
 
-  describe('getUserResort', () => {
-    test('should return user resort', () => {
-      expect(getUserResort.projector(state)).toEqual(resort);
+  describe('getUserOrgUnit', () => {
+    test('should return user org unit', () => {
+      expect(getUserOrgUnit.projector(state)).toEqual(orgUnit);
     });
   });
 });

@@ -1,19 +1,13 @@
 import { FormControl } from '@angular/forms';
 
-import { IdValue } from '../../models';
 import { InputErrorStateMatcher } from './input-error-state-matcher';
 import { ValidationUtils } from './validation-utils';
 
 describe('InputErrorStateMatcher', () => {
   let matcher: InputErrorStateMatcher;
-  const items = [
-    new IdValue('one', 'One'),
-    new IdValue('two', 'Two'),
-    new IdValue('three', 'Three'),
-  ];
 
   beforeEach(() => {
-    matcher = new InputErrorStateMatcher(items);
+    matcher = new InputErrorStateMatcher();
   });
 
   it('should be created', () => {
@@ -27,10 +21,7 @@ describe('InputErrorStateMatcher', () => {
 
       matcher.isErrorState(control);
 
-      expect(ValidationUtils.isInputInvalid).toHaveBeenCalledWith(
-        items,
-        control
-      );
+      expect(ValidationUtils.isInputInvalid).toHaveBeenCalledWith(control);
     });
   });
 });

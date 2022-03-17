@@ -169,7 +169,7 @@ describe('Overview Selector', () => {
       selectedFilters: {
         ids: [FilterKey.ORG_UNIT],
         entities: {
-          orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+          orgUnit: { name: FilterKey.ORG_UNIT, id: 'Schaeffler_IT' },
         },
       },
     } as unknown as FilterState,

@@ -1,13 +1,12 @@
 import { Action } from '@ngrx/store';
 
+import { Slice, SortDirection } from '../../shared/models';
 import {
+  EmployeeAnalytics,
   FeatureImportanceGroup,
   FeatureImportanceType,
-  Slice,
-  SortDirection,
+  FeatureParams,
 } from '../models';
-import { EmployeeAnalytics } from '../models/employee-analytics.model';
-import { FeatureParams } from '../models/feature-params.model';
 import { attritionAnalyticsReducer, initialState, reducer } from '.';
 import {
   changeSelectedFeatures,

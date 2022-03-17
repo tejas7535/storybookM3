@@ -6,16 +6,15 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { Slice, SortDirection } from '../../../shared/models';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
 import {
+  EmployeeAnalytics,
   FeatureImportanceGroup,
   FeatureImportanceType,
-  Slice,
-  SortDirection,
+  FeatureParams,
 } from '../../models';
-import { EmployeeAnalytics } from '../../models/employee-analytics.model';
-import { FeatureParams } from '../../models/feature-params.model';
 import { AttritionAnalyticsState } from '..';
 import {
   changeOrderOfFeatures,

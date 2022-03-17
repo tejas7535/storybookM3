@@ -14,7 +14,7 @@ import { getUserRoles } from '../core/store/selectors';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
 import { SelectedFilter } from '../shared/models';
 import { updateUserSettings } from './store/actions/user-settings.action';
-import { getUserResort } from './store/selectors/user-settings.selector';
+import { getUserOrgUnit } from './store/selectors/user-settings.selector';
 import { UserSettingsComponent } from './user-settings.component';
 
 describe('UserSettingsComponent', () => {
@@ -65,15 +65,15 @@ describe('UserSettingsComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should set selectedResort',
+      'should set selectedOrgUnit',
       marbles((m) => {
-        const resort = 'Example Resort';
-        store.overrideSelector(getUserResort, resort);
-        const expected = m.cold('a', { a: resort });
+        const orgUnit = 'Example org';
+        store.overrideSelector(getUserOrgUnit, orgUnit);
+        const expected = m.cold('a', { a: orgUnit });
 
         component.ngOnInit();
 
-        m.expect(component.selectedResort$).toBeObservable(expected);
+        m.expect(component.selectedOrgUnit$).toBeObservable(expected);
       })
     );
 
@@ -104,30 +104,30 @@ describe('UserSettingsComponent', () => {
   describe('optionSelected', () => {
     test('should save user`s resort', () => {
       const selectedFilter: SelectedFilter = new SelectedFilter(
-        'resort',
+        'orgUnit',
         'Sales'
       );
-      component.saveUserResort = jest.fn();
+      component.saveOrgUnit = jest.fn();
 
       component.optionSelected(selectedFilter);
 
-      expect(component.saveUserResort).toHaveBeenCalledWith(selectedFilter);
+      expect(component.saveOrgUnit).toHaveBeenCalledWith(selectedFilter);
     });
   });
 
-  describe('saveUserResort', () => {
+  describe('saveOrgUnit', () => {
     test('should save user`s resort', () => {
       const selectedFilter: SelectedFilter = new SelectedFilter(
-        'resort',
+        'orgUnit',
         'Sales'
       );
 
-      component.saveUserResort(selectedFilter);
+      component.saveOrgUnit(selectedFilter);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         updateUserSettings({
           data: {
-            resort: selectedFilter.value as string,
+            orgUnit: selectedFilter.id,
           },
         })
       );

@@ -18,11 +18,11 @@ describe('User Settings Actions', () => {
     });
 
     test('loadUserSettingsSuccess', () => {
-      const action = loadUserSettingsSuccess({ data: { resort: 'IT' } });
+      const action = loadUserSettingsSuccess({ data: { orgUnit: 'IT' } });
 
       expect(action).toEqual({
         type: '[User Settings] Load User`s Settings Success',
-        data: { resort: 'IT' },
+        data: { orgUnit: 'IT' },
       });
     });
 
@@ -38,20 +38,20 @@ describe('User Settings Actions', () => {
 
   describe('Update User Settings', () => {
     test('updateUserSettings', () => {
-      const action = updateUserSettings({ data: { resort: 'Sales' } });
+      const action = updateUserSettings({ data: { orgUnit: 'Sales' } });
 
       expect(action).toEqual({
         type: '[User Settings] Update User`s Settings',
-        data: { resort: 'Sales' },
+        data: { orgUnit: 'Sales' },
       });
     });
 
     test('updateUserSettingsSuccess', () => {
-      const action = updateUserSettingsSuccess({ data: { resort: 'Sales' } });
+      const action = updateUserSettingsSuccess({ data: { orgUnit: 'Sales' } });
 
       expect(action).toEqual({
         type: '[User Settings] Update User`s Settings Success',
-        data: { resort: 'Sales' },
+        data: { orgUnit: 'Sales' },
       });
     });
 

@@ -9,7 +9,7 @@ import { marbles } from 'rxjs-marbles/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
-  getOrgUnits,
+  getOrgUnitsFilter,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
@@ -71,7 +71,7 @@ describe('ReasonsForLeavingComponent', () => {
     test('should initialize observables', () => {
       component.ngOnInit();
 
-      expect(component.orgUnits$).toBeDefined();
+      expect(component.orgUnitsFilter$).toBeDefined();
       expect(component.selectedOrgUnit$).toBeDefined();
       expect(component.timePeriods$).toBeDefined();
       expect(component.selectedTimePeriod$).toBeDefined();
@@ -87,7 +87,7 @@ describe('ReasonsForLeavingComponent', () => {
     'should initialize observables from store',
     marbles((m) => {
       const result = 'a' as any;
-      store.overrideSelector(getOrgUnits, result);
+      store.overrideSelector(getOrgUnitsFilter, result);
       store.overrideSelector(getSelectedOrgUnit, result);
       store.overrideSelector(getTimePeriods, result);
       store.overrideSelector(getSelectedTimePeriod, result);
@@ -105,7 +105,7 @@ describe('ReasonsForLeavingComponent', () => {
 
       component.ngOnInit();
 
-      m.expect(component.orgUnits$).toBeObservable(
+      m.expect(component.orgUnitsFilter$).toBeObservable(
         m.cold('a', {
           a: result,
         })
@@ -196,14 +196,14 @@ describe('ReasonsForLeavingComponent', () => {
       store.dispatch = jest.fn();
       const selectedFilter = {
         name: 'orgUnit',
-        value: 'Schaeffler_HR',
+        id: 'Schaeffler_HR',
       } as SelectedFilter;
 
       component.comparedOptionSelected(selectedFilter);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         changeComparedFilter({
-          comparedSelectedOrgUnit: selectedFilter.value.toString(),
+          comparedSelectedOrgUnit: selectedFilter.id,
         })
       );
     });

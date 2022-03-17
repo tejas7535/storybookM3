@@ -3,9 +3,9 @@ import { Action } from '@ngrx/store';
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
-  loadInitialFilters,
-  loadInitialFiltersFailure,
-  loadInitialFiltersSuccess,
+  loadOrgUnits,
+  loadOrgUnitsFailure,
+  loadOrgUnitsSuccess,
   timePeriodSelected,
   timeRangeSelected,
 } from '../../actions/filter/filter.action';
@@ -14,42 +14,45 @@ import { filterReducer, initialState, reducer } from './filter.reducer';
 describe('Filter Reducer', () => {
   const errorMessage = 'An error occured';
 
-  describe('loadInitialFilters', () => {
+  describe('loadOrgUnits', () => {
     test('should set loading', () => {
-      const action = loadInitialFilters();
+      const searchFor = 'search';
+      const action = loadOrgUnits({ searchFor });
       const state = filterReducer(initialState, action);
 
-      expect(state.loading).toBeTruthy();
+      expect(state.orgUnits.loading).toBeTruthy();
     });
   });
 
-  describe('loadInitialFiltersSuccess', () => {
-    test('should unset loading and set possible filters', () => {
-      const filters = {
-        orgUnits: [new IdValue('Department1', 'Department1')],
-      };
+  describe('loadOrgUnitsSuccess', () => {
+    test('should unset loading and set possible org units', () => {
+      const items = [new IdValue('Department1', 'Department1')];
 
-      const action = loadInitialFiltersSuccess({ filters });
+      const action = loadOrgUnitsSuccess({ items });
 
       const state = filterReducer(initialState, action);
 
-      expect(state.loading).toBeFalsy();
-      expect(state.orgUnits).toEqual(filters.orgUnits);
+      expect(state.orgUnits.loading).toBeFalsy();
+      expect(state.orgUnits.items).toEqual(items);
     });
   });
 
-  describe('loadInitialFiltersFailure', () => {
+  describe('loadOrgUnitsFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadInitialFiltersFailure({ errorMessage });
+      const action = loadOrgUnitsFailure({ errorMessage });
       const fakeState = {
         ...initialState,
-        loading: true,
+        orgUnits: {
+          ...initialState.orgUnits,
+          loading: true,
+          errorMessage: '',
+        },
       };
 
       const state = filterReducer(fakeState, action);
 
-      expect(state.loading).toBeFalsy();
-      expect(state.errorMessage).toEqual(errorMessage);
+      expect(state.orgUnits.loading).toBeFalsy();
+      expect(state.orgUnits.errorMessage).toEqual(errorMessage);
     });
   });
 

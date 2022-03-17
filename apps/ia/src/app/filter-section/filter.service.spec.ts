@@ -5,8 +5,8 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { IdValue, Slice } from '../shared/models';
 import { FilterService } from './filter.service';
-import { InitialFiltersResponse } from './models/initial-filters-response.model';
 
 describe('FilterService', () => {
   let httpMock: HttpTestingController;
@@ -31,16 +31,29 @@ describe('FilterService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getInitialFilters', () => {
-    test('should get initial filters', () => {
-      const mock: InitialFiltersResponse =
-        {} as unknown as InitialFiltersResponse;
+  describe('getOrgUnits', () => {
+    test('should get org units', () => {
+      const mock: Slice<IdValue> = {
+        content: [],
+        hasNext: false,
+        hasPrevious: false,
+        pageable: {
+          pageNumber: 0,
+          pageSize: 10,
+        },
+      };
+      const searchFor = 'search';
+      const timeRange = '123|456';
 
-      service.getInitialFilters().subscribe((response) => {
-        expect(response).toEqual(mock);
+      service.getOrgUnits(searchFor, timeRange).subscribe((response) => {
+        expect(response).toEqual(mock.content);
       });
 
-      const req = httpMock.expectOne('api/v1/initial-filters');
+      const req = httpMock.expectOne(
+        `api/v1/filters/org-units?time_range=${encodeURIComponent(
+          timeRange
+        )}&search_for=${searchFor}`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

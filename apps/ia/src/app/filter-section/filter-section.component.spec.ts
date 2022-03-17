@@ -9,9 +9,14 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
-import { filterSelected, timeRangeSelected } from '../core/store/actions';
 import {
-  getOrgUnits,
+  filterSelected,
+  loadOrgUnits,
+  timeRangeSelected,
+} from '../core/store/actions';
+import {
+  getOrgUnitsFilter,
+  getOrgUnitsLoading,
   getSelectedFilterValues,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
@@ -46,7 +51,11 @@ describe('FilterSectionComponent', () => {
       provideMockStore({
         initialState: {
           filter: {
-            orgUnits: [],
+            orgUnits: {
+              loading: false,
+              items: [],
+              errorMessage: undefined,
+            },
             timePeriods: [],
             selectedFilters: {
               ids: [],
@@ -70,13 +79,26 @@ describe('FilterSectionComponent', () => {
 
   describe('ngOnInit', () => {
     test(
-      'should set orgUnits',
+      'should set orgUnitsFilter',
       marbles((m) => {
         const result = new Filter(FilterKey.ORG_UNIT, []);
-        store.overrideSelector(getOrgUnits, result);
+        store.overrideSelector(getOrgUnitsFilter, result);
         component.ngOnInit();
 
-        m.expect(component.orgUnits$).toBeObservable(
+        m.expect(component.orgUnitsFilter$).toBeObservable(
+          m.cold('a', { a: result })
+        );
+      })
+    );
+
+    test(
+      'should set orgUnitsLoading',
+      marbles((m) => {
+        const result = true;
+        store.overrideSelector(getOrgUnitsLoading, result);
+        component.ngOnInit();
+
+        m.expect(component.orgUnitsLoading$).toBeObservable(
           m.cold('a', { a: result })
         );
       })
@@ -191,6 +213,16 @@ describe('FilterSectionComponent', () => {
       component.expansionPanelToggled(false);
 
       expect(component.isExpanded).toBeFalsy();
+    });
+  });
+
+  describe('autoCompleteOrgUnitsChange', () => {
+    test('should dispatch loadOrgUnits action', () => {
+      store.dispatch = jest.fn();
+      const searchFor = 'search';
+      component.autoCompleteOrgUnitsChange(searchFor);
+
+      expect(store.dispatch).toHaveBeenCalledWith(loadOrgUnits({ searchFor }));
     });
   });
 });

@@ -343,7 +343,7 @@ describe('Organizational View Effects', () => {
 
         const filter = {
           name: FilterKey.ORG_UNIT,
-          value: employee.orgUnit,
+          id: employee.orgUnit,
         };
 
         actions$ = m.hot('-a', { a: action });

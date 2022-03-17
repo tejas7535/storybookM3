@@ -5,15 +5,14 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { Slice, SortDirection } from '../shared/models';
 import { AttritionAnalyticsService } from './attrition-analytics.service';
 import {
+  EmployeeAnalytics,
   FeatureImportanceGroup,
   FeatureImportanceType,
-  Slice,
-  SortDirection,
+  FeatureParams,
 } from './models';
-import { EmployeeAnalytics } from './models/employee-analytics.model';
-import { FeatureParams } from './models/feature-params.model';
 
 describe('AttritionAnalyticsService', () => {
   let httpMock: HttpTestingController;

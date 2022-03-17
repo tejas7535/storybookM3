@@ -49,11 +49,11 @@ describe('UserSettingsDialogComponent', () => {
     });
   });
 
-  describe('resortInvalid', () => {
-    test('should set resortInvalid according input', () => {
-      component.resortInvalid(true);
+  describe('orgUnitInvalid', () => {
+    test('should set orgUnitInvalid according input', () => {
+      component.orgUnitInvalid(true);
 
-      expect(component.invalidResortInput).toBeTruthy();
+      expect(component.invalidOrgUnitInput).toBeTruthy();
     });
   });
 
@@ -66,7 +66,7 @@ describe('UserSettingsDialogComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         updateUserSettings({
-          data: { resort: option.value as string },
+          data: { orgUnit: option.id },
         })
       );
     });

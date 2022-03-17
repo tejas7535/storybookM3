@@ -29,33 +29,7 @@ export class FilterEffects {
       )
     );
   });
-  // setInitialFilters$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(loadInitialFiltersSuccess),
-  //     mergeMap(() =>
-  //       this.filterService.getInitialFilters().pipe(
-  //         map((filters) =>
-  //           filterSelected({
-  //             filter: {
-  //               name: FilterKey.ORG_UNIT,
-  //               value:
-  //                 filters?.orgUnits.find(
-  //                   (elem: IdValue) => elem.value === 'Schaeffler_IT'
-  //                 )?.value ?? filters?.orgUnits[0]?.value,
-  //             },
-  //           })
-  //         )
-  //       )
-  //     )
-  //   );
-  // });
-  // loginSuccessful$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(loginSuccess.type),
-  //     take(1),
-  //     map(loadInitialFilters)
-  //   );
-  // });
+
   constructor(
     private readonly actions$: Actions,
     private readonly store: Store,

@@ -1,19 +1,17 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';
-
-import { FilterService } from '../../../../filter-section/filter-service.service';
-import { FilterKey, IdValue } from '../../../../shared/models';
+import { FilterService } from '../../../../filter-section/filter.service';
+import { IdValue } from '../../../../shared/models';
 import {
-  filterSelected,
-  loadInitialFilters,
-  loadInitialFiltersFailure,
-  loadInitialFiltersSuccess,
+  loadOrgUnits,
+  loadOrgUnitsFailure,
+  loadOrgUnitsSuccess,
 } from '../../actions/filter/filter.action';
+import { getSelectedTimeRange } from '../../selectors';
 import { FilterEffects } from './filter.effects';
 
 describe('Filter Effects', () => {
@@ -22,10 +20,7 @@ describe('Filter Effects', () => {
   let filterService: FilterService;
   let action: any;
   let effects: FilterEffects;
-
-  const filters = {
-    orgUnits: [new IdValue('Department1', 'Department1')],
-  };
+  let store: MockStore;
 
   const error = {
     message: 'An error message occured',
@@ -39,7 +34,7 @@ describe('Filter Effects', () => {
       {
         provide: FilterService,
         useValue: {
-          getInitialFilters: jest.fn(),
+          getOrgUnits: jest.fn(),
         },
       },
     ],
@@ -50,40 +45,46 @@ describe('Filter Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(FilterEffects);
     filterService = spectator.inject(FilterService);
+    store = spectator.inject(MockStore);
   });
 
-  describe('loadInitialFilters$', () => {
+  describe('loadOrgUnits$', () => {
+    const searchFor = 'search';
+    const timeRange = '123|456';
+
     beforeEach(() => {
-      action = loadInitialFilters();
+      action = loadOrgUnits({ searchFor });
+      store.overrideSelector(getSelectedTimeRange, timeRange);
     });
 
     test(
-      'should return loadInitialFiltersSuccess action when REST call is successful',
+      'should return loadOrgUnitsSuccess action when REST call is successful',
       marbles((m) => {
-        const result = loadInitialFiltersSuccess({
-          filters,
+        const items = [new IdValue('Department1', 'Department1')];
+        const result = loadOrgUnitsSuccess({
+          items,
         });
 
         actions$ = m.hot('-a', { a: action });
 
-        const response = m.cold('-c', { c: filters });
+        const response = m.cold('-c', { c: items });
 
         const expected = m.cold('--b', { b: result });
 
-        filterService.getInitialFilters = jest
+        filterService.getOrgUnits = jest
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadInitialFilters$).toBeObservable(expected);
+        m.expect(effects.loadOrgUnits$).toBeObservable(expected);
         m.flush();
-        expect(filterService.getInitialFilters).toHaveBeenCalledTimes(1);
+        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
       })
     );
 
     test(
-      'should return loadInitialFiltersFailure on REST error',
+      'should return loadOrgUnitsFailure on REST error',
       marbles((m) => {
-        const result = loadInitialFiltersFailure({
+        const result = loadOrgUnitsFailure({
           errorMessage: error.message,
         });
 
@@ -91,69 +92,13 @@ describe('Filter Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        filterService.getInitialFilters = jest
+        filterService.getOrgUnits = jest
           .fn()
           .mockImplementation(() => response);
 
-        m.expect(effects.loadInitialFilters$).toBeObservable(expected);
+        m.expect(effects.loadOrgUnits$).toBeObservable(expected);
         m.flush();
-        expect(filterService.getInitialFilters).toHaveBeenCalledTimes(1);
-      })
-    );
-  });
-
-  describe('setInitialFilters$', () => {
-    test(
-      'should set initial org unit filter',
-      marbles((m) => {
-        const result = filterSelected({
-          filter: { name: FilterKey.ORG_UNIT, value: 'Department1' },
-        });
-        actions$ = m.hot('-a', { a: loadInitialFiltersSuccess({ filters }) });
-
-        const response = m.cold('-a|', {
-          a: filters,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        filterService.getInitialFilters = jest.fn(() => response);
-
-        m.expect(effects.setInitialFilters$).toBeObservable(expected);
-      })
-    );
-
-    test(
-      'should set initial org unit filter Schaeffler_IT',
-      marbles((m) => {
-        filters.orgUnits.push(new IdValue('Schaeffler_IT', 'Schaeffler_IT'));
-        const result = filterSelected({
-          filter: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
-        });
-        actions$ = m.hot('-a', { a: loadInitialFiltersSuccess({ filters }) });
-
-        const response = m.cold('-a|', {
-          a: filters,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        filterService.getInitialFilters = jest.fn(() => response);
-
-        m.expect(effects.setInitialFilters$).toBeObservable(expected);
-      })
-    );
-  });
-
-  describe('loginSuccessful$', () => {
-    test(
-      'should return loadInitialFilters for the first login success event',
-      marbles((m) => {
-        action = loginSuccess({ accountInfo: {} as unknown as AccountInfo });
-        actions$ = m.hot('-a', { a: action });
-        const result = loadInitialFilters();
-
-        const expected = m.cold('-(b|)', { b: result });
-
-        m.expect(effects.loginSuccessful$).toBeObservable(expected);
+        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
       })
     );
   });

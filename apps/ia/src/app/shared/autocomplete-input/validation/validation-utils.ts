@@ -13,11 +13,7 @@ export const ValidationUtils = {
 
   isInputValueFromTyping(control: FormControl): boolean {
     // if a value is selected, then it is of type object
-    return (
-      control.value === null ||
-      control.value === undefined ||
-      typeof control.value === 'string'
-    );
+    return control.value === null || typeof control.value === 'string';
   },
 
   isInitialEmptyState(control: FormControl): boolean {

@@ -49,7 +49,7 @@ describe('User Settings Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
-          data: { resort: 'Sales' },
+          data: { orgUnit: 'Sales' },
         },
       }),
       {
@@ -80,12 +80,12 @@ describe('User Settings Effects', () => {
     test(
       'should return loadUserSettingsSuccess on success',
       marbles((m) => {
-        const resort = 'Sales';
-        const result = loadUserSettingsSuccess({ data: { resort } });
+        const orgUnit = 'Sales';
+        const result = loadUserSettingsSuccess({ data: { orgUnit } });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--b', { b: result });
-        const response = m.cold('-c', { c: { resort } });
+        const response = m.cold('-c', { c: { orgUnit } });
 
         userSettingsService.getUserSettings = jest
           .fn()
@@ -98,10 +98,10 @@ describe('User Settings Effects', () => {
     );
 
     test(
-      'should return loadUserSettingsSuccess and showUserSettingsDialog on success and if resort not set',
+      'should return loadUserSettingsSuccess and showUserSettingsDialog on success and if orgUnit not set',
       marbles((m) => {
         const resultSuccess = loadUserSettingsSuccess({
-          data: { resort: undefined },
+          data: { orgUnit: undefined },
         });
         const resultShowUpdate = showUserSettingsDialog();
 
@@ -110,7 +110,7 @@ describe('User Settings Effects', () => {
           b: resultSuccess,
           c: resultShowUpdate,
         });
-        const response = m.cold('-c', { c: { resort: undefined } });
+        const response = m.cold('-c', { c: { orgUnit: undefined } });
 
         userSettingsService.getUserSettings = jest
           .fn()
@@ -178,7 +178,7 @@ describe('User Settings Effects', () => {
   });
 
   describe('updateUserSettings$', () => {
-    const data = { resort: 'Testresort' };
+    const data = { orgUnit: 'TestorgUnit' };
 
     beforeEach(() => {
       action = updateUserSettings({ data });

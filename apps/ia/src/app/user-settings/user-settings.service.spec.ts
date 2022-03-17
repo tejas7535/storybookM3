@@ -9,7 +9,7 @@ import { UserSettings } from './models/user-settings.model';
 import { UserSettingsService } from './user-settings.service';
 
 describe('UserSettingsService', () => {
-  const resort = 'Sales';
+  const orgUnit = 'Sales';
   let service: UserSettingsService;
   let httpMock: HttpTestingController;
   let spectator: SpectatorService<UserSettingsService>;
@@ -35,7 +35,7 @@ describe('UserSettingsService', () => {
 
   describe('getUserSettings', () => {
     test('should return user settings', () => {
-      const mock: UserSettings = { resort };
+      const mock: UserSettings = { orgUnit };
       service.getUserSettings().subscribe((response) => {
         expect(response).toEqual(mock);
       });
@@ -48,14 +48,14 @@ describe('UserSettingsService', () => {
 
   describe('saveUserSettings', () => {
     test('should save user settings', () => {
-      const userSettings: UserSettings = { resort };
+      const userSettings: UserSettings = { orgUnit };
       service.updateUserSettings(userSettings).subscribe((response) => {
         expect(response).toEqual(undefined);
       });
 
       const req = httpMock.expectOne('api/v1/user-settings');
       expect(req.request.method).toBe('PATCH');
-      expect(req.request.body).toEqual({ resort });
+      expect(req.request.body).toEqual({ orgUnit });
     });
   });
 });
