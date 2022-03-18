@@ -67,7 +67,6 @@ export const initialState: FilterState = {
 
 export const filterReducer = createReducer(
   initialState,
-  // // initial filters
   on(
     loadOrgUnits,
     (state: FilterState): FilterState => ({
