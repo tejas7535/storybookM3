@@ -70,7 +70,7 @@
             (columnMoved)="onColumnChange($event)"
             (sortChanged)="onColumnChange($event)"
             (columnVisible)="onColumnChange($event)"
-            rowClass="!border-l-0 !border-t-0"
+            [rowClass]="['!border-l-0', '!border-t-0']"
           ></ag-grid-angular>
         </div>
       </div>
