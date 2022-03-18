@@ -23,7 +23,7 @@ export class ChartConfigService {
   INDEX_X_AXIS = 0;
   INDEX_Y_AXIS = 1;
   regressionData: number[][];
-  tooltipLegendStyle = `display: inline-block; margin-right: 4px; border-radius: 10px; width: 10px; height: 10px;`;
+  tooltipLegendStyle = `display: inline-block; margin-right: 4px; width: 10px; height: 10px;`;
 
   X_AXIS_CONFIG: XAXisComponentOption = {
     type: 'value',

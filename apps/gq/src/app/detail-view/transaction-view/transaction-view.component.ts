@@ -10,6 +10,7 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import {
   getCoefficients,
+  getCustomer,
   getCustomerCurrency,
   getDetailViewQueryParams,
   getGraphTransactions,
@@ -19,6 +20,7 @@ import {
   isQuotationLoading,
 } from '../../core/store';
 import { ComparableLinkedTransaction } from '../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
+import { Customer } from '../../shared/models/customer';
 import {
   Coefficients,
   QuotationDetail,
@@ -39,6 +41,7 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
   translationsLoaded$: Observable<boolean>;
   graphTransactions$: Observable<ComparableLinkedTransaction[]>;
   coefficients$: Observable<Coefficients>;
+  customer$: Observable<Customer>;
 
   public breadcrumbs: Breadcrumb[];
   private readonly subscription: Subscription = new Subscription();
@@ -60,6 +63,7 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
     this.transactionsLoading$ = this.store.select(getTransactionsLoading);
     this.graphTransactions$ = this.store.select(getGraphTransactions);
     this.coefficients$ = this.store.select(getCoefficients);
+    this.customer$ = this.store.select(getCustomer);
 
     this.subscription.add(
       this.store

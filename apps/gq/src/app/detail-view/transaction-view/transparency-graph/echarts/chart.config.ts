@@ -6,8 +6,9 @@ import {
 } from 'echarts';
 
 export const GRID_CONFIG: GridComponentOption = {
-  left: '50px',
+  left: '24px',
   right: '20px',
+  top: '80px',
 };
 
 export const DATA_ZOOM: DataZoomComponentOption[] = [
@@ -68,9 +69,15 @@ export const DATA_ZOOM: DataZoomComponentOption[] = [
 ];
 
 export const LEGEND: LegendComponentOption = {
+  align: 'left',
+  selectorPosition: 'start',
+  icon: 'square',
+  orient: 'horizontal',
+  left: 'left',
+  itemGap: 48,
   top: 0,
-  itemGap: 32,
 };
+
 export const TOOLTIP_CONFIG: TooltipComponentOption = {
   trigger: 'item',
   axisPointer: {

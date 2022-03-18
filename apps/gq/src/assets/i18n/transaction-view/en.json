@@ -27,7 +27,7 @@
     "info-hover": "Comparable transactions with a negative GPI (%) are not taken into account when calculating the Guided Quoting price recommendation. Therefore these transactions are not shown in the graph, but are available in the table."
   },
   "graph": {
-    "title": "Margin by Quantity Graph",
+    "title": "Margin Volume Graph",
     "salesIndication": {
       "invoice": "Invoice",
       "lostQuote": "Lost Quote",
