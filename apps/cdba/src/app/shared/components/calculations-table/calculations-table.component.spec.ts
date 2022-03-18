@@ -37,7 +37,7 @@ describe('CalculationsTableComponent', () => {
     ],
     providers: [
       mockProvider(ColumnDefinitionService, {
-        COLUMN_DEFINITIONS: jest.fn(() => ''),
+        getColDef: jest.fn(() => ''),
       }),
       mockProvider(AgGridStateService),
       provideMockStore({

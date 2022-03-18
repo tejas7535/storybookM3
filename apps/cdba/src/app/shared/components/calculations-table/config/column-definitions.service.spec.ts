@@ -37,12 +37,11 @@ describe('ColumnDefinitions', () => {
   });
 
   it('should call value getter and format methods', () => {
-    const columnDefinitions = service.COLUMN_DEFINITIONS;
+    const columnDefinitions = service.getColDef(false);
 
-    Object.keys(columnDefinitions).forEach((column) => {
-      if (columnDefinitions[column].valueGetter) {
-        const valueGetter = columnDefinitions[column]
-          .valueGetter as ValueGetterFunction;
+    columnDefinitions.forEach((column) => {
+      if (column.valueGetter) {
+        const valueGetter = column.valueGetter as ValueGetterFunction;
         valueGetter({ data: {} } as ValueGetterParams);
       }
     });

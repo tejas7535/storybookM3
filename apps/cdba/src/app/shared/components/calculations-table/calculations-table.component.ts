@@ -57,9 +57,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public modules: any[];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[] = Object.values(
-    this.columnDefinitionService.COLUMN_DEFINITIONS
-  );
+  public columnDefs: ColDef[];
 
   public frameworkComponents: any;
 
@@ -90,6 +88,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    this.columnDefs = this.columnDefinitionService.getColDef(this.minified);
     this.storageKey = `calculations_${this.minified ? 'minified' : 'default'}`;
     this.setTableProperties(this.minified);
   }
@@ -136,6 +135,15 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
           nodeId,
           calculation: api.getRowNode(nodeId).data,
         }));
+
+        // keep at least one item selected in minified version
+        if (this.minified && selections?.length === 0) {
+          api
+            .getRowNode(previouslySelectedRows.shift())
+            .setSelected(true, false, true);
+
+          return;
+        }
 
         this.selectionChange.emit(selections);
       }
