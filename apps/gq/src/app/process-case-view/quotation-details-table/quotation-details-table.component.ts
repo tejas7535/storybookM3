@@ -103,15 +103,20 @@ export class QuotationDetailsTableComponent implements OnInit {
   }
 
   public onColumnChange(event: SortChangedEvent): void {
+    this.updateColumnData(event);
+
+    this.agGridStateService.setColumnState(
+      this.TABLE_KEY,
+      event.columnApi.getColumnState()
+    );
+  }
+
+  public updateColumnData(event: AgGridEvent): void {
     const columnData = this.buildColumnData(event);
 
     this.agGridStateService.setColumnData(
       this.tableContext.quotation.gqId.toString(),
       columnData
-    );
-    this.agGridStateService.setColumnState(
-      this.TABLE_KEY,
-      event.columnApi.getColumnState()
     );
   }
 

@@ -30,6 +30,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('QuotationDetailsTableComponent', () => {
   let component: QuotationDetailsTableComponent;
   let spectator: Spectator<QuotationDetailsTableComponent>;
+  const MOCK_QUOTATION_ID = 1234;
 
   const createComponent = createComponentFactory({
     component: QuotationDetailsTableComponent,
@@ -60,7 +61,7 @@ describe('QuotationDetailsTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    component.quotation = { gqId: 12 } as Quotation;
+    component.quotation = { gqId: MOCK_QUOTATION_ID } as Quotation;
   });
 
   test('should create', () => {
@@ -74,6 +75,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(component.columnDefs$).toBeDefined();
     });
   });
+
   describe('set quotation', () => {
     test('should set rowData and tableContext.currency', () => {
       component.quotation = QUOTATION_MOCK;
@@ -198,6 +200,41 @@ describe('QuotationDetailsTableComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('updateColumnData', () => {
+    test('should call agGridService with quotation details', () => {
+      component['agGridStateService'].setColumnData = jest.fn();
+
+      component.updateColumnData({
+        columnApi: {
+          setColumnState: jest.fn(),
+        },
+        api: {
+          forEachNodeAfterFilterAndSort: jest.fn(),
+        },
+      } as any);
+
+      expect(
+        component['agGridStateService'].setColumnData
+      ).toHaveBeenCalledWith(MOCK_QUOTATION_ID.toString(), []);
+    });
+
+    test('should be called onColumnChange', () => {
+      component.updateColumnData = jest.fn();
+
+      component.onColumnChange({
+        columnApi: {
+          setColumnState: jest.fn(),
+          getColumnState: jest.fn(),
+        },
+        api: {
+          forEachNodeAfterFilterAndSort: jest.fn(),
+        },
+      } as any);
+
+      expect(component.updateColumnData).toHaveBeenCalled();
     });
   });
 });

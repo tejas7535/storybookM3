@@ -14,6 +14,7 @@
   (sortChanged)="onColumnChange($event)"
   (columnVisible)="onColumnChange($event)"
   (filterChanged)="onColumnChange($event)"
+  (rowDataChanged)="updateColumnData($event)"
   (gridReady)="onGridReady($event)"
   [sideBar]="sideBar"
   [rowHeight]="40"
