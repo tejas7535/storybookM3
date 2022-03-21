@@ -12,6 +12,17 @@ export const bearingSearchSuccess = createAction(
 
 // todo bearingSearchFailure
 
+export const searchBearingExtended = createAction(
+  '[Bearing] Search Bearing Extended'
+);
+
+export const bearingSearchExtendedSuccess = createAction(
+  '[Bearing] Search Bearing Extended Success',
+  props<{ resultList: string[] }>()
+);
+
+// todo bearingSearchExtendedFailure
+
 export const modelCreateSuccess = createAction(
   '[Bearing] Model Create Success',
   props<{ modelId: string }>()
@@ -29,6 +40,8 @@ export const selectBearing = createAction(
 const all = union({
   searchBearing,
   bearingSearchSuccess,
+  searchBearingExtended,
+  bearingSearchExtendedSuccess,
   selectBearing,
   modelCreateSuccess,
   modelCreateFailure,

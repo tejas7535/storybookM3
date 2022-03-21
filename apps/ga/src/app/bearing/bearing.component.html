@@ -18,6 +18,7 @@
     </ng-container>
   </schaeffler-subheader>
   <schaeffler-search-autocomplete
+    *ngIf="!detailSelection; else detail_selection"
     [options]="bearingResultList$ | ngrxPush"
     [loading]="loading$ | ngrxPush"
     [formControl]="bearingSearchFormControl"
@@ -26,17 +27,42 @@
     [label]="t('searchPlaceholder')"
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
-  <!-- TODO: enable again -->
-  <!-- <div class="flex flex-row -ml-4 -mt-2 mb-4">
+  <ng-template #detail_selection>
+    <div class="flex flex-col bg-sunny-yellow">
+      <p>WIP: advanced selection set in background</p>
+      <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre>
+      <button
+        mat-button
+        color="primary"
+        (click)="handleBearingExtendedSearch()"
+      >
+        Search
+      </button>
+      <div *ngIf="bearingResultExtendedSearchList$ | ngrxPush as bearings">
+        <h5>{{ bearings.length }} Results</h5>
+        <mat-list role="list">
+          <button
+            mat-list-item
+            *ngFor="let bearing of bearings"
+            role="listitem"
+            (click)="handleBearingSelection(bearing.id)"
+          >
+            {{ bearing.title }}
+          </button>
+        </mat-list>
+      </div>
+    </div>
+  </ng-template>
+  <div *ngIf="localDev" class="-ml-4 -mt-2 mb-4 flex flex-row">
     <button
       mat-button
       color="primary"
       [disableRipple]="true"
-      class="focus:outline-none tracking-wider uppercase hover:!bg-transparent"
+      (click)="toggleSelection()"
     >
-      {{ t('narrowDownSelection') }}
+      {{ t(!detailSelection ? 'narrowDownSelection' : 'easySelection') }}
     </button>
-  </div> -->
+  </div>
   <div class="flex flex-1 flex-col justify-end sm:w-1/3">
     <img
       class="h-auto w-auto sm:max-h-full sm:object-cover"

@@ -8,12 +8,15 @@ import { marbles } from 'rxjs-marbles';
 
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
-import { getSelectedBearing } from '../..';
+import { getBearingExtendedSearchParameters, getSelectedBearing } from '../..';
+import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
+  bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
+  searchBearingExtended,
   selectBearing,
 } from './../../actions/bearing/bearing.actions';
 import { BearingEffects } from './bearing.effects';
@@ -35,6 +38,7 @@ describe('Bearing Effects', () => {
         provide: RestService,
         useValue: {
           getBearingSearch: jest.fn(),
+          getBearingExtendedSearch: jest.fn(),
         },
       },
       provideMockStore({}),
@@ -47,6 +51,11 @@ describe('Bearing Effects', () => {
     effects = spectator.inject(BearingEffects);
     store = spectator.inject(MockStore);
     restService = spectator.inject(RestService);
+
+    store.overrideSelector(
+      getBearingExtendedSearchParameters,
+      BearingState.extendedSearch.parameters
+    );
   });
 
   describe('bearingSearch$', () => {
@@ -69,6 +78,32 @@ describe('Bearing Effects', () => {
         m.flush();
 
         expect(restService.getBearingSearch).toHaveBeenCalledWith('the query');
+      })
+    );
+  });
+
+  describe('extendedBearingSearch$', () => {
+    it(
+      'should fetch the extended search bearing list',
+      marbles((m) => {
+        action = searchBearingExtended();
+
+        actions$ = m.hot('-a', { a: action });
+
+        const resultList = ['bear', 'grylls', 'drinks', 'pi$$'];
+
+        const response = m.cold('-a|', { a: resultList });
+        restService.getBearingExtendedSearch = jest.fn(() => response);
+
+        const result = bearingSearchExtendedSuccess({ resultList });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.extendedBearingSearch$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getBearingExtendedSearch).toHaveBeenCalledWith(
+          BearingState.extendedSearch.parameters
+        );
       })
     );
   });
@@ -97,6 +132,7 @@ describe('Bearing Effects', () => {
         expect(restService.putModelCreate).toHaveBeenCalledWith(mockBearing);
       })
     );
+
     it(
       'should fetch modelId and return failure action',
       marbles((m) => {

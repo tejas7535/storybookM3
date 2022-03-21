@@ -1,10 +1,17 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { bearingTypes } from '../../../../shared/constants';
 import {
+  BearingType,
+  ExtendedSearchParameters,
+} from '../../../../shared/models';
+import {
+  bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
+  searchBearingExtended,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
 
@@ -14,16 +21,10 @@ export interface BearingState {
     resultList: string[];
   };
   extendedSearch: {
-    query: string;
-    bearingDesign: string;
-    innerDiameter: number;
-    innerDiameterDeviation: number;
-    outerDiameter: number;
-    outerDiameterDeviation: number;
-    width: number;
-    widthDeviation: number;
+    parameters: ExtendedSearchParameters;
     resultList: string[];
   };
+  bearingTypes: BearingType[];
   loading: boolean;
   selectedBearing: string;
   modelId: string;
@@ -36,16 +37,19 @@ export const initialState: BearingState = {
     resultList: [],
   },
   extendedSearch: {
-    query: undefined,
-    bearingDesign: undefined,
-    innerDiameter: undefined,
-    innerDiameterDeviation: undefined,
-    outerDiameter: undefined,
-    outerDiameterDeviation: undefined,
-    width: undefined,
-    widthDeviation: undefined,
+    parameters: {
+      pattern: '',
+      bearingType: 'IDO_RADIAL_ROLLER_BEARING',
+      minDi: 20,
+      maxDi: 30,
+      minDa: 50,
+      maxDa: 60,
+      minB: 20,
+      maxB: 30,
+    },
     resultList: [],
   },
+  bearingTypes,
   loading: false,
   selectedBearing: undefined,
   modelId: undefined,
@@ -70,7 +74,25 @@ export const bearingReducer = createReducer(
     (state: BearingState, { resultList }): BearingState => ({
       ...state,
       search: {
-        ...initialState.search,
+        ...state.search,
+        resultList,
+      },
+      loading: false,
+    })
+  ),
+  on(
+    searchBearingExtended,
+    (state: BearingState): BearingState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    bearingSearchExtendedSuccess,
+    (state: BearingState, { resultList }): BearingState => ({
+      ...state,
+      extendedSearch: {
+        ...initialState.extendedSearch,
         resultList,
       },
       loading: false,

@@ -25,6 +25,7 @@
     "subtitle": "For which bearing should the calculation be done?",
     "searchPlaceholder": "Search for bearing designation, e.g. 6215",
     "narrowDownSelection": "Narrow down bearing selection?",
+    "easySelection": "Back to basic bearing selection",
     "noResults": "No results",
     "modelCreationError": "Currently a calculation for the bearing {{bearing}} is not possible.",
     "close": "Close"

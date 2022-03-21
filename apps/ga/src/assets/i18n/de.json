@@ -25,6 +25,7 @@
     "subtitle": "Für welches Lager soll die Kalkulation durchgeführt werden?",
     "searchPlaceholder": "Suche nach Lagerbezeichnung, z.B. 6215",
     "narrowDownSelection": "Lagerauswahl eingrenzen?",
+    "easySelection": "Zurück zur einfachen Lagerauswahl",
     "noResults": "Keine Ergebnisse",
     "modelCreationError": "Für das Lager {{bearing}} kann aktuell keine Berechnung durchgeführt werden.",
     "close": "Schließen"

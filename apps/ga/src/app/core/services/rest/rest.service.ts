@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import {
   CalculationParameters,
+  ExtendedSearchParameters,
   Property,
   Result,
 } from '../../../shared/models';
@@ -23,6 +24,17 @@ export class RestService {
         params: {
           pattern: query,
         },
+      }
+    );
+  }
+
+  public getBearingExtendedSearch(
+    parameters: ExtendedSearchParameters
+  ): Observable<string[]> {
+    return this.httpClient.get<string[]>(
+      `${environment.baseUrl}/bearings/extendedsearch`,
+      {
+        params: { ...parameters },
       }
     );
   }

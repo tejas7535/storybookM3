@@ -19,17 +19,22 @@ import { Store } from '@ngrx/store';
 
 import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
+import { environment } from '../../environments/environment';
 import { AppRoutePath } from '../app-route-path.enum';
 import {
   searchBearing,
+  searchBearingExtended,
   selectBearing,
 } from '../core/store/actions/bearing/bearing.actions';
 import { setCurrentStep } from '../core/store/actions/settings/settings.actions';
 import {
+  getBearingExtendedSearchParameters,
+  getBearingExtendedSearchResultList,
   getBearingLoading,
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { ExtendedSearchParameters } from '../shared/models';
 import {
   getModelCreationSuccess,
   getSelectedBearing,
@@ -42,9 +47,13 @@ import {
 export class BearingComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
+  localDev = environment.localDev;
+  detailSelection = false;
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;
+  bearingExtendedSearchParameters$: Observable<ExtendedSearchParameters>;
+  bearingResultExtendedSearchList$: Observable<SearchAutocompleteOption[]>;
   destroy$ = new Subject<void>();
 
   selectedBearing$: Observable<string>;
@@ -58,7 +67,13 @@ export class BearingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(setCurrentStep({ step: 0 }));
     this.loading$ = this.store.select(getBearingLoading);
+    this.bearingExtendedSearchParameters$ = this.store.select(
+      getBearingExtendedSearchParameters
+    );
     this.bearingResultList$ = this.store.select(getBearingResultList);
+    this.bearingResultExtendedSearchList$ = this.store.select(
+      getBearingExtendedSearchResultList
+    );
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedBearing$
       .pipe(
@@ -111,5 +126,13 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   public navigateBack(): void {
     this.router.navigate([AppRoutePath.BasePath]);
+  }
+
+  public toggleSelection(): void {
+    this.detailSelection = !this.detailSelection;
+  }
+
+  public handleBearingExtendedSearch(): void {
+    this.store.dispatch(searchBearingExtended());
   }
 }

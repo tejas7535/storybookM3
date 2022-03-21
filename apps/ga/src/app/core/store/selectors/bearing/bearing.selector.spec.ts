@@ -4,6 +4,8 @@ import {
   initialState,
 } from '../../reducers/bearing/bearing.reducer';
 import {
+  getBearingExtendedSearchParameters,
+  getBearingExtendedSearchResultList,
   getBearingLoading,
   getBearingResultList,
   getModelCreationSuccess,
@@ -18,6 +20,10 @@ describe('Bearing Selector', () => {
       search: {
         ...initialState.search,
         resultList: ['greatBearing', 'evenGreaterBearing'],
+      },
+      extendedSearch: {
+        ...initialState.extendedSearch,
+        resultList: ['advancedgreatBearing', 'evenMoreAdvancedgreatBearing'],
       },
     },
   };
@@ -50,6 +56,20 @@ describe('Bearing Selector', () => {
     });
   });
 
+  describe('getModelCreationSuccess', () => {
+    it('should return modelCreationSuccess', () => {
+      expect(getModelCreationSuccess(mockState)).toEqual(undefined);
+    });
+  });
+
+  describe('getBearingExtendedSearchParameters', () => {
+    it('should return the result list', () => {
+      expect(getBearingExtendedSearchParameters(mockState)).toEqual(
+        initialState.extendedSearch.parameters
+      );
+    });
+  });
+
   describe('getBearingResultList', () => {
     it('should return the result list', () => {
       expect(getBearingResultList(mockState)).toEqual([
@@ -65,9 +85,18 @@ describe('Bearing Selector', () => {
     });
   });
 
-  describe('getModelCreationSuccess', () => {
-    it('should return modelCreationSuccess', () => {
-      expect(getModelCreationSuccess(mockState)).toEqual(undefined);
+  describe('getBearingExtendedSearchResultList', () => {
+    it('should return the extended search result list', () => {
+      expect(getBearingExtendedSearchResultList(mockState)).toEqual([
+        {
+          id: 'advancedgreatBearing',
+          title: 'advancedgreatBearing',
+        },
+        {
+          id: 'evenMoreAdvancedgreatBearing',
+          title: 'evenMoreAdvancedgreatBearing',
+        },
+      ]);
     });
   });
 });

@@ -1,9 +1,11 @@
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
+  bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
+  searchBearingExtended,
   selectBearing,
 } from './bearing.actions';
 
@@ -28,6 +30,28 @@ describe('Bearing Actions', () => {
       expect(action).toEqual({
         resultList,
         type: '[Bearing] Search Bearing Success',
+      });
+    });
+  });
+
+  describe('Search Bearing Extended', () => {
+    it('searchBearingExtended', () => {
+      const action = searchBearingExtended();
+
+      expect(action).toEqual({
+        type: '[Bearing] Search Bearing Extended',
+      });
+    });
+  });
+
+  describe('Search Bearing Extended Success', () => {
+    it('bearingSearchExtendedSuccess', () => {
+      const resultList = ['advanced bearing 1', 'advanced bearing 2'];
+      const action = bearingSearchExtendedSuccess({ resultList });
+
+      expect(action).toEqual({
+        resultList,
+        type: '[Bearing] Search Bearing Extended Success',
       });
     });
   });

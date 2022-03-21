@@ -15,7 +15,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '../app-route-path.enum';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
+import {
+  searchBearingExtended,
+  selectBearing,
+} from './../core/store/actions/bearing/bearing.actions';
 import { getModelCreationSuccess } from './../core/store/selectors/bearing/bearing.selector';
 import { BearingComponent } from './bearing.component';
 
@@ -127,6 +130,23 @@ describe('BearingComponent', () => {
       expect(component['router'].navigate).toHaveBeenCalledWith([
         `${AppRoutePath.BasePath}`,
       ]);
+    });
+  });
+
+  describe('toggleSelection', () => {
+    it('should invert detailSelection', () => {
+      component.detailSelection = false;
+      component.toggleSelection();
+
+      expect(component.detailSelection).toBe(true);
+    });
+  });
+
+  describe('handleBearingExtendedSearch', () => {
+    it('should dispatch searchBearingExtended', () => {
+      component.handleBearingExtendedSearch();
+
+      expect(store.dispatch).toHaveBeenCalledWith(searchBearingExtended());
     });
   });
 });

@@ -1,19 +1,25 @@
 import { Injectable } from '@angular/core';
 
-import { map, mergeMap, withLatestFrom } from 'rxjs';
+import { map, mergeMap } from 'rxjs';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { ExtendedSearchParameters } from '../../../../shared/models';
 import { RestService } from '../../../services/rest/rest.service';
-import { getSelectedBearing } from '../..';
 import {
+  bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
+  searchBearingExtended,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
+import {
+  getBearingExtendedSearchParameters,
+  getSelectedBearing,
+} from '../../selectors/bearing/bearing.selector';
 
 @Injectable()
 export class BearingEffects {
@@ -35,10 +41,31 @@ export class BearingEffects {
     );
   });
 
+  extendedBearingSearch$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(searchBearingExtended),
+      concatLatestFrom(() =>
+        this.store.select(getBearingExtendedSearchParameters)
+      ),
+      map(([_action, parameters]) => parameters),
+      mergeMap(
+        (parameters: ExtendedSearchParameters) =>
+          this.restService
+            .getBearingExtendedSearch(parameters)
+            .pipe(
+              map((resultList: string[]) =>
+                bearingSearchExtendedSuccess({ resultList })
+              )
+            )
+        //   catchError((_e) => of(bearingSearchExtendedFailure())
+      )
+    );
+  });
+
   createModel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(selectBearing),
-      withLatestFrom(this.store.select(getSelectedBearing)),
+      concatLatestFrom(() => this.store.select(getSelectedBearing)),
       map(([_action, bearing]) => bearing as string),
       mergeMap(
         (bearing: string) =>

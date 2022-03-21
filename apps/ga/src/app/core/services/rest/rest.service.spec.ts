@@ -7,6 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { environment } from '../../../../environments/environment';
 import { Property } from '../../../shared/models';
+import { initialState as BearingState } from '../../store/reducers/bearing/bearing.reducer';
 import {
   BEARING_SEARCH_RESULT_MOCK,
   CALCULATION_PARAMETERS_MOCK,
@@ -47,6 +48,23 @@ describe('RestService', () => {
 
       const req = httpMock.expectOne(
         `${environment.baseUrl}/bearings/search?pattern=theQuery`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(BEARING_SEARCH_RESULT_MOCK);
+    });
+  });
+
+  describe('#getBearingExtendedSearch', () => {
+    it('should send a extended bearing search request with params', (done) => {
+      service
+        .getBearingExtendedSearch(BearingState.extendedSearch.parameters)
+        .subscribe((result: string[]) => {
+          expect(result).toEqual(BEARING_SEARCH_RESULT_MOCK);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/bearings/extendedsearch?pattern=&bearingType=IDO_RADIAL_ROLLER_BEARING&minDi=20&maxDi=30&minDa=50&maxDa=60&minB=20&maxB=30`
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
