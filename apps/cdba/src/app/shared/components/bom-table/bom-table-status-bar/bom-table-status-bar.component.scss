@@ -1,7 +1,5 @@
-::ng-deep .ag-theme-material .ag-status-bar-left {
-  @apply w-full #{!important};
-}
-
 :host {
-  @apply w-full max-w-screen-xl;
+  @apply w-full;
+  @apply max-w-screen-xl;
+  @apply min-w-[460px];
 }
