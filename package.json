@@ -106,7 +106,7 @@
     "@angular/cli": "13.2.5",
     "@angular/compiler-cli": "13.2.5",
     "@angular/language-service": "13.2.5",
-    "@babel/core": "7.17.7",
+    "@babel/core": "7.17.8",
     "@commitlint/cli": "16.2.3",
     "@commitlint/cz-commitlint": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
