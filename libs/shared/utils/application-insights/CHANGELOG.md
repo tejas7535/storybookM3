@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.3...application-insights-v0.1.4) (2022-03-22)
+
+
+### 🎸 Features
+
+* **application-insights:** allow optional custom event tracking ([6fbc171](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6fbc171b5e4db9a02b3d3259c72c07c0e3470437))
+
+
+### 🐛 Bug Fixes
+
+* **application-insights:** adjust tracking to not renew userid ([#3808](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3808)) ([8c7fe4c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c7fe4c90b13f95cc4ff51dd3899945f44049ffd))
+* **application-insights:** handle iframe, initial track event ([#3859](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3859)) ([25ceeb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25ceeb0d74ae8d28f2aae5ad9bc0b96084223948))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
 ### [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.2...application-insights-v0.1.3) (2022-01-11)
 
 
