@@ -7,6 +7,7 @@ import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import {
   getIsLoggedIn,
   getProfileImage,
@@ -76,7 +77,8 @@ export class AppComponent implements OnInit {
   public constructor(
     private readonly store: Store,
     private readonly router: Router,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly appInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -86,6 +88,11 @@ export class AppComponent implements OnInit {
     this.healthCheckLoading$ = this.store.select(getHealthCheckLoading);
     this.isHealthCheckAvailable$ = this.store.select(getHealthCheckAvailable);
     this.handleCurrentRoute();
+
+    this.appInsightsService.addCustomPropertyToTelemetryData(
+      'appVersion',
+      this.appVersion
+    );
   }
 
   handleCurrentRoute(): void {
