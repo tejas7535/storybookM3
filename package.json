@@ -75,7 +75,7 @@
     "@microsoft/applicationinsights-web": "2.7.4",
     "@ng-web-apis/common": "2.0.0",
     "@ngneat/cashew": "3.0.0",
-    "@ngneat/transloco": "3.1.4",
+    "@ngneat/transloco": "3.2.0",
     "@ngneat/transloco-locale": "3.0.1",
     "@ngneat/transloco-persist-lang": "3.0.1",
     "@ngrx/component": "13.0.2",
