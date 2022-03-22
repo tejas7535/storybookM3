@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.1.0...transloco-v3.2.0) (2022-03-22)
+
+
+### ✏️ Documentation
+
+* adjust to suggest material icon source ([a73e91b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a73e91b89002ba7f7768461b1fae6713cc88a30a))
+
+
+### 🎸 Features
+
+* **transloco:** extend root tailwind config ([883f188](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/883f188e9a667651cef38f0cac894c673c7ad13d))
+* **transloco:** implement locale select ([#3192](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3192)) ([25a3327](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25a332787edce243876002594a5f8484f77f3427))
+
+
+### 🐛 Bug Fixes
+
+* **transloco:** fix html format issues ([c1e9e7b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c1e9e7bbfe7f482e37c99db62e264feea6e65f86))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+* **workspace:** re-activate eslint rule ([#3599](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3599)) ([#3873](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3873)) ([b38665d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b38665d76345a952f77da1ae28c7726397e8c010))
+
 ## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.0.2...transloco-v3.1.0) (2022-01-11)
 
 
