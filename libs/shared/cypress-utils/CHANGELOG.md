@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.13.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.13.0...cypress-utils-v1.13.1) (2022-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
 ## [1.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cypress-utils-v1.12.3...cypress-utils-v1.13.0) (2022-01-11)
 
 
