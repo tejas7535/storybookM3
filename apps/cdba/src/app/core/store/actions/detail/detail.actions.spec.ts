@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 
-import { BomItem, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
@@ -94,7 +94,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadBomSuccess', () => {
-      const items: BomItem[] = [];
+      const items = BOM_MOCK;
       action = loadBomSuccess({ items });
 
       expect(action).toEqual({
@@ -116,7 +116,7 @@ describe('Detail Actions', () => {
 
   describe('Select Bom Action', () => {
     test('selectBomItem', () => {
-      const item: BomItem = BOM_MOCK[0];
+      const item = BOM_MOCK[0];
 
       action = selectBomItem({ item });
 

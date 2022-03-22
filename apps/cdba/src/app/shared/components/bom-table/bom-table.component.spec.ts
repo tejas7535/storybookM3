@@ -1,5 +1,4 @@
 import { SimpleChange } from '@angular/core';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
@@ -12,8 +11,9 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { BomTableModule } from '@cdba/shared/components';
-import { ColumnUtilsService } from '@cdba/shared/components/table';
+import { ColumnDefinitionService } from '@cdba/shared/components/bom-table/config';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { BOM_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -21,7 +21,6 @@ import {
 } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
-import { BomItem } from '../../models';
 import { BomTableComponent } from './bom-table.component';
 import { BomTableStatusBarComponentModule } from './bom-table-status-bar/bom-table-status-bar.component';
 
@@ -34,18 +33,14 @@ describe('BomTableComponent', () => {
     imports: [
       AgGridModule.withComponents([]),
       MaterialNumberModule,
-      BomTableModule,
+      MockModule(BomTableModule),
       MockModule(BomTableStatusBarComponentModule),
     ],
     providers: [
       { provide: ENV, useValue: { ...getEnv() } },
-      mockProvider(ColumnUtilsService, {
-        formatNumber: jest.fn(() => ''),
+      mockProvider(ColumnDefinitionService, {
+        getColDef: jest.fn(() => []),
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 
@@ -171,37 +166,7 @@ describe('BomTableComponent', () => {
 
   describe('getDataPath', () => {
     it('should return predecessors of item', () => {
-      const item = new BomItem(
-        1,
-        'c',
-        '003',
-        2,
-        2,
-        'mat',
-        2,
-        'mat2',
-        'type',
-        'act',
-        2,
-        2,
-        2,
-        2,
-        'pc',
-        'cost',
-        'foreign',
-        2,
-        'mattérial',
-        'parentplant',
-        'date',
-        'number',
-        'version',
-        'type',
-        'entered',
-        'ref',
-        'variant',
-        1,
-        ['root', 'current']
-      );
+      const item = BOM_MOCK[0];
 
       const result = component.getDataPath(item);
 

@@ -15,7 +15,6 @@ import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BomItem } from '../../models';
 import { BomChartComponent } from './bom-chart.component';
 import { TOOLTIP_CONFIG, Y_AXIS_CONFIG } from './bom-chart.constants';
 import { BomChartConfigService } from './bom-chart-config.service';
@@ -26,7 +25,7 @@ describe('BomChartComponent', () => {
   let component: BomChartComponent;
   let configService: BomChartConfigService;
 
-  const data: BomItem[] = [BOM_MOCK[1], BOM_MOCK[2]];
+  const data = [BOM_MOCK[1], BOM_MOCK[2]];
 
   const createComponent = createComponentFactory({
     component: BomChartComponent,

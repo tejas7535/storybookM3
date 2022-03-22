@@ -40,7 +40,7 @@ export class BomChartComponent implements OnChanges {
     let totalCosts = 0;
     this.hasNegativeCostValues = false;
 
-    data.forEach((value: BomItem) => {
+    data.forEach((value) => {
       this.barChartData.push(this.createDataPoint(value));
       totalCosts += value.totalPricePerPc;
 

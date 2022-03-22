@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { API, DetailPath } from '@cdba/shared/constants/api';
+import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import {
   BomIdentifier,
   BomItem,
@@ -12,6 +13,8 @@ import {
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
+import { BOM_ITEM_ODATA_MOCK } from '@cdba/testing/mocks/models/bom-odata.mock';
 import { withCache } from '@ngneat/cashew';
 
 import {
@@ -34,7 +37,10 @@ export class DetailService {
   private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
   private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
 
-  public constructor(private readonly httpClient: HttpClient) {}
+  public constructor(
+    private readonly httpClient: HttpClient,
+    private readonly betaFeatureService: BetaFeatureService
+  ) {}
 
   private static defineBomTreeForAgGrid(
     items: BomItem[],
@@ -148,12 +154,21 @@ export class DetailService {
         context: withCache(),
       })
       .pipe(
-        map((response: BomResult) =>
-          response.items.map((item) => ({
+        map((response: BomResult) => {
+          const items = this.betaFeatureService.getBetaFeature(
+            BetaFeature.O_DATA
+          )
+            ? [
+                BOM_ITEM_ODATA_MOCK,
+                { ...BOM_ITEM_ODATA_MOCK, level: 2, rowId: 2 },
+              ]
+            : response.items;
+
+          return items.map((item) => ({
             ...item,
             predecessorsInTree: [],
-          }))
-        ),
+          }));
+        }),
         map((items: BomItem[]) =>
           DetailService.defineBomTreeForAgGrid(items, 0)
         )

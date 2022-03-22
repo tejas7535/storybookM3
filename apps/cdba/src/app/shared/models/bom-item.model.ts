@@ -1,34 +1,6 @@
-export class BomItem {
-  public constructor(
-    public level: number,
-    public currency: string,
-    public plant: string,
-    public cavity: number,
-    public lotsize: number,
-    public materialDesignation: string,
-    public totalPricePerPc: number,
-    public materialNumber: string,
-    public procurementType: string,
-    public activityType: string,
-    public setupTime: number,
-    public cycleTime: number,
-    public toolingFactor: number,
-    public quantityPerParent: number,
-    public unitOfMeasure: string,
-    public costCenter: string,
-    public currencyForeign: string,
-    public parentLotsize: number,
-    public parentMaterialNumber: string,
-    public parentPlant: string,
-    public bomCostingDate: string,
-    public bomCostingNumber: string,
-    public bomCostingVersion: string,
-    public bomCostingType: string,
-    public bomEnteredManually: string,
-    public bomReferenceObject: string,
-    public bomValuationVariant: string,
-    public rowId: number,
-    public predecessorsInTree: string[] = [],
-    public costShareOfParent?: number
-  ) {}
-}
+import { BomItemClassic } from './bom-item-classic.model';
+import { BomItemOdata } from './bom-item-odata.model';
+
+export interface BomItem
+  extends Partial<BomItemClassic>,
+    Partial<BomItemOdata> {}

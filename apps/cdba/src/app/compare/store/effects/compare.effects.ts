@@ -10,11 +10,7 @@ import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { RouterStateUrl } from '@cdba/core/store';
 import { DetailService } from '@cdba/detail/service/detail.service';
-import {
-  BomIdentifier,
-  BomItem,
-  ReferenceTypeIdentifier,
-} from '@cdba/shared/models';
+import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -184,9 +180,7 @@ export class CompareEffects {
       mergeMap(([action, hasPricingRole]) => {
         return hasPricingRole
           ? this.detailService.getBom(action.bomIdentifier).pipe(
-              map((items: BomItem[]) =>
-                loadBomSuccess({ items, index: action.index })
-              ),
+              map((items) => loadBomSuccess({ items, index: action.index })),
               catchError((error: HttpErrorResponse) =>
                 of(
                   loadBomFailure({

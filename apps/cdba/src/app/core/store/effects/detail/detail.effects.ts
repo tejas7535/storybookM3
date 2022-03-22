@@ -10,7 +10,7 @@ import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
-import { BomItem, Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -144,7 +144,7 @@ export class DetailEffects {
       exhaustMap(([action, hasPricingRole]) => {
         return hasPricingRole
           ? this.detailService.getBom(action.bomIdentifier).pipe(
-              map((items: BomItem[]) => loadBomSuccess({ items })),
+              map((items) => loadBomSuccess({ items })),
               catchError((error: HttpErrorResponse) =>
                 of(
                   loadBomFailure({

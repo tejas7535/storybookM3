@@ -1,6 +1,6 @@
 export { AdditionalInformationDetails } from './additional-information-details.model';
 export { BomIdentifier } from './bom-identifier.model';
-export { BomItem } from './bom-item.model';
+export * from './bom-item.model';
 export { Calculation } from './calculation.model';
 export { CostShareCategory } from './cost-share-category.type';
 export { CustomerDetails } from './customer-details.model';

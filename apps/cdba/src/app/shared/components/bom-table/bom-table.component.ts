@@ -62,7 +62,7 @@ export class BomTableComponent implements OnChanges {
   };
   nonLevel2Children: any[] = [];
 
-  columnDefs = this.columnDefinitionService.COLUMN_DEFINITIONS_DEFAULT;
+  columnDefs = this.columnDefinitionService.getColDef();
   defaultColDef = this.columnDefinitionService.DEFAULT_COL_DEF;
   autoGroupColumnDef = this.columnDefinitionService.AUTO_GROUP_COLUMN_DEF;
   groupDefaultExpanded = 1;

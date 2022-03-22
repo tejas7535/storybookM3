@@ -30,7 +30,7 @@ import { marbles } from 'rxjs-marbles';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { BomItem, Calculation } from '../../models';
+import { Calculation } from '../../models';
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
 import { BomOverlayModule } from '../bom-overlay/bom-overlay.module';
@@ -122,40 +122,7 @@ describe('BomContainerComponent', () => {
     test(
       'should use detail selectors to init observables',
       marbles((m) => {
-        const expectedChildrenOfSelectedBomItem = [
-          {
-            activityType: 'activity',
-            bomCostingDate: '20200707',
-            bomCostingNumber: '1234',
-            bomCostingType: 'exp',
-            bomCostingVersion: 'new',
-            bomEnteredManually: 'yes',
-            bomReferenceObject: 'ref',
-            bomValuationVariant: 'var',
-            cavity: 2,
-            costCenter: 'cost',
-            currency: 'EUR',
-            currencyForeign: 'EUR',
-            cycleTime: 4,
-            level: 2,
-            lotsize: 2.3,
-            materialDesignation: 'FE-2315',
-            materialNumber: '1234',
-            parentLotsize: 23,
-            parentMaterialNumber: '6789',
-            parentPlant: '0007',
-            plant: '0003',
-            predecessorsInTree: ['FE-2313', 'FE-2315'],
-            procurementType: 'type',
-            quantityPerParent: 4,
-            rowId: 2,
-            setupTime: 2,
-            toolingFactor: 2,
-            totalPricePerPc: 13,
-            unitOfMeasure: 'pc',
-            costShareOfParent: 1,
-          },
-        ];
+        const expectedChildrenOfSelectedBomItem = [BOM_MOCK[1]];
 
         component['initializeWithDetailSelectors']();
 
@@ -203,8 +170,6 @@ describe('BomContainerComponent', () => {
     test(
       'should use compare selectors to init observables',
       marbles((m) => {
-        const expectedChildrenOfSelectedBomItem: BomItem[] = [];
-
         component['initializeWithCompareSelectors']();
 
         m.expect(component.materialDesignation$).toBeObservable(
@@ -238,7 +203,7 @@ describe('BomContainerComponent', () => {
           m.cold('a', { a: undefined })
         );
         m.expect(component.childrenOfSelectedBomItem$).toBeObservable(
-          m.cold('a', { a: expectedChildrenOfSelectedBomItem })
+          m.cold('a', { a: [] })
         );
       })
     );

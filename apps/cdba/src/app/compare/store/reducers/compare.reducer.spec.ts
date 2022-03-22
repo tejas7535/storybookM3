@@ -1,5 +1,4 @@
 import {
-  BomItem,
   Calculation,
   ExcludedCalculations,
   ReferenceTypeIdentifier,
@@ -221,8 +220,7 @@ describe('Compare Reducer', () => {
 
       it('should return previous state for undefined index', () => {
         const index = 99;
-        const item: BomItem = undefined;
-        action = selectBomItem({ item, index });
+        action = selectBomItem({ item: undefined, index });
 
         state = compareReducer(mockState, action);
 

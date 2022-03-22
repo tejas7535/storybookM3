@@ -153,7 +153,7 @@ export const getChildrenOfSelectedBomItem = (index: number) =>
     state[index]?.billOfMaterial?.selected
       ? state[index].billOfMaterial.items
           .filter(
-            (item: BomItem) =>
+            (item) =>
               item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
               state[index].billOfMaterial.selected.materialDesignation
           )
