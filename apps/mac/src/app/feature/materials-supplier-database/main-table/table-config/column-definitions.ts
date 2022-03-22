@@ -45,7 +45,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    field: 'ratingCode',
+    field: 'ratingKindName',
     headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
     hide: true,
