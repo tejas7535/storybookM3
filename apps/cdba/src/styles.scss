@@ -86,25 +86,27 @@ button {
     @apply p-0 #{!important};
   }
 
-  .ag-group-expanded {
-    margin-right: 4px !important;
-  }
+  &.tree-view-table {
+    .ag-group-expanded {
+      margin-right: 4px !important;
+    }
 
-  .ag-group-contracted {
-    margin-right: 4px !important;
-  }
+    .ag-group-contracted {
+      margin-right: 4px !important;
+    }
 
-  //.ag-row-level-0 {
-  //  &:not(.ag-row-group) {
-  //    > .ag-cell:first-of-type {
-  //      padding-left: 32px;
-  //    }
-  //  }
-  //}
+    .ag-row-level-0 {
+      &:not(.ag-row-group) {
+        > .ag-cell:first-of-type {
+          padding-left: 32px;
+        }
+      }
+    }
 
-  @for $i from 1 to 20 {
-    .ag-row-level-#{$i} .ag-row-group-leaf-indent {
-      margin-left: 22px !important;
+    @for $i from 1 to 20 {
+      .ag-row-level-#{$i} .ag-row-group-leaf-indent {
+        margin-left: 22px !important;
+      }
     }
   }
 
