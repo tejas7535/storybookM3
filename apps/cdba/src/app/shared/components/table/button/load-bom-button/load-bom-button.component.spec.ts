@@ -3,8 +3,11 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
-import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import {
+  GridApi,
+  IStatusPanelParams,
+  RowNode,
+} from '@ag-grid-enterprise/all-modules';
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';

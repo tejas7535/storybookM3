@@ -57,7 +57,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[];
 
-  public frameworkComponents: any;
+  public components: any;
 
   public noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => this.errorMessage,
@@ -180,7 +180,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     this.defaultColDef = { ...this.defaultColDef, floatingFilter: !minified };
     this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
     this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
-    this.frameworkComponents = minified
+    this.components = minified
       ? FRAMEWORK_COMPONENTS_MINIFIED
       : FRAMEWORK_COMPONENTS;
 

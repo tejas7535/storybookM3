@@ -264,7 +264,7 @@ describe('CalculationsTableComponent', () => {
     });
 
     it('should apply column state from state service', () => {
-      const mockColumnState = [{ colId: 'foo', sort: 'asc' }];
+      const mockColumnState: any = { colId: 'foo', sort: 'asc' };
       stateService.getColumnState = jest.fn(() => mockColumnState);
 
       component.onGridReady(params);

@@ -4,14 +4,14 @@
   [defaultColDef]="defaultColDef"
   [columnDefs]="columnDefs"
   [modules]="modules"
-  [frameworkComponents]="frameworkComponents"
+  [components]="components"
   rowSelection="single"
   [rowHeight]="30"
   [valueCache]="true"
   [animateRows]="true"
   [suppressCsvExport]="true"
   [suppressExcelExport]="true"
-  [suppressCellSelection]="true"
+  [suppressCellFocus]="true"
   (rowSelected)="onRowSelected($event)"
 >
 </ag-grid-angular>

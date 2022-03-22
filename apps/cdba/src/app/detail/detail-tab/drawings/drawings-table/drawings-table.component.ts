@@ -41,7 +41,7 @@ export class DrawingsTableComponent {
 
   public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
 
-  public frameworkComponents = {
+  public components = {
     actionsCellRenderer: ActionsCellRendererComponent,
   };
 

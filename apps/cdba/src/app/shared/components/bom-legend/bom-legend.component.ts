@@ -30,10 +30,7 @@ export class BomLegendComponent {
       field: 'materialDesignation',
       headerName: translate('shared.bom.headers.materialDesignation'),
       flex: 2,
-      cellRendererFramework: MaterialDesignationCellRendererComponent,
-      cellRendererParams: {
-        color: 'red',
-      },
+      cellRenderer: MaterialDesignationCellRendererComponent,
     },
     {
       field: 'totalPricePerPc',

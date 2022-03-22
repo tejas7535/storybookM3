@@ -88,7 +88,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
 
   public rowHeight = 30;
 
-  public frameworkComponents = {
+  public components = {
     resultsStatusBarComponent: ResultsStatusBarComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
     materialDesignationCellRender: MaterialDesignationCellRenderComponent,

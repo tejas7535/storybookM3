@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
-import { GridApi } from '@ag-grid-enterprise/all-modules';
+import { GridApi, RowNode } from '@ag-grid-enterprise/all-modules';
 import { selectCalculation } from '@cdba/core/store';
 import { Calculation } from '@cdba/shared/models';
 import { Store } from '@ngrx/store';

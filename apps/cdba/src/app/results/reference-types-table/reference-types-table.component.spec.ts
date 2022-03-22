@@ -144,7 +144,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should applyColumnState', () => {
-      const mockColumnState = [{ colId: 'foo', sort: 'asc' }];
+      const mockColumnState: any = [{ colId: 'foo', sort: 'asc' }];
       stateService.getColumnState = jest.fn(() => mockColumnState);
 
       component.onGridReady(event);

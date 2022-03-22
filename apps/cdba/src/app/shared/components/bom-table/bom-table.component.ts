@@ -230,7 +230,7 @@ export class BomTableComponent implements OnChanges {
     'row-level-15': (params: any) => params.data.level === 15,
   };
 
-  frameworkComponents = {
+  components = {
     customLoadingOverlay: CustomLoadingOverlayComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
     bomTableStatusBar: BomTableStatusBarComponent,
