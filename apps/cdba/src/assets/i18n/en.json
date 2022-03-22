@@ -33,6 +33,10 @@
           "tooltip": "Reset column filters",
           "menuEntry": "Reset Filter"
         }
+      },
+      "sidebar": {
+        "columns": "Columns",
+        "filters": "Filters"
       }
     },
     "undefinedAttribute": "n.a.",

@@ -33,6 +33,10 @@
           "tooltip": "Spaltenfilter zurücksetzen",
           "menuEntry": "Filter zurücksetzen"
         }
+      },
+      "sidebar": {
+        "columns": "Spalten",
+        "filters": "Filter"
       }
     },
     "undefinedAttribute": "n. v.",

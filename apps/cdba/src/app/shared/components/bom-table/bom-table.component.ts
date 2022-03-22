@@ -9,35 +9,28 @@ import {
 } from '@angular/core';
 
 import {
-  ClientSideRowModelModule,
-  ColDef,
   ColumnApi,
-  ExcelExportModule,
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
   RowClickedEvent,
-  RowGroupingModule,
   RowNode,
-  StatusBarModule,
 } from '@ag-grid-enterprise/all-modules';
-import {
-  ScrambleMaterialDesignationPipe,
-  ScrambleMaterialNumberPipe,
-} from '@cdba/shared/pipes';
+import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService } from '@cdba/shared/services';
 import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../models';
-import { ColumnUtilsService, formatMaterialNumberFromString } from '../table';
-import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import {
-  CustomNoRowsOverlayComponent,
-  NoRowsParams,
-} from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { BomMaterialDesignationCellRenderComponent } from './bom-material-designation-cell-render/bom-material-designation-cell-render.component';
-import { BomTableStatusBarComponent } from './bom-table-status-bar/bom-table-status-bar.component';
-import { STATUS_BAR_CONFIG } from './status-bar';
+  BOM_ROW_CLASS_RULES,
+  BOM_TABLE_COMPONENTS,
+  BOM_TABLE_EXCEL_STYLES,
+  BOM_TABLE_MODULES,
+  BOM_TABLE_STATUS_BAR_CONFIG,
+  ColumnDefinitionService,
+  SidebarService,
+} from './config';
 
 @Component({
   selector: 'cdba-bom-table',
@@ -47,9 +40,9 @@ import { STATUS_BAR_CONFIG } from './status-bar';
 })
 export class BomTableComponent implements OnChanges {
   public constructor(
+    protected columnDefinitionService: ColumnDefinitionService,
+    protected sidebarService: SidebarService,
     protected scrambleMaterialDesignationPipe: ScrambleMaterialDesignationPipe,
-    protected scrambleMaterialNumberPipe: ScrambleMaterialNumberPipe,
-    private readonly columnUtilsService: ColumnUtilsService,
     private readonly costShareService: CostShareService
   ) {}
 
@@ -61,14 +54,6 @@ export class BomTableComponent implements OnChanges {
   @Output() readonly rowSelected: EventEmitter<BomItem> = new EventEmitter();
   @Output() readonly gridReady: EventEmitter<GridApi> = new EventEmitter();
 
-  defaultCellClass = 'line-height-30';
-
-  defaultColDef: ColDef = {
-    sortable: true,
-    resizable: true,
-    cellClass: this.defaultCellClass,
-  };
-
   // select first row initially for coloring
   currentSelectedRow = {
     node: {
@@ -77,168 +62,26 @@ export class BomTableComponent implements OnChanges {
   };
   nonLevel2Children: any[] = [];
 
-  autoGroupColumnDef: ColDef = {
-    headerName: translate('shared.bom.headers.materialDesignation'),
-    resizable: true,
-    minWidth: 300,
-    cellRendererParams: {
-      suppressCount: true,
-      innerRenderer: 'bomMaterialDesignationCellRenderComponent',
-      suppressDoubleClickExpand: true,
-    },
-  };
-
+  columnDefs = this.columnDefinitionService.COLUMN_DEFINITIONS_DEFAULT;
+  defaultColDef = this.columnDefinitionService.DEFAULT_COL_DEF;
+  autoGroupColumnDef = this.columnDefinitionService.AUTO_GROUP_COLUMN_DEF;
   groupDefaultExpanded = 1;
 
-  columnDefs: ColDef[] = [
-    {
-      field: 'level',
-      headerName: translate('shared.bom.headers.level'),
-      hide: true,
-    },
-    {
-      field: 'totalPricePerPc',
-      headerName: translate('shared.bom.headers.totalPricePerPc'),
-      type: 'numericColumn',
-      valueFormatter: (params) =>
-        this.columnUtilsService.formatNumber(params, {
-          minimumFractionDigits: 4,
-          maximumFractionDigits: 4,
-        }),
-    },
-    {
-      field: 'currency',
-      headerName: translate('shared.bom.headers.currency'),
-    },
-    {
-      field: 'materialNumber',
-      headerName: translate('shared.bom.headers.materialNumber'),
-      valueGetter: (params) =>
-        formatMaterialNumberFromString(params.data.materialNumber),
-      valueFormatter: (params) =>
-        this.scrambleMaterialNumberPipe.transform(params.value),
-      cellClass: ['stringType', this.defaultCellClass],
-    },
-    {
-      field: 'plant',
-      headerName: translate('shared.bom.headers.plant'),
-    },
-    {
-      field: 'lotsize',
-      headerName: translate('shared.bom.headers.lotsize'),
-      type: 'numericColumn',
-      valueFormatter: this.columnUtilsService.formatNumber,
-    },
-    {
-      field: 'setupTime',
-      headerName: translate('shared.bom.headers.setupTime'),
-      cellClass: ['floatingNumberType', this.defaultCellClass],
-    },
-    {
-      field: 'cycleTime',
-      headerName: translate('shared.bom.headers.cycleTime'),
-      cellClass: ['floatingNumberType', this.defaultCellClass],
-    },
-    {
-      field: 'toolingFactor',
-      headerName: translate('shared.bom.headers.toolingFactor'),
-    },
-    {
-      field: 'quantityPerParent',
-      headerName: translate('shared.bom.headers.quantityPerParent'),
-      type: 'numericColumn',
-      valueFormatter: this.columnUtilsService.formatNumber,
-    },
-    {
-      field: 'unitOfMeasure',
-      headerName: translate('shared.bom.headers.unitOfMeasure'),
-    },
-    {
-      field: 'costCenter',
-      headerName: translate('shared.bom.headers.workCenter'),
-    },
-  ];
+  modules = BOM_TABLE_MODULES;
+  statusBar = BOM_TABLE_STATUS_BAR_CONFIG;
+  components = BOM_TABLE_COMPONENTS;
+  sideBar = this.sidebarService.SIDE_BAR_CONFIG;
+  excelStyles = BOM_TABLE_EXCEL_STYLES;
+  rowClassRules = BOM_ROW_CLASS_RULES;
 
-  modules = [
-    ClientSideRowModelModule,
-    RowGroupingModule,
-    ExcelExportModule,
-    StatusBarModule,
-  ];
-
-  statusBar = STATUS_BAR_CONFIG;
-
-  excelStyles = [
-    ...this.createIndentExcelStyles(),
-    {
-      id: 'header',
-      alignment: { vertical: 'Center' },
-      interior: {
-        color: '#AEAAAA',
-        pattern: 'Solid',
-      },
-      borders: {
-        borderBottom: {
-          color: '#000',
-          lineStyle: 'Continuous',
-          weight: 1,
-        },
-        borderTop: {
-          color: '#000',
-          lineStyle: 'Continuous',
-          weight: 1,
-        },
-      },
-    },
-    {
-      id: 'prependedMetadata',
-      interior: {
-        color: '#D9D9D9',
-        pattern: 'Solid',
-      },
-    },
-    {
-      id: 'stringType',
-      dataType: 'String',
-      alignment: {
-        horizontal: 'Right',
-      },
-    },
-    {
-      id: 'floatingNumberType',
-      numberFormat: {
-        // https://customformats.com/
-        format: '0.0####;-0.0####;0',
-      },
-    },
-  ];
-
-  rowClassRules = {
-    'row-level-2': (params: any) => params.data.level === 2,
-    'row-level-3': (params: any) => params.data.level === 3,
-    'row-level-4': (params: any) => params.data.level === 4,
-    'row-level-5': (params: any) => params.data.level === 5,
-    'row-level-6': (params: any) => params.data.level === 6,
-    'row-level-7': (params: any) => params.data.level === 7,
-    'row-level-8': (params: any) => params.data.level === 8,
-    'row-level-9': (params: any) => params.data.level === 9,
-    'row-level-10': (params: any) => params.data.level === 10,
-    'row-level-11': (params: any) => params.data.level === 11,
-    'row-level-12': (params: any) => params.data.level === 12,
-    'row-level-13': (params: any) => params.data.level === 13,
-    'row-level-14': (params: any) => params.data.level === 14,
-    'row-level-15': (params: any) => params.data.level === 15,
-  };
-
-  components = {
+  /*   components = {
     customLoadingOverlay: CustomLoadingOverlayComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
     bomTableStatusBar: BomTableStatusBarComponent,
     bomMaterialDesignationCellRenderComponent:
       BomMaterialDesignationCellRenderComponent,
-  };
+  }; */
   loadingOverlayComponent = 'customLoadingOverlay';
-
   noRowsOverlayComponent = 'customNoRowsOverlay';
   noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => this.errorMessage || translate('shared.bom.noBom.text'),
@@ -354,21 +197,5 @@ export class BomTableComponent implements OnChanges {
     };
     this.nonLevel2Children = [];
     this.gridApi.redrawRows();
-  }
-
-  createIndentExcelStyles(): any[] {
-    const result = [];
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < 15; i++) {
-      result.push({
-        id: `indent-${i}`,
-        alignment: {
-          indent: i + 1,
-        },
-        dataType: 'string',
-      });
-    }
-
-    return result;
   }
 }

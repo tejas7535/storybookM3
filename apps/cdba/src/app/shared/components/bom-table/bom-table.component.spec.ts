@@ -11,6 +11,7 @@ import {
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { BomTableModule } from '@cdba/shared/components';
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
@@ -21,13 +22,9 @@ import {
 import { MockModule } from 'ng-mocks';
 
 import { BomItem } from '../../models';
-import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { BomTableComponent } from './bom-table.component';
 import { BomTableStatusBarComponentModule } from './bom-table-status-bar/bom-table-status-bar.component';
 
-/* eslint-disable max-lines */
 describe('BomTableComponent', () => {
   let component: BomTableComponent;
   let spectator: Spectator<BomTableComponent>;
@@ -35,12 +32,9 @@ describe('BomTableComponent', () => {
   const createComponent = createComponentFactory({
     component: BomTableComponent,
     imports: [
-      AgGridModule.withComponents([
-        CustomLoadingOverlayComponent,
-        CustomNoRowsOverlayComponent,
-      ]),
-      CustomOverlayModule,
+      AgGridModule.withComponents([]),
       MaterialNumberModule,
+      BomTableModule,
       MockModule(BomTableStatusBarComponentModule),
     ],
     providers: [
@@ -388,30 +382,6 @@ describe('BomTableComponent', () => {
       component['resetTable']();
 
       expect(component['gridApi'].redrawRows).toHaveBeenCalled();
-    });
-  });
-
-  describe('createIndentExcelStyles', () => {
-    it('should create fifteen excel styles for all indent levels', () => {
-      const result = component.createIndentExcelStyles();
-
-      expect(result.length).toBe(15);
-    });
-
-    it('should use string as datatype for all excel styles', () => {
-      const result = component.createIndentExcelStyles();
-
-      result.forEach((excelStyle: any) => {
-        expect(excelStyle.dataType).toBe('string');
-      });
-    });
-
-    it('should indent child elements based on their level', () => {
-      const result = component.createIndentExcelStyles();
-
-      result.forEach((excelStyle: any, index: number) => {
-        expect(excelStyle.alignment.indent).toBe(index + 1);
-      });
     });
   });
 });

@@ -17,6 +17,7 @@ import {
   BomTableStatusBarComponent,
   BomTableStatusBarComponentModule,
 } from './bom-table-status-bar/bom-table-status-bar.component';
+import { ColumnDefinitionService, SidebarService } from './config';
 
 @NgModule({
   declarations: [BomTableComponent, BomMaterialDesignationCellRenderComponent],
@@ -35,6 +36,7 @@ import {
     MatIconModule,
     SharedTranslocoModule,
   ],
+  providers: [ColumnDefinitionService, SidebarService],
   exports: [BomTableComponent],
 })
 export class BomTableModule {}
