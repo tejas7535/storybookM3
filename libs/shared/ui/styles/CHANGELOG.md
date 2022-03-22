@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.4.0...styles-v1.5.0) (2022-03-22)
+
+
+### 🎸 Features
+
+* **storybook:** add tabs story and theme tabs ([#3562](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3562)) ([7bc9a3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7bc9a3ab9a9c06adfb6240bc7a803c8b450fcc70))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+* **style:** adjust tab overrides ([#3592](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3592)) ([69143ee](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/69143ee1d4c797517f3be672ac82aab34a673948))
+* **styles:** adapt material primary color palette ([7c32297](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c32297e336766dd3fa186678e84f915db0cc71d))
+* **styles:** fix tab styles ([43e30df](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/43e30dff7ee440e5493d671d3aff9571fa598ac3))
+
+
+### 🐛 Bug Fixes
+
+* **storybook:** advance input story ([#3874](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3874)) ([e291f94](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e291f94a6cd5411e3296eb49b7d4e3f36a380c02))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
 ## [1.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.3.2...styles-v1.4.0) (2022-01-11)
 
 
