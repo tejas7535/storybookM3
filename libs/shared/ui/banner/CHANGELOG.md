@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.1.0...banner-v3.2.0) (2022-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **banner:** adjust according review ([576ac7c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/576ac7caeb1189d6449ee5b08aa61fdc6e821c7f))
+* **banner:** adjust icon logic to be more robust, adjust storybook ([604155d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/604155d2a50a8b9d446426cb31b3608ca555bfe6))
+* **banner:** further fix ([4203d78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4203d78741fbed78ea32a2ea01c0a121484dc51e))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### 🎸 Features
+
+* **banner:** extend root tailwind config ([af8c86f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/af8c86f54c57ab4df39d9901474da62be8e27e82))
+* **banner:** migrate to tailwind ([#3666](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3666)) ([d675f67](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d675f676840a04b6bc79e0c305fde48eaf64d171))
+* **tailwind:** add nordic blue to text and border color ([#3871](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3871)) ([d0bcf67](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0bcf6702c0732f563dd6972d8a5b825e193378d))
+
 ## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/banner-v3.0.2...banner-v3.1.0) (2022-01-11)
 
 
