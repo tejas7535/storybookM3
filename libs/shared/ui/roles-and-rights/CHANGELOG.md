@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/roles-and-rights-v0.0.2...roles-and-rights-v0.0.3) (2022-03-22)
+
+
+### ✏️ Documentation
+
+* adjust to suggest material icon source ([a73e91b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a73e91b89002ba7f7768461b1fae6713cc88a30a))
+
+
+### 🎸 Features
+
+* **roles-and-rights:** extend root tailwind config ([cda4d52](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cda4d52c1197141b56f90bdfaf0cc3723290142d))
+* **roles-and-rights:** switch to label-value component ([#3353](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3353)) ([a2b680e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a2b680e57f691a05b66231166b34e25171593a36))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+
+
+### 🐛 Bug Fixes
+
+* **roles-and-rights:** fix html format issues ([c67025b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c67025bfd7bdbbc192cd27446b486c8869141688))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+* **workspace:** re-activate eslint rule ([#3599](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3599)) ([#3873](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3873)) ([b38665d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b38665d76345a952f77da1ae28c7726397e8c010))
+
 ### 0.0.2 (2022-01-11)
 
 
