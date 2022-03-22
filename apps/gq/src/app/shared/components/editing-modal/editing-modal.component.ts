@@ -159,6 +159,11 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
           this.modalData.quotationDetail.sapGrossPrice,
           value
         );
+      } else if (this.modalData.field === ColumnFields.PRICE) {
+        newPrice = PriceService.multiplyAndRoundValues(
+          this.modalData.quotationDetail.price,
+          1 + value / 100
+        );
       } else {
         newPrice = value;
       }

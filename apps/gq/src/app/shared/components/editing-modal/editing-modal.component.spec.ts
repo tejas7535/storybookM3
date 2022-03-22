@@ -258,11 +258,11 @@ describe('EditingModalComponent', () => {
         field: ColumnFields.PRICE,
         quotationDetail: QUOTATION_DETAIL_MOCK,
       } as any;
-      component.editFormControl = { value: QUOTATION_DETAIL_MOCK.price } as any;
+      component.editFormControl = { value: 50 } as any;
       const updateQuotationDetailList: UpdateQuotationDetail[] = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-          price: QUOTATION_DETAIL_MOCK.price,
+          price: 300,
           priceSource: PriceSource.MANUAL,
         },
       ];
