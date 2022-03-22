@@ -7,8 +7,8 @@ import {
   formattedGreaseJson,
   greaseReport,
 } from '../../mocks';
-import { GreaseReportService } from './grease-report.service';
 import { TitleId } from '../models';
+import { GreaseReportService } from './grease-report.service';
 
 describe('ReportService testing', () => {
   let spectator: SpectatorService<GreaseReportService>;

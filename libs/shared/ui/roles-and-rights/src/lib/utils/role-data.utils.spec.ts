@@ -13,7 +13,7 @@ describe('RoleDateUtils', () => {
       const fromRolesUnavailable = adaptLabelValuesFromRoles([
         mockRoleUnavailable,
       ]);
-      const fromRolesEmpty = adaptLabelValuesFromRoles(undefined);
+      const fromRolesEmpty = adaptLabelValuesFromRoles([]);
 
       expect(fromRolesAvailable).toStrictEqual([mockLabelValueAvailable]);
       expect(fromRolesUnavailable).toStrictEqual([mockLabelValueUnavailable]);

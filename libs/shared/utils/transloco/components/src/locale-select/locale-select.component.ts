@@ -6,8 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
 
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { AVAILABLE_LOCALES, DEFAULT_LOCALE } from './locale.constants';

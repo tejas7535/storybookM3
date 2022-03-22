@@ -21,7 +21,7 @@ export class RolesComponent implements OnInit {
 
   public labelValues: LabelValue[] | undefined;
 
-  ngOnInit() {
+  public ngOnInit() {
     this.labelValues = adaptLabelValuesFromRoles(this.roles);
   }
 }
