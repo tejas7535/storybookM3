@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.3...azure-auth-v0.1.4) (2022-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### 🎸 Features
+
+* **ia:** add user settings and roles (IA-445) ([#3834](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3834)) ([82faa83](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/82faa83a917fca37473f1d97fb062cb3afd8351b))
+
 ### [0.1.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.2...azure-auth-v0.1.3) (2022-01-11)
 
 
