@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.1.0...empty-states-v2.2.0) (2022-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **empty-states:** fix html format issues ([f907479](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f907479181c21982844150de0e5941beebf603d4))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### ✏️ Documentation
+
+* adjust to suggest material icon source ([a73e91b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a73e91b89002ba7f7768461b1fae6713cc88a30a))
+
+
+### 🎸 Features
+
+* **empty-states:** extend root tailwind config ([a84e5e8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a84e5e87e10accd2e3680dd55592ed96dbbc2f5a))
+* **empty-states:** remove flex layout dependency ([#3656](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3656)) ([696135d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/696135dddcdb1baa423a01554289c65f1e7ec713))
+* **empty-states:** remove unsupported viewport component ([72b533f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/72b533ff03c32ffe480495f73505a813aa4dc781))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+
 ## [2.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/empty-states-v2.0.2...empty-states-v2.1.0) (2022-01-11)
 
 
