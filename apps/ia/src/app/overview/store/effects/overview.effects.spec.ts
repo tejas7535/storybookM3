@@ -4,12 +4,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
-import {
-  filterSelected,
-  timeRangeSelected,
-  triggerLoad,
-} from '../../../core/store/actions';
-import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
+import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { getCurrentFilters } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
@@ -89,63 +85,14 @@ describe('Overview Effects', () => {
 
   describe('filterChange$', () => {
     test(
-      'timeRangeSelected - should trigger load actions if orgUnit and time range are set',
-      marbles((m) => {
-        const timeRange = '123|456';
-        const request = {
-          orgUnit: 'orgUnit',
-          timeRange,
-        } as unknown as EmployeesRequest;
-        action = timeRangeSelected({ timeRange });
-        store.overrideSelector(getCurrentFiltersAndTime, request);
-
-        const resultAttrition = loadAttritionOverTimeOverview({ request });
-        const resultFluctuation = loadFluctuationRatesOverview({ request });
-        const resultFluctuationChartData = loadFluctuationRatesChartData({
-          request,
-        });
-        const resultUnforcedFluctuationChartData =
-          loadUnforcedFluctuationRatesChartData({ request });
-        const resultResignedEmployees = loadResignedEmployees({
-          orgUnit: request.orgUnit,
-        });
-        const resultOpenApplications = loadOpenApplications({
-          orgUnit: request.orgUnit,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcdefg)', {
-          b: resultAttrition,
-          c: resultFluctuation,
-          d: resultFluctuationChartData,
-          e: resultUnforcedFluctuationChartData,
-          f: resultResignedEmployees,
-          g: resultOpenApplications,
-        });
-        m.expect(effects.filterChange$).toBeObservable(expected);
-      })
-    );
-
-    test(
       'filterSelected - should do nothing when organization is not set',
       marbles((m) => {
-        const filter = new SelectedFilter('nice', 'best');
+        const filter = new SelectedFilter('nice', {
+          id: 'best',
+          value: 'best',
+        });
         action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFiltersAndTime, {});
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--');
-
-        m.expect(effects.filterChange$).toBeObservable(expected);
-      })
-    );
-
-    test(
-      'timeRangeSelected - should do nothing when organization is not set',
-      marbles((m) => {
-        const timeRange = '123|456';
-        action = timeRangeSelected({ timeRange });
-        store.overrideSelector(getCurrentFiltersAndTime, {});
+        store.overrideSelector(getCurrentFilters, {});
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');

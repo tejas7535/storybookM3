@@ -67,14 +67,17 @@ describe('AutocompleteInputComponent', () => {
       );
     });
 
-    test('should set value to undefined if value does not match filter', () => {
+    test('should create id/value pair if value is of type string', () => {
       component.inputControl.setValue = jest.fn();
 
       component.value = '123';
 
-      expect(component.inputControl.setValue).toHaveBeenCalledWith(undefined, {
-        emitEvent: false,
-      });
+      expect(component.inputControl.setValue).toHaveBeenCalledWith(
+        { id: '123', value: '123' },
+        {
+          emitEvent: false,
+        }
+      );
     });
 
     test('should reset control if input undefined', () => {
@@ -122,7 +125,7 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component['selected'].emit).toHaveBeenCalledWith({
         name: component.filter.name,
-        id: val.id,
+        idValue: val,
       });
       expect(component['invalidFormControl'].emit).toHaveBeenCalledWith(
         component.inputControl.hasError('invalidInput')

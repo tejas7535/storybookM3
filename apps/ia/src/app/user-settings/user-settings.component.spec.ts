@@ -12,7 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { getUserRoles } from '../core/store/selectors';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
-import { SelectedFilter } from '../shared/models';
+import { FilterKey, SelectedFilter } from '../shared/models';
 import { updateUserSettings } from './store/actions/user-settings.action';
 import { getUserOrgUnit } from './store/selectors/user-settings.selector';
 import { UserSettingsComponent } from './user-settings.component';
@@ -40,9 +40,26 @@ describe('UserSettingsComponent', () => {
               username: 'Hans',
             },
           },
+          filter: {
+            orgUnits: {
+              loading: false,
+              items: [],
+              errorMessage: undefined,
+            },
+            timePeriods: [],
+            selectedFilters: {
+              ids: [],
+              entities: {},
+            },
+          },
           userSettings: {
             data: {
-              resort: 'Sales',
+              orgUnit: 'Sales',
+            },
+            loading: false,
+            errorMessage: undefined,
+            dialog: {
+              orgUnitsLoading: false,
             },
           },
           'azure-auth': {},
@@ -104,8 +121,11 @@ describe('UserSettingsComponent', () => {
   describe('optionSelected', () => {
     test('should save user`s resort', () => {
       const selectedFilter: SelectedFilter = new SelectedFilter(
-        'orgUnit',
-        'Sales'
+        FilterKey.ORG_UNIT,
+        {
+          id: 'Sales',
+          value: 'Sales',
+        }
       );
       component.saveOrgUnit = jest.fn();
 
@@ -118,8 +138,11 @@ describe('UserSettingsComponent', () => {
   describe('saveOrgUnit', () => {
     test('should save user`s resort', () => {
       const selectedFilter: SelectedFilter = new SelectedFilter(
-        'orgUnit',
-        'Sales'
+        FilterKey.ORG_UNIT,
+        {
+          id: 'Sales',
+          value: 'Sales',
+        }
       );
 
       component.saveOrgUnit(selectedFilter);
@@ -127,7 +150,7 @@ describe('UserSettingsComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         updateUserSettings({
           data: {
-            orgUnit: selectedFilter.id,
+            orgUnit: selectedFilter.idValue.id,
           },
         })
       );

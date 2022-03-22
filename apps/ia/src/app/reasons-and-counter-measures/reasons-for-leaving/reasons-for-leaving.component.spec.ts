@@ -15,22 +15,25 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../../core/store/selectors';
-import { IdValue, SelectedFilter, TimePeriod } from '../../shared/models';
+import { TimePeriod } from '../../shared/models';
 import {
-  changeComparedFilter,
-  changeComparedTimePeriod,
-  changeComparedTimeRange,
+  comparedFilterSelected,
+  comparedTimePeriodSelected,
+  loadComparedOrgUnits,
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
+  getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsTableData,
   getComparedSelectedOrgUnit,
+  getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
   getReasonsChartConfig,
   getReasonsChartData,
+  getReasonsCombinedLegend,
   getReasonsLoading,
   getReasonsTableData,
 } from '../store/selectors/reasons-and-counter-measures.selector';
@@ -68,142 +71,136 @@ describe('ReasonsForLeavingComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should initialize observables', () => {
-      component.ngOnInit();
+    test(
+      'should initialize observables from store',
+      marbles((m) => {
+        const result = 'a' as any;
+        store.overrideSelector(getOrgUnitsFilter, result);
+        store.overrideSelector(getSelectedOrgUnit, result);
+        store.overrideSelector(getTimePeriods, result);
+        store.overrideSelector(getSelectedTimePeriod, result);
+        store.overrideSelector(getSelectedTimeRange, result);
+        store.overrideSelector(getReasonsChartData, result);
+        store.overrideSelector(getReasonsTableData, result);
+        store.overrideSelector(getReasonsLoading, result);
+        store.overrideSelector(getComparedReasonsChartData, result);
+        store.overrideSelector(getReasonsCombinedLegend, result);
+        store.overrideSelector(getReasonsChartConfig, result);
+        store.overrideSelector(getComparedReasonsChartConfig, result);
+        store.overrideSelector(getComparedOrgUnitsFilter, result);
+        store.overrideSelector(getComparedSelectedOrgUnit, result);
+        store.overrideSelector(getComparedSelectedOrgUnitLoading, result);
+        store.overrideSelector(getComparedSelectedTimePeriod, result);
+        store.overrideSelector(getComparedSelectedTimeRange, result);
+        store.overrideSelector(getComparedReasonsTableData, result);
 
-      expect(component.orgUnitsFilter$).toBeDefined();
-      expect(component.selectedOrgUnit$).toBeDefined();
-      expect(component.timePeriods$).toBeDefined();
-      expect(component.selectedTimePeriod$).toBeDefined();
-      expect(component.selectedTime$).toBeDefined();
-      expect(component.comparedSelectedOrgUnit$).toBeDefined();
-      expect(component.comparedSelectedTimePeriod$).toBeDefined();
-      expect(component.comparedSelectedTime$).toBeDefined();
-      expect(component.chartData$).toBeDefined();
-    });
+        component.ngOnInit();
+
+        m.expect(component.orgUnitsFilter$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.selectedOrgUnit$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.timePeriods$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.selectedTimePeriod$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.selectedTime$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.reasonsChartData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedReasonsChartData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.reasonsChartConfig$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.reasonsTableData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.reasonsLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedReasonsChartConfig$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedOrgUnitsFilter$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedSelectedOrgUnit$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedSelectedOrgUnitLoading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedSelectedTimePeriod$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedSelectedTime$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+        m.expect(component.comparedReasonsTableData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
   });
 
-  test(
-    'should initialize observables from store',
-    marbles((m) => {
-      const result = 'a' as any;
-      store.overrideSelector(getOrgUnitsFilter, result);
-      store.overrideSelector(getSelectedOrgUnit, result);
-      store.overrideSelector(getTimePeriods, result);
-      store.overrideSelector(getSelectedTimePeriod, result);
-      store.overrideSelector(getSelectedTimeRange, result);
-      store.overrideSelector(getComparedSelectedOrgUnit, result);
-      store.overrideSelector(getComparedSelectedTimePeriod, result);
-      store.overrideSelector(getComparedSelectedTimeRange, result);
-      store.overrideSelector(getReasonsChartConfig, result);
-      store.overrideSelector(getReasonsChartData, result);
-      store.overrideSelector(getReasonsLoading, result);
-      store.overrideSelector(getReasonsTableData, result);
-      store.overrideSelector(getComparedReasonsTableData, result);
-      store.overrideSelector(getComparedReasonsChartConfig, result);
-      store.overrideSelector(getComparedReasonsChartData, result);
-
-      component.ngOnInit();
-
-      m.expect(component.orgUnitsFilter$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.selectedOrgUnit$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.timePeriods$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.selectedTimePeriod$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.selectedTime$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.comparedSelectedOrgUnit$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.comparedSelectedTimePeriod$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.comparedSelectedTime$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.reasonsTableData$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.reasonsLoading$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.reasonsChartConfig$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.reasonsChartData$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.comparedReasonsTableData$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.comparedReasonsChartConfig$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-      m.expect(component.comparedReasonsChartData$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-    })
-  );
-
-  describe('orgUnitInvalid', () => {
-    test('should set comparedDisabledTimeRangeFilter', () => {
-      component.orgUnitInvalid(true);
-
-      expect(component.comparedDisabledTimeRangeFilter).toBeTruthy();
-    });
-  });
-
-  describe('comparedOptionSelected', () => {
-    test('should dispatch changeComparedFilter action', () => {
+  describe('comparedFilterSelected', () => {
+    test('should dispatch comparedFilterSelected action', () => {
       store.dispatch = jest.fn();
-      const selectedFilter = {
+      const filter = {
         name: 'orgUnit',
-        id: 'Schaeffler_HR',
-      } as SelectedFilter;
+        idValue: {
+          id: 'Schaeffler_HR',
+          value: 'Schaeffler_HR',
+        },
+      };
 
-      component.comparedOptionSelected(selectedFilter);
+      component.comparedFilterSelected(filter);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        changeComparedFilter({
-          comparedSelectedOrgUnit: selectedFilter.id,
+        comparedFilterSelected({
+          filter,
         })
       );
     });
@@ -212,27 +209,29 @@ describe('ReasonsForLeavingComponent', () => {
   describe('comparedTimePeriodSelected', () => {
     test('should dispatch changeComparedTimePeriod action', () => {
       store.dispatch = jest.fn();
-      const idValue: IdValue = { id: '1', value: 'orgUnit' };
+      const timePeriod = TimePeriod.LAST_THREE_YEARS;
 
-      component.comparedTimePeriodSelected(idValue);
+      component.comparedTimePeriodSelected(timePeriod);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        changeComparedTimePeriod({
-          comparedSelectedTimePeriod: '1' as unknown as TimePeriod,
+        comparedTimePeriodSelected({
+          timePeriod,
         })
       );
     });
   });
 
-  describe('comparedTimeRangeSelected', () => {
-    test('should dispatch changeComparedTimeRange action', () => {
+  describe('comparedAutoCompleteOrgUnitsChange', () => {
+    test('should dispatch loadComparedOrgUnits action', () => {
       store.dispatch = jest.fn();
-      const comparedSelectedTimeRange = '123-321';
+      const searchFor = 'search';
 
-      component.comparedTimeRangeSelected(comparedSelectedTimeRange);
+      component.comparedAutoCompleteOrgUnitsChange(searchFor);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        changeComparedTimeRange({ comparedSelectedTimeRange })
+        loadComparedOrgUnits({
+          searchFor,
+        })
       );
     });
   });

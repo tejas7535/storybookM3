@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 
 import { FilterService } from '../../../../filter-section/filter.service';
 import { IdValue } from '../../../../shared/models';
+import { loadUserSettingsOrgUnits } from '../../../../user-settings/store/actions/user-settings.action';
 import {
   loadOrgUnits,
   loadOrgUnitsFailure,
@@ -17,10 +18,10 @@ import { getSelectedTimeRange } from '../../selectors';
 export class FilterEffects {
   loadOrgUnits$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadOrgUnits),
+      ofType(loadOrgUnits, loadUserSettingsOrgUnits),
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       mergeMap(([action, timeRange]) =>
-        this.filterService.getOrgUnits(action.searchFor, timeRange).pipe(
+        this.filterService.getOrgUnits(action.searchFor, timeRange.id).pipe(
           map((items: IdValue[]) => loadOrgUnitsSuccess({ items })),
           catchError((error) =>
             of(loadOrgUnitsFailure({ errorMessage: error.message }))

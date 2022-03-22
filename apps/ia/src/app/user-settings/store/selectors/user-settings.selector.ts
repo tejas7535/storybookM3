@@ -11,3 +11,8 @@ export const getUserOrgUnit = createSelector(
   selectUserSettingsState,
   (state: UserSettingsState) => state.data?.orgUnit
 );
+
+export const getDialogOrgUnitLoading = createSelector(
+  selectUserSettingsState,
+  (state: UserSettingsState) => state.dialog.orgUnitsLoading
+);

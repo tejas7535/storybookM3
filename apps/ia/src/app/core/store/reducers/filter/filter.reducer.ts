@@ -1,8 +1,15 @@
 import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
+  filterAdapter,
+  FilterKey,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../../shared/models';
+import {
+  getBeautifiedTimeRange,
   getMonth12MonthsAgo,
   getTimeRangeFromDates,
 } from '../../../../shared/utils/utilities';
@@ -12,9 +19,7 @@ import {
   loadOrgUnitsFailure,
   loadOrgUnitsSuccess,
   timePeriodSelected,
-  timeRangeSelected,
 } from '../../actions/filter/filter.action';
-import { filterAdapter } from '../filter/selected-filter.entity';
 
 export const filterKey = 'filter';
 export interface FilterState {
@@ -26,7 +31,6 @@ export interface FilterState {
   timePeriods: IdValue[];
   selectedFilters: EntityState<SelectedFilter>; // currently selected filters
   selectedTimePeriod: TimePeriod;
-  selectedTimeRange: string;
 }
 
 const getInitialSelectedTimeRange = () => {
@@ -35,6 +39,8 @@ const getInitialSelectedTimeRange = () => {
 
   return getTimeRangeFromDates(oldDate, nowDate);
 };
+
+const initialTimeRange = getInitialSelectedTimeRange();
 
 export const initialState: FilterState = {
   orgUnits: {
@@ -60,9 +66,19 @@ export const initialState: FilterState = {
       value: TimePeriod.CUSTOM,
     },
   ],
-  selectedFilters: filterAdapter.getInitialState(),
+  selectedFilters: filterAdapter.getInitialState({
+    ids: [FilterKey.TIME_RANGE],
+    entities: {
+      [FilterKey.TIME_RANGE]: {
+        name: FilterKey.TIME_RANGE,
+        idValue: {
+          id: initialTimeRange,
+          value: getBeautifiedTimeRange(initialTimeRange),
+        },
+      },
+    },
+  }),
   selectedTimePeriod: TimePeriod.LAST_12_MONTHS,
-  selectedTimeRange: getInitialSelectedTimeRange(),
 };
 
 export const filterReducer = createReducer(
@@ -104,13 +120,6 @@ export const filterReducer = createReducer(
     (state: FilterState, { filter }): FilterState => ({
       ...state,
       selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
-    })
-  ),
-  on(
-    timeRangeSelected,
-    (state: FilterState, { timeRange }): FilterState => ({
-      ...state,
-      selectedTimeRange: timeRange,
     })
   ),
   on(

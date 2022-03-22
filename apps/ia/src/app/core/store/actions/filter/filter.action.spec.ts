@@ -5,7 +5,6 @@ import {
   loadOrgUnitsFailure,
   loadOrgUnitsSuccess,
   timePeriodSelected,
-  timeRangeSelected,
   triggerLoad,
 } from '../';
 
@@ -59,16 +58,6 @@ describe('Filter Actions', () => {
       expect(action).toEqual({
         timePeriod,
         type: '[Filter] Time period selected',
-      });
-    });
-
-    test('timeRangeSelected', () => {
-      const timeRange = '123|456';
-      const action = timeRangeSelected({ timeRange });
-
-      expect(action).toEqual({
-        timeRange,
-        type: '[Filter] Time range selected',
       });
     });
   });

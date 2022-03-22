@@ -12,12 +12,8 @@ import {
 } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import {
-  filterSelected,
-  timeRangeSelected,
-  triggerLoad,
-} from '../../../core/store/actions';
-import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
+import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { getCurrentFilters } from '../../../core/store/selectors';
 import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
@@ -57,8 +53,8 @@ import {
 export class OverviewEffects implements OnInitEffects {
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, timeRangeSelected, triggerLoad),
-      concatLatestFrom(() => this.store.select(getCurrentFiltersAndTime)),
+      ofType(filterSelected, triggerLoad),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit && request.timeRange),
       mergeMap((request: EmployeesRequest) => [

@@ -11,19 +11,17 @@ import {
 } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import {
-  filterSelected,
-  timeRangeSelected,
-  triggerLoad,
-} from '../../../core/store/actions';
-import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { EmployeesRequest } from '../../../shared/models';
+import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { getCurrentFilters } from '../../../core/store/selectors';
+import { FilterService } from '../../../filter-section/filter.service';
+import { EmployeesRequest, IdValue } from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
-  changeComparedFilter,
-  changeComparedTimePeriod,
-  changeComparedTimeRange,
+  comparedFilterSelected,
+  loadComparedOrgUnits,
+  loadComparedOrgUnitsFailure,
+  loadComparedOrgUnitsSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
@@ -31,16 +29,19 @@ import {
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
-import { getCurrentComparedFiltersAndTime } from '../selectors/reasons-and-counter-measures.selector';
+import {
+  getComparedSelectedTimeRange,
+  getCurrentComparedFilters,
+} from '../selectors/reasons-and-counter-measures.selector';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 @Injectable()
 export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, timeRangeSelected, triggerLoad),
-      concatLatestFrom(() => this.store.select(getCurrentFiltersAndTime)),
-      map(([_action, request]) => request),
+      ofType(filterSelected, triggerLoad),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
+      map(([_action, selectedFilters]) => selectedFilters),
       filter((request) => request.orgUnit && request.timeRange),
       mergeMap((request: EmployeesRequest) => [
         loadReasonsWhyPeopleLeft({ request }),
@@ -73,16 +74,10 @@ export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
 
   comparedFilterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(
-        changeComparedFilter,
-        changeComparedTimePeriod,
-        changeComparedTimeRange
-      ),
-      concatLatestFrom(() =>
-        this.store.select(getCurrentComparedFiltersAndTime)
-      ),
+      ofType(comparedFilterSelected),
+      concatLatestFrom(() => this.store.select(getCurrentComparedFilters)),
       map(([_action, request]) => request),
-      filter((request) => !!request.orgUnit),
+      filter((request) => request.orgUnit && request.timeRange),
       mergeMap((request: EmployeesRequest) => [
         loadComparedReasonsWhyPeopleLeft({ request }),
       ])
@@ -112,10 +107,26 @@ export class ReasonsAndCounterMeasuresEffects implements OnInitEffects {
     )
   );
 
+  loadComparedOrgUnits$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadComparedOrgUnits),
+      concatLatestFrom(() => this.store.select(getComparedSelectedTimeRange)),
+      mergeMap(([action, timeRange]) =>
+        this.filterService.getOrgUnits(action.searchFor, timeRange.id).pipe(
+          map((items: IdValue[]) => loadComparedOrgUnitsSuccess({ items })),
+          catchError((error) =>
+            of(loadComparedOrgUnitsFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly reasonsAndCounterMeasuresService: ReasonsAndCounterMeasuresService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly filterService: FilterService
   ) {}
 
   ngrxOnInitEffects(): Action {

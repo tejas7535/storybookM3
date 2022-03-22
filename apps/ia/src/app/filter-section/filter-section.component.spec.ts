@@ -9,11 +9,7 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
-import {
-  filterSelected,
-  loadOrgUnits,
-  timeRangeSelected,
-} from '../core/store/actions';
+import { filterSelected, loadOrgUnits } from '../core/store/actions';
 import {
   getOrgUnitsFilter,
   getOrgUnitsLoading,
@@ -65,6 +61,7 @@ describe('FilterSectionComponent', () => {
         },
       }),
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -133,7 +130,10 @@ describe('FilterSectionComponent', () => {
     test(
       'should set selectedOrgUnit',
       marbles((m) => {
-        const result = 'Org123';
+        const result = {
+          id: 'Org123',
+          value: 'Org123',
+        };
         store.overrideSelector(getSelectedOrgUnit, result);
         component.ngOnInit();
 
@@ -147,7 +147,10 @@ describe('FilterSectionComponent', () => {
     test(
       'should set selectedTime',
       marbles((m) => {
-        const result = '1-2';
+        const result = {
+          id: '1-2',
+          value: 'Nice',
+        };
         store.overrideSelector(getSelectedTimeRange, result);
         component.ngOnInit();
 
@@ -171,12 +174,12 @@ describe('FilterSectionComponent', () => {
     );
   });
 
-  describe('optionSelected', () => {
+  describe('filterSelected', () => {
     test('should dispatch action', () => {
       const filter = new SelectedFilter('test', undefined);
       store.dispatch = jest.fn();
 
-      component.optionSelected(filter);
+      component.filterSelected(filter);
 
       expect(store.dispatch).toHaveBeenCalledWith(filterSelected({ filter }));
     });
@@ -191,18 +194,6 @@ describe('FilterSectionComponent', () => {
         timePeriod: TimePeriod.CUSTOM,
         type: '[Filter] Time period selected',
       });
-    });
-  });
-
-  describe('timeRangeSelected', () => {
-    test('should dispatch timeRangeSelected action', () => {
-      store.dispatch = jest.fn();
-      const timeRange = '123|456';
-      component.timeRangeSelected(timeRange);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        timeRangeSelected({ timeRange })
-      );
     });
   });
 

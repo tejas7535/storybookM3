@@ -1,6 +1,11 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, props, union } from '@ngrx/store';
 
-import { EmployeesRequest, TimePeriod } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 
 export const loadReasonsWhyPeopleLeft = createAction(
@@ -33,21 +38,48 @@ export const loadComparedReasonsWhyPeopleLeftFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const changeComparedFilter = createAction(
+export const comparedFilterSelected = createAction(
   '[ReasonsAndCounterMeasures] Change ComparedFilter',
-  props<{ comparedSelectedOrgUnit: string }>()
+  props<{ filter: SelectedFilter }>()
 );
 
-export const changeComparedTimePeriod = createAction(
+export const comparedTimePeriodSelected = createAction(
   '[ReasonsAndCounterMeasures] Change ComparedTimePeriod',
-  props<{ comparedSelectedTimePeriod: TimePeriod }>()
-);
-
-export const changeComparedTimeRange = createAction(
-  '[ReasonsAndCounterMeasures] Change ComparedTimeRange',
-  props<{ comparedSelectedTimeRange: string }>()
+  props<{ timePeriod: TimePeriod }>()
 );
 
 export const resetCompareMode = createAction(
   '[ReasonsAndCounterMeasures] Reset Compare Mode'
 );
+
+export const loadComparedOrgUnits = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Org Units',
+  props<{ searchFor: string }>()
+);
+
+export const loadComparedOrgUnitsSuccess = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Org Units Success',
+  props<{ items: IdValue[] }>()
+);
+
+export const loadComparedOrgUnitsFailure = createAction(
+  '[ReasonsAndCounterMeasures] Load Compared Org Units Failure',
+  props<{ errorMessage: string }>()
+);
+
+const all = union({
+  loadReasonsWhyPeopleLeft,
+  loadReasonsWhyPeopleLeftSuccess,
+  loadReasonsWhyPeopleLeftFailure,
+  loadComparedReasonsWhyPeopleLeft,
+  loadComparedReasonsWhyPeopleLeftSuccess,
+  loadComparedReasonsWhyPeopleLeftFailure,
+  comparedFilterSelected,
+  comparedTimePeriodSelected,
+  resetCompareMode,
+  loadComparedOrgUnits,
+  loadComparedOrgUnitsSuccess,
+  loadComparedOrgUnitsFailure,
+});
+
+export type ReasonsAndCounterMeasuresActions = typeof all;

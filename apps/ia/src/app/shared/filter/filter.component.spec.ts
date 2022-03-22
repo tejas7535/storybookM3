@@ -6,13 +6,14 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../date-input/date-input.module';
-import { IdValue, SelectedFilter, TimePeriod } from '../models';
+import { FilterKey, SelectedFilter, TimePeriod } from '../models';
 import { SelectInputModule } from '../select-input/select-input.module';
 import { getTimeRangeHint } from '../utils/utilities';
 import { FilterComponent } from './filter.component';
 
 jest.mock('../utils/utilities', () => ({
   getTimeRangeHint: jest.fn(() => 'test'),
+  getBeautifiedTimeRange: jest.fn(() => 'beauty'),
 }));
 
 describe('FilterComponent', () => {
@@ -46,58 +47,71 @@ describe('FilterComponent', () => {
 
       component.selectedTimePeriod = period;
 
-      expect(component._selectedTimePeriod).toEqual(period);
+      expect(component.selectedTimePeriod).toEqual(period);
       expect(getTimeRangeHint).toHaveBeenCalledWith(period);
     });
   });
 
-  describe('onOptionSelected', () => {
+  describe('optionSelected', () => {
     test('should emit selected filter', () => {
       const selectedFilter = {} as SelectedFilter;
-      component.optionSelected.emit = jest.fn();
+      component.selectFilter.emit = jest.fn();
 
-      component.onOptionSelected(selectedFilter);
+      component.optionSelected(selectedFilter);
 
-      expect(component.optionSelected.emit).toHaveBeenCalledWith(
-        selectedFilter
-      );
+      expect(component.selectFilter.emit).toHaveBeenCalledWith(selectedFilter);
     });
   });
 
-  describe('onTimePeriodSelected', () => {
+  describe('timePeriodSelected', () => {
     test('should emit selected period', () => {
-      const selectedPeriod = {} as IdValue;
-      component.timePeriodSelected.emit = jest.fn();
+      const selectedPeriod = { id: TimePeriod.CUSTOM, value: 'Custom' };
+      component.selectTimePeriod.emit = jest.fn();
 
-      component.onTimePeriodSelected(selectedPeriod);
+      component.timePeriodSelected(selectedPeriod);
 
-      expect(component.timePeriodSelected.emit).toHaveBeenCalledWith(
-        selectedPeriod
+      expect(component.selectTimePeriod.emit).toHaveBeenCalledWith(
+        selectedPeriod.id
       );
     });
   });
 
-  describe('onTimeRangeSelected', () => {
-    test('should emit selected time range', () => {
-      const selectedPeriod = '1|0';
-      component.timeRangeSelected.emit = jest.fn();
+  describe('timeRangeSelected', () => {
+    test('should emit selected time range filter', () => {
+      const timeRange = '1|220000';
+      const filter = {
+        name: FilterKey.TIME_RANGE,
+        idValue: {
+          id: timeRange,
+          value: 'beauty',
+        },
+      };
+      component.selectFilter.emit = jest.fn();
 
-      component.onTimeRangeSelected(selectedPeriod);
+      component.timeRangeSelected(timeRange);
 
-      expect(component.timeRangeSelected.emit).toHaveBeenCalledWith(
-        selectedPeriod
-      );
+      expect(component.selectFilter.emit).toHaveBeenCalledWith(filter);
     });
   });
 
-  describe('onOrgUnitInvalid', () => {
-    test('should emit true when org unit invalid', () => {
+  describe('orgUnitInvalid', () => {
+    test('should set disabledTimeRangeFilter', () => {
       const invalid = true;
-      component.orgUnitInvalid.emit = jest.fn();
 
-      component.onOrgUnitInvalid(invalid);
+      component.orgUnitInvalid(invalid);
 
-      expect(component.orgUnitInvalid.emit).toHaveBeenCalledWith(invalid);
+      expect(component.disabledTimeRangeFilter).toEqual(invalid);
+    });
+  });
+
+  describe('autoCompleteOrgUnitsChange', () => {
+    test('should emit search string', () => {
+      const ssearch = 'search';
+      component.autoCompleteOrgUnits.emit = jest.fn();
+
+      component.autoCompleteOrgUnitsChange(ssearch);
+
+      expect(component.autoCompleteOrgUnits.emit).toHaveBeenCalledWith(ssearch);
     });
   });
 });

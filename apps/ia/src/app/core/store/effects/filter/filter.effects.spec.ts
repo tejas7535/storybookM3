@@ -54,7 +54,10 @@ describe('Filter Effects', () => {
 
     beforeEach(() => {
       action = loadOrgUnits({ searchFor });
-      store.overrideSelector(getSelectedTimeRange, timeRange);
+      store.overrideSelector(getSelectedTimeRange, {
+        id: timeRange,
+        value: timeRange,
+      });
     });
 
     test(

@@ -1,28 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { Filter, FilterKey, SelectedFilter } from '../../shared/models';
-import { updateUserSettings } from '../store/actions/user-settings.action';
+import { getOrgUnitsFilter } from '../../core/store/selectors/filter/filter.selector';
+import { Filter, SelectedFilter } from '../../shared/models';
+import {
+  loadUserSettingsOrgUnits,
+  updateUserSettings,
+} from '../store/actions/user-settings.action';
+import { getDialogOrgUnitLoading } from '../store/selectors/user-settings.selector';
 
 @Component({
   selector: 'ia-user-settings-dialog',
   templateUrl: './user-settings-dialog.component.html',
   styles: [],
 })
-export class UserSettingsDialogComponent {
+export class UserSettingsDialogComponent implements OnInit {
   selected: SelectedFilter;
   invalidOrgUnitInput: boolean;
-  orgUnit: Filter = {
-    name: FilterKey.ORG_UNIT,
-    options: [
-      { id: 'HR', value: 'HR' },
-      { id: 'IT', value: 'IT' },
-      { id: 'Sales', value: 'Sales' },
-    ],
-  };
+
+  orgUnitsFilter$: Observable<Filter>;
+  orgUnitsLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store) {}
+
+  ngOnInit(): void {
+    this.orgUnitsFilter$ = this.store.select(getOrgUnitsFilter);
+    this.orgUnitsLoading$ = this.store.select(getDialogOrgUnitLoading);
+  }
 
   optionSelected(option: SelectedFilter): void {
     this.selected = option;
@@ -33,7 +40,11 @@ export class UserSettingsDialogComponent {
   }
 
   updateUserSettings(): void {
-    const data = { orgUnit: this.selected.id };
+    const data = { orgUnit: this.selected.idValue.id };
     this.store.dispatch(updateUserSettings({ data }));
+  }
+
+  autoCompleteOrgUnitsChange(searchFor: string): void {
+    this.store.dispatch(loadUserSettingsOrgUnits({ searchFor }));
   }
 }

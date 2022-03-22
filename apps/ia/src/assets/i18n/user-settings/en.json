@@ -2,6 +2,7 @@
   "title": "User Settings",
   "orgUnitLabel": "Select organizational unit",
   "orgUnitHint": "Please select the organizational unit for the application data",
+  "nothingFound": "Nothing found",
   "dialog": {
     "confirm": "Confirm",
     "welcomeTitle": "Welcome to Insight Attrition!",

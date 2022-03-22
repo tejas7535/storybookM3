@@ -9,6 +9,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
+import { filterSelected } from '../../../core/store/actions';
+import { FilterKey } from '../../../shared/models';
 import { UserSettings } from '../../models/user-settings.model';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
@@ -78,13 +80,22 @@ describe('User Settings Effects', () => {
     });
 
     test(
-      'should return loadUserSettingsSuccess on success',
+      'should return loadUserSettingsSuccess and filterSelected on success and if org unit is set',
       marbles((m) => {
         const orgUnit = 'Sales';
         const result = loadUserSettingsSuccess({ data: { orgUnit } });
+        const resultFilter = filterSelected({
+          filter: {
+            name: FilterKey.ORG_UNIT,
+            idValue: {
+              id: orgUnit,
+              value: orgUnit,
+            },
+          },
+        });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('--b', { b: result });
+        const expected = m.cold('--(bc)', { b: result, c: resultFilter });
         const response = m.cold('-c', { c: { orgUnit } });
 
         userSettingsService.getUserSettings = jest
@@ -178,7 +189,7 @@ describe('User Settings Effects', () => {
   });
 
   describe('updateUserSettings$', () => {
-    const data = { orgUnit: 'TestorgUnit' };
+    const data = { orgUnit: 'test' };
 
     beforeEach(() => {
       action = updateUserSettings({ data });
@@ -230,14 +241,9 @@ describe('User Settings Effects', () => {
   describe('updateUserSettingsSuccess$', () => {
     beforeEach(() => {
       action = updateUserSettingsSuccess({
-        data: {} as unknown as UserSettings,
-      });
-    });
-
-    test('should have dispatch set to false', () => {
-      expect(metadata.updateUserSettingsSuccess$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
+        data: {
+          orgUnit: 'test',
+        } as unknown as UserSettings,
       });
     });
 
@@ -265,6 +271,29 @@ describe('User Settings Effects', () => {
       expect(dialog.closeAll).not.toHaveBeenCalled();
       expect(snackbar.open).toHaveBeenCalledWith('translate it');
     });
+
+    test(
+      'should return filterSelected',
+      marbles((m) => {
+        const filter = {
+          name: FilterKey.ORG_UNIT,
+          idValue: {
+            id: 'test',
+            value: 'test',
+          },
+        };
+
+        const result = filterSelected({
+          filter,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.updateUserSettingsSuccess$).toBeObservable(expected);
+        m.flush();
+      })
+    );
   });
 
   describe('updateUserSettingsFailure$', () => {

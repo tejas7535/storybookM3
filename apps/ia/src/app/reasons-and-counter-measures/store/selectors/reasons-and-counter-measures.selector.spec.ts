@@ -2,17 +2,20 @@ import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { DoughnutChartData } from '../../../shared/charts/models';
 import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
-import { TimePeriod } from '../../../shared/models';
+import { FilterKey, IdValue, TimePeriod } from '../../../shared/models';
 import { ReasonsAndCounterMeasuresState } from '..';
 import {
-  getComparedBeautifiedSelectedTimeRange,
+  getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
+  getComparedReasonsChartData,
   getComparedReasonsData,
   getComparedReasonsLoading,
   getComparedReasonsTableData,
   getComparedSelectedOrgUnit,
+  getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
+  getCurrentComparedFilters,
   getPercentageValue,
   getReasonsChartConfig,
   getReasonsChartData,
@@ -20,8 +23,6 @@ import {
   getReasonsData,
   getReasonsLoading,
   getReasonsTableData,
-  getSelectedComparedFilters,
-  getSelectedComparedTimeRange,
 } from './reasons-and-counter-measures.selector';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 
@@ -77,9 +78,31 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   ];
   const fakeState: ReasonsAndCounterMeasuresState = {
     reasonsForLeaving: {
-      comparedSelectedOrgUnit: 'Schaeffler1',
+      comparedOrgUnits: {
+        loading: true,
+        items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
+        errorMessage: '',
+      },
+      comparedSelectedFilters: {
+        ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],
+        entities: {
+          [FilterKey.ORG_UNIT]: {
+            name: FilterKey.ORG_UNIT,
+            idValue: {
+              id: 'Schaeffler_IT_1',
+              value: 'Schaeffler_IT_1',
+            },
+          },
+          [FilterKey.TIME_RANGE]: {
+            name: FilterKey.TIME_RANGE,
+            idValue: {
+              id: '1577863715000|1609399715000',
+              value: '1/1/2020 - 12/31/2020',
+            },
+          },
+        },
+      },
       comparedSelectedTimePeriod: TimePeriod.YEAR,
-      comparedSelectedTimeRange: '0|1',
       reasons: {
         data: leaverStats,
         loading: false,
@@ -94,14 +117,6 @@ describe('ReasonsAndCounterMeasures Selector', () => {
   };
   const tooltipFormatter = '{b}<br><b>{c}</b> employees - <b>{d}%</b>';
 
-  describe('getComparedSelectedOrgUnit', () => {
-    test('should return selected org unit', () => {
-      expect(getComparedSelectedOrgUnit.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.comparedSelectedOrgUnit
-      );
-    });
-  });
-
   describe('getComparedSelectedTimePeriod', () => {
     test('should return selected time period', () => {
       expect(getComparedSelectedTimePeriod.projector(fakeState)).toEqual(
@@ -110,26 +125,10 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getComparedSelectedTimeRange', () => {
-    test('should return selected time range', () => {
-      expect(getComparedSelectedTimeRange.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.comparedSelectedTimeRange
-      );
-    });
-  });
-
   describe('getReasonsData', () => {
     test('should return data for reasons', () => {
       expect(getReasonsData.projector(fakeState)).toEqual(
         fakeState.reasonsForLeaving.reasons.data
-      );
-    });
-  });
-
-  describe('getReasonsLoading', () => {
-    test('should return loading status of reasons data', () => {
-      expect(getReasonsLoading.projector(fakeState)).toEqual(
-        fakeState.reasonsForLeaving.reasons.loading
       );
     });
   });
@@ -187,41 +186,11 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getPercentageValue', () => {
-    test('should get percentage value', () => {
-      const part = 2;
-      const total = 11;
-
-      const result = getPercentageValue(part, total);
-
-      expect(result).toEqual(18.2);
-    });
-
-    test('should not add decimal numbers for integer', () => {
-      const part = 1;
-      const total = 1;
-
-      const result = getPercentageValue(part, total);
-
-      expect(result).toEqual(100);
-    });
-
-    test('should return 0 when total 0', () => {
-      const part = 1;
-      const total = 0;
-
-      const result = getPercentageValue(part, total);
-
-      expect(result).toEqual(0);
-    });
-
-    test('should return 0 when part 0', () => {
-      const part = 0;
-      const total = 1;
-
-      const result = getPercentageValue(part, total);
-
-      expect(result).toEqual(0);
+  describe('getReasonsLoading', () => {
+    test('should return loading status of reasons data', () => {
+      expect(getReasonsLoading.projector(fakeState)).toEqual(
+        fakeState.reasonsForLeaving.reasons.loading
+      );
     });
   });
 
@@ -259,17 +228,20 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return config for reasons chart', () => {
-      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+      const beautifiedTimeRange = {
+        id: '123321',
+        value: '21.01.2020 - 21.01.2021',
+      };
 
       expect(
         getReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.reasons.data,
-          beutifiedTimeRange,
+          beautifiedTimeRange,
           TimePeriod.CUSTOM,
           []
         )
       ).toEqual({
-        title: beutifiedTimeRange,
+        title: beautifiedTimeRange.value,
         subTitle: undefined,
         tooltipFormatter,
         color: [],
@@ -277,12 +249,15 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return config with last 12 months title when selected', () => {
-      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+      const beautifiedTimeRange = {
+        id: '123321',
+        value: '21.01.2020 - 21.01.2021',
+      };
 
       expect(
         getReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.reasons.data,
-          beutifiedTimeRange,
+          beautifiedTimeRange,
           TimePeriod.LAST_12_MONTHS,
           []
         )
@@ -295,17 +270,20 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return no data sub title when no data', () => {
-      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+      const beautifiedTimeRange = {
+        id: '123321',
+        value: '21.01.2020 - 21.01.2021',
+      };
 
       expect(
         getReasonsChartConfig.projector(
           [],
-          beutifiedTimeRange,
+          beautifiedTimeRange,
           TimePeriod.CUSTOM,
           []
         )
       ).toEqual({
-        title: beutifiedTimeRange,
+        title: beautifiedTimeRange.value,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
         tooltipFormatter,
         color: [],
@@ -313,23 +291,64 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getSelectedComparedTimeRange', () => {
-    test('should return selected compared time range', () => {
-      expect(getSelectedComparedTimeRange.projector(fakeState)).toEqual('0|1');
+  describe('getComparedOrgUnitsFilter', () => {
+    test('should return compared organization units filter', () => {
+      expect(
+        getComparedOrgUnitsFilter.projector(fakeState).options.length
+      ).toEqual(1);
     });
   });
 
-  describe('getSelectedComparedFilters', () => {
-    test('should return selected compared org unit', () => {
-      expect(getSelectedComparedFilters.projector(fakeState)).toEqual(
-        'Schaeffler1'
-      );
+  describe('getComparedSelectedTimeRange', () => {
+    test('should return compared selected time range', () => {
+      expect(
+        getComparedSelectedTimeRange.projector(
+          Object.values(
+            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
+          )
+        )
+      ).toEqual({
+        id: '1577863715000|1609399715000',
+        value: '1/1/2020 - 12/31/2020',
+      });
     });
   });
 
-  describe('getCurrentComparedFiltersAndTime', () => {
-    test('should return selected compared org unit and timem range', () => {
-      expect(getSelectedComparedTimeRange.projector(fakeState)).toEqual('0|1');
+  describe('getComparedSelectedOrgUnit', () => {
+    test('should return compared selected org unit', () => {
+      expect(
+        getComparedSelectedOrgUnit.projector(
+          Object.values(
+            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
+          )
+        )
+      ).toEqual({
+        id: 'Schaeffler_IT_1',
+        value: 'Schaeffler_IT_1',
+      });
+    });
+  });
+
+  describe('getComparedSelectedOrgUnitLoading', () => {
+    test('should return compared org unit loading status', () => {
+      expect(
+        getComparedSelectedOrgUnitLoading.projector(fakeState)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getCurrentComparedFilters', () => {
+    test('should return currently compared selected filters and time range', () => {
+      expect(
+        getCurrentComparedFilters.projector(
+          Object.values(
+            fakeState.reasonsForLeaving.comparedSelectedFilters.entities
+          )
+        )
+      ).toEqual({
+        orgUnit: 'Schaeffler_IT_1',
+        timeRange: '1577863715000|1609399715000',
+      });
     });
   });
 
@@ -362,13 +381,21 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
   });
 
-  describe('getComparedBeautifiedSelectedTimeRange', () => {
-    test('should return beautified time range', () => {
+  describe('getComparedReasonsChartData', () => {
+    test('should return top 5 reasons if reasons set', () => {
+      (utils.getTop5ReasonsForChart as any) = jest.fn(() => []);
       expect(
-        getComparedBeautifiedSelectedTimeRange.projector(
-          '1577863715000|1609399715000'
+        getComparedReasonsChartData.projector(
+          fakeState.reasonsForLeaving.comparedReasons.data
         )
-      ).toEqual('1/1/2020 - 12/31/2020');
+      ).toEqual([]);
+      expect(utils.getTop5ReasonsForChart).toHaveBeenCalledWith(leaverStats);
+    });
+
+    test('should return undefined if reasons not set', () => {
+      (utils.getTop5ReasonsForChart as any) = jest.fn(() => []);
+      expect(getComparedReasonsChartData.projector()).toEqual([]);
+      expect(utils.getTop5ReasonsForChart).not.toHaveBeenCalled();
     });
   });
 
@@ -379,18 +406,21 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return config for reasons chart', () => {
-      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+      const beautifiedTimeRange = {
+        id: '21.01.2020 - 21.01.2021',
+        value: '21.01.2020 - 21.01.2021',
+      };
 
       expect(
         getComparedReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.comparedReasons.data,
-          beutifiedTimeRange,
+          beautifiedTimeRange,
           TimePeriod.MONTH,
           [],
           []
         )
       ).toEqual({
-        title: beutifiedTimeRange,
+        title: beautifiedTimeRange.value,
         subTitle: undefined,
         tooltipFormatter,
         color: [],
@@ -398,12 +428,15 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return config with last 12 months title when selected', () => {
-      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+      const beautifiedTimeRange = {
+        id: '21.01.2020 - 21.01.2021',
+        value: '21.01.2020 - 21.01.2021',
+      };
 
       expect(
         getComparedReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.comparedReasons.data,
-          beutifiedTimeRange,
+          beautifiedTimeRange,
           TimePeriod.LAST_12_MONTHS,
           [],
           []
@@ -417,18 +450,21 @@ describe('ReasonsAndCounterMeasures Selector', () => {
     });
 
     test('should return no data sub title when no data', () => {
-      const beutifiedTimeRange = '21.01.2020 - 21.01.2021';
+      const beautifiedTimeRange = {
+        id: '21.01.2020 - 21.01.2021',
+        value: '21.01.2020 - 21.01.2021',
+      };
 
       expect(
         getComparedReasonsChartConfig.projector(
           [],
-          beutifiedTimeRange,
+          beautifiedTimeRange,
           TimePeriod.CUSTOM,
           [],
           []
         )
       ).toEqual({
-        title: beutifiedTimeRange,
+        title: beautifiedTimeRange.value,
         subTitle: 'reasonsAndCounterMeasures.topFiveReasons.chart.noData',
         tooltipFormatter,
         color: [],
@@ -482,6 +518,44 @@ describe('ReasonsAndCounterMeasures Selector', () => {
       const result = getReasonsCombinedLegend.projector(data, comparedData);
 
       expect(result).toEqual(expectedLegend);
+    });
+  });
+
+  describe('getPercentageValue', () => {
+    test('should get percentage value', () => {
+      const part = 2;
+      const total = 11;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(18.2);
+    });
+
+    test('should not add decimal numbers for integer', () => {
+      const part = 1;
+      const total = 1;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(100);
+    });
+
+    test('should return 0 when total 0', () => {
+      const part = 1;
+      const total = 0;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(0);
+    });
+
+    test('should return 0 when part 0', () => {
+      const part = 0;
+      const total = 1;
+
+      const result = getPercentageValue(part, total);
+
+      expect(result).toEqual(0);
     });
   });
 });

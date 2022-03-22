@@ -27,11 +27,6 @@ export const timePeriodSelected = createAction(
   props<{ timePeriod: TimePeriod }>()
 );
 
-export const timeRangeSelected = createAction(
-  '[Filter] Time range selected',
-  props<{ timeRange: string }>()
-);
-
 export const triggerLoad = createAction('[Filter] Trigger Load');
 
 const all = union({
@@ -40,7 +35,6 @@ const all = union({
   loadOrgUnitsFailure,
   filterSelected,
   timePeriodSelected,
-  timeRangeSelected,
   triggerLoad,
 });
 

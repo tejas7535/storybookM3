@@ -35,12 +35,12 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
   }
   @Input() filter: Filter;
 
-  @Input() set value(value: string) {
+  @Input() set value(value: string | IdValue) {
     if (!value) {
       this.inputControl.reset();
     } else {
-      // set ID value instead of string to be able to differentiate between typing & selection
-      const idValue = this.filter?.options?.find((elem) => elem.id === value);
+      // if string provided map it to ID/Value pair
+      const idValue = typeof value === 'string' ? { id: value, value } : value;
 
       this.inputControl.setValue(idValue, { emitEvent: false });
     }
@@ -93,10 +93,10 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      optionSelected$.subscribe(({ id }) => {
+      optionSelected$.subscribe((idValue) => {
         this.selected.emit({
           name: this.filter.name,
-          id,
+          idValue,
         });
         this.invalidFormControl.emit(
           this.inputControl.hasError('invalidInput')

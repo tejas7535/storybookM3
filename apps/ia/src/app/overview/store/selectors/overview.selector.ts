@@ -5,7 +5,7 @@ import {
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
-import { AttritionOverTime } from '../../../shared/models';
+import { AttritionOverTime, IdValue } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../models/overview-fluctuation-rates.model';
 import { OverviewState, selectOverviewState } from '..';
 import * as utils from './overview-selector-utils';
@@ -40,10 +40,10 @@ export const getLeaversDataForSelectedOrgUnit = createSelector(
   getSelectedOrgUnit,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: string
+    selectedOrgUnit: IdValue
   ) =>
     overviewFluctuationRates?.exitEmployees.filter(
-      (employee) => employee.orgUnit?.indexOf(selectedOrgUnit) === 0
+      (employee) => employee.orgUnit?.indexOf(selectedOrgUnit.id) === 0
     )
 );
 
@@ -52,16 +52,16 @@ export const getOverviewFluctuationKpi = createSelector(
   getSelectedOrgUnit,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: string
+    selectedOrgUnit: IdValue
   ) =>
     overviewFluctuationRates && selectedOrgUnit
       ? utils.createFluctuationKpi(
           overviewFluctuationRates.fluctuationRate.company,
           overviewFluctuationRates.fluctuationRate.orgUnit,
-          selectedOrgUnit,
+          selectedOrgUnit.id,
           utils.getExternalLeaversByOrgUnit(
             overviewFluctuationRates.exitEmployees,
-            selectedOrgUnit
+            selectedOrgUnit.id
           )
         )
       : undefined
@@ -72,16 +72,16 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
   getSelectedOrgUnit,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: string
+    selectedOrgUnit: IdValue
   ) =>
     overviewFluctuationRates && selectedOrgUnit
       ? utils.createFluctuationKpi(
           overviewFluctuationRates.unforcedFluctuationRate.company,
           overviewFluctuationRates.unforcedFluctuationRate.orgUnit,
-          selectedOrgUnit,
+          selectedOrgUnit.id,
           utils.getUnforcedLeaversByOrgUnit(
             overviewFluctuationRates.exitEmployees,
-            selectedOrgUnit
+            selectedOrgUnit.id
           )
         )
       : undefined
@@ -97,15 +97,18 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
   getSelectedTimeRange,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedTimeRange: string
+    selectedTimeRange: IdValue
   ) => {
     const internal = overviewFluctuationRates?.entryEmployees?.filter(
       (employee) =>
-        utils.isDateInTimeRange(selectedTimeRange, employee.internalEntryDate)
+        utils.isDateInTimeRange(
+          selectedTimeRange.id,
+          employee.internalEntryDate
+        )
     );
     const external = overviewFluctuationRates?.entryEmployees?.filter(
       (employee) =>
-        utils.isDateInTimeRange(selectedTimeRange, employee.entryDate)
+        utils.isDateInTimeRange(selectedTimeRange.id, employee.entryDate)
     );
 
     return utils.createDoughnutConfig(internal, external, 'Entries');
@@ -118,18 +121,18 @@ export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
   getSelectedOrgUnit,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedTimeRange: string,
-    selectedOrgUnit: string
+    selectedTimeRange: IdValue,
+    selectedOrgUnit: IdValue
   ) => {
     const internal = overviewFluctuationRates?.exitEmployees?.filter(
       (employee) =>
-        employee.orgUnit.indexOf(selectedOrgUnit) === 0 &&
-        utils.isDateInTimeRange(selectedTimeRange, employee.internalExitDate)
+        employee.orgUnit.indexOf(selectedOrgUnit.id) === 0 &&
+        utils.isDateInTimeRange(selectedTimeRange.id, employee.internalExitDate)
     );
     const external = overviewFluctuationRates?.exitEmployees?.filter(
       (employee) =>
-        employee.orgUnit.indexOf(selectedOrgUnit) === 0 &&
-        utils.isDateInTimeRange(selectedTimeRange, employee.exitDate)
+        employee.orgUnit.indexOf(selectedOrgUnit.id) === 0 &&
+        utils.isDateInTimeRange(selectedTimeRange.id, employee.exitDate)
     );
 
     return utils.createDoughnutConfig(internal, external, 'Exits');
@@ -159,12 +162,15 @@ export const getEntryEmployees = createSelector(
   getSelectedTimeRange,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedTimeRange: string
+    selectedTimeRange: IdValue
   ) =>
     overviewFluctuationRates?.entryEmployees.filter(
       (employee) =>
-        utils.isDateInTimeRange(selectedTimeRange, employee.entryDate) ||
-        utils.isDateInTimeRange(selectedTimeRange, employee.internalEntryDate)
+        utils.isDateInTimeRange(selectedTimeRange.id, employee.entryDate) ||
+        utils.isDateInTimeRange(
+          selectedTimeRange.id,
+          employee.internalEntryDate
+        )
     )
 );
 

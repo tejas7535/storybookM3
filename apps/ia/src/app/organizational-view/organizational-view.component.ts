@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
+import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
-import { Employee, TailwindColor } from '../shared/models';
+import { Employee, IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import {
   chartTypeSelected,
@@ -40,7 +40,7 @@ export class OrganizationalViewComponent implements OnInit {
   selectedChartType$: Observable<ChartType>;
   worldMap$: Observable<CountryData[]>;
   continents$: Observable<string[]>;
-  selectedTimeRange$: Observable<string>;
+  selectedTimeRange$: Observable<IdValue>;
 
   chartLegendItems = [
     new ChartLegendItem(
@@ -71,7 +71,7 @@ export class OrganizationalViewComponent implements OnInit {
     this.selectedChartType$ = this.store.select(getSelectedChartType);
     this.worldMap$ = this.store.select(getWorldMap);
     this.continents$ = this.store.select(getContinents);
-    this.selectedTimeRange$ = this.store.select(getBeautifiedSelectedTimeRange);
+    this.selectedTimeRange$ = this.store.select(getSelectedTimeRange);
   }
 
   chartTypeChanged(chartType: ChartType): void {

@@ -1,26 +1,29 @@
 <div class="flex flex-col" *transloco="let t; read: 'filters'">
   <ia-autocomplete-input
     [filter]="orgUnitsFilter"
+    [autoCompleteLoading]="orgUnitsLoading"
     [label]="t('organization.organizationLabel')"
     [hint]="disableFilters ? undefined : t('organization.organizationHint')"
+    [noResultMessage]="t('organization.nothingFound')"
     [value]="selectedOrgUnit"
     [disabled]="disableFilters"
-    (selected)="onOptionSelected($event)"
-    (invalidFormControl)="onOrgUnitInvalid($event)"
+    (selected)="optionSelected($event)"
+    (invalidFormControl)="orgUnitInvalid($event)"
+    (autoComplete)="autoCompleteOrgUnitsChange($event)"
   ></ia-autocomplete-input>
   <div class="flex flex-row gap-2">
     <ia-select-input
       class="flex-1"
       [options]="timePeriods"
-      [selectedOption]="_selectedTimePeriod"
+      [selectedOption]="selectedTimePeriod"
       [label]="t('periodOfTime.timePeriodLabel')"
       [hint]="disableFilters ? undefined : t('periodOfTime.timePeriodHint')"
       [disabled]="disableFilters || disabledTimeRangeFilter"
-      (selected)="onTimePeriodSelected($event)"
+      (selected)="timePeriodSelected($event)"
     ></ia-select-input>
     <ia-date-input
       class="flex-1"
-      [timePeriod]="_selectedTimePeriod"
+      [timePeriod]="selectedTimePeriod"
       [label]="t('periodOfTime.timeRangeLabel')"
       [hint]="
         disableFilters
@@ -30,8 +33,8 @@
       [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
       [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
       [disabled]="disableFilters || disabledTimeRangeFilter"
-      [selectedTime]="selectedTime"
-      (selected)="onTimeRangeSelected($event)"
+      [selectedTime]="selectedTime?.id"
+      (selected)="timeRangeSelected($event)"
     ></ia-date-input>
   </div>
 </div>

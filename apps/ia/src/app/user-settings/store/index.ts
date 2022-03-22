@@ -1,9 +1,14 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
+import {
+  loadOrgUnitsFailure,
+  loadOrgUnitsSuccess,
+} from '../../core/store/actions';
 import { UserSettings } from '../models/user-settings.model';
 import {
   loadUserSettings,
   loadUserSettingsFailure,
+  loadUserSettingsOrgUnits,
   loadUserSettingsSuccess,
   updateUserSettings,
   updateUserSettingsFailure,
@@ -16,12 +21,18 @@ export interface UserSettingsState {
   data: UserSettings;
   loading: boolean;
   errorMessage: string;
+  dialog: {
+    orgUnitsLoading: boolean;
+  };
 }
 
 export const initialState: UserSettingsState = {
   data: undefined,
   loading: false,
   errorMessage: undefined,
+  dialog: {
+    orgUnitsLoading: false,
+  },
 };
 
 export const userSettingsReducer = createReducer(
@@ -70,6 +81,33 @@ export const userSettingsReducer = createReducer(
       ...state,
       errorMessage,
       loading: false,
+    })
+  ),
+  on(
+    loadUserSettingsOrgUnits,
+    (state: UserSettingsState): UserSettingsState => ({
+      ...state,
+      dialog: {
+        orgUnitsLoading: true,
+      },
+    })
+  ),
+  on(
+    loadOrgUnitsSuccess,
+    (state: UserSettingsState): UserSettingsState => ({
+      ...state,
+      dialog: {
+        orgUnitsLoading: false,
+      },
+    })
+  ),
+  on(
+    loadOrgUnitsFailure,
+    (state: UserSettingsState): UserSettingsState => ({
+      ...state,
+      dialog: {
+        orgUnitsLoading: false,
+      },
     })
   )
 );

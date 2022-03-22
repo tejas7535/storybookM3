@@ -2,7 +2,7 @@ import { FilterKey, IdValue, TimePeriod } from '../../../../shared/models';
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
-  getCurrentFiltersAndTime,
+  getCurrentFilters,
   getCurrentRoute,
   getOrgUnitsFilter,
   getOrgUnitsLoading,
@@ -20,16 +20,25 @@ describe('Filter Selector', () => {
       ...initialState,
       orgUnits: {
         loading: true,
-        items: [new IdValue('dep1', 'Department 1')],
+        items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
         errorMessage: '',
       },
-      selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
       selectedFilters: {
-        ids: [FilterKey.ORG_UNIT],
+        ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],
         entities: {
-          orgUnit: {
+          [FilterKey.ORG_UNIT]: {
             name: FilterKey.ORG_UNIT,
-            id: 'Schaeffler_IT_1',
+            idValue: {
+              id: 'Schaeffler_IT_1',
+              value: 'Schaeffler_IT_1',
+            },
+          },
+          [FilterKey.TIME_RANGE]: {
+            name: FilterKey.TIME_RANGE,
+            idValue: {
+              id: '1577863715000|1609399715000',
+              value: '1/1/2020 - 12/31/2020',
+            },
           },
         },
       },
@@ -75,17 +84,10 @@ describe('Filter Selector', () => {
 
   describe('getSelectedTimeRange', () => {
     test('should return selected time range', () => {
-      expect(getSelectedTimeRange(fakeState)).toEqual(
-        '1577863715000|1609399715000'
-      );
-    });
-  });
-
-  describe('getBeautifiedSelectedTimeRange', () => {
-    test('should return beautified time range', () => {
-      const result = getSelectedTimeRange(fakeState);
-
-      expect(result.match(/\d+\|\d+/).length === 1).toBeTruthy();
+      expect(getSelectedTimeRange(fakeState)).toEqual({
+        id: '1577863715000|1609399715000',
+        value: '1/1/2020 - 12/31/2020',
+      });
     });
   });
 
@@ -102,15 +104,25 @@ describe('Filter Selector', () => {
       expect(getAllSelectedFilters(fakeState)).toEqual([
         {
           name: FilterKey.ORG_UNIT,
-          id: 'Schaeffler_IT_1',
+          idValue: {
+            id: 'Schaeffler_IT_1',
+            value: 'Schaeffler_IT_1',
+          },
+        },
+        {
+          name: FilterKey.TIME_RANGE,
+          idValue: {
+            id: '1577863715000|1609399715000',
+            value: '1/1/2020 - 12/31/2020',
+          },
         },
       ]);
     });
   });
 
-  describe('getCurrentFiltersAndTime', () => {
+  describe('getCurrentFilters', () => {
     test('should return currently selected filters and time range', () => {
-      expect(getCurrentFiltersAndTime(fakeState)).toEqual({
+      expect(getCurrentFilters(fakeState)).toEqual({
         orgUnit: 'Schaeffler_IT_1',
         timeRange: '1577863715000|1609399715000',
       });
@@ -119,7 +131,10 @@ describe('Filter Selector', () => {
 
   describe('getSelectedOrgUnit', () => {
     test('should return selected org unit', () => {
-      expect(getSelectedOrgUnit(fakeState)).toEqual('Schaeffler_IT_1');
+      expect(getSelectedOrgUnit(fakeState)).toEqual({
+        id: 'Schaeffler_IT_1',
+        value: 'Schaeffler_IT_1',
+      });
     });
   });
 

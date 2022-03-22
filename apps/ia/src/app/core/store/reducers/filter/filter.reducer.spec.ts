@@ -7,7 +7,6 @@ import {
   loadOrgUnitsFailure,
   loadOrgUnitsSuccess,
   timePeriodSelected,
-  timeRangeSelected,
 } from '../../actions/filter/filter.action';
 import { filterReducer, initialState, reducer } from './filter.reducer';
 
@@ -58,18 +57,22 @@ describe('Filter Reducer', () => {
 
   describe('filterSelected', () => {
     test('should add selection', () => {
-      const filter = new SelectedFilter('test', '1');
+      const filter = new SelectedFilter('test', {
+        id: '1',
+        value: '1',
+      });
       const action = filterSelected({ filter });
 
       const state = filterReducer(initialState, action);
 
-      expect(state.selectedFilters.entities).toEqual({
-        test: filter,
-      });
+      expect(state.selectedFilters.entities.test).toEqual(filter);
     });
 
     test('should update existing selection', () => {
-      const filter = new SelectedFilter('test', '1');
+      const filter = new SelectedFilter('test', {
+        id: '1',
+        value: '1',
+      });
 
       const fakeState = {
         ...initialState,
@@ -81,7 +84,10 @@ describe('Filter Reducer', () => {
         },
       };
 
-      const update = new SelectedFilter('test', '3');
+      const update = new SelectedFilter('test', {
+        id: '3',
+        value: '3',
+      });
 
       const action = filterSelected({ filter: update });
 
@@ -101,17 +107,6 @@ describe('Filter Reducer', () => {
       const state = filterReducer(initialState, action);
 
       expect(state.selectedTimePeriod).toEqual(timePeriod);
-    });
-  });
-
-  describe('timeRangeSelected', () => {
-    test('should set time range', () => {
-      const timeRange = '123|456';
-      const action = timeRangeSelected({ timeRange });
-
-      const state = filterReducer(initialState, action);
-
-      expect(state.selectedTimeRange).toEqual(timeRange);
     });
   });
 

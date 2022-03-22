@@ -41,7 +41,10 @@ describe('UserSettingsDialogComponent', () => {
 
   describe('optionSelected', () => {
     test('should set option', () => {
-      const option = new SelectedFilter('test', 'test');
+      const option = new SelectedFilter('test', {
+        id: 'Sales',
+        value: 'Sales',
+      });
 
       component.optionSelected(option);
 
@@ -59,14 +62,17 @@ describe('UserSettingsDialogComponent', () => {
 
   describe('updateUserSettings', () => {
     test('should dispatch updateUserSettings actions', () => {
-      const option = new SelectedFilter('test', 'test');
+      const option = new SelectedFilter('test', {
+        id: 'Sales',
+        value: 'Sales',
+      });
       component.selected = option;
 
       component.updateUserSettings();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         updateUserSettings({
-          data: { orgUnit: option.id },
+          data: { orgUnit: option.idValue.id },
         })
       );
     });

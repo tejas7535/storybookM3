@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { combineLatest, Observable, tap } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -20,19 +20,20 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../../shared/models';
-import { getTimeRangeHint } from '../../shared/utils/utilities';
 import { ReasonForLeavingRank } from '../models/reason-for-leaving-rank.model';
 import {
-  changeComparedFilter,
-  changeComparedTimePeriod,
-  changeComparedTimeRange,
+  comparedFilterSelected,
+  comparedTimePeriodSelected,
+  loadComparedOrgUnits,
   resetCompareMode,
 } from '../store/actions/reasons-and-counter-measures.actions';
 import {
+  getComparedOrgUnitsFilter,
   getComparedReasonsChartConfig,
   getComparedReasonsChartData,
   getComparedReasonsTableData,
   getComparedSelectedOrgUnit,
+  getComparedSelectedOrgUnitLoading,
   getComparedSelectedTimePeriod,
   getComparedSelectedTimeRange,
   getReasonsChartConfig,
@@ -47,13 +48,11 @@ import {
   templateUrl: './reasons-for-leaving.component.html',
 })
 export class ReasonsForLeavingComponent implements OnInit {
-  timeRangeHintValue = 'time range';
-
   orgUnitsFilter$: Observable<Filter>;
-  selectedOrgUnit$: Observable<string>;
+  selectedOrgUnit$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
-  selectedTime$: Observable<string>;
+  selectedTime$: Observable<IdValue>;
 
   reasonsChartLegend$: Observable<ChartLegendItem[]>;
 
@@ -69,9 +68,11 @@ export class ReasonsForLeavingComponent implements OnInit {
 
   comparedReasonsTableData$: Observable<ReasonForLeavingRank[]>;
 
-  comparedSelectedOrgUnit$: Observable<string>;
+  comparedOrgUnitsFilter$: Observable<Filter>;
+  comparedSelectedOrgUnit$: Observable<IdValue>;
+  comparedSelectedOrgUnitLoading$: Observable<boolean>;
   comparedSelectedTimePeriod$: Observable<TimePeriod>;
-  comparedSelectedTime$: Observable<string>;
+  comparedSelectedTime$: Observable<IdValue>;
   comparedDisabledTimeRangeFilter: boolean;
 
   constructor(private readonly store: Store) {}
@@ -102,22 +103,16 @@ export class ReasonsForLeavingComponent implements OnInit {
       getComparedReasonsChartConfig
     );
 
-    this.comparedSelectedOrgUnit$ = this.store
-      .select(getComparedSelectedOrgUnit)
-      .pipe(
-        tap(
-          (value) =>
-            (this.comparedDisabledTimeRangeFilter = value === undefined)
-        )
-      );
-
-    this.comparedSelectedTimePeriod$ = this.store
-      .select(getComparedSelectedTimePeriod)
-      .pipe(
-        tap((timePeriod) => {
-          this.timeRangeHintValue = getTimeRangeHint(timePeriod);
-        })
-      );
+    this.comparedOrgUnitsFilter$ = this.store.select(getComparedOrgUnitsFilter);
+    this.comparedSelectedOrgUnit$ = this.store.select(
+      getComparedSelectedOrgUnit
+    );
+    this.comparedSelectedOrgUnitLoading$ = this.store.select(
+      getComparedSelectedOrgUnitLoading
+    );
+    this.comparedSelectedTimePeriod$ = this.store.select(
+      getComparedSelectedTimePeriod
+    );
     this.comparedSelectedTime$ = this.store.select(
       getComparedSelectedTimeRange
     );
@@ -126,29 +121,20 @@ export class ReasonsForLeavingComponent implements OnInit {
     );
   }
 
-  orgUnitInvalid(orgUnitIsInvalid: boolean): void {
-    this.comparedDisabledTimeRangeFilter = orgUnitIsInvalid;
+  comparedFilterSelected(filter: SelectedFilter): void {
+    this.store.dispatch(comparedFilterSelected({ filter }));
   }
 
-  comparedOptionSelected(comparedSelectedOrgUnit: SelectedFilter): void {
+  comparedTimePeriodSelected(timePeriod: TimePeriod): void {
     this.store.dispatch(
-      changeComparedFilter({
-        comparedSelectedOrgUnit: comparedSelectedOrgUnit.id,
+      comparedTimePeriodSelected({
+        timePeriod,
       })
     );
   }
 
-  comparedTimePeriodSelected(comparedSelectedTimePeriod: IdValue): void {
-    this.store.dispatch(
-      changeComparedTimePeriod({
-        comparedSelectedTimePeriod:
-          comparedSelectedTimePeriod.id as unknown as TimePeriod,
-      })
-    );
-  }
-
-  comparedTimeRangeSelected(comparedSelectedTimeRange: string): void {
-    this.store.dispatch(changeComparedTimeRange({ comparedSelectedTimeRange }));
+  comparedAutoCompleteOrgUnitsChange(searchFor: string): void {
+    this.store.dispatch(loadComparedOrgUnits({ searchFor }));
   }
 
   resetCompareMode(): void {

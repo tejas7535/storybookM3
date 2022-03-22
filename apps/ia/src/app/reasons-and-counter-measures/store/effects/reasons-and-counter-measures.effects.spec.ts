@@ -4,13 +4,22 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
-import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
-import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
+import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { getCurrentFilters } from '../../../core/store/selectors';
+import { FilterService } from '../../../filter-section/filter.service';
+import {
+  EmployeesRequest,
+  FilterKey,
+  IdValue,
+  SelectedFilter,
+} from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import { ReasonsAndCounterMeasuresService } from '../../reasons-and-counter-measures.service';
 import {
-  changeComparedTimeRange,
+  comparedFilterSelected,
+  loadComparedOrgUnits,
+  loadComparedOrgUnitsFailure,
+  loadComparedOrgUnitsSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
@@ -18,7 +27,10 @@ import {
   loadReasonsWhyPeopleLeftFailure,
   loadReasonsWhyPeopleLeftSuccess,
 } from '../actions/reasons-and-counter-measures.actions';
-import { getCurrentComparedFiltersAndTime } from '../selectors/reasons-and-counter-measures.selector';
+import {
+  getComparedSelectedTimeRange,
+  getCurrentComparedFilters,
+} from '../selectors/reasons-and-counter-measures.selector';
 import { ReasonsAndCounterMeasuresEffects } from './reasons-and-counter-measures.effects';
 
 describe('ReasonsAndCounterMeasures Effects', () => {
@@ -28,6 +40,7 @@ describe('ReasonsAndCounterMeasures Effects', () => {
   let action: any;
   let effects: ReasonsAndCounterMeasuresEffects;
   let store: MockStore;
+  let filterService: FilterService;
 
   const error = {
     message: 'An error message occured',
@@ -44,6 +57,12 @@ describe('ReasonsAndCounterMeasures Effects', () => {
           getResignedEmployees: jest.fn(),
         },
       },
+      {
+        provide: FilterService,
+        useValue: {
+          getOrgUnits: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -54,41 +73,20 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     reasonsAndCounterMeasuresService = spectator.inject(
       ReasonsAndCounterMeasuresService
     );
+    filterService = spectator.inject(FilterService);
     store = spectator.inject(MockStore);
   });
 
   describe('filterChange$', () => {
     test(
-      'timeRangeSelected - should trigger load actions if orgUnit and time range are set',
-      marbles((m) => {
-        const timeRange = '123|456';
-        const request = {
-          orgUnit: 'orgUnit',
-          timeRange,
-        } as unknown as EmployeesRequest;
-
-        action = timeRangeSelected({ timeRange });
-        store.overrideSelector(getCurrentFiltersAndTime, request);
-
-        const resultReasonsWhyPeopleLeft = loadReasonsWhyPeopleLeft({
-          request,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const expected = m.cold('-(b)', {
-          b: resultReasonsWhyPeopleLeft,
-        });
-        m.expect(effects.filterChange$).toBeObservable(expected);
-      })
-    );
-
-    test(
       'filterSelected - should do nothing when organization is not set',
       marbles((m) => {
-        const filter = new SelectedFilter('nice', 'best');
+        const filter = new SelectedFilter('nice', {
+          id: 'best',
+          value: 'best',
+        });
         action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFiltersAndTime, {});
+        store.overrideSelector(getCurrentFilters, {});
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -100,9 +98,8 @@ describe('ReasonsAndCounterMeasures Effects', () => {
     test(
       'timeRangeSelected - should do nothing when organization is not set',
       marbles((m) => {
-        const timeRange = '123|456';
-        action = timeRangeSelected({ timeRange });
-        store.overrideSelector(getCurrentFiltersAndTime, {});
+        action = triggerLoad();
+        store.overrideSelector(getCurrentFilters, {});
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--');
@@ -173,16 +170,19 @@ describe('ReasonsAndCounterMeasures Effects', () => {
 
   describe('comparedFilterChange$', () => {
     test(
-      'changeComparedTimeRange - should trigger load actions if orgUnit and time range are set',
+      'comparedFilterSelected - should trigger load actions if orgUnit and time range are set',
       marbles((m) => {
-        const comparedSelectedTimeRange = '123|456';
+        const filter = new SelectedFilter(FilterKey.TIME_RANGE, {
+          id: '123|456',
+          value: 'Awesome Date',
+        });
         const request = {
           orgUnit: 'orgUnit',
-          timeRange: comparedSelectedTimeRange,
+          timeRange: filter.idValue.id,
         } as unknown as EmployeesRequest;
 
-        action = changeComparedTimeRange({ comparedSelectedTimeRange });
-        store.overrideSelector(getCurrentComparedFiltersAndTime, request);
+        action = comparedFilterSelected({ filter });
+        store.overrideSelector(getCurrentComparedFilters, request);
 
         const resultComparedReasonsWhyPeopleLeft =
           loadComparedReasonsWhyPeopleLeft({
@@ -258,6 +258,63 @@ describe('ReasonsAndCounterMeasures Effects', () => {
         expect(
           reasonsAndCounterMeasuresService.getReasonsWhyPeopleLeft
         ).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadComparedOrgUnits', () => {
+    const searchFor = 'search';
+    const timeRange = '123|456';
+
+    beforeEach(() => {
+      action = loadComparedOrgUnits({ searchFor });
+      store.overrideSelector(getComparedSelectedTimeRange, {
+        id: timeRange,
+        value: timeRange,
+      });
+    });
+    test(
+      'should return loadComparedOrgUnitsSuccess action when REST call is successful',
+      marbles((m) => {
+        const items = [new IdValue('Department1', 'Department1')];
+        const result = loadComparedOrgUnitsSuccess({
+          items,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-c', { c: items });
+
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getOrgUnits = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadComparedOrgUnits$).toBeObservable(expected);
+        m.flush();
+        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should return loadComparedOrgUnitsFailure on REST error',
+      marbles((m) => {
+        const result = loadComparedOrgUnitsFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        filterService.getOrgUnits = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadComparedOrgUnits$).toBeObservable(expected);
+        m.flush();
+        expect(filterService.getOrgUnits).toHaveBeenCalledTimes(1);
       })
     );
   });

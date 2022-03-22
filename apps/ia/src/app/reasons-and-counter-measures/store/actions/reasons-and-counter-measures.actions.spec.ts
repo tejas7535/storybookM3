@@ -1,9 +1,16 @@
-import { EmployeesRequest, TimePeriod } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import {
-  changeComparedFilter,
-  changeComparedTimePeriod,
-  changeComparedTimeRange,
+  comparedFilterSelected,
+  comparedTimePeriodSelected,
+  loadComparedOrgUnits,
+  loadComparedOrgUnitsFailure,
+  loadComparedOrgUnitsSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
@@ -13,7 +20,7 @@ import {
   resetCompareMode,
 } from './reasons-and-counter-measures.actions';
 
-describe('Overview Actions', () => {
+describe('Reasons and Counter Measures Actions', () => {
   const errorMessage = 'An error occured';
 
   test('loadReasonsWhyPeopleLeft', () => {
@@ -82,36 +89,23 @@ describe('Overview Actions', () => {
     });
   });
 
-  test('changeComparedFilter', () => {
-    const comparedSelectedOrgUnit = 'best';
-    const action = changeComparedFilter({ comparedSelectedOrgUnit });
+  test('comparedFilterSelected', () => {
+    const filter = new SelectedFilter('test', undefined);
+    const action = comparedFilterSelected({ filter });
 
     expect(action).toEqual({
-      comparedSelectedOrgUnit,
+      filter,
       type: '[ReasonsAndCounterMeasures] Change ComparedFilter',
     });
   });
 
-  test('changeComparedTimePeriod', () => {
-    const comparedSelectedTimePeriod = {} as unknown as TimePeriod;
-
-    const action = changeComparedTimePeriod({
-      comparedSelectedTimePeriod,
-    });
+  test('comparedTimePeriodSelected', () => {
+    const timePeriod = TimePeriod.MONTH;
+    const action = comparedTimePeriodSelected({ timePeriod });
 
     expect(action).toEqual({
-      comparedSelectedTimePeriod,
+      timePeriod,
       type: '[ReasonsAndCounterMeasures] Change ComparedTimePeriod',
-    });
-  });
-
-  test('changeComparedTimeRange', () => {
-    const comparedSelectedTimeRange = {} as string;
-    const action = changeComparedTimeRange({ comparedSelectedTimeRange });
-
-    expect(action).toEqual({
-      comparedSelectedTimeRange,
-      type: '[ReasonsAndCounterMeasures] Change ComparedTimeRange',
     });
   });
 
@@ -120,6 +114,35 @@ describe('Overview Actions', () => {
 
     expect(action).toEqual({
       type: '[ReasonsAndCounterMeasures] Reset Compare Mode',
+    });
+  });
+
+  test('loadComparedOrgUnits', () => {
+    const searchFor = 'search';
+    const action = loadComparedOrgUnits({ searchFor });
+
+    expect(action).toEqual({
+      searchFor,
+      type: '[ReasonsAndCounterMeasures] Load Compared Org Units',
+    });
+  });
+
+  test('loadComparedOrgUnitsSuccess', () => {
+    const items = [new IdValue('Department1', 'Department1')];
+    const action = loadComparedOrgUnitsSuccess({ items });
+
+    expect(action).toEqual({
+      items,
+      type: '[ReasonsAndCounterMeasures] Load Compared Org Units Success',
+    });
+  });
+
+  test('loadComparedOrgUnitsFailure', () => {
+    const action = loadComparedOrgUnitsFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[ReasonsAndCounterMeasures] Load Compared Org Units Failure',
     });
   });
 });

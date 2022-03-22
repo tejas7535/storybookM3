@@ -21,9 +21,8 @@
         [timePeriods]="timePeriods$ | ngrxPush"
         [selectedTimePeriod]="selectedTimePeriod$ | ngrxPush"
         [selectedTime]="selectedTime$ | ngrxPush"
-        (selectOption)="optionSelected($event)"
+        (selectFilter)="filterSelected($event)"
         (selectTimePeriod)="timePeriodSelected($event)"
-        (selectTimeRange)="timeRangeSelected($event)"
         (autoCompleteOrgUnits)="autoCompleteOrgUnitsChange($event)"
       >
       </ia-expanded-filters>

@@ -8,11 +8,15 @@ import {
 
 import {
   Filter,
+  FilterKey,
   IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../shared/models';
-import { getTimeRangeHint } from '../../shared/utils/utilities';
+import {
+  getBeautifiedTimeRange,
+  getTimeRangeHint,
+} from '../../shared/utils/utilities';
 
 @Component({
   selector: 'ia-expanded-filters',
@@ -21,18 +25,18 @@ import { getTimeRangeHint } from '../../shared/utils/utilities';
 })
 export class ExpandedFiltersComponent {
   private _selectedTimePeriod: TimePeriod;
-  private _selectedOrgUnit: string;
+  private _selectedOrgUnit: IdValue;
 
   disabledTimeRangeFilter = true;
   timeRangeHintValue = '';
 
   @Input() orgUnitsFilter: Filter;
   @Input() orgUnitsLoading: boolean;
-  @Input() set selectedOrgUnit(selectedOrgUnit: string) {
+  @Input() set selectedOrgUnit(selectedOrgUnit: IdValue) {
     this._selectedOrgUnit = selectedOrgUnit;
     this.disabledTimeRangeFilter = selectedOrgUnit === undefined;
   }
-  get selectedOrgUnit(): string {
+  get selectedOrgUnit(): IdValue {
     return this._selectedOrgUnit;
   }
 
@@ -46,19 +50,18 @@ export class ExpandedFiltersComponent {
     return this._selectedTimePeriod;
   }
 
-  @Input() selectedTime: string;
+  @Input() selectedTime: IdValue;
 
-  @Output() readonly selectOption: EventEmitter<SelectedFilter> =
+  @Output() readonly selectFilter: EventEmitter<SelectedFilter> =
     new EventEmitter();
   @Output() readonly selectTimePeriod: EventEmitter<TimePeriod> =
     new EventEmitter();
-  @Output() readonly selectTimeRange: EventEmitter<string> = new EventEmitter();
 
   @Output() readonly autoCompleteOrgUnits: EventEmitter<string> =
     new EventEmitter();
 
   optionSelected(filter: SelectedFilter): void {
-    this.selectOption.emit(filter);
+    this.selectFilter.emit(filter);
   }
 
   orgUnitInvalid(orgUnitIsInvalid: boolean): void {
@@ -70,7 +73,14 @@ export class ExpandedFiltersComponent {
   }
 
   timeRangeSelected(timeRange: string): void {
-    this.selectTimeRange.emit(timeRange);
+    const filter = {
+      name: FilterKey.TIME_RANGE,
+      idValue: {
+        id: timeRange,
+        value: getBeautifiedTimeRange(timeRange),
+      },
+    };
+    this.selectFilter.emit(filter);
   }
 
   autoCompleteOrgUnitsChange(searchFor: string): void {

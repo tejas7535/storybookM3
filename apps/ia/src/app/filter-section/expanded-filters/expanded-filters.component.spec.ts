@@ -10,7 +10,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import * as en from '../../../assets/i18n/en.json';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../../shared/date-input/date-input.module';
+import { FilterKey, IdValue } from '../../shared/models';
 import { SelectInputModule } from '../../shared/select-input/select-input.module';
+import { getBeautifiedTimeRange } from '../../shared/utils/utilities';
 import { ExpandedFiltersComponent } from './expanded-filters.component';
 describe('ExpandedFiltersComponent', () => {
   let component: ExpandedFiltersComponent;
@@ -28,6 +30,7 @@ describe('ExpandedFiltersComponent', () => {
       MatIconModule,
       MatTooltipModule,
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -41,7 +44,10 @@ describe('ExpandedFiltersComponent', () => {
 
   describe('set selectedOrgUnit', () => {
     test('should set org unit and enable time range filter', () => {
-      const orgUnit = 'orgUnit';
+      const orgUnit = {
+        id: 'orgUnit',
+        value: 'orgUnit',
+      };
 
       component.selectedOrgUnit = orgUnit;
 
@@ -50,7 +56,7 @@ describe('ExpandedFiltersComponent', () => {
     });
 
     test('should disable range filter if org unit not set', () => {
-      const orgUnit: string = undefined;
+      const orgUnit: IdValue = undefined;
 
       component.selectedOrgUnit = orgUnit;
 
@@ -61,12 +67,18 @@ describe('ExpandedFiltersComponent', () => {
 
   describe('optionSelected', () => {
     test('should emit filter', () => {
-      component.selectOption.emit = jest.fn();
-      const filter = { name: 'test', id: '12' };
+      component.selectFilter.emit = jest.fn();
+      const filter = {
+        name: 'test',
+        idValue: {
+          id: '12',
+          value: '12',
+        },
+      };
 
       component.optionSelected(filter);
 
-      expect(component.selectOption.emit).toHaveBeenCalledWith(filter);
+      expect(component.selectFilter.emit).toHaveBeenCalledWith(filter);
     });
   });
 
@@ -93,13 +105,19 @@ describe('ExpandedFiltersComponent', () => {
   });
 
   describe('timeRangeSelected', () => {
-    test('should emit timeRange', () => {
-      component.selectTimeRange.emit = jest.fn();
+    test('should emit selectFilter', () => {
+      component.selectFilter.emit = jest.fn();
       const timeRange = '0-2';
 
       component.timeRangeSelected(timeRange);
 
-      expect(component.selectTimeRange.emit).toHaveBeenCalledWith(timeRange);
+      expect(component.selectFilter.emit).toHaveBeenCalledWith({
+        name: FilterKey.TIME_RANGE,
+        idValue: {
+          id: timeRange,
+          value: getBeautifiedTimeRange(timeRange),
+        },
+      });
     });
   });
 

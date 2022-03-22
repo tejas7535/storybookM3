@@ -12,12 +12,8 @@ import {
 } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import {
-  filterSelected,
-  timeRangeSelected,
-  triggerLoad,
-} from '../../../core/store/actions';
-import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
+import { filterSelected, triggerLoad } from '../../../core/store/actions';
+import { getCurrentFilters } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   Employee,
@@ -47,8 +43,8 @@ import {
 export class OrganizationalViewEffects implements OnInitEffects {
   filterChange$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(filterSelected, timeRangeSelected, triggerLoad),
-      concatLatestFrom(() => this.store.select(getCurrentFiltersAndTime)),
+      ofType(filterSelected, triggerLoad),
+      concatLatestFrom(() => this.store.select(getCurrentFilters)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
@@ -111,7 +107,10 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadParentSuccess),
       map((action) => ({
         name: FilterKey.ORG_UNIT,
-        id: action.employee.orgUnit,
+        idValue: {
+          id: action.employee.orgUnit,
+          value: action.employee.orgUnit,
+        },
       })),
       map((selectedFilter: SelectedFilter) =>
         filterSelected({ filter: selectedFilter })

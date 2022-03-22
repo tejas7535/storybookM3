@@ -1,11 +1,25 @@
+import { EntityState } from '@ngrx/entity';
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { TimePeriod } from '../../shared/models';
+import {
+  filterAdapter,
+  FilterKey,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../shared/models';
+import {
+  getBeautifiedTimeRange,
+  getMonth12MonthsAgo,
+  getTimeRangeFromDates,
+} from '../../shared/utils/utilities';
 import { ReasonForLeavingStats } from '../models/reason-for-leaving-stats.model';
 import {
-  changeComparedFilter,
-  changeComparedTimePeriod,
-  changeComparedTimeRange,
+  comparedFilterSelected,
+  comparedTimePeriodSelected,
+  loadComparedOrgUnits,
+  loadComparedOrgUnitsFailure,
+  loadComparedOrgUnitsSuccess,
   loadComparedReasonsWhyPeopleLeft,
   loadComparedReasonsWhyPeopleLeftFailure,
   loadComparedReasonsWhyPeopleLeftSuccess,
@@ -17,11 +31,37 @@ import {
 
 export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
 
+const getInitialSelectedTimeRange = () => {
+  const nowDate = new Date();
+  const oldDate = getMonth12MonthsAgo(nowDate);
+
+  return getTimeRangeFromDates(oldDate, nowDate);
+};
+
+const initialTimeRange = getInitialSelectedTimeRange();
+
+const initialComparedSelectedFilters = filterAdapter.getInitialState({
+  ids: [FilterKey.TIME_RANGE],
+  entities: {
+    [FilterKey.TIME_RANGE]: {
+      name: FilterKey.TIME_RANGE,
+      idValue: {
+        id: initialTimeRange,
+        value: getBeautifiedTimeRange(initialTimeRange),
+      },
+    },
+  },
+});
+
 export interface ReasonsAndCounterMeasuresState {
   reasonsForLeaving: {
-    comparedSelectedOrgUnit: string; // currently selected filters
+    comparedOrgUnits: {
+      loading: boolean;
+      items: IdValue[];
+      errorMessage: string;
+    };
     comparedSelectedTimePeriod: TimePeriod;
-    comparedSelectedTimeRange: string;
+    comparedSelectedFilters: EntityState<SelectedFilter>;
     reasons: {
       data: ReasonForLeavingStats[];
       loading: boolean;
@@ -37,9 +77,13 @@ export interface ReasonsAndCounterMeasuresState {
 
 export const initialState: ReasonsAndCounterMeasuresState = {
   reasonsForLeaving: {
-    comparedSelectedOrgUnit: undefined,
+    comparedOrgUnits: {
+      loading: false,
+      items: [],
+      errorMessage: undefined,
+    },
     comparedSelectedTimePeriod: TimePeriod.LAST_12_MONTHS,
-    comparedSelectedTimeRange: undefined,
+    comparedSelectedFilters: initialComparedSelectedFilters,
     reasons: {
       data: undefined,
       loading: false,
@@ -106,41 +150,31 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
     })
   ),
   on(
-    changeComparedFilter,
+    comparedFilterSelected,
     (
       state: ReasonsAndCounterMeasuresState,
-      { comparedSelectedOrgUnit }
+      { filter }
     ): ReasonsAndCounterMeasuresState => ({
       ...state,
       reasonsForLeaving: {
         ...state.reasonsForLeaving,
-        comparedSelectedOrgUnit,
+        comparedSelectedFilters: filterAdapter.upsertOne(
+          filter,
+          state.reasonsForLeaving.comparedSelectedFilters
+        ),
       },
     })
   ),
   on(
-    changeComparedTimePeriod,
+    comparedTimePeriodSelected,
     (
       state: ReasonsAndCounterMeasuresState,
-      { comparedSelectedTimePeriod }
+      { timePeriod }
     ): ReasonsAndCounterMeasuresState => ({
       ...state,
       reasonsForLeaving: {
         ...state.reasonsForLeaving,
-        comparedSelectedTimePeriod,
-      },
-    })
-  ),
-  on(
-    changeComparedTimeRange,
-    (
-      state: ReasonsAndCounterMeasuresState,
-      { comparedSelectedTimeRange }
-    ): ReasonsAndCounterMeasuresState => ({
-      ...state,
-      reasonsForLeaving: {
-        ...state.reasonsForLeaving,
-        comparedSelectedTimeRange,
+        comparedSelectedTimePeriod: timePeriod,
       },
     })
   ),
@@ -207,13 +241,65 @@ export const reasonsAndCounterMeasuresReducer = createReducer(
           loading: undefined,
           errorMessage: undefined,
         },
-        comparedSelectedOrgUnit: undefined,
+        comparedSelectedFilters: initialComparedSelectedFilters,
         comparedSelectedTimePeriod: TimePeriod.LAST_12_MONTHS,
-        // comparedSelectedTimeRange needs to stay as the last selected value
+      },
+    })
+  ),
+  on(
+    loadComparedOrgUnits,
+    (
+      state: ReasonsAndCounterMeasuresState
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedOrgUnits: {
+          ...state.reasonsForLeaving.comparedOrgUnits,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedOrgUnitsSuccess,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { items }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedOrgUnits: {
+          ...state.reasonsForLeaving.comparedOrgUnits,
+          loading: false,
+          items,
+        },
+      },
+    })
+  ),
+  on(
+    loadComparedOrgUnitsFailure,
+    (
+      state: ReasonsAndCounterMeasuresState,
+      { errorMessage }
+    ): ReasonsAndCounterMeasuresState => ({
+      ...state,
+      reasonsForLeaving: {
+        ...state.reasonsForLeaving,
+        comparedOrgUnits: {
+          ...state.reasonsForLeaving.comparedOrgUnits,
+          errorMessage,
+          loading: false,
+        },
       },
     })
   )
 );
+
+const { selectAll } = filterAdapter.getSelectors();
+
+export const selectAllComparedSelectedFilters = selectAll;
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(

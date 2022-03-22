@@ -3,7 +3,6 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 
 import {
-  EmployeesRequest,
   Filter,
   FilterKey,
   IdValue,
@@ -51,24 +50,6 @@ export const getSelectedTimePeriod = createSelector(
   (state: FilterState) => state.selectedTimePeriod
 );
 
-export const getSelectedTimeRange = createSelector(
-  selectFilterState,
-  (state: FilterState) => state.selectedTimeRange
-);
-
-export const getBeautifiedSelectedTimeRange = createSelector(
-  getSelectedTimeRange,
-  (timeRange: string) => {
-    const dates = timeRange?.split('|');
-
-    return timeRange
-      ? `${new Date(+dates[0]).toLocaleDateString('en-US')} - ${new Date(
-          +dates[1]
-        ).toLocaleDateString('en-US')}`
-      : undefined;
-  }
-);
-
 export const getSelectedFilters = createSelector(
   selectFilterState,
   (state: FilterState) => state.selectedFilters
@@ -79,34 +60,32 @@ export const getAllSelectedFilters = createSelector(
   selectAllSelectedFilters
 );
 
-export const getCurrentFiltersAndTime = createSelector(
-  getSelectedTimeRange,
+export const getCurrentFilters = createSelector(
   getAllSelectedFilters,
-  (timeRange: string, filters: SelectedFilter[]) =>
+  (filters: SelectedFilter[]) =>
     // eslint-disable-next-line unicorn/no-array-reduce
-    filters.reduce(
-      (map: any, filter) => {
-        map[filter.name] = filter.id;
+    filters.reduce((map: any, filter) => {
+      map[filter.name] = filter.idValue.id;
 
-        return map;
-      },
-      {
-        [FilterKey.TIME_RANGE]: timeRange,
-      } as unknown as EmployeesRequest
-    )
+      return map;
+    }, {})
 );
 
 export const getSelectedOrgUnit = createSelector(
   getAllSelectedFilters,
   (filters: SelectedFilter[]) =>
-    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.id
+    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.idValue
+);
+
+export const getSelectedTimeRange = createSelector(
+  getAllSelectedFilters,
+  (filters: SelectedFilter[]) =>
+    filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
 );
 
 export const getSelectedFilterValues = createSelector(
   getAllSelectedFilters,
-  getBeautifiedSelectedTimeRange,
-  (filters: SelectedFilter[], timeRange: string) => [
-    ...filters.map((filter) => filter.id),
-    timeRange,
+  (filters: SelectedFilter[]) => [
+    ...filters.map((filter) => filter.idValue.value),
   ]
 );

@@ -8,7 +8,6 @@ import {
   filterSelected,
   loadOrgUnits,
   timePeriodSelected,
-  timeRangeSelected,
 } from '../core/store/actions';
 import {
   getOrgUnitsFilter,
@@ -30,10 +29,10 @@ export class FilterSectionComponent implements OnInit {
 
   orgUnitsFilter$: Observable<Filter>;
   orgUnitsLoading$: Observable<boolean>;
-  selectedOrgUnit$: Observable<string>;
+  selectedOrgUnit$: Observable<IdValue>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
-  selectedTime$: Observable<string>;
+  selectedTime$: Observable<IdValue>;
   selectedFilterValues$: Observable<string[]>;
 
   constructor(private readonly store: Store) {}
@@ -48,20 +47,12 @@ export class FilterSectionComponent implements OnInit {
     this.selectedFilterValues$ = this.store.select(getSelectedFilterValues);
   }
 
-  optionSelected(filter: SelectedFilter): void {
+  filterSelected(filter: SelectedFilter): void {
     this.store.dispatch(filterSelected({ filter }));
   }
 
   timePeriodSelected(timePeriod: TimePeriod): void {
     this.store.dispatch(timePeriodSelected({ timePeriod }));
-  }
-
-  timeRangeSelected(timeRange: string): void {
-    this.store.dispatch(
-      timeRangeSelected({
-        timeRange,
-      })
-    );
   }
 
   expansionPanelToggled(expanded: boolean): void {

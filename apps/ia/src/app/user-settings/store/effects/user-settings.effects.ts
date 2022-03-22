@@ -8,6 +8,8 @@ import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
+import { filterSelected } from '../../../core/store/actions';
+import { FilterKey } from '../../../shared/models';
 import { UserSettingsService } from '../../user-settings.service';
 import { UserSettingsDialogComponent } from '../../user-settings-dialog/user-settings-dialog.component';
 import {
@@ -32,6 +34,17 @@ export class UserSettingsEffects implements OnInitEffects {
 
             if (data?.orgUnit === undefined) {
               result.push(showUserSettingsDialog());
+            } else {
+              // set global filter default value
+              const filter = {
+                name: FilterKey.ORG_UNIT,
+                idValue: {
+                  id: data.orgUnit,
+                  value: data.orgUnit,
+                },
+              };
+
+              result.push(filterSelected({ filter }));
             }
 
             return result;
@@ -73,22 +86,32 @@ export class UserSettingsEffects implements OnInitEffects {
     );
   });
 
-  updateUserSettingsSuccess$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(updateUserSettingsSuccess),
-        tap(() => {
-          if (this.dialog.openDialogs?.length > 0) {
-            // close dialog if open
-            this.dialog.closeAll();
-          }
+  updateUserSettingsSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(updateUserSettingsSuccess),
+      map((action) => action.data),
+      tap(() => {
+        if (this.dialog.openDialogs?.length > 0) {
+          // close dialog if open
+          this.dialog.closeAll();
+        }
 
-          this.snackbar.open(translate('userSettings.saveSuccessful'));
-        })
-      );
-    },
-    { dispatch: false }
-  );
+        this.snackbar.open(translate('userSettings.saveSuccessful'));
+      }),
+      map((data) => {
+        // set global filter default value
+        const filter = {
+          name: FilterKey.ORG_UNIT,
+          idValue: {
+            id: data.orgUnit,
+            value: data.orgUnit,
+          },
+        };
+
+        return filterSelected({ filter });
+      })
+    );
+  });
 
   updateUserSettingsFailure$ = createEffect(
     () => {

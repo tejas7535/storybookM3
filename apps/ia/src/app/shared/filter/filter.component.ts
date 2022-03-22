@@ -6,8 +6,14 @@ import {
   Output,
 } from '@angular/core';
 
-import { Filter, IdValue, SelectedFilter, TimePeriod } from '../models';
-import { getTimeRangeHint } from '../utils/utilities';
+import {
+  Filter,
+  FilterKey,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../models';
+import { getBeautifiedTimeRange, getTimeRangeHint } from '../utils/utilities';
 
 @Component({
   selector: 'ia-filter',
@@ -15,39 +21,63 @@ import { getTimeRangeHint } from '../utils/utilities';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
-  _selectedTimePeriod: TimePeriod;
+  private _selectedOrgUnit: IdValue;
+  private _selectedTimePeriod: TimePeriod;
   timeRangeHintValue = 'time range';
 
-  @Input() orgUnitsFilter: Filter;
-  @Input() selectedOrgUnit: string;
-  @Input() selectedTime: string;
-  @Input() timePeriods: IdValue[];
+  disabledTimeRangeFilter = true;
+
   @Input() disableFilters: boolean;
-  @Input() disabledTimeRangeFilter: boolean;
-
-  @Input() set selectedTimePeriod(period: TimePeriod) {
-    this._selectedTimePeriod = period;
-    this.timeRangeHintValue = getTimeRangeHint(period);
+  @Input() orgUnitsFilter: Filter;
+  @Input() orgUnitsLoading: boolean;
+  @Input() set selectedOrgUnit(selectedOrgUnit: IdValue) {
+    this._selectedOrgUnit = selectedOrgUnit;
+    this.disabledTimeRangeFilter = selectedOrgUnit === undefined;
+  }
+  get selectedOrgUnit(): IdValue {
+    return this._selectedOrgUnit;
   }
 
-  @Output() orgUnitInvalid = new EventEmitter<boolean>();
-  @Output() optionSelected = new EventEmitter<SelectedFilter>();
-  @Output() timePeriodSelected = new EventEmitter<IdValue>();
-  @Output() timeRangeSelected = new EventEmitter<string>();
+  @Input() selectedTime: IdValue;
+  @Input() timePeriods: IdValue[];
 
-  onOptionSelected(selectedFilter: SelectedFilter): void {
-    this.optionSelected.emit(selectedFilter);
+  @Input() set selectedTimePeriod(selectedTimePeriod: TimePeriod) {
+    this._selectedTimePeriod = selectedTimePeriod;
+    this.timeRangeHintValue = getTimeRangeHint(selectedTimePeriod);
+  }
+  get selectedTimePeriod(): TimePeriod {
+    return this._selectedTimePeriod;
   }
 
-  onTimePeriodSelected(selectedTimePeriod: IdValue): void {
-    this.timePeriodSelected.emit(selectedTimePeriod);
+  @Output() selectTimePeriod = new EventEmitter<TimePeriod>();
+  @Output() selectFilter = new EventEmitter<SelectedFilter>();
+  @Output() readonly autoCompleteOrgUnits: EventEmitter<string> =
+    new EventEmitter();
+
+  optionSelected(selectedFilter: SelectedFilter): void {
+    this.selectFilter.emit(selectedFilter);
   }
 
-  onTimeRangeSelected(selectedTimeRange: string): void {
-    this.timeRangeSelected.emit(selectedTimeRange);
+  timePeriodSelected(idValue: IdValue): void {
+    this.selectTimePeriod.emit(idValue.id as unknown as TimePeriod);
   }
 
-  onOrgUnitInvalid(invalid: boolean): void {
-    this.orgUnitInvalid.emit(invalid);
+  timeRangeSelected(timeRange: string): void {
+    const filter = {
+      name: FilterKey.TIME_RANGE,
+      idValue: {
+        id: timeRange,
+        value: getBeautifiedTimeRange(timeRange),
+      },
+    };
+    this.selectFilter.emit(filter);
+  }
+
+  orgUnitInvalid(orgUnitIsInvalid: boolean): void {
+    this.disabledTimeRangeFilter = orgUnitIsInvalid;
+  }
+
+  autoCompleteOrgUnitsChange(searchFor: string): void {
+    this.autoCompleteOrgUnits.emit(searchFor);
   }
 }

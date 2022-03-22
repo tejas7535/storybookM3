@@ -13,12 +13,15 @@
         class="mb-3 block"
       ></schaeffler-language-select>
       <ia-autocomplete-input
-        [filter]="orgUnits"
+        [filter]="orgUnitsFilter$ | ngrxPush"
+        [value]="selectedOrgUnit$ | ngrxPush"
+        [autoCompleteLoading]="orgUnitsLoading$ | ngrxPush"
         [label]="t('orgUnitLabel')"
         [hint]="t('orgUnitHint')"
         [appearance]="'outline'"
-        [value]="selectedOrgUnit$ | ngrxPush"
+        [noResultMessage]="t('nothingFound')"
         (selected)="optionSelected($event)"
+        (autoComplete)="autoCompleteOrgUnitsChange($event)"
       ></ia-autocomplete-input>
     </div>
   </div>

@@ -51,7 +51,7 @@
           [placeholderEnd]="t('timeRangePlaceholderEnd')"
           [disabled]="disabledTimeRangeFilter"
           (selected)="timeRangeSelected($event)"
-          [selectedTime]="selectedTime"
+          [selectedTime]="selectedTime?.id"
         ></ia-date-input>
       </div>
     </div>

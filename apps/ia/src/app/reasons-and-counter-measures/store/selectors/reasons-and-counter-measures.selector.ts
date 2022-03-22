@@ -2,36 +2,31 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import {
-  getBeautifiedSelectedTimeRange,
   getSelectedTimePeriod,
+  getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import { ChartLegendItem } from '../../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../../shared/charts/models/doughnut-chart-data.model';
-import { EmployeesRequest, TimePeriod } from '../../../shared/models';
+import {
+  Filter,
+  FilterKey,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../shared/models';
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 import {
   ReasonsAndCounterMeasuresState,
+  selectAllComparedSelectedFilters,
   selectReasonsAndCounterMeasuresState,
 } from '..';
 import * as utils from './reasons-and-counter-measures.selector.utils';
 import { getColorsForChart } from './reasons-and-counter-measures.selector.utils';
 
-export const getComparedSelectedOrgUnit = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedOrgUnit
-);
-
 export const getComparedSelectedTimePeriod = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
     state.reasonsForLeaving.comparedSelectedTimePeriod
-);
-
-export const getComparedSelectedTimeRange = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedTimeRange
 );
 
 export const getReasonsData = createSelector(
@@ -59,16 +54,16 @@ export const getReasonsChartData = createSelector(
 
 export const getReasonsChartConfig = createSelector(
   getReasonsData,
-  getBeautifiedSelectedTimeRange,
+  getSelectedTimeRange,
   getSelectedTimePeriod,
   getReasonsChartData,
   (
     stats: ReasonForLeavingStats[],
-    timeRange: string,
+    timeRange: IdValue,
     timePeriod: TimePeriod,
     originalData: DoughnutChartData[]
   ) => ({
-    title: getTimeRangeTitle(timePeriod, timeRange),
+    title: getTimeRangeTitle(timePeriod, timeRange.value),
     subTitle:
       stats === undefined || stats.length === 0
         ? translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData')
@@ -78,23 +73,53 @@ export const getReasonsChartConfig = createSelector(
   })
 );
 
-export const getSelectedComparedTimeRange = createSelector(
+const getComparedSelectedFilters = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedTimeRange
+    state.reasonsForLeaving.comparedSelectedFilters
 );
 
-export const getSelectedComparedFilters = createSelector(
+const getAllComparedSelectedFilters = createSelector(
+  getComparedSelectedFilters,
+  selectAllComparedSelectedFilters
+);
+
+export const getComparedOrgUnitsFilter = createSelector(
   selectReasonsAndCounterMeasuresState,
   (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedOrgUnit
+    new Filter(
+      FilterKey.ORG_UNIT,
+      state.reasonsForLeaving.comparedOrgUnits.items
+    )
 );
 
-export const getCurrentComparedFiltersAndTime = createSelector(
-  getSelectedComparedTimeRange,
-  getSelectedComparedFilters,
-  (timeRange: string, orgUnit: string) =>
-    ({ orgUnit, timeRange } as EmployeesRequest)
+export const getComparedSelectedTimeRange = createSelector(
+  getAllComparedSelectedFilters,
+  (filters: SelectedFilter[]) =>
+    filters.find((filter) => filter.name === FilterKey.TIME_RANGE)?.idValue
+);
+
+export const getComparedSelectedOrgUnit = createSelector(
+  getAllComparedSelectedFilters,
+  (filters: SelectedFilter[]) =>
+    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.idValue
+);
+
+export const getComparedSelectedOrgUnitLoading = createSelector(
+  selectReasonsAndCounterMeasuresState,
+  (state: ReasonsAndCounterMeasuresState) =>
+    state.reasonsForLeaving.comparedOrgUnits.loading
+);
+
+export const getCurrentComparedFilters = createSelector(
+  getAllComparedSelectedFilters,
+  (filters: SelectedFilter[]) =>
+    // eslint-disable-next-line unicorn/no-array-reduce
+    filters.reduce((map: any, filter) => {
+      map[filter.name] = filter.idValue.id;
+
+      return map;
+    }, {})
 );
 
 export const getComparedReasonsData = createSelector(
@@ -114,25 +139,6 @@ export const getComparedReasonsLoading = createSelector(
     state.reasonsForLeaving.comparedReasons.loading
 );
 
-export const getComparedBeautifiedSelectedTimeRange = createSelector(
-  getSelectedComparedTimeRange,
-  (timeRange: string) => {
-    const dates = timeRange?.split('|');
-
-    return timeRange
-      ? `${new Date(+dates[0]).toLocaleDateString('en-US')} - ${new Date(
-          +dates[1]
-        ).toLocaleDateString('en-US')}`
-      : undefined;
-  }
-);
-
-export const getComparedTimePeriod = createSelector(
-  selectReasonsAndCounterMeasuresState,
-  (state: ReasonsAndCounterMeasuresState) =>
-    state.reasonsForLeaving.comparedSelectedTimePeriod
-);
-
 export const getComparedReasonsChartData = createSelector(
   getComparedReasonsData,
   (reasons: ReasonForLeavingStats[]) =>
@@ -141,18 +147,18 @@ export const getComparedReasonsChartData = createSelector(
 
 export const getComparedReasonsChartConfig = createSelector(
   getComparedReasonsData,
-  getComparedBeautifiedSelectedTimeRange,
-  getComparedTimePeriod,
+  getComparedSelectedTimeRange,
+  getComparedSelectedTimePeriod,
   getReasonsChartData,
   getComparedReasonsChartData,
   (
     stats: ReasonForLeavingStats[],
-    timeRange: string,
+    timeRange: IdValue,
     timePeriod: TimePeriod,
     originalData: DoughnutChartData[],
     compareData: DoughnutChartData[]
   ) => ({
-    title: getTimeRangeTitle(timePeriod, timeRange),
+    title: getTimeRangeTitle(timePeriod, timeRange.value),
     subTitle:
       stats === undefined || stats.length === 0
         ? translate('reasonsAndCounterMeasures.topFiveReasons.chart.noData')
@@ -195,8 +201,8 @@ export const getPercentageValue = (part: number, total: number) => {
 
   return Number.parseFloat(((part / total) * 100).toFixed(1));
 };
-function getTimeRangeTitle(timePeriod: TimePeriod, timeRange: string): any {
-  return timePeriod === TimePeriod.LAST_12_MONTHS
+
+const getTimeRangeTitle = (timePeriod: TimePeriod, timeRange: string): string =>
+  timePeriod === TimePeriod.LAST_12_MONTHS
     ? translate(`filters.periodOfTime.${TimePeriod.LAST_12_MONTHS}`)
     : timeRange;
-}

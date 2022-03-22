@@ -165,11 +165,23 @@ describe('Overview Selector', () => {
       },
     },
     filter: {
-      selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
       selectedFilters: {
-        ids: [FilterKey.ORG_UNIT],
+        ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],
         entities: {
-          orgUnit: { name: FilterKey.ORG_UNIT, id: 'Schaeffler_IT' },
+          [FilterKey.ORG_UNIT]: {
+            name: FilterKey.ORG_UNIT,
+            idValue: {
+              id: 'Schaeffler_IT',
+              value: 'Schaeffler_IT',
+            },
+          },
+          [FilterKey.TIME_RANGE]: {
+            name: FilterKey.TIME_RANGE,
+            idValue: {
+              id: '1577863715000|1609399715000',
+              value: '01.01.2020 - 31.12.2020',
+            },
+          },
         },
       },
     } as unknown as FilterState,

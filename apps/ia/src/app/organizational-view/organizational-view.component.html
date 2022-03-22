@@ -10,7 +10,7 @@
     <ia-org-chart
       *ngIf="selectedChart === chartType.ORG_CHART"
       [data]="orgChart$ | ngrxPush"
-      [selectedTimeRange]="selectedTimeRange$ | ngrxPush"
+      [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
       [isLoading]="isLoadingOrgChart$ | ngrxPush"
       (showParent)="loadParent($event)"
     ></ia-org-chart>
@@ -18,7 +18,7 @@
       *ngIf="selectedChart === chartType.WORLD_MAP"
       [data]="worldMap$ | ngrxPush"
       [continents]="continents$ | ngrxPush"
-      [selectedTimeRange]="selectedTimeRange$ | ngrxPush"
+      [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
       [isLoading]="isLoadingWorldMap$ | ngrxPush"
     ></ia-world-map>
   </div>
