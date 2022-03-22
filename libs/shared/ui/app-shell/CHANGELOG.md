@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.6...app-shell-v0.0.7) (2022-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **app-shell:** fix html format issues ([b592a60](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b592a604077ffbbb0bcb36386de41c5346b5def1))
+* **workspace:** fix eslint configuration for local and ci execution ([#3598](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3598)) ([4a7dc1f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4a7dc1fe79d94b6d8ddfa7cf2644e3bbc11a3e80))
+
+
+### ✏️ Documentation
+
+* adjust to suggest material icon source ([a73e91b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a73e91b89002ba7f7768461b1fae6713cc88a30a))
+
+
+### 🎸 Features
+
+* **app-shell:** extend root tailwind config ([72f637b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/72f637baf7a42fdffe455213053231c6006b6870))
+* **style:** add new color variables ([#3391](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3391)) ([072e93c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/072e93cc90858f751717e10e383f87ab2d4c61f6))
+
 ### [0.0.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.5...app-shell-v0.0.6) (2022-01-11)
 
 
