@@ -10,8 +10,6 @@ import {
 
 import {
   ColDef,
-  Column,
-  FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
   RowSelectedEvent,
@@ -150,15 +148,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }, 0);
   }
 
-  public onFirstDataRendered(event: FirstDataRenderedEvent): void {
-    if (!this.minified) {
-      event.columnApi.autoSizeColumns(
-        event.columnApi
-          .getAllColumns()
-          .filter((column: Column) => column.getId() !== 'checkbox')
-      );
-    }
-
+  public onFirstDataRendered(): void {
     this.selectNodes();
   }
 

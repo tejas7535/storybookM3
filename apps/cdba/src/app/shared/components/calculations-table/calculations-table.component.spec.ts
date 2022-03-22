@@ -2,7 +2,6 @@ import { SimpleChange } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
-  FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
   RowSelectedEvent,
@@ -182,31 +181,12 @@ describe('CalculationsTableComponent', () => {
   });
 
   describe('onFirstDataRendered', () => {
-    let params: FirstDataRenderedEvent;
-
     beforeEach(() => {
-      params = {
-        columnApi: {
-          getAllColumns: jest.fn(() => [
-            { getId: () => 'checkbox' },
-            { getId: () => 'calculationDate' },
-          ]),
-          autoSizeColumns: jest.fn(),
-        },
-      } as unknown as FirstDataRenderedEvent;
-
       component['selectNodes'] = jest.fn();
     });
 
-    it('should autosize the columns', () => {
-      component.onFirstDataRendered(params);
-
-      expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
-      expect(params.columnApi.getAllColumns).toHaveBeenCalled();
-    });
-
     it('should call selectNodes', () => {
-      component.onFirstDataRendered(params);
+      component.onFirstDataRendered();
 
       expect(component['selectNodes']).toHaveBeenCalled();
     });
