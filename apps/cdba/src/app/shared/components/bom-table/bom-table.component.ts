@@ -73,14 +73,6 @@ export class BomTableComponent implements OnChanges {
   sideBar = this.sidebarService.SIDE_BAR_CONFIG;
   excelStyles = BOM_TABLE_EXCEL_STYLES;
   rowClassRules = BOM_ROW_CLASS_RULES;
-
-  /*   components = {
-    customLoadingOverlay: CustomLoadingOverlayComponent,
-    customNoRowsOverlay: CustomNoRowsOverlayComponent,
-    bomTableStatusBar: BomTableStatusBarComponent,
-    bomMaterialDesignationCellRenderComponent:
-      BomMaterialDesignationCellRenderComponent,
-  }; */
   loadingOverlayComponent = 'customLoadingOverlay';
   noRowsOverlayComponent = 'customNoRowsOverlay';
   noRowsOverlayComponentParams: NoRowsParams = {
