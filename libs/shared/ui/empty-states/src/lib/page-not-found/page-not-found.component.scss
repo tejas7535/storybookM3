@@ -10,4 +10,11 @@
   max-height: 100%;
   max-width: 100%;
   width: 246px;
+
+  &.show-easter-egg {
+    background: url('https://media.giphy.com/media/JY5dig6xQ9S7u/giphy.gif')
+      no-repeat center;
+    height: 476px;
+    width: 490px;
+  }
 }

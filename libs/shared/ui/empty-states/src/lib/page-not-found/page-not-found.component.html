@@ -3,7 +3,10 @@
   data-cy="pageNotFound"
   *transloco="let t"
 >
-  <div class="page-not-found"></div>
+  <div
+    class="page-not-found"
+    [ngClass]="{ 'show-easter-egg': showEasterEgg() }"
+  ></div>
   <h4 class="mb-4 text-high-emphasis">
     {{ t('pageNotFound') }}
   </h4>
