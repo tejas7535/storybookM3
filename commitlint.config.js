@@ -9,7 +9,7 @@ const Configuration = {
   },
 };
 
-const nonNxProjectScopes = ['deps', 'jenkinsfile', 'workspace'];
+const nonNxProjectScopes = ['deps', 'jenkinsfile', 'workspace', 'docs'];
 
 function getProjects(context) {
   return Promise.resolve()
