@@ -18,6 +18,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'materialNumbers',
     headerName: 'Material Numbers',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'manufacturerSupplierName',
@@ -33,11 +34,13 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'manufacturerSupplierKind',
     headerName: 'Kind',
     filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: 'minDimension',
     headerName: 'Min Dimension',
     filter: 'agNumberColumnFilter',
+    hide: true,
   },
   {
     field: 'maxDimension',
@@ -48,7 +51,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'ratingKindName',
     headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
-    hide: true,
   },
   {
     field: 'co2PerTon',
@@ -66,7 +68,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'shapeName',
     headerName: 'Product Category',
     filterParams: FILTER_PARAMS,
-    hide: true,
   },
   {
     field: 'shapeCode',
