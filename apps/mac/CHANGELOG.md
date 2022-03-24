@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.3.0...mac-v0.4.0) (2022-03-24)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** correct rating column ([#3906](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3906)) ([3c6aee0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3c6aee0cfea2e6498d4a7a25a922f8854fd9e826))
+
+
+### 🎸 Features
+
+* **mac:** change default cols in msd ([#3914](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3914)) ([6081502](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6081502d8edb912b8498ecf57835a6bcfa3e7ee1))
+* **tailwind:** add nordic blue to text and border color ([#3871](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3871)) ([d0bcf67](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d0bcf6702c0732f563dd6972d8a5b825e193378d))
+
 ## [0.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.2.0...mac-v0.3.0) (2022-03-10)
 
 
