@@ -71,7 +71,7 @@
     "@azure/msal-browser": "2.22.1",
     "@caeonline/dynamic-forms": "0.5.0",
     "@fontsource/material-icons": "4.5.4",
-    "@fontsource/roboto": "4.5.3",
+    "@fontsource/roboto": "4.5.5",
     "@microsoft/applicationinsights-web": "2.7.4",
     "@ng-web-apis/common": "2.0.0",
     "@ngneat/cashew": "3.0.0",
