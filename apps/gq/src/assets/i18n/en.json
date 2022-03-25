@@ -172,7 +172,7 @@
           "salesIndication": "Data Source",
           "year": "Year",
           "country": "Country",
-          "abcClassification": "Customer Classification",
+          "netSalesClassification": "Customer Classification",
           "region": "Customer Region",
           "sectorManagement": "Sector Management",
           "competitor": "Competitor",

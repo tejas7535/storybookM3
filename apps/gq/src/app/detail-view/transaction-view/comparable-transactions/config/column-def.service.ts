@@ -67,9 +67,9 @@ export class ColumnDefService {
     },
     {
       headerName: translate(
-        'transactionView.transactions.table.abcClassification'
+        'transactionView.transactions.table.netSalesClassification'
       ),
-      field: 'abcClassification',
+      field: 'netSalesClassification',
       filterParams: FILTER_PARAMS,
     },
     {

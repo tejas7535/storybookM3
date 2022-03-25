@@ -1,4 +1,4 @@
-import { AbcClassification } from '../../../../../shared/models/customer';
+import { NetSalesClassification } from '../../../../../shared/models/customer';
 import { SalesIndication } from './sales-indication.enum';
 
 export interface ComparableLinkedTransaction {
@@ -12,7 +12,7 @@ export interface ComparableLinkedTransaction {
   profitMargin: number;
   salesIndication: SalesIndication;
   year: string;
-  abcClassification: AbcClassification;
+  netSalesClassification: NetSalesClassification;
   region: string;
   sectorManagement: string;
   competitor: string;

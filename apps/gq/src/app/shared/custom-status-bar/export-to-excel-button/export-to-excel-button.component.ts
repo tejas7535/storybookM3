@@ -491,7 +491,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: customer.abcClassification,
+            value: customer.netSalesClassification,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },

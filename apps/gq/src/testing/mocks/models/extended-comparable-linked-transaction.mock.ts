@@ -1,6 +1,6 @@
 import { ExtendedComparableLinkedTransaction } from '../../../app/core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { SalesIndication } from '../../../app/core/store/reducers/transactions/models/sales-indication.enum';
-import { AbcClassification } from '../../../app/shared/models/customer';
+import { NetSalesClassification } from '../../../app/shared/models/customer';
 
 export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLinkedTransaction =
   {
@@ -23,7 +23,7 @@ export const EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK: ExtendedComparableLink
     quantity: 100,
     salesIndication: SalesIndication.INVOICE,
     year: '2020',
-    abcClassification: AbcClassification.A,
+    netSalesClassification: NetSalesClassification.A,
     region: 'EU',
     sectorManagement: 'PT',
     competitor: 'competitor',

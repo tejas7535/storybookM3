@@ -585,7 +585,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: CUSTOMER_MOCK.abcClassification,
+              value: CUSTOMER_MOCK.netSalesClassification,
             },
             styleId: excelStyleObjects.excelTextBorder.id,
           },
@@ -796,7 +796,7 @@ describe('ExportToExcelButtonComponent', () => {
           inputQuantity: 'Input Quantity',
           customerId: 'Customer Number',
           customerName: 'Customer Name',
-          abcClassification: 'Customer Classification',
+          netSalesClassification: 'Customer Classification',
           keyAccount: 'Customer Key Account',
           subKeyAccount: 'Customer Subkey Account',
           sector: 'Customer Sector',

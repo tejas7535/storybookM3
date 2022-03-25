@@ -1,6 +1,6 @@
 import {
-  AbcClassification,
   Customer,
+  NetSalesClassification,
 } from '../../../app/shared/models/customer';
 import { MARGIN_DETAIL_MOCK } from './margin-detail.mock';
 
@@ -41,6 +41,6 @@ export const CUSTOMER_MOCK: Customer = {
   customRegion3: 'customRegion3',
   sectorCluster: 'sectorCluster',
   sectorClusterChina: 'sectorClusterChina',
-  abcClassification: AbcClassification.A,
+  netSalesClassification: NetSalesClassification.A,
   marginDetail: MARGIN_DETAIL_MOCK,
 };

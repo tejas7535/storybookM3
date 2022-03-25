@@ -1,7 +1,7 @@
-import { AbcClassification } from './abc-classification.enum';
 import { AccountPotential } from './account-potential.model';
 import { CustomerIds } from './customer-ids.model';
 import { MarginDetail } from './margin-detail.model';
+import { NetSalesClassification } from './net-sales-classification';
 
 export class Customer {
   public identifier: CustomerIds;
@@ -30,7 +30,7 @@ export class Customer {
   public customRegion3: string;
   public sectorCluster: string;
   public sectorClusterChina: string;
-  public abcClassification: AbcClassification;
+  public netSalesClassification: NetSalesClassification;
   public marginDetail: MarginDetail;
   public accountPotential: AccountPotential;
 }
