@@ -111,7 +111,7 @@
     "@commitlint/cz-commitlint": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
     "@geometricpanda/storybook-addon-badges": "0.2.1",
-    "@ngneat/spectator": "10.0.0",
+    "@ngneat/spectator": "10.0.1",
     "@ngneat/transloco-keys-manager": "3.3.3",
     "@ngneat/transloco-optimize": "3.0.2",
     "@ngneat/transloco-validator": "3.0.1",
