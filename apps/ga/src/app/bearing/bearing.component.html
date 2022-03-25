@@ -28,8 +28,34 @@
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
   <ng-template #detail_selection>
-    <div class="flex flex-col bg-sunny-yellow">
-      <p>WIP: advanced selection set in background</p>
+    <div class="flex flex-col">
+      <form [formGroup]="bearingExtendedSearchParametersForm">
+        <ga-select
+          [control]="bearingType"
+          [label]="t('bearingType')"
+          [options]="bearingTypes"
+        ></ga-select>
+        <div class="flex flex-row">
+          <ga-input
+            [control]="minDi"
+            [label]="t('boreDiameter') + ' ' + t('min')"
+            [unit]="t('mm')"
+            [placeholder]="
+              t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('min') })
+            "
+            [onlyPositive]="true"
+          ></ga-input>
+          <ga-input
+            [control]="maxDi"
+            [label]="t('boreDiameter') + ' ' + t('max')"
+            [unit]="t('mm')"
+            [placeholder]="
+              t('pleaseEnter', { label: t('boreDiameter') }) + ' ' + t('max')
+            "
+            [onlyPositive]="true"
+          ></ga-input>
+        </div>
+      </form>
       <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre>
       <button
         mat-button

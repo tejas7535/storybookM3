@@ -14,6 +14,7 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingEffects } from '../core/store';
+import { SharedModule } from '../shared/shared.module';
 import { bearingReducer } from './../core/store/reducers/bearing/bearing.reducer';
 import { BearingComponent } from './bearing.component';
 import { BearingRoutingModule } from './bearing-routing.module';
@@ -23,6 +24,7 @@ import { BearingRoutingModule } from './bearing-routing.module';
   imports: [
     CommonModule,
     BearingRoutingModule,
+    SharedModule,
     ReactiveFormsModule,
 
     // Schaeffler Libs

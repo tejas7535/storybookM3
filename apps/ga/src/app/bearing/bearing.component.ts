@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -34,6 +34,7 @@ import {
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { bearingTypes } from '../shared/constants';
 import { ExtendedSearchParameters } from '../shared/models';
 import {
   getModelCreationSuccess,
@@ -48,7 +49,28 @@ export class BearingComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
   localDev = environment.localDev;
-  detailSelection = false;
+  detailSelection = true;
+  bearingTypes = bearingTypes;
+
+  pattern = new FormControl(undefined);
+  bearingType = new FormControl(undefined);
+  minDi = new FormControl(undefined);
+  maxDi = new FormControl(undefined);
+  minDa = new FormControl(undefined);
+  maxDa = new FormControl(undefined);
+  minB = new FormControl(undefined);
+  maxB = new FormControl(undefined);
+
+  bearingExtendedSearchParametersForm = new FormGroup({
+    pattern: this.pattern,
+    bearingType: this.bearingType,
+    minDi: this.minDi,
+    maxDi: this.maxDi,
+    minDa: this.minDa,
+    maxDa: this.maxDa,
+    minB: this.minB,
+    maxB: this.maxB,
+  });
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;
@@ -70,6 +92,10 @@ export class BearingComponent implements OnInit, OnDestroy {
     this.bearingExtendedSearchParameters$ = this.store.select(
       getBearingExtendedSearchParameters
     );
+    this.bearingExtendedSearchParameters$.subscribe((value) =>
+      this.bearingExtendedSearchParametersForm.setValue(value)
+    );
+
     this.bearingResultList$ = this.store.select(getBearingResultList);
     this.bearingResultExtendedSearchList$ = this.store.select(
       getBearingExtendedSearchResultList

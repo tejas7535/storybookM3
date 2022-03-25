@@ -35,7 +35,15 @@
     "easySelection": "Zurück zur einfachen Lagerauswahl",
     "noResults": "Keine Ergebnisse",
     "modelCreationError": "Für das Lager {{bearing}} kann aktuell keine Berechnung durchgeführt werden.",
-    "close": "Schließen"
+    "close": "Schließen",
+    "pleaseEnter": "{{label}} angeben",
+    "bearingType": "Lagerbauart",
+    "boreDiameter": "Bohrungsdurchmesser",
+    "outsideDiameter": "Außendurchmesser",
+    "width": "Breite",
+    "min": "Min",
+    "max": "Max",
+    "mm": "mm"
   },
   "parameters": {
     "showDetails": "Details anzeigen",
