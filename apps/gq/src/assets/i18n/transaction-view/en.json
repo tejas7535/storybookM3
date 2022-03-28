@@ -18,7 +18,7 @@
       "year": "Year",
       "country": "Country",
       "customerId": "Customer Number",
-      "netClassification": "Customer Classification",
+      "netSalesClassification": "Customer Classification",
       "region": "Customer Region",
       "sectorManagement": "Sector Management",
       "competitor": "Competitor",

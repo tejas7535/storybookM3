@@ -222,6 +222,14 @@ export class ColumnDefService {
       filterParams: FILTER_PARAMS,
     },
     {
+      headerName: translate(
+        'shared.quotationDetailsTable.detailReasonForRejection'
+      ),
+      field: 'lastOfferDetail.detailReasonForRejection',
+      valueFormatter: ColumnUtilityService.basicTransform,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.freeStock'),
       field: 'materialStockByPlant.freeStock',
       valueFormatter: ColumnUtilityService.numberDashFormatter,

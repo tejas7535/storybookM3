@@ -35,6 +35,7 @@
       "lastOfferPrice": "Letzter Angebotspreis",
       "lastOfferDate": "Datum letztes Angebot",
       "reasonForRejection": "Absagegrund",
+      "detailReasonForRejection": "Text Absagegrund",
       "itemComment": "Kommentar",
       "followingType": "Folgetype",
       "materialStatus": "Materialstatus",

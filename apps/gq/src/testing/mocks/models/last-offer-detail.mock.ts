@@ -3,5 +3,6 @@ import { LastOfferDetail } from '../../../app/shared/models/quotation-detail/las
 export const LAST_OFFER_DETAIL_MOCK: LastOfferDetail = {
   lastOfferDate: '2011-02-03T14:19:44.5734925',
   lastOfferPrice: 190,
-  reasonForRejection: 'BA',
+  reasonForRejection: 'EE',
+  detailReasonForRejection: 'Project rejected',
 };

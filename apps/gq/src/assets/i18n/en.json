@@ -35,6 +35,7 @@
       "lastOfferPrice": "Last Offer Price",
       "lastOfferDate": "Last Offer Date",
       "reasonForRejection": "Reason For Rejection",
+      "detailReasonForRejection": "Descr. Reason",
       "itemComment": "Comment",
       "followingType": "Following Type",
       "materialStatus": "Material Status",
