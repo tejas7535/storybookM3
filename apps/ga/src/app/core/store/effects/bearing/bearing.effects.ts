@@ -16,10 +16,7 @@ import {
   searchBearingExtended,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
-import {
-  getBearingExtendedSearchParameters,
-  getSelectedBearing,
-} from '../../selectors/bearing/bearing.selector';
+import { getSelectedBearing } from '../../selectors/bearing/bearing.selector';
 
 @Injectable()
 export class BearingEffects {
@@ -44,10 +41,11 @@ export class BearingEffects {
   extendedBearingSearch$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(searchBearingExtended),
-      concatLatestFrom(() =>
-        this.store.select(getBearingExtendedSearchParameters)
-      ),
-      map(([_action, parameters]) => parameters),
+      map((action) => {
+        console.log(action.parameters);
+
+        return action.parameters;
+      }),
       mergeMap(
         (parameters: ExtendedSearchParameters) =>
           this.restService

@@ -55,14 +55,50 @@
             [onlyPositive]="true"
           ></ga-input>
         </div>
+        <div class="flex flex-row">
+          <ga-input
+            [control]="minDa"
+            [label]="t('outsideDiameter') + ' ' + t('min')"
+            [unit]="t('mm')"
+            [placeholder]="
+              t('pleaseEnter', { label: t('outsideDiameter') + ' ' + t('min') })
+            "
+            [onlyPositive]="true"
+          ></ga-input>
+          <ga-input
+            [control]="maxDa"
+            [label]="t('outsideDiameter') + ' ' + t('max')"
+            [unit]="t('mm')"
+            [placeholder]="
+              t('pleaseEnter', { label: t('outsideDiameter') }) + ' ' + t('max')
+            "
+            [onlyPositive]="true"
+          ></ga-input>
+        </div>
+        <div class="flex flex-row">
+          <ga-input
+            [control]="minB"
+            [label]="t('width') + ' ' + t('min')"
+            [unit]="t('mm')"
+            [placeholder]="
+              t('pleaseEnter', { label: t('width') + ' ' + t('min') })
+            "
+            [onlyPositive]="true"
+          ></ga-input>
+          <ga-input
+            [control]="maxB"
+            [label]="t('width') + ' ' + t('max')"
+            [unit]="t('mm')"
+            [placeholder]="
+              t('pleaseEnter', { label: t('width') }) + ' ' + t('max')
+            "
+            [onlyPositive]="true"
+          ></ga-input>
+        </div>
       </form>
       <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre>
-      <button
-        mat-button
-        color="primary"
-        (click)="handleBearingExtendedSearch()"
-      >
-        Search
+      <button mat-raised-button class="w-full" color="primary">
+        Todo: Lager aus Liste Auswählen ()
       </button>
       <div *ngIf="bearingResultExtendedSearchList$ | ngrxPush as bearings">
         <h5>{{ bearings.length }} Results</h5>

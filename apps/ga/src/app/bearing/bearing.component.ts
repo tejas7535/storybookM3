@@ -120,6 +120,21 @@ export class BearingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+
+    this.bearingExtendedSearchParametersForm.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        take(2),
+        map((parameters: ExtendedSearchParameters) => {
+          console.log(parameters);
+          this.store.dispatch(searchBearingExtended({ parameters }));
+          // this.bearingExtendedSearchParametersForm.updateValueAndValidity({
+          //   emitEvent: false,
+          // });
+        })
+      )
+      .subscribe();
   }
 
   ngOnDestroy() {
@@ -156,9 +171,5 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   public toggleSelection(): void {
     this.detailSelection = !this.detailSelection;
-  }
-
-  public handleBearingExtendedSearch(): void {
-    this.store.dispatch(searchBearingExtended());
   }
 }

@@ -1,5 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { ExtendedSearchParameters } from '../../../../shared/models';
+
 export const searchBearing = createAction(
   '[Bearing] Search Bearing',
   props<{ query: string }>()
@@ -13,7 +15,8 @@ export const bearingSearchSuccess = createAction(
 // todo bearingSearchFailure
 
 export const searchBearingExtended = createAction(
-  '[Bearing] Search Bearing Extended'
+  '[Bearing] Search Bearing Extended',
+  props<{ parameters: ExtendedSearchParameters }>()
 );
 
 export const bearingSearchExtendedSuccess = createAction(
