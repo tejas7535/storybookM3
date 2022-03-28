@@ -8,10 +8,10 @@ import { of } from 'rxjs';
 
 import {
   IStatusPanelParams,
+  ProcessCellForExportParams,
   ProcessHeaderForExportParams,
 } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
-import { ProcessCellForExportParams } from '@ag-grid-community/core/dist/cjs/interfaces/exportParams';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';

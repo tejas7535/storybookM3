@@ -26,8 +26,8 @@ import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import {
+  COMPONENTS,
   DEFAULT_COLUMN_DEFS,
-  FRAMEWORK_COMPONENTS,
   MODULES,
   STATUS_BAR_CONFIG,
 } from './config';
@@ -81,7 +81,7 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   public statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
 
-  public frameworkComponents = FRAMEWORK_COMPONENTS;
+  public components = COMPONENTS;
 
   public columnDefs$: Observable<ColDef[]>;
   public rowSelection = 'multiple';

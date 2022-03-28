@@ -7,8 +7,8 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
 import {
   BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
+  COMPONENTS,
   DEFAULT_COLUMN_DEFS,
-  FRAMEWORK_COMPONENTS,
   MODULES,
 } from './config';
 
@@ -22,7 +22,7 @@ export class InputTableComponent implements OnInit {
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs: ColDef[];
   public statusBar: StatusBarConfig;
-  public frameworkComponents = FRAMEWORK_COMPONENTS;
+  public components = COMPONENTS;
 
   @Input() isCaseView: boolean;
   @Input() rowData: any[];

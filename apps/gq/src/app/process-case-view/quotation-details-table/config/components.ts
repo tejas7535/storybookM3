@@ -10,7 +10,7 @@ import { RefreshSapPriceComponent } from '../../../shared/custom-status-bar/refr
 import { TotalRowCountComponent } from '../../../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../../../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 
-export const FRAMEWORK_COMPONENTS = {
+export const COMPONENTS = {
   QuotationDetailsStatusComponent,
   TotalRowCountComponent,
   DeleteItemsButtonComponent,

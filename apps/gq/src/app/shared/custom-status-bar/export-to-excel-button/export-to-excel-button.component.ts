@@ -7,17 +7,15 @@ import { Observable, Subscription } from 'rxjs';
 
 import {
   ExcelCell,
+  ExcelDataType,
   ExcelExportParams,
+  ExcelOOXMLDataType,
   IStatusPanelParams,
   ProcessCellForExportParams,
   ProcessHeaderForExportParams,
   ValueFormatterParams,
 } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
-import {
-  ExcelDataType,
-  ExcelOOXMLDataType,
-} from '@ag-grid-community/core/dist/cjs/interfaces/iExcelCreator';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 

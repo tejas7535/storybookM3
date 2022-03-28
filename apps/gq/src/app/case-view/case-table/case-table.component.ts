@@ -11,8 +11,8 @@ import {
 } from '../../shared/constants';
 import { ViewQuotation } from '../models/view-quotation.model';
 import {
+  COMPONENTS,
   DEFAULT_COLUMN_DEFS,
-  FRAMEWORK_COMPONENTS,
   MODULES,
   STATUS_BAR_CONFIG,
 } from './config';
@@ -32,7 +32,7 @@ export class CaseTableComponent implements OnInit {
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
   public statusBar = STATUS_BAR_CONFIG;
-  public frameworkComponents = FRAMEWORK_COMPONENTS;
+  public components = COMPONENTS;
   public rowSelection = 'multiple';
   public localeText$: Observable<AgGridLocale>;
 

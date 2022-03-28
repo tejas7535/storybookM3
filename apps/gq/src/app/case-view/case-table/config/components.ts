@@ -4,7 +4,7 @@ import { CreateManualCaseButtonComponent } from '../../../shared/custom-status-b
 import { ImportCaseButtonComponent } from '../../../shared/custom-status-bar/case-view/import-case-button/import-case-button.component';
 import { DeleteCaseButtonComponent } from '../../../shared/custom-status-bar/delete-case-button/delete-case-button.component';
 
-export const FRAMEWORK_COMPONENTS = {
+export const COMPONENTS = {
   deleteCaseButtonComponent: DeleteCaseButtonComponent,
   importCaseButtonComponent: ImportCaseButtonComponent,
   createManualCaseButtonComponent: CreateManualCaseButtonComponent,
