@@ -16,9 +16,10 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { GreaseReportService } from './grease/grease-report.service';
-import { TableItem, TitleId, Type } from './models';
-import { Subordinate } from './models/subordinate.model';
+import { MEDIASGREASE, Subordinate, TableItem, TitleId, Type } from './models';
 import { ReportService } from './report.service';
 
 @Component({
@@ -51,7 +52,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly reportService: ReportService,
     private readonly snackbar: MatSnackBar,
-    private readonly greaseReportService: GreaseReportService
+    private readonly greaseReportService: GreaseReportService,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -161,4 +163,10 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   public filteredData = (data: any[]): any[] => data.filter(Boolean);
+
+  public trackGreaseSelection(grease: string): void {
+    this.applicationInsightsService.logEvent(MEDIASGREASE, {
+      grease,
+    });
+  }
 }

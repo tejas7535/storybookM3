@@ -1,8 +1,18 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
-import { Field, Hint, Subordinate, TableItem, TitleId } from '../models';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
+import {
+  Field,
+  Hint,
+  Subordinate,
+  TableItem,
+  TitleId,
+  WARNINGSOPENED,
+} from '../models';
 import {
   automaticRelubricationPerMonth,
   automaticRelubricationPerWeek,
@@ -19,6 +29,10 @@ import {
 
 @Injectable()
 export class GreaseReportService {
+  public constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService
+  ) {}
+
   public formatGreaseReport(result: Subordinate[]): Subordinate[] {
     let formattedResult = result;
 
@@ -304,6 +318,7 @@ export class GreaseReportService {
       ...formattedResult,
       {
         identifier: 'block',
+        clickHandler: () => this.trackWarningsOpenend(),
         defaultOpen: !resultSection,
         title: translate('errorsWarningsNotes'), // language change not considered
         subordinates: result.filter(
@@ -384,5 +399,9 @@ export class GreaseReportService {
           section.titleID === TitleId.STRING_OUTP_RESULTS
       )?.subordinates?.length ?? 0
     );
+  }
+
+  public trackWarningsOpenend(): void {
+    this.applicationInsightsService.logEvent(WARNINGSOPENED);
   }
 }

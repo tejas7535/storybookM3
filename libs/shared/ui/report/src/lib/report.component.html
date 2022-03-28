@@ -53,7 +53,10 @@
             *ngFor="let section of result"
             [expanded]="section.defaultOpen"
           >
-            <mat-expansion-panel-header class="text-body-1">
+            <mat-expansion-panel-header
+              class="text-body-1"
+              (click)="!section.defaultOpen && section.clickHandler()"
+            >
               <mat-panel-title *transloco="let t">
                 <span
                   *ngIf="
@@ -228,6 +231,7 @@
                 subordinate.greaseResult.title
               "
               target="_blank"
+              (click)="trackGreaseSelection(subordinate.greaseResult.title)"
             >
               {{ subordinate.greaseResult.title }} &#10140;
             </a>

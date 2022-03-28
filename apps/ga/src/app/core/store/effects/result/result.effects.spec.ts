@@ -9,12 +9,14 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
-import { RestService, ErrorService } from '../../../services';
+import { PROPERTIES } from '../../../../shared/constants';
+import { ErrorService, RestService } from '../../../services';
 import {
   calculationError,
   calculationSuccess,
   getCalculation,
 } from '../../actions/result/result.actions';
+import { getCalculationParameters } from '../../selectors/parameter/parameter.selector';
 import { ResultEffects } from './result.effects';
 
 describe('Bearing Effects', () => {
@@ -62,6 +64,12 @@ describe('Bearing Effects', () => {
     store = spectator.inject(MockStore);
 
     router.navigate = jest.fn();
+
+    store.overrideSelector(getCalculationParameters, {
+      options: {
+        mockParameters: 'confirmed',
+      },
+    } as any);
   });
 
   describe('router$', () => {
@@ -129,6 +137,38 @@ describe('Bearing Effects', () => {
         m.flush();
 
         expect(errorService.openGenericSnackBar).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('calculationSuccess$', () => {
+    it('should not return an action', () => {
+      expect(metadata.calculationSuccess$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    it(
+      'trigger a app insights lov event call sending the params',
+      marbles((m) => {
+        const trackingSpy = jest.spyOn(
+          effects['applicationInsightsService'],
+          'logEvent'
+        );
+
+        const mockResultId = '123';
+        action = calculationSuccess({ resultId: mockResultId });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: undefined });
+
+        m.expect(effects.calculationSuccess$).toBeObservable(expected);
+        m.flush();
+
+        expect(trackingSpy).toHaveBeenCalledWith(PROPERTIES, {
+          mockParameters: 'confirmed',
+        });
       })
     );
   });

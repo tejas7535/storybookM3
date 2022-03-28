@@ -14,10 +14,12 @@ import {
 import { Store } from '@ngrx/store';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { availableLanguages } from './core/core.module';
 import { setLanguage } from './core/store/actions/settings/settings.actions';
+import { LANGUAGE } from './shared/constants';
 
 @Component({
   selector: 'ga-root',
@@ -51,7 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
     private readonly store: Store,
-    private readonly meta: Meta
+    private readonly meta: Meta,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {
     this.meta.addTags(this.metaTags);
   }
@@ -74,9 +77,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
     this.languageControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((language: string) =>
-        this.store.dispatch(setLanguage({ language }))
-      );
+      .subscribe((language: string) => {
+        this.store.dispatch(setLanguage({ language }));
+        this.trackLanguage(language);
+      });
     this.languageControl.setValue(this.translocoService.getActiveLang());
 
     this.router.events
@@ -90,6 +94,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.isCookiePage = url === LegalPath.CookiePath;
       });
+  }
+
+  public trackLanguage(language: string): void {
+    this.applicationInsightsService.logEvent(LANGUAGE, {
+      value: language,
+    });
   }
 
   public ngOnDestroy(): void {

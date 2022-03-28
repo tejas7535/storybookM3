@@ -6,6 +6,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, throwError } from 'rxjs';
 
@@ -15,7 +16,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { formattedGreaseJson, greaseReport } from '../mocks';
-import { TitleId } from './models';
+import { MEDIASGREASE, TitleId } from './models';
 import { ReportComponent } from './report.component';
 import { ReportService } from './report.service';
 
@@ -31,6 +32,7 @@ describe('ReportComponent', () => {
       CommonModule,
       HttpClientModule,
       provideTranslocoTestingModule({ en: {} }),
+      RouterTestingModule,
 
       ReactiveComponentModule,
 
@@ -331,6 +333,23 @@ describe('ReportComponent', () => {
       const result = component.filteredData(mockData);
 
       expect(result).toHaveLength(1);
+    });
+  });
+
+  describe('#trackGreaseSelection', () => {
+    it('should call the logEvent method', () => {
+      const mockGrease = 'RESI SCHMELZ';
+
+      const trackingSpy = jest.spyOn(
+        component['applicationInsightsService'],
+        'logEvent'
+      );
+
+      component.trackGreaseSelection(mockGrease);
+
+      expect(trackingSpy).toHaveBeenCalledWith(MEDIASGREASE, {
+        grease: mockGrease,
+      });
     });
   });
 });

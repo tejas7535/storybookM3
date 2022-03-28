@@ -17,4 +17,5 @@ export interface Subordinate {
   subordinates?: Subordinate[];
   defaultOpen?: boolean;
   content?: any;
+  clickHandler?: any;
 }

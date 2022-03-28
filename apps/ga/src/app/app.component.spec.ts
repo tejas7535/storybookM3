@@ -13,6 +13,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { setLanguage } from './core/store/actions/settings/settings.actions';
+import { LANGUAGE } from './shared/constants';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -78,6 +80,20 @@ describe('AppComponent', () => {
     });
   });
 
+  describe('languageChanges', () => {
+    it('should call setLanguage dispatch and trackLanguage method', () => {
+      const trackLanguageSpy = jest.spyOn(component, 'trackLanguage');
+      const mockLanguage = 'Esperanto';
+
+      component.languageControl.setValue(mockLanguage);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setLanguage({ language: mockLanguage })
+      );
+      expect(trackLanguageSpy).toHaveBeenCalledWith(mockLanguage);
+    });
+  });
+
   describe('updateFooterLinks', () => {
     it('should contain translated footerLinks', () => {
       const footerLinksResult = component['updateFooterLinks']();
@@ -104,6 +120,23 @@ describe('AppComponent', () => {
           external: false,
         },
       ]);
+    });
+  });
+
+  describe('#trackLanguage', () => {
+    it('should call the logEvent method', () => {
+      const mockLanguage = 'de';
+
+      const trackingSpy = jest.spyOn(
+        component['applicationInsightsService'],
+        'logEvent'
+      );
+
+      component.trackLanguage(mockLanguage);
+
+      expect(trackingSpy).toHaveBeenCalledWith(LANGUAGE, {
+        value: mockLanguage,
+      });
     });
   });
 });

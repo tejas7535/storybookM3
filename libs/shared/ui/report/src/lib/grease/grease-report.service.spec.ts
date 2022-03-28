@@ -1,3 +1,5 @@
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -7,14 +9,14 @@ import {
   formattedGreaseJson,
   greaseReport,
 } from '../../mocks';
-import { TitleId } from '../models';
+import { TitleId, WARNINGSOPENED } from '../models';
 import { GreaseReportService } from './grease-report.service';
 
 describe('ReportService testing', () => {
   let spectator: SpectatorService<GreaseReportService>;
   const createService = createServiceFactory({
     service: GreaseReportService,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    imports: [provideTranslocoTestingModule({ en: {} }), RouterTestingModule],
   });
 
   beforeEach(() => (spectator = createService()));
@@ -25,7 +27,7 @@ describe('ReportService testing', () => {
 
       const result = spectator.service.formatGreaseReport(mockGreaseReport);
 
-      expect(result).toStrictEqual(formattedGreaseJson);
+      expect(result).toMatchObject(formattedGreaseJson);
     });
   });
 
@@ -67,7 +69,7 @@ describe('ReportService testing', () => {
     it('should return only grease table entries that should be displayed', () => {
       const result = spectator.service.showActiveData(formattedGreaseJson);
 
-      expect(result).toStrictEqual(activeGreaseJson);
+      expect(result).toMatchObject(activeGreaseJson);
     });
   });
 
@@ -76,6 +78,19 @@ describe('ReportService testing', () => {
       const result = spectator.service.getResultAmount(formattedGreaseJson);
 
       expect(result).toStrictEqual(3);
+    });
+  });
+
+  describe('#trackWarningsOpenend', () => {
+    it('should call the logEvent method', () => {
+      const trackingSpy = jest.spyOn(
+        spectator.service['applicationInsightsService'],
+        'logEvent'
+      );
+
+      spectator.service.trackWarningsOpenend();
+
+      expect(trackingSpy).toHaveBeenCalledWith(WARNINGSOPENED);
     });
   });
 });

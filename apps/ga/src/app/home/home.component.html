@@ -8,7 +8,7 @@
     >
       <mat-card
         class="card-flex col-span-2 row-span-1 min-h-[224px] cursor-pointer content-between sm:min-h-[200px] md:col-span-2 md:row-span-2 md:w-full"
-        [routerLink]="greaseCalculationLink"
+        (click)="startCalculator()"
       >
         <h5>{{ t('greaseCalculator') }}</h5>
         <mat-card-content class="grow">
@@ -33,7 +33,7 @@
             mat-button
             color="primary"
             class="relative right-2 mb-4 uppercase md:right-1"
-            [routerLink]="greaseCalculationLink"
+            (click)="startCalculator()"
           >
             <div class="flex justify-between">
               <h4 class="mr-3 self-center font-normal !leading-none text-link">
@@ -57,6 +57,7 @@
           href="{{ t('greaseLink', { sources }) }}"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="trackCardClick('sources')"
         >
           <div class="text-center text-overline uppercase">
             {{ t('greases') }}
@@ -73,6 +74,7 @@
           href="{{ t('lubricatorsLink', { sources }) }}"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="trackCardClick('lubricatorsLink')"
         >
           <div class="mb-4 break-words text-center text-overline uppercase">
             {{ t('lubricators') }}
@@ -89,6 +91,7 @@
           href="{{ t('catalogLink', { sources }) }}"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="trackCardClick('catalogLink')"
         >
           <div class="text-center text-overline uppercase">
             {{ t('catalog') }}
@@ -107,6 +110,7 @@
           href="{{ t('faqLink', { sources }) }}"
           target="_blank"
           rel="noopener noreferrer"
+          (click)="trackCardClick('faqLink')"
         >
           <div class="text-center text-overline uppercase">
             {{ t('faq') }}
