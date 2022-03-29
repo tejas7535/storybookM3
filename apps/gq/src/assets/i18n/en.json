@@ -49,7 +49,10 @@
       "discount": "Discount %",
       "sapPrice": "SAP Price",
       "rsp": "RSP",
-      "msp": "MSP"
+      "msp": "MSP",
+      "toolTip": {
+        "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing."
+      }
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

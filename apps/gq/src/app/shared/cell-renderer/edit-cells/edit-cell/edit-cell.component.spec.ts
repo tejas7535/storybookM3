@@ -54,6 +54,7 @@ describe('EditCellComponent', () => {
 
       expect(component.params).toEqual(params);
       expect(component.isCellEditingAllowed).toBeTruthy();
+      expect(component.priceWarningEnabled).toBeFalsy();
     });
     test('should set params and disable cellEditing for missing price', () => {
       const params = {
@@ -68,6 +69,7 @@ describe('EditCellComponent', () => {
 
       expect(component.params).toEqual(params);
       expect(component.isCellEditingAllowed).toBeFalsy();
+      expect(component.priceWarningEnabled).toBeFalsy();
     });
     test('should set params but disabled cellEditing for orderQuantity', () => {
       const params = {
@@ -82,6 +84,24 @@ describe('EditCellComponent', () => {
 
       expect(component.params).toEqual(params);
       expect(component.isCellEditingAllowed).toBeFalsy();
+      expect(component.priceWarningEnabled).toBeFalsy();
+    });
+    test('should set params and enable priceWarning', () => {
+      const params = {
+        value: 21,
+        data: { msp: 22, price: 21 },
+        condition: {
+          enabled: true,
+          conditionField: ColumnFields.PRICE,
+        },
+        field: ColumnFields.PRICE,
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeTruthy();
+      expect(component.priceWarningEnabled).toBeTruthy();
     });
   });
 

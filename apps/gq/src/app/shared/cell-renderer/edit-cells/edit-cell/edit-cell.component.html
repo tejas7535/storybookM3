@@ -1,10 +1,20 @@
 <div *ngIf="params?.valueFormatted">
-  <span class="float-left w-[100px] truncate">
+  <span
+    class="float-left w-[100px] truncate"
+    [ngClass]="{ 'text-error': priceWarningEnabled }"
+  >
+    <mat-icon
+      *ngIf="priceWarningEnabled"
+      [matTooltip]="text"
+      matTooltipClass="whitespace-pre-line !text-caption"
+      class="mr-[10px] !w-3 cursor-help align-text-top !text-caption"
+      >warning_amber</mat-icon
+    >
     {{ params.valueFormatted }}
   </span>
   <mat-icon
     *ngIf="isCellEditingAllowed"
-    class="cursor-pointer !text-[16px] text-medium-emphasis"
+    class="cursor-pointer align-text-top !text-[16px] text-medium-emphasis"
     (click)="onIconClick()"
     >mode_edit</mat-icon
   >

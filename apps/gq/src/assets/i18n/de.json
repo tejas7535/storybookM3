@@ -49,7 +49,10 @@
       "discount": "Rabatt %",
       "sapPrice": "SAP Preis",
       "rsp": "RSP",
-      "msp": "MSP"
+      "msp": "MSP",
+      "toolTip": {
+        "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung."
+      }
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
