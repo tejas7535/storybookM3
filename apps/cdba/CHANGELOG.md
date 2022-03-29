@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.11.1...cdba-v2.12.0) (2022-03-29)
+
+
+### 🎸 Features
+
+* **cdba:** adjust bom sidebar (DSCDA-2900) ([53c429e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/53c429ea5293fff2cd39d7f802b689fd308aad24))
+* **cdba:** implement beta feature settings (DSCDA-2894) ([bd31393](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bd31393bdd96512cfec646db006370e8767681ae))
+* **cdba:** implement resizable sidebar (DSCDA-2900) ([b447f12](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b447f12f92fa2efa382b3065531cb90e3551a2eb))
+* **cdba:** introduce table row select radio button (DSCDA-2900) ([3709eff](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3709effc52e3de342d77278736228b73a1014c0f))
+
 ### [2.11.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.11.0...cdba-v2.11.1) (2022-03-09)
 
 
