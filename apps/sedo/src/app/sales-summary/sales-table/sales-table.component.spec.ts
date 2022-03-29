@@ -246,7 +246,9 @@ describe('SalesTableComponent', () => {
           applyColumnState: jest.fn(),
         },
       } as unknown as GridReadyEvent;
-      const mockColumnState = [{ colId: 'foo', sort: 'asc' }];
+      const mockColumnState: { colId: string; sort: 'asc' | 'desc' }[] = [
+        { colId: 'foo', sort: 'asc' },
+      ];
       component['agGridStateService'].getColumnState = jest.fn(
         () => mockColumnState
       );
