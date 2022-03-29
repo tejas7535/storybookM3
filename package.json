@@ -77,7 +77,7 @@
     "@ngneat/cashew": "3.0.0",
     "@ngneat/transloco": "4.0.0",
     "@ngneat/transloco-locale": "4.0.0",
-    "@ngneat/transloco-persist-lang": "3.0.1",
+    "@ngneat/transloco-persist-lang": "4.0.0",
     "@ngrx/component": "13.0.2",
     "@ngrx/component-store": "13.0.2",
     "@ngrx/effects": "13.0.2",
