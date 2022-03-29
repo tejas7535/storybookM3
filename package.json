@@ -158,7 +158,7 @@
     "lint-staged": "12.3.7",
     "markdown-include": "0.4.3",
     "markdown-magic": "2.6.0",
-    "markdown-magic-version-badge": "1.1.1",
+    "markdown-magic-version-badge": "1.1.2",
     "ng-mocks": "13.2.0",
     "ng-packagr": "13.3.0",
     "npm-audit-html": "2.0.0beta.2",
