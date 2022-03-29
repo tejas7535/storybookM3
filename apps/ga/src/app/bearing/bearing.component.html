@@ -107,16 +107,14 @@
         >
           {{ t('selectBearingFromList', { amount: bearings.length }) }}
         </button>
-        <mat-list role="list">
+        <div class="flex flex-col">
           <button
-            mat-list-item
             *ngFor="let bearing of bearings"
-            role="listitem"
             (click)="handleBearingSelection(bearing.id)"
           >
             {{ bearing.title }}
           </button>
-        </mat-list>
+        </div>
       </div>
     </div>
   </ng-template>

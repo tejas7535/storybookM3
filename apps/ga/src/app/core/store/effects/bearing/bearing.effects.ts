@@ -41,11 +41,7 @@ export class BearingEffects {
   extendedBearingSearch$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(searchBearingExtended),
-      map((action) => {
-        console.log(action.parameters);
-
-        return action.parameters;
-      }),
+      map((action) => action.parameters),
       mergeMap(
         (parameters: ExtendedSearchParameters) =>
           this.restService

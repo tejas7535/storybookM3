@@ -10,8 +10,8 @@ import {
   searchBearingExtended,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
+import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import { bearingReducer, initialState, reducer } from './bearing.reducer';
-
 describe('Bearing Reducer', () => {
   describe('Reducer function', () => {
     it('should return bearingReducer', () => {
@@ -47,11 +47,18 @@ describe('Bearing Reducer', () => {
   });
 
   describe('on searchBearingExtended', () => {
+    const mockParameters = {
+      ...BearingState.extendedSearch.parameters,
+      pattern: 'testquery',
+    };
     it('should set query and loading', () => {
-      const action: Action = searchBearingExtended();
+      const action: Action = searchBearingExtended({
+        parameters: mockParameters,
+      });
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBe(true);
+      expect(state.extendedSearch.parameters).toBe(mockParameters);
     });
   });
 

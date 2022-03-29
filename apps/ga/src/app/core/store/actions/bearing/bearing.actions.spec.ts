@@ -1,4 +1,5 @@
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
+import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
@@ -36,10 +37,15 @@ describe('Bearing Actions', () => {
 
   describe('Search Bearing Extended', () => {
     it('searchBearingExtended', () => {
-      const action = searchBearingExtended();
+      const mockParameters = {
+        ...BearingState.extendedSearch.parameters,
+        pattern: 'testquery',
+      };
+      const action = searchBearingExtended({ parameters: mockParameters });
 
       expect(action).toEqual({
         type: '[Bearing] Search Bearing Extended',
+        parameters: mockParameters,
       });
     });
   });

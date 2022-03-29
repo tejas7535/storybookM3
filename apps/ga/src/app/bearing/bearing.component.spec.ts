@@ -15,6 +15,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '../app-route-path.enum';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
+import { SharedModule } from '../shared/shared.module';
 import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
 import { getModelCreationSuccess } from './../core/store/selectors/bearing/bearing.selector';
 import { BearingComponent } from './bearing.component';
@@ -31,6 +32,7 @@ describe('BearingComponent', () => {
       SearchAutocompleteModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
+      SharedModule,
       SubheaderModule,
       ReactiveComponentModule,
       MatButtonModule,
@@ -45,14 +47,16 @@ describe('BearingComponent', () => {
               resultList: [],
             },
             extendedSearch: {
-              query: undefined,
-              bearingDesign: undefined,
-              innerDiameter: undefined,
-              innerDiameterDeviation: undefined,
-              outerDiameter: undefined,
-              outerDiameterDeviation: undefined,
-              width: undefined,
-              widthDeviation: undefined,
+              parameters: {
+                pattern: '',
+                bearingType: 'IDO_RADIAL_ROLLER_BEARING',
+                minDi: 20,
+                maxDi: 30,
+                minDa: 50,
+                maxDa: 60,
+                minB: 20,
+                maxB: 30,
+              },
               resultList: [],
             },
             loading: false,

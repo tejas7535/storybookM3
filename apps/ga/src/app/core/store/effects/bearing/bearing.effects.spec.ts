@@ -8,7 +8,7 @@ import { marbles } from 'rxjs-marbles';
 
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { RestService } from '../../../services/rest/rest.service';
-import { getBearingExtendedSearchParameters, getSelectedBearing } from '../..';
+import { getSelectedBearing } from '../..';
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
   bearingSearchExtendedSuccess,
@@ -51,11 +51,6 @@ describe('Bearing Effects', () => {
     effects = spectator.inject(BearingEffects);
     store = spectator.inject(MockStore);
     restService = spectator.inject(RestService);
-
-    store.overrideSelector(
-      getBearingExtendedSearchParameters,
-      BearingState.extendedSearch.parameters
-    );
   });
 
   describe('bearingSearch$', () => {
@@ -86,7 +81,9 @@ describe('Bearing Effects', () => {
     it(
       'should fetch the extended search bearing list',
       marbles((m) => {
-        action = searchBearingExtended();
+        action = searchBearingExtended({
+          parameters: BearingState.extendedSearch.parameters,
+        });
 
         actions$ = m.hot('-a', { a: action });
 
