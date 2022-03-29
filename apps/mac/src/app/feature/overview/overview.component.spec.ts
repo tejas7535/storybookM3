@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +11,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { SubheaderModule } from '@schaeffler/subheader';
 
+import { OverviewCardModule } from '../../shared/components/overview-card/overview-card.module';
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
 
@@ -32,9 +35,18 @@ describe('OverviewComponent', () => {
       MatIconModule,
       RouterTestingModule,
       ReactiveComponentModule,
+      OverviewCardModule,
+      HttpClientTestingModule,
+      SubheaderModule,
     ],
     providers: [
-      provideMockStore({}),
+      provideMockStore({
+        initialState: {
+          'azure-auth': {
+            accountInfo: {},
+          },
+        },
+      }),
       {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
