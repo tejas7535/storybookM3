@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { RowNode } from '@ag-grid-community/core/dist/cjs/entities/rowNode';
+import { RowNode } from '@ag-grid-community/all-modules';
 import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
 
 @Component({
