@@ -16,12 +16,16 @@ import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import { StepperModule } from '@schaeffler/stepper';
 
-import READMEMd from '../../../../stepper/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../../stepper/README.md';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 @Component({
   selector: 'wrapper',
-  styleUrls: ['../../../../stepper/index.scss'],
+  styleUrls: ['../../../../../stepper/index.scss'],
   template: ` <mat-horizontal-stepper schaefflerSeparatedSteps linear>
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
@@ -84,7 +88,7 @@ class WrapperComponentForStepper implements OnInit {
 }
 
 export default {
-  title: `${NavigationMain.Components}/Stepper`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Stepper`,
   component: WrapperComponentForStepper,
   decorators: [
     moduleMetadata({
@@ -102,6 +106,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
   },
 } as Meta<WrapperComponentForStepper>;
 

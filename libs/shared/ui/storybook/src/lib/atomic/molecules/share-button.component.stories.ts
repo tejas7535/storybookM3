@@ -8,16 +8,16 @@ import {
   ShareButtonModule,
 } from '@schaeffler/share-button';
 
-import READMEMd from '../../../../share-button/README.md';
+import READMEMd from '../../../../../share-button/README.md';
 import {
   getMultiLanguageStoryTemplate,
   StorybookTranslocoModule,
-} from '../../../.storybook/storybook-transloco.module';
-import { Badges } from '../../../.storybook/storybook-badges.constants';
+} from '../../../../.storybook/storybook-transloco.module';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import {
   NavigationAtomic,
   NavigationMain,
-} from '../../../.storybook/storybook-navigation.constants';
+} from '../../../../.storybook/storybook-navigation.constants';
 
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Molecules}/Share Button`,

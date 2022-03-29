@@ -16,8 +16,12 @@ import {
   SearchAutocompleteOption,
 } from '@schaeffler/search-autocomplete';
 
-import READMEMd from '../../../../search-autocomplete/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../../search-autocomplete/README.md';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 const options: SearchAutocompleteOption[] = [
   { title: 'Bearing A1', id: 'A1' },
@@ -32,7 +36,7 @@ const options: SearchAutocompleteOption[] = [
 ];
 
 export default {
-  title: `${NavigationMain.Components}/Search Autocomplete`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Search Autocomplete`,
   components: SearchAutocompleteComponent,
   decorators: [
     moduleMetadata({
@@ -52,6 +56,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
   },
 } as Meta<SearchAutocompleteComponent>;
 

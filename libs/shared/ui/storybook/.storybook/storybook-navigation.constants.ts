@@ -1,6 +1,5 @@
 export enum NavigationMain {
   Atomic = 'Atomic',
-  Components = 'Components',
   Deprecated = 'Deprecated',
   Rest = '*',
 }

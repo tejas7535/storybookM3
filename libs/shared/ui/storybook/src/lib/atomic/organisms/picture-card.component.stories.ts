@@ -7,11 +7,15 @@ import {
   PictureCardModule,
 } from '@schaeffler/picture-card';
 
-import READMEMd from '../../../../picture-card/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../../picture-card/README.md';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Components}/PictureCard`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/PictureCard`,
   component: PictureCardComponent,
   decorators: [
     moduleMetadata({
@@ -20,6 +24,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
   },
 } as Meta<PictureCardComponent>;
 

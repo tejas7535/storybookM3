@@ -7,11 +7,15 @@ import {
   DropdownInputModule,
 } from '@schaeffler/dropdown-input';
 
-import READMEMd from '../../../../dropdown-input/README.md';
-import { NavigationMain } from '../../../.storybook/storybook-navigation.constants';
+import READMEMd from '../../../../../dropdown-input/README.md';
+import {
+  NavigationAtomic,
+  NavigationMain,
+} from '../../../../.storybook/storybook-navigation.constants';
+import { Badges } from '../../../../.storybook/storybook-badges.constants';
 
 export default {
-  title: `${NavigationMain.Components}/DropdownInput`,
+  title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/DropdownInput`,
   component: DropdownInputComponent,
   decorators: [
     moduleMetadata({
@@ -20,6 +24,7 @@ export default {
   ],
   parameters: {
     notes: { markdown: READMEMd },
+    badges: [Badges.Final],
   },
 } as Meta<DropdownInputComponent>;
 
