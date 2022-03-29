@@ -97,11 +97,16 @@
         </div>
       </form>
       <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre>
-      <button mat-raised-button class="w-full" color="primary">
-        Todo: Lager aus Liste Auswählen ()
-      </button>
-      <div *ngIf="bearingResultExtendedSearchList$ | ngrxPush as bearings">
-        <h5>{{ bearings.length }} Results</h5>
+
+      <div *ngrxLet="bearingResultExtendedSearchList$; let bearings">
+        <button
+          mat-raised-button
+          class="w-full"
+          color="primary"
+          [disabled]="bearings.length < 1"
+        >
+          {{ t('selectBearingFromList', { amount: bearings.length }) }}
+        </button>
         <mat-list role="list">
           <button
             mat-list-item

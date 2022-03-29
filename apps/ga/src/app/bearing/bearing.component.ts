@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import {
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   Observable,
@@ -92,10 +93,9 @@ export class BearingComponent implements OnInit, OnDestroy {
     this.bearingExtendedSearchParameters$ = this.store.select(
       getBearingExtendedSearchParameters
     );
-    this.bearingExtendedSearchParameters$.subscribe((value) =>
-      this.bearingExtendedSearchParametersForm.setValue(value)
-    );
-
+    this.bearingExtendedSearchParameters$.subscribe((value) => {
+      this.bearingExtendedSearchParametersForm.setValue(value);
+    });
     this.bearingResultList$ = this.store.select(getBearingResultList);
     this.bearingResultExtendedSearchList$ = this.store.select(
       getBearingExtendedSearchResultList
@@ -125,13 +125,15 @@ export class BearingComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(300),
-        take(2),
-        map((parameters: ExtendedSearchParameters) => {
+        distinctUntilChanged(
+          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+        ),
+        map((parameters) => {
           console.log(parameters);
           this.store.dispatch(searchBearingExtended({ parameters }));
-          // this.bearingExtendedSearchParametersForm.updateValueAndValidity({
-          //   emitEvent: false,
-          // });
+          this.bearingExtendedSearchParametersForm.updateValueAndValidity({
+            emitEvent: false,
+          });
         })
       )
       .subscribe();

@@ -85,7 +85,7 @@ export const bearingReducer = createReducer(
     (state: BearingState, { parameters }): BearingState => ({
       ...state,
       extendedSearch: {
-        ...initialState.extendedSearch,
+        ...state.extendedSearch,
         parameters,
       },
       loading: true,
@@ -96,7 +96,7 @@ export const bearingReducer = createReducer(
     (state: BearingState, { resultList }): BearingState => ({
       ...state,
       extendedSearch: {
-        ...initialState.extendedSearch,
+        ...state.extendedSearch,
         resultList,
       },
       loading: false,

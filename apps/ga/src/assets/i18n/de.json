@@ -43,7 +43,8 @@
     "width": "Breite",
     "min": "Min",
     "max": "Max",
-    "mm": "mm"
+    "mm": "mm",
+    "selectBearingFromList": "Lager aus Liste auswählen ({{ amount }})"
   },
   "parameters": {
     "showDetails": "Details anzeigen",
