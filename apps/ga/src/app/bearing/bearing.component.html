@@ -28,35 +28,42 @@
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
   <ng-template #detail_selection>
-    <div class="flex flex-col">
+    <div class="flex flex-col md:w-2/3 lg:w-1/2">
       <form [formGroup]="bearingExtendedSearchParametersForm">
         <ga-select
+          class="w-full"
           [control]="bearingType"
           [label]="t('bearingType')"
           [options]="bearingTypes"
+          [placeholder]="t('bearingType')"
         ></ga-select>
-        <div class="flex flex-row">
-          <ga-input
-            [control]="minDi"
-            [label]="t('boreDiameter') + ' ' + t('min')"
-            [unit]="t('mm')"
-            [placeholder]="
-              t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('min') })
-            "
-            [onlyPositive]="true"
-          ></ga-input>
-          <ga-input
-            [control]="maxDi"
-            [label]="t('boreDiameter') + ' ' + t('max')"
-            [unit]="t('mm')"
-            [placeholder]="
-              t('pleaseEnter', { label: t('boreDiameter') }) + ' ' + t('max')
-            "
-            [onlyPositive]="true"
-          ></ga-input>
+        <div>
+          <div class="flex flex-row">
+            <ga-input
+              class="w-full"
+              [control]="minDi"
+              [label]="t('boreDiameter') + ' ' + t('min')"
+              [unit]="t('mm')"
+              [placeholder]="
+                t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('min') })
+              "
+              [onlyPositive]="true"
+            ></ga-input>
+            <ga-input
+              class="w-full"
+              [control]="maxDi"
+              [label]="t('boreDiameter') + ' ' + t('max')"
+              [unit]="t('mm')"
+              [placeholder]="
+                t('pleaseEnter', { label: t('boreDiameter') }) + ' ' + t('max')
+              "
+              [onlyPositive]="true"
+            ></ga-input>
+          </div>
         </div>
         <div class="flex flex-row">
           <ga-input
+            class="w-full"
             [control]="minDa"
             [label]="t('outsideDiameter') + ' ' + t('min')"
             [unit]="t('mm')"
@@ -66,6 +73,7 @@
             [onlyPositive]="true"
           ></ga-input>
           <ga-input
+            class="w-full"
             [control]="maxDa"
             [label]="t('outsideDiameter') + ' ' + t('max')"
             [unit]="t('mm')"
@@ -77,6 +85,7 @@
         </div>
         <div class="flex flex-row">
           <ga-input
+            class="w-full"
             [control]="minB"
             [label]="t('width') + ' ' + t('min')"
             [unit]="t('mm')"
@@ -86,6 +95,7 @@
             [onlyPositive]="true"
           ></ga-input>
           <ga-input
+            class="w-full"
             [control]="maxB"
             [label]="t('width') + ' ' + t('max')"
             [unit]="t('mm')"

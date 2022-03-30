@@ -100,7 +100,14 @@ export class BearingComponent implements OnInit, OnDestroy {
       getBearingExtendedSearchParameters
     );
     this.bearingExtendedSearchParameters$.subscribe((value) => {
-      this.bearingExtendedSearchParametersForm.setValue(value);
+      const params = { ...(value as any) };
+      Object.keys(params).forEach(
+        (key) =>
+          params[key] !== undefined &&
+          this.bearingExtendedSearchParametersForm.patchValue({
+            key: params[key],
+          })
+      );
     });
     this.bearingResultList$ = this.store.select(getBearingResultList);
     this.bearingResultExtendedSearchList$ = this.store.select(
@@ -136,9 +143,6 @@ export class BearingComponent implements OnInit, OnDestroy {
         ),
         map((parameters) => {
           this.store.dispatch(searchBearingExtended({ parameters }));
-          this.bearingExtendedSearchParametersForm.updateValueAndValidity({
-            emitEvent: false,
-          });
         })
       )
       .subscribe();
