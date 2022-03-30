@@ -38,13 +38,24 @@
     "close": "Schließen",
     "pleaseEnter": "{{label}} angeben",
     "bearingType": "Lagerbauart",
-    "boreDiameter": "Bohrungsdurchmesser",
-    "outsideDiameter": "Außendurchmesser",
-    "width": "Breite",
+    "boreDiameter": "d - Bohrungsdurchmesser",
+    "outsideDiameter": "D - Außendurchmesser",
+    "width": "B - Breite",
     "min": "Min",
     "max": "Max",
     "mm": "mm",
-    "selectBearingFromList": "Lager aus Liste auswählen ({{ amount }})"
+    "selectBearingFromList": "Lager aus Liste auswählen ({{ amount }})",
+    "types": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radialschrägkugellager",
+      "IDO_RADIAL_BALL_BEARING": "Radialrillenkugellager",
+      "IDO_RADIAL_ROLLER_BEARING": "Radialrollenlager",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Pendelkugellager",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Radialpendelrollenlager",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Radialkegelrollenlager",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Axialschrägkugellager",
+      "IDO_THRUST_BALL_BEARING": "Axialrillenkugellager",
+      "IDO_THRUST_ROLLER_BEARING": "Axialrollenlager"
+    }
   },
   "parameters": {
     "showDetails": "Details anzeigen",

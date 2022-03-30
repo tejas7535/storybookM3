@@ -35,7 +35,27 @@
     "easySelection": "Back to basic bearing selection",
     "noResults": "No results",
     "modelCreationError": "Currently a calculation for the bearing {{bearing}} is not possible.",
-    "close": "Close"
+    "close": "Close",
+    "pleaseEnter": "Set {{label}}",
+    "bearingType": "Bearing Type",
+    "boreDiameter": "d - Bore Diameter",
+    "outsideDiameter": "D - Outside Diameter",
+    "width": "B - Width",
+    "min": "Min",
+    "max": "Max",
+    "mm": "mm",
+    "selectBearingFromList": "Select Bearing from List ({{ amount }})",
+    "types": {
+      "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radial angular contact ball bearing",
+      "IDO_RADIAL_BALL_BEARING": "Radial deep groove ball bearing",
+      "IDO_RADIAL_ROLLER_BEARING": "Radial roller bearing",
+      "IDO_RADIAL_SELF_ALIGNING_BALL_BEARING": "Self-aligning ball bearing",
+      "IDO_RADIAL_SELF_ALIGNING_ROLLER_BEARING": "Radial spherical roller bearing",
+      "IDO_RADIAL_TAPERED_ROLLER_BEARING": "Radial tapered roller bearing",
+      "IDO_THRUST_ANGULAR_CONTACT_BALL_BEARING": "Thrust angular contact ball bearing",
+      "IDO_THRUST_BALL_BEARING": "Thrust ball bearing",
+      "IDO_THRUST_ROLLER_BEARING": "Thrust roller bearing"
+    }
   },
   "parameters": {
     "showDetails": "Show details",

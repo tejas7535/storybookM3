@@ -1,10 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { bearingTypes } from '../../../../shared/constants';
-import {
-  BearingType,
-  ExtendedSearchParameters,
-} from '../../../../shared/models';
+import { ExtendedSearchParameters } from '../../../../shared/models';
 import {
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
@@ -24,7 +20,6 @@ export interface BearingState {
     parameters: ExtendedSearchParameters;
     resultList: string[];
   };
-  bearingTypes: BearingType[];
   loading: boolean;
   selectedBearing: string;
   modelId: string;
@@ -49,7 +44,6 @@ export const initialState: BearingState = {
     },
     resultList: [],
   },
-  bearingTypes,
   loading: false,
   selectedBearing: undefined,
   modelId: undefined,

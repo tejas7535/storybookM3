@@ -51,7 +51,13 @@ export class BearingComponent implements OnInit, OnDestroy {
   minimumChars = 2;
   localDev = environment.localDev;
   detailSelection = true;
-  bearingTypes = bearingTypes;
+  bearingTypes = bearingTypes.map(
+    (bearingType) =>
+      ({
+        ...bearingType,
+        text: `bearing.types.${bearingType.id}`,
+      } as any as FormControl)
+  );
 
   pattern = new FormControl(undefined);
   bearingType = new FormControl(undefined);
@@ -129,7 +135,6 @@ export class BearingComponent implements OnInit, OnDestroy {
           (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
         ),
         map((parameters) => {
-          console.log(parameters);
           this.store.dispatch(searchBearingExtended({ parameters }));
           this.bearingExtendedSearchParametersForm.updateValueAndValidity({
             emitEvent: false,
