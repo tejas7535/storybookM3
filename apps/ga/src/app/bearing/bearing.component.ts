@@ -113,6 +113,18 @@ export class BearingComponent implements OnInit, OnDestroy {
     this.bearingResultExtendedSearchList$ = this.store.select(
       getBearingExtendedSearchResultList
     );
+    this.bearingResultExtendedSearchList$
+      .pipe(
+        filter((results) => results.length > 100),
+        map((results) =>
+          this.snackbar.open(
+            translate('bearing.tooManyResults', { amount: results.length }),
+            undefined,
+            { duration: 3000 }
+          )
+        )
+      )
+      .subscribe();
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedBearing$
       .pipe(

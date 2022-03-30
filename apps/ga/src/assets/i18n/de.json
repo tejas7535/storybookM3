@@ -45,6 +45,7 @@
     "max": "Max",
     "mm": "mm",
     "selectBearingFromList": "Lager aus Liste auswählen ({{ amount }})",
+    "tooManyResults": "{{ amount }} Ergebnisse. Bitte Suchkriterien eingrenzen",
     "types": {
       "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radialschrägkugellager",
       "IDO_RADIAL_BALL_BEARING": "Radialrillenkugellager",

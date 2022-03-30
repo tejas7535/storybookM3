@@ -106,17 +106,19 @@
           ></ga-input>
         </div>
       </form>
-      <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre>
+      <!-- <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre> -->
 
       <div *ngrxLet="bearingResultExtendedSearchList$; let bearings">
-        <button
-          mat-raised-button
-          class="w-full"
-          color="primary"
-          [disabled]="bearings.length < 1"
-        >
-          {{ t('selectBearingFromList', { amount: bearings.length }) }}
-        </button>
+        <div class="mb-5">
+          <button
+            mat-raised-button
+            class="w-full"
+            color="primary"
+            [disabled]="bearings.length < 1 || bearings.length > 99"
+          >
+            {{ t('selectBearingFromList', { amount: bearings.length }) }}
+          </button>
+        </div>
         <div class="flex flex-col">
           <button
             *ngFor="let bearing of bearings"
