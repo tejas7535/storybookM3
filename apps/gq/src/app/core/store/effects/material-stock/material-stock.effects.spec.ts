@@ -21,6 +21,7 @@ import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
+  resetMaterialStock,
 } from '../../actions/material-stock/material-stock.actions';
 import { MaterialStockEffects } from './material-stock.effects';
 
@@ -114,6 +115,24 @@ describe('MaterialStockEffects', () => {
           materialNumber15: QUOTATION_DETAIL_MOCK.material.materialNumber15,
           productionPlantId: QUOTATION_DETAIL_MOCK.productionPlant.plantNumber,
         });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.triggerLoadMaterialStock$).toBeObservable(expected);
+      })
+    );
+    test(
+      'should trigger resetMaterialStock on empty productionPlant',
+      marbles((m) => {
+        store.overrideSelector(getSelectedQuotationDetail, {
+          ...QUOTATION_DETAIL_MOCK,
+          productionPlant: undefined,
+        });
+
+        action = setSelectedQuotationDetail({ gqPositionId: '1234' });
+
+        actions$ = m.hot('-a', { a: action });
+        const result = resetMaterialStock();
 
         const expected = m.cold('-b', { b: result });
 

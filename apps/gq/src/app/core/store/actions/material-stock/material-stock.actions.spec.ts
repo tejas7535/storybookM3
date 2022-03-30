@@ -3,6 +3,7 @@ import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
+  resetMaterialStock,
 } from './material-stock.actions';
 describe('Material Stock Actions', () => {
   test('loadMaterialStock', () => {
@@ -35,6 +36,13 @@ describe('Material Stock Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Material Stock] Get Material Stock by Production Plant and Material Number Failure',
+    });
+  });
+  test('resetMaterialStock', () => {
+    const action = resetMaterialStock();
+
+    expect(action).toEqual({
+      type: '[Material Stock] Reset Material Stock Store',
     });
   });
 });

@@ -16,6 +16,7 @@ import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
+  resetMaterialStock,
 } from '../../actions/material-stock/material-stock.actions';
 
 @Injectable()
@@ -42,16 +43,18 @@ export class MaterialStockEffects {
       concatLatestFrom(() => this.store.select(getSelectedQuotationDetail)),
       map(([_action, quotationDetail]) => quotationDetail),
       filter((quotationDetail) => quotationDetail !== undefined),
-      filter(
-        ({ material, productionPlant }) =>
-          material?.materialNumber15 &&
-          productionPlant?.plantNumber !== undefined
-      ),
       map((quotationDetail: QuotationDetail) => {
-        return loadMaterialStock({
-          materialNumber15: quotationDetail.material.materialNumber15,
-          productionPlantId: quotationDetail.productionPlant.plantNumber,
-        });
+        if (
+          quotationDetail.material?.materialNumber15 &&
+          quotationDetail.productionPlant?.plantNumber !== undefined
+        ) {
+          return loadMaterialStock({
+            materialNumber15: quotationDetail.material.materialNumber15,
+            productionPlantId: quotationDetail.productionPlant.plantNumber,
+          });
+        }
+
+        return resetMaterialStock();
       })
     );
   });

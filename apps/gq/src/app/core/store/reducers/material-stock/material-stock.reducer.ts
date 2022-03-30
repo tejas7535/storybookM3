@@ -4,6 +4,7 @@ import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
+  resetMaterialStock,
 } from '../../actions/material-stock/material-stock.actions';
 import { MaterialStock } from './models/material-stock.model';
 
@@ -46,7 +47,8 @@ export const materialStockReducer = createReducer(
       materialStockLoading: false,
       errorMessage,
     })
-  )
+  ),
+  on(resetMaterialStock, (): MaterialStockState => initialState)
 );
 
 export function reducer(

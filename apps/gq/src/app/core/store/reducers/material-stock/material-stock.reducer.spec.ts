@@ -6,8 +6,13 @@ import {
   loadMaterialStock,
   loadMaterialStockFailure,
   loadMaterialStockSuccess,
+  resetMaterialStock,
 } from '../../actions/material-stock/material-stock.actions';
-import { materialStockReducer, reducer } from './material-stock.reducer';
+import {
+  initialState,
+  materialStockReducer,
+  reducer,
+} from './material-stock.reducer';
 
 describe('Material Stock Reducer', () => {
   describe('loadMaterialStock', () => {
@@ -58,6 +63,18 @@ describe('Material Stock Reducer', () => {
 
       expect(state.materialStockLoading).toBeFalsy();
       expect(state.errorMessage).toEqual(errorMessage);
+    });
+    describe('resetMaterialStock', () => {
+      test('should set state to initalstate', () => {
+        const action = resetMaterialStock();
+
+        const state = materialStockReducer(
+          { ...MATERIAL_STOCK_STATE_MOCK },
+          action
+        );
+
+        expect(state).toEqual(initialState);
+      });
     });
   });
   describe('Reducer function', () => {

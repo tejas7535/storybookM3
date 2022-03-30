@@ -15,10 +15,14 @@ export const loadMaterialStockFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const resetMaterialStock = createAction(
+  '[Material Stock] Reset Material Stock Store'
+);
 const all = union({
   loadMaterialStock,
   loadMaterialStockSuccess,
   loadMaterialStockFailure,
+  resetMaterialStock,
 });
 
 export type MaterialStockActions = typeof all;
