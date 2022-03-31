@@ -34,14 +34,14 @@
               },
               "listValues": [
                 {
-                  "id": 1,
-                  "text": "dialog.bearingTypeListValues.radialSelfAligningRollerBearing",
-                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/pero_unknown.bmp"
-                },
-                {
                   "id": 2,
                   "text": "dialog.bearingTypeListValues.selfAligningBallBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp"
+                },
+                {
+                  "id": 1,
+                  "text": "dialog.bearingTypeListValues.radialSelfAligningRollerBearing",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/pero_unknown.bmp"
                 },
                 {
                   "id": 4,
