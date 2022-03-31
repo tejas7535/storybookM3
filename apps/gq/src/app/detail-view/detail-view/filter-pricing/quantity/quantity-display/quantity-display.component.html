@@ -1,10 +1,10 @@
 <div>
-  <span class="font-bold">{{ quantity }}</span>
+  <span class="font-bold">{{ quotationDetail?.orderQuantity }}</span>
   <span
     class="ml-1 cursor-pointer text-body-1 text-medium-emphasis"
     (click)="openEditing()"
     *ngIf="isManualCase$ | ngrxPush"
   >
-    <mat-icon class="!text-[16px]">mode_edit</mat-icon>
+    <mat-icon class="!text-body-1">mode_edit</mat-icon>
   </span>
 </div>

@@ -267,8 +267,7 @@ describe('ManualPriceComponent', () => {
             field: ColumnFields.GPI,
           },
           disableClose: true,
-          width: '50%',
-          height: '200px',
+          width: '684px',
         }
       );
     });
@@ -284,8 +283,7 @@ describe('ManualPriceComponent', () => {
             field: ColumnFields.GPM,
           },
           disableClose: true,
-          width: '50%',
-          height: '200px',
+          width: '684px',
         }
       );
     });

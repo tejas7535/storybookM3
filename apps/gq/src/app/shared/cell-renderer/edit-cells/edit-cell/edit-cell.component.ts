@@ -42,7 +42,7 @@ export class EditCellComponent {
 
   onIconClick(): void {
     this.dialog.open(EditingModalComponent, {
-      width: '634px',
+      width: '684px',
       data: {
         quotationDetail: this.params.data as QuotationDetail,
         field: this.params.field,

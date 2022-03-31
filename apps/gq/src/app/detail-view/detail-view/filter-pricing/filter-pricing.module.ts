@@ -21,7 +21,6 @@ import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing
 import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
 import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
-import { QuantityModalComponent } from './quantity/quantity-modal/quantity-modal.component';
 import { SapPriceComponent } from './sap-price/sap-price.component';
 
 @NgModule({
@@ -31,7 +30,6 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     ManualPriceComponent,
     GqPriceComponent,
     SapPriceComponent,
-    QuantityModalComponent,
     QuantityDisplayComponent,
     DetailButtonComponent,
   ],

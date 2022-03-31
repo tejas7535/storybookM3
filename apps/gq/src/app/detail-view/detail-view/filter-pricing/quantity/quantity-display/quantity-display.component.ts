@@ -6,14 +6,16 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { isManualCase } from '../../../../../core/store';
-import { QuantityModalComponent } from '../quantity-modal/quantity-modal.component';
+import { ColumnFields } from '../../../../../shared/ag-grid/constants/column-fields.enum';
+import { EditingModalComponent } from '../../../../../shared/components/editing-modal/editing-modal.component';
+import { QuotationDetail } from '../../../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-quantity-display',
   templateUrl: './quantity-display.component.html',
 })
 export class QuantityDisplayComponent implements OnInit {
-  @Input() quantity: number;
+  @Input() quotationDetail: QuotationDetail;
 
   isManualCase$: Observable<boolean>;
   constructor(
@@ -24,10 +26,12 @@ export class QuantityDisplayComponent implements OnInit {
     this.isManualCase$ = this.store.select(isManualCase);
   }
   openEditing(): void {
-    this.dialog.open(QuantityModalComponent, {
-      width: '50%',
-      height: '300px',
-      data: this.quantity,
+    this.dialog.open(EditingModalComponent, {
+      width: '684px',
+      data: {
+        quotationDetail: this.quotationDetail,
+        field: ColumnFields.ORDER_QUANTITY,
+      },
       disableClose: true,
     });
   }

@@ -109,8 +109,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
 
   openMarginEditing(gpi: boolean): void {
     this.dialog.open(EditingModalComponent, {
-      width: '50%',
-      height: '200px',
+      width: '684px',
       data: {
         quotationDetail: this.quotationDetail,
         field: gpi ? ColumnFields.GPI : ColumnFields.GPM,

@@ -271,7 +271,7 @@
         "previous": "Previous {{fieldTranslation}}",
         "gpi": "GPI%",
         "gpm": "GPM%",
-        "discount": "Discount"
+        "discount": "Discount%"
       },
       "warning": "Please be aware this change is permanent and cannot be undone"
     }

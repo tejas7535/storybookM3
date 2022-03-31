@@ -35,7 +35,7 @@
           {{ t('quantity') }}:
         </div>
         <gq-quantity-display
-          [quantity]="quotationDetail.orderQuantity"
+          [quotationDetail]="quotationDetail"
         ></gq-quantity-display>
       </div>
       <div class="min-w-[8rem] pt-4" *ngIf="quotationDetail.sapPriceCondition">

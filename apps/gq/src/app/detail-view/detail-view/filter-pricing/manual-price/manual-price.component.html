@@ -57,7 +57,7 @@
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
         <mat-icon
-          class="ml-1 cursor-pointer !text-body-2 text-medium-emphasis"
+          class="ml-1 cursor-pointer !text-body-1 text-medium-emphasis"
           (click)="openMarginEditing(true)"
           >mode_edit</mat-icon
         >
@@ -68,7 +68,7 @@
       <div>
         <span class="font-bold">{{ gpm || '-' }} %</span>
         <mat-icon
-          class="ml-1 cursor-pointer !text-body-2 text-medium-emphasis"
+          class="ml-1 cursor-pointer !text-body-1 text-medium-emphasis"
           (click)="openMarginEditing(false)"
           >mode_edit</mat-icon
         >
@@ -79,7 +79,7 @@
         {{ t('quantity') }}:
       </div>
       <gq-quantity-display
-        [quantity]="quotationDetail.orderQuantity"
+        [quotationDetail]="quotationDetail"
       ></gq-quantity-display>
     </div>
     <div class="min-w-[8rem] pt-4">

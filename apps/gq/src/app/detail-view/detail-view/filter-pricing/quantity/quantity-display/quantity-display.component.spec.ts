@@ -6,6 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-details.mock';
 import { QuantityDisplayComponent } from './quantity-display.component';
 
 describe('QuantityDisplayComponent', () => {
@@ -38,6 +39,7 @@ describe('QuantityDisplayComponent', () => {
   });
   describe('openEditing', () => {
     test('should open dialog for editing', () => {
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
       component['dialog'].open = jest.fn();
 
       component.openEditing();

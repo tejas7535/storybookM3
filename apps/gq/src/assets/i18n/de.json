@@ -266,11 +266,11 @@
         "orderQuantity": "Menge ändern"
       },
       "kpis": {
-        "price": "Nettopreis",
+        "price": "Netto Preis",
         "previous": "Vorheriger {{fieldTranslation}}",
         "gpi": "GPI%",
         "gpm": "GPM%",
-        "discount": "Rabatt"
+        "discount": "Rabatt%"
       },
       "cancel": "Zurück",
       "warning": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann."

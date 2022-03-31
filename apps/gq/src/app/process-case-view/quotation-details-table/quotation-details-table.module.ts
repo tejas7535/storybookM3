@@ -19,6 +19,7 @@ import { StatusBarModalModule } from '../../shared/components/status-bar-modal/s
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { DialogHeaderModule } from '../../shared/header/dialog-header/dialog-header.module';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { EditingCommentModalComponent } from './editing-comment-modal/editing-comment-modal.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
@@ -44,6 +45,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     StatusBarModalModule,
     MatIconModule,
     ColumnHeadersModule,
+    SharedPipesModule,
   ],
   exports: [QuotationDetailsTableComponent],
 })

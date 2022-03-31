@@ -19,7 +19,7 @@ export class EditCommentComponent {
   }
   onIconClick(): void {
     this.dialog.open(EditingCommentModalComponent, {
-      width: '50%',
+      width: '684px',
       height: '300px',
       data: this.detail,
       disableClose: true,

@@ -16,6 +16,7 @@ import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
+  getCustomerCurrency,
   getQuotationErrorMessage,
   getUpdateLoading,
   updateQuotationDetails,
@@ -38,8 +39,10 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   confirmDisabled = true;
   editFormControl: FormControl;
   updateLoading$: Observable<boolean>;
+  customerCurrency$: Observable<string>;
   value: number;
   affectedKpis: KpiValue[];
+  fields = ColumnFields;
 
   @ViewChild('edit') editInputField: ElementRef;
 
@@ -57,6 +60,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.editFormControl = new FormControl();
     this.updateLoading$ = this.store.select(getUpdateLoading);
+    this.customerCurrency$ = this.store.select(getCustomerCurrency);
 
     this.addSubscriptions();
   }
@@ -209,9 +213,10 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       this.editFormControl.setValue(
         PriceService.roundToTwoDecimals(
-          (this.editFormControl.value ?? this.value) + 1
+          Number.parseInt(this.editFormControl.value ?? this.value, 10) + 1
         )
       );
+      this.editInputField?.nativeElement.focus();
     }
   }
 
@@ -224,9 +229,10 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       this.editFormControl.setValue(
         PriceService.roundToTwoDecimals(
-          (this.editFormControl.value ?? this.value) - 1
+          Number.parseInt(this.editFormControl.value ?? this.value, 10) - 1
         )
       );
+      this.editInputField?.nativeElement.focus();
     }
   }
 }

@@ -117,7 +117,7 @@ describe('EditCellComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditingModalComponent,
         {
-          width: '634px',
+          width: '684px',
           data: {
             quotationDetail: QUOTATION_DETAIL_MOCK,
             field: ColumnFields.GPM,

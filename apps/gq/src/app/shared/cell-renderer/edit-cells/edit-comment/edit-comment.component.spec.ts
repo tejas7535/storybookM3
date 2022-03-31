@@ -53,7 +53,7 @@ describe('EditCommentComponent', () => {
       expect(matDialogSpyObject.open).toHaveBeenCalledWith(
         EditingCommentModalComponent,
         {
-          width: '50%',
+          width: '684px',
           height: '300px',
           data: QUOTATION_DETAIL_MOCK,
           disableClose: true,

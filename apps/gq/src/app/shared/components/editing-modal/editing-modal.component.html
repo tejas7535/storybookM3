@@ -14,7 +14,7 @@
   </gq-dialog-header>
 
   <div
-    class="mt-6 flex h-full flex-col"
+    class="mt-8 flex h-full flex-col"
     *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
   >
     <div class="flex h-full flex-row">
@@ -35,42 +35,77 @@
         <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
       </mat-form-field>
       <div class="ml-4 mt-3 flex flex-col gap-2">
-        <mat-icon class="cursor-pointer" (click)="increment()">add </mat-icon>
-        <mat-icon class="cursor-pointer" (click)="decrement()">remove</mat-icon>
+        <mat-icon
+          class="cursor-pointer text-medium-emphasis"
+          (click)="increment()"
+          >add
+        </mat-icon>
+        <mat-icon
+          class="cursor-pointer text-medium-emphasis"
+          (click)="decrement()"
+          >remove</mat-icon
+        >
       </div>
     </div>
-    <div class="mt-2" *ngIf="affectedKpis?.length > 0">
-      <div
-        class="grid w-4/5 grid-cols-2"
-        *transloco="let t; read: 'shared.editingModal.kpis'"
-      >
-        <div class="mt-4 flex flex-row pr-12" *ngFor="let kpi of affectedKpis">
-          <div class="pr-6">
+    <div
+      class="grid-col mt-2 grid grid-cols-2"
+      *ngIf="affectedKpis?.length > 0"
+    >
+      <div class="mt-4" *ngFor="let kpi of affectedKpis; index as i">
+        <div
+          *transloco="let t; read: 'shared.editingModal.kpis'"
+          class="flex flex-row"
+          [ngClass]="{ 'text-low-emphasis': !kpi.value, 'pl-12': i % 2 !== 0 }"
+        >
+          <div class="mr-8 w-32">
             <h6>{{ t(kpi.key) }}</h6>
-            <span class="text-caption">{{
-              t('previous', {
-                fieldTranslation: t(kpi.key)
-              })
-            }}</span>
+            <div>
+              <span class="text-caption text-medium-emphasis">{{
+                t('previous', {
+                  fieldTranslation: t(kpi.key)
+                })
+              }}</span>
+            </div>
           </div>
-          <div>
-            <h6>{{ kpi.value }}</h6>
-            <span class="text-caption">{{
-              modalData.quotationDetail[kpi.key]
-            }}</span>
+          <div *ngrxLet="customerCurrency$ as customerCurrency">
+            <h6 class="truncate">
+              <span *ngIf="kpi.key !== fields.PRICE; else priceFormatter">
+                {{ kpi.value || 'N/A' }}
+              </span>
+              <ng-template #priceFormatter>
+                <span>
+                  {{ kpi.value | numberCurrency: customerCurrency }}
+                </span>
+              </ng-template>
+            </h6>
+            <div class="text-caption leading-6 text-medium-emphasis">
+              <span
+                *ngIf="kpi.key !== fields.PRICE; else previousPriceFormatter"
+              >
+                {{ modalData.quotationDetail[kpi.key] || 'N/A' }}
+              </span>
+              <ng-template #previousPriceFormatter>
+                <span>
+                  {{
+                    modalData.quotationDetail.price
+                      | numberCurrency: customerCurrency
+                  }}
+                </span>
+              </ng-template>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="mt-6 flex flex-row rounded-md border-info bg-nordic-blue bg-opacity-10 py-3 px-3"
+      class="mt-6 flex w-fit flex-row items-center rounded-md border-[1px] border-info bg-nordic-blue bg-opacity-10 py-3 px-3"
     >
       <mat-icon class="mr-4 align-middle !text-info">warning_amber</mat-icon>
       <div class="text-caption">{{ t('warning') }}</div>
     </div>
     <div class="pt-8">
       <button
-        class="!pl-8 !pr-8"
+        class="!pl-4 !pr-4"
         color="primary"
         mat-raised-button
         [disabled]="confirmDisabled"
@@ -79,7 +114,7 @@
         <span> {{ t('confirm.' + modalData.field) | uppercase }} </span>
       </button>
       <button
-        class="!ml-4 !pl-8 !pr-8"
+        class="!ml-4 !pl-4 !pr-4"
         color="primary"
         mat-stroked-button
         (click)="closeDialog()"
@@ -89,10 +124,12 @@
     </div>
   </div>
   <ng-template #loading>
-    <schaeffler-loading-spinner
-      class="h-full"
-      backgroundColor="rgba(255,255,255, 0.1)"
-      [relative]="true"
-    ></schaeffler-loading-spinner>
+    <div class="py-24">
+      <schaeffler-loading-spinner
+        class="h-full"
+        backgroundColor="rgba(255,255,255, 0.1)"
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
   </ng-template>
 </div>
