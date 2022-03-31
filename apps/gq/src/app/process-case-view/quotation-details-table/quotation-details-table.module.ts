@@ -13,6 +13,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ColumnHeadersModule } from '../../shared/column-headers/column-headers.module';
 import { EditingModalComponent } from '../../shared/components/editing-modal/editing-modal.component';
 import { StatusBarModalModule } from '../../shared/components/status-bar-modal/status-bar-modal.module';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
@@ -42,6 +43,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     LoadingSpinnerModule,
     StatusBarModalModule,
     MatIconModule,
+    ColumnHeadersModule,
   ],
   exports: [QuotationDetailsTableComponent],
 })

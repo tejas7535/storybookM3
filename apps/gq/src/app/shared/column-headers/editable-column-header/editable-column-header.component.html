@@ -1,0 +1,55 @@
+<div
+  class="ag-cell-label-container flex w-full flex-row justify-between"
+  role="presentation"
+  (click)="onSortRequested($event)"
+>
+  <div
+    ref="eLabel"
+    class="ag-header-cell-label"
+    role="presentation"
+    *ngIf="!(editMode || value)"
+  >
+    <div class="flex items-center">
+      <span ref="eText" class="ag-header-cell-text pr-2">
+        {{ params.displayName }}
+      </span>
+      <mat-icon (click)="enableEditMode($event)" class="edit-icon">
+        mode_edit
+      </mat-icon>
+    </div>
+
+    <div class="w-8 pl-2">
+      <span class="ag-icon ag-icon-asc" *ngIf="sort === 'asc'"></span>
+      <span class="ag-icon ag-icon-desc" *ngIf="sort === 'desc'"></span>
+      <span class="ag-icon ag-sort-none-icon" *ngIf="!sort"></span>
+    </div>
+  </div>
+
+  <span
+    ref="eMenu"
+    class="ag-header-icon ag-header-cell-menu-button pl-4"
+    aria-hidden="true"
+    *ngIf="!(editMode || value)"
+  >
+    <span
+      class="ag-icon ag-icon-menu"
+      #menuButton
+      (click)="onMenuClicked($event)"
+    ></span>
+  </span>
+</div>
+
+<mat-form-field *ngIf="editMode || value" appearance="outline">
+  <input
+    #inputField
+    matInput
+    type="number"
+    [placeholder]="params.displayName"
+    (change)="submitValue($event)"
+    (keydown.enter)="submitValue($event)"
+    (blur)="disableEditMode()"
+    class="!text-high-emphasis"
+    [formControl]="editFormControl"
+    autocomplete="off"
+  />
+</mat-form-field>

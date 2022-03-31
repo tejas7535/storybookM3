@@ -1,0 +1,23 @@
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep {
+    .mat-form-field-wrapper {
+      padding: 0 !important;
+    }
+
+    .mat-form-field-infix {
+      width: 80px;
+      border-top-width: 4px;
+      padding: 1em 0;
+    }
+  }
+}
+
+.edit-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  z-index: 100;
+}

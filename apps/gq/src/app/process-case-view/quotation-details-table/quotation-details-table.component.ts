@@ -68,6 +68,7 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   tableContext: TableContext = {
     quotation: undefined,
+    onMultipleMaterialSimulation: () => {},
   };
 
   @Input() set quotation(quotation: Quotation) {
@@ -100,6 +101,8 @@ export class QuotationDetailsTableComponent implements OnInit {
       getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS)
     );
     this.localeText$ = this.localizationService.locale$;
+    this.tableContext.onMultipleMaterialSimulation =
+      this.onMultipleMaterialSimulation.bind(this);
   }
 
   public onColumnChange(event: SortChangedEvent): void {
@@ -145,5 +148,9 @@ export class QuotationDetailsTableComponent implements OnInit {
   public onFirstDataRendered(event: FirstDataRenderedEvent): void {
     const gridColumnApi: ColumnApi = event.columnApi;
     gridColumnApi.autoSizeAllColumns(false);
+  }
+
+  public onMultipleMaterialSimulation(valId: string, value: number) {
+    console.log(valId, value);
   }
 }
