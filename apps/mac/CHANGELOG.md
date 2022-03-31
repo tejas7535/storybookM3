@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.4.0...mac-v0.4.1) (2022-03-31)
+
+
+### 🎸 Features
+
+* **mac:** denoise tests ([#3936](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3936)) ([7c222e5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c222e5800c266e00316eb559b3c08bf9f98b9b1))
+
 ## [0.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.3.0...mac-v0.4.0) (2022-03-24)
 
 
