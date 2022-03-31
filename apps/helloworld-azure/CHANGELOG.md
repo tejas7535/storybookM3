@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.1.0...hellworld-azure-v3.2.0) (2022-03-31)
+
+
+### 🎸 Features
+
+* **helloworld:** extend root tailwind config ([e373951](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e373951946094063ffa09909519f354261f7bb0c))
+
+
+### 🐛 Bug Fixes
+
+* **storybook:** widen tailwind content configuration to not break storybook ([05da849](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/05da849bd9fcc3fa10efb6946fdeb7d849500ad4))
+
 ## [3.1.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.0.0...hellworld-azure-v3.1.0) (2022-02-09)
 
 
