@@ -3,7 +3,6 @@
     "greaseApp": "Grease App",
     "greaseCalculator": "Grease Calculator",
     "bearinxPowered": "Powered by Bearinx",
-    "description": "Mit der Grease App berechnen Sie schnell und einfach für Ihr Lager die optimale Schmierstoffmenge bei der Erstbefettung und der Nachschmierung unter spezifischen Betriebsbedingungen. Zudem erhalten Sie Empfehlungen für die Nachschmierintervalle und Fettgebrauchsdauern.</br>Die Nachschmierung kann manuell oder automatische mit den Schaeffler Schmierstoffgebern erfolgen.</br>Zudem erhalten Sie einen Überblick über die Eigenschaften der Arcanol-Schmierfette. Fette mit einem hohen Nachschmierintervall werden hervorgehoben.",
     "startCalc": "Start",
     "lubricators": "Schmierstoffgeber",
     "lubricatorsLink": "https://medias.schaeffler.de/de/lubrication/lubricators",
@@ -18,7 +17,8 @@
     "learnMore": "Mehr erfahren"
   },
   "meta": {
-    "title": "Grease App"
+    "title": "Grease App",
+    "description": "Mit der Grease App berechnen Sie schnell und einfach für Ihr Lager die optimale Schmierstoffmenge bei der Erstbefettung und der Nachschmierung unter spezifischen Betriebsbedingungen. Zudem erhalten Sie Empfehlungen für die Nachschmierintervalle und Fettgebrauchsdauern.</br>Die Nachschmierung kann manuell oder automatische mit den Schaeffler Schmierstoffgebern erfolgen.</br>Zudem erhalten Sie einen Überblick über die Eigenschaften der Arcanol-Schmierfette. Fette mit einem hohen Nachschmierintervall werden hervorgehoben."
   },
   "bearing": {
     "bearingSelection": "Lagerauswahl",

@@ -3,7 +3,6 @@
     "greaseApp": "Grease App",
     "greaseCalculator": "Grease Calculator",
     "bearinxPowered": "Powered by Bearinx",
-    "description": "With the Grease app, you can quickly and easily calculate the optimum amount of lubricant for your bearing for the initial lubrication and the relubrication. In addition, you get recommendations for the relubrication intervals and grease operating lives considering specific operation conditions.</br>The relubrication can be done manually or automatically with the Schaeffler lubricators.</br>You will also receive an overview of the properties of Arcanol lubricating greases. Greases with a high relubrication interval are highlighted.",
     "startCalc": "Start",
     "lubricators": "Lubricators",
     "lubricatorsLink": "https://medias.schaeffler.de/en/lubrication/lubricators{{sources}}",
@@ -18,7 +17,8 @@
     "learnMore": "Learn More"
   },
   "meta": {
-    "title": "Grease App"
+    "title": "Grease App",
+    "description": "With the Grease app, you can quickly and easily calculate the optimum amount of lubricant for your bearing for the initial lubrication and the relubrication. In addition, you get recommendations for the relubrication intervals and grease operating lives considering specific operation conditions.</br>The relubrication can be done manually or automatically with the Schaeffler lubricators.</br>You will also receive an overview of the properties of Arcanol lubricating greases. Greases with a high relubrication interval are highlighted."
   },
   "bearing": {
     "bearingSelection": "Bearing Selection",
