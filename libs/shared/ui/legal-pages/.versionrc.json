@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(legal-pages): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "legal-pages-v",
+  "skip": {
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
+}

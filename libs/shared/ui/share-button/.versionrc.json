@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(share-button): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "share-button-v",
+  "skip": {
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
+}

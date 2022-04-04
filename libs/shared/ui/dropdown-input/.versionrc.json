@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(dropdown-input): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "dropdown-input-v",
+  "skip": {
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(search-autocomplete): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "search-autocomplete-v",
+  "skip": {
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
+}
