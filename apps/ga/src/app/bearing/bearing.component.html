@@ -47,6 +47,7 @@
               [placeholder]="
                 t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('min') })
               "
+              [customErrors]="consistencyErrors"
               [onlyPositive]="true"
             ></ga-input>
             <ga-input
@@ -57,6 +58,7 @@
               [placeholder]="
                 t('pleaseEnter', { label: t('boreDiameter') }) + ' ' + t('max')
               "
+              [customErrors]="consistencyErrors"
               [onlyPositive]="true"
             ></ga-input>
           </div>
@@ -70,6 +72,7 @@
             [placeholder]="
               t('pleaseEnter', { label: t('outsideDiameter') + ' ' + t('min') })
             "
+            [customErrors]="consistencyErrors"
             [onlyPositive]="true"
           ></ga-input>
           <ga-input
@@ -80,6 +83,7 @@
             [placeholder]="
               t('pleaseEnter', { label: t('outsideDiameter') }) + ' ' + t('max')
             "
+            [customErrors]="consistencyErrors"
             [onlyPositive]="true"
           ></ga-input>
         </div>
@@ -119,14 +123,14 @@
             {{ t('selectBearingFromList', { amount: bearings.length }) }}
           </button>
         </div>
-        <div class="flex flex-col">
+        <!-- <div class="flex flex-col">
           <button
             *ngFor="let bearing of bearings"
             (click)="handleBearingSelection(bearing.id)"
           >
             {{ bearing.title }}
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
   </ng-template>

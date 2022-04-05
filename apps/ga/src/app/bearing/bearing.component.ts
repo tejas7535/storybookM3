@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
@@ -41,6 +41,7 @@ import {
   getModelCreationSuccess,
   getSelectedBearing,
 } from './../core/store/selectors/bearing/bearing.selector';
+import { dimensionValidators } from './bearing-constants';
 
 @Component({
   selector: 'ga-bearing',
@@ -61,23 +62,33 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   pattern = new FormControl(undefined);
   bearingType = new FormControl(undefined);
-  minDi = new FormControl(undefined);
-  maxDi = new FormControl(undefined);
-  minDa = new FormControl(undefined);
-  maxDa = new FormControl(undefined);
-  minB = new FormControl(undefined);
-  maxB = new FormControl(undefined);
+  minDi = new FormControl(undefined, dimensionValidators);
+  maxDi = new FormControl(undefined, dimensionValidators);
+  minDa = new FormControl(undefined, dimensionValidators);
+  maxDa = new FormControl(undefined, dimensionValidators);
+  minB = new FormControl(undefined, dimensionValidators);
+  maxB = new FormControl(undefined, dimensionValidators);
 
-  bearingExtendedSearchParametersForm = new FormGroup({
-    pattern: this.pattern,
-    bearingType: this.bearingType,
-    minDi: this.minDi,
-    maxDi: this.maxDi,
-    minDa: this.minDa,
-    maxDa: this.maxDa,
-    minB: this.minB,
-    maxB: this.maxB,
-  });
+  bearingExtendedSearchParametersForm = new FormGroup(
+    {
+      pattern: this.pattern,
+      bearingType: this.bearingType,
+      minDi: this.minDi,
+      maxDi: this.maxDi,
+      minDa: this.minDa,
+      maxDa: this.maxDa,
+      minB: this.minB,
+      maxB: this.maxB,
+    },
+    this.consistencyValidator()
+  );
+
+  public consistencyErrors: { name: string; message: string }[] = [
+    {
+      name: 'innerOuterInconsistent',
+      message: 'innerOuterInconsistent',
+    },
+  ];
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;
@@ -115,6 +126,7 @@ export class BearingComponent implements OnInit, OnDestroy {
     );
     this.bearingResultExtendedSearchList$
       .pipe(
+        distinctUntilChanged((prev, cur) => prev.length === cur.length),
         filter((results) => results.length > 100),
         map((results) =>
           this.snackbar.open(
@@ -194,5 +206,24 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   public toggleSelection(): void {
     this.detailSelection = !this.detailSelection;
+  }
+
+  private consistencyValidator(): ValidatorFn {
+    return (): { [key: string]: boolean } | null => {
+      if (
+        (this.minDi.value || this.maxDi.value) &&
+        (this.minDa.value || this.maxDa.value) &&
+        (this.minDi.value || this.maxDi.value) >
+          (this.minDa.value || this.maxDa.value)
+      ) {
+        console.log('huhu');
+
+        return {
+          innerOuterInconsistent: true,
+        };
+      }
+
+      return undefined;
+    };
   }
 }

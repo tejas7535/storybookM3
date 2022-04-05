@@ -31,16 +31,16 @@
     <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
     <mat-error *ngIf="control.hasError('max')">{{ t('max') }}</mat-error>
     <mat-error *ngIf="control.hasError('min')">{{ t('min') }}</mat-error>
-    <mat-error *ngIf="control.hasError('anyLoad')">{{
-      t('anyLoad')
-    }}</mat-error>
-    <mat-error *ngIf="control.hasError('required')">{{
-      t('required')
-    }}</mat-error>
+    <mat-error *ngIf="control.hasError('anyLoad')">
+      {{ t('anyLoad') }}
+    </mat-error>
+    <mat-error *ngIf="control.hasError('required')">
+      {{ t('required') }}
+    </mat-error>
     <ng-container *ngFor="let error of customErrors" ngProjectAs="mat-error">
-      <mat-error *ngIf="control.hasError(error.name)">{{
-        t(error.message)
-      }}</mat-error>
+      <mat-error *ngIf="control.hasError(error.name)">
+        {{ t(error.message) }}
+      </mat-error>
     </ng-container>
   </mat-form-field>
   <div class="w-6">
