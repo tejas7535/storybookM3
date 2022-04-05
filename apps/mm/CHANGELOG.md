@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.18](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.17...mm-v0.1.18) (2022-04-05)
+
+
+### 🎸 Features
+
+* **mm:** extend root tailwind config ([49c1e6d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/49c1e6dd96edd95568b3b294719b1778f4ce6895))
+* **mm:** style legal page and cookie section ([dc00d22](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dc00d221a591a58ee34f92b6234a909eda2aed5b))
+* **mm:** use updated data privacy and purpose ([fc9bbb4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc9bbb41d7fe54ce479241fbb4fa67aa87b0cc01))
+
+
+### 🐛 Bug Fixes
+
+* **application-insights:** adjust tracking to not renew userid ([#3808](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3808)) ([8c7fe4c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8c7fe4c90b13f95cc4ff51dd3899945f44049ffd))
+* **application-insights:** handle iframe, initial track event ([#3859](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3859)) ([25ceeb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25ceeb0d74ae8d28f2aae5ad9bc0b96084223948))
+* **mm:** adjust next trigger to prevent step skip (UFTABI-5238) ([#3838](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3838)) ([14228a5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/14228a5ef19c54a34e003240f48b6715ee0b9cd3))
+* **mm:** correct german bearing type texts (UFTABI-5581) ([#3944](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3944)) ([573f8e6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/573f8e6515a207ba23080ca0cfdced253e5d6d9f))
+
 ### [0.1.17](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.16...mm-v0.1.17) (2022-02-21)
 
 
