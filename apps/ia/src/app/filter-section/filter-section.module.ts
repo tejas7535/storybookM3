@@ -5,9 +5,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { FilterModule } from '../shared/filter/filter.module';
 import { SharedModule } from '../shared/shared.module';
 import { CollapsedFiltersModule } from './collapsed-filters/collapsed-filters.module';
-import { ExpandedFiltersModule } from './expanded-filters/expanded-filters.module';
 import { FilterSectionComponent } from './filter-section.component';
 
 @NgModule({
@@ -16,9 +16,9 @@ import { FilterSectionComponent } from './filter-section.component';
     SharedModule,
     ReactiveComponentModule,
     MatExpansionModule,
-    ExpandedFiltersModule,
     CollapsedFiltersModule,
     SharedTranslocoModule,
+    FilterModule,
   ],
   exports: [FilterSectionComponent],
 })

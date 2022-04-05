@@ -14,6 +14,7 @@ import {
 import { ChartLegendItem } from '../../shared/charts/models/chart-legend-item.model';
 import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-data.model';
 import { SolidDoughnutChartConfig } from '../../shared/charts/models/solid-doughnut-chart-config.model';
+import { FilterLayout } from '../../shared/filter/filter-layout.enum';
 import {
   Filter,
   IdValue,
@@ -73,6 +74,8 @@ export class ReasonsForLeavingComponent implements OnInit {
   comparedSelectedOrgUnitLoading$: Observable<boolean>;
   comparedSelectedTimePeriod$: Observable<TimePeriod>;
   comparedSelectedTime$: Observable<IdValue>;
+
+  filterLayout = FilterLayout;
   comparedDisabledTimeRangeFilter: boolean;
 
   constructor(private readonly store: Store) {}

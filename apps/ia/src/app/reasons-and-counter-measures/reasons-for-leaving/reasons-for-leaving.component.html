@@ -5,6 +5,7 @@
   <div class="grid w-full grid-cols-1 gap-4 p-4 lg:grid-cols-3">
     <ia-filter
       class="order-1"
+      [layout]="filterLayout.SLIM"
       [orgUnitsFilter]="orgUnitsFilter$ | ngrxPush"
       [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
       [disableFilters]="true"
@@ -33,6 +34,7 @@
         {{ t('topFiveReasons.resetCompareMode') }}
       </button>
       <ia-filter
+        [layout]="filterLayout.SLIM"
         [orgUnitsFilter]="comparedOrgUnitsFilter$ | ngrxPush"
         [orgUnitsLoading]="comparedSelectedOrgUnitLoading$ | ngrxPush"
         [selectedOrgUnit]="comparedSelectedOrgUnit$ | ngrxPush"

@@ -19,6 +19,7 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
+import { FilterModule } from '../shared/filter/filter.module';
 import {
   Filter,
   FilterKey,
@@ -26,7 +27,6 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../shared/models';
-import { ExpandedFiltersModule } from './expanded-filters/expanded-filters.module';
 import { FilterSectionComponent } from './filter-section.component';
 
 describe('FilterSectionComponent', () => {
@@ -40,7 +40,7 @@ describe('FilterSectionComponent', () => {
       NoopAnimationsModule,
       ReactiveComponentModule,
       MatExpansionModule,
-      ExpandedFiltersModule,
+      FilterModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TranslocoModule } from '@ngneat/transloco';
 
@@ -16,6 +18,8 @@ import { FilterComponent } from './filter.component';
     SelectInputModule,
     DateInputModule,
     TranslocoModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
   exports: [FilterComponent],
 })

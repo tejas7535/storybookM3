@@ -18,6 +18,7 @@ import {
   getSelectedTimeRange,
   getTimePeriods,
 } from '../core/store/selectors';
+import { FilterLayout } from '../shared/filter/filter-layout.enum';
 import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 
 @Component({
@@ -34,6 +35,8 @@ export class FilterSectionComponent implements OnInit {
   selectedTimePeriod$: Observable<TimePeriod>;
   selectedTime$: Observable<IdValue>;
   selectedFilterValues$: Observable<string[]>;
+
+  filterLayout = FilterLayout;
 
   constructor(private readonly store: Store) {}
 

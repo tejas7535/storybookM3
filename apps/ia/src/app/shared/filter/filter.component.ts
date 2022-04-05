@@ -14,6 +14,7 @@ import {
   TimePeriod,
 } from '../models';
 import { getBeautifiedTimeRange, getTimeRangeHint } from '../utils/utilities';
+import { FilterLayout } from './filter-layout.enum';
 
 @Component({
   selector: 'ia-filter',
@@ -26,6 +27,9 @@ export class FilterComponent {
   timeRangeHintValue = 'time range';
 
   disabledTimeRangeFilter = true;
+  filterLayout = FilterLayout;
+
+  @Input() layout: FilterLayout = FilterLayout.DEFAULT;
 
   @Input() disableFilters: boolean;
   @Input() orgUnitsFilter: Filter;

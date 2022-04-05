@@ -14,7 +14,8 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="mb-4 px-6">
-      <ia-expanded-filters
+      <ia-filter
+        [layout]="filterLayout.DEFAULT"
         [orgUnitsFilter]="orgUnitsFilter$ | ngrxPush"
         [orgUnitsLoading]="orgUnitsLoading$ | ngrxPush"
         [selectedOrgUnit]="selectedOrgUnit$ | ngrxPush"
@@ -25,7 +26,7 @@
         (selectTimePeriod)="timePeriodSelected($event)"
         (autoCompleteOrgUnits)="autoCompleteOrgUnitsChange($event)"
       >
-      </ia-expanded-filters>
+      </ia-filter>
     </div>
   </mat-expansion-panel>
 </mat-accordion>
