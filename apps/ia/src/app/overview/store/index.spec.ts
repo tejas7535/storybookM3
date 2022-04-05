@@ -35,7 +35,7 @@ describe('Overview Reducer', () => {
   describe('loadAttritionOverTimeOverview', () => {
     test('should set loading', () => {
       const action = loadAttritionOverTimeOverview({
-        request: {} as unknown as EmployeesRequest,
+        orgUnit: 'ACB',
       });
       const state = overviewReducer(initialState, action);
 

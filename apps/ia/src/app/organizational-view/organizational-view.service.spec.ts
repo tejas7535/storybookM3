@@ -71,6 +71,21 @@ describe('OrganizationalViewService', () => {
       expect(result.length).toEqual(1);
       expect(result[0].continent).toEqual('Europe');
     });
+
+    test('should look for correct continent and set it with name_long prop', () => {
+      const data = [
+        {
+          name: 'Czech Republic',
+        } as CountryData,
+      ];
+
+      // world.json contains Czech Rep. as name and Czech Republic as name_long
+      const result = service.addContinentToCountryData(data);
+
+      expect(result.length).toEqual(1);
+      expect(result[0].continent).toEqual('Europe');
+      expect(result[0].name).toEqual('Czech Rep.');
+    });
   });
 
   describe('getWorldMap', () => {
@@ -121,8 +136,6 @@ describe('OrganizationalViewService', () => {
   describe('getAttritionOverTime', () => {
     test('should get attrition data for last years', () => {
       const orgUnit = 'Schaeffler12';
-      const timeRange = '123-321';
-      const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
       const mock: AttritionOverTime = {
         events: [],
         data: {
@@ -134,13 +147,13 @@ describe('OrganizationalViewService', () => {
       };
 
       service
-        .getAttritionOverTime(request, TimePeriod.LAST_THREE_YEARS)
+        .getAttritionOverTime(orgUnit, TimePeriod.LAST_THREE_YEARS)
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
       const req = httpMock.expectOne(
-        `api/v1/attrition-over-time?org_unit=${orgUnit}&time_range=${timeRange}&time_period=${TimePeriod.LAST_THREE_YEARS}`
+        `api/v1/attrition-over-time?org_unit=${orgUnit}&time_period=${TimePeriod.LAST_THREE_YEARS}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

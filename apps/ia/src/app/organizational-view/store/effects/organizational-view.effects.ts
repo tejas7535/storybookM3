@@ -50,7 +50,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       mergeMap((request: EmployeesRequest) => [
         loadOrgChart({ request }),
         loadWorldMap({ request }),
-        loadAttritionOverTimeOrgChart({ request }),
+        loadAttritionOverTimeOrgChart({ orgUnit: request.orgUnit }),
       ])
     );
   });
@@ -121,10 +121,10 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadAttritionOverTimeOrgChart$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadAttritionOverTimeOrgChart),
-      map((action) => action.request),
-      switchMap((request: EmployeesRequest) =>
+      map((action) => action.orgUnit),
+      switchMap((orgUnit: string) =>
         this.organizationalViewService
-          .getAttritionOverTime(request, TimePeriod.PLUS_MINUS_THREE_MONTHS)
+          .getAttritionOverTime(orgUnit, TimePeriod.PLUS_MINUS_THREE_MONTHS)
           .pipe(
             map((data: AttritionOverTime) =>
               loadAttritionOverTimeOrgChartSuccess({ data })

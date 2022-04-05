@@ -58,7 +58,7 @@ export class OverviewEffects implements OnInitEffects {
       map(([_action, request]) => request),
       filter((request) => request.orgUnit && request.timeRange),
       mergeMap((request: EmployeesRequest) => [
-        loadAttritionOverTimeOverview({ request }),
+        loadAttritionOverTimeOverview({ orgUnit: request.orgUnit }),
         loadFluctuationRatesOverview({ request }),
         loadFluctuationRatesChartData({ request }),
         loadUnforcedFluctuationRatesChartData({ request }),
@@ -71,10 +71,10 @@ export class OverviewEffects implements OnInitEffects {
   loadAttritionOverTimeOverview$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadAttritionOverTimeOverview),
-      map((action) => action.request),
-      switchMap((request: EmployeesRequest) =>
+      map((action) => action.orgUnit),
+      switchMap((orgUnit: string) =>
         this.organizationalViewService
-          .getAttritionOverTime(request, TimePeriod.LAST_THREE_YEARS)
+          .getAttritionOverTime(orgUnit, TimePeriod.LAST_THREE_YEARS)
           .pipe(
             map((data: AttritionOverTime) =>
               loadAttritionOverTimeOverviewSuccess({ data })

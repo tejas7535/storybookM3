@@ -60,7 +60,7 @@ export const loadParentFailure = createAction(
 
 export const loadAttritionOverTimeOrgChart = createAction(
   '[Organizational View] Load AttritionOverTime for plus minus three months',
-  props<{ request: EmployeesRequest }>()
+  props<{ orgUnit: string }>()
 );
 
 export const loadAttritionOverTimeOrgChartSuccess = createAction(

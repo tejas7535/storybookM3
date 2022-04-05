@@ -26,11 +26,11 @@ describe('Overview Actions', () => {
   const errorMessage = 'An error occured';
 
   test('loadAttritionOverTimeOverview', () => {
-    const request = {} as unknown as EmployeesRequest;
-    const action = loadAttritionOverTimeOverview({ request });
+    const orgUnit = 'ABC';
+    const action = loadAttritionOverTimeOverview({ orgUnit });
 
     expect(action).toEqual({
-      request,
+      orgUnit,
       type: '[Overview] Load AttritionOverTime for last three years',
     });
   });

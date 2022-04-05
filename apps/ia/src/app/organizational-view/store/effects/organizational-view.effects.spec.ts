@@ -74,12 +74,16 @@ describe('Organizational View Effects', () => {
           id: 'best',
           value: 'best',
         });
-        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        const request = {
+          orgUnit: filter.idValue.id,
+        } as unknown as EmployeesRequest;
         action = filterSelected({ filter });
         store.overrideSelector(getCurrentFilters, request);
         const resultOrg = loadOrgChart({ request });
         const resultWorld = loadWorldMap({ request });
-        const resultAttrition = loadAttritionOverTimeOrgChart({ request });
+        const resultAttrition = loadAttritionOverTimeOrgChart({
+          orgUnit: filter.idValue.id,
+        });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-(bcd)', {
@@ -326,11 +330,11 @@ describe('Organizational View Effects', () => {
   });
 
   describe('loadAttritionOverTimeOrgChart$', () => {
-    let request: EmployeesRequest;
+    let orgUnit: string;
 
     beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
-      action = loadAttritionOverTimeOrgChart({ request });
+      orgUnit = 'ACB';
+      action = loadAttritionOverTimeOrgChart({ orgUnit });
     });
 
     test(
@@ -358,7 +362,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(request, TimePeriod.PLUS_MINUS_THREE_MONTHS);
+        ).toHaveBeenCalledWith(orgUnit, TimePeriod.PLUS_MINUS_THREE_MONTHS);
       })
     );
 
@@ -383,7 +387,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(request, TimePeriod.PLUS_MINUS_THREE_MONTHS);
+        ).toHaveBeenCalledWith(orgUnit, TimePeriod.PLUS_MINUS_THREE_MONTHS);
       })
     );
   });

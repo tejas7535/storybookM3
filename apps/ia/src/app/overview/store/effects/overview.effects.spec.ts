@@ -103,11 +103,11 @@ describe('Overview Effects', () => {
   });
 
   describe('loadAttritionOverTimeOverview$', () => {
-    let request: EmployeesRequest;
+    let orgUnit: string;
 
     beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
-      action = loadAttritionOverTimeOverview({ request });
+      orgUnit = 'ACB';
+      action = loadAttritionOverTimeOverview({ orgUnit });
     });
 
     test(
@@ -135,7 +135,7 @@ describe('Overview Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(request, TimePeriod.LAST_THREE_YEARS);
+        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_THREE_YEARS);
       })
     );
 
@@ -160,7 +160,7 @@ describe('Overview Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(request, TimePeriod.LAST_THREE_YEARS);
+        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_THREE_YEARS);
       })
     );
   });

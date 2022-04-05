@@ -50,12 +50,19 @@ export class OrganizationalViewService {
   }
 
   addContinentToCountryData(countryData: CountryData[]): CountryData[] {
-    return countryData.map((country) => ({
-      ...country,
-      continent: (worldJson as any).features.find(
-        (elem: any) => elem.properties.name === country.name
-      )?.properties.continent,
-    }));
+    return countryData.map((country) => {
+      const countryJson = (worldJson as any).features.find(
+        (elem: any) =>
+          elem.properties.name === country.name ||
+          elem.properties.name_long === country.name
+      );
+
+      return {
+        ...country,
+        name: countryJson?.properties.name,
+        continent: countryJson?.properties.continent,
+      };
+    });
   }
 
   getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
@@ -92,15 +99,13 @@ export class OrganizationalViewService {
   }
 
   getAttritionOverTime(
-    employeesRequest: EmployeesRequest,
-    timePeriod: TimePeriod
+    orgUnit: string,
+    timePeriod: TimePeriod.LAST_THREE_YEARS | TimePeriod.PLUS_MINUS_THREE_MONTHS
   ): Observable<AttritionOverTime> {
-    const params =
-      this.paramsCreator.createHttpParamsForOrgUnitTimeRangeAndTimePeriod(
-        employeesRequest.orgUnit,
-        employeesRequest.timeRange,
-        timePeriod
-      );
+    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimePeriod(
+      orgUnit,
+      timePeriod
+    );
 
     return this.http.get<AttritionOverTime>(
       `${ApiVersion.V1}/${this.ATTRITION_OVER_TIME}`,

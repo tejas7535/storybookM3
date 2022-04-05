@@ -131,12 +131,12 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadAttritionOverTimeOrgChart', () => {
-    const request = {} as unknown as EmployeesRequest;
+    const orgUnit = 'ACB';
 
-    const action = loadAttritionOverTimeOrgChart({ request });
+    const action = loadAttritionOverTimeOrgChart({ orgUnit });
 
     expect(action).toEqual({
-      request,
+      orgUnit,
       type: '[Organizational View] Load AttritionOverTime for plus minus three months',
     });
   });

@@ -10,7 +10,7 @@ import {
 
 export const loadAttritionOverTimeOverview = createAction(
   '[Overview] Load AttritionOverTime for last three years',
-  props<{ request: EmployeesRequest }>()
+  props<{ orgUnit: string }>()
 );
 
 export const loadAttritionOverTimeOverviewSuccess = createAction(

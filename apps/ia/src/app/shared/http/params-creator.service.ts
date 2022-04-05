@@ -39,4 +39,10 @@ export class ParamsCreatorService {
       .set(this.PARAM_TIME_RANGE, timeRange)
       .set(this.PARAM_TIME_PERIOD, timePeriod);
   }
+
+  createHttpParamsForOrgUnitAndTimePeriod(orgUnit: string, timePeriod: string) {
+    return new HttpParams()
+      .set(this.PARAM_ORG_UNIT, orgUnit)
+      .set(this.PARAM_TIME_PERIOD, timePeriod);
+  }
 }
