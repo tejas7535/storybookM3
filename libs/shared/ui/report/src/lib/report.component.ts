@@ -43,8 +43,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   public limitResults = true;
   public allResultAmount: number | undefined;
-  public htmlResult$ = new ReplaySubject<Subordinate[]>();
-  public jsonResult$ = new ReplaySubject<Subordinate[]>();
+  public htmlResult$: ReplaySubject<Subordinate[]> = new ReplaySubject<
+    Subordinate[]
+  >();
+  public jsonResult$: ReplaySubject<Subordinate[]> = new ReplaySubject<
+    Subordinate[]
+  >();
   private readonly destroy$ = new Subject<void>();
   public formattedResult: Subordinate[] = [];
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
