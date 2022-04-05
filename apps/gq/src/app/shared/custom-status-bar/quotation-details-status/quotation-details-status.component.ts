@@ -8,22 +8,28 @@ import { Store } from '@ngrx/store';
 
 import {
   getCustomerCurrency,
+  getSimulatedQuotation,
+  getSimulationModeEnabled,
   userHasGPCRole,
   userHasSQVRole,
 } from '../../../core/store';
 import { StatusBarModalComponent } from '../../components/status-bar-modal/status-bar-modal.component';
-import { StatusBar } from '../../models';
+import { statusBarSimulation } from '../../constants';
+import { SimulatedQuotation, StatusBar } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from '../../services/price-service/price.service';
 
 @Component({
   selector: 'gq-quotation-details-status',
   templateUrl: './quotation-details-status.component.html',
+  styles: [statusBarSimulation],
 })
 export class QuotationDetailsStatusComponent implements OnInit {
   showGPI$: Observable<boolean>;
   showGPM$: Observable<boolean>;
   customerCurrency$: Observable<string>;
+  simulationModeEnabled$: Observable<boolean>;
+  simulatedQuotation$: Observable<SimulatedQuotation>;
   statusBar = new StatusBar();
 
   selections: QuotationDetail[] = [];
@@ -37,8 +43,9 @@ export class QuotationDetailsStatusComponent implements OnInit {
   ngOnInit(): void {
     this.showGPI$ = this.store.select(userHasGPCRole);
     this.showGPM$ = this.store.select(userHasSQVRole);
-
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
+    this.simulatedQuotation$ = this.store.select(getSimulatedQuotation);
   }
 
   agInit(params: IStatusPanelParams): void {

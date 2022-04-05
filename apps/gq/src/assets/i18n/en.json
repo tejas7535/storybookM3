@@ -135,7 +135,9 @@
         "refreshSapDataMobile": "refresh",
         "resetAll": "Reset All",
         "uploadSelectionToSap": "Update prices to SAP",
-        "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP."
+        "uploadSelectionToSapInfoText": "Select up to 100 positions to upload to SAP.",
+        "confirmSimulation": "Confirm",
+        "discardSimulation": "Discard Changes"
       },
       "totalRowCount": {
         "total": "Total",
@@ -150,6 +152,10 @@
         "totalAverageGPM": "Total WAvg. GPM",
         "totalNetValue": "Total Net Value",
         "totalPriceDiff": "Total Price Diff. %",
+        "previousNetValue": "Previous Net Value",
+        "previousGPM": "Previous GPM%",
+        "previousGPI": "Previous GPI%",
+        "previousPriceDiff": "Previous Price Diff. %",
         "showAll": "Show All",
         "modalTitle": "Table Summary Figures"
       },

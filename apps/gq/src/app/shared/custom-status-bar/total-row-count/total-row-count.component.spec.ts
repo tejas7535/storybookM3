@@ -1,5 +1,7 @@
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -13,7 +15,11 @@ describe('TotalRowCountComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TotalRowCountComponent,
-    imports: [provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      ReactiveComponentModule,
+    ],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {
@@ -38,6 +44,7 @@ describe('TotalRowCountComponent', () => {
 
       expect(component['params']).toEqual(params);
       expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(2);
+      expect(component.simulationModeEnabled$).toBeDefined();
     });
   });
 

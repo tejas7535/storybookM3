@@ -37,3 +37,15 @@ export const disableTableHorizontalScrollbar = `
   }
 }
 `;
+
+export const statusBarSimulation = `
+::ng-deep ag-grid-angular {
+  .ag-status-bar-right {
+    width: 100%;
+    justify-content: end;
+  }
+}
+:host {
+  width: 100%;
+}
+`;

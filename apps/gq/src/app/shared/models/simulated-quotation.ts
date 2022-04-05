@@ -1,10 +1,9 @@
 import { QuotationDetail } from './quotation-detail';
+import { StatusBarProperties } from './status-bar.model';
 
 export class SimulatedQuotation {
   public gqId: number;
   public quotationDetails: QuotationDetail[];
-  public simulatedDiscount: number;
-  public simulatedNetPrice: number;
-  public simulatedGPM: number;
-  public simulatedGPI: number;
+  public previousStatusBar: StatusBarProperties;
+  public simulatedStatusBar: StatusBarProperties;
 }

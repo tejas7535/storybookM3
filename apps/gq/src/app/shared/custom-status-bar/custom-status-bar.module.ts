@@ -18,8 +18,10 @@ import { ProcessCaseResetAllButtonComponent } from './case-material-table/proces
 import { CreateCustomerCaseButtonComponent } from './case-view/create-customer-case-button/create-customer-case-button.component';
 import { CreateManualCaseButtonComponent } from './case-view/create-manual-case-button/create-manual-case-button.component';
 import { ImportCaseButtonComponent } from './case-view/import-case-button/import-case-button.component';
+import { ConfirmSimulationButtonComponent } from './confirm-simulation-button/confirm-simulation-button.component';
 import { DeleteCaseButtonComponent } from './delete-case-button/delete-case-button.component';
 import { DeleteItemsButtonComponent } from './delete-items-button/delete-items-button.component';
+import { DiscardSimulationButtonComponent } from './discard-simulation-button/discard-simulation-button.component';
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
 import { MaterialValidationStatusComponent } from './material-validation-status/material-validation-status.component';
 import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
@@ -45,6 +47,8 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     AddItemsButtonComponent,
     TotalRowCountComponent,
     RefreshSapPriceComponent,
+    ConfirmSimulationButtonComponent,
+    DiscardSimulationButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -73,6 +77,8 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     AddItemsButtonComponent,
     TotalRowCountComponent,
     RefreshSapPriceComponent,
+    ConfirmSimulationButtonComponent,
+    DiscardSimulationButtonComponent,
   ],
 })
 export class CustomStatusBarModule {}

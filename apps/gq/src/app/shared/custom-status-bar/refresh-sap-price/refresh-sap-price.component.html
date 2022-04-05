@@ -1,14 +1,16 @@
-<button
-  class="!m-4 !ml-0 !mr-0 truncate !text-link md:!mr-4"
-  mat-flat-button
-  *transloco="let t; read: 'shared.customStatusBar.buttons'"
-  (click)="refreshSapPricing()"
->
-  <mat-icon>{{ icon }}</mat-icon>
-  <span class="hidden lg:inline">
-    {{ t('refreshSapData') }}
-  </span>
-  <span class="lg:hidden">
-    {{ t('refreshSapDataMobile') }}
-  </span>
-</button>
+<div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
+  <button
+    class="!m-4 !ml-0 !mr-0 truncate !text-link md:!mr-4"
+    mat-flat-button
+    *transloco="let t; read: 'shared.customStatusBar.buttons'"
+    (click)="refreshSapPricing()"
+  >
+    <mat-icon>{{ icon }}</mat-icon>
+    <span class="hidden lg:inline">
+      {{ t('refreshSapData') }}
+    </span>
+    <span class="lg:hidden">
+      {{ t('refreshSapDataMobile') }}
+    </span>
+  </button>
+</div>

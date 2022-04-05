@@ -3,7 +3,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { provideMockStore } from '@ngrx/store/testing';
 
+import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { EditableColumnHeaderComponent } from './editable-column-header.component';
@@ -11,7 +13,6 @@ import { EditableColumnHeaderComponent } from './editable-column-header.componen
 describe('EditableColumnHeaderComponent', () => {
   let component: EditableColumnHeaderComponent;
   let spectator: Spectator<EditableColumnHeaderComponent>;
-
   const DEFAULT_PARAMS = {
     template: '',
     displayName: 'Test',
@@ -38,7 +39,13 @@ describe('EditableColumnHeaderComponent', () => {
   const createComponent = createComponentFactory({
     component: EditableColumnHeaderComponent,
     imports: [MatIconModule, MatInputModule, ReactiveFormsModule, FormsModule],
-    providers: [],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: PROCESS_CASE_STATE_MOCK,
+        },
+      }),
+    ],
     detectChanges: false,
   });
 
@@ -51,6 +58,35 @@ describe('EditableColumnHeaderComponent', () => {
   it('should create', () => {
     spectator.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should call addSubscriptions', () => {
+      component.addSubscriptions = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe subscriptions', () => {
+      component['subscription'].unsubscribe = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('addSubscriptions', () => {
+    test('should add subscriptions', () => {
+      component['subscription'].add = jest.fn();
+
+      component.addSubscriptions();
+
+      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('onSortChanged', () => {

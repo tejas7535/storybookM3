@@ -5,6 +5,8 @@ export const STATUS_BAR_CONFIG: {
 } = {
   statusPanels: [
     { statusPanel: 'UploadSelectionToSapButtonComponent', align: 'left' },
+    { statusPanel: 'ConfirmSimulationButtonComponent', align: 'left' },
+    { statusPanel: 'DiscardSimulationButtonComponent', align: 'left' },
     { statusPanel: 'AddItemsButtonComponent', align: 'left' },
     { statusPanel: 'ExportToExcelButtonComponent', align: 'left' },
     { statusPanel: 'RefreshSapPriceComponent', align: 'left' },

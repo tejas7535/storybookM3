@@ -93,6 +93,7 @@ describe('ExportToExcelButtonComponent', () => {
       component.agInit(mockParams);
 
       expect(component['params']).toEqual(mockParams);
+      expect(component.simulationModeEnabled$).toBeDefined();
     });
   });
   describe('exportToExcel', () => {

@@ -1,0 +1,11 @@
+<div *ngIf="simulationModeEnabled$ | ngrxPush" class="h-full bg-[#3c3c3c]">
+  <button
+    class="!m-4"
+    mat-raised-button
+    color="primary"
+    *transloco="let t; read: 'shared.customStatusBar.buttons'"
+    (click)="confirmSimulation()"
+  >
+    {{ t('confirmSimulation') }} ({{ selectedRowCount }})
+  </button>
+</div>

@@ -88,6 +88,11 @@ export class ColumnDefService {
       field: ColumnFields.NET_VALUE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
       filter: NUMBER_COLUMN_FILTER,
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.NET_VALUE,
+      } as EditCellData,
     },
 
     {
@@ -189,6 +194,11 @@ export class ColumnDefService {
       field: ColumnFields.RLM,
       valueFormatter: ColumnUtilityService.percentageFormatter,
       filter: NUMBER_COLUMN_FILTER,
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.RLM,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),

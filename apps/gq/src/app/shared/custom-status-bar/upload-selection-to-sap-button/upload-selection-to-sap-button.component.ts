@@ -7,7 +7,11 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { getSapId, uploadSelectionToSap } from '../../../core/store';
+import {
+  getSapId,
+  getSimulationModeEnabled,
+  uploadSelectionToSap,
+} from '../../../core/store';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
 import { QuotationDetail } from '../../models/quotation-detail';
@@ -23,9 +27,11 @@ export class UploadSelectionToSapButtonComponent {
   public uploadDisabled = true;
   private params: IStatusPanelParams;
   public icon = 'cloud_upload';
+  public simulationModeEnabled$: Observable<boolean>;
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
+    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
 
     this.params.api.addEventListener('gridReady', this.onGridReady.bind(this));
     this.params.api.addEventListener(
@@ -55,15 +61,15 @@ export class UploadSelectionToSapButtonComponent {
     const gqPositionIds = this.selections.map(
       (val: QuotationDetail) => val.gqPositionId
     );
-    const displayText = translate<string>(
+    const displayText = translate(
       'processCaseView.confirmUploadPositions.text',
       { variable: gqPositionIds.length }
     );
-    const confirmButton = translate<string>(
+    const confirmButton = translate(
       'processCaseView.confirmUploadPositions.uploadButton'
     ).toUpperCase();
 
-    const cancelButton = translate<string>(
+    const cancelButton = translate(
       'processCaseView.confirmUploadPositions.cancelButton'
     ).toUpperCase();
 

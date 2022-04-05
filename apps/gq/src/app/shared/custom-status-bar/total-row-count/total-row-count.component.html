@@ -1,13 +1,49 @@
 <div
-  class="hidden h-full items-center text-center md:flex"
-  *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
+  class="hidden h-full items-center text-center text-caption font-medium md:flex"
+  *ngrxLet="simulationModeEnabled$ as simulationModeEnabled"
+  [ngClass]="{ 'bg-[#3c3c3c]': simulationModeEnabled }"
 >
-  <div *ngIf="totalRowCount" class="flex flex-col">
-    <span class="text-left text-low-emphasis"> {{ t('total') }}:</span>
-    <span class="text-left text-high-emphasis"> {{ totalRowCount }}</span>
-  </div>
-  <div class="ml-4 flex flex-col">
-    <span class="text-left text-low-emphasis"> {{ t('selected') }}:</span>
-    <span class="text-left text-high-emphasis"> {{ selectedRowCount }}</span>
+  <div
+    class="flex"
+    *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
+  >
+    <div *ngIf="totalRowCount" class="flex flex-col">
+      <span
+        class="text-left"
+        [ngClass]="
+          simulationModeEnabled
+            ? 'text-medium-emphasis-dark-bg'
+            : 'text-low-emphasis'
+        "
+      >
+        {{ t('total') }}:</span
+      >
+      <span
+        class="text-left text-high-emphasis"
+        [ngClass]="simulationModeEnabled ? 'text-white ' : 'text-high-emphasis'"
+      >
+        {{ totalRowCount }}</span
+      >
+    </div>
+    <div class="ml-4 flex flex-col">
+      <span
+        class="text-left"
+        [ngClass]="
+          simulationModeEnabled
+            ? 'text-medium-emphasis-dark-bg'
+            : 'text-low-emphasis'
+        "
+      >
+        {{ t('selected') }}:</span
+      >
+      <span
+        class="text-left"
+        [ngClass]="
+          simulationModeEnabled ? 'text-white ' : 'text-high-emphasis-emphasis'
+        "
+      >
+        {{ selectedRowCount }}</span
+      >
+    </div>
   </div>
 </div>

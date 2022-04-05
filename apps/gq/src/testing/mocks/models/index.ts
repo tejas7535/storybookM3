@@ -14,4 +14,5 @@ export * from './quotation.mock';
 export * from './quotation-details.mock';
 export * from './quotation-identifier.mock';
 export * from './sap-price-condition-detail.mock';
+export * from './status-bar.mock';
 export * from './view-quotation.mock';

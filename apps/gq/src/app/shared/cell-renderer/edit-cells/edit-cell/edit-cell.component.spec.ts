@@ -109,6 +109,36 @@ describe('EditCellComponent', () => {
       expect(component.isCellEditingAllowed).toBeFalsy();
       expect(component.priceWarningEnabled).toBeFalsy();
     });
+    test('should set params but disable cellEditing for RLM', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        condition: {
+          enabled: true,
+        },
+        field: ColumnFields.RLM,
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeFalsy();
+      expect(component.priceWarningEnabled).toBeFalsy();
+    });
+    test('should set params but disable cellEditing for netValue', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        condition: {
+          enabled: true,
+        },
+        field: ColumnFields.NET_VALUE,
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeFalsy();
+      expect(component.priceWarningEnabled).toBeFalsy();
+    });
     test('should set params and enable priceWarning', () => {
       const params = {
         value: 21,

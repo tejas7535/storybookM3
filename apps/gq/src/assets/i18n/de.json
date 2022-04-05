@@ -135,7 +135,9 @@
         "refreshSapDataMobile": "Aktualisieren",
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "SAP Preise aktualisieren",
-        "uploadSelectionToSapInfoText": "Selektieren Sie bis zu 100 Positionen für den SAP Upload."
+        "uploadSelectionToSapInfoText": "Selektieren Sie bis zu 100 Positionen für den SAP Upload.",
+        "confirmSimulation": "Bestätigen",
+        "discardSimulation": "Änderungen verwerfen"
       },
       "totalRowCount": {
         "total": "Anzahl",
@@ -145,11 +147,15 @@
         "selectedAverageGPI": "Ausgew. gew. ø GPI",
         "selectedAverageGPM": "Ausgew. gew. ø GPM",
         "selectedNetValue": "Ausgew. Nettowert",
-        "selectedPriceDiff": "Ausgew. Price Diff. %",
+        "selectedPriceDiff": "Ausgew. Preis Diff. %",
         "totalAverageGPI": "Ges. gew. ø GPI",
         "totalAverageGPM": "Ges. gew. ø GPM",
         "totalNetValue": "Ges. Nettowert",
         "totalPriceDiff": "Ges. Preisdiff. %",
+        "previousNetValue": "Vorheriger Nettowert",
+        "previousGPM": "Vorheriger GPM%",
+        "previousGPI": "Vorheriger GPI%",
+        "previousPriceDiff": "Vorherige Preis Diff. %",
         "showAll": "Alle anzeigen",
         "modalTitle": "Tabelle Übersichtszahlen"
       },

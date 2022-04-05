@@ -5,34 +5,36 @@ import { Observable } from 'rxjs';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
-import { getSimulationModeEnabled } from '../../../core/store';
+import {
+  confirmSimulatedQuotation,
+  getSimulationModeEnabled,
+} from '../../../core/store';
 
 @Component({
-  selector: 'gq-total-row-count',
-  templateUrl: './total-row-count.component.html',
+  selector: 'gq-confirm-simulation-button',
+  templateUrl: './confirm-simulation-button.component.html',
 })
-export class TotalRowCountComponent {
-  totalRowCount: number;
+export class ConfirmSimulationButtonComponent {
   selectedRowCount = 0;
+  params: IStatusPanelParams;
   simulationModeEnabled$: Observable<boolean>;
-  private params: IStatusPanelParams;
 
   constructor(private readonly store: Store) {}
 
-  agInit(params: IStatusPanelParams): void {
+  agInit(params: IStatusPanelParams) {
     this.params = params;
-    this.params.api.addEventListener('gridReady', this.onGridReady.bind(this));
+    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
     this.params.api.addEventListener(
       'selectionChanged',
       this.onSelectionChange.bind(this)
     );
-    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
 
-  onGridReady(): void {
-    this.totalRowCount = this.params.api.getDisplayedRowCount();
-  }
   onSelectionChange(): void {
     this.selectedRowCount = this.params.api.getSelectedRows().length;
+  }
+
+  confirmSimulation(): void {
+    this.store.dispatch(confirmSimulatedQuotation());
   }
 }

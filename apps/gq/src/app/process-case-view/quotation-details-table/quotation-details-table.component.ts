@@ -11,10 +11,10 @@ import {
   GridReadyEvent,
   RowNode,
   RowSelectedEvent,
+  SideBarDef,
   SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
-import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
@@ -30,7 +30,7 @@ import { LocalizationService } from '../../shared/ag-grid/services/localization.
 import { KpiValue } from '../../shared/components/editing-modal/kpi-value.model';
 import { basicTableStyle, statusBarStlye } from '../../shared/constants';
 import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
-import { Quotation, SimulatedQuotation } from '../../shared/models';
+import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { PriceService } from '../../shared/services/price-service/price.service';
@@ -38,6 +38,7 @@ import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
   MODULES,
+  SIDE_BAR,
   STATUS_BAR_CONFIG,
 } from './config';
 import { TableContext } from './config/tablecontext.model';
@@ -48,56 +49,28 @@ import { TableContext } from './config/tablecontext.model';
   styles: [basicTableStyle, statusBarStlye],
 })
 export class QuotationDetailsTableComponent implements OnInit {
-  private readonly TABLE_KEY = 'processCase';
-
-  rowData: QuotationDetail[];
-  selectedRows: RowNode[] = [];
-  sideBar = {
-    toolPanels: [
-      {
-        id: 'columns',
-        labelDefault: translate('shared.quotationDetailsTable.sidebar.columns'),
-        labelKey: 'columns',
-        iconKey: 'columns',
-        toolPanel: 'agColumnsToolPanel',
-        toolPanelParams: {
-          suppressPivotMode: true,
-          suppressRowGroups: true,
-          suppressValues: true,
-        },
-      },
-      {
-        id: 'filters',
-        labelDefault: translate('shared.quotationDetailsTable.sidebar.filters'),
-        labelKey: 'filters',
-        iconKey: 'filter',
-        toolPanel: 'agFiltersToolPanel',
-      },
-    ],
-  };
-
-  tableContext: TableContext = {
-    quotation: undefined,
-    onMultipleMaterialSimulation: () => {},
-  };
-
   @Input() set quotation(quotation: Quotation) {
     this.rowData = quotation?.quotationDetails;
     this.tableContext.quotation = quotation;
   }
 
-  modules: any[] = MODULES;
+  private readonly TABLE_KEY = 'processCase';
 
+  public sideBar: SideBarDef = SIDE_BAR;
+  public modules: any[] = MODULES;
   public defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
-
   public statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
-
   public components = COMPONENTS;
-
   public columnDefs$: Observable<ColDef[]>;
   public rowSelection = 'multiple';
   public excelStyles: ExcelStyle[] = excelStyles;
   public localeText$: Observable<AgGridLocale>;
+  public rowData: QuotationDetail[];
+  public selectedRows: RowNode[] = [];
+  public tableContext: TableContext = {
+    quotation: undefined,
+    onMultipleMaterialSimulation: () => {},
+  };
 
   simulatedField: ColumnFields;
   simulatedValue: number;
@@ -216,39 +189,44 @@ export class QuotationDetailsTableComponent implements OnInit {
         field,
         row.data
       );
-
       const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
       const simulatedRow: QuotationDetail = {
         ...row.data,
         price: simulatedPrice,
-        gpi: field === 'gpi' ? value : this.getAffectedKpi(affectedKpis, 'gpi'),
-        gpm: field === 'gpm' ? value : this.getAffectedKpi(affectedKpis, 'gpm'),
-        discount:
-          field === 'discount'
+        netValue: PriceService.calculateNetValue(
+          simulatedPrice,
+          row.data.orderQuantity
+        ),
+        gpi:
+          field === ColumnFields.GPI
             ? value
-            : this.getAffectedKpi(affectedKpis, 'discount'),
+            : this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
+        gpm:
+          field === ColumnFields.GPM
+            ? value
+            : this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
+        discount:
+          field === ColumnFields.DISCOUNT
+            ? value
+            : this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
         priceDiff: PriceService.calculatepriceDiff({
           ...row.data,
           price: simulatedPrice,
         }),
+        rlm: PriceService.calculateMargin(
+          simulatedPrice,
+          row.data.relocationCost
+        ),
       };
 
       return simulatedRow;
     });
 
-    const simulatedQuotation: SimulatedQuotation = {
-      gqId: this.tableContext.quotation.gqId,
-      quotationDetails: simulatedRows,
-      simulatedDiscount: 0,
-      simulatedGPI: 0,
-      simulatedGPM: 0,
-      simulatedNetPrice: 0,
-    };
-
     this.store.dispatch(
       addSimulatedQuotation({
-        simulatedQuotation,
+        gqId: this.tableContext.quotation.gqId,
+        quotationDetails: simulatedRows,
       })
     );
   }
@@ -271,7 +249,6 @@ export class QuotationDetailsTableComponent implements OnInit {
         return true;
     }
   }
-
   private getAffectedKpi(
     kpis: KpiValue[],
     kpiName: string

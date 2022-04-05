@@ -69,6 +69,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
       component.agInit(statusPanelParams);
       expect(component['params']).toBeDefined();
       expect(component['params'].api.addEventListener).toHaveBeenCalledTimes(2);
+      expect(component.simulationModeEnabled$).toBeDefined();
     });
   });
   describe('onGridReady', () => {

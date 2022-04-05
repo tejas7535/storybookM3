@@ -9,6 +9,7 @@ import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
 import { PLANT_MOCK } from './plant.mock';
 import { SAP_PRICE_DETAIL_MOCK } from './sap-price-condition-detail.mock';
+import { STATUS_BAR_PROPERTIES_MOCK } from './status-bar.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
@@ -97,8 +98,6 @@ export const QUOTATION_DETAILS_MOCK = [
 export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
   gqId: 1234,
   quotationDetails: [QUOTATION_DETAIL_MOCK],
-  simulatedDiscount: 0,
-  simulatedNetPrice: 0,
-  simulatedGPM: 0,
-  simulatedGPI: 0,
+  previousStatusBar: STATUS_BAR_PROPERTIES_MOCK,
+  simulatedStatusBar: STATUS_BAR_PROPERTIES_MOCK,
 };

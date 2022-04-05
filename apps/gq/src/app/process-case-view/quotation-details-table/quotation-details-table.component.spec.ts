@@ -17,6 +17,11 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
+import {
+  addSimulatedQuotation,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
+} from '../../core/store';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
@@ -293,7 +298,6 @@ describe('QuotationDetailsTableComponent', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
-
     test('should set simulated field and value', () => {
       component.onMultipleMaterialSimulation(ColumnFields.PRICE, 25);
       component.tableContext.quotation = { gqId: 1234 } as Quotation;
@@ -314,28 +318,23 @@ describe('QuotationDetailsTableComponent', () => {
       component.selectedRows = [
         { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
       ];
-
       component.onMultipleMaterialSimulation(ColumnFields.PRICE, 50);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        simulatedQuotation: {
-          quotationDetails: [
-            {
-              ...mockQuotationDetail,
-              price: 150,
-              discount: -50,
-              gpi: 86.67,
-              gpm: 80,
-              priceDiff: -11.76,
-            },
-          ],
-          gqId: 1234,
-          simulatedDiscount: 0,
-          simulatedGPI: 0,
-          simulatedGPM: 0,
-          simulatedNetPrice: 0,
-        },
-        type: '[Process Case] Add Simulated Quotation',
+        gqId: MOCK_QUOTATION_ID,
+        quotationDetails: [
+          {
+            ...mockQuotationDetail,
+            price: 150,
+            discount: -50,
+            gpi: 86.67,
+            gpm: 80,
+            priceDiff: -11.76,
+            rlm: 83.67,
+            netValue: 1500,
+          },
+        ],
+        type: addSimulatedQuotation.type,
       });
     });
 
@@ -355,15 +354,9 @@ describe('QuotationDetailsTableComponent', () => {
       component.onMultipleMaterialSimulation(ColumnFields.DISCOUNT, 50);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        simulatedQuotation: {
-          quotationDetails: [mockQuotationDetail],
-          gqId: 1234,
-          simulatedDiscount: 0,
-          simulatedGPI: 0,
-          simulatedGPM: 0,
-          simulatedNetPrice: 0,
-        },
-        type: '[Process Case] Add Simulated Quotation',
+        gqId: MOCK_QUOTATION_ID,
+        quotationDetails: [mockQuotationDetail],
+        type: addSimulatedQuotation.type,
       });
     });
 
@@ -383,15 +376,9 @@ describe('QuotationDetailsTableComponent', () => {
       component.onMultipleMaterialSimulation(ColumnFields.GPI, 50);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        simulatedQuotation: {
-          quotationDetails: [mockQuotationDetail],
-          gqId: 1234,
-          simulatedDiscount: 0,
-          simulatedGPI: 0,
-          simulatedGPM: 0,
-          simulatedNetPrice: 0,
-        },
-        type: '[Process Case] Add Simulated Quotation',
+        gqId: MOCK_QUOTATION_ID,
+        quotationDetails: [mockQuotationDetail],
+        type: addSimulatedQuotation.type,
       });
     });
 
@@ -411,20 +398,14 @@ describe('QuotationDetailsTableComponent', () => {
       component.onMultipleMaterialSimulation(ColumnFields.GPM, 50);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        simulatedQuotation: {
-          quotationDetails: [mockQuotationDetail],
-          gqId: 1234,
-          simulatedDiscount: 0,
-          simulatedGPI: 0,
-          simulatedGPM: 0,
-          simulatedNetPrice: 0,
-        },
-        type: '[Process Case] Add Simulated Quotation',
+        gqId: MOCK_QUOTATION_ID,
+        quotationDetails: [mockQuotationDetail],
+        type: addSimulatedQuotation.type,
       });
     });
   });
 
-  describe('onRowSelecrted', () => {
+  describe('onRowSelected', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
@@ -438,7 +419,6 @@ describe('QuotationDetailsTableComponent', () => {
         gpm: 10,
         priceDiff: 10,
       };
-
       component.simulatedField = ColumnFields.PRICE;
       component.simulatedValue = 50;
       component.onRowSelected({
@@ -455,24 +435,20 @@ describe('QuotationDetailsTableComponent', () => {
       } as any);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        simulatedQuotation: {
-          quotationDetails: [
-            {
-              ...mockQuotationDetail,
-              price: 150,
-              discount: -50,
-              gpi: 86.67,
-              gpm: 80,
-              priceDiff: -11.76,
-            },
-          ],
-          gqId: 1234,
-          simulatedDiscount: 0,
-          simulatedGPI: 0,
-          simulatedGPM: 0,
-          simulatedNetPrice: 0,
-        },
-        type: '[Process Case] Add Simulated Quotation',
+        gqId: MOCK_QUOTATION_ID,
+        quotationDetails: [
+          {
+            ...mockQuotationDetail,
+            price: 150,
+            discount: -50,
+            gpi: 86.67,
+            gpm: 80,
+            priceDiff: -11.76,
+            rlm: 83.67,
+            netValue: 1500,
+          },
+        ],
+        type: addSimulatedQuotation.type,
       });
     });
 
@@ -496,7 +472,7 @@ describe('QuotationDetailsTableComponent', () => {
       } as any);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: '[Process Case] Remove simulated QuotationDetail',
+        type: removeSimulatedQuotationDetail.type,
         gqPositionId: '5694232',
       });
     });
@@ -511,7 +487,7 @@ describe('QuotationDetailsTableComponent', () => {
       expect(component.simulatedField).toEqual(undefined);
       expect(component.simulatedValue).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: '[Process Case] Reset Simulated Quotation',
+        type: resetSimulatedQuotation.type,
       });
     });
   });

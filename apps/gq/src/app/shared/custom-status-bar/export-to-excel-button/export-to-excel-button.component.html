@@ -1,16 +1,18 @@
-<button
-  class="!m-4 !ml-0"
-  mat-stroked-button
-  color="primary"
-  *transloco="let t; read: 'shared.customStatusBar.buttons'"
-  (click)="openExportToExcelDialog()"
->
-  <mat-icon class="!text-[20px]">download</mat-icon>
+<div *ngIf="!(simulationModeEnabled$ | ngrxPush)">
+  <button
+    class="!m-4 !ml-0"
+    mat-stroked-button
+    color="primary"
+    *transloco="let t; read: 'shared.customStatusBar.buttons'"
+    (click)="openExportToExcelDialog()"
+  >
+    <mat-icon class="!text-[20px]">download</mat-icon>
 
-  <span class="hidden lg:inline">
-    {{ t('exportToExcel') }}
-  </span>
-  <span class="lg:hidden">
-    {{ t('exportToExcelMobile') }}
-  </span>
-</button>
+    <span class="hidden lg:inline">
+      {{ t('exportToExcel') }}
+    </span>
+    <span class="lg:hidden">
+      {{ t('exportToExcelMobile') }}
+    </span>
+  </button>
+</div>

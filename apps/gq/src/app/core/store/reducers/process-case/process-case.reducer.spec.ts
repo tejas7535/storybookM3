@@ -655,11 +655,25 @@ describe('Quotation Reducer', () => {
 
   describe('SimulatedQuotation', () => {
     test('should add new simulated quotation', () => {
-      const simulatedQuotation = SIMULATED_QUOTATION_MOCK;
       const action: Action = addSimulatedQuotation({
-        simulatedQuotation,
+        gqId: 1234,
+        quotationDetails: [QUOTATION_DETAIL_MOCK],
       });
-      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+      const state = processCaseReducer(
+        {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            simulatedItem: {
+              ...SIMULATED_QUOTATION_MOCK,
+              quotationDetails: [],
+              previousStatusBar: undefined,
+              simulatedStatusBar: undefined,
+            },
+          },
+        },
+        action
+      );
 
       expect(state.quotation.simulatedItem).toEqual(SIMULATED_QUOTATION_MOCK);
     });
@@ -743,7 +757,6 @@ describe('Quotation Reducer', () => {
       const simulatedQuotationDetails = [
         { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
         { ...QUOTATION_DETAIL_MOCK, gqPositionId: '222' },
-        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '333' },
       ];
 
       const action: Action = removeSimulatedQuotationDetail({
@@ -758,19 +771,26 @@ describe('Quotation Reducer', () => {
             simulatedItem: {
               ...SIMULATED_QUOTATION_MOCK,
               quotationDetails: simulatedQuotationDetails,
+              simulatedStatusBar: {
+                gpi: 1,
+                gpm: 2,
+                netValue: 2,
+                priceDiff: 3,
+                rows: 4,
+              },
             },
           },
         },
         action
       );
 
-      expect(state.quotation.simulatedItem.quotationDetails.length).toEqual(2);
+      expect(state.quotation.simulatedItem.quotationDetails.length).toEqual(1);
       expect(
         state.quotation.simulatedItem.quotationDetails[0].gqPositionId
       ).toEqual('111');
-      expect(
-        state.quotation.simulatedItem.quotationDetails[1].gqPositionId
-      ).toEqual('333');
+      expect(state.quotation.simulatedItem.previousStatusBar).toEqual(
+        SIMULATED_QUOTATION_MOCK.previousStatusBar
+      );
     });
   });
 });

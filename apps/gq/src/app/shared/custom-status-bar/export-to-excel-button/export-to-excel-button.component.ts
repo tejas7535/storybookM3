@@ -19,6 +19,7 @@ import { ColDef } from '@ag-grid-community/core';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { getSimulationModeEnabled } from '../../../core/store';
 import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
 import { getExtendedComparableLinkedTransactions } from '../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 import {
@@ -43,6 +44,7 @@ const typeNumber = 'Number';
 })
 export class ExportToExcelButtonComponent implements OnInit {
   private params: IStatusPanelParams;
+  simulationModeEnabled$: Observable<boolean>;
   transactions$: Observable<ExtendedComparableLinkedTransaction[]>;
   transactions: ExtendedComparableLinkedTransaction[];
   toBeFormattedInExcelDownload: string[] = [
@@ -69,6 +71,7 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
+    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
 
   openExportToExcelDialog(): void {

@@ -17,9 +17,11 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
+  SIMULATED_QUOTATION_MOCK,
   VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -49,6 +51,7 @@ import {
   validateAddMaterialsSuccess,
 } from '../../actions';
 import {
+  confirmSimulatedQuotation,
   loadQuotationFromUrl,
   loadQuotationInInterval,
   loadQuotationSuccessFullyCompleted,
@@ -77,6 +80,7 @@ import {
   getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
+  getSimulatedQuotation,
 } from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effects';
 
@@ -916,6 +920,34 @@ describe('ProcessCaseEffect', () => {
 
         m.expect(effects.resetSimulatedQuotation$).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
+
+  describe('confirmSimulatedQuotation$', () => {
+    beforeEach(() => {
+      store.overrideSelector(getSimulatedQuotation, SIMULATED_QUOTATION_MOCK);
+    });
+
+    test(
+      'should updateQuotationDetails and resetSimulatedQuotation',
+      marbles((m) => {
+        action = confirmSimulatedQuotation();
+        actions$ = m.hot('-a', { a: action });
+
+        const updateQuotationDetailList: UpdateQuotationDetail[] = [
+          {
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+            price: QUOTATION_DETAIL_MOCK.price,
+            priceSource: PriceSource.MANUAL,
+          },
+        ];
+
+        const resultB = updateQuotationDetails({ updateQuotationDetailList });
+        const resultC = resetSimulatedQuotation();
+        const expected = m.cold('-(bc)', { b: resultB, c: resultC });
+
+        m.expect(effects.confirmSimulatedQuotation$).toBeObservable(expected);
       })
     );
   });

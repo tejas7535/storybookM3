@@ -1,13 +1,14 @@
 /* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
-import { QuotationDetail } from 'apps/gq/src/app/shared/models/quotation-detail';
 
 import { Quotation, SimulatedQuotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
+import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../../shared/models/table';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
   addMaterialRowDataItem,
@@ -512,11 +513,18 @@ export const processCaseReducer = createReducer(
   ),
   on(
     addSimulatedQuotation,
-    (state: ProcessCaseState, { simulatedQuotation }): ProcessCaseState => ({
+    (
+      state: ProcessCaseState,
+      { gqId, quotationDetails }
+    ): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
-        simulatedItem: simulatedQuotation,
+        simulatedItem: buildSimulatedQuotation(
+          gqId,
+          quotationDetails,
+          state.quotation.item.quotationDetails
+        ),
       },
     })
   ),
@@ -542,6 +550,17 @@ export const processCaseReducer = createReducer(
             state.quotation.simulatedItem.quotationDetails.filter(
               (detail: QuotationDetail) => detail.gqPositionId !== gqPositionId
             ),
+          simulatedStatusBar: {
+            ...PriceService.calculateStatusBarValues(
+              getSimulatedDetails(
+                state.quotation.item.quotationDetails,
+                state.quotation.simulatedItem.quotationDetails.filter(
+                  (detail: QuotationDetail) =>
+                    detail.gqPositionId !== gqPositionId
+                )
+              )
+            ),
+          },
         },
       },
     })
@@ -555,3 +574,30 @@ export function reducer(
 ): ProcessCaseState {
   return processCaseReducer(state, action);
 }
+
+const buildSimulatedQuotation = (
+  gqId: number,
+  simulatedDetails: QuotationDetail[],
+  details: QuotationDetail[]
+): SimulatedQuotation => ({
+  gqId,
+  quotationDetails: simulatedDetails,
+  simulatedStatusBar: {
+    ...PriceService.calculateStatusBarValues(
+      getSimulatedDetails(details, simulatedDetails)
+    ),
+  },
+  previousStatusBar: { ...PriceService.calculateStatusBarValues(details) },
+});
+
+const getSimulatedDetails = (
+  details: QuotationDetail[],
+  simulatedDetails: QuotationDetail[]
+): QuotationDetail[] =>
+  details.map(
+    (detail) =>
+      simulatedDetails.find(
+        (simulatedDetail) =>
+          detail.quotationItemId === simulatedDetail.quotationItemId
+      ) || detail
+  );

@@ -1,8 +1,8 @@
 import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
+  QUOTATION_DETAILS_MOCK,
   QUOTATION_MOCK,
-  SIMULATED_QUOTATION_MOCK,
   VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import {
@@ -18,6 +18,7 @@ import {
   addSimulatedQuotation,
   CaseActions,
   clearProcessCaseRowData,
+  confirmSimulatedQuotation,
   deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
@@ -348,13 +349,16 @@ describe('CaseActions', () => {
 
   describe('SimulatedQuotation Actions', () => {
     test('should add simulated Quotation', () => {
-      const simulatedQuotation = SIMULATED_QUOTATION_MOCK;
+      const gqId = 123;
+      const quotationDetails = QUOTATION_DETAILS_MOCK;
       action = addSimulatedQuotation({
-        simulatedQuotation,
+        gqId,
+        quotationDetails,
       });
 
       expect(action).toEqual({
-        simulatedQuotation,
+        gqId,
+        quotationDetails,
         type: '[Process Case] Add Simulated Quotation',
       });
     });
@@ -375,6 +379,14 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         gqPositionId: '123',
         type: '[Process Case] Remove simulated QuotationDetail',
+      });
+    });
+
+    test('should confirm simulated quotation', () => {
+      action = confirmSimulatedQuotation();
+
+      expect(action).toEqual({
+        type: '[Process Case] Confirm Simulated Quotation',
       });
     });
   });

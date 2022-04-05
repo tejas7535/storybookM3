@@ -1,4 +1,4 @@
-<div *ngIf="sapId$ | ngrxPush">
+<div *ngIf="(sapId$ | ngrxPush) && !(simulationModeEnabled$ | ngrxPush)">
   <div
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     [matTooltip]="t('uploadSelectionToSapInfoText')"

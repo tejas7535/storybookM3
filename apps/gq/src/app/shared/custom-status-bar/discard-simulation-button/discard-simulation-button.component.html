@@ -1,0 +1,11 @@
+<div *ngIf="simulationModeEnabled$ | ngrxPush" class="h-full bg-[#3c3c3c]">
+  <button
+    class="!m-4 !ml-0 text-white"
+    mat-button
+    *transloco="let t; read: 'shared.customStatusBar.buttons'"
+    (click)="discardSimulation()"
+  >
+    <mat-icon class="align-text-bottom"> update </mat-icon>
+    <span>{{ t('discardSimulation') }}</span>
+  </button>
+</div>

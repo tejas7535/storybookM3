@@ -1,9 +1,19 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+
+import { filter, map, pairwise, Subscription } from 'rxjs';
 
 import { IHeaderParams } from '@ag-grid-community/all-modules';
 import { IHeaderAngularComp } from '@ag-grid-community/angular';
+import { Store } from '@ngrx/store';
 
+import { getSimulatedQuotation } from '../../../core/store';
 import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { HelperService } from '../../services/helper-service/helper-service.service';
@@ -13,7 +23,11 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
   templateUrl: './editable-column-header.component.html',
   styleUrls: ['./editable-column-header.component.scss'],
 })
-export class EditableColumnHeaderComponent implements IHeaderAngularComp {
+export class EditableColumnHeaderComponent
+  implements IHeaderAngularComp, OnInit, OnDestroy
+{
+  private readonly subscription: Subscription = new Subscription();
+
   public params!: IHeaderParams;
 
   public sort: 'asc' | 'desc';
@@ -27,6 +41,32 @@ export class EditableColumnHeaderComponent implements IHeaderAngularComp {
 
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
+
+  constructor(private readonly store: Store) {}
+
+  ngOnInit(): void {
+    this.addSubscriptions();
+  }
+
+  addSubscriptions(): void {
+    const simulationReset$ = this.store.select(getSimulatedQuotation).pipe(
+      pairwise(),
+      // eslint-disable-next-line ngrx/avoid-mapping-selectors
+      map(([preVal, currentVal]) => preVal && currentVal === undefined),
+      filter((val) => val)
+    );
+    this.subscription.add(
+      simulationReset$.subscribe(() => {
+        this.editFormControl.setValue(undefined as any);
+        this.value = undefined;
+        this.editMode = false;
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   agInit(params: IHeaderParams): void {
     this.value = '';

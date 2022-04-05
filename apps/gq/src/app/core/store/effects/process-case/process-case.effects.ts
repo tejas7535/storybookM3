@@ -22,7 +22,10 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
-import { QuotationDetail } from '../../../../shared/models/quotation-detail';
+import {
+  PriceSource,
+  QuotationDetail,
+} from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -36,6 +39,7 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
+  confirmSimulatedQuotation,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -79,6 +83,7 @@ import {
   getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
+  getSimulatedQuotation,
 } from '../../selectors';
 
 @Injectable()
@@ -403,6 +408,27 @@ export class ProcessCaseEffect {
           )
         )
       )
+    );
+  });
+
+  confirmSimulatedQuotation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(confirmSimulatedQuotation),
+      concatLatestFrom(() => this.store.select(getSimulatedQuotation)),
+      map(([_action, simulatedQuotation]) => simulatedQuotation),
+      mergeMap((simulatedQuotation) => {
+        const updateQuotationDetailList: UpdateQuotationDetail[] =
+          simulatedQuotation.quotationDetails.map((detail) => ({
+            gqPositionId: detail.gqPositionId,
+            price: detail.price,
+            priceSource: PriceSource.MANUAL,
+          }));
+
+        return [
+          updateQuotationDetails({ updateQuotationDetailList }),
+          resetSimulatedQuotation(),
+        ];
+      })
     );
   });
 

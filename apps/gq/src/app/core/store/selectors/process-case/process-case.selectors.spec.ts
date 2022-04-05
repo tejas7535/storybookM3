@@ -373,4 +373,43 @@ describe('Process Case Selector', () => {
       ).toEqual(undefined);
     });
   });
+
+  describe('getSimulatedQuotation', () => {
+    test('should return simulatedQuotation', () => {
+      expect(quotationSelectors.getSimulatedQuotation(fakeState)).toEqual(
+        fakeState.processCase.quotation.simulatedItem
+      );
+    });
+  });
+  describe('getSimulationModeEnabled', () => {
+    test('should return true on existing simulatedQuotation', () => {
+      expect(
+        quotationSelectors.getSimulationModeEnabled(fakeState)
+      ).toBeTruthy();
+    });
+    test('should return false on not existing simulatedQuotation', () => {
+      expect(
+        quotationSelectors.getSimulationModeEnabled({
+          ...fakeState,
+          processCase: {
+            quotation: {
+              simulatedItem: undefined,
+            },
+          },
+        })
+      ).toBeFalsy();
+    });
+    test('should return false on empty simulatedDetails', () => {
+      expect(
+        quotationSelectors.getSimulationModeEnabled({
+          ...fakeState,
+          processCase: {
+            quotation: {
+              simulatedItem: { quotationDetails: [] },
+            },
+          },
+        })
+      ).toBeFalsy();
+    });
+  });
 });

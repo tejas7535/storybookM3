@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { getSapId } from '../../../core/store';
+import { getSapId, getSimulationModeEnabled } from '../../../core/store';
 import { AddMaterialDialogComponent } from '../../../process-case-view/add-material-dialog/add-material-dialog.component';
 
 @Component({
@@ -15,6 +15,8 @@ import { AddMaterialDialogComponent } from '../../../process-case-view/add-mater
 })
 export class AddItemsButtonComponent implements OnInit {
   sapId$: Observable<string>;
+  simulationModeEnabled$: Observable<boolean>;
+
   constructor(
     private readonly store: Store,
     private readonly dialog: MatDialog
@@ -23,6 +25,7 @@ export class AddItemsButtonComponent implements OnInit {
   agInit(): void {}
   ngOnInit(): void {
     this.sapId$ = this.store.select(getSapId);
+    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
   }
   showAddDialog(): void {
     this.dialog.open(AddMaterialDialogComponent, {

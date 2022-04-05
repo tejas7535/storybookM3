@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { Observable } from 'rxjs';
+
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { refreshSapPricing } from '../../../core/store';
+import {
+  getSimulationModeEnabled,
+  refreshSapPricing,
+} from '../../../core/store';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 
 @Component({
@@ -13,23 +18,27 @@ import { ConfirmationModalComponent } from '../../confirmation-modal/confirmatio
 })
 export class RefreshSapPriceComponent {
   icon = 'update';
+  public simulationModeEnabled$: Observable<boolean>;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly store: Store
   ) {}
 
-  agInit(): void {}
+  agInit(): void {
+    this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
+  }
 
   refreshSapPricing(): void {
-    const displayText = translate<string>(
+    const displayText = translate(
       'processCaseView.confirmRefreshSapPricing.text'
     );
 
-    const confirmButton = translate<string>(
+    const confirmButton = translate(
       'processCaseView.confirmRefreshSapPricing.refreshButton'
     );
 
-    const cancelButton = translate<string>(
+    const cancelButton = translate(
       'processCaseView.confirmRefreshSapPricing.cancelButton'
     );
 
