@@ -162,36 +162,36 @@ export const formattedGreaseJson = [
             {
               title: 'initalGreaseQuantity',
               values:
-                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
+                '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43.00 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
+                '<span>38.70 g/501 days</span><br><span class="text-low-emphasis">43.00 cm³/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values:
-                '0.088 cm³/day<br><span class="text-low-emphasis">0.0792 g/day</span>',
+                '<span>0.0792 g/day</span><br><span class="text-low-emphasis">0.088 cm³/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
               values:
-                '0.616 cm³/7 days<br><span class="text-low-emphasis">0.5544 g/7 days</span>',
+                '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerMonth',
               values:
-                '2.64 cm³/30 days<br><span class="text-low-emphasis">2.38 g/30 days</span>',
+                '<span>2.38 g/30 days</span><br><span class="text-low-emphasis">2.64 cm³/30 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerYear',
               values:
-                '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
+                '<span>28.91 g/365 days</span><br><span class="text-low-emphasis">32.12 cm³/365 days</span>',
               display: false,
             },
             {
@@ -274,36 +274,36 @@ export const formattedGreaseJson = [
             {
               title: 'initalGreaseQuantity',
               values:
-                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
+                '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43.00 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
+                '<span>38.70 g/501 days</span><br><span class="text-low-emphasis">43.00 cm³/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values:
-                '0.088 cm³/day<br><span class="text-low-emphasis">0.0792 g/day</span>',
+                '<span>0.0792 g/day</span><br><span class="text-low-emphasis">0.088 cm³/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
               values:
-                '0.616 cm³/7 days<br><span class="text-low-emphasis">0.5544 g/7 days</span>',
+                '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerMonth',
               values:
-                '2.64 cm³/30 days<br><span class="text-low-emphasis">2.38 g/30 days</span>',
+                '<span>2.38 g/30 days</span><br><span class="text-low-emphasis">2.64 cm³/30 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerYear',
               values:
-                '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
+                '<span>28.91 g/365 days</span><br><span class="text-low-emphasis">32.12 cm³/365 days</span>',
               display: false,
             },
             {
@@ -386,36 +386,36 @@ export const formattedGreaseJson = [
             {
               title: 'initalGreaseQuantity',
               values:
-                '66 cm³</br><span class="text-low-emphasis">59.40 g</span>',
+                '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
             },
             {
               title: 'manualRelubricationQuantityInterval',
               values:
-                '43.00 cm³/501 days<br><span class="text-low-emphasis">38.70 g/501 days</span>',
+                '<span>38.70 g/501 days</span><br><span class="text-low-emphasis">43.00 cm³/501 days</span>',
               tooltip: 'manualRelubricationQuantityIntervalTooltip',
             },
             {
               title: 'automaticRelubricationQuantityPerDay',
               values:
-                '0.088 cm³/day<br><span class="text-low-emphasis">0.0792 g/day</span>',
+                '<span>0.0792 g/day</span><br><span class="text-low-emphasis">0.088 cm³/day</span>',
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
               title: 'automaticRelubricationPerWeek',
               values:
-                '0.616 cm³/7 days<br><span class="text-low-emphasis">0.5544 g/7 days</span>',
+                '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerMonth',
               values:
-                '2.64 cm³/30 days<br><span class="text-low-emphasis">2.38 g/30 days</span>',
+                '<span>2.38 g/30 days</span><br><span class="text-low-emphasis">2.64 cm³/30 days</span>',
               display: false,
             },
             {
               title: 'automaticRelubricationPerYear',
               values:
-                '32.12 cm³/365 days<br><span class="text-low-emphasis">28.91 g/365 days</span>',
+                '<span>28.91 g/365 days</span><br><span class="text-low-emphasis">32.12 cm³/365 days</span>',
               display: false,
             },
             {

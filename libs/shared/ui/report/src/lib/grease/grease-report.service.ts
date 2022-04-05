@@ -25,6 +25,7 @@ import {
   manualRelubricationQuantity,
   manualRelubricationQuantitySpan,
   mass,
+  secondaryValue,
 } from './grease-helpers';
 
 @Injectable()
@@ -88,37 +89,41 @@ export class GreaseReportService {
                 dataSource: [
                   findItem(table1Values, Field.QVIN)?.value && {
                     title: 'initalGreaseQuantity',
-                    values: `${initalGreaseQuantity(table1Values)}</br>${mass(
+                    values: `${mass(
                       item,
                       findItem(table1Values, Field.QVIN).value as number
+                    )}</br>${secondaryValue(
+                      initalGreaseQuantity(table1Values)
                     )}`,
                   },
                   findItem(table1Values, Field.QVRE_MAN_MIN)?.value && {
                     title: 'manualRelubricationQuantityInterval',
-                    values: `${manualRelubricationQuantity(
-                      table1Values
-                    ).toFixed(2)} ${
-                      findItem(table1Values, Field.QVRE_MAN_MIN).unit
-                    }/${manualRelubricationQuantitySpan(
-                      table1Values
-                    )}<br>${mass(
+                    values: `${mass(
                       item,
                       manualRelubricationQuantity(table1Values),
                       manualRelubricationQuantitySpan(table1Values)
+                    )}<br>${secondaryValue(
+                      `${manualRelubricationQuantity(table1Values).toFixed(
+                        2
+                      )} ${
+                        findItem(table1Values, Field.QVRE_MAN_MIN).unit
+                      }/${manualRelubricationQuantitySpan(table1Values)}`
                     )}`,
                     tooltip: 'manualRelubricationQuantityIntervalTooltip',
                   },
                   findItem(table1Values, Field.QVRE_AUT_MIN)?.value && {
                     title: 'automaticRelubricationQuantityPerDay',
-                    values: `${formatDecimals(
-                      automaticRelubricationQuantityPerDay(table1Values)
-                    )} ${automaticRelubricationQuantityUnit(
-                      table1Values
-                    )}/${translate('day')}<br>${mass(
+                    values: `${mass(
                       item,
                       automaticRelubricationQuantityPerDay(table1Values),
                       translate('day'),
                       true
+                    )}<br>${secondaryValue(
+                      `${formatDecimals(
+                        automaticRelubricationQuantityPerDay(table1Values)
+                      )} ${automaticRelubricationQuantityUnit(
+                        table1Values
+                      )}/${translate('day')}`
                     )}`,
                     tooltip: 'automaticRelubricationQuantityPerDayTooltip',
                   },
@@ -130,15 +135,17 @@ export class GreaseReportService {
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerWeek',
-                values: `${formatDecimals(
-                  automaticRelubricationPerWeek(table1Values)
-                )} ${automaticRelubricationQuantityUnit(
-                  table1Values
-                )}/7 ${translate('days')}<br>${mass(
+                values: `${mass(
                   item,
                   automaticRelubricationPerWeek(table1Values),
                   `7 ${translate('days')}`,
                   true
+                )}<br>${secondaryValue(
+                  `${formatDecimals(
+                    automaticRelubricationPerWeek(table1Values)
+                  )} ${automaticRelubricationQuantityUnit(
+                    table1Values
+                  )}/7 ${translate('days')}`
                 )}`,
                 display: false,
               };
@@ -147,14 +154,16 @@ export class GreaseReportService {
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerMonth',
-                values: `${Number(
-                  automaticRelubricationPerMonth(table1Values)
-                ).toFixed(2)} ${automaticRelubricationQuantityUnit(
-                  table1Values
-                )}/30 ${translate('days')}<br>${mass(
+                values: `${mass(
                   item,
                   automaticRelubricationPerMonth(table1Values),
                   `30 ${translate('days')}`
+                )}<br>${secondaryValue(
+                  `${Number(
+                    automaticRelubricationPerMonth(table1Values)
+                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    table1Values
+                  )}/30 ${translate('days')}`
                 )}`,
                 display: false,
               };
@@ -163,14 +172,16 @@ export class GreaseReportService {
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerYear',
-                values: `${Number(
-                  automaticRelubricationPerYear(table1Values)
-                ).toFixed(2)} ${automaticRelubricationQuantityUnit(
-                  table1Values
-                )}/365 ${translate('days')}<br>${mass(
+                values: `${mass(
                   item,
                   automaticRelubricationPerYear(table1Values),
                   `365 ${translate('days')}`
+                )}<br>${secondaryValue(
+                  `${Number(
+                    automaticRelubricationPerYear(table1Values)
+                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    table1Values
+                  )}/365 ${translate('days')}`
                 )}`,
                 display: false,
               };

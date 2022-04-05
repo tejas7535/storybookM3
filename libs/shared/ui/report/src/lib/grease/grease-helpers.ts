@@ -20,10 +20,14 @@ export const mass = (
   const value =
     (item.find(({ field }) => field === Field.RHO)?.value as number) * amount;
 
-  return `<span class="text-low-emphasis">${
-    tiny ? formatDecimals(value) : value.toFixed(2)
-  } g${timespan ? `/${timespan}` : ''}</span>`;
+  return `<span>${tiny ? formatDecimals(value) : value.toFixed(2)} g${
+    timespan ? `/${timespan}` : ''
+  }</span>`;
 };
+
+// wrap value in styled HTML tags
+export const secondaryValue = (value: string): string =>
+  `<span class="text-low-emphasis">${value}</span>`;
 
 export const initalGreaseQuantity = (table1Values: TableItem[]) =>
   `${findItem(table1Values, Field.QVIN).value} ${
