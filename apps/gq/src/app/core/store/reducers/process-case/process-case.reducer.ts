@@ -1,7 +1,8 @@
 /* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
+import { QuotationDetail } from 'apps/gq/src/app/shared/models/quotation-detail';
 
-import { Quotation } from '../../../../shared/models';
+import { Quotation, SimulatedQuotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import {
   MaterialTableItem,
@@ -13,6 +14,7 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
+  addSimulatedQuotation,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
@@ -28,6 +30,8 @@ import {
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
   selectQuotation,
   setSelectedQuotationDetail,
   updateCaseName,
@@ -54,6 +58,7 @@ export interface ProcessCaseState {
   quotation: {
     quotationLoading: boolean;
     item: Quotation;
+    simulatedItem?: SimulatedQuotation;
     selectedQuotationDetail: string;
     errorMessage: string;
     updateLoading: boolean;
@@ -76,6 +81,7 @@ export const initialState: ProcessCaseState = {
   quotation: {
     quotationLoading: false,
     item: undefined,
+    simulatedItem: undefined,
     selectedQuotationDetail: undefined,
     errorMessage: undefined,
     updateLoading: false,
@@ -501,6 +507,42 @@ export const processCaseReducer = createReducer(
         ...state.quotation,
         quotationLoading: false,
         errorMessage,
+      },
+    })
+  ),
+  on(
+    addSimulatedQuotation,
+    (state: ProcessCaseState, { simulatedQuotation }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        simulatedItem: simulatedQuotation,
+      },
+    })
+  ),
+  on(
+    resetSimulatedQuotation,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        simulatedItem: undefined,
+      },
+    })
+  ),
+  on(
+    removeSimulatedQuotationDetail,
+    (state: ProcessCaseState, { gqPositionId }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        simulatedItem: {
+          ...state.quotation.simulatedItem,
+          quotationDetails:
+            state.quotation.simulatedItem.quotationDetails.filter(
+              (detail: QuotationDetail) => detail.gqPositionId !== gqPositionId
+            ),
+        },
       },
     })
   )

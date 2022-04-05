@@ -24,6 +24,7 @@ export enum ColumnFields {
   SAP_GROSS_PRICE = 'sapGrossPrice',
   SAP_PRICE = 'sapPrice',
   RECOMMENDED_PRICE = 'recommendedPrice',
+  PRICE_DIFF = 'priceDiff',
 }
 
 export const PriceColumns = [

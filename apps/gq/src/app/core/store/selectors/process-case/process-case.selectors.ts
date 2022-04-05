@@ -37,6 +37,15 @@ export const getQuotation = createSelector(
   (state: ProcessCaseState): Quotation => state.quotation.item
 );
 
+export const getSimulatedQuotationDetailByItemId = (itemId: number) =>
+  createSelector(
+    getProcessCaseState,
+    (state: ProcessCaseState): QuotationDetail | undefined =>
+      state.quotation.simulatedItem?.quotationDetails.find(
+        (detail: QuotationDetail) => detail.quotationItemId === itemId
+      )
+  );
+
 export const getTableContextQuotation = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): TableContext => ({

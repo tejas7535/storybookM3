@@ -5,6 +5,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
+  SIMULATED_QUOTATION_MOCK,
   VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
@@ -19,6 +20,7 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
+  addSimulatedQuotation,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
@@ -34,6 +36,8 @@ import {
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
   selectQuotation,
   setSelectedQuotationDetail,
   updateCaseName,
@@ -646,6 +650,127 @@ describe('Quotation Reducer', () => {
       expect(reducer(PROCESS_CASE_STATE_MOCK, action)).toEqual(
         processCaseReducer(PROCESS_CASE_STATE_MOCK, action)
       );
+    });
+  });
+
+  describe('SimulatedQuotation', () => {
+    test('should add new simulated quotation', () => {
+      const simulatedQuotation = SIMULATED_QUOTATION_MOCK;
+      const action: Action = addSimulatedQuotation({
+        simulatedQuotation,
+      });
+      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+      expect(state.quotation.simulatedItem).toEqual(SIMULATED_QUOTATION_MOCK);
+    });
+
+    test('should reset the simulated quotation', () => {
+      const action: Action = resetSimulatedQuotation();
+      const state = processCaseReducer(
+        {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            simulatedItem: SIMULATED_QUOTATION_MOCK,
+          },
+        },
+        action
+      );
+
+      expect(state.quotation.simulatedItem).toEqual(undefined);
+    });
+
+    test('should not remove a non-existing quotation detail from a simulated quotation', () => {
+      const simulatedQuotationDetails = [
+        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
+        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '222' },
+      ];
+
+      const action: Action = removeSimulatedQuotationDetail({
+        gqPositionId: '666',
+      });
+
+      const state = processCaseReducer(
+        {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            simulatedItem: {
+              ...SIMULATED_QUOTATION_MOCK,
+              quotationDetails: simulatedQuotationDetails,
+            },
+          },
+        },
+        action
+      );
+
+      expect(state.quotation.simulatedItem.quotationDetails.length).toEqual(2);
+      expect(
+        state.quotation.simulatedItem.quotationDetails[0].gqPositionId
+      ).toEqual('111');
+      expect(
+        state.quotation.simulatedItem.quotationDetails[1].gqPositionId
+      ).toEqual('222');
+    });
+
+    test('should not remove a quotation detail from a simulated quotation', () => {
+      const simulatedQuotationDetails = [
+        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
+      ];
+
+      const action: Action = removeSimulatedQuotationDetail({
+        gqPositionId: '111',
+      });
+
+      const state = processCaseReducer(
+        {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            simulatedItem: {
+              ...SIMULATED_QUOTATION_MOCK,
+              quotationDetails: simulatedQuotationDetails,
+            },
+          },
+        },
+        action
+      );
+
+      expect(state.quotation.simulatedItem.quotationDetails).toEqual([]);
+    });
+
+    test('should remove a quotationDetail from a simulated quotation with multiple entries', () => {
+      const simulatedQuotationDetails = [
+        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '111' },
+        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '222' },
+        { ...QUOTATION_DETAIL_MOCK, gqPositionId: '333' },
+      ];
+
+      const action: Action = removeSimulatedQuotationDetail({
+        gqPositionId: '222',
+      });
+
+      const state = processCaseReducer(
+        {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            simulatedItem: {
+              ...SIMULATED_QUOTATION_MOCK,
+              quotationDetails: simulatedQuotationDetails,
+            },
+          },
+        },
+        action
+      );
+
+      expect(state.quotation.simulatedItem.quotationDetails.length).toEqual(2);
+      expect(
+        state.quotation.simulatedItem.quotationDetails[0].gqPositionId
+      ).toEqual('111');
+      expect(
+        state.quotation.simulatedItem.quotationDetails[1].gqPositionId
+      ).toEqual('333');
     });
   });
 });

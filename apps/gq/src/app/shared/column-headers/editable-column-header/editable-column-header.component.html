@@ -13,7 +13,11 @@
       <span ref="eText" class="ag-header-cell-text pr-2">
         {{ params.displayName }}
       </span>
-      <mat-icon (click)="enableEditMode($event)" class="edit-icon">
+      <mat-icon
+        (click)="enableEditMode($event)"
+        class="edit-icon"
+        *ngIf="showEditIcon"
+      >
         mode_edit
       </mat-icon>
     </div>
@@ -47,9 +51,13 @@
     [placeholder]="params.displayName"
     (change)="submitValue($event)"
     (keydown.enter)="submitValue($event)"
+    (keydown)="onKeyPress($event)"
+    (paste)="onPaste($event)"
     (blur)="disableEditMode()"
     class="!text-high-emphasis"
     [formControl]="editFormControl"
     autocomplete="off"
+    step="1"
   />
+  <span matSuffix>%&nbsp;</span>
 </mat-form-field>

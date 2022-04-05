@@ -4,6 +4,7 @@ import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { EditCellData } from '../../cell-renderer/models/edit-cell-class-params.model';
+import { EditableColumnHeaderComponent } from '../../column-headers/editable-column-header/editable-column-header.component';
 import { ColumnFields } from '../constants/column-fields.enum';
 import {
   DATE_COLUMN_FILTER,
@@ -12,7 +13,6 @@ import {
   TEXT_COLUMN_FILTER,
 } from '../constants/filters';
 import { ColumnUtilityService } from './column-utility.service';
-// import { EditableColumnHeaderComponent } from '../../column-headers/editable-column-header/editable-column-header.component';
 
 @Injectable({
   providedIn: 'root',
@@ -63,8 +63,8 @@ export class ColumnDefService {
         field: ColumnFields.PRICE,
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
-      // headerComponentFramework: EditableColumnHeaderComponent,
-      // headerComponent: EditableColumnHeaderComponent,
+      headerComponentFramework: EditableColumnHeaderComponent,
+      headerComponent: EditableColumnHeaderComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceSource'),
@@ -137,16 +137,14 @@ export class ColumnDefService {
         field: ColumnFields.DISCOUNT,
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
-      // headerComponentFramework: EditableColumnHeaderComponent,
-      // headerComponent: EditableColumnHeaderComponent,
+      headerComponentFramework: EditableColumnHeaderComponent,
+      headerComponent: EditableColumnHeaderComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),
       field: ColumnFields.GPC,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
       filter: NUMBER_COLUMN_FILTER,
-      // headerComponentFramework: EditableColumnHeaderComponent,
-      // headerComponent: EditableColumnHeaderComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.sqv'),
@@ -170,8 +168,8 @@ export class ColumnDefService {
         field: ColumnFields.GPI,
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
-      // headerComponentFramework: EditableColumnHeaderComponent,
-      // headerComponent: EditableColumnHeaderComponent,
+      headerComponentFramework: EditableColumnHeaderComponent,
+      headerComponent: EditableColumnHeaderComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpm'),
@@ -183,6 +181,8 @@ export class ColumnDefService {
         field: ColumnFields.GPM,
       } as EditCellData,
       filter: NUMBER_COLUMN_FILTER,
+      headerComponentFramework: EditableColumnHeaderComponent,
+      headerComponent: EditableColumnHeaderComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rlm'),
@@ -207,9 +207,14 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceDiff'),
-      field: 'priceDiff',
+      field: ColumnFields.PRICE_DIFF,
       valueFormatter: ColumnUtilityService.percentageFormatter,
       filter: NUMBER_COLUMN_FILTER,
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.PRICE_DIFF,
+      } as EditCellData,
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),

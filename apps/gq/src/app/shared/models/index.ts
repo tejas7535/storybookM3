@@ -3,5 +3,6 @@ export * from './keyboard.enum';
 export * from './language.model';
 export * from './quotation.model';
 export * from './role-group.model';
+export * from './simulated-quotation';
 export * from './status-bar.model';
 export * from './user.model';

@@ -6,10 +6,9 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { updateCaseName } from '../core/store';
+import { getQuotation, updateCaseName } from '../core/store';
 import {
   getGqId,
-  getQuotation,
   getUpdateLoading,
   isCustomerLoading,
   isQuotationLoading,

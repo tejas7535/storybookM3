@@ -53,6 +53,7 @@ import {
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
+  resetSimulatedQuotation,
   selectQuotation,
   setSelectedQuotationDetail,
   updateCaseName,
@@ -173,6 +174,19 @@ export class ProcessCaseEffect {
         }
 
         return [loadQuotationFromUrl({ queryParams: routerState.queryParams })];
+      })
+    );
+  });
+
+  resetSimulatedQuotation$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState),
+      filter((routerState) =>
+        routerState.url.includes(AppRoutePath.ProcessCaseViewPath)
+      ),
+      mergeMap(() => {
+        return [resetSimulatedQuotation()];
       })
     );
   });

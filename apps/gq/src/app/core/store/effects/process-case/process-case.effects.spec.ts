@@ -56,6 +56,7 @@ import {
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
+  resetSimulatedQuotation,
   setSelectedQuotationDetail,
   updateCaseName,
   updateCaseNameFailure,
@@ -883,6 +884,38 @@ describe('ProcessCaseEffect', () => {
         m.expect(effects.updateCaseName$).toBeObservable(expected);
         m.flush();
         expect(quotationService.updateCaseName).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('resetSimulatedQuotation', () => {
+    test(
+      'should reset simulatedQuotation on route change',
+      marbles((m) => {
+        const queryParams = {
+          gqId: 12_334,
+          customerNumber: '3456',
+          salesOrg: '0267',
+          gqPositionId: '5678',
+        };
+
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              queryParams,
+              url: `/${AppRoutePath.ProcessCaseViewPath}`,
+            },
+          },
+        };
+
+        actions$ = m.hot('-a', { a: action });
+
+        const result = resetSimulatedQuotation();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.resetSimulatedQuotation$).toBeObservable(expected);
+        m.flush();
       })
     );
   });

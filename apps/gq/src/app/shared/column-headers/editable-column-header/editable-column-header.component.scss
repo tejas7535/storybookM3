@@ -5,12 +5,18 @@
   ::ng-deep {
     .mat-form-field-wrapper {
       padding: 0 !important;
+
+      > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
 
     .mat-form-field-infix {
-      width: 80px;
+      width: 60px;
       border-top-width: 4px;
-      padding: 1em 0;
+      padding: 1em 4px 1em 0;
     }
   }
 }

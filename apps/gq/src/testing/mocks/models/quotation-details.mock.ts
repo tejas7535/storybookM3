@@ -1,3 +1,4 @@
+import { SimulatedQuotation } from '../../../app/shared/models';
 import {
   MaterialDetails,
   PriceSource,
@@ -92,3 +93,12 @@ export const QUOTATION_DETAILS_MOCK = [
     } as MaterialDetails,
   } as QuotationDetail,
 ];
+
+export const SIMULATED_QUOTATION_MOCK: SimulatedQuotation = {
+  gqId: 1234,
+  quotationDetails: [QUOTATION_DETAIL_MOCK],
+  simulatedDiscount: 0,
+  simulatedNetPrice: 0,
+  simulatedGPM: 0,
+  simulatedGPI: 0,
+};

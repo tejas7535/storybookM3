@@ -1,7 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
-import { Quotation } from '../../../../shared/models';
+import { Quotation, SimulatedQuotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 import {
@@ -170,13 +170,29 @@ export const updateCaseName = createAction(
   '[Process Case] Update Case Name',
   props<{ caseName: string }>()
 );
+
 export const updateCaseNameSuccess = createAction(
   '[Process Case] Update Case Name Success',
   props<{ quotation: ViewQuotation }>()
 );
+
 export const updateCaseNameFailure = createAction(
   '[Process Case] Update Case Name Failure',
   props<{ errorMessage: string }>()
+);
+
+export const addSimulatedQuotation = createAction(
+  '[Process Case] Add Simulated Quotation',
+  props<{ simulatedQuotation: SimulatedQuotation }>()
+);
+
+export const resetSimulatedQuotation = createAction(
+  '[Process Case] Reset Simulated Quotation'
+);
+
+export const removeSimulatedQuotationDetail = createAction(
+  '[Process Case] Remove simulated QuotationDetail',
+  props<{ gqPositionId: string }>()
 );
 
 const all = union({
@@ -212,6 +228,9 @@ const all = union({
   updateCaseName,
   updateCaseNameSuccess,
   updateCaseNameFailure,
+  addSimulatedQuotation,
+  resetSimulatedQuotation,
+  removeSimulatedQuotationDetail,
 });
 
 export type CaseActions = typeof all;

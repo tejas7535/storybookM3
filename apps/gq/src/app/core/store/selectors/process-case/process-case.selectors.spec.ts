@@ -2,6 +2,7 @@ import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
+  SIMULATED_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
@@ -18,6 +19,7 @@ describe('Process Case Selector', () => {
       quotation: {
         ...initialState.quotation,
         item: QUOTATION_MOCK,
+        simulatedItem: SIMULATED_QUOTATION_MOCK,
         selectedQuotationDetail: QUOTATION_DETAIL_MOCK.gqPositionId,
         quotationLoading: true,
       },
@@ -353,6 +355,22 @@ describe('Process Case Selector', () => {
       expect(
         quotationSelectors.getSelectedQuotationDetailItemId(fakeState)
       ).toEqual(1234);
+    });
+  });
+
+  describe('getSimulatedQuotationDetailByItemId', () => {
+    test('should get simulated quotationby itemId', () => {
+      expect(
+        quotationSelectors.getSimulatedQuotationDetailByItemId(
+          SIMULATED_QUOTATION_MOCK.gqId
+        )(fakeState)
+      ).toEqual(SIMULATED_QUOTATION_MOCK.quotationDetails[0]);
+    });
+
+    test('should return undefined if the quotation doesnt exist', () => {
+      expect(
+        quotationSelectors.getSimulatedQuotationDetailByItemId(1111)(fakeState)
+      ).toEqual(undefined);
     });
   });
 });

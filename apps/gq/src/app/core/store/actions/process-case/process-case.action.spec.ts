@@ -2,6 +2,7 @@ import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
+  SIMULATED_QUOTATION_MOCK,
   VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import {
@@ -14,6 +15,7 @@ import {
 } from '..';
 import {
   addMaterials,
+  addSimulatedQuotation,
   CaseActions,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
@@ -30,6 +32,8 @@ import {
   removePositions,
   removePositionsFailure,
   removePositionsSuccess,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
   setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -338,6 +342,39 @@ describe('CaseActions', () => {
           errorMessage,
           type: '[Process Case] Update Case Name Failure',
         });
+      });
+    });
+  });
+
+  describe('SimulatedQuotation Actions', () => {
+    test('should add simulated Quotation', () => {
+      const simulatedQuotation = SIMULATED_QUOTATION_MOCK;
+      action = addSimulatedQuotation({
+        simulatedQuotation,
+      });
+
+      expect(action).toEqual({
+        simulatedQuotation,
+        type: '[Process Case] Add Simulated Quotation',
+      });
+    });
+
+    test('should reset simulated quotation action', () => {
+      action = resetSimulatedQuotation();
+
+      expect(action).toEqual({
+        type: '[Process Case] Reset Simulated Quotation',
+      });
+    });
+
+    test('should remove simulated quotationDetail action', () => {
+      action = removeSimulatedQuotationDetail({
+        gqPositionId: '123',
+      });
+
+      expect(action).toEqual({
+        gqPositionId: '123',
+        type: '[Process Case] Remove simulated QuotationDetail',
       });
     });
   });

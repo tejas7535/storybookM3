@@ -4,6 +4,10 @@ import { FormControl, Validators } from '@angular/forms';
 import { IHeaderParams } from '@ag-grid-community/all-modules';
 import { IHeaderAngularComp } from '@ag-grid-community/angular';
 
+import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
+import { QuotationDetail } from '../../models/quotation-detail';
+import { HelperService } from '../../services/helper-service/helper-service.service';
+
 @Component({
   selector: 'gq-editable-column-header',
   templateUrl: './editable-column-header.component.html',
@@ -17,15 +21,19 @@ export class EditableColumnHeaderComponent implements IHeaderAngularComp {
   editMode = false;
   value = '';
 
+  showEditIcon = false;
+
   editFormControl: FormControl;
 
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
 
   agInit(params: IHeaderParams): void {
+    this.value = '';
+
     this.editFormControl = new FormControl('', [
       Validators.max(100),
-      Validators.min(0),
+      Validators.min(-100),
       Validators.required,
     ]);
 
@@ -37,6 +45,45 @@ export class EditableColumnHeaderComponent implements IHeaderAngularComp {
     );
 
     this.onSortChanged();
+
+    params.api.addEventListener(
+      'rowSelected',
+      this.updateShowEditIcon.bind(this)
+    );
+
+    this.updateShowEditIcon();
+  }
+
+  updateShowEditIcon() {
+    this.showEditIcon =
+      this.params.api.getSelectedRows()?.length > 0 &&
+      this.isDataAvailable(this.params.column.getId());
+
+    if (!this.showEditIcon) {
+      this.editMode = false;
+      this.value = '';
+    }
+  }
+
+  private isDataAvailable(columName: string): boolean {
+    return this.params.api.getSelectedRows().some((detail: QuotationDetail) => {
+      switch (columName) {
+        case ColumnFields.PRICE: {
+          return detail.price;
+        }
+        case ColumnFields.DISCOUNT: {
+          return detail.sapGrossPrice;
+        }
+        case ColumnFields.GPI: {
+          return detail.gpc;
+        }
+        case ColumnFields.GPM: {
+          return detail.sqv;
+        }
+        default:
+          return false;
+      }
+    });
   }
 
   onSortChanged() {
@@ -67,6 +114,17 @@ export class EditableColumnHeaderComponent implements IHeaderAngularComp {
     }
 
     this.params.setSort(newSort, event.shiftKey);
+  }
+
+  onKeyPress(event: KeyboardEvent): void {
+    HelperService.validateNumberInputKeyPress(
+      event,
+      this.inputField?.nativeElement
+    );
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    HelperService.validateNumberInputPaste(event, this.editFormControl);
   }
 
   refresh() {

@@ -10,21 +10,30 @@ import {
   FirstDataRenderedEvent,
   GridReadyEvent,
   RowNode,
+  RowSelectedEvent,
   SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { getColumnDefsForRoles } from '../../core/store';
+import {
+  addSimulatedQuotation,
+  getColumnDefsForRoles,
+  removeSimulatedQuotationDetail,
+  resetSimulatedQuotation,
+} from '../../core/store';
+import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
+import { KpiValue } from '../../shared/components/editing-modal/kpi-value.model';
 import { basicTableStyle, statusBarStlye } from '../../shared/constants';
 import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
-import { Quotation } from '../../shared/models';
+import { Quotation, SimulatedQuotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
+import { PriceService } from '../../shared/services/price-service/price.service';
 import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
@@ -42,6 +51,7 @@ export class QuotationDetailsTableComponent implements OnInit {
   private readonly TABLE_KEY = 'processCase';
 
   rowData: QuotationDetail[];
+  selectedRows: RowNode[] = [];
   sideBar = {
     toolPanels: [
       {
@@ -89,6 +99,9 @@ export class QuotationDetailsTableComponent implements OnInit {
   public excelStyles: ExcelStyle[] = excelStyles;
   public localeText$: Observable<AgGridLocale>;
 
+  simulatedField: ColumnFields;
+  simulatedValue: number;
+
   constructor(
     private readonly store: Store,
     private readonly agGridStateService: AgGridStateService,
@@ -112,6 +125,16 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.TABLE_KEY,
       event.columnApi.getColumnState()
     );
+  }
+
+  public onRowDataChanged(event: AgGridEvent): void {
+    this.updateColumnData(event);
+
+    if (this.selectedRows) {
+      this.selectedRows.forEach((node: RowNode) => {
+        event.api.selectIndex(node.rowIndex, true, true);
+      });
+    }
   }
 
   public updateColumnData(event: AgGridEvent): void {
@@ -150,7 +173,109 @@ export class QuotationDetailsTableComponent implements OnInit {
     gridColumnApi.autoSizeAllColumns(false);
   }
 
-  public onMultipleMaterialSimulation(valId: string, value: number) {
-    console.log(valId, value);
+  public onRowSelected(event: RowSelectedEvent): void {
+    this.selectedRows = event.api.getSelectedNodes();
+
+    if (
+      this.selectedRows.length > 0 &&
+      this.simulatedField &&
+      this.simulatedValue
+    ) {
+      if (event.node.isSelected()) {
+        this.simulateMaterial(this.simulatedField, this.simulatedValue);
+      } else {
+        this.store.dispatch(
+          removeSimulatedQuotationDetail({
+            gqPositionId: event.node.data.gqPositionId,
+          })
+        );
+      }
+    } else if (this.selectedRows.length === 0) {
+      this.simulatedField = undefined;
+      this.simulatedValue = undefined;
+
+      this.store.dispatch(resetSimulatedQuotation());
+    }
+  }
+
+  public onMultipleMaterialSimulation(valId: ColumnFields, value: number) {
+    this.simulatedField = valId;
+    this.simulatedValue = value;
+
+    this.simulateMaterial(valId, value);
+  }
+
+  private simulateMaterial(field: ColumnFields, value: number) {
+    const simulatedRows = this.selectedRows.map((row: RowNode) => {
+      if (!this.shouldSimulate(field, row.data)) {
+        return row.data;
+      }
+
+      const affectedKpis = PriceService.calculateAffectedKPIs(
+        value,
+        field,
+        row.data
+      );
+
+      const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
+
+      const simulatedRow: QuotationDetail = {
+        ...row.data,
+        price: simulatedPrice,
+        gpi: field === 'gpi' ? value : this.getAffectedKpi(affectedKpis, 'gpi'),
+        gpm: field === 'gpm' ? value : this.getAffectedKpi(affectedKpis, 'gpm'),
+        discount:
+          field === 'discount'
+            ? value
+            : this.getAffectedKpi(affectedKpis, 'discount'),
+        priceDiff: PriceService.calculatepriceDiff({
+          ...row.data,
+          price: simulatedPrice,
+        }),
+      };
+
+      return simulatedRow;
+    });
+
+    const simulatedQuotation: SimulatedQuotation = {
+      gqId: this.tableContext.quotation.gqId,
+      quotationDetails: simulatedRows,
+      simulatedDiscount: 0,
+      simulatedGPI: 0,
+      simulatedGPM: 0,
+      simulatedNetPrice: 0,
+    };
+
+    this.store.dispatch(
+      addSimulatedQuotation({
+        simulatedQuotation,
+      })
+    );
+  }
+
+  private shouldSimulate(
+    field: ColumnFields,
+    detail: QuotationDetail
+  ): boolean {
+    switch (field) {
+      case ColumnFields.DISCOUNT: {
+        return detail.sapGrossPrice && detail.sapGrossPrice > 0;
+      }
+      case ColumnFields.GPI: {
+        return detail.gpc && detail.gpc > 0;
+      }
+      case ColumnFields.GPM: {
+        return detail.sqv && detail.sqv > 0;
+      }
+      default:
+        return true;
+    }
+  }
+
+  private getAffectedKpi(
+    kpis: KpiValue[],
+    kpiName: string
+  ): number | undefined {
+    return kpis.find((kpi: KpiValue) => kpi.key === kpiName)?.value;
   }
 }

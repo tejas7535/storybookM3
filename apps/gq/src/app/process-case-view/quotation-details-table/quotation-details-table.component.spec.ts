@@ -3,23 +3,26 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridEvent } from '@ag-grid-community/all-modules';
+import { AgGridEvent, RowNode } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   PROCESS_CASE_STATE_MOCK,
+  QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
+import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { Quotation } from '../../shared/models';
+import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -30,6 +33,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('QuotationDetailsTableComponent', () => {
   let component: QuotationDetailsTableComponent;
   let spectator: Spectator<QuotationDetailsTableComponent>;
+  let store: MockStore;
   const MOCK_QUOTATION_ID = 1234;
 
   const createComponent = createComponentFactory({
@@ -62,6 +66,9 @@ describe('QuotationDetailsTableComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component.quotation = { gqId: MOCK_QUOTATION_ID } as Quotation;
+
+    store = spectator.inject(MockStore);
+    store.dispatch = jest.fn();
   });
 
   test('should create', () => {
@@ -235,6 +242,277 @@ describe('QuotationDetailsTableComponent', () => {
       } as any);
 
       expect(component.updateColumnData).toHaveBeenCalled();
+    });
+  });
+
+  describe('onRowDataChanged', () => {
+    const mockEvent = {
+      api: {
+        selectIndex: jest.fn(),
+      },
+      columnApi: jest.fn(),
+      type: '',
+    };
+
+    beforeEach(() => {
+      component.updateColumnData = jest.fn();
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('should update column data', () => {
+      component.selectedRows = [];
+
+      component.onRowDataChanged(mockEvent as any);
+
+      expect(component.updateColumnData).toHaveBeenCalledWith(mockEvent);
+    });
+
+    test('should re-select rows', () => {
+      component.selectedRows = [
+        { rowIndex: 21, data: { gqPositionId: '123' } },
+      ] as any;
+
+      component.onRowDataChanged(mockEvent as any);
+
+      expect(mockEvent.api.selectIndex).toHaveBeenCalledWith(21, true, true);
+    });
+
+    test('should NOT re-select rows if no rows had been selected', () => {
+      component.selectedRows = [];
+
+      component.onRowDataChanged(mockEvent as any);
+
+      expect(mockEvent.api.selectIndex).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('onMultipleMaterialSimulation', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('should set simulated field and value', () => {
+      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 25);
+      component.tableContext.quotation = { gqId: 1234 } as Quotation;
+
+      expect(component.simulatedField).toEqual('price');
+      expect(component.simulatedValue).toEqual(25);
+    });
+
+    test('should simulate if all values are valid', () => {
+      const mockQuotationDetail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        price: 100,
+        discount: 0,
+        gpi: 10,
+        gpm: 10,
+        priceDiff: 10,
+      };
+      component.selectedRows = [
+        { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
+      ];
+
+      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 50);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        simulatedQuotation: {
+          quotationDetails: [
+            {
+              ...mockQuotationDetail,
+              price: 150,
+              discount: -50,
+              gpi: 86.67,
+              gpm: 80,
+              priceDiff: -11.76,
+            },
+          ],
+          gqId: 1234,
+          simulatedDiscount: 0,
+          simulatedGPI: 0,
+          simulatedGPM: 0,
+          simulatedNetPrice: 0,
+        },
+        type: '[Process Case] Add Simulated Quotation',
+      });
+    });
+
+    test('should NOT simulate Discount if there is no sapGrossPrice', () => {
+      const mockQuotationDetail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        sapGrossPrice: undefined,
+        price: 100,
+        discount: 0,
+        gpi: 10,
+        gpm: 10,
+      };
+      component.selectedRows = [
+        { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
+      ];
+
+      component.onMultipleMaterialSimulation(ColumnFields.DISCOUNT, 50);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        simulatedQuotation: {
+          quotationDetails: [mockQuotationDetail],
+          gqId: 1234,
+          simulatedDiscount: 0,
+          simulatedGPI: 0,
+          simulatedGPM: 0,
+          simulatedNetPrice: 0,
+        },
+        type: '[Process Case] Add Simulated Quotation',
+      });
+    });
+
+    test('should NOT simulate GPI if there is no gpc', () => {
+      const mockQuotationDetail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        gpc: undefined,
+        price: 100,
+        discount: 0,
+        gpi: 10,
+        gpm: 10,
+      };
+      component.selectedRows = [
+        { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
+      ];
+
+      component.onMultipleMaterialSimulation(ColumnFields.GPI, 50);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        simulatedQuotation: {
+          quotationDetails: [mockQuotationDetail],
+          gqId: 1234,
+          simulatedDiscount: 0,
+          simulatedGPI: 0,
+          simulatedGPM: 0,
+          simulatedNetPrice: 0,
+        },
+        type: '[Process Case] Add Simulated Quotation',
+      });
+    });
+
+    test('should NOT simulate GPM if there is no sqv', () => {
+      const mockQuotationDetail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        sqv: undefined,
+        price: 100,
+        discount: 0,
+        gpi: 10,
+        gpm: 10,
+      };
+      component.selectedRows = [
+        { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
+      ];
+
+      component.onMultipleMaterialSimulation(ColumnFields.GPM, 50);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        simulatedQuotation: {
+          quotationDetails: [mockQuotationDetail],
+          gqId: 1234,
+          simulatedDiscount: 0,
+          simulatedGPI: 0,
+          simulatedGPM: 0,
+          simulatedNetPrice: 0,
+        },
+        type: '[Process Case] Add Simulated Quotation',
+      });
+    });
+  });
+
+  describe('onRowSelecrted', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('should add newly selected row to simulation', () => {
+      const mockQuotationDetail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        price: 100,
+        discount: 0,
+        gpi: 10,
+        gpm: 10,
+        priceDiff: 10,
+      };
+
+      component.simulatedField = ColumnFields.PRICE;
+      component.simulatedValue = 50;
+      component.onRowSelected({
+        api: {
+          getSelectedNodes: jest
+            .fn()
+            .mockReturnValue([
+              { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
+            ]),
+        },
+        node: {
+          isSelected: jest.fn().mockReturnValue(true),
+        },
+      } as any);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        simulatedQuotation: {
+          quotationDetails: [
+            {
+              ...mockQuotationDetail,
+              price: 150,
+              discount: -50,
+              gpi: 86.67,
+              gpm: 80,
+              priceDiff: -11.76,
+            },
+          ],
+          gqId: 1234,
+          simulatedDiscount: 0,
+          simulatedGPI: 0,
+          simulatedGPM: 0,
+          simulatedNetPrice: 0,
+        },
+        type: '[Process Case] Add Simulated Quotation',
+      });
+    });
+
+    test('should remove de-selected row from simulation', () => {
+      component.simulatedField = ColumnFields.PRICE;
+      component.simulatedValue = 50;
+      component.onRowSelected({
+        node: {
+          isSelected: jest.fn().mockReturnValue(false),
+          data: QUOTATION_DETAIL_MOCK,
+        },
+        api: {
+          getSelectedNodes: jest.fn().mockReturnValue([
+            {
+              data: QUOTATION_DETAIL_MOCK,
+              rowIndex: 0,
+              id: '111',
+            } as RowNode,
+          ]),
+        },
+      } as any);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        type: '[Process Case] Remove simulated QuotationDetail',
+        gqPositionId: '5694232',
+      });
+    });
+
+    test('should reset simulation after all rows are deselected', () => {
+      component.onRowSelected({
+        api: {
+          getSelectedNodes: jest.fn().mockReturnValue([]),
+        },
+      } as any);
+
+      expect(component.simulatedField).toEqual(undefined);
+      expect(component.simulatedValue).toEqual(undefined);
+      expect(store.dispatch).toHaveBeenCalledWith({
+        type: '[Process Case] Reset Simulated Quotation',
+      });
     });
   });
 });

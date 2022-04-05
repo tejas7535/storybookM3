@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { Spectator, SpyObject } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import {
   QUOTATION_DETAIL_MOCK,
@@ -27,6 +28,13 @@ describe('EditCellComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      provideMockStore({
+        initialState: {
+          processCase: {
+            quotation: {},
+          },
+        },
+      }),
     ],
   });
 
@@ -78,6 +86,21 @@ describe('EditCellComponent', () => {
           enabled: true,
         },
         field: ColumnFields.ORDER_QUANTITY,
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeFalsy();
+      expect(component.priceWarningEnabled).toBeFalsy();
+    });
+    test('should set params but disable cellEditing for priceDiff', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        condition: {
+          enabled: true,
+        },
+        field: ColumnFields.PRICE_DIFF,
         context: { quotation: QUOTATION_MOCK },
       } as any;
       component.agInit(params);

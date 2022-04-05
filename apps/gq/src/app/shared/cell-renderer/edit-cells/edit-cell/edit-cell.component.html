@@ -10,7 +10,23 @@
       class="mr-[10px] !w-3 cursor-help align-text-top !text-caption"
       >warning_amber</mat-icon
     >
-    {{ params.valueFormatted }}
+    <span
+      [ngClass]="{
+        'bg-sunny-yellow':
+          (simulatedQuotation$ | ngrxPush) &&
+          params.formatValue((simulatedQuotation$ | ngrxPush)[params.field]) !==
+            '-'
+      }"
+      class="p-1"
+    >
+      {{
+        (simulatedQuotation$ | ngrxPush)
+          ? params
+              .formatValue((simulatedQuotation$ | ngrxPush)[params.field])
+              .trim()
+          : params.valueFormatted.trim()
+      }}
+    </span>
   </span>
   <mat-icon
     *ngIf="isCellEditingAllowed"
