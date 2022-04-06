@@ -16,6 +16,7 @@ const colors = {
 
   secondary: '#ffffff',
   'secondary-variant': '#f5f5f5',
+  'secondary-900': '#3c3c3c',
 
   'background-dark': '#f5f5f5',
   surface: '#ffffff',
@@ -67,6 +68,7 @@ const Template: Story = (args) => ({
       <div class="mat-elevation-z0 bg-primary-variant"><div class="p-4 pt-[60px]">bg-primary-variant {{colors['primary-variant']}} (called secondary-variant in design)</div></div>      
       <div class="mat-elevation-z0 bg-secondary"><div class="p-4 pt-[60px]">bg-secondary {{colors.secondary}} (called primary in design)</div></div>
       <div class="mat-elevation-z0 bg-secondary-variant"><div class="p-4 pt-[60px]">bg-secondary-variant {{colors['secondary-variant']}} (called primary-variant in design)</div></div>
+      <div class="mat-elevation-z0 bg-secondary-900"><div class="p-4 pt-[60px]">bg-secondary-900 {{colors['secondary-900']}} (called grey/900 in design)</div></div>
       <div class="mat-elevation-z0 bg-background-dark"><div class="p-4 pt-[60px]">bg-background-dark {{colors['background-dark']}}</div></div>
       <div class="mat-elevation-z0 bg-surface"><div class="p-4 pt-[60px]">bg-surface {{colors.surface}}</div></div>
       <div class="mat-elevation-z0 bg-error"><div class="p-4 pt-[60px]">bg-error {{colors.error}}</div></div>
@@ -84,7 +86,7 @@ const Template: Story = (args) => ({
       </div>
 
       <h4 class="mt-20">On Surface</h4>
-      <div class="mat-elevation-z0 bg-[#3c3c3c] flex flex-row justify-between">
+      <div class="mat-elevation-z0 bg-secondary-900 flex flex-row justify-between">
         <div class="p-4 pt-[60px] text-high-emphasis-dark-bg">text-high-emphasis-dark-bg</div>
         <div class="p-4 pt-[60px] text-medium-emphasis-dark-bg">text-medium-emphasis-dark-bg</div>
         <div class="p-4 pt-[60px] text-low-emphasis-dark-bg">text-low-emphasis-dark-bg</div>

@@ -7,6 +7,7 @@ module.exports = {
 
   secondary: '#ffffff',
   'secondary-variant': '#f5f5f5',
+  'secondary-900': '#3c3c3c',
 
   'background-dark': '#f5f5f5',
   surface: '#ffffff',

@@ -8,6 +8,7 @@ const baseColors = {
   'primary-variant': colors['primary-variant'],
   secondary: colors.secondary,
   'secondary-variant': colors['secondary-variant'],
+  'secondary-900': colors['secondary-900'],
   'background-dark': colors['background-dark'],
   surface: colors['surface'],
   error: colors['error-red'],
