@@ -52,6 +52,7 @@ export class SearchAutocompleteComponent
   @Input() public minimumChars = 3;
   @Input() public error? = false;
   @Input() public noResultsText? = 'No Results';
+  @Input() public startsWith? = false;
 
   @Output() public readonly searchString = new EventEmitter<string>();
   @Output() public readonly selection = new EventEmitter<string | undefined>();
@@ -161,9 +162,10 @@ export class SearchAutocompleteComponent
   ): SearchAutocompleteOption[] {
     const filterValue = searchString.toLowerCase();
 
-    return options.filter(
-      (option: SearchAutocompleteOption) =>
-        option.title.toLowerCase().indexOf(filterValue) === 0
+    return options.filter((option: SearchAutocompleteOption) =>
+      this.startsWith
+        ? option.title.toLowerCase().indexOf(filterValue) === 0
+        : option.title.toLowerCase().includes(filterValue)
     );
   }
 

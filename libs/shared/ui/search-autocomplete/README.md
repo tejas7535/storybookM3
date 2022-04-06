@@ -78,6 +78,8 @@ API of HeaderComponent:
 
 @Input() minimumChars?: number = 3; // how many characters need to be inputted before the component emits searchString and show the list to the user
 
+@Input() startsWith?: boolean = false; // if set true, the search results will only contain values that start with the search string, otherwise it is enough to contain the search string
+
 @Input() label?: string = ''; // what label will be displayed in the input before the user starts typing
 
 // Outputs:
