@@ -130,7 +130,7 @@ export class GreaseReportService {
                 ],
               };
 
-              (greaseResult.dataSource as any)[3] = findItem(
+              (greaseResult.dataSource as any)[4] = findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
@@ -149,7 +149,7 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[4] = findItem(
+              (greaseResult.dataSource as any)[5] = findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
@@ -167,7 +167,7 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[5] = findItem(
+              (greaseResult.dataSource as any)[6] = findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
@@ -185,12 +185,12 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[6] = {
+              (greaseResult.dataSource as any)[7] = {
                 title: 'viscosityRatio',
                 values: `${(findItem(table1Values, Field.KAPPA) as any).value}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[10] = findItem(
+              (greaseResult.dataSource as any)[3] = findItem(
                 table1Values,
                 Field.TFG_MIN
               )?.value && {
@@ -238,14 +238,14 @@ export class GreaseReportService {
                       greaseResult.subtitlePart3 = `${value}`;
                       break;
                     case Field.NY40:
-                      (greaseResult.dataSource as any)[7] = {
+                      (greaseResult.dataSource as any)[8] = {
                         title: 'baseOilViscosityAt40',
                         values: `${value} ${unit}`,
                         display: false,
                       };
                       break;
                     case Field.T_LIM_LOW:
-                      (greaseResult.dataSource as any)[8] = {
+                      (greaseResult.dataSource as any)[9] = {
                         title: 'lowerTemperatureLimit',
                         values: `${value} ${unit}`,
                         display: false,
@@ -253,7 +253,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.T_LIM_UP:
-                      (greaseResult.dataSource as any)[9] = {
+                      (greaseResult.dataSource as any)[10] = {
                         title: 'upperTemperatureLimit',
                         values: `${value} ${unit}`,
                         display: false,

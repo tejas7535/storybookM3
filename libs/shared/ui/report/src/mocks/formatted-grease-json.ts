@@ -177,6 +177,11 @@ export const formattedGreaseJson = [
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
+              title: 'greaseServiceLife',
+              values: '~ 941 day',
+              display: false,
+            },
+            {
               title: 'automaticRelubricationPerWeek',
               values:
                 '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
@@ -215,11 +220,6 @@ export const formattedGreaseJson = [
               values: '120.0 °C',
               display: false,
               tooltip: 'upperTemperatureLimitTooltip',
-            },
-            {
-              title: 'greaseServiceLife',
-              values: '~ 941 day',
-              display: false,
             },
             {
               title: 'additiveRequired',
@@ -289,6 +289,11 @@ export const formattedGreaseJson = [
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
+              title: 'greaseServiceLife',
+              values: '~ 941 day',
+              display: false,
+            },
+            {
               title: 'automaticRelubricationPerWeek',
               values:
                 '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
@@ -327,11 +332,6 @@ export const formattedGreaseJson = [
               values: '120.0 °C',
               display: false,
               tooltip: 'upperTemperatureLimitTooltip',
-            },
-            {
-              title: 'greaseServiceLife',
-              values: '~ 941 day',
-              display: false,
             },
             {
               title: 'additiveRequired',
@@ -401,6 +401,11 @@ export const formattedGreaseJson = [
               tooltip: 'automaticRelubricationQuantityPerDayTooltip',
             },
             {
+              title: 'greaseServiceLife',
+              values: '~ 941 day',
+              display: false,
+            },
+            {
               title: 'automaticRelubricationPerWeek',
               values:
                 '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
@@ -439,11 +444,6 @@ export const formattedGreaseJson = [
               values: '160.0 °C',
               display: false,
               tooltip: 'upperTemperatureLimitTooltip',
-            },
-            {
-              title: 'greaseServiceLife',
-              values: '~ 941 day',
-              display: false,
             },
             {
               title: 'additiveRequired',
