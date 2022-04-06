@@ -8,7 +8,10 @@ import {
 import { LAST_OFFER_DETAIL_MOCK } from './last-offer-detail.mock';
 import { MATERIAL_STOCK_BY_PLANT_MOCK } from './material-stock-by-plant.mock';
 import { PLANT_MOCK } from './plant.mock';
-import { SAP_PRICE_DETAIL_MOCK } from './sap-price-condition-detail.mock';
+import {
+  SAP_PRICE_DETAIL_ZMIN_MOCK,
+  SAP_PRICE_DETAIL_ZRTU_MOCK,
+} from './sap-price-condition-detail.mock';
 import { STATUS_BAR_PROPERTIES_MOCK } from './status-bar.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
@@ -34,6 +37,8 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   recommendedPrice: 250,
   strategicPrice: undefined,
   lastCustomerPrice: 170,
+  lastCustomerPriceGpi: 88.24,
+  lastCustomerPriceGpm: 82.35,
   lastCustomerPriceDate: '2020-12-17T09:29:34',
   priceDiff: 17.65,
   gpc: 20,
@@ -43,23 +48,26 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   netValue: 2000,
   priceSource: PriceSource.GQ,
   gpi: 90,
-  gpm: 80,
+  gpm: 85,
   customerMaterial: 'mockCustomerMaterial',
   coefficient1: 0.88,
   coefficient2: 2.5,
   relocationCost: 24.5,
   relocatedProductionPlant: PLANT_MOCK,
-  rlm: 0.65,
+  rlm: 87.75,
   lastOfferDetail: LAST_OFFER_DETAIL_MOCK,
   comment: 'testcomment',
   sapGrossPrice: 100,
   sapPrice: 80,
   sapPriceCondition: SapPriceCondition.STANDARD,
-  discount: 50,
+  discount: -100,
   materialStockByPlant: MATERIAL_STOCK_BY_PLANT_MOCK,
-  filteredSapConditionDetails: [SAP_PRICE_DETAIL_MOCK],
-  msp: 0,
-  rsp: 0,
+  filteredSapConditionDetails: [
+    SAP_PRICE_DETAIL_ZMIN_MOCK,
+    SAP_PRICE_DETAIL_ZRTU_MOCK,
+  ],
+  msp: 0.99,
+  rsp: 1,
 };
 
 export const QUOTATION_DETAILS_MOCK = [

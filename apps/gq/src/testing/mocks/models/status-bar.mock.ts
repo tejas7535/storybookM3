@@ -7,7 +7,7 @@ import {
 export const STATUS_BAR_PROPERTIES_MOCK: StatusBarProperties = {
   netValue: 2000,
   gpi: 90,
-  gpm: 80,
+  gpm: 85,
   priceDiff: 17.65,
   rows: 1,
 };

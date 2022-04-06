@@ -208,6 +208,22 @@ export class ColumnDefService {
     },
     {
       headerName: translate(
+        'shared.quotationDetailsTable.lastCustomerPriceGpi'
+      ),
+      field: ColumnFields.LAST_CUSTOMER_PRICE_GPI,
+      valueFormatter: ColumnUtilityService.percentageFormatter,
+      filter: NUMBER_COLUMN_FILTER,
+    },
+    {
+      headerName: translate(
+        'shared.quotationDetailsTable.lastCustomerPriceGpm'
+      ),
+      field: ColumnFields.LAST_CUSTOMER_PRICE_GPM,
+      valueFormatter: ColumnUtilityService.percentageFormatter,
+      filter: NUMBER_COLUMN_FILTER,
+    },
+    {
+      headerName: translate(
         'shared.quotationDetailsTable.lastCustomerPriceDate'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,

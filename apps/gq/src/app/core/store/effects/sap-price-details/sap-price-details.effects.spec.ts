@@ -8,7 +8,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { marbles } from 'rxjs-marbles';
 
-import { SAP_PRICE_DETAIL_MOCK } from '../../../../../testing/mocks';
+import { SAP_PRICE_DETAIL_ZMIN_MOCK } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
@@ -72,7 +72,7 @@ describe('SapPriceDetailsEffects', () => {
     test(
       'should return loadSapPriceDetailsSuccess',
       marbles((m) => {
-        const sapPriceDetails = [SAP_PRICE_DETAIL_MOCK];
+        const sapPriceDetails = [SAP_PRICE_DETAIL_ZMIN_MOCK];
         quotationDetailsService.getSapPriceDetails = jest.fn(() =>
           of(sapPriceDetails)
         );

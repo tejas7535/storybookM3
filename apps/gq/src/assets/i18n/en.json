@@ -8,6 +8,8 @@
       "info": "Info",
       "item": "Item",
       "lastCustomerPrice": "Last Customer Price",
+      "lastCustomerPriceGpi": "GPI % (GPC) Last Price",
+      "lastCustomerPriceGpm": "GPM % (SQV) Last Price",
       "lastCustomerPriceDate": "Last Customer Price Date",
       "materialDescription": "Description",
       "materialNumber": "Material",

@@ -13,6 +13,8 @@ export enum ColumnFields {
   SQV = 'sqv',
   RELOCATION_COST = 'relocationCost',
   LAST_CUSTOMER_PRICE = 'lastCustomerPrice',
+  LAST_CUSTOMER_PRICE_GPI = 'lastCustomerPriceGpi',
+  LAST_CUSTOMER_PRICE_GPM = 'lastCustomerPriceGpm',
   LAST_CUSTOMER_PRICE_DATE = 'lastCustomerPriceDate',
   LAST_OFFER_PRICE = 'lastOfferDetail.lastOfferPrice',
   LAST_OFFER_PRICE_DATE = 'lastOfferDetail.lastOfferDate',
@@ -46,6 +48,9 @@ export const PercentColumns = [
   ColumnFields.GPI,
   ColumnFields.GPM,
   ColumnFields.RLM,
+  ColumnFields.PRICE_DIFF,
+  ColumnFields.LAST_CUSTOMER_PRICE_GPI,
+  ColumnFields.LAST_CUSTOMER_PRICE_GPM,
 ];
 
 export const ExportExcelNumberColumns = [

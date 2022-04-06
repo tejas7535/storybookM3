@@ -467,7 +467,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: `80 %`,
+              value: `85 %`,
             },
             styleId: excelStyleObjects.excelTextBorderBold.id,
           },

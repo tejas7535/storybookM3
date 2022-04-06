@@ -19,6 +19,7 @@ import {
   TRANSACTIONS_STATE_MOCK,
 } from '../../../testing/mocks/state';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/material-price-header-content/material-price-header-content.module';
+import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { SavingInProgressComponent } from './saving-in-progress/saving-in-progress.component';
 import { TransactionViewComponent } from './transaction-view.component';
@@ -43,6 +44,7 @@ describe('TransactionViewComponent', () => {
       BreadcrumbsModule,
       ShareButtonModule,
       MatSnackBarModule,
+      CustomerHeaderModule,
     ],
     declarations: [SavingInProgressComponent],
     providers: [

@@ -49,7 +49,9 @@ export class QuotationDetail {
   public priceDiff: number;
   public netValue: number;
   public gpi: number;
+  public lastCustomerPriceGpi: number;
   public gpm: number;
+  public lastCustomerPriceGpm: number;
   public rlm: number;
   public discount: number;
   public msp: number;

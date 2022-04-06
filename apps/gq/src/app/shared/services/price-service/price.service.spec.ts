@@ -17,11 +17,15 @@ import { PriceService } from './price.service';
 describe('PriceService', () => {
   describe('addCalculationForDetail', () => {
     test('should return detail', () => {
-      const detail = QUOTATION_DETAIL_MOCK;
-      detail.gpi = 0;
-      detail.priceDiff = 0;
-      detail.netValue = 0;
-      detail.strategicPrice = 10;
+      const detail: QuotationDetail = {
+        ...QUOTATION_DETAIL_MOCK,
+        gpi: 0,
+        gpm: 0,
+        lastCustomerPriceGpi: 0,
+        lastCustomerPriceGpm: 0,
+        priceDiff: 0,
+        netValue: 0,
+      };
 
       PriceService.addCalculationsForDetail(detail);
 

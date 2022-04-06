@@ -8,6 +8,8 @@
       "info": "Info",
       "item": "Position",
       "lastCustomerPrice": "Letzter Kundenpreis",
+      "lastCustomerPriceGpi": "GPI % (KHK) Letzter Kundenpreis",
+      "lastCustomerPriceGpm": "GPM % (SAW) Letzter Kundenpreis",
       "lastCustomerPriceDate": "Datum letzer Kundenpreis",
       "materialDescription": "Materialbezeichnung",
       "materialNumber": "Material",

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import {
-  SAP_PRICE_DETAIL_MOCK,
+  SAP_PRICE_DETAIL_ZMIN_MOCK,
   SAP_PRICE_DETAILS_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import {
@@ -33,7 +33,7 @@ describe('SapPriceDetails Reducer', () => {
   });
   describe('loadSapPriceDetailsSuccess', () => {
     test('should set sapPriceDetails', () => {
-      const sapPriceDetails = [SAP_PRICE_DETAIL_MOCK];
+      const sapPriceDetails = [SAP_PRICE_DETAIL_ZMIN_MOCK];
       const action = loadSapPriceDetailsSuccess({ sapPriceDetails });
 
       const state = sapPriceDetailsReducer(

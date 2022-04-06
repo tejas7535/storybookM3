@@ -7,7 +7,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
-  SAP_PRICE_DETAIL_MOCK,
+  SAP_PRICE_DETAIL_ZMIN_MOCK,
 } from '../../../../testing/mocks';
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { Keyboard } from '../../models';
@@ -167,7 +167,7 @@ describe('CreateColumnService', () => {
     test('should return absolute transformation', () => {
       const params = {
         value: '10',
-        data: SAP_PRICE_DETAIL_MOCK,
+        data: SAP_PRICE_DETAIL_ZMIN_MOCK,
         context: { quotation: QUOTATION_MOCK },
       };
 
@@ -181,7 +181,7 @@ describe('CreateColumnService', () => {
       const params = {
         value: '10',
         data: {
-          ...SAP_PRICE_DETAIL_MOCK,
+          ...SAP_PRICE_DETAIL_ZMIN_MOCK,
           calculationType: CalculationType.PERCENTAGE,
         },
       };

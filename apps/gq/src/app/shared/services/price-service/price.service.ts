@@ -27,7 +27,15 @@ export class PriceService {
     PriceService.calculatePriceUnitValues(detail);
 
     detail.gpi = PriceService.calculateMargin(detail.price, detail.gpc);
+    detail.lastCustomerPriceGpi = PriceService.calculateMargin(
+      detail.lastCustomerPrice,
+      detail.gpc
+    );
     detail.gpm = PriceService.calculateMargin(detail.price, detail.sqv);
+    detail.lastCustomerPriceGpm = PriceService.calculateMargin(
+      detail.lastCustomerPrice,
+      detail.sqv
+    );
     detail.rlm = PriceService.calculateMargin(
       detail.price,
       detail.relocationCost
