@@ -60,6 +60,7 @@
 
       @screen sm {
         @apply w-[192px];
+        white-space: break-spaces;
       }
     }
 
