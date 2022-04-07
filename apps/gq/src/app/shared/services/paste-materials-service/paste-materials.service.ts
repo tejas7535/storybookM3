@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
@@ -13,24 +15,33 @@ import { ValidationDescription } from '../../models/table';
   providedIn: 'root',
 })
 export class PasteMaterialsService {
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly snackBar: MatSnackBar
+  ) {}
 
   public async onPasteStart(isCaseView: boolean): Promise<void> {
-    const text = await navigator.clipboard.readText();
-    const linesArray = this.removeEmptyLines(text);
+    const text = await navigator.clipboard.readText().catch((_error) => {
+      this.snackBar.open(translate(`shared.snackBarMessages.pasteDisabled`));
 
-    const tableArray = this.processInput(linesArray);
-    isCaseView
-      ? this.store.dispatch(
-          pasteRowDataItems({
-            items: tableArray,
-          })
-        )
-      : this.store.dispatch(
-          pasteRowDataItemsToAddMaterial({
-            items: tableArray,
-          })
-        );
+      return '';
+    });
+    if (text.length > 0) {
+      const linesArray = this.removeEmptyLines(text);
+
+      const tableArray = this.processInput(linesArray);
+      isCaseView
+        ? this.store.dispatch(
+            pasteRowDataItems({
+              items: tableArray,
+            })
+          )
+        : this.store.dispatch(
+            pasteRowDataItemsToAddMaterial({
+              items: tableArray,
+            })
+          );
+    }
   }
 
   private processInput(linesArray: string[][]) {

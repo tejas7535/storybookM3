@@ -240,7 +240,8 @@
       "uploadSelectionSuccess": "The item selection was saved in SAP",
       "refreshSapPricingSuccess": "SAP Pricing was refreshed",
       "wrongPriceEditInput": "Please enter a numeric price value",
-      "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00"
+      "priceShouldBeHigherThanZero": "Net Price needs to be higher than 0.00",
+      "pasteDisabled": "GQ is not allowed to access your clipboard, please check your browser setting"
     },
     "maintenance": {
       "title": "Guided Quoting is currently down for maintenance"

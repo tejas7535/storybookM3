@@ -1,4 +1,7 @@
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { translate } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import {
@@ -13,9 +16,11 @@ describe('PasteMaterialsService', () => {
   let spectator: SpectatorService<PasteMaterialsService>;
   let mockStore: MockStore;
   let combinedArray: MaterialTableItem[];
+  let snackBar: MatSnackBar;
 
   const createService = createServiceFactory({
     service: PasteMaterialsService,
+    imports: [MatSnackBarModule],
     providers: [provideMockStore({})],
   });
 
@@ -23,6 +28,7 @@ describe('PasteMaterialsService', () => {
     spectator = createService();
     service = spectator.service;
     mockStore = spectator.inject(MockStore);
+    snackBar = spectator.inject(MatSnackBar);
   });
   test('should be created', () => {
     expect(service).toBeTruthy();
@@ -61,7 +67,8 @@ describe('PasteMaterialsService', () => {
     test('should dispatch action with transformed array', async () => {
       Object.assign(navigator, {
         clipboard: {
-          readText: () => `20\t10\n201\t20\n203\t30`,
+          readText: () =>
+            new Promise((resolve) => resolve(`20\t10\n201\t20\n203\t30`)),
         },
       });
 
@@ -78,7 +85,8 @@ describe('PasteMaterialsService', () => {
       // Test case of last line being empty
       Object.assign(navigator, {
         clipboard: {
-          readText: () => `20\t10\n201\t20\n203\t30\n`,
+          readText: () =>
+            new Promise((resolve) => resolve(`20\t10\n201\t20\n203\t30\n`)),
         },
       });
 
@@ -94,7 +102,8 @@ describe('PasteMaterialsService', () => {
     test('should dispatch action with transformed array for zero quantity', async () => {
       Object.assign(navigator, {
         clipboard: {
-          readText: () => `\t10\n201\t\n203\t30`,
+          readText: () =>
+            new Promise((resolve) => resolve(`\t10\n201\t\n203\t30`)),
         },
       });
 
@@ -109,6 +118,26 @@ describe('PasteMaterialsService', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         pasteRowDataItemsToAddMaterial(combinedItem)
       );
+    });
+
+    test('should show snackBar if pasting is disabled', async () => {
+      snackBar.open = jest.fn();
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () =>
+            new Promise(() => {
+              throw new Error('test');
+            }),
+        },
+      });
+
+      await service.onPasteStart(true);
+
+      expect(snackBar.open).toHaveBeenCalledTimes(1);
+      expect(snackBar.open).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.pasteDisabled`)
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledTimes(0);
     });
   });
 });

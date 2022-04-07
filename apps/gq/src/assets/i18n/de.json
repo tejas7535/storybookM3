@@ -240,7 +240,8 @@
       "uploadSelectionSuccess": "Die Angebotsauwahl wurde in SAP gespeichert",
       "refreshSapPricingSuccess": "SAP Preise wurden aktualisiert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein",
-      "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein"
+      "priceShouldBeHigherThanZero": "Der Preis muss höher als 0.00 sein",
+      "pasteDisabled": "GQ kann nicht auf Ihre Zwischenablage zugreifen. Bitte überprüfen Sie Ihre Browsereinstellungen."
     },
     "maintenance": {
       "title": "Guided Quoting ist derzeit wegen Wartungsarbeiten nicht verfügbar"
