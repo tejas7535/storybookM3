@@ -252,6 +252,8 @@
       "discount": "discount %",
       "price": "price",
       "orderQuantity": "quantity",
+      "relative": "Relative",
+      "absolute": "Absolute",
       "confirm": {
         "price": "Set new price",
         "gpi": "Set new gpi",
@@ -265,7 +267,8 @@
         "gpi": "GPI change in %",
         "gpm": "GPM change in %",
         "discount": "Discount change in %",
-        "orderQuantity": "Quantity change"
+        "orderQuantity": "Quantity change",
+        "priceAbsolute": "Price change (absolute)"
       },
       "hints": {
         "price": "Change price",

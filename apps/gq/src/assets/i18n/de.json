@@ -252,6 +252,8 @@
       "discount": "Rabatt %",
       "price": "Preis",
       "orderQuantity": "Menge",
+      "relative": "Relativ",
+      "absolute": "Absolut",
       "confirm": {
         "price": "Neuen Preis setzen",
         "gpi": "Neuen GPI setzen",
@@ -264,7 +266,8 @@
         "gpi": "GPI Änderung in %",
         "gpm": "GPM Änderung in %",
         "discount": "Rabattänderung in %",
-        "orderQuantity": "Mengenänderung"
+        "orderQuantity": "Mengenänderung",
+        "priceAbsolute": "Preisänderung (absolut)"
       },
       "hints": {
         "price": "Preis ändern",

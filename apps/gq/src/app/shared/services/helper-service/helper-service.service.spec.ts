@@ -213,6 +213,85 @@ describe('HelperServiceService', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
     });
   });
+  describe('validateAbsolutePriceInputKeyPress', () => {
+    test('should prevent Default for more then two digits after decimal point', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '20.22' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+    test('should not prevent Default', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '2' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default for long numbers', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '2' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default when delete key is pressed', () => {
+      const event = { key: Keyboard.DELETE, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '20.022' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default when input is paste event', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: true,
+      } as any;
+      const manualPriceInput = { value: '20' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default when input is paste event on Mac', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: false,
+        metaKey: true,
+      } as any;
+      const manualPriceInput = { value: '20' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+    test('should prevent default for multiple dots/dashs', () => {
+      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '20.' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+    test('should prevent default for multiple dashs', () => {
+      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: '-' } as any;
+
+      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('onPaste', () => {
     test('should set price', () => {
       const event = {

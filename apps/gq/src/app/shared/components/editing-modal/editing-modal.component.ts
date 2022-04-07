@@ -44,6 +44,9 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   affectedKpis: KpiValue[];
   fields = ColumnFields;
 
+  isRelativePriceChange = true;
+  showRadioGroup = this.modalData.field === ColumnFields.PRICE;
+
   @ViewChild('edit') editInputField: ElementRef;
 
   constructor(
@@ -113,6 +116,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
           (![ColumnFields.ORDER_QUANTITY].includes(
             this.modalData.field as ColumnFields
           ) &&
+            this.isRelativePriceChange &&
             parsedValue >= 100);
 
         // trigger dynamic kpi simulation
@@ -125,9 +129,13 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     this.affectedKpis = PriceService.calculateAffectedKPIs(
       val,
       this.modalData.field,
-      this.modalData.quotationDetail
+      this.modalData.quotationDetail,
+      this.modalData.field !== ColumnFields.PRICE ||
+        (this.modalData.field === ColumnFields.PRICE &&
+          this.isRelativePriceChange)
     );
   }
+
   closeDialog(): void {
     this.dialogRef.close();
   }
@@ -164,10 +172,12 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
           value
         );
       } else if (this.modalData.field === ColumnFields.PRICE) {
-        newPrice = PriceService.multiplyAndRoundValues(
-          this.modalData.quotationDetail.price,
-          1 + value / 100
-        );
+        newPrice = this.isRelativePriceChange
+          ? PriceService.multiplyAndRoundValues(
+              this.modalData.quotationDetail.price,
+              1 + value / 100
+            )
+          : value;
       } else {
         newPrice = value;
       }
@@ -190,13 +200,22 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   onKeyPress(event: KeyboardEvent, value: HTMLInputElement): void {
     if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
       HelperService.validateQuantityInputKeyPress(event);
+    } else if (
+      this.modalData.field === ColumnFields.PRICE &&
+      !this.isRelativePriceChange
+    ) {
+      HelperService.validateAbsolutePriceInputKeyPress(event, value);
     } else {
       HelperService.validateNumberInputKeyPress(event, value);
     }
   }
 
   onPaste(event: ClipboardEvent): void {
-    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
+    if (
+      this.modalData.field === ColumnFields.ORDER_QUANTITY ||
+      (this.modalData.field === ColumnFields.PRICE &&
+        !this.isRelativePriceChange)
+    ) {
       HelperService.validateQuantityInputPaste(event);
     } else {
       HelperService.validateNumberInputPaste(event, this.editFormControl);
@@ -213,7 +232,8 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       this.editFormControl.setValue(
         PriceService.roundToTwoDecimals(
-          Number.parseInt(this.editFormControl.value ?? this.value, 10) + 1
+          (Number.parseInt(this.editFormControl.value ?? this.value, 10) || 0) +
+            1
         )
       );
       this.editInputField?.nativeElement.focus();
@@ -222,17 +242,29 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
 
   decrement(): void {
     if (
+      // should not decrement to less than -99 % for percentage changes
       (this.modalData.field !== ColumnFields.ORDER_QUANTITY &&
+        this.isRelativePriceChange &&
         (this.editFormControl.value ?? this.value) > -99) ||
+      // absolute price can not be lower than 1
+      (!this.isRelativePriceChange &&
+        (this.editFormControl.value ?? this.value) > 1) ||
+      // quantity should not be lower than 1
       (this.modalData.field === ColumnFields.ORDER_QUANTITY &&
         (this.editFormControl.value ?? this.value) > 1)
     ) {
       this.editFormControl.setValue(
         PriceService.roundToTwoDecimals(
-          Number.parseInt(this.editFormControl.value ?? this.value, 10) - 1
+          (Number.parseInt(this.editFormControl.value ?? this.value, 10) || 0) -
+            1
         )
       );
       this.editInputField?.nativeElement.focus();
     }
+  }
+
+  onRadioButtonChange(isRelative: boolean): void {
+    this.editFormControl.setValue('');
+    this.setAffectedKpis(isRelative ? this.modalData.quotationDetail.price : 0);
   }
 }

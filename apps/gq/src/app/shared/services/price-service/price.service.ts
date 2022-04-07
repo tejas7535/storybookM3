@@ -258,7 +258,8 @@ export class PriceService {
   static calculateAffectedKPIs(
     value: number,
     field: ColumnFields,
-    detail: QuotationDetail
+    detail: QuotationDetail,
+    isRelativePrice = true
   ): KpiValue[] {
     if (field === ColumnFields.ORDER_QUANTITY) {
       return [];
@@ -266,33 +267,37 @@ export class PriceService {
     const result: KpiValue[] = [];
     let updatedPrice: number;
 
-    switch (field) {
-      case ColumnFields.PRICE:
-        updatedPrice = PriceService.multiplyAndRoundValues(
-          detail.price,
-          1 + value / 100
-        );
-        break;
-      case ColumnFields.GPI:
-        updatedPrice = PriceService.getManualPriceByMarginAndCost(
-          detail.gpc,
-          value
-        );
-        break;
-      case ColumnFields.GPM:
-        updatedPrice = PriceService.getManualPriceByMarginAndCost(
-          detail.sqv,
-          value
-        );
-        break;
-      case ColumnFields.DISCOUNT:
-        updatedPrice = PriceService.getManualPriceByDiscount(
-          detail.sapGrossPrice,
-          value
-        );
-        break;
-      default:
-        throw new Error('No matching Column Field for computation');
+    if (isRelativePrice) {
+      switch (field) {
+        case ColumnFields.PRICE:
+          updatedPrice = PriceService.multiplyAndRoundValues(
+            detail.price,
+            1 + value / 100
+          );
+          break;
+        case ColumnFields.GPI:
+          updatedPrice = PriceService.getManualPriceByMarginAndCost(
+            detail.gpc,
+            value
+          );
+          break;
+        case ColumnFields.GPM:
+          updatedPrice = PriceService.getManualPriceByMarginAndCost(
+            detail.sqv,
+            value
+          );
+          break;
+        case ColumnFields.DISCOUNT:
+          updatedPrice = PriceService.getManualPriceByDiscount(
+            detail.sapGrossPrice,
+            value
+          );
+          break;
+        default:
+          throw new Error('No matching Column Field for computation');
+      }
+    } else {
+      updatedPrice = value;
     }
 
     result.push({

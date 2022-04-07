@@ -172,12 +172,55 @@ describe('EditingModalComponent', () => {
       expect(component.confirmDisabled).toBeFalsy();
       expect(component.setAffectedKpis).toHaveBeenCalledTimes(2);
     });
+    test('should enable editing for absolute prices > 100', () => {
+      component.modalData = { field: ColumnFields.PRICE } as any;
+      component.isRelativePriceChange = false;
+
+      component.editFormControl.setValue('111');
+
+      expect(component.confirmDisabled).toBeFalsy();
+      expect(component.setAffectedKpis).toHaveBeenCalledTimes(2);
+    });
   });
   describe('setAffectedKpis', () => {
     test('should set affected kpis', () => {
       PriceService.calculateAffectedKPIs = jest.fn(() => []);
       component.setAffectedKpis(1);
 
+      expect(component.affectedKpis).toEqual([]);
+    });
+    test('should pass isRelativePrice as false correctly', () => {
+      PriceService.calculateAffectedKPIs = jest.fn(() => []);
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.isRelativePriceChange = false;
+      component.setAffectedKpis(1);
+
+      expect(PriceService.calculateAffectedKPIs).toHaveBeenCalledWith(
+        1,
+        ColumnFields.PRICE,
+        QUOTATION_DETAIL_MOCK,
+        false
+      );
+      expect(component.affectedKpis).toEqual([]);
+    });
+    test('should pass isRelativePrice as true correctly', () => {
+      PriceService.calculateAffectedKPIs = jest.fn(() => []);
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.isRelativePriceChange = true;
+      component.setAffectedKpis(1);
+
+      expect(PriceService.calculateAffectedKPIs).toHaveBeenCalledWith(
+        1,
+        ColumnFields.PRICE,
+        QUOTATION_DETAIL_MOCK,
+        true
+      );
       expect(component.affectedKpis).toEqual([]);
     });
   });
@@ -273,6 +316,28 @@ describe('EditingModalComponent', () => {
         updateQuotationDetails({ updateQuotationDetailList })
       );
     });
+    test('should edit absolute prices', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      } as any;
+      component.editFormControl = { value: 50 } as any;
+      component.isRelativePriceChange = false;
+
+      const updateQuotationDetailList: UpdateQuotationDetail[] = [
+        {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          price: 50,
+          priceSource: PriceSource.MANUAL,
+        },
+      ];
+
+      component.confirmEditing();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        updateQuotationDetails({ updateQuotationDetailList })
+      );
+    });
   });
 
   describe('onKeyPress', () => {
@@ -294,6 +359,16 @@ describe('EditingModalComponent', () => {
         1
       );
     });
+    test('should call HelperService method for absolute prices', () => {
+      component.modalData = { field: ColumnFields.PRICE } as any;
+      component.isRelativePriceChange = false;
+      HelperService.validateAbsolutePriceInputKeyPress = jest.fn();
+
+      component.onKeyPress({} as any, {} as any);
+      expect(
+        HelperService.validateAbsolutePriceInputKeyPress
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('onPaste', () => {
@@ -310,6 +385,14 @@ describe('EditingModalComponent', () => {
 
       component.onPaste({} as any);
       expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
+    });
+    test('should call HelperService method for absolute prices', () => {
+      component.modalData = { field: ColumnFields.PRICE } as any;
+      component.isRelativePriceChange = false;
+      HelperService.validateQuantityInputPaste = jest.fn();
+
+      component.onPaste({} as any);
+      expect(HelperService.validateQuantityInputPaste).toHaveBeenCalledTimes(1);
     });
   });
   describe('increment', () => {
@@ -348,6 +431,21 @@ describe('EditingModalComponent', () => {
       component.increment();
 
       expect(component.editFormControl.setValue).toHaveBeenCalledTimes(0);
+    });
+    test('should use 0 if the value is not parseable', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.value = '' as unknown as number;
+      component.editFormControl = {
+        value: undefined,
+        setValue: jest.fn(),
+      } as any;
+
+      component.increment();
+
+      expect(component.editFormControl.setValue).toHaveBeenCalledWith(1);
     });
   });
 
@@ -400,6 +498,32 @@ describe('EditingModalComponent', () => {
 
       expect(component.editFormControl.setValue).toHaveBeenCalledTimes(0);
     });
+    test('should not decrement absolute price', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.value = 1;
+      component.editFormControl = { value: 1, setValue: jest.fn() } as any;
+      component.isRelativePriceChange = false;
+
+      component.decrement();
+
+      expect(component.editFormControl.setValue).toHaveBeenCalledTimes(0);
+    });
+    test('should decrement absolute price', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.value = 20;
+      component.editFormControl = { value: 20, setValue: jest.fn() } as any;
+      component.isRelativePriceChange = false;
+
+      component.decrement();
+
+      expect(component.editFormControl.setValue).toHaveBeenCalledTimes(1);
+    });
     test('should decrement for placeholder', () => {
       component.modalData = {
         field: ColumnFields.GPI,
@@ -429,6 +553,53 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editFormControl.setValue).toHaveBeenCalledWith(95);
+    });
+    test('should use 0 if the value is not parseable', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.value = '' as unknown as number;
+      component.editFormControl = {
+        value: undefined,
+        setValue: jest.fn(),
+      } as any;
+
+      component.decrement();
+
+      expect(component.editFormControl.setValue).toHaveBeenCalledWith(-1);
+    });
+  });
+
+  describe('radio button change', () => {
+    beforeEach(() => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: { ...QUOTATION_DETAIL_MOCK, price: 20 },
+      };
+    });
+
+    test('should reset form value on radio button change', () => {
+      component.editFormControl.setValue(45);
+      component.onRadioButtonChange(true);
+
+      expect(component.editFormControl.value).toEqual('');
+    });
+
+    test('should reset kpis for relative prices', () => {
+      component.editFormControl.setValue(45);
+      component.setAffectedKpis = jest.fn();
+      component.onRadioButtonChange(true);
+
+      expect(component.setAffectedKpis).toHaveBeenCalledWith(20);
+    });
+
+    test('should reset kpis for absolute prices', () => {
+      component.editFormControl.setValue(45);
+      component.setAffectedKpis = jest.fn();
+      component.onRadioButtonChange(false);
+
+      expect(component.setAffectedKpis).toHaveBeenCalledWith(0);
     });
   });
 });

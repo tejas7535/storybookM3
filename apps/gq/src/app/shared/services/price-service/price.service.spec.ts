@@ -278,6 +278,8 @@ describe('PriceService', () => {
         QUOTATION_DETAIL_MOCK
       );
 
+      expect(PriceService.multiplyAndRoundValues).toHaveBeenCalled();
+
       const expected: KpiValue[] = [
         { key: ColumnFields.PRICE, value: 1 },
         { key: ColumnFields.GPI, value: 2 },
@@ -296,6 +298,8 @@ describe('PriceService', () => {
         QUOTATION_DETAIL_MOCK
       );
 
+      expect(PriceService.getManualPriceByMarginAndCost).toHaveBeenCalled();
+
       const expected: KpiValue[] = [
         { key: ColumnFields.PRICE, value: 23 },
         { key: ColumnFields.GPM, value: 1 },
@@ -312,6 +316,8 @@ describe('PriceService', () => {
         ColumnFields.GPM,
         QUOTATION_DETAIL_MOCK
       );
+
+      expect(PriceService.getManualPriceByMarginAndCost).toHaveBeenCalled();
 
       const expected: KpiValue[] = [
         { key: ColumnFields.PRICE, value: 23 },
@@ -330,6 +336,8 @@ describe('PriceService', () => {
         QUOTATION_DETAIL_MOCK
       );
 
+      expect(PriceService.getManualPriceByDiscount).toHaveBeenCalled();
+
       const expected: KpiValue[] = [
         { key: ColumnFields.PRICE, value: 23 },
         { key: ColumnFields.GPI, value: 1 },
@@ -345,6 +353,27 @@ describe('PriceService', () => {
           QUOTATION_DETAIL_MOCK
         )
       ).toThrowError(new Error('No matching Column Field for computation'));
+    });
+    test('should return kpis for absolute price', () => {
+      PriceService.multiplyAndRoundValues = jest.fn(() => 1);
+      PriceService.calculateMargin = jest.fn(() => 2);
+      PriceService.calculateDiscount = jest.fn(() => 3);
+      const result = PriceService.calculateAffectedKPIs(
+        1,
+        ColumnFields.PRICE,
+        QUOTATION_DETAIL_MOCK,
+        false
+      );
+
+      expect(PriceService.multiplyAndRoundValues).not.toHaveBeenCalled();
+
+      const expected: KpiValue[] = [
+        { key: ColumnFields.PRICE, value: 1 },
+        { key: ColumnFields.GPI, value: 2 },
+        { key: ColumnFields.GPM, value: 2 },
+        { key: ColumnFields.DISCOUNT, value: 3 },
+      ];
+      expect(result).toEqual(expected);
     });
   });
 });

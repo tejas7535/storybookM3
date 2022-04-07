@@ -80,37 +80,58 @@ export class HelperService {
     event: KeyboardEvent,
     manualPriceInput: HTMLInputElement
   ): void {
+    this.validateNumberInput(
+      event,
+      manualPriceInput,
+      [Keyboard.BACKSPACE, Keyboard.DELETE, Keyboard.DOT, Keyboard.DASH],
+      2
+    );
+  }
+
+  static validateAbsolutePriceInputKeyPress(
+    event: KeyboardEvent,
+    absolutePriceInput: HTMLInputElement
+  ): void {
+    this.validateNumberInput(
+      event,
+      absolutePriceInput,
+      [Keyboard.BACKSPACE, Keyboard.DELETE, Keyboard.DOT],
+      20
+    );
+  }
+
+  static validateNumberInput(
+    event: KeyboardEvent,
+    inputElem: HTMLInputElement,
+    allowdKeys: Keyboard[],
+    numDigits: number
+  ) {
     const parsedInput = Number.parseInt(event.key, 10);
     const isValidNumber = parsedInput === 0 || !Number.isNaN(parsedInput);
     // Allowed keys besides numbers
-    const inputIsAllowedSpecialKey = [
-      Keyboard.BACKSPACE,
-      Keyboard.DELETE,
-      Keyboard.DOT,
-      Keyboard.DASH,
-    ].includes(event.key as Keyboard);
+    const inputIsAllowedSpecialKey = allowdKeys.includes(event.key as Keyboard);
 
     if (
       // prevent on invalid number
       (!isValidNumber && !inputIsAllowedSpecialKey && !isPaste(event)) ||
       // prevent more than two decimal places
-      ((manualPriceInput.value + event.key)
+      ((inputElem.value + event.key)
         .toString()
         .replace(Keyboard.DASH, Keyboard.EMPTY)
-        .split(Keyboard.DOT)[0].length > 2 &&
+        .split(Keyboard.DOT)[0].length > numDigits &&
         !inputIsAllowedSpecialKey &&
         !isPaste(event)) ||
       // prevent dot and dash expect for first char and digits
       ([Keyboard.DOT, Keyboard.DASH].some((char) =>
-        manualPriceInput.value.startsWith(char)
+        inputElem.value.startsWith(char)
       ) &&
         [Keyboard.DOT, Keyboard.DASH].includes(event.key as Keyboard) &&
-        manualPriceInput.value.length === 1) ||
-      (manualPriceInput.value.length > 1 && event.key === Keyboard.DASH)
+        inputElem.value.length === 1) ||
+      (inputElem.value.length > 1 && event.key === Keyboard.DASH)
     ) {
       event.preventDefault();
     } else {
-      const { value } = manualPriceInput;
+      const { value } = inputElem;
       // get all decimal digits for the input value
       const decimalDigits = value ? value.toString().split('.') : [];
 
