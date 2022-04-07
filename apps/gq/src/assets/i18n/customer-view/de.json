@@ -3,7 +3,7 @@
     "country": "Land",
     "customer": "Kunde",
     "customerId": "Kundennummer",
-    "netSalesClassification": "Kunden-Klassifizierung (A,B,C)",
+    "netSalesClassification": "Umsatzklassifizierung (A,B,C)",
     "netSales": "Umsatz",
     "gpi": "GPI",
     "incoterms": "Incoterms",

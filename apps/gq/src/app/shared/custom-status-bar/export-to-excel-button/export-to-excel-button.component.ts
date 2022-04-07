@@ -484,7 +484,7 @@ export class ExportToExcelButtonComponent implements OnInit {
           data: {
             type: typeString,
             value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.customerClassification'
+              'shared.customStatusBar.excelExport.customerOverview.netSalesClassification'
             ),
           },
           styleId: excelStyleObjects.excelCustomerOverviewLabel.id,

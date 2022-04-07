@@ -4,7 +4,7 @@
     "country": "Country",
     "customer": "Customer",
     "customerId": "Customer Number",
-    "netSalesClassification": "Customer Classification (A,B,C)",
+    "netSalesClassification": "Net Sales Classification (A,B,C)",
     "netSales": "Net Sales",
     "gpi": "GPI",
     "incoterms": "Incoterms",
