@@ -11,21 +11,17 @@ import {
 } from '../../../../core/store/reducers/create-case/models';
 import { ApiVersion, Quotation } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
+import { QuotationPaths } from './models/quotation-paths.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuotationService {
-  private readonly PATH_UPLOAD_SELECTION = 'upload-selection';
-  private readonly PATH_REFRESH_SAP_PRICING = 'reload-from-sap';
-  private readonly PATH_QUOTATIONS = 'quotations';
-  private readonly PATH_CUSTOMER_QUOTATION = 'customers/quotations';
-
   constructor(private readonly http: HttpClient) {}
 
   public uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
     return this.http.post<Quotation>(
-      `${ApiVersion.V1}/${this.PATH_UPLOAD_SELECTION}`,
+      `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`,
       {
         gqPositionIds,
       }
@@ -33,25 +29,28 @@ export class QuotationService {
   }
   public refreshSapPricing(gqId: number): Observable<Quotation> {
     return this.http.get<Quotation>(
-      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${gqId}/${this.PATH_REFRESH_SAP_PRICING}`
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_REFRESH_SAP_PRICING}`
     );
   }
 
   public deleteCases(gqId: string[]): Observable<any> {
-    return this.http.delete(`${ApiVersion.V1}/${this.PATH_QUOTATIONS}`, {
-      body: gqId,
-    });
+    return this.http.delete(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
+      {
+        body: gqId,
+      }
+    );
   }
 
   public getQuotation(gqId: number): Observable<Quotation> {
     return this.http.get<Quotation>(
-      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${gqId}`
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
     );
   }
 
   public getCases(): Observable<ViewQuotation[]> {
     return this.http.get<ViewQuotation[]>(
-      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}`
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
     );
   }
 
@@ -60,7 +59,7 @@ export class QuotationService {
   ): Observable<CreateCaseResponse> {
     return this.http
       .post<CreateCaseResponse>(
-        `${ApiVersion.V1}/${this.PATH_QUOTATIONS}`,
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
         createCaseData
       )
       .pipe(
@@ -78,7 +77,7 @@ export class QuotationService {
 
   public importCase(importCase: string): Observable<Quotation> {
     return this.http.put<Quotation>(
-      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}`,
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`,
       importCase
     );
   }
@@ -87,7 +86,10 @@ export class QuotationService {
     requestPayload: CreateCustomerCase
   ): Observable<CreateCaseResponse> {
     return this.http
-      .post(`${ApiVersion.V1}/${this.PATH_CUSTOMER_QUOTATION}`, requestPayload)
+      .post(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`,
+        requestPayload
+      )
       .pipe(
         map((res: any) => {
           const response: CreateCaseResponse = {
@@ -106,7 +108,7 @@ export class QuotationService {
     gqId: number
   ): Observable<ViewQuotation> {
     return this.http.put<ViewQuotation>(
-      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${gqId}`,
+      `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`,
       { caseName }
     );
   }

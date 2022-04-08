@@ -14,6 +14,7 @@ import { CreateCase } from '../../../../core/store/reducers/create-case/models';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { ApiVersion } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
+import { QuotationPaths } from './models/quotation-paths.enum';
 import { QuotationService } from './quotation.service';
 
 describe('QuotationService', () => {
@@ -44,7 +45,7 @@ describe('QuotationService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_UPLOAD_SELECTION']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_UPLOAD_SELECTION}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(gqPositionIds);
@@ -58,7 +59,7 @@ describe('QuotationService', () => {
         .subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}/${gqId}/${service['PATH_REFRESH_SAP_PRICING']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}/${QuotationPaths.PATH_REFRESH_SAP_PRICING}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(gqId);
@@ -71,7 +72,7 @@ describe('QuotationService', () => {
       service.deleteCases(gqId).subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.DELETE);
       req.flush(gqId);
@@ -90,7 +91,7 @@ describe('QuotationService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}/${gqId}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
@@ -102,7 +103,7 @@ describe('QuotationService', () => {
       service.getCases().subscribe((res) => expect(res).toEqual([]));
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
     });
@@ -123,7 +124,7 @@ describe('QuotationService', () => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
@@ -137,7 +138,7 @@ describe('QuotationService', () => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}`
       );
       expect(req.request.method).toBe(HttpMethod.PUT);
       req.flush(importCase);
@@ -160,7 +161,7 @@ describe('QuotationService', () => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_CUSTOMER_QUOTATION']}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_CUSTOMER_QUOTATION}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mockBody);
@@ -175,7 +176,7 @@ describe('QuotationService', () => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_QUOTATIONS']}/${gqId}`
+        `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
       );
       expect(req.request.method).toBe(HttpMethod.PUT);
       req.flush(caseName);

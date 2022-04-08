@@ -13,6 +13,7 @@ import { PriceService } from '../../price-service/price.service';
 import { AutocompleteResponse } from './models/autocomplete-response.model';
 import { PLsSeriesRequest } from './models/pls-series-request.model';
 import { PLsSeriesResponse } from './models/pls-series-response.model';
+import { SearchPaths } from './models/search-paths.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +21,6 @@ import { PLsSeriesResponse } from './models/pls-series-response.model';
 export class SearchService {
   private readonly PARAM_SEARCH_FOR = 'search_for';
   private readonly PARAM_CUSTOMER_ID = 'customer_id';
-
-  private readonly PATH_AUTO_COMPLETE = 'auto-complete';
-  private readonly PATH_GET_SALES_ORGS = 'sales-orgs';
-  private readonly PATH_CUSTOMERS = 'customers';
-  private readonly PATH_PLS_AND_SERIES = 'materials/product-lines/customer';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -40,7 +36,7 @@ export class SearchService {
 
     return this.http
       .get<AutocompleteResponse>(
-        `${ApiVersion.V1}/${this.PATH_AUTO_COMPLETE}/${filter}`,
+        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/${filter}`,
         {
           params: httpParams,
         }
@@ -58,7 +54,7 @@ export class SearchService {
     const httpParams = new HttpParams().set(this.PARAM_CUSTOMER_ID, customerId);
 
     return this.http
-      .get<string[]>(`${ApiVersion.V1}/${this.PATH_GET_SALES_ORGS}`, {
+      .get<string[]>(`${ApiVersion.V1}/${SearchPaths.PATH_GET_SALES_ORGS}`, {
         params: httpParams,
       })
       .pipe(
@@ -74,7 +70,7 @@ export class SearchService {
 
     return this.http
       .get<Customer>(
-        `${ApiVersion.V1}/${this.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`
+        `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`
       )
       .pipe(
         map((customer: Customer) => ({
@@ -102,7 +98,7 @@ export class SearchService {
     requestPayload: PLsSeriesRequest
   ): Observable<PLsSeriesResponse[]> {
     return this.http.post<PLsSeriesResponse[]>(
-      `${ApiVersion.V1}/${this.PATH_PLS_AND_SERIES}`,
+      `${ApiVersion.V1}/${SearchPaths.PATH_PLS_AND_SERIES}`,
       requestPayload
     );
   }

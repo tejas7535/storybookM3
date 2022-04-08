@@ -1,4 +1,5 @@
 {
+  "errorInterceptorForbidden": "Forbidden. You do not have access to this customer. Please check if your Guided Quoting roles are correct.",
   "errorInterceptorMessageDefault": "We are experiencing server problems. Please try again later.",
   "errorInterceptorActionDefault": "Contact Support"
 }

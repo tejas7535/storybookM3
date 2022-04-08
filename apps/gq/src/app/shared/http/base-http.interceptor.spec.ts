@@ -1,4 +1,8 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpStatusCode,
+} from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -8,13 +12,18 @@ import { waitForAsync } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { translate } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ApiVersion } from '../models';
+import { QuotationPaths } from '../services/rest-services/quotation-service/models/quotation-paths.enum';
 import { BaseHttpInterceptor } from './base-http.interceptor';
 
 const environment = {
@@ -34,6 +43,12 @@ class ExampleService {
   public getPosts(): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/test`);
   }
+
+  public getQuotation(): Observable<string> {
+    return this.http.get<string>(
+      `${this.apiUrl}/${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`
+    );
+  }
 }
 
 class MatSnackBarStub {
@@ -49,6 +64,7 @@ describe(`BaseHttpInterceptor`, () => {
   let spectator: SpectatorService<ExampleService>;
   let httpMock: HttpTestingController;
   let snackBar: MatSnackBar;
+  let router: Router;
 
   const createService = createServiceFactory({
     service: ExampleService,
@@ -56,6 +72,7 @@ describe(`BaseHttpInterceptor`, () => {
       provideTranslocoTestingModule({ en: {} }),
       HttpClientTestingModule,
       NoopAnimationsModule,
+      RouterTestingModule,
     ],
     providers: [
       {
@@ -77,6 +94,7 @@ describe(`BaseHttpInterceptor`, () => {
     httpMock = spectator.inject(HttpTestingController);
     snackBar = spectator.inject(MatSnackBar);
     console.error = jest.fn();
+    router = spectator.inject(Router);
   });
 
   test('should be truthy', () => {
@@ -86,108 +104,173 @@ describe(`BaseHttpInterceptor`, () => {
   describe('intercept', () => {
     beforeEach(() => {
       jest.spyOn(snackBar, 'open');
+      router.navigate = jest.fn();
     });
 
     afterEach(() => {
       httpMock.verify();
     });
 
-    test(
-      'should do nothing when no error occurs',
-      waitForAsync(() => {
-        service.getPosts().subscribe((response) => {
+    test('should do nothing when no error occurs', waitForAsync(() => {
+      service.getPosts().subscribe((response) => {
+        expect(response).toBeTruthy();
+        expect(response).toEqual('data');
+      });
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      expect(httpRequest.request.method).toEqual('GET');
+      expect(router.navigate).toHaveBeenCalledTimes(0);
+
+      httpRequest.flush('data');
+    }));
+    test('should toast error message in error case', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (response) => {
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'translate it',
+            'translate it',
+            { duration: 2000 }
+          );
           expect(response).toBeTruthy();
-          expect(response).toEqual('data');
-        });
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-        expect(httpRequest.request.method).toEqual('GET');
-        httpRequest.flush('data');
-      })
-    );
-    test(
-      'should toast error message in error case',
-      waitForAsync(() => {
-        service.getPosts().subscribe({
-          next: () => {
-            expect(true).toEqual(false);
-          },
-          error: (response) => {
-            expect(snackBar.open).toHaveBeenCalledWith(
-              'translate it',
-              'translate it',
-              { duration: 2000 }
-            );
-            expect(response).toBeTruthy();
-          },
-        });
+        },
+      });
 
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      expect(router.navigate).toHaveBeenCalledTimes(0);
 
-        expect(httpRequest.request.method).toEqual('GET');
+      expect(httpRequest.request.method).toEqual('GET');
 
-        httpRequest.error({
-          status: 403,
+      httpRequest.error(
+        {
           error: {
             message: 'error',
             title: 'Service Unavailable',
             detail: 'Damn monkey',
           },
-        } as unknown as ErrorEvent);
-      })
-    );
-    test(
-      'should show default error message in error case',
-      waitForAsync(() => {
-        service.getPosts().subscribe({
-          next: () => {
-            expect(true).toEqual(false);
-          },
-          error: (_response) => {
-            expect(snackBar.open).toHaveBeenCalledWith(
-              'translate it',
-              'translate it',
-              { duration: 2000 }
-            );
-          },
-        });
+        } as unknown as ErrorEvent,
+        { status: 400 }
+      );
+    }));
+    test('should show default error message in error case', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'translate it',
+            'translate it',
+            { duration: 2000 }
+          );
+        },
+      });
 
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-        expect(httpRequest.request.method).toEqual('GET');
+      expect(httpRequest.request.method).toEqual('GET');
+      expect(router.navigate).toHaveBeenCalledTimes(0);
 
-        httpRequest.error(undefined as unknown as ErrorEvent);
-      })
-    );
+      httpRequest.error(undefined as unknown as ErrorEvent);
+    }));
 
-    test(
-      'should toast sap error message in error case',
-      waitForAsync(() => {
-        service.getPosts().subscribe({
-          next: () => {
-            expect(true).toEqual(false);
-          },
-          error: (_response) => {
-            expect(snackBar.open).toHaveBeenCalledTimes(1);
-            expect(snackBar.open).toHaveBeenCalledWith(
-              'V102: test sap error message',
-              'translate it',
-              { duration: 5000 }
-            );
-          },
-        });
+    test('should toast sap error message in error case', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'V102: test sap error message',
+            'translate it',
+            { duration: 5000 }
+          );
+        },
+      });
 
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-        expect(httpRequest.request.method).toEqual('GET');
+      expect(httpRequest.request.method).toEqual('GET');
+      expect(router.navigate).toHaveBeenCalledTimes(0);
 
-        httpRequest.error({
-          status: 403,
+      httpRequest.error(
+        {
           parameters: {
             V102: 'test sap error message',
           },
-        } as unknown as ErrorEvent);
-      })
-    );
+        } as unknown as ErrorEvent,
+        { status: 400 }
+      );
+    }));
+
+    test('should show errorInterceptorForbidden on 403 status code', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'translate it',
+            'translate it',
+            { duration: 5000 }
+          );
+          expect(translate).toHaveBeenCalledWith('errorInterceptorForbidden');
+          expect(router.navigate).toHaveBeenCalledTimes(0);
+        },
+      });
+
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(
+        {
+          error: {
+            message: 'error',
+            title: 'Service Unavailable',
+            detail: 'Damn monkey',
+          },
+        } as unknown as ErrorEvent,
+        { status: HttpStatusCode.Forbidden }
+      );
+    }));
+    test('should show errorInterceptorForbidden and navigate on 403 status code and quotation request', waitForAsync(() => {
+      service.getQuotation().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (_response) => {
+          expect(snackBar.open).toHaveBeenCalledTimes(1);
+          expect(snackBar.open).toHaveBeenCalledWith(
+            'translate it',
+            'translate it',
+            { duration: 5000 }
+          );
+          expect(translate).toHaveBeenCalledWith('errorInterceptorForbidden');
+          expect(router.navigate).toHaveBeenCalledTimes(1);
+        },
+      });
+
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`
+      );
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(
+        {
+          error: {
+            message: 'error',
+            title: 'Service Unavailable',
+            detail: 'Damn monkey',
+          },
+        } as unknown as ErrorEvent,
+        { status: HttpStatusCode.Forbidden }
+      );
+    }));
     test('should show no error on auth error', () => {
       service.getPosts().subscribe(
         () => {

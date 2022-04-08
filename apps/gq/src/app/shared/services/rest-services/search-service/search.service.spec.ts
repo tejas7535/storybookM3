@@ -17,6 +17,7 @@ import { FilterNames } from '../../../components/autocomplete-input/filter-names
 import { ApiVersion } from '../../../models';
 import { AutocompleteSearch } from '../../../models/search';
 import { PLsSeriesRequest } from './models/pls-series-request.model';
+import { SearchPaths } from './models/search-paths.enum';
 import { SearchService } from './search.service';
 
 describe('SearchService', () => {
@@ -56,7 +57,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_AUTO_COMPLETE']}/testparam?search_for=hallo`
+        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/testparam?search_for=hallo`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
@@ -75,7 +76,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_AUTO_COMPLETE']}/sap-quotation?search_for=test`
+        `${ApiVersion.V1}/${SearchPaths.PATH_AUTO_COMPLETE}/sap-quotation?search_for=test`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
@@ -90,7 +91,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_GET_SALES_ORGS']}?${service['PARAM_CUSTOMER_ID']}=${customerId}`
+        `${ApiVersion.V1}/${SearchPaths.PATH_GET_SALES_ORGS}?${service['PARAM_CUSTOMER_ID']}=${customerId}`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(customerId);
@@ -111,7 +112,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_CUSTOMERS']}/1234/0267`
+        `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/1234/0267`
       );
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
@@ -130,7 +131,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${ApiVersion.V1}/${service['PATH_PLS_AND_SERIES']}`
+        `${ApiVersion.V1}/${SearchPaths.PATH_PLS_AND_SERIES}`
       );
       expect(req.request.method).toBe(HttpMethod.POST);
     });

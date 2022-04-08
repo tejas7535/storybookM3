@@ -4,9 +4,11 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,17 +17,27 @@ import { translate, TranslocoService } from '@ngneat/transloco';
 
 import deJson from '../../../assets/i18n/http/de.json';
 import enJson from '../../../assets/i18n/http/en.json';
+import { AppRoutePath } from '../../app-route-path.enum';
+import { ApiVersion } from '../models';
+import { QuotationPaths } from '../services/rest-services/quotation-service/models/quotation-paths.enum';
+import { SearchPaths } from '../services/rest-services/search-service/models/search-paths.enum';
 import { AUTH_URLS, URL_SUPPORT } from './constants/urls';
 
 @Injectable()
 export class BaseHttpInterceptor implements HttpInterceptor {
   public constructor(
     private readonly snackbar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly router: Router
   ) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
   }
+
+  private readonly navigateOnForbiddenPaths = [
+    `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/`,
+    `${ApiVersion.V1}/${SearchPaths.PATH_CUSTOMERS}/`,
+  ];
 
   intercept(
     request: HttpRequest<any>,
@@ -34,7 +46,7 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
-        let duration = 2000;
+        let duration = 5000;
 
         if (
           error.error?.parameters &&
@@ -45,11 +57,22 @@ export class BaseHttpInterceptor implements HttpInterceptor {
 
           errorMessage += `${parameterKey}: `;
           errorMessage += `${error.error.parameters[parameterKey]}`;
-          duration = 5000;
+        } else if (error.status === HttpStatusCode.Forbidden) {
+          if (
+            this.navigateOnForbiddenPaths.some((path) =>
+              request.url.includes(path)
+            )
+          ) {
+            this.router.navigate([AppRoutePath.ForbiddenPath]);
+          }
+
+          errorMessage += translate('errorInterceptorForbidden');
         } else {
           // default error message
+          duration = 2000;
           errorMessage += translate('errorInterceptorMessageDefault');
         }
+
         // only show toasts for errors not triggered by auth lib
         if (!AUTH_URLS.some((authUrl) => error.url.startsWith(authUrl))) {
           this.snackbar
