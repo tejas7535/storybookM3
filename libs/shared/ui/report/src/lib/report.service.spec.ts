@@ -5,7 +5,6 @@ import {
 } from '@ngneat/spectator';
 
 import { jsonReport, reportBodyMock } from '../mocks';
-import { DUMMY } from './models';
 import { ReportService } from './report.service';
 
 describe('ReportService testing', () => {
@@ -35,18 +34,6 @@ describe('ReportService testing', () => {
   });
 
   describe('getJsonReport', () => {
-    it('should handle the "DUMMY" case', () => {
-      const mockRefJson = DUMMY;
-
-      const mock = jsonReport.subordinates;
-
-      spectator.service
-        .getJsonReport(mockRefJson)
-        .subscribe((response: any) => {
-          expect(response).toEqual(mock);
-        });
-    });
-
     it('should trigger a GET call', () => {
       const mockRefJson = 'fakeRefJson';
 

@@ -1,6 +1,9 @@
 /* eslint-disable max-lines */
 
-export const formattedGreaseJson = [
+import { Subordinate } from '../lib/models/index';
+import { greaseResultMock } from './grease-result.mock';
+
+export const formattedGreaseJson: Subordinate[] = [
   {
     identifier: 'block',
     title: 'Input',
@@ -9,7 +12,7 @@ export const formattedGreaseJson = [
       {
         identifier: 'variableBlock',
         title: 'Bearing data',
-        titleID: 'STRING_OUTP_BEARING_DATA',
+        titleID: 'STRING_OUTP_RESULTS',
         subordinates: [
           {
             identifier: 'variableLine',
@@ -31,7 +34,7 @@ export const formattedGreaseJson = [
       {
         identifier: 'variableBlock',
         title: 'Bearing dimensions',
-        titleID: 'STRING_OUTP_BEARING_DIMENSIONS',
+        titleID: 'STRING_OUTP_RESULTS',
         subordinates: [
           {
             identifier: 'variableLine',
@@ -59,7 +62,7 @@ export const formattedGreaseJson = [
       {
         identifier: 'variableBlock',
         title: 'Basic load ratings',
-        titleID: 'STRING_OUTP_BASIC_LOAD_RATINGS',
+        titleID: 'STRING_OUTP_RESULTS',
         subordinates: [
           {
             identifier: 'variableLine',
@@ -80,7 +83,7 @@ export const formattedGreaseJson = [
       {
         identifier: 'variableBlock',
         title: 'Operating conditions',
-        titleID: 'PROPERTY_PAGE_TITLE_OPERATING_CONDITIONS',
+        titleID: 'STRING_OUTP_RESULTS',
         subordinates: [
           {
             identifier: 'variableLine',
@@ -99,7 +102,7 @@ export const formattedGreaseJson = [
       {
         identifier: 'variableBlock',
         title: 'Load',
-        titleID: 'STRING_OUTP_LOAD',
+        titleID: 'STRING_OUTP_RESULTS',
         subordinates: [
           {
             identifier: 'variableLine',
@@ -120,7 +123,7 @@ export const formattedGreaseJson = [
       {
         identifier: 'variableBlock',
         title: 'Temperatures',
-        titleID: 'PROPERTY_PAGE_TITLE_TEMPERATURES',
+        titleID: 'STRING_OUTP_RESULTS',
         subordinates: [
           {
             identifier: 'variableLine',
@@ -151,339 +154,15 @@ export const formattedGreaseJson = [
     titleID: 'STRING_OUTP_RESULTS',
     subordinates: [
       {
-        greaseResult: {
-          title: 'Arcanol MULTI2',
-          subtitlePart1: 'Mineral oil',
-          subtitlePart2: 'NLGI2',
-          subtitlePart3: 'Lithium soap',
-          showValues: false,
-          displayedColumns: ['title', 'values'],
-          dataSource: [
-            {
-              title: 'initalGreaseQuantity',
-              values:
-                '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
-            },
-            {
-              title: 'manualRelubricationQuantityInterval',
-              values:
-                '<span>38.70 g/501 days</span><br><span class="text-low-emphasis">43.00 cm³/501 days</span>',
-              tooltip: 'manualRelubricationQuantityIntervalTooltip',
-            },
-            {
-              title: 'automaticRelubricationQuantityPerDay',
-              values:
-                '<span>0.0792 g/day</span><br><span class="text-low-emphasis">0.088 cm³/day</span>',
-              tooltip: 'automaticRelubricationQuantityPerDayTooltip',
-            },
-            {
-              title: 'greaseServiceLife',
-              values: '~ 941 day',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerWeek',
-              values:
-                '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerMonth',
-              values:
-                '<span>2.38 g/30 days</span><br><span class="text-low-emphasis">2.64 cm³/30 days</span>',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerYear',
-              values:
-                '<span>28.91 g/365 days</span><br><span class="text-low-emphasis">32.12 cm³/365 days</span>',
-              display: false,
-            },
-            {
-              display: false,
-              title: 'viscosityRatio',
-              values: '2.33',
-            },
-            {
-              title: 'baseOilViscosityAt40',
-              values: '110.0 mm²/s',
-              display: false,
-            },
-            {
-              title: 'lowerTemperatureLimit',
-              values: '-30.0 °C',
-              display: false,
-              tooltip: 'lowerTemperatureLimitTooltip',
-            },
-            {
-              title: 'upperTemperatureLimit',
-              values: '120.0 °C',
-              display: false,
-              tooltip: 'upperTemperatureLimitTooltip',
-            },
-            {
-              title: 'additiveRequired',
-              values: 'no',
-              display: false,
-              tooltip: 'additiveRequiredTooltip',
-            },
-            {
-              title: 'effectiveEpAdditivation',
-              values: 'no',
-              display: false,
-            },
-            {
-              title: 'density',
-              values: '0.900 kg/dm³',
-              display: false,
-            },
-            {
-              title: 'lowFriction',
-              values: '0 (suitable)',
-              display: false,
-            },
-            {
-              title: 'suitableForVibrations',
-              values: '0 (suitable)',
-              display: false,
-            },
-            {
-              title: 'supportForSeals',
-              values: '0 (suitable)',
-              display: false,
-            },
-            {
-              title: 'H1Registration',
-              values: 'no',
-              display: false,
-            },
-          ],
-        },
-        index: 0,
+        greaseResult: greaseResultMock,
         identifier: 'greaseResult',
       },
       {
-        greaseResult: {
-          title: 'Arcanol MULTI3',
-          subtitlePart1: 'Mineral oil',
-          subtitlePart2: 'NLGI3',
-          subtitlePart3: 'Lithium soap',
-          showValues: false,
-          displayedColumns: ['title', 'values'],
-          dataSource: [
-            {
-              title: 'initalGreaseQuantity',
-              values:
-                '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
-            },
-            {
-              title: 'manualRelubricationQuantityInterval',
-              values:
-                '<span>38.70 g/501 days</span><br><span class="text-low-emphasis">43.00 cm³/501 days</span>',
-              tooltip: 'manualRelubricationQuantityIntervalTooltip',
-            },
-            {
-              title: 'automaticRelubricationQuantityPerDay',
-              values:
-                '<span>0.0792 g/day</span><br><span class="text-low-emphasis">0.088 cm³/day</span>',
-              tooltip: 'automaticRelubricationQuantityPerDayTooltip',
-            },
-            {
-              title: 'greaseServiceLife',
-              values: '~ 941 day',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerWeek',
-              values:
-                '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerMonth',
-              values:
-                '<span>2.38 g/30 days</span><br><span class="text-low-emphasis">2.64 cm³/30 days</span>',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerYear',
-              values:
-                '<span>28.91 g/365 days</span><br><span class="text-low-emphasis">32.12 cm³/365 days</span>',
-              display: false,
-            },
-            {
-              display: false,
-              title: 'viscosityRatio',
-              values: '2.47',
-            },
-            {
-              title: 'baseOilViscosityAt40',
-              values: '110.0 mm²/s',
-              display: false,
-            },
-            {
-              title: 'lowerTemperatureLimit',
-              values: '-20.0 °C',
-              display: false,
-              tooltip: 'lowerTemperatureLimitTooltip',
-            },
-            {
-              title: 'upperTemperatureLimit',
-              values: '120.0 °C',
-              display: false,
-              tooltip: 'upperTemperatureLimitTooltip',
-            },
-            {
-              title: 'additiveRequired',
-              values: 'no',
-              display: false,
-              tooltip: 'additiveRequiredTooltip',
-            },
-            {
-              title: 'effectiveEpAdditivation',
-              values: 'no',
-              display: false,
-            },
-            {
-              title: 'density',
-              values: '0.900 kg/dm³',
-              display: false,
-            },
-            {
-              title: 'lowFriction',
-              values: '0 (suitable)',
-              display: false,
-            },
-            {
-              title: 'suitableForVibrations',
-              values: '+ (highly suitable)',
-              display: false,
-            },
-            {
-              title: 'supportForSeals',
-              values: '+ (highly suitable)',
-              display: false,
-            },
-            {
-              title: 'H1Registration',
-              values: 'no',
-              display: false,
-            },
-          ],
-        },
-        index: 1,
+        greaseResult: greaseResultMock,
         identifier: 'greaseResult',
       },
       {
-        greaseResult: {
-          title: 'Arcanol TEMP90',
-          subtitlePart1: 'Mineral + PAO oil',
-          subtitlePart2: 'NLGI3',
-          subtitlePart3: 'Polyurea',
-          showValues: false,
-          displayedColumns: ['title', 'values'],
-          dataSource: [
-            {
-              title: 'initalGreaseQuantity',
-              values:
-                '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
-            },
-            {
-              title: 'manualRelubricationQuantityInterval',
-              values:
-                '<span>38.70 g/501 days</span><br><span class="text-low-emphasis">43.00 cm³/501 days</span>',
-              tooltip: 'manualRelubricationQuantityIntervalTooltip',
-            },
-            {
-              title: 'automaticRelubricationQuantityPerDay',
-              values:
-                '<span>0.0792 g/day</span><br><span class="text-low-emphasis">0.088 cm³/day</span>',
-              tooltip: 'automaticRelubricationQuantityPerDayTooltip',
-            },
-            {
-              title: 'greaseServiceLife',
-              values: '~ 941 day',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerWeek',
-              values:
-                '<span>0.5544 g/7 days</span><br><span class="text-low-emphasis">0.616 cm³/7 days</span>',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerMonth',
-              values:
-                '<span>2.38 g/30 days</span><br><span class="text-low-emphasis">2.64 cm³/30 days</span>',
-              display: false,
-            },
-            {
-              title: 'automaticRelubricationPerYear',
-              values:
-                '<span>28.91 g/365 days</span><br><span class="text-low-emphasis">32.12 cm³/365 days</span>',
-              display: false,
-            },
-            {
-              display: false,
-              title: 'viscosityRatio',
-              values: '3.26',
-            },
-            {
-              title: 'baseOilViscosityAt40',
-              values: '148.0 mm²/s',
-              display: false,
-            },
-            {
-              title: 'lowerTemperatureLimit',
-              values: '-40.0 °C',
-              display: false,
-              tooltip: 'lowerTemperatureLimitTooltip',
-            },
-            {
-              title: 'upperTemperatureLimit',
-              values: '160.0 °C',
-              display: false,
-              tooltip: 'upperTemperatureLimitTooltip',
-            },
-            {
-              title: 'additiveRequired',
-              values: 'no',
-              display: false,
-              tooltip: 'additiveRequiredTooltip',
-            },
-            {
-              title: 'effectiveEpAdditivation',
-              values: 'yes',
-              display: false,
-            },
-            {
-              title: 'density',
-              values: '0.900 kg/dm³',
-              display: false,
-            },
-            {
-              title: 'lowFriction',
-              values: '0 (suitable)',
-              display: false,
-            },
-            {
-              title: 'suitableForVibrations',
-              values: '0 (suitable)',
-              display: false,
-            },
-            {
-              title: 'supportForSeals',
-              values: '+ (highly suitable)',
-              display: false,
-            },
-            {
-              title: 'H1Registration',
-              values: 'no',
-              display: false,
-            },
-          ],
-        },
-        index: 2,
+        greaseResult: greaseResultMock,
         identifier: 'greaseResult',
       },
     ],

@@ -1,5 +1,8 @@
 /* eslint-disable max-lines */
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { lastValueFrom } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
@@ -8,11 +11,13 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import {
   Field,
   Hint,
+  Report,
   Subordinate,
   TableItem,
   TitleId,
   WARNINGSOPENED,
 } from '../models';
+import { GreaseResult } from '../models/grease-result.model';
 import {
   automaticRelubricationPerMonth,
   automaticRelubricationPerWeek,
@@ -31,11 +36,16 @@ import {
 @Injectable()
 export class GreaseReportService {
   public constructor(
+    private readonly http: HttpClient,
     private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
+  public async getGreaseReport(greaseReportUrl: string) {
+    return lastValueFrom(this.http.get<Report>(greaseReportUrl));
+  }
+
   public formatGreaseReport(result: Subordinate[]): Subordinate[] {
-    let formattedResult = result;
+    let formattedResult = result || [];
 
     // remove unneeded sections
     formattedResult = formattedResult.filter(
@@ -79,7 +89,7 @@ export class GreaseReportService {
             ...(table2?.data?.items.map((item: TableItem[], index: number) => {
               const table1Values = table1?.data?.items[index] as TableItem[];
 
-              const greaseResult = {
+              const greaseResult: GreaseResult = {
                 title: '',
                 subtitlePart1: '',
                 subtitlePart2: '',
@@ -130,7 +140,7 @@ export class GreaseReportService {
                 ],
               };
 
-              (greaseResult.dataSource as any)[4] = findItem(
+              greaseResult.dataSource[4] = findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
@@ -149,7 +159,7 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[5] = findItem(
+              greaseResult.dataSource[5] = findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
@@ -167,7 +177,7 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[6] = findItem(
+              greaseResult.dataSource[6] = findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
@@ -185,15 +195,13 @@ export class GreaseReportService {
                 )}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[7] = {
+              greaseResult.dataSource[7] = {
                 title: 'viscosityRatio',
                 values: `${(findItem(table1Values, Field.KAPPA) as any).value}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[3] = findItem(
-                table1Values,
-                Field.TFG_MIN
-              )?.value && {
+              greaseResult.dataSource[3] = findItem(table1Values, Field.TFG_MIN)
+                ?.value && {
                 title: 'greaseServiceLife',
                 values: `~ ${Math.round(
                   (+(findItem(table1Values, Field.TFG_MIN) as any).value +
@@ -203,7 +211,7 @@ export class GreaseReportService {
                 )} ${translate('day')}`,
                 display: false,
               };
-              (greaseResult.dataSource as any)[11] = findItem(
+              greaseResult.dataSource[11] = findItem(
                 table1Values,
                 Field.ADD_REQ
               )?.value && {
@@ -212,10 +220,8 @@ export class GreaseReportService {
                 display: false,
                 tooltip: 'additiveRequiredTooltip',
               };
-              (greaseResult.dataSource as any)[12] = findItem(
-                table1Values,
-                Field.ADD_W
-              )?.value && {
+              greaseResult.dataSource[12] = findItem(table1Values, Field.ADD_W)
+                ?.value && {
                 title: 'effectiveEpAdditivation',
                 values: `${findItem(table1Values, Field.ADD_W).value}`,
                 display: false,
@@ -238,14 +244,14 @@ export class GreaseReportService {
                       greaseResult.subtitlePart3 = `${value}`;
                       break;
                     case Field.NY40:
-                      (greaseResult.dataSource as any)[8] = {
+                      greaseResult.dataSource[8] = {
                         title: 'baseOilViscosityAt40',
                         values: `${value} ${unit}`,
                         display: false,
                       };
                       break;
                     case Field.T_LIM_LOW:
-                      (greaseResult.dataSource as any)[9] = {
+                      greaseResult.dataSource[9] = {
                         title: 'lowerTemperatureLimit',
                         values: `${value} ${unit}`,
                         display: false,
@@ -253,7 +259,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.T_LIM_UP:
-                      (greaseResult.dataSource as any)[10] = {
+                      greaseResult.dataSource[10] = {
                         title: 'upperTemperatureLimit',
                         values: `${value} ${unit}`,
                         display: false,
@@ -261,14 +267,14 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.RHO:
-                      (greaseResult.dataSource as any)[13] = {
+                      greaseResult.dataSource[13] = {
                         title: 'density',
                         values: `${value} ${unit}`,
                         display: false,
                       };
                       break;
                     case Field.F_LOW:
-                      (greaseResult.dataSource as any)[14] = {
+                      greaseResult.dataSource[14] = {
                         title: 'lowFriction',
                         values: value
                           ? `${value} (${this.checkSuitablity(
@@ -279,7 +285,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.VIP:
-                      (greaseResult.dataSource as any)[15] = {
+                      greaseResult.dataSource[15] = {
                         title: 'suitableForVibrations',
                         values: value
                           ? `${value} (${this.checkSuitablity(
@@ -290,7 +296,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.SEAL:
-                      (greaseResult.dataSource as any)[16] = {
+                      greaseResult.dataSource[16] = {
                         title: 'supportForSeals',
                         values: value
                           ? `${value} (${this.checkSuitablity(
@@ -301,7 +307,7 @@ export class GreaseReportService {
                       };
                       break;
                     case Field.NSF_H1:
-                      (greaseResult.dataSource as any)[17] = {
+                      greaseResult.dataSource[17] = {
                         title: 'H1Registration',
                         values: `${value}`,
                         display: false,
@@ -355,52 +361,6 @@ export class GreaseReportService {
     };
 
     return (suitablityLevels as any)[suitable] || '';
-  }
-
-  public toggleShowValues(
-    subordinate: Subordinate,
-    formattedResult: Subordinate[]
-  ): Subordinate[] {
-    const toggledFormattedResult = formattedResult.map((section: Subordinate) =>
-      section.titleID === TitleId.STRING_OUTP_RESULTS
-        ? {
-            ...section,
-            subordinates: section.subordinates?.map((subsection: any) =>
-              subsection.index === (subordinate as any).index
-                ? {
-                    ...subsection,
-                    greaseResult: {
-                      ...subsection.greaseResult,
-                      showValues: !subsection.greaseResult.showValues,
-                    },
-                  }
-                : subsection
-            ),
-          }
-        : section
-    ) as Subordinate[];
-
-    return toggledFormattedResult;
-  }
-
-  public showActiveData(formattedResult: Subordinate[]): Subordinate[] {
-    return formattedResult.map((section: Subordinate) =>
-      section.titleID === TitleId.STRING_OUTP_RESULTS
-        ? {
-            ...section,
-            subordinates: section.subordinates?.map((subsection: any) => ({
-              ...subsection,
-              greaseResult: {
-                ...subsection.greaseResult,
-                dataSource: subsection.greaseResult?.dataSource.filter(
-                  (entry: any) =>
-                    entry?.display !== subsection.greaseResult.showValues
-                ),
-              },
-            })),
-          }
-        : section
-    ) as Subordinate[];
   }
 
   public getResultAmount(formattedResult: Subordinate[]): number {

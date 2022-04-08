@@ -1,8 +1,21 @@
 import { Description } from './description.model';
+import { GreaseResult } from './grease-result.model';
 import { JsonTable } from './json-table.model';
+import { TitleId } from './title.enum';
+
+export type SubordinateIdentifier =
+  | 'text'
+  | 'textPairList'
+  | 'textBlock'
+  | 'block'
+  | 'table'
+  | 'legalNote'
+  | 'variableBlock'
+  | 'variableLine'
+  | 'greaseResult';
 
 export interface Subordinate {
-  identifier: string;
+  identifier: SubordinateIdentifier;
   title?: string;
   entries?: string[][];
   text?: string[];
@@ -10,7 +23,7 @@ export interface Subordinate {
   value?: string;
   data?: JsonTable;
   abbreviation?: string;
-  titleID?: string;
+  titleID?: `${TitleId}`;
   legal?: string;
   unit?: string;
   description?: Description;
@@ -18,4 +31,5 @@ export interface Subordinate {
   defaultOpen?: boolean;
   content?: any;
   clickHandler?: any;
+  greaseResult?: GreaseResult;
 }

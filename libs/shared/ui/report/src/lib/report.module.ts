@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,13 +11,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LabelValueModule } from '@schaeffler/label-value';
+
+import { HtmlReportComponent } from './components/html-report/html-report.component';
+import { ReportComponent } from './components/report/report.component';
+import { GreaseReportComponent } from './grease/grease-report/grease-report.component';
+import { GreaseResultComponent } from './grease/grease-result/grease-result.component';
 import deJson from './i18n/de.json';
 import enJson from './i18n/en.json';
 import esJson from './i18n/es.json';
 import frJson from './i18n/fr.json';
 import ruJson from './i18n/ru.json';
 import zhJson from './i18n/zh.json';
-import { ReportComponent } from './report.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
@@ -27,8 +31,9 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     ReactiveComponentModule,
     TranslocoModule,
 
+    LabelValueModule,
+
     // Angular Material
-    MatCardModule,
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
@@ -37,8 +42,14 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     MatTooltipModule,
     MatSnackBarModule,
   ],
-  declarations: [ReportComponent, SafeHtmlPipe],
-  exports: [ReportComponent],
+  declarations: [
+    ReportComponent,
+    GreaseReportComponent,
+    GreaseResultComponent,
+    HtmlReportComponent,
+    SafeHtmlPipe,
+  ],
+  exports: [ReportComponent, GreaseReportComponent, HtmlReportComponent],
 })
 export class ReportModule {
   public constructor(private readonly translocoService: TranslocoService) {

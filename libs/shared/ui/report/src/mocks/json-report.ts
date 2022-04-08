@@ -1,25 +1,7 @@
 /* eslint-disable max-lines */
-/* eslint-disable unicorn/no-null */
-import { Subordinate } from './../lib/models/subordinate.model';
+import { Report } from '../lib/models/report.model';
 
-export const jsonReport: {
-  identifier: string;
-  programName: string;
-  programNameID: string;
-  isBeta: boolean;
-  method: string;
-  methodID: string;
-  title: string;
-  titleID: string;
-  subordinates: Subordinate[];
-  companyInformation: {
-    url: string;
-    company: string;
-  }[];
-  timeStamp: string;
-  programVersion: string;
-  transactionFileName: string;
-} = {
+export const jsonReport: Report = {
   identifier: 'outputDescription',
   programName: 'Bearinx',
   programNameID: 'STRING_BEARINX',
@@ -78,7 +60,7 @@ export const jsonReport: {
         {
           identifier: 'variableBlock',
           title: 'Lagerdaten',
-          titleID: 'STRING_OUTP_BEARING_DATA',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -111,7 +93,7 @@ export const jsonReport: {
         {
           identifier: 'variableBlock',
           title: 'Berechnungsauswahl',
-          titleID: 'STRING_OUTP_CALCULATION_SELECTION',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -143,7 +125,7 @@ export const jsonReport: {
         {
           identifier: 'variableBlock',
           title: 'Berechnungsoptionen',
-          titleID: 'STRING_OUTP_CALCULATION_OPTIONS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -180,7 +162,7 @@ export const jsonReport: {
         {
           identifier: 'variableBlock',
           title: 'Lagerabmessungen',
-          titleID: 'STRING_OUTP_BEARING_DIMENSIONS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -208,12 +190,12 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Bestückungsdaten',
-          titleID: 'STRING_OUTP_BEARING_INTERNAL_DATA',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableBlock',
               title: 'Lager',
-              titleID: 'STRING_OUTP_BEARING',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -241,7 +223,7 @@ export const jsonReport: {
             {
               identifier: 'variableBlock',
               title: 'Reihe(n)',
-              titleID: 'STRING_OUTP_ROWS',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -294,7 +276,7 @@ export const jsonReport: {
             {
               identifier: 'variableBlock',
               title: 'Wälzkörper',
-              titleID: 'STRING_OUTP_ROLLING_ELEMENTS',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -327,7 +309,7 @@ export const jsonReport: {
             {
               identifier: 'variableBlock',
               title: 'Profildaten',
-              titleID: 'STRING_OUTP_PROFILE_DATA',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -341,12 +323,12 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Oberflächenhärte',
-          titleID: 'STRING_OUTP_SURFACE_HARDNESS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableBlock',
               title: 'Innenring',
-              titleID: 'STRING_OUTP_INNERRING',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -360,7 +342,7 @@ export const jsonReport: {
             {
               identifier: 'variableBlock',
               title: 'Außenring',
-              titleID: 'STRING_OUTP_OUTERRING',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -376,18 +358,17 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Eingabedaten Betriebsspiel',
-          titleID: 'STRING_OUTP_INPUT_DATA_STRING_OUTP_OPERATING_CLEARANCE',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'table',
               title: 'Lagerluft, Betriebsspiel',
-              titleID:
-                'STRING_OUTP_INTERNAL_CLEARANCE_STRING_OUTP_OPERATING_CLEARANCE',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['OC_L', 'f_s', 'sa_e_max', 'sa_e_min'],
                 unitFields: [
-                  null,
-                  null,
+                  undefined,
+                  undefined,
                   {
                     unit: 'µm',
                   },
@@ -423,8 +404,7 @@ export const jsonReport: {
               identifier: 'table',
               title:
                 'Ringdurchmesser und Toleranzen, Glättungsfaktor, nach DIN 7190 - veraltet (0.8)',
-              titleID:
-                'STRING_OUTP_RING_DIAMETERS_AND_DEVIATIONS_IDCO_SMOOTHING_FACTOR',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: [
                   'Ring',
@@ -439,11 +419,11 @@ export const jsonReport: {
                   'Rz',
                 ],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: 'mm',
                   },
-                  null,
+                  undefined,
                   {
                     unit: 'µm',
                   },
@@ -479,21 +459,21 @@ export const jsonReport: {
                     },
                     {
                       field: 'Tol',
-                      value: null,
+                      value: undefined,
                     },
                     {
                       field: 'FO',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'FU',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'Rz',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
@@ -529,7 +509,7 @@ export const jsonReport: {
                     },
                     {
                       field: 'Tol',
-                      value: null,
+                      value: undefined,
                     },
                     {
                       field: 'FO',
@@ -548,22 +528,22 @@ export const jsonReport: {
                     },
                     {
                       field: 'd',
-                      value: null,
+                      value: undefined,
                       unit: 'mm',
                     },
                     {
                       field: 'FO',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'FU',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'Rz',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                   ],
@@ -574,26 +554,26 @@ export const jsonReport: {
                     },
                     {
                       field: 'D',
-                      value: null,
+                      value: undefined,
                       unit: 'mm',
                     },
                     {
                       field: 'Tol',
-                      value: null,
+                      value: undefined,
                     },
                     {
                       field: 'FO',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'FU',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'Rz',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
@@ -629,7 +609,7 @@ export const jsonReport: {
                     },
                     {
                       field: 'Tol',
-                      value: null,
+                      value: undefined,
                     },
                     {
                       field: 'FO',
@@ -653,17 +633,17 @@ export const jsonReport: {
                     },
                     {
                       field: 'FO',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'FU',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                     {
                       field: 'Rz',
-                      value: null,
+                      value: undefined,
                       unit: 'µm',
                     },
                   ],
@@ -673,11 +653,11 @@ export const jsonReport: {
             {
               identifier: 'table',
               title: 'Axiale Vorspannung',
-              titleID: 'STRING_OUTP_AXIAL_PRELOAD',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['Ring', 'Fa'],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: 'N',
                   },
@@ -733,7 +713,7 @@ export const jsonReport: {
             {
               identifier: 'table',
               title: 'Temperaturen der Lagerkomponenten',
-              titleID: 'STRING_OUTP_TEMPERATURES_OF_BEARING_COMPONENTS',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: [
                   'Lastfall',
@@ -744,7 +724,7 @@ export const jsonReport: {
                   'Gehäuse',
                 ],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: '°C',
                   },
@@ -799,16 +779,16 @@ export const jsonReport: {
             {
               identifier: 'table',
               title: 'Materialdaten',
-              titleID: 'STRING_OUTP_MATERIAL_DATA',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['', 'material', 'E', 'Nue', 'Alp', 'rho'],
                 unitFields: [
-                  null,
-                  null,
+                  undefined,
+                  undefined,
                   {
                     unit: 'N/mm²',
                   },
-                  null,
+                  undefined,
                   {
                     unit: '1/K',
                   },
@@ -883,17 +863,16 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Betriebsbedingungen',
-          titleID: 'STRING_OUTP_OPERATING_CONDITIONS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'table',
               title: 'Betriebsbedingungen für alle Lastfälle',
-              titleID:
-                'STRING_OUTP_OPERATING_CONDITIONS_STRING_OUTP_FOR_ALL_LOADCASES',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['Lastfall', 'q', 'n_i(Innenring)', 'n_i(Außenring)'],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: '%',
                   },
@@ -932,12 +911,11 @@ export const jsonReport: {
             {
               identifier: 'table',
               title: 'Belastungen bzw. Verlagerungen für alle Lastfälle',
-              titleID:
-                'STRING_OUTP_LOADS_AND_DISPLACEMENTS_STRING_OUTP_FOR_ALL_LOADCASES',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['Lastfall', 'Fx', 'Fy', 'Fz', 'My', 'Mz'],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: 'N',
                   },
@@ -1012,12 +990,12 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Zusammenfassung der Ergebnisse',
-          titleID: 'STRING_OUTP_RESULTS_SUMMARY',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableBlock',
               title: 'Wälzlagerverhalten (kf)',
-              titleID: 'STRING_OUTP_BEARING_BEHAVIOUR_STRING_OUTP_KF',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -1045,7 +1023,7 @@ export const jsonReport: {
             {
               identifier: 'variableBlock',
               title: 'Wälzlagerverhalten (statisch)',
-              titleID: 'STRING_OUTP_BEARING_BEHAVIOUR_STRING_OUTP_STATIC',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -1077,7 +1055,7 @@ export const jsonReport: {
             {
               identifier: 'variableBlock',
               title: 'Tragzahlen',
-              titleID: 'STRING_OUTP_BASIC_LOAD_RATINGS',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -1100,16 +1078,16 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Wälzlagerverhalten pro Lastfall',
-          titleID: 'STRING_OUTP_BEARING_BEHAVIOUR_STRING_OUTP_PER_LOADCASE',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'table',
               title: 'Wälzlagerverhalten (kf)',
-              titleID: 'STRING_OUTP_BEARING_BEHAVIOUR_STRING_OUTP_KF',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['Lastfall', 'Lh10_i (kf)', 'P_i (kf)', 'n_i'],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: 'h',
                   },
@@ -1148,17 +1126,17 @@ export const jsonReport: {
             {
               identifier: 'table',
               title: 'Wälzlagerverhalten (statisch)',
-              titleID: 'STRING_OUTP_BEARING_BEHAVIOUR_STRING_OUTP_STATIC',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: ['Lastfall', 'P0 (k0f)', 'S0 (k0f)', 'S0_w', 'C0/Fn'],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: 'N',
                   },
-                  null,
-                  null,
-                  null,
+                  undefined,
+                  undefined,
+                  undefined,
                 ],
                 items: [
                   [
@@ -1192,11 +1170,11 @@ export const jsonReport: {
         {
           identifier: 'table',
           title: 'Belastungen bzw. Verlagerungen',
-          titleID: 'STRING_OUTP_LOADS_AND_DISPLACEMENTS',
+          titleID: 'STRING_OUTP_RESULTS',
           data: {
             fields: ['Lastfall', 'DelVx', 'DelVy', 'DelVz', 'Phiy', 'Phiz'],
             unitFields: [
-              null,
+              undefined,
               {
                 unit: 'mm',
               },
@@ -1251,11 +1229,11 @@ export const jsonReport: {
         {
           identifier: 'table',
           title: 'Überrollfrequenzen',
-          titleID: 'STRING_OUTP_ROLLOVER_FREQUENCIES',
+          titleID: 'STRING_OUTP_RESULTS',
           data: {
             fields: ['Lastfall', 'fi', 'fo', 'fr', 'f_c'],
             unitFields: [
-              null,
+              undefined,
               {
                 unit: '1/s',
               },
@@ -1302,12 +1280,12 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Ergebnisse der Reihen',
-          titleID: 'STRING_OUTP_RESULTS_OF_ROWS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'table',
               title: 'Belastungen bzw. Verlagerungen',
-              titleID: 'STRING_OUTP_LOADS_AND_DISPLACEMENTS',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: [
                   'Reihe',
@@ -1324,8 +1302,8 @@ export const jsonReport: {
                   'PhizR',
                 ],
                 unitFields: [
-                  null,
-                  null,
+                  undefined,
+                  undefined,
                   {
                     unit: 'N',
                   },
@@ -1425,17 +1403,17 @@ export const jsonReport: {
               identifier: 'block',
               title:
                 'Ergebnisse der Wälzkörper, Radialschrägrollenreihe 1, Lastfall 1',
-              titleID: 'STRING_OUTP_RESULTS_OF_ROLLING_ELEMENTS',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'table',
                   title:
                     'Ergebnisse der Wälzkörper, Radialschrägrollenreihe 1, Lastfall 1',
-                  titleID: 'STRING_OUTP_RESULTS_OF_ROLLING_ELEMENTS',
+                  titleID: 'STRING_OUTP_RESULTS',
                   data: {
                     fields: ['WK', 'QR', 'MR', 'Del', 'Phi_w', 'phi_IR', 'Chi'],
                     unitFields: [
-                      null,
+                      undefined,
                       {
                         unit: 'N',
                       },
@@ -1451,7 +1429,7 @@ export const jsonReport: {
                       {
                         unit: 'mrad',
                       },
-                      null,
+                      undefined,
                     ],
                     items: [
                       [
@@ -1989,13 +1967,12 @@ export const jsonReport: {
         {
           identifier: 'block',
           title: 'Ergebnisse Betriebsspiel',
-          titleID: 'STRING_OUTP_RESULTS_STRING_OUTP_OPERATING_CLEARANCE',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'table',
               title: 'Geometrisches Betriebsspiel (Lagereinstellwerte)',
-              titleID:
-                'STRING_OUTP_GEOMETRIC_OPERATING_CLEARANCE_STRING_OUTP_BEARING_SETTINGS',
+              titleID: 'STRING_OUTP_RESULTS',
               data: {
                 fields: [
                   'Lastfall',
@@ -2007,7 +1984,7 @@ export const jsonReport: {
                   'sa_min_geo',
                 ],
                 unitFields: [
-                  null,
+                  undefined,
                   {
                     unit: 'µm',
                   },
@@ -2085,7 +2062,7 @@ export const jsonReport: {
             {
               identifier: 'text',
               text: [
-                'Die Einstichbreite an den Borden ist Null. Bitte Eingaben prüfen.',
+                'Die Einstichbreite an den Borden ist undefined. Bitte Eingaben prüfen.',
               ],
             },
             {

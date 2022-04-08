@@ -1,0 +1,159 @@
+<h6 *ngIf="title">{{ title }}</h6>
+<div *ngIf="subtitle" class="text-caption">
+  {{ subtitle }}
+</div>
+
+<!-- json report -- { title: string; content: Subordinate }[] -->
+<mat-accordion>
+  <mat-expansion-panel
+    *ngFor="let section of jsonResult$ | ngrxPush"
+    [expanded]="section.defaultOpen"
+  >
+    <mat-expansion-panel-header
+      class="text-body-1"
+      (click)="!section.defaultOpen && section.clickHandler()"
+    >
+      <mat-panel-title *transloco="let t">
+        <span>{{ section.title }}</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="px-6 pb-4">
+      <ng-template
+        [ngTemplateOutlet]="subordinateTemplate"
+        [ngTemplateOutletContext]="{
+          subordinate: section,
+          displayTitle: false
+        }"
+      >
+      </ng-template>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<!-- custom content -->
+<ng-content></ng-content>
+
+<!-- subordinate display -->
+<ng-template
+  #subordinateTemplate
+  let-subordinate="subordinate"
+  let-displayTitle="displayTitle"
+>
+  <!-- debug -->
+  <!-- <div>{{ subordinate | json }}</div>
+<div *ngIf="!subordinate">no subordinate</div> -->
+
+  <!-- textPairList -->
+  <ng-container *ngIf="subordinate.identifier === 'textPairList'">
+    <div class="flex flex-row gap-4">
+      <div class="flex flex-col">
+        <div *ngFor="let entry of subordinate.entries">{{ entry[0] }}</div>
+      </div>
+      <div class="flex grow flex-col">
+        <div *ngFor="let entry of subordinate.entries">{{ entry[1] }}</div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- textBlock -->
+  <!-- no handling needed as of now -->
+
+  <!-- text -->
+  <ng-container *ngIf="subordinate.identifier === 'text'">
+    <p *ngFor="let paragraph of subordinate.text">{{ paragraph }}</p>
+  </ng-container>
+
+  <!-- legalNote -->
+  <ng-container *ngIf="subordinate.identifier === 'legalNote'">
+    <p>{{ subordinate.legal }}</p>
+  </ng-container>
+
+  <!-- block -->
+  <ng-container *ngIf="subordinate.identifier === 'block' && displayTitle">
+    <h5 class="pt-4 pb-2">{{ subordinate.title }}</h5>
+  </ng-container>
+
+  <!-- variableBlock-->
+  <ng-container *ngIf="subordinate.identifier === 'variableBlock'">
+    <h6 class="pt-4 pb-2">{{ subordinate.title }}</h6>
+  </ng-container>
+
+  <!-- variableLine -->
+  <ng-container *ngIf="subordinate.identifier === 'variableLine'">
+    <div class="flex flex-row justify-between">
+      <div class="flex w-56 flex-col">
+        <div>{{ subordinate.designation }}</div>
+      </div>
+      <div class="flex grow flex-col">
+        <div
+          class="flex grow flex-row"
+          [ngClass]="subordinate.abbreviation ? 'justify-between' : ''"
+        >
+          <div *ngIf="subordinate.abbreviation">
+            {{ subordinate.abbreviation }}
+          </div>
+          <div class="flex flex-row">
+            <div>{{ subordinate.value }}</div>
+            <div>{{ subordinate.unit }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- table -->
+  <ng-container *ngIf="subordinate.identifier === 'table'">
+    <h6 class="pt-4 pb-2">{{ subordinate.title }}</h6>
+    <div class="block overflow-x-auto">
+      <table mat-table [dataSource]="subordinate.data.items">
+        <ng-container *ngFor="let field of subordinate.data.fields; index as i">
+          <ng-container [matColumnDef]="'' + field + i">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ field }}
+              <span class="ml-1" *ngIf="subordinate.data.unitFields[i]">
+                {{ subordinate.data.unitFields[i].unit }}
+              </span>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <ng-container *ngIf="getItem(row, field) as element">
+                <ng-container *ngIf="element.value; else noValue">
+                  {{ element.value }}
+                </ng-container>
+                <ng-template #noValue> - </ng-template>
+              </ng-container>
+            </td>
+          </ng-container>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="getHeaders(subordinate.data.fields)"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: getHeaders(subordinate.data.fields)"
+        ></tr>
+      </table>
+    </div>
+    <ng-container *ngIf="subordinate.description">
+      <h6 class="pt-4 pb-2">{{ subordinate.description.title }}</h6>
+      <ng-container
+        [ngTemplateOutlet]="subordinateTemplate"
+        [ngTemplateOutletContext]="{ subordinate: subordinate.description }"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- recursive nested subordinates -->
+  <ng-container *ngIf="subordinate.subordinates">
+    <ng-container *ngFor="let nestedSubordinate of subordinate.subordinates">
+      <ng-container
+        [ngTemplateOutlet]="subordinateTemplate"
+        [ngTemplateOutletContext]="{
+          subordinate: nestedSubordinate,
+          displayTitle: true
+        }"
+      >
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>

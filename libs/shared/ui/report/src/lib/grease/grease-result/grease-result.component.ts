@@ -1,0 +1,104 @@
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { LabelValue } from '@schaeffler/label-value';
+
+import {
+  GreaseResult,
+  GreaseResultData,
+} from '../../models/grease-result.model';
+import { MEDIASGREASE } from '../../models/index';
+import { adaptLabelValuesFromGreaseResultData } from '../grease-helpers';
+
+export enum LabelWidth {
+  Default = 200,
+  Small = 120,
+}
+
+export const elementWidthSmall = 400;
+
+@Component({
+  selector: 'schaeffler-grease-result',
+  templateUrl: './grease-result.component.html',
+  styleUrls: ['./grease-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class GreaseResultComponent implements OnInit, OnDestroy {
+  @Input() public greaseResult!: GreaseResult;
+  @Input() public valuesLimit = 3;
+
+  public labelValues: LabelValue[] = [];
+  public labelWidth = 192;
+  public small = false;
+
+  public showAllValues = false;
+  private readonly htmlElement!: HTMLElement;
+  private observer!: ResizeObserver;
+
+  public constructor(
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly elementRef: ElementRef,
+    private readonly changeDetector: ChangeDetectorRef
+  ) {
+    this.htmlElement = this.elementRef.nativeElement;
+  }
+
+  public ngOnInit() {
+    this.assignGreaseResultData();
+
+    this.observer = new ResizeObserver((entries) => {
+      const width = entries[0].contentRect.width;
+
+      this.adjustLabelWidth(width);
+    });
+
+    this.observer.observe(this.htmlElement);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.unobserve(this.htmlElement);
+    }
+  }
+
+  public toggleShowValues(): void {
+    this.showAllValues = !this.showAllValues;
+
+    this.assignGreaseResultData();
+  }
+
+  public trackGreaseSelection(grease: string): void {
+    this.applicationInsightsService.logEvent(MEDIASGREASE, {
+      grease,
+    });
+  }
+
+  private assignGreaseResultData(): void {
+    const adaptedData = adaptLabelValuesFromGreaseResultData(
+      this.removeEmptyItems(this.greaseResult?.dataSource)
+    );
+
+    this.labelValues = this.showAllValues
+      ? adaptedData
+      : adaptedData.slice(0, this.valuesLimit);
+  }
+
+  private readonly removeEmptyItems = (
+    data: (GreaseResultData | any)[]
+  ): GreaseResultData[] => data?.filter(Boolean);
+
+  private adjustLabelWidth(elementWidth: number): void {
+    this.labelWidth =
+      elementWidth < elementWidthSmall ? LabelWidth.Small : LabelWidth.Default;
+
+    this.changeDetector.detectChanges();
+  }
+}

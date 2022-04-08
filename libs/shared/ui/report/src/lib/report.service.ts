@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { jsonReport } from '../mocks';
-import { Content, DUMMY, Subordinate } from './models';
+import { Content, Subordinate } from './models';
 
 @Injectable()
 export class ReportService {
@@ -58,11 +57,9 @@ export class ReportService {
   }
 
   public getJsonReport(jsonReportUrl: string): Observable<Subordinate[]> {
-    return jsonReportUrl === DUMMY
-      ? of(jsonReport.subordinates)
-      : this.http.get<{ data: string }>(jsonReportUrl).pipe(
-          map((response: any) => response.subordinates),
-          catchError(() => throwError(() => new Error('Unexpected error')))
-        );
+    return this.http.get<{ data: string }>(jsonReportUrl).pipe(
+      map((response: any) => response.subordinates),
+      catchError(() => throwError(() => new Error('Unexpected error')))
+    );
   }
 }

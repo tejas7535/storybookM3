@@ -2,7 +2,9 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable unicorn/no-zero-fractions */
 
-export const greaseReport = {
+import { Report } from '@schaeffler/report';
+
+export const greaseReport: Report = {
   identifier: 'outputDescription',
   programName: 'Bearinx',
   programNameID: 'STRING_BEARINX',
@@ -55,7 +57,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Bearing data',
-          titleID: 'STRING_OUTP_BEARING_DATA',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -77,7 +79,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Bearing dimensions',
-          titleID: 'STRING_OUTP_BEARING_DIMENSIONS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -105,7 +107,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Basic load ratings',
-          titleID: 'STRING_OUTP_BASIC_LOAD_RATINGS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -126,7 +128,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Operating conditions',
-          titleID: 'PROPERTY_PAGE_TITLE_OPERATING_CONDITIONS',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -145,7 +147,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Load',
-          titleID: 'STRING_OUTP_LOAD',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -166,7 +168,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Temperatures',
-          titleID: 'PROPERTY_PAGE_TITLE_TEMPERATURES',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -204,7 +206,7 @@ export const greaseReport = {
             {
               identifier: 'variableBlock',
               title: 'Internal calculation data',
-              titleID: 'STRING_OUTP_GREASE_SERVICE_INTERNAL_CALCULATION_DATA',
+              titleID: 'STRING_OUTP_RESULTS',
               subordinates: [
                 {
                   identifier: 'variableLine',
@@ -230,7 +232,7 @@ export const greaseReport = {
         {
           identifier: 'variableBlock',
           title: 'Operating data',
-          titleID: 'STRING_OUTP_OPERATING_DATA',
+          titleID: 'STRING_OUTP_RESULTS',
           subordinates: [
             {
               identifier: 'variableLine',
@@ -375,7 +377,7 @@ export const greaseReport = {
                   [
                     {
                       field: 'Grease grade',
-                      value: 'Arcanol MULTI3',
+                      value: 'Arcanol MULTI2',
                     },
                     {
                       field: 'tfR_min',
@@ -432,13 +434,13 @@ export const greaseReport = {
                     },
                     {
                       field: 'kappa',
-                      value: '2.47',
+                      value: '2.33',
                     },
                   ],
                   [
                     {
                       field: 'Grease grade',
-                      value: 'Arcanol TEMP90',
+                      value: 'Arcanol MULTI2',
                     },
                     {
                       field: 'tfR_min',
@@ -491,11 +493,11 @@ export const greaseReport = {
                     },
                     {
                       field: 'add_w',
-                      value: 'yes',
+                      value: 'no',
                     },
                     {
                       field: 'kappa',
-                      value: '3.26',
+                      value: '2.33',
                     },
                   ],
                 ],
@@ -612,7 +614,7 @@ export const greaseReport = {
                     },
                     {
                       field: 'T_lim_low',
-                      value: '-30.0',
+                      value: '-20.0',
                       unit: '°C',
                     },
                     {
@@ -640,11 +642,11 @@ export const greaseReport = {
                   [
                     {
                       field: 'Grease grade',
-                      value: 'Arcanol MULTI3',
+                      value: 'Arcanol MULTI2',
                     },
                     {
                       field: 'NLGI',
-                      value: '3',
+                      value: '2',
                     },
                     {
                       field: 'BaseOil',
@@ -685,11 +687,11 @@ export const greaseReport = {
                     },
                     {
                       field: 'vib',
-                      value: '+',
+                      value: '0',
                     },
                     {
                       field: 'seal',
-                      value: '+',
+                      value: '0',
                     },
                     {
                       field: 'NSF-H1',
@@ -699,19 +701,19 @@ export const greaseReport = {
                   [
                     {
                       field: 'Grease grade',
-                      value: 'Arcanol TEMP90',
+                      value: 'Arcanol MULTI2',
                     },
                     {
                       field: 'NLGI',
-                      value: '3',
+                      value: '2',
                     },
                     {
                       field: 'BaseOil',
-                      value: 'Mineral + PAO oil',
+                      value: 'Mineral oil',
                     },
                     {
                       field: 'Thickener',
-                      value: 'Polyurea',
+                      value: 'Lithium soap',
                     },
                     {
                       field: 'rho',
@@ -720,7 +722,7 @@ export const greaseReport = {
                     },
                     {
                       field: 'ny40',
-                      value: '148.0',
+                      value: '110.0',
                       unit: 'mm²/s',
                     },
                     {
@@ -730,12 +732,12 @@ export const greaseReport = {
                     },
                     {
                       field: 'T_lim_low',
-                      value: '-40.0',
+                      value: '-20.0',
                       unit: '°C',
                     },
                     {
                       field: 'T_lim_up',
-                      value: '160.0',
+                      value: '120.0',
                       unit: '°C',
                     },
                     {
@@ -748,7 +750,7 @@ export const greaseReport = {
                     },
                     {
                       field: 'seal',
-                      value: '+',
+                      value: '0',
                     },
                     {
                       field: 'NSF-H1',
@@ -1063,4 +1065,5 @@ export const greaseReport = {
   ],
   timeStamp: '2021-11-04 10:29:33',
   programVersion: '12.0',
+  transactionFileName: 'file_name',
 };

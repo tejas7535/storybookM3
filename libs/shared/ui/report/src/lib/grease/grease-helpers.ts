@@ -1,6 +1,25 @@
 import { translate } from '@ngneat/transloco';
 
+import { LabelValue } from '@schaeffler/label-value';
+
 import { Field, TableItem } from '../models';
+import { GreaseResultData } from '../models/grease-result.model';
+
+/**
+ * Convert grease result data into a set of label-value pairs
+ */
+export const adaptLabelValuesFromGreaseResultData = (
+  greaseResults: GreaseResultData[] | undefined
+): LabelValue[] =>
+  greaseResults?.length
+    ? greaseResults.map((greaseResultData) => ({
+        label: translate(greaseResultData?.title),
+        labelHint: greaseResultData?.tooltip
+          ? translate(greaseResultData?.tooltip)
+          : undefined,
+        value: greaseResultData?.values,
+      }))
+    : [];
 
 export const findItem = (
   table1Values: TableItem[],

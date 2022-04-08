@@ -19,15 +19,14 @@
     </mat-slide-toggle>
   </div>
   <div *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner">
-    <schaeffler-report
+    <schaeffler-grease-report
       *ngIf="showCompactView"
-      [jsonReport]="reportUrls.jsonReportUrl"
-      [type]="reportType"
-    ></schaeffler-report>
+      [greaseReportUrl]="reportUrls.jsonReportUrl"
+    ></schaeffler-grease-report>
 
-    <schaeffler-report
+    <schaeffler-html-report
       *ngIf="!showCompactView"
-      [htmlReport]="reportUrls.htmlReportUrl"
+      [htmlReportUrl]="reportUrls.htmlReportUrl"
       [reportSelector]="reportSelector"
     >
       <!-- <div class="flex flex-col md:flex-row">
@@ -40,7 +39,7 @@
         {{ t('downloadReport') }}
       </a>
     </div> -->
-    </schaeffler-report>
+    </schaeffler-html-report>
   </div>
   <ng-template #loading_spinner>
     <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>

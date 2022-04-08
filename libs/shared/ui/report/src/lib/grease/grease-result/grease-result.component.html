@@ -1,0 +1,35 @@
+<ng-container *ngIf="greaseResult">
+  <div *transloco="let t">
+    <div class="p-3">
+      <a
+        class="font-medium text-link"
+        [attr.href]="
+          'https://medias.schaeffler.de/de/search/searchpage?text=' +
+          greaseResult.title
+        "
+        target="_blank"
+        (click)="trackGreaseSelection(greaseResult.title)"
+      >
+        {{ greaseResult.title }}
+        <mat-icon
+          class="ml-1 !h-[auto] !w-[auto] align-text-bottom !text-[16px] !leading-[inherit]"
+          >open_in_new</mat-icon
+        >
+      </a>
+      <p class="text-caption">
+        {{ greaseResult.subtitlePart1 }}, {{ greaseResult.subtitlePart2 }},
+        {{ greaseResult.subtitlePart3 }}
+      </p>
+    </div>
+    <schaeffler-label-value
+      [labelValues]="labelValues"
+      [labelMaxWidth]="labelWidth"
+    ></schaeffler-label-value>
+    <div
+      class="cursor-pointer rounded px-3 py-4 hover:bg-hover-overlay focus:bg-focus-overlay"
+      (click)="toggleShowValues()"
+    >
+      {{ t(showAllValues ? 'hideValues' : 'allValues') }}
+    </div>
+  </div>
+</ng-container>

@@ -1,15 +1,14 @@
 <ng-container *ngIf="active">
   <ng-container *transloco="let t; read: 'result'">
-    <schaeffler-report
+    <schaeffler-html-report
       *ngIf="result$ | ngrxPush as result"
-      [title]="bearing"
-      [htmlReport]="result.htmlReportUrl"
+      [htmlReportUrl]="result.htmlReportUrl"
       [downloadReport]="result.pdfReportUrl"
       [errorMsg]="errorMsg"
       [actionText]="actionText"
       [reportSelector]="reportSelector"
     >
-      <div class="flex flex-col md:flex-row">
+      <div class="flex flex-col py-4 md:flex-row">
         <a
           mat-raised-button
           color="primary"
@@ -26,7 +25,7 @@
           {{ t('startNewCalculation') }}
         </button>
       </div>
-    </schaeffler-report>
+    </schaeffler-html-report>
 
     <div *ngIf="!((result$ | ngrxPush) || (error$ | ngrxPush))">
       <schaeffler-loading-spinner></schaeffler-loading-spinner>

@@ -1,0 +1,161 @@
+<h6 *ngIf="greaseReportTitle">{{ greaseReportTitle }}</h6>
+<div *ngIf="greaseReportSubtitle" class="text-caption">
+  {{ greaseReportSubtitle }}
+</div>
+
+<!-- grease report -->
+<mat-accordion *transloco="let t">
+  <mat-expansion-panel
+    *ngFor="let subordinate of subordinates"
+    [expanded]="subordinate.defaultOpen"
+  >
+    <mat-expansion-panel-header
+      class="text-body-1"
+      (click)="
+        !subordinate.defaultOpen &&
+          !!subordinate.clickHandler &&
+          subordinate.clickHandler()
+      "
+    >
+      <mat-panel-title class="w-full">
+        <span
+          *ngIf="isGreaseResultSection(subordinate.titleID); else regular_title"
+          class="truncate"
+        >
+          {{
+            t('results', {
+              amount: limitResults ? resultAmount : getResultAmount(),
+              complete: getResultAmount()
+            })
+          }}
+        </span>
+        <ng-template #regular_title>
+          <span>{{ subordinate.title }}</span>
+        </ng-template>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div
+      class="pb-4 md:px-6"
+      [ngClass]="isGreaseResultSection(subordinate.titleID) ? 'px-0' : 'px-4'"
+    >
+      <div
+        *ngIf="isGreaseResultSection(subordinate.titleID)"
+        class="cursor-pointer rounded px-3 py-4 text-link hover:bg-hover-overlay focus:bg-focus-overlay"
+        (click)="toggleLimitResults()"
+      >
+        {{
+          t(limitResults ? 'allResults' : 'limitResults', {
+            amount: resultAmount
+          })
+        }}
+      </div>
+      <div>
+        <ng-template
+          [ngTemplateOutlet]="subordinateTemplate"
+          [ngTemplateOutletContext]="{
+            subordinate: subordinate,
+            displayTitle: false
+          }"
+        >
+        </ng-template>
+      </div>
+      <div *ngIf="isGreaseResultSection(subordinate.titleID)" class="p-3">
+        <span class="text-caption">{{ t('guideValues') }}</span>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<!-- custom content -->
+<ng-content></ng-content>
+
+<!-- subordinate display -->
+<ng-template
+  #subordinateTemplate
+  let-subordinate="subordinate"
+  let-displayTitle="displayTitle"
+>
+  <!-- check for existence of subordinate and make it typed -->
+  <ng-container *ngIf="typedSubordinate(subordinate); let subordinate">
+    <!-- text -->
+    <ng-container
+      *ngIf="subordinate.identifier === 'text' && subordinate.text?.length"
+    >
+      <p *ngFor="let paragraph of subordinate.text">{{ paragraph }}</p>
+    </ng-container>
+
+    <!-- legalNote -->
+    <ng-container
+      *ngIf="subordinate.identifier === 'legalNote' && subordinate.legal"
+    >
+      <p>{{ subordinate.legal }}</p>
+    </ng-container>
+
+    <!-- block -->
+    <ng-container *ngIf="subordinate.identifier === 'block' && displayTitle">
+      <h5 class="pt-4 pb-2">{{ subordinate.title }}</h5>
+    </ng-container>
+
+    <!-- variableBlock-->
+    <ng-container *ngIf="subordinate.identifier === 'variableBlock'">
+      <h6 class="pt-4 pb-2">{{ subordinate.title }}</h6>
+    </ng-container>
+
+    <!-- variableLine -->
+    <ng-container *ngIf="subordinate.identifier === 'variableLine'">
+      <div class="flex flex-row justify-between">
+        <div class="flex w-56 flex-col">
+          <div>{{ subordinate.designation }}</div>
+        </div>
+        <div class="flex grow flex-col">
+          <div
+            class="flex grow flex-row"
+            [ngClass]="subordinate.abbreviation ? 'justify-between' : ''"
+          >
+            <div *ngIf="subordinate.abbreviation">
+              {{ subordinate.abbreviation }}
+            </div>
+            <div class="flex flex-row">
+              <div>{{ subordinate.value }}</div>
+              <div>{{ subordinate.unit }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- greaseResult -->
+    <ng-container
+      *ngIf="
+        subordinate.identifier === 'greaseResult' && subordinate.greaseResult
+      "
+    >
+      <div class="grease-result__grid-item mb-6 inline-flex w-full md:w-1/3">
+        <schaeffler-grease-result
+          [greaseResult]="subordinate.greaseResult"
+        ></schaeffler-grease-result>
+      </div>
+    </ng-container>
+
+    <!-- recursive nested subordinates -->
+    <ng-container *ngIf="subordinate.subordinates">
+      <ng-container
+        *ngFor="
+          let nestedSubordinate of limitSubordinates(
+            subordinate.subordinates,
+            subordinate.titleID
+          )
+        "
+      >
+        <ng-container
+          [ngTemplateOutlet]="subordinateTemplate"
+          [ngTemplateOutletContext]="{
+            subordinate: nestedSubordinate,
+            displayTitle: true
+          }"
+        >
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
