@@ -45,9 +45,6 @@ export class EditCellComponent implements ICellRendererAngularComp {
         params.field === ColumnFields.ORDER_QUANTITY &&
         !!(params.context as TableContext).quotation.sapId
       ) &&
-      !(
-        params.field === ColumnFields.PRICE && params.data.price === undefined
-      ) &&
       params.field !== ColumnFields.PRICE_DIFF &&
       params.field !== ColumnFields.RLM &&
       params.field !== ColumnFields.NET_VALUE;

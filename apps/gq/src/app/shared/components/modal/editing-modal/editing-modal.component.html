@@ -27,6 +27,7 @@
         class="pb-4"
         color="primary"
         (change)="onRadioButtonChange(true)"
+        [disabled]="isRelativePriceChangeDisabled"
       >
         <span class="pl-2">
           {{ t('relative') }}

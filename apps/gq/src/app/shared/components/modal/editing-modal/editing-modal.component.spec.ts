@@ -77,7 +77,38 @@ describe('EditingModalComponent', () => {
       expect(component.updateLoading$).toBeDefined();
       expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
     });
+
+    test('should disable relative price editing if there is no price', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: {
+          ...QUOTATION_DETAIL_MOCK,
+          price: undefined,
+        },
+      };
+
+      component.ngOnInit();
+
+      expect(component.isRelativePriceChangeDisabled).toEqual(true);
+      expect(component.isRelativePriceChange).toEqual(false);
+    });
+
+    test('should enabel relative price editing if there is a price', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: {
+          ...QUOTATION_DETAIL_MOCK,
+          price: 100,
+        },
+      };
+
+      component.ngOnInit();
+
+      expect(component.isRelativePriceChangeDisabled).toEqual(false);
+      expect(component.isRelativePriceChange).toEqual(true);
+    });
   });
+
   describe('ngAfterViewInit', () => {
     test('should initalize component variables', () => {
       component.modalData = {

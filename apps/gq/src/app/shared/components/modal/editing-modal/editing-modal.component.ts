@@ -43,6 +43,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   fields = ColumnFields;
 
   isRelativePriceChange = true;
+  isRelativePriceChangeDisabled = false;
   showRadioGroup = this.modalData.field === ColumnFields.PRICE;
 
   @ViewChild('edit') editInputField: ElementRef;
@@ -62,6 +63,14 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     this.editFormControl = new FormControl();
     this.updateLoading$ = this.store.select(getUpdateLoading);
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
+
+    if (
+      this.modalData.field === ColumnFields.PRICE &&
+      !this.modalData.quotationDetail.price
+    ) {
+      this.isRelativePriceChangeDisabled = true;
+      this.isRelativePriceChange = false;
+    }
 
     this.addSubscriptions();
   }
