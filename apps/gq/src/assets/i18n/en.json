@@ -54,7 +54,8 @@
       "msp": "MSP",
       "toolTip": {
         "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing."
-      }
+      },
+      "targetPrice": "Target Price"
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

@@ -54,7 +54,8 @@
       "msp": "MSP",
       "toolTip": {
         "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung."
-      }
+      },
+      "targetPrice": "Zielpreis"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",
