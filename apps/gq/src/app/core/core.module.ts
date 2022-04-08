@@ -8,11 +8,7 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import {
-  CookiesGroups,
-  OneTrustModule,
-  OneTrustService,
-} from '@altack/ngx-onetrust';
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
@@ -24,6 +20,7 @@ import {
   ApplicationInsightsModule,
   ApplicationInsightsService,
   COOKIE_GROUPS,
+  CustomProps,
 } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -44,22 +41,16 @@ export function appInitializer(
   oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
-  const tag = 'application';
-  const value = '[GQ - Guided Quoting]';
+  const customProps: CustomProps = {
+    tag: 'application',
+    value: '[GQ - Guided Quoting]',
+  };
 
-  applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
-
-  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
-    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
-      applicationInsightsService.startTelemetry();
-      applicationInsightsService.trackInitalPageView();
-    } else {
-      applicationInsightsService.deleteCookies();
-    }
-  });
+  applicationInsightsService.initTracking(customProps);
 
   return () => oneTrustService.loadOneTrust();
 }
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

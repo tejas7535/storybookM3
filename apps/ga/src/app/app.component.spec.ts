@@ -4,13 +4,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { setLanguage } from './core/store/actions/settings/settings.actions';
@@ -31,6 +34,10 @@ describe('AppComponent', () => {
       ReactiveFormsModule,
       MatSelectModule,
       provideTranslocoTestingModule({ en: {} }),
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
     providers: [
       {

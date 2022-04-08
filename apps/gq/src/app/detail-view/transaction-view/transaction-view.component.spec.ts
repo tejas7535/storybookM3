@@ -3,11 +3,16 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { environment } from 'apps/gq/src/environments/environment';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
@@ -45,6 +50,10 @@ describe('TransactionViewComponent', () => {
       ShareButtonModule,
       MatSnackBarModule,
       CustomerHeaderModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
     declarations: [SavingInProgressComponent],
     providers: [

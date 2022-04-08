@@ -1,12 +1,16 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { environment } from 'apps/ga/src/environments/environment';
 import { marbles } from 'rxjs-marbles';
+
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 
 import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { PROPERTIES } from '../../../../shared/constants';
@@ -34,7 +38,13 @@ describe('Bearing Effects', () => {
 
   const createService = createServiceFactory({
     service: ResultEffects,
-    imports: [RouterTestingModule],
+    imports: [
+      RouterTestingModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
+    ],
     providers: [
       provideMockActions(() => actions$),
       {

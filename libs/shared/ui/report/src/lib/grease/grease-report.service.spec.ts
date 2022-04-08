@@ -1,7 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -16,7 +18,14 @@ describe('ReportService testing', () => {
   let spectator: SpectatorService<GreaseReportService>;
   const createService = createServiceFactory({
     service: GreaseReportService,
-    imports: [provideTranslocoTestingModule({ en: {} }), RouterTestingModule],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      RouterTestingModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: 'mockOneTrustId',
+      }),
+    ],
   });
 
   beforeEach(() => (spectator = createService()));

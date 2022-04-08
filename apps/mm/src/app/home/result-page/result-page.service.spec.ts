@@ -1,9 +1,14 @@
 import { of } from 'rxjs';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
+import { environment } from 'apps/mm/src/environments/environment';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 
 import { RestService } from '../../core/services';
 import { PROPERTIES } from '../../shared/constants/tracking-names';
@@ -55,6 +60,12 @@ describe('ResultPageService testing', () => {
           logEvent: jest.fn(),
         },
       },
+    ],
+    imports: [
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
   });
 

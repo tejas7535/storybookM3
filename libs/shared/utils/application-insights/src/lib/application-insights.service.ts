@@ -9,11 +9,13 @@ import {
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
 
+import { CookiesGroups, OneTrustService } from '@altack/ngx-onetrust';
 import {
   ApplicationInsights,
   ITelemetryItem,
 } from '@microsoft/applicationinsights-web';
 
+import { CustomProps } from './application-insights.models';
 import {
   APPLICATION_INSIGHTS_CONFIG,
   ApplicationInsightsModuleConfig,
@@ -29,23 +31,20 @@ export class ApplicationInsightsService {
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly oneTrustService: OneTrustService
   ) {
     if (this.moduleConfig) {
       this.appInsights = new ApplicationInsights({
         config: {
           ...this.moduleConfig.applicationInsightsConfig,
-          disableTelemetry: true,
         },
       });
 
-      this.appInsights.loadAppInsights();
-
       if (!moduleConfig.consent) {
-        this.startTelemetry();
+        this.appInsights.loadAppInsights();
+        this.startTracking(false);
       }
-
-      this.startTracking();
     }
   }
 
@@ -58,7 +57,35 @@ export class ApplicationInsightsService {
       : snapshot.component;
   }
 
-  public startTracking(): void {
+  public initTracking(customProps?: CustomProps): void {
+    let first = true;
+
+    this.oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
+      const trackingAllowed = cookiesGroups.get(
+        CookiesGroups.PerformanceCookies
+      );
+
+      if (trackingAllowed) {
+        this.startTracking(true);
+        if (customProps) {
+          const { tag, value } = customProps;
+          this.addCustomPropertyToTelemetryData(tag, value);
+        }
+        this.trackInitalPageView();
+      } else if (!first && !trackingAllowed) {
+        // only when opting out after consent was given before
+        this.deleteCookies();
+      }
+
+      first = false;
+    });
+  }
+
+  public startTracking(cookieEnabled: boolean): void {
+    if (cookieEnabled) {
+      this.appInsights.loadAppInsights();
+    }
+
     // make sure to not subscribe to router twice
     this.destroy$.next();
     this.createRouterSubscription();
@@ -69,6 +96,7 @@ export class ApplicationInsightsService {
     AI_COOKIES.forEach((aiCookie) =>
       this.appInsights?.getCookieMgr().del(aiCookie)
     );
+    this.appInsights.config.disableTelemetry = true;
   }
 
   public addCustomPropertyToTelemetryData(tag: string, value: string): void {
@@ -123,11 +151,6 @@ export class ApplicationInsightsService {
       this.logPageView(activatedComponent.name, uri);
     }
   }
-
-  public startTelemetry(): void {
-    this.appInsights.config.disableTelemetry = false;
-  }
-
   public trackInitalPageView(): void {
     this.trackPageView(this.route.snapshot, this.router.url);
   }

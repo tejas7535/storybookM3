@@ -12,6 +12,7 @@ export interface Environment {
       disableCookiesUsage: boolean;
       autoTrackPageVisitTime: boolean;
     };
+    consent: boolean;
     enableGlobalErrorHandler: boolean;
     enableNgrxMetaReducer: boolean;
     ngrxIgnorePattern: string[];

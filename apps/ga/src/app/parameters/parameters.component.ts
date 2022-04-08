@@ -33,13 +33,13 @@ import {
 import { EnvironmentImpact } from './../shared/models/parameters/environment-impact.model';
 import { Movement } from './../shared/models/parameters/movement.model';
 import {
+  environmentImpactOptions,
+  loadRatioOptions,
   loadValidators,
   rotationalSpeedValidators,
   shiftAngleValidators,
   shiftFrequencyValidators,
-  environmentImpactOptions,
   typeOptions,
-  loadRatioOptions,
 } from './parameter-constants';
 
 @Component({
@@ -282,7 +282,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   private removeLoadErrors(group: FormGroup, type: Load) {
     if (group.controls[type]?.errors?.anyLoad) {
-      const { anyLoad, ...otherErrors } = group.controls[type].errors;
+      const { anyLoad: _anyLoad, ...otherErrors } = group.controls[type].errors;
 
       /* eslint-disable unicorn/no-null */
       group.controls[type].setErrors(otherErrors?.length ? otherErrors : null);

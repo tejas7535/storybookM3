@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import {
   createComponentFactory,
   mockProvider,
@@ -17,13 +18,17 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { environment } from '../../environments/environment';
 import { PROCESS_CASE_STATE_MOCK } from '../../testing/mocks';
 import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
@@ -85,6 +90,10 @@ describe('ProcessCaseViewComponent', () => {
       BreadcrumbsModule,
       SharedPipesModule,
       ShareButtonModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
     declarations: [CalculationInProgressComponent],
     providers: [

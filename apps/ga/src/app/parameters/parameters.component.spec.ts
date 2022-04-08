@@ -244,7 +244,7 @@ describe('ParametersComponent', () => {
       expect(component.loadRatio.updateValueAndValidity).toHaveBeenCalled();
     });
 
-    it('should select movement type and set validators for rotational', () => {
+    it('should select movement type and unset validators for rotational', () => {
       component.axial.removeValidators = jest.fn();
       component.radial.removeValidators = jest.fn();
       component.loadRatio.addValidators = jest.fn();

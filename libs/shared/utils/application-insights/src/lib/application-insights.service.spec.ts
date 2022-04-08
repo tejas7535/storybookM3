@@ -10,9 +10,10 @@ import {
 
 import { of, ReplaySubject } from 'rxjs';
 
-import { OneTrustService } from '@altack/ngx-onetrust';
+import { CookiesGroups, OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { CustomProps } from './application-insights.models';
 import { ApplicationInsightsService } from './application-insights.service';
 import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
 
@@ -115,12 +116,59 @@ describe('ApplicationInsightService', () => {
     });
   });
 
+  describe('initTracking', () => {
+    beforeEach(() => {
+      service['startTracking'] = jest.fn();
+      service['addCustomPropertyToTelemetryData'] = jest.fn();
+      service['trackInitalPageView'] = jest.fn();
+      service['deleteCookies'] = jest.fn();
+    });
+    it('should call startTracking, add customProps and trackInitalPageView when consent given', () => {
+      const mockTag = 'mockTag';
+      const mockValue = 'mockValue';
+
+      const customProps: CustomProps = {
+        tag: mockTag,
+        value: mockValue,
+      };
+
+      const cookieMap = new Map<CookiesGroups, boolean>();
+      cookieMap.set(CookiesGroups.PerformanceCookies, true);
+
+      service['oneTrustService'].consentChanged$ = () => of(cookieMap);
+
+      service.initTracking(customProps);
+
+      expect(service['startTracking']).toHaveBeenCalledTimes(1);
+      expect(service['addCustomPropertyToTelemetryData']).toHaveBeenCalledTimes(
+        1
+      );
+      expect(service['addCustomPropertyToTelemetryData']).toHaveBeenCalledWith(
+        mockTag,
+        mockValue
+      );
+      expect(service['trackInitalPageView']).toHaveBeenCalledTimes(1);
+    });
+
+    it('should deleteCookies when consent declined', () => {
+      const cookieMap = new Map<CookiesGroups, boolean>();
+      cookieMap.set(CookiesGroups.PerformanceCookies, false);
+
+      service['oneTrustService'].consentChanged$ = () =>
+        of(cookieMap, cookieMap);
+
+      service.initTracking();
+
+      expect(service['deleteCookies']).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('startTracking', () => {
     beforeEach(() => {
       service['createRouterSubscription'] = jest.fn();
     });
     it('should call loadAppInsights', () => {
-      service.startTracking();
+      service.startTracking(false);
 
       expect(service['createRouterSubscription']).toHaveBeenCalledTimes(1);
     });
@@ -218,55 +266,49 @@ describe('ApplicationInsightService', () => {
     beforeEach(() => {
       service.logPageView = jest.fn();
     });
-    it(
-      'should call logPageView',
-      waitForAsync(() => {
-        const snapshot: RouterStateSnapshot = {
-          root: {
-            component: { name: 'MonkeyComponent' },
-            firstChild: undefined,
-          },
-        } as unknown as RouterStateSnapshot;
-        const resolveEndEvent = new ResolveEnd(
-          1,
-          '/foo/bar',
-          '/foo/bar',
-          snapshot
-        );
+    it('should call logPageView', waitForAsync(() => {
+      const snapshot: RouterStateSnapshot = {
+        root: {
+          component: { name: 'MonkeyComponent' },
+          firstChild: undefined,
+        },
+      } as unknown as RouterStateSnapshot;
+      const resolveEndEvent = new ResolveEnd(
+        1,
+        '/foo/bar',
+        '/foo/bar',
+        snapshot
+      );
 
-        eventSubject.next(resolveEndEvent);
+      eventSubject.next(resolveEndEvent);
 
-        service['createRouterSubscription']();
+      service['createRouterSubscription']();
 
-        expect(service.logPageView).toHaveBeenCalledWith(
-          'MonkeyComponent',
-          '/foo/bar'
-        );
-      })
-    );
+      expect(service.logPageView).toHaveBeenCalledWith(
+        'MonkeyComponent',
+        '/foo/bar'
+      );
+    }));
 
-    it(
-      'should NOT call logPageView',
-      waitForAsync(() => {
-        const snapshot: RouterStateSnapshot = {
-          root: {
-            component: undefined,
-          },
-        } as unknown as RouterStateSnapshot;
-        const resolveEndEvent = new ResolveEnd(
-          1,
-          '/foo/bar',
-          '/foo/bar',
-          snapshot
-        );
+    it('should NOT call logPageView', waitForAsync(() => {
+      const snapshot: RouterStateSnapshot = {
+        root: {
+          component: undefined,
+        },
+      } as unknown as RouterStateSnapshot;
+      const resolveEndEvent = new ResolveEnd(
+        1,
+        '/foo/bar',
+        '/foo/bar',
+        snapshot
+      );
 
-        eventSubject.next(resolveEndEvent);
+      eventSubject.next(resolveEndEvent);
 
-        service['createRouterSubscription']();
+      service['createRouterSubscription']();
 
-        expect(service.logPageView).not.toHaveBeenCalled();
-      })
-    );
+      expect(service.logPageView).not.toHaveBeenCalled();
+    }));
   });
 
   describe('trackPageView', () => {

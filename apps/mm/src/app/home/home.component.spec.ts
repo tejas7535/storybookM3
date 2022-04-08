@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { BehaviorSubject, of } from 'rxjs';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import {
   DynamicFormsModule,
   DynamicFormTemplateContext,
@@ -18,7 +19,10 @@ import {
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { environment } from '../../environments/environment';
@@ -91,6 +95,10 @@ describe('HomeComponent', () => {
 
       provideTranslocoTestingModule({ en: {} }),
       ApplicationInsightsModule.forRoot(environment.applicationInsights),
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
     providers: [
       RuntimeRequestService,

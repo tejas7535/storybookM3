@@ -154,13 +154,11 @@ If you want to log events GDPR compliant using cookies, implement like so:
         oneTrustService: OneTrustService,
         applicationInsightsService: ApplicationInsightsService
     ) {
-        oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
-            if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
-            applicationInsightsService.startTelemetry();
-            } else {
-            applicationInsightsService.deleteCookies();
-            }
-        });
+       
+        const tag = 'application'; // optional
+        const value = '[Bearinx - Greaseapp]'; // optional
+
+        applicationInsightsService.initTracking(tag, value);
 
         return () => oneTrustService.loadOneTrust();
     }

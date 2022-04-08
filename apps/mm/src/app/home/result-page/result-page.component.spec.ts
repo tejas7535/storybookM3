@@ -6,10 +6,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { filter, of, throwError } from 'rxjs';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { ReportModule } from '@schaeffler/report';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -34,6 +38,10 @@ describe('ResultPageComponent', () => {
       MatSnackBarModule,
       RouterTestingModule,
       ApplicationInsightsModule.forRoot(environment.applicationInsights),
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
     declarations: [ResultPageComponent],
     providers: [

@@ -3,10 +3,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { environment } from 'apps/mm/src/environments/environment';
 
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 
 import { STEPNAME } from '../../../shared/constants/tracking-names';
 import { PageBeforePipe } from './page-before.pipe';
@@ -18,7 +23,15 @@ describe('PagesStepperComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PagesStepperComponent,
-    imports: [MatButtonModule, MatStepperModule],
+    imports: [
+      MatButtonModule,
+      MatStepperModule,
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
+    ],
+
     declarations: [PagesStepperComponent, PageBeforePipe],
     providers: [
       {

@@ -1,8 +1,8 @@
-import { LoadTypes, SelectedGreases } from 'apps/ga/src/app/shared/models';
 import {
   MOCK_PROPERTIES,
   MODEL_MOCK_ID,
 } from '../../../../../testing/mocks/rest.service.mock';
+import { LoadTypes, SelectedGreases } from '../../../../shared/models';
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {

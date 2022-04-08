@@ -3,11 +3,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import {
-  CookiesGroups,
-  OneTrustModule,
-  OneTrustService,
-} from '@altack/ngx-onetrust';
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -16,6 +12,7 @@ import {
   ApplicationInsightsModule,
   ApplicationInsightsService,
   COOKIE_GROUPS,
+  CustomProps,
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -39,18 +36,12 @@ export function appInitializer(
   oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
-  const tag = 'application';
-  const value = '[Bearinx - MountingManager]';
+  const customProps: CustomProps = {
+    tag: 'application',
+    value: '[Bearinx - MountingManager]',
+  };
 
-  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
-    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
-      applicationInsightsService.startTelemetry();
-      applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
-      applicationInsightsService.trackInitalPageView();
-    } else {
-      applicationInsightsService.deleteCookies();
-    }
-  });
+  applicationInsightsService.initTracking(customProps);
 
   return () => oneTrustService.loadOneTrust();
 }

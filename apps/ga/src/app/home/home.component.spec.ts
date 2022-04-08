@@ -5,10 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { environment } from '../../environments/environment';
 import { HOMECARD } from '../shared/constants';
 import { HomeComponent } from './home.component';
 
@@ -26,6 +29,10 @@ describe('HomeComponent', () => {
       MatIconModule,
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: environment.oneTrustId,
+      }),
     ],
     providers: [
       {

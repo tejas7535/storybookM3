@@ -1,6 +1,7 @@
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ErrorService } from './error.service';

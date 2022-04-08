@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
 import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -7,7 +8,7 @@ import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss'],
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnInit, OnDestroy {
   @Input() public control: FormControl;
   @Input() public placeholder?: string;
   @Input() public hint?: string;

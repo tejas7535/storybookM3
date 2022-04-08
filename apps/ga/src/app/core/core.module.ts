@@ -4,11 +4,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import {
-  CookiesGroups,
-  OneTrustModule,
-  OneTrustService,
-} from '@altack/ngx-onetrust';
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import {
   TRANSLOCO_PERSIST_LANG_STORAGE,
   TranslocoPersistLangModule,
@@ -19,6 +15,7 @@ import {
   ApplicationInsightsModule,
   ApplicationInsightsService,
   COOKIE_GROUPS,
+  CustomProps,
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -40,18 +37,12 @@ export function appInitializer(
   oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
-  const tag = 'application';
-  const value = '[Bearinx - Greaseapp]';
+  const customProps: CustomProps = {
+    tag: 'application',
+    value: '[Bearinx - Greaseapp]',
+  };
 
-  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
-    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
-      applicationInsightsService.startTelemetry();
-      applicationInsightsService.addCustomPropertyToTelemetryData(tag, value);
-      applicationInsightsService.trackInitalPageView();
-    } else {
-      applicationInsightsService.deleteCookies();
-    }
-  });
+  applicationInsightsService.initTracking(customProps);
 
   return () => oneTrustService.loadOneTrust();
 }

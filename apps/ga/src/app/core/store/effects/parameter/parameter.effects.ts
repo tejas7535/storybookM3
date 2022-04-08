@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { filter, map, mergeMap, withLatestFrom } from 'rxjs';
+import { filter, map, mergeMap } from 'rxjs';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
@@ -40,7 +40,7 @@ export class ParameterEffects {
   properties$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getProperties),
-      withLatestFrom(this.store.select(getModelId)),
+      concatLatestFrom(() => this.store.select(getModelId)),
       map(([_action, modelId]) => modelId),
       mergeMap((modelId) =>
         this.restService.getProperties(modelId).pipe(
@@ -54,7 +54,7 @@ export class ParameterEffects {
   updateModel$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(patchParameters),
-      withLatestFrom(this.store.select(getCalculationParameters)),
+      concatLatestFrom(() => this.store.select(getCalculationParameters)),
       map(([_action, options]) => options),
       filter(({ modelId }) => modelId !== undefined),
       mergeMap(({ modelId, options }) =>

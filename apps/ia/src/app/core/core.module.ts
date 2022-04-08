@@ -9,11 +9,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import {
-  CookiesGroups,
-  OneTrustModule,
-  OneTrustService,
-} from '@altack/ngx-onetrust';
+import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import {
@@ -50,18 +46,11 @@ const azureConfig = new AzureConfig(
   new MsalGuardConfig(`/${AppRoutePath.ForbiddenPath}`, [environment.appScope])
 );
 
-function appInitializer(
+export function appInitializer(
   oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
-  oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
-    if (cookiesGroups.get(CookiesGroups.PerformanceCookies)) {
-      applicationInsightsService.startTelemetry();
-      applicationInsightsService.trackInitalPageView();
-    } else {
-      applicationInsightsService.deleteCookies();
-    }
-  });
+  applicationInsightsService.initTracking();
 
   return () => oneTrustService.loadOneTrust();
 }
