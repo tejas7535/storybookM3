@@ -4,7 +4,7 @@ import { ExtendedComparableLinkedTransaction } from '../../../core/store/reducer
 import { SapConditionType } from '../../../core/store/reducers/sap-price-details/models/';
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
-import { KpiValue } from '../../components/editing-modal/kpi-value.model';
+import { KpiValue } from '../../components/modal/editing-modal/kpi-value.model';
 import { StatusBarProperties } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceUnitForQuotationItemId } from '../../models/quotation-detail/price-units-for-quotation-item-ids.model';

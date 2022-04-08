@@ -28,8 +28,8 @@ import {
   SalesOrg,
 } from '../../../core/store/reducers/create-case/models';
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
-import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
-import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
+import { AutocompleteInputComponent } from '../../../shared/components/autocomplete-input/autocomplete-input.component';
+import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { MaterialSelectionComponent } from './material-selection/material-selection.component';
 

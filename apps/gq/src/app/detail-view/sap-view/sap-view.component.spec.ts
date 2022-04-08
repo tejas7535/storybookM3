@@ -14,8 +14,8 @@ import {
   PROCESS_CASE_STATE_MOCK,
   SAP_PRICE_DETAILS_STATE_MOCK,
 } from '../../../testing/mocks/state';
-import { MaterialPriceHeaderContentModule } from '../../shared/components/material-price-header-content/material-price-header-content.module';
-import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
+import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
+import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
 import { SapPriceDetailsTableModule } from './sap-price-details-table/sap-price-details-table.module';
 import { SapViewComponent } from './sap-view.component';
 

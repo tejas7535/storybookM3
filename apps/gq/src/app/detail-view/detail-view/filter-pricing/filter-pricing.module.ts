@@ -13,7 +13,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
+import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { DetailButtonComponent } from './detail-button/detail-button.component';
 import { FilterPricingComponent } from './filter-pricing.component';

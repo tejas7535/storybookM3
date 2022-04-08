@@ -11,7 +11,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 
-import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
+import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
 import { DetailViewHeaderContentModule } from './detail-view-header-content/detail-view-header-content.module';

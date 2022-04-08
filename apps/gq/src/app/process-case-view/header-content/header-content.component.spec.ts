@@ -6,7 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { InfoIconModule } from '../../shared/info-icon/info-icon.module';
+import { InfoIconModule } from '../../shared/components/info-icon/info-icon.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { HeaderContentComponent } from './header-content.component';
 

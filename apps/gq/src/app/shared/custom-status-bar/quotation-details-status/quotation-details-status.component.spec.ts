@@ -18,7 +18,7 @@ import {
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
 } from '../../../../testing/mocks';
-import { StatusBarModalComponent } from '../../components/status-bar-modal/status-bar-modal.component';
+import { StatusBarModalComponent } from '../../components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '../../models';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { UserRoles } from '../../roles/user-roles.enum';

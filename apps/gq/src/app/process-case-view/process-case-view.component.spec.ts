@@ -25,8 +25,9 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../testing/mocks';
-import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
-import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
+import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
+import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
 import { AddItemsButtonComponent } from '../shared/custom-status-bar/add-items-button/add-items-button.component';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../shared/custom-status-bar/delete-items-button/delete-items-button.component';
@@ -34,7 +35,6 @@ import { ExportToExcelButtonComponent } from '../shared/custom-status-bar/export
 import { RefreshSapPriceComponent } from '../shared/custom-status-bar/refresh-sap-price/refresh-sap-price.component';
 import { TotalRowCountComponent } from '../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
-import { CustomerHeaderModule } from '../shared/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';

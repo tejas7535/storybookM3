@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { ViewQuotation } from '../../../case-view/models/view-quotation.model';
 import { deleteCase } from '../../../core/store';
-import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
-import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
+import { ConfirmationModalComponent } from '../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalData } from '../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 
 @Component({
   selector: 'gq-delete-case-button',

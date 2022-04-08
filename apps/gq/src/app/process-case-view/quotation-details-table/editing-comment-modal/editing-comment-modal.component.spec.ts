@@ -13,7 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { updateQuotationDetails } from '../../../core/store';
-import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
+import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { EditingCommentModalComponent } from './editing-comment-modal.component';
 
 describe('EditingCommentModalComponent', () => {

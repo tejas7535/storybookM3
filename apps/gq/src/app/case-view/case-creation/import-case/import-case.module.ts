@@ -8,8 +8,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
-import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
+import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
+import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { ImportCaseComponent } from './import-case.component';
 
 @NgModule({

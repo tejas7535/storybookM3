@@ -9,8 +9,8 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
-import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
+import { AddEntryModule } from '../../shared/components/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../../shared/components/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 @NgModule({

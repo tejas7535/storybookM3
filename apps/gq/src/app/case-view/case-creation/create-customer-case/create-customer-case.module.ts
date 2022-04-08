@@ -12,10 +12,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
-import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
+import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
+import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
+import { SelectSalesOrgModule } from '../../../shared/components/select-sales-org/select-sales-org.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { SelectSalesOrgModule } from '../../../shared/select-sales-org/select-sales-org.module';
 import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
 import { FilterSelectionComponent } from './additional-filters/filter-selection/filter-selection.component';
 import { CreateCustomerCaseComponent } from './create-customer-case.component';

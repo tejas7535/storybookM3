@@ -12,8 +12,8 @@ import {
   getSimulationModeEnabled,
   uploadSelectionToSap,
 } from '../../../core/store';
-import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
-import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
+import { ConfirmationModalComponent } from '../../components/modal/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalData } from '../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({

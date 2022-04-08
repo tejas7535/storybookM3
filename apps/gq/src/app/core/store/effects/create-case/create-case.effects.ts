@@ -3,21 +3,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { Quotation } from '../../../../shared/models';
 import { IdValue } from '../../../../shared/models/search';
 import {
@@ -97,7 +90,7 @@ export class CreateCaseEffects {
   validate$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(pasteRowDataItems.type),
-      withLatestFrom(this.store.select(getCaseRowData)),
+      concatLatestFrom(() => this.store.select(getCaseRowData)),
       map(([_action, tableData]) => tableData),
       mergeMap((tableData: MaterialTableItem[]) =>
         this.materialService.validateMaterials(tableData).pipe(
@@ -113,7 +106,7 @@ export class CreateCaseEffects {
   autoSelectMaterial$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(autocompleteSuccess.type),
-      withLatestFrom(this.store.select(getAutoSelectMaterial)),
+      concatLatestFrom(() => this.store.select(getAutoSelectMaterial)),
       filter(([_action, caseFilterItem]) => !!caseFilterItem),
       map(([_action, caseFilterItem]) =>
         setSelectedAutocompleteOption({
@@ -130,7 +123,7 @@ export class CreateCaseEffects {
   createCase$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createCase.type),
-      withLatestFrom(this.store.select(getCreateCaseData)),
+      concatLatestFrom(() => this.store.select(getCreateCaseData)),
       map(([_action, createCaseData]) => createCaseData),
       mergeMap((createCaseData: CreateCase) =>
         this.quotationService.createCase(createCaseData).pipe(
@@ -157,7 +150,7 @@ export class CreateCaseEffects {
   importCase$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(importCase.type),
-      withLatestFrom(this.store.select(getSelectedQuotation)),
+      concatLatestFrom(() => this.store.select(getSelectedQuotation)),
       map(([_action, idValue]) => idValue),
       mergeMap((importedCase: IdValue) =>
         this.quotationService.importCase(importedCase.id).pipe(
@@ -222,7 +215,7 @@ export class CreateCaseEffects {
   createCustomerCase$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(createCustomerCase),
-      withLatestFrom(this.store.select(getCreateCustomerCasePayload)),
+      concatLatestFrom(() => this.store.select(getCreateCustomerCasePayload)),
       map(([_action, requestPayload]) => requestPayload),
       mergeMap((requestPayload) =>
         this.quotationService.createCustomerCase(requestPayload).pipe(
@@ -275,7 +268,7 @@ export class CreateCaseEffects {
       translationKey = 'reimportSucess';
     }
 
-    const successMessage = translate<string>(
+    const successMessage = translate(
       `caseView.snackBarMessages.${translationKey}`
     );
 

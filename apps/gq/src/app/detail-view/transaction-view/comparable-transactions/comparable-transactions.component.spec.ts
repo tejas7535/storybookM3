@@ -7,7 +7,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
+import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 
 jest.mock('@ngneat/transloco', () => ({

@@ -28,7 +28,7 @@ import {
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import { MATERIAL_STOCK_MOCK } from '../../../testing/mocks/models/material-stock.mock';
-import { CustomerHeaderModule } from '../../shared/header/customer-header/customer-header.module';
+import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { DetailViewComponent } from './detail-view.component';

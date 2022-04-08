@@ -15,7 +15,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../testing/mocks';
 import { uploadSelectionToSap } from '../../../core/store';
-import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent } from '../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button.component';
 
 describe('uploadSelectionToSapButtonComponent', () => {

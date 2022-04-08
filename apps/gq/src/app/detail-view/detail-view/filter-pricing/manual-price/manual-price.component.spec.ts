@@ -20,7 +20,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
-import { EditingModalComponent } from '../../../../shared/components/editing-modal/editing-modal.component';
+import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
 import {
   PriceSource,
   UpdatePrice,

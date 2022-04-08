@@ -10,7 +10,7 @@ import {
   getSimulationModeEnabled,
   refreshSapPricing,
 } from '../../../core/store';
-import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent } from '../../components/modal/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'gq-refresh-sap-price',

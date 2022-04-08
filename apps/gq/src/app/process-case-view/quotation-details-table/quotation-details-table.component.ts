@@ -27,7 +27,7 @@ import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum'
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { ColumnDefService } from '../../shared/ag-grid/services/column-def.service';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
-import { KpiValue } from '../../shared/components/editing-modal/kpi-value.model';
+import { KpiValue } from '../../shared/components/modal/editing-modal/kpi-value.model';
 import { basicTableStyle, statusBarStlye } from '../../shared/constants';
 import { excelStyles } from '../../shared/custom-status-bar/export-to-excel-button/excel-styles.constants';
 import { Quotation } from '../../shared/models';

@@ -29,7 +29,7 @@ import {
   ColumnFields,
   PriceColumns,
 } from '../../ag-grid/constants/column-fields.enum';
-import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
+import { ExportExcel } from '../../components/modal/export-excel-modal/export-excel.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';

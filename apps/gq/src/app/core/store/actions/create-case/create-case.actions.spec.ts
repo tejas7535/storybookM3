@@ -1,4 +1,4 @@
-import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import { ValidationDescription } from '../../../../shared/models/table';
 import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';

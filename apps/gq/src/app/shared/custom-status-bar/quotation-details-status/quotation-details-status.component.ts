@@ -13,7 +13,7 @@ import {
   userHasGPCRole,
   userHasSQVRole,
 } from '../../../core/store';
-import { StatusBarModalComponent } from '../../components/status-bar-modal/status-bar-modal.component';
+import { StatusBarModalComponent } from '../../../shared/components/modal/status-bar-modal/status-bar-modal.component';
 import { statusBarSimulation } from '../../constants';
 import { SimulatedQuotation, StatusBar } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';

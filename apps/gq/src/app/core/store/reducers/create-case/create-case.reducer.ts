@@ -1,6 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import {
   MaterialTableItem,

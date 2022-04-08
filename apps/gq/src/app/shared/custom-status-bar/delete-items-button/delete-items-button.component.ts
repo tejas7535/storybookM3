@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { removePositions } from '../../../core/store/actions';
 import { getSapId } from '../../../core/store/selectors';
-import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
-import { ConfirmationModalData } from '../../confirmation-modal/models/confirmation-modal-data.model';
+import { ConfirmationModalComponent } from '../../../shared/components/modal/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalData } from '../../components/modal/confirmation-modal/models/confirmation-modal-data.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
@@ -63,16 +63,16 @@ export class DeleteItemsButtonComponent implements OnInit {
     const gqPositionIds: string[] = this.selections.map(
       (value: QuotationDetail) => value.gqPositionId
     );
-    const displayText = translate<string>(
+    const displayText = translate(
       'processCaseView.confirmDeletePositions.text',
       { variable: gqPositionIds.length }
     );
 
-    const confirmButton = translate<string>(
+    const confirmButton = translate(
       'processCaseView.confirmDeletePositions.deleteButton'
     );
 
-    const cancelButton = translate<string>(
+    const cancelButton = translate(
       'processCaseView.confirmDeletePositions.cancelButton'
     );
     const data: ConfirmationModalData = {

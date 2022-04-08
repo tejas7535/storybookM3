@@ -13,7 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { ColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
-import { EditingModalComponent } from '../../../../shared/components/editing-modal/editing-modal.component';
+import { EditingModalComponent } from '../../../../shared/components/modal/editing-modal/editing-modal.component';
 import {
   PriceSource,
   QuotationDetail,

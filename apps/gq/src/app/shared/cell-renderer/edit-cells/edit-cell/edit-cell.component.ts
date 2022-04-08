@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { TableContext } from '../../../../../app/process-case-view/quotation-details-table/config/tablecontext.model';
 import { getSimulatedQuotationDetailByItemId } from '../../../../core/store';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
-import { EditingModalComponent } from '../../../components/editing-modal/editing-modal.component';
+import { EditingModalComponent } from '../../../components/modal/editing-modal/editing-modal.component';
 import { QuotationDetail } from '../../../models/quotation-detail';
 import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-params.model';
 

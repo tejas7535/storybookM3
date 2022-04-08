@@ -22,12 +22,12 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
-import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
-import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
+import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
+import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
+import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
+import { SelectSalesOrgModule } from '../../../shared/components/select-sales-org/select-sales-org.module';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
-import { SelectSalesOrgModule } from '../../../shared/select-sales-org/select-sales-org.module';
 import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
 import { FilterSelectionComponent } from './additional-filters/filter-selection/filter-selection.component';
 import { CreateCustomerCaseComponent } from './create-customer-case.component';

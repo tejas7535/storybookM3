@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { InfoIconModule } from '../../shared/info-icon/info-icon.module';
+import { InfoIconModule } from '../../shared/components/info-icon/info-icon.module';
 import { HeaderContentComponent } from './header-content.component';
 
 @NgModule({

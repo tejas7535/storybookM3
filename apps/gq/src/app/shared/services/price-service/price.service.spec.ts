@@ -9,7 +9,7 @@ import {
   SapPriceConditionDetail,
 } from '../../../core/store/reducers/sap-price-details/models';
 import { ColumnFields } from '../../ag-grid/constants/column-fields.enum';
-import { KpiValue } from '../../components/editing-modal/kpi-value.model';
+import { KpiValue } from '../../components/modal/editing-modal/kpi-value.model';
 import { StatusBarProperties } from '../../models';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { PriceService } from './price.service';

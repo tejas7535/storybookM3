@@ -28,8 +28,8 @@ import {
   PercentColumns,
   PriceColumns,
 } from '../../ag-grid/constants/column-fields.enum';
-import { ExportExcel } from '../../export-excel-modal/export-excel.enum';
-import { ExportExcelModalComponent } from '../../export-excel-modal/export-excel-modal.component';
+import { ExportExcel } from '../../components/modal/export-excel-modal/export-excel.enum';
+import { ExportExcelModalComponent } from '../../components/modal/export-excel-modal/export-excel-modal.component';
 import { Keyboard, Quotation } from '../../models';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';

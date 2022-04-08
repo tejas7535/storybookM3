@@ -16,7 +16,7 @@ import {
   unselectAutocompleteOptions,
 } from '../../../core/store';
 import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
-import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
+import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 
 @Component({

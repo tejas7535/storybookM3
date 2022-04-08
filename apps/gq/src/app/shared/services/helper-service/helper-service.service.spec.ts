@@ -5,7 +5,7 @@ import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pl
 import {
   BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
-} from '../../case-material/input-table/config';
+} from '../../components/case-material/input-table/config';
 import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';

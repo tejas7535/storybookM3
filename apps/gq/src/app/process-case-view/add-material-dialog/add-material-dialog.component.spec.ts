@@ -14,9 +14,9 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../testing/mocks';
-import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
-import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
-import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
+import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
+import { AddEntryModule } from '../../shared/components/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../../shared/components/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 jest.mock('@ngneat/transloco', () => ({

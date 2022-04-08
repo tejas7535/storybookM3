@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
-import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { FilterNames } from '../../../../shared/components/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import {
   MaterialTableItem,
