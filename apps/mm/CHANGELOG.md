@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.19](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.18...mm-v0.1.19) (2022-04-08)
+
+
+### 🐛 Bug Fixes
+
+* **application-insights:** only track when opt in happened ([#3932](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3932)) ([f55dc8c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f55dc8ce3e48550b594da1d7733bd8e4f29f2efa))
+
 ### [0.1.18](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.17...mm-v0.1.18) (2022-04-05)
 
 
