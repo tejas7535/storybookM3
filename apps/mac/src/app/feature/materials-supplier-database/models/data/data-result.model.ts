@@ -4,6 +4,7 @@ export interface DataResult {
   manufacturerSupplierName: string;
   manufacturerSupplierPlant: string;
   manufacturerSupplierKind: string;
+  sapSupplierIds: string[];
   materialStandardId: number;
   materialStandardMaterialName: string;
   materialStandardStandardDocument: string;

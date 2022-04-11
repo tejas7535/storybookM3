@@ -57,13 +57,6 @@ export class MsdDataService {
     if (shape) {
       params.shape = shape.filter((id: number) => !!id);
     }
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    if (!shape || shape?.includes(undefined)) {
-      params.includeShapeNullValues = true;
-      if (shape?.length === 1) {
-        params.showOnlyNullValues = true;
-      }
-    }
 
     return this.httpClient
       .get<MaterialResponseEntry[]>(`${this.BASE_URL}/materials`, { params })
@@ -86,6 +79,10 @@ export class MsdDataService {
                     materialResponse.manufacturerSupplier?.kind === 0
                     ? 'Supplier'
                     : undefined,
+                sapSupplierIds:
+                  materialResponse.manufacturerSupplier?.sapData?.map(
+                    (sapData) => sapData.sapSupplierId
+                  ) || [],
                 materialStandardId: materialResponse.materialStandard?.id,
                 materialStandardMaterialName:
                   materialResponse.materialStandard?.materialName,

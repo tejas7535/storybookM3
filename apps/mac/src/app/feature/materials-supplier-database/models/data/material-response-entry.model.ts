@@ -6,6 +6,17 @@ export interface MaterialResponseEntry {
     plant: string;
     kind: number;
     materials?: any[];
+    sapData?: {
+      id: number;
+      manufacturerSupplierId: number;
+      name: string;
+      plant: string;
+      sapSupplierId: string;
+      sapSupplierName: string;
+      sapSupplierLocation: string;
+      sapSupplierCountry: string;
+      sapCategory: string;
+    }[];
   };
   materialStandard: {
     id: number;

@@ -96,6 +96,30 @@ describe('MsdDataService', () => {
           plant: 'Tubarao',
           kind: 0,
           materials: [],
+          sapData: [
+            {
+              id: 1,
+              manufacturerSupplierId: 442,
+              name: 'ArcelorMittal Tubarao',
+              plant: 'Tubarao',
+              sapSupplierId: '0000000000000',
+              sapSupplierName: 'ArcelorMittal Tubarao',
+              sapSupplierLocation: 'Tubarao',
+              sapSupplierCountry: 'some country',
+              sapCategory: 'M020',
+            },
+            {
+              id: 2,
+              manufacturerSupplierId: 442,
+              name: 'ArcelorMittal Tubarao',
+              plant: 'Tubarao',
+              sapSupplierId: '0000000000001',
+              sapSupplierName: 'ArcelorMittal Tubarao',
+              sapSupplierLocation: 'Tubarao',
+              sapSupplierCountry: 'some country',
+              sapCategory: 'M020',
+            },
+          ],
         },
         materialStandard: {
           id: 57,
@@ -146,6 +170,7 @@ describe('MsdDataService', () => {
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
         manufacturerSupplierKind: 'Supplier',
+        sapSupplierIds: ['0000000000000', '0000000000001'],
         materialStandardId: 57,
         materialStandardMaterialName: 'C80M',
         materialStandardStandardDocument: 'S 130002',
@@ -181,6 +206,7 @@ describe('MsdDataService', () => {
         manufacturerSupplierName: 'ArcelorMittal Tubarao',
         manufacturerSupplierPlant: 'Tubarao',
         manufacturerSupplierKind: 'Manufacturer',
+        sapSupplierIds: [],
         materialStandardId: 11,
         materialStandardMaterialName: 'DC03',
         materialStandardStandardDocument: 'not existing doc',
@@ -211,9 +237,7 @@ describe('MsdDataService', () => {
         expect(result).toEqual(mockResult);
       });
 
-      const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials?includeShapeNullValues=true`
-      );
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials`);
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
     });
@@ -224,7 +248,7 @@ describe('MsdDataService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials?materialClass=2&shape=1&includeShapeNullValues=true`
+        `${service['BASE_URL']}/materials?materialClass=2&shape=1`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);
@@ -236,7 +260,7 @@ describe('MsdDataService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${service['BASE_URL']}/materials?materialClass=2&includeShapeNullValues=true&showOnlyNullValues=true`
+        `${service['BASE_URL']}/materials?materialClass=2`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockResponse);

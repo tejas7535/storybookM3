@@ -31,6 +31,12 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
+    field: 'sapSupplierIds',
+    headerName: 'SAP Supplier ID(s)',
+    filterParams: FILTER_PARAMS,
+    hide: true,
+  },
+  {
     field: 'manufacturerSupplierKind',
     headerName: 'Kind',
     filterParams: FILTER_PARAMS,
