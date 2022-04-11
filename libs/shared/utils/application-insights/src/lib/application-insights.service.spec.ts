@@ -135,9 +135,9 @@ describe('ApplicationInsightService', () => {
       const cookieMap = new Map<CookiesGroups, boolean>();
       cookieMap.set(CookiesGroups.PerformanceCookies, true);
 
-      service['oneTrustService'].consentChanged$ = () => of(cookieMap);
+      const mockConsent = of(cookieMap);
 
-      service.initTracking(customProps);
+      service.initTracking(mockConsent, customProps);
 
       expect(service['startTracking']).toHaveBeenCalledTimes(1);
       expect(service['addCustomPropertyToTelemetryData']).toHaveBeenCalledTimes(
@@ -154,10 +154,9 @@ describe('ApplicationInsightService', () => {
       const cookieMap = new Map<CookiesGroups, boolean>();
       cookieMap.set(CookiesGroups.PerformanceCookies, false);
 
-      service['oneTrustService'].consentChanged$ = () =>
-        of(cookieMap, cookieMap);
+      const mockConsent = of(cookieMap, cookieMap);
 
-      service.initTracking();
+      service.initTracking(mockConsent);
 
       expect(service['deleteCookies']).toHaveBeenCalledTimes(1);
     });

@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import {
   createComponentFactory,
   mockProvider,
@@ -14,13 +13,9 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { environment } from 'apps/gq/src/environments/environment';
 import { marbles } from 'rxjs-marbles/jest';
 
-import {
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
@@ -66,10 +61,6 @@ describe('DetailViewComponent', () => {
       CustomerHeaderModule,
       ShareButtonModule,
       RouterTestingModule,
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: environment.oneTrustId,
-      }),
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

@@ -10,11 +10,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of, throwError } from 'rxjs';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { formattedGreaseJson, greaseReport } from '../mocks';
@@ -43,10 +41,6 @@ describe('ReportComponent', () => {
       MatButtonModule,
       MatExpansionModule,
       MatSnackBarModule,
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: 'mockOneTrustId',
-      }),
     ],
     providers: [
       ReportService,

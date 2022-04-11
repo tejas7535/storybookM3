@@ -50,7 +50,7 @@ export function appInitializer(
   oneTrustService: OneTrustService,
   applicationInsightsService: ApplicationInsightsService
 ) {
-  applicationInsightsService.initTracking();
+  applicationInsightsService.initTracking(oneTrustService.consentChanged$());
 
   return () => oneTrustService.loadOneTrust();
 }

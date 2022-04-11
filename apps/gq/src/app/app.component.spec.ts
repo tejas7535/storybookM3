@@ -3,7 +3,6 @@ import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 
 import { ReplaySubject } from 'rxjs';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -12,13 +11,11 @@ import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { MaintenanceModule } from '@schaeffler/empty-states';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { environment } from '../environments/environment';
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
 import { AppComponent } from './app.component';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
@@ -50,10 +47,6 @@ describe('AppComponent', () => {
       LoadingSpinnerModule,
       MockModule(UserSettingsModule),
       MaintenanceModule,
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: environment.oneTrustId,
-      }),
     ],
     providers: [
       provideMockStore({

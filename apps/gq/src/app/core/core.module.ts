@@ -46,7 +46,10 @@ export function appInitializer(
     value: '[GQ - Guided Quoting]',
   };
 
-  applicationInsightsService.initTracking(customProps);
+  applicationInsightsService.initTracking(
+    oneTrustService.consentChanged$(),
+    customProps
+  );
 
   return () => oneTrustService.loadOneTrust();
 }

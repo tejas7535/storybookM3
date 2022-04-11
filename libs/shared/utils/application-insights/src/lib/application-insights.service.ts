@@ -6,10 +6,10 @@ import {
   Router,
 } from '@angular/router';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
 
-import { CookiesGroups, OneTrustService } from '@altack/ngx-onetrust';
+import { CookiesGroups } from '@altack/ngx-onetrust';
 import {
   ApplicationInsights,
   ITelemetryItem,
@@ -31,8 +31,7 @@ export class ApplicationInsightsService {
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly oneTrustService: OneTrustService
+    private readonly route: ActivatedRoute
   ) {
     if (this.moduleConfig) {
       this.appInsights = new ApplicationInsights({
@@ -57,10 +56,13 @@ export class ApplicationInsightsService {
       : snapshot.component;
   }
 
-  public initTracking(customProps?: CustomProps): void {
+  public initTracking(
+    consentChanged$: Observable<Map<CookiesGroups, boolean>>,
+    customProps?: CustomProps
+  ): void {
     let first = true;
 
-    this.oneTrustService.consentChanged$().subscribe((cookiesGroups) => {
+    consentChanged$.subscribe((cookiesGroups) => {
       const trackingAllowed = cookiesGroups.get(
         CookiesGroups.PerformanceCookies
       );

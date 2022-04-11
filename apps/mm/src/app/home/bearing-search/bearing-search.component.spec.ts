@@ -3,15 +3,10 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { of } from 'rxjs';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { environment } from 'apps/mm/src/environments/environment';
 
-import {
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
 import { BEARING } from '../../shared/constants/tracking-names';
@@ -29,10 +24,6 @@ describe('BearingSearchComponent', () => {
       ReactiveFormsModule,
       ReactiveComponentModule,
       SearchAutocompleteModule,
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: environment.oneTrustId,
-      }),
     ],
     providers: [
       {

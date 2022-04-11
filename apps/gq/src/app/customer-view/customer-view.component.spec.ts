@@ -5,7 +5,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import {
   createComponentFactory,
   mockProvider,
@@ -15,17 +14,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import {
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { environment } from '../../environments/environment';
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewComponent } from './customer-view.component';
@@ -55,10 +50,6 @@ describe('CustomerViewComponent', () => {
       ShareButtonModule,
       MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: environment.oneTrustId,
-      }),
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

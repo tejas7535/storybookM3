@@ -3,16 +3,12 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import {
-  ApplicationInsightsModule,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -33,10 +29,6 @@ describe('AppComponent', () => {
       RouterTestingModule,
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: environment.oneTrustId,
-      }),
 
       // TOOD: remove when sidebar component has its module
       ReactiveFormsModule,

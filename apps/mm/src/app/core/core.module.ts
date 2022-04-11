@@ -41,7 +41,10 @@ export function appInitializer(
     value: '[Bearinx - MountingManager]',
   };
 
-  applicationInsightsService.initTracking(customProps);
+  applicationInsightsService.initTracking(
+    oneTrustService.consentChanged$(),
+    customProps
+  );
 
   return () => oneTrustService.loadOneTrust();
 }

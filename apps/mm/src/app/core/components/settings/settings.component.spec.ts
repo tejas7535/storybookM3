@@ -5,15 +5,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
-import { environment } from 'apps/mm/src/environments/environment';
 
-import {
-  ApplicationInsightsService,
-  COOKIE_GROUPS,
-} from '@schaeffler/application-insights';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { LANGUAGE } from '../../../shared/constants/tracking-names';
@@ -51,10 +46,6 @@ describe('SidebarComponent', () => {
       ReactiveFormsModule,
       MaterialModule,
       provideTranslocoTestingModule({ en: {} }),
-      OneTrustModule.forRoot({
-        cookiesGroups: COOKIE_GROUPS,
-        domainScript: environment.oneTrustId,
-      }),
     ],
     providers: [
       {
