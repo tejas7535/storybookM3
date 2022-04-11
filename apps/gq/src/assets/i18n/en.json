@@ -270,7 +270,7 @@
         "gpm": "GPM change in %",
         "discount": "Discount change in %",
         "orderQuantity": "Quantity change",
-        "priceAbsolute": "Price change (absolute)"
+        "priceAbsolute": "Enter Net Price"
       },
       "hints": {
         "price": "Change price",

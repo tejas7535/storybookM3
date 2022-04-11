@@ -269,7 +269,7 @@
         "gpm": "GPM Änderung in %",
         "discount": "Rabattänderung in %",
         "orderQuantity": "Mengenänderung",
-        "priceAbsolute": "Preisänderung (absolut)"
+        "priceAbsolute": "Eingabe Nettopreis"
       },
       "hints": {
         "price": "Preis ändern",
@@ -279,7 +279,7 @@
         "orderQuantity": "Menge ändern"
       },
       "kpis": {
-        "price": "Netto Preis",
+        "price": "Nettopreis",
         "previous": "Vorheriger {{fieldTranslation}}",
         "gpi": "GPI%",
         "gpm": "GPM%",
