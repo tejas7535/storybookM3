@@ -85,7 +85,7 @@ describe('EditableColumnHeaderComponent', () => {
 
       component.addSubscriptions();
 
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
+      expect(component['subscription'].add).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -326,6 +326,46 @@ describe('EditableColumnHeaderComponent', () => {
       component.updateShowEditIcon();
 
       expect(component.showEditIcon).toBe(false);
+    });
+  });
+
+  describe('update simulation on value change', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should update on value change', () => {
+      component.agInit(DEFAULT_PARAMS);
+      component.ngOnInit();
+
+      component.editFormControl.setValue(2);
+
+      expect(
+        component.params.context.onMultipleMaterialSimulation
+      ).toHaveBeenCalledWith('price', 2);
+    });
+
+    it('should update for NULL values', () => {
+      component.agInit(DEFAULT_PARAMS);
+      component.ngOnInit();
+
+      // eslint-disable-next-line unicorn/no-null
+      component.editFormControl.setValue(null as unknown as number);
+
+      expect(
+        component.params.context.onMultipleMaterialSimulation
+      ).toHaveBeenCalledWith('price', 0);
+    });
+
+    it('should NOT update for undefined values', () => {
+      component.agInit(DEFAULT_PARAMS);
+      component.ngOnInit();
+
+      component.editFormControl.setValue(undefined as unknown as number);
+
+      expect(
+        component.params.context.onMultipleMaterialSimulation
+      ).not.toHaveBeenCalled();
     });
   });
 });

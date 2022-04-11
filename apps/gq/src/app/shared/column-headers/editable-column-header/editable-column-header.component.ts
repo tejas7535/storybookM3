@@ -33,7 +33,7 @@ export class EditableColumnHeaderComponent
   public sort: 'asc' | 'desc';
 
   editMode = false;
-  value = '';
+  value = 0;
 
   showEditIcon = false;
 
@@ -62,6 +62,15 @@ export class EditableColumnHeaderComponent
         this.editMode = false;
       })
     );
+    this.subscription.add(
+      this.editFormControl?.valueChanges
+        .pipe(
+          filter((newVal: number | undefined | null) => newVal !== undefined)
+        )
+        .subscribe((newVal: number | null) => {
+          this.updateMaterialSimulation(newVal || 0);
+        })
+    );
   }
 
   ngOnDestroy(): void {
@@ -69,12 +78,11 @@ export class EditableColumnHeaderComponent
   }
 
   agInit(params: IHeaderParams): void {
-    this.value = '';
+    this.value = 0;
 
     this.editFormControl = new FormControl('', [
       Validators.max(100),
       Validators.min(-100),
-      Validators.required,
     ]);
 
     this.params = params;
@@ -101,7 +109,7 @@ export class EditableColumnHeaderComponent
 
     if (!this.showEditIcon) {
       this.editMode = false;
-      this.value = '';
+      this.value = 0;
     }
   }
 
@@ -192,16 +200,19 @@ export class EditableColumnHeaderComponent
 
   submitValue(e: Event) {
     e.stopPropagation();
+    this.updateMaterialSimulation(this.editFormControl.value);
+  }
 
+  private updateMaterialSimulation(value: number) {
     if (!this.editFormControl.valid) {
       return;
     }
 
-    this.value = this.editFormControl.value;
+    this.value = value;
 
     this.params.context.onMultipleMaterialSimulation(
       this.params.column.getId(),
-      this.editFormControl.value
+      value
     );
   }
 }
