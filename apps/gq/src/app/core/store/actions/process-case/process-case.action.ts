@@ -26,7 +26,7 @@ export const loadCustomerFailure = createAction(
 );
 
 export const loadQuotationInInterval = createAction(
-  '[Process Case] Get Quotation Details in Interval'
+  '[Process Case] Get Quotation in Interval'
 );
 export const loadQuotation = createAction(
   '[Process Case] Get Quotation Details'

@@ -119,14 +119,14 @@ export class ProcessCaseEffect {
             PriceService.addCalculationsForDetails(item.quotationDetails)
           ),
           mergeMap((item: Quotation) => {
-            if (!item.calculationInProgress) {
-              return [
-                loadQuotationSuccess({ item }),
-                loadQuotationSuccessFullyCompleted(),
-              ];
+            if (item.calculationInProgress || item.sapCallInProgress) {
+              return [loadQuotationSuccess({ item })];
             }
 
-            return [loadQuotationSuccess({ item })];
+            return [
+              loadQuotationSuccess({ item }),
+              loadQuotationSuccessFullyCompleted(),
+            ];
           }),
           catchError((errorMessage) =>
             of(loadQuotationFailure({ errorMessage }))
@@ -385,7 +385,16 @@ export class ProcessCaseEffect {
           tap((item) =>
             PriceService.addCalculationsForDetails(item.quotationDetails)
           ),
-          map((quotation) => refreshSapPricingSuccess({ quotation })),
+          mergeMap((quotation) => {
+            if (quotation.sapCallInProgress) {
+              return [
+                refreshSapPricingSuccess({ quotation }),
+                loadQuotationInInterval(),
+              ];
+            }
+
+            return [refreshSapPricingSuccess({ quotation })];
+          }),
           catchError((errorMessage) =>
             of(refreshSapPricingFailure({ errorMessage }))
           )

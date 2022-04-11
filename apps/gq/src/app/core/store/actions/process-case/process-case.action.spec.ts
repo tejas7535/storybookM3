@@ -88,7 +88,7 @@ describe('CaseActions', () => {
       action = loadQuotationInInterval();
 
       expect(action).toEqual({
-        type: '[Process Case] Get Quotation Details in Interval',
+        type: '[Process Case] Get Quotation in Interval',
       });
     });
     test('loadQuotation', () => {

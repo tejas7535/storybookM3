@@ -21,6 +21,7 @@ import {
   VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { Quotation } from '../../../../shared/models';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
@@ -226,6 +227,29 @@ describe('ProcessCaseEffect', () => {
       marbles((m) => {
         quotationService.getQuotation = jest.fn(() => response);
         const item = { ...QUOTATION_MOCK, calculationInProgress: true };
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: loadQuotationSuccess({ item }) });
+
+        m.expect(effects.quotation$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+        expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
+      })
+    );
+    test(
+      'should return loadQuotationSuccess action when REST call is successful and refresh not completed',
+      marbles((m) => {
+        quotationService.getQuotation = jest.fn(() => response);
+        const item = {
+          ...QUOTATION_MOCK,
+          calculationInProgress: false,
+          sapCallInProgress: true,
+        };
 
         actions$ = m.hot('-a', { a: action });
 
@@ -732,6 +756,34 @@ describe('ProcessCaseEffect', () => {
           a: quotation,
         });
         const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.refreshSapPricing$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.refreshSapPricing).toHaveBeenCalledTimes(1);
+        expect(quotationService.refreshSapPricing).toHaveBeenCalledWith(gqId);
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+      })
+    );
+    test(
+      'should return refreshSapPricingSuccess and loadQuotationInInterval when REST call is successful and sap refresh in progress',
+      marbles((m) => {
+        const quotation: Quotation = {
+          ...QUOTATION_MOCK,
+          sapCallInProgress: true,
+        };
+        snackBar.open = jest.fn();
+
+        action = refreshSapPricing();
+        quotationService.refreshSapPricing = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: quotation,
+        });
+        const expected = m.cold('--(bc)', {
+          b: refreshSapPricingSuccess({ quotation }),
+          c: loadQuotationInInterval(),
+        });
 
         m.expect(effects.refreshSapPricing$).toBeObservable(expected);
         m.flush();
