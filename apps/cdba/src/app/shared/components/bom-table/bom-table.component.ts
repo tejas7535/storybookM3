@@ -167,8 +167,11 @@ export class BomTableComponent implements OnChanges {
 
     // second level row
     if (params.node.parent.id === this.currentSelectedRow.node.id) {
-      const totalCosts = params.node.parent.data.totalPricePerPc;
-      const costs = params.data.totalPricePerPc;
+      const totalCosts =
+        params.node.parent.data.totalPricePerPc ||
+        params.node.parent.data.costing.costAreaTotalValue;
+      const costs =
+        params.data.totalPricePerPc || params.data.costing.costAreaTotalValue;
       const costShare = costs / totalCosts;
 
       const costCategory =

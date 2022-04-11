@@ -13,8 +13,8 @@ import {
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { BomItemOdata } from '@cdba/shared/models/bom-item-odata.model';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
-import { BOM_ITEM_ODATA_MOCK } from '@cdba/testing/mocks/models/bom-odata.mock';
 import { withCache } from '@ngneat/cashew';
 
 import {
@@ -37,13 +37,21 @@ export class DetailService {
   private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
   private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
 
+  private readonly PARAM_COSTING_DATE = 'costing_date';
+  private readonly PARAM_COSTING_NUMBER = 'costing_number';
+  private readonly PARAM_COSTING_TYPE = 'costing_type';
+  private readonly PARAM_VERSION = 'version';
+  private readonly PARAM_ENTERED_MANUALLY = 'entered_manually';
+  private readonly PARAM_REFERENCE_OBJECT = 'reference_object';
+  private readonly PARAM_VALUATION_VARIANT = 'valuation_variant';
+
   public constructor(
     private readonly httpClient: HttpClient,
     private readonly betaFeatureService: BetaFeatureService
   ) {}
 
   private static defineBomTreeForAgGrid(
-    items: BomItem[],
+    items: BomItem[] | BomItemOdata[],
     idx: number
   ): BomItem[] {
     if (idx === items.length) {
@@ -138,38 +146,56 @@ export class DetailService {
     );
   }
 
-  public getBom(bomIdentifier: BomIdentifier): Observable<BomItem[]> {
-    const params = new HttpParams()
-      .set(this.PARAM_BOM_COSTING_DATE, bomIdentifier.bomCostingDate)
-      .set(this.PARAM_BOM_COSTING_NUMBER, bomIdentifier.bomCostingNumber)
-      .set(this.PARAM_BOM_COSTING_TYPE, bomIdentifier.bomCostingType)
-      .set(this.PARAM_BOM_COSTING_VERSION, bomIdentifier.bomCostingVersion)
-      .set(this.PARAM_BOM_ENTERED_MANUALLY, bomIdentifier.bomEnteredManually)
-      .set(this.PARAM_BOM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
-      .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant);
+  public getBom(
+    bomIdentifier: BomIdentifier
+  ): Observable<BomItem[] | BomItemOdata[]> {
+    const odataEnabled = this.betaFeatureService.getBetaFeature(
+      BetaFeature.O_DATA
+    );
+
+    const path = `${odataEnabled ? API.v2 : API.v1}/${DetailPath.Bom}`;
+
+    const params: HttpParams = odataEnabled
+      ? new HttpParams()
+          .set(this.PARAM_COSTING_DATE, bomIdentifier.bomCostingDate)
+          .set(this.PARAM_COSTING_NUMBER, bomIdentifier.bomCostingNumber)
+          .set(this.PARAM_COSTING_TYPE, bomIdentifier.bomCostingType)
+          .set(this.PARAM_VERSION, bomIdentifier.bomCostingVersion)
+          .set(this.PARAM_ENTERED_MANUALLY, false)
+          .set(this.PARAM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
+          .set(this.PARAM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant)
+      : new HttpParams()
+          .set(this.PARAM_BOM_COSTING_DATE, bomIdentifier.bomCostingDate)
+          .set(this.PARAM_BOM_COSTING_NUMBER, bomIdentifier.bomCostingNumber)
+          .set(this.PARAM_BOM_COSTING_TYPE, bomIdentifier.bomCostingType)
+          .set(this.PARAM_BOM_COSTING_VERSION, bomIdentifier.bomCostingVersion)
+          .set(
+            this.PARAM_BOM_ENTERED_MANUALLY,
+            bomIdentifier.bomEnteredManually
+          )
+          .set(
+            this.PARAM_BOM_REFERENCE_OBJECT,
+            bomIdentifier.bomReferenceObject
+          )
+          .set(
+            this.PARAM_BOM_VALUATION_VARIANT,
+            bomIdentifier.bomValuationVariant
+          );
 
     return this.httpClient
-      .get<BomResult>(`${API.v1}/${DetailPath.Bom}`, {
+      .get<BomResult | BomItemOdata[]>(path, {
         params,
         context: withCache(),
       })
       .pipe(
-        map((response: BomResult) => {
-          const items = this.betaFeatureService.getBetaFeature(
-            BetaFeature.O_DATA
-          )
-            ? [
-                BOM_ITEM_ODATA_MOCK,
-                { ...BOM_ITEM_ODATA_MOCK, level: 2, rowId: 2 },
-              ]
-            : response.items;
-
-          return items.map((item) => ({
+        map((response: any) => (odataEnabled ? response : response.items)),
+        map((items) =>
+          items.map((item: any) => ({
             ...item,
             predecessorsInTree: [],
-          }));
-        }),
-        map((items: BomItem[]) =>
+          }))
+        ),
+        map((items: BomItem[] | BomItemOdata[]) =>
           DetailService.defineBomTreeForAgGrid(items, 0)
         )
       );

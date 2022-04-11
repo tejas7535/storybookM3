@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http/testing';
 
 import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -13,7 +14,11 @@ import {
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 import { withCache } from '@ngneat/cashew';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 
 import {
   BomResult,
@@ -29,6 +34,7 @@ describe('DetailService', () => {
   const createService = createServiceFactory({
     service: DetailService,
     imports: [HttpClientTestingModule],
+    providers: [mockProvider(BetaFeatureService)],
   });
 
   beforeEach(() => {
