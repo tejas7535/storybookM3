@@ -43,7 +43,8 @@
             "maximumWarning": "6kb",
             "maximumError": "10kb"
           }
-        ]
+        ],
+        "buildLibsFromSource": false
       },
       "configurations": {
         "local": {

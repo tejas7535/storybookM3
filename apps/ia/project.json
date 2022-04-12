@@ -45,7 +45,8 @@
         ],
         "customWebpackConfig": {
           "path": "apps/ia/webpack.config.js"
-        }
+        },
+        "buildLibsFromSource": false
       },
       "configurations": {
         "local": {

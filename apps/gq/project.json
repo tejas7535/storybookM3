@@ -45,7 +45,8 @@
         ],
         "customWebpackConfig": {
           "path": "apps/gq/webpack.config.js"
-        }
+        },
+        "buildLibsFromSource": false
       },
       "configurations": {
         "local": {

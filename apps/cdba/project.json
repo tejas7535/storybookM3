@@ -45,7 +45,8 @@
         ],
         "customWebpackConfig": {
           "path": "apps/cdba/webpack.config.js"
-        }
+        },
+        "buildLibsFromSource": false
       },
       "configurations": {
         "local": {
