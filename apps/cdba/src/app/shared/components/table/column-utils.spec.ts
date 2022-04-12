@@ -209,25 +209,25 @@ describe('ColumnUtils', () => {
 
   describe('matchAllFractionsForIntegerValue', () => {
     it('should match all integers with any fractions for equals integer filter', () => {
-      const result = matchAllFractionsForIntegerValue(42, 42.678);
+      const result = matchAllFractionsForIntegerValue([42], 42.678);
 
       expect(result).toBeTruthy();
     });
 
     it('should match equal integers', () => {
-      const result = matchAllFractionsForIntegerValue(42, 42);
+      const result = matchAllFractionsForIntegerValue([42], 42);
 
       expect(result).toBeTruthy();
     });
 
     it('should only be usable for integers without fraction', () => {
-      const result = matchAllFractionsForIntegerValue(42.897, 42.998);
+      const result = matchAllFractionsForIntegerValue([42.897], 42.998);
 
       expect(result).toBeFalsy();
     });
 
     it('should not match for different integers values', () => {
-      const result = matchAllFractionsForIntegerValue(42, 43.678);
+      const result = matchAllFractionsForIntegerValue([42], 43.678);
 
       expect(result).toBeFalsy();
     });

@@ -126,12 +126,12 @@ export const getMainMenuItems = (
 };
 
 export const matchAllFractionsForIntegerValue = (
-  filterValue: number | null,
+  filterValues: number[] | null,
   cellValue: number | null
 ) =>
-  filterValue === cellValue ||
-  (filterValue === Math.trunc(filterValue) &&
-    filterValue === Math.trunc(cellValue));
+  filterValues[0] === cellValue ||
+  (filterValues[0] === Math.trunc(filterValues[0]) &&
+    filterValues[0] === Math.trunc(cellValue));
 
 export const transformGermanFractionSeparator = (text: string | null) =>
   text === null
@@ -147,7 +147,7 @@ export const filterParamsForDecimalValues = {
     {
       displayKey: 'equalsInteger',
       displayName: 'Equals Integer',
-      test: matchAllFractionsForIntegerValue,
+      predicate: matchAllFractionsForIntegerValue,
     },
     'equals',
     'notEqual',
