@@ -38,7 +38,11 @@ describe('TransparencyGraphComponent', () => {
       component['chartConfigService'].buildDataPoints = jest.fn();
       component['chartConfigService'].getToolTipConfig = jest.fn();
       component['chartConfigService'].getXAxisConfig = jest.fn();
-      component['chartConfigService'].getSeriesConfig = jest.fn();
+      component['chartConfigService'].getLegend = jest.fn();
+      component['chartConfigService'].getSeriesConfig = jest.fn(() => ({
+        series: [],
+        options: [],
+      }));
       component['regressionService'].buildRegressionPoints = jest.fn();
       component.transactions = [];
       component.coefficients = { coefficient1: 0.5, coefficient2: 0.8 };
@@ -58,6 +62,9 @@ describe('TransparencyGraphComponent', () => {
       expect(
         component['chartConfigService'].getSeriesConfig
       ).toHaveBeenCalledTimes(1);
+      expect(component['chartConfigService'].getLegend).toHaveBeenCalledTimes(
+        1
+      );
       expect(
         component['regressionService'].buildRegressionPoints
       ).toHaveBeenCalledTimes(1);

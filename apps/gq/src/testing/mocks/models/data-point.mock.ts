@@ -8,4 +8,5 @@ export const DATA_POINT_MOCK: DataPoint = {
   year: '2019',
   price: 25,
   customerName: 'Daimler',
+  customerId: '1234',
 };

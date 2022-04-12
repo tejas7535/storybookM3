@@ -1,15 +1,17 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { SeriesOption } from 'echarts';
 
 import {
   COMPARABLE_LINKED_TRANSACTION_MOCK,
+  CUSTOMER_MOCK,
   DATA_POINT_MOCK,
 } from '../../../../../testing/mocks';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
-import { TOOLTIP_CONFIG } from './chart.config';
+import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
 import { ChartConfigService } from './chart.config.service';
 import { DataPointColor } from './data-point-color.enum';
 
@@ -158,23 +160,81 @@ describe('ChartConfigService', () => {
       service.getDataPointStyle = jest.fn(() => color);
       service.getDataPointName = jest.fn(() => name);
 
-      const result = service.getSeriesConfig(data, regressionData);
+      const result = service.getSeriesConfig(
+        data,
+        regressionData,
+        CUSTOMER_MOCK
+      );
 
-      expect(result).toEqual([
+      expect(result).toEqual({
+        options: [SalesIndication.LOST_QUOTE],
+        series: [
+          {
+            data,
+            color,
+            name,
+            type: 'scatter',
+          },
+          {
+            type: 'line',
+            data: regressionData,
+            color: DataPointColor.REGRESSION,
+            symbol: 'none',
+            name: 'translate it',
+          },
+        ],
+      });
+    });
+    test('should build own customer data points', () => {
+      const data = [
+        DATA_POINT_MOCK,
         {
-          data,
-          color,
-          name,
-          type: 'scatter',
+          ...DATA_POINT_MOCK,
+          customerId: CUSTOMER_MOCK.identifier.customerId,
+          customerName: CUSTOMER_MOCK.name,
         },
-        {
-          type: 'line',
-          data: regressionData,
-          color: DataPointColor.REGRESSION,
-          symbol: 'none',
-          name: 'translate it',
-        },
-      ]);
+      ];
+      const regressionData = [
+        [0, 100],
+        [1, 50],
+      ];
+      const color = DataPointColor.LOST_QUOTE;
+      const name = 'dataPointName';
+
+      service.getDataPointStyle = jest.fn(() => color);
+      service.getDataPointName = jest.fn(() => name);
+
+      const result = service.getSeriesConfig(
+        data,
+        regressionData,
+        CUSTOMER_MOCK
+      );
+
+      expect(result).toEqual({
+        options: [SalesIndication.LOST_QUOTE],
+        series: [
+          {
+            color,
+            data: [data[1]],
+            name: CUSTOMER_MOCK.name,
+            type: 'scatter',
+            itemStyle: { borderColor: DataPointColor.SAME_CUSTOMER_BORDER },
+          },
+          {
+            data: [data[0]],
+            color,
+            name,
+            type: 'scatter',
+          },
+          {
+            type: 'line',
+            data: regressionData,
+            color: DataPointColor.REGRESSION,
+            symbol: 'none',
+            name: 'translate it',
+          },
+        ],
+      });
     });
   });
 
@@ -188,6 +248,7 @@ describe('ChartConfigService', () => {
         currency,
         salesIndication: COMPARABLE_LINKED_TRANSACTION_MOCK.salesIndication,
         customerName: COMPARABLE_LINKED_TRANSACTION_MOCK.customerName,
+        customerId: COMPARABLE_LINKED_TRANSACTION_MOCK.customerId,
         price: COMPARABLE_LINKED_TRANSACTION_MOCK.price,
         year: COMPARABLE_LINKED_TRANSACTION_MOCK.year,
         value: [
@@ -241,6 +302,64 @@ describe('ChartConfigService', () => {
       expect(translate).toHaveBeenCalledWith(
         `transactionView.graph.salesIndication.order`
       );
+    });
+  });
+
+  describe('getLegend', () => {
+    test('should return legend', () => {
+      const series: SeriesOption[] = [
+        {
+          data: [
+            {
+              ...DATA_POINT_MOCK,
+              salesIndication: SalesIndication.INVOICE,
+              customerId: CUSTOMER_MOCK.identifier.customerId,
+              customerName: CUSTOMER_MOCK.name,
+            } as any,
+          ],
+          name: CUSTOMER_MOCK.name,
+          type: 'scatter',
+          itemStyle: { borderColor: DataPointColor.SAME_CUSTOMER_BORDER },
+        },
+        {
+          data: [DATA_POINT_MOCK],
+          name: 'Invoice',
+          type: 'scatter',
+        },
+      ];
+      const salesIndications = [
+        SalesIndication.LOST_QUOTE,
+        SalesIndication.INVOICE,
+      ];
+
+      service.getDataPointName = jest.fn(() => 'datapoint name');
+
+      const result = service.getLegend(CUSTOMER_MOCK, series, salesIndications);
+      const expectedData = [
+        {
+          name: CUSTOMER_MOCK.name,
+          icon: 'circle',
+          itemStyle: {
+            color: DataPointColor.SAME_CUSTOMER,
+            borderColor: DataPointColor.SAME_CUSTOMER_BORDER,
+            borderWidth: 1,
+          },
+        },
+        {
+          name: 'datapoint name',
+          icon: 'circle',
+        },
+        {
+          name: 'datapoint name',
+          icon: 'circle',
+        },
+        {
+          name: 'translate it',
+          icon: 'circle',
+        },
+      ];
+
+      expect(result).toEqual({ ...LEGEND, data: expectedData });
     });
   });
 });

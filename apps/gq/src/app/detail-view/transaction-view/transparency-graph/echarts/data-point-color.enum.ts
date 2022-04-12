@@ -3,4 +3,6 @@ export enum DataPointColor {
   INVOICE = '#9BC465',
   LOST_QUOTE = '#FFC449',
   REGRESSION = '#969696',
+  SAME_CUSTOMER = '#FFFFFF',
+  SAME_CUSTOMER_BORDER = '#000000',
 }

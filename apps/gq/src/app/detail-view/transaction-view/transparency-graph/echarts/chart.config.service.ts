@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import {
+  LegendComponentOption,
   SeriesOption,
   TooltipComponentOption,
   XAXisComponentOption,
@@ -10,10 +11,11 @@ import {
 
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { Customer } from '../../../../shared/models/customer';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
-import { TOOLTIP_CONFIG } from './chart.config';
+import { LEGEND, TOOLTIP_CONFIG } from './chart.config';
 import { DataPointColor } from './data-point-color.enum';
 
 @Injectable({
@@ -159,22 +161,38 @@ export class ChartConfigService {
 
   getSeriesConfig = (
     scatterData: DataPoint[],
-    regressionData: number[][]
-  ): SeriesOption[] => {
+    regressionData: number[][],
+    customer: Customer
+  ): { series: SeriesOption[]; options: SalesIndication[] } => {
     this.regressionData = regressionData;
     const series: SeriesOption[] = [];
     const type = 'scatter';
+
+    const customerPoints = scatterData.filter(
+      (dp) => dp.customerId === customer.identifier.customerId
+    );
+    customerPoints.forEach((dp) =>
+      series.push({
+        type,
+        data: [dp],
+        color: this.getDataPointStyle(dp.salesIndication),
+        itemStyle: { borderColor: DataPointColor.SAME_CUSTOMER_BORDER },
+        name: customer.name,
+      })
+    );
 
     const options = [
       SalesIndication.ORDER,
       SalesIndication.INVOICE,
       SalesIndication.LOST_QUOTE,
     ];
-
+    const foundOptions: SalesIndication[] = [];
     // Add sales indiciation data
     options.forEach((option) => {
       const optionData = scatterData.filter(
-        (e) => e.salesIndication === option
+        (e) =>
+          e.salesIndication === option &&
+          e.customerId !== customer.identifier.customerId
       );
       if (optionData.length > 0) {
         series.push({
@@ -183,6 +201,7 @@ export class ChartConfigService {
           color: this.getDataPointStyle(option),
           name: this.getDataPointName(option),
         });
+        foundOptions.push(option);
       }
     });
 
@@ -195,7 +214,7 @@ export class ChartConfigService {
       symbol: 'none',
     });
 
-    return series;
+    return { series, options: foundOptions };
   };
 
   buildDataPoints = (
@@ -215,6 +234,7 @@ export class ChartConfigService {
         year: transaction.year,
         price: PriceService.roundToTwoDecimals(transaction.price),
         customerName: transaction.customerName,
+        customerId: transaction.customerId,
       });
     });
 
@@ -249,5 +269,45 @@ export class ChartConfigService {
     }
 
     return translate(translateString);
+  };
+
+  getLegend = (
+    customer: Customer,
+    series: SeriesOption[],
+    salesIndications: SalesIndication[]
+  ): LegendComponentOption => {
+    const data = [];
+
+    // Add customer legend
+    if (series.some((e) => e.name === customer.name)) {
+      data.push({
+        name: customer.name,
+        icon: 'circle',
+        itemStyle: {
+          color: DataPointColor.SAME_CUSTOMER,
+          borderColor: DataPointColor.SAME_CUSTOMER_BORDER,
+          borderWidth: 1,
+        },
+      });
+    }
+
+    // Add sales indications legends
+    salesIndications.forEach((indication) =>
+      data.push({
+        name: this.getDataPointName(indication),
+        icon: 'circle',
+      })
+    );
+
+    // Add regression line legend
+    data.push({
+      name: translate(`transactionView.graph.regression`),
+      icon: 'circle',
+    });
+
+    return {
+      ...LEGEND,
+      data,
+    };
   };
 }

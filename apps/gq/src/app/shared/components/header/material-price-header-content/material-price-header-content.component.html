@@ -1,5 +1,5 @@
 <span *ngIf="quotationDetail && currency && price">
-  <span> | {{ quotationDetail.material.materialDescription }} </span>
+  <span>&nbsp;| {{ quotationDetail.material.materialDescription }} </span>
   <span> | {{ price | numberCurrency: currency }} </span>
   <span>
     | {{ quotationDetail.orderQuantity }}

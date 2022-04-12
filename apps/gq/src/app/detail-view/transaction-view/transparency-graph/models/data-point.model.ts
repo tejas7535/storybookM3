@@ -6,5 +6,6 @@ export class DataPoint {
   year: string;
   price: number;
   customerName: string;
+  customerId: string;
   currency: string;
 }
