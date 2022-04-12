@@ -11,7 +11,7 @@
 ![@angular/cli: 13.3.2](https://img.shields.io/badge/%40angular%2Fcli-13.3.2-brightgreen)
 ![@angular/cdk: 13.3.2](https://img.shields.io/badge/%40angular%2Fcdk-13.3.2-brightgreen)
 ![@angular/material: 13.3.2](https://img.shields.io/badge/%40angular%2Fmaterial-13.3.2-brightgreen)
-![@ngrx/store: 13.0.2](https://img.shields.io/badge/%40ngrx%2Fstore-13.0.2-brightgreen)
+![@ngrx/store: 13.1.0](https://img.shields.io/badge/%40ngrx%2Fstore-13.1.0-brightgreen)
 ![jest: 27.5.1](https://img.shields.io/badge/jest-27.5.1-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.6.2](https://img.shields.io/badge/prettier-2.6.2-brightgreen)
