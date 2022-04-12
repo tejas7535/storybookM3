@@ -154,6 +154,26 @@ describe('DropdownInputComponent', () => {
 
     component.writeValue(mockValue);
     expect(component.value).toEqual(mockValue);
+    expect(component.selectedItem).toEqual({
+      id: 'mockValueString',
+      value: 'mockValue2',
+    });
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  test('writeValue set null value and unset selectedItem', () => {
+    component.options = [
+      { id: 'mockId1', value: 'mockValue1' },
+      { id: 'mockValueString', value: 'mockValue2' },
+    ];
+
+    // eslint-disable-next-line unicorn/no-null
+    const mockValue = null;
+    const spy = jest.spyOn(component['cdRef'], 'markForCheck');
+
+    component.writeValue(mockValue as unknown as string);
+    expect(component.value).toEqual(mockValue);
+    expect(component.selectedItem).toEqual(undefined);
     expect(spy).toHaveBeenCalledTimes(1);
   });
 

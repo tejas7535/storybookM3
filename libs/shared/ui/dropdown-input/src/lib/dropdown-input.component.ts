@@ -86,7 +86,7 @@ export class DropdownInputComponent implements ControlValueAccessor {
 
   public writeValue(value: string): void {
     const controlValue = this.options.find(({ id }) => id === value);
-    this.selectedItem = controlValue as DropdownInputOption;
+    this.selectedItem = (controlValue ?? undefined) as DropdownInputOption;
     this.value = value;
     this.cdRef.markForCheck();
   }
@@ -103,12 +103,15 @@ export class DropdownInputComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  public setValue({ value, id }: DropdownInputOption): void {
-    this.selectionControl.patchValue(value);
-    if (this.value !== id) {
-      this.value = id;
-      this.onChange(id);
-      this.onTouched();
+  public setValue(inputOption: DropdownInputOption): void {
+    if (inputOption) {
+      const { value, id } = inputOption;
+      this.selectionControl.patchValue(value);
+      if (this.value !== id) {
+        this.value = id;
+        this.onChange(id);
+        this.onTouched();
+      }
     }
   }
 

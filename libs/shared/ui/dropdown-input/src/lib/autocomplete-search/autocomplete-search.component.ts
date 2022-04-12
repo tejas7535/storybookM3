@@ -3,7 +3,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -20,7 +20,7 @@ import { DropdownInputOption } from '../dropdown-input-option.model';
   templateUrl: './autocomplete-search.component.html',
   styleUrls: ['./autocomplete-search.component.scss'],
 })
-export class AutocompleteSearchComponent implements OnInit {
+export class AutocompleteSearchComponent implements OnChanges {
   @Input() public options: DropdownInputOption[] = [];
   @Input() public hint!: string;
   @Input() public selectedItem?: DropdownInputOption;
@@ -33,7 +33,7 @@ export class AutocompleteSearchComponent implements OnInit {
   public filteredOptions$!: Observable<DropdownInputOption[]>;
   public searchControl = new FormControl('');
 
-  public ngOnInit(): void {
+  public ngOnChanges(): void {
     this.filteredOptions$ = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
       map((value: string) => {
@@ -43,9 +43,7 @@ export class AutocompleteSearchComponent implements OnInit {
       })
     );
 
-    if (this.selectedItem) {
-      this.optionSelected.emit(this.selectedItem);
-    }
+    this.optionSelected.emit(this.selectedItem);
   }
 
   public select(item: DropdownInputOption): void {

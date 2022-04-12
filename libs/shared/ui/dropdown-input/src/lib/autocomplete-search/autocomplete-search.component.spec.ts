@@ -46,17 +46,35 @@ describe('AutocompleteSearchComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should assign filteredOptions', () => {
+    beforeEach(() => {
       component.updateSearch.emit = jest.fn();
       component.filter = jest.fn();
-      component.selectedItem = { id: 'mockId', value: 'mockValue' };
+    });
+    it('should assign filteredOptions', () => {
+      const spyOptionSelected = jest.spyOn(component.optionSelected, 'emit');
 
-      component.ngOnInit();
+      const mockSelectedItem = { id: 'mockId', value: 'mockValue' };
+      component.selectedItem = mockSelectedItem;
+
+      component.ngOnChanges();
       spectator.detectChanges();
 
       expect(component.updateSearch.emit).toHaveBeenCalledWith('');
       expect(component.filter).toHaveBeenCalledWith('');
       expect(component.filteredOptions$).toBeDefined();
+      expect(spyOptionSelected).toHaveBeenCalledWith(mockSelectedItem);
+    });
+
+    it('should unset filteredOptions if selectedItem is undefined', () => {
+      const spyOptionSelected = jest.spyOn(component.optionSelected, 'emit');
+
+      const mockSelectedItem = undefined;
+      component.selectedItem = mockSelectedItem;
+
+      component.ngOnChanges();
+      spectator.detectChanges();
+
+      expect(spyOptionSelected).toHaveBeenCalledWith(mockSelectedItem);
     });
   });
 
