@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.4.0...gq-v2.5.0) (2022-04-13)
+
+
+### 🐛 Bug Fixes
+
+* **application-insights:** adjust to handle apps without cookies ([#3988](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3988)) ([378599d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/378599d96eb620cc70d376b91d83b2f823d75b36))
+* **application-insights:** handle iframe, initial track event ([#3859](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3859)) ([25ceeb0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25ceeb0d74ae8d28f2aae5ad9bc0b96084223948))
+* **application-insights:** only track when opt in happened ([#3932](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3932)) ([f55dc8c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f55dc8ce3e48550b594da1d7733bd8e4f29f2efa))
+* **azure-auth:** wait for login to complete before getting roles ([#3855](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3855)) ([d9e5470](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d9e5470eb2f9e0638fd0f28abc0bfcfc4ed41c98))
+* **gq:**  fix cache issues (GQUOTE-1207) ([#3892](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3892)) ([d63ecf4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d63ecf4f83453350733bf7db96a59a939a73ef0a))
+* **gq:** auto refresh on asynchronous refresh (GQUOTE-1277) ([#3991](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3991)) ([25cdec7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/25cdec7a66b9076a455e2ab361037fa0456ca564))
+* **gq:** fix issue with edit icon not displayed for undefined prices (GQUOTE-1259) ([#3984](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3984)) ([22b3fb3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/22b3fb346e6d5265e4fae5eb0d1cb131923df23e))
+* **gq:** fix styling of filter pricing cards on small screens (GQUOTE-1122) ([#3828](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3828)) ([1d6a7b5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1d6a7b57b06033d9237ab0a4fd86215c3bf88cd8))
+* **gq:** fix translations (GQUOTE-1279) ([#3986](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3986)) ([d5fa7d0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d5fa7d04acb63d33ad9e5fef11a79573e6738f30))
+* **gq:** fixed a bug with navigation bar not updating when deleting items (GQUOTE-1060) ([#3882](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3882)) ([545aa25](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/545aa2517833ada11d14ed6f8b8c1410bb578b09))
+* **gq:** fixed price simulation bug (GQUOTE-1248) ([#3900](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3900)) ([0e61041](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0e61041839e9c755df4814cf273f137d3a84bce2))
+* **gq:** migrate frameworkcomponents to components ([9923942](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/99239425fad7fd3eab6873a20b69bc35afbf406f))
+* **gq:** remove subscribe for cookie tracking ([#3836](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3836)) ([ae15e79](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ae15e7986ecbe649a5cf8a00d379822cdded5775))
+* **gq:** reset Material Stock Store on missing productionPlant (GQUOTE-1262) ([#3942](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3942)) ([9ee50e1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9ee50e1c9e65b7fc91dd861761a6b7c55047b735))
+
+
+### 🎸 Features
+
+* **gq:** add ag-grid dropdown selection filter as default (GQUOTE-1225) ([#3816](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3816)) ([244941f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/244941f4f83488a1714ebafd290bda4c02b9271d))
+* **gq:** add cookie banner (GQUOTE-773) ([#3810](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3810)) ([758fc09](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/758fc09c1842995dd668ed6429a783661bbb3ea4))
+* **gq:** add last customer price gpi and gpm (GQUOTE-1009) ([#3966](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3966)) ([4e5a79f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4e5a79fe7de9944cdee0659af19b46d288fd06a7))
+* **gq:** add legend with customer color (GQUOTE-639) ([#4000](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4000)) ([ce244ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ce244ef25cb66a0aeb50dacb340a0382db6f92a6))
+* **gq:** add navigation bar for quick navigation between quotation items (GQUOTE-1060) ([#3876](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3876)) ([bc6f173](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bc6f1734d341a60582bb770ab19eda41a09bf515))
+* **gq:** add notification on blocked clipboard access (GQUOTE-835) ([#3977](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3977)) ([d89947c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d89947c9a362d90f28d9db218ea450f644b5387d))
+* **gq:** add price simulation functionality (GQUOTE-1041) ([#3870](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3870)) ([3ddd592](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3ddd592425fecf8dac3f05affc93c7456c5244b6))
+* **gq:** add reason for rejection text (GQUOTE-1034) ([#3931](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3931)) ([481c041](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/481c04195e827b9915249a218905c64a161d4faf))
+* **gq:** add simulation status bar (GQUOTE-1251) ([#3956](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3956)) ([26d30c1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/26d30c1fafb5399c727fffd31c19bc2e9347019b))
+* **gq:** Added a new loading page for refreshing SAP data ([#3835](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3835)) ([a0a0538](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0a05387497af70e6ec31af4d27281a0a3f1eb4f)), closes [#GQUOTE-1211](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/GQUOTE-1211)
+* **gq:** added absolute price change (GQUOTE-1270) ([#3972](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3972)) ([b1715f3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b1715f3e19b151c21f7d8b0eba504fc7044db9b7))
+* **gq:** added editable column header (GQUOTE-1253) ([#3937](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3937)) ([3811779](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/38117791f44952c2e31d3ab25d7b9b597c608e6a))
+* **gq:** added multiple material simulation on input change (GQUOTE-1274) ([#3987](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3987)) ([080256c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/080256cef065176778db1f87a35625a6819f3586))
+* **gq:** adjust net sales translation (GQUOTE-1269) ([#3968](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3968)) ([35aafe6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/35aafe6bdf96ff1a1330032eb3b564b3636ad262))
+* **gq:** change price source column placement (GQUOTE-1235) ([#3845](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3845)) ([216cac6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/216cac6f78d66f313ea69ea419c8d27c62c3f6db))
+* **gq:** changed image on create case loading screen ([#3842](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3842)) ([1c18cd2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1c18cd20619b7f13c4e5ea2f71c206bec559e06e))
+* **gq:** direct paste into quantity and price edit boxes (GQUOTE-1236) ([#3863](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3863)) ([a312f17](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a312f17894fddf0ddb2bbf25555dc7d7325c611e))
+* **gq:** display customer access error message (GQUOTE-1273) ([#3980](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3980)) ([2313b87](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2313b874108ad625417d225f54d080189247acfc))
+* **gq:** highlight columns affected by price simulation function (GQUOTE-1254) ([#3945](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3945)) ([d4c54fd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d4c54fdecd7328da1ea1b1299e9a7dfc96c0c269))
+* **gq:** hightlight net prices lower than msp (GQUOTE-1201) ([#3934](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3934)) ([e7f5502](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e7f5502f8c2b3e80a53ed505004401761a6eb160))
+* **gq:** responsive design and style adjustments for margin by volume graph (GQUOTE-684) ([#3883](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3883)) ([e9ab93e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e9ab93e555d14b408d08fc1c8026cb0910c831af))
+* **gq:** show "Target Price" as a column on the work area (GQUOTE-1259) ([#3978](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3978)) ([d876013](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d876013346144d1ed2b832e532c584ba10b0b2c0))
+* **styles:** add secondary-900 color to tailwind config ([#3962](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3962)) ([77b75ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/77b75ae465b1fa0be0c1d37606665c0aa98d289f))
+
 ## [2.4.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.3.0...gq-v2.4.0) (2022-02-25)
 
 
