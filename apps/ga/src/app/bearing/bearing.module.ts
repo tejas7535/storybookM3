@@ -16,11 +16,12 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BearingEffects } from '../core/store';
 import { SharedModule } from '../shared/shared.module';
 import { bearingReducer } from './../core/store/reducers/bearing/bearing.reducer';
+import { AdvancedBearingComponent } from './advanced-bearing/advanced-bearing.component';
 import { BearingComponent } from './bearing.component';
 import { BearingRoutingModule } from './bearing-routing.module';
 
 @NgModule({
-  declarations: [BearingComponent],
+  declarations: [AdvancedBearingComponent, BearingComponent],
   imports: [
     CommonModule,
     BearingRoutingModule,

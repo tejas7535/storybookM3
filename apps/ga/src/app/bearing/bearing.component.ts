@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import {
   debounceTime,
-  distinctUntilChanged,
   filter,
   map,
   Observable,
@@ -24,24 +23,18 @@ import { environment } from '../../environments/environment';
 import { AppRoutePath } from '../app-route-path.enum';
 import {
   searchBearing,
-  searchBearingExtended,
   selectBearing,
 } from '../core/store/actions/bearing/bearing.actions';
 import { setCurrentStep } from '../core/store/actions/settings/settings.actions';
 import {
-  getBearingExtendedSearchParameters,
-  getBearingExtendedSearchResultList,
   getBearingLoading,
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { bearingTypes } from '../shared/constants';
-import { ExtendedSearchParameters } from '../shared/models';
 import {
   getModelCreationSuccess,
   getSelectedBearing,
 } from './../core/store/selectors/bearing/bearing.selector';
-import { dimensionValidators } from './bearing-constants';
 
 @Component({
   selector: 'ga-bearing',
@@ -50,73 +43,11 @@ import { dimensionValidators } from './bearing-constants';
 export class BearingComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
-  localDev = environment.localDev;
-  detailSelection = true;
-  bearingTypes = bearingTypes.map(
-    (bearingType) =>
-      ({
-        ...bearingType,
-        text: `bearing.types.${bearingType.id}`,
-      } as any as FormControl)
-  );
-
-  pattern = new FormControl(undefined);
-  bearingType = new FormControl(undefined);
-  minDi = new FormControl(undefined, [
-    ...dimensionValidators,
-    this.innerOuterValidator(),
-    this.minMaxValidator(),
-  ]);
-  maxDi = new FormControl(undefined, [
-    ...dimensionValidators,
-    this.innerOuterValidator(),
-    this.minMaxValidator(),
-  ]);
-  minDa = new FormControl(undefined, [
-    ...dimensionValidators,
-    this.innerOuterValidator(),
-    this.minMaxValidator(),
-  ]);
-  maxDa = new FormControl(undefined, [
-    ...dimensionValidators,
-    this.innerOuterValidator(),
-    this.minMaxValidator(),
-  ]);
-  minB = new FormControl(undefined, [
-    ...dimensionValidators,
-    this.minMaxValidator(),
-  ]);
-  maxB = new FormControl(undefined, [
-    ...dimensionValidators,
-    this.minMaxValidator(),
-  ]);
-
-  bearingExtendedSearchParametersForm = new FormGroup({
-    pattern: this.pattern,
-    bearingType: this.bearingType,
-    minDi: this.minDi,
-    maxDi: this.maxDi,
-    minDa: this.minDa,
-    maxDa: this.maxDa,
-    minB: this.minB,
-    maxB: this.maxB,
-  });
-
-  public consistencyErrors: { name: string; message: string }[] = [
-    {
-      name: 'innerOuterInconsistent',
-      message: 'innerOuterInconsistent',
-    },
-    {
-      name: 'minMaxInconsistent',
-      message: 'minMaxInconsistent',
-    },
-  ];
+  localDev = environment.localDev; // TODO more this condition when feature is done
+  detailSelection = true; // TODO will be false by default
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;
-  bearingExtendedSearchParameters$: Observable<ExtendedSearchParameters>;
-  bearingResultExtendedSearchList$: Observable<SearchAutocompleteOption[]>;
   destroy$ = new Subject<void>();
 
   selectedBearing$: Observable<string>;
@@ -130,36 +61,9 @@ export class BearingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(setCurrentStep({ step: 0 }));
     this.loading$ = this.store.select(getBearingLoading);
-    this.bearingExtendedSearchParameters$ = this.store.select(
-      getBearingExtendedSearchParameters
-    );
-    this.bearingExtendedSearchParameters$.subscribe((value) => {
-      const params = { ...(value as any) };
-      Object.keys(params).forEach(
-        (key) =>
-          params[key] !== undefined &&
-          this.bearingExtendedSearchParametersForm.patchValue({
-            key: params[key],
-          })
-      );
-    });
+
     this.bearingResultList$ = this.store.select(getBearingResultList);
-    this.bearingResultExtendedSearchList$ = this.store.select(
-      getBearingExtendedSearchResultList
-    );
-    this.bearingResultExtendedSearchList$
-      .pipe(
-        distinctUntilChanged((prev, cur) => prev.length === cur.length),
-        filter((results) => results.length > 100),
-        map((results) =>
-          this.snackbar.open(
-            translate('bearing.tooManyResults', { amount: results.length }),
-            undefined,
-            { duration: 3000 }
-          )
-        )
-      )
-      .subscribe();
+
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedBearing$
       .pipe(
@@ -177,19 +81,6 @@ export class BearingComponent implements OnInit, OnDestroy {
         filter((value: string) => value.length >= this.minimumChars),
         map((query: string) => {
           this.store.dispatch(searchBearing({ query }));
-        })
-      )
-      .subscribe();
-
-    this.bearingExtendedSearchParametersForm.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        distinctUntilChanged(
-          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
-        ),
-        map((parameters) => {
-          this.store.dispatch(searchBearingExtended({ parameters }));
         })
       )
       .subscribe();
@@ -229,35 +120,5 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   public toggleSelection(): void {
     this.detailSelection = !this.detailSelection;
-  }
-
-  private innerOuterValidator(): ValidatorFn {
-    return (): { [key: string]: boolean } | null => {
-      if (
-        (this.minDi?.value || this.maxDi?.value) &&
-        (this.minDa?.value || this.maxDa?.value) &&
-        (this.minDi?.value || this.maxDi?.value) >
-          (this.minDa?.value || this.maxDa?.value)
-      ) {
-        return {
-          innerOuterInconsistent: true,
-        };
-      }
-
-      return undefined;
-    };
-  }
-
-  private minMaxValidator(): ValidatorFn {
-    return (): { [key: string]: boolean } | null =>
-      // if (
-
-      // ) {
-      //   return {
-      //     minMaxInconsistent: true,
-      //   };
-      // }
-
-      undefined;
   }
 }

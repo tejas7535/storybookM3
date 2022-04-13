@@ -1,0 +1,230 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  Subject,
+  takeUntil,
+} from 'rxjs';
+
+import { translate } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+
+import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
+
+import { environment } from '../../../environments/environment';
+import { searchBearingExtended } from '../../core/store/actions/bearing/bearing.actions';
+import {
+  getBearingExtendedSearchParameters,
+  getBearingExtendedSearchResultList,
+} from '../../core/store/selectors/bearing/bearing.selector';
+import { bearingTypes } from '../../shared/constants';
+import { ExtendedSearchParameters } from '../../shared/models';
+import { dimensionValidators } from './advanced-bearing-constants';
+
+@Component({
+  selector: 'ga-advanced-bearing',
+  templateUrl: './advanced-bearing.component.html',
+})
+export class AdvancedBearingComponent implements OnInit, OnDestroy {
+  localDev = environment.localDev;
+
+  // TODO maybe get localised types from API
+  bearingTypes = bearingTypes.map(
+    (bearingType) =>
+      ({
+        ...bearingType,
+        text: `bearing.types.${bearingType.id}`,
+      } as any as FormControl)
+  );
+
+  pattern = new FormControl(undefined);
+  bearingType = new FormControl(undefined);
+  minDi = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxDiValidator(),
+  ]);
+  maxDi = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxDiValidator(),
+  ]);
+  minDa = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxDaValidator(),
+  ]);
+  maxDa = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxDaValidator(),
+  ]);
+  minB = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.minMaxBValidator(),
+  ]);
+  maxB = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.minMaxBValidator(),
+  ]);
+
+  bearingExtendedSearchParametersForm = new FormGroup({
+    pattern: this.pattern,
+    bearingType: this.bearingType,
+    minDi: this.minDi,
+    maxDi: this.maxDi,
+    minDa: this.minDa,
+    maxDa: this.maxDa,
+    minB: this.minB,
+    maxB: this.maxB,
+  });
+
+  consistencyErrors: { name: string; message: string }[] = [
+    {
+      name: 'innerOuterInconsistent',
+      message: 'innerOuterInconsistent',
+    },
+    {
+      name: 'minMaxInconsistent',
+      message: 'minMaxInconsistent',
+    },
+  ];
+
+  bearingExtendedSearchParameters$: Observable<ExtendedSearchParameters>;
+  bearingResultExtendedSearchList$: Observable<SearchAutocompleteOption[]>;
+  destroy$ = new Subject<void>();
+
+  selectedBearing$: Observable<string>;
+
+  constructor(
+    private readonly store: Store,
+    private readonly snackbar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.bearingExtendedSearchParameters$ = this.store.select(
+      getBearingExtendedSearchParameters
+    );
+
+    this.bearingResultExtendedSearchList$ = this.store.select(
+      getBearingExtendedSearchResultList
+    );
+
+    this.handleSubscriptions();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  handleSubscriptions(): void {
+    this.bearingExtendedSearchParameters$.subscribe((value) => {
+      const params = { ...(value as any) };
+      Object.keys(params).forEach((key) => {
+        if (params[key] !== undefined) {
+          this.bearingExtendedSearchParametersForm.patchValue({
+            key: params[key],
+          });
+          Object.keys(
+            this.bearingExtendedSearchParametersForm.controls
+          ).forEach((objectKey) =>
+            this.bearingExtendedSearchParametersForm.controls[
+              objectKey
+            ].updateValueAndValidity()
+          );
+        }
+      });
+    });
+
+    this.bearingResultExtendedSearchList$
+      .pipe(
+        distinctUntilChanged((prev, cur) => prev.length === cur.length),
+        filter((results) => results.length > 100),
+        map((results) =>
+          this.snackbar.open(
+            translate('bearing.tooManyResults', { amount: results.length }),
+            undefined,
+            { duration: 3000 }
+          )
+        )
+      )
+      .subscribe();
+
+    this.bearingExtendedSearchParametersForm.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(300),
+        distinctUntilChanged(
+          (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
+        ),
+        map((parameters) => {
+          this.store.dispatch(searchBearingExtended({ parameters }));
+        })
+      )
+      .subscribe();
+  }
+
+  innerOuterValidator(): ValidatorFn {
+    return (): { [key: string]: boolean } | null => {
+      if (
+        (this.minDi?.value || this.maxDi?.value) &&
+        (this.minDa?.value || this.maxDa?.value) &&
+        (this.minDi?.value || this.maxDi?.value) >
+          (this.minDa?.value || this.maxDa?.value)
+      ) {
+        return {
+          innerOuterInconsistent: true,
+        };
+      }
+
+      return undefined;
+    };
+  }
+
+  minMaxDiValidator(): ValidatorFn {
+    return (): { [key: string]: boolean } | null => {
+      if (this.invalidMinMax(this.minDi?.value, this.maxDi?.value)) {
+        return {
+          minMaxInconsistent: true,
+        };
+      }
+
+      return undefined;
+    };
+  }
+
+  minMaxDaValidator(): ValidatorFn {
+    return (): { [key: string]: boolean } | null => {
+      if (this.invalidMinMax(this.minDa?.value, this.maxDa?.value)) {
+        return {
+          minMaxInconsistent: true,
+        };
+      }
+
+      return undefined;
+    };
+  }
+
+  minMaxBValidator(): ValidatorFn {
+    return (): { [key: string]: boolean } | null => {
+      if (this.invalidMinMax(this.minB?.value, this.maxB?.value)) {
+        return {
+          minMaxInconsistent: true,
+        };
+      }
+
+      return undefined;
+    };
+  }
+
+  invalidMinMax(min: number, max: number): boolean {
+    return min && max && min > max;
+  }
+}

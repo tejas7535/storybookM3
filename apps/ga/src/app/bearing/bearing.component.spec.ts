@@ -1,6 +1,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -18,6 +19,7 @@ import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-
 import { SharedModule } from '../shared/shared.module';
 import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
 import { getModelCreationSuccess } from './../core/store/selectors/bearing/bearing.selector';
+import { AdvancedBearingComponent } from './advanced-bearing/advanced-bearing.component';
 import { BearingComponent } from './bearing.component';
 
 describe('BearingComponent', () => {
@@ -37,6 +39,7 @@ describe('BearingComponent', () => {
       ReactiveComponentModule,
       MatButtonModule,
       MatSnackBarModule,
+      MatDividerModule,
     ],
     providers: [
       provideMockStore({
@@ -69,7 +72,7 @@ describe('BearingComponent', () => {
         useValue: false,
       },
     ],
-    declarations: [BearingComponent],
+    declarations: [BearingComponent, AdvancedBearingComponent],
   });
 
   beforeEach(() => {
