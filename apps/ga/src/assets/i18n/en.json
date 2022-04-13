@@ -45,7 +45,7 @@
     "max": "Max",
     "mm": "mm",
     "selectBearingFromList": "Select Bearing from List ({{ amount }})",
-    "tooManyResults": "{{ amount }}Too many results. Please narrow down your criteria",
+    "tooManyResults": "{{ amount }} Too many results. Please narrow down your criteria",
     "types": {
       "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radial angular contact ball bearing",
       "IDO_RADIAL_BALL_BEARING": "Radial deep groove ball bearing",
@@ -95,6 +95,8 @@
       "max": "The value is too high",
       "required": "This field is required",
       "lowerThanEnvironmentTemperature": "Cannot be less than environment temperature",
+      "innerOuterInconsistent": "The bore diameter must be smaller that the outer diameter",
+      "minMaxInconsistent": "The minimum value must be smaller than than the maximum value",
       "anyLoad": "One load is required"
     },
     "loadLevel": {

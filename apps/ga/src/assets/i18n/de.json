@@ -96,6 +96,7 @@
       "required": "Dieses Feld ist eine Pflichteingabe",
       "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur",
       "innerOuterInconsistent": "Der Bohrungsdurchmesser muss geringer als der Außerdurchmesser sein",
+      "minMaxInconsistent": "Der Minimalwert muss geringer als der Maximalwert sein",
       "anyLoad": "Eine Last muss angegeben werden"
     },
     "loadLevel": {

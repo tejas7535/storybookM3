@@ -62,31 +62,54 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   pattern = new FormControl(undefined);
   bearingType = new FormControl(undefined);
-  minDi = new FormControl(undefined, dimensionValidators);
-  maxDi = new FormControl(undefined, dimensionValidators);
-  minDa = new FormControl(undefined, dimensionValidators);
-  maxDa = new FormControl(undefined, dimensionValidators);
-  minB = new FormControl(undefined, dimensionValidators);
-  maxB = new FormControl(undefined, dimensionValidators);
+  minDi = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxValidator(),
+  ]);
+  maxDi = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxValidator(),
+  ]);
+  minDa = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxValidator(),
+  ]);
+  maxDa = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.innerOuterValidator(),
+    this.minMaxValidator(),
+  ]);
+  minB = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.minMaxValidator(),
+  ]);
+  maxB = new FormControl(undefined, [
+    ...dimensionValidators,
+    this.minMaxValidator(),
+  ]);
 
-  bearingExtendedSearchParametersForm = new FormGroup(
-    {
-      pattern: this.pattern,
-      bearingType: this.bearingType,
-      minDi: this.minDi,
-      maxDi: this.maxDi,
-      minDa: this.minDa,
-      maxDa: this.maxDa,
-      minB: this.minB,
-      maxB: this.maxB,
-    },
-    this.consistencyValidator()
-  );
+  bearingExtendedSearchParametersForm = new FormGroup({
+    pattern: this.pattern,
+    bearingType: this.bearingType,
+    minDi: this.minDi,
+    maxDi: this.maxDi,
+    minDa: this.minDa,
+    maxDa: this.maxDa,
+    minB: this.minB,
+    maxB: this.maxB,
+  });
 
   public consistencyErrors: { name: string; message: string }[] = [
     {
       name: 'innerOuterInconsistent',
       message: 'innerOuterInconsistent',
+    },
+    {
+      name: 'minMaxInconsistent',
+      message: 'minMaxInconsistent',
     },
   ];
 
@@ -208,16 +231,14 @@ export class BearingComponent implements OnInit, OnDestroy {
     this.detailSelection = !this.detailSelection;
   }
 
-  private consistencyValidator(): ValidatorFn {
+  private innerOuterValidator(): ValidatorFn {
     return (): { [key: string]: boolean } | null => {
       if (
-        (this.minDi.value || this.maxDi.value) &&
-        (this.minDa.value || this.maxDa.value) &&
-        (this.minDi.value || this.maxDi.value) >
-          (this.minDa.value || this.maxDa.value)
+        (this.minDi?.value || this.maxDi?.value) &&
+        (this.minDa?.value || this.maxDa?.value) &&
+        (this.minDi?.value || this.maxDi?.value) >
+          (this.minDa?.value || this.maxDa?.value)
       ) {
-        console.log('huhu');
-
         return {
           innerOuterInconsistent: true,
         };
@@ -225,5 +246,18 @@ export class BearingComponent implements OnInit, OnDestroy {
 
       return undefined;
     };
+  }
+
+  private minMaxValidator(): ValidatorFn {
+    return (): { [key: string]: boolean } | null =>
+      // if (
+
+      // ) {
+      //   return {
+      //     minMaxInconsistent: true,
+      //   };
+      // }
+
+      undefined;
   }
 }
