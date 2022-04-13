@@ -7,12 +7,12 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
+import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
-import { UserRoles } from '../../roles/user-roles.enum';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import { ColumnFields } from '../constants/column-fields.enum';

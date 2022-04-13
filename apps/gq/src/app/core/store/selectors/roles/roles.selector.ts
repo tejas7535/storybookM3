@@ -4,8 +4,8 @@ import { createSelector } from '@ngrx/store';
 import { getRoles } from '@schaeffler/azure-auth';
 
 import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
+import { UserRoles } from '../../../../shared/constants/user-roles.enum';
 import { RoleGroup } from '../../../../shared/models';
-import { UserRoles } from '../../../../shared/roles/user-roles.enum';
 
 export const getAllRoles = createSelector(
   getRoles,

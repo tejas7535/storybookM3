@@ -14,12 +14,12 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ColumnHeadersModule } from '../../shared/column-headers/column-headers.module';
+import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
+import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { QuotationDetailsStatusComponent } from '../../shared/ag-grid/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { DialogHeaderModule } from '../../shared/components/header/dialog-header/dialog-header.module';
 import { EditingModalComponent } from '../../shared/components/modal/editing-modal/editing-modal.component';
 import { StatusBarModalModule } from '../../shared/components/modal/status-bar-modal/status-bar-modal.module';
-import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
-import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { EditingCommentModalComponent } from './editing-comment-modal/editing-comment-modal.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';

@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
 import { getIsLoggedIn, getRoles } from '@schaeffler/azure-auth';
 
 import { AppRoutePath } from '../../app-route-path.enum';
-import { UserRoles } from '../../shared/roles/user-roles.enum';
+import { UserRoles } from '../../shared/constants/user-roles.enum';
 
 @Injectable({
   providedIn: 'root',

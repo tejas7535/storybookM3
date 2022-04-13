@@ -10,11 +10,11 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CreateCustomerCaseButtonComponent } from '../../shared/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
-import { CreateManualCaseButtonComponent } from '../../shared/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';
-import { ImportCaseButtonComponent } from '../../shared/custom-status-bar/case-view/import-case-button/import-case-button.component';
-import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
-import { DeleteCaseButtonComponent } from '../../shared/custom-status-bar/delete-case-button/delete-case-button.component';
+import { CreateCustomerCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
+import { CreateManualCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';
+import { ImportCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/import-case-button/import-case-button.component';
+import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { DeleteCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/delete-case-button/delete-case-button.component';
 import { CaseTableComponent } from './case-table.component';
 
 jest.mock('@ngneat/transloco', () => ({

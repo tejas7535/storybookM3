@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 
-import { CellRendererModule } from '../../../cell-renderer/cell-renderer.module';
-import { CustomStatusBarModule } from '../../../custom-status-bar/custom-status-bar.module';
+import { CellRendererModule } from '../../../ag-grid/cell-renderer/cell-renderer.module';
+import { CustomStatusBarModule } from '../../../ag-grid/custom-status-bar/custom-status-bar.module';
 import { InputTableComponent } from './input-table.component';
 
 @NgModule({

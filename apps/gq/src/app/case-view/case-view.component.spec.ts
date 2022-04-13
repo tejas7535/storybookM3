@@ -9,7 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
+import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 

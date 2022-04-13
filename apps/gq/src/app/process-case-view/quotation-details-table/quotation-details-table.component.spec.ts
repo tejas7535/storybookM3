@@ -23,9 +23,9 @@ import {
   resetSimulatedQuotation,
 } from '../../core/store';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
-import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
-import { DeleteItemsButtonComponent } from '../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
-import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
+import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { DeleteItemsButtonComponent } from '../../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
+import { QuotationDetailsStatusComponent } from '../../shared/ag-grid/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';

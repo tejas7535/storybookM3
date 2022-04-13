@@ -10,11 +10,11 @@ import {
   SAP_PRICE_DETAIL_ZMIN_MOCK,
 } from '../../../../testing/mocks';
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
+import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import { PriceSource } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
-import { UserRoles } from '../../roles/user-roles.enum';
 import { ColumnFields } from '../constants/column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 

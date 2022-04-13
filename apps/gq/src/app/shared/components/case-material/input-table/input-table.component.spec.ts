@@ -8,13 +8,13 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CellRendererModule } from '../../../cell-renderer/cell-renderer.module';
-import { AddMaterialButtonComponent } from '../../../custom-status-bar/case-material-table/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from '../../../custom-status-bar/case-material-table/create-case-button/create-case-button.component';
-import { CreateCaseResetAllButtonComponent } from '../../../custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
-import { ProcessCaseResetAllButtonComponent } from '../../../custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
-import { CustomStatusBarModule } from '../../../custom-status-bar/custom-status-bar.module';
-import { MaterialValidationStatusComponent } from '../../../custom-status-bar/material-validation-status/material-validation-status.component';
+import { CellRendererModule } from '../../../ag-grid/cell-renderer/cell-renderer.module';
+import { AddMaterialButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
+import { CreateCaseButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
+import { CreateCaseResetAllButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
+import { ProcessCaseResetAllButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
+import { CustomStatusBarModule } from '../../../ag-grid/custom-status-bar/custom-status-bar.module';
+import { MaterialValidationStatusComponent } from '../../../ag-grid/custom-status-bar/material-validation-status/material-validation-status.component';
 import { InputTableComponent } from './input-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
