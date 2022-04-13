@@ -27,6 +27,9 @@
           [compareWith]="compareDataFilters"
           multiple
         >
+          <mat-select-trigger *ngIf="allCategoriesSelectedControl.value"
+            >All selected</mat-select-trigger
+          >
           <div class="flex h-12 flex-row place-items-center px-4">
             <mat-checkbox
               class="w-full"
