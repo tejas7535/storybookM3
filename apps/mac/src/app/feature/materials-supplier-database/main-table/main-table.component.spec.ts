@@ -11,7 +11,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
-import { ValueGetterParams } from '@ag-grid-community/all-modules';
+import {
+  ValueFormatterParams,
+  ValueGetterParams,
+} from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ColumnApi, IFilterComp, RowNode } from '@ag-grid-community/core';
 import { ColDef, ColumnState, GridApi } from '@ag-grid-enterprise/all-modules';
@@ -27,6 +30,7 @@ import { initialState as initialDataState } from '../store/reducers/data.reducer
 import { setAgGridColumns, setFilter } from './../store/actions/data.actions';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { EMPTY_VALUE_FORMATTER } from './table-config';
 import { BOOLEAN_VALUE_GETTER } from './table-config/boolean-value-getter';
 import { COLUMN_DEFINITIONS } from './table-config/column-definitions';
 
@@ -1245,6 +1249,28 @@ describe('MainTableComponent', () => {
       expect(result).toEqual(expected);
       expect(mockGetId).toHaveBeenCalled();
       expect(mockGetValue).toHaveBeenCalledWith('columnId');
+    });
+  });
+
+  describe('EMPTY_VALUE_FORMATTER', () => {
+    it('should return (Empty) instead of (Blanks)', () => {
+      // eslint-disable-next-line unicorn/no-null
+      const mockNullParams = { value: null } as ValueFormatterParams;
+      const mockUndefinedParams = { value: undefined } as ValueFormatterParams;
+
+      const nullResult = EMPTY_VALUE_FORMATTER(mockNullParams);
+      const undefinedResult = EMPTY_VALUE_FORMATTER(mockUndefinedParams);
+
+      expect(nullResult).toBe('(Empty)');
+      expect(undefinedResult).toBe('(Empty)');
+    });
+
+    it('should return cell value if it is defined', () => {
+      const mockParams = { value: 'some value' } as ValueFormatterParams;
+
+      const result = EMPTY_VALUE_FORMATTER(mockParams);
+
+      expect(result).toBe('some value');
     });
   });
 });
