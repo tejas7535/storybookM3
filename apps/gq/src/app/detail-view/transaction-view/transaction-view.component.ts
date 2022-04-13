@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { FilterChangedEvent, RowNode } from '@ag-grid-community/all-modules';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -43,6 +44,10 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
   coefficients$: Observable<Coefficients>;
   customer$: Observable<Customer>;
 
+  filteredTransactionIdentifier = new BehaviorSubject<number[] | undefined>(
+    undefined
+  );
+
   public breadcrumbs: Breadcrumb[];
   private readonly subscription: Subscription = new Subscription();
 
@@ -61,7 +66,24 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
       .pipe(map(() => true));
     this.transactions$ = this.store.select(getTransactions);
     this.transactionsLoading$ = this.store.select(getTransactionsLoading);
-    this.graphTransactions$ = this.store.select(getGraphTransactions);
+    this.graphTransactions$ = combineLatest([
+      this.store.select(getGraphTransactions),
+      this.filteredTransactionIdentifier,
+    ]).pipe(
+      map(([transactions, filteredIdentifier]: any[]) => {
+        if (!filteredIdentifier) {
+          return transactions;
+        }
+
+        if (filteredIdentifier.length === 0) {
+          return [];
+        }
+
+        return transactions.filter((transaction: ComparableLinkedTransaction) =>
+          filteredIdentifier.includes(transaction.identifier)
+        );
+      })
+    );
     this.coefficients$ = this.store.select(getCoefficients);
     this.customer$ = this.store.select(getCustomer);
 
@@ -79,6 +101,16 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
         )
     );
   }
+
+  onFilterChanged(event: FilterChangedEvent): void {
+    const filteredTransactionIdentifiers: number[] = [];
+    event.api.forEachNodeAfterFilter((node: RowNode) => {
+      filteredTransactionIdentifiers.push(node.data.identifier);
+    });
+
+    this.filteredTransactionIdentifier.next(filteredTransactionIdentifiers);
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

@@ -1,5 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
+import { FilterChangedEvent } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
@@ -129,6 +130,23 @@ describe('ComparableTransactionsComponent', () => {
 
       expect(params.columnApi.autoSizeColumn).toHaveBeenCalledTimes(1);
       expect(params.columnApi.autoSizeColumn).toBeCalledWith(id, false);
+    });
+  });
+
+  describe('onFilterChanged', () => {
+    test('should emit onFilterChangedEvent', () => {
+      let result;
+      spectator.output('filterChanged').subscribe((res) => (result = res));
+
+      const mockEvent = {
+        afterDataChange: false,
+        afterFloatingFilter: false,
+        columns: [],
+        columnApi: {},
+      } as FilterChangedEvent;
+      component.onFilterChanged(mockEvent);
+
+      expect(result).toEqual(mockEvent);
     });
   });
 });

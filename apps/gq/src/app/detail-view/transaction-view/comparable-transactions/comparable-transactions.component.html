@@ -27,6 +27,7 @@
       [valueCache]="true"
       [animateRows]="true"
       [localeText]="localeText$ | ngrxPush"
+      (filterChanged)="onFilterChanged($event)"
     ></ag-grid-angular>
   </div>
 </div>

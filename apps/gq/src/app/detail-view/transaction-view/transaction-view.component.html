@@ -62,6 +62,7 @@
             "
             [rowData]="transactions$ | ngrxPush"
             [currency]="currency$ | ngrxPush"
+            (filterChanged)="onFilterChanged($event)"
           ></gq-comparable-transactions>
         </mat-card>
       </div>

@@ -21,40 +21,54 @@ export class TransparencyGraphComponent implements OnInit {
     private readonly regressionService: RegressionService
   ) {}
 
-  @Input() transactions: ComparableLinkedTransaction[];
+  @Input() set transactions(value: ComparableLinkedTransaction[]) {
+    this.transactionValues = value;
+
+    if (this.coefficients && this.currency) {
+      this.updateOptions(value);
+    }
+  }
   @Input() coefficients: Coefficients;
   @Input() currency: string;
   @Input() customer: Customer;
 
-  ngOnInit(): void {
-    if (this.transactions && this.coefficients && this.currency) {
-      const dataPoints = this.chartConfigService.buildDataPoints(
-        this.transactions,
-        this.currency
-      );
-      const regressionData = this.regressionService.buildRegressionPoints(
-        this.coefficients,
-        this.transactions
-      );
+  transactionValues: ComparableLinkedTransaction[] = [];
 
-      const seriesConfig = this.chartConfigService.getSeriesConfig(
-        dataPoints,
-        regressionData,
-        this.customer
-      );
-      this.options = {
-        tooltip: this.chartConfigService.getToolTipConfig(),
-        xAxis: this.chartConfigService.getXAxisConfig(dataPoints),
-        yAxis: this.chartConfigService.Y_AXIS_CONFIG,
-        series: seriesConfig.series,
-        grid: GRID_CONFIG,
-        dataZoom: DATA_ZOOM,
-        legend: this.chartConfigService.getLegend(
-          this.customer,
-          seriesConfig.series,
-          seriesConfig.options
-        ),
-      };
+  ngOnInit(): void {
+    if (this.transactionValues && this.coefficients && this.currency) {
+      this.updateOptions(this.transactionValues);
     }
+  }
+
+  private updateOptions(transactions: ComparableLinkedTransaction[]) {
+    const dataPoints = this.chartConfigService.buildDataPoints(
+      transactions,
+      this.currency
+    );
+
+    const regressionData = this.regressionService.buildRegressionPoints(
+      this.coefficients,
+      transactions
+    );
+
+    const seriesConfig = this.chartConfigService.getSeriesConfig(
+      dataPoints,
+      regressionData,
+      this.customer
+    );
+
+    this.options = {
+      tooltip: this.chartConfigService.getToolTipConfig(),
+      xAxis: this.chartConfigService.getXAxisConfig(dataPoints),
+      yAxis: this.chartConfigService.Y_AXIS_CONFIG,
+      series: seriesConfig.series,
+      grid: GRID_CONFIG,
+      dataZoom: DATA_ZOOM,
+      legend: this.chartConfigService.getLegend(
+        this.customer,
+        seriesConfig.series,
+        seriesConfig.options
+      ),
+    };
   }
 }

@@ -214,8 +214,8 @@ export const isManualCase = createSelector(
 export const getCoefficients = createSelector(
   getSelectedQuotationDetail,
   (detail: QuotationDetail): Coefficients => ({
-    coefficient1: detail.coefficient1,
-    coefficient2: detail.coefficient2,
+    coefficient1: detail?.coefficient1,
+    coefficient2: detail?.coefficient2,
   })
 );
 

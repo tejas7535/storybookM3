@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import {
   ColumnState,
+  FilterChangedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   SortChangedEvent,
@@ -29,6 +30,9 @@ export class ComparableTransactionsComponent implements OnInit {
   @Input() set currency(currency: string) {
     this.tableContext.quotation.customer.currency = currency;
   }
+
+  @Output() filterChanged: EventEmitter<FilterChangedEvent> =
+    new EventEmitter<FilterChangedEvent>();
 
   private readonly TABLE_KEY = 'transactions';
   public modules = MODULES;
@@ -69,5 +73,9 @@ export class ComparableTransactionsComponent implements OnInit {
     colIds.forEach((colId) => {
       event.columnApi.autoSizeColumn(colId, colId === 'customerId');
     });
+  }
+
+  onFilterChanged(event: FilterChangedEvent) {
+    this.filterChanged.emit(event);
   }
 }
