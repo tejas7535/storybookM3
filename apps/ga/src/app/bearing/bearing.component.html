@@ -28,7 +28,7 @@
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
   <ng-template #detail_selection>
-    <div class="flex flex-col md:w-2/3 lg:w-1/2">
+    <div class="flex flex-col lg:w-2/3 xl:w-1/2">
       <form [formGroup]="bearingExtendedSearchParametersForm">
         <ga-select
           class="w-full"
@@ -36,9 +36,11 @@
           [label]="t('bearingType')"
           [options]="bearingTypes"
           [placeholder]="t('bearingType')"
+          [noInfo]="true"
         ></ga-select>
+        <mat-divider class="pb-6 md:!hidden"></mat-divider>
         <div>
-          <div class="flex flex-row">
+          <div class="flex flex-col gap-4 md:flex-row">
             <ga-input
               class="w-full"
               [control]="minDi"
@@ -49,6 +51,7 @@
               "
               [customErrors]="consistencyErrors"
               [onlyPositive]="true"
+              [noInfo]="true"
             ></ga-input>
             <ga-input
               class="w-full"
@@ -60,10 +63,12 @@
               "
               [customErrors]="consistencyErrors"
               [onlyPositive]="true"
+              [noInfo]="true"
             ></ga-input>
           </div>
         </div>
-        <div class="flex flex-row">
+        <mat-divider class="pb-6 md:!hidden"></mat-divider>
+        <div class="flex flex-col gap-4 md:flex-row">
           <ga-input
             class="w-full"
             [control]="minDa"
@@ -74,6 +79,7 @@
             "
             [customErrors]="consistencyErrors"
             [onlyPositive]="true"
+            [noInfo]="true"
           ></ga-input>
           <ga-input
             class="w-full"
@@ -85,9 +91,11 @@
             "
             [customErrors]="consistencyErrors"
             [onlyPositive]="true"
+            [noInfo]="true"
           ></ga-input>
         </div>
-        <div class="flex flex-row">
+        <mat-divider class="pb-6 md:!hidden"></mat-divider>
+        <div class="flex flex-col gap-4 md:flex-row">
           <ga-input
             class="w-full"
             [control]="minB"
@@ -97,6 +105,7 @@
               t('pleaseEnter', { label: t('width') + ' ' + t('min') })
             "
             [onlyPositive]="true"
+            [noInfo]="true"
           ></ga-input>
           <ga-input
             class="w-full"
@@ -107,6 +116,7 @@
               t('pleaseEnter', { label: t('width') }) + ' ' + t('max')
             "
             [onlyPositive]="true"
+            [noInfo]="true"
           ></ga-input>
         </div>
       </form>

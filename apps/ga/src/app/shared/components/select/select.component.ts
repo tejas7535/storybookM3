@@ -13,5 +13,6 @@ export class SelectComponent {
   @Input() public label?: string;
   @Input() public options: any[] = [];
   @Input() public tooltipText?: string;
+  @Input() public noInfo? = false;
   @Input() public customErrors?: { name: string; message: string }[];
 }

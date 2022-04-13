@@ -43,7 +43,7 @@
       </mat-error>
     </ng-container>
   </mat-form-field>
-  <div class="w-6">
+  <div *ngIf="!noInfo" class="w-6">
     <mat-icon
       *ngIf="tooltipText"
       color="primary"

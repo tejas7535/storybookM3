@@ -16,6 +16,7 @@ export class InputComponent implements OnInit, OnDestroy {
   @Input() public unit?: string;
   @Input() public onlyPositive? = false;
   @Input() public tooltipText?: string;
+  @Input() public noInfo? = false;
   @Input() public customErrors?: { name: string; message: string }[];
   destroy$ = new Subject<void>();
 
