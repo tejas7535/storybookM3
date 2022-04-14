@@ -7,13 +7,14 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, mergeMap, startWith } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
 import {
   CUSTOM_DATA_PRIVACY,
+  DATA_SOURCE,
   PERSON_RESPONSIBLE,
   PURPOSE,
   TERMS_OF_USE,
@@ -37,6 +38,7 @@ export class LegalComponent implements OnInit {
     @Optional()
     @Inject(CUSTOM_DATA_PRIVACY)
     public customDataPrivacy$: Observable<string>,
+    @Optional() @Inject(DATA_SOURCE) public dataSource$: Observable<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -61,15 +63,17 @@ export class LegalComponent implements OnInit {
           personResponsible: this.personResponsible,
         };
 
-        return (
-          this.purpose$?.pipe(
-            map((purpose) =>
-              translate(path, {
-                ...defaultTranslateOptions,
-                purpose,
-              })
-            )
-          ) ?? of(translate(path, defaultTranslateOptions))
+        return combineLatest([
+          this.purpose$ ?? of(''),
+          this.dataSource$ ?? of(translate('defaultDataSource')),
+        ]).pipe(
+          map(([purpose, dataSource]) =>
+            translate(path, {
+              ...defaultTranslateOptions,
+              purpose,
+              dataSource,
+            })
+          )
         );
       })
     );

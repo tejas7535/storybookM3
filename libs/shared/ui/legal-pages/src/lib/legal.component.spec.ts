@@ -22,6 +22,7 @@ import * as en from './i18n/en.json';
 import { LegalComponent } from './legal.component';
 import {
   CUSTOM_DATA_PRIVACY,
+  DATA_SOURCE,
   PERSON_RESPONSIBLE,
   PURPOSE,
   TERMS_OF_USE,
@@ -75,6 +76,12 @@ describe('LegalComponent', () => {
         provide: PURPOSE,
         useValue: of(
           'When not even life has a clear purpose, why care about this boring legal doc'
+        ),
+      },
+      {
+        provide: DATA_SOURCE,
+        useValue: of(
+          'Sources of data might emerge from ones mind, but not from mine'
         ),
       },
       {
@@ -140,7 +147,7 @@ describe('LegalComponent', () => {
       })
     );
     test(
-      'should set translationContent$ to default data privacy with purpose',
+      'should set translationContent$ to default data privacy with purpose and dataSource',
       marbles((m) => {
         component.ngOnInit();
 
@@ -164,13 +171,16 @@ describe('LegalComponent', () => {
           purpose:
             'When not even life has a clear purpose, why care about this boring legal doc',
           responsible: 'responsibleIntro',
+          dataSource:
+            'Sources of data might emerge from ones mind, but not from mine',
         });
       })
     );
     test(
-      'should set translationContent$ to default data privacy without purpose',
+      'should set translationContent$ to default data privacy without purpose and dataSource',
       marbles((m) => {
         component.purpose$ = undefined as unknown as Observable<string>;
+        component.dataSource$ = undefined as unknown as Observable<string>;
         component.ngOnInit();
 
         const newEvent = new NavigationEnd(
@@ -191,6 +201,8 @@ describe('LegalComponent', () => {
           personResponsible:
             'Jumbo Schreiner der gerne den besten Döner der Welt in Berlin isst',
           responsible: 'responsibleIntro',
+          purpose: '',
+          dataSource: 'defaultDataSource',
         });
       })
     );

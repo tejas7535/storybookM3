@@ -69,6 +69,10 @@ export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('key.to.translation');
 }
 
+export function DynamicDataSource(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('key.to.translation');
+}
+
 export function DynamicDataPrivacy(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('key.to.translation');
 }
@@ -85,12 +89,19 @@ export function DynamicDataPrivacy(translocoService: TranslocoService) {
     // optional terms of use
     {
       provide: TERMS_OF_USE,
-      useValue: DynamicTermsOfUse  
+      useValue: DynamicTermsOfUse,
     },
     // optional purpose, shown in data privacy section 3
     {
-      provide: PURPOSE
-      useValue: DynamicPurpose
+      provide: PURPOSE,
+      useFactory: DynamicPurpose,
+      deps: [TranslocoService],
+    },
+    // optional source of personal data, shown in data privacy section 9
+    {
+      provide: DATA_SOURCE,
+      useValue: DynamicDataSource,
+      deps: [TranslocoService],
     },
     // optional custom data privacy, shown in data privacy section
     {
