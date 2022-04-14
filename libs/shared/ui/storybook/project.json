@@ -9,7 +9,6 @@
       "options": {
         "uiFramework": "@storybook/angular",
         "port": 4400,
-        "staticDir": ["libs/shared/ui/storybook/src/assets"],
         "config": {
           "configFolder": "libs/shared/ui/storybook/.storybook"
         },
@@ -25,7 +24,6 @@
       "executor": "@nrwl/storybook:build",
       "options": {
         "uiFramework": "@storybook/angular",
-        "staticDir": ["libs/shared/ui/storybook/src/assets"],
         "outputPath": "dist/storybook/shared-ui-storybook",
         "config": {
           "configFolder": "libs/shared/ui/storybook/.storybook"

@@ -1,8 +1,10 @@
+import type { StorybookConfig } from '@storybook/core-common';
 const rootMain = require('../../../../../.storybook/main');
 
-module.exports = {
+const config: StorybookConfig = {
   ...rootMain,
   stories: ['../src/lib/**/*.stories.@(ts|js)'],
+  staticDirs: ['../src/assets'],
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-a11y',
@@ -22,5 +24,7 @@ module.exports = {
     return config;
   },
 };
+
+module.exports = config;
 
 module.exports.core = { ...module.exports.core, builder: 'webpack5' };
