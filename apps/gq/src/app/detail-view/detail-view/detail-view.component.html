@@ -3,7 +3,7 @@
     <schaeffler-subheader
       *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
       [subheaderTitle]="material | materialInfo"
-      [breadcrumbs]="breadcrumbs"
+      [breadcrumbs]="breadcrumbs$ | ngrxPush"
     >
       <ng-container subheaderTitleContent>
         <gq-detail-view-header-content

@@ -15,16 +15,24 @@ import {
 } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { Breadcrumb, BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { PROCESS_CASE_STATE_MOCK } from '../../testing/mocks';
+import { PROCESS_CASE_STATE_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
+import {
+  getCustomerLoading,
+  getGqId,
+  getQuotation,
+  getQuotationLoading,
+  getUpdateLoading,
+} from '../core/store';
 import { AddItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/add-items-button/add-items-button.component';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
@@ -51,6 +59,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('ProcessCaseViewComponent', () => {
   let component: ProcessCaseViewComponent;
   let spectator: Spectator<ProcessCaseViewComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: ProcessCaseViewComponent,
@@ -103,6 +112,7 @@ describe('ProcessCaseViewComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -110,21 +120,85 @@ describe('ProcessCaseViewComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should add subscriptions', () => {
-      component['subscription'].add = jest.fn();
+    test(
+      'should set customerLoading$',
+      marbles((m) => {
+        store.overrideSelector(getCustomerLoading, true);
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe subscription', () => {
-      component['subscription'].unsubscribe = jest.fn();
+        m.expect(component.customerLoading$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+    test(
+      'should set quotation$',
+      marbles((m) => {
+        store.overrideSelector(getQuotation, QUOTATION_MOCK);
 
-      component.ngOnDestroy();
+        component.ngOnInit();
 
-      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
-    });
+        m.expect(component.quotation$).toBeObservable(
+          m.cold('a', { a: QUOTATION_MOCK })
+        );
+      })
+    );
+    test(
+      'should set quotationLoading$',
+      marbles((m) => {
+        store.overrideSelector(getQuotationLoading, true);
+
+        component.ngOnInit();
+
+        m.expect(component.quotationLoading$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+    test(
+      'should set updateLoading$',
+      marbles((m) => {
+        store.overrideSelector(getUpdateLoading, true);
+
+        component.ngOnInit();
+
+        m.expect(component.updateLoading$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
+    test(
+      'should set breadcrumbs$',
+      marbles((m) => {
+        const breadcrumbs: Breadcrumb[] = [
+          {
+            label: 'Test',
+          },
+        ];
+        component[
+          'breadCrumbsService'
+        ].getQuotationBreadcrumbsForProcessCaseView = jest.fn(
+          (): Breadcrumb[] => breadcrumbs
+        );
+        store.overrideSelector(getGqId, 1234);
+
+        component.ngOnInit();
+
+        m.expect(component.breadcrumbs$).toBeObservable(
+          m.cold('a', { a: breadcrumbs })
+        );
+        component.breadcrumbs$.subscribe(() => {
+          expect(
+            component['breadCrumbsService']
+              .getQuotationBreadcrumbsForProcessCaseView
+          ).toHaveBeenCalledTimes(1);
+          expect(
+            component['breadCrumbsService']
+              .getQuotationBreadcrumbsForProcessCaseView
+          ).toHaveBeenCalledWith(1234);
+        });
+      })
+    );
   });
 });

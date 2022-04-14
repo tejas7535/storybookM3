@@ -5,7 +5,7 @@
   <div *transloco="let t; read: 'sapView.header'">
     <schaeffler-subheader
       [subheaderTitle]="t('title')"
-      [breadcrumbs]="breadcrumbs"
+      [breadcrumbs]="breadcrumbs$ | ngrxPush"
       *ngIf="quotationDetail$ | ngrxPush"
     >
       <ng-container subheaderTitleContent>

@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -10,9 +10,9 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import { DetailViewQueryParams } from '../app-routing.module';
 import {
   getCustomer,
+  getCustomerLoading,
+  getQuotationLoading,
   getSelectedQuotationDetailItemId,
-  isCustomerLoading,
-  isQuotationLoading,
 } from '../core/store';
 import { Customer } from '../shared/models/customer';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
@@ -22,15 +22,13 @@ import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/bread
   templateUrl: './customer-view.component.html',
   styleUrls: ['./customer-view.component.scss'],
 })
-export class CustomerViewComponent implements OnInit, OnDestroy {
-  public getSelectedQuotationDetailItemIdSubscription$: Observable<number>;
+export class CustomerViewComponent implements OnInit {
+  public selectedQuotationDetailItemId$: Observable<number>;
   public customer$: Observable<Customer>;
   public quotationLoading$: Observable<boolean>;
-  public isCustomerLoading$: Observable<boolean>;
-  public breadcrumbs: Breadcrumb[];
-  public params: DetailViewQueryParams;
-
-  private readonly subscription: Subscription = new Subscription();
+  public customerLoading$: Observable<boolean>;
+  public breadcrumbs$: Observable<Breadcrumb[]>;
+  public params$: Observable<DetailViewQueryParams>;
 
   public constructor(
     private readonly store: Store,
@@ -39,44 +37,23 @@ export class CustomerViewComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.getSelectedQuotationDetailItemIdSubscription$ = this.store.select(
+    this.selectedQuotationDetailItemId$ = this.store.select(
       getSelectedQuotationDetailItemId
     );
     this.customer$ = this.store.select(getCustomer);
-    this.quotationLoading$ = this.store.select(isQuotationLoading);
-    this.isCustomerLoading$ = this.store.select(isCustomerLoading);
-
-    this.addSubscriptions();
-  }
-
-  public addSubscriptions(): void {
-    this.addQueryParamsSubscription();
-    this.addGetSelectedQuotationDetailItemIdSubscription();
-  }
-
-  public addQueryParamsSubscription(): void {
-    this.subscription.add(
-      this.router.queryParams.subscribe(
-        (params: Params) => (this.params = params as DetailViewQueryParams)
+    this.quotationLoading$ = this.store.select(getQuotationLoading);
+    this.customerLoading$ = this.store.select(getCustomerLoading);
+    this.params$ = this.router.queryParams.pipe(
+      map((params) => params as DetailViewQueryParams)
+    );
+    this.breadcrumbs$ = combineLatest([
+      this.selectedQuotationDetailItemId$,
+      this.customer$,
+      this.params$,
+    ]).pipe(
+      map(([id, customer, params]: [number, Customer, DetailViewQueryParams]) =>
+        this.breadCrumbsService.getCustomerBreadCrumbs(params, customer, id)
       )
     );
-  }
-
-  public addGetSelectedQuotationDetailItemIdSubscription(): void {
-    const subscription = combineLatest(
-      this.getSelectedQuotationDetailItemIdSubscription$,
-      this.customer$
-    ).subscribe(([id, customer]: [number, Customer]) => {
-      this.breadcrumbs = this.breadCrumbsService.getCustomerBreadCrumbs(
-        this.params,
-        customer,
-        id
-      );
-    });
-
-    this.subscription.add(subscription);
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

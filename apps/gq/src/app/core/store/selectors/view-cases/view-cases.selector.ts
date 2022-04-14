@@ -9,12 +9,12 @@ export const getQuotations = createSelector(
   (state: ViewCasesState): ViewQuotation[] => state.quotations
 );
 
-export const isQuotationsLoading = createSelector(
+export const getQuotationsLoading = createSelector(
   getViewCasesState,
   (state: ViewCasesState): boolean => state.quotationsLoading
 );
 
-export const isDeleteLoading = createSelector(
+export const getDeleteLoading = createSelector(
   getViewCasesState,
   (state: ViewCasesState): boolean => state.deleteLoading
 );

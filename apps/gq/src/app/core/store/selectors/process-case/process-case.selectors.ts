@@ -27,7 +27,7 @@ export const getCustomer = createSelector(
   (state: ProcessCaseState): Customer => state.customer.item
 );
 
-export const isCustomerLoading = createSelector(
+export const getCustomerLoading = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => state.customer.customerLoading
 );
@@ -65,7 +65,7 @@ export const getTableContextQuotation = createSelector(
   })
 );
 
-export const isQuotationLoading = createSelector(
+export const getQuotationLoading = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => state.quotation.quotationLoading
 );

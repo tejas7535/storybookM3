@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
+  getDeleteLoading,
   getQuotations,
-  isDeleteLoading,
-  isQuotationsLoading,
+  getQuotationsLoading,
 } from '../core/store';
 import { ViewQuotation } from './models/view-quotation.model';
 
@@ -24,7 +24,7 @@ export class CaseViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.quotations$ = this.store.select(getQuotations);
-    this.quotationsLoading$ = this.store.select(isQuotationsLoading);
-    this.deleteLoading$ = this.store.select(isDeleteLoading);
+    this.quotationsLoading$ = this.store.select(getQuotationsLoading);
+    this.deleteLoading$ = this.store.select(getDeleteLoading);
   }
 }

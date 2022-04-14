@@ -1,18 +1,19 @@
-import { ComponentFixture } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { BehaviorSubject } from 'rxjs';
+
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -21,19 +22,25 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
+import {
+  CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../testing/mocks';
+import { DetailViewQueryParams } from '../app-routing.module';
+import {
+  getCustomer,
+  getCustomerLoading,
+  getQuotationLoading,
+  getSelectedQuotationDetailItemId,
+} from '../core/store';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewComponent } from './customer-view.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('CustomerViewComponent', () => {
   let component: CustomerViewComponent;
   let spectator: Spectator<CustomerViewComponent>;
-  let fixture: ComponentFixture<CustomerViewComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: CustomerViewComponent,
@@ -72,74 +79,102 @@ describe('CustomerViewComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    fixture = spectator.fixture;
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
   });
   describe('ngOnInit', () => {
-    test('should define observables', () => {
-      component.ngOnInit();
+    test(
+      'should set selectedQuotationDetailItemId$',
+      marbles((m) => {
+        store.overrideSelector(getSelectedQuotationDetailItemId, 10);
+        component.ngOnInit();
 
-      expect(component.customer$).toBeDefined();
-    });
+        m.expect(component.selectedQuotationDetailItemId$).toBeObservable('a', {
+          a: 10,
+        });
+      })
+    );
+    test(
+      'should set customer$',
+      marbles((m) => {
+        store.overrideSelector(getCustomer, CUSTOMER_MOCK);
+        component.ngOnInit();
 
-    test('should call add subscriptions', () => {
-      component.addSubscriptions = jest.fn();
+        m.expect(component.customer$).toBeObservable('a', {
+          a: CUSTOMER_MOCK,
+        });
+      })
+    );
+    test(
+      'should set quotationLoading$',
+      marbles((m) => {
+        store.overrideSelector(getQuotationLoading, true);
+        component.ngOnInit();
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+        m.expect(component.quotationLoading$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
+    test(
+      'should set customerLoading$',
+      marbles((m) => {
+        store.overrideSelector(getCustomerLoading, true);
+        component.ngOnInit();
 
-      expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
-    });
-  });
+        m.expect(component.customerLoading$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
+    test(
+      'should set params$',
+      marbles((m) => {
+        const detailViewQueryParams: DetailViewQueryParams = {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          customer_number: CUSTOMER_MOCK.identifier.customerId,
+          quotation_number: QUOTATION_MOCK.gqId,
+          sales_org: CUSTOMER_MOCK.identifier.salesOrg,
+        };
 
-  describe('addSubscriptions', () => {
-    test('should call methods to add subscriptions', () => {
-      component.addQueryParamsSubscription = jest.fn();
-      component.addGetSelectedQuotationDetailItemIdSubscription = jest.fn();
+        component['router'].queryParams = new BehaviorSubject(
+          detailViewQueryParams
+        );
+        component.ngOnInit();
 
-      component.addSubscriptions();
+        m.expect(component.params$).toBeObservable('a', {
+          a: detailViewQueryParams,
+        });
+      })
+    );
+    test(
+      'should set breadcrumbs$',
+      marbles((m) => {
+        const breadcrumbs = [
+          {
+            label: 'Test',
+          },
+        ];
 
-      expect(
-        component.addGetSelectedQuotationDetailItemIdSubscription
-      ).toHaveBeenCalledTimes(1);
-      expect(component.addQueryParamsSubscription).toHaveBeenCalledTimes(1);
-    });
-  });
+        component['breadCrumbsService'].getCustomerBreadCrumbs = jest.fn(
+          () => breadcrumbs
+        );
 
-  describe('addQueryParamsSubscription', () => {
-    test('should addQueryParamsSubscription', () => {
-      component['subscription'].add = jest.fn();
+        component.ngOnInit();
 
-      component.addQueryParamsSubscription();
-
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('addGetSelectedQuotationDetailItemIdSubscription', () => {
-    test('should addGetSelectedQuotationDetailItemIdSubscription', () => {
-      component['subscription'].add = jest.fn();
-      component.params = {} as any;
-      fixture.detectChanges();
-      expect(component['subscription'].add).toHaveBeenCalledTimes(2);
-
-      component.addGetSelectedQuotationDetailItemIdSubscription();
-
-      expect(component['subscription'].add).toHaveBeenCalledTimes(3);
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe subscription', () => {
-      component['subscription'].unsubscribe = jest.fn();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
-    });
+        m.expect(component.breadcrumbs$).toBeObservable('a', {
+          a: breadcrumbs,
+        });
+        component.breadcrumbs$.subscribe(() => {
+          expect(
+            component['breadCrumbsService'].getCustomerBreadCrumbs
+          ).toHaveBeenCalledTimes(1);
+        });
+      })
+    );
   });
 });

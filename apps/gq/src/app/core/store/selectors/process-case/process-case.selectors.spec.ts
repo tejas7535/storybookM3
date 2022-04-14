@@ -47,7 +47,7 @@ describe('Process Case Selector', () => {
   describe('getCustomerLoading', () => {
     test('should return true if customer details is currently loading', () => {
       expect(
-        quotationSelectors.isCustomerLoading.projector(fakeState.processCase)
+        quotationSelectors.getCustomerLoading.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });
@@ -73,7 +73,7 @@ describe('Process Case Selector', () => {
   describe('getQuotationLoading', () => {
     test('should return true if quotation is currently loading', () => {
       expect(
-        quotationSelectors.isQuotationLoading.projector(fakeState.processCase)
+        quotationSelectors.getCustomerLoading.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });

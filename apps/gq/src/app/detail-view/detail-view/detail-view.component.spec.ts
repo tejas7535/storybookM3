@@ -94,6 +94,9 @@ describe('DetailViewComponent', () => {
     test(
       'should initialize observables',
       marbles((m) => {
+        component['breadCrumbsService'].getDetailViewBreadcrumbs = jest.fn(
+          () => [{ label: 'test' }]
+        );
         m.expect(component.quotation$).toBeObservable(
           m.cold('a', { a: QUOTATION_MOCK })
         );
@@ -109,27 +112,11 @@ describe('DetailViewComponent', () => {
         m.expect(component.materialStockLoading$).toBeObservable(
           m.cold('a', { a: false })
         );
+        m.expect(component.breadcrumbs$).toBeObservable(
+          m.cold('a', { a: [{ label: 'test' }] })
+        );
       })
     );
-    test('should add subscriptions', () => {
-      component['subscription'].add = jest.fn();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe subscription', () => {
-      component['subscription'].unsubscribe = jest.fn();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('navigateToQuotationByIndex', () => {

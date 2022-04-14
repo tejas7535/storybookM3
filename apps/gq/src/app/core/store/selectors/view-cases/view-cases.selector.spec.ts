@@ -20,18 +20,18 @@ describe('View Cases Selector', () => {
     });
   });
 
-  describe('isQuotationsLoading', () => {
+  describe('getQuotationsLoading', () => {
     test('should return false', () => {
       expect(
-        viewCasesSelectors.isQuotationsLoading.projector(fakeState)
+        viewCasesSelectors.getQuotationsLoading.projector(fakeState)
       ).toBeFalsy();
     });
   });
 
-  describe('isDeleteLoading', () => {
+  describe('getDeleteLoading', () => {
     test('should return false', () => {
       expect(
-        viewCasesSelectors.isDeleteLoading.projector(fakeState)
+        viewCasesSelectors.getDeleteLoading.projector(fakeState)
       ).toBeFalsy();
     });
   });

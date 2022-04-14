@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -13,8 +13,8 @@ import {
   getMaterialStock,
   getMaterialStockLoading,
   getQuotation,
+  getQuotationLoading,
   getSelectedQuotationDetail,
-  isQuotationLoading,
 } from '../../core/store';
 import { MaterialStock } from '../../core/store/reducers/material-stock/models/material-stock.model';
 import { Quotation } from '../../shared/models';
@@ -27,17 +27,15 @@ import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/br
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.scss'],
 })
-export class DetailViewComponent implements OnInit, OnDestroy {
+export class DetailViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
   public quotationLoading$: Observable<boolean>;
   public quotationDetail$: Observable<QuotationDetail>;
   public materialStock$: Observable<MaterialStock>;
   public materialStockLoading$: Observable<boolean>;
 
-  public breadcrumbs: Breadcrumb[];
+  public breadcrumbs$: Observable<Breadcrumb[]>;
   public quotations: QuotationDetail[];
-
-  private readonly subscription: Subscription = new Subscription();
 
   public constructor(
     private readonly store: Store,
@@ -49,31 +47,25 @@ export class DetailViewComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.quotation$ = this.store.select(getQuotation);
-    this.quotationLoading$ = this.store.select(isQuotationLoading);
+    this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
     this.materialStock$ = this.store.select(getMaterialStock);
     this.materialStockLoading$ = this.store.select(getMaterialStockLoading);
-    this.subscription.add(
-      this.store
-        .select(getDetailViewQueryParams)
-        .subscribe(
-          (res) =>
-            (this.breadcrumbs =
-              this.breadCrumbsService.getDetailViewBreadcrumbs(
-                res.id,
-                res.queryParams,
-                false
-              ))
+    this.breadcrumbs$ = this.store
+      .select(getDetailViewQueryParams)
+      .pipe(
+        map((res) =>
+          this.breadCrumbsService.getDetailViewBreadcrumbs(
+            res.id,
+            res.queryParams,
+            false
+          )
         )
-    );
+      );
 
     this.quotations = this.agGridService.getColumnData(
       this.route.snapshot.queryParams.quotation_number
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   onNavigateToQuotationByIndex(newIndex: number): void {

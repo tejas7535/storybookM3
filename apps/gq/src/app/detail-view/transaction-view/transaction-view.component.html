@@ -4,7 +4,7 @@
 >
   <div *transloco="let t; read: 'transactionView.header'">
     <schaeffler-subheader
-      [breadcrumbs]="breadcrumbs"
+      [breadcrumbs]="breadcrumbs$ | ngrxPush"
       [subheaderTitle]="t('title')"
     >
       <ng-container subheaderTitleContent>

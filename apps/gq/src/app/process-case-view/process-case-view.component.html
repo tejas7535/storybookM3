@@ -1,7 +1,7 @@
 <div
   class="flex h-full flex-col"
   *ngIf="
-    !(isCustomerLoading$ | ngrxPush) && !(isQuotationLoading$ | ngrxPush);
+    !(customerLoading$ | ngrxPush) && !(quotationLoading$ | ngrxPush);
     else loading
   "
 >
@@ -14,7 +14,7 @@
           : (quotation.gqId | gqQuotation)
         : ''
     "
-    [breadcrumbs]="breadcrumbs"
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
   >
     <ng-container subheaderTitleContent>
       <div
@@ -47,7 +47,7 @@
     "
   >
     <gq-quotation-details-table
-      *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
+      *ngIf="!(updateLoading$ | ngrxPush); else updateLoading"
       [quotation]="quotation$ | ngrxPush"
     ></gq-quotation-details-table>
     <ng-template #updateLoading>

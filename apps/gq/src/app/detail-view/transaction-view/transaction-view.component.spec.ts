@@ -3,11 +3,14 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { BehaviorSubject } from 'rxjs';
+
 import { FilterChangedEvent } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import resize_observer_polyfill from 'resize-observer-polyfill';
+import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -16,11 +19,16 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../testing/mocks';
+import {
+  COMPARABLE_LINKED_TRANSACTION_MOCK,
+  CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
+} from '../../../testing/mocks';
 import {
   PROCESS_CASE_STATE_MOCK,
   TRANSACTIONS_STATE_MOCK,
 } from '../../../testing/mocks/state';
+import { getSelectedQuotationDetail } from '../../core/store';
 import { CustomerHeaderModule } from '../../shared/components/header/customer-header/customer-header.module';
 import { MaterialPriceHeaderContentModule } from '../../shared/components/header/material-price-header-content/material-price-header-content.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
@@ -32,6 +40,7 @@ window.ResizeObserver = resize_observer_polyfill;
 describe('TransactionViewComponent', () => {
   let component: TransactionViewComponent;
   let spectator: Spectator<TransactionViewComponent>;
+  let store: MockStore;
   const mockTransactions = [
     { ...COMPARABLE_LINKED_TRANSACTION_MOCK, identifier: 1111 },
     { ...COMPARABLE_LINKED_TRANSACTION_MOCK, identifier: 2222 },
@@ -77,6 +86,7 @@ describe('TransactionViewComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -84,24 +94,39 @@ describe('TransactionViewComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should add subscriptions', () => {
-      component['subscription'].add = jest.fn();
+    test(
+      'should initalize observables',
+      marbles((m) => {
+        store.overrideSelector(
+          getSelectedQuotationDetail,
+          QUOTATION_DETAIL_MOCK
+        );
+        component['translocoService'].selectTranslateObject = jest.fn(
+          () => new BehaviorSubject({ test: 'test' }) as any
+        );
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe subscription', () => {
-      component['subscription'].unsubscribe = jest.fn();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
-    });
+        m.expect(component.quotationDetail$).toBeObservable(
+          m.cold('a', { a: QUOTATION_DETAIL_MOCK })
+        );
+        m.expect(component.quotationLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+        m.expect(component.currency$).toBeObservable(
+          m.cold('a', { a: CUSTOMER_MOCK.currency })
+        );
+        m.expect(component.transactions$).toBeObservable(
+          m.cold('a', { a: mockTransactions })
+        );
+        m.expect(component.transactionsLoading$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+        m.expect(component.translationsLoaded$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+      })
+    );
   });
 
   describe('graphTransactions', () => {

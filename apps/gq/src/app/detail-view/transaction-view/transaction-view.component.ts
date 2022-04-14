@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { FilterChangedEvent, RowNode } from '@ag-grid-community/all-modules';
@@ -15,10 +15,10 @@ import {
   getCustomerCurrency,
   getDetailViewQueryParams,
   getGraphTransactions,
+  getQuotationLoading,
   getSelectedQuotationDetail,
   getTransactions,
   getTransactionsLoading,
-  isQuotationLoading,
 } from '../../core/store';
 import { ComparableLinkedTransaction } from '../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Customer } from '../../shared/models/customer';
@@ -33,7 +33,7 @@ import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/br
   templateUrl: './transaction-view.component.html',
   styleUrls: ['./transaction-view.component.scss'],
 })
-export class TransactionViewComponent implements OnInit, OnDestroy {
+export class TransactionViewComponent implements OnInit {
   quotationDetail$: Observable<QuotationDetail>;
   quotationLoading$: Observable<boolean>;
   currency$: Observable<string>;
@@ -48,8 +48,7 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
     undefined
   );
 
-  public breadcrumbs: Breadcrumb[];
-  private readonly subscription: Subscription = new Subscription();
+  public breadcrumbs$: Observable<Breadcrumb[]>;
 
   constructor(
     private readonly store: Store,
@@ -59,11 +58,11 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
-    this.quotationLoading$ = this.store.select(isQuotationLoading);
+    this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.currency$ = this.store.select(getCustomerCurrency);
     this.translationsLoaded$ = this.translocoService
       .selectTranslateObject('transactions', {}, 'transaction-view')
-      .pipe(map(() => true));
+      .pipe(map((res) => typeof res !== 'string'));
     this.transactions$ = this.store.select(getTransactions);
     this.transactionsLoading$ = this.store.select(getTransactionsLoading);
     this.graphTransactions$ = combineLatest([
@@ -86,20 +85,17 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
     );
     this.coefficients$ = this.store.select(getCoefficients);
     this.customer$ = this.store.select(getCustomer);
-
-    this.subscription.add(
-      this.store
-        .select(getDetailViewQueryParams)
-        .subscribe(
-          (result) =>
-            (this.breadcrumbs =
-              this.breadCrumbsService.getPriceDetailBreadcrumbs(
-                result.id,
-                result.queryParams,
-                true
-              ))
+    this.breadcrumbs$ = this.store
+      .select(getDetailViewQueryParams)
+      .pipe(
+        map((res) =>
+          this.breadCrumbsService.getPriceDetailBreadcrumbs(
+            res.id,
+            res.queryParams,
+            true
+          )
         )
-    );
+      );
   }
 
   onFilterChanged(event: FilterChangedEvent): void {
@@ -109,9 +105,5 @@ export class TransactionViewComponent implements OnInit, OnDestroy {
     });
 
     this.filteredTransactionIdentifier.next(filteredTransactionIdentifiers);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }

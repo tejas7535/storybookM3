@@ -1,12 +1,12 @@
 <div
   *ngIf="
-    !(isCustomerLoading$ | ngrxPush) && !(quotationLoading$ | ngrxPush);
+    !(customerLoading$ | ngrxPush) && !(quotationLoading$ | ngrxPush);
     else loading
   "
 >
   <schaeffler-subheader
     *ngIf="customer$ | ngrxPush as customer"
-    [breadcrumbs]="breadcrumbs"
+    [breadcrumbs]="breadcrumbs$ | ngrxPush"
     [subheaderTitle]="customer.name"
   >
     <ng-container subheaderInlineContent>

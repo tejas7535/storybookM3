@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { map, Observable, Subscription } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
@@ -10,11 +10,11 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import {
   getCustomer,
   getDetailViewQueryParams,
+  getQuotationLoading,
   getSapPriceDetails,
   getSapPriceDetailsLoading,
   getSelectedQuotationDetail,
   getTableContextQuotation,
-  isQuotationLoading,
 } from '../../core/store';
 import { SapPriceConditionDetail } from '../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../process-case-view/quotation-details-table/config/tablecontext.model';
@@ -38,35 +38,37 @@ export class SapViewComponent implements OnInit {
   public quotationLoading$: Observable<boolean>;
   public translationsLoaded$: Observable<boolean>;
   public sapPriceDetailsLoading$: Observable<boolean>;
-  public breadcrumbs: Breadcrumb[];
+  public breadcrumbs$: Observable<Breadcrumb[]>;
   public rowData$: Observable<SapPriceConditionDetail[]>;
   public tableContext$: Observable<TableContext>;
-
-  private readonly subscription: Subscription = new Subscription();
+  public translation$: Observable<any>;
 
   ngOnInit(): void {
     this.customer$ = this.store.select(getCustomer);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
-    this.quotationLoading$ = this.store.select(isQuotationLoading);
-    this.translationsLoaded$ = this.translocoService
-      .selectTranslateObject('sapView', {}, 'sap-view')
-      .pipe(map(() => true));
+    this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.sapPriceDetailsLoading$ = this.store.select(getSapPriceDetailsLoading);
     this.rowData$ = this.store.select(getSapPriceDetails);
     this.tableContext$ = this.store.select(getTableContextQuotation);
+    this.translationsLoaded$ = this.translocoService
+      .selectTranslateObject('sapView', {}, '')
+      .pipe(map((value) => typeof value !== 'string'));
 
-    this.subscription.add(
-      this.store
-        .select(getDetailViewQueryParams)
-        .subscribe(
-          (res) =>
-            (this.breadcrumbs =
-              this.breadCrumbsService.getPriceDetailBreadcrumbs(
-                res.id,
-                res.queryParams,
-                false
-              ))
-        )
+    this.translation$ = this.translocoService.selectTranslateObject(
+      'sapView',
+      {},
+      ''
     );
+    this.breadcrumbs$ = this.store
+      .select(getDetailViewQueryParams)
+      .pipe(
+        map((res) =>
+          this.breadCrumbsService.getPriceDetailBreadcrumbs(
+            res.id,
+            res.queryParams,
+            false
+          )
+        )
+      );
   }
 }

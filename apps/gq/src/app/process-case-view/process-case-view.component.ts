@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -8,10 +8,10 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { getQuotation, updateCaseName } from '../core/store';
 import {
+  getCustomerLoading,
   getGqId,
+  getQuotationLoading,
   getUpdateLoading,
-  isCustomerLoading,
-  isQuotationLoading,
 } from '../core/store/selectors';
 import { Quotation } from '../shared/models';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
@@ -20,15 +20,13 @@ import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/bread
   selector: 'gq-case-view',
   templateUrl: './process-case-view.component.html',
 })
-export class ProcessCaseViewComponent implements OnInit, OnDestroy {
+export class ProcessCaseViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
-  public isCustomerLoading$: Observable<boolean>;
-  public isQuotationLoading$: Observable<boolean>;
-  public isUpdateLoading$: Observable<boolean>;
-  public breadcrumbs: Breadcrumb[];
+  public customerLoading$: Observable<boolean>;
+  public quotationLoading$: Observable<boolean>;
+  public updateLoading$: Observable<boolean>;
+  public breadcrumbs$: Observable<Breadcrumb[]>;
   public displayTitle = true;
-
-  private readonly subscription: Subscription = new Subscription();
 
   constructor(
     private readonly store: Store,
@@ -37,24 +35,20 @@ export class ProcessCaseViewComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.quotation$ = this.store.select(getQuotation);
-    this.isCustomerLoading$ = this.store.select(isCustomerLoading);
-    this.isQuotationLoading$ = this.store.select(isQuotationLoading);
-    this.isUpdateLoading$ = this.store.select(getUpdateLoading);
-    this.subscription.add(
-      this.store
-        .select(getGqId)
-        .subscribe(
-          (gqId) =>
-            (this.breadcrumbs =
-              this.breadCrumbsService.getQuotationBreadcrumbsForProcessCaseView(
-                gqId
-              ))
+    this.customerLoading$ = this.store.select(getCustomerLoading);
+    this.quotationLoading$ = this.store.select(getQuotationLoading);
+    this.updateLoading$ = this.store.select(getUpdateLoading);
+    this.breadcrumbs$ = this.store
+      .select(getGqId)
+      .pipe(
+        map((gqId) =>
+          this.breadCrumbsService.getQuotationBreadcrumbsForProcessCaseView(
+            gqId
+          )
         )
-    );
+      );
   }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
+
   public toggleDisplayTitle(display: boolean): void {
     this.displayTitle = display;
   }
