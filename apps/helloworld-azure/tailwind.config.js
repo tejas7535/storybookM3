@@ -6,7 +6,6 @@ module.exports = {
     join(__dirname, '../../libs/shared/**/*.{ts,html}'),
   ],
   presets: [require('../../tailwind.config')],
-  safelist: [{ pattern: /grid-cols-/ }],
   theme: {
     extend: {},
   },

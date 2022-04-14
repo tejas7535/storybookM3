@@ -21,7 +21,9 @@
       >
         <div
           class="grid gap-0"
-          [ngClass]="'grid-cols-' + labelValue.values.length"
+          [style.grid-template-columns]="
+            'repeat(' + labelValue.values.length + ', minmax(0, 1fr))'
+          "
         >
           <div
             *ngFor="let value of labelValue.values; let i = index"
