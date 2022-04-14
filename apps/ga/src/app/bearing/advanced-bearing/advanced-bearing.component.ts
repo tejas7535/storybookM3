@@ -176,8 +176,8 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
       if (
         (this.minDi?.value || this.maxDi?.value) &&
         (this.minDa?.value || this.maxDa?.value) &&
-        (this.minDi?.value || this.maxDi?.value) >
-          (this.minDa?.value || this.maxDa?.value)
+        Math.max(this.minDi?.value, this.maxDi?.value) >
+          Math.min(this.minDa?.value || this.maxDa?.value)
       ) {
         return {
           innerOuterInconsistent: true,
