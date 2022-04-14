@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { MsalGuard } from '@azure/msal-angular';
 
+import { LegalRoute } from '@schaeffler/legal-pages';
+
 import { RoutePath } from './app-routing.enum';
 import { RoleGuard } from './core/guards/role.guard';
 
@@ -59,6 +61,11 @@ export const appRoutePaths: Routes = [
     data: {
       requiredRoles: ['material-supplier-database-read-user'],
     },
+  },
+  {
+    path: LegalRoute,
+    loadChildren: async () =>
+      import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {
     path: 'forbidden',

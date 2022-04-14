@@ -4,9 +4,10 @@
   [hasSidebarLeft]="true"
   [userName]="username$ | ngrxPush"
   [userImageUrl]="profileImage$ | ngrxPush"
+  [footerLinks]="footerLinks$ | ngrxPush"
 >
   <ng-container mainContent>
-    <div class="h-full w-full bg-surface">
+    <div class="h-full w-full overflow-auto bg-surface">
       <router-outlet></router-outlet>
     </div>
   </ng-container>
