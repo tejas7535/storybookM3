@@ -7,6 +7,11 @@ export interface LabelValue {
   label: string;
 
   /**
+   * Add an optional hint as tooltip in the label area
+   */
+  labelHint?: string;
+
+  /**
    * Set a single value
    */
   value?: string;

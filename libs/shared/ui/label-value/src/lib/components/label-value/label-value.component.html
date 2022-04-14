@@ -4,10 +4,25 @@
 >
   <ng-container *ngFor="let labelValue of labelValues; let i = index">
     <div
-      class="bg-primary bg-opacity-[0.07] px-6 pt-3 pb-6"
+      class="relative bg-primary bg-opacity-[0.07] px-6 pt-3 pb-6"
       [ngClass]="i > 0 ? 'border-t border-border' : ''"
     >
-      {{ labelValue.label }}
+      <span
+        [innerHTML]="labelValue.label"
+        class="inline-block"
+        [ngClass]="{ 'pr-6': labelValue.labelHint }"
+        [style.max-width]="labelMaxWidth ? labelMaxWidth + 'px' : ''"
+      ></span>
+      <mat-icon
+        *ngIf="labelValue.labelHint"
+        color="primary"
+        class="absolute right-3 top-2 cursor-help"
+        #tooltip="matTooltip"
+        [matTooltip]="labelValue.labelHint"
+        (click)="tooltip.toggle()"
+      >
+        info_outline
+      </mat-icon>
     </div>
     <div
       class="bg-surface"
@@ -20,7 +35,7 @@
         *ngIf="labelValue.values && labelValue.values.length; else singleValue"
       >
         <div
-          class="grid gap-0"
+          class="grid h-full gap-0"
           [style.grid-template-columns]="
             'repeat(' + labelValue.values.length + ', minmax(0, 1fr))'
           "
@@ -39,7 +54,7 @@
       </ng-container>
       <ng-template #singleValue>
         <div class="px-6 pt-3 pb-6">
-          {{ labelValue.value }}
+          <span [innerHTML]="labelValue.value"></span>
         </div>
       </ng-template>
     </div>

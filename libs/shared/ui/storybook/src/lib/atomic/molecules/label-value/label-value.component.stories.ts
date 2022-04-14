@@ -1,3 +1,4 @@
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
@@ -19,7 +20,12 @@ const mockLabelValuesSingle: LabelValue[] = [
     value: 'This is the data value',
   },
   {
-    label: 'Even Longer data label',
+    label: 'Data label with Hint',
+    labelHint: 'This is some additional explanation in a tooltip',
+    value: 'This data needs additional explanation in a tooltip',
+  },
+  {
+    label: 'Longer data label to stretch the label area',
     value: 'This is another and even longer data value string.',
   },
   {
@@ -76,7 +82,7 @@ export default {
   },
   decorators: [
     moduleMetadata({
-      imports: [LabelValueModule],
+      imports: [NoopAnimationsModule, LabelValueModule],
     }),
   ],
 } as Meta<LabelValueModule>;
@@ -89,6 +95,12 @@ const Template: Story<LabelValueComponent> = (args: LabelValueComponent) => ({
 export const Default = Template.bind({});
 Default.args = {
   labelValues: mockLabelValuesSingle,
+};
+
+export const LabelMaxWidth = Template.bind({});
+LabelMaxWidth.args = {
+  labelValues: mockLabelValuesSingle,
+  labelMaxWidth: 120,
 };
 
 export const MultipleValues = Template.bind({});
