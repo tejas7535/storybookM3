@@ -11,7 +11,7 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../shared/models';
-import { OrgChartResponse, ParentEmployeeResponse } from './org-chart/models';
+import { OrgChartResponse } from './org-chart/models';
 import { OrganizationalViewService } from './organizational-view.service';
 import { CountryData, WorldMapResponse } from './world-map/models';
 
@@ -113,20 +113,18 @@ describe('OrganizationalViewService', () => {
 
   describe('getParentEmployee', () => {
     test('should get parent for provided employee id', () => {
-      const mock: ParentEmployeeResponse = {
-        employee: {} as unknown as Employee,
-      };
-      const childEmployeeId = '123';
-      const childEmployeeReportDate = '345';
+      const mock: Employee = {} as unknown as Employee;
+      const parentEmployeeId = '123';
+      const childReportDate = '345';
 
       service
-        .getParentEmployee(childEmployeeId, childEmployeeReportDate)
+        .getParentEmployee(parentEmployeeId, childReportDate)
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
       const req = httpMock.expectOne(
-        'api/v1/parent-employee?child_employee_id=123&child_employee_report_date=345'
+        'api/v1/employee?employee_key=123&report_date=345'
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

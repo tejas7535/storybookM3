@@ -28,7 +28,7 @@ describe('OrgChartService', () => {
   });
 
   describe('mapEmployeesToNodes', () => {
-    test('should mapped employee data', () => {
+    test('should map employee data', () => {
       const data: Employee[] = [
         {
           employeeId: '123',
@@ -55,8 +55,38 @@ describe('OrgChartService', () => {
         textRowEmployees: 'translate it',
         textRowAttrition: 'translate it',
         heatMapClass: 'bg-selected-overlay',
-        showUpperParentBtn: true,
+        showUpperParentBtn: false,
       });
+    });
+
+    test('should set showUpperButton to false if parent of one employee is null', () => {
+      const data: Employee[] = [
+        {
+          employeeId: '123',
+          employeeName: 'Hans',
+          attritionMeta: {},
+        } as unknown as Employee,
+      ];
+
+      const result = service.mapEmployeesToNodes(data);
+
+      expect(result[0].showUpperParentBtn).toBeFalsy();
+    });
+
+    test('should set showUpperButton to true if parent of one employee is not null', () => {
+      const data: Employee[] = [
+        {
+          employeeId: '123',
+          employeeName: 'Hans',
+          parentEmployeeId: '456',
+          attritionMeta: {},
+        } as unknown as Employee,
+      ];
+
+      const result = service.mapEmployeesToNodes(data);
+
+      expect(result[0].showUpperParentBtn).toBeTruthy();
+      expect(result[0].parentNodeId).toBeUndefined();
     });
 
     test('should include heat map info', () => {

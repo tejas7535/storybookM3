@@ -15,7 +15,7 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../shared/models';
-import { OrgChartResponse, ParentEmployeeResponse } from './org-chart/models';
+import { OrgChartResponse } from './org-chart/models';
 import { CountryData, WorldMapResponse } from './world-map/models';
 
 @Injectable({
@@ -24,11 +24,11 @@ import { CountryData, WorldMapResponse } from './world-map/models';
 export class OrganizationalViewService {
   readonly ORG_CHART = 'org-chart';
   readonly WORLD_MAP = 'world-map';
-  readonly EMPLOYEE = 'parent-employee';
+  readonly EMPLOYEE = 'employee';
   readonly ATTRITION_OVER_TIME = 'attrition-over-time';
 
-  readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
-  readonly PARAM_CHILD_EMPLOYEE_REPORT_DATE = 'child_employee_report_date';
+  readonly PARAM_EMPLOYEE_ID = 'employee_key';
+  readonly PARAM_REPORT_DATE = 'report_date';
 
   constructor(
     private readonly http: HttpClient,
@@ -83,19 +83,17 @@ export class OrganizationalViewService {
   }
 
   getParentEmployee(
-    childEmployeeId: string,
-    childEmployeeReportDate: string
+    parentEmployeeId: string,
+    reportDate: string
   ): Observable<Employee> {
     const params = new HttpParams()
-      .set(this.PARAM_CHILD_EMPLOYEE_ID, childEmployeeId)
-      .set(this.PARAM_CHILD_EMPLOYEE_REPORT_DATE, childEmployeeReportDate);
+      .set(this.PARAM_EMPLOYEE_ID, parentEmployeeId)
+      .set(this.PARAM_REPORT_DATE, reportDate);
 
-    return this.http
-      .get<ParentEmployeeResponse>(`${ApiVersion.V1}/${this.EMPLOYEE}`, {
-        params,
-        context: withCache(),
-      })
-      .pipe(map((response) => response.employee));
+    return this.http.get<Employee>(`${ApiVersion.V1}/${this.EMPLOYEE}`, {
+      params,
+      context: withCache(),
+    });
   }
 
   getAttritionOverTime(

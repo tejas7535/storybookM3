@@ -239,13 +239,13 @@ describe('Organizational View Effects', () => {
   });
 
   describe('loadParent$', () => {
-    let childEmployeeId: string;
-    let childEmployeeReportDate: string;
+    let parentEmployeeId: string;
+    let reportDate: string;
 
     beforeEach(() => {
-      childEmployeeId = '123';
+      parentEmployeeId = '123';
       const employee = {
-        employeeId: childEmployeeId,
+        parentEmployeeId,
       } as unknown as Employee;
 
       action = loadParent({ employee });
@@ -273,7 +273,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getParentEmployee
-        ).toHaveBeenCalledWith(childEmployeeId, childEmployeeReportDate);
+        ).toHaveBeenCalledWith(parentEmployeeId, reportDate);
       })
     );
 
@@ -296,7 +296,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getParentEmployee
-        ).toHaveBeenCalledWith(childEmployeeId, childEmployeeReportDate);
+        ).toHaveBeenCalledWith(parentEmployeeId, reportDate);
       })
     );
   });

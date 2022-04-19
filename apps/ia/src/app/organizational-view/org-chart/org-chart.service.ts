@@ -4,7 +4,6 @@ import { translate } from '@ngneat/transloco';
 import * as d3Selection from 'd3-selection';
 
 import { Employee, HeatType } from '../../shared/models';
-import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
@@ -13,8 +12,18 @@ import { OrgChartNode } from './models/org-chart-node.model';
 export class OrgChartService {
   mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
     return data.map((elem: Employee) => {
+      let parentNodeId = elem.parentEmployeeId;
+
+      // check if current node is local root
+      if (
+        elem.parentEmployeeId &&
+        !data.map((empl) => empl.employeeId).includes(elem.parentEmployeeId)
+      ) {
+        // user has a parent that is out of scope -> local root
+        parentNodeId = undefined;
+      }
+
       const nodeId = elem.employeeId;
-      const parentNodeId = elem.parentEmployeeId;
       const name = elem.employeeName;
       const organization = elem.orgUnit;
       const expanded = elem.level < 2;
@@ -51,15 +60,6 @@ export class OrgChartService {
           heatMapClass = 'bg-selected-overlay';
       }
 
-      // TODO: determination of root elem needs be done otherwise after PoC
-      const rootOfAllEmployees = OrgChartConfig.COMPANY_ROOT;
-      let showUpperParentBtn = false;
-
-      // if root and there is a possibility to load upper parent
-      if (!parentNodeId && organization !== rootOfAllEmployees) {
-        showUpperParentBtn = true;
-      }
-
       return {
         nodeId,
         parentNodeId,
@@ -75,7 +75,8 @@ export class OrgChartService {
         textColumnOverall,
         textRowEmployees,
         textRowAttrition,
-        showUpperParentBtn,
+        showUpperParentBtn:
+          parentNodeId === undefined && elem.parentEmployeeId !== undefined,
       };
     });
   }

@@ -91,7 +91,10 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => action.employee),
       switchMap((childEmployee: Employee) =>
         this.organizationalViewService
-          .getParentEmployee(childEmployee.employeeId, childEmployee.reportDate)
+          .getParentEmployee(
+            childEmployee.parentEmployeeId,
+            childEmployee.reportDate
+          )
           .pipe(
             map((employee: Employee) => loadParentSuccess({ employee })),
             catchError((error) =>
