@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.12.0...cdba-v2.12.1) (2022-04-19)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** correct RowNode import ([f502934](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f502934c50af98a42e29cc41c1fbba36a9a3904f))
+
 ## [2.12.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.11.1...cdba-v2.12.0) (2022-03-29)
 
 
