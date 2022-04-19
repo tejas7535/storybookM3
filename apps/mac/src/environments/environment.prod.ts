@@ -15,6 +15,7 @@ export const environment: Environment = {
       disableCookiesUsage: true,
       autoTrackPageVisitTime: true,
     },
+    consent: true,
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*', 'Auth\b*', '.*\\[ai_ignore\\].*'],
