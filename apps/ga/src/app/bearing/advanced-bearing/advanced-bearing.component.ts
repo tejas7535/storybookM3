@@ -25,8 +25,14 @@ import {
 } from '../../core/store/selectors/bearing/bearing.selector';
 import { bearingTypes } from '../../shared/constants';
 import { ExtendedSearchParameters } from '../../shared/models';
+import { invalidMinMax } from '../../shared/validators';
 import { dimensionValidators } from './advanced-bearing-constants';
-
+interface FillDiameterParams {
+  parameters: ExtendedSearchParameters;
+  key: string;
+  potentiallyEmpty: number | undefined;
+  reference: number | undefined;
+}
 @Component({
   selector: 'ga-advanced-bearing',
   templateUrl: './advanced-bearing.component.html',
@@ -130,7 +136,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
       Object.keys(params).forEach((key) => {
         if (params[key] !== undefined) {
           this.bearingExtendedSearchParametersForm.patchValue({
-            key: params[key],
+            [key]: params[key],
           });
           Object.keys(
             this.bearingExtendedSearchParametersForm.controls
@@ -164,11 +170,78 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
         distinctUntilChanged(
           (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
         ),
-        map((parameters) => {
-          this.store.dispatch(searchBearingExtended({ parameters }));
-        })
+        map((parameters) => this.fillDiameters(parameters)),
+        map((parameters) =>
+          this.store.dispatch(searchBearingExtended({ parameters }))
+        )
       )
       .subscribe();
+  }
+
+  fillDiameters(
+    parameters: ExtendedSearchParameters
+  ): ExtendedSearchParameters {
+    const { minDi, maxDi, minDa, maxDa, minB, maxB } = parameters;
+    let prefilledDimensions = parameters;
+
+    prefilledDimensions = this.fillDiameterConditionally({
+      parameters: prefilledDimensions,
+      key: 'minDi',
+      potentiallyEmpty: minDi,
+      reference: maxDi,
+    });
+    prefilledDimensions = this.fillDiameterConditionally({
+      parameters: prefilledDimensions,
+      key: 'maxDi',
+      potentiallyEmpty: maxDi,
+      reference: maxDi,
+    });
+
+    prefilledDimensions = this.fillDiameterConditionally({
+      parameters: prefilledDimensions,
+      key: 'minDa',
+      potentiallyEmpty: minDa,
+      reference: maxDa,
+    });
+    prefilledDimensions = this.fillDiameterConditionally({
+      parameters: prefilledDimensions,
+      key: 'maxDa',
+      potentiallyEmpty: maxDa,
+      reference: minDa,
+    });
+
+    prefilledDimensions = this.fillDiameterConditionally({
+      parameters: prefilledDimensions,
+      key: 'minB',
+      potentiallyEmpty: minB,
+      reference: maxB,
+    });
+    prefilledDimensions = this.fillDiameterConditionally({
+      parameters: prefilledDimensions,
+      key: 'maxB',
+      potentiallyEmpty: maxB,
+      reference: minB,
+    });
+
+    return prefilledDimensions;
+  }
+
+  fillDiameterConditionally({
+    parameters,
+    key,
+    potentiallyEmpty,
+    reference,
+  }: FillDiameterParams): ExtendedSearchParameters {
+    let prefilledDimensions = parameters;
+
+    if (potentiallyEmpty === null && reference) {
+      prefilledDimensions = {
+        ...prefilledDimensions,
+        [key]: reference,
+      };
+    }
+
+    return prefilledDimensions;
   }
 
   innerOuterValidator(): ValidatorFn {
@@ -190,7 +263,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
   minMaxDiValidator(): ValidatorFn {
     return (): { [key: string]: boolean } | null => {
-      if (this.invalidMinMax(this.minDi?.value, this.maxDi?.value)) {
+      if (invalidMinMax(this.minDi?.value, this.maxDi?.value)) {
         return {
           minMaxInconsistent: true,
         };
@@ -202,7 +275,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
   minMaxDaValidator(): ValidatorFn {
     return (): { [key: string]: boolean } | null => {
-      if (this.invalidMinMax(this.minDa?.value, this.maxDa?.value)) {
+      if (invalidMinMax(this.minDa?.value, this.maxDa?.value)) {
         return {
           minMaxInconsistent: true,
         };
@@ -214,7 +287,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
   minMaxBValidator(): ValidatorFn {
     return (): { [key: string]: boolean } | null => {
-      if (this.invalidMinMax(this.minB?.value, this.maxB?.value)) {
+      if (invalidMinMax(this.minB?.value, this.maxB?.value)) {
         return {
           minMaxInconsistent: true,
         };
@@ -222,9 +295,5 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
       return undefined;
     };
-  }
-
-  invalidMinMax(min: number, max: number): boolean {
-    return min && max && min > max;
   }
 }

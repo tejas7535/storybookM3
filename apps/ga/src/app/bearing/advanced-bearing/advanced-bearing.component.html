@@ -32,7 +32,7 @@
           [label]="t('boreDiameter') + ' ' + t('max')"
           [unit]="t('mm')"
           [placeholder]="
-            t('pleaseEnter', { label: t('boreDiameter') }) + ' ' + t('max')
+            t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('max') })
           "
           [customErrors]="consistencyErrors"
           [onlyPositive]="true"
@@ -60,7 +60,7 @@
         [label]="t('outsideDiameter') + ' ' + t('max')"
         [unit]="t('mm')"
         [placeholder]="
-          t('pleaseEnter', { label: t('outsideDiameter') }) + ' ' + t('max')
+          t('pleaseEnter', { label: t('outsideDiameter') + ' ' + t('max') })
         "
         [customErrors]="consistencyErrors"
         [onlyPositive]="true"
@@ -84,7 +84,7 @@
         [control]="maxB"
         [label]="t('width') + ' ' + t('max')"
         [unit]="t('mm')"
-        [placeholder]="t('pleaseEnter', { label: t('width') }) + ' ' + t('max')"
+        [placeholder]="t('pleaseEnter', { label: t('width') + ' ' + t('max') })"
         [customErrors]="consistencyErrors"
         [onlyPositive]="true"
         [noInfo]="true"
