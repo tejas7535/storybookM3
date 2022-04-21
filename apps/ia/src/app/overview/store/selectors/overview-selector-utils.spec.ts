@@ -5,7 +5,7 @@ import {
   DoughnutConfig,
   DoughnutSeriesConfig,
 } from '../../../shared/charts/models';
-import { Color, Employee } from '../../../shared/models';
+import { ActionType, Color, Employee } from '../../../shared/models';
 import {
   FluctuationKpi,
   FluctuationRate,
@@ -21,59 +21,42 @@ describe('OverviewSelectorUtils', () => {
     {
       employeeId: '1',
       orgUnit: 'Schaeffler_IT',
-      internalExitDate: new Date(2020, 5, 1).valueOf().toString(),
+      actions: [
+        {
+          exitDate: new Date(2020, 5, 1).valueOf().toString(),
+          actionType: ActionType.INTERNAL,
+        },
+      ],
     },
     { employeeId: '2', orgUnit: 'Schaeffler_HR' },
     {
       employeeId: '3',
       orgUnit: 'Schaeffler_IT_1',
       reasonForLeaving: LeavingType.REMAINING,
+      exitDate: '123',
     },
     {
       employeeId: '4',
       orgUnit: 'Schaeffler_IT_1_1',
       reasonForLeaving: LeavingType.UNFORCED,
+      exitDate: '123',
     },
   ] as Employee[];
 
-  describe('getExternalLeaversByOrgUnit', () => {
-    test('should get external leavers by org unit', () => {
-      const result = utils.getExternalLeaversByOrgUnit(
-        employees,
-        selectedOrgUnit
-      );
+  describe('getExternalLeavers', () => {
+    test('should get external leavers', () => {
+      const result = utils.getExternalLeavers(employees);
 
       expect(result).toEqual([employees[2], employees[3]]);
     });
-
-    test('should return empty list when no match by org unit', () => {
-      const result = utils.getExternalLeaversByOrgUnit(
-        employees,
-        'Schaeffler_Sales'
-      );
-
-      expect(result.length).toEqual(0);
-    });
   });
 
-  describe('getUnforcedLeaversByOrgUnit', () => {
-    test('should get only unforced leavers by org unit', () => {
-      const result = utils.getUnforcedLeaversByOrgUnit(
-        employees,
-        selectedOrgUnit
-      );
+  describe('getUnforcedLeavers', () => {
+    test('should get only unforced leavers', () => {
+      const result = utils.getUnforcedLeavers(employees);
 
       expect(result).toEqual([employees[3]]);
     });
-  });
-
-  test('should return empty list when no match by org unit', () => {
-    const result = utils.getUnforcedLeaversByOrgUnit(
-      employees,
-      'Schaeffler_Sales'
-    );
-
-    expect(result.length).toEqual(0);
   });
 
   describe('createFluctuationKpi', () => {

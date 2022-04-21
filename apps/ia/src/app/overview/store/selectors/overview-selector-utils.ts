@@ -14,22 +14,12 @@ import {
   PercentageFluctuationRate,
 } from '../../models';
 
-export function getExternalLeaversByOrgUnit(
-  employees: Employee[],
-  selectedOrgUnit: string
-): Employee[] {
-  return employees.filter(
-    (employee) =>
-      employee.orgUnit?.indexOf(selectedOrgUnit.toString()) === 0 &&
-      !employee.internalExitDate
-  );
+export function getExternalLeavers(employees: Employee[]): Employee[] {
+  return employees.filter((employee) => employee.exitDate);
 }
 
-export function getUnforcedLeaversByOrgUnit(
-  employees: Employee[],
-  selectedOrgUnit: string
-): Employee[] {
-  return getExternalLeaversByOrgUnit(employees, selectedOrgUnit).filter(
+export function getUnforcedLeavers(employees: Employee[]): Employee[] {
+  return getExternalLeavers(employees).filter(
     (employee) => employee.reasonForLeaving === LeavingType.UNFORCED
   );
 }

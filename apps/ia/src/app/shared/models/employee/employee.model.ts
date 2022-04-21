@@ -1,4 +1,5 @@
 import { Position } from '../position.model';
+import { EmployeeAction } from './employee-action.model';
 import { EmployeeAttritionMeta } from './employee-attrition-meta.model';
 
 export interface Employee extends Position {
@@ -8,8 +9,6 @@ export interface Employee extends Position {
   parentEmployeeId: string;
   exitDate: string;
   entryDate: string;
-  internalEntryDate: string;
-  internalExitDate: string;
   reasonForLeaving: string;
   level: number;
   directSubordinates: number;
@@ -18,4 +17,5 @@ export interface Employee extends Position {
   totalAttrition: number;
   attritionMeta: EmployeeAttritionMeta;
   directLeafChildren: Employee[];
+  actions: EmployeeAction[];
 }

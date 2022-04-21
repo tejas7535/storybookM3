@@ -5,7 +5,7 @@ import {
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
-import { AttritionOverTime, IdValue } from '../../../shared/models';
+import { ActionType, AttritionOverTime, IdValue } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../models/overview-fluctuation-rates.model';
 import { OverviewState, selectOverviewState } from '..';
 import * as utils from './overview-selector-utils';
@@ -59,10 +59,7 @@ export const getOverviewFluctuationKpi = createSelector(
           overviewFluctuationRates.fluctuationRate.company,
           overviewFluctuationRates.fluctuationRate.orgUnit,
           selectedOrgUnit.id,
-          utils.getExternalLeaversByOrgUnit(
-            overviewFluctuationRates.exitEmployees,
-            selectedOrgUnit.id
-          )
+          utils.getExternalLeavers(overviewFluctuationRates.exitEmployees)
         )
       : undefined
 );
@@ -79,10 +76,7 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
           overviewFluctuationRates.unforcedFluctuationRate.company,
           overviewFluctuationRates.unforcedFluctuationRate.orgUnit,
           selectedOrgUnit.id,
-          utils.getUnforcedLeaversByOrgUnit(
-            overviewFluctuationRates.exitEmployees,
-            selectedOrgUnit.id
-          )
+          utils.getUnforcedLeavers(overviewFluctuationRates.exitEmployees)
         )
       : undefined
 );
@@ -101,9 +95,10 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
   ) => {
     const internal = overviewFluctuationRates?.entryEmployees?.filter(
       (employee) =>
-        utils.isDateInTimeRange(
-          selectedTimeRange.id,
-          employee.internalEntryDate
+        employee.actions?.some(
+          (action) =>
+            action.actionType === ActionType.INTERNAL &&
+            utils.isDateInTimeRange(selectedTimeRange.id, action.entryDate)
         )
     );
     const external = overviewFluctuationRates?.entryEmployees?.filter(
@@ -121,17 +116,18 @@ export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
   getSelectedOrgUnit,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedTimeRange: IdValue,
-    selectedOrgUnit: IdValue
+    selectedTimeRange: IdValue
   ) => {
     const internal = overviewFluctuationRates?.exitEmployees?.filter(
       (employee) =>
-        employee.orgUnit.indexOf(selectedOrgUnit.id) === 0 &&
-        utils.isDateInTimeRange(selectedTimeRange.id, employee.internalExitDate)
+        employee.actions?.some(
+          (action) =>
+            action.actionType === ActionType.INTERNAL &&
+            utils.isDateInTimeRange(selectedTimeRange.id, action.exitDate)
+        )
     );
     const external = overviewFluctuationRates?.exitEmployees?.filter(
       (employee) =>
-        employee.orgUnit.indexOf(selectedOrgUnit.id) === 0 &&
         utils.isDateInTimeRange(selectedTimeRange.id, employee.exitDate)
     );
 
@@ -144,8 +140,7 @@ export const getOverviewFluctuationEntriesCount = createSelector(
   (doughnutConfig: DoughnutConfig) =>
     doughnutConfig?.series
       .map((config) => config.data[0].value)
-      // eslint-disable-next-line unicorn/no-array-reduce
-      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
+      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0)
 );
 
 export const getOverviewFluctuationExitsCount = createSelector(
@@ -153,8 +148,7 @@ export const getOverviewFluctuationExitsCount = createSelector(
   (doughnutConfig: DoughnutConfig) =>
     doughnutConfig?.series
       .map((config) => config.data[0].value)
-      // eslint-disable-next-line unicorn/no-array-reduce
-      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
+      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent, 0)
 );
 
 export const getEntryEmployees = createSelector(
@@ -169,7 +163,9 @@ export const getEntryEmployees = createSelector(
         utils.isDateInTimeRange(selectedTimeRange.id, employee.entryDate) ||
         utils.isDateInTimeRange(
           selectedTimeRange.id,
-          employee.internalEntryDate
+          employee.actions?.find(
+            (e) => e.actionType === ActionType.INTERNAL && e.entryDate
+          )?.entryDate
         )
     )
 );

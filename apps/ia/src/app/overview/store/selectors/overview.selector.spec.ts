@@ -3,9 +3,10 @@ import { SeriesOption } from 'echarts';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../../shared/charts/models/doughnut-series-config.model';
-import { Color, Employee, FilterKey } from '../../../shared/models';
+import { ActionType, Color, Employee, FilterKey } from '../../../shared/models';
 import {
   FluctuationKpi,
+  LeavingType,
   OpenApplication,
   ResignedEmployee,
 } from '../../models';
@@ -43,11 +44,6 @@ describe('Overview Selector', () => {
   const leaverIT2 = createExternalLeaver(
     '2',
     `${selectedOrgUnit}_1`,
-    new Date(2020, 3, 15).valueOf().toString()
-  );
-  const leaverHR = createExternalLeaver(
-    '3',
-    'Schaeffler_HR',
     new Date(2020, 3, 15).valueOf().toString()
   );
   const internalLeaver1 = createInternalLeaver(
@@ -105,18 +101,14 @@ describe('Overview Selector', () => {
       entriesExits: {
         data: {
           entryEmployees: [
-            leaverIT1,
             entryEmployee2,
             entryEmployeeAfterTimeRange,
-            leaverIT2,
             internalEntryEmployeeBeforeTimeRange,
             internalEntryEmployee1,
             entryEmployeeBeforeTimeRange,
             entryEmployee1,
-            internalLeaver1,
-            leaverHR,
           ],
-          exitEmployees: [leaverIT1, leaverIT2, leaverHR, internalLeaver1],
+          exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
           fluctuationRate: {
             company: 0.041,
             orgUnit: 0.023,
@@ -216,18 +208,14 @@ describe('Overview Selector', () => {
     it('should return actual fluctuation data', () => {
       expect(getOverviewFluctuationRates(fakeState)).toEqual({
         entryEmployees: [
-          leaverIT1,
           entryEmployee2,
           entryEmployeeAfterTimeRange,
-          leaverIT2,
           internalEntryEmployeeBeforeTimeRange,
           internalEntryEmployee1,
           entryEmployeeBeforeTimeRange,
           entryEmployee1,
-          internalLeaver1,
-          leaverHR,
         ],
-        exitEmployees: [leaverIT1, leaverIT2, leaverHR, internalLeaver1],
+        exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
         fluctuationRate: {
           company: 0.041,
           orgUnit: 0.023,
@@ -389,7 +377,7 @@ describe('Overview Selector', () => {
           orgUnit: '6.5%',
         },
         orgUnitName: 'Schaeffler_IT',
-        exitEmployees: [],
+        exitEmployees: [leaverIT1, leaverIT2],
       } as FluctuationKpi;
       const x = getOverviewUnforcedFluctuationKpi(fakeState);
       expect(x).toEqual(expectedResult);
@@ -482,13 +470,12 @@ function createInternalEntryEmployee(
   id: string,
   internalEntryDate: string
 ): Employee {
-  return createEmployee(
-    id,
-    'Schaeffler_IT',
-    undefined,
-    undefined,
-    internalEntryDate
-  );
+  const employee = createEmployee(id, 'Schaeffler_IT');
+  employee.actions = [
+    { actionType: ActionType.INTERNAL, entryDate: internalEntryDate } as any,
+  ];
+
+  return employee;
 }
 
 function createExternalLeaver(
@@ -504,23 +491,20 @@ function createInternalLeaver(
   orgUnit: string,
   internalExitDate: string
 ) {
-  return createEmployee(
-    id,
-    orgUnit,
-    undefined,
-    undefined,
-    undefined,
-    internalExitDate
-  );
+  const employee = createEmployee(id, orgUnit);
+
+  employee.actions = [
+    { actionType: ActionType.INTERNAL, exitDate: internalExitDate } as any,
+  ];
+
+  return employee;
 }
 
 function createEmployee(
   id: string,
   orgUnit: string,
   entryDate?: string,
-  exitDate?: string,
-  internalEntryDate?: string,
-  internalExitDate?: string
+  exitDate?: string
 ): Employee {
   return {
     employeeId: id,
@@ -532,9 +516,7 @@ function createEmployee(
     entryDate: entryDate
       ? entryDate
       : new Date(2021, 5, 1).valueOf().toString(),
-    internalEntryDate,
-    internalExitDate,
-    reasonForLeaving: 'unforced',
+    reasonForLeaving: LeavingType.UNFORCED,
     level: 4,
     directSubordinates: 2,
     totalSubordinates: 1,
