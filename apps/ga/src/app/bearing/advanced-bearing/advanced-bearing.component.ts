@@ -27,7 +27,7 @@ import { bearingTypes } from '../../shared/constants';
 import { ExtendedSearchParameters } from '../../shared/models';
 import { dimensionValidators } from './advanced-bearing-constants';
 
-interface FillDiameterParams {
+export interface FillDiameterParams {
   parameters: ExtendedSearchParameters;
   key: string;
   potentiallyEmpty: number | undefined;
@@ -234,7 +234,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
   }: FillDiameterParams): ExtendedSearchParameters {
     let prefilledDimensions = parameters;
 
-    if (potentiallyEmpty === null && reference) {
+    if ((potentiallyEmpty === null || potentiallyEmpty === null) && reference) {
       prefilledDimensions = {
         ...prefilledDimensions,
         [key]: reference,
