@@ -150,14 +150,8 @@ export class ColumnDefinitionService {
       headerName: translate('shared.bom.headers.currency'),
     },
     {
-      field: 'costing.companyCodeObjectCurrency',
+      field: 'costing.companyCodeCurrency',
       headerName: translate('shared.bom.headers.costObjectCurrency'),
-      type: 'numericColumn',
-      valueFormatter: (params) =>
-        this.columnUtilsService.formatNumber(params, {
-          minimumFractionDigits: 4,
-          maximumFractionDigits: 4,
-        }),
       hide: true,
     },
     {
@@ -232,15 +226,15 @@ export class ColumnDefinitionService {
       headerName: translate('shared.bom.headers.unitOfMeasure'),
     },
     {
-      field: 'material.materialShortDescription',
+      field: 'materialCharacteristics.materialShortDescription',
       headerName: translate('shared.bom.headers.materialShortDescription'),
     },
     {
-      field: 'material.materialIndentNumberDescription',
+      field: 'materialCharacteristics.materialIndentNumberDescription',
       headerName: translate('shared.bom.headers.description'),
     },
     {
-      field: 'material.length',
+      field: 'materialCharacteristics.length',
       headerName: translate('shared.bom.headers.length'),
       filter: 'agNumberColumnFilter',
       filterParams: filterParamsForDecimalValues,
@@ -248,7 +242,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: 'material.width',
+      field: 'materialCharacteristics.width',
       headerName: translate('shared.bom.headers.width'),
       filter: 'agNumberColumnFilter',
       filterParams: filterParamsForDecimalValues,
@@ -256,7 +250,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: 'material.height',
+      field: 'materialCharacteristics.height',
       headerName: translate('shared.bom.headers.height'),
       filter: 'agNumberColumnFilter',
       filterParams: filterParamsForDecimalValues,
@@ -264,11 +258,11 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: 'material.unitOfDimension',
+      field: 'materialCharacteristics.unitOfDimension',
       headerName: translate('shared.bom.headers.unitOfDimension'),
     },
     {
-      field: 'material.grossWeight',
+      field: 'materialCharacteristics.grossWeight',
       headerName: translate('shared.bom.headers.grossWeight'),
       filter: 'agNumberColumnFilter',
       filterParams: filterParamsForDecimalValues,
@@ -276,7 +270,7 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: 'material.netWeight',
+      field: 'materialCharacteristics.netWeight',
       headerName: translate('shared.bom.headers.netWeight'),
       filter: 'agNumberColumnFilter',
       filterParams: filterParamsForDecimalValues,
@@ -284,20 +278,20 @@ export class ColumnDefinitionService {
       valueFormatter: this.columnUtilsService.formatNumber,
     },
     {
-      field: 'material.unitOfWeight',
+      field: 'materialCharacteristics.unitOfWeight',
       headerName: translate('shared.bom.headers.unitOfWeight'),
     },
     {
-      field: 'material.productHierarchy',
+      field: 'materialCharacteristics.productHierarchy',
       headerName: translate('shared.bom.headers.productHierarchy'),
     },
     {
-      field: 'material.productHierarchyDescription',
+      field: 'materialCharacteristics.productHierarchyDescription',
       headerName: translate('shared.bom.headers.productHierarchyDescription'),
     },
     {
-      field: 'manufacturing.costStaffSetup',
-      headerName: translate('shared.bom.headers.costStaffSetup'),
+      field: 'manufacturing.staffSetupCosts',
+      headerName: translate('shared.bom.headers.staffSetupCosts'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -306,8 +300,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.costStaffProduction',
-      headerName: translate('shared.bom.headers.costStaffProduction'),
+      field: 'manufacturing.staffProductionCosts',
+      headerName: translate('shared.bom.headers.staffProductionCosts'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -316,8 +310,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.costMachineProduction',
-      headerName: translate('shared.bom.headers.costMachineProduction'),
+      field: 'manufacturing.machineSetupCosts',
+      headerName: translate('shared.bom.headers.machineSetupCosts'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -326,8 +320,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.costMachineSetup',
-      headerName: translate('shared.bom.headers.costMachineSetup'),
+      field: 'manufacturing.machineProductionCosts',
+      headerName: translate('shared.bom.headers.machineProductionCosts'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -336,8 +330,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.costTool',
-      headerName: translate('shared.bom.headers.costTool'),
+      field: 'manufacturing.toolCosts',
+      headerName: translate('shared.bom.headers.toolCosts'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -355,8 +349,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.additionalTimeMach',
-      headerName: translate('shared.bom.headers.additionalTimeMach'),
+      field: 'manufacturing.additionalTimeMachine',
+      headerName: translate('shared.bom.headers.additionalTimeMachine'),
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
           minimumFractionDigits: 4,
@@ -379,8 +373,8 @@ export class ColumnDefinitionService {
       hide: true,
     },
     {
-      field: 'manufacturing.time',
-      headerName: translate('shared.bom.headers.manufacturingTime'),
+      field: 'manufacturing.totalProductionTime',
+      headerName: translate('shared.bom.headers.totalProductionTime'),
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
           minimumFractionDigits: 4,
@@ -421,8 +415,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.tariffStaff',
-      headerName: translate('shared.bom.headers.tariffStaff'),
+      field: 'manufacturing.staffTariff',
+      headerName: translate('shared.bom.headers.staffTariff'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -431,8 +425,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.tariffMachine',
-      headerName: translate('shared.bom.headers.tariffMachine'),
+      field: 'manufacturing.machineTariff',
+      headerName: translate('shared.bom.headers.machineTariff'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -441,8 +435,8 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'manufacturing.tariffTool',
-      headerName: translate('shared.bom.headers.tariffTool'),
+      field: 'manufacturing.toolTariff',
+      headerName: translate('shared.bom.headers.toolTariff'),
       type: 'numericColumn',
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
@@ -453,14 +447,9 @@ export class ColumnDefinitionService {
     {
       field: 'manufacturing.tariffUnit',
       headerName: translate('shared.bom.headers.tariffUnit'),
-      type: 'numericColumn',
-      valueFormatter: (params) =>
-        this.columnUtilsService.formatNumber(params, {
-          maximumFractionDigits: 0,
-        }),
     },
     {
-      field: 'scrap.assemblyScrapQuantity',
+      field: 'quantities.assemblyScrapQuantity',
       headerName: translate('shared.bom.headers.assemblyScrapQuantity'),
       type: 'numericColumn',
       valueFormatter: (params) =>
@@ -470,7 +459,7 @@ export class ColumnDefinitionService {
         }),
     },
     {
-      field: 'scrap.componentScrapQuantity',
+      field: 'quantities.componentScrapQuantity',
       headerName: translate('shared.bom.headers.componentScrapQuantity'),
       type: 'numericColumn',
       valueFormatter: (params) =>
@@ -525,11 +514,11 @@ export class ColumnDefinitionService {
       hide: true,
     },
     {
-      field: 'purchase.vendorDescription',
+      field: 'procurement.vendorDescription',
       headerName: translate('shared.bom.headers.vendorDescription'),
     },
     {
-      field: 'purchase.vendor',
+      field: 'procurement.vendor',
       headerName: translate('shared.bom.headers.vendor'),
       hide: true,
     },
@@ -635,12 +624,12 @@ export class ColumnDefinitionService {
       hide: true,
     },
     {
-      field: 'costing.materialValuationClass',
+      field: 'materialCharacteristics.valuationClass',
       headerName: translate('shared.bom.headers.materialValuationClass'),
       hide: true,
     },
     {
-      field: 'material.materialIndentNumber',
+      field: 'materialCharacteristics.materialIndentNumber',
       headerName: translate('shared.bom.headers.materialIndentNumber'),
       hide: true,
     },

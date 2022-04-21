@@ -7,6 +7,7 @@ export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
   materialDesignation: 'mock-materialDesignation',
   materialNumber: 'mock-materialNumber',
   parentMaterialNumber: 'mock-materialNumber',
+  costShareOfParent: 0.4,
   predecessorsInTree: [],
 
   bomIdentifier: {
@@ -27,7 +28,7 @@ export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
     productCostingBomAlternative: 'mock-productCostingBomAlternative',
   },
 
-  material: {
+  materialCharacteristics: {
     length: 1234.567,
     width: 1234.567,
     height: 1234.567,
@@ -40,27 +41,29 @@ export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
     productHierarchyDescription: 'mock-productHierarchyDescription',
     materialIndentNumber: 'mock-materialIndentNumber',
     materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
+    valuationClass: 'mock-materialValuationClass',
   },
 
   procurement: {
     plant: 'mock-plant',
     materialProcurementType: 'mock-materialProcurementType',
+    vendor: 'mock-vendor',
+    vendorDescription: 'mock-vendorDescription',
   },
 
   workCenter: {
     workCenter: 'mock-workCenter',
     workCenterDescription: 'mock-workCenterDescription',
-    capacityUtilizationRate: 1234.567,
-    replacementValue: 1234.567,
     costCenter: 'mock-costCenter',
     costCenterDescription: 'mock-costCenterDescription',
     profitCenter: 'mock-profitCenter',
+    capacityUtilizationRate: 1234.567,
+    replacementValue: 1234.567,
   },
 
   costing: {
     costElements: 1234.567,
     costArea: 'mock-costArea',
-    materialValuationClass: 'mock-materialValuationClass',
     costAreaCurrency: 'mock-costAreaCurrency',
     costAreaTotalPrice: 1234.567,
     costAreaFixedCost: 1234.567,
@@ -84,36 +87,28 @@ export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
     baseUnitOfMeasure: 'mock-baseUnitOfMeasure',
     materialBudgetYearRequirement: 1234.567,
     materialAnnualDemandCount: 1234.567,
-  },
-
-  manufacturing: {
-    costStaffSetup: 1234.567,
-    costStaffProduction: 1234.567,
-    costMachineProduction: 1234.567,
-    costMachineSetup: 1234.567,
-    costTool: 1234.567,
-    cycleTime: 1234.567,
-    additionalTimeMach: 1234.567,
-    cycles: 1234.567,
-    cyclesUnit: 'mock-cyclesUnit',
-    time: 1234.567,
-    setupTime: 1234.567,
-    standardValueUnit: 'mock-standardValueUnit',
-    headcountProduction: 1234.567,
-    headcountSetup: 1234.567,
-    tariffStaff: 1234.567,
-    tariffMachine: 1234.567,
-    tariffTool: 1234.567,
-    tariffUnit: 1234.567,
-  },
-
-  scrap: {
     assemblyScrapQuantity: 1234.567,
     componentScrapQuantity: 1234.567,
   },
 
-  purchase: {
-    vendor: 'mock-vendor',
-    vendorDescription: 'mock-vendorDescription',
+  manufacturing: {
+    staffSetupCosts: 1234.567,
+    staffProductionCosts: 1234.567,
+    machineProductionCosts: 1234.567,
+    machineSetupCosts: 1234.567,
+    toolCosts: 1234.567,
+    cycleTime: 1234.567,
+    additionalTimeMachine: 1234.567,
+    cycles: 1234.567,
+    cyclesUnit: 'mock-cyclesUnit',
+    totalProductionTime: 1234.567,
+    setupTime: 1234.567,
+    standardValueUnit: 'mock-standardValueUnit',
+    headcountProduction: 1234.567,
+    headcountSetup: 1234.567,
+    staffTariff: 1234.567,
+    machineTariff: 1234.567,
+    toolTariff: 1234.567,
+    tariffUnit: 1234.567,
   },
 };

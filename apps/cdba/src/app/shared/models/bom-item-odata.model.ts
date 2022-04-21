@@ -5,6 +5,7 @@ export interface BomItemOdata {
   materialDesignation: string;
   materialNumber: string;
   parentMaterialNumber: string;
+  costShareOfParent: number;
   predecessorsInTree: string[];
 
   bomIdentifier: {
@@ -25,7 +26,7 @@ export interface BomItemOdata {
     productCostingBomAlternative: string;
   };
 
-  material: {
+  materialCharacteristics: {
     length: number;
     width: number;
     height: number;
@@ -38,27 +39,30 @@ export interface BomItemOdata {
     productHierarchyDescription: string;
     materialIndentNumber: string;
     materialIndentNumberDescription: string;
+    valuationClass: string;
   };
 
   procurement: {
     plant: string;
     materialProcurementType: string;
+    vendor: string;
+    vendorDescription: string;
   };
 
   workCenter: {
     workCenter: string;
     workCenterDescription: string;
-    capacityUtilizationRate: number;
-    replacementValue: number;
     costCenter: string;
     costCenterDescription: string;
     profitCenter: string;
+    capacityUtilizationRate: number;
+    replacementValue: number;
   };
 
   costing: {
     costElements: number;
     costArea: string;
-    materialValuationClass: string;
+
     costAreaCurrency: string;
     costAreaTotalPrice: number;
     costAreaFixedCost: number;
@@ -66,6 +70,7 @@ export interface BomItemOdata {
     costAreaFixedPrice: number;
     costAreaVariablePrice: number;
     costAreaTotalValue: number;
+
     companyCodeCurrency: string;
     companyCodeObjectCurrency: number;
     companyCodeTotalPrice: number;
@@ -82,36 +87,28 @@ export interface BomItemOdata {
     baseUnitOfMeasure: string;
     materialBudgetYearRequirement: number;
     materialAnnualDemandCount: number;
-  };
-
-  manufacturing: {
-    costStaffSetup: number;
-    costStaffProduction: number;
-    costMachineProduction: number;
-    costMachineSetup: number;
-    costTool: number;
-    cycleTime: number;
-    additionalTimeMach: number;
-    cycles: number;
-    cyclesUnit: string;
-    time: number;
-    setupTime: number;
-    standardValueUnit: string;
-    headcountProduction: number;
-    headcountSetup: number;
-    tariffStaff: number;
-    tariffMachine: number;
-    tariffTool: number;
-    tariffUnit: number;
-  };
-
-  scrap: {
     assemblyScrapQuantity: number;
     componentScrapQuantity: number;
   };
 
-  purchase: {
-    vendor: string;
-    vendorDescription: string;
+  manufacturing: {
+    staffSetupCosts: number;
+    staffProductionCosts: number;
+    machineProductionCosts: number;
+    machineSetupCosts: number;
+    toolCosts: number;
+    cycleTime: number;
+    additionalTimeMachine: number;
+    cycles: number;
+    cyclesUnit: string;
+    totalProductionTime: number;
+    setupTime: number;
+    standardValueUnit: string;
+    headcountProduction: number;
+    headcountSetup: number;
+    staffTariff: number;
+    machineTariff: number;
+    toolTariff: number;
+    tariffUnit: number;
   };
 }
