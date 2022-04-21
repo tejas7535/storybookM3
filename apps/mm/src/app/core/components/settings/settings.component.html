@@ -1,18 +1,15 @@
 <div *transloco="let t; read: 'sidebar'">
   <div class="w-full px-4 md:w-80" [ngClass]="embedded ? 'pt-12' : 'pt-4'">
-    <mat-form-field appearance="outline" class="mt-1 w-full">
-      <mat-label>{{ t('languageSelectLabel') }}</mat-label>
-      <mat-select
-        [formControl]="languageSelectControl"
-        (selectionChange)="setLanguage($event.value)"
-      >
-        <mat-option
-          *ngFor="let lang of availableLangs; trackBy: trackByFn"
-          [value]="lang.id"
-          >{{ lang.label }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
+    <div class="mb-1 text-subtitle-1 text-medium-emphasis">
+      {{ t('language.title.main') }}
+    </div>
+    <div class="mb-4 text-caption text-medium-emphasis">
+      {{ t('language.title.sub') }}
+    </div>
+    <schaeffler-language-select
+      [reloadOnLanguageChange]="true"
+      class="mb-3 block"
+    ></schaeffler-language-select>
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>{{ t('decimalSeparatorSelectLabel') }}</mat-label>
       <mat-select

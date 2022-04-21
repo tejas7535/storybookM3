@@ -9,15 +9,15 @@
     "selected": "ausgewählt"
   },
   "sidebar": {
-    "languageSelectLabel": "Sprache",
+    "language": {
+      "title": {
+        "main": "Spracheinstellung",
+        "sub": "Die Anwendung wird neu geladen."
+      }
+    },
     "decimalSeparatorSelectLabel": "Dezimaltrennzeichen",
     "decimalSeparatorComma": "Komma",
     "decimalSeparatorPoint": "Punkt"
-  },
-  "languageDialog": {
-    "content": "Bitte beachten Sie, dass die Seite bei einem Sprachwechsel neu geladen wird und Änderungen verloren gehen.",
-    "confirm": "bestätigen",
-    "cancel": "abbrechen"
   },
   "dialog": {
     "bearing": "Lager",

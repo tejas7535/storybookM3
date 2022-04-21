@@ -8,13 +8,13 @@
     "searchNoResults": "No Results",
     "selected": "selected"
   },
-  "languageDialog": {
-    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input.",
-    "confirm": "confirm",
-    "cancel": "cancel"
-  },
   "sidebar": {
-    "languageSelectLabel": "Language",
+    "language": {
+      "title": {
+        "main": "Language Settings",
+        "sub": "The application will be refreshed."
+      }
+    },
     "decimalSeparatorSelectLabel": "Decimal separator",
     "decimalSeparatorComma": "Comma",
     "decimalSeparatorPoint": "Point"

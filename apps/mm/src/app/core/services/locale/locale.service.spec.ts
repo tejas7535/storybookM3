@@ -5,17 +5,10 @@ import { MMLocales } from './locale.enum';
 import { LocaleService } from './locale.service';
 import { MMSeparator } from './separator.enum';
 
-declare const window: {
-  OneTrust: {
-    changeLanguage: any;
-  };
-};
-
 const availableLangs: AvailableLangs = [];
 describe('LocaleService', () => {
   let spectator: SpectatorService<LocaleService>;
   let service: LocaleService;
-  let translocoService: TranslocoService;
 
   const createService = createServiceFactory({
     service: LocaleService,
@@ -34,12 +27,10 @@ describe('LocaleService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(LocaleService);
-    translocoService = spectator.inject(TranslocoService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    expect(translocoService.setActiveLang).toHaveBeenCalledWith('de');
   });
 
   it('should set the seperator', () => {
@@ -56,33 +47,15 @@ describe('LocaleService', () => {
 
     service.setLocale(MMLocales.en);
 
-    expect(translocoService.setActiveLang).toHaveBeenCalledWith('en');
     expect(service['separator'].next).toHaveBeenCalledWith(MMSeparator.Point);
   });
 
   it('should set locale and not switch separator if manual separator is true', () => {
-    Object.defineProperty(global, 'window', {
-      value: {
-        OneTrust: {
-          changeLanguage: jest.fn(),
-        },
-      },
-    });
-
     service['separator'].next = jest.fn();
     service['manualSeparator'] = true;
 
     service.setLocale(MMLocales.en);
 
-    expect(translocoService.setActiveLang).toHaveBeenCalledWith('en');
-    expect(window.OneTrust.changeLanguage).toHaveBeenCalledWith('en');
     expect(service['separator'].next).not.toHaveBeenCalled();
-  });
-
-  it('should return available langs', () => {
-    const result = service.getAvailableLangs();
-
-    expect(result).toEqual(availableLangs);
-    expect(translocoService.getAvailableLangs).toHaveBeenCalled();
   });
 });

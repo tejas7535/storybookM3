@@ -52,7 +52,7 @@ describe('HomeComponent', () => {
     language: 'de',
   });
 
-  const language$ = new BehaviorSubject<MMLocales>(MMLocales.de);
+  const langChanges$ = new BehaviorSubject<MMLocales>(MMLocales.de);
 
   const mockBearingRelationsResponse: any = {
     data: {
@@ -107,7 +107,6 @@ describe('HomeComponent', () => {
         useValue: {
           setSeparator: jest.fn(),
           setLocale: jest.fn(),
-          language$,
         },
       },
       {
@@ -138,26 +137,12 @@ describe('HomeComponent', () => {
 
   describe('#ngOnInit', () => {
     it('should be subscribed to language switches', () => {
-      component.resetForm = jest.fn();
       component['form'] = undefined;
-      language$.next(MMLocales.en);
+      langChanges$.next(MMLocales.en);
 
       expect(component['restService'].setCurrentLanguage).toHaveBeenCalledWith(
         'en'
       );
-      expect(component.resetForm).not.toHaveBeenCalled();
-    });
-
-    it('should reset form on languageSwitch', () => {
-      component['resetFormValue'] = jest.fn(() => {});
-      component.resetForm = jest.fn();
-      component['form'] = new FormGroup({});
-
-      language$.next(MMLocales.en);
-      expect(component['restService'].setCurrentLanguage).toHaveBeenCalledWith(
-        'en'
-      );
-      expect(component.resetForm).toHaveBeenCalled();
     });
   });
 
@@ -372,17 +357,6 @@ describe('HomeComponent', () => {
       component.handleActivePageIdChange('mockId1');
 
       expect(component['homeStore'].getBearing).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('#resetForm', () => {
-    it('should reset the form', () => {
-      component['form'].reset = jest.fn();
-      component.dynamicFormLoaded = jest.fn();
-
-      component.resetForm();
-
-      expect(component['form'].reset).toHaveBeenCalled();
-      expect(component.dynamicFormLoaded).toHaveBeenCalled();
     });
   });
 

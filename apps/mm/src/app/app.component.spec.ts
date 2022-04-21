@@ -3,14 +3,20 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsModule,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
+import { LanguageSelectModule } from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { MockModule } from 'ng-mocks';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -25,7 +31,8 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       NoopAnimationsModule,
-      AppShellModule,
+      MockModule(AppShellModule),
+      MockModule(LanguageSelectModule),
       RouterTestingModule,
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
@@ -34,6 +41,10 @@ describe('AppComponent', () => {
       ReactiveFormsModule,
       MaterialModule,
       ApplicationInsightsModule.forRoot(environment.applicationInsights),
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: 'mockOneTrustId',
+      }),
     ],
     providers: [
       provideMockStore(),

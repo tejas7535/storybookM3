@@ -6,6 +6,10 @@ import { RouterModule } from '@angular/router';
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
+import {
+  TRANSLOCO_PERSIST_LANG_STORAGE,
+  TranslocoPersistLangModule,
+} from '@ngneat/transloco-persist-lang';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -15,6 +19,7 @@ import {
   CustomProps,
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { LanguageSelectModule } from '@schaeffler/transloco/components';
 
 import { environment } from '../../environments/environment';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
@@ -115,6 +120,15 @@ if (
       true,
       !environment.localDev
     ),
+    TranslocoPersistLangModule.forRoot({
+      storageKey: 'language',
+      storage: {
+        provide: TRANSLOCO_PERSIST_LANG_STORAGE,
+        useValue: localStorage,
+      },
+    }),
+    LanguageSelectModule,
+
     // Monitoring
     ...Tracking,
 

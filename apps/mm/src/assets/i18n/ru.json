@@ -1,6 +1,11 @@
 {
   "sidebar": {
-    "languageSelectLabel": "Язык",
+    "language": {
+      "title": {
+        "main": "Настройки языка",
+        "sub": "Приложение будет обновлено."
+      }
+    },
     "decimalSeparatorSelectLabel": "Десятичный разделитель",
     "decimalSeparatorComma": "Запятая",
     "decimalSeparatorPoint": "Точка"
@@ -13,11 +18,6 @@
     "searchLoading": "Загрузка данных...",
     "searchNoResults": "Нет результатов",
     "selected": "выбранный"
-  },
-  "languageDialog": {
-    "content": "Обратите внимание, что при изменении языка страница будет перезагружена и изменения будут потеряны.",
-    "confirm": "подтвердить",
-    "cancel": "отменить"
   },
   "dialog": {
     "bearing": "Подшипник",

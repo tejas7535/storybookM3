@@ -22,11 +22,8 @@ import {
   withLatestFrom,
 } from 'rxjs';
 
-import {
-  DynamicFormTemplateContext,
-  Model,
-  NestedPropertyMeta,
-} from '@caeonline/dynamic-forms';
+import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { DIALOG } from '../../mock';
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
@@ -71,7 +68,6 @@ import { ResultPageComponent } from './result-page/result-page.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  public readonly PROPERTY_PAGE_MOUNTING = PROPERTY_PAGE_MOUNTING;
   public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
   public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
@@ -81,9 +77,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   public readonly IDMM_MOUNTING_METHOD = IDMM_MOUNTING_METHOD;
   public readonly PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS =
     PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS;
-
-  public readonly PROPERTY_PAGE_MOUNTING_SITUATION_SUB =
-    PROPERTY_PAGE_MOUNTING_SITUATION_SUB;
 
   public dialog = DIALOG;
 
@@ -111,10 +104,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  private initialNestedMetas: NestedPropertyMeta[];
-
-  private initialFormValue: FormValue;
-  private initialPageId: string = RSY_PAGE_BEARING_TYPE;
   private form: FormGroup;
 
   @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
@@ -125,6 +114,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
+    private readonly translocoService: TranslocoService,
     private readonly localeService: LocaleService,
     private readonly restService: RestService,
     private readonly homeStore: HomeStore
@@ -132,11 +122,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.handleRouteParams();
-    this.localeService.language$.subscribe((lang: string) => {
+    this.translocoService.langChanges$.subscribe((lang: string) => {
       this.restService.setCurrentLanguage(lang);
-      if (this.form) {
-        this.resetForm();
-      }
     });
   }
 
@@ -153,9 +140,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public dynamicFormLoaded({ nestedMetas, form }: DynamicFormTemplateContext) {
-    this.initialNestedMetas = nestedMetas;
     this.form = form;
-    this.initialFormValue = form.value;
     this.form.valueChanges
       .pipe(
         startWith(false),
@@ -233,15 +218,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     return pageID === PROPERTY_PAGE_MOUNTING_SITUATION;
   }
 
-  public resetForm(): void {
-    this.form.reset(this.initialFormValue);
-    this.dynamicFormLoaded({
-      nestedMetas: this.initialNestedMetas,
-      form: this.form,
-    } as DynamicFormTemplateContext);
-    this.homeStore.setActivePageId(this.initialPageId);
-  }
-
   private resetFormValue(prev: FormValue, next: FormValue): void {
     if (prev === next) {
       return;
@@ -308,7 +284,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           // Todo handling of wrong IDs and inital 404 call
           // could be done by httpInterceptor
           this.selectBearing(id);
-          this.initialPageId = PAGE_MOUNTING_MANAGER_SEAT;
           this.homeStore.setActivePageId(PAGE_MOUNTING_MANAGER_SEAT);
           this.homeStore.setInactivePageId(RSY_PAGE_BEARING_TYPE);
         }

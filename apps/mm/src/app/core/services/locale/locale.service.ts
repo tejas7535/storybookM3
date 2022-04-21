@@ -3,24 +3,18 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { locales, MMLocales } from './locale.enum';
 import { MMSeparator } from './separator.enum';
-
-declare const window: {
-  OneTrust: any;
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocaleService {
   private readonly separator = new BehaviorSubject<MMSeparator>(undefined);
-  private readonly language = new BehaviorSubject<MMLocales>(undefined);
 
   separator$ = this.separator.asObservable();
-  language$ = this.language.asObservable();
 
   private manualSeparator = false;
 
@@ -44,18 +38,8 @@ export class LocaleService {
   }
 
   public setLocale(locale: MMLocales): void {
-    this.language.next(locale);
-    this.translocoService.setActiveLang(locale);
-    if (window.OneTrust) {
-      window.OneTrust.changeLanguage(locale);
-    }
-
     if (!this.manualSeparator) {
       this.separator.next(locales[locale].defaultSeparator);
     }
-  }
-
-  public getAvailableLangs(): AvailableLangs {
-    return this.translocoService.getAvailableLangs();
   }
 }

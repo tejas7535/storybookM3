@@ -1,6 +1,11 @@
 {
   "sidebar": {
-    "languageSelectLabel": "Langue",
+    "language": {
+      "title": {
+        "main": "Paramètres de langue",
+        "sub": "L'application sera rafraîchie."
+      }
+    },
     "decimalSeparatorSelectLabel": "Séparateur décimal",
     "decimalSeparatorComma": "Virgule",
     "decimalSeparatorPoint": "Point"
@@ -13,11 +18,6 @@
     "searchLoading": "Récupération des données...",
     "searchNoResults": "Aucun résultat",
     "selected": "sélectionné"
-  },
-  "languageDialog": {
-    "content": "Veuillez noter que le changement de langue entraînera un rafraîchissement de la page et que vous perdrez toutes vos données.",
-    "confirm": "confirmer",
-    "cancel": "annuler"
   },
   "dialog": {
     "bearing": "Roulement",
