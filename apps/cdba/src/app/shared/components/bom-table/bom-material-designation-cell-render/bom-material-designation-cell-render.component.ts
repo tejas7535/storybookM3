@@ -20,8 +20,9 @@ export class BomMaterialDesignationCellRenderComponent {
 
   public agInit(params: ICellRendererParams): void {
     this.materialDesignation = params.value;
-    this.plant = params.data.plant;
-    this.materialNumber = params.data.materialNumber;
+    this.plant = params.data.plant || params.data.procurement.plant;
+    this.materialNumber =
+      params.data.materialNumber || params.data.material?.materialNumber;
 
     this.isRouterLink = !!this.materialNumber && !!this.plant;
   }
