@@ -43,12 +43,12 @@ describe('AdvancedBearingComponent', () => {
               parameters: {
                 pattern: '',
                 bearingType: 'IDO_RADIAL_ROLLER_BEARING',
-                minDi: 20,
-                maxDi: 30,
-                minDa: 50,
-                maxDa: 60,
-                minB: 20,
-                maxB: 30,
+                minDi: undefined,
+                maxDi: undefined,
+                minDa: undefined,
+                maxDa: undefined,
+                minB: undefined,
+                maxB: undefined,
               },
               resultList: [],
             },
@@ -104,7 +104,7 @@ describe('AdvancedBearingComponent', () => {
     });
 
     it('should show no errors inner < outer diameter', () => {
-      component.minDi.patchValue(10);
+      component.minDi.patchValue(5);
       component.minDa.patchValue(15);
       const mockControl = new FormControl();
 
