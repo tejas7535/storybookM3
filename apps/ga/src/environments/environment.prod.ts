@@ -11,10 +11,10 @@ export const environment: Environment = {
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'cfecb843-072b-4edf-9c7d-2b52d7309d6d',
-      disableCookiesUsage: true,
+      disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
-    consent: false,
+    consent: true,
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
