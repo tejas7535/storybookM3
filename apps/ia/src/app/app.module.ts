@@ -9,7 +9,10 @@ import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { PERSON_RESPONSIBLE, PURPOSE } from '@schaeffler/legal-pages';
+import {
+  CUSTOM_DATA_PRIVACY,
+  PERSON_RESPONSIBLE,
+} from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -20,11 +23,12 @@ import { FilterSectionModule } from './filter-section/filter-section.module';
 import { SharedModule } from './shared/shared.module';
 import { UserSettingsModule } from './user-settings/user-settings.module';
 
-function DynamicPurpose(
+export function DynamicDataPrivacy(
   translocoService: TranslocoService
 ): Observable<string> {
-  return translocoService.selectTranslate('legal.purpose');
+  return translocoService.selectTranslate('legal.customDataPrivacy');
 }
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -48,8 +52,8 @@ function DynamicPurpose(
       useValue: 'Marius Rößner',
     },
     {
-      provide: PURPOSE,
-      useFactory: DynamicPurpose,
+      provide: CUSTOM_DATA_PRIVACY,
+      useFactory: DynamicDataPrivacy,
       deps: [TranslocoService],
     },
   ],
