@@ -16,9 +16,14 @@ mat-card-content.card-flex {
 }
 
 .medias {
-  background-image: url('../../assets/images/medias.png');
+  background-image: url('../../assets/images/medias.svg');
 }
 
 div span span .start-icon {
   @apply m-0 h-auto w-auto text-[24px];
+}
+
+.text-link-grey {
+  --tw-text-opacity: 1;
+  color: rgb(100 100 100 / var(--tw-text-opacity));
 }
