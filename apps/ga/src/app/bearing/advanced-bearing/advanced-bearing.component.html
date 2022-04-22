@@ -1,6 +1,6 @@
 <div
   *transloco="let t; read: 'bearing'"
-  class="flex flex-col lg:w-2/3 xl:w-1/2"
+  class="flex flex-col md:w-full xl:w-2/3"
 >
   <form [formGroup]="bearingExtendedSearchParametersForm">
     <ga-select
@@ -13,7 +13,7 @@
     ></ga-select>
     <mat-divider class="pb-6 md:!hidden"></mat-divider>
     <div>
-      <div class="flex flex-col gap-4 md:flex-row">
+      <div class="flex flex-col items-center gap-4 md:flex-row">
         <ga-input
           class="w-full"
           [control]="minDi"
@@ -38,10 +38,19 @@
           [onlyPositive]="true"
           [noInfo]="true"
         ></ga-input>
+        <button
+          mat-button
+          class="w-full"
+          color="primary"
+          [disabled]="!minDi"
+          (click)="deleteDimension('minDi', 'maxDi')"
+        >
+          {{ t('delete', { dimension: t('boreDiameter') }) }}
+        </button>
       </div>
     </div>
     <mat-divider class="pb-6 md:!hidden"></mat-divider>
-    <div class="flex flex-col gap-4 md:flex-row">
+    <div class="flex flex-col items-center gap-4 md:flex-row">
       <ga-input
         class="w-full"
         [control]="minDa"
@@ -66,9 +75,18 @@
         [onlyPositive]="true"
         [noInfo]="true"
       ></ga-input>
+      <button
+        mat-button
+        class="w-full"
+        color="primary"
+        [disabled]="!minDi"
+        (click)="deleteDimension('minDa', 'maxDa')"
+      >
+        {{ t('delete', { dimension: t('outsideDiameter') }) }}
+      </button>
     </div>
     <mat-divider class="pb-6 md:!hidden"></mat-divider>
-    <div class="flex flex-col gap-4 md:flex-row">
+    <div class="flex flex-col items-center gap-4 md:flex-row">
       <ga-input
         class="w-full"
         [control]="minB"
@@ -89,6 +107,15 @@
         [onlyPositive]="true"
         [noInfo]="true"
       ></ga-input>
+      <button
+        mat-button
+        class="w-full"
+        color="primary"
+        [disabled]="!minDi"
+        (click)="deleteDimension('minB', 'maxB')"
+      >
+        {{ t('delete', { dimension: t('width') }) }}
+      </button>
     </div>
   </form>
   <!-- <pre>{{ bearingExtendedSearchParameters$ | ngrxPush | json }}</pre> -->
@@ -99,9 +126,13 @@
         mat-raised-button
         class="w-full"
         color="primary"
-        [disabled]="bearings.length < 1 || bearings.length > 99"
+        [disabled]="bearings.length < 1 || bearings.length > 99 || !formIsValid"
       >
-        {{ t('selectBearingFromList', { amount: bearings.length }) }}
+        {{
+          formIsValid()
+            ? t('selectBearingFromList', { amount: bearings.length })
+            : t('enterSearchParameters')
+        }}
       </button>
     </div>
     <!-- TODO remove and create list component -->

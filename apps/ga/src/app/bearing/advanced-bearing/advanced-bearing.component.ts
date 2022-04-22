@@ -138,15 +138,16 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
           this.bearingExtendedSearchParametersForm.patchValue({
             [key]: params[key],
           });
-          Object.keys(
-            this.bearingExtendedSearchParametersForm.controls
-          ).forEach((objectKey) =>
-            this.bearingExtendedSearchParametersForm.controls[
-              objectKey
-            ].updateValueAndValidity()
-          );
         }
       });
+
+      // needed to show validation errors immediately
+      Object.keys(this.bearingExtendedSearchParametersForm.controls).forEach(
+        (objectKey) =>
+          this.bearingExtendedSearchParametersForm.controls[
+            objectKey
+          ].markAsDirty()
+      );
     });
 
     this.bearingResultExtendedSearchList$
@@ -166,13 +167,15 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
     this.bearingExtendedSearchParametersForm.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        debounceTime(300),
+        debounceTime(1000),
         distinctUntilChanged(
           (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
         ),
         map((parameters) => this.fillDiameters(parameters)),
-        map((parameters) =>
-          this.store.dispatch(searchBearingExtended({ parameters }))
+        map(
+          (parameters) =>
+            this.formIsValid() &&
+            this.store.dispatch(searchBearingExtended({ parameters }))
         )
       )
       .subscribe();
@@ -303,5 +306,25 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
   invalidMinMax(min: number, max: number): boolean {
     return min && max && min > max;
+  }
+
+  formIsValid(): boolean {
+    return (
+      Object.keys(this.bearingExtendedSearchParametersForm.controls).filter(
+        (objectKey) =>
+          this.bearingExtendedSearchParametersForm.controls[objectKey].invalid
+      ).length === 0
+    );
+  }
+
+  deleteDimension(firstDimension: string, secondDimension: string): void {
+    this.bearingExtendedSearchParametersForm.controls[
+      firstDimension
+      // eslint-disable-next-line unicorn/no-null
+    ].patchValue(null);
+    this.bearingExtendedSearchParametersForm.controls[
+      secondDimension
+      // eslint-disable-next-line unicorn/no-null
+    ].patchValue(null);
   }
 }
