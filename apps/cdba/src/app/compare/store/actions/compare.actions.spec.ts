@@ -1,7 +1,7 @@
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
@@ -45,8 +45,8 @@ describe('Compare Actions', () => {
   const excludedCalculationItems = EXCLUDED_CALCULATIONS_MOCK;
   const calculation = CALCULATIONS_MOCK[3];
   const nodeId = '4';
-  const bomItems = BOM_MOCK;
-  const bomItem = BOM_MOCK[3];
+  const bomItems = BOM_ODATA_MOCK;
+  const bomItem = BOM_ODATA_MOCK[3];
 
   afterEach(() => {
     action = undefined;

@@ -12,7 +12,7 @@ import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { ResizeModule } from '@cdba/shared/directives/resize/index';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   COMPARE_STATE_MOCK,
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
@@ -122,7 +122,7 @@ describe('BomContainerComponent', () => {
     test(
       'should use detail selectors to init observables',
       marbles((m) => {
-        const expectedChildrenOfSelectedBomItem = [BOM_MOCK[1]];
+        const expectedChildrenOfSelectedBomItem = [BOM_ODATA_MOCK[1]];
 
         component['initializeWithDetailSelectors']();
 
@@ -237,7 +237,7 @@ describe('BomContainerComponent', () => {
   });
 
   describe('selectBomItem', () => {
-    const item = BOM_MOCK[0];
+    const item = BOM_ODATA_MOCK[0];
 
     beforeEach(() => {
       store.dispatch = jest.fn();

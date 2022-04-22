@@ -33,11 +33,15 @@ export class BomLegendComponent {
       cellRenderer: MaterialDesignationCellRendererComponent,
     },
     {
-      field: 'totalPricePerPc',
       headerName: `${translate(
         'shared.bom.headers.totalPricePerPc'
       )} (${this.currencyService.getCurrency()})`,
       flex: 1,
+      valueGetter: (params) =>
+        // eslint-disable-next-line no-prototype-builtins
+        params.data.hasOwnProperty('totalPricePerPc')
+          ? params.data.totalPricePerPc
+          : params.data.costing.costAreaTotalValue,
       valueFormatter: (params) =>
         this.columnUtilsService.formatNumber(params, {
           minimumFractionDigits: 5,

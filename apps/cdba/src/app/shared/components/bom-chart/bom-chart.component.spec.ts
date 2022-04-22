@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { BOM_MOCK } from '@cdba/testing/mocks';
+import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -25,7 +25,7 @@ describe('BomChartComponent', () => {
   let component: BomChartComponent;
   let configService: BomChartConfigService;
 
-  const data = [BOM_MOCK[1], BOM_MOCK[2]];
+  const data = BOM_ODATA_MOCK;
 
   const createComponent = createComponentFactory({
     component: BomChartComponent,
@@ -69,22 +69,17 @@ describe('BomChartComponent', () => {
 
   describe('data input', () => {
     it('should set the chart data properly', () => {
-      expect(component['lineChartData']).toEqual([50, 100]);
+      expect(component['lineChartData']).toEqual([20, 40, 60, 80, 100]);
       expect(component['barChartData']).toEqual([
         {
-          itemStyle: {
-            color: '#007832',
-          },
-          name: 'FE-2315',
-          value: 13,
+          name: 'FE-2313',
+          value: 1234.567,
+          itemStyle: { color: '#129B49' },
         },
-        {
-          itemStyle: {
-            color: undefined,
-          },
-          name: 'FE-2315',
-          value: 13,
-        },
+        { name: 'FE-2315', value: 1234.567, itemStyle: { color: '#007832' } },
+        { name: 'FE-2315', value: 1234.567, itemStyle: { color: '#129B49' } },
+        { name: 'FE-2314', value: 1234.567, itemStyle: { color: '#129B49' } },
+        { name: 'FE-2311', value: 1234.567, itemStyle: { color: '#129B49' } },
       ]);
     });
   });

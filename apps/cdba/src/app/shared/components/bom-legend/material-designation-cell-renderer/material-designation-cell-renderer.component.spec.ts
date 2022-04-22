@@ -1,6 +1,6 @@
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { BOM_MOCK } from '@cdba/testing/mocks';
+import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { COST_SHARE_CATEGORY_COLORS } from '../../../constants/colors';
@@ -10,7 +10,7 @@ describe('MaterialDesignationCellRendererComponent', () => {
   let spectator: Spectator<MaterialDesignationCellRendererComponent>;
   let component: MaterialDesignationCellRendererComponent;
 
-  const params = { value: 'F-2312', rowIndex: 2, data: BOM_MOCK[1] };
+  const params = { value: 'F-2312', rowIndex: 2, data: BOM_ODATA_MOCK[1] };
 
   const createComponent = createComponentFactory({
     component: MaterialDesignationCellRendererComponent,

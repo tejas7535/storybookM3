@@ -7,7 +7,7 @@ import {
 import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
@@ -89,7 +89,7 @@ describe('DetailService', () => {
 
   describe('getBom', () => {
     test('should get bom entries', () => {
-      const mock = new BomResult(BOM_MOCK);
+      const mock = new BomResult(BOM_ODATA_MOCK);
       const bomIdentifier = new BomIdentifier(
         '20200604',
         'number',
@@ -132,7 +132,7 @@ describe('DetailService', () => {
 
   describe('defineBomTreeForAgGrid', () => {
     it('should build correct tree', () => {
-      const bomItems = BOM_MOCK;
+      const bomItems = BOM_ODATA_MOCK;
 
       const result = DetailService['defineBomTreeForAgGrid'](bomItems, 0);
 

@@ -1,33 +1,35 @@
 // classic
-export interface BomItemClassic {
-  level: number;
-  currency: string;
-  plant: string;
-  cavity: number;
-  lotsize: number;
-  materialDesignation: string;
-  totalPricePerPc: number;
-  materialNumber: string;
-  procurementType: string;
-  activityType: string;
-  setupTime: number;
-  cycleTime: number;
-  toolingFactor: number;
-  quantityPerParent: number;
-  unitOfMeasure: string;
-  costCenter: string;
-  currencyForeign: string;
-  parentLotsize: number;
-  parentMaterialNumber: string;
-  parentPlant: string;
-  bomCostingDate: string;
-  bomCostingNumber: string;
-  bomCostingVersion: string;
-  bomCostingType: string;
-  bomEnteredManually: string;
-  bomReferenceObject: string;
-  bomValuationVariant: string;
-  rowId: number;
-  predecessorsInTree: string[];
-  costShareOfParent?: number;
+export class BomItemClassic {
+  constructor(
+    public level: number,
+    public currency: string,
+    public plant: string,
+    public cavity: number,
+    public lotsize: number,
+    public materialDesignation: string,
+    public totalPricePerPc: number,
+    public materialNumber: string,
+    public procurementType: string,
+    public activityType: string,
+    public setupTime: number,
+    public cycleTime: number,
+    public toolingFactor: number,
+    public quantityPerParent: number,
+    public unitOfMeasure: string,
+    public costCenter: string,
+    public currencyForeign: string,
+    public parentLotsize: number,
+    public parentMaterialNumber: string,
+    public parentPlant: string,
+    public bomCostingDate: string,
+    public bomCostingNumber: string,
+    public bomCostingVersion: string,
+    public bomCostingType: string,
+    public bomEnteredManually: string,
+    public bomReferenceObject: string,
+    public bomValuationVariant: string,
+    public rowId: number,
+    public predecessorsInTree: string[],
+    public costShareOfParent?: number
+  ) {}
 }

@@ -2,6 +2,7 @@ export * from './additional-information-details.mock';
 export * from './auth.mock';
 export * from './bom.mock';
 export * from './bom-identifier.mock';
+export * from './bom-odata.mock';
 export * from './calculations.mock';
 export * from './customer-details.mock';
 export * from './dimension-and-weight-details.mock';

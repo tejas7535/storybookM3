@@ -8,7 +8,7 @@ import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
@@ -261,7 +261,7 @@ describe('CompareEffects', () => {
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const items = BOM_MOCK;
+        const items = BOM_ODATA_MOCK;
 
         const response = m.cold('-a|', {
           a: items,

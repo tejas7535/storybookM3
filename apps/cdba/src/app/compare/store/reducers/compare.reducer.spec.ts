@@ -5,7 +5,7 @@ import {
 } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
@@ -163,8 +163,8 @@ describe('Compare Reducer', () => {
     describe('loadBomSuccess', () => {
       it('should set items and switch off loading for correct material', () => {
         const index = 1;
-        action = loadBomSuccess({ index, items: BOM_MOCK });
-        expected = BOM_MOCK;
+        action = loadBomSuccess({ index, items: BOM_ODATA_MOCK });
+        expected = BOM_ODATA_MOCK;
 
         state = compareReducer(mockState, action);
 
@@ -208,7 +208,7 @@ describe('Compare Reducer', () => {
 
     describe('selectBomItem', () => {
       it('should set selected item for provided index', () => {
-        const item = BOM_MOCK[3];
+        const item = BOM_ODATA_MOCK[3];
         const index = 0;
         expected = item;
         action = selectBomItem({ item, index });

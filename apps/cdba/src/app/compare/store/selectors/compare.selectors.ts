@@ -7,6 +7,7 @@ import {
   DimensionAndWeightDetails,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
+import { addCostShareOfParent } from '@cdba/shared/utils';
 import { createSelector } from '@ngrx/store';
 
 import { CompareState } from '../reducers/compare.reducer';
@@ -157,12 +158,9 @@ export const getChildrenOfSelectedBomItem = (index: number) =>
               item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
               state[index].billOfMaterial.selected.materialDesignation
           )
-          .map((item) => ({
-            ...item,
-            costShareOfParent:
-              item.totalPricePerPc /
-              state[index].billOfMaterial.selected.totalPricePerPc,
-          }))
+          .map((item) =>
+            addCostShareOfParent(item, state[index].billOfMaterial.selected)
+          )
       : undefined
   );
 

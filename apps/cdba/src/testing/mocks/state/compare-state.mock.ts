@@ -1,6 +1,10 @@
 import { CompareState } from '@cdba/compare/store/reducers/compare.reducer';
 
-import { BOM_MOCK, CALCULATIONS_MOCK, REFERENCE_TYPE_MOCK } from '../models';
+import {
+  BOM_ODATA_MOCK,
+  CALCULATIONS_MOCK,
+  REFERENCE_TYPE_MOCK,
+} from '../models';
 
 export const COMPARE_STATE_MOCK: CompareState = {
   '0': {
@@ -22,8 +26,8 @@ export const COMPARE_STATE_MOCK: CompareState = {
     },
     billOfMaterial: {
       loading: true,
-      items: BOM_MOCK,
-      selected: BOM_MOCK[1],
+      items: BOM_ODATA_MOCK,
+      selected: BOM_ODATA_MOCK[1],
       errorMessage: undefined,
     },
   },

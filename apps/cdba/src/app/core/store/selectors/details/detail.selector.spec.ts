@@ -1,5 +1,5 @@
 import {
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   CUSTOMER_DETAILS_MOCK,
   DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK,
@@ -184,7 +184,7 @@ describe('Detail Selector', () => {
   describe('getBomItems', () => {
     test('should return bom entries', () => {
       expect(getBomItems(initialDetailState)).toBeUndefined();
-      expect(getBomItems(fakeState)).toEqual(BOM_MOCK);
+      expect(getBomItems(fakeState)).toEqual(BOM_ODATA_MOCK);
     });
   });
 
@@ -205,7 +205,9 @@ describe('Detail Selector', () => {
   describe('getChildrenOfSelectedBomItem', () => {
     test('should return the direct children of the selected bom item', () => {
       expect(getChildrenOfSelectedBomItem(initialDetailState)).toBeUndefined();
-      expect(getChildrenOfSelectedBomItem(fakeState)).toEqual([BOM_MOCK[1]]);
+      expect(getChildrenOfSelectedBomItem(fakeState)).toEqual([
+        BOM_ODATA_MOCK[1],
+      ]);
     });
   });
 

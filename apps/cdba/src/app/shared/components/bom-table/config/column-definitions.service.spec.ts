@@ -106,7 +106,7 @@ describe('ColumnDefinitions', () => {
         }
       });
 
-      expect(formatNumberSpy).toHaveBeenCalledTimes(45);
+      expect(formatNumberSpy).toHaveBeenCalledTimes(43);
     });
   });
 });

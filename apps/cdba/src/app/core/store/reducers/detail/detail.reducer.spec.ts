@@ -1,7 +1,7 @@
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_IDENTIFIER_MOCK,
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
@@ -284,7 +284,7 @@ describe('Detail Reducer', () => {
 
   describe('loadBomSuccess', () => {
     test('should unset loading and set bom items', () => {
-      const items = BOM_MOCK;
+      const items = BOM_ODATA_MOCK;
 
       const action = loadBomSuccess({ items });
 
@@ -308,12 +308,12 @@ describe('Detail Reducer', () => {
 
   describe('selectBomItem', () => {
     test('should set selected Bom Item', () => {
-      const item = BOM_MOCK[0];
+      const item = BOM_ODATA_MOCK[0];
       const action = selectBomItem({ item });
 
       const state = detailReducer(fakeState, action);
 
-      expect(state.bom.selectedItem).toEqual(BOM_MOCK[0]);
+      expect(state.bom.selectedItem).toEqual(BOM_ODATA_MOCK[0]);
     });
   });
 

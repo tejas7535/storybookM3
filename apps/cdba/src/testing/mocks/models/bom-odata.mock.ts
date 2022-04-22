@@ -4,7 +4,7 @@ import { BomItemOdata } from '@cdba/shared/models/bom-item-odata.model';
 export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
   rowId: 1,
   level: 1,
-  materialDesignation: 'mock-materialDesignation',
+  materialDesignation: 'FE-2313',
   materialNumber: 'mock-materialNumber',
   parentMaterialNumber: 'mock-materialNumber',
   costShareOfParent: 0.4,

@@ -77,7 +77,7 @@ export class BomChartConfigService {
     `${params.name}: ${this.localeService.localizeNumber(
       params.value,
       'decimal'
-    )}${this.currencyService.getCurrency()}`;
+    )} ${this.currencyService.getCurrency()}`;
 
   private readonly linechartTooltipFormatter = (params: {
     value: number;

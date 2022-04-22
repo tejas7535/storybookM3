@@ -13,6 +13,7 @@ import {
   ReferenceTypeIdentifier,
   SalesDetails,
 } from '@cdba/shared/models';
+import { addCostShareOfParent } from '@cdba/shared/utils';
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
@@ -197,11 +198,7 @@ export const getChildrenOfSelectedBomItem = createSelector(
               item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
               state.bom.selectedItem.materialDesignation
           )
-          .map((item) => ({
-            ...item,
-            costShareOfParent:
-              item.totalPricePerPc / state.bom.selectedItem.totalPricePerPc,
-          }))
+          .map((item) => addCostShareOfParent(item, state.bom.selectedItem))
       : undefined
 );
 

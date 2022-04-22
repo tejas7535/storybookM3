@@ -1,7 +1,7 @@
 import {
   ADDITIONAL_INFORMATION_DETAILS_MOCK,
   BOM_IDENTIFIER_MOCK,
-  BOM_MOCK,
+  BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
 } from '@cdba/testing/mocks';
@@ -280,7 +280,7 @@ describe('Compare Selectors', () => {
     });
 
     it('should return bom items for provided index', () => {
-      expected = BOM_MOCK;
+      expected = BOM_ODATA_MOCK;
       result = getBomItems(fakeState, 0);
 
       expect(result).toEqual(expected);
