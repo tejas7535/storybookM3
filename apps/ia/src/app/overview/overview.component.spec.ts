@@ -15,7 +15,7 @@ import {
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingUnforcedFluctuationRatesForChart,
-  getLeaversDataForSelectedOrgUnit,
+  getExitEmployees,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
@@ -201,7 +201,7 @@ describe('OverviewComponent', () => {
       'should set exitEmployees$',
       marbles((m) => {
         const result = [] as any;
-        store.overrideSelector(getLeaversDataForSelectedOrgUnit, result);
+        store.overrideSelector(getExitEmployees, result);
         component.ngOnInit();
         m.expect(component.exitEmployees$).toBeObservable(
           m.cold('a', {

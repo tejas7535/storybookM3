@@ -21,7 +21,7 @@ import {
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
-  getLeaversDataForSelectedOrgUnit,
+  getExitEmployees,
   getOpenApplications,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
@@ -275,9 +275,9 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getLeaversDataForSelectedOrgUnit', () => {
-    it('should return leavers for selected org unit only', () => {
-      const leavers = getLeaversDataForSelectedOrgUnit(fakeState);
+  describe('getExitEmployees', () => {
+    it('should return external and internal leavers', () => {
+      const leavers = getExitEmployees(fakeState);
 
       expect(leavers.length).toEqual(3);
       expect(leavers).toContain(leaverIT1);

@@ -35,15 +35,22 @@ export const getOverviewFluctuationRates = createSelector(
   (state: OverviewState) => state.entriesExits?.data
 );
 
-export const getLeaversDataForSelectedOrgUnit = createSelector(
+export const getExitEmployees = createSelector(
   getOverviewFluctuationRates,
-  getSelectedOrgUnit,
+  getSelectedTimeRange,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: IdValue
+    selectedTimeRange: IdValue
   ) =>
     overviewFluctuationRates?.exitEmployees.filter(
-      (employee) => employee.orgUnit?.indexOf(selectedOrgUnit.id) === 0
+      (employee) =>
+        utils.isDateInTimeRange(selectedTimeRange.id, employee.exitDate) ||
+        utils.isDateInTimeRange(
+          selectedTimeRange.id,
+          employee.actions?.find(
+            (e) => e.actionType === ActionType.INTERNAL && e.exitDate
+          )?.exitDate
+        )
     )
 );
 

@@ -21,7 +21,7 @@ import {
   getIsLoadingOpenApplications,
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
-  getLeaversDataForSelectedOrgUnit,
+  getExitEmployees,
   getOpenApplications,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
@@ -130,7 +130,7 @@ export class OverviewComponent implements OnInit {
 
     this.entriesCount$ = this.store.select(getOverviewFluctuationEntriesCount);
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
-    this.exitEmployees$ = this.store.select(getLeaversDataForSelectedOrgUnit);
+    this.exitEmployees$ = this.store.select(getExitEmployees);
     this.entryEmployees$ = this.store.select(getEntryEmployees);
   }
 
