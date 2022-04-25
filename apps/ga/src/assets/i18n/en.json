@@ -46,7 +46,7 @@
     "mm": "mm",
     "selectBearingFromList": "Select Bearing from List ({{ amount }})",
     "enterSearchParameters": "Please enter valid search parameters",
-    "delete": "Delete {{ dimension }}",
+    "reset": "Reset {{ dimension }}",
     "tooManyResults": "{{ amount }} Too many results. Please narrow down your criteria",
     "types": {
       "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radial angular contact ball bearing",

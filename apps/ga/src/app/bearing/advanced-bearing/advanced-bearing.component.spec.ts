@@ -2,7 +2,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -33,6 +35,8 @@ describe('AdvancedBearingComponent', () => {
       ReactiveComponentModule,
       MatButtonModule,
       MatSnackBarModule,
+      MatTooltipModule,
+      MatIconModule,
     ],
     providers: [
       provideMockStore({

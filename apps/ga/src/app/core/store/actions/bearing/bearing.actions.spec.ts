@@ -1,6 +1,7 @@
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
+  bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
@@ -58,6 +59,16 @@ describe('Bearing Actions', () => {
       expect(action).toEqual({
         resultList,
         type: '[Bearing] Search Bearing Extended Success',
+      });
+    });
+  });
+
+  describe('Search Bearing Extended Failure', () => {
+    it('bearingSearchExtendedFailure', () => {
+      const action = bearingSearchExtendedFailure();
+
+      expect(action).toEqual({
+        type: '[Bearing] Search Bearing Extended Failure',
       });
     });
   });

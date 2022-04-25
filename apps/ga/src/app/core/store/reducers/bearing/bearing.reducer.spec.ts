@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
 import {
+  bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
@@ -72,6 +73,16 @@ describe('Bearing Reducer', () => {
 
       expect(state.loading).toBe(false);
       expect(state.extendedSearch.resultList).toEqual(mockResultList);
+    });
+  });
+
+  describe('on bearingSearchExtendedFailure', () => {
+    it('should set resultList to []', () => {
+      const action: Action = bearingSearchExtendedFailure();
+      const state = bearingReducer(initialState, action);
+
+      expect(state.loading).toBe(false);
+      expect(state.extendedSearch.resultList).toEqual([]);
     });
   });
 

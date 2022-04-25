@@ -172,11 +172,19 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
           (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
         ),
         map((parameters) => this.fillDiameters(parameters)),
-        map(
-          (parameters) =>
-            this.formIsValid() &&
-            this.store.dispatch(searchBearingExtended({ parameters }))
-        )
+        map((parameters) => {
+          Object.keys(
+            this.bearingExtendedSearchParametersForm.controls
+          ).forEach((objectKey) =>
+            this.bearingExtendedSearchParametersForm.controls[
+              objectKey
+            ].updateValueAndValidity()
+          );
+
+          if (this.formIsValid()) {
+            this.store.dispatch(searchBearingExtended({ parameters }));
+          }
+        })
       )
       .subscribe();
   }

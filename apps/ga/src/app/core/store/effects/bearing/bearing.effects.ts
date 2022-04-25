@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { map, mergeMap } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { ExtendedSearchParameters } from '../../../../shared/models';
 import { RestService } from '../../../services/rest/rest.service';
 import {
+  bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
@@ -42,16 +43,13 @@ export class BearingEffects {
     return this.actions$.pipe(
       ofType(searchBearingExtended),
       map((action) => action.parameters),
-      mergeMap(
-        (parameters: ExtendedSearchParameters) =>
-          this.restService
-            .getBearingExtendedSearch(parameters)
-            .pipe(
-              map((resultList: string[]) =>
-                bearingSearchExtendedSuccess({ resultList })
-              )
-            )
-        //   catchError((_e) => of(bearingSearchExtendedFailure())
+      mergeMap((parameters: ExtendedSearchParameters) =>
+        this.restService.getBearingExtendedSearch(parameters).pipe(
+          map((resultList: string[]) =>
+            bearingSearchExtendedSuccess({ resultList })
+          ),
+          catchError((_e) => of(bearingSearchExtendedFailure()))
+        )
       )
     );
   });

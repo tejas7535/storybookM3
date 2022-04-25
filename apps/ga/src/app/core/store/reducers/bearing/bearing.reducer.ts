@@ -2,6 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { ExtendedSearchParameters } from '../../../../shared/models';
 import {
+  bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
@@ -92,6 +93,17 @@ export const bearingReducer = createReducer(
       extendedSearch: {
         ...state.extendedSearch,
         resultList,
+      },
+      loading: false,
+    })
+  ),
+  on(
+    bearingSearchExtendedFailure,
+    (state: BearingState): BearingState => ({
+      ...state,
+      extendedSearch: {
+        ...state.extendedSearch,
+        resultList: [],
       },
       loading: false,
     })

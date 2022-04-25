@@ -24,7 +24,9 @@ export const bearingSearchExtendedSuccess = createAction(
   props<{ resultList: string[] }>()
 );
 
-// todo bearingSearchExtendedFailure
+export const bearingSearchExtendedFailure = createAction(
+  '[Bearing] Search Bearing Extended Failure'
+);
 
 export const modelCreateSuccess = createAction(
   '[Bearing] Model Create Success',
@@ -45,6 +47,7 @@ const all = union({
   bearingSearchSuccess,
   searchBearingExtended,
   bearingSearchExtendedSuccess,
+  bearingSearchExtendedFailure,
   selectBearing,
   modelCreateSuccess,
   modelCreateFailure,
