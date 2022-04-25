@@ -156,7 +156,8 @@ export const getChildrenOfSelectedBomItem = (index: number) =>
           .filter(
             (item) =>
               item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
-              state[index].billOfMaterial.selected.materialDesignation
+                state[index].billOfMaterial.selected.materialDesignation &&
+              item.level === state[index].billOfMaterial.selected.level + 1
           )
           .map((item) =>
             addCostShareOfParent(item, state[index].billOfMaterial.selected)

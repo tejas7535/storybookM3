@@ -1,4 +1,6 @@
+import { BomItem } from '@cdba/shared/models';
 import {
+  BOM_ITEM_ODATA_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   CUSTOMER_DETAILS_MOCK,
@@ -208,6 +210,50 @@ describe('Detail Selector', () => {
       expect(getChildrenOfSelectedBomItem(fakeState)).toEqual([
         BOM_ODATA_MOCK[1],
       ]);
+    });
+
+    test('should only select the direct children', () => {
+      const bomItems: BomItem[] = [
+        { ...BOM_ITEM_ODATA_MOCK },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 2,
+          rowId: 2,
+          materialDesignation: 'FE-2313',
+          predecessorsInTree: ['FE-2313', 'FE-2313'],
+          costShareOfParent: 1,
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 3,
+          materialDesignation: 'FE-2315',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 4,
+          materialDesignation: 'FE-2314',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 5,
+          materialDesignation: 'FE-2311',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2311'],
+        },
+      ];
+      const testState = {
+        ...fakeState,
+        detail: {
+          ...fakeState.detail,
+          bom: { ...fakeState.detail.bom, items: bomItems },
+        },
+      };
+
+      expect(getChildrenOfSelectedBomItem(testState)).toEqual([bomItems[1]]);
     });
   });
 

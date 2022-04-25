@@ -196,7 +196,8 @@ export const getChildrenOfSelectedBomItem = createSelector(
           .filter(
             (item: BomItem) =>
               item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
-              state.bom.selectedItem.materialDesignation
+                state.bom.selectedItem.materialDesignation &&
+              item.level === state.bom.selectedItem.level + 1
           )
           .map((item) => addCostShareOfParent(item, state.bom.selectedItem))
       : undefined

@@ -1,6 +1,8 @@
+import { BomItem } from '@cdba/shared/models';
 import {
   ADDITIONAL_INFORMATION_DETAILS_MOCK,
   BOM_IDENTIFIER_MOCK,
+  BOM_ITEM_ODATA_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
@@ -342,6 +344,56 @@ describe('Compare Selectors', () => {
       expected = [];
 
       result = getChildrenOfSelectedBomItem(0).projector(fakeState.compare);
+
+      expect(result).toEqual(expected);
+    });
+    it('should return only direct children of selected bom item', () => {
+      const bomItems: BomItem[] = [
+        { ...BOM_ITEM_ODATA_MOCK },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 2,
+          rowId: 2,
+          materialDesignation: 'FE-2313',
+          predecessorsInTree: ['FE-2313', 'FE-2313'],
+          costShareOfParent: 1,
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 3,
+          materialDesignation: 'FE-2315',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 4,
+          materialDesignation: 'FE-2314',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 5,
+          materialDesignation: 'FE-2311',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2311'],
+        },
+      ];
+      const testCompareState = {
+        ...fakeState.compare,
+        '0': {
+          ...fakeState.compare['0'],
+          billOfMaterial: {
+            ...fakeState.compare['0'].billOfMaterial,
+            items: bomItems,
+            selected: BOM_ITEM_ODATA_MOCK,
+          },
+        },
+      };
+      expected = [bomItems[1]];
+
+      result = getChildrenOfSelectedBomItem(0).projector(testCompareState);
 
       expect(result).toEqual(expected);
     });
