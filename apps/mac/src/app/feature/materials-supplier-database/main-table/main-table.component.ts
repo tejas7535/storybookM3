@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -15,23 +16,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, withLatestFrom } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
-import {
-  ClientSideRowModelModule,
-  ColumnApi,
-  GridApi,
-  Module,
-} from '@ag-grid-community/all-modules';
+import { ColumnApi, Module } from '@ag-grid-community/all-modules';
 import { ColumnState, RowNode } from '@ag-grid-community/core';
-import {
-  ColDef,
-  ColumnsToolPanelModule,
-  FiltersToolPanelModule,
-  MenuModule,
-  MultiFilterModule,
-  SetFilterModule,
-  SideBarDef,
-  SideBarModule,
-} from '@ag-grid-enterprise/all-modules';
+import { ColDef, GridApi, SideBarDef } from '@ag-grid-enterprise/all-modules';
 import { Store } from '@ngrx/store';
 
 import { DataFilter, DataResult } from '../models';
@@ -54,6 +41,7 @@ import {
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
+  MODULES,
   SIDE_BAR_CONFIG,
 } from './table-config';
 
@@ -82,15 +70,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public destroy$ = new Subject<void>();
 
-  public modules: Module[] = [
-    ClientSideRowModelModule,
-    SideBarModule,
-    ColumnsToolPanelModule,
-    MultiFilterModule,
-    FiltersToolPanelModule,
-    SetFilterModule,
-    MenuModule,
-  ];
+  public modules: Module[] = MODULES;
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
@@ -126,7 +106,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly agGridStateService: MsdAgGridStateService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly datePipe: DatePipe
   ) {}
 
   public ngOnInit(): void {
@@ -450,5 +431,19 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     return isDefault;
+  }
+
+  public exportExcel(): void {
+    if (!this.agGridApi) {
+      return;
+    }
+
+    const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+
+    this.agGridApi.exportDataAsExcel({
+      author: 'MSD (Material Supplier Database)',
+      fileName: `${dateString}-MSD-export.xlsx`,
+      sheetName: 'MSD-Export',
+    });
   }
 }

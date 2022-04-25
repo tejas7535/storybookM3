@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -65,6 +65,7 @@ describe('MainTableComponent', () => {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
+      DatePipe,
     ],
     declarations: [MainTableComponent],
   });
@@ -1229,6 +1230,35 @@ describe('MainTableComponent', () => {
       const result = component.isDefaultFilterForm();
 
       expect(result).toBe(false);
+    });
+  });
+
+  describe('exportExcel', () => {
+    it('should call export function with current timestamp', () => {
+      component['datePipe'].transform = jest.fn().mockReturnValue('1234-13-44');
+      component['agGridApi'] = {} as unknown as GridApi;
+      component['agGridApi'].exportDataAsExcel = jest.fn();
+
+      component.exportExcel();
+
+      expect(component['datePipe'].transform).toHaveBeenCalledWith(
+        expect.any(Date),
+        'yyyy-MM-dd'
+      );
+      expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalledWith({
+        author: 'MSD (Material Supplier Database)',
+        fileName: '1234-13-44-MSD-export.xlsx',
+        sheetName: 'MSD-Export',
+      });
+    });
+
+    it('should do nothing if ag grid api is not defined', () => {
+      component['agGridApi'] = undefined;
+      component['datePipe'].transform = jest.fn();
+
+      component.exportExcel();
+
+      expect(component['datePipe'].transform).not.toHaveBeenCalled();
     });
   });
 
