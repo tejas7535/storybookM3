@@ -8,6 +8,8 @@ describe('DateDisplayPipe', () => {
   test('should transform dateString', () => {
     const pipe = new DateDisplayPipe();
     const result = pipe.transform('2013-11-14 00:00:00.000');
-    expect(['14.11.2013', '11/14/2013']).toContainEqual(result);
+
+    // German (dd.MM.yyyy) or American (MM/DD/YYYY), depending on the user settings
+    expect(['14.11.2013', '11/14/2013', '14/11/2013']).toContainEqual(result);
   });
 });

@@ -1,3 +1,1 @@
-import { serivceNowAdress } from './service-now.constant';
-
-export const FORBIDDEN_ACTION = serivceNowAdress;
+export { serivceNowAdress as FORBIDDEN_ACTION } from './service-now.constant';

@@ -18,6 +18,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AUTH_STATE_MOCK, HEALTH_CHECK_STATE_MOCK } from '../testing/mocks';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { UserSettingsModule } from './shared/components/user-settings/user-settings.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -47,6 +48,7 @@ describe('AppComponent', () => {
       LoadingSpinnerModule,
       MockModule(UserSettingsModule),
       MaintenanceModule,
+      AppRoutingModule,
     ],
     providers: [
       provideMockStore({

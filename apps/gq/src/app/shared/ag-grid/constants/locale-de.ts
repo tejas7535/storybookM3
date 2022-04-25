@@ -1,3 +1,4 @@
+/* eslint-disable no-template-curly-in-string */
 import { AgGridLocale } from '../models/ag-grid-locale.interface';
 export const AG_GRID_LOCALE_DE: AgGridLocale = {
   // Set Filter
