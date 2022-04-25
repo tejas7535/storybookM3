@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.12.1...cdba-v2.13.0) (2022-04-25)
+
+
+### 🎸 Features
+
+* **cdba:** enable aggregation component in bom table (DSCDA-2892) ([7c14e27](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c14e27f06cfe494517ab7d1fa532ee004e65492))
+* **cdba:** prepare bom model for odata (DSCDA-2778) ([3a014ce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3a014ce5ab98664b94785010c96c0ad02d1f5703))
+* **cdba:** reenenable material designation deep link ([6f4eddb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6f4eddb5f8f357dc15ac7df5665b74dcfbff37ec))
+* **cdba:** reintegrate bom chart and bom legend ([1490cd2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1490cd2fca365545e80398c06956128d707e0477))
+* **cdba:** use actual v2 endpoint and adkjust cost share calc logic ([8bacc18](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8bacc183d7e3ee86cc4cdef2621a2a2d4eb8c302))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** only filter for direct children of selected bom item ([#4040](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4040)) ([bb20210](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb20210afe2711886a94c06dfc240a1ad8e4b274))
+
 ### [2.12.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.12.0...cdba-v2.12.1) (2022-04-19)
 
 
