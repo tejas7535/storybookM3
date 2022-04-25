@@ -248,4 +248,32 @@ describe('AdvancedBearingComponent', () => {
       expect(fillDiameterConditionallySpy).toHaveBeenCalledTimes(6);
     });
   });
+
+  describe('formIsValid', () => {
+    it('should return true if no formcontrol is invalid', () => {
+      const result = component.formIsValid();
+      expect(result).toBe(true);
+    });
+
+    it('should return false if at least one formcontrol is invalid', () => {
+      component.maxB.setErrors({ innerOuterInconsistent: true });
+
+      const result = component.formIsValid();
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('deleteDimension', () => {
+    it('should reset the two formControl in the argument', () => {
+      component.minDi.patchValue(1);
+      component.maxB.patchValue(2);
+
+      component.deleteDimension('minDi', 'maxB');
+
+      // eslint-disable-next-line unicorn/no-null
+      expect(component.minB.value).toBe(null);
+      // eslint-disable-next-line unicorn/no-null
+      expect(component.maxB.value).toBe(null);
+    });
+  });
 });
