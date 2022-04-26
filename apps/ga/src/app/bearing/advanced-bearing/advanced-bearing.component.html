@@ -12,48 +12,51 @@
       [noInfo]="true"
     ></ga-select>
     <mat-divider class="pb-6 md:!hidden"></mat-divider>
-    <div>
-      <div class="flex flex-col items-center gap-4 md:flex-row">
-        <ga-input
-          class="w-full"
-          [control]="minDi"
-          [label]="t('boreDiameter') + ' ' + t('min')"
-          [unit]="t('mm')"
-          [placeholder]="
-            t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('min') })
-          "
-          [customErrors]="consistencyErrors"
-          [onlyPositive]="true"
-          [noInfo]="true"
-        ></ga-input>
-        <ga-input
-          class="w-full"
-          [control]="maxDi"
-          [label]="t('boreDiameter') + ' ' + t('max')"
-          [unit]="t('mm')"
-          [placeholder]="
-            t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('max') })
-          "
-          [customErrors]="consistencyErrors"
-          [onlyPositive]="true"
-          [noInfo]="true"
-        ></ga-input>
-        <div class="pb-6 md:pb-0">
-          <button
-            mat-button
-            color="error"
-            [disabled]="!minDi.value"
-            (click)="deleteDimension('minDi', 'maxDi')"
-            [matTooltip]="t('reset', { dimension: t('boreDiameter') })"
-          >
-            <span class="md:hidden">
-              {{ t('reset') }}
-            </span>
-            <span class="hidden md:block">
-              <mat-icon>close</mat-icon>
-            </span>
-          </button>
-        </div>
+    <div class="flex flex-col gap-4 md:flex-row">
+      <ga-input
+        class="w-full"
+        [control]="minDi"
+        [label]="t('boreDiameter') + ' ' + t('min')"
+        [unit]="t('mm')"
+        [placeholder]="
+          t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('min') })
+        "
+        [customErrors]="consistencyErrors"
+        [onlyPositive]="true"
+        [noInfo]="true"
+      ></ga-input>
+      <ga-input
+        class="w-full"
+        [control]="maxDi"
+        [label]="t('boreDiameter') + ' ' + t('max')"
+        [unit]="t('mm')"
+        [placeholder]="
+          t('pleaseEnter', { label: t('boreDiameter') + ' ' + t('max') })
+        "
+        [customErrors]="consistencyErrors"
+        [onlyPositive]="true"
+        [noInfo]="true"
+      ></ga-input>
+      <div class="hidden h-[65px] items-center md:flex">
+        <button
+          mat-icon-button
+          color="warn"
+          [matTooltip]="t('reset', { dimension: t('boreDiameter') })"
+          [disabled]="!minDi.value"
+          (click)="deleteDimension('minDi', 'maxDi')"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="pb-6 text-center md:hidden">
+        <button
+          mat-button
+          color="warn"
+          [disabled]="!minDi.value"
+          (click)="deleteDimension('minDi', 'maxDi')"
+        >
+          {{ t('reset', { dimension: t('boreDiameter') }) }}
+        </button>
       </div>
     </div>
     <mat-divider class="pb-6 md:!hidden"></mat-divider>
