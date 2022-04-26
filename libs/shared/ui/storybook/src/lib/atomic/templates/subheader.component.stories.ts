@@ -48,8 +48,11 @@ const Template: Story<SubheaderComponent | SubheaderStorybookTemplate> = (
   props: args,
   template: `
     <schaeffler-subheader
-      [subheaderTitle]="title"
+      [showBackButton]="showBackButton"
+      [subheaderTitle]="subheaderTitle"
       [breadcrumbs]="breadcrumbs"
+      [truncateBreadcrumbsAfter]="truncateBreadcrumbsAfter"
+      [hideLine]="hideLine"
     >
       <ng-container subheaderTitleContent>
         <div class="flex flex-col justify-center px-2">
@@ -78,6 +81,7 @@ const breadcrumbs: Breadcrumb[] = [
 
 export const Primary = Template.bind({});
 Primary.args = {
+  showBackButton: true,
   subheaderTitle: 'Title',
   breadcrumbs,
   truncateBreadcrumbsAfter: 0,

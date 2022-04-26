@@ -68,6 +68,10 @@ const TemplateDefault: Story<AppShellComponent | AppShellStorybookTemplate> = (
     [hasSidebarLeft]="hasSidebarLeft"
     [userName]="userName"
     [userImageUrl]="userImageUrl"
+    [hasFooter]="hasFooter"
+    [footerLinks]="footerLinks"
+    [footerFixed]="footerFixed"
+    [appVersion]="appVersion"
   >
     <ng-container headerInlineContent>
       <span class="rounded bg-gradient-to-br from-primary-variant to-surface border border-primary px-3 py-1">{{ headerContent }}</span>
