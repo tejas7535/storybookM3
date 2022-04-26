@@ -7,6 +7,7 @@ export interface Environment {
   appId: string;
   baseUrl: string;
   envName: string;
+  oneTrustId: string;
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: string;

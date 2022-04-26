@@ -9,6 +9,19 @@
   <ng-container mainContent>
     <div class="h-full w-full overflow-auto bg-surface">
       <router-outlet></router-outlet>
+      <div
+        class="mx-auto w-full max-w-screen-md"
+        [ngClass]="{ hidden: !isCookiePage }"
+      >
+        <div class="py-3 px-4">
+          <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+            {{ cookieSettings }}
+          </button>
+        </div>
+        <div class="py-3 md:px-4">
+          <div id="ot-sdk-cookie-policy"></div>
+        </div>
+      </div>
     </div>
   </ng-container>
 </schaeffler-app-shell>

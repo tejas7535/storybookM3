@@ -9,10 +9,11 @@ export const environment: Environment = {
   appId: 'api://82e144ec-5abe-4912-b6b4-34e7a22a8e24/macapi', // SG_MAC_P_AP
   baseUrl: 'https://materials-app-center.dp.schaeffler',
   envName: ' https://materials-app-center.dp.schaeffler (prod)',
+  oneTrustId: 'ab9a86f7-d72b-4b88-9ea0-d37be5e09aab',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: '6ee4d547-ad4b-4bec-b962-ee547a1d690f',
-      disableCookiesUsage: true,
+      disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
     consent: true,

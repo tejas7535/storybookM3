@@ -13,10 +13,11 @@ export const environment: Environment = {
   appId: 'api://e3624a8e-5b1a-4135-83f3-e7c1fa1993ab/macapi', // SG_MAC_D_API
   baseUrl: 'https://materials-app-center-d.dev.dp.schaeffler',
   envName: 'https://materials-app-center-d.dev.dp.schaeffler (dev)',
+  oneTrustId: 'e4d0cd79-e494-42f5-9e9e-c1d7f89782de-test',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'a9d73f13-6b7a-4dae-bac6-d41930e6c311',
-      disableCookiesUsage: true,
+      disableCookiesUsage: false,
       autoTrackPageVisitTime: true,
     },
     consent: true,
