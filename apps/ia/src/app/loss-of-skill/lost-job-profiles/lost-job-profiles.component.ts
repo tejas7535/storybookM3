@@ -98,12 +98,12 @@ export class LostJobProfilesComponent implements OnChanges {
     params.columnApi.autoSizeColumn('openPositions');
   }
 
-  getRowClass = () => 'border-2 border-border';
+  getRowClass = () => 'border-2';
 
   handleCellClick(params: any, key: CellType): void {
     const translationKey =
       key === 'workforce' ? 'titleWorkforce' : 'titleLeavers';
-    const title = translate<string>(
+    const title = translate(
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
 
