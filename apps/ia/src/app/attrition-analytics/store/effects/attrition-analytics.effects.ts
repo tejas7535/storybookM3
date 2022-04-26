@@ -138,9 +138,9 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
       switchMap(([_action, _hasNext, pageable, sort]) =>
         this.attritionAnalyticsService
           .getFeatureImportance(
-            'China', // hardcoded for now
-            2020,
-            8,
+            'Germany', // hardcoded for now
+            2021,
+            12,
             pageable.pageNumber + 1, // load next features
             pageable.pageSize,
             sort.property,
