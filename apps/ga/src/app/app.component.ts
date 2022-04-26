@@ -1,24 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Meta, MetaDefinition } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { BehaviorSubject, filter, startWith, Subject, takeUntil } from 'rxjs';
+import { filter, startWith, Subject, takeUntil } from 'rxjs';
 
-import {
-  LoadedEvent,
-  translate,
-  TranslocoEvents,
-  TranslocoService,
-} from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
+import { OneTrustService } from '@altack/ngx-onetrust';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
-import { availableLanguages } from './core/core.module';
-import { setLanguage } from './core/store/actions/settings/settings.actions';
 import { LANGUAGE } from './shared/constants';
 
 @Component({
@@ -26,62 +18,51 @@ import { LANGUAGE } from './shared/constants';
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'Grease App';
-  metaTags: MetaDefinition[] = [
-    { name: 'title', content: translate('meta.title') },
-    { name: 'description', content: translate('meta.description') },
-    // Open Graph / Facebook
-    { name: 'og:title', content: translate('meta.title') },
-    { name: 'og:description', content: translate('meta.description') },
-    // Twitter
-    { name: 'twitter:title', content: translate('meta.title') },
-    {
-      name: 'twitter:description',
-      content: translate('meta.description'),
-    },
-  ];
-
-  public footerLinks$: BehaviorSubject<AppShellFooterLink[]> =
-    new BehaviorSubject(this.updateFooterLinks());
+  public appTitle = 'Grease App';
   public destroy$: Subject<void> = new Subject<void>();
   public isCookiePage = false;
-  public cookieSettings = translate('legal.cookieSettings');
-  public availableLanguages = availableLanguages;
-  public languageControl = new FormControl();
+  public footerLinks: AppShellFooterLink[] = [];
+  public currentLanguage!: string;
 
   constructor(
     private readonly router: Router,
     private readonly translocoService: TranslocoService,
-    private readonly store: Store,
-    private readonly meta: Meta,
+    private readonly metaService: Meta,
+    private readonly titleService: Title,
+    private readonly oneTrustService: OneTrustService,
     private readonly applicationInsightsService: ApplicationInsightsService
-  ) {
-    this.meta.addTags(this.metaTags);
-  }
+  ) {}
 
   public ngOnInit(): void {
+    this.currentLanguage = this.translocoService.getActiveLang();
+    this.assignMetaTags();
+    this.assignFooterLinks();
+
     this.translocoService.events$
       .pipe(
         takeUntil(this.destroy$),
         filter(
-          (event: TranslocoEvents) =>
-            !(event as LoadedEvent).wasFailure &&
-            event.type === 'translationLoadSuccess'
+          (event) =>
+            event.type === 'translationLoadSuccess' && !event.wasFailure
         )
       )
       .subscribe(() => {
-        this.footerLinks$.next(this.updateFooterLinks());
+        this.assignMetaTags();
+        this.assignFooterLinks();
       });
+
     this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
-    this.languageControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((language: string) => {
-        this.store.dispatch(setLanguage({ language }));
-        this.trackLanguage(language);
+      .subscribe((language) => {
+        this.assignMetaTags();
+        this.assignFooterLinks();
+        this.oneTrustService.translateBanner(language, true);
+
+        if (language !== this.currentLanguage) {
+          this.currentLanguage = language;
+          this.trackLanguage(language);
+        }
       });
-    this.languageControl.setValue(this.translocoService.getActiveLang());
 
     this.router.events
       .pipe(
@@ -96,39 +77,65 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  public trackLanguage(language: string): void {
-    this.applicationInsightsService.logEvent(LANGUAGE, {
-      value: language,
-    });
-  }
-
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  private updateFooterLinks(): AppShellFooterLink[] {
-    return [
+  private trackLanguage(language: string): void {
+    this.applicationInsightsService.logEvent(LANGUAGE, {
+      value: language,
+    });
+  }
+
+  private assignFooterLinks(): void {
+    this.footerLinks = [
       {
         link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-        title: translate('legal.imprint'),
+        title: this.translocoService.translate('legal.imprint'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-        title: translate('legal.dataPrivacy'),
+        title: this.translocoService.translate('legal.dataPrivacy'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.TermsPath}`,
-        title: translate('legal.termsOfUse'),
+        title: this.translocoService.translate('legal.termsOfUse'),
         external: false,
       },
       {
         link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: translate('legal.cookiePolicy'),
+        title: this.translocoService.translate('legal.cookiePolicy'),
         external: false,
       },
     ];
+  }
+
+  private assignMetaTags(): void {
+    const translatedTitle = this.translocoService.translate('meta.title');
+    const translatedSDescription =
+      this.translocoService.translate('meta.description');
+
+    this.titleService.setTitle(this.translocoService.translate('meta.title'));
+    this.metaService.updateTag({ name: 'title', content: translatedTitle });
+    this.metaService.updateTag({ name: 'og:title', content: translatedTitle });
+    this.metaService.updateTag({
+      name: 'twitter:title',
+      content: translatedTitle,
+    });
+    this.metaService.updateTag({
+      name: 'description',
+      content: translatedSDescription,
+    });
+    this.metaService.updateTag({
+      name: 'og:description',
+      content: translatedSDescription,
+    });
+    this.metaService.updateTag({
+      name: 'twitter:description',
+      content: translatedSDescription,
+    });
   }
 }

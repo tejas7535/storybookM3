@@ -1,24 +1,14 @@
 <schaeffler-app-shell
-  [appTitle]="title"
+  [appTitle]="appTitle"
   [appTitleLink]="'/app'"
   [hasSidebarLeft]="true"
-  [footerLinks]="footerLinks$ | ngrxPush"
+  [footerLinks]="footerLinks"
 >
   <ng-container sidenavBody>
-    <div class="m-4 flex flex-row" *transloco="let t">
-      <mat-form-field
-        appearance="outline"
-        class="flex grow pb-4 hover:outline-none"
-      >
-        <mat-label>{{ t('settings.language') }}</mat-label>
-        <mat-select [formControl]="languageControl">
-          <mat-option
-            *ngFor="let language of availableLanguages"
-            [value]="language.id"
-            >{{ language.label }}</mat-option
-          >
-        </mat-select>
-      </mat-form-field>
+    <div class="px-5">
+      <div class="py-4">
+        <ga-user-settings></ga-user-settings>
+      </div>
     </div>
   </ng-container>
   <ng-container mainContent>
@@ -27,12 +17,13 @@
         <router-outlet></router-outlet>
       </div>
       <div
+        *transloco="let t; read: 'legal'"
         class="mx-auto w-full max-w-screen-md bg-surface"
         [ngClass]="{ hidden: !isCookiePage }"
       >
         <div class="py-3 px-4">
           <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-            {{ cookieSettings }}
+            {{ t('cookieSettings') }}
           </button>
         </div>
         <div class="py-3 md:px-4">

@@ -2,17 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { filter, map } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 
 import { steps } from '../../../../shared/constants';
 import { GreaseCalculationPath } from './../../../../grease-calculation/grease-calculation-path.enum';
 import { Step } from './../../../../shared/models/settings/step.model';
-import {
-  setCurrentStep,
-  setLanguage,
-} from './../../actions/settings/settings.actions';
+import { setCurrentStep } from './../../actions/settings/settings.actions';
 
 @Injectable()
 export class SettingsEffects {
@@ -43,22 +39,5 @@ export class SettingsEffects {
     );
   });
 
-  setLanguage$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(setLanguage),
-        filter((action: any) => action.language),
-        map((action: any) => action.language),
-        map((language: string) => {
-          this.translocoService.setActiveLang(language);
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly translocoService: TranslocoService
-  ) {}
+  constructor(private readonly actions$: Actions) {}
 }

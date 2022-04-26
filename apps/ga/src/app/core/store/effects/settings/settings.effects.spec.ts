@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { TranslocoService, TranslocoTestingModule } from '@ngneat/transloco';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -10,10 +10,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { initialState } from '../../reducers/settings/settings.reducer';
-import {
-  setCurrentStep,
-  setLanguage,
-} from './../../actions/settings/settings.actions';
+import { setCurrentStep } from './../../actions/settings/settings.actions';
 import { SettingsEffects } from './settings.effects';
 
 describe('Settings Effects', () => {
@@ -22,7 +19,6 @@ describe('Settings Effects', () => {
   let effects: SettingsEffects;
   let spectator: SpectatorService<SettingsEffects>;
   let router: Router;
-  let translocoService: TranslocoService;
 
   const createService = createServiceFactory({
     service: SettingsEffects,
@@ -44,7 +40,6 @@ describe('Settings Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(SettingsEffects);
     router = spectator.inject(Router);
-    translocoService = spectator.inject(TranslocoService);
 
     router.navigate = jest.fn();
   });
@@ -86,24 +81,6 @@ describe('Settings Effects', () => {
 
         m.expect(effects.router$).toBeObservable(expected);
         m.flush();
-      })
-    );
-  });
-
-  describe('setLanguage$', () => {
-    it(
-      'should set the active language',
-      marbles((m) => {
-        translocoService.setActiveLang = jest.fn();
-        action = setLanguage({ language: 'language' });
-
-        actions$ = m.hot('-a', { a: action });
-
-        effects.setLanguage$.subscribe(() => {
-          expect(translocoService.setActiveLang).toHaveBeenCalledWith(
-            'language'
-          );
-        });
       })
     );
   });

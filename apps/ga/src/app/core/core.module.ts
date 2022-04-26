@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
@@ -10,7 +9,6 @@ import {
   TranslocoPersistLangModule,
 } from '@ngneat/transloco-persist-lang';
 
-import { AppShellModule } from '@schaeffler/app-shell';
 import {
   ApplicationInsightsModule,
   ApplicationInsightsService,
@@ -20,18 +18,13 @@ import {
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import {
+  AVAILABLE_LANGUAGES,
+  FALLBACK_LANGUAGE,
+} from '../shared/constants/language';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from './store/store.module';
-
-export const availableLanguages: { id: string; label: string }[] = [
-  { id: 'de', label: 'Deutsch' },
-  { id: 'en', label: 'English' },
-  // { id: 'es', label: 'Español' },
-  // { id: 'fr', label: 'Français' },
-  // { id: 'ru', label: 'русский' },
-  // { id: 'zh', label: '中国' },
-];
 
 export function appInitializer(
   oneTrustService: OneTrustService,
@@ -89,19 +82,17 @@ if (
     StoreModule,
 
     // UI Modules
-    AppShellModule,
     SharedModule,
 
     // Material Modules
-    MatSidenavModule,
     MatSnackBarModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
       environment.production,
-      availableLanguages,
+      AVAILABLE_LANGUAGES,
       undefined, // default -> undefined would lead to browser detection
-      'en',
+      FALLBACK_LANGUAGE.id,
       true,
       !environment.localDev
     ),
@@ -122,6 +113,6 @@ if (
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   providers,
-  exports: [AppShellModule, StoreModule, SharedTranslocoModule],
+  exports: [StoreModule, SharedTranslocoModule],
 })
 export class CoreModule {}

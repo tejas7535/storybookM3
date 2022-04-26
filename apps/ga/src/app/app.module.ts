@@ -1,12 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
 
+import { AppShellModule } from '@schaeffler/app-shell';
 import {
   PERSON_RESPONSIBLE,
   PURPOSE,
@@ -16,6 +14,7 @@ import {
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
+import { UserSettingsModule } from './shared/components/user-settings';
 import { responsiblePerson } from './shared/constants';
 
 export function DynamicTermsOfUse(translocoService: TranslocoService) {
@@ -29,13 +28,17 @@ export function DynamicPurpose(translocoService: TranslocoService) {
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    // angular modules
+    CommonModule,
     BrowserAnimationsModule,
+
+    // core and routing modules
     AppRoutingModule,
     CoreModule,
-    ReactiveComponentModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
+
+    // ui modules
+    AppShellModule,
+    UserSettingsModule,
   ],
   providers: [
     {
