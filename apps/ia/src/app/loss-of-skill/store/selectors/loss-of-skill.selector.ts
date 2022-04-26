@@ -46,12 +46,18 @@ export const getLostJobProfilesLoading = createSelector(
 export const getLostJobProfilesData = createSelector(
   getJobProfilesData,
   getOpenPositionsData,
-  (jobProfiles, openPositions) => {
-    const lostJobProfiles = convertJobProfilesToLostJobProfiles(jobProfiles);
-
-    return enrichLostJobProfilesWithOpenPositions(
-      lostJobProfiles,
-      openPositions
-    );
-  }
+  getOpenPositionsLoading,
+  getJobProfilesLoading,
+  (
+    jobProfiles,
+    openPositions,
+    areOpenPositionsLoading,
+    areJobProfilesLoading
+  ) =>
+    !areOpenPositionsLoading && !areJobProfilesLoading
+      ? enrichLostJobProfilesWithOpenPositions(
+          convertJobProfilesToLostJobProfiles(jobProfiles),
+          openPositions
+        )
+      : undefined
 );

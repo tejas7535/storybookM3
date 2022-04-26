@@ -21,10 +21,6 @@ export const enrichLostJobProfilesWithOpenPositions = (
     );
     if (entry) {
       entry.openPositions += 1;
-    } else {
-      profiles.push(
-        new LostJobProfile(1, openPosition.positionDescription, [], [])
-      );
     }
   });
 

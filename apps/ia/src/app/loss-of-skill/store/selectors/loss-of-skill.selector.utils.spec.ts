@@ -81,14 +81,13 @@ describe('loss of skill selector utils', () => {
       expect(result).toEqual(lostJobProfiles);
     });
 
-    test('should return mapped open positions if lost job profiles undefined', () => {
+    test('should return empty list if lost job profiles undefined', () => {
       const result = enrichLostJobProfilesWithOpenPositions(
         undefined,
         openPositions
       );
 
-      expect(result.length).toEqual(3);
-      expect(result[1].openPositions).toEqual(2);
+      expect(result.length).toEqual(0);
     });
 
     test('should return merged open positions with lost job profiles', () => {
@@ -97,7 +96,7 @@ describe('loss of skill selector utils', () => {
         openPositions
       );
 
-      expect(result.length).toEqual(3);
+      expect(result.length).toEqual(2);
       expect(result[0].openPositions).toEqual(1);
       expect(result[1].openPositions).toEqual(2);
     });
