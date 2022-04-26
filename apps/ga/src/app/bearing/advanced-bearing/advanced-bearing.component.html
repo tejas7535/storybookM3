@@ -54,13 +54,17 @@
           color="warn"
           [disabled]="!minDi.value"
           (click)="deleteDimension('minDi', 'maxDi')"
-        >
-          {{ t('reset', { dimension: t('boreDiameter') }) }}
-        </button>
+          [innerHTML]="
+            t('reset', {
+              dimension:
+                '<span class=\'normal-case\'>d</span>' + t('boreDiameterWord')
+            })
+          "
+        ></button>
       </div>
     </div>
     <mat-divider class="pb-6 md:!hidden"></mat-divider>
-    <div class="flex flex-col items-center gap-4 md:flex-row">
+    <div class="flex flex-col gap-4 md:flex-row">
       <ga-input
         class="w-full"
         [control]="minDa"
@@ -85,20 +89,25 @@
         [onlyPositive]="true"
         [noInfo]="true"
       ></ga-input>
-      <div class="pb-6 md:pb-0">
+      <div class="hidden h-[65px] items-center md:flex">
         <button
-          mat-button
-          color="error"
+          mat-icon-button
+          color="warn"
+          [matTooltip]="t('reset', { dimension: t('outsideDiameter') })"
           [disabled]="!minDa.value"
           (click)="deleteDimension('minDa', 'maxDa')"
-          [matTooltip]="t('reset', { dimension: t('outsideDiameter') })"
         >
-          <span class="md:hidden">
-            {{ t('reset') }}
-          </span>
-          <span class="hidden md:block">
-            <mat-icon>close</mat-icon>
-          </span>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="pb-6 text-center md:hidden">
+        <button
+          mat-button
+          color="warn"
+          [disabled]="!minDa.value"
+          (click)="deleteDimension('minDa', 'maxDa')"
+        >
+          {{ t('reset', { dimension: t('outsideDiameter') }) }}
         </button>
       </div>
     </div>
@@ -124,20 +133,25 @@
         [onlyPositive]="true"
         [noInfo]="true"
       ></ga-input>
-      <div class="pb-6 md:pb-0">
+      <div class="hidden h-[65px] md:flex">
         <button
-          mat-button
-          color="error"
+          mat-icon-button
+          color="warn"
+          [matTooltip]="t('reset', { dimension: t('width') })"
           [disabled]="!minB.value"
           (click)="deleteDimension('minB', 'maxB')"
-          [matTooltip]="t('reset', { dimension: t('width') })"
         >
-          <span class="md:hidden">
-            {{ t('reset') }}
-          </span>
-          <span class="hidden md:block">
-            <mat-icon>close</mat-icon>
-          </span>
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="pb-6 text-center md:hidden">
+        <button
+          mat-button
+          color="warn"
+          [disabled]="!minB.value"
+          (click)="deleteDimension('minB', 'maxB')"
+        >
+          {{ t('reset', { dimension: t('width') }) }}
         </button>
       </div>
     </div>

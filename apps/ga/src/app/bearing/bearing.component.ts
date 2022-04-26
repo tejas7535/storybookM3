@@ -44,7 +44,7 @@ export class BearingComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
   localDev = environment.localDev; // TODO more this condition when feature is done
-  detailSelection = true; // TODO will be false by default
+  detailSelection = false; // TODO will be false by default
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;

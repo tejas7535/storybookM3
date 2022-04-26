@@ -14,10 +14,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '../../shared/shared.module';
-import {
-  AdvancedBearingComponent,
-  FillDiameterParams,
-} from './advanced-bearing.component';
+import { AdvancedBearingComponent } from './advanced-bearing.component';
 
 describe('AdvancedBearingComponent', () => {
   let component: AdvancedBearingComponent;
@@ -198,58 +195,6 @@ describe('AdvancedBearingComponent', () => {
       const result = component['invalidMinMax'](10, 5);
 
       expect(result).toBe(true);
-    });
-  });
-
-  describe('fillDiameterConditionally', () => {
-    it('should spread in a dimension if the respective other one exists', () => {
-      const mockParams = {
-        pattern: '',
-        bearingType: 'IDO_RADIAL_ROLLER_BEARING',
-        minDi: undefined as any,
-        maxDi: undefined as any,
-        minDa: undefined as any,
-        maxDa: undefined as any,
-        minB: undefined as any,
-        maxB: undefined as any,
-      };
-
-      const mockFillDiameterParams: FillDiameterParams = {
-        parameters: mockParams,
-        key: 'minDi',
-        // eslint-disable-next-line unicorn/no-null
-        potentiallyEmpty: null,
-        reference: 10,
-      };
-
-      const result = component.fillDiameterConditionally(
-        mockFillDiameterParams
-      );
-
-      expect(result).toEqual({ ...mockParams, minDi: 10 });
-    });
-  });
-
-  describe('fillDiameters', () => {
-    it('call the fillDiameterConditionally six times differently', () => {
-      const fillDiameterConditionallySpy = jest.spyOn(
-        component,
-        'fillDiameterConditionally'
-      );
-      const mockParams = {
-        pattern: '',
-        bearingType: 'IDO_RADIAL_ROLLER_BEARING',
-        minDi: undefined as any,
-        maxDi: undefined as any,
-        minDa: undefined as any,
-        maxDa: undefined as any,
-        minB: undefined as any,
-        maxB: undefined as any,
-      };
-
-      component.fillDiameters(mockParams);
-
-      expect(fillDiameterConditionallySpy).toHaveBeenCalledTimes(6);
     });
   });
 

@@ -39,6 +39,7 @@
     "pleaseEnter": "Set {{label}}",
     "bearingType": "Bearing Type",
     "boreDiameter": "d - Bore Diameter",
+    "boreDiameterWord": " - Bore Diameter",
     "outsideDiameter": "D - Outside Diameter",
     "width": "B - Width",
     "min": "Min",

@@ -39,6 +39,7 @@
     "pleaseEnter": "{{label}} angeben",
     "bearingType": "Lagerbauart",
     "boreDiameter": "d - Bohrungsdurchmesser",
+    "boreDiameterWord": " - Bohrungsdurchmesser",
     "outsideDiameter": "D - Außendurchmesser",
     "width": "B - Breite",
     "min": "Min",

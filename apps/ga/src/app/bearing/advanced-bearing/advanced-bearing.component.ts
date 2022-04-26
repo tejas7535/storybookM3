@@ -26,13 +26,8 @@ import {
 import { bearingTypes } from '../../shared/constants';
 import { ExtendedSearchParameters } from '../../shared/models';
 import { dimensionValidators } from './advanced-bearing-constants';
+import { fillDiameters } from './helpers';
 
-export interface FillDiameterParams {
-  parameters: ExtendedSearchParameters;
-  key: string;
-  potentiallyEmpty: number | undefined;
-  reference: number | undefined;
-}
 @Component({
   selector: 'ga-advanced-bearing',
   templateUrl: './advanced-bearing.component.html',
@@ -171,7 +166,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
         distinctUntilChanged(
           (prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)
         ),
-        map((parameters) => this.fillDiameters(parameters)),
+        map((parameters) => fillDiameters(parameters)),
         map((parameters) => {
           Object.keys(
             this.bearingExtendedSearchParametersForm.controls
@@ -187,72 +182,6 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  fillDiameters(
-    parameters: ExtendedSearchParameters
-  ): ExtendedSearchParameters {
-    const { minDi, maxDi, minDa, maxDa, minB, maxB } = parameters;
-    let prefilledDimensions = parameters;
-
-    prefilledDimensions = this.fillDiameterConditionally({
-      parameters: prefilledDimensions,
-      key: 'minDi',
-      potentiallyEmpty: minDi,
-      reference: maxDi,
-    });
-    prefilledDimensions = this.fillDiameterConditionally({
-      parameters: prefilledDimensions,
-      key: 'maxDi',
-      potentiallyEmpty: maxDi,
-      reference: minDi,
-    });
-
-    prefilledDimensions = this.fillDiameterConditionally({
-      parameters: prefilledDimensions,
-      key: 'minDa',
-      potentiallyEmpty: minDa,
-      reference: maxDa,
-    });
-    prefilledDimensions = this.fillDiameterConditionally({
-      parameters: prefilledDimensions,
-      key: 'maxDa',
-      potentiallyEmpty: maxDa,
-      reference: minDa,
-    });
-
-    prefilledDimensions = this.fillDiameterConditionally({
-      parameters: prefilledDimensions,
-      key: 'minB',
-      potentiallyEmpty: minB,
-      reference: maxB,
-    });
-    prefilledDimensions = this.fillDiameterConditionally({
-      parameters: prefilledDimensions,
-      key: 'maxB',
-      potentiallyEmpty: maxB,
-      reference: minB,
-    });
-
-    return prefilledDimensions;
-  }
-
-  fillDiameterConditionally({
-    parameters,
-    key,
-    potentiallyEmpty,
-    reference,
-  }: FillDiameterParams): ExtendedSearchParameters {
-    let prefilledDimensions = parameters;
-
-    if ((potentiallyEmpty === null || potentiallyEmpty === null) && reference) {
-      prefilledDimensions = {
-        ...prefilledDimensions,
-        [key]: reference,
-      };
-    }
-
-    return prefilledDimensions;
   }
 
   innerOuterValidator(): ValidatorFn {
