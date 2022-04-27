@@ -6,6 +6,7 @@ import { debounceTime, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../app-route-path.enum';
+import { getCalculation } from '../core/store/actions/result/result.actions';
 import { getReportUrls } from '../core/store/selectors/result/result.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '../shared/models';
@@ -22,6 +23,8 @@ export class ResultComponent implements OnInit {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(getCalculation());
+
     this.reportUrls$ = this.store
       .select(getReportUrls)
       .pipe(debounceTime(3000));

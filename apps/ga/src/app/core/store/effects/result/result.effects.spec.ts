@@ -1,10 +1,8 @@
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -19,7 +17,7 @@ import {
 import { getCalculationParameters } from '../../selectors/parameter/parameter.selector';
 import { ResultEffects } from './result.effects';
 
-describe('Bearing Effects', () => {
+describe('ResultEffects', () => {
   let action: any;
   let actions$: any;
   let effects: ResultEffects;
@@ -27,10 +25,7 @@ describe('Bearing Effects', () => {
   let spectator: SpectatorService<ResultEffects>;
   let restService: RestService;
   let errorService: ErrorService;
-  let router: Router;
   let store: MockStore;
-
-  const mockUrl = '/grease-calculation/result';
 
   const createService = createServiceFactory({
     service: ResultEffects,
@@ -60,36 +55,13 @@ describe('Bearing Effects', () => {
     metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
     errorService = spectator.inject(ErrorService);
-    router = spectator.inject(Router);
     store = spectator.inject(MockStore);
-
-    router.navigate = jest.fn();
 
     store.overrideSelector(getCalculationParameters, {
       options: {
         mockParameters: 'confirmed',
       },
     } as any);
-  });
-
-  describe('router$', () => {
-    it(
-      'should dispatch getCalculation',
-      marbles((m) => {
-        store.dispatch = jest.fn();
-        actions$ = m.hot('-a', {
-          a: {
-            type: ROUTER_NAVIGATED,
-            payload: { routerState: { url: mockUrl } },
-          },
-        });
-
-        const result = getCalculation();
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.router$).toBeObservable(expected);
-      })
-    );
   });
 
   describe('calculation$', () => {

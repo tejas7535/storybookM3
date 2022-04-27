@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, filter, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of } from 'rxjs';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { GreaseCalculationPath } from '../../../../grease-calculation/grease-calculation-path.enum';
 import { PROPERTIES } from '../../../../shared/constants';
 import { ErrorService, RestService } from '../../../services';
 import {
@@ -21,23 +19,6 @@ import { getCalculationParameters } from '../../selectors/parameter/parameter.se
 
 @Injectable()
 export class ResultEffects {
-  router$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(ROUTER_NAVIGATED),
-      map((action: any) => action.payload.routerState.url),
-      map((url: string) =>
-        Object.values(GreaseCalculationPath).find(
-          (route: string) => route !== '' && url.includes(route)
-        )
-      ),
-      filter(
-        (currentRoute: string) =>
-          currentRoute === GreaseCalculationPath.ResultPath
-      ),
-      map(() => getCalculation())
-    );
-  });
-
   calculation$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(getCalculation),

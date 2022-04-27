@@ -1,6 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -8,10 +6,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
-import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { ReportModule } from '@schaeffler/report';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -21,10 +18,10 @@ import {
   REPORT_URLS_MOCK,
 } from '../../testing/mocks/rest.service.mock';
 import { AppRoutePath } from '../app-route-path.enum';
+import { getCalculation } from '../core/store/actions/result/result.actions';
 import { initialState } from '../core/store/reducers/result/result.reducer';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { ReportUrls } from '../shared/models';
-import { SharedModule } from '../shared/shared.module';
 import { ResultComponent } from './result.component';
 
 describe('ResultComponent', () => {
@@ -36,20 +33,14 @@ describe('ResultComponent', () => {
     component: ResultComponent,
     imports: [
       RouterTestingModule,
-      SharedModule,
       ReactiveComponentModule,
       FormsModule,
-      HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
 
       // UI Modules
-      SubheaderModule,
-      BreadcrumbsModule,
-      ReportModule,
-      LoadingSpinnerModule,
-      MatSlideToggleModule,
-
-      // Material Modules
+      MockModule(MatSlideToggleModule),
+      MockModule(SubheaderModule),
+      MockModule(LoadingSpinnerModule),
     ],
     providers: [
       provideMockStore({
@@ -67,10 +58,6 @@ describe('ResultComponent', () => {
       {
         provide: translate,
         useValue: jest.fn(),
-      },
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
       },
     ],
   });
@@ -95,6 +82,8 @@ describe('ResultComponent', () => {
       });
 
       component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith(getCalculation());
     });
   });
 
