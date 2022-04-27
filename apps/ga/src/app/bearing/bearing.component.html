@@ -9,15 +9,9 @@
     [hideLine]="true"
     (backButtonClicked)="navigateBack()"
   >
-    <ng-container subheaderBlockContent>
-      <div class="flex flex-col">
-        <div class="flex flex-row">
-          <span class="text-subtitle-1 sm:max-w-sm">{{ t('subtitle') }}</span>
-        </div>
-      </div>
-    </ng-container>
+    <ng-container subheaderBlockContent> {{ t('subtitle') }} </ng-container>
   </schaeffler-subheader>
-  <div *ngIf="localDev" class="-ml-4 -mt-2 mb-4 flex flex-row">
+  <div class="-ml-4 -mt-2 mb-4 flex flex-row">
     <button
       mat-button
       color="primary"
@@ -38,10 +32,18 @@
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
   <ng-template #detail_selection>
-    <ga-advanced-bearing></ga-advanced-bearing>
+    <div class="flex max-w-7xl flex-col">
+      <ga-advanced-bearing></ga-advanced-bearing>
+      <ga-bearing-list
+        (bearingSelection)="handleBearingSelection($event)"
+      ></ga-bearing-list>
+    </div>
   </ng-template>
 
-  <div class="flex flex-1 flex-col justify-end sm:w-1/3">
+  <div
+    *ngIf="!detailSelection"
+    class="flex flex-1 flex-col justify-end sm:w-1/3"
+  >
     <img
       class="h-auto w-auto sm:max-h-full sm:object-cover"
       src="../../assets/images/bearingSearch.png"

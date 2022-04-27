@@ -1,28 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
   debounceTime,
   distinctUntilChanged,
-  filter,
   map,
   Observable,
   Subject,
   takeUntil,
 } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
 import { environment } from '../../../environments/environment';
 import { searchBearingExtended } from '../../core/store/actions/bearing/bearing.actions';
-import {
-  getBearingExtendedSearchParameters,
-  getBearingExtendedSearchResultList,
-} from '../../core/store/selectors/bearing/bearing.selector';
+import { getBearingExtendedSearchParameters } from '../../core/store/selectors/bearing/bearing.selector';
 import { bearingTypes } from '../../shared/constants';
 import { ExtendedSearchParameters } from '../../shared/models';
 import { dimensionValidators } from './advanced-bearing-constants';
@@ -100,18 +94,11 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
   selectedBearing$: Observable<string>;
 
-  constructor(
-    private readonly store: Store,
-    private readonly snackbar: MatSnackBar
-  ) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.bearingExtendedSearchParameters$ = this.store.select(
       getBearingExtendedSearchParameters
-    );
-
-    this.bearingResultExtendedSearchList$ = this.store.select(
-      getBearingExtendedSearchResultList
     );
 
     this.handleSubscriptions();
@@ -140,20 +127,6 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
           ].markAsDirty()
       );
     });
-
-    this.bearingResultExtendedSearchList$
-      .pipe(
-        distinctUntilChanged((prev, cur) => prev.length === cur.length),
-        filter((results) => results.length > 100),
-        map((results) =>
-          this.snackbar.open(
-            translate('bearing.tooManyResults', { amount: results.length }),
-            undefined,
-            { duration: 3000 }
-          )
-        )
-      )
-      .subscribe();
 
     this.bearingExtendedSearchParametersForm.valueChanges
       .pipe(

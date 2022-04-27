@@ -44,7 +44,7 @@ export const getBearingResultList = createSelector(
 export const getBearingExtendedSearchResultList = createSelector(
   getBearingState,
   (state: BearingState): SearchAutocompleteOption[] =>
-    state?.extendedSearch?.resultList.map((bearing) => ({
+    state?.extendedSearch?.resultList?.map((bearing) => ({
       id: bearing,
       title: bearing,
     }))

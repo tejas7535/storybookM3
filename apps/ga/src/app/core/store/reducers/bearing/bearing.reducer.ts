@@ -43,7 +43,7 @@ export const initialState: BearingState = {
       minB: undefined,
       maxB: undefined,
     },
-    resultList: [],
+    resultList: undefined,
   },
   loading: false,
   selectedBearing: undefined,

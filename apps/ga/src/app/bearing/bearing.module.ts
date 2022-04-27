@@ -18,10 +18,15 @@ import { BearingEffects } from '../core/store';
 import { SharedModule } from '../shared/shared.module';
 import { AdvancedBearingComponent } from './advanced-bearing/advanced-bearing.component';
 import { BearingComponent } from './bearing.component';
+import { BearingListComponent } from './bearing-list/bearing-list.component';
 import { BearingRoutingModule } from './bearing-routing.module';
 
 @NgModule({
-  declarations: [AdvancedBearingComponent, BearingComponent],
+  declarations: [
+    BearingComponent,
+    AdvancedBearingComponent,
+    BearingListComponent,
+  ],
   imports: [
     CommonModule,
     BearingRoutingModule,

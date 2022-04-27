@@ -2,13 +2,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -21,6 +25,7 @@ import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
 import { getModelCreationSuccess } from './../core/store/selectors/bearing/bearing.selector';
 import { AdvancedBearingComponent } from './advanced-bearing/advanced-bearing.component';
 import { BearingComponent } from './bearing.component';
+import { BearingListComponent } from './bearing-list/bearing-list.component';
 
 describe('BearingComponent', () => {
   let component: BearingComponent;
@@ -31,15 +36,18 @@ describe('BearingComponent', () => {
     component: BearingComponent,
     imports: [
       RouterTestingModule,
-      SearchAutocompleteModule,
-      ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
+      MockModule(SearchAutocompleteModule),
+      MockModule(ReactiveFormsModule),
       SharedModule,
-      SubheaderModule,
+      MockModule(SubheaderModule),
       ReactiveComponentModule,
-      MatButtonModule,
       MatSnackBarModule,
-      MatDividerModule,
+      MockModule(MatButtonModule),
+      MockModule(MatDividerModule),
+      MockModule(MatIconModule),
+      MockModule(MatListModule),
+      MockModule(MatTooltipModule),
     ],
     providers: [
       provideMockStore({
@@ -72,7 +80,11 @@ describe('BearingComponent', () => {
         useValue: false,
       },
     ],
-    declarations: [BearingComponent, AdvancedBearingComponent],
+    declarations: [
+      BearingComponent,
+      AdvancedBearingComponent,
+      BearingListComponent,
+    ],
   });
 
   beforeEach(() => {

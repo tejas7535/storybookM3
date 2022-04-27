@@ -1,15 +1,14 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -27,13 +26,11 @@ describe('AdvancedBearingComponent', () => {
       RouterTestingModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
-      MatDividerModule,
+      MockModule(MatDividerModule),
       SharedModule,
       ReactiveComponentModule,
-      MatButtonModule,
-      MatSnackBarModule,
       MatTooltipModule,
-      MatIconModule,
+      MockModule(MatIconModule),
     ],
     providers: [
       provideMockStore({
@@ -75,7 +72,6 @@ describe('AdvancedBearingComponent', () => {
     store = spectator.inject(MockStore);
 
     store.dispatch = jest.fn();
-    component['snackbar'].open = jest.fn();
   });
 
   it('should create', () => {

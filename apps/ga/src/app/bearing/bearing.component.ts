@@ -19,7 +19,6 @@ import { Store } from '@ngrx/store';
 
 import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
-import { environment } from '../../environments/environment';
 import { AppRoutePath } from '../app-route-path.enum';
 import {
   searchBearing,
@@ -43,8 +42,7 @@ import {
 export class BearingComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
-  localDev = environment.localDev; // TODO more this condition when feature is done
-  detailSelection = false; // TODO will be false by default
+  detailSelection = false;
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;
