@@ -6,7 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -33,8 +32,6 @@ describe('GreaseReportComponent', () => {
         cookiesGroups: COOKIE_GROUPS,
         domainScript: 'mockOneTrustId',
       }),
-
-      ReactiveComponentModule,
 
       MatExpansionModule,
       MatSnackBarModule,
@@ -84,40 +81,6 @@ describe('GreaseReportComponent', () => {
     it('should open the snackbar', () => {
       component.showSnackBarError();
       expect(snackBar.open).toBeCalledTimes(1);
-    });
-  });
-
-  describe('getItem', () => {
-    it('should find the correct item in a row', () => {
-      const row = [
-        {
-          value: 'a',
-          field: 'a',
-        },
-        {
-          value: 'b',
-          field: 'b',
-        },
-        {
-          value: 'c',
-          field: 'c',
-        },
-      ];
-      const field = 'c';
-
-      const result = component.getItem(row, field);
-
-      expect(result).toEqual({ value: 'c', field: 'c' });
-    });
-  });
-
-  describe('getHeaders', () => {
-    it('should return a list of field names combined with their index', () => {
-      const fields = ['a', 'b', 'c'];
-
-      const result = component.getHeaders(fields);
-
-      expect(result).toEqual(['a0', 'b1', 'c2']);
     });
   });
 

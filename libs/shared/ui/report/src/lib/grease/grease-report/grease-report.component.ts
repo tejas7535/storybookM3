@@ -5,11 +5,9 @@ import {
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 
-import { Subscription } from 'rxjs';
+import { translate } from '@ngneat/transloco';
 
-import { translate, TranslocoService } from '@ngneat/transloco';
-
-import { Subordinate, TableItem, TitleId } from '../../models/index';
+import { Subordinate, TitleId } from '../../models/index';
 import { GreaseReportService } from '../grease-report.service';
 
 @Component({
@@ -31,37 +29,19 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   public subordinates: Subordinate[] = [];
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
-  private currentLanguage!: string;
-  private languageChangeSubscription!: Subscription;
-
   public constructor(
     private readonly greaseReportService: GreaseReportService,
-    private readonly snackbar: MatSnackBar,
-    private readonly translocoService: TranslocoService
+    private readonly snackbar: MatSnackBar
   ) {}
 
   public ngOnInit(): void {
     if (this.greaseReportUrl) {
       this.fetchGreaseReport();
     }
-
-    this.currentLanguage = this.translocoService.getActiveLang();
-
-    this.languageChangeSubscription =
-      this.translocoService.langChanges$.subscribe((language) => {
-        if (language !== this.currentLanguage) {
-          this.currentLanguage = language;
-          this.fetchGreaseReport();
-        }
-      });
   }
 
   public ngOnDestroy(): void {
     this.snackBarRef?.dismiss();
-
-    if (this.languageChangeSubscription) {
-      this.languageChangeSubscription.unsubscribe();
-    }
   }
 
   private fetchGreaseReport(): void {
@@ -79,14 +59,6 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     this.snackBarRef = this.snackbar.open(this.errorMessage, this.actionText, {
       duration: Number.POSITIVE_INFINITY,
     });
-  }
-
-  public getItem(row: TableItem[], field: string): TableItem | undefined {
-    return row.find((element: TableItem) => element.field === field);
-  }
-
-  public getHeaders(fields: string[]): string[] {
-    return fields.map((field: string, index: number) => `${field}${index}`);
   }
 
   public isGreaseResultSection = (
