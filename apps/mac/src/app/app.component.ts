@@ -4,6 +4,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
+import { OneTrustService } from '@altack/ngx-onetrust';
 import {
   LoadedEvent,
   translate,
@@ -43,7 +44,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly store: Store,
     private readonly router: Router,
     private readonly applicationInsightService: ApplicationInsightsService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly oneTrustService: OneTrustService
   ) {}
 
   public ngOnInit(): void {
@@ -74,11 +76,20 @@ export class AppComponent implements OnInit, OnDestroy {
             event.type === 'translationLoadSuccess'
         )
       )
-      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
+      .subscribe(() => {
+        this.oneTrustService.translateBanner(
+          this.translocoService.getActiveLang(),
+          true
+        );
+        this.footerLinks$.next(this.updateFooterLinks());
+      });
 
     this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.footerLinks$.next(this.updateFooterLinks()));
+      .subscribe((language: string) => {
+        this.oneTrustService.translateBanner(language, true);
+        this.footerLinks$.next(this.updateFooterLinks());
+      });
   }
 
   public get link(): string | boolean {

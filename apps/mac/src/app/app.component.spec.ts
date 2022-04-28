@@ -6,12 +6,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Subject } from 'rxjs';
 
+import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import {
+  ApplicationInsightsService,
+  COOKIE_GROUPS,
+} from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
@@ -31,6 +35,10 @@ describe('AppComponent', () => {
       ReactiveComponentModule,
       AppShellModule,
       provideTranslocoTestingModule({ en: {} }),
+      OneTrustModule.forRoot({
+        cookiesGroups: COOKIE_GROUPS,
+        domainScript: 'mockOneTrustId',
+      }),
     ],
     providers: [
       provideMockStore({
@@ -72,11 +80,16 @@ describe('AppComponent', () => {
   describe('Init component', () => {
     it('should be initialize', () => {
       store.dispatch = jest.fn();
+      component['oneTrustService'].translateBanner = jest.fn();
 
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
       expect(component.profileImage$).toBeDefined();
+      expect(component['oneTrustService'].translateBanner).toHaveBeenCalledWith(
+        'en',
+        true
+      );
     });
   });
 
