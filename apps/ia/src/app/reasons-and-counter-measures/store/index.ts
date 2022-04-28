@@ -1,5 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
+import moment from 'moment';
 
 import {
   filterAdapter,
@@ -32,7 +33,7 @@ import {
 export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
 
 const getInitialSelectedTimeRange = () => {
-  const nowDate = new Date();
+  const nowDate = moment();
   const oldDate = getMonth12MonthsAgo(nowDate);
 
   return getTimeRangeFromDates(oldDate, nowDate);

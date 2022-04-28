@@ -36,7 +36,7 @@ describe('ResignationsComponent', () => {
   });
 
   describe('columnDefs', () => {
-    const expectedDate = '1/1/1970';
+    const expectedDate = '1/01/1970';
     let mockDate: SpyInstance<
       string,
       [locales?: string | string[], options?: unknown]

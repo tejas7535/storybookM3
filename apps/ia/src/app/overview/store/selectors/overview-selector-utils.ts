@@ -1,4 +1,5 @@
 import { EChartsOption, SeriesOption } from 'echarts';
+import moment from 'moment';
 
 import { SMOOTH_LINE_SERIES_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import {
@@ -47,12 +48,15 @@ export function isDateInTimeRange(
   if (!dateToTest || !timeRange) {
     return false;
   }
-  const dateToTestP = new Date(+dateToTest);
+  const dateToTestP = moment(+dateToTest);
   const timeRangeArr = timeRange.split('|');
-  const timeRangeStart = new Date(Number(timeRangeArr[0]));
-  const timeRangeEnd = new Date(Number(timeRangeArr[1]));
+  const timeRangeStart = moment.unix(+timeRangeArr[0]);
+  const timeRangeEnd = moment.unix(+timeRangeArr[1]);
 
-  return timeRangeStart <= dateToTestP && dateToTestP <= timeRangeEnd;
+  return (
+    dateToTestP.isSameOrAfter(timeRangeStart) &&
+    dateToTestP.isSameOrBefore(timeRangeEnd)
+  );
 }
 
 export function getPercentageValue(rate: number): number {

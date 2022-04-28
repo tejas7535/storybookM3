@@ -5,6 +5,7 @@ import {
   ColDef,
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import moment from 'moment';
 
 import { ResignedEmployee } from '../models';
 
@@ -38,7 +39,7 @@ export class ResignationsComponent {
       filter: 'agDateColumnFilter',
       sort: 'desc',
       valueFormatter: (data) =>
-        data.value ? new Date(+data.value).toLocaleDateString() : '',
+        data.value ? moment(+data.value).format('D/MM/YYYY') : '',
     },
     {
       field: 'employeeName',

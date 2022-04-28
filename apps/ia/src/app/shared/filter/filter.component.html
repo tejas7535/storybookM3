@@ -54,11 +54,7 @@
           class="flex-1"
           [timePeriod]="selectedTimePeriod"
           [label]="t('periodOfTime.timeRangeLabel')"
-          [hint]="
-            disableFilters
-              ? undefined
-              : t('periodOfTime.timeRangeHint', { value: timeRangeHintValue })
-          "
+          [hint]="disableFilters ? undefined : timeRangeHintValue"
           [placeholderStart]="t('periodOfTime.timeRangePlaceholderStart')"
           [placeholderEnd]="t('periodOfTime.timeRangePlaceholderEnd')"
           [disabled]="disableFilters || disabledTimeRangeFilter"

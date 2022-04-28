@@ -100,7 +100,7 @@ describe('Reasons and Counter Measures Actions', () => {
   });
 
   test('comparedTimePeriodSelected', () => {
-    const timePeriod = TimePeriod.MONTH;
+    const timePeriod = TimePeriod.YEAR;
     const action = comparedTimePeriodSelected({ timePeriod });
 
     expect(action).toEqual({

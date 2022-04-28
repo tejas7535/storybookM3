@@ -1,8 +1,5 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  MATERIAL_SANITY_CHECKS,
-  MatNativeDateModule,
-} from '@angular/material/core';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MatDatepickerInputEvent,
   MatDatepickerModule,
@@ -10,8 +7,13 @@ import {
 } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {
+  MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+  MatMomentDateModule,
+} from '@angular/material-moment-adapter';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import moment, { Moment } from 'moment';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -31,11 +33,14 @@ describe('DateInputComponent', () => {
       MatDatepickerModule,
       MatFormFieldModule,
       MatInputModule,
-      MatNativeDateModule,
+      MatMomentDateModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en }),
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+    ],
   });
 
   beforeEach(() => {
@@ -71,40 +76,26 @@ describe('DateInputComponent', () => {
   });
 
   describe('updateStartEndDates', () => {
-    let refDate: Date;
+    let refDate: Moment;
 
     beforeEach(() => {
       component.emitChange = jest.fn();
-      refDate = new Date('10/23/2015');
-    });
-
-    test('should set complete month for MONTH', (done) => {
-      component.timePeriod = TimePeriod.MONTH;
-      component.updateStartEndDates(refDate);
-
-      expect(component.rangeInput.controls.start.value).toEqual(
-        new Date('10/01/2015')
-      );
-      expect(component.rangeInput.controls.end.value).toEqual(
-        new Date('10/31/2015')
-      );
-
-      setTimeout(() => {
-        expect(component.emitChange).toHaveBeenCalled();
-        done();
-      }, 50);
+      refDate = moment('2015-10-23');
     });
 
     test('should set complete year for YEAR', (done) => {
       component.timePeriod = TimePeriod.YEAR;
       component.updateStartEndDates(refDate);
 
-      expect(component.rangeInput.controls.start.value).toEqual(
-        new Date('01/01/2015')
-      );
-      expect(component.rangeInput.controls.end.value).toEqual(
-        new Date('12/31/2015')
-      );
+      expect(
+        moment('2015-01-01').isSame(component.rangeInput.controls.start.value)
+      ).toBeTruthy();
+      expect(
+        refDate
+          .clone()
+          .endOf('year')
+          .isSame(component.rangeInput.controls.end.value)
+      ).toBeTruthy();
 
       setTimeout(() => {
         expect(component.emitChange).toHaveBeenCalled();
@@ -125,12 +116,6 @@ describe('DateInputComponent', () => {
         done();
       }, 50);
     });
-
-    test('should return on CUSTOM', () => {
-      component.timePeriod = TimePeriod.CUSTOM;
-      component.updateStartEndDates(refDate);
-      expect(component.emitChange).not.toHaveBeenCalled();
-    });
   });
 
   describe('setStartView', () => {
@@ -140,27 +125,13 @@ describe('DateInputComponent', () => {
 
       expect(component.startView).toEqual('multi-year');
     });
-
-    test('should set startView to year on MONTH', () => {
-      component.timePeriod = TimePeriod.MONTH;
-      component.setStartView();
-
-      expect(component.startView).toEqual('year');
-    });
-
-    test('should set startView to month on default', () => {
-      component.timePeriod = TimePeriod.CUSTOM;
-      component.setStartView();
-
-      expect(component.startView).toEqual('month');
-    });
   });
 
   describe('chosenYearHandler', () => {
     test('should update dates on YEAR', () => {
       component.updateStartEndDates = jest.fn();
       component.timePeriod = TimePeriod.YEAR;
-      const date = new Date();
+      const date = moment();
       const datepicker = {
         close: jest.fn(),
       } as unknown as MatDateRangePicker<any>;
@@ -173,42 +144,13 @@ describe('DateInputComponent', () => {
 
     test('should do nothing on default', () => {
       component.updateStartEndDates = jest.fn();
-      component.timePeriod = TimePeriod.CUSTOM;
-      const date = new Date();
+      component.timePeriod = TimePeriod.LAST_12_MONTHS;
+      const date = moment();
       const datepicker = {
         close: jest.fn(),
       } as unknown as MatDateRangePicker<any>;
 
       component.chosenYearHandler(date, datepicker);
-
-      expect(datepicker.close).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('chosenMonthHandler', () => {
-    test('should update dates on MONTH', () => {
-      component.updateStartEndDates = jest.fn();
-      component.timePeriod = TimePeriod.MONTH;
-      const date = new Date();
-      const datepicker = {
-        close: jest.fn(),
-      } as unknown as MatDateRangePicker<any>;
-
-      component.chosenMonthHandler(date, datepicker);
-
-      expect(datepicker.close).toHaveBeenCalled();
-      expect(component.updateStartEndDates).toHaveBeenCalledWith(date);
-    });
-
-    test('should do nothing on default', () => {
-      component.updateStartEndDates = jest.fn();
-      component.timePeriod = TimePeriod.CUSTOM;
-      const date = new Date();
-      const datepicker = {
-        close: jest.fn(),
-      } as unknown as MatDateRangePicker<any>;
-
-      component.chosenMonthHandler(date, datepicker);
 
       expect(datepicker.close).not.toHaveBeenCalled();
     });
@@ -241,15 +183,7 @@ describe('DateInputComponent', () => {
       expect(datepicker.close).toHaveBeenCalled();
       expect(endDateInput.focus).toHaveBeenCalled();
     });
-    test('should update dates on MONTH', () => {
-      component.timePeriod = TimePeriod.MONTH;
 
-      component.startDateChanged(evt, datepicker, endDateInput);
-
-      expect(component.updateStartEndDates).toHaveBeenCalledWith(evt.value);
-      expect(datepicker.close).toHaveBeenCalled();
-      expect(endDateInput.focus).toHaveBeenCalled();
-    });
     test('should update dates on LAST_12_MONTHS', () => {
       component.timePeriod = TimePeriod.LAST_12_MONTHS;
 
@@ -261,7 +195,7 @@ describe('DateInputComponent', () => {
     });
 
     test('should do nothing on default', () => {
-      component.timePeriod = TimePeriod.CUSTOM;
+      component.timePeriod = undefined;
 
       component.startDateChanged(evt, datepicker, endDateInput);
 
@@ -270,32 +204,10 @@ describe('DateInputComponent', () => {
     });
   });
 
-  describe('endDateChanged', () => {
-    test('should do nothing on default', () => {
-      component.timePeriod = TimePeriod.YEAR;
-      component.emitChange = jest.fn();
-
-      component.endDateChanged({} as unknown as MatDatepickerInputEvent<any>);
-
-      expect(component.emitChange).not.toHaveBeenCalled();
-    });
-
-    test('should emit change on CUSTOM', () => {
-      component.timePeriod = TimePeriod.CUSTOM;
-      component.emitChange = jest.fn();
-
-      component.endDateChanged({
-        value: 'xx',
-      } as unknown as MatDatepickerInputEvent<any>);
-
-      expect(component.emitChange).toHaveBeenCalled();
-    });
-  });
-
   describe('emitChange', () => {
     test('should emit currently selected dates', () => {
-      const start = new Date();
-      const end = new Date();
+      const start = moment();
+      const end = moment();
       component.rangeInput.controls.start.setValue(start);
       component.rangeInput.controls.end.setValue(end);
 
@@ -304,7 +216,7 @@ describe('DateInputComponent', () => {
       component.emitChange();
 
       expect(component.selected.emit).toHaveBeenCalledWith(
-        `${start.getTime()}|${end.getTime()}`
+        `${start.unix()}|${end.unix()}`
       );
     });
   });

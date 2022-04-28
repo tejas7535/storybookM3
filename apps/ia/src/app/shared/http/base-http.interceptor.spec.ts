@@ -1,4 +1,8 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpParams,
+} from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -19,14 +23,22 @@ const environment = {
   baseUrl: 'localhost:8000/api/v1',
 };
 
+jest.mock('../utils/utilities', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
+  ...jest.requireActual<any>('../utils/utilities'),
+  convertTimeRangeToUTC: jest.fn((val) => `${val}000`),
+}));
+
 @Injectable()
 class ExampleService {
   private readonly apiUrl = environment.baseUrl;
 
   public constructor(private readonly http: HttpClient) {}
 
-  public getPosts(param?: string): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/${param ?? 'test'}`);
+  public getPosts(path?: string, params?: HttpParams): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/${path ?? 'test'}`, {
+      params,
+    });
   }
 }
 
@@ -84,69 +96,58 @@ describe(`BaseHttpInterceptor`, () => {
       httpMock.verify();
     });
 
-    test(
-      'should do nothing when no error occurs',
-      waitForAsync(() => {
-        service.getPosts().subscribe((response) => {
+    test('should do nothing when no error occurs', waitForAsync(() => {
+      service.getPosts().subscribe((response) => {
+        expect(response).toBeTruthy();
+        expect(response).toEqual('data');
+      });
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      expect(httpRequest.request.method).toEqual('GET');
+      httpRequest.flush('data');
+    }));
+
+    test('should show error on client error', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (response) => {
           expect(response).toBeTruthy();
-          expect(response).toEqual('data');
-        });
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-        expect(httpRequest.request.method).toEqual('GET');
-        httpRequest.flush('data');
-      })
-    );
+          expect(response.message).toEqual(
+            'An error occurred. Please try again later.'
+          );
+        },
+      });
 
-    test(
-      'should show error on client error',
-      waitForAsync(() => {
-        service.getPosts().subscribe({
-          next: () => {
-            expect(true).toEqual(false);
-          },
-          error: (response) => {
-            expect(response).toBeTruthy();
-            expect(response.message).toEqual(
-              'An error occurred. Please try again later.'
-            );
-          },
-        });
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      expect(httpRequest.request.method).toEqual('GET');
 
-        expect(httpRequest.request.method).toEqual('GET');
+      httpRequest.error(error);
+    }));
 
-        httpRequest.error(error);
-      })
-    );
+    test('should show error on server error', waitForAsync(() => {
+      service.getPosts().subscribe({
+        next: () => {
+          expect(true).toEqual(false);
+        },
+        error: (response) => {
+          expect(response).toBeTruthy();
+          expect(response.message).toEqual('Service Unavailable - Damn monkey');
+        },
+      });
 
-    test(
-      'should show error on server error',
-      waitForAsync(() => {
-        service.getPosts().subscribe({
-          next: () => {
-            expect(true).toEqual(false);
-          },
-          error: (response) => {
-            expect(response).toBeTruthy();
-            expect(response.message).toEqual(
-              'Service Unavailable - Damn monkey'
-            );
-          },
-        });
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      expect(httpRequest.request.method).toEqual('GET');
 
-        expect(httpRequest.request.method).toEqual('GET');
-
-        httpRequest.error({
-          status: 0,
-          message: 'error',
-          title: 'Service Unavailable',
-          detail: 'Damn monkey',
-        } as unknown as ErrorEvent);
-      })
-    );
+      httpRequest.error({
+        status: 0,
+        message: 'error',
+        title: 'Service Unavailable',
+        detail: 'Damn monkey',
+      } as unknown as ErrorEvent);
+    }));
 
     test('should toast error message in error case', () => {
       service.getPosts().subscribe({
@@ -196,6 +197,19 @@ describe(`BaseHttpInterceptor`, () => {
           detail: 'Damn monkey',
         },
       } as unknown as ErrorEvent);
+    });
+
+    test('should convert to utc timestamps', () => {
+      const params = new HttpParams().set('time_range', '123|456');
+      service.getPosts('test', params).subscribe((response) => {
+        expect(response).toBeTruthy();
+        expect(response).toEqual('data');
+      });
+      const httpRequest = httpMock.expectOne(
+        `${environment.baseUrl}/test?time_range=123%7C456000`
+      );
+      expect(httpRequest.request.method).toEqual('GET');
+      httpRequest.flush('data');
     });
   });
 });

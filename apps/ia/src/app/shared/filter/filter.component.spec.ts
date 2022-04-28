@@ -65,7 +65,7 @@ describe('FilterComponent', () => {
 
   describe('timePeriodSelected', () => {
     test('should emit selected period', () => {
-      const selectedPeriod = { id: TimePeriod.CUSTOM, value: 'Custom' };
+      const selectedPeriod = { id: TimePeriod.YEAR, value: 'Custom' };
       component.selectTimePeriod.emit = jest.fn();
 
       component.timePeriodSelected(selectedPeriod);

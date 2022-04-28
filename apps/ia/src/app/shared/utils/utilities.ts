@@ -1,40 +1,44 @@
 import { translate } from '@ngneat/transloco';
+import moment, { Moment } from 'moment';
 
 import { TimePeriod } from '../models';
 
-export const getTimeRangeHint = (timePeriod: TimePeriod): string => {
-  switch (timePeriod) {
-    case TimePeriod.YEAR: {
-      return translate('filters.periodOfTime.year')?.toLowerCase();
-    }
-    case TimePeriod.MONTH: {
-      return translate('filters.periodOfTime.month')?.toLowerCase();
-    }
-    case TimePeriod.LAST_12_MONTHS: {
-      return translate('filters.periodOfTime.referenceDate');
-    }
-    default: {
-      return translate('filters.periodOfTime.timeRangeLabel')?.toLowerCase();
-    }
-  }
-};
+export const getTimeRangeHint = (timePeriod: TimePeriod): string =>
+  timePeriod === TimePeriod.YEAR
+    ? translate('filters.periodOfTime.timeRangeHintYear')
+    : translate('filters.periodOfTime.timeRangeHintLast12Months');
 
-export const getMonth12MonthsAgo = (refDate: Date): Date => {
-  const old = new Date(refDate.getTime());
-  old.setFullYear(refDate.getFullYear() - 1);
+export const getMonth12MonthsAgo = (refDate: Moment): Moment => {
+  const old = refDate.clone().subtract(1, 'years');
 
   return old;
 };
 
-export const getTimeRangeFromDates = (dateOne: Date, dateTwo: Date): string =>
-  `${dateOne.getTime()}|${dateTwo.getTime()}`;
+export const getTimeRangeFromDates = (
+  dateOne: Moment,
+  dateTwo: Moment
+): string => `${dateOne.unix()}|${dateTwo.unix()}`;
 
 export const getBeautifiedTimeRange = (timeRange: string): string => {
   const dates = timeRange?.split('|');
 
   return timeRange
-    ? `${new Date(+dates[0]).toLocaleDateString('en-US')} - ${new Date(
-        +dates[1]
-      ).toLocaleDateString('en-US')}`
+    ? `${moment.unix(+dates[0]).format('MMM YYYY')} - ${moment
+        .unix(+dates[1])
+        .format('MMM YYYY')}`
+    : undefined;
+};
+
+export const convertTimeRangeToUTC = (timeRange: string) => {
+  const dates = timeRange?.split('|');
+
+  return timeRange
+    ? `${moment
+        .unix(+dates[0])
+        .utc()
+        .valueOf()}|${moment
+        .unix(+dates[1])
+        .utc()
+        .valueOf()}`
     : undefined;
 };

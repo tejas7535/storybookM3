@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 
 import { EChartsOption } from 'echarts';
+import moment from 'moment';
 
 import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 
@@ -32,8 +33,7 @@ export class LineChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const date = new Date();
-    this.currentYear = date.getFullYear();
+    this.currentYear = moment().get('year');
   }
 
   createEChartsOption(): EChartsOption {
@@ -49,47 +49,21 @@ export class LineChartComponent implements OnInit {
   }
 
   getXAxisData(): string[] {
-    const now = new Date();
+    const now = moment();
 
-    const threeMonthsAgo = this.getDateInMonths(now, -3);
-    const twoMonthsAgo = this.getDateInMonths(now, -2);
-    const oneMonthAgo = this.getDateInMonths(now, -1);
-    const nextMonth = this.getDateInMonths(now, 1);
-    const nextButOneMonth = this.getDateInMonths(now, 2);
+    const threeMonthsAgo = moment().clone().subtract(3, 'months');
+    const twoMonthsAgo = moment().clone().subtract(2, 'months');
+    const oneMonthAgo = moment().clone().subtract(1, 'months');
+    const nextMonth = moment().clone().add(1, 'months');
+    const nextButOneMonth = moment().clone().add(2, 'months');
 
     return [
-      `${this.getHumanReadableMonth(
-        threeMonthsAgo
-      )}/${this.getLastTwoDigitsOfYear(threeMonthsAgo)}`,
-      `${this.getHumanReadableMonth(
-        twoMonthsAgo
-      )}/${this.getLastTwoDigitsOfYear(twoMonthsAgo)}`,
-      `${this.getHumanReadableMonth(oneMonthAgo)}/${this.getLastTwoDigitsOfYear(
-        oneMonthAgo
-      )}`,
-      `${this.getHumanReadableMonth(now)}/${this.getLastTwoDigitsOfYear(now)}`,
-      `${this.getHumanReadableMonth(nextMonth)}/${this.getLastTwoDigitsOfYear(
-        nextMonth
-      )}`,
-      `${this.getHumanReadableMonth(
-        nextButOneMonth
-      )}/${this.getLastTwoDigitsOfYear(nextButOneMonth)}`,
+      `${threeMonthsAgo.format('M/YY')}`,
+      `${twoMonthsAgo.format('M/YY')}`,
+      `${oneMonthAgo.format('M/YY')}`,
+      `${now.format('M/YY')}`,
+      `${nextMonth.format('M/YY')}`,
+      `${nextButOneMonth.format('M/YY')}`,
     ];
-  }
-
-  getDateInMonths(date: Date, months: number): Date {
-    const newDate = new Date(date.getTime());
-    newDate.setMonth(newDate.getMonth() + months);
-
-    return newDate;
-  }
-
-  getLastTwoDigitsOfYear(date: Date): string {
-    return date.getFullYear().toString().slice(-2);
-  }
-
-  getHumanReadableMonth(date: Date): number {
-    // getMonth is zero based
-    return date.getMonth() + 1;
   }
 }

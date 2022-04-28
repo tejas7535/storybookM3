@@ -64,6 +64,7 @@
     "@angular/core": "13.3.2",
     "@angular/forms": "13.3.2",
     "@angular/material": "13.3.2",
+    "@angular/material-moment-adapter": "13.3.2",
     "@angular/platform-browser": "13.3.2",
     "@angular/platform-browser-dynamic": "13.3.2",
     "@angular/router": "13.3.2",
@@ -89,6 +90,7 @@
     "d3-org-chart": "2.6.0",
     "echarts": "5.3.2",
     "jwt-decode": "3.1.2",
+    "moment": "2.29.3",
     "ngx-echarts": "8.0.1",
     "ngx-papaparse": "5.1.0",
     "rxjs": "7.5.5",
@@ -108,8 +110,8 @@
     "@angular/language-service": "13.3.2",
     "@babel/core": "7.17.9",
     "@commitlint/cli": "16.2.3",
-    "@commitlint/cz-commitlint": "16.2.3",
     "@commitlint/config-conventional": "16.2.1",
+    "@commitlint/cz-commitlint": "16.2.3",
     "@geometricpanda/storybook-addon-badges": "0.2.1",
     "@ngneat/spectator": "10.0.1",
     "@ngneat/transloco-keys-manager": "3.4.1",
@@ -164,6 +166,7 @@
     "ng-packagr": "13.3.1",
     "npm-audit-html": "2.0.0beta.2",
     "npm-force-resolutions": "0.0.10",
+    "nx": "13.10.1",
     "postcss": "8.4.12",
     "postcss-import": "14.1.0",
     "postcss-preset-env": "7.4.3",
@@ -183,8 +186,7 @@
     "tsutils": "3.21.0",
     "typescript": "4.6.3",
     "webpack-bundle-analyzer": "4.5.0",
-    "yargs": "17.4.1",
-    "nx": "13.10.1"
+    "yargs": "17.4.1"
   },
   "engines": {
     "node": ">= 14.0.0"

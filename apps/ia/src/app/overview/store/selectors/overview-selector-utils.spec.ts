@@ -1,4 +1,5 @@
 import { SeriesOption } from 'echarts';
+import moment from 'moment';
 
 import { SMOOTH_LINE_SERIES_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import {
@@ -82,10 +83,12 @@ describe('OverviewSelectorUtils', () => {
   });
 
   describe('isDateInTimeRange', () => {
-    const timeRange = '1577863715000|1609399715000'; // 01.01.2020 - 31.12.2020
+    const timeRange = '1577863715|1609399715'; // 01.01.2020 - 31.12.2020
 
     test('should return true when data in range', () => {
-      const date = new Date(2020, 5, 5).valueOf().toString();
+      const date = moment({ year: 2020, month: 5, date: 5 })
+        .valueOf()
+        .toString();
 
       const result = utils.isDateInTimeRange(timeRange, date);
 
@@ -93,7 +96,13 @@ describe('OverviewSelectorUtils', () => {
     });
 
     test('should return false when data out of range', () => {
-      const date = new Date(2021, 5, 15).valueOf().toString();
+      const date = moment({
+        year: 2021,
+        month: 5,
+        date: 15,
+      })
+        .valueOf()
+        .toString();
 
       const result = utils.isDateInTimeRange(timeRange, date);
 

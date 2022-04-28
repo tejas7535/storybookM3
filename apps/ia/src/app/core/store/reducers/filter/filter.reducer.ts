@@ -1,5 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
+import moment from 'moment';
 
 import {
   filterAdapter,
@@ -34,7 +35,7 @@ export interface FilterState {
 }
 
 const getInitialSelectedTimeRange = () => {
-  const nowDate = new Date();
+  const nowDate = moment().endOf('month');
   const oldDate = getMonth12MonthsAgo(nowDate);
 
   return getTimeRangeFromDates(oldDate, nowDate);
@@ -56,14 +57,6 @@ export const initialState: FilterState = {
     {
       id: TimePeriod.LAST_12_MONTHS,
       value: TimePeriod.LAST_12_MONTHS,
-    },
-    {
-      id: TimePeriod.MONTH,
-      value: TimePeriod.MONTH,
-    },
-    {
-      id: TimePeriod.CUSTOM,
-      value: TimePeriod.CUSTOM,
     },
   ],
   selectedFilters: filterAdapter.getInitialState({

@@ -1,45 +1,70 @@
-<mat-form-field
-  appearance="fill"
-  *transloco="let t; read: 'filters'"
-  class="w-full"
+<ng-container
+  *ngIf="timePeriods.LAST_12_MONTHS === timePeriod; else datePicker"
 >
-  <mat-label>{{ label }}</mat-label>
-  <mat-date-range-input
-    [min]="minDate"
-    [max]="maxDate"
-    [formGroup]="rangeInput"
-    [rangePicker]="picker"
-    [disabled]="timePeriods.LAST_12_MONTHS === timePeriod"
+  <mat-form-field
+    appearance="fill"
+    *transloco="let t; read: 'filters'"
+    class="w-full"
+    iaDateRangeFormat
   >
-    <input
-      matStartDate
-      formControlName="start"
-      [placeholder]="placeholderStart"
-      (dateChange)="startDateChanged($event, picker, endDate)"
-    />
-    <input
-      #endDate
-      matEndDate
-      formControlName="end"
-      [placeholder]="placeholderEnd"
-      (dateChange)="endDateChanged($event)"
-    />
-  </mat-date-range-input>
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-date-range-picker
-    #picker
-    [startView]="startView"
-    (yearSelected)="chosenYearHandler($event, picker)"
-    (monthSelected)="chosenMonthHandler($event, picker)"
-  ></mat-date-range-picker>
-  <mat-hint align="start">{{ hint }}</mat-hint>
-  <mat-error *ngIf="rangeInput.controls.start.invalid">{{
-    t('invalidStartDateHint')
-  }}</mat-error>
-  <mat-error
-    *ngIf="
-      rangeInput.controls.end.invalid && !rangeInput.controls.start.invalid
-    "
-    >{{ t('invalidEndDateHint') }}</mat-error
+    <mat-label>{{ label }}</mat-label>
+
+    <mat-date-range-input
+      [min]="minDate"
+      [max]="maxDate"
+      [formGroup]="rangeInput"
+      [rangePicker]="rangePicker"
+      disabled
+    >
+      <input
+        matStartDate
+        formControlName="start"
+        [placeholder]="placeholderStart"
+        (dateChange)="startDateChanged($event, rangePicker, endDate)"
+        readonly
+      />
+      <input
+        #endDate
+        matEndDate
+        formControlName="end"
+        [placeholder]="placeholderEnd"
+        readonly
+      />
+    </mat-date-range-input>
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="rangePicker"
+    ></mat-datepicker-toggle>
+    <mat-date-range-picker
+      #rangePicker
+      [startView]="startView"
+      (yearSelected)="chosenYearHandler($event, rangePicker)"
+    ></mat-date-range-picker>
+    <mat-hint align="start">{{ hint }}</mat-hint>
+  </mat-form-field>
+</ng-container>
+<ng-template #datePicker>
+  <mat-form-field
+    appearance="fill"
+    *transloco="let t; read: 'filters'"
+    class="w-full"
+    iaDateYearFormat
   >
-</mat-form-field>
+    <mat-label>{{ label }}</mat-label>
+    <input
+      matInput
+      [matDatepicker]="yearPicker"
+      [formControl]="dateInput"
+      [min]="minDate"
+      [max]="maxDate"
+      readonly
+    />
+    <mat-datepicker-toggle matSuffix [for]="yearPicker"></mat-datepicker-toggle>
+    <mat-datepicker
+      #yearPicker
+      [startView]="startView"
+      (yearSelected)="chosenYearHandler($event, yearPicker)"
+    ></mat-datepicker>
+    <mat-hint align="start">{{ hint }}</mat-hint>
+  </mat-form-field>
+</ng-template>

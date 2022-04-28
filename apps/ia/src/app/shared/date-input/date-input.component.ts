@@ -7,9 +7,12 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
+  MatDatepicker,
   MatDatepickerInputEvent,
   MatDateRangePicker,
 } from '@angular/material/datepicker';
+
+import moment, { Moment } from 'moment';
 
 import { TimePeriod } from '../models';
 import { getMonth12MonthsAgo, getTimeRangeFromDates } from '../utils/utilities';
@@ -23,9 +26,9 @@ export class DateInputComponent {
   private _timePeriod: TimePeriod;
 
   timePeriods = TimePeriod;
-  nowDate = new Date();
-  minDate = new Date('2010-01-01 00:00:00');
-  maxDate = new Date(this.nowDate.getFullYear(), 11, 31); // last day of current year
+  nowDate = moment().endOf('month');
+  minDate = this.nowDate.clone();
+  maxDate = moment({ year: this.nowDate.year(), month: 11, day: 31 }); // last day of current year
 
   @Input() label: string;
   @Input() hint: string;
@@ -44,9 +47,9 @@ export class DateInputComponent {
     if (time !== undefined) {
       const times = time.split('|');
 
-      const start = new Date(+times[0]);
+      const start = moment.unix(+times[0]);
       this.rangeInput.controls.start.setValue(start, { emitEvent: false });
-      const end = new Date(+times[1]);
+      const end = moment.unix(+times[1]);
       this.rangeInput.controls.end.setValue(end, { emitEvent: false });
     }
   }
@@ -63,30 +66,29 @@ export class DateInputComponent {
 
   @Output() readonly selected: EventEmitter<string> = new EventEmitter();
 
+  constructor() {
+    this.minDate.set({
+      year: this.minDate.year() - 3,
+      month: 0,
+      date: 1,
+    });
+  }
+
+  dateInput = new FormControl({ value: '', disabled: true });
+
   rangeInput = new FormGroup({
-    start: new FormControl({ value: '', disabled: true }),
+    start: this.dateInput,
     end: new FormControl({ value: '', disabled: true }),
   });
-  startView: 'multi-year' | 'month' | 'year' = 'multi-year';
+  startView: 'multi-year' | 'month';
 
-  updateStartEndDates(refDate: Date): void {
+  updateStartEndDates(refDate: Moment): void {
     switch (this.timePeriod) {
-      case TimePeriod.MONTH: {
-        this.rangeInput.controls.start.setValue(
-          new Date(refDate.getFullYear(), refDate.getMonth(), 1)
-        );
-        this.rangeInput.controls.end.setValue(
-          new Date(refDate.getFullYear(), refDate.getMonth() + 1, 0)
-        );
-        break;
-      }
       case TimePeriod.YEAR: {
         this.rangeInput.controls.start.setValue(
-          new Date(refDate.getFullYear(), 0, 1)
+          refDate.clone().startOf('year')
         );
-        this.rangeInput.controls.end.setValue(
-          new Date(refDate.getFullYear(), 12, 0)
-        );
+        this.rangeInput.controls.end.setValue(refDate.clone().endOf('year'));
         break;
       }
       case TimePeriod.LAST_12_MONTHS: {
@@ -107,28 +109,13 @@ export class DateInputComponent {
   }
 
   setStartView(): void {
-    if (this.timePeriod === TimePeriod.YEAR) {
-      this.startView = 'multi-year';
-    } else if (this.timePeriod === TimePeriod.MONTH) {
-      this.startView = 'year';
-    } else {
-      this.startView = 'month';
-    }
-  }
-
-  public chosenMonthHandler(
-    month: Date,
-    datepicker: MatDateRangePicker<any>
-  ): void {
-    if (this.timePeriod === TimePeriod.MONTH) {
-      this.updateStartEndDates(month);
-      datepicker.close();
-    }
+    this.startView =
+      this.timePeriod === TimePeriod.YEAR ? 'multi-year' : 'month';
   }
 
   public chosenYearHandler(
-    year: Date,
-    datepicker: MatDateRangePicker<any>
+    year: Moment,
+    datepicker: MatDateRangePicker<any> | MatDatepicker<any>
   ): void {
     if (this.timePeriod === TimePeriod.YEAR) {
       this.updateStartEndDates(year);
@@ -143,7 +130,6 @@ export class DateInputComponent {
   ): void {
     if (
       (this.timePeriod === TimePeriod.YEAR ||
-        this.timePeriod === TimePeriod.MONTH ||
         this.timePeriod === TimePeriod.LAST_12_MONTHS) &&
       evt.value
     ) {
@@ -151,12 +137,6 @@ export class DateInputComponent {
 
       datepicker.close();
       endDateInput.focus();
-    }
-  }
-
-  endDateChanged(evt: MatDatepickerInputEvent<any>): void {
-    if (this.timePeriod === TimePeriod.CUSTOM && evt.value) {
-      this.emitChange();
     }
   }
 

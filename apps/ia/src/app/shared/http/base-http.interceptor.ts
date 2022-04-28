@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
+import { convertTimeRangeToUTC } from '../utils/utilities';
 import { IGNORE_HTTP_CALLS } from './constants';
 
 @Injectable()
@@ -21,7 +22,19 @@ export class BaseHttpInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
+    const timeRange = request.params.get('time_range');
+
+    // always convert local timestamps to UTC timestamp
+    const req = timeRange
+      ? request.clone({
+          params: request.params.set(
+            'time_range',
+            convertTimeRangeToUTC(timeRange)
+          ),
+        })
+      : request;
+
+    return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMessage = '';
 

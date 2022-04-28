@@ -1,4 +1,5 @@
 import { SeriesOption } from 'echarts';
+import moment from 'moment';
 
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { DoughnutConfig } from '../../../shared/charts/models/doughnut-config.model';
@@ -15,13 +16,13 @@ import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
+  getExitEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
-  getExitEmployees,
   getOpenApplications,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
@@ -39,42 +40,42 @@ describe('Overview Selector', () => {
   const leaverIT1 = createExternalLeaver(
     '1',
     selectedOrgUnit,
-    new Date(2020, 3, 15).valueOf().toString()
+    moment({ year: 2020, month: 3, date: 15 }).valueOf().toString()
   );
   const leaverIT2 = createExternalLeaver(
     '2',
     `${selectedOrgUnit}_1`,
-    new Date(2020, 3, 15).valueOf().toString()
+    moment({ year: 2020, month: 3, date: 15 }).valueOf().toString()
   );
   const internalLeaver1 = createInternalLeaver(
     '4',
     selectedOrgUnit,
-    new Date(2020, 4, 30).valueOf().toString()
+    moment({ year: 2020, month: 4, date: 30 }).valueOf().toString()
   );
 
   const entryEmployee1 = createExternalEntryEmployee(
     '5',
-    new Date(2020, 3, 14).valueOf().toString()
+    moment({ year: 2020, month: 3, date: 14 }).valueOf().toString()
   );
   const entryEmployee2 = createExternalEntryEmployee(
     '6',
-    new Date(2020, 8, 19).valueOf().toString()
+    moment({ year: 2020, month: 8, date: 19 }).valueOf().toString()
   );
   const internalEntryEmployee1 = createInternalEntryEmployee(
     '7',
-    new Date(2020, 8, 19).valueOf().toString()
+    moment({ year: 2020, month: 8, date: 19 }).valueOf().toString()
   );
   const internalEntryEmployeeBeforeTimeRange = createInternalEntryEmployee(
     '8',
-    new Date(2018, 9, 19).valueOf().toString()
+    moment({ year: 2018, month: 9, date: 19 }).valueOf().toString()
   );
   const entryEmployeeBeforeTimeRange = createExternalEntryEmployee(
     '9',
-    new Date(2018, 2, 1).valueOf().toString()
+    moment({ year: 2018, month: 2, date: 1 }).valueOf().toString()
   );
   const entryEmployeeAfterTimeRange = createExternalEntryEmployee(
     '10',
-    new Date(2021, 2, 1).valueOf().toString()
+    moment({ year: 2021, month: 2, date: 1 }).valueOf().toString()
   );
 
   const fakeState: { overview: OverviewState; filter: FilterState } = {
@@ -84,7 +85,7 @@ describe('Overview Selector', () => {
         data: {
           events: [
             {
-              date: new Date('01-01-2021').valueOf().toString(),
+              date: moment('01-01-2021', 'DD-MM-YYYY').valueOf().toString(),
               name: 'Monkeys',
             },
           ],
@@ -170,7 +171,7 @@ describe('Overview Selector', () => {
           [FilterKey.TIME_RANGE]: {
             name: FilterKey.TIME_RANGE,
             idValue: {
-              id: '1577863715000|1609399715000',
+              id: '1577863715|1609399715',
               value: '01.01.2020 - 31.12.2020',
             },
           },
@@ -188,7 +189,10 @@ describe('Overview Selector', () => {
   describe('getAttritionOverTimeEvents', () => {
     it('should return list of events', () => {
       expect(getAttritionOverTimeEvents(fakeState)).toEqual([
-        { date: new Date('01-01-2021').valueOf().toString(), name: 'Monkeys' },
+        {
+          date: moment('01-01-2021', 'DD-MM-YYYY').valueOf().toString(),
+          name: 'Monkeys',
+        },
       ]);
     });
   });

@@ -52,7 +52,7 @@ describe('Filter Actions', () => {
     });
 
     test('timePeriodSelected', () => {
-      const timePeriod = TimePeriod.MONTH;
+      const timePeriod = TimePeriod.YEAR;
       const action = timePeriodSelected({ timePeriod });
 
       expect(action).toEqual({

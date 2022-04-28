@@ -8,6 +8,7 @@ import {
   GridReadyEvent,
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import moment from 'moment';
 
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
@@ -44,7 +45,7 @@ export class LostJobProfilesComponent implements OnChanges {
     headerClass: () => 'bg-selected-overlay',
   };
 
-  currentDate = new Date();
+  currentDate = moment();
 
   columnDefs: ColDef[] = [
     {
@@ -76,9 +77,7 @@ export class LostJobProfilesComponent implements OnChanges {
     {
       field: 'openPositions',
       headerName: translate('lossOfSkill.lostJobProfiles.table.openPositions', {
-        state: `${this.currentDate.toLocaleString('default', {
-          month: 'short',
-        })} ${this.currentDate.getFullYear()}`,
+        state: `${this.currentDate.format('MMM YYYY')}`,
       }),
       filter: 'agNumberColumnFilter',
       flex: 1,

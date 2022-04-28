@@ -237,7 +237,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.reasons.data,
           beautifiedTimeRange,
-          TimePeriod.CUSTOM,
+          TimePeriod.YEAR,
           []
         )
       ).toEqual({
@@ -279,7 +279,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getReasonsChartConfig.projector(
           [],
           beautifiedTimeRange,
-          TimePeriod.CUSTOM,
+          TimePeriod.YEAR,
           []
         )
       ).toEqual({
@@ -415,7 +415,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getComparedReasonsChartConfig.projector(
           fakeState.reasonsForLeaving.comparedReasons.data,
           beautifiedTimeRange,
-          TimePeriod.MONTH,
+          TimePeriod.YEAR,
           [],
           []
         )
@@ -459,7 +459,7 @@ describe('ReasonsAndCounterMeasures Selector', () => {
         getComparedReasonsChartConfig.projector(
           [],
           beautifiedTimeRange,
-          TimePeriod.CUSTOM,
+          TimePeriod.YEAR,
           [],
           []
         )

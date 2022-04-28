@@ -117,7 +117,7 @@ describe('FilterSectionComponent', () => {
     test(
       'should set selectedTimePeriod',
       marbles((m) => {
-        const result = TimePeriod.CUSTOM;
+        const result = TimePeriod.YEAR;
         store.overrideSelector(getSelectedTimePeriod, result);
         component.ngOnInit();
 
@@ -188,10 +188,10 @@ describe('FilterSectionComponent', () => {
   describe('timePeriodSelected', () => {
     test('should dispatch timePeriodSelected', () => {
       store.dispatch = jest.fn();
-      component.timePeriodSelected(TimePeriod.CUSTOM);
+      component.timePeriodSelected(TimePeriod.YEAR);
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        timePeriod: TimePeriod.CUSTOM,
+        timePeriod: TimePeriod.YEAR,
         type: '[Filter] Time period selected',
       });
     });
