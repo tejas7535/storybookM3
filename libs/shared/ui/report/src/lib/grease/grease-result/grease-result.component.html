@@ -4,8 +4,7 @@
       <a
         class="font-medium text-link"
         [attr.href]="
-          'https://medias.schaeffler.de/de/search/searchpage?text=' +
-          greaseResult.title
+          t('shopBaseUrl') + '/search/searchpage?text=' + greaseResult.title
         "
         target="_blank"
         (click)="trackGreaseSelection(greaseResult.title)"

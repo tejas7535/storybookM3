@@ -1,4 +1,5 @@
 {
+  "shopBaseUrl": "https://medias.schaeffler.de/de",
   "snackbarError": "Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
   "snackbarRetry": "Erneut versuchen",
   "allValues": "Alle Werte und Zeitspannen anzeigen",
