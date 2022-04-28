@@ -18,7 +18,7 @@
       </span>
     </mat-slide-toggle>
   </div>
-  <div *ngIf="reportUrls$ | ngrxPush as reportUrls; else loading_spinner">
+  <div *ngIf="reportUrls; else loading_spinner">
     <schaeffler-grease-report
       *ngIf="showCompactView"
       [greaseReportUrl]="reportUrls.jsonReportUrl"

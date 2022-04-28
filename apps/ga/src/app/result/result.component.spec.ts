@@ -2,8 +2,10 @@ import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { debounceTime } from 'rxjs';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
@@ -20,14 +22,15 @@ import {
 import { AppRoutePath } from '../app-route-path.enum';
 import { getCalculation } from '../core/store/actions/result/result.actions';
 import { initialState } from '../core/store/reducers/result/result.reducer';
+import { getReportUrls } from '../core/store/selectors/result/result.selector';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { ReportUrls } from '../shared/models';
 import { ResultComponent } from './result.component';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
   let spectator: Spectator<ResultComponent>;
   let store: MockStore;
+  let translocoService: TranslocoService;
 
   const createComponent = createComponentFactory({
     component: ResultComponent,
@@ -35,7 +38,10 @@ describe('ResultComponent', () => {
       RouterTestingModule,
       ReactiveComponentModule,
       FormsModule,
-      provideTranslocoTestingModule({ en: {} }),
+      provideTranslocoTestingModule(
+        { en: {} },
+        { translocoConfig: { defaultLang: 'de' } }
+      ),
 
       // UI Modules
       MockModule(MatSlideToggleModule),
@@ -65,7 +71,7 @@ describe('ResultComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-
+    translocoService = spectator.inject(TranslocoService);
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
   });
@@ -76,14 +82,31 @@ describe('ResultComponent', () => {
 
   describe('ngOnInit', () => {
     it('should get resultId from store', (done) => {
-      component.reportUrls$.subscribe((reportUrls: ReportUrls) => {
-        expect(reportUrls).toEqual(REPORT_URLS_MOCK);
-        done();
-      });
+      store
+        .select(getReportUrls)
+        .pipe(debounceTime(3000))
+        .subscribe(() => {
+          expect(component.reportUrls).toEqual(REPORT_URLS_MOCK);
+
+          done();
+        });
 
       component.ngOnInit();
 
       expect(store.dispatch).toHaveBeenCalledWith(getCalculation());
+    });
+
+    it('should reset the report urls and dispatch fetch action on language change', (done) => {
+      translocoService.getActiveLang = jest.fn(() => 'es');
+
+      component.ngOnInit();
+
+      translocoService.langChanges$.subscribe(() => {
+        expect(component.reportUrls).toBe(undefined);
+        expect(store.dispatch).toHaveBeenCalledWith(getCalculation());
+
+        done();
+      });
     });
   });
 
