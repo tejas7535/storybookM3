@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.4.1...mac-v0.5.1) (2022-04-28)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** custom trigger if all values selected ([#4003](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4003)) ([05bc462](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/05bc462eeb400703206c2940600ad526c6612ea0))
+
+
+### 🎸 Features
+
+* **mac:** add excel export ([#4023](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4023)) ([718e6da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/718e6da2fbf3670c5762119b90b66cf985d039db))
+* **mac:** add legal pages ([181da85](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/181da85ce68bdc9ae218a480024a9268421864fe))
+* **mac:** add onetrust package (UFTABI-4863) ([#4020](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4020)) ([fb5a4ef](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fb5a4ef8655d1914698f92ff870580265730360c))
+* **mac:** adjust msd for sap ids ([#3983](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3983)) ([4885f0a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4885f0a22cdbb86656b1f3780e4d292a3cb63c7a))
+* **mac:** change subheader text (UFTABI-5555) ([#4061](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4061)) ([7e27daa](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7e27daae9eb2601dcc8e01fe575272570cb83869))
+* **mac:** display blank values as (empty) ([#4001](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4001)) ([08b08d2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/08b08d287e44c5867339dd854f78b8a0ad7b1fd1))
+* **mac:** enable tracking cookies ([#4011](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4011)) ([fe8e4f0](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fe8e4f00d6fa7d69849b961250f136ccf7ee6588))
+
 ### [0.4.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.4.0...mac-v0.4.1) (2022-03-31)
 
 
