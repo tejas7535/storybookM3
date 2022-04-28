@@ -2,8 +2,10 @@ import { translate } from '@ngneat/transloco';
 
 import { LabelValue } from '@schaeffler/label-value';
 
-import { Field, TableItem } from '../models';
-import { GreaseResultData } from '../models/grease-result.model';
+import { Field, TableItem } from '../../models/index';
+import { GreaseResultData } from '../../models/grease-result.model';
+import { suitabilityLevels } from '../constants/suitability.constants';
+import { SuitabilityLevels } from '../models/suitability.model';
 
 /**
  * Convert grease result data into a set of label-value pairs
@@ -29,7 +31,7 @@ export const findItem = (
     ({ field }: TableItem) => field === searchField
   ) as TableItem;
 
-// result in gramm
+// result in grams
 export const mass = (
   item: TableItem[],
   amount: number,
@@ -48,7 +50,7 @@ export const mass = (
 export const secondaryValue = (value: string): string =>
   `<span class="text-low-emphasis">${value}</span>`;
 
-export const initalGreaseQuantity = (table1Values: TableItem[]) =>
+export const initialGreaseQuantity = (table1Values: TableItem[]) =>
   `${findItem(table1Values, Field.QVIN).value} ${
     findItem(table1Values, Field.QVIN).unit
   }`;
@@ -101,3 +103,7 @@ export const formatDecimals = (value: number) =>
       maximumFractionDigits: 4,
     }
   );
+
+export const checkSuitability = (
+  suitable: `${SuitabilityLevels}`
+): keyof typeof SuitabilityLevels => suitabilityLevels[suitable];

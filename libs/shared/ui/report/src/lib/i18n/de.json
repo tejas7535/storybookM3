@@ -8,7 +8,7 @@
   "results": "Ergebnisse sortiert nach Nachschmierinterval ({{ amount }}/{{ complete }} Fette)",
   "guideValues": "* Zahlen sind Richtwerte",
   "errorsWarningsNotes": "Fehler, Warnungen & Hinweise",
-  "initalGreaseQuantity": "Erstbefettungsmenge *",
+  "initialGreaseQuantity": "Erstbefettungsmenge *",
   "manualRelubricationQuantityInterval": "Manuelle Nachschmiermenge * / Interval *",
   "manualRelubricationQuantityIntervalTooltip": "Aus Gründen der Betriebssicherheit sind Nachschmierfristen > 1 Jahr nicht zu empfehlen.\n\nEs empfiehlt sich - gerade bei großen Nachschmiermengen - die errechnete Nachschmiermenge verteilt auf mehrere Nachschmiervorgänge über der Nachschmierfrist zuzuführen.",
   "automaticRelubricationQuantityPerDay": "Automatische Nachschmiermenge pro Tag *",
@@ -35,5 +35,12 @@
   "warnings": "Warnungen",
   "notes": "Hinweise",
   "day": "Tag",
-  "days": "Tage"
+  "days": "Tage",
+  "suitabilityLevel": {
+    "extremelySuitable": "sehr gut geeignet",
+    "highlySuitable": "gut geeignet",
+    "suitable": "geeignet",
+    "lessSuitable": "weniger geeignet",
+    "notSuitable": "nicht geeignet"
+  }
 }

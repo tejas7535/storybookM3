@@ -1,5 +1,5 @@
 {
-  "snackbarError": "Unfortunately an error occured. Please try again later.",
+  "snackbarError": "Unfortunately an error occurred. Please try again later.",
   "snackbarRetry": "Retry",
   "allValues": "Show all values & timeframes",
   "hideValues": "Hide additional values",
@@ -8,7 +8,7 @@
   "results": "Results sorted by relubrication interval ({{ amount }}/{{ complete }} greases)",
   "guideValues": "* guide values",
   "errorsWarningsNotes": "Errors, Warnings & Notes",
-  "initalGreaseQuantity": "Inital grease quantity *",
+  "initialGreaseQuantity": "Initial grease quantity *",
   "manualRelubricationQuantityInterval": "Manual relubrication quantity * / interval *",
   "manualRelubricationQuantityIntervalTooltip": "For reasons of operational safety, relubrication periods > 1 year are not recommended.\n\nIt is recommended – especially for large manual relubrication quantities – to distribute the relubrication quantity on several lubricating processes over the relubrication period.",
   "automaticRelubricationQuantityPerDay": "Relubrication quantity per day for automatic lubricators *",
@@ -35,5 +35,12 @@
   "warnings": "Warnings",
   "notes": "Notes",
   "day": "day",
-  "days": "days"
+  "days": "days",
+  "suitabilityLevel": {
+    "extremelySuitable": "extremely suitable",
+    "highlySuitable": "highly suitable",
+    "suitable": "suitable",
+    "lessSuitable": "less suitable",
+    "notSuitable": "not suitable"
+  }
 }

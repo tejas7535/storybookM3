@@ -16,7 +16,7 @@ import {
   GreaseResultData,
 } from '../../models/grease-result.model';
 import { MEDIASGREASE } from '../../models/index';
-import { adaptLabelValuesFromGreaseResultData } from '../grease-helpers';
+import { adaptLabelValuesFromGreaseResultData } from '../helpers/grease-helpers';
 
 export enum LabelWidth {
   Default = 200,

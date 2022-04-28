@@ -9,7 +9,7 @@ export const greaseResultMock: GreaseResult = {
   displayedColumns: ['title', 'values'],
   dataSource: [
     {
-      title: 'initalGreaseQuantity',
+      title: 'initialGreaseQuantity',
       values:
         '<span>59.40 g</span></br><span class="text-low-emphasis">66 cm³</span>',
     },
@@ -88,17 +88,17 @@ export const greaseResultMock: GreaseResult = {
     },
     {
       title: 'lowFriction',
-      values: '0 (suitable)',
+      values: '0 (suitabilityLevel.suitable)',
       display: false,
     },
     {
       title: 'suitableForVibrations',
-      values: '0 (suitable)',
+      values: '0 (suitabilityLevel.suitable)',
       display: false,
     },
     {
       title: 'supportForSeals',
-      values: '0 (suitable)',
+      values: '0 (suitabilityLevel.suitable)',
       display: false,
     },
     {

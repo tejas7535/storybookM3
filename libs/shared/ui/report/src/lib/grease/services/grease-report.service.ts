@@ -16,22 +16,10 @@ import {
   TableItem,
   TitleId,
   WARNINGSOPENED,
-} from '../models';
-import { GreaseResult } from '../models/grease-result.model';
-import {
-  automaticRelubricationPerMonth,
-  automaticRelubricationPerWeek,
-  automaticRelubricationPerYear,
-  automaticRelubricationQuantityPerDay,
-  automaticRelubricationQuantityUnit,
-  findItem,
-  formatDecimals,
-  initalGreaseQuantity,
-  manualRelubricationQuantity,
-  manualRelubricationQuantitySpan,
-  mass,
-  secondaryValue,
-} from './grease-helpers';
+} from '../../models';
+import { GreaseResult } from '../../models/grease-result.model';
+import * as fromHelpers from '../helpers/grease-helpers';
+import { SuitabilityLevels } from '../models/suitability.model';
 
 @Injectable()
 export class GreaseReportService {
@@ -97,41 +85,51 @@ export class GreaseReportService {
                 showValues: false,
                 displayedColumns: ['title', 'values'],
                 dataSource: [
-                  findItem(table1Values, Field.QVIN)?.value && {
-                    title: 'initalGreaseQuantity',
-                    values: `${mass(
+                  fromHelpers.findItem(table1Values, Field.QVIN)?.value && {
+                    title: 'initialGreaseQuantity',
+                    values: `${fromHelpers.mass(
                       item,
-                      findItem(table1Values, Field.QVIN).value as number
-                    )}</br>${secondaryValue(
-                      initalGreaseQuantity(table1Values)
+                      fromHelpers.findItem(table1Values, Field.QVIN)
+                        .value as number
+                    )}</br>${fromHelpers.secondaryValue(
+                      fromHelpers.initialGreaseQuantity(table1Values)
                     )}`,
                   },
-                  findItem(table1Values, Field.QVRE_MAN_MIN)?.value && {
+                  fromHelpers.findItem(table1Values, Field.QVRE_MAN_MIN)
+                    ?.value && {
                     title: 'manualRelubricationQuantityInterval',
-                    values: `${mass(
+                    values: `${fromHelpers.mass(
                       item,
-                      manualRelubricationQuantity(table1Values),
-                      manualRelubricationQuantitySpan(table1Values)
-                    )}<br>${secondaryValue(
-                      `${manualRelubricationQuantity(table1Values).toFixed(
-                        2
-                      )} ${
-                        findItem(table1Values, Field.QVRE_MAN_MIN).unit
-                      }/${manualRelubricationQuantitySpan(table1Values)}`
+                      fromHelpers.manualRelubricationQuantity(table1Values),
+                      fromHelpers.manualRelubricationQuantitySpan(table1Values)
+                    )}<br>${fromHelpers.secondaryValue(
+                      `${fromHelpers
+                        .manualRelubricationQuantity(table1Values)
+                        .toFixed(2)} ${
+                        fromHelpers.findItem(table1Values, Field.QVRE_MAN_MIN)
+                          .unit
+                      }/${fromHelpers.manualRelubricationQuantitySpan(
+                        table1Values
+                      )}`
                     )}`,
                     tooltip: 'manualRelubricationQuantityIntervalTooltip',
                   },
-                  findItem(table1Values, Field.QVRE_AUT_MIN)?.value && {
+                  fromHelpers.findItem(table1Values, Field.QVRE_AUT_MIN)
+                    ?.value && {
                     title: 'automaticRelubricationQuantityPerDay',
-                    values: `${mass(
+                    values: `${fromHelpers.mass(
                       item,
-                      automaticRelubricationQuantityPerDay(table1Values),
+                      fromHelpers.automaticRelubricationQuantityPerDay(
+                        table1Values
+                      ),
                       translate('day'),
                       true
-                    )}<br>${secondaryValue(
-                      `${formatDecimals(
-                        automaticRelubricationQuantityPerDay(table1Values)
-                      )} ${automaticRelubricationQuantityUnit(
+                    )}<br>${fromHelpers.secondaryValue(
+                      `${fromHelpers.formatDecimals(
+                        fromHelpers.automaticRelubricationQuantityPerDay(
+                          table1Values
+                        )
+                      )} ${fromHelpers.automaticRelubricationQuantityUnit(
                         table1Values
                       )}/${translate('day')}`
                     )}`,
@@ -140,56 +138,60 @@ export class GreaseReportService {
                 ],
               };
 
-              greaseResult.dataSource[4] = findItem(
+              greaseResult.dataSource[4] = fromHelpers.findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerWeek',
-                values: `${mass(
+                values: `${fromHelpers.mass(
                   item,
-                  automaticRelubricationPerWeek(table1Values),
+                  fromHelpers.automaticRelubricationPerWeek(table1Values),
                   `7 ${translate('days')}`,
                   true
-                )}<br>${secondaryValue(
-                  `${formatDecimals(
-                    automaticRelubricationPerWeek(table1Values)
-                  )} ${automaticRelubricationQuantityUnit(
+                )}<br>${fromHelpers.secondaryValue(
+                  `${fromHelpers.formatDecimals(
+                    fromHelpers.automaticRelubricationPerWeek(table1Values)
+                  )} ${fromHelpers.automaticRelubricationQuantityUnit(
                     table1Values
                   )}/7 ${translate('days')}`
                 )}`,
                 display: false,
               };
-              greaseResult.dataSource[5] = findItem(
+              greaseResult.dataSource[5] = fromHelpers.findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerMonth',
-                values: `${mass(
+                values: `${fromHelpers.mass(
                   item,
-                  automaticRelubricationPerMonth(table1Values),
+                  fromHelpers.automaticRelubricationPerMonth(table1Values),
                   `30 ${translate('days')}`
-                )}<br>${secondaryValue(
+                )}<br>${fromHelpers.secondaryValue(
                   `${Number(
-                    automaticRelubricationPerMonth(table1Values)
-                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    fromHelpers.automaticRelubricationPerMonth(table1Values)
+                  ).toFixed(
+                    2
+                  )} ${fromHelpers.automaticRelubricationQuantityUnit(
                     table1Values
                   )}/30 ${translate('days')}`
                 )}`,
                 display: false,
               };
-              greaseResult.dataSource[6] = findItem(
+              greaseResult.dataSource[6] = fromHelpers.findItem(
                 table1Values,
                 Field.QVRE_AUT_MIN
               )?.value && {
                 title: 'automaticRelubricationPerYear',
-                values: `${mass(
+                values: `${fromHelpers.mass(
                   item,
-                  automaticRelubricationPerYear(table1Values),
+                  fromHelpers.automaticRelubricationPerYear(table1Values),
                   `365 ${translate('days')}`
-                )}<br>${secondaryValue(
+                )}<br>${fromHelpers.secondaryValue(
                   `${Number(
-                    automaticRelubricationPerYear(table1Values)
-                  ).toFixed(2)} ${automaticRelubricationQuantityUnit(
+                    fromHelpers.automaticRelubricationPerYear(table1Values)
+                  ).toFixed(
+                    2
+                  )} ${fromHelpers.automaticRelubricationQuantityUnit(
                     table1Values
                   )}/365 ${translate('days')}`
                 )}`,
@@ -197,33 +199,45 @@ export class GreaseReportService {
               };
               greaseResult.dataSource[7] = {
                 title: 'viscosityRatio',
-                values: `${(findItem(table1Values, Field.KAPPA) as any).value}`,
+                values: `${
+                  (fromHelpers.findItem(table1Values, Field.KAPPA) as any).value
+                }`,
                 display: false,
               };
-              greaseResult.dataSource[3] = findItem(table1Values, Field.TFG_MIN)
-                ?.value && {
+              greaseResult.dataSource[3] = fromHelpers.findItem(
+                table1Values,
+                Field.TFG_MIN
+              )?.value && {
                 title: 'greaseServiceLife',
                 values: `~ ${Math.round(
-                  (+(findItem(table1Values, Field.TFG_MIN) as any).value +
-                    +(findItem(table1Values, Field.TFG_MAX) as any).value) /
+                  (+(fromHelpers.findItem(table1Values, Field.TFG_MIN) as any)
+                    .value +
+                    +(fromHelpers.findItem(table1Values, Field.TFG_MAX) as any)
+                      .value) /
                     2 /
                     24
                 )} ${translate('day')}`,
                 display: false,
               };
-              greaseResult.dataSource[11] = findItem(
+              greaseResult.dataSource[11] = fromHelpers.findItem(
                 table1Values,
                 Field.ADD_REQ
               )?.value && {
                 title: 'additiveRequired',
-                values: `${findItem(table1Values, Field.ADD_REQ).value}`,
+                values: `${
+                  fromHelpers.findItem(table1Values, Field.ADD_REQ).value
+                }`,
                 display: false,
                 tooltip: 'additiveRequiredTooltip',
               };
-              greaseResult.dataSource[12] = findItem(table1Values, Field.ADD_W)
-                ?.value && {
+              greaseResult.dataSource[12] = fromHelpers.findItem(
+                table1Values,
+                Field.ADD_W
+              )?.value && {
                 title: 'effectiveEpAdditivation',
-                values: `${findItem(table1Values, Field.ADD_W).value}`,
+                values: `${
+                  fromHelpers.findItem(table1Values, Field.ADD_W).value
+                }`,
                 display: false,
               };
 
@@ -277,8 +291,10 @@ export class GreaseReportService {
                       greaseResult.dataSource[14] = {
                         title: 'lowFriction',
                         values: value
-                          ? `${value} (${this.checkSuitablity(
-                              value as string
+                          ? `${value} (${translate(
+                              `suitabilityLevel.${fromHelpers.checkSuitability(
+                                value as `${SuitabilityLevels}`
+                              )}`
                             )})`
                           : `-`,
                         display: false,
@@ -288,8 +304,10 @@ export class GreaseReportService {
                       greaseResult.dataSource[15] = {
                         title: 'suitableForVibrations',
                         values: value
-                          ? `${value} (${this.checkSuitablity(
-                              value as string
+                          ? `${value} (${translate(
+                              `suitabilityLevel.${fromHelpers.checkSuitability(
+                                value as `${SuitabilityLevels}`
+                              )}`
                             )})`
                           : `-`,
                         display: false,
@@ -299,8 +317,10 @@ export class GreaseReportService {
                       greaseResult.dataSource[16] = {
                         title: 'supportForSeals',
                         values: value
-                          ? `${value} (${this.checkSuitablity(
-                              value as string
+                          ? `${value} (${translate(
+                              `suitabilityLevel.${fromHelpers.checkSuitability(
+                                value as `${SuitabilityLevels}`
+                              )}`
                             )})`
                           : `-`,
                         display: false,
@@ -335,7 +355,7 @@ export class GreaseReportService {
       ...formattedResult,
       {
         identifier: 'block',
-        clickHandler: () => this.trackWarningsOpenend(),
+        clickHandler: () => this.trackWarningsOpened(),
         defaultOpen: !resultSection,
         title: translate('errorsWarningsNotes'), // language change not considered
         subordinates: result.filter(
@@ -351,18 +371,6 @@ export class GreaseReportService {
     return formattedResult;
   }
 
-  public checkSuitablity(suitable: string) {
-    const suitablityLevels = {
-      '++': 'extremely suitable',
-      '+': 'highly suitable',
-      '0': 'suitable',
-      '-': 'lett suitable',
-      '--': 'note suitable',
-    };
-
-    return (suitablityLevels as any)[suitable] || '';
-  }
-
   public getResultAmount(formattedResult: Subordinate[]): number {
     return (
       formattedResult.find(
@@ -372,7 +380,7 @@ export class GreaseReportService {
     );
   }
 
-  public trackWarningsOpenend(): void {
+  public trackWarningsOpened(): void {
     this.applicationInsightsService.logEvent(WARNINGSOPENED);
   }
 }

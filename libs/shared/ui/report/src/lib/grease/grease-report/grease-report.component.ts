@@ -8,7 +8,7 @@ import {
 import { translate } from '@ngneat/transloco';
 
 import { Subordinate, TitleId } from '../../models/index';
-import { GreaseReportService } from '../grease-report.service';
+import { GreaseReportService } from '../services/grease-report.service';
 
 @Component({
   selector: 'schaeffler-grease-report',

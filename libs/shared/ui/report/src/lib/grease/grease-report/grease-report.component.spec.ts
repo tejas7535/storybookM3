@@ -12,7 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { formattedGreaseJson } from '../../../mocks/index';
 import { Subordinate, TitleId } from '../../models/index';
-import { GreaseReportService } from '../grease-report.service';
+import { GreaseReportService } from '../services/grease-report.service';
 import { GreaseReportComponent } from './grease-report.component';
 
 describe('GreaseReportComponent', () => {

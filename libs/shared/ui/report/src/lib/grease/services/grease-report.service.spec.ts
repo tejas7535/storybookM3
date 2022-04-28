@@ -10,8 +10,8 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { formattedGreaseJson, greaseReport } from '../../mocks';
-import { WARNINGSOPENED } from '../models';
+import { formattedGreaseJson, greaseReport } from '../../../mocks';
+import { WARNINGSOPENED } from '../../models';
 import { GreaseReportService } from './grease-report.service';
 
 describe('GreaseReportService', () => {
@@ -52,17 +52,6 @@ describe('GreaseReportService', () => {
     });
   });
 
-  describe('checkSuitablity', () => {
-    it('should return a level description', () => {
-      const mockLevel = '++';
-
-      const result = service.checkSuitablity(mockLevel);
-
-      expect(result).toBeTruthy();
-      expect(result).toBe('extremely suitable');
-    });
-  });
-
   describe('getResultAmount', () => {
     it('return a number describing the length of the greases', () => {
       const result = service.getResultAmount(formattedGreaseJson);
@@ -78,7 +67,7 @@ describe('GreaseReportService', () => {
         'logEvent'
       );
 
-      service.trackWarningsOpenend();
+      service.trackWarningsOpened();
 
       expect(trackingSpy).toHaveBeenCalledWith(WARNINGSOPENED);
     });
