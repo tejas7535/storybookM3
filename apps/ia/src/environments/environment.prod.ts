@@ -7,8 +7,9 @@ export const environment: Environment = {
 
   // AAD auth
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
-  clientId: '3ecfa7b3-44c9-4c34-819c-9a64d9ca936b',
-  appScope: 'api://08db73dd-5b75-443f-a496-7aa854712bfa/iaapi',
+  clientId: 'c22f5301-4349-4c60-81ba-54f8e2c17971',
+  appScope:
+    'https://worksite.onmicrosoft.com/SG_SSO_IA_API_P/user_impersonation',
 
   // Cookie Consent Banner
   oneTrustId: '2cab6a69-24fd-46d7-9786-3abbd2d39321',
