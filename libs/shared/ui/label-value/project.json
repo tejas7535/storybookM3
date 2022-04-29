@@ -36,7 +36,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/ui/label-value/jest.config.js",
+        "jestConfig": "libs/shared/ui/label-value/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/libs/shared/ui/label-value"]

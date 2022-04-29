@@ -38,7 +38,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/picture-card"],
       "options": {
-        "jestConfig": "libs/shared/ui/picture-card/jest.config.js",
+        "jestConfig": "libs/shared/ui/picture-card/jest.config.ts",
         "passWithNoTests": true
       }
     },

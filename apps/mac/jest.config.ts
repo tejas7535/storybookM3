@@ -1,14 +1,15 @@
 module.exports = {
-  displayName: 'shared-ui-dropdown-input',
-  preset: '../../../../jest.preset.js',
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  displayName: 'mac',
+
+  coverageDirectory: '../../coverage/apps/mac',
+
+  setupFilesAfterEnv: ['./src/test-setup.ts', '<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/shared/ui/dropdown-input',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
@@ -18,4 +19,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../jest.preset.ts',
 };

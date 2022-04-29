@@ -1,14 +1,15 @@
 module.exports = {
-  displayName: 'shared-ui-subheader',
-  preset: '../../../../jest.preset.js',
+  displayName: 'shared-ui-loading-spinner',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
+
+      tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/shared/ui/subheader',
+  coverageDirectory: '../../../../coverage/libs/shared/ui/loading-spinner',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
@@ -18,4 +19,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../../../jest.preset.ts',
 };

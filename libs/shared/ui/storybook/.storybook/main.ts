@@ -3,6 +3,10 @@ const rootMain = require('../../../../../.storybook/main');
 
 const config: StorybookConfig = {
   ...rootMain,
+  core: {
+    ...rootMain.core,
+    builder: 'webpack5',
+  },
   stories: ['../src/lib/**/*.stories.@(ts|js)'],
   staticDirs: ['../src/assets'],
   addons: [
@@ -26,5 +30,3 @@ const config: StorybookConfig = {
 };
 
 module.exports = config;
-
-module.exports.core = { ...module.exports.core, builder: 'webpack5' };

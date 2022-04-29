@@ -1,9 +1,9 @@
 module.exports = {
-  displayName: 'icons',
-  preset: '../../../../jest.preset.js',
-  coverageDirectory: '../../../../coverage/libs/shared/ui/icons',
+  displayName: 'cdba',
 
-  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
+  coverageDirectory: '../../coverage/apps/cdba',
+
+  setupFilesAfterEnv: ['./src/test-setup.ts', '<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -19,4 +19,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../jest.preset.ts',
 };

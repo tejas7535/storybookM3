@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'shared-ui-stepper',
-  preset: '../../../../jest.preset.js',
+  displayName: 'shared-ui-legal-pages',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,14 +8,16 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/shared/ui/stepper',
+  coverageDirectory: '../../../../coverage/libs/shared/ui/legal-pages',
+  transform: {
+    '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
+  },
+  transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
-  transform: {
-    '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
-  },
-  transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  coveragePathIgnorePatterns: ['./src/index.ts'],
+  preset: '../../../../jest.preset.ts',
 };

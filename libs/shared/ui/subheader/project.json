@@ -38,7 +38,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/subheader"],
       "options": {
-        "jestConfig": "libs/shared/ui/subheader/jest.config.js",
+        "jestConfig": "libs/shared/ui/subheader/jest.config.ts",
         "passWithNoTests": true
       }
     },

@@ -38,7 +38,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/ui/roles-and-rights/jest.config.js",
+        "jestConfig": "libs/shared/ui/roles-and-rights/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/libs/shared/ui/roles-and-rights"]

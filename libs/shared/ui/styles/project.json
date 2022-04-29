@@ -34,7 +34,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/ui/styles/jest.config.js",
+        "jestConfig": "libs/shared/ui/styles/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/libs/shared/ui/styles"]

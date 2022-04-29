@@ -38,7 +38,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/search-autocomplete"],
       "options": {
-        "jestConfig": "libs/shared/ui/search-autocomplete/jest.config.js",
+        "jestConfig": "libs/shared/ui/search-autocomplete/jest.config.ts",
         "passWithNoTests": true
       }
     },

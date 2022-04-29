@@ -38,7 +38,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/dropdown-input"],
       "options": {
-        "jestConfig": "libs/shared/ui/dropdown-input/jest.config.js",
+        "jestConfig": "libs/shared/ui/dropdown-input/jest.config.ts",
         "passWithNoTests": true
       }
     },

@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'shared-ui-legal-pages',
-  preset: '../../../../jest.preset.js',
+  displayName: 'ia',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,15 +8,15 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/shared/ui/legal-pages',
-  transform: {
-    '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
-  },
-  transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  coverageDirectory: '../../coverage/apps/ia',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
-  coveragePathIgnorePatterns: ['./src/index.ts'],
+  transform: {
+    '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
+  },
+  transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../jest.preset.ts',
 };

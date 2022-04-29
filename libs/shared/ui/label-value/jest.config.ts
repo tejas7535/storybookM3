@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'shared-ui-share-button',
-  preset: '../../../../jest.preset.js',
+  displayName: 'shared-ui-label-value',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/shared/ui/share-button',
+  coverageDirectory: '../../../../coverage/libs/shared/ui/label-value',
   transform: {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
@@ -18,4 +18,5 @@ module.exports = {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
+  preset: '../../../../jest.preset.ts',
 };

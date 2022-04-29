@@ -130,7 +130,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "apps/cdba/jest.config.js",
+        "jestConfig": "apps/cdba/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/apps/cdba"]

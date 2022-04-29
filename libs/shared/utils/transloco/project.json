@@ -38,7 +38,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/utils/transloco/jest.config.js",
+        "jestConfig": "libs/shared/utils/transloco/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/libs/shared/utils/transloco"]

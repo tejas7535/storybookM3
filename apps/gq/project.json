@@ -131,7 +131,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "apps/gq/jest.config.js",
+        "jestConfig": "apps/gq/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/apps/gq"]

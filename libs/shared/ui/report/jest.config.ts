@@ -1,7 +1,5 @@
 module.exports = {
-  displayName: 'banner',
-  preset: '../../../../jest.preset.js',
-  coverageDirectory: '../../../../coverage/libs/shared/ui/banner',
+  displayName: 'shared-ui-report',
 
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -10,6 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
+  coverageDirectory: '../../../../coverage/libs/shared/ui/report',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
@@ -19,4 +18,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../../../jest.preset.ts',
 };

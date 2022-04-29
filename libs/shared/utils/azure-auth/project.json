@@ -36,7 +36,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "libs/shared/utils/azure-auth/jest.config.js",
+        "jestConfig": "libs/shared/utils/azure-auth/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/libs/shared/utils/azure-auth"]

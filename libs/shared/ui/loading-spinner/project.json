@@ -39,7 +39,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/loading-spinner"],
       "options": {
-        "jestConfig": "libs/shared/ui/loading-spinner/jest.config.js",
+        "jestConfig": "libs/shared/ui/loading-spinner/jest.config.ts",
         "passWithNoTests": true
       }
     },

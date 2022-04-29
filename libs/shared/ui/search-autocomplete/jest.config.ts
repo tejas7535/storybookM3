@@ -1,6 +1,6 @@
 module.exports = {
   displayName: 'shared-ui-search-autocomplete',
-  preset: '../../../../jest.preset.js',
+
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -18,4 +18,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../../../jest.preset.ts',
 };

@@ -125,7 +125,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "apps/sedo/jest.config.js",
+        "jestConfig": "apps/sedo/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/apps/sedo"]

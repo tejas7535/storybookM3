@@ -7,5 +7,6 @@
   "files": ["src/main.ts", "src/polyfills.ts"],
   "angularCompilerOptions": {
     "enableIvy": true
-  }
+  },
+  "exclude": ["jest.config.ts"]
 }

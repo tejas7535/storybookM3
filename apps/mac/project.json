@@ -125,7 +125,7 @@
     "test": {
       "executor": "@nrwl/jest:jest",
       "options": {
-        "jestConfig": "apps/mac/jest.config.js",
+        "jestConfig": "apps/mac/jest.config.ts",
         "passWithNoTests": true
       },
       "outputs": ["coverage/apps/mac"]

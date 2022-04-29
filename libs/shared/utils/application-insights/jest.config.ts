@@ -1,15 +1,15 @@
 module.exports = {
-  displayName: 'mac',
-  preset: '../../jest.preset.js',
-  coverageDirectory: '../../coverage/apps/mac',
+  displayName: 'application-insights',
 
-  setupFilesAfterEnv: ['./src/test-setup.ts', '<rootDir>/src/test-setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
+  coverageDirectory:
+    '../../../../coverage/libs/shared/utils/application-insights',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
@@ -19,4 +19,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../../../jest.preset.ts',
 };

@@ -140,7 +140,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/ga"],
       "options": {
-        "jestConfig": "apps/ga/jest.config.js",
+        "jestConfig": "apps/ga/jest.config.ts",
         "passWithNoTests": true
       }
     },

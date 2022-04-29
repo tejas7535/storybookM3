@@ -37,7 +37,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/shared/ui/stepper"],
       "options": {
-        "jestConfig": "libs/shared/ui/stepper/jest.config.js",
+        "jestConfig": "libs/shared/ui/stepper/jest.config.ts",
         "passWithNoTests": true
       }
     },

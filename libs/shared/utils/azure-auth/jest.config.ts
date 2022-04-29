@@ -1,7 +1,5 @@
 module.exports = {
-  displayName: 'helloworld-azure',
-  preset: '../../jest.preset.js',
-  coverageDirectory: '../../coverage/apps/helloworld-azure',
+  displayName: 'shared-utils-azure-auth',
 
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +7,9 @@ module.exports = {
       tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
+    crypto: require('crypto'),
   },
+  coverageDirectory: '../../../../coverage/libs/shared/utils/azure-auth',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
@@ -19,4 +19,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
+  preset: '../../../../jest.preset.ts',
 };
