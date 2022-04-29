@@ -16,7 +16,9 @@
       "gpi": "GPI% (KHK)",
       "gpm": "GPM% (SAW)",
       "quantity": "Menge",
-      "details": "Details"
+      "details": "Details",
+      "source": "Preisquelle",
+      "strategic": "Strategisch"
     },
     "sapPrice": {
       "title": "SAP Preis",

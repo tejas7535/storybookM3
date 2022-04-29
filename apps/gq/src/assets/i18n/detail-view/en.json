@@ -16,7 +16,9 @@
       "gpi": "GPI% (GPC)",
       "gpm": "GPM% (SQV)",
       "quantity": "Quantity",
-      "details": "Details"
+      "details": "Details",
+      "source": "Source",
+      "strategic": "Strategic"
     },
     "sapPrice": {
       "title": "SAP Pricing",

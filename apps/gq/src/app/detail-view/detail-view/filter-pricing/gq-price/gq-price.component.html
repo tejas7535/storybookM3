@@ -35,7 +35,10 @@
           [quotationDetail]="quotationDetail"
         ></gq-quantity-display>
       </div>
-      <div class="min-w-[8rem] pt-4" *ngIf="quotationDetail.gqRating">
+      <div
+        class="min-w-[8rem] pt-4"
+        *ngIf="quotationDetail.gqRating; else displayStrategicPriceSource"
+      >
         <div class="mb-1 text-body-2 text-medium-emphasis">
           {{ t('rating') }}:
         </div>
@@ -58,6 +61,16 @@
           </ng-container>
         </div>
       </div>
+      <ng-template #displayStrategicPriceSource>
+        <div class="min-w-[8rem] pt-4">
+          <div class="mb-1 text-body-2 text-medium-emphasis">
+            {{ t('source') }}:
+          </div>
+          <div>
+            <span class="font-bold"> {{ t('strategic') }}</span>
+          </div>
+        </div>
+      </ng-template>
     </div>
     <gq-detail-button
       link

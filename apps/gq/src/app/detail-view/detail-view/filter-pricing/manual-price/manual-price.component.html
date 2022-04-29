@@ -27,7 +27,7 @@
           <span *ngIf="!price" class="font-bold"> {{ currency }}</span>
           <mat-icon
             *ngIf="userHasManualPriceRole"
-            class="ml-1 cursor-pointer !text-body-2 text-medium-emphasis"
+            class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
             (click)="openEditing()"
             >mode_edit</mat-icon
           >
@@ -57,7 +57,7 @@
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
         <mat-icon
-          class="ml-1 cursor-pointer !text-body-1 text-medium-emphasis"
+          class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
           (click)="openMarginEditing(true)"
           >mode_edit</mat-icon
         >
@@ -68,7 +68,7 @@
       <div>
         <span class="font-bold">{{ gpm || '-' }} %</span>
         <mat-icon
-          class="ml-1 cursor-pointer !text-body-1 text-medium-emphasis"
+          class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
           (click)="openMarginEditing(false)"
           >mode_edit</mat-icon
         >
