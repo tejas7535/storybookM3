@@ -10,9 +10,9 @@ import { FeatureParams } from './models/feature-params.model';
 })
 export class AttritionAnalyticsStateService {
   readonly DEFAULT_FEATURES: FeatureParams[] = [
-    { feature: 'Age', region: 'China', year: 2019, month: 12 },
-    { feature: 'Education', region: 'China', year: 2019, month: 12 },
-    { feature: 'Position', region: 'China', year: 2019, month: 12 },
+    { feature: 'Age', region: 'Germany', year: 2021, month: 12 },
+    { feature: 'Education', region: 'Germany', year: 2021, month: 12 },
+    { feature: 'Position', region: 'Germany', year: 2021, month: 12 },
   ];
 
   constructor(@Inject(LOCAL_STORAGE) readonly localStorage: Storage) {}

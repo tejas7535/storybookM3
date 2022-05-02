@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { getPercentageValue } from '../../../overview/store/selectors/overview-selector-utils';
 import { Color } from '../../../shared/models/color.enum';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
@@ -43,6 +44,14 @@ export const getFeatureSelectors = createSelector(
 export const getSelectedFeatures = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) => state.employeeAnalytics.features.data
+);
+
+export const getFeatureOverallAttritionRate = createSelector(
+  getSelectedFeatures,
+  (selectedFeatures: EmployeeAnalytics[]) =>
+    selectedFeatures
+      ? getPercentageValue(selectedFeatures[0]?.overallAttritionRate) // overall attrition rate is the same for all features
+      : undefined
 );
 
 export const getBarChartConfigsForSelectedFeatures = createSelector(

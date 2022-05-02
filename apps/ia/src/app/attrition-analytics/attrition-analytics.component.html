@@ -1,6 +1,51 @@
 <div class="bg-surface p-4" *transloco="let t; read: 'attritionAnalytics'">
   <mat-card>
-    <h5 class="mb-5 font-bold">{{ t('unforcedAttritionAnalytics.title') }}</h5>
+    <div class="flex flex-row">
+      <h5 class="mb-5 font-bold">
+        {{ t('unforcedAttritionAnalytics.title') }}
+      </h5>
+      <mat-chip-list class="ml-24">
+        <mat-chip
+          color="secondary"
+          selected
+          disableRipple="true"
+          selectable="false"
+          class="after:!bg-transparent"
+          (click)="$event.stopPropagation()"
+          >Data-Set: Germany</mat-chip
+        >
+        <mat-chip
+          color="secondary"
+          selected
+          disableRipple="true"
+          selectable="false"
+          class="after:!bg-transparent"
+          (click)="$event.stopPropagation()"
+          >Time-Range: 2021</mat-chip
+        >
+        <mat-chip
+          color="secondary"
+          selected
+          disableRipple="true"
+          selectable="false"
+          class="after:!bg-transparent"
+          (click)="$event.stopPropagation()"
+          >Feature-Count:
+          {{ (featureAnalysisSelectors$ | ngrxPush)?.length }}</mat-chip
+        >
+        <mat-chip
+          color="secondary"
+          selected
+          disableRipple="true"
+          selectable="false"
+          class="after:!bg-transparent"
+          (click)="$event.stopPropagation()"
+          >Unforced Fluctuation Rate:
+          {{ featureAnalysisOverallAttritionRate$ | ngrxPush }}%</mat-chip
+        >
+      </mat-chip-list>
+    </div>
+
     <div class="flex flex-col gap-4">
       <ia-feature-analysis
         (selectFeatures)="onSelectedFeatures($event)"

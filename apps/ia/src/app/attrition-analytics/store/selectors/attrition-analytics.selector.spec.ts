@@ -12,6 +12,7 @@ import {
   getFeatureImportancePageable,
   getFeatureImportanceSort,
   getFeatureImportanceSortDirection,
+  getFeatureOverallAttritionRate,
   getFeatureSelectors,
   getSelectedFeatureParams,
   getSelectedFeatures,
@@ -110,6 +111,24 @@ describe('attrition analytics selector', () => {
       expect(getSelectedFeatures.projector(fakeState)).toEqual(
         fakeState.employeeAnalytics.features.data
       );
+    });
+  });
+
+  describe('getFeatureOverallAttritionRate', () => {
+    test('should get oerall attrition rate if features loaded', () => {
+      expect(
+        getFeatureOverallAttritionRate.projector(
+          fakeState.employeeAnalytics.features.data
+        )
+      ).toEqual(
+        fakeState.employeeAnalytics.features.data[0].overallAttritionRate * 100
+      );
+    });
+
+    test('should return NaN otherwise', () => {
+      expect(
+        Number.isNaN(getFeatureOverallAttritionRate.projector([]))
+      ).toBeTruthy();
     });
   });
 

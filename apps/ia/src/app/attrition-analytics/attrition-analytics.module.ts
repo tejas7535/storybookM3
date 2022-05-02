@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
@@ -29,6 +30,7 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     FeatureImportanceModule,
     FeatureAnalysisModule,
     MatCardModule,
+    MatChipsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'attrition-analytics' }],
 })

@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -28,6 +29,7 @@ import {
   getFeatureImportanceHasNext,
   getFeatureImportanceLoading,
   getFeatureImportanceSortDirection,
+  getFeatureOverallAttritionRate,
 } from './store/selectors/attrition-analytics.selector';
 
 describe('AttritionAnalyticsComponent', () => {
@@ -41,6 +43,7 @@ describe('AttritionAnalyticsComponent', () => {
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
       MatCardModule,
+      MatChipsModule,
     ],
     providers: [
       provideMockStore({
@@ -135,6 +138,17 @@ describe('AttritionAnalyticsComponent', () => {
 
         m.expect(component.featureImportanceSortDirection$).toBeObservable(
           m.cold('a', { a: SortDirection.ASC })
+        );
+      })
+    );
+
+    test(
+      'should set featureAnalysisOverallAttritionRate',
+      marbles((m) => {
+        store.overrideSelector(getFeatureOverallAttritionRate, 0.3);
+
+        m.expect(component.featureAnalysisOverallAttritionRate$).toBeObservable(
+          m.cold('a', { a: 0.3 })
         );
       })
     );

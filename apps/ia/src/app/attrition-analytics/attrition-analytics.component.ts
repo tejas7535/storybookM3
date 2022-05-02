@@ -23,6 +23,7 @@ import {
   getFeatureImportanceHasNext,
   getFeatureImportanceLoading,
   getFeatureImportanceSortDirection,
+  getFeatureOverallAttritionRate,
   getFeatureSelectors,
 } from './store/selectors/attrition-analytics.selector';
 
@@ -35,6 +36,7 @@ export class AttritionAnalyticsComponent implements OnInit {
   barChartConfigs$: Observable<BarChartConfig[]>;
   featureAnalysisLoading$: Observable<boolean>;
   featureAnalysisSelectors$: Observable<FeatureSelector[]>;
+  featureAnalysisOverallAttritionRate$: Observable<number>;
 
   featureImportanceLoading$: Observable<boolean>;
   featureImportanceGroups$: Observable<FeatureImportanceGroup[]>;
@@ -63,6 +65,10 @@ export class AttritionAnalyticsComponent implements OnInit {
     );
     this.featureImportanceSortDirection$ = this.store.select(
       getFeatureImportanceSortDirection
+    );
+
+    this.featureAnalysisOverallAttritionRate$ = this.store.select(
+      getFeatureOverallAttritionRate
     );
   }
 
