@@ -37,4 +37,18 @@ export class AgGridStateService {
       )
     );
   }
+
+  public setColumnFilters(
+    quotationId: string,
+    filterModels: { [key: string]: any }
+  ): void {
+    this.localStorage.setItem(
+      `${quotationId}_filterModels`,
+      JSON.stringify(filterModels)
+    );
+  }
+
+  public getColumnFilters(quotationId: string) {
+    return JSON.parse(this.localStorage.getItem(`${quotationId}_filterModels`));
+  }
 }

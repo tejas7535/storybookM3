@@ -160,4 +160,28 @@ describe('AgGridStateService', () => {
       expect(localStorage.store['1234_items']).toEqual(expected);
     });
   });
+  describe('setColumnFilters', () => {
+    test('should set columnFilters', () => {
+      const filterModels = {
+        quotationItemId: { filterType: 'set', values: ['20'] },
+      };
+      service.setColumnFilters('123', filterModels);
+
+      const expected =
+        '{"quotationItemId":{"filterType":"set","values":["20"]}}';
+      expect(localStorage.store['123_filterModels']).toEqual(expected);
+    });
+  });
+  describe('getColumnFilters', () => {
+    test('should get column filters', () => {
+      const filterModels = {
+        quotationItemId: { filterType: 'set', values: ['20'] },
+      };
+      const fakeStore = { '1234_filterModels': JSON.stringify(filterModels) };
+
+      service.localStorage.setStore(fakeStore);
+
+      expect(service.getColumnFilters('1234')).toEqual(filterModels);
+    });
+  });
 });

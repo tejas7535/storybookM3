@@ -98,6 +98,12 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.TABLE_KEY,
       event.columnApi.getColumnState()
     );
+
+    const filterModels = event.api.getFilterModel();
+    this.agGridStateService.setColumnFilters(
+      this.tableContext.quotation.gqId.toString(),
+      filterModels
+    );
   }
 
   public onRowDataChanged(event: AgGridEvent): void {
@@ -129,6 +135,11 @@ export class QuotationDetailsTableComponent implements OnInit {
     const state = this.agGridStateService.getColumnState(this.TABLE_KEY);
     if (state) {
       event.columnApi.setColumnState(state);
+    }
+
+    const filterModel = this.agGridStateService.getColumnFilters(quotationId);
+    if (filterModel) {
+      event.api.setFilterModel(filterModel);
     }
   }
 

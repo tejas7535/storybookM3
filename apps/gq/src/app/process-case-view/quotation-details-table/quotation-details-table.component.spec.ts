@@ -101,7 +101,9 @@ describe('QuotationDetailsTableComponent', () => {
 
   describe('columnChange', () => {
     let event: any;
-
+    const filterModels = {
+      quotationItemId: { filterType: 'set', values: ['20'] },
+    };
     beforeEach(() => {
       event = {
         columnApi: {
@@ -109,23 +111,31 @@ describe('QuotationDetailsTableComponent', () => {
         },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
+          getFilterModel: jest.fn(() => filterModels),
         },
       } as any;
 
       component['agGridStateService'].setColumnData = jest.fn();
       component['agGridStateService'].setColumnState = jest.fn();
+      component['agGridStateService'].setColumnFilters = jest.fn();
     });
 
-    test('should set column state', () => {
+    test('should set column state and column filters', () => {
       component.onColumnChange(event);
 
       expect(
         component['agGridStateService'].setColumnState
       ).toHaveBeenCalledTimes(1);
+      expect(event.api.getFilterModel).toHaveBeenCalledTimes(1);
+      expect(
+        component['agGridStateService'].setColumnFilters
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['agGridStateService'].setColumnFilters
+      ).toHaveBeenCalledWith(MOCK_QUOTATION_ID.toString(), filterModels);
     });
 
     test('should set column data', () => {
-      component['agGridStateService'].setColumnState = jest.fn();
       component.onColumnChange(event);
 
       expect(
@@ -144,12 +154,15 @@ describe('QuotationDetailsTableComponent', () => {
         },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
+          setFilterModel: jest.fn(),
         },
       } as any;
 
       component['agGridStateService'].getColumnState = jest.fn();
       component['agGridStateService'].getColumnData = jest.fn();
       component['agGridStateService'].setColumnData = jest.fn();
+      component['agGridStateService'].setColumnFilters = jest.fn();
+      component['agGridStateService'].getColumnFilters = jest.fn();
     });
 
     test('should set columnState', () => {
@@ -199,6 +212,22 @@ describe('QuotationDetailsTableComponent', () => {
         component['agGridStateService'].setColumnData
       ).toHaveBeenCalledTimes(0);
     });
+    test('should set filterModel', () => {
+      const filterModels = {
+        quotationItemId: { filterType: 'set', values: ['20'] },
+      };
+      component['agGridStateService'].getColumnFilters = jest.fn(
+        () => filterModels
+      );
+
+      component.onGridReady(mockEvent);
+      expect(mockEvent.api.setFilterModel).toHaveBeenCalledTimes(1);
+    });
+
+    test("should not set filterModel if it doesn't exist", () => {
+      component.onGridReady(mockEvent);
+      expect(mockEvent.api.setFilterModel).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('onFirstDataRenderer', () => {
@@ -243,6 +272,7 @@ describe('QuotationDetailsTableComponent', () => {
         },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
+          getFilterModel: jest.fn(),
         },
       } as any);
 
