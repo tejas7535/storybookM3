@@ -18,6 +18,7 @@ describe('EditCellComponent', () => {
   let component: EditCellComponent;
   let spectator: Spectator<EditCellComponent>;
   let matDialogSpyObject: SpyObject<MatDialog>;
+  // TODO: add mock store and test if simulatedQuotation$ gets initialized for the right column fields
 
   const createComponent = createComponentFactory({
     component: EditCellComponent,
@@ -131,6 +132,21 @@ describe('EditCellComponent', () => {
           enabled: true,
         },
         field: ColumnFields.NET_VALUE,
+        context: { quotation: QUOTATION_MOCK },
+      } as any;
+      component.agInit(params);
+
+      expect(component.params).toEqual(params);
+      expect(component.isCellEditingAllowed).toBeFalsy();
+      expect(component.priceWarningEnabled).toBeFalsy();
+    });
+    test('should set params but disable cellEditing for priceSource', () => {
+      const params = {
+        data: QUOTATION_DETAIL_MOCK,
+        condition: {
+          enabled: true,
+        },
+        field: ColumnFields.PRICE_SOURCE,
         context: { quotation: QUOTATION_MOCK },
       } as any;
       component.agInit(params);

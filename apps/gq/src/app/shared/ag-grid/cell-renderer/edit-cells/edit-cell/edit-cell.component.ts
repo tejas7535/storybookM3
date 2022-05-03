@@ -47,7 +47,8 @@ export class EditCellComponent implements ICellRendererAngularComp {
       ) &&
       params.field !== ColumnFields.PRICE_DIFF &&
       params.field !== ColumnFields.RLM &&
-      params.field !== ColumnFields.NET_VALUE;
+      params.field !== ColumnFields.NET_VALUE &&
+      params.field !== ColumnFields.PRICE_SOURCE;
 
     this.priceWarningEnabled =
       params.field === ColumnFields.PRICE && params.value < params.data.msp;
@@ -61,6 +62,7 @@ export class EditCellComponent implements ICellRendererAngularComp {
         ColumnFields.PRICE_DIFF,
         ColumnFields.RLM,
         ColumnFields.NET_VALUE,
+        ColumnFields.PRICE_SOURCE,
       ].includes(params.field as ColumnFields)
     ) {
       this.simulatedQuotation$ = this.store

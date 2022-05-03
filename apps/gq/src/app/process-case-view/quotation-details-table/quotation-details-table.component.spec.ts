@@ -22,12 +22,17 @@ import {
   removeSimulatedQuotationDetail,
   resetSimulatedQuotation,
 } from '../../core/store';
+import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/editable-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { QuotationDetailsStatusComponent } from '../../shared/ag-grid/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { Quotation } from '../../shared/models';
-import { QuotationDetail } from '../../shared/models/quotation-detail';
+import {
+  PriceSource,
+  QuotationDetail,
+  SapPriceCondition,
+} from '../../shared/models/quotation-detail';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -362,6 +367,7 @@ describe('QuotationDetailsTableComponent', () => {
             priceDiff: -11.76,
             rlm: 83.67,
             netValue: 1500,
+            priceSource: PriceSource.MANUAL,
           },
         ],
         type: addSimulatedQuotation.type,
@@ -476,6 +482,7 @@ describe('QuotationDetailsTableComponent', () => {
             priceDiff: -11.76,
             rlm: 83.67,
             netValue: 1500,
+            priceSource: PriceSource.MANUAL,
           },
         ],
         type: addSimulatedQuotation.type,
@@ -518,6 +525,249 @@ describe('QuotationDetailsTableComponent', () => {
       expect(component.simulatedValue).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith({
         type: resetSimulatedQuotation.type,
+      });
+    });
+
+    test('should call onPriceSourceSimulation', () => {
+      component.onPriceSourceSimulation = jest.fn();
+      component['simulateMaterial'] = jest.fn();
+      component.simulatedPriceSource = PriceSourceOptions.GQ;
+
+      component.onRowSelected({
+        api: {
+          getSelectedNodes: jest.fn().mockReturnValue([]),
+        },
+      } as any);
+
+      expect(component.onPriceSourceSimulation).toHaveBeenCalledTimes(1);
+      expect(component['simulateMaterial']).toHaveBeenCalledTimes(0);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith({
+        type: resetSimulatedQuotation.type,
+      });
+    });
+  });
+
+  describe('onPriceSourceSimulation', () => {
+    describe('should return input selectedRow', () => {
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is GQ', () => {
+        component.selectedRows = [{ data: QUOTATION_DETAIL_MOCK } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.GQ);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is Strategic', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          recommendedPrice: undefined as any,
+          strategicPrice: 20,
+          priceSource: PriceSource.STRATEGIC,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.GQ);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is sap standard', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          priceSource: PriceSource.SAP_STANDARD,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is sap special', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          sapPriceCondition: SapPriceCondition.SPECIAL_ZP17,
+          priceSource: PriceSource.SAP_SPECIAL,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction if target is GQ and no GQ price exists', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          strategicPrice: undefined,
+          recommendedPrice: undefined,
+          priceSource: PriceSource.MANUAL,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.GQ);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction if target is SAP and no SAP price exists', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          priceSource: PriceSource.MANUAL,
+          sapPriceCondition: undefined,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
+    });
+    describe('should simulate with new price source', () => {
+      test('should dispatch addSimulatedQuotationAction for new sap standard price', () => {
+        component.selectedRows = [{ data: QUOTATION_DETAIL_MOCK } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        const expectedDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          rlm: 69.38,
+          price: 80,
+          priceDiff: -52.94,
+          priceSource: PriceSource.SAP_STANDARD,
+          netValue: 800,
+          gpi: 75,
+          gpm: 62.5,
+          discount: 20,
+        };
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [expectedDetail],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction for new sap special price', () => {
+        component.selectedRows = [
+          {
+            data: {
+              ...QUOTATION_DETAIL_MOCK,
+              sapPriceCondition: SapPriceCondition.SPECIAL_ZP17,
+            },
+          } as RowNode,
+        ];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        const expectedDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          rlm: 69.38,
+          price: 80,
+          priceDiff: -52.94,
+          priceSource: PriceSource.SAP_SPECIAL,
+          netValue: 800,
+          gpi: 75,
+          gpm: 62.5,
+          discount: 20,
+          sapPriceCondition: SapPriceCondition.SPECIAL_ZP17,
+        };
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [expectedDetail],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction for gq price', () => {
+        component.selectedRows = [
+          {
+            data: {
+              ...QUOTATION_DETAIL_MOCK,
+              priceSource: PriceSource.SAP_SPECIAL,
+            },
+          } as RowNode,
+        ];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.GQ);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [
+            {
+              ...QUOTATION_DETAIL_MOCK,
+              netValue: 2500,
+              gpi: 92,
+              gpm: 88,
+              discount: -150,
+              price: QUOTATION_DETAIL_MOCK.recommendedPrice,
+              priceDiff: 47.06,
+              rlm: 90.2,
+            },
+          ],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction for strategic price', () => {
+        component.selectedRows = [
+          {
+            data: {
+              ...QUOTATION_DETAIL_MOCK,
+              strategicPrice: 250,
+              recommendedPrice: undefined,
+              priceSource: PriceSource.SAP_SPECIAL,
+            },
+          } as RowNode,
+        ];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.GQ);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [
+            {
+              ...QUOTATION_DETAIL_MOCK,
+              strategicPrice: 250,
+              recommendedPrice: undefined,
+              priceSource: PriceSource.STRATEGIC,
+              netValue: 2500,
+              gpi: 92,
+              gpm: 88,
+              discount: -150,
+              price: 250,
+              priceDiff: 47.06,
+              rlm: 90.2,
+            },
+          ],
+          type: addSimulatedQuotation.type,
+        });
       });
     });
   });

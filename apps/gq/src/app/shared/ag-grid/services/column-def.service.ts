@@ -71,6 +71,13 @@ export class ColumnDefService {
       field: ColumnFields.PRICE_SOURCE,
       valueFormatter: ColumnUtilityService.transformPriceSource,
       filterParams: FILTER_PARAMS,
+      cellRenderer: 'EditCellComponent',
+      cellRendererParams: {
+        condition: { enabled: false },
+        field: ColumnFields.PRICE_SOURCE,
+      },
+      headerComponentFramework: EditableColumnHeaderComponent,
+      headerComponent: EditableColumnHeaderComponent,
     },
     {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),

@@ -22,7 +22,6 @@ import {
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Quotation } from '../../../../shared/models';
-import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -991,7 +990,7 @@ describe('ProcessCaseEffect', () => {
           {
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
             price: QUOTATION_DETAIL_MOCK.price,
-            priceSource: PriceSource.MANUAL,
+            priceSource: QUOTATION_DETAIL_MOCK.priceSource,
           },
         ];
 

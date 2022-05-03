@@ -22,10 +22,7 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
-import {
-  PriceSource,
-  QuotationDetail,
-} from '../../../../shared/models/quotation-detail';
+import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -430,7 +427,7 @@ export class ProcessCaseEffect {
           simulatedQuotation.quotationDetails.map((detail) => ({
             gqPositionId: detail.gqPositionId,
             price: detail.price,
-            priceSource: PriceSource.MANUAL,
+            priceSource: detail.priceSource,
           }));
 
         return [

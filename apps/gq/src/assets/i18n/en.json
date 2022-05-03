@@ -55,7 +55,13 @@
       "toolTip": {
         "priceLowerThanMsp": "Net Price is lower than MSP. Please request approval from Pricing."
       },
-      "targetPrice": "Target Price"
+      "targetPrice": "Target Price",
+      "headers": {
+        "priceSource": {
+          "gqPriceSource": "GQ Price",
+          "sapPriceSource": "SAP Price"
+        }
+      }
     },
     "breadcrumbs": {
       "caseView": "Quotation Cases",

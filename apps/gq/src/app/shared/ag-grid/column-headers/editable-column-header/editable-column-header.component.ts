@@ -14,10 +14,10 @@ import { IHeaderAngularComp } from '@ag-grid-community/angular';
 import { Store } from '@ngrx/store';
 
 import { getSimulatedQuotation } from '../../../../core/store';
-import { QuotationDetail } from '../../../models/quotation-detail';
+import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
-
+import { PriceSourceOptions } from './models/price-source-options.enum';
 @Component({
   selector: 'gq-editable-column-header',
   templateUrl: './editable-column-header.component.html',
@@ -38,6 +38,11 @@ export class EditableColumnHeaderComponent
   showEditIcon = false;
 
   editFormControl: FormControl;
+
+  // price source header dependent values
+  isPriceSource = false;
+  priceSourceOptions = PriceSourceOptions;
+  selectedPriceSource: PriceSourceOptions;
 
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
@@ -86,6 +91,7 @@ export class EditableColumnHeaderComponent
     ]);
 
     this.params = params;
+    this.isPriceSource = params.column.getId() === ColumnFields.PRICE_SOURCE;
 
     params.column.addEventListener(
       'sortChanged',
@@ -105,7 +111,8 @@ export class EditableColumnHeaderComponent
   updateShowEditIcon() {
     this.showEditIcon =
       this.params.api.getSelectedRows()?.length > 0 &&
-      this.isDataAvailable(this.params.column.getId());
+      this.isDataAvailable(this.params.column.getId()) &&
+      this.isPriceSourceEditingEnabled();
 
     if (!this.showEditIcon) {
       this.editMode = false;
@@ -113,25 +120,30 @@ export class EditableColumnHeaderComponent
     }
   }
 
+  private isPriceSourceEditingEnabled() {
+    return this.isPriceSource
+      ? this.params.api
+          .getSelectedRows()
+          .some(
+            (detail: QuotationDetail) =>
+              (detail.recommendedPrice &&
+                detail.priceSource !== PriceSource.GQ) ||
+              (detail.strategicPrice &&
+                detail.priceSource !== PriceSource.STRATEGIC) ||
+              (detail.sapPrice &&
+                ![PriceSource.SAP_SPECIAL, PriceSource.SAP_STANDARD].includes(
+                  detail.priceSource
+                ))
+          )
+      : true;
+  }
+
   private isDataAvailable(columName: string): boolean {
-    return this.params.api.getSelectedRows().some((detail: QuotationDetail) => {
-      switch (columName) {
-        case ColumnFields.PRICE: {
-          return detail.price;
-        }
-        case ColumnFields.DISCOUNT: {
-          return detail.sapGrossPrice;
-        }
-        case ColumnFields.GPI: {
-          return detail.gpc;
-        }
-        case ColumnFields.GPM: {
-          return detail.sqv;
-        }
-        default:
-          return false;
-      }
-    });
+    return this.params.api
+      .getSelectedRows()
+      .some(
+        (detail: QuotationDetail) => detail[columName as keyof QuotationDetail]
+      );
   }
 
   onSortChanged() {
@@ -184,12 +196,15 @@ export class EditableColumnHeaderComponent
     e.preventDefault();
 
     this.editMode = true;
-
     // Since we can't use ChangeDetectorRef in this component, we need to use
     // setTimeout here as a work around to force the change detection cycle to run.
     setTimeout(() => {
       this.inputField?.nativeElement.focus();
     });
+
+    if (this.isPriceSource) {
+      this.switchPriceSource();
+    }
   }
 
   disableEditMode() {
@@ -209,10 +224,18 @@ export class EditableColumnHeaderComponent
     }
 
     this.value = value;
-
     this.params.context.onMultipleMaterialSimulation(
       this.params.column.getId(),
       value
     );
+  }
+
+  public switchPriceSource(): void {
+    this.selectedPriceSource =
+      this.selectedPriceSource === PriceSourceOptions.GQ
+        ? PriceSourceOptions.SAP
+        : PriceSourceOptions.GQ;
+
+    this.params.context.onPriceSourceSimulation(this.selectedPriceSource);
   }
 }

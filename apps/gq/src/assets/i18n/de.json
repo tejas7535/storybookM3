@@ -55,7 +55,13 @@
       "toolTip": {
         "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung."
       },
-      "targetPrice": "Zielpreis"
+      "targetPrice": "Zielpreis",
+      "headers": {
+        "priceSource": {
+          "gqPriceSource": "GQ Preis",
+          "sapPriceSource": "SAP Preis"
+        }
+      }
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

@@ -42,21 +42,53 @@
     ></span>
   </span>
 </div>
-
-<mat-form-field *ngIf="editMode || value" appearance="outline">
-  <input
-    #inputField
-    matInput
-    type="number"
-    [placeholder]="params.displayName"
-    (keydown.enter)="submitValue($event)"
-    (keydown)="onKeyPress($event)"
-    (paste)="onPaste($event)"
-    (blur)="disableEditMode()"
-    class="!text-high-emphasis"
-    [formControl]="editFormControl"
-    autocomplete="off"
-    step="1"
-  />
-  <span matSuffix>%&nbsp;</span>
-</mat-form-field>
+<div *ngIf="editMode || value">
+  <mat-form-field
+    *ngIf="!isPriceSource; else editPriceSource"
+    appearance="outline"
+  >
+    <input
+      #inputField
+      matInput
+      type="number"
+      [placeholder]="params.displayName"
+      (keydown.enter)="submitValue($event)"
+      (keydown)="onKeyPress($event)"
+      (paste)="onPaste($event)"
+      (blur)="disableEditMode()"
+      class="!text-high-emphasis"
+      [formControl]="editFormControl"
+      autocomplete="off"
+      step="1"
+    />
+    <span matSuffix>%&nbsp;</span>
+  </mat-form-field>
+  <ng-template #editPriceSource>
+    <mat-form-field
+      appearance="outline"
+      class="w-3/5"
+      *transloco="
+        let t;
+        read: 'shared.quotationDetailsTable.headers.priceSource'
+      "
+    >
+      <input
+        #inputField
+        matInput
+        type="text"
+        [value]="
+          t(
+            selectedPriceSource === priceSourceOptions.GQ
+              ? 'gqPriceSource'
+              : 'sapPriceSource'
+          )
+        "
+        [readonly]="true"
+        class="p-3 !text-high-emphasis"
+      />
+      <span (click)="switchPriceSource()" matSuffix
+        ><mat-icon class="!h-4 !text-body-1 !leading-3">unfold_more</mat-icon>
+      </span>
+    </mat-form-field>
+  </ng-template>
+</div>

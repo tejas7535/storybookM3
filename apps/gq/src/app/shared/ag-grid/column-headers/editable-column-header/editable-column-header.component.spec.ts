@@ -6,9 +6,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
-import { QuotationDetail } from '../../../models/quotation-detail';
+import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
+import { ColumnFields } from '../../constants/column-fields.enum';
 import { EditableColumnHeaderComponent } from './editable-column-header.component';
+import { PriceSourceOptions } from './models/price-source-options.enum';
 
 describe('EditableColumnHeaderComponent', () => {
   let component: EditableColumnHeaderComponent;
@@ -68,6 +70,7 @@ describe('EditableColumnHeaderComponent', () => {
 
       expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
     });
+    // TODO: Add Unit Test for addSubscription
   });
   describe('ngOnDestroy', () => {
     test('should unsubscribe subscriptions', () => {
@@ -183,6 +186,9 @@ describe('EditableColumnHeaderComponent', () => {
   });
 
   describe('enableEditMode', () => {
+    beforeEach(() => {
+      component.switchPriceSource = jest.fn();
+    });
     it('should enable edit Mode', () => {
       component.enableEditMode({
         stopPropagation: jest.fn(),
@@ -190,6 +196,23 @@ describe('EditableColumnHeaderComponent', () => {
       } as any);
 
       expect(component.editMode).toBe(true);
+      expect(component.switchPriceSource).toHaveBeenCalledTimes(0);
+    });
+    it('should enable edit Mode for priceSource', () => {
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        column: {
+          ...DEFAULT_PARAMS.column,
+          getId: () => ColumnFields.PRICE_SOURCE,
+        },
+      });
+      component.enableEditMode({
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+      } as any);
+
+      expect(component.editMode).toBe(true);
+      expect(component.switchPriceSource).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -331,6 +354,53 @@ describe('EditableColumnHeaderComponent', () => {
 
       expect(component.showEditIcon).toBe(false);
     });
+    describe('priceSource edge cases', () => {
+      it('should not show edit icon if only gq price available', () => {
+        component.isPriceSource = true;
+        spectator.detectChanges();
+
+        component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+          {
+            price: 10,
+            priceSource: PriceSource.GQ,
+            recommendedPrice: 1,
+          } as QuotationDetail,
+        ]);
+
+        component.updateShowEditIcon();
+        expect(component.showEditIcon).toBe(false);
+      });
+      it('should not show edit icon if only strategic price available', () => {
+        component.isPriceSource = true;
+        spectator.detectChanges();
+
+        component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+          {
+            price: 10,
+            priceSource: PriceSource.STRATEGIC,
+            strategicPrice: 1,
+          } as QuotationDetail,
+        ]);
+
+        component.updateShowEditIcon();
+        expect(component.showEditIcon).toBe(false);
+      });
+      it('should not show edit icon if only sap price available', () => {
+        component.isPriceSource = true;
+        spectator.detectChanges();
+
+        component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+          {
+            price: 10,
+            priceSource: PriceSource.SAP_STANDARD,
+            sapPrice: 1,
+          } as QuotationDetail,
+        ]);
+
+        component.updateShowEditIcon();
+        expect(component.showEditIcon).toBe(false);
+      });
+    });
   });
 
   describe('update simulation on value change', () => {
@@ -370,6 +440,58 @@ describe('EditableColumnHeaderComponent', () => {
       expect(
         component.params.context.onMultipleMaterialSimulation
       ).not.toHaveBeenCalled();
+    });
+  });
+  describe('initalize isPriceSource', () => {
+    it('should set isPriceSource to false', () => {
+      component.agInit(DEFAULT_PARAMS);
+
+      expect(component.isPriceSource).toBeFalsy();
+    });
+    it('should set isPriceSource to true', () => {
+      component.agInit({
+        ...DEFAULT_PARAMS,
+        column: {
+          ...DEFAULT_PARAMS.column,
+          getId: () => ColumnFields.PRICE_SOURCE,
+        },
+      });
+
+      expect(component.isPriceSource).toBeTruthy();
+    });
+  });
+  describe('switchPriceSource', () => {
+    beforeEach(() => {
+      component.params = {
+        context: {
+          onPriceSourceSimulation: jest.fn(),
+        },
+      } as any;
+    });
+    test('should set selectedPriceSource to GQ', () => {
+      component.selectedPriceSource = undefined as any;
+      component.switchPriceSource();
+
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.GQ);
+      expect(
+        component.params.context.onPriceSourceSimulation
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component.params.context.onPriceSourceSimulation
+      ).toHaveBeenCalledWith(PriceSourceOptions.GQ);
+    });
+    test('should set selectedPriceSource to SAP', () => {
+      component.selectedPriceSource = PriceSourceOptions.GQ;
+
+      component.switchPriceSource();
+
+      expect(component.selectedPriceSource).toEqual(PriceSourceOptions.SAP);
+      expect(
+        component.params.context.onPriceSourceSimulation
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component.params.context.onPriceSourceSimulation
+      ).toHaveBeenCalledWith(PriceSourceOptions.SAP);
     });
   });
 });
