@@ -1,0 +1,12 @@
+{
+  "extends": "../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(ga): 🧈  {{currentTag}}  [ci skip]",
+  "tagPrefix": "ga-v",
+  "skip": {
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
+}
