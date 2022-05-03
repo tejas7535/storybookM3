@@ -1,3 +1,5 @@
+@use '@ng-matero/extensions' as mtx;
+
 /***************************************************************************************************
 * COMPONENTS AND THEMES
 */
@@ -9,6 +11,8 @@
 */
 
 @import 'libs/shared/ui/styles/src/lib/material-theme';
+
+@include mtx.slider-theme($schaeffler-theme);
 
 /***************************************************************************************************
 * UTILITIES

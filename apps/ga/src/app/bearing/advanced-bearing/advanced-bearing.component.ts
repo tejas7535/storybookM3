@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import { MtxSliderChange } from '@ng-matero/extensions/slider';
 
 import {
   debounceTime,
@@ -28,12 +29,17 @@ import { fillDiameters } from './helpers';
 })
 export class AdvancedBearingComponent implements OnInit, OnDestroy {
   localDev = environment.localDev;
+  extendedSearchParameters: ExtendedSearchParameters;
 
   // TODO maybe get localised types from API
   bearingTypes = bearingTypes.map((bearingType) => ({
     ...bearingType,
     text: `bearing.types.${bearingType.id}`,
   }));
+
+  sliderValue = new FormControl(undefined);
+  sliderMin = 0;
+  sliderMax = 9999;
 
   pattern = new FormControl(undefined);
   bearingType = new FormControl(undefined);
@@ -94,6 +100,29 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
 
   selectedBearing$: Observable<string>;
 
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    if (this.formIsValid()) {
+      this.store.dispatch(
+        searchBearingExtended({
+          parameters: this.extendedSearchParameters,
+        })
+      );
+    }
+    // eslint-disable-next-line no-plusplus
+    this.step++;
+  }
+
+  prevStep() {
+    // eslint-disable-next-line no-plusplus
+    this.step--;
+  }
+
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
@@ -102,6 +131,8 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
     );
 
     this.handleSubscriptions();
+
+    this.sliderValue.setValue([this.sliderMin, 9999]);
   }
 
   ngOnDestroy() {
@@ -145,9 +176,7 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
             ].updateValueAndValidity()
           );
 
-          if (this.formIsValid()) {
-            this.store.dispatch(searchBearingExtended({ parameters }));
-          }
+          this.extendedSearchParameters = parameters;
         })
       )
       .subscribe();
@@ -232,5 +261,27 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
       secondDimension
       // eslint-disable-next-line unicorn/no-null
     ].patchValue(null);
+  }
+
+  setSliderMinValue(val: number): void {
+    const currentSliderMaxValue = this.sliderValue.value[1];
+
+    this.sliderValue.patchValue([
+      val,
+      val >= currentSliderMaxValue ? val + 1 : currentSliderMaxValue,
+    ]);
+  }
+
+  setSliderMaxValue(val: number): void {
+    const currentSliderMinValue = this.sliderValue.value[0];
+
+    this.sliderValue.patchValue([
+      val <= currentSliderMinValue ? val - 1 : currentSliderMinValue,
+      val,
+    ]);
+  }
+
+  onSliderChange(sliderChange: MtxSliderChange): void {
+    console.log('onSliderChange, new value:', sliderChange.value);
   }
 }

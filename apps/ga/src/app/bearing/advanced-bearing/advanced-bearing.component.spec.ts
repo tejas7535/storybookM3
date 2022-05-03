@@ -1,18 +1,23 @@
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MtxSliderModule } from '@ng-matero/extensions/slider';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockDeclaration, MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SharedModule } from '../../shared/shared.module';
+import { BearingListComponent } from '../bearing-list/bearing-list.component';
 import { AdvancedBearingComponent } from './advanced-bearing.component';
 
 describe('AdvancedBearingComponent', () => {
@@ -26,11 +31,15 @@ describe('AdvancedBearingComponent', () => {
       RouterTestingModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(MatDividerModule),
       SharedModule,
       ReactiveComponentModule,
       MatTooltipModule,
+      MockModule(MatDividerModule),
       MockModule(MatIconModule),
+      MockModule(MatExpansionModule),
+      MockModule(MatFormFieldModule),
+      MockModule(MatInputModule),
+      MockModule(MtxSliderModule),
     ],
     providers: [
       provideMockStore({
@@ -63,7 +72,7 @@ describe('AdvancedBearingComponent', () => {
         useValue: false,
       },
     ],
-    declarations: [AdvancedBearingComponent],
+    declarations: [MockDeclaration(BearingListComponent)],
   });
 
   beforeEach(() => {

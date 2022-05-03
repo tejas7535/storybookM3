@@ -2,11 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { MtxSliderModule } from '@ng-matero/extensions/slider';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -50,6 +54,10 @@ import { BearingRoutingModule } from './bearing-routing.module';
     ReactiveComponentModule,
 
     EffectsModule.forFeature([BearingEffects]),
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MtxSliderModule,
   ],
 })
 export class BearingModule {}

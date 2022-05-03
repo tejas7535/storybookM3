@@ -32,11 +32,8 @@
     [noResultsText]="t('noResults')"
   ></schaeffler-search-autocomplete>
   <ng-template #detail_selection>
-    <div class="flex max-w-7xl flex-col">
+    <div class="max-w-[600px]">
       <ga-advanced-bearing></ga-advanced-bearing>
-      <ga-bearing-list
-        (bearingSelection)="handleBearingSelection($event)"
-      ></ga-bearing-list>
     </div>
   </ng-template>
 

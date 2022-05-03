@@ -11,6 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { selectBearing } from '../../core/store/index';
 import { SharedModule } from '../../shared/shared.module';
 import { BearingListComponent } from './bearing-list.component';
 
@@ -99,13 +100,11 @@ describe('BearingListComponent', () => {
         id: 'mockId',
         title: 'mockTitle',
       };
-      const bearingSelectionEmitSpy = jest.spyOn(
-        component.bearingSelection,
-        'emit'
-      );
 
       component.selectBearing(mockBearing);
-      expect(bearingSelectionEmitSpy).toHaveBeenCalledWith('mockId');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectBearing({ bearing: 'mockId' })
+      );
     });
   });
 });

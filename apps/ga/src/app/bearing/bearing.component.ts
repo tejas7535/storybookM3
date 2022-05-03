@@ -42,7 +42,7 @@ import {
 export class BearingComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
-  detailSelection = false;
+  detailSelection = true;
 
   loading$: Observable<boolean> = of(false);
   bearingResultList$: Observable<SearchAutocompleteOption[]>;
@@ -82,15 +82,6 @@ export class BearingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  public handleBearingSelection(bearing: string) {
-    this.store.dispatch(selectBearing({ bearing }));
 
     this.store
       .select(getModelCreationSuccess)
@@ -105,11 +96,20 @@ export class BearingComponent implements OnInit, OnDestroy {
           ]);
         } else {
           this.snackbar.open(
-            translate('bearing.modelCreationError', { bearing }),
+            translate('bearing.modelCreationError'),
             translate('bearing.close')
           );
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  public handleBearingSelection(bearing: string) {
+    this.store.dispatch(selectBearing({ bearing }));
   }
 
   public navigateBack(): void {

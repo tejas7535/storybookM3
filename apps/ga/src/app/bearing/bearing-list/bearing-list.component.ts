@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { distinctUntilChanged, filter, map, Observable } from 'rxjs';
@@ -6,17 +6,19 @@ import { distinctUntilChanged, filter, map, Observable } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { getBearingExtendedSearchResultList } from '../../core/store';
+import {
+  getBearingExtendedSearchResultList,
+  selectBearing,
+} from '../../core/store';
 
 @Component({
   selector: 'ga-bearing-list',
   templateUrl: './bearing-list.component.html',
+  styleUrls: ['./bearing-list.component.scss'],
 })
 export class BearingListComponent implements OnInit {
   bearingResultExtendedSearchList$: Observable<any[]>;
   manyResults = 100;
-  @Output() readonly bearingSelection: EventEmitter<string> =
-    new EventEmitter();
 
   constructor(
     private readonly store: Store,
@@ -48,6 +50,6 @@ export class BearingListComponent implements OnInit {
   }
 
   selectBearing(bearing: any): void {
-    this.bearingSelection.emit(bearing.id);
+    this.store.dispatch(selectBearing({ bearing: bearing.id }));
   }
 }
