@@ -1,8 +1,8 @@
 # Frontend@Schaeffler
 
-![version](https://img.shields.io/badge/version-v85.0.0-green.svg)
+![version](https://img.shields.io/badge/version-v86.0.0-green.svg)
 ![@nrwl/workspace: 14.0.3](https://img.shields.io/badge/%40nrwl%2Fworkspace-14.0.3-brightgreen)
-![typescript: 4.6.3](https://img.shields.io/badge/typescript-4.6.3-brightgreen)
+![typescript: 4.6.4](https://img.shields.io/badge/typescript-4.6.4-brightgreen)
 ![@angular/core: 13.3.2](https://img.shields.io/badge/%40angular%2Fcore-13.3.2-brightgreen)
 ![@angular/cli: 13.3.2](https://img.shields.io/badge/%40angular%2Fcli-13.3.2-brightgreen)
 ![@angular/cdk: 13.3.2](https://img.shields.io/badge/%40angular%2Fcdk-13.3.2-brightgreen)
