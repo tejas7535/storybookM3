@@ -23,12 +23,13 @@ export class HardnessConverterApiService {
     private readonly applicationInsightService: ApplicationInsightsService
   ) {}
 
-  public getUnits(): Observable<string[]> {
-    return this.httpClient
-      .post<HardnessUnitsResponse>(`${environment.baseUrl}/${this.SCORE}`, {
+  public getUnits(): Observable<HardnessUnitsResponse> {
+    return this.httpClient.post<HardnessUnitsResponse>(
+      `${environment.baseUrl}/${this.SCORE}`,
+      {
         unitList: true,
-      })
-      .pipe(map((response) => response.units));
+      }
+    );
   }
 
   public getConversionResult(

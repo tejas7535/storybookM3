@@ -1,5 +1,6 @@
 export interface HardnessUnitsResponse {
   units: string[];
+  version: string;
 }
 
 export interface HardnessConversionSingleUnit {

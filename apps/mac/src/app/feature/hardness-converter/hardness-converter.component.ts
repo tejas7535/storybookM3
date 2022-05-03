@@ -14,6 +14,7 @@ import { HardnessConverterApiService } from './services/hardness-converter-api.s
 import {
   HardnessConversionResponse,
   HardnessConversionSingleUnit,
+  HardnessUnitsResponse,
 } from './services/hardness-converter-response.model';
 
 @Component({
@@ -39,6 +40,7 @@ export class HardnessConverterComponent implements OnInit {
   resultsUpToDate$ = new BehaviorSubject<boolean>(true);
   breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
   unitList: string[] = [];
+  version: string;
   error: string;
   hardness = new FormGroup({
     unit: new FormControl(''),
@@ -63,13 +65,16 @@ export class HardnessConverterComponent implements OnInit {
   }
 
   private setupUnitList(): void {
-    this.hardnessService.getUnits().subscribe((units: string[]) => {
-      this.unitList = units;
-      const HV = units.find((unit) => unit === 'HV');
-      this.hardness.patchValue({
-        unit: HV ? HV : units[0],
+    this.hardnessService
+      .getUnits()
+      .subscribe((response: HardnessUnitsResponse) => {
+        this.unitList = response.units;
+        this.version = response.version;
+        const HV = response.units.find((unit) => unit === 'HV');
+        this.hardness.patchValue({
+          unit: HV ? HV : response.units[0],
+        });
       });
-    });
   }
 
   private setupConversionResultStream(): void {

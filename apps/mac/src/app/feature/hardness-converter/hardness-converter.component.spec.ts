@@ -51,7 +51,7 @@ describe('HardnessConverterComponent', () => {
       {
         provide: HardnessConverterApiService,
         useValue: {
-          getUnits: jest.fn(() => of(HARDNESS_CONVERSION_UNITS_MOCK.units)),
+          getUnits: jest.fn(() => of(HARDNESS_CONVERSION_UNITS_MOCK)),
           getConversionResult: jest.fn((a) =>
             Number.isInteger(Number.parseInt(a, 10))
               ? of(HARDNESS_CONVERSION_MOCK)
@@ -83,12 +83,9 @@ describe('HardnessConverterComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it(
-    'should create',
-    waitForAsync(() => {
-      expect(component).toBeTruthy();
-    })
-  );
+  it('should create', waitForAsync(() => {
+    expect(component).toBeTruthy();
+  }));
 
   describe('trackByFn', () => {
     it('should return index', () => {
@@ -99,33 +96,28 @@ describe('HardnessConverterComponent', () => {
   });
 
   describe('triggering conversion', () => {
-    it(
-      'should mark value change',
-      waitForAsync(() => {
-        let valueChanged = false;
-        component.convertValue('42');
-        component.valueChange$.subscribe(() => {
-          valueChanged = true;
-          expect(valueChanged).toBeTruthy();
-        });
-      })
-    );
+    it('should mark value change', waitForAsync(() => {
+      let valueChanged = false;
+      component.convertValue('42');
+      component.valueChange$.subscribe(() => {
+        valueChanged = true;
+        expect(valueChanged).toBeTruthy();
+      });
+    }));
 
-    it(
-      'should do nothing if input holds an empty string',
-      waitForAsync(() => {
-        let valueChanged = false;
-        component.convertValue('');
-        component.valueChange$.subscribe(() => {
-          valueChanged = true;
-          expect(valueChanged).toBeFalsy();
-        });
-      })
-    );
+    it('should do nothing if input holds an empty string', waitForAsync(() => {
+      let valueChanged = false;
+      component.convertValue('');
+      component.valueChange$.subscribe(() => {
+        valueChanged = true;
+        expect(valueChanged).toBeFalsy();
+      });
+    }));
   });
 
   it('should setup the unit list', () => {
     expect(component.unitList).toEqual(HARDNESS_CONVERSION_UNITS_MOCK.units);
+    expect(component.version).toEqual('9999.9.0');
   });
 
   describe('handling keypresses', () => {
@@ -142,29 +134,21 @@ describe('HardnessConverterComponent', () => {
     });
   });
 
-  it(
-    'should receive conversion results after a new input',
-    waitForAsync(() => {
-      component.results$.subscribe((result: any) => {
-        expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
-      });
-      component.hardness.get('value').setValue(42);
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      component.valueChange$.next(undefined);
-    })
-  );
+  it('should receive conversion results after a new input', waitForAsync(() => {
+    component.results$.subscribe((result: any) => {
+      expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
+    });
+    component.hardness.get('value').setValue(42);
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    component.valueChange$.next(undefined);
+  }));
 
-  it(
-    'should handle errors returned by the service',
-    waitForAsync(() => {
-      component.hardness
-        .get('value')
-        .setValue('totally wrong and unacceptable');
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      component.valueChange$.next(undefined);
-      expect(component.error).toEqual(HARDNESS_CONVERSION_ERROR_MOCK.error);
-    })
-  );
+  it('should handle errors returned by the service', waitForAsync(() => {
+    component.hardness.get('value').setValue('totally wrong and unacceptable');
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    component.valueChange$.next(undefined);
+    expect(component.error).toEqual(HARDNESS_CONVERSION_ERROR_MOCK.error);
+  }));
 
   describe('getValue', () => {
     it('should round the number for HRc', () => {
