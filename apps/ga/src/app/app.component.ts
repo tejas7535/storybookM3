@@ -11,6 +11,7 @@ import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
+import packageJson from '../../package.json';
 import { LANGUAGE } from './shared/constants';
 
 @Component({
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isCookiePage = false;
   public footerLinks: AppShellFooterLink[] = [];
   public currentLanguage!: string;
+  appVersion = packageJson.version;
 
   constructor(
     private readonly router: Router,
