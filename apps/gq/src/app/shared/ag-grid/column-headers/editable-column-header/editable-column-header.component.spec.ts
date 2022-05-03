@@ -283,13 +283,17 @@ describe('EditableColumnHeaderComponent', () => {
     });
 
     it('should validate number input onPaste', () => {
+      component.editFormControl = {} as any;
+
       HelperService.validateNumberInputPaste = jest.fn();
 
-      component.onPaste({
-        clipboardData: { getData: jest.fn() },
-        preventDefault: jest.fn(),
-      } as any);
+      component.onPaste({} as any);
       expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
+      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledWith(
+        {},
+        {},
+        true
+      );
     });
   });
 

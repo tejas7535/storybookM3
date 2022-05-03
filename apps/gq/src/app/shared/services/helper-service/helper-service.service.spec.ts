@@ -292,8 +292,8 @@ describe('HelperServiceService', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
     });
   });
-  describe('onPaste', () => {
-    test('should set price', () => {
+  describe('validateNumberInputPaste', () => {
+    test('should set price for percentage value', () => {
       const event = {
         clipboardData: {
           getData: jest.fn(() => '20.022'),
@@ -302,10 +302,49 @@ describe('HelperServiceService', () => {
       } as any;
       const manualPriceFormControl = { setValue: jest.fn() } as any;
 
-      HelperService.validateNumberInputPaste(event, manualPriceFormControl);
+      HelperService.validateNumberInputPaste(
+        event,
+        manualPriceFormControl,
+        true
+      );
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(1);
       expect(manualPriceFormControl.setValue).toHaveBeenCalledWith(20.02);
+    });
+    test('should set price for absolute value', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => '123.123'),
+        },
+        preventDefault: jest.fn(),
+      } as any;
+      const manualPriceFormControl = { setValue: jest.fn() } as any;
+
+      HelperService.validateNumberInputPaste(
+        event,
+        manualPriceFormControl,
+        false
+      );
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(manualPriceFormControl.setValue).toHaveBeenCalledWith(123.12);
+    });
+    test('should not set value on NaN', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => 'This is not a number, this is a text'),
+        },
+        preventDefault: jest.fn(),
+      } as any;
+      const manualPriceFormControl = { setValue: jest.fn() } as any;
+
+      HelperService.validateNumberInputPaste(
+        event,
+        manualPriceFormControl,
+        false
+      );
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(0);
     });
   });
   describe('transformPLsAndSeriesResponse', () => {

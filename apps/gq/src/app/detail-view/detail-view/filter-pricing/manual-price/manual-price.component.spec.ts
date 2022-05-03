@@ -178,22 +178,28 @@ describe('ManualPriceComponent', () => {
 
   describe('onKeyPress', () => {
     test('should call HelperService', () => {
-      HelperService.validateNumberInputKeyPress = jest.fn();
+      HelperService.validateAbsolutePriceInputKeyPress = jest.fn();
 
       component.onKeyPress({} as any, {} as any);
 
-      expect(HelperService.validateNumberInputKeyPress).toHaveBeenCalledTimes(
-        1
-      );
+      expect(
+        HelperService.validateAbsolutePriceInputKeyPress
+      ).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('onPaste', () => {
     test('should set price', () => {
+      component.manualPriceFormControl = {} as any;
       HelperService.validateNumberInputPaste = jest.fn();
 
       component.onPaste({} as any);
       expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
+      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledWith(
+        {},
+        {},
+        false
+      );
     });
   });
 

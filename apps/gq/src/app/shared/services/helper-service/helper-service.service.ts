@@ -144,14 +144,15 @@ export class HelperService {
 
   static validateNumberInputPaste(
     event: ClipboardEvent,
-    formControl: FormControl
+    formControl: FormControl,
+    percentage: boolean
   ) {
     event.preventDefault();
     const price =
       Math.round(Number.parseFloat(event.clipboardData.getData('text')) * 100) /
       100;
 
-    if (price < 100) {
+    if (!Number.isNaN(price) && (price < 100 || !percentage)) {
       formControl.setValue(price);
     }
   }

@@ -412,18 +412,30 @@ describe('EditingModalComponent', () => {
     });
     test('should call HelperService method for two digit numbers', () => {
       component.modalData = { field: ColumnFields.GPI } as any;
+      component.editFormControl = {} as any;
       HelperService.validateNumberInputPaste = jest.fn();
 
       component.onPaste({} as any);
       expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
+      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledWith(
+        {},
+        {},
+        true
+      );
     });
     test('should call HelperService method for absolute prices', () => {
       component.modalData = { field: ColumnFields.PRICE } as any;
+      component.editFormControl = {} as any;
       component.isRelativePriceChange = false;
-      HelperService.validateQuantityInputPaste = jest.fn();
+      HelperService.validateNumberInputPaste = jest.fn();
 
       component.onPaste({} as any);
-      expect(HelperService.validateQuantityInputPaste).toHaveBeenCalledTimes(1);
+      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
+      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledWith(
+        {},
+        {},
+        false
+      );
     });
   });
   describe('increment', () => {

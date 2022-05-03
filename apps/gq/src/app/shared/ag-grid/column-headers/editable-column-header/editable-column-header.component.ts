@@ -172,7 +172,7 @@ export class EditableColumnHeaderComponent
   }
 
   onPaste(event: ClipboardEvent): void {
-    HelperService.validateNumberInputPaste(event, this.editFormControl);
+    HelperService.validateNumberInputPaste(event, this.editFormControl, true);
   }
 
   refresh() {

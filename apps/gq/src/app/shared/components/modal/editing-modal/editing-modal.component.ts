@@ -218,14 +218,14 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onPaste(event: ClipboardEvent): void {
-    if (
-      this.modalData.field === ColumnFields.ORDER_QUANTITY ||
-      (this.modalData.field === ColumnFields.PRICE &&
-        !this.isRelativePriceChange)
-    ) {
+    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
       HelperService.validateQuantityInputPaste(event);
     } else {
-      HelperService.validateNumberInputPaste(event, this.editFormControl);
+      HelperService.validateNumberInputPaste(
+        event,
+        this.editFormControl,
+        this.isRelativePriceChange
+      );
     }
   }
 

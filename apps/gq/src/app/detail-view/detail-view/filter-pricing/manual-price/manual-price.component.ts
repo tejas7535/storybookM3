@@ -123,11 +123,15 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   onKeyPress(event: KeyboardEvent, manualPriceInput: HTMLInputElement): void {
-    HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+    HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
   }
 
   onPaste(event: ClipboardEvent): void {
-    HelperService.validateNumberInputPaste(event, this.manualPriceFormControl);
+    HelperService.validateNumberInputPaste(
+      event,
+      this.manualPriceFormControl,
+      false
+    );
   }
 
   selectPrice(): void {
