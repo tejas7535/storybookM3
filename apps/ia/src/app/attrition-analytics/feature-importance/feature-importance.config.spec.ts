@@ -140,7 +140,7 @@ describe('FeatureImoprtanceConfig', () => {
 
       expect(result).toBeDefined();
       expect(mockCreateXAxisOption).toHaveBeenCalledWith(translateMock);
-      expect(mockCreateYAxisOption).toHaveBeenCalledWith(['Age']);
+      expect(mockCreateYAxisOption).toHaveBeenCalledWith(['translate it']);
       expect(mockCreateTitleOption).toHaveBeenCalledWith(translateMock);
       expect(mockFillDataForFeature).toHaveBeenCalledTimes(
         featuresImportance.length

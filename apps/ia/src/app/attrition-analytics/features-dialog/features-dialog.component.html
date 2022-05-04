@@ -7,10 +7,10 @@
 <mat-dialog-content class="h-[500px]">
   <div
     class="flex flex-row gap-4"
-    *transloco="let t; read: 'attritionAnalytics.addAnalysis.featuresDialog'"
+    *transloco="let t; read: 'attritionAnalytics'"
   >
     <div class="drag-list-wrapper">
-      <h6>{{ t('availableFeatures') }}</h6>
+      <h6>{{ t('addAnalysis.featuresDialog.availableFeatures') }}</h6>
 
       <div
         cdkDropList
@@ -26,13 +26,13 @@
           cdkDrag
           (cdkDragReleased)="itemReleased()"
         >
-          {{ item.feature.feature }}
+          {{ t('features.' + item.feature.feature) }}
         </div>
       </div>
     </div>
 
     <div class="drag-list-wrapper">
-      <h6>{{ t('selectedFeatures') }}</h6>
+      <h6>{{ t('addAnalysis.featuresDialog.selectedFeatures') }}</h6>
 
       <div
         cdkDropList
@@ -44,7 +44,7 @@
         (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-list-item" *ngFor="let item of selected" cdkDrag>
-          {{ item.feature.feature }}
+          {{ t('features.' + item.feature.feature) }}
         </div>
       </div>
     </div>

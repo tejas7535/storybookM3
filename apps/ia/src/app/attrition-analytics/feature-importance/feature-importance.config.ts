@@ -19,7 +19,18 @@ import { calculateColor } from './feature-importance.utils';
 export const createFeaturesImportanceConfig = (
   featuresImportanceGroups: FeatureImportanceGroup[]
 ): EChartsOption => {
-  const featuresNames = featuresImportanceGroups.map(
+  const series: ScatterSeriesOption[] = [];
+
+  const translatedFeatureGroups = featuresImportanceGroups.map((group) => ({
+    ...group,
+    feature: translate(`attritionAnalytics.features.${group.feature}`),
+  }));
+
+  translatedFeatureGroups.forEach((feature, index) => {
+    fillDataForFeature(feature, series, index);
+  });
+
+  const featuresNames = translatedFeatureGroups.map(
     (featureImportance: FeatureImportanceGroup) => featureImportance.feature
   );
 
@@ -31,13 +42,9 @@ export const createFeaturesImportanceConfig = (
   );
   const xAxis: XAXisComponentOption[] = [createXAxisOption(xAxisname)];
   const yAxis: YAXisComponentOption[] = [createYAxisOption(featuresNames)];
-  const series: ScatterSeriesOption[] = [];
+
   const grid: GridComponentOption[] = [gridOption];
   const title: TitleOption[] = [createTitleOption(titleText)];
-
-  featuresImportanceGroups.forEach((feature, index) => {
-    fillDataForFeature(feature, series, index);
-  });
 
   return {
     xAxis,

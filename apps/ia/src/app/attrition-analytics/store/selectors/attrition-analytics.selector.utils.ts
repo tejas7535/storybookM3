@@ -43,7 +43,7 @@ export function mapEmployeeAnalyticsFeatureToBarChartConfig(
 
   return features
     ? new BarChartConfig(
-        features[0].feature,
+        translate(`attritionAnalytics.features.${features[0].feature}`),
         [barChartSerie],
         categories,
         getPercentageValue(overallAttritionRate),

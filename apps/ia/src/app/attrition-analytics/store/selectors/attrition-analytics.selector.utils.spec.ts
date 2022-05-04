@@ -22,7 +22,7 @@ describe('attrition analytics selector utils', () => {
       const expectedResult = createBarchartConfigForAge(serie);
 
       const result = mapEmployeeAnalyticsFeatureToBarChartConfig(
-        [feature],
+        [{ ...feature }],
         0.45,
         color
       );

@@ -113,7 +113,7 @@ export function createDummyBarchartConfig(
 export function createBarchartConfigForAge(
   serie: BarChartSerie
 ): BarChartConfig {
-  return createDummyBarchartConfig('Age', serie);
+  return createDummyBarchartConfig('translate it', serie);
 }
 
 export function createDummyBarChartSerie(color: string): BarChartSerie {
