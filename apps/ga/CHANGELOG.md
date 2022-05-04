@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v0.0.1...ga-v0.0.2) (2022-05-04)
+
+
+### 🎸 Features
+
+* **ga:** add app version number to app footer ([c5a709f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5a709f6e0359f239f5a99bd7d04aeeeec1fe24b))
+
 ### 0.0.1 (2022-05-03)
 
 
