@@ -92,9 +92,11 @@ export class DateInputComponent {
         break;
       }
       case TimePeriod.LAST_12_MONTHS: {
-        const old = getMonth12MonthsAgo(this.nowDate);
+        // use month before to prevent wrong calculations for the future
+        const tmp = this.nowDate.clone().subtract(1, 'month');
+        const old = getMonth12MonthsAgo(tmp);
         this.rangeInput.controls.start.setValue(old);
-        this.rangeInput.controls.end.setValue(this.nowDate);
+        this.rangeInput.controls.end.setValue(tmp);
         break;
       }
       default: {
