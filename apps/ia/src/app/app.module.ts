@@ -12,6 +12,7 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import {
   CUSTOM_DATA_PRIVACY,
   PERSON_RESPONSIBLE,
+  TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -27,6 +28,10 @@ export function DynamicDataPrivacy(
   translocoService: TranslocoService
 ): Observable<string> {
   return translocoService.selectTranslate('legal.customDataPrivacy');
+}
+
+export function DynamicTermsOfUse(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('legal.customTermsOfUse');
 }
 
 @NgModule({
@@ -54,6 +59,11 @@ export function DynamicDataPrivacy(
     {
       provide: CUSTOM_DATA_PRIVACY,
       useFactory: DynamicDataPrivacy,
+      deps: [TranslocoService],
+    },
+    {
+      provide: TERMS_OF_USE,
+      useFactory: DynamicTermsOfUse,
       deps: [TranslocoService],
     },
   ],
