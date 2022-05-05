@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.21...mm-v0.2.0) (2022-05-05)
+
+
+### 🎸 Features
+
+* **mm:** add app version number to footer ([7aedb3d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7aedb3dbfef0a43853726a7b05ddace0f71380a6))
+
 ### [0.1.21](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.20...mm-v0.1.21) (2022-04-20)
 
 ### [0.1.20](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.19...mm-v0.1.20) (2022-04-11)
