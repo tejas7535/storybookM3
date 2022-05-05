@@ -196,12 +196,24 @@ describe('DropdownInputComponent', () => {
     component['onChange'] = jest.fn();
     component['onTouched'] = jest.fn();
     const mockValue = { id: 'mockString', value: 'mockValue' };
+    component.options = [mockValue];
 
     component.setValue(mockValue);
 
     expect(component.value).toEqual(mockValue.id);
     expect(component.onChange).toHaveBeenCalledWith(mockValue.id);
     expect(component.onTouched).toHaveBeenCalledTimes(1);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line unicorn/no-useless-undefined
+    component.setValue(undefined);
+    // eslint-disable-next-line unicorn/no-null
+    expect(component.selectionControl.value).toBe(null);
+
+    component.setValue({ ...mockValue, id: 'different_mock_id' });
+    // eslint-disable-next-line unicorn/no-null
+    expect(component.selectionControl.value).toBe(null);
   });
 
   test('onResize', (done) => {

@@ -104,7 +104,10 @@ export class DropdownInputComponent implements ControlValueAccessor {
   }
 
   public setValue(inputOption: DropdownInputOption): void {
-    if (inputOption) {
+    if (
+      inputOption &&
+      this.options?.find((option) => option.id === inputOption.id)
+    ) {
       const { value, id } = inputOption;
       this.selectionControl.patchValue(value);
       if (this.value !== id) {
@@ -112,6 +115,8 @@ export class DropdownInputComponent implements ControlValueAccessor {
         this.onChange(id);
         this.onTouched();
       }
+    } else {
+      this.selectionControl.reset();
     }
   }
 
