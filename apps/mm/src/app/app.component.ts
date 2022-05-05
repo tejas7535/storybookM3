@@ -14,6 +14,8 @@ import {
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
+import packageJson from '../../package.json';
+
 @Component({
   selector: 'mm-root',
   templateUrl: './app.component.html',
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isCookiePage = false;
   public cookieSettings = translate('legal.cookieSettings');
   public destroy$ = new Subject<void>();
+  public appVersion = packageJson.version;
 
   public footerLinks$ = new BehaviorSubject<AppShellFooterLink[]>(
     this.updateFooterLinks()
