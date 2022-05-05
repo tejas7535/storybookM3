@@ -197,6 +197,8 @@ export class QuotationDetailsTableComponent implements OnInit {
   public onMultipleMaterialSimulation(valId: ColumnFields, value: number) {
     this.simulatedField = valId;
     this.simulatedValue = value;
+    this.tableContext.simulatedField = this.simulatedField;
+    this.tableContext.simulatedValue = this.simulatedValue;
 
     this.simulateMaterial(valId, value);
   }

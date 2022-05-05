@@ -6,6 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -19,6 +20,11 @@ import {
 import { AutocompleteInputModule } from '../../../shared/components/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '../../../shared/models';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { ImportCaseComponent } from './import-case.component';
 
@@ -26,6 +32,7 @@ describe('ImportCaseComponent', () => {
   let component: ImportCaseComponent;
   let spectator: Spectator<ImportCaseComponent>;
   let mockStore: MockStore;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: ImportCaseComponent,
@@ -48,6 +55,12 @@ describe('ImportCaseComponent', () => {
         provide: MatDialogRef,
         useValue: {},
       },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -55,6 +68,7 @@ describe('ImportCaseComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     mockStore = spectator.inject(MockStore);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
   test('should create', () => {
@@ -131,6 +145,37 @@ describe('ImportCaseComponent', () => {
 
       component.importQuotation();
       expect(mockStore.dispatch).toHaveBeenCalledWith(importCase());
+    });
+  });
+
+  describe('tracking', () => {
+    test('should track CASE_CREATION_STARTED onInit', () => {
+      component.ngOnInit();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_STARTED,
+        { type: CASE_CREATION_TYPES.SAP_IMPORT } as CaseCreationEventParams
+      );
+    });
+
+    test('should track CASE_CREATION_CANCELLED on cancel', () => {
+      component['dialogRef'].close = jest.fn();
+      component.closeDialog();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_CANCELLED,
+        { type: CASE_CREATION_TYPES.SAP_IMPORT } as CaseCreationEventParams
+      );
+    });
+
+    test('should track CASE_CREATION_FINISHED on submit', () => {
+      component['dialogRef'].close = jest.fn();
+      component.importQuotation();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_FINISHED,
+        { type: CASE_CREATION_TYPES.SAP_IMPORT } as CaseCreationEventParams
+      );
     });
   });
 });

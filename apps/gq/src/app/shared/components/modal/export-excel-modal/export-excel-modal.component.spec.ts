@@ -10,6 +10,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -19,6 +20,7 @@ import {
 } from '../../../../../testing/mocks';
 import { loadExtendedComparableLinkedTransaction } from '../../../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import { DialogHeaderModule } from '../../../components/header/dialog-header/dialog-header.module';
+import { EVENT_NAMES } from '../../../models';
 import { ExportExcel } from './export-excel.enum';
 import { ExportExcelModalComponent } from './export-excel-modal.component';
 
@@ -26,6 +28,7 @@ describe('ExportExcelModalComponent', () => {
   let component: ExportExcelModalComponent;
   let spectator: Spectator<ExportExcelModalComponent>;
   let store: MockStore;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: ExportExcelModalComponent,
@@ -52,6 +55,12 @@ describe('ExportExcelModalComponent', () => {
         provide: MatDialogRef,
         useValue: {},
       },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -59,6 +68,7 @@ describe('ExportExcelModalComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
   test('should create', () => {
@@ -126,6 +136,36 @@ describe('ExportExcelModalComponent', () => {
       component.ngOnInit();
 
       expect(component.addSubscription).toHaveBeenCalled();
+    });
+  });
+
+  describe('tracking', () => {
+    test('should track EXCEL_DOWNLOAD_MODAL_OPENED onInit', () => {
+      component.ngOnInit();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.EXCEL_DOWNLOAD_MODAL_OPENED
+      );
+    });
+
+    test('should track EXCEL_DOWNLOAD_MODAL_CANCELLED on cancel', () => {
+      component['dialogRef'].close = jest.fn();
+      component.cancelDownload();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.EXCEL_DOWNLOAD_MODAL_CANCELLED
+      );
+    });
+
+    test('should track EXCEL_DOWNLOADED on closeDialog', () => {
+      component.exportExcelOption = ExportExcel.DETAILED_DOWNLOAD;
+      component['dialogRef'].close = jest.fn();
+      component.closeDialog();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.EXCEL_DOWNLOADED,
+        { type: ExportExcel.DETAILED_DOWNLOAD }
+      );
     });
   });
 });

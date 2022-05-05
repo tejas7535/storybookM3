@@ -6,12 +6,15 @@ import { map, pairwise } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { getGqId } from '../../../../core/store';
 import { loadExtendedComparableLinkedTransaction } from '../../../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import {
   getExtendedComparableLinkedTransactionsErrorMessage,
   getExtendedComparableLinkedTransactionsLoading,
 } from '../../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
+import { EVENT_NAMES, ExcelDonwloadParams } from '../../../models';
 import { ExportExcel } from './export-excel.enum';
 
 @Component({
@@ -27,14 +30,20 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store,
+    private readonly insightsService: ApplicationInsightsService,
     public dialogRef: MatDialogRef<ExportExcelModalComponent>
   ) {}
 
   cancelDownload() {
     this.dialogRef.close();
+    this.insightsService.logEvent(EVENT_NAMES.EXCEL_DOWNLOAD_MODAL_CANCELLED);
   }
+
   closeDialog() {
     this.dialogRef.close(this.exportExcelOption);
+    this.insightsService.logEvent(EVENT_NAMES.EXCEL_DOWNLOADED, {
+      type: this.exportExcelOption,
+    } as ExcelDonwloadParams);
   }
 
   ngOnInit(): void {
@@ -50,6 +59,8 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
       getExtendedComparableLinkedTransactionsErrorMessage
     );
     this.addSubscription(isErrorMessage$, loadingStopped$);
+
+    this.insightsService.logEvent(EVENT_NAMES.EXCEL_DOWNLOAD_MODAL_OPENED);
   }
 
   addSubscription(

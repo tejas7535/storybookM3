@@ -6,11 +6,14 @@ import { Observable } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import {
   getSimulationModeEnabled,
   refreshSapPricing,
 } from '../../../../core/store';
 import { ConfirmationModalComponent } from '../../../components/modal/confirmation-modal/confirmation-modal.component';
+import { EVENT_NAMES } from '../../../models';
 
 @Component({
   selector: 'gq-refresh-sap-price',
@@ -22,7 +25,8 @@ export class RefreshSapPriceComponent {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly insightsService: ApplicationInsightsService
   ) {}
 
   agInit(): void {
@@ -49,6 +53,7 @@ export class RefreshSapPriceComponent {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.store.dispatch(refreshSapPricing());
+        this.insightsService.logEvent(EVENT_NAMES.SAP_DATA_REFRESHED);
       }
     });
   }

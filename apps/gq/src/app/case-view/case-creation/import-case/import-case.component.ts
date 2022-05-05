@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import {
   autocomplete,
   getCaseAutocompleteLoading,
@@ -17,6 +19,11 @@ import {
 } from '../../../core/store';
 import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '../../../shared/models';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 
 @Component({
@@ -33,7 +40,8 @@ export class ImportCaseComponent implements OnInit {
   constructor(
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<ImportCaseComponent>,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly insightsService: ApplicationInsightsService
   ) {
     this.title$ = this.translocoService.selectTranslate(
       'caseCreation.importCase.title',
@@ -44,6 +52,10 @@ export class ImportCaseComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {
+      type: CASE_CREATION_TYPES.SAP_IMPORT,
+    } as CaseCreationEventParams);
   }
 
   ngOnInit(): void {
@@ -53,11 +65,16 @@ export class ImportCaseComponent implements OnInit {
       getCaseAutocompleteLoading,
       FilterNames.SAP_QUOTATION
     );
+
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
+      type: CASE_CREATION_TYPES.SAP_IMPORT,
+    } as CaseCreationEventParams);
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
+
   selectOption(option: IdValue, filter: string): void {
     this.store.dispatch(
       selectAutocompleteOption({
@@ -77,5 +94,9 @@ export class ImportCaseComponent implements OnInit {
 
   importQuotation(): void {
     this.store.dispatch(importCase());
+
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
+      type: CASE_CREATION_TYPES.SAP_IMPORT,
+    } as CaseCreationEventParams);
   }
 }

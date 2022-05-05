@@ -6,4 +6,6 @@ export class TableContext {
   quotation: Quotation;
   onMultipleMaterialSimulation?: (valueId: ColumnFields, value: number) => void;
   onPriceSourceSimulation?: (priceSourceOption: PriceSourceOptions) => void;
+  simulatedField?: string;
+  simulatedValue?: number;
 }

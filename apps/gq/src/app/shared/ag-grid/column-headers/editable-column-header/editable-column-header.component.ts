@@ -13,11 +13,15 @@ import { IHeaderParams } from '@ag-grid-community/all-modules';
 import { IHeaderAngularComp } from '@ag-grid-community/angular';
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { getSimulatedQuotation } from '../../../../core/store';
+import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { PriceSourceOptions } from './models/price-source-options.enum';
+
 @Component({
   selector: 'gq-editable-column-header',
   templateUrl: './editable-column-header.component.html',
@@ -47,7 +51,10 @@ export class EditableColumnHeaderComponent
   @ViewChild('menuButton', { read: ElementRef }) public menuButton!: ElementRef;
   @ViewChild('inputField', { static: false }) public inputField!: ElementRef;
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly insightsService: ApplicationInsightsService
+  ) {}
 
   ngOnInit(): void {
     this.addSubscriptions();
@@ -60,6 +67,7 @@ export class EditableColumnHeaderComponent
       map(([preVal, currentVal]) => preVal && currentVal === undefined),
       filter((val) => val)
     );
+
     this.subscription.add(
       simulationReset$.subscribe(() => {
         this.editFormControl.setValue(undefined as any);
@@ -205,6 +213,11 @@ export class EditableColumnHeaderComponent
     if (this.isPriceSource) {
       this.switchPriceSource();
     }
+
+    this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_STARTED, {
+      type: this.params.column.getId(),
+      numberOfSimulatedRows: this.params.api.getSelectedRows()?.length,
+    } as MassSimulationParams);
   }
 
   disableEditMode() {
@@ -228,6 +241,12 @@ export class EditableColumnHeaderComponent
       this.params.column.getId(),
       value
     );
+
+    this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_UPDATED, {
+      type: this.params.column.getId(),
+      simulatedValue: value,
+      numberOfSimulatedRows: this.params.api.getSelectedRows()?.length,
+    } as MassSimulationParams);
   }
 
   public switchPriceSource(): void {

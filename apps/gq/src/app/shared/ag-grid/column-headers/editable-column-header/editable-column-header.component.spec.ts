@@ -5,7 +5,10 @@ import { MatInputModule } from '@angular/material/input';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
@@ -15,6 +18,8 @@ import { PriceSourceOptions } from './models/price-source-options.enum';
 describe('EditableColumnHeaderComponent', () => {
   let component: EditableColumnHeaderComponent;
   let spectator: Spectator<EditableColumnHeaderComponent>;
+  let applicationInsightsService: ApplicationInsightsService;
+
   const DEFAULT_PARAMS = {
     template: '',
     displayName: 'Test',
@@ -47,6 +52,12 @@ describe('EditableColumnHeaderComponent', () => {
           processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
     detectChanges: false,
   });
@@ -55,6 +66,7 @@ describe('EditableColumnHeaderComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component.params = DEFAULT_PARAMS;
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
   it('should create', () => {
@@ -492,6 +504,46 @@ describe('EditableColumnHeaderComponent', () => {
       expect(
         component.params.context.onPriceSourceSimulation
       ).toHaveBeenCalledWith(PriceSourceOptions.SAP);
+    });
+  });
+
+  describe('tracking', () => {
+    beforeEach(() => {
+      component.agInit(DEFAULT_PARAMS);
+
+      component.params = {
+        column: {
+          getId: jest.fn().mockReturnValue('price'),
+        } as any,
+        api: {
+          getSelectedRows: jest.fn().mockReturnValue([1]),
+        } as any,
+        context: {
+          onMultipleMaterialSimulation: jest.fn(),
+        },
+      } as any;
+    });
+
+    test('should track MASS_SIMULATION_STARTED after edit mode was enabled', () => {
+      component.enableEditMode({
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn(),
+      } as any);
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.MASS_SIMULATION_STARTED,
+        { type: 'price', numberOfSimulatedRows: 1 }
+      );
+    });
+
+    test('should track MASS_SIMULATION_UPDATED after a simulation was updated', () => {
+      component.editFormControl.setValue(2);
+      component.submitValue({ stopPropagation: jest.fn() } as any);
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.MASS_SIMULATION_UPDATED,
+        { type: 'price', numberOfSimulatedRows: 1, simulatedValue: 2 }
+      );
     });
   });
 });

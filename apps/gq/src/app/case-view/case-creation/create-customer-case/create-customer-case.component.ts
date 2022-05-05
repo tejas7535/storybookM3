@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import {
   autocomplete,
   createCustomerCase,
@@ -30,6 +32,11 @@ import {
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { AutocompleteInputComponent } from '../../../shared/components/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '../../../shared/models';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { MaterialSelectionComponent } from './material-selection/material-selection.component';
 
@@ -55,13 +62,18 @@ export class CreateCustomerCaseComponent implements OnInit {
   constructor(
     private readonly store: Store,
     private readonly dialogRef: MatDialogRef<CreateCustomerCaseComponent>,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly insightsService: ApplicationInsightsService
   ) {
     this.title$ = this.translocoService.selectTranslate(
       'caseCreation.createCustomerCase.title',
       {},
       'case-view'
     );
+
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_STARTED, {
+      type: CASE_CREATION_TYPES.FROM_CUSTOMER,
+    } as CaseCreationEventParams);
   }
 
   ngOnInit(): void {
@@ -79,15 +91,21 @@ export class CreateCustomerCaseComponent implements OnInit {
     this.createCaseDisabled$ = this.store.select(getCreateCustomerCaseDisabled);
     this.createCaseLoading$ = this.store.select(getCreateCaseLoading);
   }
+
   closeDialog(): void {
     this.dialogRef.close();
     this.store.dispatch(resetCustomerFilter());
     this.store.dispatch(resetPLsAndSeries());
+
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {
+      type: CASE_CREATION_TYPES.FROM_CUSTOMER,
+    } as CaseCreationEventParams);
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
+
   selectOption(option: IdValue, filter: string): void {
     this.store.dispatch(
       selectAutocompleteOption({
@@ -103,7 +121,12 @@ export class CreateCustomerCaseComponent implements OnInit {
 
   createCase(): void {
     this.store.dispatch(createCustomerCase());
+
+    this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_FINISHED, {
+      type: CASE_CREATION_TYPES.FROM_CUSTOMER,
+    } as CaseCreationEventParams);
   }
+
   resetAll(): void {
     this.materialSelection.resetAll();
     this.unselectOptions(FilterNames.CUSTOMER);

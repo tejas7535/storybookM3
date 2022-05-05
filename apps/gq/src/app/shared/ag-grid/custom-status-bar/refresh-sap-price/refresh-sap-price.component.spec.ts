@@ -10,15 +10,18 @@ import { translate } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { refreshSapPricing } from '../../../../core/store';
+import { EVENT_NAMES } from '../../../models';
 import { RefreshSapPriceComponent } from './refresh-sap-price.component';
 
 describe('RefreshSapPriceComponent', () => {
   let component: RefreshSapPriceComponent;
   let spectator: Spectator<RefreshSapPriceComponent>;
   let store: MockStore;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: RefreshSapPriceComponent,
@@ -32,6 +35,12 @@ describe('RefreshSapPriceComponent', () => {
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -39,6 +48,15 @@ describe('RefreshSapPriceComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
+
+    store.dispatch = jest.fn();
+    component['dialog'].open = jest.fn(
+      () =>
+        ({
+          afterClosed: () => of(true),
+        } as any)
+    );
   });
 
   test('should create', () => {
@@ -55,19 +73,22 @@ describe('RefreshSapPriceComponent', () => {
 
   describe('refreshSapPricing', () => {
     test('should upload to SAP', () => {
-      store.dispatch = jest.fn();
-      component['dialog'].open = jest.fn(
-        () =>
-          ({
-            afterClosed: () => of(true),
-          } as any)
-      );
       component.refreshSapPricing();
 
       expect(component['dialog'].open).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(translate).toHaveBeenCalledTimes(3);
       expect(store.dispatch).toHaveBeenLastCalledWith(refreshSapPricing());
+    });
+  });
+
+  describe('tracking', () => {
+    test('should track SAP_DATA_REFRESHED on refreshSapPricing', () => {
+      component.refreshSapPricing();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.SAP_DATA_REFRESHED
+      );
     });
   });
 });

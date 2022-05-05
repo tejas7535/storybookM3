@@ -10,6 +10,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -26,6 +27,11 @@ import { AutocompleteInputModule } from '../../../shared/components/autocomplete
 import { FilterNames } from '../../../shared/components/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/components/header/dialog-header/dialog-header.module';
 import { SelectSalesOrgModule } from '../../../shared/components/select-sales-org/select-sales-org.module';
+import {
+  CASE_CREATION_TYPES,
+  CaseCreationEventParams,
+  EVENT_NAMES,
+} from '../../../shared/models';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
@@ -38,6 +44,7 @@ describe('CreateCustomerCaseComponent', () => {
   let component: CreateCustomerCaseComponent;
   let spectator: Spectator<CreateCustomerCaseComponent>;
   let mockStore: MockStore;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: CreateCustomerCaseComponent,
@@ -64,6 +71,12 @@ describe('CreateCustomerCaseComponent', () => {
         provide: MatDialogRef,
         useValue: {},
       },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
     declarations: [
       StatusBarComponent,
@@ -77,6 +90,7 @@ describe('CreateCustomerCaseComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     mockStore = spectator.inject(MockStore);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
   test('should create', () => {
@@ -153,6 +167,37 @@ describe('CreateCustomerCaseComponent', () => {
       component.autocompleteComponent.resetInputField();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         resetProductLineAndSeries()
+      );
+    });
+  });
+
+  describe('tracking', () => {
+    test('should track CASE_CREATION_STARTED onInit', () => {
+      component.ngOnInit();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_STARTED,
+        { type: CASE_CREATION_TYPES.FROM_CUSTOMER } as CaseCreationEventParams
+      );
+    });
+
+    test('should track CASE_CREATION_CANCELLED on cancel', () => {
+      component['dialogRef'].close = jest.fn();
+      component.closeDialog();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_CANCELLED,
+        { type: CASE_CREATION_TYPES.FROM_CUSTOMER } as CaseCreationEventParams
+      );
+    });
+
+    test('should track CASE_CREATION_FINISHED on submit', () => {
+      component['dialogRef'].close = jest.fn();
+      component.createCase();
+
+      expect(applicationInsightsService.logEvent).toHaveBeenCalledWith(
+        EVENT_NAMES.CASE_CREATION_FINISHED,
+        { type: CASE_CREATION_TYPES.FROM_CUSTOMER } as CaseCreationEventParams
       );
     });
   });

@@ -5,4 +5,5 @@ export * from './quotation.model';
 export * from './role-group.model';
 export * from './simulated-quotation';
 export * from './status-bar.model';
+export * from './tracking/gq-events';
 export * from './user.model';
