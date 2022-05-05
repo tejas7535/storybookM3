@@ -1,5 +1,6 @@
 import { SimulatedQuotation } from '../../../app/shared/models';
 import {
+  LastCustomerPriceCondition,
   MaterialDetails,
   PriceSource,
   QuotationDetail,
@@ -40,6 +41,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   lastCustomerPriceGpi: 88.24,
   lastCustomerPriceGpm: 82.35,
   lastCustomerPriceDate: '2020-12-17T09:29:34',
+  lastCustomerPriceCondition: LastCustomerPriceCondition.CA,
   priceDiff: 17.65,
   gpc: 20,
   sqv: 30,

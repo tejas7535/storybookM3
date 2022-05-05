@@ -1,11 +1,11 @@
 import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
+import { LastCustomerPriceCondition } from './last-customer-price-condition.enum';
 import { LastOfferDetail } from './last-offer-detail.model';
 import { MaterialDetails } from './material-details.model';
 import { MaterialStockByPlant } from './material-stock-by-plant.model';
 import { Plant } from './plant.model';
 import { PriceSource } from './price-source.enum';
 import { SapPriceCondition } from './sap-price-condition.enum';
-
 export class QuotationDetail {
   public quotationId: string;
   public gqCreated: string;
@@ -25,6 +25,7 @@ export class QuotationDetail {
   public recommendedPrice: number;
   public lastCustomerPrice: number;
   public lastCustomerPriceDate: string;
+  public lastCustomerPriceCondition: LastCustomerPriceCondition;
 
   public gpc: number;
   public sqv: number;

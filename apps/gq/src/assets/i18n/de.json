@@ -11,6 +11,16 @@
       "lastCustomerPriceGpi": "GPI % (KHK) Letzter Kundenpreis",
       "lastCustomerPriceGpm": "GPM % (SAW) Letzter Kundenpreis",
       "lastCustomerPriceDate": "Datum letzer Kundenpreis",
+      "lastCustomerPriceCondition": "Kondition Letzter Kundenpreis",
+      "lastCustomerPriceConditionOptions": {
+        "st": "Standard",
+        "sp": "Kundenspezifisch",
+        "so": "Customer Specific",
+        "ca": "Cap Preis",
+        "gq": "Guided Quoting",
+        "mp": "Manueller Preis",
+        "se": "Sektor Preis"
+      },
       "materialDescription": "Materialbezeichnung",
       "materialNumber": "Material",
       "netValue": "Nettowert",

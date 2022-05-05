@@ -5,11 +5,13 @@ import {
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-enterprise/all-modules';
+import { translate } from '@ngneat/transloco';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
+import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
@@ -152,5 +154,22 @@ export class ColumnUtilityService {
     return data.value === PriceSource.SAP_SPECIAL
       ? 'SAP_ZP05-ZP17'
       : data.value;
+  }
+
+  static transformLastCustomerPriceCondition(
+    data: ValueFormatterParams
+  ): string {
+    /*  lastCustomerPriceCondition is retrieved from external system (sap)
+     *   this is a fallback to avoid bugs due to possible changes in the sap system
+     */
+    if (Object.values(LastCustomerPriceCondition).includes(data.value)) {
+      return translate(
+        `shared.quotationDetailsTable.lastCustomerPriceConditionOptions.${(
+          data.value as string
+        ).toLowerCase()}`
+      );
+    }
+
+    return data.value;
   }
 }

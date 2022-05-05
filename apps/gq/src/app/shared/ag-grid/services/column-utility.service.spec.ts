@@ -2,7 +2,7 @@ import {
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-community/all-modules';
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import {
   QUOTATION_DETAIL_MOCK,
@@ -12,7 +12,10 @@ import {
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
-import { PriceSource } from '../../models/quotation-detail';
+import {
+  LastCustomerPriceCondition,
+  PriceSource,
+} from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { ColumnFields } from '../constants/column-fields.enum';
@@ -287,6 +290,25 @@ describe('CreateColumnService', () => {
         value: PriceSource.GQ,
       } as ValueFormatterParams);
       expect(result).toEqual(PriceSource.GQ);
+    });
+  });
+
+  describe('transformLastCustomerPriceCondition', () => {
+    test('should return value if value is not in enum', () => {
+      const res = ColumnUtilityService.transformLastCustomerPriceCondition({
+        value: 'SI',
+      } as any);
+
+      expect(translate).toHaveBeenCalledTimes(0);
+      expect(res).toEqual('SI');
+    });
+    test('should return translation if value is in enum', () => {
+      const res = ColumnUtilityService.transformLastCustomerPriceCondition({
+        value: LastCustomerPriceCondition.CA,
+      } as any);
+
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(res).toEqual('translate it');
     });
   });
 });

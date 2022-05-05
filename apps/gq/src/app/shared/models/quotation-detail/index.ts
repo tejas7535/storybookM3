@@ -1,4 +1,5 @@
 export * from './coefficients.model';
+export * from './last-customer-price-condition.enum';
 export * from './last-offer-detail.model';
 export * from './material-details.model';
 export * from './material-stock-by-plant.model';

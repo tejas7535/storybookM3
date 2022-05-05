@@ -255,22 +255,100 @@ describe('ExportToExcelButtonComponent', () => {
       const result = component.processCellCallback(params);
       expect(result).toEqual(params.value);
     });
-    test('should return apply valueFormatter', () => {
+    describe('should apply valueFormatter', () => {
       const colDef = {
-        field: ColumnFields.MATERIAL_NUMBER_15,
+        field: undefined as any,
         valueFormatter: true,
       };
-      const params = {
-        column: {
-          getColDef: () => colDef,
-        },
-      } as any;
-      const response = 'result';
-      component.applyExcelCellValueFormatter = jest.fn(() => response);
+      const formatResponse = 'result';
 
-      const result = component.processCellCallback(params);
-      expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
-      expect(result).toEqual(response);
+      beforeEach(() => {
+        component.applyExcelCellValueFormatter = jest.fn(() => formatResponse);
+      });
+      test('should apply for materialNumber15', () => {
+        colDef.field = ColumnFields.MATERIAL_NUMBER_15;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
+      test('should apply for priceUnit', () => {
+        colDef.field = ColumnFields.PRICE_UNIT;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
+      test('should apply for lastCustomerPriceDate', () => {
+        colDef.field = ColumnFields.LAST_CUSTOMER_PRICE_DATE;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
+      test('should apply for lastOfferPriceDate', () => {
+        colDef.field = ColumnFields.LAST_OFFER_PRICE_DATE;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
+      test('should apply for followingType', () => {
+        colDef.field = ColumnFields.FOLLOWING_TYPE;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
+      test('should apply for priceSource', () => {
+        colDef.field = ColumnFields.PRICE_SOURCE;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
+      test('should apply for lastCustomerPriceCondition', () => {
+        colDef.field = ColumnFields.LAST_CUSTOMER_PRICE_CONDITION;
+        const params = {
+          column: {
+            getColDef: () => colDef,
+          },
+        } as any;
+
+        const result = component.processCellCallback(params);
+        expect(component.applyExcelCellValueFormatter).toHaveBeenCalledTimes(1);
+        expect(result).toEqual(formatResponse);
+      });
     });
   });
   describe('applyExcelCellValueFormatter', () => {

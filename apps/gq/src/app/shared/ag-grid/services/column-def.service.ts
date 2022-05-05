@@ -245,6 +245,14 @@ export class ColumnDefService {
       filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
+      headerName: translate(
+        'shared.quotationDetailsTable.lastCustomerPriceCondition'
+      ),
+      field: ColumnFields.LAST_CUSTOMER_PRICE_CONDITION,
+      valueFormatter: ColumnUtilityService.transformLastCustomerPriceCondition,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.priceDiff'),
       field: ColumnFields.PRICE_DIFF,
       valueFormatter: ColumnUtilityService.percentageFormatter,

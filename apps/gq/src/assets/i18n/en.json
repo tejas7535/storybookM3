@@ -11,6 +11,16 @@
       "lastCustomerPriceGpi": "GPI % (GPC) Last Price",
       "lastCustomerPriceGpm": "GPM % (SQV) Last Price",
       "lastCustomerPriceDate": "Last Customer Price Date",
+      "lastCustomerPriceCondition": "Last Customer Price Condition",
+      "lastCustomerPriceConditionOptions": {
+        "st": "Standard",
+        "sp": "Customer Specific",
+        "so": "Customer Specific",
+        "ca": "Cap Price",
+        "gq": "Guided Quoting",
+        "mp": "Manual Pricing",
+        "se": "Sector Pricing"
+      },
       "materialDescription": "Description",
       "materialNumber": "Material",
       "netValue": "Net Value",
