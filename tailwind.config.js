@@ -176,6 +176,15 @@ module.exports = {
         '.text-button': {
           fontWeight: theme('fontWeight.medium'),
         },
+        '.text-h1': {
+          fontWeight: theme('fontWeight.light'),
+        },
+        '.text-h2': {
+          fontWeight: theme('fontWeight.light'),
+        },
+        '.text-h6': {
+          fontWeight: theme('fontWeight.medium'),
+        },
       });
     }),
   ],
