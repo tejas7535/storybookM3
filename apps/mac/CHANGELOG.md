@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.5.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.5.1...mac-v0.5.2) (2022-05-06)
+
+
+### 🎸 Features
+
+* **mac:** adjust appInsights logging (UFTABI-5670) ([#4101](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4101)) ([0726ff8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/0726ff8d4f5f3afe889053c32b2758f778da8ad6))
+* **mac:** display version information in hc (UFTABI-5556) ([#4088](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4088)) ([1167456](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1167456de04029836064260891ae262df0e7b870))
+
 ### [0.5.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.4.1...mac-v0.5.1) (2022-04-28)
 
 
