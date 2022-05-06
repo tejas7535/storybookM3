@@ -7,6 +7,7 @@ import { take } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { changeFavicon } from '../../shared/change-favicon';
@@ -31,7 +32,8 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
     private readonly router: Router,
     private readonly urlSerializer: UrlSerializer,
     private readonly clipboard: Clipboard,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -47,6 +49,10 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
         tree.queryParams = params;
         const url = this.urlSerializer.serialize(tree);
 
+        this.applicationInsightsService.logEvent(
+          '[MAC - MSD] Share link copied',
+          { tooLong: url.length > 2000 }
+        );
         if (url.length > 2000) {
           this.snackbar.open(
             'The table filter is too long to be put into a link',

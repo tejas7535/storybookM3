@@ -10,18 +10,14 @@ import { loginSuccess } from '@schaeffler/azure-auth';
 
 @Injectable()
 export class RootEffects {
-  initializeApplicationInsights$ = createEffect(
+  public initializeApplicationInsights$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(loginSuccess),
-        map((action) => action.accountInfo.department),
-        map((department) => department || 'Department unavailable'),
-        tap((department) =>
-          this.applicationInsightsService.addCustomPropertyToTelemetryData(
-            this.APPLICATION_INSIGHTS_DEPARTMENT,
-            department
-          )
-        )
+        map((action) => action.accountInfo),
+        tap((accountInfo) => {
+          this.trackDepartment(accountInfo.department);
+        })
       );
     },
     {
@@ -31,7 +27,14 @@ export class RootEffects {
 
   private readonly APPLICATION_INSIGHTS_DEPARTMENT = 'department';
 
-  constructor(
+  private trackDepartment(department: string) {
+    this.applicationInsightsService.addCustomPropertyToTelemetryData(
+      this.APPLICATION_INSIGHTS_DEPARTMENT,
+      department || 'Department unavailable'
+    );
+  }
+
+  public constructor(
     private readonly actions$: Actions,
     private readonly applicationInsightsService: ApplicationInsightsService
   ) {}

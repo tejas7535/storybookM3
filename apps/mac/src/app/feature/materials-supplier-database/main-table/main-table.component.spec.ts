@@ -22,6 +22,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
 import { DataFilter, DataResult } from '../models';
@@ -66,6 +67,12 @@ describe('MainTableComponent', () => {
         useValue: false,
       },
       DatePipe,
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
     declarations: [MainTableComponent],
   });
@@ -1250,6 +1257,9 @@ describe('MainTableComponent', () => {
         fileName: '1234-13-44-MSD-export.xlsx',
         sheetName: 'MSD-Export',
       });
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - MSD] Export Excel');
     });
 
     it('should do nothing if ag grid api is not defined', () => {

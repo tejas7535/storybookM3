@@ -9,6 +9,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 import { BehaviorSubject } from 'rxjs';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 @Component({
   selector: 'mac-overview-card',
   templateUrl: './overview-card.component.html',
@@ -34,7 +36,8 @@ export class OverviewCardComponent implements OnInit {
 
   constructor(
     private readonly matIconRegistry: MatIconRegistry,
-    private readonly domSanitizer: DomSanitizer
+    private readonly domSanitizer: DomSanitizer,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -44,5 +47,19 @@ export class OverviewCardComponent implements OnInit {
         this.domSanitizer.bypassSecurityTrustResourceUrl(this.icon)
       );
     }
+  }
+
+  public onCardClick(): void {
+    this.applicationInsightsService.logEvent('[MAC - Overview card clicked]', {
+      app: this.title,
+      access: !this.noAccess,
+    });
+  }
+
+  public onLearnMoreClick(): void {
+    this.applicationInsightsService.logEvent(
+      '[MAC - Learn more link clicked]',
+      { app: this.title }
+    );
   }
 }

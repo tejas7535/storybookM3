@@ -21,6 +21,8 @@ import { ColumnState, RowNode } from '@ag-grid-community/core';
 import { ColDef, GridApi, SideBarDef } from '@ag-grid-enterprise/all-modules';
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { DataFilter, DataResult } from '../models';
 import { fetchMaterials, setAgGridFilter, setFilter } from '../store/actions';
 import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-grid-state.service';
@@ -107,7 +109,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly route: ActivatedRoute,
     private readonly agGridStateService: MsdAgGridStateService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly datePipe: DatePipe
+    private readonly datePipe: DatePipe,
+    private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
@@ -437,6 +440,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.agGridApi) {
       return;
     }
+    this.applicationInsightsService.logEvent('[MAC - MSD] Export Excel');
 
     const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 

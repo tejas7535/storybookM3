@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { OverviewCardComponent } from './overview-card.component';
 
 describe('OverviewCardComponent', () => {
@@ -33,6 +35,12 @@ describe('OverviewCardComponent', () => {
         provide: DomSanitizer,
         useValue: {
           bypassSecurityTrustResourceUrl: jest.fn(() => 'sanitizedUrl'),
+        },
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
         },
       },
     ],
@@ -71,6 +79,34 @@ describe('OverviewCardComponent', () => {
       expect(
         component['domSanitizer'].bypassSecurityTrustResourceUrl
       ).toHaveBeenCalledWith('some icon url');
+    });
+  });
+
+  describe('logCardClick', () => {
+    it('should log the event for card click', () => {
+      component.title = 'test app';
+      component.noAccess = false;
+      component.onCardClick();
+
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - Overview card clicked]', {
+        app: 'test app',
+        access: true,
+      });
+    });
+  });
+
+  describe('logLearnMoreClick', () => {
+    it('should log the event for learn more click', () => {
+      component.title = 'test app';
+      component.onLearnMoreClick();
+
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - Learn more link clicked]', {
+        app: 'test app',
+      });
     });
   });
 });

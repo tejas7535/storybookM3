@@ -102,6 +102,11 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         'Link copied to clipboard',
         'Close'
       );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - MSD] Share link copied', {
+        tooLong: false,
+      });
     });
 
     it('should display an error snackbar if the share link is too long', () => {
@@ -134,6 +139,11 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         'The table filter is too long to be put into a link',
         'Close'
       );
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - MSD] Share link copied', {
+        tooLong: true,
+      });
     });
   });
 });

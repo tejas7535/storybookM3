@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { EffectsModule } from '@ngrx/effects';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import {
@@ -26,7 +25,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
-import { RootEffects } from './effects/root/root.effects';
 import { StoreModule } from './store/store.module';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -87,9 +85,6 @@ export function appInitializer(
       cookiesGroups: COOKIE_GROUPS,
       domainScript: environment.oneTrustId,
     }),
-
-    // Add department to app insights
-    EffectsModule.forRoot([RootEffects]),
   ],
   exports: [AppComponent],
   providers: [

@@ -37,17 +37,18 @@ describe('Root Effects', () => {
 
   describe('initializeApplicationInsights$', () => {
     test(
-      'should call addTelemetryData of AI Service',
+      'should add the department of the user as Telemetry data',
       marbles((m) => {
         const accountInfo: AccountInfo = {
           username: 'Bob',
           department: 'C-IT',
+          idTokenClaims: {},
         } as AccountInfo;
 
         action = loginSuccess({ accountInfo });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-a', { a: 'C-IT' });
+        const expected = m.cold('-a', { a: accountInfo });
 
         m.expect(effects.initializeApplicationInsights$).toBeObservable(
           expected
@@ -61,17 +62,18 @@ describe('Root Effects', () => {
     );
 
     test(
-      'should call addTelemetryData of AI Service with department unavailable',
+      'should add department unavailable as Telemetry data if we cannot determine the department',
       marbles((m) => {
         const accountInfo: AccountInfo = {
           username: 'Bob',
           department: undefined,
+          idTokenClaims: {},
         } as AccountInfo;
 
         action = loginSuccess({ accountInfo });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-a', { a: 'Department unavailable' });
+        const expected = m.cold('-a', { a: accountInfo });
 
         m.expect(effects.initializeApplicationInsights$).toBeObservable(
           expected

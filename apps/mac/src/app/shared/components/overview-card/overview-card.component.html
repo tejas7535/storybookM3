@@ -4,6 +4,7 @@
       class="flex h-48 w-full flex-col items-center justify-center"
       (mouseenter)="hovered$.next(true)"
       (mouseleave)="hovered$.next(false)"
+      (click)="onCardClick()"
       [routerLink]="!external && link ? link : undefined"
     >
       <ng-container *ngIf="!noAccess; else noAccessImage">
@@ -122,12 +123,17 @@
             <div
               class="mt-2 cursor-pointer text-caption text-link"
               [routerLink]="learnMoreLink"
+              (click)="onLearnMoreClick()"
             >
               Learn more
             </div>
           </ng-container>
           <ng-template #externalLearnMoreLink>
-            <a target="_blank" [href]="learnMoreLink">
+            <a
+              target="_blank"
+              [href]="learnMoreLink"
+              (click)="onLearnMoreClick()"
+            >
               <div class="mt-2 cursor-pointer text-caption text-link">
                 Learn more
               </div>
