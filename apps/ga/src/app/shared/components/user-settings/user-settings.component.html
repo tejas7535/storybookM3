@@ -3,4 +3,8 @@
     {{ t('language.title.main') }}
   </div>
   <schaeffler-language-select class="mb-3 block"></schaeffler-language-select>
+  <schaeffler-locale-select
+    [availableLocales]="availableLocales"
+    [defaultLocale]="defaultLocale"
+  ></schaeffler-locale-select>
 </div>

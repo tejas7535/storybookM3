@@ -1,7 +1,10 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockModule } from 'ng-mocks';
 
-import { LanguageSelectModule } from '@schaeffler/transloco/components';
+import {
+  LanguageSelectModule,
+  LocaleSelectModule,
+} from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { UserSettingsComponent } from './user-settings.component';
@@ -15,6 +18,7 @@ describe('UserSettingsComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       MockModule(LanguageSelectModule),
+      MockModule(LocaleSelectModule),
     ],
   });
 

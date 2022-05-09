@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { LanguageSelectModule } from '@schaeffler/transloco/components';
+import {
+  LanguageSelectModule,
+  LocaleSelectModule,
+} from '@schaeffler/transloco/components';
 
 import { UserSettingsComponent } from './user-settings.component';
 
@@ -15,6 +18,7 @@ import { UserSettingsComponent } from './user-settings.component';
     // shared modules
     SharedTranslocoModule,
     LanguageSelectModule,
+    LocaleSelectModule,
   ],
   exports: [UserSettingsComponent],
 })
