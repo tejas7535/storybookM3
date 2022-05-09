@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.5.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.5.2...mac-v0.5.3) (2022-05-09)
+
+
+### 🎸 Features
+
+* **mac:** add msd start event ([#4105](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4105)) ([31dffc8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/31dffc89e82a28cdb677d14a385fadd50952cecf))
+
 ### [0.5.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.5.1...mac-v0.5.2) (2022-05-06)
 
 
