@@ -37,6 +37,7 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    this.applicationInsightsService.logEvent('[MAC - MSD] opened');
     changeFavicon('../assets/favicons/msd.ico', 'Materials Supplier Database');
   }
 

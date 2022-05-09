@@ -74,6 +74,16 @@ describe('MaterialsSupplierDatabaseComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    it('should log open event', () => {
+      component.ngOnInit();
+
+      expect(
+        component['applicationInsightsService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - MSD] opened');
+    });
+  });
+
   describe('shareButtonFn', () => {
     it('should share a link with query params', () => {
       const mockParams = {
