@@ -9,7 +9,7 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import { Subordinate, TableItem, Type } from '../../models/index';
+import { Field, Subordinate, TableItem, Type } from '../../models/index';
 import { ReportService } from '../../report.service';
 
 @Component({
@@ -77,8 +77,11 @@ export class ReportComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getItem(row: TableItem[], field: string): TableItem | undefined {
-    return row.find((element: TableItem) => element.field === field);
+  public getItem(
+    tableItems: TableItem[],
+    field: `${Field}`
+  ): TableItem | undefined {
+    return tableItems.find((tableItem: TableItem) => tableItem.field === field);
   }
 
   public getHeaders(fields: string[]): string[] {

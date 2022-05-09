@@ -2,16 +2,17 @@ import { translate } from '@ngneat/transloco';
 
 import { LabelValue } from '@schaeffler/label-value';
 
-import { Field, TableItem } from '../../models/index';
+import { Field, TableItem } from '../../models';
 import { GreaseResultData } from '../../models/grease-result.model';
 import { suitabilityLevels } from '../constants/suitability.constants';
 import { SuitabilityLevels } from '../models/suitability.model';
 
 /**
  * Convert grease result data into a set of label-value pairs
+ * Defaults to empty array
  */
 export const adaptLabelValuesFromGreaseResultData = (
-  greaseResults: GreaseResultData[] | undefined
+  greaseResults: GreaseResultData[]
 ): LabelValue[] =>
   greaseResults?.length
     ? greaseResults.map((greaseResultData) => ({
@@ -23,87 +24,134 @@ export const adaptLabelValuesFromGreaseResultData = (
       }))
     : [];
 
-export const findItem = (
-  table1Values: TableItem[],
-  searchField: Field
-): TableItem =>
-  table1Values?.find(
-    ({ field }: TableItem) => field === searchField
-  ) as TableItem;
+/**
+ * Get value from table item
+ * Defaults to empty string
+ */
+export const itemValue = (
+  tableItems: TableItem[] = [],
+  searchField?: Field,
+  tableItemsIndex?: number
+): string | number => {
+  if (searchField) {
+    return tableItems?.find(({ field }) => field === searchField)?.value || '';
+  } else if (tableItemsIndex !== undefined) {
+    return (
+      tableItems?.find((_item, index) => index === tableItemsIndex)?.value || ''
+    );
+  }
 
-// result in grams
-export const mass = (
-  item: TableItem[],
-  amount: number,
-  timespan?: string,
-  tiny = false
-): string => {
-  const value =
-    (item.find(({ field }) => field === Field.RHO)?.value as number) * amount;
-
-  return `<span>${tiny ? formatDecimals(value) : value.toFixed(2)} g${
-    timespan ? `/${timespan}` : ''
-  }</span>`;
+  return '';
 };
 
-// wrap value in styled HTML tags
+/**
+ * Get unit from table item
+ * Defaults to empty string
+ */
+export const itemUnit = (
+  tableItems: TableItem[] = [],
+  searchField: Field
+): string => tableItems?.find(({ field }) => field === searchField)?.unit || '';
+
+/**
+ * Wrap value in styled HTML tags
+ */
 export const secondaryValue = (value: string): string =>
   `<span class="text-low-emphasis">${value}</span>`;
 
-export const initialGreaseQuantity = (table1Values: TableItem[]) =>
-  `${findItem(table1Values, Field.QVIN).value} ${
-    findItem(table1Values, Field.QVIN).unit
-  }`;
+/**
+ * Map suitability level strings
+ * Defaults to empty string if level is unknown
+ */
+export const mapSuitabilityLevel = (
+  suitabilityLevel: string
+): keyof typeof SuitabilityLevels | string => {
+  if (
+    Object.values(SuitabilityLevels).includes(
+      suitabilityLevel as SuitabilityLevels
+    )
+  ) {
+    return suitabilityLevels[suitabilityLevel as `${SuitabilityLevels}`];
+  }
+
+  return '';
+};
+
+/**
+ * @deprecated The method should not be used
+ *
+ * Use itemValue and itemUnit instead
+ */
+export const findItem = (
+  tableItems: TableItem[] = [],
+  searchField: Field
+): TableItem =>
+  tableItems?.find(
+    ({ field }: TableItem) => field === searchField
+  ) as TableItem;
+
+/** *************************************************************
+ * extract and format specific table item properties
+ */
 
 export const manualRelubricationQuantity = (
-  table1Values: TableItem[]
-): number =>
-  (+(findItem(table1Values, Field.QVRE_MAN_MIN) as any).value +
-    +(findItem(table1Values, Field.QVRE_MAN_MAX) as any).value) /
-  2;
+  tableItems: TableItem[] = []
+): number | undefined => {
+  const min = itemValue(tableItems, Field.QVRE_MAN_MIN);
+  const max = itemValue(tableItems, Field.QVRE_MAN_MAX);
 
-export const manualRelubricationQuantitySpan = (
-  table1Values: TableItem[]
-): string =>
-  `${Math.round(
-    (+(findItem(table1Values, Field.TFR_MIN) as any).value +
-      +(findItem(table1Values, Field.TFR_MAX) as any).value) /
-      2 /
-      24
-  )} ${translate('days')}`;
+  return min && max ? (+min + +max) / 2 : undefined;
+};
+
+export const manualRelubricationQuantityTimeSpan = (
+  tableItems: TableItem[] = []
+): number | undefined => {
+  const min = itemValue(tableItems, Field.TFR_MIN);
+  const max = itemValue(tableItems, Field.TFR_MAX);
+
+  return min && max ? Math.round((+min + +max) / 2 / 24) : undefined;
+};
+
+export const greaseServiceLife = (
+  tableItems: TableItem[] = []
+): number | undefined => {
+  const min = itemValue(tableItems, Field.TFG_MIN);
+  const max = itemValue(tableItems, Field.TFG_MAX);
+
+  return min && max ? Math.round((+min + +max) / 2 / 24) : undefined;
+};
+
+export const automaticRelubricationQuantityUnit = (
+  tableItems: TableItem[] = []
+): string => `${itemUnit(tableItems, Field.QVIN)}`;
 
 export const automaticRelubricationQuantityPerDay = (
-  table1Values: TableItem[]
+  tableItems: TableItem[] = []
 ): number =>
-  (+(findItem(table1Values, Field.QVRE_AUT_MIN) as any).value +
-    +(findItem(table1Values, Field.QVRE_AUT_MAX) as any).value) /
+  (+itemValue(tableItems, Field.QVRE_AUT_MIN) +
+    +itemValue(tableItems, Field.QVRE_AUT_MAX)) /
   2;
 
 export const automaticRelubricationPerWeek = (
-  table1Values: TableItem[]
-): number => automaticRelubricationQuantityPerDay(table1Values) * 7;
+  tableItems: TableItem[] = []
+): number | undefined => {
+  const quantity = automaticRelubricationQuantityPerDay(tableItems);
 
-export const automaticRelubricationQuantityUnit = (
-  table1Values: TableItem[]
-): string => `${findItem(table1Values, Field.QVIN).unit}`;
+  return quantity ? quantity * 7 : undefined;
+};
 
 export const automaticRelubricationPerMonth = (
-  table1Values: TableItem[]
-): number => automaticRelubricationQuantityPerDay(table1Values) * 30;
+  tableItems: TableItem[] = []
+): number | undefined => {
+  const quantity = automaticRelubricationQuantityPerDay(tableItems);
+
+  return quantity ? quantity * 30 : undefined;
+};
 
 export const automaticRelubricationPerYear = (
-  table1Values: TableItem[]
-): number => automaticRelubricationQuantityPerDay(table1Values) * 365;
+  tableItems: TableItem[] = []
+): number | undefined => {
+  const quantity = automaticRelubricationQuantityPerDay(tableItems);
 
-export const formatDecimals = (value: number) =>
-  value.toLocaleString(
-    'en-US', // should be dynamic at some point
-    {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 4,
-    }
-  );
-
-export const checkSuitability = (
-  suitable: `${SuitabilityLevels}`
-): keyof typeof SuitabilityLevels => suitabilityLevels[suitable];
+  return quantity ? quantity * 365 : undefined;
+};

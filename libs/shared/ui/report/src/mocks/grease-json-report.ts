@@ -608,11 +608,6 @@ export const greaseReport: Report = {
                       unit: 'mm²/s',
                     },
                     {
-                      field: 'ny100',
-                      value: '11.0',
-                      unit: 'mm²/s',
-                    },
-                    {
                       field: 'T_lim_low',
                       value: '-20.0',
                       unit: '°C',
@@ -667,11 +662,6 @@ export const greaseReport: Report = {
                       unit: 'mm²/s',
                     },
                     {
-                      field: 'ny100',
-                      value: '12.0',
-                      unit: 'mm²/s',
-                    },
-                    {
                       field: 'T_lim_low',
                       value: '-20.0',
                       unit: '°C',
@@ -723,11 +713,6 @@ export const greaseReport: Report = {
                     {
                       field: 'ny40',
                       value: '110.0',
-                      unit: 'mm²/s',
-                    },
-                    {
-                      field: 'ny100',
-                      value: '15.5',
                       unit: 'mm²/s',
                     },
                     {

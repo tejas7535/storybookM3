@@ -13,6 +13,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { TableItem } from '../../models/index';
 
 import { ReportComponent } from './report.component';
 import { ReportService } from '../../report.service';
@@ -138,25 +139,25 @@ describe('ReportComponent', () => {
 
   describe('getItem', () => {
     it('should find the correct item in a row', () => {
-      const row = [
+      const tableItems: TableItem[] = [
         {
           value: 'a',
-          field: 'a',
+          field: 'BaseOil',
         },
         {
           value: 'b',
-          field: 'b',
+          field: 'NLGI',
         },
         {
           value: 'c',
-          field: 'c',
+          field: 'Thickener',
         },
       ];
-      const field = 'c';
+      const field = 'Thickener';
 
-      const result = component.getItem(row, field);
+      const result = component.getItem(tableItems, field);
 
-      expect(result).toEqual({ value: 'c', field: 'c' });
+      expect(result).toEqual({ value: 'c', field: 'Thickener' });
     });
   });
 

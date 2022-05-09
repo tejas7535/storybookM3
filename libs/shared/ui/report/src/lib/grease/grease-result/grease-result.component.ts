@@ -14,6 +14,7 @@ import { LabelValue } from '@schaeffler/label-value';
 import {
   GreaseResult,
   GreaseResultData,
+  GreaseResultDataSourceItem,
 } from '../../models/grease-result.model';
 import { MEDIASGREASE } from '../../models/index';
 import { adaptLabelValuesFromGreaseResultData } from '../helpers/grease-helpers';
@@ -36,7 +37,7 @@ export class GreaseResultComponent implements OnInit, OnDestroy {
   @Input() public valuesLimit = 3;
 
   public labelValues: LabelValue[] = [];
-  public labelWidth = 192;
+  public labelWidth: number = LabelWidth.Default;
   public small = false;
 
   public showAllValues = false;
@@ -91,9 +92,8 @@ export class GreaseResultComponent implements OnInit, OnDestroy {
       : adaptedData.slice(0, this.valuesLimit);
   }
 
-  private readonly removeEmptyItems = (
-    data: (GreaseResultData | any)[]
-  ): GreaseResultData[] => data?.filter(Boolean);
+  private readonly removeEmptyItems = (items: GreaseResultDataSourceItem[]) =>
+    items?.filter((item): item is GreaseResultData => !!item);
 
   private adjustLabelWidth(elementWidth: number): void {
     this.labelWidth =

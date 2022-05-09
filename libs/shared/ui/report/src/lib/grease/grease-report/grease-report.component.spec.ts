@@ -5,10 +5,16 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+import { Observable } from 'rxjs';
 
 import { formattedGreaseJson } from '../../../mocks/index';
 import { Subordinate, TitleId } from '../../models/index';
@@ -19,6 +25,8 @@ describe('GreaseReportComponent', () => {
   let component: GreaseReportComponent;
   let spectator: Spectator<GreaseReportComponent>;
   let snackBar: MatSnackBar;
+  const localizeNumber = jest.fn();
+  const localeChanges$ = new Observable();
 
   const createComponent = createComponentFactory({
     component: GreaseReportComponent,
@@ -36,7 +44,10 @@ describe('GreaseReportComponent', () => {
       MatExpansionModule,
       MatSnackBarModule,
     ],
-    providers: [GreaseReportService],
+    providers: [
+      mockProvider(GreaseReportService),
+      mockProvider(TranslocoLocaleService, { localizeNumber, localeChanges$ }),
+    ],
   });
 
   beforeEach(() => {
