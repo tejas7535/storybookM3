@@ -474,6 +474,9 @@ pipeline {
 
                             // delete nx-cache only when disk usage is over 75%
                             if (diskUsagePercentString.toInteger() > 75) {
+                                sh 'rm -rf /home/adp-jenkins/temp/angular-cache'
+                                sh 'mkdir /home/adp-jenkins/temp/angular-cache'
+
                                 sh 'rm -rf /home/adp-jenkins/temp/nx-cache'
                                 sh 'mkdir /home/adp-jenkins/temp/nx-cache'
 
