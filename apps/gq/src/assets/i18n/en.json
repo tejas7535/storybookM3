@@ -236,7 +236,7 @@
       }
     },
     "customerHeader": {
-      "details": "Details",
+      "details": "Customer Details",
       "id": "Customer ID",
       "keyAccount": "Key Account",
       "name": "Customer",
