@@ -5,9 +5,11 @@ import {
   deleteCase,
   deleteCasesFailure,
   deleteCasesSuccess,
+  deselectCase,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
+  selectCase,
 } from '../../actions';
 import { reducer, viewCasesReducer } from './view-cases.reducer';
 
@@ -92,6 +94,30 @@ describe('View Cases Reducer', () => {
       expect(reducer(VIEW_CASE_STATE_MOCK, action)).toEqual(
         viewCasesReducer(VIEW_CASE_STATE_MOCK, action)
       );
+    });
+  });
+  describe('case selection', () => {
+    test('should select a case', () => {
+      const action = selectCase({ gqId: 1234 });
+      const state = viewCasesReducer(VIEW_CASE_STATE_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASE_STATE_MOCK,
+        selectedCases: [1234],
+      });
+    });
+
+    test('should deselect a case', () => {
+      const action = deselectCase({ gqId: 1234 });
+      const state = viewCasesReducer(
+        { ...VIEW_CASE_STATE_MOCK, selectedCases: [1234, 5678] },
+        action
+      );
+
+      expect(state).toEqual({
+        ...VIEW_CASE_STATE_MOCK,
+        selectedCases: [5678],
+      });
     });
   });
 });

@@ -19,6 +19,7 @@ import {
 } from '../../../testing/mocks';
 import {
   addSimulatedQuotation,
+  getSelectedQuotationDetailIds,
   removeSimulatedQuotationDetail,
   resetSimulatedQuotation,
 } from '../../core/store';
@@ -91,6 +92,15 @@ describe('QuotationDetailsTableComponent', () => {
 
       expect(component.columnDefs$).toBeDefined();
     });
+
+    test('should take selected cases from the store', () => {
+      expect(component.selectedQuotationIds).toEqual([]);
+
+      store.overrideSelector(getSelectedQuotationDetailIds, ['1234']);
+      component.ngOnInit();
+
+      expect(component.selectedQuotationIds).toEqual(['1234']);
+    });
   });
 
   describe('set quotation', () => {
@@ -159,6 +169,7 @@ describe('QuotationDetailsTableComponent', () => {
         },
         api: {
           forEachNodeAfterFilterAndSort: jest.fn(),
+          forEachNode: jest.fn(),
           setFilterModel: jest.fn(),
         },
       } as any;
@@ -232,6 +243,28 @@ describe('QuotationDetailsTableComponent', () => {
     test("should not set filterModel if it doesn't exist", () => {
       component.onGridReady(mockEvent);
       expect(mockEvent.api.setFilterModel).toHaveBeenCalledTimes(0);
+    });
+
+    test('should select rows from state', () => {
+      const nodes = [
+        { data: { gqPositionId: '1234' }, setSelected: jest.fn() } as any,
+        { data: { gqPositionId: '5678' }, setSelected: jest.fn() } as any,
+      ];
+      mockEvent = {
+        api: {
+          forEachNode: (callback: (row: RowNode) => void) =>
+            nodes.forEach((element) => {
+              callback(element);
+            }),
+          forEachNodeAfterFilterAndSort: jest.fn(),
+        },
+      } as any;
+
+      component.selectedQuotationIds = ['1234'];
+      component.onGridReady(mockEvent);
+
+      expect(nodes[0].setSelected).toHaveBeenCalledWith(true);
+      expect(nodes[1].setSelected).not.toHaveBeenCalled();
     });
   });
 
@@ -467,6 +500,7 @@ describe('QuotationDetailsTableComponent', () => {
         },
         node: {
           isSelected: jest.fn().mockReturnValue(true),
+          data: QUOTATION_DETAIL_MOCK,
         },
       } as any);
 
@@ -516,6 +550,10 @@ describe('QuotationDetailsTableComponent', () => {
 
     test('should reset simulation after all rows are deselected', () => {
       component.onRowSelected({
+        node: {
+          isSelected: jest.fn().mockReturnValue(false),
+          data: QUOTATION_DETAIL_MOCK,
+        },
         api: {
           getSelectedNodes: jest.fn().mockReturnValue([]),
         },
@@ -534,6 +572,10 @@ describe('QuotationDetailsTableComponent', () => {
       component.simulatedPriceSource = PriceSourceOptions.GQ;
 
       component.onRowSelected({
+        node: {
+          isSelected: jest.fn().mockReturnValue(false),
+          data: QUOTATION_DETAIL_MOCK,
+        },
         api: {
           getSelectedNodes: jest.fn().mockReturnValue([]),
         },
@@ -541,9 +583,38 @@ describe('QuotationDetailsTableComponent', () => {
 
       expect(component.onPriceSourceSimulation).toHaveBeenCalledTimes(1);
       expect(component['simulateMaterial']).toHaveBeenCalledTimes(0);
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith({
         type: resetSimulatedQuotation.type,
+      });
+    });
+
+    test('should dispatch row selected', () => {
+      store.dispatch = jest.fn();
+      component.onRowSelected({
+        node: { isSelected: () => true, data: { gqPositionId: '1234' } },
+        api: {
+          getSelectedNodes: jest.fn().mockReturnValue([]),
+        },
+      } as any);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        gqPositionId: '1234',
+        type: '[Process Case] Select a Quotation Detail',
+      });
+    });
+
+    test('should dispatch row deselected', () => {
+      store.dispatch = jest.fn();
+      component.onRowSelected({
+        node: { isSelected: () => false, data: { gqPositionId: '1234' } },
+        api: {
+          getSelectedNodes: jest.fn().mockReturnValue([]),
+        },
+      } as any);
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        gqPositionId: '1234',
+        type: '[Process Case] Deselect a Quotation Detail',
       });
     });
   });

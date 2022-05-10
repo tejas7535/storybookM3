@@ -9,6 +9,7 @@ describe('View Cases Selector', () => {
       quotationsLoading: false,
       quotations: [QUOTATION_MOCK],
       deleteLoading: false,
+      selectedCases: [] as number[],
     },
   };
 
@@ -33,6 +34,13 @@ describe('View Cases Selector', () => {
       expect(
         viewCasesSelectors.getDeleteLoading.projector(fakeState)
       ).toBeFalsy();
+    });
+  });
+  describe('getSelectedCaseIds', () => {
+    test('should return selected cases', () => {
+      expect(
+        viewCasesSelectors.getSelectedCaseIds.projector(fakeState.viewCases)
+      ).toEqual(fakeState.viewCases.selectedCases);
     });
   });
 });

@@ -199,6 +199,16 @@ export const confirmSimulatedQuotation = createAction(
   '[Process Case] Confirm Simulated Quotation'
 );
 
+export const selectQuotationDetail = createAction(
+  '[Process Case] Select a Quotation Detail',
+  props<{ gqPositionId: string }>()
+);
+
+export const deselectQuotationDetail = createAction(
+  '[Process Case] Deselect a Quotation Detail',
+  props<{ gqPositionId: string }>()
+);
+
 const all = union({
   clearProcessCaseRowData,
   addMaterials,
@@ -236,6 +246,8 @@ const all = union({
   resetSimulatedQuotation,
   removeSimulatedQuotationDetail,
   confirmSimulatedQuotation,
+  selectQuotationDetail,
+  deselectQuotationDetail,
 });
 
 export type CaseActions = typeof all;

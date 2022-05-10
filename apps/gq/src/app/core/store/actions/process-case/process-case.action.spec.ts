@@ -20,6 +20,7 @@ import {
   clearProcessCaseRowData,
   confirmSimulatedQuotation,
   deleteAddMaterialRowDataItem,
+  deselectQuotationDetail,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -35,6 +36,7 @@ import {
   removePositionsSuccess,
   removeSimulatedQuotationDetail,
   resetSimulatedQuotation,
+  selectQuotationDetail,
   setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -387,6 +389,24 @@ describe('CaseActions', () => {
 
       expect(action).toEqual({
         type: '[Process Case] Confirm Simulated Quotation',
+      });
+    });
+
+    test('should select QuotationDetail', () => {
+      action = selectQuotationDetail({ gqPositionId: '1234' });
+
+      expect(action).toEqual({
+        gqPositionId: '1234',
+        type: '[Process Case] Select a Quotation Detail',
+      });
+    });
+
+    test('should deselect QuotationDetail', () => {
+      action = deselectQuotationDetail({ gqPositionId: '1234' });
+
+      expect(action).toEqual({
+        gqPositionId: '1234',
+        type: '[Process Case] Deselect a Quotation Detail',
       });
     });
   });

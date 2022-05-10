@@ -1,8 +1,10 @@
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import {
+  deselectCase,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
+  selectCase,
 } from './view-cases.actions';
 
 describe('View Actions', () => {
@@ -27,6 +29,21 @@ describe('View Actions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[View Cases] Get Cases for Authenticated User Failure',
+      });
+    });
+    test('select Case', () => {
+      const action = selectCase({ gqId: 1234 });
+      expect(action).toEqual({
+        gqId: 1234,
+        type: '[View Cases] Select a Case',
+      });
+    });
+
+    test('deselect case', () => {
+      const action = deselectCase({ gqId: 1234 });
+      expect(action).toEqual({
+        gqId: 1234,
+        type: '[View Cases] Deselect a Case',
       });
     });
   });

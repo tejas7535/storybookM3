@@ -23,6 +23,7 @@ import {
   addSimulatedQuotation,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
+  deselectQuotationDetail,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -39,6 +40,7 @@ import {
   removeSimulatedQuotationDetail,
   resetSimulatedQuotation,
   selectQuotation,
+  selectQuotationDetail,
   setSelectedQuotationDetail,
   updateCaseName,
   updateCaseNameFailure,
@@ -791,6 +793,42 @@ describe('Quotation Reducer', () => {
       expect(state.quotation.simulatedItem.previousStatusBar).toEqual(
         SIMULATED_QUOTATION_MOCK.previousStatusBar
       );
+    });
+  });
+
+  describe('case selection', () => {
+    test('should select a quotation detail', () => {
+      const action = selectQuotationDetail({ gqPositionId: '1234' });
+      const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
+
+      expect(state).toEqual({
+        ...PROCESS_CASE_STATE_MOCK,
+        quotation: {
+          ...PROCESS_CASE_STATE_MOCK.quotation,
+          selectedQuotationDetails: ['1234'],
+        },
+      });
+    });
+
+    test('should deselect a quotation detail', () => {
+      const action = deselectQuotationDetail({ gqPositionId: '1234' });
+      const state = processCaseReducer(
+        {
+          ...PROCESS_CASE_STATE_MOCK,
+          quotation: {
+            ...PROCESS_CASE_STATE_MOCK.quotation,
+            selectedQuotationDetails: ['1234', '5678'],
+          },
+        },
+        action
+      );
+      expect(state).toEqual({
+        ...PROCESS_CASE_STATE_MOCK,
+        quotation: {
+          ...PROCESS_CASE_STATE_MOCK.quotation,
+          selectedQuotationDetails: ['5678'],
+        },
+      });
     });
   });
 });

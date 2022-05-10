@@ -18,3 +18,8 @@ export const getDeleteLoading = createSelector(
   getViewCasesState,
   (state: ViewCasesState): boolean => state.deleteLoading
 );
+
+export const getSelectedCaseIds = createSelector(
+  getViewCasesState,
+  (state: ViewCasesState): number[] => state?.selectedCases
+);

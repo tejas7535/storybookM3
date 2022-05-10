@@ -22,6 +22,7 @@ describe('Process Case Selector', () => {
         simulatedItem: SIMULATED_QUOTATION_MOCK,
         selectedQuotationDetail: QUOTATION_DETAIL_MOCK.gqPositionId,
         quotationLoading: true,
+        selectedQuotationDetails: [] as string[],
       },
       addMaterials: {
         ...initialState.addMaterials,
@@ -410,6 +411,13 @@ describe('Process Case Selector', () => {
           },
         })
       ).toBeFalsy();
+    });
+  });
+  describe('getSelectedQuotationDetailIds', () => {
+    test('should return selected quotationDetailIds', () => {
+      expect(
+        quotationSelectors.getSelectedQuotationDetailIds(fakeState)
+      ).toEqual(fakeState.processCase.quotation.selectedQuotationDetails);
     });
   });
 });

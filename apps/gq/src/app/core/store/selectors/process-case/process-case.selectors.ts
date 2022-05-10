@@ -245,3 +245,9 @@ export const getSelectedQuotationDetailItemId = createSelector(
         detail.gqPositionId === state.quotation.selectedQuotationDetail
     )?.quotationItemId
 );
+
+export const getSelectedQuotationDetailIds = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string[] =>
+    state?.quotation.selectedQuotationDetails
+);

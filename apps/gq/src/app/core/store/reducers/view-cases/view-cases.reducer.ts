@@ -5,9 +5,11 @@ import {
   deleteCase,
   deleteCasesFailure,
   deleteCasesSuccess,
+  deselectCase,
   loadCases,
   loadCasesFailure,
   loadCasesSuccess,
+  selectCase,
 } from '../../actions';
 
 export interface ViewCasesState {
@@ -15,6 +17,7 @@ export interface ViewCasesState {
   errorMessage: string;
   quotations: ViewQuotation[];
   deleteLoading: boolean;
+  selectedCases: number[];
 }
 
 export const initialState: ViewCasesState = {
@@ -22,6 +25,7 @@ export const initialState: ViewCasesState = {
   errorMessage: undefined,
   quotations: undefined,
   deleteLoading: false,
+  selectedCases: [],
 };
 
 export const viewCasesReducer = createReducer(
@@ -70,6 +74,20 @@ export const viewCasesReducer = createReducer(
       ...state,
       errorMessage,
       deleteLoading: false,
+    })
+  ),
+  on(
+    selectCase,
+    (state: ViewCasesState, { gqId }): ViewCasesState => ({
+      ...state,
+      selectedCases: [...state.selectedCases, gqId],
+    })
+  ),
+  on(
+    deselectCase,
+    (state: ViewCasesState, { gqId }): ViewCasesState => ({
+      ...state,
+      selectedCases: [...state.selectedCases.filter((id) => id !== gqId)],
     })
   )
 );

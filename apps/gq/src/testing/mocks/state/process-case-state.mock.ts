@@ -14,6 +14,7 @@ export const PROCESS_CASE_STATE_MOCK: ProcessCaseState = {
     selectedQuotationDetail: undefined,
     errorMessage: undefined,
     updateLoading: false,
+    selectedQuotationDetails: [],
   },
   addMaterials: {
     addMaterialRowData: [],

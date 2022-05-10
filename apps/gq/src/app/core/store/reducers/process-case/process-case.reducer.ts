@@ -18,6 +18,7 @@ import {
   addSimulatedQuotation,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
+  deselectQuotationDetail,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -34,6 +35,7 @@ import {
   removeSimulatedQuotationDetail,
   resetSimulatedQuotation,
   selectQuotation,
+  selectQuotationDetail,
   setSelectedQuotationDetail,
   updateCaseName,
   updateCaseNameFailure,
@@ -60,6 +62,7 @@ export interface ProcessCaseState {
     quotationLoading: boolean;
     item: Quotation;
     simulatedItem?: SimulatedQuotation;
+    selectedQuotationDetails: string[];
     selectedQuotationDetail: string;
     errorMessage: string;
     updateLoading: boolean;
@@ -86,6 +89,7 @@ export const initialState: ProcessCaseState = {
     selectedQuotationDetail: undefined,
     errorMessage: undefined,
     updateLoading: false,
+    selectedQuotationDetails: [],
   },
   addMaterials: {
     addMaterialRowData: [],
@@ -562,6 +566,33 @@ export const processCaseReducer = createReducer(
             ),
           },
         },
+      },
+    })
+  ),
+  on(
+    selectQuotationDetail,
+    (state: ProcessCaseState, { gqPositionId }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        selectedQuotationDetails: [
+          ...state.quotation.selectedQuotationDetails,
+          gqPositionId,
+        ],
+      },
+    })
+  ),
+  on(
+    deselectQuotationDetail,
+    (state: ProcessCaseState, { gqPositionId }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        selectedQuotationDetails: [
+          ...state.quotation.selectedQuotationDetails.filter(
+            (id) => id !== gqPositionId
+          ),
+        ],
       },
     })
   )

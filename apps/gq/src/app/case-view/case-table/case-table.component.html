@@ -11,5 +11,7 @@
   [animateRows]="true"
   [localeText]="localeText$ | ngrxPush"
   [rowMultiSelectWithClick]="true"
+  (rowSelected)="onRowSelected($event)"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>

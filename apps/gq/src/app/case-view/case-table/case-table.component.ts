@@ -1,7 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
+import {
+  GridReadyEvent,
+  RowSelectedEvent,
+} from '@ag-grid-community/all-modules';
+import { Store } from '@ngrx/store';
+
+import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
 import {
@@ -25,7 +32,8 @@ import { ColumnDefService } from './config/column-def.service';
 export class CaseTableComponent implements OnInit {
   constructor(
     private readonly columnDefService: ColumnDefService,
-    private readonly localizationService: LocalizationService
+    private readonly localizationService: LocalizationService,
+    private readonly store: Store
   ) {}
 
   public modules = MODULES;
@@ -35,10 +43,33 @@ export class CaseTableComponent implements OnInit {
   public components = COMPONENTS;
   public rowSelection = 'multiple';
   public localeText$: Observable<AgGridLocale>;
+  public selectedRows: number[] = [];
 
   @Input() rowData: ViewQuotation[];
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
+    this.store
+      .select(getSelectedCaseIds)
+      .pipe(take(1))
+      .subscribe((val) => {
+        this.selectedRows = val;
+      });
+  }
+
+  onGridReady(event: GridReadyEvent): void {
+    event.api.forEachNode((node) => {
+      if (this.selectedRows.includes(node.data.gqId)) {
+        node.setSelected(true);
+      }
+    });
+  }
+
+  onRowSelected(event: RowSelectedEvent): void {
+    if (event.node.isSelected()) {
+      this.store.dispatch(selectCase({ gqId: event.node.data.gqId }));
+    } else {
+      this.store.dispatch(deselectCase({ gqId: event.node.data.gqId }));
+    }
   }
 }

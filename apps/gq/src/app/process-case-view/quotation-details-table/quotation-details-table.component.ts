@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
 import {
   AgGridEvent,
@@ -19,9 +19,12 @@ import { Store } from '@ngrx/store';
 
 import {
   addSimulatedQuotation,
+  deselectQuotationDetail,
   getColumnDefsForRoles,
+  getSelectedQuotationDetailIds,
   removeSimulatedQuotationDetail,
   resetSimulatedQuotation,
+  selectQuotationDetail,
 } from '../../core/store';
 import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/editable-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
@@ -82,6 +85,8 @@ export class QuotationDetailsTableComponent implements OnInit {
   simulatedValue: number;
   simulatedPriceSource: PriceSourceOptions;
 
+  selectedQuotationIds: string[] = [];
+
   constructor(
     private readonly store: Store,
     private readonly agGridStateService: AgGridStateService,
@@ -98,6 +103,13 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.onMultipleMaterialSimulation.bind(this);
     this.tableContext.onPriceSourceSimulation =
       this.onPriceSourceSimulation.bind(this);
+
+    this.store
+      .select(getSelectedQuotationDetailIds)
+      .pipe(take(1))
+      .subscribe((val) => {
+        this.selectedQuotationIds = val;
+      });
   }
 
   public onColumnChange(event: SortChangedEvent): void {
@@ -150,6 +162,12 @@ export class QuotationDetailsTableComponent implements OnInit {
     if (filterModel) {
       event.api.setFilterModel(filterModel);
     }
+
+    event.api.forEachNode((node) => {
+      if (this.selectedQuotationIds.includes(node.data.gqPositionId)) {
+        node.setSelected(true);
+      }
+    });
   }
 
   private readonly buildColumnData = (event: AgGridEvent) => {
@@ -167,6 +185,16 @@ export class QuotationDetailsTableComponent implements OnInit {
   }
 
   public onRowSelected(event: RowSelectedEvent): void {
+    if (event.node.isSelected()) {
+      this.store.dispatch(
+        selectQuotationDetail({ gqPositionId: event.node.data.gqPositionId })
+      );
+    } else {
+      this.store.dispatch(
+        deselectQuotationDetail({ gqPositionId: event.node.data.gqPositionId })
+      );
+    }
+
     this.selectedRows = event.api.getSelectedNodes();
     if (this.simulatedPriceSource) {
       this.onPriceSourceSimulation(this.simulatedPriceSource);

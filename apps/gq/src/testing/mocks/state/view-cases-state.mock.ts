@@ -5,4 +5,5 @@ export const VIEW_CASE_STATE_MOCK: ViewCasesState = {
   quotations: undefined,
   errorMessage: undefined,
   deleteLoading: false,
+  selectedCases: [],
 };

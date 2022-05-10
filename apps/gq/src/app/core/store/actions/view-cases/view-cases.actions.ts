@@ -24,6 +24,14 @@ export const deleteCasesFailure = createAction(
   '[View Cases] Delete Selected Cases for Authenticated User Failure',
   props<{ errorMessage: string }>()
 );
+export const selectCase = createAction(
+  '[View Cases] Select a Case',
+  props<{ gqId: number }>()
+);
+export const deselectCase = createAction(
+  '[View Cases] Deselect a Case',
+  props<{ gqId: number }>()
+);
 
 const all = union({
   loadCases,
@@ -32,6 +40,8 @@ const all = union({
   deleteCase,
   deleteCasesSuccess,
   deleteCasesFailure,
+  selectCase,
+  deselectCase,
 });
 
 export type ViewCaseActions = typeof all;
