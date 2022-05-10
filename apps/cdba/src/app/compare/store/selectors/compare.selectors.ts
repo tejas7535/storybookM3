@@ -4,7 +4,10 @@ import {
   BomIdentifier,
   BomItem,
   Calculation,
+  CostComponentSplit,
+  CostComponentSplitType,
   DimensionAndWeightDetails,
+  OdataBomIdentifier,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import { addCostShareOfParent } from '@cdba/shared/utils';
@@ -163,6 +166,51 @@ export const getChildrenOfSelectedBomItem = (index: number) =>
             addCostShareOfParent(item, state[index].billOfMaterial.selected)
           )
       : undefined
+  );
+
+export const getBomIdentifierForSelectedBomItem = (index: number) =>
+  createSelector(
+    getCompareState,
+    (state: CompareState): OdataBomIdentifier =>
+      state[index]?.billOfMaterial?.selected
+        ? state[index].billOfMaterial.selected.bomIdentifier
+        : undefined
+  );
+
+export const getCostComponentSplitItems = (index: number) =>
+  createSelector(getCompareState, (state: CompareState): CostComponentSplit[] =>
+    state[index]?.costComponentSplit?.items
+      ? state[index].costComponentSplit.items.filter(
+          (item) =>
+            item.splitType === state[index].costComponentSplit.selectedSplitType
+        )
+      : undefined
+  );
+
+export const getCostComponentSplitLoading = (index: number) =>
+  createSelector(
+    getCompareState,
+    (state: CompareState) => state[index]?.costComponentSplit?.loading
+  );
+
+export const getCostComponentSplitError = (index: number) =>
+  createSelector(
+    getCompareState,
+    (state: CompareState) => state[index]?.costComponentSplit?.errorMessage
+  );
+
+export const getCostComponentSplitSummary = (index: number) =>
+  createSelector(getCompareState, (state: CompareState): CostComponentSplit[] =>
+    state[index]?.costComponentSplit?.items?.filter(
+      (item) => item.splitType === 'TOTAL'
+    )
+  );
+
+export const getSelectedSplitType = (index: number) =>
+  createSelector(
+    getCompareState,
+    (state: CompareState): CostComponentSplitType =>
+      state[index]?.costComponentSplit?.selectedSplitType
   );
 
 export const getMaterialDesignation = createSelector(

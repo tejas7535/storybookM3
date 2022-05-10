@@ -1,6 +1,8 @@
 import {
   BomItem,
   Calculation,
+  CostComponentSplit,
+  CostComponentSplitType,
   ExcludedCalculations,
   ReferenceType,
   ReferenceTypeIdentifier,
@@ -14,12 +16,16 @@ import {
   loadCalculationHistory,
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadProductDetails,
   loadProductDetailsFailure,
   loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
   selectCompareItems,
+  toggleSplitType,
 } from '../actions/compare.actions';
 
 export interface CompareState {
@@ -43,6 +49,12 @@ export interface CompareState {
       selected?: BomItem;
       loading?: boolean;
       errorMessage?: string;
+    };
+    costComponentSplit?: {
+      loading: boolean;
+      items: CostComponentSplit[];
+      selectedSplitType: CostComponentSplitType;
+      errorMessage: string;
     };
   };
 }
@@ -280,5 +292,78 @@ export const compareReducer = createReducer(
             },
           }
         : state
-  )
+  ),
+  on(
+    loadCostComponentSplit,
+    (state: CompareState, { index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              costComponentSplit: {
+                loading: true,
+                items: undefined,
+                errorMessage: undefined,
+                selectedSplitType: 'MAIN',
+              },
+            },
+          }
+        : state
+  ),
+  on(
+    loadCostComponentSplitSuccess,
+    (state: CompareState, { items, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              costComponentSplit: {
+                ...state[index].costComponentSplit,
+                items,
+                loading: false,
+              },
+            },
+          }
+        : state
+  ),
+  on(
+    loadCostComponentSplitFailure,
+    (state: CompareState, { errorMessage, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              costComponentSplit: {
+                ...state[index].costComponentSplit,
+                errorMessage,
+                items: [],
+                loading: false,
+              },
+            },
+          }
+        : state
+  ),
+  on(toggleSplitType, (state: CompareState): CompareState => {
+    const newState: CompareState = {};
+
+    Object.keys(state).forEach((index) => {
+      if (state[+index]?.costComponentSplit) {
+        newState[+index] = {
+          ...state[+index],
+          costComponentSplit: {
+            ...state[+index].costComponentSplit,
+            selectedSplitType:
+              state[+index].costComponentSplit.selectedSplitType === 'MAIN'
+                ? 'AUX'
+                : 'MAIN',
+          },
+        };
+      }
+    });
+
+    return newState;
+  })
 );

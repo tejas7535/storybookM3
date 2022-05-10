@@ -45,6 +45,46 @@
         "title": "Mehr Info",
         "calculations": "Kalkulationen",
         "chart": "Diagramm",
+        "costElements": {
+          "tabName": "Kostenelemente",
+          "showMore": "Mehr anzeigen",
+          "showLess": "Weniger anzeigen",
+          "featureToggleHint": "Dieses Feature kann nur nach Aktivierung des OData Service verwendet werden. Klicken Sie bitte hierzu auf die drei waagrechten Striche im linken oberen Bildschirmrand um die Einstellungen von CDBA zu öffnen. Im geöffneten Menü finden Sie am unteren Ende einen Schieberegler mit dem Sie die OData Service Funktion aktivieren können.",
+          "headers": {
+            "element": "Element",
+            "description": "Beschreibung",
+            "total": "Total",
+            "fix": "Fix",
+            "variable": "Variabel",
+            "currency": "Währung"
+          },
+          "elementDescriptions": {
+            "010": "Rohmaterial",
+            "020": "Kaufteile Dritte",
+            "025": "Kaufteile Verbundene",
+            "030": "Verpackungsmaterial",
+            "040": "Fremdbearbeitungskosten",
+            "050": "Materialgemeinkosten",
+            "055": "Kalkulatorische Zinsen Produktionsbestandteil",
+            "056": "Werkzeugkosten",
+            "500": "Abschreibungen",
+            "502": "Kalulatorische Zinsen Anlagen & Gebäude",
+            "505": "Werkzeugkosten",
+            "510": "Hilfs- & Betriebsstoffe",
+            "515": "Direkte Personalkosten",
+            "525": "sonstige Gemeinkosten",
+            "530": "Instandhaltung",
+            "535": "Qualitätssicherung",
+            "540": "Umlagen Werkslogistik & Fertigung",
+            "545": "AV-Produktionsplanung",
+            "550": "Werksumlagen",
+            "555": "Zentralumlagen",
+            "699": "Rest",
+            "070": "Rüstkosten",
+            "080": "Fertigungskosten",
+            "999": "Rest"
+          }
+        },
         "selectionHint": "Bitte wählen Sie ein Element aus der Hierarchie auf der linken Seite aus, das mindestens ein darunter liegendes Unterelement hat, um diese Details anzuzeigen."
       },
       "additionalFunctionality": {

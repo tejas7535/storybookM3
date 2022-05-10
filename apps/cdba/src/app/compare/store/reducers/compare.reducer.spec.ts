@@ -8,7 +8,9 @@ import {
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -22,12 +24,16 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadProductDetails,
   loadProductDetailsFailure,
   loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
   selectCompareItems,
+  toggleSplitType,
 } from '../actions/compare.actions';
 import { compareReducer, CompareState, initialState } from './compare.reducer';
 
@@ -380,6 +386,109 @@ describe('Compare Reducer', () => {
         state = compareReducer(mockState, action);
 
         expect(state).toEqual(mockState);
+      });
+    });
+  });
+  describe('Cost Component Split Actions', () => {
+    const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+    describe('loadCostComponentSplit', () => {
+      test('should set loading', () => {
+        const index = 0;
+        action = loadCostComponentSplit({ bomIdentifier, index });
+        state = compareReducer(mockState, action);
+
+        expect(state[index].costComponentSplit.loading).toBeTruthy();
+      });
+
+      test('should reset costComponentSplit state', () => {
+        const index = 0;
+        action = loadCostComponentSplit({ bomIdentifier, index });
+        state = compareReducer(mockState, action);
+
+        expect(state[index].costComponentSplit.items).toBeUndefined();
+        expect(state[index].costComponentSplit.errorMessage).toBeUndefined();
+      });
+
+      test('should return previous state for undefined index', () => {
+        const index = 99;
+
+        action = loadCostComponentSplit({ index, bomIdentifier });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
+    });
+
+    describe('loadCostComponentSplitSuccess', () => {
+      const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+      test('should unset loading and set cost element items', () => {
+        const index = 0;
+
+        action = loadCostComponentSplitSuccess({ items, index });
+
+        state = compareReducer(mockState, action);
+
+        expect(state[index].costComponentSplit.loading).toBeFalsy();
+        expect(state[index].costComponentSplit.items).toEqual(items);
+      });
+
+      test('should return previous state for undefined index', () => {
+        const index = 99;
+
+        action = loadCostComponentSplitSuccess({ index, items });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
+    });
+
+    describe('loadCostComponentSplitFailure', () => {
+      const errorMessage = 'FOOO';
+      const statusCode = 418;
+      test('should unset loading / set error message', () => {
+        const index = 0;
+
+        action = loadCostComponentSplitFailure({
+          index,
+          errorMessage,
+          statusCode,
+        });
+
+        state = compareReducer(mockState, action);
+
+        expect(state[index].costComponentSplit.loading).toBeFalsy();
+        expect(state[index].costComponentSplit.errorMessage).toEqual(
+          errorMessage
+        );
+      });
+      test('should return previous state for undefined index', () => {
+        const index = 99;
+
+        action = loadCostComponentSplitFailure({
+          index,
+          errorMessage,
+          statusCode,
+        });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
+    });
+
+    describe('toggleSplitType', () => {
+      test('should toggle the currently selected split type for every substate', () => {
+        action = toggleSplitType();
+
+        state = compareReducer(mockState, action);
+
+        Object.keys(state).forEach((stateIndex) =>
+          expect(
+            state[+stateIndex]?.costComponentSplit?.selectedSplitType
+          ).toEqual('AUX')
+        );
       });
     });
   });

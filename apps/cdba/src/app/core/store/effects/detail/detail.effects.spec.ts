@@ -5,13 +5,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -33,6 +36,9 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadDrawings,
   loadDrawingsFailure,
   loadDrawingsSuccess,
@@ -44,6 +50,7 @@ import {
 } from '../../actions';
 import { CalculationsResponse } from '../../reducers/detail/models';
 import {
+  getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
 } from '../../selectors/details/detail.selector';
@@ -55,6 +62,7 @@ describe('Detail Effects', () => {
   let actions$: any;
   let effects: DetailEffects;
   let detailService: DetailService;
+  let betaFeatureService: BetaFeatureService;
   let store: MockStore;
   let router: Router;
 
@@ -67,6 +75,7 @@ describe('Detail Effects', () => {
     service: DetailEffects,
     imports: [RouterTestingModule],
     providers: [
+      mockProvider(BetaFeatureService),
       mockProvider(DetailService),
       RoleFacade,
       provideMockActions(() => actions$),
@@ -83,6 +92,7 @@ describe('Detail Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(DetailEffects);
     detailService = spectator.inject(DetailService);
+    betaFeatureService = spectator.inject(BetaFeatureService);
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
   });
@@ -508,6 +518,82 @@ describe('Detail Effects', () => {
         plant: '0060',
       });
     });
+  });
+
+  describe('loadCostComponentSplit$', () => {
+    beforeEach(() => {
+      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      action = loadCostComponentSplit({ bomIdentifier });
+    });
+
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.getCostComponentSplit = jest.fn(() => response);
+
+        const result = loadCostComponentSplitSuccess({ items });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.loadCostComponentSplit$).toBeObservable(expected);
+        m.flush();
+        expect(detailService.getCostComponentSplit).toHaveBeenCalled();
+      })
+    );
+
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const result = loadCostComponentSplitFailure({
+          errorMessage: 'Error Message',
+          statusCode: 400,
+        });
+
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        detailService.getCostComponentSplit = jest.fn(() => response);
+
+        m.expect(effects.loadCostComponentSplit$).toBeObservable(expected);
+        m.flush();
+        expect(detailService.getCostComponentSplit).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('triggerLoadOfCostComponentSplit$', () => {
+    const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+    const result = loadCostComponentSplit({ bomIdentifier });
+    test(
+      'should return loadCostComponentSplit Action when bom loaded successfully',
+      marbles((m) => {
+        betaFeatureService.getBetaFeature = jest.fn(() => true);
+        store.overrideSelector(
+          getBomIdentifierForSelectedBomItem,
+          ODATA_BOM_IDENTIFIER_MOCK
+        );
+
+        action = loadBomSuccess({
+          items: BOM_ODATA_MOCK,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.triggerLoadOfCostComponentSplit$).toBeObservable(
+          expected
+        );
+      })
+    );
   });
 
   describe('DetailsEffects.checkEqualityOfIdentifier', () => {

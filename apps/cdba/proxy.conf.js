@@ -2,9 +2,9 @@ var HttpsProxyAgent = require('https-proxy-agent');
 var proxyConfig = [
   {
     context: '/api',
-    target: 'https://cdba-d.dev.dp.schaeffler',
-    secure: true,
-    changeOrigin: true,
+    target: 'http://localhost:8080',
+    secure: false,
+    changeOrigin: false,
   },
 ];
 

@@ -6,6 +6,7 @@ import {
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
 } from '@cdba/testing/mocks';
 
 import { CompareState, initialState } from '../reducers/compare.reducer';
@@ -19,6 +20,10 @@ import {
   getCalculationsError,
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
+  getCostComponentSplitError,
+  getCostComponentSplitItems,
+  getCostComponentSplitLoading,
+  getCostComponentSplitSummary,
   getDimensionAndWeightDetails,
   getMaterialDesignation,
   getObjectsAreEqual,
@@ -26,6 +31,7 @@ import {
   getSelectedCalculation,
   getSelectedCalculationNodeId,
   getSelectedReferenceTypeIdentifiers,
+  getSelectedSplitType,
 } from './compare.selectors';
 
 describe('Compare Selectors', () => {
@@ -396,6 +402,100 @@ describe('Compare Selectors', () => {
       result = getChildrenOfSelectedBomItem(0).projector(testCompareState);
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getCostComponentSplitItems', () => {
+    test('should return cost component split entries', () => {
+      expect(
+        getCostComponentSplitItems(0).projector(initialCompareState.compare)
+      ).toBeUndefined();
+      expect(
+        getCostComponentSplitItems(0).projector(fakeState.compare)
+      ).toEqual(COST_COMPONENT_SPLIT_ITEMS_MOCK);
+    });
+
+    it('should return undefined for non existing index', () => {
+      result = getCostComponentSplitItems(99).projector(fakeState.compare);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getCostComponentSplitLoading', () => {
+    test('should return cost component split loading status', () => {
+      expect(
+        getCostComponentSplitLoading(0).projector(initialCompareState.compare)
+      ).toBeFalsy();
+      expect(
+        getCostComponentSplitLoading(0).projector(fakeState.compare)
+      ).toBeFalsy();
+    });
+
+    it('should return undefined for non existing index', () => {
+      result = getCostComponentSplitLoading(99).projector(fakeState.compare);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getCostComponentSplitError', () => {
+    test('should return the cost component split error message', () => {
+      expect(
+        getCostComponentSplitError(0).projector(initialCompareState.compare)
+      ).toBeUndefined();
+      expect(
+        getCostComponentSplitError(0).projector(fakeState.compare)
+      ).toEqual('ERROOOOOR');
+    });
+
+    it('should return undefined for non existing index', () => {
+      result = getCostComponentSplitError(99).projector(fakeState.compare);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getCostComponentSplitSummary', () => {
+    test('should return the cost component split summary item', () => {
+      expect(
+        getCostComponentSplitSummary(0).projector(initialCompareState.compare)
+      ).toBeUndefined();
+
+      expected = [
+        {
+          costComponent: undefined,
+          currency: 'USD',
+          description: undefined,
+          fixedValue: 0.5616,
+          splitType: 'TOTAL',
+          totalValue: 1.4686,
+          variableValue: 0.907,
+        },
+      ];
+      expect(
+        getCostComponentSplitSummary(0).projector(fakeState.compare)
+      ).toEqual(expected);
+    });
+
+    it('should return undefined for non existing index', () => {
+      result = getCostComponentSplitSummary(99).projector(fakeState.compare);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getSelectedSplitType', () => {
+    test('should return the split type', () => {
+      expect(getSelectedSplitType(0).projector(fakeState.compare)).toEqual(
+        'MAIN'
+      );
+    });
+
+    it('should return undefined for non existing index', () => {
+      result = getSelectedSplitType(99).projector(fakeState.compare);
+
+      expect(result).toBeUndefined();
     });
   });
 

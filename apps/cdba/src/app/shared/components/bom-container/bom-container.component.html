@@ -37,12 +37,21 @@
             *ngIf="children.length > 0"
             [data]="children"
           ></cdba-bom-legend>
-           
         </ng-container>
         <cdba-loading-spinner
           *ngIf="bomLoading$ | ngrxPush"
           [show]="true"
         ></cdba-loading-spinner>
+      </ng-container>
+      <ng-container costElements>
+        <cdba-cost-elements-table
+          *ngIf="showSidenavContent"
+          [index]="index"
+          [isLoading]="costComponentSplitLoading$ | ngrxPush"
+          [errorMessage]="costComponentSplitErrorMessage$ | ngrxPush"
+          [costElementsData]="costComponentSplitItems$ | ngrxPush"
+          [costElementsSummary]="costComponentSplitSummary$ | ngrxPush"
+        ></cdba-cost-elements-table>
       </ng-container>
     </cdba-bom-overlay>
   </mat-sidenav>

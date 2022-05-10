@@ -4,6 +4,7 @@ export * from './bom.mock';
 export * from './bom-identifier.mock';
 export * from './bom-odata.mock';
 export * from './calculations.mock';
+export * from './cost-component-split.mock';
 export * from './customer-details.mock';
 export * from './dimension-and-weight-details.mock';
 export * from './drawings.mock';

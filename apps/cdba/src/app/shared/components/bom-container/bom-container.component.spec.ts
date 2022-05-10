@@ -14,6 +14,7 @@ import { MaterialNumberModule } from '@cdba/shared/pipes';
 import {
   BOM_ODATA_MOCK,
   COMPARE_STATE_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
 import {
@@ -30,7 +31,7 @@ import { marbles } from 'rxjs-marbles';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { Calculation } from '../../models';
+import { Calculation, CostComponentSplit } from '../../models';
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
 import { BomOverlayModule } from '../bom-overlay/bom-overlay.module';
@@ -123,6 +124,19 @@ describe('BomContainerComponent', () => {
       'should use detail selectors to init observables',
       marbles((m) => {
         const expectedChildrenOfSelectedBomItem = [BOM_ODATA_MOCK[1]];
+        const expectedCostComponentSplitSummary: CostComponentSplit[] = [
+          {
+            costComponent: undefined,
+            description: undefined,
+            splitType: 'TOTAL',
+            totalValue: 1.4686,
+            fixedValue: 0.5616,
+            variableValue: 0.907,
+            currency: 'USD',
+          },
+        ];
+        const expectedCostComponentSplitItems: CostComponentSplit[] =
+          COST_COMPONENT_SPLIT_ITEMS_MOCK;
 
         component['initializeWithDetailSelectors']();
 
@@ -161,6 +175,19 @@ describe('BomContainerComponent', () => {
         );
         m.expect(component.childrenOfSelectedBomItem$).toBeObservable(
           m.cold('a', { a: expectedChildrenOfSelectedBomItem })
+        );
+
+        m.expect(component.costComponentSplitItems$).toBeObservable(
+          m.cold('a', { a: expectedCostComponentSplitItems })
+        );
+        m.expect(component.costComponentSplitSummary$).toBeObservable(
+          m.cold('a', { a: expectedCostComponentSplitSummary })
+        );
+        m.expect(component.costComponentSplitLoading$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.costComponentSplit.loading })
+        );
+        m.expect(component.costComponentSplitErrorMessage$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.costComponentSplit.errorMessage })
         );
       })
     );

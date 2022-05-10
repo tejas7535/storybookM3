@@ -8,15 +8,7 @@ export interface BomItemOdata {
   costShareOfParent: number;
   predecessorsInTree: string[];
 
-  bomIdentifier: {
-    costingDate: string;
-    costingNumber: string;
-    costingType: string;
-    version: string;
-    enteredManually: boolean;
-    referenceObject: string;
-    valuationVariant: string;
-  };
+  bomIdentifier: OdataBomIdentifier;
 
   bomInformation: {
     productCostingGroup: string;
@@ -111,4 +103,14 @@ export interface BomItemOdata {
     toolTariff: number;
     tariffUnit: number;
   };
+}
+
+export interface OdataBomIdentifier {
+  costingDate: string;
+  costingNumber: string;
+  costingType: string;
+  version: string;
+  enteredManually: boolean;
+  referenceObject: string;
+  valuationVariant: string;
 }

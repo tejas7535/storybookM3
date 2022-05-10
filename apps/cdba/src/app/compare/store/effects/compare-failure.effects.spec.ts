@@ -16,6 +16,7 @@ import { marbles } from 'rxjs-marbles';
 import {
   loadBomFailure,
   loadCalculationHistoryFailure,
+  loadCostComponentSplitFailure,
   loadProductDetailsFailure,
 } from '../actions/compare.actions';
 import { CompareFailureEffects } from './compare-failure.effects';
@@ -92,15 +93,22 @@ describe('CompareFailureEffects', () => {
             ...forbiddenError,
           });
 
-        actions$ = m.hot('-a-b-c', {
+        const loadCostComponentSplitForbiddenFailureAction =
+          loadCostComponentSplitFailure({
+            index,
+            ...forbiddenError,
+          });
+
+        actions$ = m.hot('-a-b-c-d', {
           a: loadBomForbiddenFailureAction,
           b: loadCalculationHistoryForbiddenFailureAction,
           c: loadProductDetailsForbiddenFailureAction,
+          d: loadCostComponentSplitForbiddenFailureAction,
         });
 
         m.expect(effects.loadFailure$).toBeObservable(actions$);
         m.flush();
-        expect(router.navigate).toBeCalledTimes(3);
+        expect(router.navigate).toBeCalledTimes(4);
         expect(router.navigate).toHaveBeenCalledWith([
           'empty-states',
           'forbidden',
@@ -131,15 +139,22 @@ describe('CompareFailureEffects', () => {
           }
         );
 
-        actions$ = m.hot('-a-b-c', {
+        const loadCostComponentSplitServerFailureAction =
+          loadCostComponentSplitFailure({
+            index,
+            ...serverError,
+          });
+
+        actions$ = m.hot('-a-b-c-d', {
           a: loadBomServerFailureAction,
           b: loadCalculationHistoryServerFailureAction,
           c: loadProductDetailsServerFailureAction,
+          d: loadCostComponentSplitServerFailureAction,
         });
 
         m.expect(effects.loadFailure$).toBeObservable(actions$);
         m.flush();
-        expect(httpErrorService.handleHttpErrorDefault).toBeCalledTimes(3);
+        expect(httpErrorService.handleHttpErrorDefault).toBeCalledTimes(4);
       })
     );
   });

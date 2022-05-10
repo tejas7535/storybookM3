@@ -3,8 +3,10 @@ import {
   BOM_IDENTIFIER_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -16,6 +18,9 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadDrawings,
   loadDrawingsFailure,
   loadDrawingsSuccess,
@@ -27,6 +32,7 @@ import {
   selectCalculations,
   selectDrawing,
   selectReferenceType,
+  toggleSplitType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
 import { CalculationsResponse } from './models';
@@ -325,6 +331,61 @@ describe('Detail Reducer', () => {
       const state = detailReducer(fakeState, action);
 
       expect(state.calculations.selectedNodeIds).toEqual(nodeIds);
+    });
+  });
+
+  describe('loadCostComponentSplit', () => {
+    const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+    test('should set loading', () => {
+      const action = loadCostComponentSplit({ bomIdentifier });
+      const state = detailReducer(initialState, action);
+
+      expect(state.costComponentSplit.loading).toBeTruthy();
+    });
+
+    test('should reset costComponentSplit state', () => {
+      const action = loadCostComponentSplit({ bomIdentifier });
+      const state = detailReducer(initialState, action);
+
+      expect(state.costComponentSplit.items).toBeUndefined();
+      expect(state.costComponentSplit.errorMessage).toBeUndefined();
+    });
+  });
+
+  describe('loadCostComponentSplitSuccess', () => {
+    test('should unset loading and set cost element items', () => {
+      const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+
+      const action = loadCostComponentSplitSuccess({ items });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.costComponentSplit.loading).toBeFalsy();
+      expect(state.costComponentSplit.items).toEqual(items);
+    });
+  });
+
+  describe('loadCostComponentSplitFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadCostComponentSplitFailure({
+        errorMessage,
+        statusCode: 418,
+      });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.costComponentSplit.loading).toBeFalsy();
+      expect(state.costComponentSplit.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('toggleSplitType', () => {
+    test('should toggle the currently selected split type', () => {
+      const action = toggleSplitType();
+
+      const state = detailReducer(initialState, action);
+
+      expect(state.costComponentSplit.selectedSplitType).toEqual('AUX');
     });
   });
 });

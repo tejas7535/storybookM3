@@ -1,6 +1,8 @@
 import {
   BomItem,
   Calculation,
+  CostComponentSplit,
+  CostComponentSplitType,
   Drawing,
   ExcludedCalculations,
   ReferenceType,
@@ -15,6 +17,9 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadDrawings,
   loadDrawingsFailure,
   loadDrawingsSuccess,
@@ -26,6 +31,7 @@ import {
   selectCalculations,
   selectDrawing,
   selectReferenceType,
+  toggleSplitType,
 } from '../../actions';
 
 export interface DetailState {
@@ -47,6 +53,12 @@ export interface DetailState {
     loading: boolean;
     items: BomItem[];
     selectedItem: BomItem;
+    errorMessage: string;
+  };
+  costComponentSplit: {
+    loading: boolean;
+    items: CostComponentSplit[];
+    selectedSplitType: CostComponentSplitType;
     errorMessage: string;
   };
   drawings: {
@@ -76,6 +88,12 @@ export const initialState: DetailState = {
     loading: false,
     items: undefined,
     selectedItem: undefined,
+    errorMessage: undefined,
+  },
+  costComponentSplit: {
+    loading: false,
+    items: undefined,
+    selectedSplitType: 'MAIN',
     errorMessage: undefined,
   },
   drawings: {
@@ -262,6 +280,10 @@ export const detailReducer = createReducer(
         ...initialState.bom,
         loading: true,
       },
+      costComponentSplit: {
+        ...initialState.costComponentSplit,
+        loading: true,
+      },
     })
   ),
   on(
@@ -293,6 +315,52 @@ export const detailReducer = createReducer(
     (state: DetailState, { item }): DetailState => ({
       ...state,
       bom: { ...state.bom, selectedItem: item },
+    })
+  ),
+  on(
+    loadCostComponentSplit,
+    (state: DetailState): DetailState => ({
+      ...state,
+      costComponentSplit: {
+        ...initialState.costComponentSplit,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadCostComponentSplitSuccess,
+    (state: DetailState, { items }): DetailState => ({
+      ...state,
+      costComponentSplit: {
+        ...state.costComponentSplit,
+        items,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadCostComponentSplitFailure,
+    (state: DetailState, { errorMessage }): DetailState => ({
+      ...state,
+      costComponentSplit: {
+        ...state.costComponentSplit,
+        errorMessage,
+        items: [],
+        loading: false,
+      },
+    })
+  ),
+  on(
+    toggleSplitType,
+    (state: DetailState): DetailState => ({
+      ...state,
+      costComponentSplit: {
+        ...state.costComponentSplit,
+        selectedSplitType:
+          state.costComponentSplit.selectedSplitType === 'MAIN'
+            ? 'AUX'
+            : 'MAIN',
+      },
     })
   )
 );

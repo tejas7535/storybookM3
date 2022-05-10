@@ -9,11 +9,15 @@ import { BetaFeature } from '@cdba/shared/constants/beta-feature';
 import {
   BomIdentifier,
   BomItem,
+  CostComponentSplit,
   Drawing,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
-import { BomItemOdata } from '@cdba/shared/models/bom-item-odata.model';
+import {
+  BomItemOdata,
+  OdataBomIdentifier,
+} from '@cdba/shared/models/bom-item-odata.model';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import { withCache } from '@ngneat/cashew';
 
@@ -198,6 +202,54 @@ export class DetailService {
         map((items: BomItem[] | BomItemOdata[]) =>
           DetailService.defineBomTreeForAgGrid(items, 0)
         )
+      );
+  }
+
+  public getCostComponentSplit(
+    bomIdentifier: OdataBomIdentifier
+  ): Observable<CostComponentSplit[]> {
+    const path = `${API.v1}/${DetailPath.CostComponentSplit}`;
+
+    const params: HttpParams = new HttpParams()
+      .set(this.PARAM_COSTING_DATE, bomIdentifier.costingDate)
+      .set(this.PARAM_COSTING_NUMBER, bomIdentifier.costingNumber)
+      .set(this.PARAM_COSTING_TYPE, bomIdentifier.costingType)
+      .set(this.PARAM_VERSION, bomIdentifier.version)
+      .set(this.PARAM_ENTERED_MANUALLY, bomIdentifier.enteredManually)
+      .set(this.PARAM_REFERENCE_OBJECT, bomIdentifier.referenceObject)
+      .set(this.PARAM_VALUATION_VARIANT, bomIdentifier.valuationVariant);
+
+    return this.httpClient
+      .get<CostComponentSplit[]>(path, {
+        params,
+        context: withCache(),
+      })
+      .pipe(
+        map((items) => {
+          let sumTotalValue = 0;
+          let sumVariableValue = 0;
+          let sumFixedValue = 0;
+
+          items.forEach((item) => {
+            if (item.splitType === 'MAIN') {
+              sumTotalValue += item.totalValue;
+              sumVariableValue += item.variableValue;
+              sumFixedValue += item.fixedValue;
+            }
+          });
+
+          items.push({
+            costComponent: undefined,
+            description: undefined,
+            splitType: 'TOTAL',
+            totalValue: sumTotalValue,
+            fixedValue: sumFixedValue,
+            variableValue: sumVariableValue,
+            currency: items[0]?.currency,
+          });
+
+          return items;
+        })
       );
   }
 

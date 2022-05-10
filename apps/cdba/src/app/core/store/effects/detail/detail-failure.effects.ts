@@ -14,6 +14,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   loadBomFailure,
   loadCalculationsFailure,
+  loadCostComponentSplitFailure,
   loadDrawingsFailure,
   loadReferenceTypeFailure,
 } from '../../actions';
@@ -27,7 +28,8 @@ export class DetailFailureEffects {
           loadReferenceTypeFailure,
           loadBomFailure,
           loadCalculationsFailure,
-          loadDrawingsFailure
+          loadDrawingsFailure,
+          loadCostComponentSplitFailure
         ),
         tap(async (action) => {
           if (action.statusCode === HttpStatusCode.Forbidden) {

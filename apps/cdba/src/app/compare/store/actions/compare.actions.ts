@@ -4,7 +4,9 @@ import {
   BomIdentifier,
   BomItem,
   Calculation,
+  CostComponentSplit,
   ExcludedCalculations,
+  OdataBomIdentifier,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
@@ -86,6 +88,23 @@ export const selectBomItem = createAction(
   props<{ item: BomItem; index: number }>()
 );
 
+export const loadCostComponentSplit = createAction(
+  '[Compare] Load Cost Component Split',
+  props<{ bomIdentifier: OdataBomIdentifier; index: number }>()
+);
+
+export const loadCostComponentSplitSuccess = createAction(
+  '[Compare] Load Cost Component Split Success',
+  props<{ items: CostComponentSplit[]; index: number }>()
+);
+
+export const loadCostComponentSplitFailure = createAction(
+  '[Compare] Load Cost Component Split Failure',
+  props<{ errorMessage: string; statusCode: HttpStatusCode; index: number }>()
+);
+
+export const toggleSplitType = createAction('[Compare] Toggle Split Type');
+
 const all = union({
   selectCompareItems,
   loadAllProductDetails,
@@ -101,6 +120,10 @@ const all = union({
   loadBomSuccess,
   loadBomFailure,
   selectBomItem,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
+  toggleSplitType,
 });
 
 export type CompareActions = typeof all;

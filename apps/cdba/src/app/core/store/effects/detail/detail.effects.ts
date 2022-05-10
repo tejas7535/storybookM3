@@ -11,6 +11,7 @@ import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { Drawing, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -22,16 +23,21 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadDrawings,
   loadDrawingsFailure,
   loadDrawingsSuccess,
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
+  selectBomItem,
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
 import {
+  getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
 } from '../../selectors/details/detail.selector';
@@ -164,10 +170,45 @@ export class DetailEffects {
     );
   });
 
+  loadCostComponentSplit$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCostComponentSplit),
+      exhaustMap((action) => {
+        return this.detailService
+          .getCostComponentSplit(action.bomIdentifier)
+          .pipe(
+            map((items) => loadCostComponentSplitSuccess({ items })),
+            catchError((error: HttpErrorResponse) =>
+              of(
+                loadCostComponentSplitFailure({
+                  errorMessage: error.error?.detail || error.message,
+                  statusCode: error.status,
+                })
+              )
+            )
+          );
+      })
+    );
+  });
+
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectReferenceType),
       mergeMap(() => [loadReferenceType(), loadCalculations(), loadDrawings()])
+    )
+  );
+
+  triggerLoadOfCostComponentSplit$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectBomItem, loadBomSuccess),
+      filter(() => this.betaFeatureService.getBetaFeature('oData')),
+      concatLatestFrom(() =>
+        this.store.select(getBomIdentifierForSelectedBomItem)
+      ),
+      filter(([_action, bomIdentifier]) => bomIdentifier !== undefined),
+      mergeMap(([_action, bomIdentifier]) => [
+        loadCostComponentSplit({ bomIdentifier }),
+      ])
     )
   );
 
@@ -210,7 +251,8 @@ export class DetailEffects {
     private readonly detailService: DetailService,
     private readonly store: Store,
     private readonly roleFacade: RoleFacade,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly betaFeatureService: BetaFeatureService
   ) {}
 
   private static mapQueryParamsToIdentifier(

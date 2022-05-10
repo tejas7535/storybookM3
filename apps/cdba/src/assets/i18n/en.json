@@ -45,6 +45,46 @@
         "title": "More Info",
         "calculations": "Calculations",
         "chart": "Chart",
+        "costElements": {
+          "tabName": "Cost Elements",
+          "showMore": "Show more",
+          "showLess": "Show less",
+          "featureToggleHint": "This feature can only be used after activating the OData service. Please click on the three horizontal lines in the upper left corner of the screen to open the CDBA settings. In the opened menu you will find a slider at the bottom with which you can activate the OData Service function.",
+          "headers": {
+            "element": "Element",
+            "description": "Description",
+            "total": "Total",
+            "fix": "Fix",
+            "variable": "Variable",
+            "currency": "Currency"
+          },
+          "elementDescriptions": {
+            "010": "raw material",
+            "020": "purchasing parts extern",
+            "025": "purchasing parts intercompany",
+            "030": "packaging material",
+            "040": "external process costs",
+            "050": "material overhead costs",
+            "055": "calculatory interests production stock",
+            "056": "tool costs",
+            "500": "depreciation",
+            "502": "calculatory interests assets & buildings",
+            "505": "tool costs",
+            "510": "operating supplies",
+            "515": "direct personnel costs",
+            "525": "other overhead",
+            "530": "maintenance",
+            "535": "quality assurance",
+            "540": "logistics & production overhead",
+            "545": "product engineering & management",
+            "550": "plant overhead",
+            "555": "corporate overhead",
+            "699": "remainder",
+            "070": "setup costs",
+            "080": "production costs",
+            "999": "remainder"
+          }
+        },
         "selectionHint": "Please select an element from the hierarchy on the left that has at least one sub-element below to view these details."
       },
       "additionalFunctionality": {

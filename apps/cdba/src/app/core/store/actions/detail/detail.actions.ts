@@ -4,8 +4,10 @@ import {
   BomIdentifier,
   BomItem,
   Calculation,
+  CostComponentSplit,
   Drawing,
   ExcludedCalculations,
+  OdataBomIdentifier,
   ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
@@ -42,6 +44,23 @@ export const loadBomFailure = createAction(
   '[Detail] Load BOM Failure',
   props<{ errorMessage: string; statusCode: HttpStatusCode }>()
 );
+
+export const loadCostComponentSplit = createAction(
+  '[Detail] Load Cost Component Split',
+  props<{ bomIdentifier: OdataBomIdentifier }>()
+);
+
+export const loadCostComponentSplitSuccess = createAction(
+  '[Detail] Load Cost Component Split Success',
+  props<{ items: CostComponentSplit[] }>()
+);
+
+export const loadCostComponentSplitFailure = createAction(
+  '[Detail] Load Cost Component Split Failure',
+  props<{ errorMessage: string; statusCode: HttpStatusCode }>()
+);
+
+export const toggleSplitType = createAction('[Detail] Toggle Split Type');
 
 export const selectBomItem = createAction(
   '[Detail] Select BOM Item',
@@ -97,6 +116,10 @@ const all = union({
   loadBomSuccess,
   loadBomFailure,
   selectBomItem,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
+  toggleSplitType,
   selectDrawing,
   loadDrawings,
   loadDrawingsSuccess,

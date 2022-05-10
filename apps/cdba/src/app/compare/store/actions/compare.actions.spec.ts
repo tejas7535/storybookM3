@@ -3,7 +3,9 @@ import {
   BOM_IDENTIFIER_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
@@ -18,12 +20,16 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadProductDetails,
   loadProductDetailsFailure,
   loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
   selectCompareItems,
+  toggleSplitType,
 } from './compare.actions';
 
 describe('Compare Actions', () => {
@@ -218,6 +224,52 @@ describe('Compare Actions', () => {
         index,
         item: bomItem,
         type: expectedType,
+      });
+    });
+  });
+  describe('Cost Component Split Actions', () => {
+    test('loadCostComponentSplit', () => {
+      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      action = loadCostComponentSplit({ index, bomIdentifier });
+
+      expect(action).toEqual({
+        index,
+        bomIdentifier,
+        type: '[Compare] Load Cost Component Split',
+      });
+    });
+
+    test('loadCostComponentSplitSuccess', () => {
+      const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+      action = loadCostComponentSplitSuccess({ index, items });
+
+      expect(action).toEqual({
+        index,
+        items,
+        type: '[Compare] Load Cost Component Split Success',
+      });
+    });
+
+    test('loadCostComponentSplitFailure', () => {
+      action = loadCostComponentSplitFailure({
+        index,
+        errorMessage,
+        statusCode,
+      });
+
+      expect(action).toEqual({
+        index,
+        errorMessage,
+        statusCode,
+        type: '[Compare] Load Cost Component Split Failure',
+      });
+    });
+
+    test('toggleSplitType', () => {
+      action = toggleSplitType();
+
+      expect(action).toEqual({
+        type: '[Compare] Toggle Split Type',
       });
     });
   });

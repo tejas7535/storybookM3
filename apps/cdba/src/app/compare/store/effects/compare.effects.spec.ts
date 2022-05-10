@@ -4,14 +4,21 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CalculationsResponse } from '@cdba/core/store/reducers/detail/models';
 import { DetailService } from '@cdba/detail/service/detail.service';
-import { ReferenceTypeIdentifier } from '@cdba/shared/models';
+import {
+  BomIdentifier,
+  OdataBomIdentifier,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   AUTH_STATE_MOCK,
   BOM_IDENTIFIER_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
 } from '@cdba/testing/mocks';
 import {
@@ -34,6 +41,9 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   selectCalculation,
   selectCompareItems,
 } from '../actions/compare.actions';
@@ -49,6 +59,7 @@ describe('CompareEffects', () => {
   let actions$: any;
   let effects: CompareEffects;
   let detailService: DetailService;
+  let betaFeatureService: BetaFeatureService;
   let store: any;
   let router: Router;
 
@@ -56,13 +67,15 @@ describe('CompareEffects', () => {
     status: HttpStatusCode.BadRequest,
     error: { detail: 'Error Message' },
   });
-  const bomIdentifier = BOM_IDENTIFIER_MOCK;
+
+  const bomIdentifier: BomIdentifier | OdataBomIdentifier = BOM_IDENTIFIER_MOCK;
 
   const createService = createServiceFactory({
     service: CompareEffects,
     imports: [RouterTestingModule],
     providers: [
       mockProvider(DetailService),
+      mockProvider(BetaFeatureService),
       provideMockActions(() => actions$),
       provideMockStore({
         initialState: {
@@ -78,6 +91,7 @@ describe('CompareEffects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(CompareEffects);
     detailService = spectator.inject(DetailService);
+    betaFeatureService = spectator.inject(BetaFeatureService);
     store = spectator.inject(MockStore);
     router = spectator.inject(Router);
   });
@@ -425,6 +439,86 @@ describe('CompareEffects', () => {
 
         m.expect(effects.loadBillOfMaterial$).toBeObservable(expected);
         m.flush();
+      })
+    );
+  });
+
+  describe('loadCostComponentSplit$', () => {
+    const index = 3;
+    beforeEach(() => {
+      const actionPayload = {
+        index,
+        bomIdentifier: ODATA_BOM_IDENTIFIER_MOCK,
+      };
+      action = loadCostComponentSplit(actionPayload);
+    });
+
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.getCostComponentSplit = jest.fn(() => response);
+
+        const result = loadCostComponentSplitSuccess({ items, index });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.loadCostComponentSplit$).toBeObservable(expected);
+        m.flush();
+        expect(detailService.getCostComponentSplit).toHaveBeenCalled();
+      })
+    );
+
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
+
+        const result = loadCostComponentSplitFailure({
+          index,
+          errorMessage: 'Error Message',
+          statusCode: 400,
+        });
+
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        detailService.getCostComponentSplit = jest.fn(() => response);
+
+        m.expect(effects.loadCostComponentSplit$).toBeObservable(expected);
+        m.flush();
+        expect(detailService.getCostComponentSplit).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('triggerLoadOfCostComponentSplit$', () => {
+    const result = loadCostComponentSplit({
+      bomIdentifier: BOM_ODATA_MOCK[0].bomIdentifier,
+      index: 0,
+    });
+    test(
+      'should return loadCostComponentSplit Action when bom loaded successfully',
+      marbles((m) => {
+        betaFeatureService.getBetaFeature = jest.fn(() => true);
+
+        action = loadBomSuccess({
+          items: BOM_ODATA_MOCK,
+          index: 0,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.triggerLoadOfCostComponentSplit$).toBeObservable(
+          expected
+        );
       })
     );
   });

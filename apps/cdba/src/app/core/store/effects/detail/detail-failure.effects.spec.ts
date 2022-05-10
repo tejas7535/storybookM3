@@ -16,6 +16,7 @@ import { marbles } from 'rxjs-marbles';
 import {
   loadBomFailure,
   loadCalculationsFailure,
+  loadCostComponentSplitFailure,
   loadDrawingsFailure,
   loadReferenceTypeFailure,
 } from '../../actions';
@@ -81,17 +82,20 @@ describe('DetailFailureEffects', () => {
           loadDrawingsFailure(forbiddenError);
         const loadReferenceTypeForbiddenFailureAction =
           loadReferenceTypeFailure(forbiddenError);
+        const loadCostComponentSplitFailureAction =
+          loadCostComponentSplitFailure(forbiddenError);
 
-        actions$ = m.hot('-a-b-c-d', {
+        actions$ = m.hot('-a-b-c-d-e', {
           a: loadBomForbiddenFailureAction,
           b: loadCalculationsForbiddenFailureAction,
           c: loadDrawingsForbiddenFailureAction,
           d: loadReferenceTypeForbiddenFailureAction,
+          e: loadCostComponentSplitFailureAction,
         });
 
         m.expect(effects.loadFailure$).toBeObservable(actions$);
         m.flush();
-        expect(router.navigate).toBeCalledTimes(4);
+        expect(router.navigate).toBeCalledTimes(5);
         expect(router.navigate).toHaveBeenCalledWith([
           'empty-states',
           'forbidden',
@@ -111,17 +115,20 @@ describe('DetailFailureEffects', () => {
           loadDrawingsFailure(serverError);
         const loadReferenceTypeServernFailureAction =
           loadReferenceTypeFailure(serverError);
+        const loadCostComponentSplitFailureAction =
+          loadCostComponentSplitFailure(serverError);
 
-        actions$ = m.hot('-a-b-c-d', {
+        actions$ = m.hot('-a-b-c-d-e', {
           a: loadBomServerFailureAction,
           b: loadCalculationsServerFailureAction,
           c: loadDrawingsServerFailureAction,
           d: loadReferenceTypeServernFailureAction,
+          e: loadCostComponentSplitFailureAction,
         });
 
         m.expect(effects.loadFailure$).toBeObservable(actions$);
         m.flush();
-        expect(httpErrorService.handleHttpErrorDefault).toBeCalledTimes(4);
+        expect(httpErrorService.handleHttpErrorDefault).toBeCalledTimes(5);
         expect(httpErrorService.handleHttpErrorDefault).toHaveBeenCalled();
       })
     );

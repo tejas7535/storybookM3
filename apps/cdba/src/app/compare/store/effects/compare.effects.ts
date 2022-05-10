@@ -11,6 +11,7 @@ import { RoleFacade } from '@cdba/core/auth/role.facade';
 import { RouterStateUrl } from '@cdba/core/store';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
@@ -24,13 +25,18 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadProductDetails,
   loadProductDetailsFailure,
   loadProductDetailsSuccess,
+  selectBomItem,
   selectCalculation,
   selectCompareItems,
 } from '../actions/compare.actions';
 import {
+  getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifiers,
 } from '../selectors/compare.selectors';
@@ -202,6 +208,45 @@ export class CompareEffects {
     )
   );
 
+  loadCostComponentSplit$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadCostComponentSplit),
+      mergeMap((action) => {
+        return this.detailService
+          .getCostComponentSplit(action.bomIdentifier)
+          .pipe(
+            map((items) =>
+              loadCostComponentSplitSuccess({ items, index: action.index })
+            ),
+            catchError((error: HttpErrorResponse) =>
+              of(
+                loadCostComponentSplitFailure({
+                  index: action.index,
+                  errorMessage: error.error?.detail || error.message,
+                  statusCode: error.status,
+                })
+              )
+            )
+          );
+      })
+    );
+  });
+
+  triggerLoadOfCostComponentSplit$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectBomItem, loadBomSuccess),
+      filter(() => this.betaFeatureService.getBetaFeature('oData')),
+      map((action) => action.index),
+      concatLatestFrom((index) =>
+        this.store.select(getBomIdentifierForSelectedBomItem(index))
+      ),
+      filter(([_index, bomIdentifier]) => bomIdentifier !== undefined),
+      mergeMap(([index, bomIdentifier]) => [
+        loadCostComponentSplit({ index, bomIdentifier }),
+      ])
+    )
+  );
+
   public triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCalculation, loadCalculationHistorySuccess),
@@ -232,7 +277,8 @@ export class CompareEffects {
     private readonly detailService: DetailService,
     private readonly store: Store,
     private readonly roleFacade: RoleFacade,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly betaFeatureService: BetaFeatureService
   ) {}
 
   private static mapQueryParams(

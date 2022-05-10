@@ -1,0 +1,40 @@
+<ng-container *ngIf="odataFeatureEnabled; else showFeatureToggleHint">
+  <ag-grid-angular
+    class="ag-theme-material h-full"
+    [domLayout]="'autoHeight'"
+    [rowData]="costElementsData"
+    [pinnedBottomRowData]="costElementsSummary"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    [modules]="modules"
+    [components]="components"
+    [statusBar]="statusBar"
+    [getMainMenuItems]="getMainMenuItems"
+    [loadingOverlayComponent]="loadingOverlayComponent"
+    [suppressNoRowsOverlay]="costElementsData === undefined || isLoading"
+    [noRowsOverlayComponent]="noRowsOverlayComponent"
+    [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+    [enableRangeSelection]="true"
+    [rowHeight]="30"
+    [valueCache]="true"
+    [animateRows]="true"
+    [suppressCsvExport]="true"
+    [suppressExcelExport]="true"
+    [suppressCellFocus]="true"
+    [context]="{index}"
+    (gridReady)="onGridReady($event)"
+  >
+  </ag-grid-angular>
+</ng-container>
+
+<ng-template #showFeatureToggleHint>
+  <div
+    class="flex flex-col items-center p-8 text-center"
+    *transloco="let t; read: 'shared.bom.additionalInformation.costElements'"
+  >
+    <mat-icon class="mb-4 text-subtitle-1">info</mat-icon>
+    <div class="max-w-[400px] text-subtitle-1">
+      {{ t('featureToggleHint') }}
+    </div>
+  </div>
+</ng-template>

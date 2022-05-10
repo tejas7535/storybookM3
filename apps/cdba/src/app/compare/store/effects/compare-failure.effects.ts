@@ -14,6 +14,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   loadBomFailure,
   loadCalculationHistoryFailure,
+  loadCostComponentSplitFailure,
   loadProductDetailsFailure,
 } from '../actions/compare.actions';
 
@@ -25,7 +26,8 @@ export class CompareFailureEffects {
         ofType(
           loadBomFailure,
           loadCalculationHistoryFailure,
-          loadProductDetailsFailure
+          loadProductDetailsFailure,
+          loadCostComponentSplitFailure
         ),
         tap(async (action) => {
           if (action.statusCode === HttpStatusCode.Forbidden) {

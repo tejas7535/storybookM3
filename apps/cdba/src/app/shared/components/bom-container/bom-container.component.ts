@@ -17,7 +17,7 @@ import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { BomItem, Calculation } from '../../models';
+import { BomItem, Calculation, CostComponentSplit } from '../../models';
 
 @Component({
   selector: 'cdba-bom-container',
@@ -45,6 +45,12 @@ export class BomContainerComponent implements OnInit {
   bomErrorMessage$: Observable<string>;
   childrenOfSelectedBomItem$: Observable<BomItem[]>;
   bomItems$: Observable<BomItem[]>;
+
+  // Cost Component Split Variables
+  costComponentSplitLoading$: Observable<boolean>;
+  costComponentSplitErrorMessage$: Observable<string>;
+  costComponentSplitItems$: Observable<CostComponentSplit[]>;
+  costComponentSplitSummary$: Observable<CostComponentSplit[]>;
 
   public selectedBomItem: BomItem;
   public showSidenavContent = false;
@@ -136,6 +142,19 @@ export class BomContainerComponent implements OnInit {
     this.childrenOfSelectedBomItem$ = this.store.select(
       fromCompare.getChildrenOfSelectedBomItem(this.index)
     );
+
+    this.costComponentSplitLoading$ = this.store.select(
+      fromCompare.getCostComponentSplitLoading(this.index)
+    );
+    this.costComponentSplitErrorMessage$ = this.store.select(
+      fromCompare.getCostComponentSplitError(this.index)
+    );
+    this.costComponentSplitItems$ = this.store.select(
+      fromCompare.getCostComponentSplitItems(this.index)
+    );
+    this.costComponentSplitSummary$ = this.store.select(
+      fromCompare.getCostComponentSplitSummary(this.index)
+    );
   }
 
   private initializeWithDetailSelectors(): void {
@@ -172,6 +191,19 @@ export class BomContainerComponent implements OnInit {
     this.bomErrorMessage$ = this.store.select(fromDetail.getBomError);
     this.childrenOfSelectedBomItem$ = this.store.select(
       fromDetail.getChildrenOfSelectedBomItem
+    );
+
+    this.costComponentSplitLoading$ = this.store.select(
+      fromDetail.getCostComponentSplitLoading
+    );
+    this.costComponentSplitErrorMessage$ = this.store.select(
+      fromDetail.getCostComponentSplitError
+    );
+    this.costComponentSplitItems$ = this.store.select(
+      fromDetail.getCostComponentSplitItems
+    );
+    this.costComponentSplitSummary$ = this.store.select(
+      fromDetail.getCostComponentSplitSummary
     );
   }
 

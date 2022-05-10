@@ -5,6 +5,7 @@ export { BomOverlayModule } from './bom-overlay/bom-overlay.module';
 export { BomTableModule } from './bom-table/bom-table.module';
 export { BrowserSupportModule } from './browser-support/browser-support.module';
 export { CalculationsTableModule } from './calculations-table/calculations-table.module';
+export { CostElementsTableModule } from './cost-elements-table/cost-elements-table.module';
 export { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
 export { RoleDescriptionsModule } from './role-descriptions/role-descriptions.module';
 export { Tab, TabsHeaderModule } from './tabs-header';

@@ -1,8 +1,9 @@
-import { BomItem } from '@cdba/shared/models';
+import { BomItem, CostComponentSplit } from '@cdba/shared/models';
 import {
   BOM_ITEM_ODATA_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   CUSTOMER_DETAILS_MOCK,
   DETAIL_STATE_MISSING_SALES_INFORMATION_MOCK,
   DETAIL_STATE_MOCK,
@@ -26,6 +27,10 @@ import {
   getCalculations,
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
+  getCostComponentSplitError,
+  getCostComponentSplitItems,
+  getCostComponentSplitLoading,
+  getCostComponentSplitSummary,
   getCustomerDetails,
   getDimensionAndWeightDetails,
   getDrawingsError,
@@ -41,6 +46,7 @@ import {
   getSelectedCalculation,
   getSelectedCalculationNodeId,
   getSelectedReferenceTypeIdentifier,
+  getSelectedSplitType,
 } from './detail.selector';
 
 describe('Detail Selector', () => {
@@ -254,6 +260,54 @@ describe('Detail Selector', () => {
       };
 
       expect(getChildrenOfSelectedBomItem(testState)).toEqual([bomItems[1]]);
+    });
+  });
+
+  describe('getCostComponentSplitItems', () => {
+    test('should return cost component split entries', () => {
+      expect(getCostComponentSplitItems(initialDetailState)).toBeUndefined();
+      expect(getCostComponentSplitItems(fakeState)).toEqual(
+        COST_COMPONENT_SPLIT_ITEMS_MOCK
+      );
+    });
+  });
+
+  describe('getCostComponentSplitLoading', () => {
+    test('should return cost component split loading status', () => {
+      expect(getCostComponentSplitLoading(initialDetailState)).toBeFalsy();
+      expect(getCostComponentSplitLoading(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getCostComponentSplitError', () => {
+    test('should return the cost component split error message', () => {
+      expect(getCostComponentSplitError(initialDetailState)).toBeUndefined();
+      expect(getCostComponentSplitError(fakeState)).toEqual('ERROOOOOR');
+    });
+  });
+
+  describe('getCostComponentSplitSummary', () => {
+    test('should return the cost component split summary item', () => {
+      expect(getCostComponentSplitSummary(initialDetailState)).toBeUndefined();
+
+      const expected: CostComponentSplit[] = [
+        {
+          costComponent: undefined,
+          currency: 'USD',
+          description: undefined,
+          fixedValue: 0.5616,
+          splitType: 'TOTAL',
+          totalValue: 1.4686,
+          variableValue: 0.907,
+        },
+      ];
+      expect(getCostComponentSplitSummary(fakeState)).toEqual(expected);
+    });
+  });
+
+  describe('getSelectedSplitType', () => {
+    test('should return the split type', () => {
+      expect(getSelectedSplitType(initialDetailState)).toEqual('MAIN');
     });
   });
 

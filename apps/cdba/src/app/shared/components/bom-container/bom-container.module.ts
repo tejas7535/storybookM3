@@ -20,6 +20,7 @@ import { BomLegendModule } from '../bom-legend/bom-legend.module';
 import { BomOverlayModule } from '../bom-overlay/bom-overlay.module';
 import { BomTableModule } from '../bom-table/bom-table.module';
 import { CalculationsTableModule } from '../calculations-table/calculations-table.module';
+import { CostElementsTableModule } from '../cost-elements-table/cost-elements-table.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { BomContainerComponent } from './bom-container.component';
 
@@ -36,6 +37,7 @@ import { BomContainerComponent } from './bom-container.component';
     MatSidenavModule,
     BomTableModule,
     CalculationsTableModule,
+    CostElementsTableModule,
     BomChartModule,
     BomLegendModule,
     LoadingSpinnerModule,

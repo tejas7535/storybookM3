@@ -3,14 +3,22 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { waitForAsync } from '@angular/core/testing';
 
-import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import {
+  BomIdentifier,
+  CostComponentSplit,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
+  BOM_ODATA_MAPPED_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DRAWINGS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 import { withCache } from '@ngneat/cashew';
@@ -101,7 +109,7 @@ describe('DetailService', () => {
       );
 
       service.getBom(bomIdentifier).subscribe((response) => {
-        expect(response).toEqual(mock);
+        expect(response).toEqual(BOM_ODATA_MAPPED_MOCK);
       });
 
       const req = httpMock.expectOne(
@@ -128,6 +136,37 @@ describe('DetailService', () => {
       expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
+  });
+
+  describe('getCostComponentSplit', () => {
+    test('should get cost component split + summary', waitForAsync(() => {
+      const mock = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+
+      const expectedItems: CostComponentSplit[] = [
+        ...mock,
+        {
+          costComponent: undefined,
+          description: undefined,
+          currency: 'USD',
+          fixedValue: 0.5616,
+          splitType: 'TOTAL',
+          totalValue: 1.4686,
+          variableValue: 0.907,
+        },
+      ];
+
+      service.getCostComponentSplit(bomIdentifier).subscribe((response) => {
+        expect(response).toEqual(expectedItems);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/cost-component-split?costing_date=${bomIdentifier.costingDate}&costing_number=${bomIdentifier.costingNumber}&costing_type=${bomIdentifier.costingType}&version=${bomIdentifier.version}&entered_manually=${bomIdentifier.enteredManually}&reference_object=${bomIdentifier.referenceObject}&valuation_variant=${bomIdentifier.valuationVariant}`
+      );
+      expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
+      req.flush(mock);
+    }));
   });
 
   describe('defineBomTreeForAgGrid', () => {

@@ -8,4 +8,5 @@ export enum DetailPath {
   Calculations = 'calculations',
   Bom = 'bom',
   Drawings = 'products/drawings',
+  CostComponentSplit = 'cost-component-split',
 }

@@ -2,10 +2,13 @@ import {
   BomIdentifier,
   BomItem,
   Calculation,
+  CostComponentSplit,
+  CostComponentSplitType,
   CustomerDetails,
   DimensionAndWeightDetails,
   Drawing,
   ExcludedCalculations,
+  OdataBomIdentifier,
   PriceDetails,
   ProductionDetails,
   QuantitiesDetails,
@@ -201,6 +204,42 @@ export const getChildrenOfSelectedBomItem = createSelector(
           )
           .map((item) => addCostShareOfParent(item, state.bom.selectedItem))
       : undefined
+);
+
+export const getBomIdentifierForSelectedBomItem = createSelector(
+  getDetailState,
+  (state: DetailState): OdataBomIdentifier =>
+    state.bom.selectedItem ? state.bom.selectedItem.bomIdentifier : undefined
+);
+
+export const getCostComponentSplitItems = createSelector(
+  getDetailState,
+  (state: DetailState): CostComponentSplit[] =>
+    state.costComponentSplit.items?.filter(
+      (item) => item.splitType === state.costComponentSplit.selectedSplitType
+    )
+);
+
+export const getCostComponentSplitLoading = createSelector(
+  getDetailState,
+  (state: DetailState) => state.costComponentSplit.loading
+);
+
+export const getCostComponentSplitError = createSelector(
+  getDetailState,
+  (state: DetailState) => state.costComponentSplit.errorMessage
+);
+
+export const getCostComponentSplitSummary = createSelector(
+  getDetailState,
+  (state: DetailState): CostComponentSplit[] =>
+    state.costComponentSplit.items?.filter((item) => item.splitType === 'TOTAL')
+);
+
+export const getSelectedSplitType = createSelector(
+  getDetailState,
+  (state: DetailState): CostComponentSplitType =>
+    state.costComponentSplit.selectedSplitType
 );
 
 export const getBomIdentifierForSelectedCalculation = createSelector(

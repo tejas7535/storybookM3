@@ -5,7 +5,9 @@ import {
   BOM_IDENTIFIER_MOCK,
   BOM_ODATA_MOCK,
   CALCULATIONS_MOCK,
+  COST_COMPONENT_SPLIT_ITEMS_MOCK,
   EXCLUDED_CALCULATIONS_MOCK,
+  ODATA_BOM_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 
@@ -17,6 +19,9 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadCostComponentSplit,
+  loadCostComponentSplitFailure,
+  loadCostComponentSplitSuccess,
   loadDrawings,
   loadDrawingsFailure,
   loadDrawingsSuccess,
@@ -25,6 +30,7 @@ import {
   loadReferenceTypeSuccess,
   selectBomItem,
   selectReferenceType,
+  toggleSplitType,
 } from '../detail/detail.actions';
 
 describe('Detail Actions', () => {
@@ -110,6 +116,46 @@ describe('Detail Actions', () => {
         errorMessage,
         statusCode,
         type: '[Detail] Load BOM Failure',
+      });
+    });
+  });
+
+  describe('Cost Component Split Actions', () => {
+    test('loadCostComponentSplit', () => {
+      const bomIdentifier = ODATA_BOM_IDENTIFIER_MOCK;
+      action = loadCostComponentSplit({ bomIdentifier });
+
+      expect(action).toEqual({
+        bomIdentifier,
+        type: '[Detail] Load Cost Component Split',
+      });
+    });
+
+    test('loadCostComponentSplitSuccess', () => {
+      const items = COST_COMPONENT_SPLIT_ITEMS_MOCK;
+      action = loadCostComponentSplitSuccess({ items });
+
+      expect(action).toEqual({
+        items,
+        type: '[Detail] Load Cost Component Split Success',
+      });
+    });
+
+    test('loadCostComponentSplitFailure', () => {
+      action = loadCostComponentSplitFailure({ errorMessage, statusCode });
+
+      expect(action).toEqual({
+        errorMessage,
+        statusCode,
+        type: '[Detail] Load Cost Component Split Failure',
+      });
+    });
+
+    test('toggleSplitType', () => {
+      action = toggleSplitType();
+
+      expect(action).toEqual({
+        type: '[Detail] Toggle Split Type',
       });
     });
   });

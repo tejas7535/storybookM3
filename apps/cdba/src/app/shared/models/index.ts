@@ -2,8 +2,12 @@ export { AdditionalInformationDetails } from './additional-information-details.m
 export { BomIdentifier } from './bom-identifier.model';
 export * from './bom-item.model';
 export { BomItemClassic } from './bom-item-classic.model';
-export { BomItemOdata } from './bom-item-odata.model';
+export { BomItemOdata, OdataBomIdentifier } from './bom-item-odata.model';
 export { Calculation } from './calculation.model';
+export {
+  CostComponentSplit,
+  CostComponentSplitType,
+} from './cost-component-split.model';
 export { CostShareCategory } from './cost-share-category.type';
 export { CustomerDetails } from './customer-details.model';
 export { DimensionAndWeightDetails } from './dimension-and-weight-details.model';
