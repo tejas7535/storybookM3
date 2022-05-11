@@ -4,7 +4,10 @@ const { join } = require('path');
 module.exports = {
   content: [
     join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
-    ...createGlobPatternsForDependencies(__dirname),
+    ...createGlobPatternsForDependencies(
+      __dirname,
+      '../**/!(*.stories|*.spec).{ts,html}'
+    ),
   ],
   presets: [require('../../tailwind.config')],
   safelist: [
