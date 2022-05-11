@@ -24,7 +24,7 @@ export class BearingEffects {
   bearingSearch$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(searchBearing),
-      map((action: any) => action.query),
+      map((action) => action.query),
       mergeMap(
         (query: string) =>
           this.restService

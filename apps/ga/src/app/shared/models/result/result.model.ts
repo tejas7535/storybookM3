@@ -1,5 +1,5 @@
 export interface Result {
-  data: any;
+  data: null; // is null in real results
   state: boolean;
   _links: Link[];
 }

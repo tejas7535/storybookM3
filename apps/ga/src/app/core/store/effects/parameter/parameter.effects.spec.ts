@@ -1,10 +1,6 @@
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -33,14 +29,10 @@ describe('Parameter Effects', () => {
   let effects: ParameterEffects;
   let spectator: SpectatorService<ParameterEffects>;
   let restService: RestService;
-  let router: Router;
   let store: MockStore;
-
-  const mockUrl = '/grease-calculation/parameters';
 
   const createService = createServiceFactory({
     service: ParameterEffects,
-    imports: [RouterTestingModule],
     providers: [
       provideMockActions(() => actions$),
       {
@@ -68,30 +60,7 @@ describe('Parameter Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ParameterEffects);
     restService = spectator.inject(RestService);
-    router = spectator.inject(Router);
     store = spectator.inject(MockStore);
-
-    router.navigate = jest.fn();
-  });
-
-  describe('router$', () => {
-    it(
-      'should dispatch getCalculation',
-      marbles((m) => {
-        store.dispatch = jest.fn();
-        actions$ = m.hot('-a', {
-          a: {
-            type: ROUTER_NAVIGATED,
-            payload: { routerState: { url: mockUrl } },
-          },
-        });
-
-        const result = getProperties();
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.router$).toBeObservable(expected);
-      })
-    );
   });
 
   describe('updateModel$', () => {

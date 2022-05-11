@@ -36,13 +36,10 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
   localDev = environment.localDev;
 
   // TODO maybe get localised types from API
-  bearingTypes = bearingTypes.map(
-    (bearingType) =>
-      ({
-        ...bearingType,
-        text: `bearing.types.${bearingType.id}`,
-      } as any as FormControl)
-  );
+  bearingTypes = bearingTypes.map((bearingType) => ({
+    ...bearingType,
+    text: `bearing.types.${bearingType.id}`,
+  }));
 
   pattern = new FormControl(undefined);
   bearingType = new FormControl(undefined);
@@ -126,15 +123,14 @@ export class AdvancedBearingComponent implements OnInit, OnDestroy {
   }
 
   handleSubscriptions(): void {
-    this.bearingExtendedSearchParameters$.subscribe((value) => {
-      const params = { ...(value as any) };
-      Object.keys(params).forEach((key) => {
+    this.bearingExtendedSearchParameters$.subscribe((params) => {
+      for (const key in params) {
         if (params[key] !== undefined) {
           this.bearingExtendedSearchParametersForm.patchValue({
             [key]: params[key],
           });
         }
-      });
+      }
 
       // needed to show validation errors immediately
       Object.keys(this.bearingExtendedSearchParametersForm.controls).forEach(

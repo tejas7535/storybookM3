@@ -16,7 +16,10 @@ import { AppRoutePath } from '../app-route-path.enum';
 import { getParameterState } from '../core/store';
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import { Load } from '../shared/models';
-import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
+import {
+  getProperties,
+  patchParameters,
+} from './../core/store/actions/parameters/parameters.actions';
 import {
   initialState,
   ParameterState,
@@ -139,6 +142,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.store.dispatch(getProperties());
     this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedMovementType$ = this.store.select(getSelectedMovementType);
     this.parameterUpdating$ = this.store.select(getParameterUpdating);
@@ -191,7 +195,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public toggleLoadValidators(value: boolean) {
+  public toggleLoadValidators(value: boolean): void {
     if (value) {
       this.axial.addValidators(loadValidators);
       this.radial.addValidators(loadValidators);
@@ -206,7 +210,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.loadRatio.updateValueAndValidity();
   }
 
-  public toggleMovementValidators(movementType: Movement) {
+  public toggleMovementValidators(movementType: Movement): void {
     if (movementType === Movement.rotating) {
       this.rotationalSpeed.addValidators(rotationalSpeedValidators);
       this.shiftFrequency.removeValidators(shiftFrequencyValidators);
@@ -221,7 +225,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.shiftAngle.updateValueAndValidity();
   }
 
-  public toggleLoadsType() {
+  public toggleLoadsType(): void {
     this.exact.patchValue(!this.exact.value);
   }
 
@@ -273,14 +277,14 @@ export class ParametersComponent implements OnInit, OnDestroy {
     };
   }
 
-  private setLoadErrors(group: FormGroup, type: Load) {
+  private setLoadErrors(group: FormGroup, type: Load): void {
     group.controls[type].setErrors({
       ...group.controls[type].errors,
       anyLoad: true,
     });
   }
 
-  private removeLoadErrors(group: FormGroup, type: Load) {
+  private removeLoadErrors(group: FormGroup, type: Load): void {
     if (group.controls[type]?.errors?.anyLoad) {
       const { anyLoad: _anyLoad, ...otherErrors } = group.controls[type].errors;
 

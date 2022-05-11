@@ -1,7 +1,7 @@
 import { Validators } from '@angular/forms';
 
 import {
-  DropdowOption,
+  DropdownOption,
   EnvironmentImpact,
   LoadLevels,
   Movement,
@@ -30,7 +30,7 @@ export const shiftAngleValidators = [
   Validators.max(10_000),
 ];
 
-export const environmentImpactOptions: DropdowOption[] = [
+export const environmentImpactOptions: DropdownOption[] = [
   {
     id: EnvironmentImpact.low,
     text: 'parameters.low',
@@ -46,7 +46,7 @@ export const environmentImpactOptions: DropdowOption[] = [
   },
 ];
 
-export const typeOptions: DropdowOption[] = [
+export const typeOptions: DropdownOption[] = [
   {
     id: Movement.rotating,
     text: 'parameters.rotating',
@@ -58,7 +58,7 @@ export const typeOptions: DropdowOption[] = [
   },
 ];
 
-export const loadRatioOptions: DropdowOption[] = [
+export const loadRatioOptions: DropdownOption[] = [
   {
     id: LoadLevels.LB_VERY_LOW,
     text: 'parameters.loadLevel.veryLow',

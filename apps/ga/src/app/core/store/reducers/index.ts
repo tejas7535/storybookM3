@@ -22,11 +22,15 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   settings: fromSettings.SettingsState;
+  bearing: fromBearing.BearingState;
+  parameter: fromParameter.ParameterState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   settings: fromSettings.settingsReducer,
+  bearing: fromBearing.bearingReducer,
+  parameter: fromParameter.parameterReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production

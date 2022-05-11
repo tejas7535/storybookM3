@@ -1,4 +1,5 @@
 export interface ExtendedSearchParameters {
+  [index: string]: number | string;
   pattern: string;
   bearingType: string;
   minDi: number;

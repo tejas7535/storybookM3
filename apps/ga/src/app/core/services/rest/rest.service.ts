@@ -29,14 +29,13 @@ export class RestService {
   }
 
   public getBearingExtendedSearch(
-    parameters: ExtendedSearchParameters
+    params: ExtendedSearchParameters
   ): Observable<string[]> {
-    const params = { ...(parameters as any) };
-    Object.keys(params).forEach((key) => {
+    for (const key in params) {
       if (params[key] === undefined || params[key] === null) {
         delete params[key];
       }
-    });
+    }
 
     return this.httpClient.get<string[]>(
       `${environment.baseUrl}/bearings/extendedsearch`,
