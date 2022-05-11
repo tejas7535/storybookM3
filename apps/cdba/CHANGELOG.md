@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.13.0...cdba-v2.14.0) (2022-05-11)
+
+
+### 🎸 Features
+
+* **cdba:** implement cost component split view (DSCDA-2854) ([#4103](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4103)) ([c2a0b3a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2a0b3a9e8d9e00c09ebc8deeb491d38fd5e645a))
+
 ## [2.13.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.12.1...cdba-v2.13.0) (2022-04-25)
 
 
