@@ -18,6 +18,7 @@ export { PriceDetails } from './price-details.model';
 export { ProductCostAnalysis } from './product-cost-analysis.model';
 export { ProductionDetails } from './production-details.model';
 export { QuantitiesDetails } from './quantities-details.model';
+export { RawMaterialAnalysis } from './raw-material-analysis.model';
 export { ReferenceType } from './reference-type.model';
 export { ReferenceTypeIdentifier } from './reference-type-identifier.model';
 export { SalesDetails } from './sales-details.model';

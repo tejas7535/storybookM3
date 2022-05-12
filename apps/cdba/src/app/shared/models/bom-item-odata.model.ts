@@ -7,6 +7,7 @@ export interface BomItemOdata {
   parentMaterialNumber: string;
   costShareOfParent: number;
   predecessorsInTree: string[];
+  itemCategory: string;
 
   bomIdentifier: OdataBomIdentifier;
 
@@ -32,6 +33,7 @@ export interface BomItemOdata {
     materialIndentNumber: string;
     materialIndentNumberDescription: string;
     valuationClass: string;
+    type: string;
   };
 
   procurement: {
