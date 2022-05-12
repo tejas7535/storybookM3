@@ -1,4 +1,6 @@
+/* eslint-disable max-lines */
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
@@ -9,6 +11,7 @@ import {
   ExcelStyle,
   FirstDataRenderedEvent,
   GridReadyEvent,
+  RowDoubleClickedEvent,
   RowNode,
   RowSelectedEvent,
   SideBarDef,
@@ -17,6 +20,7 @@ import {
 } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../../app-route-path.enum';
 import {
   addSimulatedQuotation,
   deselectQuotationDetail,
@@ -91,7 +95,8 @@ export class QuotationDetailsTableComponent implements OnInit {
     private readonly store: Store,
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefService,
-    private readonly localizationService: LocalizationService
+    private readonly localizationService: LocalizationService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -334,6 +339,7 @@ export class QuotationDetailsTableComponent implements OnInit {
 
     return PriceSource.SAP_SPECIAL;
   }
+
   private getPriceSource(
     targetPriceSource: PriceSource,
     detail: QuotationDetail
@@ -421,10 +427,20 @@ export class QuotationDetailsTableComponent implements OnInit {
         return true;
     }
   }
+
   private getAffectedKpi(
     kpis: KpiValue[],
     kpiName: string
   ): number | undefined {
     return kpis.find((kpi: KpiValue) => kpi.key === kpiName)?.value;
+  }
+
+  onRowDoubleClicked(event: RowDoubleClickedEvent) {
+    this.router.navigate([AppRoutePath.DetailViewPath], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        gqPositionId: event.data.gqPositionId,
+      },
+    });
   }
 }

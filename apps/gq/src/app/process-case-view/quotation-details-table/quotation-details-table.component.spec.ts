@@ -1,6 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridEvent, RowNode } from '@ag-grid-community/all-modules';
@@ -17,6 +18,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../testing/mocks';
+import { AppRoutePath } from '../../app-route-path.enum';
 import {
   addSimulatedQuotation,
   getSelectedQuotationDetailIds,
@@ -45,6 +47,8 @@ describe('QuotationDetailsTableComponent', () => {
   let component: QuotationDetailsTableComponent;
   let spectator: Spectator<QuotationDetailsTableComponent>;
   let store: MockStore;
+  let router: Router;
+
   const MOCK_QUOTATION_ID = 1234;
 
   const createComponent = createComponentFactory({
@@ -80,6 +84,9 @@ describe('QuotationDetailsTableComponent', () => {
 
     store = spectator.inject(MockStore);
     store.dispatch = jest.fn();
+
+    router = spectator.inject(Router);
+    router.navigate = jest.fn();
   });
 
   test('should create', () => {
@@ -840,6 +847,27 @@ describe('QuotationDetailsTableComponent', () => {
           type: addSimulatedQuotation.type,
         });
       });
+    });
+  });
+
+  describe('onRowDoubleClick', () => {
+    test('should navigate on double click', () => {
+      const mockEvent = {
+        data: {
+          gqPositionId: '1234',
+        },
+      } as any;
+      component.onRowDoubleClicked(mockEvent);
+
+      expect(router.navigate).toHaveBeenCalledWith(
+        [AppRoutePath.DetailViewPath],
+        {
+          queryParamsHandling: 'merge',
+          queryParams: {
+            gqPositionId: mockEvent.data.gqPositionId,
+          },
+        }
+      );
     });
   });
 });

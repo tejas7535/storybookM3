@@ -1,13 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
 import {
   GridReadyEvent,
+  RowDoubleClickedEvent,
   RowSelectedEvent,
 } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../../app-route-path.enum';
 import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
 import { AgGridLocale } from '../../shared/ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../shared/ag-grid/services/localization.service';
@@ -33,7 +36,8 @@ export class CaseTableComponent implements OnInit {
   constructor(
     private readonly columnDefService: ColumnDefService,
     private readonly localizationService: LocalizationService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly router: Router
   ) {}
 
   public modules = MODULES;
@@ -71,5 +75,16 @@ export class CaseTableComponent implements OnInit {
     } else {
       this.store.dispatch(deselectCase({ gqId: event.node.data.gqId }));
     }
+  }
+
+  onRowDoubleClicked(event: RowDoubleClickedEvent) {
+    this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
+      queryParamsHandling: 'merge',
+      queryParams: {
+        quotation_number: event.data.gqId,
+        customer_number: event.data.customerIdentifiers.customerId,
+        sales_org: event.data.customerIdentifiers.salesOrg,
+      },
+    });
   }
 }

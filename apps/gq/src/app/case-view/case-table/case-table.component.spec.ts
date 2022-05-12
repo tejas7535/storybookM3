@@ -1,5 +1,6 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -12,6 +13,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { VIEW_CASE_STATE_MOCK } from '../../../testing/mocks';
+import { AppRoutePath } from '../../app-route-path.enum';
 import { getSelectedCaseIds } from '../../core/store';
 import { CreateCustomerCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
 import { CreateManualCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';
@@ -29,6 +31,7 @@ describe('CaseTableComponent', () => {
   let component: CaseTableComponent;
   let spectator: Spectator<CaseTableComponent>;
   let store: MockStore;
+  let router: Router;
 
   const createComponent = createComponentFactory({
     component: CaseTableComponent,
@@ -58,6 +61,8 @@ describe('CaseTableComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    router = spectator.inject(Router);
+    router.navigate = jest.fn();
   });
 
   afterEach(() => {
@@ -125,6 +130,33 @@ describe('CaseTableComponent', () => {
         gqId: 1234,
         type: '[View Cases] Deselect a Case',
       });
+    });
+  });
+
+  describe('onRowDoubleClick', () => {
+    test('should navigate on double click', () => {
+      const mockEvent = {
+        data: {
+          gqId: 1234,
+          customerIdentifiers: {
+            customerId: 'customer-id',
+            salesOrg: 'sales-org-id',
+          },
+        },
+      } as any;
+      component.onRowDoubleClicked(mockEvent);
+
+      expect(router.navigate).toHaveBeenCalledWith(
+        [AppRoutePath.ProcessCaseViewPath],
+        {
+          queryParamsHandling: 'merge',
+          queryParams: {
+            quotation_number: mockEvent.data.gqId,
+            customer_number: mockEvent.data.customerIdentifiers.customerId,
+            sales_org: mockEvent.data.customerIdentifiers.salesOrg,
+          },
+        }
+      );
     });
   });
 });
