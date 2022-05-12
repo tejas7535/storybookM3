@@ -26,9 +26,9 @@ describe('utilities', () => {
 
   describe('getMonth12MonthsAgo', () => {
     test('should return date that is 12 months older', () => {
-      const date = moment({ year: 2020, month: 1, date: 1 });
+      const date = moment({ year: 2020, month: 1, date: 12 });
 
-      const expected = moment({ year: 2019, month: 1, date: 1 });
+      const expected = moment({ year: 2019, month: 2, date: 1 });
 
       expect(getMonth12MonthsAgo(date).isSame(expected)).toBeTruthy();
     });

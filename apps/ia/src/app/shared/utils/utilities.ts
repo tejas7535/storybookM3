@@ -9,7 +9,7 @@ export const getTimeRangeHint = (timePeriod: TimePeriod): string =>
     : translate('filters.periodOfTime.timeRangeHintLast12Months');
 
 export const getMonth12MonthsAgo = (refDate: Moment): Moment => {
-  const old = refDate.clone().subtract(1, 'years');
+  const old = refDate.clone().subtract(11, 'months').startOf('month');
 
   return old;
 };
