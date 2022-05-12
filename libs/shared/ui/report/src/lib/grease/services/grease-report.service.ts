@@ -292,7 +292,7 @@ export class GreaseReportService {
                         title: 'lowFriction',
                         values: value
                           ? `${value} (${translate(
-                              `suitabilityLevel.${fromHelpers.checkSuitability(
+                              `suitabilityLevel${fromHelpers.checkSuitability(
                                 value as `${SuitabilityLevels}`
                               )}`
                             )})`
@@ -305,7 +305,7 @@ export class GreaseReportService {
                         title: 'suitableForVibrations',
                         values: value
                           ? `${value} (${translate(
-                              `suitabilityLevel.${fromHelpers.checkSuitability(
+                              `suitabilityLevel${fromHelpers.checkSuitability(
                                 value as `${SuitabilityLevels}`
                               )}`
                             )})`
@@ -318,7 +318,7 @@ export class GreaseReportService {
                         title: 'supportForSeals',
                         values: value
                           ? `${value} (${translate(
-                              `suitabilityLevel.${fromHelpers.checkSuitability(
+                              `suitabilityLevel${fromHelpers.checkSuitability(
                                 value as `${SuitabilityLevels}`
                               )}`
                             )})`

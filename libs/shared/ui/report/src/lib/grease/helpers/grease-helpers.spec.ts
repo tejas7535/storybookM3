@@ -7,6 +7,6 @@ describe('checkSuitability', () => {
     const result = checkSuitability(mockLevel);
 
     expect(result).toBeTruthy();
-    expect(result).toBe('extremelySuitable');
+    expect(result).toBe('ExtremelySuitable');
   });
 });

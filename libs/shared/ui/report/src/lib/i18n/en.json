@@ -37,11 +37,9 @@
   "notes": "Notes",
   "day": "day",
   "days": "days",
-  "suitabilityLevel": {
-    "extremelySuitable": "extremely suitable",
-    "highlySuitable": "highly suitable",
-    "suitable": "suitable",
-    "lessSuitable": "less suitable",
-    "notSuitable": "not suitable"
-  }
+  "suitabilityLevelExtremelySuitable": "extremely suitable",
+  "suitabilityLevelHighlySuitable": "highly suitable",
+  "suitabilityLevelSuitable": "suitable",
+  "suitabilityLeveLessSuitable": "less suitable",
+  "suitabilityLevelNotSuitable": "not suitable"
 }

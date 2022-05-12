@@ -37,11 +37,9 @@
   "notes": "Hinweise",
   "day": "Tag",
   "days": "Tage",
-  "suitabilityLevel": {
-    "extremelySuitable": "sehr gut geeignet",
-    "highlySuitable": "gut geeignet",
-    "suitable": "geeignet",
-    "lessSuitable": "weniger geeignet",
-    "notSuitable": "nicht geeignet"
-  }
+  "suitabilityLevelExtremelySuitable": "sehr gut geeignet",
+  "suitabilityLevelHighlySuitable": "gut geeignet",
+  "suitabilityLevelSuitable": "geeignet",
+  "suitabilityLeveLessSuitable": "weniger geeignet",
+  "suitabilityLevelNotSuitable": "nicht geeignet"
 }

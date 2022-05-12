@@ -1,9 +1,9 @@
 export enum SuitabilityLevels {
-  'extremelySuitable' = '++',
-  'highlySuitable' = '+',
-  'suitable' = '0',
-  'lessSuitable' = '-',
-  'notSuitable' = '--',
+  'ExtremelySuitable' = '++',
+  'HighlySuitable' = '+',
+  'Suitable' = '0',
+  'LessSuitable' = '-',
+  'NotSuitable' = '--',
 }
 
 export type SuitabilityLevelsSetting = {

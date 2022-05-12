@@ -88,17 +88,17 @@ export const greaseResultMock: GreaseResult = {
     },
     {
       title: 'lowFriction',
-      values: '0 (suitabilityLevel.suitable)',
+      values: '0 (suitabilityLevelSuitable)',
       display: false,
     },
     {
       title: 'suitableForVibrations',
-      values: '0 (suitabilityLevel.suitable)',
+      values: '0 (suitabilityLevelSuitable)',
       display: false,
     },
     {
       title: 'supportForSeals',
-      values: '0 (suitabilityLevel.suitable)',
+      values: '0 (suitabilityLevelSuitable)',
       display: false,
     },
     {
