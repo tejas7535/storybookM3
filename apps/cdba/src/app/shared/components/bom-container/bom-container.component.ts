@@ -11,13 +11,22 @@ import { tap } from 'rxjs/operators';
 import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
+import {
+  getRawMaterialAnalysisForSelectedBomItem,
+  getRawMaterialAnalysisSummaryForSelectedBom,
+} from '@cdba/core/store';
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { BomItem, Calculation, CostComponentSplit } from '../../models';
+import {
+  BomItem,
+  Calculation,
+  CostComponentSplit,
+  RawMaterialAnalysis,
+} from '../../models';
 
 @Component({
   selector: 'cdba-bom-container',
@@ -51,6 +60,10 @@ export class BomContainerComponent implements OnInit {
   costComponentSplitErrorMessage$: Observable<string>;
   costComponentSplitItems$: Observable<CostComponentSplit[]>;
   costComponentSplitSummary$: Observable<CostComponentSplit[]>;
+
+  // RawMaterialAnalysis
+  rawMaterialAnalysis$: Observable<RawMaterialAnalysis[]>;
+  rawMaterialAnalysisSummary$: Observable<RawMaterialAnalysis[]>;
 
   public selectedBomItem: BomItem;
   public showSidenavContent = false;
@@ -205,6 +218,14 @@ export class BomContainerComponent implements OnInit {
     this.costComponentSplitSummary$ = this.store.select(
       fromDetail.getCostComponentSplitSummary
     );
+
+    this.rawMaterialAnalysis$ = this.store.select(
+      getRawMaterialAnalysisForSelectedBomItem
+    );
+
+    this.rawMaterialAnalysisSummary$ = this.store
+      .select(getRawMaterialAnalysisSummaryForSelectedBom)
+      .pipe(tap(console.log));
   }
 
   onGridReady(gridApi: GridApi): void {

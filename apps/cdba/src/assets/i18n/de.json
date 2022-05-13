@@ -45,11 +45,11 @@
         "title": "Mehr Info",
         "calculations": "Kalkulationen",
         "chart": "Diagramm",
+        "featureToggleHint": "Dieses Feature kann nur nach Aktivierung des OData Service verwendet werden. Klicken Sie bitte hierzu auf die drei waagrechten Striche im linken oberen Bildschirmrand um die Einstellungen von CDBA zu öffnen. Im geöffneten Menü finden Sie am unteren Ende einen Schieberegler mit dem Sie die OData Service Funktion aktivieren können.",
         "costElements": {
           "tabName": "Kostenelemente",
           "showMore": "Mehr anzeigen",
           "showLess": "Weniger anzeigen",
-          "featureToggleHint": "Dieses Feature kann nur nach Aktivierung des OData Service verwendet werden. Klicken Sie bitte hierzu auf die drei waagrechten Striche im linken oberen Bildschirmrand um die Einstellungen von CDBA zu öffnen. Im geöffneten Menü finden Sie am unteren Ende einen Schieberegler mit dem Sie die OData Service Funktion aktivieren können.",
           "headers": {
             "element": "Element",
             "description": "Beschreibung",
@@ -83,6 +83,19 @@
             "070": "Rüstkosten",
             "080": "Fertigungskosten",
             "999": "Rest"
+          }
+        },
+        "rawMaterialAnalysis": {
+          "tabName": "Rohmaterialien",
+          "infoHint": "Angezeigt werden nur Rohmaterialien aus Eigenfertigung. Für alle Zukaufteile fehlen die Angaben zum Rohmaterial in SAP.",
+          "headers": {
+            "materialDesignation": "Materialbezeichnung",
+            "materialNumber": "Materialnummer",
+            "costShare": "Kostenanteil",
+            "vendor": "Lieferant",
+            "operatingWeight": "Einsatzgewicht",
+            "pricePerKg": "Preis pro KG",
+            "totalCosts": "Gesamtkosten"
           }
         },
         "selectionHint": "Bitte wählen Sie ein Element aus der Hierarchie auf der linken Seite aus, das mindestens ein darunter liegendes Unterelement hat, um diese Details anzuzeigen."

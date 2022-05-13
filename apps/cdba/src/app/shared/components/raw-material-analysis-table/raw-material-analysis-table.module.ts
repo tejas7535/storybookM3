@@ -9,24 +9,20 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CostElementsStatusBarComponent } from '../table/status-bar/cost-elements-status-bar/cost-elements-status-bar.component';
-import { CostElementsStatusBarModule } from '../table/status-bar/cost-elements-status-bar/cost-elements-status-bar.module';
-import { CostElementsTableComponent } from './cost-elements-table.component';
+import { RawMaterialAnalysisTableComponent } from './raw-material-analysis-table.component';
 
 @NgModule({
-  declarations: [CostElementsTableComponent],
+  declarations: [RawMaterialAnalysisTableComponent],
   imports: [
     CommonModule,
+    MatIconModule,
+    SharedTranslocoModule,
     AgGridModule.withComponents([
       CustomLoadingOverlayComponent,
       CustomNoRowsOverlayComponent,
-      CostElementsStatusBarComponent,
     ]),
-    MatIconModule,
-    SharedTranslocoModule,
-    CostElementsStatusBarModule,
     MaterialNumberModule,
   ],
-  exports: [CostElementsTableComponent],
+  exports: [RawMaterialAnalysisTableComponent],
 })
-export class CostElementsTableModule {}
+export class RawMaterialAnalysisTableModule {}

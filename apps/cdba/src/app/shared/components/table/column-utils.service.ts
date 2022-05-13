@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { ValueFormatterParams } from '@ag-grid-enterprise/all-modules';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { DateFormatOptions } from '@ngneat/transloco-locale/lib/transloco-locale.types';
+import {
+  DateFormatOptions,
+  NumberTypes,
+} from '@ngneat/transloco-locale/lib/transloco-locale.types';
 
 @Injectable({ providedIn: 'root' })
 export class ColumnUtilsService {
@@ -39,14 +42,10 @@ export class ColumnUtilsService {
    */
   public formatNumber = (
     params: ValueFormatterParams,
-    options?: Intl.NumberFormatOptions
+    options?: Intl.NumberFormatOptions,
+    type: NumberTypes = 'decimal'
   ): string =>
-    this.localeService.localizeNumber(
-      params.value,
-      'decimal',
-      undefined,
-      options
-    );
+    this.localeService.localizeNumber(params.value, type, undefined, options);
 
   /**
    * Transform an ag-grid date value into the current locale's date format.

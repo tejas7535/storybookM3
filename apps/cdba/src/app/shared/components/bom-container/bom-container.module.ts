@@ -22,8 +22,8 @@ import { BomTableModule } from '../bom-table/bom-table.module';
 import { CalculationsTableModule } from '../calculations-table/calculations-table.module';
 import { CostElementsTableModule } from '../cost-elements-table/cost-elements-table.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
+import { RawMaterialAnalysisTableModule } from '../raw-material-analysis-table/raw-material-analysis-table.module';
 import { BomContainerComponent } from './bom-container.component';
-
 @NgModule({
   declarations: [BomContainerComponent],
   imports: [
@@ -38,6 +38,7 @@ import { BomContainerComponent } from './bom-container.component';
     BomTableModule,
     CalculationsTableModule,
     CostElementsTableModule,
+    RawMaterialAnalysisTableModule,
     BomChartModule,
     BomLegendModule,
     LoadingSpinnerModule,

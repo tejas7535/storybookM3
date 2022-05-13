@@ -28,6 +28,7 @@ module.exports = {
       colors: {
         secondary: secondaryColorPalette,
         'light-red': '#EFCCD2',
+        'light-blue': '#ECF5F7',
       },
     },
   },

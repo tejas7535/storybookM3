@@ -11,8 +11,8 @@
   <ag-grid-angular
     class="ag-theme-material"
     [domLayout]="'autoHeight'"
-    [rowData]="costElementsData"
-    [pinnedBottomRowData]="costElementsSummary"
+    [rowData]="rawMaterialAnalysisData"
+    [pinnedBottomRowData]="rawMaterialAnalysisSummary"
     [defaultColDef]="defaultColDef"
     [columnDefs]="columnDefs"
     [modules]="modules"
@@ -20,7 +20,7 @@
     [statusBar]="statusBar"
     [getMainMenuItems]="getMainMenuItems"
     [loadingOverlayComponent]="loadingOverlayComponent"
-    [suppressNoRowsOverlay]="costElementsData === undefined || isLoading"
+    [suppressNoRowsOverlay]="rawMaterialAnalysisData === undefined || isLoading"
     [noRowsOverlayComponent]="noRowsOverlayComponent"
     [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
     [enableRangeSelection]="true"
@@ -30,10 +30,20 @@
     [suppressCsvExport]="true"
     [suppressExcelExport]="true"
     [suppressCellFocus]="true"
-    [context]="{index}"
     (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
+
+  <div
+    class="bg-light-blue m-4 flex flex-row items-center gap-3 rounded-lg border border-info px-3"
+    *transloco="
+      let t;
+      read: 'shared.bom.additionalInformation.rawMaterialAnalysis'
+    "
+  >
+    <mat-icon class="flex-none text-info"> warning_amber </mat-icon>
+    <span class="my-3 flex-auto text-caption"> {{ t('infoHint') }}</span>
+  </div>
 </ng-container>
 
 <ng-template #showFeatureToggleHint>

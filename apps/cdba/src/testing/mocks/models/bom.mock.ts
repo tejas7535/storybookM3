@@ -412,6 +412,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
       materialIndentNumber: 'mock-materialIndentNumber',
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
+      type: 'M',
     },
     procurement: {
       plant: 'mock-plant',

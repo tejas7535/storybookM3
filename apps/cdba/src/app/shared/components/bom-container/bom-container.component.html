@@ -51,7 +51,21 @@
           [errorMessage]="costComponentSplitErrorMessage$ | ngrxPush"
           [costElementsData]="costComponentSplitItems$ | ngrxPush"
           [costElementsSummary]="costComponentSplitSummary$ | ngrxPush"
+          [materialDesignation]="materialDesignation"
+          [selectedBomItem]="selectedBomItem"
+          [selectedCalculation]="selectedCalculation"
         ></cdba-cost-elements-table>
+      </ng-container>
+      <ng-container rawMaterialAnalysis>
+        <cdba-raw-material-analysis-table
+          *ngIf="showSidenavContent"
+          [isLoading]="bomLoading$ | ngrxPush"
+          [rawMaterialAnalysisData]="rawMaterialAnalysis$ | ngrxPush"
+          [rawMaterialAnalysisSummary]="rawMaterialAnalysisSummary$ | ngrxPush"
+          [materialDesignation]="materialDesignation"
+          [selectedBomItem]="selectedBomItem"
+          [selectedCalculation]="selectedCalculation"
+        ></cdba-raw-material-analysis-table>
       </ng-container>
     </cdba-bom-overlay>
   </mat-sidenav>

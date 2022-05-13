@@ -11,37 +11,36 @@ import {
   GridApi,
   GridReadyEvent,
   StatusPanelDef,
-} from '@ag-grid-enterprise/all-modules';
-import { BomItem, Calculation, CostComponentSplit } from '@cdba/shared/models';
+} from '@ag-grid-community/all-modules';
+import { BomItem, Calculation, RawMaterialAnalysis } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
-import { getMainMenuItems } from '../table';
+import { getMainMenuItems } from '../table/column-utils';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import {
   ColumnDefinitionService,
-  DEFAULT_COLUMN_DEFINITION,
   FRAMEWORK_COMPONENTS,
   MODULES,
   STATUS_BAR_CONFIG,
 } from './config';
+import { DEFAULT_COLUMN_DEFINITION } from './config/default-column-definition';
 
 @Component({
-  selector: 'cdba-cost-elements-table',
-  templateUrl: './cost-elements-table.component.html',
+  selector: 'cdba-raw-material-analysis-table',
+  templateUrl: './raw-material-analysis-table.component.html',
+  styles: [],
 })
-export class CostElementsTableComponent implements OnInit, OnChanges {
+export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
   public odataFeatureEnabled: boolean;
 
   @Input() materialDesignation: string;
   @Input() selectedBomItem: BomItem;
   @Input() selectedCalculation: Calculation;
 
-  @Input() costElementsData: CostComponentSplit[];
-  @Input() costElementsSummary: CostComponentSplit[];
+  @Input() rawMaterialAnalysisData: RawMaterialAnalysis[];
+  @Input() rawMaterialAnalysisSummary: RawMaterialAnalysis[];
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
-
-  @Input() index: number;
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[];
