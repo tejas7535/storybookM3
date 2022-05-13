@@ -1,3 +1,4 @@
+/* istanbul ignore file: refactoring for better testability, see UFTABI-5740 */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 

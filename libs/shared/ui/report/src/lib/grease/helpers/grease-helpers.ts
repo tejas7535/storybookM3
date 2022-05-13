@@ -12,11 +12,11 @@ import { SuitabilityLevels } from '../models/suitability.model';
  * Defaults to empty array
  */
 export const adaptLabelValuesFromGreaseResultData = (
-  greaseResults: GreaseResultData[]
+  greaseResults: GreaseResultData = []
 ): LabelValue[] =>
-  greaseResults?.length
+  greaseResults.length > 0
     ? greaseResults.map((greaseResultData) => ({
-        label: translate(greaseResultData?.title),
+        label: translate(greaseResultData?.title || ''),
         labelHint: greaseResultData?.tooltip
           ? translate(greaseResultData?.tooltip)
           : undefined,
@@ -30,14 +30,14 @@ export const adaptLabelValuesFromGreaseResultData = (
  */
 export const itemValue = (
   tableItems: TableItem[] = [],
-  searchField?: Field,
+  searchField?: `${Field}`,
   tableItemsIndex?: number
 ): string | number => {
   if (searchField) {
-    return tableItems?.find(({ field }) => field === searchField)?.value || '';
+    return tableItems.find(({ field }) => field === searchField)?.value || '';
   } else if (tableItemsIndex !== undefined) {
     return (
-      tableItems?.find((_item, index) => index === tableItemsIndex)?.value || ''
+      tableItems.find((_item, index) => index === tableItemsIndex)?.value || ''
     );
   }
 
@@ -50,8 +50,8 @@ export const itemValue = (
  */
 export const itemUnit = (
   tableItems: TableItem[] = [],
-  searchField: Field
-): string => tableItems?.find(({ field }) => field === searchField)?.unit || '';
+  searchField: `${Field}`
+): string => tableItems.find(({ field }) => field === searchField)?.unit || '';
 
 /**
  * Wrap value in styled HTML tags
@@ -76,19 +76,6 @@ export const mapSuitabilityLevel = (
 
   return '';
 };
-
-/**
- * @deprecated The method should not be used
- *
- * Use itemValue and itemUnit instead
- */
-export const findItem = (
-  tableItems: TableItem[] = [],
-  searchField: Field
-): TableItem =>
-  tableItems?.find(
-    ({ field }: TableItem) => field === searchField
-  ) as TableItem;
 
 /** *************************************************************
  * extract and format specific table item properties
