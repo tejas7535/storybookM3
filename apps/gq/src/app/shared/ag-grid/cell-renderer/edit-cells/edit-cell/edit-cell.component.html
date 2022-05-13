@@ -1,11 +1,16 @@
 <div *ngIf="params?.valueFormatted">
   <span
     class="float-left w-[100px] truncate"
-    [ngClass]="{ 'text-error': priceWarningEnabled }"
+    [ngClass]="{
+      'text-error': mspWarningEnabled,
+      'text-warning': marginWarningEnabled && !mspWarningEnabled
+    }"
   >
     <mat-icon
-      *ngIf="priceWarningEnabled"
-      [matTooltip]="text"
+      *ngIf="mspWarningEnabled || marginWarningEnabled"
+      [matTooltip]="
+        mspWarningEnabled ? mspWarningTooltip : marginWarningTooltip
+      "
       matTooltipClass="whitespace-pre-line !text-caption"
       class="mr-[10px] !w-3 cursor-help align-text-top !text-caption"
       >warning_amber</mat-icon

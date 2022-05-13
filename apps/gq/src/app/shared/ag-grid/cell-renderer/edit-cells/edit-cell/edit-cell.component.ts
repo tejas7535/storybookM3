@@ -22,9 +22,13 @@ import { ExtendedEditCellClassParams } from '../../models/extended-cell-class-pa
 export class EditCellComponent implements ICellRendererAngularComp {
   public params: ICellRendererParams & ExtendedEditCellClassParams;
   public isCellEditingAllowed: boolean;
-  public priceWarningEnabled = false;
-  public text = translate(
+  public mspWarningEnabled = false;
+  public marginWarningEnabled = false;
+  public mspWarningTooltip = translate(
     'shared.quotationDetailsTable.toolTip.priceLowerThanMsp'
+  );
+  public marginWarningTooltip = translate(
+    'shared.quotationDetailsTable.toolTip.gpmOrGpiTooLow'
   );
   public simulatedQuotation$: Observable<QuotationDetail>;
 
@@ -50,8 +54,11 @@ export class EditCellComponent implements ICellRendererAngularComp {
       params.field !== ColumnFields.NET_VALUE &&
       params.field !== ColumnFields.PRICE_SOURCE;
 
-    this.priceWarningEnabled =
+    this.mspWarningEnabled =
       params.field === ColumnFields.PRICE && params.value < params.data.msp;
+    this.marginWarningEnabled =
+      params.field === ColumnFields.PRICE &&
+      (params.data.gpi < 25 || params.data.gpm < 25);
 
     if (
       [

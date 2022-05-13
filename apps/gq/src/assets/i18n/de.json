@@ -63,7 +63,8 @@
       "rsp": "RSP",
       "msp": "MSP",
       "toolTip": {
-        "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung."
+        "priceLowerThanMsp": "Nettopreis ist niedriger als MSP. Bitte beantragen Sie die Genehmigung der Preisgestaltung.",
+        "gpmOrGpiTooLow": "Aktueller Nettopreis führt zu einem Loss Maker (Marge < 25%). Bitte Preisstellung überprüfen."
       },
       "targetPrice": "Zielpreis",
       "headers": {
