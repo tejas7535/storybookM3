@@ -20,13 +20,13 @@ import {
   loadDrawingsFailure,
   loadReferenceTypeFailure,
 } from '../../actions';
-import { DetailFailureEffects } from './detail-failure.effects';
+import { FailureEffects } from './failure.effects';
 
-describe('DetailFailureEffects', () => {
-  let spectator: SpectatorService<DetailFailureEffects>;
+describe('FailureEffects', () => {
+  let spectator: SpectatorService<FailureEffects>;
   let actions$: any;
-  let effects: DetailFailureEffects;
-  let metadata: EffectsMetadata<DetailFailureEffects>;
+  let effects: FailureEffects;
+  let metadata: EffectsMetadata<FailureEffects>;
   let httpErrorService: HttpErrorService;
   let router: Router;
 
@@ -37,7 +37,7 @@ describe('DetailFailureEffects', () => {
   };
 
   const createService = createServiceFactory({
-    service: DetailFailureEffects,
+    service: FailureEffects,
     imports: [RouterTestingModule],
     providers: [
       provideMockActions(() => actions$),
@@ -53,7 +53,7 @@ describe('DetailFailureEffects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    effects = spectator.inject(DetailFailureEffects);
+    effects = spectator.inject(FailureEffects);
     metadata = getEffectsMetadata(effects);
     httpErrorService = spectator.inject(HttpErrorService);
     router = spectator.inject(Router);

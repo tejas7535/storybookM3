@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import {
+  BomEffects,
+  CalculationsEffects,
+  DrawingsEffects,
+  ProductDetailsEffects,
+} from '@cdba/core/store/effects/detail';
 import { TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -11,8 +17,7 @@ import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { DetailEffects } from '../core/store/effects/detail/detail.effects';
-import { DetailFailureEffects } from '../core/store/effects/detail/detail-failure.effects';
+import { FailureEffects } from '../core/store/effects/detail/failure.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { PcmBadgeModule } from '../shared/components/pcm-badge';
 import { MaterialNumberModule } from '../shared/pipes/material-number/material-number.module';
@@ -27,7 +32,13 @@ import { DetailRoutingModule } from './detail-routing.module';
     SharedTranslocoModule,
     DetailRoutingModule,
     StoreModule.forFeature('detail', detailReducer),
-    EffectsModule.forFeature([DetailEffects, DetailFailureEffects]),
+    EffectsModule.forFeature([
+      BomEffects,
+      CalculationsEffects,
+      DrawingsEffects,
+      ProductDetailsEffects,
+      FailureEffects,
+    ]),
     MaterialNumberModule,
     TabsHeaderModule,
     ShareButtonModule,

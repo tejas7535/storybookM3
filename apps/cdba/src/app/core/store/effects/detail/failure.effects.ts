@@ -1,5 +1,4 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
-/* eslint-disable no-invalid-this */
 import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -20,7 +19,7 @@ import {
 } from '../../actions';
 
 @Injectable()
-export class DetailFailureEffects {
+export class FailureEffects {
   loadFailure$ = createEffect(
     () =>
       this.actions$.pipe(
