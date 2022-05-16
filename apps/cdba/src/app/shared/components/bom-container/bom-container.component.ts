@@ -223,9 +223,9 @@ export class BomContainerComponent implements OnInit {
       getRawMaterialAnalysisForSelectedBomItem
     );
 
-    this.rawMaterialAnalysisSummary$ = this.store
-      .select(getRawMaterialAnalysisSummaryForSelectedBom)
-      .pipe(tap(console.log));
+    this.rawMaterialAnalysisSummary$ = this.store.select(
+      getRawMaterialAnalysisSummaryForSelectedBom
+    );
   }
 
   onGridReady(gridApi: GridApi): void {

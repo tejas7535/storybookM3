@@ -18,7 +18,7 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
-import { CostElementsStatusBarModule } from '../table/status-bar/cost-elements-status-bar/cost-elements-status-bar.module';
+import { CostElementsStatusBarModule } from '../table/status-bar/cost-elements-status-bar';
 import { ColumnDefinitionService } from './config';
 import { CostElementsTableComponent } from './cost-elements-table.component';
 

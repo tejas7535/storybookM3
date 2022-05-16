@@ -9,8 +9,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CostElementsStatusBarComponent } from '../table/status-bar/cost-elements-status-bar/cost-elements-status-bar.component';
-import { CostElementsStatusBarModule } from '../table/status-bar/cost-elements-status-bar/cost-elements-status-bar.module';
+import {
+  CostElementsStatusBarComponent,
+  CostElementsStatusBarModule,
+} from '../table/status-bar/cost-elements-status-bar';
 import { CostElementsTableComponent } from './cost-elements-table.component';
 
 @NgModule({

@@ -1,5 +1,4 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
-/* eslint-disable no-invalid-this */
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
