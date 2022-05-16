@@ -12,12 +12,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import {
+  Column,
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ColumnApi, IFilterComp, RowNode } from '@ag-grid-community/core';
-import { ColDef, ColumnState, GridApi } from '@ag-grid-enterprise/all-modules';
+import {
+  ColDef,
+  ColumnState,
+  ExcelCell,
+  GridApi,
+} from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -33,7 +39,10 @@ import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { EMPTY_VALUE_FORMATTER } from './table-config';
 import { BOOLEAN_VALUE_GETTER } from './table-config/boolean-value-getter';
-import { COLUMN_DEFINITIONS } from './table-config/column-definitions';
+import {
+  COLUMN_DEFINITIONS,
+  SAP_SUPPLIER_IDS,
+} from './table-config/column-definitions';
 
 describe('MainTableComponent', () => {
   let component: MainTableComponent;
@@ -601,6 +610,7 @@ describe('MainTableComponent', () => {
 
       component['agGridApi'] = undefined;
       component['agGridColumnApi'] = undefined;
+      component['setVisibleColumns'] = jest.fn();
 
       component.onGridReady({
         api: mockApi as unknown as GridApi,
@@ -615,6 +625,7 @@ describe('MainTableComponent', () => {
       expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
+      expect(component['setVisibleColumns']).toHaveBeenCalled();
     });
     it('should dispatch setFilteredRows and set column count and apply column state if column state is defined', () => {
       const mockDataResult: DataResult = {
@@ -638,6 +649,7 @@ describe('MainTableComponent', () => {
 
       component['agGridApi'] = undefined;
       component['agGridColumnApi'] = undefined;
+      component['setVisibleColumns'] = jest.fn();
 
       component.onGridReady({
         api: mockApi as unknown as GridApi,
@@ -655,6 +667,7 @@ describe('MainTableComponent', () => {
       });
       expect(component['agGridStateService'].getColumnState).toHaveBeenCalled();
       expect(component.setAgGridFilter).toHaveBeenCalledWith({ api: mockApi });
+      expect(component['setVisibleColumns']).toHaveBeenCalled();
     });
   });
   describe('onColumnChange', () => {
@@ -663,6 +676,7 @@ describe('MainTableComponent', () => {
         getColumnState: jest.fn((): string[] => []),
       };
       component['agGridStateService'].setColumnState = jest.fn();
+      component['setVisibleColumns'] = jest.fn();
 
       component.onColumnChange({
         columnApi: mockColumnApi as unknown as ColumnApi,
@@ -674,6 +688,7 @@ describe('MainTableComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         setAgGridColumns({ agGridColumns: '[]' })
       );
+      expect(component['setVisibleColumns']).toHaveBeenCalled();
     });
   });
   describe('resetAgGridFilter', () => {
@@ -718,6 +733,7 @@ describe('MainTableComponent', () => {
       );
 
       component['agGridColumnApi'] = mockColumnApi as unknown as ColumnApi;
+      component['setVisibleColumns'] = jest.fn();
 
       component.resetAgGridColumnConfiguration();
 
@@ -725,6 +741,7 @@ describe('MainTableComponent', () => {
         state: expectedState,
         applyOrder: true,
       });
+      expect(component['setVisibleColumns']).toHaveBeenCalled();
     });
     it('should do nothing if the column api is not defined', () => {
       const mockColumnApi = {
@@ -732,10 +749,12 @@ describe('MainTableComponent', () => {
       };
 
       component['agGridColumnApi'] = undefined;
+      component['setVisibleColumns'] = jest.fn();
 
       component.resetAgGridColumnConfiguration();
 
       expect(mockColumnApi.applyColumnState).not.toHaveBeenCalled();
+      expect(component['setVisibleColumns']).not.toHaveBeenCalled();
     });
   });
   describe('applyAgGridFilter', () => {
@@ -1256,6 +1275,9 @@ describe('MainTableComponent', () => {
         author: 'MSD (Material Supplier Database)',
         fileName: '1234-13-44-MSD-export.xlsx',
         sheetName: 'MSD-Export',
+        getCustomContentBelowRow:
+          component['splitRowsForMultipleSapIdsInExport'],
+        processCellCallback: component['reduceSapIdsForFirstRowInExport'],
       });
       expect(
         component['applicationInsightsService'].logEvent
@@ -1269,6 +1291,198 @@ describe('MainTableComponent', () => {
       component.exportExcel();
 
       expect(component['datePipe'].transform).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('setVisibleColumns', () => {
+    it('should do nothing if column api is not defined', () => {
+      component['agGridColumnApi'] = undefined;
+      component['visibleColumns'] = undefined;
+
+      component['setVisibleColumns']();
+
+      expect(component['visibleColumns']).toBe(undefined);
+    });
+
+    it('should set the visible columns', () => {
+      component['agGridColumnApi'] = {
+        getColumnState: jest.fn(() => [
+          {
+            colId: 'col1',
+            hide: true,
+          },
+          {
+            colId: 'col2',
+            hide: false,
+          },
+        ]),
+      } as unknown as ColumnApi;
+      component['visibleColumns'] = undefined;
+
+      component['setVisibleColumns']();
+
+      expect(component['visibleColumns']).toEqual(['col2']);
+    });
+  });
+
+  describe('splitRowsForMultipleSapIdsInExport', () => {
+    it('should return empty result if no sap ids are present', () => {
+      const mockParams = {
+        node: {
+          data: {
+            col1: 'a',
+            col2: 'b',
+            [SAP_SUPPLIER_IDS]: [],
+          },
+        } as unknown as RowNode,
+      };
+
+      const result: ExcelCell[][] =
+        component['splitRowsForMultipleSapIdsInExport'](mockParams);
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return empty result if only one sap id is present', () => {
+      const mockParams = {
+        node: {
+          data: {
+            col1: 'a',
+            col2: 'b',
+            [SAP_SUPPLIER_IDS]: ['onlyOneId'],
+          },
+        } as unknown as RowNode,
+      };
+
+      const result: ExcelCell[][] =
+        component['splitRowsForMultipleSapIdsInExport'](mockParams);
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return additional rows if more than one sap ids are present', () => {
+      const mockParams = {
+        node: {
+          data: {
+            col1: 'a',
+            col2: 'b',
+            [SAP_SUPPLIER_IDS]: ['id1', 'id2', 'id3'],
+          },
+        } as unknown as RowNode,
+      };
+      component['visibleColumns'] = ['col1', SAP_SUPPLIER_IDS];
+
+      const result: ExcelCell[][] =
+        component['splitRowsForMultipleSapIdsInExport'](mockParams);
+
+      expect(result).toEqual([
+        [
+          {
+            data: {
+              type: 'String',
+              value: 'a',
+            },
+          },
+          {
+            data: {
+              type: 'String',
+              value: 'id2',
+            },
+          },
+        ],
+        [
+          {
+            data: {
+              type: 'String',
+              value: 'a',
+            },
+          },
+          {
+            data: {
+              type: 'String',
+              value: 'id3',
+            },
+          },
+        ],
+      ]);
+    });
+  });
+
+  describe('reduceSapIdsForFirstRowInExport', () => {
+    it('should return the first sap id if multiple ids are present', () => {
+      const mockParams = {
+        column: {
+          getColId: jest.fn(() => SAP_SUPPLIER_IDS),
+        } as unknown as Column,
+        node: {
+          data: {
+            [SAP_SUPPLIER_IDS]: ['id1', 'id2', 'id3'],
+          },
+        },
+        value: ['id1-value', 'id2', 'id3'],
+      };
+
+      const result: string =
+        component['reduceSapIdsForFirstRowInExport'](mockParams);
+
+      expect(result).toEqual('id1');
+    });
+
+    it('should return the value if only one sap id is present', () => {
+      const mockParams = {
+        column: {
+          getColId: jest.fn(() => SAP_SUPPLIER_IDS),
+        } as unknown as Column,
+        node: {
+          data: {
+            [SAP_SUPPLIER_IDS]: ['id1'],
+          },
+        },
+        value: 'id1-value',
+      };
+
+      const result: string =
+        component['reduceSapIdsForFirstRowInExport'](mockParams);
+
+      expect(result).toEqual('id1-value');
+    });
+
+    it('should return the value if no sap id is present', () => {
+      const mockParams = {
+        column: {
+          getColId: jest.fn(() => SAP_SUPPLIER_IDS),
+        } as unknown as Column,
+        node: {
+          data: {
+            [SAP_SUPPLIER_IDS]: [] as string[],
+          },
+        },
+        value: 'id1-value',
+      };
+
+      const result: string =
+        component['reduceSapIdsForFirstRowInExport'](mockParams);
+
+      expect(result).toEqual('id1-value');
+    });
+
+    it('should return the value if the processed cell is not the sap ids', () => {
+      const mockParams = {
+        column: {
+          getColId: jest.fn(() => 'some other field'),
+        } as unknown as Column,
+        node: {
+          data: {
+            [SAP_SUPPLIER_IDS]: [] as string[],
+          },
+        },
+        value: 'id1-value',
+      };
+
+      const result: string =
+        component['reduceSapIdsForFirstRowInExport'](mockParams);
+
+      expect(result).toEqual('id1-value');
     });
   });
 

@@ -17,8 +17,13 @@ import { Observable, Subject, withLatestFrom } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
 import { ColumnApi, Module } from '@ag-grid-community/all-modules';
-import { ColumnState, RowNode } from '@ag-grid-community/core';
-import { ColDef, GridApi, SideBarDef } from '@ag-grid-enterprise/all-modules';
+import { Column, ColumnState, RowNode } from '@ag-grid-community/core';
+import {
+  ColDef,
+  ExcelCell,
+  GridApi,
+  SideBarDef,
+} from '@ag-grid-enterprise/all-modules';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -44,6 +49,7 @@ import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
   MODULES,
+  SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from './table-config';
 
@@ -102,6 +108,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
   private readonly TABLE_KEY = 'msdMainTable';
+
+  private visibleColumns: string[];
 
   public constructor(
     private readonly store: Store,
@@ -346,6 +354,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this.displayCount = api.getDisplayedRowCount();
+    this.setVisibleColumns();
   }
 
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
@@ -354,6 +363,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch(
       setAgGridColumns({ agGridColumns: JSON.stringify(agGridColumns) })
     );
+    this.setVisibleColumns();
   }
 
   public resetAgGridFilter(): void {
@@ -373,6 +383,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           } as ColumnState)
       );
       this.agGridColumnApi.applyColumnState({ state, applyOrder: true });
+      this.setVisibleColumns();
     }
   }
 
@@ -448,6 +459,68 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       author: 'MSD (Material Supplier Database)',
       fileName: `${dateString}-MSD-export.xlsx`,
       sheetName: 'MSD-Export',
+      getCustomContentBelowRow: this.splitRowsForMultipleSapIdsInExport,
+      processCellCallback: this.reduceSapIdsForFirstRowInExport,
     });
+  }
+
+  private setVisibleColumns(): void {
+    if (!this.agGridColumnApi) {
+      return;
+    }
+    this.visibleColumns = this.agGridColumnApi
+      .getColumnState()
+      .filter((columnState: ColumnState) => !columnState.hide)
+      .map((columnState: ColumnState) => columnState.colId);
+  }
+
+  private readonly splitRowsForMultipleSapIdsInExport = (
+    params: any
+  ): ExcelCell[][] => {
+    const rowNode: RowNode = params.node;
+    const data = rowNode.data;
+
+    const result: ExcelCell[][] = [];
+
+    if (data.sapSupplierIds?.length > 1) {
+      for (let i = 1; i < data.sapSupplierIds.length; i += 1) {
+        const row: ExcelCell[] = [];
+        const keys = Object.keys(data)
+          .filter((key) => this.visibleColumns.includes(key))
+          .sort(
+            (a: string, b: string) =>
+              this.visibleColumns.indexOf(a) - this.visibleColumns.indexOf(b)
+          );
+        for (const key of keys) {
+          if (key === SAP_SUPPLIER_IDS) {
+            row.push({
+              data: {
+                type: 'String',
+                value: data[key][i].toString(),
+              },
+            });
+          } else {
+            row.push({
+              data: {
+                type: 'String',
+                value: data[key]?.toString() || '',
+              },
+            });
+          }
+        }
+        result.push(row);
+      }
+    }
+
+    return result;
+  };
+
+  private reduceSapIdsForFirstRowInExport(params: any): string {
+    const column: Column = params.column;
+
+    return column.getColId() === SAP_SUPPLIER_IDS &&
+      params.node.data[SAP_SUPPLIER_IDS]?.length > 1
+      ? params.node.data[SAP_SUPPLIER_IDS][0].toString()
+      : params.value?.toString() || '';
   }
 }
