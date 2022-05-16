@@ -49,6 +49,6 @@ describe('ColumnDefinitions', () => {
       }
     });
 
-    expect(columnUtilsService.formatNumber).toHaveBeenCalledTimes(3);
+    expect(columnUtilsService.formatNumber).toHaveBeenCalledTimes(4);
   });
 });
