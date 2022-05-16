@@ -50,7 +50,7 @@ import {
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifiers,
-} from '../selectors/compare.selectors';
+} from '../selectors';
 import { CompareEffects } from './compare.effects';
 
 describe('CompareEffects', () => {

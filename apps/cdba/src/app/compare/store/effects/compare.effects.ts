@@ -39,7 +39,7 @@ import {
   getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifiers,
-} from '../selectors/compare.selectors';
+} from '../selectors';
 
 @Injectable()
 export class CompareEffects {

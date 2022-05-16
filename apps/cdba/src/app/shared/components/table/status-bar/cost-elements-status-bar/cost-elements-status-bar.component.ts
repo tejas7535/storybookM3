@@ -18,7 +18,7 @@ import { toggleSplitType as toggleSplitTypeForComparePage } from '../../../../..
 import {
   getCostComponentSplitItems as getCostComponentSplitItemsCompare,
   getSelectedSplitType as getSelectedSplitTypeCompare,
-} from '../../../../../compare/store/selectors/compare.selectors';
+} from '../../../../../compare/store/selectors';
 
 @Component({
   selector: 'cdba-cost-elements-status-bar',
