@@ -18,7 +18,7 @@ import {
   loadCalculationHistoryFailure,
   loadCostComponentSplitFailure,
   loadProductDetailsFailure,
-} from '../actions/compare.actions';
+} from '../actions';
 import { CompareFailureEffects } from './compare-failure.effects';
 
 describe('CompareFailureEffects', () => {

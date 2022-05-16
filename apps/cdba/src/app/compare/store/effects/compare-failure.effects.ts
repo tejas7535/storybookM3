@@ -1,5 +1,4 @@
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
-/* eslint-disable no-invalid-this */
 import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,7 +15,7 @@ import {
   loadCalculationHistoryFailure,
   loadCostComponentSplitFailure,
   loadProductDetailsFailure,
-} from '../actions/compare.actions';
+} from '../actions';
 
 @Injectable()
 export class CompareFailureEffects {

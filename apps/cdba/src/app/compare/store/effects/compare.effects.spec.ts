@@ -46,7 +46,7 @@ import {
   loadCostComponentSplitSuccess,
   selectCalculation,
   selectCompareItems,
-} from '../actions/compare.actions';
+} from '../actions';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifiers,

@@ -34,7 +34,7 @@ import {
   selectCalculation,
   selectCompareItems,
   toggleSplitType,
-} from '../actions/compare.actions';
+} from '../actions/';
 import { compareReducer, CompareState, initialState } from './compare.reducer';
 
 describe('Compare Reducer', () => {

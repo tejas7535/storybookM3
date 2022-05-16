@@ -26,7 +26,7 @@ import {
   selectCalculation,
   selectCompareItems,
   toggleSplitType,
-} from '../actions/compare.actions';
+} from '../actions';
 
 export interface CompareState {
   [index: number]: {

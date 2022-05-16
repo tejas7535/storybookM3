@@ -34,7 +34,7 @@ import {
   selectBomItem,
   selectCalculation,
   selectCompareItems,
-} from '../actions/compare.actions';
+} from '../actions';
 import {
   getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,

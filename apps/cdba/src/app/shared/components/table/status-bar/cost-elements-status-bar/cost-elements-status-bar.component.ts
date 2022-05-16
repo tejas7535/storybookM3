@@ -14,7 +14,7 @@ import {
 } from '@cdba/shared/models';
 import { Store } from '@ngrx/store';
 
-import { toggleSplitType as toggleSplitTypeForComparePage } from '../../../../../compare/store/actions/compare.actions';
+import { toggleSplitType as toggleSplitTypeForComparePage } from '../../../../../compare/store/actions';
 import {
   getCostComponentSplitItems as getCostComponentSplitItemsCompare,
   getSelectedSplitType as getSelectedSplitTypeCompare,
