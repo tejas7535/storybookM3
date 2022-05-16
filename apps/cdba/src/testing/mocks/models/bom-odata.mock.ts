@@ -9,6 +9,7 @@ export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
   parentMaterialNumber: 'mock-materialNumber',
   costShareOfParent: 0.4,
   predecessorsInTree: [],
+  itemCategory: 'I',
 
   bomIdentifier: {
     costingDate: '2017-11-01',
@@ -42,6 +43,7 @@ export const BOM_ITEM_ODATA_MOCK: BomItemOdata = {
     materialIndentNumber: 'mock-materialIndentNumber',
     materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
     valuationClass: 'mock-materialValuationClass',
+    type: 'mock-type',
   },
 
   procurement: {

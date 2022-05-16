@@ -73,6 +73,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
     parentMaterialNumber: 'mock-materialNumber',
     costShareOfParent: 0.4,
     predecessorsInTree: ['FE-2313'],
+    itemCategory: 'I',
     bomIdentifier: {
       costingDate: '2017-11-01',
       costingNumber: 'mock-costingNumber',
@@ -103,6 +104,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
       materialIndentNumber: 'mock-materialIndentNumber',
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
+      type: 'mock-type',
     },
     procurement: {
       plant: 'mock-plant',
@@ -176,6 +178,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
     parentMaterialNumber: 'mock-materialNumber',
     costShareOfParent: 1,
     predecessorsInTree: ['FE-2313', 'FE-2315'],
+    itemCategory: 'I',
     bomIdentifier: {
       costingDate: '2017-11-01',
       costingNumber: 'mock-costingNumber',
@@ -206,6 +209,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
       materialIndentNumber: 'mock-materialIndentNumber',
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
+      type: 'mock-type',
     },
     procurement: {
       plant: 'mock-plant',
@@ -279,6 +283,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
     parentMaterialNumber: 'mock-materialNumber',
     costShareOfParent: 0.4,
     predecessorsInTree: ['FE-2313', 'FE-2315 '],
+    itemCategory: 'I',
     bomIdentifier: {
       costingDate: '2017-11-01',
       costingNumber: 'mock-costingNumber',
@@ -309,6 +314,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
       materialIndentNumber: 'mock-materialIndentNumber',
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
+      type: 'mock-type',
     },
     procurement: {
       plant: 'mock-plant',
@@ -382,6 +388,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
     parentMaterialNumber: 'mock-materialNumber',
     costShareOfParent: 0.4,
     predecessorsInTree: ['FE-2313', 'FE-2315 ', 'FE-2314'],
+    itemCategory: 'I',
     bomIdentifier: {
       costingDate: '2017-11-01',
       costingNumber: 'mock-costingNumber',
@@ -412,7 +419,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
       materialIndentNumber: 'mock-materialIndentNumber',
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
-      type: 'M',
+      type: 'mock-type',
     },
     procurement: {
       plant: 'mock-plant',
@@ -486,6 +493,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
     parentMaterialNumber: 'mock-materialNumber',
     costShareOfParent: 0.4,
     predecessorsInTree: ['FE-2313', 'FE-2311'],
+    itemCategory: 'I',
     bomIdentifier: {
       costingDate: '2017-11-01',
       costingNumber: 'mock-costingNumber',
@@ -516,6 +524,7 @@ export const BOM_ODATA_MAPPED_MOCK: BomItemOdata[] = [
       materialIndentNumber: 'mock-materialIndentNumber',
       materialIndentNumberDescription: 'mock-materialIndentNumberDescription',
       valuationClass: 'mock-materialValuationClass',
+      type: 'mock-type',
     },
     procurement: {
       plant: 'mock-plant',
