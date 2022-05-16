@@ -1,2 +1,2 @@
-export * from './details/detail.selector';
+export * from './details';
 export * from './search/search.selector';

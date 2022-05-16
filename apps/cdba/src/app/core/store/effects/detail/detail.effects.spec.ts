@@ -53,7 +53,7 @@ import {
   getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
-} from '../../selectors/details/detail.selector';
+} from '../../selectors';
 import { DetailEffects } from './detail.effects';
 
 describe('Detail Effects', () => {

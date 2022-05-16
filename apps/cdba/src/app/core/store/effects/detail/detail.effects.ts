@@ -40,7 +40,7 @@ import {
   getBomIdentifierForSelectedBomItem,
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
-} from '../../selectors/details/detail.selector';
+} from '../../selectors';
 
 @Injectable()
 export class DetailEffects {
