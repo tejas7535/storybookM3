@@ -11,11 +11,11 @@ import {
   getBomError,
   getBomItems,
   getBomLoading,
-  getChildrenOfSelectedBomItem,
   getCostComponentSplitError,
   getCostComponentSplitItems,
   getCostComponentSplitLoading,
   getCostComponentSplitSummary,
+  getDirectChildrenOfSelectedBomItem,
   getSelectedSplitType,
 } from './bom.selectors';
 
@@ -93,14 +93,18 @@ describe('BoM Selectors', () => {
     });
   });
 
-  describe('getChildrenOfSelectedBomItem', () => {
+  describe('getDirectChildrenOfSelectedBomItem', () => {
     it('should return undefined for non existing index', () => {
-      result = getChildrenOfSelectedBomItem(99).projector(fakeState.compare);
+      result = getDirectChildrenOfSelectedBomItem(99).projector(
+        fakeState.compare
+      );
 
       expect(result).toBeUndefined();
     });
     it('should return undefined for non existing bom for provided index', () => {
-      result = getChildrenOfSelectedBomItem(3).projector(fakeState.compare);
+      result = getDirectChildrenOfSelectedBomItem(3).projector(
+        fakeState.compare
+      );
 
       expect(result).toBeUndefined();
     });
@@ -108,7 +112,9 @@ describe('BoM Selectors', () => {
     it('should return children of selected bom item', () => {
       expected = [];
 
-      result = getChildrenOfSelectedBomItem(0).projector(fakeState.compare);
+      result = getDirectChildrenOfSelectedBomItem(0).projector(
+        fakeState.compare
+      );
 
       expect(result).toEqual(expected);
     });
@@ -158,7 +164,8 @@ describe('BoM Selectors', () => {
       };
       expected = [bomItems[1]];
 
-      result = getChildrenOfSelectedBomItem(0).projector(testCompareState);
+      result =
+        getDirectChildrenOfSelectedBomItem(0).projector(testCompareState);
 
       expect(result).toEqual(expected);
     });

@@ -15,11 +15,11 @@ import {
   getBomIdentifierForSelectedCalculation,
   getBomItems,
   getBomLoading,
-  getChildrenOfSelectedBomItem,
   getCostComponentSplitError,
   getCostComponentSplitItems,
   getCostComponentSplitLoading,
   getCostComponentSplitSummary,
+  getDirectChildrenOfSelectedBomItem,
   getSelectedSplitType,
 } from './bom.selector';
 
@@ -51,10 +51,12 @@ describe('Bom Selectors', () => {
     });
   });
 
-  describe('getChildrenOfSelectedBomItem', () => {
+  describe('getDirectChildrenOfSelectedBomItem', () => {
     test('should return the direct children of the selected bom item', () => {
-      expect(getChildrenOfSelectedBomItem(initialDetailState)).toBeUndefined();
-      expect(getChildrenOfSelectedBomItem(fakeState)).toEqual([
+      expect(
+        getDirectChildrenOfSelectedBomItem(initialDetailState)
+      ).toBeUndefined();
+      expect(getDirectChildrenOfSelectedBomItem(fakeState)).toEqual([
         BOM_ODATA_MOCK[1],
       ]);
     });
@@ -100,7 +102,9 @@ describe('Bom Selectors', () => {
         },
       };
 
-      expect(getChildrenOfSelectedBomItem(testState)).toEqual([bomItems[1]]);
+      expect(getDirectChildrenOfSelectedBomItem(testState)).toEqual([
+        bomItems[1],
+      ]);
     });
   });
 

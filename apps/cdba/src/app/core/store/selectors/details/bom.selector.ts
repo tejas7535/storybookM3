@@ -27,8 +27,7 @@ export const getBomError = createSelector(
   (state: DetailState) => state.bom.errorMessage
 );
 
-// TODO: Rename to getDirectChildrenOfSelectedBomItem
-export const getChildrenOfSelectedBomItem = createSelector(
+export const getDirectChildrenOfSelectedBomItem = createSelector(
   getDetailState,
   (state: DetailState): BomItem[] =>
     state.bom.items

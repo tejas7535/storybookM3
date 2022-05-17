@@ -26,7 +26,7 @@ export const getBomError = createSelector(
     state[index]?.billOfMaterial?.errorMessage
 );
 
-export const getChildrenOfSelectedBomItem = (index: number) =>
+export const getDirectChildrenOfSelectedBomItem = (index: number) =>
   createSelector(getCompareState, (state: CompareState): BomItem[] =>
     state[index]?.billOfMaterial?.selected
       ? state[index].billOfMaterial.items

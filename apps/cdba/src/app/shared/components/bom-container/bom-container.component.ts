@@ -153,7 +153,7 @@ export class BomContainerComponent implements OnInit {
       this.index
     );
     this.childrenOfSelectedBomItem$ = this.store.select(
-      fromCompare.getChildrenOfSelectedBomItem(this.index)
+      fromCompare.getDirectChildrenOfSelectedBomItem(this.index)
     );
 
     this.costComponentSplitLoading$ = this.store.select(
@@ -203,7 +203,7 @@ export class BomContainerComponent implements OnInit {
     this.bomLoading$ = this.store.select(fromDetail.getBomLoading);
     this.bomErrorMessage$ = this.store.select(fromDetail.getBomError);
     this.childrenOfSelectedBomItem$ = this.store.select(
-      fromDetail.getChildrenOfSelectedBomItem
+      fromDetail.getDirectChildrenOfSelectedBomItem
     );
 
     this.costComponentSplitLoading$ = this.store.select(
