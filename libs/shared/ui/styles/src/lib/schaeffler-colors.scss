@@ -87,3 +87,37 @@ $mat-schaeffler-primary: (
     900: $light-high-emphasis,
   ),
 );
+
+// Warn palette
+$mat-schaeffler-warn: (
+  50: #f4e3e7,
+  100: #e3b9c4,
+  200: #d18b9c,
+  300: #bf5d74,
+  400: #b13a57,
+  500: #a31739,
+  600: #9b1433,
+  700: #91112c,
+  800: #880d24,
+  900: #770717,
+  A100: #ffa7af,
+  A200: #ff7481,
+  A400: #ff4153,
+  A700: #ff273c,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);

@@ -11,11 +11,17 @@
 // hue. Available color palettes: https://material.io/design/color/
 $schaeffler-primary: mat.define-palette($mat-schaeffler-primary, 700);
 $schaeffler-accent: mat.define-palette($mat-schaeffler-secondary, 50);
+$schaeffler-warn: mat.define-palette($mat-schaeffler-warn, 500);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $schaeffler-theme: mat.define-light-theme(
-  $schaeffler-primary,
-  $schaeffler-accent
+  (
+    color: (
+      primary: $schaeffler-primary,
+      accent: $schaeffler-accent,
+      warn: $schaeffler-warn,
+    ),
+  )
 );
 
 @include mat.core();
