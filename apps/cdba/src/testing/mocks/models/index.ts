@@ -11,6 +11,7 @@ export * from './drawings.mock';
 export * from './price-details.mock';
 export * from './production-details.mock';
 export * from './quantities-detail.mock';
+export * from './raw-material-analysis.mock';
 export * from './reference-type.mock';
 export * from './reference-type-identifier.mock';
 export * from './roles.mock';

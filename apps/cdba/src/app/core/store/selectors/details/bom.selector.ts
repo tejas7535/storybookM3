@@ -6,7 +6,13 @@ import {
   OdataBomIdentifier,
   RawMaterialAnalysis,
 } from '@cdba/shared/models';
-import { addCostShareOfParent } from '@cdba/shared/utils';
+import {
+  addCostShareAndPriceValuesToRawMaterialAnalyses,
+  addCostShareOfParent,
+  extractRawMaterials,
+  getRawMaterialAnalysisSummary,
+  mapBomItemsToRawMaterialAnalyses,
+} from '@cdba/shared/utils';
 import { createSelector } from '@ngrx/store';
 
 import { getDetailState } from '../../reducers';
@@ -87,105 +93,32 @@ export const getRawMaterialAnalysisForSelectedBomItem = createSelector(
     selectedBomItem: BomItem,
     childrenOfSelectedBomItem: BomItem[]
   ): RawMaterialAnalysis[] => {
-    const rawMaterialBomItems: BomItem[] = childrenOfSelectedBomItem?.filter(
-      (item) =>
-        item.materialCharacteristics?.type === 'ROH' &&
-        item.itemCategory === 'M'
-    );
+    if (selectedBomItem && childrenOfSelectedBomItem) {
+      const rawMaterialBomItems: BomItem[] = extractRawMaterials(
+        childrenOfSelectedBomItem
+      );
 
-    if (rawMaterialBomItems) {
-      const aggregatedRawMaterials: Map<string, RawMaterialAnalysis> =
-        new Map();
+      if (rawMaterialBomItems) {
+        const aggregatedRawMaterialAnalyses: RawMaterialAnalysis[] =
+          mapBomItemsToRawMaterialAnalyses(rawMaterialBomItems);
 
-      rawMaterialBomItems.forEach((bomItem) => {
-        if (aggregatedRawMaterials.has(bomItem.materialDesignation)) {
-          // aggregate existing
-          const rawMaterialAnalysis = aggregatedRawMaterials.get(
-            bomItem.materialDesignation
-          );
-          rawMaterialAnalysis.operatingWeight += bomItem.quantities.quantity;
-          rawMaterialAnalysis.totalCosts += bomItem.costing.costAreaTotalValue;
-
-          // eslint-disable-next-line no-console
-          console.assert(
-            rawMaterialAnalysis.supplier ===
-              bomItem.procurement.vendorDescription,
-            'vendor differs'
-          );
-
-          // eslint-disable-next-line no-console
-          console.assert(
-            rawMaterialAnalysis.unitOfWeight ===
-              bomItem.quantities.baseUnitOfMeasure,
-            'unit of measure differs'
-          );
-        } else {
-          const rawMaterialAnalysis: RawMaterialAnalysis = {
-            materialDesignation: bomItem.materialDesignation,
-            materialNumber: bomItem.materialNumber,
-            costShare: undefined,
-            supplier: bomItem.procurement.vendorDescription,
-            operatingWeight: bomItem.quantities.quantity,
-            unitOfWeight: bomItem.quantities.baseUnitOfMeasure,
-            price: undefined,
-            totalCosts: bomItem.costing.costAreaTotalValue,
-            currency: bomItem.costing.costAreaCurrency,
-          };
-
-          aggregatedRawMaterials.set(
-            rawMaterialAnalysis.materialDesignation,
-            rawMaterialAnalysis
-          );
-        }
-      });
-
-      return [...aggregatedRawMaterials.values()].map((analysis) => ({
-        ...analysis,
-        costShare:
-          analysis.totalCosts / selectedBomItem.costing.costAreaTotalValue,
-        price: calculatePricePerKg(
-          analysis.totalCosts,
-          analysis.operatingWeight,
-          analysis.unitOfWeight
-        ),
-      }));
+        return addCostShareAndPriceValuesToRawMaterialAnalyses(
+          aggregatedRawMaterialAnalyses,
+          selectedBomItem
+        );
+      } else {
+        return undefined;
+      }
     } else {
       return undefined;
     }
   }
 );
 
-const calculatePricePerKg = (
-  totalCosts: number,
-  operatingWeight: number,
-  unitOfDimension: string
-): number =>
-  unitOfDimension === 'G'
-    ? (totalCosts / operatingWeight) * 1000
-    : totalCosts / operatingWeight;
-
 export const getRawMaterialAnalysisSummaryForSelectedBom = createSelector(
   getRawMaterialAnalysisForSelectedBomItem,
   (rawMaterialAnalysisData: RawMaterialAnalysis[]): RawMaterialAnalysis[] =>
-    rawMaterialAnalysisData?.length > 0
-      ? [
-          {
-            materialDesignation: undefined,
-            materialNumber: undefined,
-            costShare: undefined,
-            supplier: undefined,
-            operatingWeight: undefined,
-            unitOfWeight: undefined,
-            price: undefined,
-            currency: rawMaterialAnalysisData[0].currency,
-            totalCosts: rawMaterialAnalysisData
-              .map((item) => item.totalCosts)
-              .reduce(
-                (current: number, previous: number) => previous + current
-              ),
-          },
-        ]
-      : undefined
+    getRawMaterialAnalysisSummary(rawMaterialAnalysisData)
 );
 
 export const getCostComponentSplitItems = createSelector(

@@ -4,8 +4,15 @@ import {
   CostComponentSplit,
   CostComponentSplitType,
   OdataBomIdentifier,
+  RawMaterialAnalysis,
 } from '@cdba/shared/models';
-import { addCostShareOfParent } from '@cdba/shared/utils';
+import {
+  addCostShareAndPriceValuesToRawMaterialAnalyses,
+  addCostShareOfParent,
+  extractRawMaterials,
+  getRawMaterialAnalysisSummary,
+  mapBomItemsToRawMaterialAnalyses,
+} from '@cdba/shared/utils';
 import { createSelector } from '@ngrx/store';
 
 import { CompareState } from '../reducers/compare.reducer';
@@ -42,13 +49,82 @@ export const getDirectChildrenOfSelectedBomItem = (index: number) =>
       : undefined
   );
 
-export const getBomIdentifierForSelectedBomItem = (index: number) =>
+export const getSelectedBomItem = (index: number) =>
   createSelector(
     getCompareState,
-    (state: CompareState): OdataBomIdentifier =>
-      state[index]?.billOfMaterial?.selected
-        ? state[index].billOfMaterial.selected.bomIdentifier
-        : undefined
+    (state: CompareState): BomItem => state[index]?.billOfMaterial?.selected
+  );
+
+export const getBomIdentifierForSelectedBomItem = (index: number) =>
+  createSelector(
+    getSelectedBomItem(index),
+    (selectedBomItem: BomItem): OdataBomIdentifier =>
+      selectedBomItem?.bomIdentifier
+  );
+
+export const getAllChildrenOfSelectedBomItem = (index: number) =>
+  createSelector(
+    getSelectedBomItem(index),
+    getCompareState,
+    (selectedBomItem: BomItem, state: CompareState): BomItem[] => {
+      if (state[index]?.billOfMaterial?.items && selectedBomItem) {
+        const allBomItems = state[index].billOfMaterial.items;
+        const allChildren: BomItem[] = [];
+
+        for (
+          let i = allBomItems.indexOf(selectedBomItem) + 1;
+          i < allBomItems.length;
+          i += 1
+        ) {
+          if (allBomItems[i].level <= selectedBomItem.level) {
+            break;
+          } else {
+            allChildren.push(allBomItems[i]);
+          }
+        }
+
+        return allChildren;
+      } else {
+        return undefined;
+      }
+    }
+  );
+
+export const getRawMaterialAnalysisForSelectedBomItem = (index: number) =>
+  createSelector(
+    getSelectedBomItem(index),
+    getAllChildrenOfSelectedBomItem(index),
+    (
+      selectedBomItem: BomItem,
+      childrenOfSelectedBomItem: BomItem[]
+    ): RawMaterialAnalysis[] => {
+      if (selectedBomItem && childrenOfSelectedBomItem) {
+        const rawMaterialBomItems: BomItem[] = extractRawMaterials(
+          childrenOfSelectedBomItem
+        );
+
+        if (rawMaterialBomItems) {
+          const aggregatedRawMaterialAnalyses: RawMaterialAnalysis[] =
+            mapBomItemsToRawMaterialAnalyses(rawMaterialBomItems);
+
+          return addCostShareAndPriceValuesToRawMaterialAnalyses(
+            aggregatedRawMaterialAnalyses,
+            selectedBomItem
+          );
+        } else {
+          return undefined;
+        }
+      } else {
+        return undefined;
+      }
+    }
+  );
+
+export const getRawMaterialAnalysisSummaryForSelectedBom = (index: number) =>
+  createSelector(
+    getRawMaterialAnalysisForSelectedBomItem(index),
+    (rawMaterialAnalysisData: RawMaterialAnalysis[]): RawMaterialAnalysis[] =>
+      getRawMaterialAnalysisSummary(rawMaterialAnalysisData)
   );
 
 export const getCostComponentSplitItems = (index: number) =>

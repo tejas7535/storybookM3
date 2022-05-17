@@ -1,9 +1,15 @@
-import { BomItem, CostComponentSplit } from '@cdba/shared/models';
+import {
+  BomItem,
+  CostComponentSplit,
+  RawMaterialAnalysis,
+} from '@cdba/shared/models';
 import {
   BOM_ITEM_ODATA_MOCK,
   BOM_ODATA_MOCK,
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DETAIL_STATE_MOCK,
+  RAW_MATERIAL_ANALYSIS_MOCK,
+  REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -11,6 +17,7 @@ import {
   initialState,
 } from '../../reducers/detail/detail.reducer';
 import {
+  getAllChildrenOfSelectedBomItem,
   getBomError,
   getBomIdentifierForSelectedCalculation,
   getBomItems,
@@ -20,6 +27,8 @@ import {
   getCostComponentSplitLoading,
   getCostComponentSplitSummary,
   getDirectChildrenOfSelectedBomItem,
+  getRawMaterialAnalysisForSelectedBomItem,
+  getRawMaterialAnalysisSummaryForSelectedBom,
   getSelectedSplitType,
 } from './bom.selector';
 
@@ -105,6 +114,211 @@ describe('Bom Selectors', () => {
       expect(getDirectChildrenOfSelectedBomItem(testState)).toEqual([
         bomItems[1],
       ]);
+    });
+  });
+
+  describe('getAllChildrenOfSelectedBomItem', () => {
+    it('should return undefined for undefined selectedBomItem', () => {
+      const result = getAllChildrenOfSelectedBomItem.projector(
+        undefined,
+        fakeState.detail
+      );
+
+      expect(result).toBeUndefined();
+    });
+    it('should return undefined for non existing bom for provided index', () => {
+      const result = getAllChildrenOfSelectedBomItem.projector(
+        undefined,
+        initialDetailState.detail
+      );
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return all children of selected bom item', () => {
+      const bomItems: BomItem[] = [
+        BOM_ITEM_ODATA_MOCK,
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 2,
+          rowId: 2,
+          materialDesignation: 'FE-2313',
+          predecessorsInTree: ['FE-2313', 'FE-2313'],
+          costShareOfParent: 1,
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 3,
+          materialDesignation: 'FE-2315',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 4,
+          materialDesignation: 'FE-2314',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 5,
+          materialDesignation: 'FE-2311',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2311'],
+        },
+      ];
+      const testDetailState = {
+        ...fakeState.detail,
+        bom: {
+          ...fakeState.detail.bom,
+          items: bomItems,
+          selected: BOM_ITEM_ODATA_MOCK,
+        },
+      };
+      const expected = bomItems.slice(1);
+
+      const result = getAllChildrenOfSelectedBomItem.projector(
+        testDetailState.bom.selected,
+        testDetailState
+      );
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getRawMaterialAnalysisForSelectedBomItem', () => {
+    it('should return undefined for non existing bom items', () => {
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        REFERENCE_TYPE_MOCK,
+        undefined
+      );
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined for undefined selectedBomItem', () => {
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        undefined,
+        []
+      );
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return raw material analysis of selected bom item', () => {
+      const bomItems: BomItem[] = [
+        BOM_ITEM_ODATA_MOCK,
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 2,
+          rowId: 2,
+          materialDesignation: 'FE-2313',
+          predecessorsInTree: ['FE-2313', 'FE-2313'],
+          costShareOfParent: 1,
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 3,
+          materialDesignation: 'FE-2315',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2315'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 4,
+          itemCategory: 'M',
+          materialCharacteristics: {
+            ...BOM_ITEM_ODATA_MOCK.materialCharacteristics,
+            type: 'ROH',
+          },
+          materialDesignation: 'FE-2314',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2314'],
+        },
+        {
+          ...BOM_ITEM_ODATA_MOCK,
+          level: 3,
+          rowId: 5,
+          itemCategory: 'M',
+          materialCharacteristics: {
+            ...BOM_ITEM_ODATA_MOCK.materialCharacteristics,
+            type: 'ROH',
+          },
+          materialDesignation: 'FE-2311',
+          predecessorsInTree: ['FE-2313', 'FE-2313', 'FE-2311'],
+        },
+      ];
+
+      const expected = [
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2314',
+          materialNumber: 'mock-materialNumber',
+          operatingWeight: 1234.567,
+          price: 1,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfWeight: 'mock-baseUnitOfMeasure',
+        },
+        {
+          costShare: 1,
+          currency: 'mock-costAreaCurrency',
+          materialDesignation: 'FE-2311',
+          materialNumber: 'mock-materialNumber',
+          operatingWeight: 1234.567,
+          price: 1,
+          supplier: 'mock-vendorDescription',
+          totalCosts: 1234.567,
+          unitOfWeight: 'mock-baseUnitOfMeasure',
+        },
+      ];
+
+      const result = getRawMaterialAnalysisForSelectedBomItem.projector(
+        BOM_ITEM_ODATA_MOCK,
+        bomItems
+      );
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getRawMaterialAnalysisSummary', () => {
+    it('should return undefined for undefined raw material analysis input', () => {
+      const result =
+        getRawMaterialAnalysisSummaryForSelectedBom.projector(undefined);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined for empty raw material analysis input', () => {
+      const result = getRawMaterialAnalysisSummaryForSelectedBom.projector([]);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return summary of raw material analysis', () => {
+      const input = [RAW_MATERIAL_ANALYSIS_MOCK, RAW_MATERIAL_ANALYSIS_MOCK];
+
+      const result =
+        getRawMaterialAnalysisSummaryForSelectedBom.projector(input);
+
+      const expected: RawMaterialAnalysis[] = [
+        {
+          costShare: undefined,
+          currency: 'EUR',
+          materialDesignation: undefined,
+          materialNumber: undefined,
+          operatingWeight: undefined,
+          price: undefined,
+          supplier: undefined,
+          totalCosts: 0.001_46,
+          unitOfWeight: undefined,
+        },
+      ];
+
+      expect(result).toEqual(expected);
     });
   });
 

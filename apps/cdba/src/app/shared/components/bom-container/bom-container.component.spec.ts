@@ -189,6 +189,13 @@ describe('BomContainerComponent', () => {
         m.expect(component.costComponentSplitErrorMessage$).toBeObservable(
           m.cold('a', { a: DETAIL_STATE_MOCK.costComponentSplit.errorMessage })
         );
+
+        m.expect(component.rawMaterialAnalysis$).toBeObservable(
+          m.cold('a', { a: [] })
+        );
+        m.expect(component.rawMaterialAnalysisSummary$).toBeObservable(
+          m.cold('a', { a: undefined })
+        );
       })
     );
   });
@@ -198,6 +205,20 @@ describe('BomContainerComponent', () => {
       'should use compare selectors to init observables',
       marbles((m) => {
         component['initializeWithCompareSelectors']();
+
+        const expectedCostComponentSplitSummary: CostComponentSplit[] = [
+          {
+            costComponent: undefined,
+            description: undefined,
+            splitType: 'TOTAL',
+            totalValue: 1.4686,
+            fixedValue: 0.5616,
+            variableValue: 0.907,
+            currency: 'USD',
+          },
+        ];
+        const expectedCostComponentSplitItems: CostComponentSplit[] =
+          COST_COMPONENT_SPLIT_ITEMS_MOCK;
 
         m.expect(component.materialDesignation$).toBeObservable(
           m.cold('a', { a: 'F-446509.SLH' })
@@ -231,6 +252,28 @@ describe('BomContainerComponent', () => {
         );
         m.expect(component.childrenOfSelectedBomItem$).toBeObservable(
           m.cold('a', { a: [] })
+        );
+
+        m.expect(component.costComponentSplitItems$).toBeObservable(
+          m.cold('a', { a: expectedCostComponentSplitItems })
+        );
+        m.expect(component.costComponentSplitSummary$).toBeObservable(
+          m.cold('a', { a: expectedCostComponentSplitSummary })
+        );
+        m.expect(component.costComponentSplitLoading$).toBeObservable(
+          m.cold('a', { a: COMPARE_STATE_MOCK[0].costComponentSplit.loading })
+        );
+        m.expect(component.costComponentSplitErrorMessage$).toBeObservable(
+          m.cold('a', {
+            a: COMPARE_STATE_MOCK[0].costComponentSplit.errorMessage,
+          })
+        );
+
+        m.expect(component.rawMaterialAnalysis$).toBeObservable(
+          m.cold('a', { a: [] })
+        );
+        m.expect(component.rawMaterialAnalysisSummary$).toBeObservable(
+          m.cold('a', { a: undefined })
         );
       })
     );

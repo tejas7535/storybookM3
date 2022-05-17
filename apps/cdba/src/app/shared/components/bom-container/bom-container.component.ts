@@ -11,10 +11,6 @@ import { tap } from 'rxjs/operators';
 import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
-import {
-  getRawMaterialAnalysisForSelectedBomItem,
-  getRawMaterialAnalysisSummaryForSelectedBom,
-} from '@cdba/core/store';
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
@@ -168,6 +164,14 @@ export class BomContainerComponent implements OnInit {
     this.costComponentSplitSummary$ = this.store.select(
       fromCompare.getCostComponentSplitSummary(this.index)
     );
+
+    this.rawMaterialAnalysis$ = this.store.select(
+      fromCompare.getRawMaterialAnalysisForSelectedBomItem(this.index)
+    );
+
+    this.rawMaterialAnalysisSummary$ = this.store.select(
+      fromCompare.getRawMaterialAnalysisSummaryForSelectedBom(this.index)
+    );
   }
 
   private initializeWithDetailSelectors(): void {
@@ -220,11 +224,11 @@ export class BomContainerComponent implements OnInit {
     );
 
     this.rawMaterialAnalysis$ = this.store.select(
-      getRawMaterialAnalysisForSelectedBomItem
+      fromDetail.getRawMaterialAnalysisForSelectedBomItem
     );
 
     this.rawMaterialAnalysisSummary$ = this.store.select(
-      getRawMaterialAnalysisSummaryForSelectedBom
+      fromDetail.getRawMaterialAnalysisSummaryForSelectedBom
     );
   }
 
