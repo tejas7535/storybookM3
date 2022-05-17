@@ -29,6 +29,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   public limitResults = true;
   public subordinates: Subordinate[] = [];
+  public greaseInput: Subordinate | undefined;
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
   private reportRaw!: Report;
@@ -53,7 +54,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
         if (locale !== this.currentLocale) {
           this.currentLocale = locale;
           this.localeService.setLocale(locale);
-          this.assignReportData();
+          this.fetchGreaseReport();
         }
       }
     );
@@ -89,6 +90,9 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     titleID: TitleId | string | undefined
   ): boolean => titleID === TitleId.STRING_OUTP_RESULTS;
 
+  public isInputSection = (subordinate: Subordinate): boolean =>
+    subordinate?.titleID === TitleId.STRING_OUTP_INPUT;
+
   public toggleLimitResults(): void {
     this.limitResults = !this.limitResults;
   }
@@ -110,6 +114,10 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   private assignReportData(): void {
     this.subordinates = this.greaseReportService.formatGreaseReport(
       this.reportRaw?.subordinates
+    );
+
+    this.greaseInput = this.subordinates.find(
+      (subordinate) => subordinate.titleID === TitleId.STRING_OUTP_INPUT
     );
   }
 }

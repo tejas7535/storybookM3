@@ -15,6 +15,8 @@ import { LabelValueModule } from '@schaeffler/label-value';
 
 import { HtmlReportComponent } from './components/html-report/html-report.component';
 import { ReportComponent } from './components/report/report.component';
+import { GreaseReportInputItemComponent } from './grease/grease-report-input-item/grease-report-input-item.component';
+import { GreaseReportInputComponent } from './grease/grease-report-input/grease-report-input.component';
 import { GreaseReportComponent } from './grease/grease-report/grease-report.component';
 import { GreaseResultComponent } from './grease/grease-result/grease-result.component';
 import { UndefinedValuePipe } from './grease/pipes/undefined-value.pipe';
@@ -54,6 +56,8 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     ReportComponent,
     GreaseReportComponent,
     GreaseResultComponent,
+    GreaseReportInputComponent,
+    GreaseReportInputItemComponent,
     HtmlReportComponent,
     SafeHtmlPipe,
     UndefinedValuePipe,

@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 
 import { formattedGreaseJson } from '../../../mocks/index';
 import { Subordinate, TitleId } from '../../models/index';
+import { GreaseReportInputComponent } from '../grease-report-input/grease-report-input.component';
 import { GreaseReportService } from '../services/grease-report.service';
 import { GreaseReportComponent } from './grease-report.component';
 
@@ -30,7 +31,7 @@ describe('GreaseReportComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GreaseReportComponent,
-    declarations: [GreaseReportComponent],
+    declarations: [GreaseReportComponent, GreaseReportInputComponent],
     imports: [
       CommonModule,
       HttpClientModule,
