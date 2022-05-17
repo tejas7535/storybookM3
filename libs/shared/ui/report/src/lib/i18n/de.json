@@ -43,6 +43,6 @@
   "suitabilityLevelExtremelySuitable": "sehr gut geeignet",
   "suitabilityLevelHighlySuitable": "gut geeignet",
   "suitabilityLevelSuitable": "geeignet",
-  "suitabilityLeveLessSuitable": "weniger geeignet",
+  "suitabilityLevelLessSuitable": "weniger geeignet",
   "suitabilityLevelNotSuitable": "nicht geeignet"
 }
