@@ -409,7 +409,7 @@ describe('GreaseResultDataSourceService', () => {
           tableMock.mockTableItemValueString,
           tableMock.mockTableItemUnit
         )[14],
-        values: 'undefinedValue',
+        values: 'n.a.',
       });
     });
   });
@@ -436,7 +436,7 @@ describe('GreaseResultDataSourceService', () => {
           tableMock.mockTableItemValueString,
           tableMock.mockTableItemUnit
         )[15],
-        values: 'undefinedValue',
+        values: 'n.a.',
       });
     });
   });
@@ -463,7 +463,7 @@ describe('GreaseResultDataSourceService', () => {
           tableMock.mockTableItemValueString,
           tableMock.mockTableItemUnit
         )[16],
-        values: 'undefinedValue',
+        values: 'n.a.',
       });
     });
   });

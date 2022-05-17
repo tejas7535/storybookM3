@@ -39,7 +39,7 @@
   "days": "days",
   "grams": "Gramm",
   "gramsAbbreviation": "g",
-  "undefinedAttribute": "n.a.",
+  "undefinedValue": "n.a.",
   "suitabilityLevelExtremelySuitable": "extremely suitable",
   "suitabilityLevelHighlySuitable": "highly suitable",
   "suitabilityLevelSuitable": "suitable",
