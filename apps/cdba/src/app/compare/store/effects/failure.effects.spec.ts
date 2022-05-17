@@ -19,13 +19,13 @@ import {
   loadCostComponentSplitFailure,
   loadProductDetailsFailure,
 } from '../actions';
-import { CompareFailureEffects } from './compare-failure.effects';
+import { FailureEffects } from './failure.effects';
 
-describe('CompareFailureEffects', () => {
-  let spectator: SpectatorService<CompareFailureEffects>;
+describe('FailureEffects', () => {
+  let spectator: SpectatorService<FailureEffects>;
   let actions$: any;
-  let effects: CompareFailureEffects;
-  let metadata: EffectsMetadata<CompareFailureEffects>;
+  let effects: FailureEffects;
+  let metadata: EffectsMetadata<FailureEffects>;
   let httpErrorService: HttpErrorService;
   let router: Router;
 
@@ -37,7 +37,7 @@ describe('CompareFailureEffects', () => {
   };
 
   const createService = createServiceFactory({
-    service: CompareFailureEffects,
+    service: FailureEffects,
     imports: [RouterTestingModule],
     providers: [
       provideMockActions(() => actions$),
@@ -53,7 +53,7 @@ describe('CompareFailureEffects', () => {
   beforeEach(() => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
-    effects = spectator.inject(CompareFailureEffects);
+    effects = spectator.inject(FailureEffects);
     metadata = getEffectsMetadata(effects);
     httpErrorService = spectator.inject(HttpErrorService);
     router = spectator.inject(Router);

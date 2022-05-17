@@ -12,8 +12,12 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CompareComponent } from './compare.component';
 import { CompareRoutingModule } from './compare-routing.module';
-import { CompareEffects } from './store/effects/compare.effects';
-import { CompareFailureEffects } from './store/effects/compare-failure.effects';
+import {
+  BomEffects,
+  CalculationsEffects,
+  ProductDetailsEffects,
+} from './store/effects';
+import { FailureEffects } from './store/effects/failure.effects';
 import { compareReducer } from './store/reducers/compare.reducer';
 
 @NgModule({
@@ -23,7 +27,12 @@ import { compareReducer } from './store/reducers/compare.reducer';
     CompareRoutingModule,
     SharedTranslocoModule,
     StoreModule.forFeature('compare', compareReducer),
-    EffectsModule.forFeature([CompareEffects, CompareFailureEffects]),
+    EffectsModule.forFeature([
+      BomEffects,
+      CalculationsEffects,
+      ProductDetailsEffects,
+      FailureEffects,
+    ]),
     SubheaderModule,
     TabsHeaderModule,
     ShareButtonModule,

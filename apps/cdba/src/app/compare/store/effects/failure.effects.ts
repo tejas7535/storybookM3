@@ -18,7 +18,7 @@ import {
 } from '../actions';
 
 @Injectable()
-export class CompareFailureEffects {
+export class FailureEffects {
   loadFailure$ = createEffect(
     () =>
       this.actions$.pipe(
