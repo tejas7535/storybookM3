@@ -57,6 +57,7 @@
       "series": "Series",
       "title": "Material Description",
       "width": "Overall width (B)",
+      "encodedInSalesOrg": "Encoded in sales org.",
       "dchainMaterialStatus": "DChain-Material-Status",
       "minimumOrderQuantity": "Minimum Order Quantity"
     },

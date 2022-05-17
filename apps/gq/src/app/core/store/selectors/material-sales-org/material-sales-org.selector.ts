@@ -13,3 +13,10 @@ export const getMaterialSalesOrgLoading = createSelector(
   getMaterialSalesOrgsState,
   (state: MaterialSalesOrgsState): boolean => state.materialSalesOrgLoading
 );
+
+export const getMaterialSalesOrgDataAvailable = createSelector(
+  getMaterialSalesOrgsState,
+  (state: MaterialSalesOrgsState): boolean =>
+    state.materialSalesOrg !== undefined &&
+    Object.keys(state.materialSalesOrg).length > 0
+);

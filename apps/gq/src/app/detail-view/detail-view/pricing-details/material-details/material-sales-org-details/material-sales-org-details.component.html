@@ -1,6 +1,19 @@
 <div *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
   <div *ngIf="materialSalesOrg$ | ngrxPush as materialSalesOrg">
     <gq-label-text>
+      <span label>{{ t('encodedInSalesOrg') }}</span>
+      <span text>
+        <div class="flex h-5 items-center">
+          <div
+            class="mr-2 h-3 w-3 rounded-full bg-primary"
+            [ngClass]="{
+              'bg-error': (materialSalesOrgDataAvailable$ | ngrxPush) === false
+            }"
+          ></div>
+        </div>
+      </span>
+    </gq-label-text>
+    <gq-label-text>
       <span label>{{ t('dchainMaterialStatus') }}</span>
       <span text>
         {{ materialSalesOrg.materialStatus | nullableString }}

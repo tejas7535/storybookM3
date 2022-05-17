@@ -57,6 +57,7 @@
       "series": "Serie",
       "title": "Materialbezeichnung",
       "width": "Breite",
+      "encodedInSalesOrg": "In Sales Org. ausgeprägt",
       "dchainMaterialStatus": "VkOrg. spez. Status",
       "minimumOrderQuantity": "Min. Auftragsmenge"
     },

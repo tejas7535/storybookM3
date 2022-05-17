@@ -1,6 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -35,5 +36,18 @@ describe('MaterialSalesOrgDetailsComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('ngOnInit', () => {
+    test(
+      'should init observables',
+      marbles((m) => {
+        m.expect(component.materialSalesOrg$).toBeObservable(
+          m.cold('a', { a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrg })
+        );
+        m.expect(component.materialSalesOrgDataAvailable$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
   });
 });
