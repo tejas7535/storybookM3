@@ -12,8 +12,8 @@ apps/helloworld-azure @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_
 apps/helloworld-azure-e2e @kauppfbi_SGGIT @herpisef_SGGIT @PELZESEN_SGGIT @spieksef_SGGIT @meiswjn_SGGIT @ortuzfan_SGGIT @kemmemha_SGGIT @bauerfla_SGGIT @fischaxe_SGGIT @leviptr_SGGIT
 
 # CDBA
-apps/cdba @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
-apps/cdba-e2e @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT
+apps/cdba @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
+apps/cdba-e2e @kauppfbi_SGGIT @tgoetzcissolutionseu_SGGIT @herpisef_SGGIT @soehnpsc_SGGIT @poltokzy_SGGIT
 
 # SEDO
 apps/sedo @soehnpsc_SGGIT @PELZESEN_SGGIT @kauppfbi_SGGIT
