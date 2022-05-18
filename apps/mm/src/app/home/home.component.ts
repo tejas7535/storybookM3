@@ -121,10 +121,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.handleRouteParams();
     this.translocoService.langChanges$.subscribe((lang: string) => {
       this.restService.setCurrentLanguage(lang);
     });
+    this.handleRouteParams();
   }
 
   public ngOnDestroy(): void {
@@ -289,6 +289,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
         if (language) {
           this.localeService.setLocale(language as MMLocales);
+          this.translocoService.setDefaultLang(language);
+          this.translocoService.setActiveLang(language);
         }
         if (separator) {
           this.localeService.setSeparator(

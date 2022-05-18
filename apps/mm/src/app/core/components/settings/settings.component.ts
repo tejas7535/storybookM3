@@ -1,10 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
 import { OneTrustService } from '@altack/ngx-onetrust';
 import { TranslocoService } from '@ngneat/transloco';
+
+import { LanguageSelectComponent } from '@schaeffler/transloco/components';
 
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
@@ -20,6 +22,7 @@ interface AvailableOption {
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @Input() public embedded = false;
+  languageSelectComponent = LanguageSelectComponent;
 
   private readonly subscription = new Subscription();
   public separatorSelectControl: FormControl = new FormControl('');
@@ -31,14 +34,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly translocoService: TranslocoService,
-    private readonly oneTrustService: OneTrustService,
-    private readonly localeService: LocaleService
+    private readonly localeService: LocaleService,
+    @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
   public ngOnInit(): void {
     this.subscription.add(
       this.translocoService.langChanges$.subscribe((language) => {
-        this.oneTrustService.translateBanner(language, true);
+        this.oneTrustService?.translateBanner(language, true);
       })
     );
     this.subscription.add(
