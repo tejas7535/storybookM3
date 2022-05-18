@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Optional } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -31,8 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly translocoService: TranslocoService,
     private readonly metaService: Meta,
     private readonly titleService: Title,
-    private readonly oneTrustService: OneTrustService,
-    private readonly applicationInsightsService: ApplicationInsightsService
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 
   public ngOnInit(): void {
@@ -58,8 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((language) => {
         this.assignMetaTags();
         this.assignFooterLinks();
-        this.oneTrustService.translateBanner(language, true);
-
+        this.oneTrustService?.translateBanner(language, true);
         if (language !== this.currentLanguage) {
           this.currentLanguage = language;
           this.trackLanguage(language);
