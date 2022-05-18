@@ -2,6 +2,7 @@ export enum PriceSource {
   GQ = 'GQ',
   SAP_STANDARD = 'SAP_STANDARD',
   SAP_SPECIAL = 'SAP_SPECIAL',
+  CAP_PRICE = 'CAP_PRICE',
   STRATEGIC = 'STRATEGIC',
   MANUAL = 'MANUAL',
 }

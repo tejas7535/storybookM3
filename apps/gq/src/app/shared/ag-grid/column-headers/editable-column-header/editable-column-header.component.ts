@@ -139,9 +139,11 @@ export class EditableColumnHeaderComponent
               (detail.strategicPrice &&
                 detail.priceSource !== PriceSource.STRATEGIC) ||
               (detail.sapPrice &&
-                ![PriceSource.SAP_SPECIAL, PriceSource.SAP_STANDARD].includes(
-                  detail.priceSource
-                ))
+                ![
+                  PriceSource.SAP_SPECIAL,
+                  PriceSource.SAP_STANDARD,
+                  PriceSource.CAP_PRICE,
+                ].includes(detail.priceSource))
           )
       : true;
   }

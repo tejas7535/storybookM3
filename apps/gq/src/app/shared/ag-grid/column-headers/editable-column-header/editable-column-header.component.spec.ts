@@ -412,6 +412,21 @@ describe('EditableColumnHeaderComponent', () => {
         component.updateShowEditIcon();
         expect(component.showEditIcon).toBe(false);
       });
+      it('should not show edit icon if only cap_price available', () => {
+        component.isPriceSource = true;
+        spectator.detectChanges();
+
+        component.params.api.getSelectedRows = jest.fn().mockReturnValue([
+          {
+            price: 10,
+            priceSource: PriceSource.CAP_PRICE,
+            sapPrice: 1,
+          } as QuotationDetail,
+        ]);
+
+        component.updateShowEditIcon();
+        expect(component.showEditIcon).toBe(false);
+      });
     });
   });
 

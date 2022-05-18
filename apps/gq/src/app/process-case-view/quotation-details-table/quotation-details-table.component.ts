@@ -337,6 +337,10 @@ export class QuotationDetailsTableComponent implements OnInit {
       return PriceSource.SAP_STANDARD;
     }
 
+    if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
+      return PriceSource.CAP_PRICE;
+    }
+
     return PriceSource.SAP_SPECIAL;
   }
 
@@ -350,6 +354,10 @@ export class QuotationDetailsTableComponent implements OnInit {
 
     if (detail.sapPriceCondition === SapPriceCondition.STANDARD) {
       return PriceSource.SAP_STANDARD;
+    }
+
+    if (detail.sapPriceCondition === SapPriceCondition.CAP_PRICE) {
+      return PriceSource.CAP_PRICE;
     }
 
     return PriceSource.SAP_SPECIAL;

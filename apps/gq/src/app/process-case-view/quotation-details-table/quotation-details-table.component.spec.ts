@@ -674,6 +674,23 @@ describe('QuotationDetailsTableComponent', () => {
           type: addSimulatedQuotation.type,
         });
       });
+      test('should dispatch addSimulatedQuotationAction if target and detail price source is cap_price', () => {
+        const detail: QuotationDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          sapPriceCondition: SapPriceCondition.CAP_PRICE,
+          priceSource: PriceSource.CAP_PRICE,
+        };
+        component.selectedRows = [{ data: detail } as RowNode];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [],
+          type: addSimulatedQuotation.type,
+        });
+      });
       test('should dispatch addSimulatedQuotationAction if target and detail price source is sap special', () => {
         const detail: QuotationDetail = {
           ...QUOTATION_DETAIL_MOCK,
@@ -739,6 +756,37 @@ describe('QuotationDetailsTableComponent', () => {
           price: 80,
           priceDiff: -52.94,
           priceSource: PriceSource.SAP_STANDARD,
+          netValue: 800,
+          gpi: 75,
+          gpm: 62.5,
+          discount: 20,
+        };
+        expect(store.dispatch).toHaveBeenCalledTimes(1);
+        expect(store.dispatch).toHaveBeenCalledWith({
+          gqId: MOCK_QUOTATION_ID,
+          quotationDetails: [expectedDetail],
+          type: addSimulatedQuotation.type,
+        });
+      });
+      test('should dispatch addSimulatedQuotationAction for new sap cap_price', () => {
+        component.selectedRows = [
+          {
+            data: {
+              ...QUOTATION_DETAIL_MOCK,
+              sapPriceCondition: SapPriceCondition.CAP_PRICE,
+            },
+          } as RowNode,
+        ];
+
+        component.onPriceSourceSimulation(PriceSourceOptions.SAP);
+
+        const expectedDetail = {
+          ...QUOTATION_DETAIL_MOCK,
+          rlm: 69.38,
+          price: 80,
+          priceDiff: -52.94,
+          priceSource: PriceSource.CAP_PRICE,
+          sapPriceCondition: SapPriceCondition.CAP_PRICE,
           netValue: 800,
           gpi: 75,
           gpm: 62.5,
