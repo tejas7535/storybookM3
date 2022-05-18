@@ -1,56 +1,76 @@
-import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Clipboard } from '@angular/cdk/clipboard';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { BehaviorSubject, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { debounceTime, filter, map, take, takeUntil } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { RouteNames } from '../../app-routing.enum';
 import { changeFavicon } from '../../shared/change-favicon';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
-import { HardnessConverterApiService } from './services/hardness-converter-api.service';
 import {
+  HardnessConversionFormValue,
   HardnessConversionResponse,
-  HardnessConversionSingleUnit,
   HardnessUnitsResponse,
-} from './services/hardness-converter-response.model';
+} from './models';
+import { HardnessConverterApiService } from './services/hardness-converter-api.service';
 
 @Component({
   selector: 'mac-hardness-converter',
   templateUrl: './hardness-converter.component.html',
-  styleUrls: ['./hardness-converter.component.scss'],
-  animations: [
-    trigger('inOutAnimation', [
-      transition(':enter', [
-        style({ height: 0, opacity: 0 }),
-        animate('.3s ease-out', style({ height: 50, opacity: 1 })),
-      ]),
-      transition(':leave', [
-        style({ height: 50, opacity: 1 }),
-        animate('.3s ease-in', style({ height: 0, opacity: 0 })),
-      ]),
-    ]),
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HardnessConverterComponent implements OnInit {
-  valueChange$ = new Subject();
-  results$ = new Subject<HardnessConversionSingleUnit[]>();
-  resultsUpToDate$ = new BehaviorSubject<boolean>(true);
-  breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
-  unitList: string[] = [];
-  version: string;
-  error: string;
-  hardness = new FormGroup({
-    unit: new FormControl(''),
-    value: new FormControl(0),
+export class HardnessConverterComponent implements OnInit, OnDestroy {
+  public title = 'Hardness Converter';
+
+  public breadcrumbs: Breadcrumb[] = [
+    { label: 'Materials App Center', url: '/overview' },
+    {
+      label: this.title,
+    },
+  ];
+
+  private readonly destroy$ = new Subject<void>();
+
+  public units$ = new ReplaySubject<string[]>();
+  public version$ = new ReplaySubject<string>();
+
+  public inputValue = new FormControl(undefined);
+  public inputUnit = new FormControl('HV');
+
+  public initialInput = new FormGroup({
+    inputValue: this.inputValue,
+    inputUnit: this.inputUnit,
   });
+
+  public additionalInputs = new FormArray([]);
+
+  public conversionForm = new FormGroup({
+    initialInput: this.initialInput,
+    additionalInput: this.additionalInputs,
+  });
+
+  public multipleValues$ = new ReplaySubject<boolean>();
+  public average$ = new ReplaySubject<number>();
+  public standardDeviation$ = new ReplaySubject<number>();
+
+  public utsTooltip = 'Ultimate tensile strength';
+
+  public conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
+  public resultLoading$ = new BehaviorSubject<boolean>(false);
 
   public constructor(
     private readonly hardnessService: HardnessConverterApiService,
-    private readonly breadcrumbsService: BreadcrumbsService,
-    private readonly applicationInsightService: ApplicationInsightsService
+    private readonly applicationInsightService: ApplicationInsightsService,
+    private readonly clipboard: Clipboard,
+    private readonly snackbar: MatSnackBar
   ) {}
 
   public ngOnInit(): void {
@@ -59,80 +79,111 @@ export class HardnessConverterComponent implements OnInit {
       'assets/favicons/hardness-converter.ico',
       'Hardness Converter'
     );
-    this.breadcrumbsService.updateBreadcrumb(RouteNames.HardnessConverter);
     this.setupUnitList();
-    this.setupConversionResultStream();
+    this.conversionForm.valueChanges
+      .pipe(
+        debounceTime(250),
+        takeUntil(this.destroy$),
+        map((value: HardnessConversionFormValue) => {
+          const values = [];
+          if (value.initialInput.inputValue) {
+            values.push(value.initialInput.inputValue);
+          }
+
+          const additionalInputValues = value.additionalInput.flatMap(
+            (row: { [0]: number; [1]: number }) =>
+              [row[0], row[1]].filter((fieldValue) => !!fieldValue)
+          );
+
+          values.push(...additionalInputValues);
+
+          return { values, unit: value.initialInput.inputUnit };
+        }),
+        filter(({ values }) => values.length > 0)
+      )
+      .subscribe(({ values, unit }) => {
+        if (values.length > 1) {
+          this.calculateValues(values);
+        } else {
+          this.multipleValues$.next(false);
+          this.convertValue(values[0], unit);
+        }
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private setupUnitList(): void {
     this.hardnessService
       .getUnits()
       .subscribe((response: HardnessUnitsResponse) => {
-        this.unitList = response.units;
-        this.version = response.version;
-        const HV = response.units.find((unit) => unit === 'HV');
-        this.hardness.patchValue({
-          unit: HV ? HV : response.units[0],
-        });
+        this.units$.next(response.units);
+        this.version$.next(response.version);
       });
   }
 
-  private setupConversionResultStream(): void {
-    this.valueChange$
-      .pipe(
-        switchMap(() => {
-          this.resultsUpToDate$.next(false);
+  private calculateValues(values: number[]): void {
+    const average = values.reduce((a, b) => a + b, 0) / values.length;
+    const distances = values.map((value) => Math.pow(value - average, 2));
+    const standardDeviation = Math.sqrt(
+      distances.reduce((a, b) => a + b, 0) / distances.length
+    );
 
-          return this.hardnessService.getConversionResult(
-            this.hardness.get('unit').value,
-            this.hardness.get('value').value
-          );
-        })
-      )
-      .subscribe((result: HardnessConversionResponse) => {
-        if (result.error) {
-          this.error = result.error;
-        } else {
-          this.results$.next(result.converted);
-        }
-        this.resultsUpToDate$.next(true);
+    this.multipleValues$.next(true);
+    this.average$.next(average);
+    this.standardDeviation$.next(standardDeviation);
+    this.convertValue(average, this.inputUnit.value);
+  }
+
+  private convertValue(value: number, unit: string): void {
+    this.resultLoading$.next(true);
+    this.hardnessService
+      .getConversionResult(unit, value)
+      .pipe(take(1))
+      .subscribe((result) => {
+        this.resultLoading$.next(false);
+        this.conversionResult$.next(result);
       });
   }
 
-  get step(): string {
-    return this.hardness.get('unit').value === 'HRc' ? '.1' : '1';
+  public get step(): string {
+    return this.initialInput.get('inputUnit').value === 'HRc' ? '.1' : '1';
   }
 
-  handleKeyInput(key: string, value: string): void {
-    if (
-      Number.isInteger(Number.parseInt(key, 10)) ||
-      key === 'Backspace' ||
-      key === 'Delete'
-    ) {
-      this.convertValue(value);
-    }
+  public onAddButtonClick(): void {
+    const newInputs = new FormGroup({
+      [0]: new FormControl(),
+      [1]: new FormControl(),
+    });
+    this.additionalInputs.push(newInputs, { emitEvent: false });
+    this.conversionForm.markAsTouched();
+    this.conversionForm.markAsDirty();
   }
 
-  convertValue(val: string): void {
-    if (val !== '') {
-      this.error = undefined;
-      this.valueChange$.next(val);
-    }
+  public onResetButtonClick(): void {
+    this.additionalInputs.clear();
+    this.conversionForm.reset({
+      initialInput: {
+        inputUnit: 'HV',
+      },
+    });
+    this.average$ = new ReplaySubject<number>();
+    this.standardDeviation$ = new ReplaySubject<number>();
+    this.conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
+    this.multipleValues$.next(false);
+    this.conversionForm.markAsUntouched();
+    this.conversionForm.markAsPristine();
   }
 
-  getValue(result: HardnessConversionSingleUnit): number | string {
-    if (result.unit === 'HRc' && result.value) {
-      return (Math.round(result.value * 10) / 10).toLocaleString();
-    }
-
-    if (result.value) {
-      return Math.round(result.value).toLocaleString();
-    }
-
-    return result.warning;
+  public onShareButtonClick(): void {
+    this.clipboard.copy(window.location.href);
+    this.snackbar.open('Url copied to clipboard', 'Close', { duration: 5000 });
   }
 
-  trackByFn(index: number): number {
+  public trackByFn(index: number): number {
     return index;
   }
 }

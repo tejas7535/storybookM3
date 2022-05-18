@@ -1,4 +1,4 @@
-import { HardnessConversionResponse } from '../../app/feature/hardness-converter/services/hardness-converter-response.model';
+import { HardnessConversionResponse } from '../../app/feature/hardness-converter/models';
 
 export const HARDNESS_CONVERSION_MOCK: HardnessConversionResponse = {
   converted: [

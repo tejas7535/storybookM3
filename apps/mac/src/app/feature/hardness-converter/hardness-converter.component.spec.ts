@@ -1,12 +1,16 @@
 import { waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
@@ -14,14 +18,17 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { SubheaderModule } from '@schaeffler/subheader';
 
 import {
   HARDNESS_CONVERSION_ERROR_MOCK,
   HARDNESS_CONVERSION_MOCK,
 } from '../../../testing/mocks/hardness-conversion.mock';
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
+import { changeFavicon } from '../../shared/change-favicon';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from '../../shared/shared.module';
+import { CopyInputModule } from './components/copy-input/copy-input.module';
 import { HardnessConverterComponent } from './hardness-converter.component';
 import { HardnessConverterApiService } from './services/hardness-converter-api.service';
 
@@ -36,15 +43,21 @@ describe('HardnessConverterComponent', () => {
   const createComponent = createComponentFactory({
     component: HardnessConverterComponent,
     imports: [
-      BrowserAnimationsModule,
+      NoopAnimationsModule,
       MatFormFieldModule,
       MatInputModule,
       MatProgressSpinnerModule,
       MatSelectModule,
+      MatIconModule,
+      MatTooltipModule,
+      MatSnackBarModule,
       ReactiveFormsModule,
       MatCardModule,
       SharedModule,
       ReactiveComponentModule,
+      CopyInputModule,
+      SubheaderModule,
+      RouterTestingModule,
     ],
     declarations: [HardnessConverterComponent],
     providers: [
@@ -83,120 +96,227 @@ describe('HardnessConverterComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('should create', waitForAsync(() => {
     expect(component).toBeTruthy();
   }));
+
+  describe('ngOnInit', () => {
+    it('should log start event and change favicon and get the unit list', () => {
+      component['setupUnitList'] = jest.fn();
+
+      component.ngOnInit();
+
+      expect(
+        component['applicationInsightService'].logEvent
+      ).toHaveBeenCalledWith('[MAC - HC] opened');
+      expect(changeFavicon).toHaveBeenCalledWith(
+        'assets/favicons/hardness-converter.ico',
+        'Hardness Converter'
+      );
+      expect(component['setupUnitList']).toHaveBeenCalled();
+    });
+    it('should parse the values and calculate the result', () => {
+      jest.useFakeTimers();
+      component['setupUnitList'] = jest.fn();
+
+      component['calculateValues'] = jest.fn();
+      component.multipleValues$.next = jest.fn();
+      component['convertValue'] = jest.fn();
+
+      component.ngOnInit();
+
+      jest.advanceTimersByTime(500);
+
+      const mockControl = new FormControl();
+
+      component.additionalInputs.push(
+        new FormGroup({
+          [0]: new FormControl(),
+          [1]: mockControl,
+        })
+      );
+
+      component.inputValue.patchValue(500);
+      jest.advanceTimersByTime(50);
+      mockControl.patchValue(510);
+
+      jest.advanceTimersByTime(1000);
+
+      expect(component['calculateValues']).toHaveBeenCalledWith([500, 510]);
+      expect(component.multipleValues$.next).not.toHaveBeenCalled();
+      expect(component['convertValue']).not.toHaveBeenCalled();
+    });
+
+    it('should parse the values and calculate the result for multiple values', () => {
+      jest.useFakeTimers();
+      component['setupUnitList'] = jest.fn();
+
+      component['calculateValues'] = jest.fn();
+      component.multipleValues$.next = jest.fn();
+      component['convertValue'] = jest.fn();
+
+      component.ngOnInit();
+
+      jest.advanceTimersByTime(500);
+
+      component.inputValue.patchValue(500);
+
+      jest.advanceTimersByTime(1000);
+
+      expect(component['calculateValues']).not.toHaveBeenCalled();
+      expect(component.multipleValues$.next).toHaveBeenCalledWith(false);
+      expect(component['convertValue']).toHaveBeenCalledWith(500, 'HV');
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should complete the destroy subject', () => {
+      component['destroy$'].next = jest.fn();
+      component['destroy$'].complete = jest.fn();
+
+      component.ngOnDestroy();
+
+      expect(component['destroy$'].next).toHaveBeenCalled();
+      expect(component['destroy$'].complete).toHaveBeenCalled();
+    });
+  });
+
+  describe('setupUnitList', () => {
+    it('should set the units and version', () => {
+      jest.useFakeTimers();
+
+      component.units$.next = jest.fn();
+      component.version$.next = jest.fn();
+
+      component['hardnessService'].getUnits = jest.fn(() =>
+        of({ units: ['oh', 'G-UNIT'], version: '9.9.9' })
+      );
+
+      component['setupUnitList']();
+
+      jest.advanceTimersByTime(2000);
+
+      expect(component.units$.next).toHaveBeenCalledWith(['oh', 'G-UNIT']);
+      expect(component.version$.next).toHaveBeenCalledWith('9.9.9');
+    });
+  });
+
+  describe('calculateValues', () => {
+    it('should calculate the values correctly', () => {
+      component.multipleValues$.next = jest.fn();
+      component.average$.next = jest.fn();
+      component.standardDeviation$.next = jest.fn();
+      component['convertValue'] = jest.fn();
+
+      component['calculateValues']([2, 4, 4, 4, 5, 5, 7, 9]);
+
+      expect(component.multipleValues$.next).toHaveBeenCalledWith(true);
+      expect(component.average$.next).toHaveBeenCalledWith(5);
+      expect(component.standardDeviation$.next).toHaveBeenCalledWith(2);
+    });
+  });
+
+  describe('convertValue', () => {
+    it('should convert the value and publish the result', () => {
+      jest.useFakeTimers();
+
+      component.resultLoading$.next = jest.fn();
+      component['hardnessService'].getConversionResult = jest.fn(() =>
+        of(HARDNESS_CONVERSION_MOCK)
+      );
+      component.conversionResult$.next = jest.fn();
+
+      component['convertValue'](100, 'HV');
+
+      jest.advanceTimersByTime(2000);
+
+      expect(component.resultLoading$.next).toHaveBeenCalledWith(true);
+      expect(component.resultLoading$.next).toHaveBeenCalledWith(false);
+      expect(
+        component['hardnessService'].getConversionResult
+      ).toHaveBeenCalledWith('HV', 100);
+      expect(component.conversionResult$.next).toHaveBeenCalledWith(
+        HARDNESS_CONVERSION_MOCK
+      );
+    });
+  });
+
+  describe('get step', () => {
+    it('should return 1', () => {
+      expect(component.step).toBe('1');
+    });
+
+    it('should return .1 for HRc', () => {
+      component.inputUnit.setValue('HRc');
+
+      expect(component.step).toBe('.1');
+    });
+  });
+
+  describe('onAddButtonClick', () => {
+    it('should add a form group to additionalInputs form array', () => {
+      component.additionalInputs.push = jest.fn();
+      component.conversionForm.markAsTouched = jest.fn();
+      component.conversionForm.markAsDirty = jest.fn();
+
+      component.onAddButtonClick();
+
+      expect(component.additionalInputs.push).toHaveBeenCalledWith(
+        expect.any(FormGroup),
+        { emitEvent: false }
+      );
+      expect(component.conversionForm.markAsTouched).toHaveBeenCalled();
+      expect(component.conversionForm.markAsDirty).toHaveBeenCalled();
+    });
+  });
+
+  describe('onResetButtonClick', () => {
+    it('should reset everything', () => {
+      component.additionalInputs.clear = jest.fn();
+      component.conversionForm.reset = jest.fn();
+      component.conversionForm.markAsUntouched = jest.fn();
+      component.conversionForm.markAsPristine = jest.fn();
+      component.multipleValues$.next = jest.fn();
+
+      component.onResetButtonClick();
+
+      expect(component.additionalInputs.clear).toHaveBeenCalled();
+      expect(component.conversionForm.reset).toHaveBeenCalledWith({
+        initialInput: {
+          inputUnit: 'HV',
+        },
+      });
+      expect(component.conversionForm.markAsUntouched).toHaveBeenCalled();
+      expect(component.conversionForm.markAsPristine).toHaveBeenCalled();
+      expect(component.multipleValues$.next).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('onShareButtonClick', () => {
+    it('should copy url and open snackbar', () => {
+      component['clipboard'].copy = jest.fn();
+      component['snackbar'].open = jest.fn();
+
+      component.onShareButtonClick();
+
+      expect(component['clipboard'].copy).toHaveBeenCalled();
+      expect(component['snackbar'].open).toHaveBeenCalledWith(
+        'Url copied to clipboard',
+        'Close',
+        { duration: 5000 }
+      );
+    });
+  });
 
   describe('trackByFn', () => {
     it('should return index', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
-    });
-  });
-
-  describe('triggering conversion', () => {
-    it('should mark value change', waitForAsync(() => {
-      let valueChanged = false;
-      component.convertValue('42');
-      component.valueChange$.subscribe(() => {
-        valueChanged = true;
-        expect(valueChanged).toBeTruthy();
-      });
-    }));
-
-    it('should do nothing if input holds an empty string', waitForAsync(() => {
-      let valueChanged = false;
-      component.convertValue('');
-      component.valueChange$.subscribe(() => {
-        valueChanged = true;
-        expect(valueChanged).toBeFalsy();
-      });
-    }));
-  });
-
-  it('should setup the unit list', () => {
-    expect(component.unitList).toEqual(HARDNESS_CONVERSION_UNITS_MOCK.units);
-    expect(component.version).toEqual('9999.9.0');
-  });
-
-  describe('handling keypresses', () => {
-    it('should trigger value conversion on pressing a number', () => {
-      const spy = jest.spyOn(component, 'convertValue');
-      component.handleKeyInput('1', '101');
-      expect(spy).toHaveBeenCalledWith('101');
-    });
-
-    it('should not trigger value conversion when a non-number key is pressed', () => {
-      const spy = jest.spyOn(component, 'convertValue');
-      component.handleKeyInput('a', '101a');
-      expect(spy).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  it('should receive conversion results after a new input', waitForAsync(() => {
-    component.results$.subscribe((result: any) => {
-      expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
-    });
-    component.hardness.get('value').setValue(42);
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    component.valueChange$.next(undefined);
-  }));
-
-  it('should handle errors returned by the service', waitForAsync(() => {
-    component.hardness.get('value').setValue('totally wrong and unacceptable');
-    // eslint-disable-next-line unicorn/no-useless-undefined
-    component.valueChange$.next(undefined);
-    expect(component.error).toEqual(HARDNESS_CONVERSION_ERROR_MOCK.error);
-  }));
-
-  describe('getValue', () => {
-    it('should round the number for HRc', () => {
-      const val1 = component.getValue({ unit: 'HRc', value: 50.353_46 });
-      const val2 = component.getValue({ unit: 'HRc', value: 1.000_000_04 });
-      const val3 = component.getValue({ unit: 'HRc', value: 0.999_999_99 });
-      const val4 = component.getValue({ unit: 'HRc', value: 0.000_000_04 });
-
-      expect(val1).toEqual((50.4).toLocaleString());
-      expect(val2).toEqual((1).toLocaleString());
-      expect(val3).toEqual((1).toLocaleString());
-      expect(val4).toEqual((0).toLocaleString());
-    });
-
-    it('should return the value as an integer for other units', () => {
-      const val1 = component.getValue({ unit: 'MPa', value: 50.353_46 });
-      const val2 = component.getValue({ unit: 'HV', value: 50.353_46 });
-      const val3 = component.getValue({ unit: 'HB', value: 50.353_46 });
-      const val4 = component.getValue({
-        unit: 'Literally anything else',
-        value: 50.353_46,
-      });
-
-      expect(val1).toEqual((50).toLocaleString());
-      expect(val2).toEqual((50).toLocaleString());
-      expect(val3).toEqual((50).toLocaleString());
-      expect(val4).toEqual((50).toLocaleString());
-    });
-
-    it('should return the warning if no value is present', () => {
-      const returnedData = component.getValue({
-        unit: 'MPa',
-        warning: 'warning description',
-      });
-
-      expect(returnedData).toEqual('warning description');
-    });
-  });
-
-  describe('step', () => {
-    it('should set a step interval of .1 for HRc', () => {
-      component.hardness.get('unit').setValue('HRc');
-      expect(component.step).toEqual('.1');
-    });
-
-    it('should set a step interval of 1 for any other unit', () => {
-      component.hardness.get('unit').setValue('totally anything else');
-      expect(component.step).toEqual('1');
     });
   });
 });

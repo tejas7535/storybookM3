@@ -1,0 +1,40 @@
+<div class="mb-[2.5px] w-full">
+  <div class="flex flex-1 flex-row items-center gap-4">
+    <div class="flex flex-1 flex-row">
+      <mat-form-field
+        appearance="outline"
+        class="pointer-events-none flex h-20 w-44 flex-1"
+      >
+        <mat-label *ngIf="label">{{ label }}</mat-label>
+        <input
+          matInput
+          readonly
+          [value]="value ? transformedValue : warning"
+          class="!text-h6 mb-4 !-mt-2 !text-center"
+        />
+      </mat-form-field>
+      <div
+        class="z-10 mt-1 mb-[16.5px] -ml-1 flex w-[74px] rounded-l-none rounded-r bg-primary"
+      >
+        <div
+          class="text-h6 m-auto cursor-default text-white"
+          [matTooltip]="tooltip"
+        >
+          {{ unit }}
+        </div>
+      </div>
+    </div>
+    <div class="h-full pb-4">
+      <button
+        mat-icon-button
+        (click)="onCopyButtonClick()"
+        [disabled]="!!warning"
+      >
+        <mat-icon
+          [class]="warning ? 'text-low-emphasis' : 'text-medium-emphasis'"
+          >content_copy</mat-icon
+        >
+      </button>
+    </div>
+  </div>
+</div>

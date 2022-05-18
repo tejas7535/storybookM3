@@ -6,11 +6,8 @@ import { map } from 'rxjs/operators';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
+import { HardnessConversionResponse, HardnessUnitsResponse } from '../models';
 import { environment } from './../../../../environments/environment';
-import {
-  HardnessConversionResponse,
-  HardnessUnitsResponse,
-} from './hardness-converter-response.model';
 
 @Injectable({
   providedIn: 'root',
