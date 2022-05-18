@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import { Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { LangDefinition } from '@ngneat/transloco/lib/types';
@@ -9,7 +17,7 @@ import { LangDefinition } from '@ngneat/transloco/lib/types';
   templateUrl: './language-select.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageSelectComponent {
+export class LanguageSelectComponent implements OnInit, OnDestroy {
   @Input() public reloadOnLanguageChange = false;
 
   public availableLanguages =
@@ -17,8 +25,21 @@ export class LanguageSelectComponent {
   public languageSelectControl: FormControl = new FormControl(
     this.transloco.getActiveLang()
   );
+  private readonly subscription = new Subscription();
 
   public constructor(private readonly transloco: TranslocoService) {}
+
+  public ngOnInit(): void {
+    this.subscription.add(
+      this.transloco.langChanges$.subscribe((language) => {
+        this.languageSelectControl.setValue(language);
+      })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   public onLanguageSelectionChange(lang: string): void {
     this.transloco.setActiveLang(lang);

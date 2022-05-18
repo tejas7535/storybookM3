@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoService } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '../../../testing/src';
 import { LanguageSelectComponent } from './language-select.component';
@@ -14,6 +15,7 @@ import { LanguageSelectComponent } from './language-select.component';
 describe('LanguageSelectComponent', () => {
   let component: LanguageSelectComponent;
   let spectator: Spectator<LanguageSelectComponent>;
+  let translocoService: TranslocoService;
 
   const windowLocationReloadMock = jest.fn();
 
@@ -39,6 +41,7 @@ describe('LanguageSelectComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+    translocoService = spectator.inject(TranslocoService);
 
     delete window.location;
     window.location = { reload: windowLocationReloadMock } as any;
@@ -69,6 +72,37 @@ describe('LanguageSelectComponent', () => {
 
       expect(component['transloco'].setActiveLang).toHaveBeenCalledWith('de');
       expect(window.location.reload).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnInit', () => {
+    test('add a subscribtion that listens to language changes and sets languageSelectControl value', (done) => {
+      const mockLanguage = 'xxx';
+      const languageSelectControlSpy = jest.spyOn(
+        component.languageSelectControl,
+        'setValue'
+      );
+      component.ngOnInit();
+
+      translocoService.setActiveLang(mockLanguage);
+
+      translocoService.langChanges$.subscribe(() => {
+        expect(languageSelectControlSpy).toHaveBeenCalledWith(mockLanguage);
+
+        done();
+      });
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      const unsubscribeSpy = jest.spyOn(
+        component['subscription'],
+        'unsubscribe'
+      );
+      component.ngOnDestroy();
+
+      expect(unsubscribeSpy).toHaveBeenCalled();
     });
   });
 });
