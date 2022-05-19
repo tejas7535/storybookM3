@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnInit,
 } from '@angular/core';
@@ -10,6 +12,13 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { LabelValue } from '@schaeffler/label-value';
 
 import { Subordinate } from '../../models';
+
+export enum LabelWidth {
+  Default = 180,
+  Small = 110,
+}
+
+export const elementWidthSmall = 400;
 
 @Component({
   selector: 'schaeffler-grease-report-input-item',
@@ -21,13 +30,31 @@ export class GreaseReportInputItemComponent implements OnInit {
   @Input() public greaseReportInputItem!: Subordinate;
 
   public labelValues: LabelValue[] = [];
+  public labelWidth: number = LabelWidth.Default;
 
-  public constructor(private readonly localeService: TranslocoLocaleService) {}
+  private readonly htmlElement!: HTMLElement;
+  private observer!: ResizeObserver;
+
+  public constructor(
+    private readonly localeService: TranslocoLocaleService,
+    private readonly elementRef: ElementRef,
+    private readonly changeDetector: ChangeDetectorRef
+  ) {
+    this.htmlElement = this.elementRef.nativeElement;
+  }
 
   public ngOnInit() {
     if (this.greaseReportInputItem) {
       this.assignLabelValues(this.greaseReportInputItem.subordinates);
     }
+
+    this.observer = new ResizeObserver((entries) => {
+      const width = entries[0].contentRect.width;
+
+      this.adjustLabelWidth(width);
+    });
+
+    this.observer.observe(this.htmlElement);
   }
 
   private assignLabelValues(subordinates?: Subordinate[]): void {
@@ -56,7 +83,7 @@ export class GreaseReportInputItemComponent implements OnInit {
       ? `${this.localeService.localizeNumber(
           subordinate?.value || '',
           'decimal'
-        )} ${subordinate?.unit || ''}`
+        )} ${unit}`
       : subordinate?.value || '';
   };
 
@@ -65,4 +92,11 @@ export class GreaseReportInputItemComponent implements OnInit {
 
   private readonly getLabelAbbreviation = (subordinate?: Subordinate): string =>
     subordinate?.abbreviation ? `(${subordinate?.abbreviation})` : '';
+
+  private adjustLabelWidth(elementWidth: number): void {
+    this.labelWidth =
+      elementWidth < elementWidthSmall ? LabelWidth.Small : LabelWidth.Default;
+
+    this.changeDetector.detectChanges();
+  }
 }

@@ -7,8 +7,11 @@ import {
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { ReactiveComponentModule } from '@ngrx/component';
+import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { GreaseReportInputItemComponent } from './grease-report-input-item.component';
+
+window.ResizeObserver = resize_observer_polyfill;
 
 describe('GreaseReportInputItemComponent', () => {
   let component: GreaseReportInputItemComponent;
