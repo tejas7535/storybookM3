@@ -125,6 +125,11 @@ export class MyComponent {
 
 <!--  or  -->
 
+<!--  set a minimum width for the labels  -->
+<schaeffler-label-value [labelValues]="labelValuesSingle" [labelMinWidth]="120"></schaeffler-label-value>
+
+<!--  or  -->
+
 <!--  set a maximum width for the labels  -->
 <schaeffler-label-value [labelValues]="labelValuesSingle" [labelMaxWidth]="120"></schaeffler-label-value>
 
@@ -137,10 +142,11 @@ export class MyComponent {
 
 ### API
 
-| Name             | Description                        |
-|------------------|------------------------------------|
-| labelValues      | set of label-value pairs           |
-| labelMaxWidth    | set a maximum width for the labels |
+| Name          | Description                        |
+|---------------|------------------------------------|
+| labelValues   | set of label-value pairs           |
+| labelMinWidth | set a minimum width for the labels |
+| labelMaxWidth | set a maximum width for the labels |
 
 ## Development
 

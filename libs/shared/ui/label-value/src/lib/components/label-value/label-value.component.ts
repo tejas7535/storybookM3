@@ -9,6 +9,7 @@ import { LabelValue, Value } from '../../models';
 })
 export class LabelValueComponent {
   @Input() public labelValues?: LabelValue[];
+  @Input() public labelMinWidth = 0;
   @Input() public labelMaxWidth = 0;
 
   public readonly valueIsArray = (value: string | Value[]): boolean =>

@@ -97,6 +97,12 @@ Default.args = {
   labelValues: mockLabelValuesSingle,
 };
 
+export const LabelMinWidth = Template.bind({});
+LabelMinWidth.args = {
+  labelValues: mockLabelValuesSingle,
+  labelMinWidth: 300,
+};
+
 export const LabelMaxWidth = Template.bind({});
 LabelMaxWidth.args = {
   labelValues: mockLabelValuesSingle,

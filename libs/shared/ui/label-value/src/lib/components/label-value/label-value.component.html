@@ -11,6 +11,7 @@
         [innerHTML]="labelValue.label"
         class="inline-block"
         [ngClass]="{ 'pr-6': labelValue.labelHint }"
+        [style.min-width]="labelMinWidth ? labelMinWidth + 'px' : ''"
         [style.max-width]="labelMaxWidth ? labelMaxWidth + 'px' : ''"
       ></span>
       <mat-icon
