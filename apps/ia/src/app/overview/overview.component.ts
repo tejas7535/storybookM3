@@ -14,14 +14,13 @@ import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
+  getExitEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingOpenApplications,
   getIsLoadingResignedEmployees,
-  getIsLoadingUnforcedFluctuationRatesForChart,
-  getExitEmployees,
   getOpenApplications,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
@@ -39,14 +38,12 @@ import {
 })
 export class OverviewComponent implements OnInit {
   fluctuationChartData$: Observable<EChartsOption>;
+  unforcedFluctuationChartData$: Observable<EChartsOption>;
   isFluctuationChartLoading$: Observable<boolean>;
   fluctuationKpi$: Observable<FluctuationKpi>;
+  unforcedFluctuationKpi$: Observable<FluctuationKpi>;
 
   employeeListDialogMetaHeadings$: Observable<EmployeeListDialogMetaHeadings>;
-
-  unforcedFluctuationChartData$: Observable<EChartsOption>;
-  isUnforcedFluctuationChartLoading$: Observable<boolean>;
-  unforcedFluctuationKpi$: Observable<FluctuationKpi>;
 
   attritionRateLoading$: Observable<boolean>;
   events$: Observable<Event[]>;
@@ -75,7 +72,6 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFluctuationData();
-    this.loadUnforcedFluctuationData();
     this.loadEntriesAndExitsData();
     this.loadResignedEmployeesData();
     this.loadOpenApplicationsData();
@@ -93,19 +89,13 @@ export class OverviewComponent implements OnInit {
 
   loadFluctuationData() {
     this.fluctuationChartData$ = this.store.select(getFluctuationRatesForChart);
+    this.unforcedFluctuationChartData$ = this.store.select(
+      getUnforcedFluctuationRatesForChart
+    );
     this.isFluctuationChartLoading$ = this.store.select(
       getIsLoadingFluctuationRatesForChart
     );
     this.fluctuationKpi$ = this.store.select(getOverviewFluctuationKpi);
-  }
-
-  loadUnforcedFluctuationData() {
-    this.unforcedFluctuationChartData$ = this.store.select(
-      getUnforcedFluctuationRatesForChart
-    );
-    this.isUnforcedFluctuationChartLoading$ = this.store.select(
-      getIsLoadingUnforcedFluctuationRatesForChart
-    );
     this.unforcedFluctuationKpi$ = this.store.select(
       getOverviewUnforcedFluctuationKpi
     );

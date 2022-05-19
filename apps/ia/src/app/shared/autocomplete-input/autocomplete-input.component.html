@@ -23,6 +23,8 @@
     <mat-option
       *ngFor="let option of filter?.options; trackBy: trackByFn"
       [value]="option"
+      [matTooltip]="option.value"
+      matTooltipShowDelay="1000"
     >
       {{ option.value }}
     </mat-option>

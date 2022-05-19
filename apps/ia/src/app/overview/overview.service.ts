@@ -59,19 +59,6 @@ export class OverviewService {
     );
   }
 
-  getUnforcedFluctuationRateChartData(
-    employeesRequest: EmployeesRequest
-  ): Observable<FluctuationRatesChartData> {
-    const params = this.paramsCreator.createHttpParamsForOrgUnit(
-      employeesRequest.orgUnit
-    );
-
-    return this.http.get<FluctuationRatesChartData>(
-      `${ApiVersion.V1}/${this.UNFORCED_FLUCTUATION_RATES_CHART}`,
-      { params, context: withCache() }
-    );
-  }
-
   getResignedEmployees(orgUnit: string): Observable<ResignedEmployee[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnit(orgUnit);
 

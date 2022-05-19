@@ -6,11 +6,11 @@ import {
   DoughnutConfig,
   DoughnutSeriesConfig,
 } from '../../../shared/charts/models';
+import { COMPANY_NAME } from '../../../shared/constants';
 import { Color, Employee } from '../../../shared/models';
 import {
   FluctuationKpi,
   FluctuationRate,
-  FluctuationRatesChartData,
   LeavingType,
   PercentageFluctuationRate,
 } from '../../models';
@@ -68,14 +68,13 @@ export function getPercentageValueSigned(value: number): string {
 }
 
 export function createFluctuationRateChartConfig(
-  ratesChartData: FluctuationRatesChartData
+  orgUnit: string,
+  ratesChartData: FluctuationRate[]
 ): EChartsOption {
-  const name1 = ratesChartData.companyName;
-  const name2 = ratesChartData.orgUnitName;
-  const data1 = ratesChartData.fluctuationRates.map((rate: FluctuationRate) =>
-    getPercentageValue(rate.company)
+  const data1 = ratesChartData.map((rate: FluctuationRate) =>
+    getPercentageValue(rate.global)
   );
-  const data2 = ratesChartData.fluctuationRates.map((rate: FluctuationRate) =>
+  const data2 = ratesChartData.map((rate: FluctuationRate) =>
     getPercentageValue(rate.orgUnit)
   );
 
@@ -83,12 +82,12 @@ export function createFluctuationRateChartConfig(
     series: [
       {
         ...SMOOTH_LINE_SERIES_OPTIONS,
-        name: name1,
+        name: COMPANY_NAME,
         data: data1,
       } as SeriesOption,
       {
         ...SMOOTH_LINE_SERIES_OPTIONS,
-        name: name2,
+        name: orgUnit,
         data: data2,
       } as SeriesOption,
     ],

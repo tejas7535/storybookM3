@@ -35,9 +35,6 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
-  loadUnforcedFluctuationRatesChartData,
-  loadUnforcedFluctuationRatesChartDataFailure,
-  loadUnforcedFluctuationRatesChartDataSuccess,
 } from '../actions/overview.action';
 import { OverviewEffects } from './overview.effects';
 
@@ -179,8 +176,8 @@ describe('Overview Effects', () => {
         const data: OverviewFluctuationRates = {
           entryEmployees: [],
           exitEmployees: [],
-          fluctuationRate: { company: 0, orgUnit: 0 },
-          unforcedFluctuationRate: { company: 0, orgUnit: 0 },
+          fluctuationRate: { global: 0, orgUnit: 0 },
+          unforcedFluctuationRate: { global: 0, orgUnit: 0 },
         };
         const result = loadFluctuationRatesOverviewSuccess({
           data,
@@ -259,67 +256,6 @@ describe('Overview Effects', () => {
         m.flush();
         expect(
           overviewService.getFluctuationRateChartData
-        ).toHaveBeenCalledWith(request);
-      })
-    );
-  });
-
-  describe('loadUnforcedFluctuationRatesChartData', () => {
-    let request: EmployeesRequest;
-
-    beforeEach(() => {
-      request = {} as unknown as EmployeesRequest;
-      action = loadUnforcedFluctuationRatesChartData({ request });
-    });
-    it(
-      'should load data',
-      marbles((m) => {
-        const data = {} as FluctuationRatesChartData;
-        const result = loadUnforcedFluctuationRatesChartDataSuccess({
-          data,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', {
-          a: data,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        overviewService.getUnforcedFluctuationRateChartData = jest.fn(
-          () => response
-        );
-
-        m.expect(effects.loadUnforcedFluctuationRatesChartData$).toBeObservable(
-          expected
-        );
-        m.flush();
-        expect(
-          overviewService.getUnforcedFluctuationRateChartData
-        ).toHaveBeenCalledWith(request);
-      })
-    );
-
-    test(
-      'should return loadUnforcedFluctuationRatesChartDataFailure on REST error',
-      marbles((m) => {
-        const result = loadUnforcedFluctuationRatesChartDataFailure({
-          errorMessage: error.message,
-        }) as any;
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-#|', undefined, error);
-        const expected = m.cold('--b', { b: result });
-
-        overviewService.getUnforcedFluctuationRateChartData = jest
-          .fn()
-          .mockImplementation(() => response);
-
-        m.expect(effects.loadUnforcedFluctuationRatesChartData$).toBeObservable(
-          expected
-        );
-        m.flush();
-        expect(
-          overviewService.getUnforcedFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
       })
     );

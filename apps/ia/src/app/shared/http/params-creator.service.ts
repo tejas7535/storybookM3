@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ParamsCreatorService {
-  readonly PARAM_ORG_UNIT = 'org_unit';
+  readonly PARAM_ORG_UNIT_KEY = 'org_unit_key';
   readonly PARAM_SEARCH_FOR = 'search_for';
   readonly PARAM_TIME_RANGE = 'time_range';
   readonly PARAM_TIME_PERIOD = 'time_period';
@@ -19,30 +19,36 @@ export class ParamsCreatorService {
       .set(this.PARAM_SEARCH_FOR, searchFor);
   }
 
-  createHttpParamsForOrgUnit(orgUnit: string) {
-    return new HttpParams().set(this.PARAM_ORG_UNIT, orgUnit);
+  createHttpParamsForOrgUnit(orgUnitKey: string) {
+    return new HttpParams().set(this.PARAM_ORG_UNIT_KEY, orgUnitKey);
   }
 
-  createHttpParamsForOrgUnitAndTimeRange(orgUnit: string, timeRange: string) {
+  createHttpParamsForOrgUnitAndTimeRange(
+    orgUnitKey: string,
+    timeRange: string
+  ) {
     return new HttpParams()
-      .set(this.PARAM_ORG_UNIT, orgUnit)
+      .set(this.PARAM_ORG_UNIT_KEY, orgUnitKey)
       .set(this.PARAM_TIME_RANGE, timeRange);
   }
 
   createHttpParamsForOrgUnitTimeRangeAndTimePeriod(
-    orgUnit: string,
+    orgUnitKey: string,
     timeRange: string,
     timePeriod: string
   ) {
     return new HttpParams()
-      .set(this.PARAM_ORG_UNIT, orgUnit)
+      .set(this.PARAM_ORG_UNIT_KEY, orgUnitKey)
       .set(this.PARAM_TIME_RANGE, timeRange)
       .set(this.PARAM_TIME_PERIOD, timePeriod);
   }
 
-  createHttpParamsForOrgUnitAndTimePeriod(orgUnit: string, timePeriod: string) {
+  createHttpParamsForOrgUnitAndTimePeriod(
+    orgUnitKey: string,
+    timePeriod: string
+  ) {
     return new HttpParams()
-      .set(this.PARAM_ORG_UNIT, orgUnit)
+      .set(this.PARAM_ORG_UNIT_KEY, orgUnitKey)
       .set(this.PARAM_TIME_PERIOD, timePeriod);
   }
 }

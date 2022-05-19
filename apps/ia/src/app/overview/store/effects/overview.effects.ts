@@ -43,9 +43,6 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
-  loadUnforcedFluctuationRatesChartData,
-  loadUnforcedFluctuationRatesChartDataFailure,
-  loadUnforcedFluctuationRatesChartDataSuccess,
 } from '../actions/overview.action';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
@@ -61,7 +58,6 @@ export class OverviewEffects implements OnInitEffects {
         loadAttritionOverTimeOverview({ orgUnit: request.orgUnit }),
         loadFluctuationRatesOverview({ request }),
         loadFluctuationRatesChartData({ request }),
-        loadUnforcedFluctuationRatesChartData({ request }),
         loadResignedEmployees({ orgUnit: request.orgUnit }),
         loadOpenApplications({ orgUnit: request.orgUnit }),
       ])
@@ -124,27 +120,6 @@ export class OverviewEffects implements OnInitEffects {
           catchError((error) =>
             of(
               loadFluctuationRatesChartDataFailure({
-                errorMessage: error.message,
-              })
-            )
-          )
-        )
-      )
-    )
-  );
-
-  loadUnforcedFluctuationRatesChartData$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadUnforcedFluctuationRatesChartData),
-      map((action) => action.request),
-      switchMap((request: EmployeesRequest) =>
-        this.overviewService.getUnforcedFluctuationRateChartData(request).pipe(
-          map((data: FluctuationRatesChartData) =>
-            loadUnforcedFluctuationRatesChartDataSuccess({ data })
-          ),
-          catchError((error) =>
-            of(
-              loadUnforcedFluctuationRatesChartDataFailure({
                 errorMessage: error.message,
               })
             )

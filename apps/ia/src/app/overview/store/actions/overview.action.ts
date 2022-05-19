@@ -53,21 +53,6 @@ export const loadFluctuationRatesChartDataFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadUnforcedFluctuationRatesChartData = createAction(
-  '[Overview] Load UnforcedFluctuationRatesChartData',
-  props<{ request: EmployeesRequest }>()
-);
-
-export const loadUnforcedFluctuationRatesChartDataSuccess = createAction(
-  '[Overview] Load UnforcedFluctuationRatesChartData Success',
-  props<{ data: FluctuationRatesChartData }>()
-);
-
-export const loadUnforcedFluctuationRatesChartDataFailure = createAction(
-  '[Overview] Load UnforcedFluctuationRatesChartData Failure',
-  props<{ errorMessage: string }>()
-);
-
 export const loadResignedEmployees = createAction(
   '[Overview] Load Resigned Employees',
   props<{ orgUnit: string }>()
@@ -108,9 +93,6 @@ const all = union({
   loadFluctuationRatesChartData,
   loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesChartDataFailure,
-  loadUnforcedFluctuationRatesChartData,
-  loadUnforcedFluctuationRatesChartDataSuccess,
-  loadUnforcedFluctuationRatesChartDataFailure,
   loadResignedEmployees,
   loadResignedEmployeesSuccess,
   loadResignedEmployeesFailure,

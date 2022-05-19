@@ -64,10 +64,10 @@ export const getCurrentFilters = createSelector(
   getAllSelectedFilters,
   (filters: SelectedFilter[]) =>
     // eslint-disable-next-line unicorn/no-array-reduce
-    filters.reduce((map: any, filter) => {
-      map[filter.name] = filter.idValue.id;
+    filters.reduce((filterMap: any, filter) => {
+      filterMap[filter.name] = filter.idValue.id;
 
-      return map;
+      return filterMap;
     }, {})
 );
 
@@ -75,6 +75,11 @@ export const getSelectedOrgUnit = createSelector(
   getAllSelectedFilters,
   (filters: SelectedFilter[]) =>
     filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.idValue
+);
+
+export const getSelectOrgUnitValueShort = createSelector(
+  getSelectedOrgUnit,
+  (val: IdValue) => val?.value?.split('(')[0].trim()
 );
 
 export const getSelectedTimeRange = createSelector(

@@ -15,7 +15,6 @@ import {
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
-  getIsLoadingUnforcedFluctuationRatesForChart,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
@@ -261,23 +260,6 @@ describe('OverviewComponent', () => {
       store.overrideSelector(getIsLoadingFluctuationRatesForChart, result);
       component.ngOnInit();
       m.expect(component.isFluctuationChartLoading$).toBeObservable(
-        m.cold('a', {
-          a: result,
-        })
-      );
-    })
-  );
-
-  test(
-    'should set isUnforcedFluctuationChartLoading$',
-    marbles((m) => {
-      const result = false as any;
-      store.overrideSelector(
-        getIsLoadingUnforcedFluctuationRatesForChart,
-        result
-      );
-      component.ngOnInit();
-      m.expect(component.isUnforcedFluctuationChartLoading$).toBeObservable(
         m.cold('a', {
           a: result,
         })

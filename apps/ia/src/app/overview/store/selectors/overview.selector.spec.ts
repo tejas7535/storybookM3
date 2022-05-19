@@ -22,7 +22,6 @@ import {
   getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingResignedEmployees,
-  getIsLoadingUnforcedFluctuationRatesForChart,
   getOpenApplications,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
@@ -111,11 +110,11 @@ describe('Overview Selector', () => {
           ],
           exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
           fluctuationRate: {
-            company: 0.041,
+            global: 0.041,
             orgUnit: 0.023,
           },
           unforcedFluctuationRate: {
-            company: 0.081,
+            global: 0.081,
             orgUnit: 0.065,
           },
         },
@@ -124,23 +123,13 @@ describe('Overview Selector', () => {
       },
       fluctuationRates: {
         data: {
-          companyName: 'Schaeffler',
-          orgUnitName: 'Schaeffler_IT',
-          fluctuationRates: [
-            { company: 0.025, orgUnit: 0.018 },
-            { company: 0.035, orgUnit: 0.014 },
+          unforcedFluctuationRates: [
+            { global: 0.02, orgUnit: 0.013 },
+            { global: 0.04, orgUnit: 0.03 },
           ],
-        },
-        errorMessage: undefined,
-        loading: false,
-      },
-      unforcedFluctuationRates: {
-        data: {
-          companyName: 'Schaeffler',
-          orgUnitName: 'Schaeffler_IT',
           fluctuationRates: [
-            { company: 0.02, orgUnit: 0.013 },
-            { company: 0.04, orgUnit: 0.03 },
+            { global: 0.025, orgUnit: 0.018 },
+            { global: 0.035, orgUnit: 0.014 },
           ],
         },
         errorMessage: undefined,
@@ -221,11 +210,11 @@ describe('Overview Selector', () => {
         ],
         exitEmployees: [leaverIT1, leaverIT2, internalLeaver1],
         fluctuationRate: {
-          company: 0.041,
+          global: 0.041,
           orgUnit: 0.023,
         },
         unforcedFluctuationRate: {
-          company: 0.081,
+          global: 0.081,
           orgUnit: 0.065,
         },
       });
@@ -328,14 +317,6 @@ describe('Overview Selector', () => {
   describe('getIsLoadingFluctuationRatesForChart', () => {
     it('should return isLoading value', () => {
       expect(getIsLoadingFluctuationRatesForChart(fakeState)).toBeFalsy();
-    });
-  });
-
-  describe('getIsLoadingUnforcedFluctuationRatesForChart', () => {
-    it('should return isLoading value', () => {
-      expect(
-        getIsLoadingUnforcedFluctuationRatesForChart(fakeState)
-      ).toBeFalsy();
     });
   });
 

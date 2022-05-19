@@ -11,6 +11,7 @@ import {
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
+  getSelectOrgUnitValueShort,
   getTimePeriods,
 } from './filter.selector';
 
@@ -135,6 +136,17 @@ describe('Filter Selector', () => {
         id: 'Schaeffler_IT_1',
         value: 'Schaeffler_IT_1',
       });
+    });
+  });
+
+  describe('getSelectOrgUnitValueShort', () => {
+    test('should return selected org unit without the medium name', () => {
+      const idVal = {
+        id: 'Schaeffler_IT_1',
+        value: 'Schaeffler_IT_1 (Best IT department)',
+      };
+      const result = getSelectOrgUnitValueShort.projector(idVal);
+      expect(result).toEqual('Schaeffler_IT_1');
     });
   });
 

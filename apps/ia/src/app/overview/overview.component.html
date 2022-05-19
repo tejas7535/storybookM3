@@ -63,7 +63,7 @@
           <div class="grow">
             <ia-line-chart
               [config]="unforcedFluctuationChartData$ | ngrxPush"
-              [isDataLoading]="isUnforcedFluctuationChartLoading$ | ngrxPush"
+              [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
               [title]="t('chartTitle')"
             ></ia-line-chart>
           </div>

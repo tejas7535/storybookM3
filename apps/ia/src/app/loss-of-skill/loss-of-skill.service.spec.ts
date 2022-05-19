@@ -47,7 +47,7 @@ describe('LossOfSkillService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/job-profiles?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/job-profiles?org_unit_key=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

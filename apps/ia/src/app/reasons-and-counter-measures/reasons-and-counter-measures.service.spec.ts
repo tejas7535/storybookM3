@@ -47,7 +47,7 @@ describe('ReasonsAndCounterMeasuresService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/reasons-why-people-left?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/reasons-why-people-left?org_unit_key=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);

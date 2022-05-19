@@ -51,7 +51,7 @@ describe('OrganizationalViewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/org-chart?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/org-chart?org_unit_key=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -104,7 +104,7 @@ describe('OrganizationalViewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/world-map?org_unit=${orgUnit}&time_range=${timeRange}`
+        `api/v1/world-map?org_unit_key=${orgUnit}&time_range=${timeRange}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -151,7 +151,7 @@ describe('OrganizationalViewService', () => {
         });
 
       const req = httpMock.expectOne(
-        `api/v1/attrition-over-time?org_unit=${orgUnit}&time_period=${TimePeriod.LAST_THREE_YEARS}`
+        `api/v1/attrition-over-time?org_unit_key=${orgUnit}&time_period=${TimePeriod.LAST_THREE_YEARS}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

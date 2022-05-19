@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 import {
   getSelectedOrgUnit,
   getSelectedTimeRange,
+  getSelectOrgUnitValueShort,
 } from '../../../core/store/selectors';
 import {
   ActionType,
@@ -67,7 +68,7 @@ export const getOverviewFluctuationKpi = createSelector(
   ) =>
     overviewFluctuationRates && selectedOrgUnit
       ? utils.createFluctuationKpi(
-          overviewFluctuationRates.fluctuationRate.company,
+          overviewFluctuationRates.fluctuationRate.global,
           overviewFluctuationRates.fluctuationRate.orgUnit,
           selectedOrgUnit.id,
           utils.getExternalLeavers(overviewFluctuationRates.exitEmployees)
@@ -84,7 +85,7 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
   ) =>
     overviewFluctuationRates && selectedOrgUnit
       ? utils.createFluctuationKpi(
-          overviewFluctuationRates.unforcedFluctuationRate.company,
+          overviewFluctuationRates.unforcedFluctuationRate.global,
           overviewFluctuationRates.unforcedFluctuationRate.orgUnit,
           selectedOrgUnit.id,
           utils.getUnforcedLeavers(overviewFluctuationRates.exitEmployees)
@@ -167,18 +168,24 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
 
 export const getFluctuationRatesForChart = createSelector(
   selectOverviewState,
-  (state: OverviewState) =>
+  getSelectOrgUnitValueShort,
+  (state: OverviewState, orgUnit: string) =>
     state.fluctuationRates.data
-      ? utils.createFluctuationRateChartConfig(state.fluctuationRates.data)
+      ? utils.createFluctuationRateChartConfig(
+          orgUnit,
+          state.fluctuationRates.data.fluctuationRates
+        )
       : undefined
 );
 
 export const getUnforcedFluctuationRatesForChart = createSelector(
   selectOverviewState,
-  (state: OverviewState) =>
-    state.unforcedFluctuationRates.data
+  getSelectOrgUnitValueShort,
+  (state: OverviewState, orgUnit: string) =>
+    state.fluctuationRates.data
       ? utils.createFluctuationRateChartConfig(
-          state.unforcedFluctuationRates.data
+          orgUnit,
+          state.fluctuationRates.data.unforcedFluctuationRates
         )
       : undefined
 );
@@ -186,11 +193,6 @@ export const getUnforcedFluctuationRatesForChart = createSelector(
 export const getIsLoadingFluctuationRatesForChart = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.fluctuationRates?.loading
-);
-
-export const getIsLoadingUnforcedFluctuationRatesForChart = createSelector(
-  selectOverviewState,
-  (state: OverviewState) => state.unforcedFluctuationRates?.loading
 );
 
 export const getIsLoadingResignedEmployees = createSelector(

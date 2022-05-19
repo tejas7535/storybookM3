@@ -17,9 +17,6 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
-  loadUnforcedFluctuationRatesChartData,
-  loadUnforcedFluctuationRatesChartDataFailure,
-  loadUnforcedFluctuationRatesChartDataSuccess,
 } from './overview.action';
 
 describe('Overview Actions', () => {
@@ -114,37 +111,6 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load FluctuationRatesChartData Failure',
-    });
-  });
-
-  test('loadUnforcedFluctuationRatesChartData', () => {
-    const request = {} as unknown as EmployeesRequest;
-    const action = loadUnforcedFluctuationRatesChartData({ request });
-
-    expect(action).toEqual({
-      request,
-      type: '[Overview] Load UnforcedFluctuationRatesChartData',
-    });
-  });
-
-  test('loadUnforcedFluctuationRatesChartDataSuccess', () => {
-    const data = {} as FluctuationRatesChartData;
-    const action = loadUnforcedFluctuationRatesChartDataSuccess({ data });
-
-    expect(action).toEqual({
-      data,
-      type: '[Overview] Load UnforcedFluctuationRatesChartData Success',
-    });
-  });
-
-  test('loadUnforcedFluctuationRatesChartDataFailure', () => {
-    const action = loadUnforcedFluctuationRatesChartDataFailure({
-      errorMessage,
-    });
-
-    expect(action).toEqual({
-      errorMessage,
-      type: '[Overview] Load UnforcedFluctuationRatesChartData Failure',
     });
   });
 

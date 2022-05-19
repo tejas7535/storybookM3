@@ -45,28 +45,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/fluctuation-rates-chart?org_unit=${orgUnit}`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(request);
-    });
-  });
-
-  describe('getUnforcedFluctuationRateChartData', () => {
-    test('should call rest service', () => {
-      const orgUnit = 'Schaeffler12';
-      const request = { orgUnit } as unknown as EmployeesRequest;
-
-      const response = {} as FluctuationRatesChartData;
-
-      service
-        .getUnforcedFluctuationRateChartData(request)
-        .subscribe((result) => {
-          expect(result).toEqual(response);
-        });
-
-      const req = httpMock.expectOne(
-        `api/v1/unforced-fluctuation-rates-chart?org_unit=${orgUnit}`
+        `api/v1/fluctuation-rates-chart?org_unit_key=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(request);
@@ -85,7 +64,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/resigned-employees?org_unit=${orgUnit}`
+        `api/v1/resigned-employees?org_unit_key=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -110,7 +89,7 @@ describe('OverviewService', () => {
       });
 
       const req = httpMock.expectOne(
-        `api/v1/open-applications?org_unit=${orgUnit}`
+        `api/v1/open-applications?org_unit_key=${orgUnit}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

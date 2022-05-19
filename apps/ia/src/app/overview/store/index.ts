@@ -23,9 +23,6 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
-  loadUnforcedFluctuationRatesChartData,
-  loadUnforcedFluctuationRatesChartDataFailure,
-  loadUnforcedFluctuationRatesChartDataSuccess,
 } from './actions/overview.action';
 
 export const overviewFeatureKey = 'overview';
@@ -42,11 +39,6 @@ export interface OverviewState {
     errorMessage: string;
   };
   fluctuationRates: {
-    data: FluctuationRatesChartData;
-    loading: boolean;
-    errorMessage: string;
-  };
-  unforcedFluctuationRates: {
     data: FluctuationRatesChartData;
     loading: boolean;
     errorMessage: string;
@@ -75,11 +67,6 @@ export const initialState: OverviewState = {
     errorMessage: undefined,
   },
   fluctuationRates: {
-    data: undefined,
-    loading: false,
-    errorMessage: undefined,
-  },
-  unforcedFluctuationRates: {
     data: undefined,
     loading: false,
     errorMessage: undefined,
@@ -193,38 +180,6 @@ export const overviewReducer = createReducer(
         ...state.fluctuationRates,
         errorMessage,
         data: undefined,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    loadUnforcedFluctuationRatesChartData,
-    (state: OverviewState): OverviewState => ({
-      ...state,
-      unforcedFluctuationRates: {
-        ...state.fluctuationRates,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    loadUnforcedFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }): OverviewState => ({
-      ...state,
-      unforcedFluctuationRates: {
-        ...state.unforcedFluctuationRates,
-        data,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    loadUnforcedFluctuationRatesChartDataFailure,
-    (state: OverviewState, { errorMessage }): OverviewState => ({
-      ...state,
-      unforcedFluctuationRates: {
-        ...state.unforcedFluctuationRates,
-        errorMessage,
         loading: false,
       },
     })

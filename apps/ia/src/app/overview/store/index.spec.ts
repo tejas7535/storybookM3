@@ -24,9 +24,6 @@ import {
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
-  loadUnforcedFluctuationRatesChartData,
-  loadUnforcedFluctuationRatesChartDataFailure,
-  loadUnforcedFluctuationRatesChartDataSuccess,
 } from './actions/overview.action';
 
 describe('Overview Reducer', () => {
@@ -114,50 +111,6 @@ describe('Overview Reducer', () => {
 
       expect(state.fluctuationRates.loading).toBeFalsy();
       expect(state.fluctuationRates.errorMessage).toEqual(errorMessage);
-    });
-  });
-  describe('loadUnforcedFluctuationRatesChartData', () => {
-    test('should set loading', () => {
-      const action = loadUnforcedFluctuationRatesChartData({
-        request: {} as unknown as EmployeesRequest,
-      });
-      const state = overviewReducer(initialState, action);
-
-      expect(state.unforcedFluctuationRates.loading).toBeTruthy();
-    });
-  });
-
-  describe('loadUnforcedFluctuationRatesChartDataSuccess', () => {
-    test('should unset loading and set fluctuation rates data', () => {
-      const data: FluctuationRatesChartData =
-        {} as unknown as FluctuationRatesChartData;
-
-      const action = loadUnforcedFluctuationRatesChartDataSuccess({ data });
-
-      const state = overviewReducer(initialState, action);
-
-      expect(state.unforcedFluctuationRates.loading).toBeFalsy();
-      expect(state.unforcedFluctuationRates.data).toEqual(data);
-    });
-  });
-
-  describe('loadUnforcedFluctuationRatesChartDataFailure', () => {
-    test('should unset loading / set error message', () => {
-      const action = loadUnforcedFluctuationRatesChartDataFailure({
-        errorMessage,
-      });
-      const fakeState: OverviewState = {
-        ...initialState,
-        unforcedFluctuationRates: {
-          ...initialState.unforcedFluctuationRates,
-          loading: true,
-        },
-      };
-
-      const state = overviewReducer(fakeState, action);
-
-      expect(state.unforcedFluctuationRates.loading).toBeFalsy();
-      expect(state.unforcedFluctuationRates.errorMessage).toEqual(errorMessage);
     });
   });
 

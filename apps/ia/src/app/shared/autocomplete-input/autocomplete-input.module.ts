@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { InputValidatorDirective } from './validation/input-validator.directive';
@@ -17,6 +18,7 @@ import { InputValidatorDirective } from './validation/input-validator.directive'
     MatInputModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],
   exports: [AutocompleteInputComponent],
 })

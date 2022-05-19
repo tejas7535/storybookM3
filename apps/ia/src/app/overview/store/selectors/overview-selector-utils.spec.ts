@@ -141,31 +141,32 @@ describe('OverviewSelectorUtils', () => {
   describe('createFluctuationRateChartConfig', () => {
     test('should create chart config', () => {
       const data = [
-        { company: 0.342, orgUnit: 0.012 },
-        { company: 0.431, orgUnit: 0.001 },
+        { global: 0.342, orgUnit: 0.012 },
+        { global: 0.431, orgUnit: 0.001 },
       ] as FluctuationRate[];
       const rates = {
-        companyName: 'Schaeffler',
-        orgUnitName: selectedOrgUnit,
         fluctuationRates: data,
       } as FluctuationRatesChartData;
 
-      const result = utils.createFluctuationRateChartConfig(rates);
+      const result = utils.createFluctuationRateChartConfig(
+        selectedOrgUnit,
+        data
+      );
 
       const series = result.series as SeriesOption[];
       expect(series.length).toEqual(2);
       expect(series).toEqual([
         {
           ...SMOOTH_LINE_SERIES_OPTIONS,
-          name: rates.companyName,
+          name: 'Schaeffler',
           data: [
-            rates.fluctuationRates[0].company * 100,
-            rates.fluctuationRates[1].company * 100,
+            rates.fluctuationRates[0].global * 100,
+            rates.fluctuationRates[1].global * 100,
           ],
         },
         {
           ...SMOOTH_LINE_SERIES_OPTIONS,
-          name: rates.orgUnitName,
+          name: selectedOrgUnit,
           data: [
             rates.fluctuationRates[0].orgUnit * 100,
             rates.fluctuationRates[1].orgUnit * 100,
