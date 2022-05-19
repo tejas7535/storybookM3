@@ -9,12 +9,12 @@ export const mockRoleRights = 'mockRoleRights';
 export const mockLabelValueAvailable: LabelValue = {
   label: mockRoleTitle,
   value: mockRoleRights,
-  valueTextClass: undefined,
+  valueAdditionalClass: undefined,
 };
 
 export const mockLabelValueUnavailable: LabelValue = {
   ...mockLabelValueAvailable,
-  valueTextClass: 'error',
+  valueAdditionalClass: 'text-error',
 };
 
 export const mockRoleAvailable: Role = {

@@ -77,7 +77,7 @@ export class MyComponent {
     {
       label: 'Erroneous Data',
       value: 'There is something wrong with this data',
-      valueTextClass: 'error'
+      valueAdditionalClass: 'text-error'
     },
   ];
   
@@ -107,11 +107,11 @@ export class MyComponent {
         },
         {
           valueText: 'something wrong',
-          valueTextClass: 'error'
+          valueAdditionalClass: 'text-error'
         },
         {
           valueText: 'Super',
-          valueTextClass: 'link'
+          valueAdditionalClass: 'text-link'
         }
       ],
     },

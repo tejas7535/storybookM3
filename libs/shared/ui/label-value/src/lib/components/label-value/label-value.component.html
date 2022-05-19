@@ -28,7 +28,7 @@
     <div
       class="bg-surface"
       [ngClass]="[
-        labelValue.valueTextClass ? 'text-' + labelValue.valueTextClass : '',
+        labelValue.valueAdditionalClass || '',
         i > 0 ? 'border-t border-border' : ''
       ]"
     >
@@ -45,7 +45,7 @@
             *ngFor="let value of labelValue.values; let i = index"
             class="px-6 pt-3 pb-6"
             [ngClass]="[
-              value.valueTextClass ? 'text-' + value.valueTextClass : '',
+              value.valueAdditionalClass || '',
               i > 0 ? 'border-l border-border' : ''
             ]"
           >

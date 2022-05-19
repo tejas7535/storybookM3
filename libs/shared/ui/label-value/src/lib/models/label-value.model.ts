@@ -22,7 +22,7 @@ export interface LabelValue {
   values?: Value[];
 
   /**
-   * Set an optional text class for the value area
+   * Set an optional additional classes for the value area
    */
-  valueTextClass?: string;
+  valueAdditionalClass?: string;
 }

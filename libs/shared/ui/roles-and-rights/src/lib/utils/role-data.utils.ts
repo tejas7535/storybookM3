@@ -12,6 +12,6 @@ export const adaptLabelValuesFromRoles = (
     ? roles.map((role) => ({
         label: role.title,
         value: role.rights,
-        valueTextClass: role.rightsMissing ? 'error' : undefined,
+        valueAdditionalClass: role.rightsMissing ? 'text-error' : undefined,
       }))
     : [];

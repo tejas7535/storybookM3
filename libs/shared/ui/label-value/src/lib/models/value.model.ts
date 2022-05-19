@@ -5,7 +5,7 @@ export interface Value {
   valueText: string;
 
   /**
-   * Set an optional text class for the value
+   * Set an optional additional classes for the value
    */
-  valueTextClass?: string;
+  valueAdditionalClass?: string;
 }

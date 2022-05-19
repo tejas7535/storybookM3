@@ -31,12 +31,12 @@ const mockLabelValuesSingle: LabelValue[] = [
   {
     label: 'Erroneous Data',
     value: 'There is something wrong with this data',
-    valueTextClass: 'error',
+    valueAdditionalClass: 'text-error',
   },
   {
     label: 'WIP',
     value: 'This is some seriously important data value',
-    valueTextClass: 'link',
+    valueAdditionalClass: 'text-link',
   },
 ];
 
@@ -63,11 +63,11 @@ const mockLabelValuesMultiple: LabelValue[] = [
       },
       {
         valueText: 'something wrong',
-        valueTextClass: 'error',
+        valueAdditionalClass: 'text-error',
       },
       {
         valueText: 'Super',
-        valueTextClass: 'link',
+        valueAdditionalClass: 'text-link',
       },
     ],
   },
