@@ -38,7 +38,7 @@
                   <mat-select-trigger>
                     {{ initialInput.controls.inputUnit.value }}
                     <ng-container
-                      *ngIf="initialInput.controls.inputUnit.value === 'MPa'"
+                      *ngIf="initialInput.controls.inputUnit.value === MPA"
                     >
                       <span [matTooltip]="utsTooltip"> (UTS) </span>
                     </ng-container></mat-select-trigger
@@ -47,7 +47,7 @@
                     *ngFor="let unit of units$ | ngrxPush; trackBy: trackByFn"
                     [value]="unit"
                     >{{ unit }}
-                    <ng-container *ngIf="unit === 'MPa'">
+                    <ng-container *ngIf="unit === MPA">
                       <span [matTooltip]="utsTooltip"> (UTS) </span>
                     </ng-container>
                   </mat-option>
@@ -93,24 +93,24 @@
             </div>
             <div class="flex flex-col gap-8 md:flex-row">
               <div class="flex flex-1">
-                <mac-hardness-value
+                <mac-copy-input
                   class="w-full"
                   [value]="average$ | ngrxPush"
                   [unit]="inputUnit.value"
                   label="Average value"
-                  [tooltip]="inputUnit.value === 'MPa' ? utsTooltip : undefined"
-                  [precision]="inputUnit.value === 'HRc' ? 1 : 0"
-                ></mac-hardness-value>
+                  [tooltip]="inputUnit.value === MPA ? utsTooltip : undefined"
+                  [precision]="getPrecision(inputUnit.value)"
+                ></mac-copy-input>
               </div>
               <div class="flex flex-1">
-                <mac-hardness-value
+                <mac-copy-input
                   class="w-full"
                   [value]="standardDeviation$ | ngrxPush"
                   [unit]="inputUnit.value"
                   label="Standard deviation"
-                  [tooltip]="inputUnit.value === 'MPa' ? utsTooltip : undefined"
+                  [tooltip]="inputUnit.value === MPA ? utsTooltip : undefined"
                   [precision]="1"
-                ></mac-hardness-value>
+                ></mac-copy-input>
               </div>
             </div>
           </div>
@@ -133,14 +133,14 @@
                 class="col-span-1"
                 *ngFor="let result of (conversionResult$ | ngrxPush).converted"
               >
-                <mac-hardness-value
+                <mac-copy-input
                   class="w-full"
                   [value]="result.value"
                   [warning]="result.warning"
                   [unit]="result.unit"
-                  [tooltip]="result.unit === 'MPa' ? utsTooltip : undefined"
-                  [precision]="result.unit === 'HRc' ? 1 : 0"
-                ></mac-hardness-value>
+                  [tooltip]="result.unit === MPA ? utsTooltip : undefined"
+                  [precision]="getPrecision(result.unit)"
+                ></mac-copy-input>
               </div>
             </div>
           </div>

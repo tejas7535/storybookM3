@@ -257,6 +257,20 @@ describe('HardnessConverterComponent', () => {
     });
   });
 
+  describe('getPrecision', () => {
+    it('should return 1 if the unit is in ONE_DIGIT_UNITS', () => {
+      const result = component.getPrecision('HRc');
+
+      expect(result).toBe(1);
+    });
+
+    it('should return 0 if the unit is not in ONE_DIGIT_UNITS', () => {
+      const result = component.getPrecision('something not existing');
+
+      expect(result).toBe(0);
+    });
+  });
+
   describe('onAddButtonClick', () => {
     it('should add a form group to additionalInputs form array', () => {
       component.additionalInputs.push = jest.fn();

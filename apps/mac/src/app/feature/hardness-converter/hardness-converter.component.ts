@@ -15,6 +15,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
 import { changeFavicon } from '../../shared/change-favicon';
+import { HV, MPA, ONE_DIGIT_UNITS } from './constants';
 import {
   HardnessConversionFormValue,
   HardnessConversionResponse,
@@ -38,12 +39,13 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   ];
 
   private readonly destroy$ = new Subject<void>();
+  public MPA = MPA;
 
   public units$ = new ReplaySubject<string[]>();
   public version$ = new ReplaySubject<string>();
 
   public inputValue = new FormControl(undefined);
-  public inputUnit = new FormControl('HV');
+  public inputUnit = new FormControl(HV);
 
   public initialInput = new FormGroup({
     inputValue: this.inputValue,
@@ -150,7 +152,13 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   }
 
   public get step(): string {
-    return this.initialInput.get('inputUnit').value === 'HRc' ? '.1' : '1';
+    return ONE_DIGIT_UNITS.includes(this.initialInput.get('inputUnit').value)
+      ? '.1'
+      : '1';
+  }
+
+  public getPrecision(unit: string): number {
+    return ONE_DIGIT_UNITS.includes(unit) ? 1 : 0;
   }
 
   public onAddButtonClick(): void {
@@ -167,7 +175,7 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     this.additionalInputs.clear();
     this.conversionForm.reset({
       initialInput: {
-        inputUnit: 'HV',
+        inputUnit: HV,
       },
     });
     this.average$ = new ReplaySubject<number>();
