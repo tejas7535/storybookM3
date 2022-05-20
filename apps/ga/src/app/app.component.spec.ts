@@ -96,7 +96,7 @@ describe('AppComponent', () => {
           { value: 'de' }
         );
 
-        expect(translocoService.translate).toHaveBeenCalledTimes(14);
+        expect(translocoService.translate).toHaveBeenCalledTimes(12);
         expect(metaService.updateTag).toHaveBeenCalledTimes(12);
         expect(titleService.setTitle).toHaveBeenCalledTimes(2);
 
@@ -105,8 +105,12 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('updateFooterLinks', () => {
+  describe('assignFooterLinks', () => {
     it('should initially set translated footerLinks', () => {
+      window.origin = 'localhost://';
+
+      component['assignFooterLinks']();
+
       expect(component.footerLinks).toStrictEqual([
         {
           link: `${LegalRoute}/${LegalPath.ImprintPath}`,
@@ -126,6 +130,54 @@ describe('AppComponent', () => {
         {
           link: `${LegalRoute}/${LegalPath.CookiePath}`,
           title: 'de.legal.cookiePolicy',
+          external: false,
+        },
+      ]);
+    });
+
+    it('should contain translated footerLinks for capacitor android app', () => {
+      window.origin = 'http://localhost';
+
+      component['assignFooterLinks']();
+
+      expect(component.footerLinks).toStrictEqual([
+        {
+          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+          title: 'de.legal.imprint',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          title: 'de.legal.dataPrivacy',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.TermsPath}`,
+          title: 'de.legal.termsOfUse',
+          external: false,
+        },
+      ]);
+    });
+
+    it('should contain translated footerLinks for capacitor ios app', () => {
+      window.origin = 'capacitor://';
+
+      component['assignFooterLinks']();
+
+      expect(component.footerLinks).toStrictEqual([
+        {
+          link: `${LegalRoute}/${LegalPath.ImprintPath}`,
+          title: 'de.legal.imprint',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
+          title: 'de.legal.dataPrivacy',
+          external: false,
+        },
+        {
+          link: `${LegalRoute}/${LegalPath.TermsPath}`,
+          title: 'de.legal.termsOfUse',
           external: false,
         },
       ]);

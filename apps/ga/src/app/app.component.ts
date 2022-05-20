@@ -106,12 +106,20 @@ export class AppComponent implements OnInit, OnDestroy {
         title: this.translocoService.translate('legal.termsOfUse'),
         external: false,
       },
-      {
+    ];
+
+    if (
+      !window.origin.includes('capacitor://') &&
+      window.origin !== 'http://localhost'
+    ) {
+      const cookieLink = {
         link: `${LegalRoute}/${LegalPath.CookiePath}`,
         title: this.translocoService.translate('legal.cookiePolicy'),
         external: false,
-      },
-    ];
+      };
+
+      this.footerLinks.push(cookieLink);
+    }
   }
 
   private assignMetaTags(): void {
