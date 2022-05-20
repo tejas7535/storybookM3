@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.2.0...mm-v0.2.1) (2022-05-20)
+
+
+### 🐛 Bug Fixes
+
+* **mm:** allow medias/app functionality (UFTABI-5707) ([a0a8dfc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0a8dfc0d1e44871e336e3444aaf5304c3189dd4))
+* **mm:** properly configure tailwind content configuration ([47d6c8e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/47d6c8e9f472da33503b31a4625701de91add275))
+
 ## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mm-v0.1.21...mm-v0.2.0) (2022-05-05)
 
 
