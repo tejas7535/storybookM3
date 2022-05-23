@@ -27,7 +27,7 @@ export class CopyInputComponent {
   }
 
   public onCopyButtonClick(): void {
-    this.clipboard.copy(`${this.transformedValue} ${this.unit}`);
+    this.clipboard.copy(`${this.transformedValue}\u00A0${this.unit}`);
     this.snackbar.open('Value copied to clipboard', 'Close', {
       duration: 5000,
     });

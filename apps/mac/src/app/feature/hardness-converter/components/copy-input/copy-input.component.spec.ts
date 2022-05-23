@@ -69,7 +69,7 @@ describe('HardnessValueComponent', () => {
 
       component.onCopyButtonClick();
 
-      expect(component['clipboard'].copy).toHaveBeenCalledWith('1 G-UNIT');
+      expect(component['clipboard'].copy).toHaveBeenCalledWith('1\u00A0G-UNIT');
       expect(component['snackbar'].open).toHaveBeenCalledWith(
         'Value copied to clipboard',
         'Close',
