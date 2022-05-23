@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v0.0.2...ga-v1.2.0) (2022-05-23)
+
+
+### 🐛 Bug Fixes
+
+* **ga:** allow app functionality ([575e491](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/575e491c23ed7e26ebd9cbbb662db6356de4773b))
+* **ga:** properly configure tailwind content configuration ([f9cc353](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f9cc35389239407d51dfe4c6515c149d77894575))
+
+
+### 🎸 Features
+
+* **ga:** disable cookie policy for mobile app (UFTABI-5517) ([2cb4eb4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2cb4eb4bbc23f44155a0cb087e1f12618cbcefb0))
+* **ga:** include locale select in user settings (UFTABI-5613) ([9b01619](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b0161905c4ca6ce9e6d8ee4bc65fc051b587adb))
+
 ### [0.0.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v0.0.1...ga-v0.0.2) (2022-05-04)
 
 
