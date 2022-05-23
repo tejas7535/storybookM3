@@ -1,23 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
-import {
-  debounceTime,
-  filter,
-  map,
-  Observable,
-  of,
-  Subject,
-  take,
-  takeUntil,
-} from 'rxjs';
+import { debounceTime, filter, map, Subject, take, takeUntil } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-
-import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
 import { AppRoutePath } from '../app-route-path.enum';
 import {
@@ -29,11 +16,7 @@ import {
   getBearingLoading,
   getBearingResultList,
 } from '../core/store/selectors/bearing/bearing.selector';
-import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import {
-  getModelCreationSuccess,
-  getSelectedBearing,
-} from './../core/store/selectors/bearing/bearing.selector';
+import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
 
 @Component({
   selector: 'ga-bearing',
@@ -44,25 +27,20 @@ export class BearingComponent implements OnInit, OnDestroy {
   minimumChars = 2;
   detailSelection = true;
 
-  loading$: Observable<boolean> = of(false);
-  bearingResultList$: Observable<SearchAutocompleteOption[]>;
-  destroy$ = new Subject<void>();
+  loading$ = this.store.select(getBearingLoading);
+  bearingResultList$ = this.store.select(getBearingResultList);
+  selectedBearing$ = this.store.select(getSelectedBearing);
 
-  selectedBearing$: Observable<string>;
+  destroy$ = new Subject<void>();
 
   public constructor(
     private readonly store: Store,
-    private readonly router: Router,
-    private readonly snackbar: MatSnackBar
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
     this.store.dispatch(setCurrentStep({ step: 0 }));
-    this.loading$ = this.store.select(getBearingLoading);
 
-    this.bearingResultList$ = this.store.select(getBearingResultList);
-
-    this.selectedBearing$ = this.store.select(getSelectedBearing);
     this.selectedBearing$
       .pipe(
         take(1),
@@ -82,25 +60,6 @@ export class BearingComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-
-    this.store
-      .select(getModelCreationSuccess)
-      .pipe(
-        filter((success: boolean) => success !== undefined),
-        take(1)
-      )
-      .subscribe((success: boolean) => {
-        if (success) {
-          this.router.navigate([
-            `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
-          ]);
-        } else {
-          this.snackbar.open(
-            translate('bearing.modelCreationError'),
-            translate('bearing.close')
-          );
-        }
-      });
   }
 
   ngOnDestroy() {

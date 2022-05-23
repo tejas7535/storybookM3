@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
@@ -7,7 +8,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
 import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
-import { RestService } from '../../../services/rest/rest.service';
+import { ErrorService, RestService } from '../../../services';
 import { getSelectedBearing } from '../..';
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
@@ -27,6 +28,7 @@ describe('Bearing Effects', () => {
   let effects: BearingEffects;
   let spectator: SpectatorService<BearingEffects>;
   let restService: RestService;
+  let errorService: ErrorService;
   let store: MockStore;
 
   const createService = createServiceFactory({
@@ -41,6 +43,18 @@ describe('Bearing Effects', () => {
           getBearingExtendedSearch: jest.fn(),
         },
       },
+      {
+        provide: ErrorService,
+        useValue: {
+          openGenericSnackBar: jest.fn(),
+        },
+      },
+      {
+        provide: Router,
+        useValue: {
+          navigate: jest.fn(),
+        },
+      },
       provideMockStore({}),
     ],
   });
@@ -51,6 +65,7 @@ describe('Bearing Effects', () => {
     effects = spectator.inject(BearingEffects);
     store = spectator.inject(MockStore);
     restService = spectator.inject(RestService);
+    errorService = spectator.inject(ErrorService);
   });
 
   describe('bearingSearch$', () => {
@@ -127,6 +142,7 @@ describe('Bearing Effects', () => {
 
         expect(restService.putModelCreate).toHaveBeenCalledTimes(1);
         expect(restService.putModelCreate).toHaveBeenCalledWith(mockBearing);
+        expect(errorService.openGenericSnackBar).not.toHaveBeenCalled();
       })
     );
 

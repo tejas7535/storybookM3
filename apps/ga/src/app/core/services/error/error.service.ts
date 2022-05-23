@@ -9,7 +9,7 @@ import { translate } from '@ngneat/transloco';
 export class ErrorService {
   constructor(private readonly snackBar: MatSnackBar) {}
 
-  public openSnackBar(message: string, action: string): void {
+  public openSnackBar(message: string, action?: string): void {
     this.snackBar.open(message, action);
   }
 

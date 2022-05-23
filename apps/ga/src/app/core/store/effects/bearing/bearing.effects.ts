@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { catchError, map, mergeMap, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
+import { GreaseCalculationPath } from '../../../../grease-calculation/grease-calculation-path.enum';
 import { ExtendedSearchParameters } from '../../../../shared/models';
-import { RestService } from '../../../services/rest/rest.service';
+import { ErrorService, RestService } from '../../../services';
 import {
   bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
@@ -59,16 +64,29 @@ export class BearingEffects {
       ofType(selectBearing),
       concatLatestFrom(() => this.store.select(getSelectedBearing)),
       map(([_action, bearing]) => bearing as string),
-      mergeMap(
-        (bearing: string) =>
-          this.restService
-            .putModelCreate(bearing)
-            .pipe(
-              map((modelId: string) =>
-                modelId ? modelCreateSuccess({ modelId }) : modelCreateFailure()
-              )
-            )
-        //   catchError((_e) => of(modelCreateFailure())
+      mergeMap((bearing: string) =>
+        this.restService.putModelCreate(bearing).pipe(
+          tap((modelId) => {
+            if (modelId) {
+              this.router.navigate([
+                `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
+              ]);
+            } else {
+              this.errorService.openSnackBar(
+                translate('bearing.modelCreationError', { bearing }),
+                translate('bearing.close')
+              );
+            }
+          }),
+          map((modelId) =>
+            modelId ? modelCreateSuccess({ modelId }) : modelCreateFailure()
+          ),
+          catchError((_e) => {
+            this.errorService.openGenericSnackBar();
+
+            return of(modelCreateFailure());
+          })
+        )
       )
     );
   });
@@ -76,6 +94,8 @@ export class BearingEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly errorService: ErrorService
   ) {}
 }

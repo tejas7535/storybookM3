@@ -86,7 +86,6 @@ describe('BearingComponent', () => {
 
     store.dispatch = jest.fn();
     component['router'].navigate = jest.fn();
-    component['snackbar'].open = jest.fn();
   });
 
   it('should create', () => {
