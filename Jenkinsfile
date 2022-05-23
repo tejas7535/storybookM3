@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('adp-shared-library@1.0.1')
+@Library('adp-shared-library@1.5.0')
 
 // Imports from shared library above
 import adp.github.Github
