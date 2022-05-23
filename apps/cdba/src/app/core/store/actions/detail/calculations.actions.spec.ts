@@ -10,6 +10,8 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  selectCalculation,
+  selectCalculations,
 } from './calculations.actions';
 
 describe('Calculation Actions', () => {
@@ -53,5 +55,25 @@ describe('Calculation Actions', () => {
     });
   });
 
-  // TODO: Add specs for selectCalculation(s)
+  test('selectCalculation', () => {
+    const nodeId = '1';
+    const calculation = CALCULATIONS_MOCK[0];
+    action = selectCalculation({ nodeId, calculation });
+
+    expect(action).toEqual({
+      nodeId,
+      calculation,
+      type: '[Detail] Select Calculation',
+    });
+  });
+
+  test('selectCalculations', () => {
+    const nodeIds = ['1'];
+    action = selectCalculations({ nodeIds });
+
+    expect(action).toEqual({
+      nodeIds,
+      type: '[Detail] Select Calculations',
+    });
+  });
 });

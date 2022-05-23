@@ -1,10 +1,13 @@
 import { HttpStatusCode } from '@angular/common/http';
 
+import { DRAWINGS_MOCK } from '@cdba/testing/mocks';
+
 import {
   DrawingsActions,
   loadDrawings,
   loadDrawingsFailure,
   loadDrawingsSuccess,
+  selectDrawing,
 } from './drawings.actions';
 describe('Drawings Actions', () => {
   let action: DrawingsActions;
@@ -44,5 +47,15 @@ describe('Drawings Actions', () => {
     });
   });
 
-  // TODO: selectDrawing Action
+  test('selectDrawing', () => {
+    const nodeId = '1';
+    const drawing = DRAWINGS_MOCK[0];
+    action = selectDrawing({ nodeId, drawing });
+
+    expect(action).toEqual({
+      nodeId,
+      drawing,
+      type: '[Detail] Select Drawing',
+    });
+  });
 });
