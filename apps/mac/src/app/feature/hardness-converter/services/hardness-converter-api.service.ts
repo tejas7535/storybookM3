@@ -31,10 +31,12 @@ export class HardnessConverterApiService {
 
   public getConversionResult(
     unit: string,
-    value: number
+    value: number,
+    deviation?: number
   ): Observable<HardnessConversionResponse> {
     const body = {
       value,
+      deviation,
       unit_in: unit,
     };
 

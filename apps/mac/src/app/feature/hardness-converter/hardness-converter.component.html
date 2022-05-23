@@ -113,6 +113,22 @@
                 ></mac-copy-input>
               </div>
             </div>
+            <div
+              class="my-4 max-w-fit"
+              *ngIf="(conversionResult$ | ngrxPush).deviationWarning"
+            >
+              <div
+                class="flex min-w-0 flex-row gap-4 rounded border border-warning bg-sunny-yellow bg-opacity-10 p-3"
+              >
+                <mat-icon class="text-warning">error_outline</mat-icon>
+                <div
+                  class="flex-shrink text-caption font-normal text-high-emphasis"
+                >
+                  At least one measured value is not in agreement with the
+                  permissible deviation after S 285018. Please check the values.
+                </div>
+              </div>
+            </div>
           </div>
           <!-- RESULT -->
           <div
@@ -122,7 +138,7 @@
             "
           >
             <div
-              class="my-9 flex flex-row justify-center text-center text-subtitle-1"
+              class="mb-8 mt-4 flex flex-row justify-center text-center text-subtitle-1"
             >
               Converted
               {{ (multipleValues$ | ngrxPush) ? 'average value' : '' }} after

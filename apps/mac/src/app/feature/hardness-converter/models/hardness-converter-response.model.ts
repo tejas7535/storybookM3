@@ -12,4 +12,5 @@ export interface HardnessConversionSingleUnit {
 export interface HardnessConversionResponse {
   converted: HardnessConversionSingleUnit[];
   error?: string;
+  deviationWarning?: boolean;
 }

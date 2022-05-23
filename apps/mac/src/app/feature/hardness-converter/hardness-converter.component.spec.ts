@@ -217,6 +217,7 @@ describe('HardnessConverterComponent', () => {
       expect(component.multipleValues$.next).toHaveBeenCalledWith(true);
       expect(component.average$.next).toHaveBeenCalledWith(5);
       expect(component.standardDeviation$.next).toHaveBeenCalledWith(2);
+      expect(component['convertValue']).toHaveBeenCalledWith(5, 'HV', 4);
     });
   });
 
@@ -238,7 +239,30 @@ describe('HardnessConverterComponent', () => {
       expect(component.resultLoading$.next).toHaveBeenCalledWith(false);
       expect(
         component['hardnessService'].getConversionResult
-      ).toHaveBeenCalledWith('HV', 100);
+      ).toHaveBeenCalledWith('HV', 100, undefined);
+      expect(component.conversionResult$.next).toHaveBeenCalledWith(
+        HARDNESS_CONVERSION_MOCK
+      );
+    });
+
+    it('should convert the value and publish the result with deviation', () => {
+      jest.useFakeTimers();
+
+      component.resultLoading$.next = jest.fn();
+      component['hardnessService'].getConversionResult = jest.fn(() =>
+        of(HARDNESS_CONVERSION_MOCK)
+      );
+      component.conversionResult$.next = jest.fn();
+
+      component['convertValue'](100, 'HV', 5);
+
+      jest.advanceTimersByTime(2000);
+
+      expect(component.resultLoading$.next).toHaveBeenCalledWith(true);
+      expect(component.resultLoading$.next).toHaveBeenCalledWith(false);
+      expect(
+        component['hardnessService'].getConversionResult
+      ).toHaveBeenCalledWith('HV', 100, 5);
       expect(component.conversionResult$.next).toHaveBeenCalledWith(
         HARDNESS_CONVERSION_MOCK
       );
