@@ -302,6 +302,32 @@ describe('BomContainerComponent', () => {
     });
   });
 
+  describe('collapseAll', () => {
+    it('should call grid api to collapse all rows', () => {
+      const gridApi = {
+        collapseAll: jest.fn(),
+      } as unknown as GridApi;
+      component.onGridReady(gridApi);
+
+      component.collapseAll();
+
+      expect(component['gridApi'].collapseAll).toHaveBeenCalled();
+    });
+  });
+
+  describe('expandAll', () => {
+    it('should call grid api to expand all rows', () => {
+      const gridApi = {
+        expandAll: jest.fn(),
+      } as unknown as GridApi;
+      component.onGridReady(gridApi);
+
+      component.expandAll();
+
+      expect(component['gridApi'].expandAll).toHaveBeenCalled();
+    });
+  });
+
   describe('exportBomAsExcelFile', () => {
     beforeEach(() => {
       component['gridApi'] = {

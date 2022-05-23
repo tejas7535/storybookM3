@@ -211,6 +211,14 @@ export class BomContainerComponent implements OnInit {
     this.gridApi = gridApi;
   }
 
+  public expandAll(): void {
+    this.gridApi.expandAll();
+  }
+
+  public collapseAll(): void {
+    this.gridApi.collapseAll();
+  }
+
   public exportBomAsExcelFile(): void {
     this.gridApi.exportDataAsExcel({
       author: 'CDBA (Cost Database Analytics)',

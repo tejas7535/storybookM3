@@ -88,7 +88,9 @@
         "selectionHint": "Please select an element from the hierarchy on the left that has at least one sub-element below to view these details."
       },
       "additionalFunctionality": {
-        "excelExport": "Export to Excel"
+        "excelExport": "Export to Excel",
+        "expandAll": "Expand All",
+        "collapseAll": "Collapse All"
       },
       "costType": "Cost Type",
       "calculationDate": "Calculation Date",

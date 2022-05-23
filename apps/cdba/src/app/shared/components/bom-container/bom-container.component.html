@@ -108,6 +108,28 @@
               <mat-icon>file_download</mat-icon>
               <span>{{ t('additionalFunctionality.excelExport') }}</span>
             </button>
+            <button
+              mat-menu-item
+              [disabled]="
+                (bomLoading$ | ngrxPush) ||
+                (bomErrorMessage$ | ngrxPush) !== undefined
+              "
+              (click)="expandAll()"
+            >
+              <mat-icon>expand_more</mat-icon>
+              <span>{{ t('additionalFunctionality.expandAll') }}</span>
+            </button>
+            <button
+              mat-menu-item
+              [disabled]="
+                (bomLoading$ | ngrxPush) ||
+                (bomErrorMessage$ | ngrxPush) !== undefined
+              "
+              (click)="collapseAll()"
+            >
+              <mat-icon>expand_less</mat-icon>
+              <span>{{ t('additionalFunctionality.collapseAll') }}</span>
+            </button>
           </mat-menu>
         </div>
       </div>
