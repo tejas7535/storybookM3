@@ -45,7 +45,7 @@ export class LostJobProfilesComponent implements OnChanges {
     headerClass: () => 'bg-selected-overlay',
   };
 
-  currentDate = moment();
+  currentDate = moment.utc();
 
   columnDefs: ColDef[] = [
     {

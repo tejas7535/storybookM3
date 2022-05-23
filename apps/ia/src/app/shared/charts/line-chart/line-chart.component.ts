@@ -33,7 +33,7 @@ export class LineChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentYear = moment().get('year');
+    this.currentYear = moment.utc().get('year');
   }
 
   createEChartsOption(): EChartsOption {
@@ -49,13 +49,13 @@ export class LineChartComponent implements OnInit {
   }
 
   getXAxisData(): string[] {
-    const now = moment();
+    const now = moment.utc();
 
-    const threeMonthsAgo = moment().clone().subtract(3, 'months');
-    const twoMonthsAgo = moment().clone().subtract(2, 'months');
-    const oneMonthAgo = moment().clone().subtract(1, 'months');
-    const nextMonth = moment().clone().add(1, 'months');
-    const nextButOneMonth = moment().clone().add(2, 'months');
+    const threeMonthsAgo = now.clone().subtract(3, 'months');
+    const twoMonthsAgo = now.clone().subtract(2, 'months');
+    const oneMonthAgo = now.clone().subtract(1, 'months');
+    const nextMonth = now.clone().add(1, 'months');
+    const nextButOneMonth = now.clone().add(2, 'months');
 
     return [
       `${threeMonthsAgo.format('M/YY')}`,

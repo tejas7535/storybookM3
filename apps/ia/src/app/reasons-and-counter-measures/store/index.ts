@@ -33,7 +33,7 @@ import {
 export const reasonsAndCounterMeasuresFeatureKey = 'reasonsAndCounterMeasures';
 
 const getInitialSelectedTimeRange = () => {
-  const nowDate = moment();
+  const nowDate = moment.utc();
   const oldDate = getMonth12MonthsAgo(nowDate);
 
   return getTimeRangeFromDates(oldDate, nowDate);

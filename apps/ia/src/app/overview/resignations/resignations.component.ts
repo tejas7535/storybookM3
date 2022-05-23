@@ -39,7 +39,7 @@ export class ResignationsComponent {
       filter: 'agDateColumnFilter',
       sort: 'desc',
       valueFormatter: (data) =>
-        data.value ? moment(+data.value).format('D/MM/YYYY') : '',
+        data.value ? moment.utc(+data.value).format('D/MM/YYYY') : '',
     },
     {
       field: 'employeeName',

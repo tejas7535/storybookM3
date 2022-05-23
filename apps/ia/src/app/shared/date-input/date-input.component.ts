@@ -26,9 +26,9 @@ export class DateInputComponent {
   private _timePeriod: TimePeriod;
 
   timePeriods = TimePeriod;
-  nowDate = moment().endOf('month');
+  nowDate = moment.utc().endOf('month');
   minDate = this.nowDate.clone();
-  maxDate = moment({ year: this.nowDate.year(), month: 11, day: 31 }); // last day of current year
+  maxDate = moment({ year: this.nowDate.year(), month: 11, day: 31 }).utc(); // last day of current year
 
   @Input() label: string;
   @Input() hint: string;
@@ -47,9 +47,9 @@ export class DateInputComponent {
     if (time !== undefined) {
       const times = time.split('|');
 
-      const start = moment.unix(+times[0]);
+      const start = moment.unix(+times[0]).utc();
       this.rangeInput.controls.start.setValue(start, { emitEvent: false });
-      const end = moment.unix(+times[1]);
+      const end = moment.unix(+times[1]).utc();
       this.rangeInput.controls.end.setValue(end, { emitEvent: false });
     }
   }

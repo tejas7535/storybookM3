@@ -48,10 +48,10 @@ export function isDateInTimeRange(
   if (!dateToTest || !timeRange) {
     return false;
   }
-  const dateToTestP = moment(+dateToTest);
+  const dateToTestP = moment.utc(+dateToTest);
   const timeRangeArr = timeRange.split('|');
-  const timeRangeStart = moment.unix(+timeRangeArr[0]);
-  const timeRangeEnd = moment.unix(+timeRangeArr[1]);
+  const timeRangeStart = moment.unix(+timeRangeArr[0]).utc();
+  const timeRangeEnd = moment.unix(+timeRangeArr[1]).utc();
 
   return (
     dateToTestP.isSameOrAfter(timeRangeStart) &&
