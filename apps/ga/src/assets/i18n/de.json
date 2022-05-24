@@ -27,33 +27,71 @@
       }
     }
   },
-  "bearing": {
-    "bearingSelection": "Lagerauswahl",
-    "subtitle": "Für welches Lager soll die Kalkulation durchgeführt werden?",
-    "searchPlaceholder": "Suche nach Lagerbezeichnung, z.B. 6215",
-    "narrowDownSelection": "Lagerauswahl eingrenzen?",
-    "easySelection": "Zurück zur einfachen Lagerauswahl",
-    "noResults": "Keine Ergebnisse",
-    "modelCreationError": "Für das Lager {{bearing}} kann aktuell keine Berechnung durchgeführt werden.",
-    "close": "Schließen",
-    "pleaseEnter": "{{label}} angeben",
-    "pleaseSelectBearing": "Bitte Lager durch Klick auswählen",
-    "bearingType": "Lagerbauart",
-    "boreDiameter": "d - Bohrungsdurchmesser",
-    "boreDiameterWord": " - Bohrungsdurchmesser",
-    "outsideDiameter": "D - Außendurchmesser",
-    "width": "B - Breite",
+  "shared": {
+    "button": {
+      "close": "Schließen"
+    },
+    "label": {
+      "default": "{{label}} angeben"
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
     "min": "Min",
-    "max": "Max",
-    "mm": "mm",
-    "selectBearingFromList": "Lager aus Liste auswählen ({{ amount }})",
-    "enterSearchParameters": "Bitte valide Suchparameter angeben",
-    "reset": "Setze {{ dimension }} zurück",
-    "tooManyResults": "{{ amount }} Ergebnisse. Ergebnisliste durch mehr Suchkriterien eingrenzen",
-    "changeParams": "Parameter anpassen um Ergebnisse zu sehen",
-    "zero": "Keine",
-    "results": "Ergebnisse",
-    "types": {
+    "max": "Max"
+  },
+  "bearing": {
+    "title": {
+      "main": "Lagerauswahl",
+      "sub": "Für welches Lager soll die Kalkulation durchgeführt werden?"
+    },
+    "label": {
+      "bearingType": "Lagerbauart",
+      "boreDiameter": "Bohrungsdurchmesser",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Außendurchmesser",
+      "outsideDiameterShort": "D",
+      "width": "Breite",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "toggle": {
+        "quickSelection": "Direkte Lagerauswahl",
+        "advancedSelection": "Erweiterte Lagerauswahl"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Suche nach Lagerbezeichnung, z.B. 6215"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Filterkriterien",
+          "action": {
+            "nextStep": "Lager auswählen"
+          }
+        },
+        "bearingsList": {
+          "heading": {
+            "main": "Lagerauswahl"
+          },
+          "intro": "Bitte Lager durch Klick auswählen",
+          "action": {
+            "previousStep": "Filterkriterien anpassen"
+          }
+        },
+        "error": {
+          "modelCreation": "Für das Lager {{bearing}} kann aktuell keine Berechnung durchgeführt werden."
+        },
+        "tooManyResults": {
+          "message": "Zu viele Ergebnisse ({{resultsCount}})",
+          "hint": "Ihre Suchanfrage liefert zu viele Ergebnisse.\nBitte verwenden Sie die Filter unten, um die Anzahl der Ergebnisse auf maximal {{tooManyResultsThreshold}} zu reduzieren."
+        },
+        "noResults": {
+          "message": "Keine Ergebnisse gefunden",
+          "hint": "Wir konnten kein Lager für die angewandten Filter finden.\nBitte überprüfen Sie Ihre Filter-Einstellungen, um sicherzustellen, dass Sie eine gültige Auswahl verwenden."
+        }
+      }
+    },
+    "bearingTypes": {
       "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radialschrägkugellager",
       "IDO_RADIAL_BALL_BEARING": "Radialrillenkugellager",
       "IDO_RADIAL_ROLLER_BEARING": "Radialrollenlager",
@@ -102,7 +140,7 @@
       "max": "Der eingegebene Wert ist zu hoch",
       "required": "Dieses Feld ist eine Pflichteingabe",
       "lowerThanEnvironmentTemperature": "Kann nicht geringer sein als Umgebungstemperatur",
-      "innerOuterInconsistent": "Der Bohrungsdurchmesser muss geringer als der Außerdurchmesser sein",
+      "innerOuterInconsistent": "Der Bohrungsdurchmesser muss geringer als der Außendurchmesser sein",
       "minMaxInconsistent": "Der Minimalwert muss geringer als der Maximalwert sein",
       "anyLoad": "Eine Last muss angegeben werden"
     },
