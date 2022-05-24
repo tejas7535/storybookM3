@@ -28,7 +28,7 @@ export class DateInputComponent {
   timePeriods = TimePeriod;
   nowDate = moment.utc().endOf('month');
   minDate = this.nowDate.clone();
-  maxDate = moment({ year: this.nowDate.year(), month: 11, day: 31 }).utc(); // last day of current year
+  maxDate = moment({ year: this.nowDate.year() - 1, month: 11, day: 31 }).utc(); // last day of last year
 
   @Input() label: string;
   @Input() hint: string;
@@ -36,7 +36,11 @@ export class DateInputComponent {
   @Input() placeholderEnd: string;
   @Input() set timePeriod(timePeriod: TimePeriod) {
     this._timePeriod = timePeriod;
-    this.updateStartEndDates(this.nowDate);
+
+    // refDate depends on year or month/last12month dropdown
+    const refDate =
+      timePeriod === TimePeriod.YEAR ? this.maxDate : this.nowDate;
+    this.updateStartEndDates(refDate);
     this.setStartView();
   }
   get timePeriod(): TimePeriod {
