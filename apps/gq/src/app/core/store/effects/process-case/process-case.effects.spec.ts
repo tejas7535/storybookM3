@@ -35,6 +35,7 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
+  loadAvailableCurrenciesSuccess,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -77,6 +78,7 @@ import {
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
+  getAvailableCurrencies,
   getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
@@ -999,6 +1001,57 @@ describe('ProcessCaseEffect', () => {
         const expected = m.cold('-(bc)', { b: resultB, c: resultC });
 
         m.expect(effects.confirmSimulatedQuotation$).toBeObservable(expected);
+      })
+    );
+  });
+
+  describe('loadAvailableCurrencies', () => {
+    beforeEach(() => {
+      store.overrideSelector(getAvailableCurrencies, []);
+      action = {
+        type: ROUTER_NAVIGATED,
+        payload: {
+          routerState: {
+            queryParams: {},
+            url: `/${AppRoutePath.ProcessCaseViewPath}`,
+          },
+        },
+      };
+    });
+
+    test(
+      'should return loadAvailableCurrencies',
+      marbles((m) => {
+        quotationService.getCurrencies = jest.fn(() => response);
+        const currencies = ['EUR', 'USD'];
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: currencies });
+        const expected = m.cold('--b', {
+          b: loadAvailableCurrenciesSuccess({ currencies }),
+        });
+
+        m.expect(effects.loadAvailableCurrencies$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getCurrencies).toHaveBeenCalledTimes(1);
+      })
+    );
+
+    test(
+      'should NOT call the service if currencies are already set',
+      marbles((m) => {
+        store.overrideSelector(getAvailableCurrencies, ['EUR', 'USD']);
+
+        quotationService.getCurrencies = jest.fn(() => response);
+        const currencies = ['EUR', 'USD'];
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: currencies });
+
+        m.flush();
+        expect(quotationService.getCurrencies).toHaveBeenCalledTimes(0);
       })
     );
   });

@@ -112,4 +112,10 @@ export class QuotationService {
       { caseName }
     );
   }
+
+  public getCurrencies(): Observable<string[]> {
+    return this.http.get<string[]>(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
+    );
+  }
 }

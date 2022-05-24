@@ -1,4 +1,5 @@
 export * from './create-case/create-case.selector';
+export * from './currency/currency.selector';
 export * from './health-check/health-check.selector';
 export * from './material-comparable-costs/material-comparable-costs.selector';
 export * from './material-sales-org/material-sales-org.selector';

@@ -9,6 +9,7 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
+import * as fromCurrencies from './currency/currency.reducer';
 import * as fromExtendedComparableLinkedTransactions from './extended-comparable-linked-transactions/extended-comparable-linked-transactions.reducer';
 import * as fromHealthCheck from './health-check/health-check.reducer';
 import * as fromMaterialComparableCosts from './material-comparable-costs/material-comparable-costs.reducer';
@@ -37,6 +38,7 @@ export interface AppState {
   healthCheck: fromHealthCheck.HealthCheckState;
   sapPriceDetails: fromSapPriceDetails.SapPriceDetailsState;
   materialStock: fromMaterialStock.MaterialStockState;
+  currency: fromCurrencies.CurrencyState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -53,6 +55,7 @@ export const reducers: ActionReducerMap<AppState> = {
   healthCheck: fromHealthCheck.healthCheckReducer,
   sapPriceDetails: fromSapPriceDetails.sapPriceDetailsReducer,
   materialStock: fromMaterialStock.materialStockReducer,
+  currency: fromCurrencies.currencyReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -98,6 +101,10 @@ export const getSapPriceDetailsState =
 
 export const getMaterialStockState =
   createFeatureSelector<fromMaterialStock.MaterialStockState>('materialStock');
+
+export const getCurrenciesState =
+  createFeatureSelector<fromCurrencies.CurrencyState>('currency');
+
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>
 {

@@ -1,4 +1,5 @@
 export * from './create-case/create-case.actions';
+export * from './currency/currency.actions';
 export * from './material-comparable-costs/material-comparable-costs.actions';
 export * from './material-sales-org/material-sales-org.actions';
 export * from './process-case/process-case.action';

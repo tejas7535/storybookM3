@@ -37,6 +37,8 @@ import {
   addMaterialsFailure,
   addMaterialsSuccess,
   confirmSimulatedQuotation,
+  loadAvailableCurrenciesFailure,
+  loadAvailableCurrenciesSuccess,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -77,6 +79,7 @@ import {
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
+  getAvailableCurrencies,
   getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
@@ -435,6 +438,29 @@ export class ProcessCaseEffect {
           resetSimulatedQuotation(),
         ];
       })
+    );
+  });
+
+  loadAvailableCurrencies$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState),
+      concatLatestFrom(() => this.store.select(getAvailableCurrencies)),
+      filter(
+        ([routerState, availableCurrencies]) =>
+          routerState.url.includes(AppRoutePath.ProcessCaseViewPath) &&
+          availableCurrencies?.length === 0
+      ),
+      mergeMap(() =>
+        this.quotationService.getCurrencies().pipe(
+          map((currencies: string[]) =>
+            loadAvailableCurrenciesSuccess({ currencies })
+          ),
+          catchError((errorMessage) => {
+            return of(loadAvailableCurrenciesFailure(errorMessage));
+          })
+        )
+      )
     );
   });
 

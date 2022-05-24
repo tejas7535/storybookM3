@@ -182,4 +182,15 @@ describe('QuotationService', () => {
       req.flush(caseName);
     });
   });
+
+  describe('getCurrencies', () => {
+    test('should call', () => {
+      service.getCurrencies().subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+    });
+  });
 });
