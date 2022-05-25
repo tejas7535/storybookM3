@@ -70,7 +70,7 @@ export const getOverviewFluctuationKpi = createSelector(
       ? utils.createFluctuationKpi(
           overviewFluctuationRates.fluctuationRate.global,
           overviewFluctuationRates.fluctuationRate.orgUnit,
-          selectedOrgUnit.id,
+          selectedOrgUnit.value,
           utils.getExternalLeavers(overviewFluctuationRates.exitEmployees)
         )
       : undefined
@@ -87,7 +87,7 @@ export const getOverviewUnforcedFluctuationKpi = createSelector(
       ? utils.createFluctuationKpi(
           overviewFluctuationRates.unforcedFluctuationRate.global,
           overviewFluctuationRates.unforcedFluctuationRate.orgUnit,
-          selectedOrgUnit.id,
+          selectedOrgUnit.value,
           utils.getUnforcedLeavers(overviewFluctuationRates.exitEmployees)
         )
       : undefined
