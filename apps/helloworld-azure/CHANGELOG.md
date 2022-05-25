@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [3.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.2.0...hellworld-azure-v3.2.1) (2022-05-25)
+
+
+### 🐛 Bug Fixes
+
+* **storybook:** ensure existence of grid utility classes ([ea8a9b4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ea8a9b45832e3c6f31f9cf7d328fb7c25a9383ef))
+
 ## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.1.0...hellworld-azure-v3.2.0) (2022-03-31)
 
 
