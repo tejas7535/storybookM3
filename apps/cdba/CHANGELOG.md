@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.14.0...cdba-v2.15.0) (2022-05-25)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** properly configure tailwind content configuration ([cd5f192](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cd5f19275f7fb09677019e62390b4050bc28182e))
+
+
+### 🎸 Features
+
+* **cdba:** add and adjust models ([ccb0280](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ccb0280b5f3775f599a6bb4d8d7fe29a75561b3a))
+* **cdba:** add raw material analysis for compare ([fc6651d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fc6651d02f9e560fa2323a7aa1b545a7ac6b622e))
+* **cdba:** implement expand and collapse all function for bom rows ([#4150](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4150)) ([2c08be6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2c08be66508ac5f79f0f6316eb09192a413b00cc))
+* **cdba:** implement raw material analysis for detail page ([3ba092c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3ba092c8417e9db98b720e130b4d04deddda9bcb))
+
 ## [2.14.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.13.0...cdba-v2.14.0) (2022-05-11)
 
 
