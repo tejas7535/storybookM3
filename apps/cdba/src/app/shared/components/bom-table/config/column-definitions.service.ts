@@ -150,7 +150,7 @@ export class ColumnDefinitionService {
       headerName: translate('shared.bom.headers.currency'),
     },
     {
-      field: 'costing.companyCodeCurrency',
+      field: 'costing.companyCodeTotalValue',
       headerName: translate('shared.bom.headers.costObjectCurrency'),
       hide: true,
     },
