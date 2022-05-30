@@ -1,4 +1,5 @@
-import { MOCK_PROPERTIES } from '../../../../../testing/mocks/rest.service.mock';
+import { MOCK_PROPERTIES } from '@ga/testing/mocks';
+
 import { ParameterState } from '../../reducers/parameter/parameter.reducer';
 import {
   getProperties,

@@ -1,0 +1,87 @@
+<div *transloco="let t">
+  <mat-accordion class="example-headers-align" hideToggle>
+    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="mr-2 text-medium-emphasis">tune</mat-icon>
+          {{ t('bearing.bearingSelection.advancedSelection.filters.heading') }}
+        </mat-panel-title>
+        <mat-panel-description class="justify-between">
+          <span *ngIf="extendedSearchParameters.bearingType && step > 0">{{
+            t('bearing.bearingTypes.' + extendedSearchParameters.bearingType)
+          }}</span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-divider class="pb-4"></mat-divider>
+      <div class="px-4">
+        <div class="mb-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{
+              t('shared.label.defaultSelect', {
+                label: t('bearing.label.bearingType')
+              })
+            }}</mat-label>
+            <mat-select [(value)]="extendedSearchParameters.bearingType">
+              <mat-option
+                *ngFor="let bearingType of bearingTypes"
+                [value]="bearingType.id"
+                >{{ bearingType.text }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="mb-4">
+          <ga-range-filter
+            [rangeFilter]="boreDiameterRangeFilter"
+            (updateFilter)="updateBoreDiameterRangeFilter($event)"
+          ></ga-range-filter>
+        </div>
+        <div class="mb-4">
+          <ga-range-filter
+            [rangeFilter]="outsideDiameterRangeFilter"
+            (updateFilter)="updateOutsideDiameterRangeFilter($event)"
+          ></ga-range-filter>
+        </div>
+        <div class="mb-4">
+          <ga-range-filter
+            [rangeFilter]="widthRangeFilter"
+            (updateFilter)="updateWidthRangeFilter($event)"
+          ></ga-range-filter>
+        </div>
+      </div>
+      <mat-action-row>
+        <button mat-button color="primary" (click)="nextStep()">
+          {{
+            t(
+              'bearing.bearingSelection.advancedSelection.filters.action.nextStep'
+            )
+          }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon class="mr-2 text-medium-emphasis">manage_search</mat-icon>
+          {{
+            t('bearing.bearingSelection.advancedSelection.bearingsList.heading')
+          }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="px-4">
+        <ga-bearing-selection-list></ga-bearing-selection-list>
+      </div>
+      <mat-action-row>
+        <button mat-button color="primary" (click)="prevStep()">
+          {{
+            t(
+              'bearing.bearingSelection.advancedSelection.bearingsList.action.previousStep'
+            )
+          }}
+        </button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

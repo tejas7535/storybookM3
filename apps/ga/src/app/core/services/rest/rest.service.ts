@@ -29,19 +29,14 @@ export class RestService {
   }
 
   public getBearingExtendedSearch(
-    params: ExtendedSearchParameters
-  ): Observable<string[]> {
-    for (const key in params) {
-      if (params[key] === undefined || params[key] === null) {
-        delete params[key];
-      }
-    }
+    extendedSearchParameters: ExtendedSearchParameters
+  ) {
+    const params = this.getBearingExtendedSearchParams(
+      extendedSearchParameters
+    );
 
     return this.httpClient.get<string[]>(
-      `${environment.baseUrl}/bearings/extendedsearch`,
-      {
-        params,
-      }
+      `${environment.baseUrl}/bearings/extendedsearch?${params}`
     );
   }
 
@@ -72,5 +67,47 @@ export class RestService {
     return this.httpClient
       .get<Result>(`${environment.baseUrl}/${modelId}/calculate`)
       .pipe(map((res: Result) => res._links[1].href.split('/').pop()));
+  }
+
+  private getBearingExtendedSearchParams(
+    extendedSearchParameters: ExtendedSearchParameters
+  ): URLSearchParams {
+    const params = new URLSearchParams();
+
+    if (extendedSearchParameters?.bearingType) {
+      params.set('bearingType', extendedSearchParameters.bearingType);
+    }
+
+    if (extendedSearchParameters?.boreDiameterMin) {
+      params.set('minDi', extendedSearchParameters.boreDiameterMin.toString());
+    }
+
+    if (extendedSearchParameters?.boreDiameterMax) {
+      params.set('maxDi', extendedSearchParameters.boreDiameterMax.toString());
+    }
+
+    if (extendedSearchParameters?.outsideDiameterMin) {
+      params.set(
+        'minDa',
+        extendedSearchParameters.outsideDiameterMin.toString()
+      );
+    }
+
+    if (extendedSearchParameters?.outsideDiameterMax) {
+      params.set(
+        'maxDa',
+        extendedSearchParameters.outsideDiameterMax.toString()
+      );
+    }
+
+    if (extendedSearchParameters?.widthMin) {
+      params.set('minB', extendedSearchParameters.widthMin.toString());
+    }
+
+    if (extendedSearchParameters?.widthMax) {
+      params.set('maxB', extendedSearchParameters.widthMax.toString());
+    }
+
+    return params;
   }
 }

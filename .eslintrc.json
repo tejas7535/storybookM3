@@ -221,6 +221,8 @@
               ["^rxjs(/.*|$)"],
               ["^@?\\w"], // packages
               ["^@schaeffler(/.*|$)"],
+              ["^@cdba(/.*|$)"],
+              ["^@ga(/.*|$)"],
               ["^"], // absolute imports, everything that does not match sth else
               ["^\\."] // relative imports
             ]

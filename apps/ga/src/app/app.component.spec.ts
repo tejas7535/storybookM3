@@ -17,7 +17,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { UserSettingsModule } from './shared/components/user-settings/index';
+import { UserSettingsModule } from './shared/components/user-settings';
 
 describe('AppComponent', () => {
   let component: AppComponent;

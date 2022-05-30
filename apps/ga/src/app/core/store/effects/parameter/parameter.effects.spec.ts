@@ -8,7 +8,8 @@ import {
   CALCULATION_PARAMETERS_MOCK,
   MOCK_PROPERTIES,
   MODEL_MOCK_ID,
-} from '../../../../../testing/mocks/rest.service.mock';
+} from '@ga/testing/mocks';
+
 import { RestService } from '../../../services/rest/rest.service';
 import {
   getProperties,

@@ -1,0 +1,11 @@
+<div *transloco="let t; read: 'bearing.bearingSelection.quickSelection'">
+  <schaeffler-search-autocomplete
+    [options]="bearingResultList$ | ngrxPush"
+    [loading]="loading$ | ngrxPush"
+    [formControl]="bearingSearchFormControl"
+    [minimumChars]="minimumChars"
+    (selection)="handleBearingSelection($event)"
+    [label]="t('searchPlaceholder')"
+    [noResultsText]="t('noResults')"
+  ></schaeffler-search-autocomplete>
+</div>

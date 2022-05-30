@@ -1,0 +1,41 @@
+:host {
+  display: block;
+
+  ::ng-deep {
+    .mat-form-field-wrapper {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .mat-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .range-menu {
+      &.ng-animating {
+        visibility: hidden;
+      }
+    }
+
+    .mat-slider-wrapper {
+      .mat-slider-thumb-container {
+        .mat-slider-thumb-label {
+          height: 40px;
+          right: -22px;
+          top: -52px;
+          width: 40px;
+        }
+      }
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}

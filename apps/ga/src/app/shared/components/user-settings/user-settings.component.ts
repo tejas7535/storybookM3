@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {
   AVAILABLE_LOCALES,
   DEFAULT_LOCALE,
-} from '@cdba/shared/constants/index';
+} from '@ga/shared/constants/localization';
 
 @Component({
   selector: 'ga-user-settings',

@@ -5,40 +5,39 @@
   <schaeffler-subheader
     class="-ml-4"
     [showBackButton]="true"
-    [subheaderTitle]="t('bearingSelection')"
+    [subheaderTitle]="t('title.main')"
     [hideLine]="true"
     (backButtonClicked)="navigateBack()"
   >
-    <ng-container subheaderBlockContent> {{ t('subtitle') }} </ng-container>
+    <ng-container subheaderBlockContent> {{ t('title.sub') }} </ng-container>
   </schaeffler-subheader>
   <div class="-ml-4 -mt-2 mb-4 flex flex-row">
     <button
       mat-button
       color="primary"
       [disableRipple]="true"
-      (click)="toggleSelection()"
+      (click)="toggleBearingSelectionType()"
     >
-      {{ t(!detailSelection ? 'narrowDownSelection' : 'easySelection') }}
+      {{
+        t(
+          advancedBearingSelectionActive
+            ? 'bearingSelection.toggle.quickSelection'
+            : 'bearingSelection.toggle.advancedSelection'
+        )
+      }}
     </button>
   </div>
-  <schaeffler-search-autocomplete
-    *ngIf="!detailSelection; else detail_selection"
-    [options]="bearingResultList$ | ngrxPush"
-    [loading]="loading$ | ngrxPush"
-    [formControl]="bearingSearchFormControl"
-    [minimumChars]="minimumChars"
-    (selection)="handleBearingSelection($event)"
-    [label]="t('searchPlaceholder')"
-    [noResultsText]="t('noResults')"
-  ></schaeffler-search-autocomplete>
-  <ng-template #detail_selection>
-    <div class="max-w-[600px]">
-      <ga-advanced-bearing></ga-advanced-bearing>
-    </div>
-  </ng-template>
+  <div class="max-w-[600px]">
+    <ga-advanced-bearing-selection
+      *ngIf="advancedBearingSelectionActive; else quick_bearing_selection"
+    ></ga-advanced-bearing-selection>
+    <ng-template #quick_bearing_selection>
+      <ga-quick-bearing-selection></ga-quick-bearing-selection>
+    </ng-template>
+  </div>
 
   <div
-    *ngIf="!detailSelection"
+    *ngIf="!advancedBearingSelectionActive"
     class="flex flex-1 flex-col justify-end sm:w-1/3"
   >
     <img

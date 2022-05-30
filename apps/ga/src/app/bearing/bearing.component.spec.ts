@@ -1,27 +1,19 @@
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockDeclaration, MockModule } from 'ng-mocks';
+import { MockModule } from 'ng-mocks';
 
-import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions';
+
 import { AppRoutePath } from '../app-route-path.enum';
-import { SharedModule } from '../shared/shared.module';
-import { selectBearing } from './../core/store/actions/bearing/bearing.actions';
-import { AdvancedBearingComponent } from './advanced-bearing/advanced-bearing.component';
+import { AdvancedBearingSelectionModule } from './advanced-bearing-selection';
 import { BearingComponent } from './bearing.component';
+import { QuickBearingSelectionModule } from './quick-bearing-selection';
 
 describe('BearingComponent', () => {
   let component: BearingComponent;
@@ -33,50 +25,12 @@ describe('BearingComponent', () => {
     imports: [
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(SearchAutocompleteModule),
-      MockModule(ReactiveFormsModule),
-      SharedModule,
+      MockModule(AdvancedBearingSelectionModule),
+      MockModule(QuickBearingSelectionModule),
       MockModule(SubheaderModule),
-      ReactiveComponentModule,
-      MatSnackBarModule,
       MockModule(MatButtonModule),
-      MockModule(MatDividerModule),
-      MockModule(MatIconModule),
-      MockModule(MatListModule),
-      MockModule(MatTooltipModule),
     ],
-    providers: [
-      provideMockStore({
-        initialState: {
-          bearing: {
-            search: {
-              query: undefined,
-              resultList: [],
-            },
-            extendedSearch: {
-              parameters: {
-                pattern: '',
-                bearingType: 'IDO_RADIAL_ROLLER_BEARING',
-                minDi: 20,
-                maxDi: 30,
-                minDa: 50,
-                maxDa: 60,
-                minB: 20,
-                maxB: 30,
-              },
-              resultList: [],
-            },
-            loading: false,
-            selectedBearing: undefined,
-          },
-        },
-      }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
-    ],
-    declarations: [MockDeclaration(AdvancedBearingComponent)],
+    providers: [provideMockStore()],
   });
 
   beforeEach(() => {
@@ -88,45 +42,19 @@ describe('BearingComponent', () => {
     component['router'].navigate = jest.fn();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('handleBearingSelection', () => {
-    // it('should dispatch select bearing and show snackbar if model creation failed', () => {
-    //   store.overrideSelector(getModelCreationSuccess, false);
-    //
-    //   component.handleBearingSelection('some bearing');
-    //
-    //   expect(store.dispatch).toHaveBeenCalledWith(
-    //     selectBearing({ bearing: 'some bearing' })
-    //   );
-    //   expect(component['router'].navigate).not.toHaveBeenCalled();
-    //   expect(component['snackbar'].open).toHaveBeenCalledWith(
-    //     translate('bearing.modelCreationError', { bearing: 'some bearing' }),
-    //     translate('bearing.close')
-    //   );
-    // });
-    // it('should dispatch select bearing and navigate to parameters', () => {
-    //   store.overrideSelector(getModelCreationSuccess, true);
-    //
-    //   component.handleBearingSelection('some bearing');
-    //
-    //   expect(store.dispatch).toHaveBeenCalledWith(
-    //     selectBearing({ bearing: 'some bearing' })
-    //   );
-    //   expect(component['router'].navigate).toHaveBeenCalledWith([
-    //     `${AppRoutePath.GreaseCalculationPath}/${GreaseCalculationPath.ParametersPath}`,
-    //   ]);
-    //   expect(component['snackbar'].open).not.toHaveBeenCalled();
-    // });
+  it('should set advanced bearing selection as default', () => {
+    expect(component.advancedBearingSelectionActive).toBeTruthy();
+  });
 
-    it('should dispatch undefined bearing', () => {
-      component.handleBearingSelection(undefined);
+  describe('ngOnInit', () => {
+    it('should dispatch step setting action', () => {
+      component.ngOnInit();
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        selectBearing({ bearing: undefined })
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(setCurrentStep({ step: 0 }));
     });
   });
 
@@ -142,10 +70,10 @@ describe('BearingComponent', () => {
 
   describe('toggleSelection', () => {
     it('should invert detailSelection', () => {
-      component.detailSelection = false;
-      component.toggleSelection();
+      component.advancedBearingSelectionActive = false;
+      component.toggleBearingSelectionType();
 
-      expect(component.detailSelection).toBe(true);
+      expect(component.advancedBearingSelectionActive).toBe(true);
     });
   });
 });

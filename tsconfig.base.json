@@ -28,6 +28,8 @@
       "@cdba/*": ["apps/cdba/src/app/*"],
       "@cdba/environments/*": ["apps/cdba/src/environments/*"],
       "@cdba/testing/*": ["apps/cdba/src/testing/*"],
+      "@ga/*": ["apps/ga/src/app/*"],
+      "@ga/testing/*": ["apps/ga/src/testing/*"],
       "@schaeffler/app-shell": ["libs/shared/ui/app-shell/src/index.ts"],
       "@schaeffler/application-insights": [
         "libs/shared/utils/application-insights/src/index.ts"

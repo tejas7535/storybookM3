@@ -1,4 +1,5 @@
-import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
+import { MODEL_MOCK_ID } from '@ga/testing/mocks';
+
 import {
   BearingState,
   initialState,

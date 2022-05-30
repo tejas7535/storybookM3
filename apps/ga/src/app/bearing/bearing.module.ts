@@ -1,63 +1,43 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { MtxSliderModule } from '@ng-matero/extensions/slider';
-import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BearingEffects } from '../core/store';
-import { SharedModule } from '../shared/shared.module';
-import { AdvancedBearingComponent } from './advanced-bearing/advanced-bearing.component';
+import { BearingEffects } from '@ga/core/store';
+
+import { AdvancedBearingSelectionModule } from './advanced-bearing-selection';
 import { BearingComponent } from './bearing.component';
-import { BearingListComponent } from './bearing-list/bearing-list.component';
 import { BearingRoutingModule } from './bearing-routing.module';
+import { QuickBearingSelectionModule } from './quick-bearing-selection';
 
 @NgModule({
-  declarations: [
-    BearingComponent,
-    AdvancedBearingComponent,
-    BearingListComponent,
-  ],
+  declarations: [BearingComponent],
   imports: [
+    // Angular
     CommonModule,
+
+    // Routing
     BearingRoutingModule,
-    SharedModule,
-    ReactiveFormsModule,
 
     // Schaeffler Libs
-    SearchAutocompleteModule,
     SubheaderModule,
 
     // Material Modules
     MatButtonModule,
-    MatSnackBarModule,
-    MatListModule,
-    MatIconModule,
-    MatTooltipModule,
 
     // Transloco
     SharedTranslocoModule,
 
-    ReactiveComponentModule,
-
+    // Store
     EffectsModule.forFeature([BearingEffects]),
-    MatExpansionModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MtxSliderModule,
+
+    // Components
+    AdvancedBearingSelectionModule,
+    QuickBearingSelectionModule,
   ],
 })
 export class BearingModule {}

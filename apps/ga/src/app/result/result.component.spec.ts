@@ -18,7 +18,8 @@ import {
   CALCULATION_RESULT_MOCK_ID,
   MODEL_MOCK_ID,
   REPORT_URLS_MOCK,
-} from '../../testing/mocks/rest.service.mock';
+} from '@ga/testing/mocks';
+
 import { AppRoutePath } from '../app-route-path.enum';
 import { getCalculation } from '../core/store/actions/result/result.actions';
 import { initialState } from '../core/store/reducers/result/result.reducer';

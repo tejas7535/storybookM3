@@ -7,7 +7,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { MODEL_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
+import { MODEL_MOCK_ID } from '@ga/testing/mocks';
+
 import { ErrorService, RestService } from '../../../services';
 import { getSelectedBearing } from '../..';
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';

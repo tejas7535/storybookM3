@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
+import { CALCULATION_RESULT_MOCK_ID } from '@ga/testing/mocks';
+
 import {
   calculationError,
   calculationSuccess,

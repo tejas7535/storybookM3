@@ -1,0 +1,101 @@
+<mat-form-field *ngIf="rangeFilter" appearance="outline" class="!w-full">
+  <mat-label>
+    {{ rangeFilter.label || rangeFilter.name }}
+  </mat-label>
+  <mat-select
+    [formControl]="form"
+    panelClass="range-menu"
+    disableOptionCentering
+    *transloco="let t"
+  >
+    <mat-select-trigger>
+      {{ rangeFilter | rangeFilterValue }}
+    </mat-select-trigger>
+    <mat-option class="!h-0" value="selected"></mat-option>
+    <div class="flex flex-col py-1 px-4">
+      <div class="flex items-center justify-between gap-1">
+        <div class="truncate text-caption">
+          {{ t('shared.min') }} {{ rangeFilter.name }}
+        </div>
+        <div>
+          <mat-form-field class="!w-full !text-right">
+            <input
+              #minInput
+              matInput
+              autocomplete="off"
+              [value]="
+                rangeFilter.minSelected
+                  ? rangeFilter.minSelected.toString()
+                  : rangeFilter.min.toString()
+              "
+              [max]="rangeFilter.max"
+              [min]="rangeFilter.min"
+              (change)="update(inputType.Min, minInput.value)"
+            />
+            <div *ngIf="rangeFilter.unit" matSuffix>
+              &nbsp;{{ rangeFilter.unit }}
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <mat-slider
+          thumbLabel
+          color="primary"
+          class="flex-1"
+          [value]="rangeFilter.minSelected || rangeFilter.min"
+          [max]="rangeFilter.max"
+          [min]="rangeFilter.min"
+          [displayWith]="formatSliderThumbLabel"
+          (change)="update(inputType.Min, $event.value)"
+        >
+        </mat-slider>
+        <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Min)"
+          >restore</mat-icon
+        >
+      </div>
+      <mat-divider class="!my-1"></mat-divider>
+      <div class="flex items-center justify-between gap-1">
+        <div class="truncate text-caption">
+          {{ t('shared.max') }} {{ rangeFilter.name }}
+        </div>
+        <div>
+          <mat-form-field class="!w-full !text-right">
+            <input
+              #maxInput
+              matInput
+              autocomplete="off"
+              [value]="
+                rangeFilter.maxSelected
+                  ? rangeFilter.maxSelected.toString()
+                  : rangeFilter.max.toString()
+              "
+              [max]="rangeFilter.max"
+              [min]="rangeFilter.min"
+              (change)="update(inputType.Max, maxInput.value)"
+            />
+            <div *ngIf="rangeFilter.unit" matSuffix>
+              &nbsp;{{ rangeFilter.unit }}
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <mat-slider
+          thumbLabel
+          color="primary"
+          class="flex-1"
+          [value]="rangeFilter.maxSelected || rangeFilter.max"
+          [max]="rangeFilter.max"
+          [min]="rangeFilter.min"
+          [displayWith]="formatSliderThumbLabel"
+          (change)="update(inputType.Max, $event.value)"
+        >
+        </mat-slider>
+        <mat-icon class="cursor-pointer" (click)="resetInput(inputType.Max)"
+          >restore</mat-icon
+        >
+      </div>
+    </div>
+  </mat-select>
+</mat-form-field>

@@ -1,4 +1,6 @@
-export const bearingTypes = [
+import { BearingType } from '../models';
+
+export const bearingTypes: BearingType[] = [
   {
     id: 'IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING',
     imageUrl: 'RadialAngularContactBallBearing.bmp',

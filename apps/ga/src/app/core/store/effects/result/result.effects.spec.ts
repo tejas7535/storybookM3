@@ -6,7 +6,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
-import { CALCULATION_RESULT_MOCK_ID } from '../../../../../testing/mocks/rest.service.mock';
+import { CALCULATION_RESULT_MOCK_ID } from '@ga/testing/mocks';
+
 import { PROPERTIES } from '../../../../shared/constants';
 import { ErrorService, RestService } from '../../../services';
 import {

@@ -2,7 +2,8 @@ import {
   CALCULATION_RESULT_MOCK_ID,
   MODEL_MOCK_ID,
   REPORT_URLS_MOCK,
-} from '../../../../../testing/mocks/rest.service.mock';
+} from '@ga/testing/mocks';
+
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
   initialState,

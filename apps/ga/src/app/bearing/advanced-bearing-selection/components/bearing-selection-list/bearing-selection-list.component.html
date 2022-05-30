@@ -1,12 +1,12 @@
-<div *transloco="let t; read: 'bearing'">
+<div *transloco="let t; read: 'bearing.bearingSelection.advancedSelection'">
   <div *ngrxLet="bearingResultExtendedSearchList$; let bearings">
-    <div *ngIf="bearings?.length > 0">
-      <p class="pb-3">{{ t('pleaseSelectBearing') }}</p>
-      <h5 class="pb-3">{{ bearings.length + ' ' + t('results') + ':' }}</h5>
-    </div>
-    <div *ngIf="bearings?.length === 0">
-      <p class="pb-3">{{ t('changeParams') }}</p>
-      <h5 class="pb-3">{{ t('zero') + ' ' + t('results') }}</h5>
+    <div class="py-2">
+      <ng-container *ngIf="bearings?.length; else no_results">
+        {{ t('bearingsList.intro') }}
+      </ng-container>
+      <ng-template #no_results>
+        {{ t('noResults.message') }}
+      </ng-template>
     </div>
     <div class="max-h-[370px] overflow-auto pr-3">
       <mat-action-list>

@@ -1,7 +1,5 @@
-import {
-  MOCK_PROPERTIES,
-  MODEL_MOCK_ID,
-} from '../../../../../testing/mocks/rest.service.mock';
+import { MOCK_PROPERTIES, MODEL_MOCK_ID } from '@ga/testing/mocks';
+
 import { LoadTypes, SelectedGreases } from '../../../../shared/models';
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
 import { Movement } from './../../../../shared/models/parameters/movement.model';

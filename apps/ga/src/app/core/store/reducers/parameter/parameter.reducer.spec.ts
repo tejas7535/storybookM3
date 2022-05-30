@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { MOCK_PROPERTIES } from '../../../../../testing/mocks/rest.service.mock';
+import { MOCK_PROPERTIES } from '@ga/testing/mocks';
+
 import { EnvironmentImpact, LoadLevels } from '../../../../shared/models';
 import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {
