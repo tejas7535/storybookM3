@@ -12,7 +12,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { RangeFilterModule } from '@ga/shared/components/range-filter';
 
 import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
-import { BearingSelectionListModule } from './components';
+import {
+  BearingSelectionFiltersSummaryModule,
+  BearingSelectionListModule,
+} from './components';
 import { AdvancedBearingSelectionService } from './services/advanced-bearing-selection.service';
 
 @NgModule({
@@ -36,6 +39,7 @@ import { AdvancedBearingSelectionService } from './services/advanced-bearing-sel
 
     // Components
     BearingSelectionListModule,
+    BearingSelectionFiltersSummaryModule,
   ],
   providers: [AdvancedBearingSelectionService],
   exports: [AdvancedBearingSelectionComponent],

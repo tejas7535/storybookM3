@@ -1,0 +1,56 @@
+<ng-container *transloco="let t; read: 'bearing'">
+  <div *ngIf="extendedSearchParameters" class="truncate text-caption">
+    <span *ngIf="extendedSearchParameters.bearingType" class="inline-block">
+      {{ t('bearingTypes.' + extendedSearchParameters.bearingType) }}
+    </span>
+    <span
+      *ngIf="
+        extendedSearchParameters.boreDiameterMin ||
+        extendedSearchParameters.boreDiameterMax
+      "
+      class="inline-block"
+    >
+      &nbsp;({{ t('label.boreDiameterShort') }}:
+      {{ extendedSearchParameters.boreDiameterMin | translocoDecimal
+      }}<span
+        *ngIf="
+          extendedSearchParameters.boreDiameterMin &&
+          extendedSearchParameters.boreDiameterMax
+        "
+        >/</span
+      >{{ extendedSearchParameters.boreDiameterMax | translocoDecimal }})
+    </span>
+    <span
+      *ngIf="
+        extendedSearchParameters.outsideDiameterMin ||
+        extendedSearchParameters.outsideDiameterMax
+      "
+      class="inline-block"
+    >
+      &nbsp;({{ t('label.outsideDiameterShort') }}:
+      {{ extendedSearchParameters.outsideDiameterMin | translocoDecimal
+      }}<span
+        *ngIf="
+          extendedSearchParameters.outsideDiameterMin &&
+          extendedSearchParameters.outsideDiameterMax
+        "
+        >/</span
+      >{{ extendedSearchParameters.outsideDiameterMax | translocoDecimal }})
+    </span>
+    <span
+      *ngIf="
+        extendedSearchParameters.widthMin || extendedSearchParameters.widthMax
+      "
+      class="inline-block"
+    >
+      &nbsp;({{ t('label.widthShort') }}:
+      {{ extendedSearchParameters.widthMin | translocoDecimal
+      }}<span
+        *ngIf="
+          extendedSearchParameters.widthMin && extendedSearchParameters.widthMax
+        "
+        >/</span
+      >{{ extendedSearchParameters.widthMax | translocoDecimal }})
+    </span>
+  </div>
+</ng-container>

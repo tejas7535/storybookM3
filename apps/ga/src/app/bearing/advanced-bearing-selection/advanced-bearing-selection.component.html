@@ -2,14 +2,14 @@
   <mat-accordion class="example-headers-align" hideToggle>
     <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
       <mat-expansion-panel-header>
-        <mat-panel-title>
+        <mat-panel-title class="shrink-0">
           <mat-icon class="mr-2 text-medium-emphasis">tune</mat-icon>
           {{ t('bearing.bearingSelection.advancedSelection.filters.heading') }}
         </mat-panel-title>
-        <mat-panel-description class="justify-between">
-          <span *ngIf="extendedSearchParameters.bearingType && step > 0">{{
-            t('bearing.bearingTypes.' + extendedSearchParameters.bearingType)
-          }}</span>
+        <mat-panel-description *ngIf="step > 0" class="justify-between">
+          <ga-bearing-selection-filters-summary
+            [extendedSearchParameters]="extendedSearchParameters"
+          ></ga-bearing-selection-filters-summary>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-divider class="pb-4"></mat-divider>

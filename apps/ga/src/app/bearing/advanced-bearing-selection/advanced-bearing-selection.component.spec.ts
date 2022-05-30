@@ -16,8 +16,11 @@ import { RangeFilterModule } from '@ga/shared/components/range-filter';
 import { RANGE_FILTER_MOCK } from '@ga/testing/mocks';
 
 import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
+import {
+  BearingSelectionFiltersSummaryModule,
+  BearingSelectionListModule,
+} from './components';
 import { AdvancedBearingSelectionService } from './services/advanced-bearing-selection.service';
-import { BearingSelectionListModule } from './components';
 
 describe('AdvancedBearingSelectionComponent', () => {
   let component: AdvancedBearingSelectionComponent;
@@ -36,6 +39,7 @@ describe('AdvancedBearingSelectionComponent', () => {
       MockModule(MatSelectModule),
       MockModule(RangeFilterModule),
       MockModule(BearingSelectionListModule),
+      MockModule(BearingSelectionFiltersSummaryModule),
     ],
     providers: [
       mockProvider(AdvancedBearingSelectionService),
