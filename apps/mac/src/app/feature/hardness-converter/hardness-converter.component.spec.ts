@@ -217,7 +217,7 @@ describe('HardnessConverterComponent', () => {
       expect(component.multipleValues$.next).toHaveBeenCalledWith(true);
       expect(component.average$.next).toHaveBeenCalledWith(5);
       expect(component.standardDeviation$.next).toHaveBeenCalledWith(2);
-      expect(component['convertValue']).toHaveBeenCalledWith(5, 'HV', 4);
+      expect(component['convertValue']).toHaveBeenCalledWith(5, 'HV', 7);
     });
   });
 

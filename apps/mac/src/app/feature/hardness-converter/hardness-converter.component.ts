@@ -133,9 +133,8 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     const standardDeviation = Math.sqrt(
       distances.reduce((a, b) => a + b, 0) / distances.length
     );
-    const deviation = Math.max(
-      ...values.map((value) => Math.abs(value - average))
-    );
+    const deviation =
+      Math.abs(Math.max(...values)) - Math.abs(Math.min(...values));
 
     this.multipleValues$.next(true);
     this.average$.next(average);
