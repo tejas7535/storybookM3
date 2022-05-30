@@ -2,10 +2,7 @@
   <gq-filter-pricing-card
     *transloco="let t; read: 'detailView.filterPricing.sapPrice'"
     [title]="t('title')"
-    [isSelected]="
-      quotationDetail.priceSource === PriceSource.SAP_STANDARD ||
-      quotationDetail.priceSource === PriceSource.SAP_SPECIAL
-    "
+    [isSelected]="isSelected"
     (selectManualPrice)="selectPrice()"
     [isLoading]="isLoading"
   >

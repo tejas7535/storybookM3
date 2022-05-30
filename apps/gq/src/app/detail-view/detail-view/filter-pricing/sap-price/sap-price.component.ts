@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 import {
   PriceSource,
@@ -13,9 +21,10 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
   selector: 'gq-sap-price',
   templateUrl: './sap-price.component.html',
 })
-export class SapPriceComponent implements OnInit {
+export class SapPriceComponent implements OnInit, OnChanges {
   public gpi: number;
   public gpm: number;
+  public isSelected: boolean;
   _isLoading: boolean;
   PriceSource = PriceSource;
   DetailRoutePath = DetailRoutePath;
@@ -47,19 +56,34 @@ export class SapPriceComponent implements OnInit {
       );
     }
   }
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (Object.keys(changes).includes('quotationDetail')) {
+      this.isSelected = [
+        PriceSource.SAP_STANDARD,
+        PriceSource.SAP_SPECIAL,
+        PriceSource.CAP_PRICE,
+      ].includes(this.quotationDetail.priceSource);
+    }
+  }
   selectPrice(): void {
     this._isLoading = true;
     this.selectSapPrice.emit(
       new UpdatePrice(
         this.quotationDetail.sapPrice,
-        this.quotationDetail.sapPriceCondition === SapPriceCondition.STANDARD
-          ? PriceSource.SAP_STANDARD
-          : PriceSource.SAP_SPECIAL
+        this.getSapPriceSource(this.quotationDetail.sapPriceCondition)
       )
     );
   }
+  private getSapPriceSource(sapPriceCondition: SapPriceCondition): PriceSource {
+    if (sapPriceCondition === SapPriceCondition.STANDARD) {
+      return PriceSource.SAP_STANDARD;
+    }
+    if (sapPriceCondition === SapPriceCondition.CAP_PRICE) {
+      return PriceSource.CAP_PRICE;
+    }
 
+    return PriceSource.SAP_SPECIAL;
+  }
   public trackByFn(index: number): number {
     return index;
   }
