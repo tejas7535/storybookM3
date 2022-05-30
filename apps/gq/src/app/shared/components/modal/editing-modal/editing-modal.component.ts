@@ -13,6 +13,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
@@ -45,6 +46,15 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   isRelativePriceChange = true;
   isRelativePriceChangeDisabled = false;
   showRadioGroup = this.modalData.field === ColumnFields.PRICE;
+
+  // variables needed for warning indication
+  mspWarningEnabled = false;
+  marginWarningTooltip = translate(
+    'shared.quotationDetailsTable.toolTip.gpmOrGpiTooLow'
+  );
+  mspWarningTooltip = translate(
+    'shared.quotationDetailsTable.toolTip.priceLowerThanMsp'
+  );
 
   @ViewChild('edit') editInputField: ElementRef;
 
@@ -141,6 +151,10 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
         (this.modalData.field === ColumnFields.PRICE &&
           this.isRelativePriceChange)
     );
+    this.mspWarningEnabled =
+      this.modalData.quotationDetail.msp &&
+      this.affectedKpis.find((e) => e.key === ColumnFields.PRICE)?.value <
+        this.modalData.quotationDetail.msp;
   }
 
   closeDialog(): void {

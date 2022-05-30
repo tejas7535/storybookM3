@@ -2,6 +2,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -33,6 +34,7 @@ describe('EditingModalComponent', () => {
       DialogHeaderModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
+      MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -219,9 +221,12 @@ describe('EditingModalComponent', () => {
       component.setAffectedKpis(1);
 
       expect(component.affectedKpis).toEqual([]);
+      expect(component.mspWarningEnabled).toBeFalsy();
     });
     test('should pass isRelativePrice as false correctly', () => {
-      PriceService.calculateAffectedKPIs = jest.fn(() => []);
+      PriceService.calculateAffectedKPIs = jest.fn(() => [
+        { key: ColumnFields.PRICE, value: 1 },
+      ]);
       component.modalData = {
         field: ColumnFields.PRICE,
         quotationDetail: QUOTATION_DETAIL_MOCK,
@@ -235,7 +240,10 @@ describe('EditingModalComponent', () => {
         QUOTATION_DETAIL_MOCK,
         false
       );
-      expect(component.affectedKpis).toEqual([]);
+      expect(component.affectedKpis).toEqual([
+        { key: ColumnFields.PRICE, value: 1 },
+      ]);
+      expect(component.mspWarningEnabled).toBeFalsy();
     });
     test('should pass isRelativePrice as true correctly', () => {
       PriceService.calculateAffectedKPIs = jest.fn(() => []);
@@ -253,6 +261,29 @@ describe('EditingModalComponent', () => {
         true
       );
       expect(component.affectedKpis).toEqual([]);
+      expect(component.mspWarningEnabled).toBeFalsy();
+    });
+    test('should set mspWarningEnabled to true', () => {
+      PriceService.calculateAffectedKPIs = jest.fn(() => [
+        { key: ColumnFields.PRICE, value: 0.1 },
+      ]);
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      component.isRelativePriceChange = true;
+      component.setAffectedKpis(1);
+
+      expect(PriceService.calculateAffectedKPIs).toHaveBeenCalledWith(
+        1,
+        ColumnFields.PRICE,
+        QUOTATION_DETAIL_MOCK,
+        true
+      );
+      expect(component.affectedKpis).toEqual([
+        { key: ColumnFields.PRICE, value: 0.1 },
+      ]);
+      expect(component.mspWarningEnabled).toBeTruthy();
     });
   });
 

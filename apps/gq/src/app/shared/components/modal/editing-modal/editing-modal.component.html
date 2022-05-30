@@ -103,12 +103,40 @@
           </div>
           <div *ngrxLet="customerCurrency$ as customerCurrency">
             <h6 class="truncate">
-              <span *ngIf="kpi.key !== fields.PRICE; else priceFormatter">
+              <span
+                *ngIf="
+                  kpi.value &&
+                    (kpi.key === fields.GPI || kpi.key === fields.GPM) &&
+                    kpi.value <= 25;
+                  else discount
+                "
+                class="!text-[#FFA726]"
+              >
                 {{ kpi.value || 'N/A' }}
+                <mat-icon
+                  [matTooltip]="marginWarningTooltip"
+                  matTooltipClass="whitespace-pre-line !text-caption"
+                  class="ml-1 align-bottom"
+                >
+                  warning_amber
+                </mat-icon>
               </span>
+              <ng-template #discount>
+                <span *ngIf="kpi.key !== fields.PRICE; else priceFormatter">
+                  {{ kpi.value || 'N/A' }}
+                </span>
+              </ng-template>
               <ng-template #priceFormatter>
-                <span>
+                <span [ngClass]="{ 'text-error': mspWarningEnabled }">
                   {{ kpi.value | numberCurrency: customerCurrency }}
+                  <mat-icon
+                    class="ml-1 align-bottom"
+                    *ngIf="mspWarningEnabled"
+                    [matTooltip]="mspWarningTooltip"
+                    matTooltipClass="whitespace-pre-line !text-caption"
+                  >
+                    warning_amber
+                  </mat-icon>
                 </span>
               </ng-template>
             </h6>

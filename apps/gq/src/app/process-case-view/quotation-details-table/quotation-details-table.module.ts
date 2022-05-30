@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -49,6 +50,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     SharedPipesModule,
     MatRadioModule,
     FormsModule,
+    MatTooltipModule,
   ],
   exports: [QuotationDetailsTableComponent],
 })
