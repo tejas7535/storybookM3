@@ -156,11 +156,4 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterValueGetter: BOOLEAN_VALUE_GETTER,
     hide: true,
   },
-  {
-    field: EXPORT,
-    headerName: 'Approved for export',
-    filterParams: FILTER_PARAMS,
-    filterValueGetter: BOOLEAN_VALUE_GETTER,
-    hide: true,
-  },
 ];
