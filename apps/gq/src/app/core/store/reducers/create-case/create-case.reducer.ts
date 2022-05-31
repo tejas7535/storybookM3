@@ -230,6 +230,7 @@ export const createCaseReducer = createReducer(
               selected: true,
               id: option.value,
               value: option.id,
+              value2: option.value2,
             }),
           };
         }

@@ -125,15 +125,29 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       id = this.selectedIdValue.id;
       value = undefined;
     }
-
-    const formValue = this.transformFormValue(id, value);
+    const value2 = this.selectedIdValue.value2;
+    const formValue = this.transformFormValue(id, value, value2);
     this.searchFormControl.setValue(formValue, { emitEvent: false });
     this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
     this.inputContent.emit(true);
   }
 
-  transformFormValue(id: string, value: string): string {
-    return `${id}${value ? ` | ${value}` : ''}`;
+  private transformFormValue(
+    id: string,
+    value: string,
+    value2?: string
+  ): string {
+    let string = `${id}`;
+
+    if (value) {
+      string += ` | ${value}`;
+    }
+
+    if (value2) {
+      string += ` | ${value2}`;
+    }
+
+    return string;
   }
 
   sliceMaterialString(text: string): string {
@@ -174,7 +188,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   }
 
   isInputValid(control: AbstractControl): ValidationErrors {
-    const formValue =
+    const formValue: string =
       control.value &&
       typeof control.value === 'string' &&
       control.value.includes('|')

@@ -135,7 +135,7 @@ describe('CreateCustomerCaseComponent', () => {
   describe('selectAutocompleteOption', () => {
     test('should dispatch selectAutocompleteOption action', () => {
       mockStore.dispatch = jest.fn();
-      const option = new IdValue('aud', 'Audi', true);
+      const option = new IdValue('aud', 'Audi', true, 'germany');
       const filter = FilterNames.CUSTOMER;
       component.selectOption(option, filter);
 

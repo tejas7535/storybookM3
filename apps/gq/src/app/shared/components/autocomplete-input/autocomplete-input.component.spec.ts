@@ -162,12 +162,12 @@ describe('AutocompleteInputComponent', () => {
   describe('setFormControlValue', () => {
     test('should set value for Customer', () => {
       component.selectedIdValue = {
-        id: '1',
-        value: '2',
+        id: 'customerId',
+        value: 'customerName',
+        value2: 'customerCountry',
       } as any;
       component.filterName = FilterNames.CUSTOMER;
-      const transformresult = `1 | 2`;
-      component.transformFormValue = jest.fn(() => transformresult);
+      const expectedTransformresult = `customerName | customerId | customerCountry`;
       component.searchFormControl = {
         setValue: jest.fn(),
         hasError: jest.fn(),
@@ -178,7 +178,7 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
       expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
-        transformresult,
+        expectedTransformresult,
         { emitEvent: false }
       );
       expect(component.isValid.emit).toHaveBeenCalledTimes(1);
@@ -191,7 +191,6 @@ describe('AutocompleteInputComponent', () => {
       } as any;
       const transformresult = `f-a123`;
       component.filterName = FilterNames.MATERIAL_NUMBER;
-      component.transformFormValue = jest.fn(() => transformresult);
       component.searchFormControl = {
         setValue: jest.fn(),
         hasError: jest.fn(),
@@ -208,20 +207,28 @@ describe('AutocompleteInputComponent', () => {
       expect(component.isValid.emit).toHaveBeenCalledTimes(1);
       expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
     });
-  });
-  describe('transformFormValue', () => {
-    test('should return string with dash', () => {
-      const id = '13';
-      const value = '45';
+    test('should set value for quotation', () => {
+      component.selectedIdValue = {
+        id: '21312312',
+        value: 'customerName',
+      } as any;
+      const transformresult = `customerName | 21312312`;
+      component.filterName = FilterNames.SAP_QUOTATION;
+      component.searchFormControl = {
+        setValue: jest.fn(),
+        hasError: jest.fn(),
+      } as any;
+      component.isValid.emit = jest.fn();
+      component.inputContent.emit = jest.fn();
+      component.setFormControlValue();
 
-      const result = component.transformFormValue(id, value);
-
-      expect(result).toEqual(`${id} | ${value}`);
-    });
-    test('should return only id', () => {
-      // eslint-disable-next-line unicorn/no-useless-undefined
-      const result = component.transformFormValue('1', undefined);
-      expect(result).toEqual('1');
+      expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
+        transformresult,
+        { emitEvent: false }
+      );
+      expect(component.isValid.emit).toHaveBeenCalledTimes(1);
+      expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
     });
   });
   describe('sliceMaterialString', () => {
@@ -323,10 +330,24 @@ describe('AutocompleteInputComponent', () => {
     });
   });
   describe('isInputValid', () => {
-    test('should return valid', () => {
+    test('should return valid on id value pair', () => {
       component.selectedIdValue = { id: '1' } as any;
+      const result = component.isInputValid({ value: '2 | 1' } as any);
+
+      expect(result).toEqual(undefined);
+    });
+    test('should return valid on id value value2 pair', () => {
+      component.selectedIdValue = { id: '1' } as any;
+      const result = component.isInputValid({ value: '2 | 1 | 3' } as any);
+
+      expect(result).toEqual(undefined);
+    });
+    test('should return invalid on wrong value', () => {
+      component.selectedIdValue = { id: '1' } as any;
+      component.unselect = jest.fn();
       const result = component.isInputValid({ value: '1 | 2' } as any);
 
+      expect(component.unselect).toHaveBeenCalledTimes(1);
       expect(result).toEqual({ invalidInput: true });
     });
   });

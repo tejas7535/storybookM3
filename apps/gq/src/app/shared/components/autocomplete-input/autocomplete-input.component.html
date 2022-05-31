@@ -33,7 +33,8 @@
         *ngFor="let idValue of unselectedOptions; trackBy: trackByFn"
         [value]="idValue"
       >
-        {{ idValue.id }} | {{ idValue.value }}
+        <span> {{ idValue.id }} | {{ idValue.value }}</span>
+        <span *ngIf="idValue.value2"> | {{ idValue.value2 }}</span>
       </mat-option>
       <mat-option
         disabled

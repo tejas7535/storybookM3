@@ -192,7 +192,7 @@ describe('Create Case Reducer', () => {
       });
     });
     describe('setSelectedAutocompleteOption', () => {
-      test('should set option', () => {
+      test('should set option for materialNumber and Description', () => {
         const fakeState: CreateCaseState = {
           ...CREATE_CASE_STORE_STATE_MOCK,
           autocompleteItems: [
@@ -218,6 +218,29 @@ describe('Create Case Reducer', () => {
             (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
           ).options
         ).toEqual([{ selected: true, id: option.value, value: option.id }]);
+      });
+      test('should set option for customer', () => {
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [{ filter: FilterNames.CUSTOMER, options: [] }],
+        };
+
+        const option = new IdValue(
+          'customerId',
+          'customerName',
+          true,
+          'customerCountry'
+        );
+        const action = setSelectedAutocompleteOption({
+          filter: FilterNames.CUSTOMER,
+          option,
+        });
+        const state = createCaseReducer(fakeState, action);
+
+        expect(
+          state.autocompleteItems.find((i) => i.filter === FilterNames.CUSTOMER)
+            .options
+        ).toEqual([option]);
       });
     });
     describe('unselectAutocompleteOptions', () => {
