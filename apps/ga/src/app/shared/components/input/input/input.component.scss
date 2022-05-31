@@ -1,12 +1,15 @@
-::ng-deep mat-form-field .mat-form-field {
-  &-underline {
-    @apply relative bottom-auto;
-  }
-  &-subscript-wrapper {
-    @apply static mt-1;
-  }
-}
+:host {
+  ::ng-deep mat-form-field .mat-form-field {
+    &-underline {
+      @apply relative bottom-auto;
+    }
 
-::ng-deep .mat-form-field-wrapper {
-  @apply pb-0;
+    &-subscript-wrapper {
+      @apply static mt-1;
+    }
+
+    .mat-form-field-wrapper {
+      @apply pb-0;
+    }
+  }
 }

@@ -1,51 +1,52 @@
-@import 'libs/shared/ui/stepper';
+:host {
+  ::ng-deep {
+    .mat-step-header[aria-labelledby='disabled'] {
+      @apply pointer-events-none cursor-not-allowed opacity-60;
+    }
 
-::ng-deep .mat-step-header[aria-labelledby='disabled'] {
-  @apply pointer-events-none cursor-not-allowed opacity-60;
-}
-::ng-deep .mat-step-header[aria-labelledby='enabled'] {
-  .mat-step-icon {
-    @apply bg-medium-emphasis text-white;
-  }
-}
-::ng-deep .mat-step-header[aria-labelledby='active'] {
-  .mat-step-icon {
-    @apply bg-primary text-white;
-  }
-}
+    .mat-step-header[aria-labelledby='enabled'] {
+      .mat-step-icon {
+        @apply bg-medium-emphasis text-white;
+      }
+    }
 
-::ng-deep
-  .mat-step-label.mat-step-label-active.mat-step-label-selected
-  .mat-step-text-label {
-  @apply text-link;
-}
+    .mat-step-header[aria-labelledby='active'] {
+      .mat-step-icon {
+        @apply bg-primary text-white;
+      }
+    }
 
-::ng-deep mat-horizontal-stepper .mat-horizontal-content-container {
-  @apply pb-0 pl-4;
-}
+    .mat-step-label.mat-step-label-active.mat-step-label-selected
+      .mat-step-text-label {
+      @apply text-link;
+    }
 
-::ng-deep
-  .mat-horizontal-stepper-header-container
-  .mat-stepper-horizontal-line {
-  @apply max-w-none;
-}
+    mat-horizontal-stepper .mat-horizontal-content-container {
+      @apply pb-0 pl-4;
+    }
 
-::ng-deep .mat-stepper-horizontal {
-  @apply bg-transparent;
-}
+    .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line {
+      @apply max-w-none;
+    }
 
-::ng-deep .mat-horizontal-stepper-header-container {
-  @apply max-h-12;
+    .mat-stepper-horizontal {
+      @apply bg-transparent;
+    }
 
-  mat-step-header {
-    @apply max-h-12 pl-4;
-  }
+    .mat-horizontal-stepper-header-container {
+      @apply max-h-12;
 
-  .mat-stepper-horizontal-line {
-    @apply -ml-4 -mr-1;
-  }
+      mat-step-header {
+        @apply max-h-12 pl-4;
+      }
 
-  :last-child {
-    @apply pr-0;
+      .mat-stepper-horizontal-line {
+        @apply -ml-4 -mr-1;
+      }
+
+      :last-child {
+        @apply pr-0;
+      }
+    }
   }
 }
