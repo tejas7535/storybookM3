@@ -1,6 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { ExtendedSearchParameters } from '../../../../shared/models';
+import {
+  BearingSelectionType,
+  BearingSelectionTypeUnion,
+  ExtendedSearchParameters,
+} from '@ga/shared/models';
+
 import {
   bearingSearchExtendedCountFailure,
   bearingSearchExtendedCountSuccess,
@@ -13,6 +18,7 @@ import {
   searchBearingExtended,
   searchBearingExtendedCount,
   selectBearing,
+  setBearingSelectionType,
 } from '../../actions/bearing/bearing.actions';
 
 export interface BearingState {
@@ -25,6 +31,7 @@ export interface BearingState {
     resultList: string[];
     resultsCount: number;
   };
+  bearingSelectionType: BearingSelectionTypeUnion;
   loading: boolean;
   selectedBearing: string;
   modelId: string;
@@ -49,6 +56,7 @@ export const initialState: BearingState = {
     resultList: undefined,
     resultsCount: 0,
   },
+  bearingSelectionType: BearingSelectionType.QuickSelection,
   loading: false,
   selectedBearing: undefined,
   modelId: undefined,
@@ -57,6 +65,13 @@ export const initialState: BearingState = {
 
 export const bearingReducer = createReducer(
   initialState,
+  on(
+    setBearingSelectionType,
+    (state: BearingState, { bearingSelectionType }): BearingState => ({
+      ...state,
+      bearingSelectionType,
+    })
+  ),
   on(
     searchBearing,
     (state: BearingState, { query }): BearingState => ({

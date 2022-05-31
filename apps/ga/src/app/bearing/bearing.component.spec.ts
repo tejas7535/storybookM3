@@ -2,12 +2,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { setBearingSelectionType } from '@ga/core/store';
 import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions';
 
 import { AppRoutePath } from '../app-route-path.enum';
@@ -25,6 +27,7 @@ describe('BearingComponent', () => {
     imports: [
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
+      MockModule(ReactiveComponentModule),
       MockModule(AdvancedBearingSelectionModule),
       MockModule(QuickBearingSelectionModule),
       MockModule(SubheaderModule),
@@ -44,10 +47,6 @@ describe('BearingComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should set advanced bearing selection as default', () => {
-    expect(component.advancedBearingSelectionActive).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
@@ -70,10 +69,11 @@ describe('BearingComponent', () => {
 
   describe('toggleSelection', () => {
     it('should invert detailSelection', () => {
-      component.advancedBearingSelectionActive = false;
-      component.toggleBearingSelectionType();
+      component.toggleBearingSelectionType('ADVANCED_SELECTION');
 
-      expect(component.advancedBearingSelectionActive).toBe(true);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setBearingSelectionType({ bearingSelectionType: 'QUICK_SELECTION' })
+      );
     });
   });
 });

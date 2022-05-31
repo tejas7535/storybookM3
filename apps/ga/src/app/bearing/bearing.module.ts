@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -19,6 +20,7 @@ import { QuickBearingSelectionModule } from './quick-bearing-selection';
   imports: [
     // Angular
     CommonModule,
+    ReactiveComponentModule,
 
     // Routing
     BearingRoutingModule,

@@ -2,9 +2,18 @@ import { createSelector } from '@ngrx/store';
 
 import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
-import { ExtendedSearchParameters } from '../../../../shared/models';
+import {
+  BearingSelectionTypeUnion,
+  ExtendedSearchParameters,
+} from '@ga/shared/models';
+
 import { getBearingState } from '../../reducers';
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
+
+export const getBearingSelectionType = createSelector(
+  getBearingState,
+  (state: BearingState): BearingSelectionTypeUnion => state.bearingSelectionType
+);
 
 export const getBearingLoading = createSelector(
   getBearingState,

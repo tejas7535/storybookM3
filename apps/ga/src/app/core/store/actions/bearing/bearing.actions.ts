@@ -1,6 +1,14 @@
-import { createAction, props, union } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-import { ExtendedSearchParameters } from '../../../../shared/models';
+import {
+  BearingSelectionTypeUnion,
+  ExtendedSearchParameters,
+} from '@ga/shared/models';
+
+export const setBearingSelectionType = createAction(
+  '[Bearing] Set Bearing Selection Type',
+  props<{ bearingSelectionType: BearingSelectionTypeUnion }>()
+);
 
 export const searchBearing = createAction(
   '[Bearing] Search Bearing',
@@ -55,16 +63,3 @@ export const selectBearing = createAction(
   '[Bearing] Select Bearing',
   props<{ bearing: string }>()
 );
-
-const all = union({
-  searchBearing,
-  bearingSearchSuccess,
-  searchBearingExtended,
-  bearingSearchExtendedSuccess,
-  bearingSearchExtendedFailure,
-  selectBearing,
-  modelCreateSuccess,
-  modelCreateFailure,
-});
-
-export type BearingActions = typeof all;
