@@ -28,6 +28,20 @@ export const bearingSearchExtendedFailure = createAction(
   '[Bearing] Search Bearing Extended Failure'
 );
 
+export const searchBearingExtendedCount = createAction(
+  '[Bearing] Search Bearing Extended Count',
+  props<{ parameters: ExtendedSearchParameters }>()
+);
+
+export const bearingSearchExtendedCountSuccess = createAction(
+  '[Bearing] Search Bearing Extended Count Success',
+  props<{ resultsCount: number }>()
+);
+
+export const bearingSearchExtendedCountFailure = createAction(
+  '[Bearing] Search Bearing Extended Count Failure'
+);
+
 export const modelCreateSuccess = createAction(
   '[Bearing] Model Create Success',
   props<{ modelId: string }>()

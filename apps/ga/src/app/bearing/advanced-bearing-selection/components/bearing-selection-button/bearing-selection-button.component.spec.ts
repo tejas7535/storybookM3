@@ -1,5 +1,7 @@
-import { MatListModule } from '@angular/material/list';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MockModule } from 'ng-mocks';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -8,22 +10,22 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { selectBearing } from '@ga/core/store';
+import { BearingSelectionButtonComponent } from './bearing-selection-button.component';
 
-import { BearingSelectionListComponent } from './bearing-selection-list.component';
-
-describe('BearingSelectionListComponent', () => {
-  let component: BearingSelectionListComponent;
-  let spectator: Spectator<BearingSelectionListComponent>;
+describe('BearingSelectionButtonComponent', () => {
+  let component: BearingSelectionButtonComponent;
+  let spectator: Spectator<BearingSelectionButtonComponent>;
   let store: MockStore;
 
   const createComponent = createComponentFactory({
-    component: BearingSelectionListComponent,
+    component: BearingSelectionButtonComponent,
     imports: [
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(ReactiveComponentModule),
-      MockModule(MatListModule),
+      MockModule(MatButtonModule),
+      MockModule(MatIconModule),
+      MockModule(MatProgressSpinnerModule),
+      MockModule(MatTooltipModule),
     ],
     providers: [
       provideMockStore({
@@ -36,7 +38,7 @@ describe('BearingSelectionListComponent', () => {
         },
       }),
     ],
-    declarations: [BearingSelectionListComponent],
+    declarations: [BearingSelectionButtonComponent],
   });
 
   beforeEach(() => {
@@ -47,21 +49,7 @@ describe('BearingSelectionListComponent', () => {
     store.dispatch = jest.fn();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('selectBearing', () => {
-    test('should trigger bearingSelection emit event with a bearing id', () => {
-      const mockBearing = {
-        id: 'mockId',
-        title: 'mockTitle',
-      };
-
-      component.selectBearing(mockBearing);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        selectBearing({ bearing: 'mockId' })
-      );
-    });
   });
 });

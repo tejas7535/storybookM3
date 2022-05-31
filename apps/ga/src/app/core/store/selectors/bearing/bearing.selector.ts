@@ -49,3 +49,8 @@ export const getBearingExtendedSearchResultList = createSelector(
       title: bearing,
     }))
 );
+
+export const getBearingExtendedSearchResultsCount = createSelector(
+  getBearingState,
+  (state: BearingState): number => state?.extendedSearch?.resultsCount
+);

@@ -4,11 +4,15 @@ import { Store } from '@ngrx/store';
 
 import {
   getBearingExtendedSearchParameters,
+  getBearingExtendedSearchResultsCount,
   searchBearingExtended,
+  searchBearingExtendedCount,
 } from '@ga/core/store';
 import { RangeFilter } from '@ga/shared/components/range-filter';
 import { ExtendedSearchParameters } from '@ga/shared/models';
 
+import { tooManyBearingsResultsThreshold } from './constants';
+import { isValidBearingSelection } from './helpers';
 import { AdvancedBearingSelectionService } from './services/advanced-bearing-selection.service';
 
 @Component({
@@ -22,6 +26,8 @@ export class AdvancedBearingSelectionComponent implements OnInit {
     private readonly selectionService: AdvancedBearingSelectionService
   ) {}
 
+  public resultsLimit = tooManyBearingsResultsThreshold;
+
   public bearingTypes = this.selectionService.bearingTypes;
   public boreDiameterRangeFilter =
     this.selectionService.boreDiameterRangeFilter;
@@ -32,6 +38,10 @@ export class AdvancedBearingSelectionComponent implements OnInit {
   public step = 0;
   public extendedSearchParameters: ExtendedSearchParameters;
 
+  public bearingExtendedSearchResultsCount$ = this.store.select(
+    getBearingExtendedSearchResultsCount
+  );
+
   private readonly bearingExtendedSearchParameters$ = this.store.select(
     getBearingExtendedSearchParameters
   );
@@ -40,41 +50,37 @@ export class AdvancedBearingSelectionComponent implements OnInit {
     this.handleSubscriptions();
   }
 
-  public updateBoreDiameterRangeFilter(filter: RangeFilter): void {
+  public onBearingTypeSelectionChange(): void {
+    this.fetchResultsCount();
+  }
+
+  public onBoreDiameterChange(filter: RangeFilter): void {
     this.boreDiameterRangeFilter = filter;
     this.extendedSearchParameters.boreDiameterMin = filter.minSelected;
     this.extendedSearchParameters.boreDiameterMax = filter.maxSelected;
+    this.fetchResultsCount();
   }
 
-  public updateOutsideDiameterRangeFilter(filter: RangeFilter): void {
+  public onOutsideDiameterChange(filter: RangeFilter): void {
     this.outsideDiameterRangeFilter = filter;
     this.extendedSearchParameters.outsideDiameterMin = filter.minSelected;
     this.extendedSearchParameters.outsideDiameterMax = filter.maxSelected;
+    this.fetchResultsCount();
   }
 
-  public updateWidthRangeFilter(filter: RangeFilter): void {
+  public onWidthChange(filter: RangeFilter): void {
     this.widthRangeFilter = filter;
     this.extendedSearchParameters.widthMin = filter.minSelected;
     this.extendedSearchParameters.widthMax = filter.maxSelected;
+    this.fetchResultsCount();
   }
 
   setStep(index: number) {
     this.step = index;
   }
 
-  nextStep() {
-    const parameters: ExtendedSearchParameters = {
-      ...this.extendedSearchParameters,
-      boreDiameterMax:
-        this.extendedSearchParameters.boreDiameterMax ||
-        this.selectionService.dimensionMaxValue,
-      outsideDiameterMax:
-        this.extendedSearchParameters.outsideDiameterMax ||
-        this.selectionService.dimensionMaxValue,
-      widthMax:
-        this.extendedSearchParameters.widthMax ||
-        this.selectionService.dimensionMaxValue,
-    };
+  onBearingSelectionButtonClick() {
+    const parameters = this.getQueryParams();
 
     if (this.formIsValid()) {
       this.store.dispatch(searchBearingExtended({ parameters }));
@@ -117,7 +123,34 @@ export class AdvancedBearingSelectionComponent implements OnInit {
   //   };
   // }
 
+  public isValidSelection(resultsCount: number) {
+    return isValidBearingSelection(resultsCount);
+  }
+
   formIsValid(): boolean {
     return true;
+  }
+
+  private fetchResultsCount() {
+    const parameters = this.getQueryParams();
+
+    if (this.formIsValid()) {
+      this.store.dispatch(searchBearingExtendedCount({ parameters }));
+    }
+  }
+
+  private getQueryParams(): ExtendedSearchParameters {
+    return {
+      ...this.extendedSearchParameters,
+      boreDiameterMax:
+        this.extendedSearchParameters.boreDiameterMax ||
+        this.selectionService.dimensionMaxValue,
+      outsideDiameterMax:
+        this.extendedSearchParameters.outsideDiameterMax ||
+        this.selectionService.dimensionMaxValue,
+      widthMax:
+        this.extendedSearchParameters.widthMax ||
+        this.selectionService.dimensionMaxValue,
+    };
   }
 }

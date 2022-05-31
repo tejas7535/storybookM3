@@ -67,6 +67,7 @@
       "advancedSelection": {
         "filters": {
           "heading": "Filterkriterien",
+          "intro": "Lagerauswahl eingrenzen auf maximal {{tooManyResultsThreshold}} Ergebnisse",
           "action": {
             "nextStep": "Lager auswählen"
           }

@@ -40,6 +40,18 @@ export class RestService {
     );
   }
 
+  public getBearingExtendedSearchCount(
+    extendedSearchParameters: ExtendedSearchParameters
+  ) {
+    const params = this.getBearingExtendedSearchParams(
+      extendedSearchParameters
+    );
+
+    return this.httpClient.get<number>(
+      `${environment.baseUrl}/bearings/extendedsearch/count?${params}`
+    );
+  }
+
   public getProperties(modelId: string): Observable<Property[]> {
     return this.httpClient.get<Property[]>(
       `${environment.baseUrl}/${modelId}/properties`

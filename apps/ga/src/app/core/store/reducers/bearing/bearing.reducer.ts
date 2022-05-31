@@ -2,6 +2,8 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { ExtendedSearchParameters } from '../../../../shared/models';
 import {
+  bearingSearchExtendedCountFailure,
+  bearingSearchExtendedCountSuccess,
   bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
@@ -9,6 +11,7 @@ import {
   modelCreateSuccess,
   searchBearing,
   searchBearingExtended,
+  searchBearingExtendedCount,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
 
@@ -20,6 +23,7 @@ export interface BearingState {
   extendedSearch: {
     parameters: ExtendedSearchParameters;
     resultList: string[];
+    resultsCount: number;
   };
   loading: boolean;
   selectedBearing: string;
@@ -43,6 +47,7 @@ export const initialState: BearingState = {
       widthMax: undefined,
     },
     resultList: undefined,
+    resultsCount: 0,
   },
   loading: false,
   selectedBearing: undefined,
@@ -76,6 +81,7 @@ export const bearingReducer = createReducer(
   ),
   on(
     searchBearingExtended,
+    searchBearingExtendedCount,
     (state: BearingState, { parameters }): BearingState => ({
       ...state,
       extendedSearch: {
@@ -98,11 +104,23 @@ export const bearingReducer = createReducer(
   ),
   on(
     bearingSearchExtendedFailure,
+    bearingSearchExtendedCountFailure,
     (state: BearingState): BearingState => ({
       ...state,
       extendedSearch: {
         ...state.extendedSearch,
         resultList: [],
+      },
+      loading: false,
+    })
+  ),
+  on(
+    bearingSearchExtendedCountSuccess,
+    (state: BearingState, { resultsCount }): BearingState => ({
+      ...state,
+      extendedSearch: {
+        ...state.extendedSearch,
+        resultsCount,
       },
       loading: false,
     })

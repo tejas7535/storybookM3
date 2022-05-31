@@ -67,6 +67,7 @@
       "advancedSelection": {
         "filters": {
           "heading": "Filter criteria",
+          "intro": "Narrow down bearing selection to {{tooManyResultsThreshold}} results max.",
           "action": {
             "nextStep": "Select bearing"
           }

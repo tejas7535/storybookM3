@@ -6,6 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -13,6 +14,7 @@ import { RangeFilterModule } from '@ga/shared/components/range-filter';
 
 import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
 import {
+  BearingSelectionButtonModule,
   BearingSelectionFiltersSummaryModule,
   BearingSelectionListModule,
 } from './components';
@@ -22,6 +24,7 @@ import { AdvancedBearingSelectionService } from './services/advanced-bearing-sel
   declarations: [AdvancedBearingSelectionComponent],
   imports: [
     CommonModule,
+    ReactiveComponentModule,
 
     // Transloco
     SharedTranslocoModule,
@@ -40,6 +43,7 @@ import { AdvancedBearingSelectionService } from './services/advanced-bearing-sel
     // Components
     BearingSelectionListModule,
     BearingSelectionFiltersSummaryModule,
+    BearingSelectionButtonModule,
   ],
   providers: [AdvancedBearingSelectionService],
   exports: [AdvancedBearingSelectionComponent],

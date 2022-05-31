@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { mockProvider } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -17,6 +18,7 @@ import { RANGE_FILTER_MOCK } from '@ga/testing/mocks';
 
 import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
 import {
+  BearingSelectionButtonModule,
   BearingSelectionFiltersSummaryModule,
   BearingSelectionListModule,
 } from './components';
@@ -31,6 +33,7 @@ describe('AdvancedBearingSelectionComponent', () => {
     component: AdvancedBearingSelectionComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
+      MockModule(ReactiveComponentModule),
       MockModule(MatButtonModule),
       MockModule(MatDividerModule),
       MockModule(MatIconModule),
@@ -38,6 +41,7 @@ describe('AdvancedBearingSelectionComponent', () => {
       MockModule(MatFormFieldModule),
       MockModule(MatSelectModule),
       MockModule(RangeFilterModule),
+      MockModule(BearingSelectionButtonModule),
       MockModule(BearingSelectionListModule),
       MockModule(BearingSelectionFiltersSummaryModule),
     ],
@@ -97,7 +101,7 @@ describe('AdvancedBearingSelectionComponent', () => {
 
   describe('updateBoreDiameterRangeFilter', () => {
     it('should set boreDiameter props', () => {
-      component.updateBoreDiameterRangeFilter(RANGE_FILTER_MOCK);
+      component.onBoreDiameterChange(RANGE_FILTER_MOCK);
 
       expect(component.boreDiameterRangeFilter).toEqual(RANGE_FILTER_MOCK);
       expect(component.extendedSearchParameters.boreDiameterMin).toBe(
@@ -111,7 +115,7 @@ describe('AdvancedBearingSelectionComponent', () => {
 
   describe('updateOutsideDiameterRangeFilter', () => {
     it('should set outsideDiameter props', () => {
-      component.updateOutsideDiameterRangeFilter(RANGE_FILTER_MOCK);
+      component.onOutsideDiameterChange(RANGE_FILTER_MOCK);
 
       expect(component.outsideDiameterRangeFilter).toEqual(RANGE_FILTER_MOCK);
       expect(component.extendedSearchParameters.outsideDiameterMin).toBe(
@@ -125,7 +129,7 @@ describe('AdvancedBearingSelectionComponent', () => {
 
   describe('updateWidthRangeFilter', () => {
     it('should set width props', () => {
-      component.updateWidthRangeFilter(RANGE_FILTER_MOCK);
+      component.onWidthChange(RANGE_FILTER_MOCK);
 
       expect(component.widthRangeFilter).toEqual(RANGE_FILTER_MOCK);
       expect(component.extendedSearchParameters.widthMin).toBe(

@@ -1,0 +1,30 @@
+<ng-container
+  *transloco="let t; read: 'bearing.bearingSelection.advancedSelection'"
+>
+  <div
+    *ngrxLet="bearingExtendedSearchResultsCount$; let resultsCount"
+    [matTooltip]="
+      t(resultsCount === 0 ? 'noResults.hint' : 'tooManyResults.hint', {
+        tooManyResultsThreshold: resultsLimit
+      })
+    "
+    [matTooltipDisabled]="isValidSelection(resultsCount)"
+  >
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="onButtonClick()"
+      [disabled]="!isValidSelection(resultsCount)"
+    >
+      {{ t('filters.action.nextStep') }}
+      <mat-spinner
+        *ngIf="bearingLoading$ | ngrxPush; else results_count"
+        diameter="20"
+        class="!inline-block"
+      ></mat-spinner>
+      <ng-template #results_count>
+        ({{ bearingExtendedSearchResultsCount$ | ngrxPush }})
+      </ng-template>
+    </button>
+  </div>
+</ng-container>

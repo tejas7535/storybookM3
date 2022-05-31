@@ -13,6 +13,8 @@ import { GreaseCalculationPath } from '../../../../grease-calculation/grease-cal
 import { ExtendedSearchParameters } from '../../../../shared/models';
 import { ErrorService, RestService } from '../../../services';
 import {
+  bearingSearchExtendedCountFailure,
+  bearingSearchExtendedCountSuccess,
   bearingSearchExtendedFailure,
   bearingSearchExtendedSuccess,
   bearingSearchSuccess,
@@ -20,6 +22,7 @@ import {
   modelCreateSuccess,
   searchBearing,
   searchBearingExtended,
+  searchBearingExtendedCount,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
 import { getSelectedBearing } from '../../selectors/bearing/bearing.selector';
@@ -54,6 +57,21 @@ export class BearingEffects {
             bearingSearchExtendedSuccess({ resultList })
           ),
           catchError((_e) => of(bearingSearchExtendedFailure()))
+        )
+      )
+    );
+  });
+
+  extendedBearingSearchCount$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(searchBearingExtendedCount),
+      map((action) => action.parameters),
+      mergeMap((parameters: ExtendedSearchParameters) =>
+        this.restService.getBearingExtendedSearchCount(parameters).pipe(
+          map((resultsCount: number) =>
+            bearingSearchExtendedCountSuccess({ resultsCount })
+          ),
+          catchError((_e) => of(bearingSearchExtendedCountFailure()))
         )
       )
     );

@@ -6,10 +6,18 @@
           <mat-icon class="mr-2 text-medium-emphasis">tune</mat-icon>
           {{ t('bearing.bearingSelection.advancedSelection.filters.heading') }}
         </mat-panel-title>
-        <mat-panel-description *ngIf="step > 0" class="justify-between">
+        <mat-panel-description>
           <ga-bearing-selection-filters-summary
+            *ngIf="step > 0; else filters_intro"
             [extendedSearchParameters]="extendedSearchParameters"
           ></ga-bearing-selection-filters-summary>
+          <ng-template #filters_intro>
+            <span class="text-caption">{{
+              t('bearing.bearingSelection.advancedSelection.filters.intro', {
+                tooManyResultsThreshold: resultsLimit
+              })
+            }}</span>
+          </ng-template>
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-divider class="pb-4"></mat-divider>
@@ -21,7 +29,10 @@
                 label: t('bearing.label.bearingType')
               })
             }}</mat-label>
-            <mat-select [(value)]="extendedSearchParameters.bearingType">
+            <mat-select
+              [(value)]="extendedSearchParameters.bearingType"
+              (selectionChange)="onBearingTypeSelectionChange()"
+            >
               <mat-option
                 *ngFor="let bearingType of bearingTypes"
                 [value]="bearingType.id"
@@ -33,41 +44,56 @@
         <div class="mb-4">
           <ga-range-filter
             [rangeFilter]="boreDiameterRangeFilter"
-            (updateFilter)="updateBoreDiameterRangeFilter($event)"
+            (updateFilter)="onBoreDiameterChange($event)"
           ></ga-range-filter>
         </div>
         <div class="mb-4">
           <ga-range-filter
             [rangeFilter]="outsideDiameterRangeFilter"
-            (updateFilter)="updateOutsideDiameterRangeFilter($event)"
+            (updateFilter)="onOutsideDiameterChange($event)"
           ></ga-range-filter>
         </div>
         <div class="mb-4">
           <ga-range-filter
             [rangeFilter]="widthRangeFilter"
-            (updateFilter)="updateWidthRangeFilter($event)"
+            (updateFilter)="onWidthChange($event)"
           ></ga-range-filter>
         </div>
       </div>
       <mat-action-row>
-        <button mat-button color="primary" (click)="nextStep()">
-          {{
-            t(
-              'bearing.bearingSelection.advancedSelection.filters.action.nextStep'
-            )
-          }}
-        </button>
+        <ga-bearing-selection-button
+          (buttonClick)="onBearingSelectionButtonClick()"
+        ></ga-bearing-selection-button>
       </mat-action-row>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)">
+    <mat-expansion-panel
+      [expanded]="step === 1"
+      [disabled]="
+        !isValidSelection(bearingExtendedSearchResultsCount$ | ngrxPush)
+      "
+      (opened)="setStep(1)"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon class="mr-2 text-medium-emphasis">manage_search</mat-icon>
+          <mat-icon
+            class="mr-2"
+            [ngClass]="
+              isValidSelection(bearingExtendedSearchResultsCount$ | ngrxPush)
+                ? 'text-medium-emphasis'
+                : 'text-low-emphasis'
+            "
+            >manage_search</mat-icon
+          >
           {{
             t('bearing.bearingSelection.advancedSelection.bearingsList.heading')
           }}
         </mat-panel-title>
+        <mat-panel-description *ngIf="step > 0">
+          <span class="text-caption">{{
+            t('bearing.bearingSelection.advancedSelection.bearingsList.intro')
+          }}</span>
+        </mat-panel-description>
       </mat-expansion-panel-header>
 
       <div class="px-4">
