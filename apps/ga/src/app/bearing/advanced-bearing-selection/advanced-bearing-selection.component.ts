@@ -29,11 +29,9 @@ export class AdvancedBearingSelectionComponent implements OnInit {
   public resultsLimit = tooManyBearingsResultsThreshold;
 
   public bearingTypes = this.selectionService.bearingTypes;
-  public boreDiameterRangeFilter =
-    this.selectionService.boreDiameterRangeFilter;
-  public outsideDiameterRangeFilter =
-    this.selectionService.outsideDiameterRangeFilter;
-  public widthRangeFilter = this.selectionService.widthRangeFilter;
+  public boreDiameterRangeFilter: RangeFilter;
+  public outsideDiameterRangeFilter: RangeFilter;
+  public widthRangeFilter: RangeFilter;
 
   public step = 0;
   public extendedSearchParameters: ExtendedSearchParameters;
@@ -47,7 +45,18 @@ export class AdvancedBearingSelectionComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.handleSubscriptions();
+    this.setBoreDiameterRangeFilter();
+    this.setOutsideDiameterRangeFilter();
+    this.setWidthRangeFilter();
+
+    this.bearingExtendedSearchParameters$.subscribe(
+      (extendedSearchParameters) => {
+        this.extendedSearchParameters = { ...extendedSearchParameters };
+        this.setBoreDiameterRangeFilter(extendedSearchParameters);
+        this.setOutsideDiameterRangeFilter(extendedSearchParameters);
+        this.setWidthRangeFilter(extendedSearchParameters);
+      }
+    );
   }
 
   public onBearingTypeSelectionChange(): void {
@@ -75,68 +84,57 @@ export class AdvancedBearingSelectionComponent implements OnInit {
     this.fetchResultsCount();
   }
 
-  setStep(index: number) {
+  public setStep(index: number): void {
     this.step = index;
   }
 
-  onBearingSelectionButtonClick() {
+  public onBearingSelectionButtonClick(): void {
     const parameters = this.getQueryParams();
 
-    if (this.formIsValid()) {
-      this.store.dispatch(searchBearingExtended({ parameters }));
-    }
+    this.store.dispatch(searchBearingExtended({ parameters }));
     // eslint-disable-next-line no-plusplus
     this.step++;
   }
 
-  prevStep() {
+  public prevStep(): void {
     // eslint-disable-next-line no-plusplus
     this.step--;
   }
-
-  handleSubscriptions(): void {
-    this.bearingExtendedSearchParameters$.subscribe(
-      (extendedSearchParameters) => {
-        this.extendedSearchParameters = { ...extendedSearchParameters };
-      }
-    );
-  }
-
-  // innerOuterValidator(): ValidatorFn {
-  //   return (): { [key: string]: boolean } | null => {
-  //     if (
-  //       (this.minDi?.value > 0 || this.maxDi?.value > 0) &&
-  //       (this.minDa?.value > 0 || this.maxDa?.value > 0) &&
-  //       Math.max(this.minDi?.value, this.maxDi?.value) >
-  //         Math.min(
-  //           ...[this.minDa?.value, this.maxDa?.value].filter(
-  //             (entry) => entry > 0
-  //           )
-  //         )
-  //     ) {
-  //       return {
-  //         innerOuterInconsistent: true,
-  //       };
-  //     }
-  //
-  //     return undefined;
-  //   };
-  // }
 
   public isValidSelection(resultsCount: number) {
     return isValidBearingSelection(resultsCount);
   }
 
-  formIsValid(): boolean {
-    return true;
-  }
-
-  private fetchResultsCount() {
+  private fetchResultsCount(): void {
     const parameters = this.getQueryParams();
 
-    if (this.formIsValid()) {
-      this.store.dispatch(searchBearingExtendedCount({ parameters }));
-    }
+    this.store.dispatch(searchBearingExtendedCount({ parameters }));
+  }
+
+  private setBoreDiameterRangeFilter(
+    extendedSearchParameters?: ExtendedSearchParameters
+  ): void {
+    this.boreDiameterRangeFilter =
+      this.selectionService.getBoreDiameterRangeFilter(
+        extendedSearchParameters
+      );
+  }
+
+  private setOutsideDiameterRangeFilter(
+    extendedSearchParameters?: ExtendedSearchParameters
+  ): void {
+    this.outsideDiameterRangeFilter =
+      this.selectionService.getOutsideDiameterRangeFilter(
+        extendedSearchParameters
+      );
+  }
+
+  private setWidthRangeFilter(
+    extendedSearchParameters?: ExtendedSearchParameters
+  ): void {
+    this.widthRangeFilter = this.selectionService.getWidthRangeFilter(
+      extendedSearchParameters
+    );
   }
 
   private getQueryParams(): ExtendedSearchParameters {

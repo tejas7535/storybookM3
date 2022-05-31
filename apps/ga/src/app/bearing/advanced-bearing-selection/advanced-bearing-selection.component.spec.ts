@@ -46,7 +46,11 @@ describe('AdvancedBearingSelectionComponent', () => {
       MockModule(BearingSelectionFiltersSummaryModule),
     ],
     providers: [
-      mockProvider(AdvancedBearingSelectionService),
+      mockProvider(AdvancedBearingSelectionService, {
+        getBoreDiameterRangeFilter: jest.fn(() => RANGE_FILTER_MOCK),
+        getOutsideDiameterRangeFilter: jest.fn(() => RANGE_FILTER_MOCK),
+        getWidthRangeFilter: jest.fn(() => RANGE_FILTER_MOCK),
+      }),
       provideMockStore({
         initialState: {
           bearing: {
@@ -85,18 +89,6 @@ describe('AdvancedBearingSelectionComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('onInit', () => {
-    it('should trigger the handleSubscriptions', () => {
-      const componenthandleSubscriptionsSpy = jest.spyOn(
-        component,
-        'handleSubscriptions'
-      );
-      component.ngOnInit();
-
-      expect(componenthandleSubscriptionsSpy).toHaveBeenCalled();
-    });
   });
 
   describe('updateBoreDiameterRangeFilter', () => {
