@@ -51,6 +51,6 @@ export class OverviewComponent implements OnInit {
       return of(true);
     }
 
-    return this.store.select(hasIdTokenRoles(requiredRoles));
+    return this.store.pipe(hasIdTokenRoles(requiredRoles));
   }
 }

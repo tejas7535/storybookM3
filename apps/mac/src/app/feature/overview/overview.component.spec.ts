@@ -4,8 +4,6 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
-
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -84,39 +82,51 @@ describe('OverviewComponent', () => {
   });
 
   describe('hasRequiredRoles', () => {
-    it('should return true if no roles are required (empty)', () => {
-      store.select = jest.fn();
-
+    it('should return true if no roles are required (empty)', (done) => {
       component.hasRequiredRoles([]).subscribe((result) => {
         expect(result).toBe(true);
-        expect(store.select).not.toHaveBeenCalled();
+        done();
       });
     });
 
-    it('should return true if no roles are required', () => {
-      store.select = jest.fn();
-
+    it('should return true if no roles are required', (done) => {
       // eslint-disable-next-line unicorn/no-useless-undefined
       component.hasRequiredRoles(undefined).subscribe((result) => {
         expect(result).toBe(true);
-        expect(store.select).not.toHaveBeenCalled();
+        done();
       });
     });
 
-    it('should return true if required roles are present', () => {
-      store.select = jest.fn(() => of(true));
+    it('should return true if required roles are present', (done) => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: ['role'],
+            },
+          },
+        },
+      });
 
       component.hasRequiredRoles(['role']).subscribe((result) => {
         expect(result).toBe(true);
-        expect(store.select).toHaveBeenCalled();
+        done();
       });
     });
-    it('should return false if required roles are missing', () => {
-      store.select = jest.fn(() => of(false));
+    it('should return false if required roles are missing', (done) => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: ['another role'],
+            },
+          },
+        },
+      });
 
       component.hasRequiredRoles(['role']).subscribe((result) => {
         expect(result).toBe(false);
-        expect(store.select).toHaveBeenCalled();
+        done();
       });
     });
   });

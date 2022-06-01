@@ -4,20 +4,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import {
-  getIsLoggedIn,
-  getRoles,
-  hasIdTokenRoles,
-} from '@schaeffler/azure-auth';
-
-import { AppState } from '../store';
 import { RoutePath } from './../../app-routing.enum';
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {
   let spectator: SpectatorService<RoleGuard>;
   let guard: RoleGuard;
-  let store: MockStore<AppState>;
+  let store: MockStore;
 
   const mockBaseRoute: ActivatedRouteSnapshot = {
     path: RoutePath.LifetimePredictorPath,
@@ -55,12 +48,15 @@ describe('RoleGuard', () => {
     });
 
     test('should grant access, if user has base role', (done) => {
-      store.overrideSelector(getRoles, ['lifetime-predictor-user']);
-      store.overrideSelector(
-        hasIdTokenRoles(mockProtectedRoute.data.requiredRoles),
-        true
-      );
-      store.overrideSelector(getIsLoggedIn, true);
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: ['lifetime-predictor-user'],
+            },
+          },
+        },
+      });
 
       guard
         .canActivateChild(mockProtectedRoute)
@@ -71,13 +67,15 @@ describe('RoleGuard', () => {
     });
 
     test('should not grant access if user is lacking base role', (done) => {
-      store.overrideSelector(getRoles, []);
-      store.overrideSelector(
-        hasIdTokenRoles(mockProtectedRoute.data.reqiredRoles),
-        false
-      );
-      store.overrideSelector(getIsLoggedIn, true);
-      store.refreshState();
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: ['not-lifetime-predictor-user'],
+            },
+          },
+        },
+      });
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard
