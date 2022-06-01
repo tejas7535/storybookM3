@@ -4,7 +4,7 @@ import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
 import {
   BearingSelectionTypeUnion,
-  ExtendedSearchParameters,
+  AdvancedBearingSelectionFilters,
 } from '@ga/shared/models';
 
 import { getBearingState } from '../../reducers';
@@ -15,7 +15,7 @@ export const getBearingSelectionType = createSelector(
   (state: BearingState): BearingSelectionTypeUnion => state.bearingSelectionType
 );
 
-export const getBearingLoading = createSelector(
+export const getBearingSelectionLoading = createSelector(
   getBearingState,
   (state: BearingState): boolean => state.loading
 );
@@ -35,31 +35,31 @@ export const getModelCreationSuccess = createSelector(
   (state: BearingState): boolean => state?.modelCreationSuccess
 );
 
-export const getBearingExtendedSearchParameters = createSelector(
+export const getAdvancedBearingSelectionFilters = createSelector(
   getBearingState,
-  (state: BearingState): ExtendedSearchParameters =>
-    state?.extendedSearch?.parameters
+  (state: BearingState): AdvancedBearingSelectionFilters =>
+    state?.advancedBearingSelection?.filters
 );
 
-export const getBearingResultList = createSelector(
+export const getQuickBearingSelectionResultList = createSelector(
   getBearingState,
   (state: BearingState): SearchAutocompleteOption[] =>
-    state?.search?.resultList.map((bearing) => ({
+    state?.quickBearingSelection?.resultList.map((bearing) => ({
       id: bearing,
       title: bearing,
     }))
 );
 
-export const getBearingExtendedSearchResultList = createSelector(
+export const getAdvancedBearingSelectionResultList = createSelector(
   getBearingState,
   (state: BearingState): SearchAutocompleteOption[] =>
-    state?.extendedSearch?.resultList?.map((bearing) => ({
+    state?.advancedBearingSelection?.resultList?.map((bearing) => ({
       id: bearing,
       title: bearing,
     }))
 );
 
-export const getBearingExtendedSearchResultsCount = createSelector(
+export const getAdvancedBearingSelectionResultsCount = createSelector(
   getBearingState,
-  (state: BearingState): number => state?.extendedSearch?.resultsCount
+  (state: BearingState): number => state?.advancedBearingSelection?.resultsCount
 );

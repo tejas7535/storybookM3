@@ -1,15 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
-import { environment } from '../../../../environments/environment';
 import {
   CalculationParameters,
-  ExtendedSearchParameters,
+  AdvancedBearingSelectionFilters,
+  ExtendedSearchQueryParams,
   Property,
   Result,
-} from '../../../shared/models';
+} from '@ga/shared/models';
+
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +31,9 @@ export class RestService {
   }
 
   public getBearingExtendedSearch(
-    extendedSearchParameters: ExtendedSearchParameters
+    selectionFilters: AdvancedBearingSelectionFilters
   ) {
-    const params = this.getBearingExtendedSearchParams(
-      extendedSearchParameters
-    );
+    const params = this.getBearingExtendedSearchParams(selectionFilters);
 
     return this.httpClient.get<string[]>(
       `${environment.baseUrl}/bearings/extendedsearch?${params}`
@@ -41,11 +41,9 @@ export class RestService {
   }
 
   public getBearingExtendedSearchCount(
-    extendedSearchParameters: ExtendedSearchParameters
+    selectionFilters: AdvancedBearingSelectionFilters
   ) {
-    const params = this.getBearingExtendedSearchParams(
-      extendedSearchParameters
-    );
+    const params = this.getBearingExtendedSearchParams(selectionFilters);
 
     return this.httpClient.get<number>(
       `${environment.baseUrl}/bearings/extendedsearch/count?${params}`
@@ -82,44 +80,39 @@ export class RestService {
   }
 
   private getBearingExtendedSearchParams(
-    extendedSearchParameters: ExtendedSearchParameters
-  ): URLSearchParams {
-    const params = new URLSearchParams();
-
-    if (extendedSearchParameters?.bearingType) {
-      params.set('bearingType', extendedSearchParameters.bearingType);
-    }
-
-    if (extendedSearchParameters?.boreDiameterMin) {
-      params.set('minDi', extendedSearchParameters.boreDiameterMin.toString());
-    }
-
-    if (extendedSearchParameters?.boreDiameterMax) {
-      params.set('maxDi', extendedSearchParameters.boreDiameterMax.toString());
-    }
-
-    if (extendedSearchParameters?.outsideDiameterMin) {
-      params.set(
-        'minDa',
-        extendedSearchParameters.outsideDiameterMin.toString()
+    selectionFilters: AdvancedBearingSelectionFilters
+  ): HttpParams {
+    const adaptedSearchParams =
+      this.adaptExtendedSearchParamsFromAdvancedSelectionFilters(
+        selectionFilters
       );
-    }
 
-    if (extendedSearchParameters?.outsideDiameterMax) {
-      params.set(
-        'maxDa',
-        extendedSearchParameters.outsideDiameterMax.toString()
-      );
-    }
+    return new HttpParams({ fromObject: adaptedSearchParams });
+  }
 
-    if (extendedSearchParameters?.widthMin) {
-      params.set('minB', extendedSearchParameters.widthMin.toString());
-    }
+  adaptExtendedSearchParamsFromAdvancedSelectionFilters(
+    selectionFilters: AdvancedBearingSelectionFilters
+  ): ExtendedSearchQueryParams {
+    const adaptedExtendedSearchParams: ExtendedSearchQueryParams = {
+      bearingType: selectionFilters.bearingType,
+      minDi: selectionFilters.boreDiameterMin,
+      maxDi: selectionFilters.boreDiameterMax,
+      minDa: selectionFilters.outsideDiameterMin,
+      maxDa: selectionFilters.outsideDiameterMax,
+      minB: selectionFilters.widthMin,
+      maxB: selectionFilters.widthMax,
+    };
 
-    if (extendedSearchParameters?.widthMax) {
-      params.set('maxB', extendedSearchParameters.widthMax.toString());
-    }
+    Object.keys(adaptedExtendedSearchParams).forEach((key) => {
+      if (
+        !adaptedExtendedSearchParams[key as keyof ExtendedSearchQueryParams]
+      ) {
+        delete adaptedExtendedSearchParams[
+          key as keyof ExtendedSearchQueryParams
+        ];
+      }
+    });
 
-    return params;
+    return adaptedExtendedSearchParams;
   }
 }

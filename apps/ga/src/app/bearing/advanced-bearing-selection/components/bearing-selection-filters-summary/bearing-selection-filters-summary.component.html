@@ -1,56 +1,63 @@
 <ng-container *transloco="let t; read: 'bearing'">
-  <div *ngIf="extendedSearchParameters" class="truncate text-caption">
-    <span *ngIf="extendedSearchParameters.bearingType" class="inline-block">
-      {{ t('bearingTypes.' + extendedSearchParameters.bearingType) }}
+  <div *ngIf="advancedBearingSelectionFilters" class="truncate text-caption">
+    <span
+      *ngIf="advancedBearingSelectionFilters.bearingType"
+      class="inline-block"
+    >
+      {{ t('bearingTypes.' + advancedBearingSelectionFilters.bearingType) }}
     </span>
     <span
       *ngIf="
-        extendedSearchParameters.boreDiameterMin ||
-        extendedSearchParameters.boreDiameterMax
+        advancedBearingSelectionFilters.boreDiameterMin ||
+        advancedBearingSelectionFilters.boreDiameterMax
       "
       class="inline-block"
     >
       &nbsp;({{ t('label.boreDiameterShort') }}:
-      {{ extendedSearchParameters.boreDiameterMin | translocoDecimal
+      {{ advancedBearingSelectionFilters.boreDiameterMin | translocoDecimal
       }}<span
         *ngIf="
-          extendedSearchParameters.boreDiameterMin &&
-          extendedSearchParameters.boreDiameterMax
+          advancedBearingSelectionFilters.boreDiameterMin &&
+          advancedBearingSelectionFilters.boreDiameterMax
         "
         >/</span
-      >{{ extendedSearchParameters.boreDiameterMax | translocoDecimal }})
+      >{{ advancedBearingSelectionFilters.boreDiameterMax | translocoDecimal }})
     </span>
     <span
       *ngIf="
-        extendedSearchParameters.outsideDiameterMin ||
-        extendedSearchParameters.outsideDiameterMax
+        advancedBearingSelectionFilters.outsideDiameterMin ||
+        advancedBearingSelectionFilters.outsideDiameterMax
       "
       class="inline-block"
     >
       &nbsp;({{ t('label.outsideDiameterShort') }}:
-      {{ extendedSearchParameters.outsideDiameterMin | translocoDecimal
+      {{ advancedBearingSelectionFilters.outsideDiameterMin | translocoDecimal
       }}<span
         *ngIf="
-          extendedSearchParameters.outsideDiameterMin &&
-          extendedSearchParameters.outsideDiameterMax
+          advancedBearingSelectionFilters.outsideDiameterMin &&
+          advancedBearingSelectionFilters.outsideDiameterMax
         "
         >/</span
-      >{{ extendedSearchParameters.outsideDiameterMax | translocoDecimal }})
+      >{{
+        advancedBearingSelectionFilters.outsideDiameterMax | translocoDecimal
+      }})
     </span>
     <span
       *ngIf="
-        extendedSearchParameters.widthMin || extendedSearchParameters.widthMax
+        advancedBearingSelectionFilters.widthMin ||
+        advancedBearingSelectionFilters.widthMax
       "
       class="inline-block"
     >
       &nbsp;({{ t('label.widthShort') }}:
-      {{ extendedSearchParameters.widthMin | translocoDecimal
+      {{ advancedBearingSelectionFilters.widthMin | translocoDecimal
       }}<span
         *ngIf="
-          extendedSearchParameters.widthMin && extendedSearchParameters.widthMax
+          advancedBearingSelectionFilters.widthMin &&
+          advancedBearingSelectionFilters.widthMax
         "
         >/</span
-      >{{ extendedSearchParameters.widthMax | translocoDecimal }})
+      >{{ advancedBearingSelectionFilters.widthMax | translocoDecimal }})
     </span>
   </div>
 </ng-container>

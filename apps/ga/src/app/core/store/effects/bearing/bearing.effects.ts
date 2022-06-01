@@ -8,21 +8,22 @@ import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { GreaseCalculationPath } from '../../../../grease-calculation/grease-calculation-path.enum';
-import { ExtendedSearchParameters } from '../../../../shared/models';
-import { ErrorService, RestService } from '../../../services';
+import { AppRoutePath } from '@ga/app-route-path.enum';
+import { ErrorService, RestService } from '@ga/core/services';
+import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+import { AdvancedBearingSelectionFilters } from '@ga/shared/models';
+
 import {
-  bearingSearchExtendedCountFailure,
-  bearingSearchExtendedCountSuccess,
-  bearingSearchExtendedFailure,
-  bearingSearchExtendedSuccess,
+  advancedBearingSelectionCountFailure,
+  advancedBearingSelectionCountSuccess,
+  advancedBearingSelectionFailure,
+  advancedBearingSelectionSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
-  searchBearingExtended,
-  searchBearingExtendedCount,
+  searchBearingForAdvancedSelection,
+  searchBearingForAdvancedSelectionCount,
   selectBearing,
 } from '../../actions/bearing/bearing.actions';
 import { getSelectedBearing } from '../../selectors/bearing/bearing.selector';
@@ -47,31 +48,31 @@ export class BearingEffects {
     );
   });
 
-  extendedBearingSearch$ = createEffect(() => {
+  searchBearingForAdvancedSelection$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(searchBearingExtended),
-      map((action) => action.parameters),
-      mergeMap((parameters: ExtendedSearchParameters) =>
-        this.restService.getBearingExtendedSearch(parameters).pipe(
+      ofType(searchBearingForAdvancedSelection),
+      map((action) => action.selectionFilters),
+      mergeMap((selectionFilters: AdvancedBearingSelectionFilters) =>
+        this.restService.getBearingExtendedSearch(selectionFilters).pipe(
           map((resultList: string[]) =>
-            bearingSearchExtendedSuccess({ resultList })
+            advancedBearingSelectionSuccess({ resultList })
           ),
-          catchError((_e) => of(bearingSearchExtendedFailure()))
+          catchError((_e) => of(advancedBearingSelectionFailure()))
         )
       )
     );
   });
 
-  extendedBearingSearchCount$ = createEffect(() => {
+  searchBearingForAdvancedSelectionCount$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(searchBearingExtendedCount),
-      map((action) => action.parameters),
-      mergeMap((parameters: ExtendedSearchParameters) =>
-        this.restService.getBearingExtendedSearchCount(parameters).pipe(
+      ofType(searchBearingForAdvancedSelectionCount),
+      map((action) => action.selectionFilters),
+      mergeMap((selectionFilters: AdvancedBearingSelectionFilters) =>
+        this.restService.getBearingExtendedSearchCount(selectionFilters).pipe(
           map((resultsCount: number) =>
-            bearingSearchExtendedCountSuccess({ resultsCount })
+            advancedBearingSelectionCountSuccess({ resultsCount })
           ),
-          catchError((_e) => of(bearingSearchExtendedCountFailure()))
+          catchError((_e) => of(advancedBearingSelectionCountFailure()))
         )
       )
     );

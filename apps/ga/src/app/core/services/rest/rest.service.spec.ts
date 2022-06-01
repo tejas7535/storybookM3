@@ -10,7 +10,7 @@ import {
   CALCULATION_PARAMETERS_MOCK,
   CALCULATION_RESULT_MOCK,
   CALCULATION_RESULT_MOCK_ID,
-  EXTENDED_SEARCH_PARAMETERS_MOCK,
+  ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
   MOCK_PROPERTIES,
   MODEL_MOCK_ID,
 } from '@ga/testing/mocks';
@@ -58,7 +58,7 @@ describe('RestService', () => {
   describe('#getBearingExtendedSearch', () => {
     it('should send a extended bearing search request with params', (done) => {
       service
-        .getBearingExtendedSearch(EXTENDED_SEARCH_PARAMETERS_MOCK)
+        .getBearingExtendedSearch(ADVANCED_BEARING_SELECTION_FILTERS_MOCK)
         .subscribe((result: string[]) => {
           expect(result).toEqual(BEARING_SEARCH_RESULT_MOCK);
           done();
@@ -69,6 +69,26 @@ describe('RestService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(BEARING_SEARCH_RESULT_MOCK);
+    });
+  });
+
+  describe('getBearingExtendedSearchCount', () => {
+    it('should send a extended bearing search request with params', (done) => {
+      service
+        .getBearingExtendedSearchCount({
+          ...ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
+          boreDiameterMin: undefined,
+        })
+        .subscribe((result: number) => {
+          expect(result).toEqual(2);
+          done();
+        });
+
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/bearings/extendedsearch/count?bearingType=IDO_RADIAL_BALL_BEARING&maxDi=456&minDa=789&maxDa=1011&minB=1213&maxB=1415`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(2);
     });
   });
 

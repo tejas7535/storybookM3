@@ -5,12 +5,14 @@ import {
   initialState,
 } from '../../reducers/bearing/bearing.reducer';
 import {
-  getBearingExtendedSearchParameters,
-  getBearingExtendedSearchResultList,
-  getBearingLoading,
-  getBearingResultList,
+  getAdvancedBearingSelectionFilters,
+  getAdvancedBearingSelectionResultList,
+  getAdvancedBearingSelectionResultsCount,
+  getBearingSelectionLoading,
+  getBearingSelectionType,
   getModelCreationSuccess,
   getModelId,
+  getQuickBearingSelectionResultList,
   getSelectedBearing,
 } from './bearing.selector';
 
@@ -18,20 +20,28 @@ describe('Bearing Selector', () => {
   const mockState: { bearing: BearingState } = {
     bearing: {
       ...initialState,
-      search: {
-        ...initialState.search,
+      quickBearingSelection: {
+        ...initialState.quickBearingSelection,
         resultList: ['greatBearing', 'evenGreaterBearing'],
       },
-      extendedSearch: {
-        ...initialState.extendedSearch,
+      advancedBearingSelection: {
+        ...initialState.advancedBearingSelection,
         resultList: ['advancedgreatBearing', 'evenMoreAdvancedgreatBearing'],
+        resultsCount: 3,
       },
+      bearingSelectionType: 'QUICK_SELECTION',
     },
   };
 
-  describe('getBearingLoading', () => {
+  describe('getBearingSelectionType', () => {
+    it('should return the bearing selection type', () => {
+      expect(getBearingSelectionType(mockState)).toBe('QUICK_SELECTION');
+    });
+  });
+
+  describe('getBearingSelectionLoading', () => {
     it('should return loading latest status', () => {
-      expect(getBearingLoading(mockState)).toBeFalsy();
+      expect(getBearingSelectionLoading(mockState)).toBeFalsy();
     });
   });
 
@@ -63,17 +73,17 @@ describe('Bearing Selector', () => {
     });
   });
 
-  describe('getBearingExtendedSearchParameters', () => {
+  describe('getAdvancedBearingSelectionFilters', () => {
     it('should return the result list', () => {
-      expect(getBearingExtendedSearchParameters(mockState)).toEqual(
-        initialState.extendedSearch.parameters
+      expect(getAdvancedBearingSelectionFilters(mockState)).toEqual(
+        initialState.advancedBearingSelection.filters
       );
     });
   });
 
-  describe('getBearingResultList', () => {
+  describe('getQuickBearingSelectionResultList', () => {
     it('should return the result list', () => {
-      expect(getBearingResultList(mockState)).toEqual([
+      expect(getQuickBearingSelectionResultList(mockState)).toEqual([
         {
           id: 'greatBearing',
           title: 'greatBearing',
@@ -86,9 +96,9 @@ describe('Bearing Selector', () => {
     });
   });
 
-  describe('getBearingExtendedSearchResultList', () => {
-    it('should return the extended search result list', () => {
-      expect(getBearingExtendedSearchResultList(mockState)).toEqual([
+  describe('getAdvancedBearingSelectionResultList', () => {
+    it('should return the Advanced Bearing Selection results list', () => {
+      expect(getAdvancedBearingSelectionResultList(mockState)).toEqual([
         {
           id: 'advancedgreatBearing',
           title: 'advancedgreatBearing',
@@ -98,6 +108,12 @@ describe('Bearing Selector', () => {
           title: 'evenMoreAdvancedgreatBearing',
         },
       ]);
+    });
+  });
+
+  describe('getAdvancedBearingSelectionResultsCount', () => {
+    it('should return the Advanced Bearing Selection results list', () => {
+      expect(getAdvancedBearingSelectionResultsCount(mockState)).toBe(3);
     });
   });
 });

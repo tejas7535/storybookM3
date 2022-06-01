@@ -1,5 +1,5 @@
 <div *transloco="let t; read: 'bearing.bearingSelection.advancedSelection'">
-  <div *ngrxLet="bearingResultExtendedSearchList$; let bearings">
+  <div *ngrxLet="advancedBearingSelectionResultList$; let bearings">
     <div
       *ngIf="bearings?.length; else no_results"
       class="max-h-[370px] overflow-auto pr-3"

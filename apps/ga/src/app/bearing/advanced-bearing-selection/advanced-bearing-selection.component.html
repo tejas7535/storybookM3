@@ -1,20 +1,20 @@
 <div *transloco="let t">
   <mat-accordion class="example-headers-align" hideToggle>
-    <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)">
-      <mat-expansion-panel-header>
+    <mat-expansion-panel [expanded]="step === 0" [disabled]="true">
+      <mat-expansion-panel-header class="!cursor-default !text-high-emphasis">
         <mat-panel-title class="shrink-0">
-          <mat-icon class="mr-2 text-medium-emphasis">tune</mat-icon>
+          <mat-icon class="mr-2 !text-medium-emphasis">tune</mat-icon>
           {{ t('bearing.bearingSelection.advancedSelection.filters.heading') }}
         </mat-panel-title>
-        <mat-panel-description>
+        <mat-panel-description class="!text-medium-emphasis">
           <ga-bearing-selection-filters-summary
             *ngIf="step > 0; else filters_intro"
-            [extendedSearchParameters]="extendedSearchParameters"
+            [advancedBearingSelectionFilters]="advancedBearingSelectionFilters"
           ></ga-bearing-selection-filters-summary>
           <ng-template #filters_intro>
             <span class="text-caption">{{
               t('bearing.bearingSelection.advancedSelection.filters.intro', {
-                tooManyResultsThreshold: resultsLimit
+                tooManyResultsThreshold: resultsThreshold
               })
             }}</span>
           </ng-template>
@@ -30,7 +30,7 @@
               })
             }}</mat-label>
             <mat-select
-              [(value)]="extendedSearchParameters.bearingType"
+              [(value)]="advancedBearingSelectionFilters.bearingType"
               (selectionChange)="onBearingTypeSelectionChange()"
             >
               <mat-option
@@ -67,29 +67,15 @@
       </mat-action-row>
     </mat-expansion-panel>
 
-    <mat-expansion-panel
-      [expanded]="step === 1"
-      [disabled]="
-        !isValidSelection(bearingExtendedSearchResultsCount$ | ngrxPush)
-      "
-      (opened)="setStep(1)"
-    >
-      <mat-expansion-panel-header>
+    <mat-expansion-panel [expanded]="step === 1" [disabled]="true">
+      <mat-expansion-panel-header class="!cursor-default !text-high-emphasis">
         <mat-panel-title>
-          <mat-icon
-            class="mr-2"
-            [ngClass]="
-              isValidSelection(bearingExtendedSearchResultsCount$ | ngrxPush)
-                ? 'text-medium-emphasis'
-                : 'text-low-emphasis'
-            "
-            >manage_search</mat-icon
-          >
+          <mat-icon class="mr-2 !text-medium-emphasis">manage_search</mat-icon>
           {{
             t('bearing.bearingSelection.advancedSelection.bearingsList.heading')
           }}
         </mat-panel-title>
-        <mat-panel-description *ngIf="step > 0">
+        <mat-panel-description class="!text-medium-emphasis" *ngIf="step === 1">
           <span class="text-caption">{{
             t('bearing.bearingSelection.advancedSelection.bearingsList.intro')
           }}</span>
@@ -100,7 +86,7 @@
         <ga-bearing-selection-list></ga-bearing-selection-list>
       </div>
       <mat-action-row>
-        <button mat-button color="primary" (click)="prevStep()">
+        <button mat-stroked-button color="primary" (click)="prevStep()">
           {{
             t(
               'bearing.bearingSelection.advancedSelection.bearingsList.action.previousStep'

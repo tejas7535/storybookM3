@@ -4,7 +4,7 @@ import { translate } from '@ngneat/transloco';
 
 import { RangeFilter } from '@ga/shared/components/range-filter';
 import { bearingTypes } from '@ga/shared/constants';
-import { ExtendedSearchParameters } from '@ga/shared/models';
+import { AdvancedBearingSelectionFilters } from '@ga/shared/models';
 
 @Injectable()
 export class AdvancedBearingSelectionService {
@@ -17,7 +17,7 @@ export class AdvancedBearingSelectionService {
   public dimensionMaxValue = 9999;
 
   public getBoreDiameterRangeFilter = (
-    extendedSearchParameters?: ExtendedSearchParameters
+    selectionFilters?: AdvancedBearingSelectionFilters
   ): RangeFilter => ({
     name: translate('bearing.label.boreDiameter'),
     label: translate('shared.label.defaultSet', {
@@ -28,14 +28,12 @@ export class AdvancedBearingSelectionService {
     min: this.dimensionMinValue,
     max: this.dimensionMaxValue,
     unit: translate('shared.unit.millimeterShort'),
-    minSelected:
-      extendedSearchParameters?.boreDiameterMin || this.dimensionMinValue,
-    maxSelected:
-      extendedSearchParameters?.boreDiameterMax || this.dimensionMaxValue,
+    minSelected: selectionFilters?.boreDiameterMin,
+    maxSelected: selectionFilters?.boreDiameterMax,
   });
 
   public getOutsideDiameterRangeFilter = (
-    extendedSearchParameters?: ExtendedSearchParameters
+    selectionFilters?: AdvancedBearingSelectionFilters
   ): RangeFilter => ({
     name: translate('bearing.label.outsideDiameter'),
     label: translate('shared.label.defaultSet', {
@@ -46,14 +44,12 @@ export class AdvancedBearingSelectionService {
     min: this.dimensionMinValue,
     max: this.dimensionMaxValue,
     unit: translate('shared.unit.millimeterShort'),
-    minSelected:
-      extendedSearchParameters?.outsideDiameterMin || this.dimensionMinValue,
-    maxSelected:
-      extendedSearchParameters?.outsideDiameterMax || this.dimensionMaxValue,
+    minSelected: selectionFilters?.outsideDiameterMin,
+    maxSelected: selectionFilters?.outsideDiameterMax,
   });
 
   public getWidthRangeFilter = (
-    extendedSearchParameters?: ExtendedSearchParameters
+    selectionFilters?: AdvancedBearingSelectionFilters
   ): RangeFilter => ({
     name: translate('bearing.label.width'),
     label: translate('shared.label.defaultSet', {
@@ -64,7 +60,7 @@ export class AdvancedBearingSelectionService {
     min: this.dimensionMinValue,
     max: this.dimensionMaxValue,
     unit: translate('shared.unit.millimeterShort'),
-    minSelected: extendedSearchParameters?.widthMin || this.dimensionMinValue,
-    maxSelected: extendedSearchParameters?.widthMax || this.dimensionMaxValue,
+    minSelected: selectionFilters?.widthMin,
+    maxSelected: selectionFilters?.widthMax,
   });
 }

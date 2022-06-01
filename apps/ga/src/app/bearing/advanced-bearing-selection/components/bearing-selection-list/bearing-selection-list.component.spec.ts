@@ -1,10 +1,10 @@
 import { MatListModule } from '@angular/material/list';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockModule } from 'ng-mocks';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -25,17 +25,7 @@ describe('BearingSelectionListComponent', () => {
       MockModule(ReactiveComponentModule),
       MockModule(MatListModule),
     ],
-    providers: [
-      provideMockStore({
-        initialState: {
-          bearing: {
-            extendedSearch: {
-              resultList: [],
-            },
-          },
-        },
-      }),
-    ],
+    providers: [provideMockStore()],
     declarations: [BearingSelectionListComponent],
   });
 

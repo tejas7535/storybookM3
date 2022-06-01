@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 
-import { ExtendedSearchParameters } from '@ga/shared/models';
+import { AdvancedBearingSelectionFilters } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-bearing-selection-filters-summary',
   templateUrl: './bearing-selection-filters-summary.component.html',
 })
 export class BearingSelectionFiltersSummaryComponent {
-  @Input() public extendedSearchParameters: ExtendedSearchParameters;
+  @Input()
+  public advancedBearingSelectionFilters: AdvancedBearingSelectionFilters;
 }

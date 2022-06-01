@@ -1,9 +1,10 @@
-export interface ExtendedSearchParameters {
+export interface ExtendedSearchQueryParams {
+  [key: string]: number | string;
   bearingType: string;
-  boreDiameterMin: number;
-  boreDiameterMax: number;
-  outsideDiameterMin: number;
-  outsideDiameterMax: number;
-  widthMin: number;
-  widthMax: number;
+  minDi: number;
+  maxDi: number;
+  minDa: number;
+  maxDa: number;
+  minB: number;
+  maxB: number;
 }

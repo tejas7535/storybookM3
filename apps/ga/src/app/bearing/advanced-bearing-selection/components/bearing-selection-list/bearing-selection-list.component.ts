@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import {
-  getBearingExtendedSearchResultList,
+  getAdvancedBearingSelectionResultList,
   selectBearing,
 } from '@ga/core/store';
 
@@ -13,8 +13,8 @@ import {
   styleUrls: ['./bearing-selection-list.component.scss'],
 })
 export class BearingSelectionListComponent {
-  public bearingResultExtendedSearchList$ = this.store.select(
-    getBearingExtendedSearchResultList
+  public advancedBearingSelectionResultList$ = this.store.select(
+    getAdvancedBearingSelectionResultList
   );
 
   constructor(private readonly store: Store) {}

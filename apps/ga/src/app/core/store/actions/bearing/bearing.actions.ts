@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 
 import {
   BearingSelectionTypeUnion,
-  ExtendedSearchParameters,
+  AdvancedBearingSelectionFilters,
 } from '@ga/shared/models';
 
 export const setBearingSelectionType = createAction(
@@ -22,32 +22,32 @@ export const bearingSearchSuccess = createAction(
 
 // todo bearingSearchFailure
 
-export const searchBearingExtended = createAction(
-  '[Bearing] Search Bearing Extended',
-  props<{ parameters: ExtendedSearchParameters }>()
+export const searchBearingForAdvancedSelection = createAction(
+  '[Bearing] Search Bearing For Advanced Selection',
+  props<{ selectionFilters: AdvancedBearingSelectionFilters }>()
 );
 
-export const bearingSearchExtendedSuccess = createAction(
-  '[Bearing] Search Bearing Extended Success',
+export const advancedBearingSelectionSuccess = createAction(
+  '[Bearing] Search Bearing For Advanced Selection Success',
   props<{ resultList: string[] }>()
 );
 
-export const bearingSearchExtendedFailure = createAction(
-  '[Bearing] Search Bearing Extended Failure'
+export const advancedBearingSelectionFailure = createAction(
+  '[Bearing] Search Bearing For Advanced Selection Failure'
 );
 
-export const searchBearingExtendedCount = createAction(
-  '[Bearing] Search Bearing Extended Count',
-  props<{ parameters: ExtendedSearchParameters }>()
+export const searchBearingForAdvancedSelectionCount = createAction(
+  '[Bearing] Search Bearing For Advanced Selection Count',
+  props<{ selectionFilters: AdvancedBearingSelectionFilters }>()
 );
 
-export const bearingSearchExtendedCountSuccess = createAction(
-  '[Bearing] Search Bearing Extended Count Success',
+export const advancedBearingSelectionCountSuccess = createAction(
+  '[Bearing] Search Bearing For Advanced Selection Count Success',
   props<{ resultsCount: number }>()
 );
 
-export const bearingSearchExtendedCountFailure = createAction(
-  '[Bearing] Search Bearing Extended Count Failure'
+export const advancedBearingSelectionCountFailure = createAction(
+  '[Bearing] Search Bearing For Advanced Selection Count Failure'
 );
 
 export const modelCreateSuccess = createAction(

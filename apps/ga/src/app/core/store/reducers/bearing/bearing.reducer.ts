@@ -3,31 +3,31 @@ import { Action, createReducer, on } from '@ngrx/store';
 import {
   BearingSelectionType,
   BearingSelectionTypeUnion,
-  ExtendedSearchParameters,
+  AdvancedBearingSelectionFilters,
 } from '@ga/shared/models';
 
 import {
-  bearingSearchExtendedCountFailure,
-  bearingSearchExtendedCountSuccess,
-  bearingSearchExtendedFailure,
-  bearingSearchExtendedSuccess,
+  advancedBearingSelectionCountFailure,
+  advancedBearingSelectionCountSuccess,
+  advancedBearingSelectionFailure,
+  advancedBearingSelectionSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
-  searchBearingExtended,
-  searchBearingExtendedCount,
+  searchBearingForAdvancedSelection,
+  searchBearingForAdvancedSelectionCount,
   selectBearing,
   setBearingSelectionType,
 } from '../../actions/bearing/bearing.actions';
 
 export interface BearingState {
-  search: {
+  quickBearingSelection: {
     query: string;
     resultList: string[];
   };
-  extendedSearch: {
-    parameters: ExtendedSearchParameters;
+  advancedBearingSelection: {
+    filters: AdvancedBearingSelectionFilters;
     resultList: string[];
     resultsCount: number;
   };
@@ -39,12 +39,12 @@ export interface BearingState {
 }
 
 export const initialState: BearingState = {
-  search: {
+  quickBearingSelection: {
     query: undefined,
     resultList: [],
   },
-  extendedSearch: {
-    parameters: {
+  advancedBearingSelection: {
+    filters: {
       bearingType: undefined,
       boreDiameterMin: undefined,
       boreDiameterMax: undefined,
@@ -76,8 +76,8 @@ export const bearingReducer = createReducer(
     searchBearing,
     (state: BearingState, { query }): BearingState => ({
       ...state,
-      search: {
-        ...initialState.search,
+      quickBearingSelection: {
+        ...initialState.quickBearingSelection,
         query,
       },
       loading: true,
@@ -87,54 +87,54 @@ export const bearingReducer = createReducer(
     bearingSearchSuccess,
     (state: BearingState, { resultList }): BearingState => ({
       ...state,
-      search: {
-        ...state.search,
+      quickBearingSelection: {
+        ...state.quickBearingSelection,
         resultList,
       },
       loading: false,
     })
   ),
   on(
-    searchBearingExtended,
-    searchBearingExtendedCount,
-    (state: BearingState, { parameters }): BearingState => ({
+    searchBearingForAdvancedSelection,
+    searchBearingForAdvancedSelectionCount,
+    (state: BearingState, { selectionFilters }): BearingState => ({
       ...state,
-      extendedSearch: {
-        ...state.extendedSearch,
-        parameters,
+      advancedBearingSelection: {
+        ...state.advancedBearingSelection,
+        filters: selectionFilters,
       },
       loading: true,
     })
   ),
   on(
-    bearingSearchExtendedSuccess,
+    advancedBearingSelectionSuccess,
     (state: BearingState, { resultList }): BearingState => ({
       ...state,
-      extendedSearch: {
-        ...state.extendedSearch,
+      advancedBearingSelection: {
+        ...state.advancedBearingSelection,
         resultList,
       },
       loading: false,
     })
   ),
   on(
-    bearingSearchExtendedFailure,
-    bearingSearchExtendedCountFailure,
+    advancedBearingSelectionFailure,
+    advancedBearingSelectionCountFailure,
     (state: BearingState): BearingState => ({
       ...state,
-      extendedSearch: {
-        ...state.extendedSearch,
+      advancedBearingSelection: {
+        ...state.advancedBearingSelection,
         resultList: [],
       },
       loading: false,
     })
   ),
   on(
-    bearingSearchExtendedCountSuccess,
+    advancedBearingSelectionCountSuccess,
     (state: BearingState, { resultsCount }): BearingState => ({
       ...state,
-      extendedSearch: {
-        ...state.extendedSearch,
+      advancedBearingSelection: {
+        ...state.advancedBearingSelection,
         resultsCount,
       },
       loading: false,

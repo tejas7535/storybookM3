@@ -6,8 +6,8 @@ import { debounceTime, filter, map, Subject, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getBearingLoading,
-  getBearingResultList,
+  getBearingSelectionLoading,
+  getQuickBearingSelectionResultList,
   getSelectedBearing,
   searchBearing,
   selectBearing,
@@ -21,8 +21,8 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   bearingSearchFormControl = new FormControl();
   minimumChars = 2;
 
-  loading$ = this.store.select(getBearingLoading);
-  bearingResultList$ = this.store.select(getBearingResultList);
+  loading$ = this.store.select(getBearingSelectionLoading);
+  bearingResultList$ = this.store.select(getQuickBearingSelectionResultList);
   selectedBearing$ = this.store.select(getSelectedBearing);
 
   destroy$ = new Subject<void>();

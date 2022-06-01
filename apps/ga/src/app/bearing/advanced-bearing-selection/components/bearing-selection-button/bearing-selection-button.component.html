@@ -2,10 +2,10 @@
   *transloco="let t; read: 'bearing.bearingSelection.advancedSelection'"
 >
   <div
-    *ngrxLet="bearingExtendedSearchResultsCount$; let resultsCount"
+    *ngrxLet="advancedBearingSelectionResultsCount$; let resultsCount"
     [matTooltip]="
       t(resultsCount === 0 ? 'noResults.hint' : 'tooManyResults.hint', {
-        tooManyResultsThreshold: resultsLimit
+        tooManyResultsThreshold: resultsThreshold
       })
     "
     [matTooltipDisabled]="isValidSelection(resultsCount)"
@@ -18,12 +18,12 @@
     >
       {{ t('filters.action.nextStep') }}
       <mat-spinner
-        *ngIf="bearingLoading$ | ngrxPush; else results_count"
+        *ngIf="bearingSelectionLoading$ | ngrxPush; else results_count"
         diameter="20"
         class="!inline-block"
       ></mat-spinner>
       <ng-template #results_count>
-        ({{ bearingExtendedSearchResultsCount$ | ngrxPush }})
+        ({{ advancedBearingSelectionResultsCount$ | ngrxPush }})
       </ng-template>
     </button>
   </div>

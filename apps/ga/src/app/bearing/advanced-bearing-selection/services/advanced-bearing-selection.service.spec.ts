@@ -3,7 +3,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { RangeFilter } from '@ga/shared/components/range-filter';
-import { EXTENDED_SEARCH_PARAMETERS_MOCK } from '@ga/testing/mocks';
+import { ADVANCED_BEARING_SELECTION_FILTERS_MOCK } from '@ga/testing/mocks';
 
 import { AdvancedBearingSelectionService } from './advanced-bearing-selection.service';
 
@@ -62,13 +62,13 @@ describe('AdvancedBearingSelectionService', () => {
     it('should return a valid range filter object', () => {
       const resultWithoutMock = service.getBoreDiameterRangeFilter();
       const resultWithMock = service.getBoreDiameterRangeFilter(
-        EXTENDED_SEARCH_PARAMETERS_MOCK
+        ADVANCED_BEARING_SELECTION_FILTERS_MOCK
       );
 
       expect(resultWithoutMock).toEqual({
         ...mockRangeFilterBoreDiameter,
-        maxSelected: 9999,
-        minSelected: 0,
+        maxSelected: undefined,
+        minSelected: undefined,
       });
       expect(resultWithMock).toEqual(mockRangeFilterBoreDiameter);
     });
@@ -78,13 +78,13 @@ describe('AdvancedBearingSelectionService', () => {
     it('should return a valid range filter object', () => {
       const resultWithoutMock = service.getOutsideDiameterRangeFilter();
       const resultWithMock = service.getOutsideDiameterRangeFilter(
-        EXTENDED_SEARCH_PARAMETERS_MOCK
+        ADVANCED_BEARING_SELECTION_FILTERS_MOCK
       );
 
       expect(resultWithoutMock).toEqual({
         ...mockRangeFilterOutsideDiameter,
-        maxSelected: 9999,
-        minSelected: 0,
+        maxSelected: undefined,
+        minSelected: undefined,
       });
       expect(resultWithMock).toEqual(mockRangeFilterOutsideDiameter);
     });
@@ -94,13 +94,13 @@ describe('AdvancedBearingSelectionService', () => {
     it('should return a valid range filter object', () => {
       const resultWithoutMock = service.getWidthRangeFilter();
       const resultWithMock = service.getWidthRangeFilter(
-        EXTENDED_SEARCH_PARAMETERS_MOCK
+        ADVANCED_BEARING_SELECTION_FILTERS_MOCK
       );
 
       expect(resultWithoutMock).toEqual({
         ...mockRangeFilterWidth,
-        maxSelected: 9999,
-        minSelected: 0,
+        maxSelected: undefined,
+        minSelected: undefined,
       });
       expect(resultWithMock).toEqual(mockRangeFilterWidth);
     });

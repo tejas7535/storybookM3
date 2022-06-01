@@ -7,18 +7,22 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { ErrorService, RestService } from '@ga/core/services';
 import { MODEL_MOCK_ID } from '@ga/testing/mocks';
 
-import { ErrorService, RestService } from '../../../services';
-import { getSelectedBearing } from '../..';
+import {
+  advancedBearingSelectionCountSuccess,
+  getSelectedBearing,
+  searchBearingForAdvancedSelectionCount,
+} from '../..';
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
-  bearingSearchExtendedSuccess,
+  advancedBearingSelectionSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
-  searchBearingExtended,
+  searchBearingForAdvancedSelection,
   selectBearing,
 } from './../../actions/bearing/bearing.actions';
 import { BearingEffects } from './bearing.effects';
@@ -93,12 +97,12 @@ describe('Bearing Effects', () => {
     );
   });
 
-  describe('extendedBearingSearch$', () => {
+  describe('searchBearingForAdvancedSelection$', () => {
     it(
       'should fetch the extended search bearing list',
       marbles((m) => {
-        action = searchBearingExtended({
-          parameters: BearingState.extendedSearch.parameters,
+        action = searchBearingForAdvancedSelection({
+          selectionFilters: BearingState.advancedBearingSelection.filters,
         });
 
         actions$ = m.hot('-a', { a: action });
@@ -108,14 +112,46 @@ describe('Bearing Effects', () => {
         const response = m.cold('-a|', { a: resultList });
         restService.getBearingExtendedSearch = jest.fn(() => response);
 
-        const result = bearingSearchExtendedSuccess({ resultList });
+        const result = advancedBearingSelectionSuccess({ resultList });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.extendedBearingSearch$).toBeObservable(expected);
+        m.expect(effects.searchBearingForAdvancedSelection$).toBeObservable(
+          expected
+        );
         m.flush();
 
         expect(restService.getBearingExtendedSearch).toHaveBeenCalledWith(
-          BearingState.extendedSearch.parameters
+          BearingState.advancedBearingSelection.filters
+        );
+      })
+    );
+  });
+
+  describe('searchBearingForAdvancedSelectionCount$', () => {
+    it(
+      'should fetch the extended search bearing list',
+      marbles((m) => {
+        action = searchBearingForAdvancedSelectionCount({
+          selectionFilters: BearingState.advancedBearingSelection.filters,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const resultsCount = 2;
+
+        const response = m.cold('-a|', { a: resultsCount });
+        restService.getBearingExtendedSearchCount = jest.fn(() => response);
+
+        const result = advancedBearingSelectionCountSuccess({ resultsCount });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(
+          effects.searchBearingForAdvancedSelectionCount$
+        ).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getBearingExtendedSearch).toHaveBeenCalledWith(
+          BearingState.advancedBearingSelection.filters
         );
       })
     );

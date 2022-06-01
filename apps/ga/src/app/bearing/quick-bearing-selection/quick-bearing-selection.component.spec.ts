@@ -25,33 +25,7 @@ describe('QuickBearingSelectionComponent', () => {
       MockModule(SearchAutocompleteModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [
-      provideMockStore({
-        initialState: {
-          bearing: {
-            search: {
-              query: undefined,
-              resultList: [],
-            },
-            extendedSearch: {
-              parameters: {
-                pattern: '',
-                bearingType: 'IDO_RADIAL_ROLLER_BEARING',
-                minDi: 20,
-                maxDi: 30,
-                minDa: 50,
-                maxDa: 60,
-                minB: 20,
-                maxB: 30,
-              },
-              resultList: [],
-            },
-            loading: false,
-            selectedBearing: undefined,
-          },
-        },
-      }),
-    ],
+    providers: [provideMockStore()],
   });
 
   beforeEach(() => {

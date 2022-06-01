@@ -3,12 +3,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import {
-  getBearingExtendedSearchResultsCount,
-  getBearingLoading,
+  getAdvancedBearingSelectionResultsCount,
+  getBearingSelectionLoading,
 } from '@ga/core/store';
 
 import { tooManyBearingsResultsThreshold } from '../../constants';
-import { isValidBearingSelection } from '../../helpers';
 
 @Component({
   selector: 'ga-bearing-selection-button',
@@ -17,12 +16,14 @@ import { isValidBearingSelection } from '../../helpers';
 export class BearingSelectionButtonComponent {
   @Output() buttonClick = new EventEmitter();
 
-  public resultsLimit = tooManyBearingsResultsThreshold;
+  public resultsThreshold = tooManyBearingsResultsThreshold;
 
-  public bearingLoading$ = this.store.select(getBearingLoading);
+  public bearingSelectionLoading$ = this.store.select(
+    getBearingSelectionLoading
+  );
 
-  public bearingExtendedSearchResultsCount$ = this.store.select(
-    getBearingExtendedSearchResultsCount
+  public advancedBearingSelectionResultsCount$ = this.store.select(
+    getAdvancedBearingSelectionResultsCount
   );
 
   constructor(private readonly store: Store) {}
@@ -31,7 +32,7 @@ export class BearingSelectionButtonComponent {
     this.buttonClick.emit();
   }
 
-  public isValidSelection(resultsCount: number) {
-    return isValidBearingSelection(resultsCount);
+  public isValidSelection(resultsCount: number): boolean {
+    return resultsCount > 0 && resultsCount <= tooManyBearingsResultsThreshold;
   }
 }

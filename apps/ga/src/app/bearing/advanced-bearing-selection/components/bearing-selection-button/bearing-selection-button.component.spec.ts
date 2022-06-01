@@ -2,11 +2,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MockModule } from 'ng-mocks';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -27,17 +27,7 @@ describe('BearingSelectionButtonComponent', () => {
       MockModule(MatProgressSpinnerModule),
       MockModule(MatTooltipModule),
     ],
-    providers: [
-      provideMockStore({
-        initialState: {
-          bearing: {
-            extendedSearch: {
-              resultList: [],
-            },
-          },
-        },
-      }),
-    ],
+    providers: [provideMockStore()],
     declarations: [BearingSelectionButtonComponent],
   });
 
@@ -51,5 +41,28 @@ describe('BearingSelectionButtonComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onButtonClick', () => {
+    it('should emit an event', () => {
+      component.buttonClick.emit = jest.fn();
+      component.onButtonClick();
+
+      expect(component.buttonClick.emit).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('isValidSelection', () => {
+    it('should return true', () => {
+      const value = component.isValidSelection(50);
+
+      expect(value).toBe(true);
+    });
+
+    it('should return false', () => {
+      const value = component.isValidSelection(501);
+
+      expect(value).toBe(false);
+    });
   });
 });

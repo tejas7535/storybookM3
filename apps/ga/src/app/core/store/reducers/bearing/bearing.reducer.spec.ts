@@ -1,19 +1,23 @@
 import { Action } from '@ngrx/store';
 
+import { BearingSelectionType } from '@ga/shared/models';
 import { MODEL_MOCK_ID } from '@ga/testing/mocks';
 
 import {
-  bearingSearchExtendedFailure,
-  bearingSearchExtendedSuccess,
+  advancedBearingSelectionCountSuccess,
+  advancedBearingSelectionFailure,
+  advancedBearingSelectionSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
-  searchBearingExtended,
+  searchBearingForAdvancedSelection,
   selectBearing,
+  setBearingSelectionType,
 } from '../../actions/bearing/bearing.actions';
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import { bearingReducer, initialState, reducer } from './bearing.reducer';
+
 describe('Bearing Reducer', () => {
   describe('Reducer function', () => {
     it('should return bearingReducer', () => {
@@ -25,13 +29,24 @@ describe('Bearing Reducer', () => {
     });
   });
 
+  describe('on setBearingSelectionType', () => {
+    it('should set selection type', () => {
+      const action: Action = setBearingSelectionType({
+        bearingSelectionType: BearingSelectionType.QuickSelection,
+      });
+      const state = bearingReducer(initialState, action);
+
+      expect(state.bearingSelectionType).toEqual('QUICK_SELECTION');
+    });
+  });
+
   describe('on searchBearing', () => {
     it('should set query and loading', () => {
       const action: Action = searchBearing({ query: 'mockQuery' });
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBe(true);
-      expect(state.search.query).toEqual('mockQuery');
+      expect(state.quickBearingSelection.query).toEqual('mockQuery');
     });
   });
 
@@ -44,46 +59,61 @@ describe('Bearing Reducer', () => {
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBe(false);
-      expect(state.search.resultList).toEqual(mockResultList);
+      expect(state.quickBearingSelection.resultList).toEqual(mockResultList);
     });
   });
 
-  describe('on searchBearingExtended', () => {
+  describe('on searchBearingForAdvancedSelection', () => {
     const mockParameters = {
-      ...BearingState.extendedSearch.parameters,
+      ...BearingState.advancedBearingSelection.filters,
       pattern: 'testquery',
     };
     it('should set query and loading', () => {
-      const action: Action = searchBearingExtended({
-        parameters: mockParameters,
+      const action: Action = searchBearingForAdvancedSelection({
+        selectionFilters: mockParameters,
       });
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBe(true);
-      expect(state.extendedSearch.parameters).toBe(mockParameters);
+      expect(state.advancedBearingSelection.filters).toBe(mockParameters);
     });
   });
 
-  describe('on bearingSearchExtendedSuccess', () => {
-    it('should set extended search resultList and loading', () => {
-      const mockResultList = ['extended bearing 1', 'extended bearing 2'];
-      const action: Action = bearingSearchExtendedSuccess({
+  describe('on advancedBearingSelectionSuccess', () => {
+    it('should set advanced selection resultList and loading', () => {
+      const mockResultList = ['bearing 1', 'bearing 2'];
+      const action: Action = advancedBearingSelectionSuccess({
         resultList: mockResultList,
       });
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBe(false);
-      expect(state.extendedSearch.resultList).toEqual(mockResultList);
+      expect(state.advancedBearingSelection.resultList).toEqual(mockResultList);
     });
   });
 
-  describe('on bearingSearchExtendedFailure', () => {
-    it('should set resultList to []', () => {
-      const action: Action = bearingSearchExtendedFailure();
+  describe('on advancedBearingSelectionCountSuccess', () => {
+    it('should set advanced selection result count and loading', () => {
+      const mockResultsCount = 2;
+      const action: Action = advancedBearingSelectionCountSuccess({
+        resultsCount: 2,
+      });
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBe(false);
-      expect(state.extendedSearch.resultList).toEqual([]);
+      expect(state.advancedBearingSelection.resultsCount).toEqual(
+        mockResultsCount
+      );
+    });
+  });
+
+  describe('on advancedBearingSelectionFailure', () => {
+    it('should set resultList to []', () => {
+      const action: Action = advancedBearingSelectionFailure();
+      const state = bearingReducer(initialState, action);
+
+      expect(state.loading).toBe(false);
+      expect(state.advancedBearingSelection.resultList).toEqual([]);
     });
   });
 

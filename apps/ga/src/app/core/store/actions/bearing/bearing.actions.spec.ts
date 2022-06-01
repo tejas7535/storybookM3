@@ -2,13 +2,13 @@ import { MODEL_MOCK_ID } from '@ga/testing/mocks';
 
 import { initialState as BearingState } from '../../reducers/bearing/bearing.reducer';
 import {
-  bearingSearchExtendedFailure,
-  bearingSearchExtendedSuccess,
+  advancedBearingSelectionFailure,
+  advancedBearingSelectionSuccess,
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
   searchBearing,
-  searchBearingExtended,
+  searchBearingForAdvancedSelection,
   selectBearing,
 } from './bearing.actions';
 
@@ -37,39 +37,41 @@ describe('Bearing Actions', () => {
     });
   });
 
-  describe('Search Bearing Extended', () => {
-    it('searchBearingExtended', () => {
+  describe('Search Bearing For Advanced Selection', () => {
+    it('searchBearingForAdvancedSelection', () => {
       const mockParameters = {
-        ...BearingState.extendedSearch.parameters,
+        ...BearingState.advancedBearingSelection.filters,
         pattern: 'testquery',
       };
-      const action = searchBearingExtended({ parameters: mockParameters });
+      const action = searchBearingForAdvancedSelection({
+        selectionFilters: mockParameters,
+      });
 
       expect(action).toEqual({
-        type: '[Bearing] Search Bearing Extended',
-        parameters: mockParameters,
+        type: '[Bearing] Search Bearing For Advanced Selection',
+        selectionFilters: mockParameters,
       });
     });
   });
 
-  describe('Search Bearing Extended Success', () => {
-    it('bearingSearchExtendedSuccess', () => {
+  describe('Search Bearing For Advanced Selection Success', () => {
+    it('advancedBearingSelectionSuccess', () => {
       const resultList = ['advanced bearing 1', 'advanced bearing 2'];
-      const action = bearingSearchExtendedSuccess({ resultList });
+      const action = advancedBearingSelectionSuccess({ resultList });
 
       expect(action).toEqual({
         resultList,
-        type: '[Bearing] Search Bearing Extended Success',
+        type: '[Bearing] Search Bearing For Advanced Selection Success',
       });
     });
   });
 
-  describe('Search Bearing Extended Failure', () => {
-    it('bearingSearchExtendedFailure', () => {
-      const action = bearingSearchExtendedFailure();
+  describe('Search Bearing For Advanced Selection Failure', () => {
+    it('advancedBearingSelectionFailure', () => {
+      const action = advancedBearingSelectionFailure();
 
       expect(action).toEqual({
-        type: '[Bearing] Search Bearing Extended Failure',
+        type: '[Bearing] Search Bearing For Advanced Selection Failure',
       });
     });
   });

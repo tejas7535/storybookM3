@@ -13,8 +13,15 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  searchBearingForAdvancedSelection,
+  searchBearingForAdvancedSelectionCount,
+} from '@ga/core/store';
 import { RangeFilterModule } from '@ga/shared/components/range-filter';
-import { RANGE_FILTER_MOCK } from '@ga/testing/mocks';
+import {
+  ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
+  RANGE_FILTER_MOCK,
+} from '@ga/testing/mocks';
 
 import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
 import {
@@ -51,31 +58,7 @@ describe('AdvancedBearingSelectionComponent', () => {
         getOutsideDiameterRangeFilter: jest.fn(() => RANGE_FILTER_MOCK),
         getWidthRangeFilter: jest.fn(() => RANGE_FILTER_MOCK),
       }),
-      provideMockStore({
-        initialState: {
-          bearing: {
-            search: {
-              query: undefined,
-              resultList: [],
-            },
-            extendedSearch: {
-              parameters: {
-                pattern: '',
-                bearingType: 'IDO_RADIAL_ROLLER_BEARING',
-                minDi: undefined,
-                maxDi: undefined,
-                minDa: undefined,
-                maxDa: undefined,
-                minB: undefined,
-                maxB: undefined,
-              },
-              resultList: [],
-            },
-            loading: false,
-            selectedBearing: undefined,
-          },
-        },
-      }),
+      provideMockStore(),
     ],
   });
 
@@ -91,44 +74,90 @@ describe('AdvancedBearingSelectionComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('updateBoreDiameterRangeFilter', () => {
+  describe('prevStep', () => {
+    it('should reduce the step', () => {
+      component.step = 3;
+      component.prevStep();
+
+      expect(component.step).toEqual(2);
+    });
+  });
+
+  describe('onBoreDiameterChange', () => {
     it('should set boreDiameter props', () => {
       component.onBoreDiameterChange(RANGE_FILTER_MOCK);
 
       expect(component.boreDiameterRangeFilter).toEqual(RANGE_FILTER_MOCK);
-      expect(component.extendedSearchParameters.boreDiameterMin).toBe(
+      expect(component.advancedBearingSelectionFilters.boreDiameterMin).toBe(
         RANGE_FILTER_MOCK.minSelected
       );
-      expect(component.extendedSearchParameters.boreDiameterMax).toBe(
+      expect(component.advancedBearingSelectionFilters.boreDiameterMax).toBe(
         RANGE_FILTER_MOCK.maxSelected
       );
     });
   });
 
-  describe('updateOutsideDiameterRangeFilter', () => {
+  describe('onOutsideDiameterChange', () => {
     it('should set outsideDiameter props', () => {
       component.onOutsideDiameterChange(RANGE_FILTER_MOCK);
 
       expect(component.outsideDiameterRangeFilter).toEqual(RANGE_FILTER_MOCK);
-      expect(component.extendedSearchParameters.outsideDiameterMin).toBe(
+      expect(component.advancedBearingSelectionFilters.outsideDiameterMin).toBe(
         RANGE_FILTER_MOCK.minSelected
       );
-      expect(component.extendedSearchParameters.outsideDiameterMax).toBe(
+      expect(component.advancedBearingSelectionFilters.outsideDiameterMax).toBe(
         RANGE_FILTER_MOCK.maxSelected
       );
     });
   });
 
-  describe('updateWidthRangeFilter', () => {
+  describe('onWidthChange', () => {
     it('should set width props', () => {
       component.onWidthChange(RANGE_FILTER_MOCK);
 
       expect(component.widthRangeFilter).toEqual(RANGE_FILTER_MOCK);
-      expect(component.extendedSearchParameters.widthMin).toBe(
+      expect(component.advancedBearingSelectionFilters.widthMin).toBe(
         RANGE_FILTER_MOCK.minSelected
       );
-      expect(component.extendedSearchParameters.widthMax).toBe(
+      expect(component.advancedBearingSelectionFilters.widthMax).toBe(
         RANGE_FILTER_MOCK.maxSelected
+      );
+    });
+  });
+
+  describe('onBearingSelectionButtonClick', () => {
+    it('should increase the step', () => {
+      component.step = 3;
+      component.onBearingSelectionButtonClick();
+
+      expect(component.step).toEqual(4);
+    });
+
+    it('should dispatch fetch action', () => {
+      component.advancedBearingSelectionFilters =
+        ADVANCED_BEARING_SELECTION_FILTERS_MOCK;
+
+      component.onBearingSelectionButtonClick();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        searchBearingForAdvancedSelection({
+          selectionFilters: ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
+        })
+      );
+    });
+  });
+
+  describe('onBearingTypeSelectionChange', () => {
+    it('should dispatch fetch action', () => {
+      component.advancedBearingSelectionFilters =
+        ADVANCED_BEARING_SELECTION_FILTERS_MOCK;
+
+      component.onBearingTypeSelectionChange();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        searchBearingForAdvancedSelectionCount({
+          selectionFilters: ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
+        })
       );
     });
   });
