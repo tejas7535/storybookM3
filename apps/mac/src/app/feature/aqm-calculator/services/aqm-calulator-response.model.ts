@@ -55,15 +55,6 @@ export interface AQMMaterial {
   ni: number;
 }
 
-export interface AQMComposition {
-  c: number;
-  si: number;
-  mn: number;
-  cr: number;
-  mo: number;
-  ni: number;
-}
-
 export interface AQMLimit {
   max: number;
   min: number;

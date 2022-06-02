@@ -27,7 +27,7 @@ import { AqmCalculatorComponent } from './aqm-calculator.component';
 import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {
   AQMCalculationRequest,
-  AQMComposition,
+  AQMCalculationResponse,
   AQMMaterial,
 } from './services/aqm-calulator-response.model';
 
@@ -153,7 +153,9 @@ describe('AqmCalculatorComponent', () => {
 
       component['patchSelect'](otherMockMaterial);
 
-      expect(mockPatch).toHaveBeenCalledWith(otherMockMaterial);
+      expect(mockPatch).toHaveBeenCalledWith(otherMockMaterial, {
+        emitEvent: false,
+      });
     });
   });
 
@@ -168,7 +170,10 @@ describe('AqmCalculatorComponent', () => {
     });
 
     it('should request a calculation on form changes', () => {
-      component['aqmCalculationService'].getCalculationResult = jest.fn();
+      jest.useFakeTimers();
+      component['aqmCalculationService'].getCalculationResult = jest.fn(() =>
+        of({} as AQMCalculationResponse)
+      );
       const request: AQMCalculationRequest = {
         c: 0.93,
         cr: 1.35,
@@ -184,9 +189,13 @@ describe('AqmCalculatorComponent', () => {
       component['createForm'](compositionLimits);
       component.compositionForm.patchValue(request);
 
+      jest.advanceTimersByTime(1000);
+
       expect(
         component['aqmCalculationService'].getCalculationResult
       ).toHaveBeenCalledWith(request);
+
+      jest.useRealTimers();
     });
 
     it('should not request a calculation on invalid form changes', () => {
@@ -223,7 +232,7 @@ describe('AqmCalculatorComponent', () => {
         mo: 1,
         ni: 1,
       };
-      const mockComposition: AQMComposition = {
+      const mockComposition: AQMCalculationRequest = {
         c: 1,
         si: 1,
         mn: 1,
@@ -247,7 +256,7 @@ describe('AqmCalculatorComponent', () => {
         mo: 1,
         ni: 1,
       };
-      const mockComposition: AQMComposition = {
+      const mockComposition: AQMCalculationRequest = {
         c: 2,
         si: 1,
         mn: 1,

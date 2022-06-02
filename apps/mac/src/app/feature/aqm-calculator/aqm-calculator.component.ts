@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Observable, Subscription } from 'rxjs';
+import { debounceTime, ReplaySubject, Subscription } from 'rxjs';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -12,7 +12,6 @@ import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {
   AQMCalculationRequest,
   AQMCalculationResponse,
-  AQMComposition,
   AQMCompositionLimits,
   AQMLimit,
   AQMMaterial,
@@ -28,7 +27,7 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
   materials: AQMMaterial[];
   sumLimits: AQMSumLimits;
 
-  aqmCalculationResult: Observable<AQMCalculationResponse>;
+  aqmCalculationResult = new ReplaySubject<AQMCalculationResponse>();
   fetchingCalculation: boolean;
 
   breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
@@ -74,7 +73,7 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
 
   private patchSelect(material?: AQMMaterial): void {
     if (material !== this.materialInput.value) {
-      this.materialInput.patchValue(material);
+      this.materialInput.patchValue(material, { emitEvent: false });
     }
   }
 
@@ -95,25 +94,28 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
     this.compositionForm = new FormGroup(controls);
 
     this.subscription.add(
-      this.compositionForm.valueChanges.subscribe((value: any) => {
-        const matIndex = this.findMaterialIndex(value);
-        if (matIndex > -1) {
-          this.patchSelect(this.materials[matIndex]);
-        } else {
-          this.patchSelect();
-        }
+      this.compositionForm.valueChanges
+        .pipe(debounceTime(100))
+        .subscribe((value: AQMCalculationRequest) => {
+          const matIndex = this.findMaterialIndex(value);
+          if (matIndex > -1) {
+            this.patchSelect(this.materials[matIndex]);
+          } else {
+            this.patchSelect();
+          }
 
-        if (this.compositionForm.valid) {
-          this.aqmCalculationResult =
-            this.aqmCalculationService.getCalculationResult(value);
-        }
-      })
+          if (this.compositionForm.valid) {
+            this.aqmCalculationService
+              .getCalculationResult(value)
+              .subscribe((result) => this.aqmCalculationResult.next(result));
+          }
+        })
     );
   }
 
-  private findMaterialIndex(composition: AQMComposition): number {
+  private findMaterialIndex(composition: AQMCalculationRequest): number {
     return this.materials
-      .map((material) => material as AQMComposition)
+      .map((material) => material as AQMCalculationRequest)
       .findIndex((knownComposition) => {
         if (
           knownComposition.c === composition.c &&
