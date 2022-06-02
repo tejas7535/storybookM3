@@ -111,7 +111,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => ({
         name: FilterKey.ORG_UNIT,
         idValue: {
-          id: action.employee.orgUnit,
+          id: action.employee.orgUnitKey,
           value: action.employee.orgUnit,
         },
       })),

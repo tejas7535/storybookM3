@@ -24,6 +24,7 @@ describe('AutocompleteInputComponent', () => {
     imports: [
       MatAutocompleteModule,
       MatInputModule,
+      MatTooltipModule,
       FormsModule,
       ReactiveFormsModule,
       MatFormFieldModule,

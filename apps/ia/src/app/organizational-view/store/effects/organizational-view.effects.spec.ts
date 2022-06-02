@@ -307,6 +307,7 @@ describe('Organizational View Effects', () => {
       marbles((m) => {
         const employee = {
           orgUnit: 'Schaeffler_IT',
+          orgUnitKey: '888',
         } as unknown as Employee;
 
         action = loadParentSuccess({ employee });
@@ -314,7 +315,7 @@ describe('Organizational View Effects', () => {
         const filter = {
           name: FilterKey.ORG_UNIT,
           idValue: {
-            id: employee.orgUnit,
+            id: employee.orgUnitKey,
             value: employee.orgUnit,
           },
         };
