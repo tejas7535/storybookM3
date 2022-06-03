@@ -1,0 +1,21 @@
+<div
+  *transloco="let t; read: translationKeyBase"
+  class="overflow-hidden rounded border border-border bg-surface py-4"
+  [ngClass]="{
+    'cursor-pointer transition-shadow hover:shadow-lg':
+      homepageCard?.routerPath || homepageCard?.externalLink
+  }"
+  (click)="onCardClick()"
+>
+  <div class="px-2 pb-4 text-center text-overline">
+    <div class="truncate" [innerHTML]="t(homepageCard?.mainTitle)"></div>
+    <div
+      class="truncate"
+      [innerHTML]="homepageCard?.subTitle ? t(homepageCard.subTitle) : '&nbsp;'"
+    ></div>
+  </div>
+  <div
+    class="mx-4 aspect-video bg-cover"
+    [ngStyle]="{ 'background-image': 'url(' + getCardImageUrl() + ')' }"
+  ></div>
+</div>

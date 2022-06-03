@@ -12,7 +12,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import packageJson from '../../package.json';
-import { LANGUAGE } from './shared/constants';
+import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 
 @Component({
   selector: 'ga-root',
@@ -84,7 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private trackLanguage(language: string): void {
-    this.applicationInsightsService.logEvent(LANGUAGE, {
+    this.applicationInsightsService.logEvent(TRACKING_NAME_LANGUAGE, {
       value: language,
     });
   }

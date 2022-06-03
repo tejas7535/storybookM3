@@ -6,9 +6,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { TRACKING_NAME_PROPERTIES } from '@ga/shared/constants';
 import { CALCULATION_RESULT_MOCK_ID } from '@ga/testing/mocks';
 
-import { PROPERTIES } from '../../../../shared/constants';
 import { ErrorService, RestService } from '../../../services';
 import {
   calculationError,
@@ -139,7 +139,7 @@ describe('ResultEffects', () => {
         m.expect(effects.calculationSuccess$).toBeObservable(expected);
         m.flush();
 
-        expect(trackingSpy).toHaveBeenCalledWith(PROPERTIES, {
+        expect(trackingSpy).toHaveBeenCalledWith(TRACKING_NAME_PROPERTIES, {
           mockParameters: 'confirmed',
         });
       })

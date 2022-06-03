@@ -7,7 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { PROPERTIES } from '../../../../shared/constants';
+import { TRACKING_NAME_PROPERTIES } from '@ga/shared/constants';
+
 import { ErrorService, RestService } from '../../../services';
 import {
   calculationError,
@@ -51,7 +52,7 @@ export class ResultEffects {
         map(([_action, parameters]) => parameters),
         map((properties) =>
           this.applicationInsightsService.logEvent(
-            PROPERTIES,
+            TRACKING_NAME_PROPERTIES,
             properties.options
           )
         )

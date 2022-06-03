@@ -1,20 +1,56 @@
 {
-  "home": {
-    "greaseApp": "Grease App",
-    "greaseCalculator": "Grease Calculator",
-    "bearinxPowered": "Powered by Bearinx",
-    "startCalc": "Start",
-    "lubricators": "Lubricators",
-    "lubricatorsLink": "https://medias.schaeffler.de/en/lubrication/lubricators{{sources}}",
-    "concept": "Concept",
-    "placeholderText": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dictum ornare bibendum. Duis imperdiet lacinia magna, ut tempor ligula molestie ut. Pellentesque ac suscipit nisi, eu fermentum magna.",
-    "faq": "FAQ",
-    "faqLink": "https://medias.schaeffler.de/en/faq/grease-app{{sources}}",
-    "catalog": "Product Catalog",
-    "catalogLink": "https://medias.schaeffler.de/en{{sources}}",
-    "greases": "ARCANOL Greases",
-    "greaseLink": "https://medias.schaeffler.de/en/plp/ARCANOLRollingBearingGreases{{sources}}",
-    "learnMore": "Learn More"
+  "homepage": {
+    "cards": {
+      "calculator": {
+        "title": {
+          "main": "Grease Calculator",
+          "sub": "Powered by Bearinx"
+        }
+      },
+      "greases": {
+        "title": {
+          "main": "ARCANOL Greases",
+          "sub": "&nbsp;"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/plp/ARCANOLRollingBearingGreases"
+      },
+      "lubricators": {
+        "title": {
+          "main": "Lubricators"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/lubrication/lubricators"
+      },
+      "maintenance": {
+        "title": {
+          "main": "Maintenance Tools"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/maintenance-tools"
+      },
+      "optime": {
+        "title": {
+          "main": "Optime"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/condition-monitoring/optime"
+      },
+      "catalog": {
+        "title": {
+          "main": "Product Catalog"
+        },
+        "externalLink": "https://medias.schaeffler.de/en"
+      },
+      "contact": {
+        "title": {
+          "main": "Schaeffler Experts"
+        },
+        "externalLink": "https://schaeffler.scnem.com/art_resource.php?sid=5wme.2pgeh89"
+      },
+      "faq": {
+        "title": {
+          "main": "FAQ"
+        },
+        "externalLink": "https://medias.schaeffler.de/en/faq/grease-app"
+      }
+    }
   },
   "meta": {
     "title": "Grease App",
