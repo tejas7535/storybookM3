@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 6/7/2022
+* gq: [2.6.0](./apps/gq/CHANGELOG.md)
+
 ## 5/25/2022
 * helloworld-azure: [3.2.1](./apps/helloworld-azure/CHANGELOG.md)
 
