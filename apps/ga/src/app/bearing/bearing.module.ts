@@ -9,11 +9,11 @@ import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingEffects } from '@ga/core/store';
+import { QuickBearingSelectionModule } from '@ga/shared/components/quick-bearing-selection';
 
 import { AdvancedBearingSelectionModule } from './advanced-bearing-selection';
 import { BearingComponent } from './bearing.component';
 import { BearingRoutingModule } from './bearing-routing.module';
-import { QuickBearingSelectionModule } from './quick-bearing-selection';
 
 @NgModule({
   declarations: [BearingComponent],

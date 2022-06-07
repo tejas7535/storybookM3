@@ -1,9 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
+  AdvancedBearingSelectionFilters,
   BearingSelectionType,
   BearingSelectionTypeUnion,
-  AdvancedBearingSelectionFilters,
 } from '@ga/shared/models';
 
 import {
@@ -14,6 +14,7 @@ import {
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
+  resetBearing,
   searchBearing,
   searchBearingForAdvancedSelection,
   searchBearingForAdvancedSelectionCount,
@@ -162,6 +163,12 @@ export const bearingReducer = createReducer(
       ...state,
       selectedBearing: bearing,
       modelCreationSuccess: undefined,
+    })
+  ),
+  on(
+    resetBearing,
+    (): BearingState => ({
+      ...initialState,
     })
   )
 );

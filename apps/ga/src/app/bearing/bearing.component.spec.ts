@@ -11,11 +11,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { setBearingSelectionType } from '@ga/core/store';
 import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions';
+import { QuickBearingSelectionModule } from '@ga/shared/components/quick-bearing-selection';
 
 import { AppRoutePath } from '../app-route-path.enum';
 import { AdvancedBearingSelectionModule } from './advanced-bearing-selection';
 import { BearingComponent } from './bearing.component';
-import { QuickBearingSelectionModule } from './quick-bearing-selection';
 
 describe('BearingComponent', () => {
   let component: BearingComponent;

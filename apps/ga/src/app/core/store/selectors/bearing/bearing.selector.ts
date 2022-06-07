@@ -1,3 +1,4 @@
+import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
@@ -46,7 +47,9 @@ export const getQuickBearingSelectionResultList = createSelector(
   (state: BearingState): SearchAutocompleteOption[] =>
     state?.quickBearingSelection?.resultList.map((bearing) => ({
       id: bearing,
-      title: bearing,
+      title: translate('bearing.bearingSelection.quickSelection.selectOption', {
+        bearing,
+      }),
     }))
 );
 

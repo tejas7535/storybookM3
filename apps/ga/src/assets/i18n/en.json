@@ -92,12 +92,13 @@
       "widthShort": "B"
     },
     "bearingSelection": {
-      "toggle": {
+      "button": {
         "quickSelection": "Direct bearing selection",
         "advancedSelection": "Advanced bearing selection"
       },
       "quickSelection": {
         "searchPlaceholder": "Enter a bearing designation, e.g. 6215",
+        "selectOption": "Lubrication calculation for bearing &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "No results found"
       },
       "advancedSelection": {

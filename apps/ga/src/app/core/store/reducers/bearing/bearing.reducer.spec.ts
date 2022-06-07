@@ -10,6 +10,7 @@ import {
   bearingSearchSuccess,
   modelCreateFailure,
   modelCreateSuccess,
+  resetBearing,
   searchBearing,
   searchBearingForAdvancedSelection,
   selectBearing,
@@ -141,6 +142,18 @@ describe('Bearing Reducer', () => {
       const state = bearingReducer(initialState, action);
 
       expect(state.selectedBearing).toEqual('selected bearing');
+    });
+  });
+
+  describe('on resetBearing', () => {
+    it('should set the bearing state to its initial value', () => {
+      const action: Action = resetBearing();
+      const state = bearingReducer(
+        { ...initialState, selectedBearing: 'mock-bearing' },
+        action
+      );
+
+      expect(state.selectedBearing).toBeUndefined();
     });
   });
 });

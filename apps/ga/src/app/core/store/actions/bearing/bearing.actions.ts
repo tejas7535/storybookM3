@@ -63,3 +63,5 @@ export const selectBearing = createAction(
   '[Bearing] Select Bearing',
   props<{ bearing: string }>()
 );
+
+export const resetBearing = createAction('[Bearing] Reset Bearing');

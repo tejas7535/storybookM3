@@ -1,6 +1,9 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockModule } from 'ng-mocks';
 
+import { AdvancedBearingButtonModule } from '@ga/shared/components/advanced-bearing-button';
+import { QuickBearingSelectionModule } from '@ga/shared/components/quick-bearing-selection';
+
 import { HomepageCardModule } from './components';
 import { HomeComponent } from './home.component';
 
@@ -11,7 +14,11 @@ describe('HomeComponent', () => {
   const createComponent = createComponentFactory({
     component: HomeComponent,
     declarations: [HomeComponent],
-    imports: [MockModule(HomepageCardModule)],
+    imports: [
+      MockModule(HomepageCardModule),
+      MockModule(AdvancedBearingButtonModule),
+      MockModule(QuickBearingSelectionModule),
+    ],
   });
 
   beforeEach(() => {

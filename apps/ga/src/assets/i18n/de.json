@@ -92,12 +92,13 @@
       "widthShort": "B"
     },
     "bearingSelection": {
-      "toggle": {
+      "button": {
         "quickSelection": "Direkte Lagerauswahl",
         "advancedSelection": "Erweiterte Lagerauswahl"
       },
       "quickSelection": {
         "searchPlaceholder": "Suche nach Lagerbezeichnung, z.B. 6215",
+        "selectOption": "Fettmengenberechnung zu Lager &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "Keine Ergebnisse gefunden"
       },
       "advancedSelection": {

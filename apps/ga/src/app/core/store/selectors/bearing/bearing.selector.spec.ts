@@ -1,3 +1,5 @@
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { MODEL_MOCK_ID } from '@ga/testing/mocks';
 
 import {
@@ -15,6 +17,11 @@ import {
   getQuickBearingSelectionResultList,
   getSelectedBearing,
 } from './bearing.selector';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('Bearing Selector', () => {
   const mockState: { bearing: BearingState } = {
@@ -86,11 +93,11 @@ describe('Bearing Selector', () => {
       expect(getQuickBearingSelectionResultList(mockState)).toEqual([
         {
           id: 'greatBearing',
-          title: 'greatBearing',
+          title: 'bearing.bearingSelection.quickSelection.selectOption',
         },
         {
           id: 'evenGreaterBearing',
-          title: 'evenGreaterBearing',
+          title: 'bearing.bearingSelection.quickSelection.selectOption',
         },
       ]);
     });
