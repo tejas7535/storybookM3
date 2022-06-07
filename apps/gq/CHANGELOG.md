@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.5.0...gq-v2.6.0) (2022-06-07)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fix cap price selection bug (GQUOTE-1356) ([#4174](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4174)) ([13cb701](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/13cb7012c1941fa919cc042effe755b11c596238))
+* **gq:** fix color of margin warning (GQUOTE-1342) ([#4137](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4137)) ([43367c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/43367c76e16067db3c1c91c4a272c8f4b971f579))
+* **gq:** fix manual price input digits bug (GQUOTE-1289) ([#4078](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4078)) ([7a86080](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7a86080c3c3db58ec5d3ed799b7613f1cc487900))
+* **gq:** fix multiple selection issue (GQUOTE-1179) ([#4097](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4097)) ([bfce6d3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bfce6d316cf6c020a7d94d7f4c8087a7313f30fd))
+* **gq:** fix transparency graph y-axis (GQUOTE-1334) ([#4162](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4162)) ([bd94b30](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bd94b300537bb6068ae723f98e87e3addc1f8493))
+* **gq:** properly configure tailwind content configuration ([d37abc1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d37abc1ad0b10c0022e60d8021a9b50670a7a08d))
+* **styles:** add missing font weight to tailwind typography classes ([#4083](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4083)) ([99c16db](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/99c16db3c31af425f0d9625f9ad7ffd811d5043f))
+
+
+### 🎸 Features
+
+* **gq:** add available currencies to store (GQUOTE-1345) ([#4167](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4167)) ([1a27eeb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1a27eeb8c01e1fa7a556e3a380d0f1db898c3cf4))
+* **gq:** add CAP_PRICE as new sap price source ([#4144](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4144)) ([81ea9dd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/81ea9dd02399eb42e5e803a9813b1dba34778d02))
+* **gq:** add customer country to autocomplete selection (GQUOTE-1356) ([#4178](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4178)) ([cf0d3b3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cf0d3b33e8bfc130a81f8e30dac9695b60a80bbb))
+* **gq:** add doubleclick to table rows (GQUOTE-1322) ([#4119](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4119)) ([beb6126](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/beb61261b52d8ee33dae164417536c24b98857db))
+* **gq:** add encodedSalesOrg indication (GQUOTE-1312) ([#4143](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4143)) ([5ead45f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5ead45f3011ae1609ab5fad6ac5233062252508d))
+* **gq:** add lastCustomerPriceCondition to workarea and excel download (GQUOTE-1008) ([#4095](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4095)) ([a0dc3ae](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a0dc3ae2112b48b7b60e481fa72c9e0a5c685e93))
+* **gq:** add margin warning to edit-cell (GQUOTE-1321) ([#4126](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4126)) ([ee679ab](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ee679ab233e3cba19f8d15a50b58773fcc529712))
+* **gq:** add msp and margin warning on manual price change (GQUOTE-1357) ([#4175](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4175)) ([78204af](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/78204af9e27ee3c20d3507588b2f774b59a78cec))
+* **gq:** add price source change simulation (GQUOTE-1276) ([#4063](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4063)) ([e0d1449](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e0d1449d9dc0b10a1d4e3ebaf312d41fe9babffe))
+* **gq:** checked cases are staying selected after navigating to another page (GQUOTE-1183) ([#4107](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4107)) ([ce30c10](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ce30c10dd44e3a87b2c8f4cfb6d979ca05e0bfd4))
+* **gq:** display price source strategic on detail page (GQUOTE-1284) ([#4042](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4042)) ([87b54cf](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/87b54cf16ab405e3dc48742832b7fad1db356dcb))
+* **gq:** Establish Azure Insights with further event tracking (GQUOTE-1275) ([#4098](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4098)) ([fdab75b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fdab75bf0ea512f6be90132420333d743a44483e))
+* **gq:** link comparable transaction table with margin by qty graph (GQUOTE-788) ([#4004](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4004)) ([37a7e3c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/37a7e3ccd5ee7a886f7c570f0115e45dad47de53))
+* **gq:** persist column filter setting (GQUOTE-1278) ([#4067](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4067)) ([a82d768](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a82d7680b426c0b9306cd7d2772b2838d0460d65))
+* **gq:** updated translations (GQUOTE-1320) ([#4116](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4116)) ([5c93dd3](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/5c93dd30bc29ace882e5fa31a5b167f41c8ead9c))
+
 ## [2.5.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.4.0...gq-v2.5.0) (2022-04-13)
 
 
