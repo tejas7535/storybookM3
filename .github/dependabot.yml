@@ -22,5 +22,6 @@ updates:
       - dependency-name: '@ag-grid-*'
       - dependency-name: '@angular-eslint/*'
       - dependency-name: '@typescript-eslint/*'
+      - dependency-name: 'ng-packagr'
       - dependency-name: 'eslint'
       - dependency-name: 'eslint-*'
