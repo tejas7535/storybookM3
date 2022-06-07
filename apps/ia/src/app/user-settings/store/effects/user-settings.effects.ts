@@ -32,15 +32,15 @@ export class UserSettingsEffects implements OnInitEffects {
           switchMap((data) => {
             const result: Action[] = [loadUserSettingsSuccess({ data })];
 
-            if (data?.orgUnit === undefined) {
+            if (data?.orgUnitKey === undefined) {
               result.push(showUserSettingsDialog());
             } else {
               // set global filter default value
               const filter = {
                 name: FilterKey.ORG_UNIT,
                 idValue: {
-                  id: data.orgUnit,
-                  value: data.orgUnit,
+                  id: data.orgUnitKey,
+                  value: data.orgUnitDisplayName,
                 },
               };
 
@@ -103,8 +103,8 @@ export class UserSettingsEffects implements OnInitEffects {
         const filter = {
           name: FilterKey.ORG_UNIT,
           idValue: {
-            id: data.orgUnit,
-            value: data.orgUnit,
+            id: data.orgUnitKey,
+            value: data.orgUnitDisplayName,
           },
         };
 

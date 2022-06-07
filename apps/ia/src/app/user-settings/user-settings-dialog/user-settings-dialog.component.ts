@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { getOrgUnitsFilter } from '../../core/store/selectors/filter/filter.selector';
 import { Filter, SelectedFilter } from '../../shared/models';
+import { UserSettings } from '../models/user-settings.model';
 import {
   loadUserSettingsOrgUnits,
   updateUserSettings,
@@ -40,7 +41,10 @@ export class UserSettingsDialogComponent implements OnInit {
   }
 
   updateUserSettings(): void {
-    const data = { orgUnit: this.selected.idValue.id };
+    const data: Partial<UserSettings> = {
+      orgUnitKey: this.selected.idValue.id,
+      orgUnitDisplayName: this.selected.idValue.value,
+    };
     this.store.dispatch(updateUserSettings({ data }));
   }
 

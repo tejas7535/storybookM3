@@ -150,7 +150,8 @@ describe('UserSettingsComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         updateUserSettings({
           data: {
-            orgUnit: selectedFilter.idValue.id,
+            orgUnitKey: selectedFilter.idValue.id,
+            orgUnitDisplayName: selectedFilter.idValue.value,
           },
         })
       );

@@ -9,7 +9,7 @@ export const getUserSettings = createSelector(
 
 export const getUserOrgUnit = createSelector(
   selectUserSettingsState,
-  (state: UserSettingsState) => state.data?.orgUnit
+  (state: UserSettingsState) => state.data?.orgUnitDisplayName
 );
 
 export const getDialogOrgUnitLoading = createSelector(

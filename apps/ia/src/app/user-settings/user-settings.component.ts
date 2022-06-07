@@ -8,6 +8,7 @@ import { RolesGroup } from '@schaeffler/roles-and-rights';
 
 import { getOrgUnitsFilter, getUserRoles } from '../core/store/selectors';
 import { Filter, SelectedFilter } from '../shared/models';
+import { UserSettings } from './models/user-settings.model';
 import {
   loadUserSettingsOrgUnits,
   updateUserSettings,
@@ -41,7 +42,10 @@ export class UserSettingsComponent implements OnInit {
   }
 
   saveOrgUnit(option: SelectedFilter): void {
-    const data = { orgUnit: option.idValue.id };
+    const data: Partial<UserSettings> = {
+      orgUnitKey: option.idValue.id,
+      orgUnitDisplayName: option.idValue.value,
+    };
     this.store.dispatch(updateUserSettings({ data }));
   }
 

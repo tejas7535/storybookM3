@@ -72,7 +72,10 @@ describe('UserSettingsDialogComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         updateUserSettings({
-          data: { orgUnit: option.idValue.id },
+          data: {
+            orgUnitKey: option.idValue.id,
+            orgUnitDisplayName: option.idValue.value,
+          },
         })
       );
     });

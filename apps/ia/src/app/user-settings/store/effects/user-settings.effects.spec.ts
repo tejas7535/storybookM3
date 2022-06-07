@@ -82,21 +82,26 @@ describe('User Settings Effects', () => {
     test(
       'should return loadUserSettingsSuccess and filterSelected on success and if org unit is set',
       marbles((m) => {
-        const orgUnit = 'Sales';
-        const result = loadUserSettingsSuccess({ data: { orgUnit } });
+        const orgUnitKey = '123';
+        const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+        const result = loadUserSettingsSuccess({
+          data: { orgUnitKey, orgUnitDisplayName },
+        });
         const resultFilter = filterSelected({
           filter: {
             name: FilterKey.ORG_UNIT,
             idValue: {
-              id: orgUnit,
-              value: orgUnit,
+              id: orgUnitKey,
+              value: orgUnitDisplayName,
             },
           },
         });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('--(bc)', { b: result, c: resultFilter });
-        const response = m.cold('-c', { c: { orgUnit } });
+        const response = m.cold('-c', {
+          c: { orgUnitKey, orgUnitDisplayName },
+        });
 
         userSettingsService.getUserSettings = jest
           .fn()
@@ -112,7 +117,7 @@ describe('User Settings Effects', () => {
       'should return loadUserSettingsSuccess and showUserSettingsDialog on success and if orgUnit not set',
       marbles((m) => {
         const resultSuccess = loadUserSettingsSuccess({
-          data: { orgUnit: undefined },
+          data: { orgUnitKey: undefined, orgUnitDisplayName: undefined },
         });
         const resultShowUpdate = showUserSettingsDialog();
 
@@ -121,7 +126,9 @@ describe('User Settings Effects', () => {
           b: resultSuccess,
           c: resultShowUpdate,
         });
-        const response = m.cold('-c', { c: { orgUnit: undefined } });
+        const response = m.cold('-c', {
+          c: { orgUnitKey: undefined, orgUnitDisplayName: undefined },
+        });
 
         userSettingsService.getUserSettings = jest
           .fn()
@@ -189,7 +196,10 @@ describe('User Settings Effects', () => {
   });
 
   describe('updateUserSettings$', () => {
-    const data = { orgUnit: 'test' };
+    const data: UserSettings = {
+      orgUnitKey: '123',
+      orgUnitDisplayName: 'SH/ZHZ-HR (Human resources reporting)',
+    };
 
     beforeEach(() => {
       action = updateUserSettings({ data });
@@ -242,8 +252,9 @@ describe('User Settings Effects', () => {
     beforeEach(() => {
       action = updateUserSettingsSuccess({
         data: {
-          orgUnit: 'test',
-        } as unknown as UserSettings,
+          orgUnitKey: 'test',
+          orgUnitDisplayName: 'test-test',
+        } as UserSettings,
       });
     });
 
@@ -279,7 +290,7 @@ describe('User Settings Effects', () => {
           name: FilterKey.ORG_UNIT,
           idValue: {
             id: 'test',
-            value: 'test',
+            value: 'test-test',
           },
         };
 

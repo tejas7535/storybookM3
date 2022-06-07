@@ -18,16 +18,19 @@ describe('User Settings Reducer', () => {
   });
 
   test('loadUserSettingsSuccess', () => {
-    const orgUnit = 'IT';
+    const orgUnitKey = '123';
+    const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
     const action = loadUserSettingsSuccess({
       data: {
-        orgUnit,
+        orgUnitKey,
+        orgUnitDisplayName,
       },
     });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeFalsy();
-    expect(state.data.orgUnit).toEqual(orgUnit);
+    expect(state.data.orgUnitKey).toEqual(orgUnitKey);
+    expect(state.data.orgUnitDisplayName).toEqual(orgUnitDisplayName);
     expect(state.errorMessage).toBeUndefined();
   });
 
@@ -41,8 +44,11 @@ describe('User Settings Reducer', () => {
   });
 
   test('updateUserSettings', () => {
-    const orgUnit = 'IT';
-    const action = updateUserSettings({ data: { orgUnit } });
+    const orgUnitKey = '123';
+    const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+    const action = updateUserSettings({
+      data: { orgUnitKey, orgUnitDisplayName },
+    });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeTruthy();
@@ -50,12 +56,16 @@ describe('User Settings Reducer', () => {
   });
 
   test('updateUserSettingsSuccess', () => {
-    const orgUnit = 'IT';
-    const action = updateUserSettingsSuccess({ data: { orgUnit } });
+    const orgUnitKey = '123';
+    const orgUnitDisplayName = 'SH/ZHZ-HR (Human resources reporting)';
+    const action = updateUserSettingsSuccess({
+      data: { orgUnitKey, orgUnitDisplayName },
+    });
     const state = userSettingsReducer(initialState, action);
 
     expect(state.loading).toBeFalsy();
-    expect(state.data.orgUnit).toEqual(orgUnit);
+    expect(state.data.orgUnitKey).toEqual(orgUnitKey);
+    expect(state.data.orgUnitDisplayName).toEqual(orgUnitDisplayName);
     expect(state.errorMessage).toBeUndefined();
   });
 

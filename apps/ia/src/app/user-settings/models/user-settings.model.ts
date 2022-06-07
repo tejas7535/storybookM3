@@ -1,3 +1,4 @@
 export interface UserSettings {
-  orgUnit: string;
+  orgUnitKey: string;
+  orgUnitDisplayName: string;
 }

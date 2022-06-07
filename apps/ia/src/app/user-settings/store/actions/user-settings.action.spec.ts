@@ -18,11 +18,15 @@ describe('User Settings Actions', () => {
     });
 
     test('loadUserSettingsSuccess', () => {
-      const action = loadUserSettingsSuccess({ data: { orgUnit: 'IT' } });
+      const orgUnitKey = '123';
+      const orgUnitDisplayName = 'IT';
+      const action = loadUserSettingsSuccess({
+        data: { orgUnitKey, orgUnitDisplayName },
+      });
 
       expect(action).toEqual({
         type: '[User Settings] Load User`s Settings Success',
-        data: { orgUnit: 'IT' },
+        data: { orgUnitKey, orgUnitDisplayName },
       });
     });
 
@@ -37,21 +41,28 @@ describe('User Settings Actions', () => {
   });
 
   describe('Update User Settings', () => {
+    const orgUnitKey = '123';
+    const orgUnitDisplayName = 'IT';
+
     test('updateUserSettings', () => {
-      const action = updateUserSettings({ data: { orgUnit: 'Sales' } });
+      const action = updateUserSettings({
+        data: { orgUnitKey, orgUnitDisplayName },
+      });
 
       expect(action).toEqual({
         type: '[User Settings] Update User`s Settings',
-        data: { orgUnit: 'Sales' },
+        data: { orgUnitKey, orgUnitDisplayName },
       });
     });
 
     test('updateUserSettingsSuccess', () => {
-      const action = updateUserSettingsSuccess({ data: { orgUnit: 'Sales' } });
+      const action = updateUserSettingsSuccess({
+        data: { orgUnitKey, orgUnitDisplayName },
+      });
 
       expect(action).toEqual({
         type: '[User Settings] Update User`s Settings Success',
-        data: { orgUnit: 'Sales' },
+        data: { orgUnitKey, orgUnitDisplayName },
       });
     });
 
