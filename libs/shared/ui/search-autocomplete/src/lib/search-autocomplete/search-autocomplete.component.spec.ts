@@ -193,4 +193,31 @@ describe('SearchAutocompleteComponent', () => {
       expect(result).toEqual(testVal.id);
     });
   });
+
+  describe('optionTitle', () => {
+    it('should return sanitized string', () => {
+      const mockOption: SearchAutocompleteOption = {
+        title: 'Mock template &nbsp;<strong>string</strong>',
+        id: 'mock_id',
+      };
+
+      const result = component.optionTitle(mockOption);
+
+      expect(result).toBe('Mock template string');
+    });
+  });
+
+  describe('noResults', () => {
+    it('should return true', () => {
+      const result = component.noResults([]);
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false', () => {
+      const result = component.noResults(optionsVerA);
+
+      expect(result).toBe(false);
+    });
+  });
 });

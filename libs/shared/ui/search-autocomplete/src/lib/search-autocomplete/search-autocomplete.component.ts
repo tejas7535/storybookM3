@@ -147,9 +147,8 @@ export class SearchAutocompleteComponent
     return !this.loading && !this.error && filteredList?.length === 0;
   }
 
-  public optionTitle(option: SearchAutocompleteOption): string {
-    return option && option.title ? option.title : '';
-  }
+  public optionTitle = (option: SearchAutocompleteOption): string =>
+    option?.title ? this.sanitizeSearchString(option.title) : '';
 
   public trackByFn: TrackByFunction<SearchAutocompleteOption> = (
     _index: number,
@@ -171,6 +170,11 @@ export class SearchAutocompleteComponent
 
   private shouldStartSearching(val: string): boolean {
     return val.length > this.minimumChars - 1;
+  }
+
+  private sanitizeSearchString(val: string): string {
+    // remove html tags and empty spaces
+    return val.toString().replace(/(&nbsp;|(<([^>]+)>))/gi, '');
   }
 
   public onChange: (value: string) => void = () => {};

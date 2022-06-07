@@ -1,4 +1,4 @@
-<mat-form-field floatLabel="never" class="max-w-full">
+<mat-form-field floatLabel="never" class="w-full">
   <mat-label class="divide-veryLight ml-2">{{ label }}</mat-label>
   <input
     type="text"
@@ -39,9 +39,8 @@
         <mat-option
           *ngFor="let option of filteredOptions$ | ngrxPush; trackBy: trackByFn"
           [value]="option"
-        >
-          {{ option.title }}
-        </mat-option>
+          [innerHTML]="option.title"
+        ></mat-option>
       </div>
     </div>
   </mat-autocomplete>
