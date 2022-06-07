@@ -27,6 +27,20 @@
             "prefix": "ga",
             "style": "kebab-case"
           }
+        ],
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ],
+            "enforceBuildableLibDependency": true,
+            "allowCircularSelfDependency": true
+          }
         ]
       },
       "plugins": [
