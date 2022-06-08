@@ -22,7 +22,8 @@
         "assets": [
           "apps/ga/src/favicon.ico",
           "apps/ga/src/assets",
-          "apps/ga/src/browserconfig.xml"
+          "apps/ga/src/browserconfig.xml",
+          "apps/ga/src/robots.txt"
         ],
         "styles": [
           "apps/ga/src/styles.scss",
@@ -53,7 +54,17 @@
           "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": true,
+          "assets": [
+            "apps/ga/src/favicon.ico",
+            "apps/ga/src/assets",
+            "apps/ga/src/browserconfig.xml",
+            {
+              "input": "apps/ga/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
+          ]
         },
         "dev": {
           "statsJson": true,
@@ -69,7 +80,12 @@
           "assets": [
             "apps/ga/src/favicon.ico",
             "apps/ga/src/assets",
-            "apps/ga/src/browserconfig.xml"
+            "apps/ga/src/browserconfig.xml",
+            {
+              "input": "apps/ga/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
           ]
         },
         "qa": {
@@ -84,7 +100,12 @@
           "assets": [
             "apps/ga/src/favicon.ico",
             "apps/ga/src/assets",
-            "apps/ga/src/browserconfig.xml"
+            "apps/ga/src/browserconfig.xml",
+            {
+              "input": "apps/ga/robots/dev",
+              "output": "/",
+              "glob": "robots.txt"
+            }
           ]
         },
         "production": {
@@ -98,7 +119,12 @@
           "assets": [
             "apps/ga/src/favicon.ico",
             "apps/ga/src/assets",
-            "apps/ga/src/browserconfig.xml"
+            "apps/ga/src/browserconfig.xml",
+            {
+              "input": "apps/ga/robots/prod",
+              "output": "/",
+              "glob": "robots.txt"
+            }
           ]
         }
       },
