@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -12,10 +12,10 @@ import { PortfolioAnalysisButtonComponent } from './portfolio-analysis-button.co
 @NgModule({
   imports: [
     RouterModule,
+    LetModule,
     MatButtonModule,
     MatTooltipModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
   ],
   declarations: [PortfolioAnalysisButtonComponent],
   exports: [PortfolioAnalysisButtonComponent],

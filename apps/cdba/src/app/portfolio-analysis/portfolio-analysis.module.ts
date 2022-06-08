@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { BetaFeatureModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -15,7 +15,7 @@ import { PortfolioAnalysisTableModule } from './portfolio-analysis-table/portfol
 @NgModule({
   declarations: [PortfolioAnalysisComponent],
   imports: [
-    ReactiveComponentModule,
+    PushModule,
     SharedTranslocoModule,
     PortfolioAnalysisRoutingModule,
     SubheaderModule,

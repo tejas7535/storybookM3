@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockComponent } from 'ng-mocks';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -31,7 +31,7 @@ describe('SapPriceComponent', () => {
     imports: [
       MatCardModule,
       MatIconModule,
-      ReactiveComponentModule,
+      PushModule,
       LoadingSpinnerModule,
       SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),

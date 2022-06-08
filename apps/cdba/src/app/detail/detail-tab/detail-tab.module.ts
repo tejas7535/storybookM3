@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -21,7 +21,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
   declarations: [DetailTabComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedTranslocoModule,
     DetailTabRoutingModule,
     LoadingSpinnerModule,

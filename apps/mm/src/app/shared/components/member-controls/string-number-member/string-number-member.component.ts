@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import {
   BearinxPageNumberVariableMember,
@@ -20,9 +20,10 @@ export class StringNumberMemberComponent {
     this.member = this.meta.member as BearinxPageNumberVariableMember<any>;
   }
 
-  public get control(): FormControl {
+  public get control(): UntypedFormControl {
     return (
-      (this.meta.control?.get('value') as FormControl) || new FormControl('')
+      (this.meta.control?.get('value') as UntypedFormControl) ||
+      new UntypedFormControl('')
     );
   }
 }

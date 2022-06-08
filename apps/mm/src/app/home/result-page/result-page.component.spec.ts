@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { filter, of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { ReportModule } from '@schaeffler/report';
@@ -27,7 +27,7 @@ describe('ResultPageComponent', () => {
   const createComponent = createComponentFactory({
     component: ResultPageComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       HttpClientTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       ReportModule,

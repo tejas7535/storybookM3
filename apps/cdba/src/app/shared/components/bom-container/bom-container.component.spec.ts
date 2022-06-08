@@ -6,6 +6,20 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { GridApi } from '@ag-grid-enterprise/all-modules';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { LetModule, PushModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import * as compareActions from '@cdba/compare/store/actions';
 import * as detailActions from '@cdba/core/store/actions/detail';
 import { ENV, getEnv } from '@cdba/environments/environment.provider';
@@ -17,19 +31,6 @@ import {
   COST_COMPONENT_SPLIT_ITEMS_MOCK,
   DETAIL_STATE_MOCK,
 } from '@cdba/testing/mocks';
-import {
-  createComponentFactory,
-  mockProvider,
-  Spectator,
-} from '@ngneat/spectator/jest';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
-import { marbles } from 'rxjs-marbles';
-
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { Calculation, CostComponentSplit } from '../../models';
 import { BomChartModule } from '../bom-chart/bom-chart.module';
@@ -50,7 +51,8 @@ describe('BomContainerComponent', () => {
   const createComponent = createComponentFactory({
     component: BomContainerComponent,
     imports: [
-      ReactiveComponentModule,
+      MockModule(LetModule),
+      MockModule(PushModule),
       provideTranslocoTestingModule({ en: {} }),
       MatCardModule,
       MatIconModule,

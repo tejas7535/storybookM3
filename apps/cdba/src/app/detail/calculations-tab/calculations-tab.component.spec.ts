@@ -2,7 +2,7 @@ import { CalculationsTableModule } from '@cdba/shared/components';
 import { Calculation } from '@cdba/shared/models';
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -16,7 +16,7 @@ describe('CalculationsTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CalculationsTabComponent,
-    imports: [ReactiveComponentModule, MockModule(CalculationsTableModule)],
+    imports: [PushModule, MockModule(CalculationsTableModule)],
     providers: [
       provideMockStore({
         initialState: {

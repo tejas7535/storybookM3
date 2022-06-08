@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -57,7 +57,8 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     MatTooltipModule,
     RouterModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     SharedPipesModule,
   ],
   exports: [

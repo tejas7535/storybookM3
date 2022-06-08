@@ -12,7 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -52,7 +52,7 @@ describe('AqmCalculatorComponent', () => {
       MatChipsModule,
       MatIconModule,
       SharedModule,
-      ReactiveComponentModule,
+      PushModule,
     ],
     declarations: [AqmCalculatorComponent],
     providers: [

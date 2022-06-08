@@ -2,7 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockModule } from 'ng-mocks';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
@@ -26,7 +26,7 @@ describe('FeatureImportanceComponent', () => {
   const createComponent = createComponentFactory({
     component: FeatureImportanceComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),

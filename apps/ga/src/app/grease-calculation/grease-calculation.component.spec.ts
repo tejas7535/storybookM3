@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -29,7 +29,7 @@ describe('GreaseCalculationComponent', () => {
       RouterTestingModule,
       BreadcrumbsModule,
       GreaseStepperModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

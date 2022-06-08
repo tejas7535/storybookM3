@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { OneTrustModule, OneTrustService } from '@altack/ngx-onetrust';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import {
   ApplicationInsightsModule,
@@ -61,7 +61,7 @@ export function appInitializer(
 
     // NgRx Setup
     StoreModule,
-    ReactiveComponentModule,
+    PushModule,
     RouterModule,
     LoadingSpinnerModule,
 

@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import {
   BehaviorSubject,
@@ -35,7 +35,7 @@ export class BearingSearchComponent implements OnInit {
 
   @Output() public bearing = new EventEmitter<string | undefined>();
 
-  public myControl = new FormControl('');
+  public myControl = new UntypedFormControl('');
 
   public options$: Observable<BearingOption[]> = of([]);
 

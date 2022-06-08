@@ -7,8 +7,8 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core/option';
+import { UntypedFormControl } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class AutocompleteSearchComponent implements OnChanges {
   @ViewChild('searchInput') public searchInput!: ElementRef;
 
   public filteredOptions$!: Observable<DropdownInputOption[]>;
-  public searchControl = new FormControl('');
+  public searchControl = new UntypedFormControl('');
 
   public ngOnChanges(): void {
     this.filteredOptions$ = this.searchControl.valueChanges.pipe(

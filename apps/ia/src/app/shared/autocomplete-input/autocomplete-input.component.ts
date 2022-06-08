@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 
 import { EMPTY, Subscription, timer } from 'rxjs';
@@ -61,7 +61,7 @@ export class AutocompleteInputComponent implements OnInit, OnDestroy {
   private readonly DEBOUNCE_TIME_DEFAULT = 500;
   readonly ONE_CHAR_LENGTH = 1;
 
-  inputControl = new FormControl();
+  inputControl = new UntypedFormControl();
   isTyping = false;
   errorStateMatcher = new InputErrorStateMatcher();
 

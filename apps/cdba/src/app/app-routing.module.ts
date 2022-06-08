@@ -14,35 +14,35 @@ export const appRoutes: Routes = [
   },
   {
     path: AppRoutePath.SearchPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchModule),
     canActivate: [MsalGuard],
     canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.ResultsPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./results/results.module').then((m) => m.ResultsModule),
     canActivate: [MsalGuard],
     canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.DetailPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./detail/detail.module').then((m) => m.DetailModule),
     canActivate: [MsalGuard],
     canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.ComparePath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./compare/compare.module').then((m) => m.CompareModule),
     canActivate: [MsalGuard],
     canActivateChild: [BasicRoleGuard, DescriptiveRoleGuard],
   },
   {
     path: AppRoutePath.PortfolioAnalysisPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./portfolio-analysis/portfolio-analysis.module').then(
         (m) => m.PortfolioAnalysisModule
       ),
@@ -51,7 +51,7 @@ export const appRoutes: Routes = [
   },
   {
     path: AppRoutePath.EmptyStatesPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./core/empty-states/empty-states.module').then(
         (m) => m.EmptyStatesModule
       ),

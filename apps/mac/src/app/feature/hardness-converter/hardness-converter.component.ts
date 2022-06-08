@@ -5,7 +5,11 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
@@ -44,17 +48,17 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public units$ = new ReplaySubject<string[]>();
   public version$ = new ReplaySubject<string>();
 
-  public inputValue = new FormControl(undefined);
-  public inputUnit = new FormControl(HV);
+  public inputValue = new UntypedFormControl(undefined);
+  public inputUnit = new UntypedFormControl(HV);
 
-  public initialInput = new FormGroup({
+  public initialInput = new UntypedFormGroup({
     inputValue: this.inputValue,
     inputUnit: this.inputUnit,
   });
 
-  public additionalInputs = new FormArray([]);
+  public additionalInputs = new UntypedFormArray([]);
 
-  public conversionForm = new FormGroup({
+  public conversionForm = new UntypedFormGroup({
     initialInput: this.initialInput,
     additionalInput: this.additionalInputs,
   });
@@ -164,9 +168,9 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   }
 
   public onAddButtonClick(): void {
-    const newInputs = new FormGroup({
-      [0]: new FormControl(),
-      [1]: new FormControl(),
+    const newInputs = new UntypedFormGroup({
+      [0]: new UntypedFormControl(),
+      [1]: new UntypedFormControl(),
     });
     this.additionalInputs.push(newInputs, { emitEvent: false });
     this.conversionForm.markAsTouched();

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ShareButtonModule } from '@schaeffler/share-button';
@@ -25,7 +25,7 @@ import { SapViewRoutingModule } from './sap-view-routing.module';
     SharedTranslocoModule,
     SubheaderModule,
     CustomerHeaderModule,
-    ReactiveComponentModule,
+    PushModule,
     ShareButtonModule,
     MaterialPriceHeaderContentModule,
     LoadingSpinnerModule,

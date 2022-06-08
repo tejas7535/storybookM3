@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 import { debounceTime, ReplaySubject, Subscription } from 'rxjs';
 
@@ -32,9 +36,9 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
 
   breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
 
-  materialInput: FormControl = new FormControl();
+  materialInput: UntypedFormControl = new UntypedFormControl();
 
-  compositionForm: FormGroup = new FormGroup({});
+  compositionForm: UntypedFormGroup = new UntypedFormGroup({});
 
   subscription = new Subscription();
 
@@ -85,13 +89,13 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
         limits: item[1] as AQMLimit,
       }))
       .map((item) => {
-        controls[item.key] = new FormControl('', [
+        controls[item.key] = new UntypedFormControl('', [
           Validators.required,
           Validators.min(item.limits.min),
           Validators.max(item.limits.max),
         ]);
       });
-    this.compositionForm = new FormGroup(controls);
+    this.compositionForm = new UntypedFormGroup(controls);
 
     this.subscription.add(
       this.compositionForm.valueChanges

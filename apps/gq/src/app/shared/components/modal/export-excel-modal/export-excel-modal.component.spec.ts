@@ -7,7 +7,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { from, of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -37,7 +37,7 @@ describe('ExportExcelModalComponent', () => {
       MatDialogModule,
       FormsModule,
       MatIconModule,
-      ReactiveComponentModule,
+      PushModule,
       LoadingSpinnerModule,
       DialogHeaderModule,
       provideTranslocoTestingModule({ en: {} }),

@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/roles-and-rights",
   "sourceRoot": "libs/shared/ui/roles-and-rights/src",
   "prefix": "schaeffler",
   "targets": {

@@ -3,14 +3,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { PortfolioAnalysisButtonComponent } from './portfolio-analysis-button.component';
 
@@ -22,7 +23,7 @@ describe('PortfolioAnalysisButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: PortfolioAnalysisButtonComponent,
     imports: [
-      ReactiveComponentModule,
+      MockModule(LetModule),
       MockModule(MatButtonModule),
       MockModule(MatTooltipModule),
       RouterTestingModule,

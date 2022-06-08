@@ -5,7 +5,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import {
   MatSnackBar,
   MatSnackBarRef,
@@ -33,7 +33,7 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
   public error$ = new BehaviorSubject<boolean>(false);
   private readonly inactive$ = new Subject<void>();
   private readonly destroy$ = new Subject<void>();
-  private lastFormData?: FormGroup;
+  private lastFormData?: UntypedFormGroup;
   public reportSelector = environment.reportSelector;
   public snackBarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
@@ -58,7 +58,7 @@ export class ResultPageComponent implements OnDestroy, OnChanges {
     this.destroy$.complete();
   }
 
-  public send(form: FormGroup): void {
+  public send(form: UntypedFormGroup): void {
     this.error$.next(false);
     this.lastFormData = form;
     // TODO: check lint rules

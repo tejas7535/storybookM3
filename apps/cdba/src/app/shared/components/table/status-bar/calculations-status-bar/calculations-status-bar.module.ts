@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations';
 import { InViewModule } from '@cdba/shared/directives/in-view';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { CompareButtonModule } from '../../button/compare-button';
 import { LoadBomButtonModule } from '../../button/load-bom-button';
@@ -11,7 +11,7 @@ import { CalculationsStatusBarComponent } from './calculations-status-bar.compon
 @NgModule({
   declarations: [CalculationsStatusBarComponent],
   imports: [
-    ReactiveComponentModule,
+    PushModule,
     InViewModule,
     LoadBomButtonModule,
     CompareButtonModule,

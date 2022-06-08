@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { Meta, moduleMetadata, Story } from '@storybook/angular';
 
 import {
@@ -49,7 +49,7 @@ export default {
         MatProgressSpinnerModule,
         MatFormFieldModule,
         MatInputModule,
-        ReactiveComponentModule,
+        PushModule,
         MatIconModule,
       ],
     }),

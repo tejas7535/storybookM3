@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -17,7 +17,7 @@ import { ComparableTransactionsComponent } from './comparable-transactions.compo
     SharedTranslocoModule,
     AgGridModule.withComponents({}),
     InfoIconModule,
-    ReactiveComponentModule,
+    PushModule,
   ],
   exports: [ComparableTransactionsComponent],
   providers: [

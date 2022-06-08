@@ -131,8 +131,6 @@ describe('CalculationsTableComponent', () => {
 
       component.onRowSelected(event);
 
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
       jest.advanceTimersByTime(10);
 
       expect(component.selectionChange.emit).toHaveBeenCalledWith([
@@ -152,9 +150,6 @@ describe('CalculationsTableComponent', () => {
         },
       } as unknown as RowSelectedEvent);
 
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
-
       jest.advanceTimersByTime(10);
 
       expect(component.selectionChange.emit).toHaveBeenCalledWith([
@@ -166,9 +161,6 @@ describe('CalculationsTableComponent', () => {
       component.selectedNodeIds = ['1', '3'];
 
       component.onRowSelected(event);
-
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
 
       jest.advanceTimersByTime(10);
 
@@ -212,8 +204,6 @@ describe('CalculationsTableComponent', () => {
 
       component['selectNodes']();
 
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
       jest.advanceTimersByTime(10);
       expect(component['gridApi'].getRowNode).toHaveBeenCalled();
     });
@@ -223,7 +213,6 @@ describe('CalculationsTableComponent', () => {
 
       component['selectNodes']();
 
-      expect(setTimeout).not.toHaveBeenCalled();
       expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
     });
   });

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { PERSON_RESPONSIBLE, PURPOSE } from '@schaeffler/legal-pages';
@@ -27,7 +27,7 @@ export function DynamicPurpose(translocoService: TranslocoService) {
     StoreModule,
     AppShellModule,
     MaterialModule,
-    ReactiveComponentModule,
+    PushModule,
   ],
   providers: [
     {

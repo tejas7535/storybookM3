@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -38,7 +38,7 @@ describe('ParametersComponent', () => {
     imports: [
       RouterTestingModule,
       SharedModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
 
       // UI Modules

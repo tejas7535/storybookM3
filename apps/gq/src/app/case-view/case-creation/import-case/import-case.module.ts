@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -18,7 +18,7 @@ import { ImportCaseComponent } from './import-case.component';
     CommonModule,
     SharedTranslocoModule,
     AutocompleteInputModule,
-    ReactiveComponentModule,
+    PushModule,
     MatButtonModule,
     LoadingSpinnerModule,
     DialogHeaderModule,

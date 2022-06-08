@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { TableItem } from '../../models/index';
@@ -32,7 +32,7 @@ describe('ReportComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
 
-      ReactiveComponentModule,
+      PushModule,
 
       MatIconModule,
       MatButtonModule,

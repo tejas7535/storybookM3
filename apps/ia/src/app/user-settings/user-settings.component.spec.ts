@@ -2,7 +2,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
@@ -25,7 +25,7 @@ describe('UserSettingsComponent', () => {
   const createComponent = createComponentFactory({
     component: UserSettingsComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       LanguageSelectModule,
       AutocompleteInputModule,
       provideTranslocoTestingModule({ en: {} }),

@@ -24,7 +24,7 @@ import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ParseConfig, ParseResult } from 'ngx-papaparse';
@@ -82,7 +82,7 @@ describe('PredictionComponent', () => {
       TooltipModule,
       MatIconModule,
       ReactiveFormsModule,
-      ReactiveComponentModule,
+      PushModule,
       MatFormFieldModule,
       MatInputModule,
       MatRadioModule,

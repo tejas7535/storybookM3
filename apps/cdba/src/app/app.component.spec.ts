@@ -10,7 +10,7 @@ import {
 } from '@cdba/shared/components';
 import { ROLES_STATE_SUCCESS_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       RouterTestingModule,
-      ReactiveComponentModule,
+      PushModule,
       MockModule(MatDividerModule),
       MockModule(AppShellModule),
       MockModule(BetaFeatureModule),

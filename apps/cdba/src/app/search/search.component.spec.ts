@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BlockUiModule } from '@cdba/shared/components';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
@@ -20,7 +20,7 @@ describe('SearchComponent', () => {
   const createComponent = createComponentFactory({
     component: SearchComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       MockModule(BlockUiModule),

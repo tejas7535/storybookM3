@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import resize_observer_polyfill from 'resize-observer-polyfill';
@@ -56,7 +56,7 @@ describe('LifetimePredictorComponent', () => {
       PredictionModule,
       StoreModule.forRoot({}),
       provideTranslocoTestingModule({ en }),
-      ReactiveComponentModule,
+      PushModule,
       NoopAnimationsModule,
       BannerModule,
     ],

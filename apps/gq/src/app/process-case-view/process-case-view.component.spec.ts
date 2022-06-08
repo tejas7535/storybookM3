@@ -14,8 +14,9 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -33,8 +34,8 @@ import {
   getQuotationLoading,
   getUpdateLoading,
 } from '../core/store';
-import { AddItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/add-items-button/add-items-button.component';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
+import { AddItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/add-items-button/add-items-button.component';
 import { DeleteItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { ExportToExcelButtonComponent } from '../shared/ag-grid/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { RefreshSapPriceComponent } from '../shared/ag-grid/custom-status-bar/refresh-sap-price/refresh-sap-price.component';
@@ -65,7 +66,7 @@ describe('ProcessCaseViewComponent', () => {
     component: ProcessCaseViewComponent,
     imports: [
       AddEntryModule,
-      InputTableModule,
+      MockModule(InputTableModule),
       AgGridModule.withComponents([
         DeleteItemsButtonComponent,
         UploadSelectionToSapButtonComponent,
@@ -75,18 +76,18 @@ describe('ProcessCaseViewComponent', () => {
         RefreshSapPriceComponent,
       ]),
       BrowserAnimationsModule,
-      CustomStatusBarModule,
+      MockModule(CustomStatusBarModule),
       MatCardModule,
       MatDialogModule,
       MatIconModule,
       MatSidenavModule,
       ProcessCaseViewRoutingModule,
-      QuotationDetailsTableModule,
+      MockModule(QuotationDetailsTableModule),
       RouterTestingModule,
       HeaderContentModule,
       provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,
-      ReactiveComponentModule,
+      PushModule,
       MatSnackBarModule,
       CustomerHeaderModule,
       MatCardModule,

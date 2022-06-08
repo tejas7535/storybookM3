@@ -1,4 +1,4 @@
-import { AbstractControl, FormControl } from '@angular/forms';
+import { AbstractControl, UntypedFormControl } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
@@ -7,7 +7,7 @@ export class CustomFormControl {
   name: string;
   disabled: Observable<boolean> | boolean;
   flexibleLabel?: () => string;
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   infoText?: string;
 
   constructor(object: any) {

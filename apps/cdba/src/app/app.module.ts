@@ -14,7 +14,7 @@ import {
   UserSettingsModule,
 } from '@cdba/shared/components';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 
@@ -26,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
     // angular modules
     HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
-    ReactiveComponentModule,
+    PushModule,
     CommonModule,
 
     // core and routing modules

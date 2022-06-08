@@ -1,7 +1,7 @@
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -21,7 +21,7 @@ describe('QuickBearingSelectionComponent', () => {
     component: QuickBearingSelectionComponent,
     imports: [
       MockModule(ReactiveFormsModule),
-      MockModule(ReactiveComponentModule),
+      MockModule(PushModule),
       MockModule(SearchAutocompleteModule),
       provideTranslocoTestingModule({ en: {} }),
     ],

@@ -7,7 +7,7 @@ import {
   MatExpansionPanelDefaultOptions,
 } from '@angular/material/expansion';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -25,7 +25,7 @@ const defaultOptions: MatExpansionPanelDefaultOptions = {
   declarations: [MaterialCardComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     MatCardModule,
     MatExpansionModule,
     SharedTranslocoModule,

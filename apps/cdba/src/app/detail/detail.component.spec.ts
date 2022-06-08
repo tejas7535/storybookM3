@@ -10,7 +10,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -28,7 +28,8 @@ describe('DetailComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailComponent,
     imports: [
-      ReactiveComponentModule,
+      MockModule(LetModule),
+      MockModule(PushModule),
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MaterialNumberModule,

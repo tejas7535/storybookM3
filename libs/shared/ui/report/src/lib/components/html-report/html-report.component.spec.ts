@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -28,7 +28,7 @@ describe('HtmlReportComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
 
-      ReactiveComponentModule,
+      PushModule,
 
       MatExpansionModule,
       MatSnackBarModule,

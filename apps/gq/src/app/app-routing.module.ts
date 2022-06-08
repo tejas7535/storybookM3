@@ -12,7 +12,7 @@ import { FORBIDDEN_ACTION } from './shared/constants';
 export const appRoutePaths: Routes = [
   {
     path: LegalRoute,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {
@@ -22,7 +22,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.ForbiddenPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
     data: {
       action: encodeURI(FORBIDDEN_ACTION),
@@ -30,14 +30,14 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.CaseViewPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./case-view/case-view.module').then((m) => m.CaseViewModule),
     canActivateChild: [RoleGuard],
     canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.ProcessCaseViewPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./process-case-view/process-case-view.module').then(
         (m) => m.ProcessCaseViewModule
       ),
@@ -45,7 +45,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.DetailViewPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./detail-view/detail-view.module').then(
         (m) => m.DetailViewModule
       ),
@@ -53,7 +53,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.CustomerViewPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./customer-view/customer-view.module').then(
         (m) => m.CustomerViewModule
       ),
@@ -61,7 +61,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: '**',
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 
@@ -17,7 +17,7 @@ import { GreaseCalculationRoutingModule } from './grease-calculation-routing.mod
     BreadcrumbsModule,
     GreaseCalculationRoutingModule,
     GreaseStepperModule,
-    ReactiveComponentModule,
+    PushModule,
   ],
   providers: [ParameterGuard, ResultGuard],
   bootstrap: [GreaseCalculationComponent],

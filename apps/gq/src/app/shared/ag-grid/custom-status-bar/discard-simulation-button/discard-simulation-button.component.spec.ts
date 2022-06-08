@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -16,7 +16,7 @@ describe('DiscardSimulationButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DiscardSimulationButtonComponent,
-    imports: [ReactiveComponentModule],
+    imports: [PushModule],
     providers: [
       provideMockStore({}),
       {

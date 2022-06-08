@@ -7,7 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { mockProvider } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -40,7 +40,7 @@ describe('AdvancedBearingSelectionComponent', () => {
     component: AdvancedBearingSelectionComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(ReactiveComponentModule),
+      MockModule(PushModule),
       MockModule(MatButtonModule),
       MockModule(MatDividerModule),
       MockModule(MatIconModule),

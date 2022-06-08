@@ -1,4 +1,4 @@
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SearchAutocompleteOption } from './search-autocomple-option.model';
 import { SearchAutocompleteComponent } from './search-autocomplete.component';
@@ -28,7 +28,7 @@ describe('SearchAutocompleteComponent', () => {
       MatProgressSpinnerModule,
       MatFormFieldModule,
       MatInputModule,
-      ReactiveComponentModule,
+      PushModule,
       MatIconModule,
     ],
     providers: [
@@ -77,7 +77,9 @@ describe('SearchAutocompleteComponent', () => {
   ];
 
   beforeEach(() => {
-    spectator = createComponent({ props: { control: new FormControl() } });
+    spectator = createComponent({
+      props: { control: new UntypedFormControl() },
+    });
     component = spectator.component;
   });
 

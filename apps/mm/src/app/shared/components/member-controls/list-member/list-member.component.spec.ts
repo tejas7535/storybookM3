@@ -14,7 +14,7 @@ import {
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
 import {
@@ -37,7 +37,7 @@ describe('ListMemberComponent', () => {
   const createComponent = createComponentFactory({
     component: ListMemberComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       MaterialModule,
       DropdownInputModule,
       ReactiveFormsModule,

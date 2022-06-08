@@ -1,6 +1,6 @@
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
@@ -24,7 +24,7 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
 
   commentDisabled = true;
-  commentFormControl: FormControl;
+  commentFormControl: UntypedFormControl;
   updateLoading$: Observable<boolean>;
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
@@ -36,7 +36,7 @@ export class EditingCommentModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.commentFormControl = new FormControl(this.modalData.comment);
+    this.commentFormControl = new UntypedFormControl(this.modalData.comment);
     this.updateLoading$ = this.store.select(getUpdateLoading);
     this.addSubscriptions();
   }

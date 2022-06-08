@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedModule } from '../../shared/shared.module';
 import { AqmCalculatorComponent } from './aqm-calculator.component';
@@ -29,7 +29,7 @@ import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
-    ReactiveComponentModule,
+    PushModule,
   ],
 })
 export class AqmCalculatorModule {}

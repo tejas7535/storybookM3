@@ -13,7 +13,7 @@ import { EmptyStatesPath } from './empty-states-path.enum';
  */
 const forbiddenRouteBasic: ForbiddenRoute = {
   path: EmptyStatesPath.NoAccessPath,
-  loadChildren: async () =>
+  loadChildren: () =>
     import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   data: {
     headingText: 'forbidden.noBasicAccess.heading',
@@ -28,7 +28,7 @@ const forbiddenRouteBasic: ForbiddenRoute = {
  */
 const forbiddenRouteFeature: ForbiddenRoute = {
   path: EmptyStatesPath.ForbiddenPath,
-  loadChildren: async () =>
+  loadChildren: () =>
     import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   data: {
     headingText: 'forbidden.noFeatureAccess.heading',
@@ -44,7 +44,7 @@ const forbiddenRouteFeature: ForbiddenRoute = {
  */
 const forbiddenRouteMissingRoles: ForbiddenRoute = {
   path: EmptyStatesPath.MissingRolesPath,
-  loadChildren: async () =>
+  loadChildren: () =>
     import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   data: {
     headingText: 'forbidden.descriptiveRolesMissing.heading',
@@ -65,7 +65,7 @@ const routes: Routes = [
       forbiddenRouteMissingRoles,
       {
         path: '**',
-        loadChildren: async () =>
+        loadChildren: () =>
           import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
       },
     ],

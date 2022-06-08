@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { OverviewCardComponent } from './overview-card.component';
 
@@ -16,7 +16,7 @@ import { OverviewCardComponent } from './overview-card.component';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    ReactiveComponentModule,
+    PushModule,
     RouterModule,
   ],
   exports: [OverviewCardComponent],

@@ -9,7 +9,7 @@ import { RoleGuard } from './core/guards/role.guard';
 export const appRoutePaths: Routes = [
   {
     path: AppRoutePath.Base,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./sales-summary/sales-summary.module').then(
         (m) => m.SalesSummaryModule
       ),
@@ -18,12 +18,12 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.Forbidden,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

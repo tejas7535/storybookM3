@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
 
@@ -38,7 +38,7 @@ import { HardnessConverterRoutingModule } from './hardness-converter-routing.mod
     MatSnackBarModule,
 
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    PushModule,
 
     SharedModule,
   ],

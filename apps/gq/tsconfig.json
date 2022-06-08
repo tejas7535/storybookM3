@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "files": [],
   "compilerOptions": {
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "target": "es2020"
   },
   "angularCompilerOptions": {
     "strictTemplates": true

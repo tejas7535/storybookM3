@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
@@ -28,7 +28,7 @@ import { PriceService } from '../../../../shared/services/price-service/price.se
   styleUrls: ['./manual-price.component.scss'],
 })
 export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
-  manualPriceFormControl: FormControl;
+  manualPriceFormControl: UntypedFormControl;
   editMode = false;
   gpi: number;
   gpm: number;
@@ -59,7 +59,9 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   ngOnInit(): void {
     // check if price set equals GQ price
     this.setPrice();
-    this.manualPriceFormControl = new FormControl(this.price?.toString());
+    this.manualPriceFormControl = new UntypedFormControl(
+      this.price?.toString()
+    );
     this.setGpi();
     this.setGpm();
 

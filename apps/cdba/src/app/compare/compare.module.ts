@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { TabsHeaderModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -23,7 +23,7 @@ import { compareReducer } from './store/reducers/compare.reducer';
 @NgModule({
   declarations: [CompareComponent],
   imports: [
-    ReactiveComponentModule,
+    PushModule,
     CompareRoutingModule,
     SharedTranslocoModule,
     StoreModule.forFeature('compare', compareReducer),

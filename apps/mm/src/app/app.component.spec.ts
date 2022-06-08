@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -34,7 +34,7 @@ describe('AppComponent', () => {
       MockModule(AppShellModule),
       MockModule(LanguageSelectModule),
       RouterTestingModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
 
       // TOOD: remove when sidebar component has its module

@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -19,7 +19,7 @@ import { SharedModule } from './shared/shared.module';
     CoreModule,
     HttpClientModule,
     LoadingSpinnerModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedModule,
   ],
   declarations: [AppComponent],

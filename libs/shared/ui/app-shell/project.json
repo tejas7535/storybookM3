@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/app-shell",
   "sourceRoot": "libs/shared/ui/app-shell/src",
   "prefix": "schaeffler",
   "targets": {

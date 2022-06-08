@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { FilterChangedEvent } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 import { marbles } from 'rxjs-marbles';
@@ -55,7 +55,7 @@ describe('TransactionViewComponent', () => {
       MatCardModule,
       LoadingSpinnerModule,
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
+      PushModule,
       MaterialPriceHeaderContentModule,
       RouterTestingModule,
       SubheaderModule,

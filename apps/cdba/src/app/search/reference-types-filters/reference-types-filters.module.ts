@@ -13,7 +13,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -37,7 +37,7 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
   ],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedTranslocoModule,
     FormsModule,
     MatButtonModule,

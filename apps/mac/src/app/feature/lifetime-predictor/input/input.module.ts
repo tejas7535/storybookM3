@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -33,7 +33,7 @@ import { ToggleComponent } from './toggle/toggle.component';
   ],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     ReactiveFormsModule,
     MatExpansionModule,
     MatDividerModule,

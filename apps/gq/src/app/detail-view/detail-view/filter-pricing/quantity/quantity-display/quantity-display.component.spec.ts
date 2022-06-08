@@ -3,7 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../../../testing/mocks/models/quotation-details.mock';
@@ -15,7 +15,7 @@ describe('QuantityDisplayComponent', () => {
 
   const createComponent = createComponentFactory({
     component: QuantityDisplayComponent,
-    imports: [MatIconModule, MatDialogModule, ReactiveComponentModule],
+    imports: [MatIconModule, MatDialogModule, PushModule],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({

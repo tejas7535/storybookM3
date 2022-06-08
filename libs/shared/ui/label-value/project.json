@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/label-value",
   "sourceRoot": "libs/shared/ui/label-value/src",
   "prefix": "schaeffler",
   "targets": {

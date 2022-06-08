@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -31,7 +31,7 @@ describe('AdditionalFiltersComponent', () => {
       ReactiveFormsModule,
       SharedPipesModule,
       LoadingSpinnerModule,
-      ReactiveComponentModule,
+      PushModule,
     ],
     declarations: [FilterSelectionComponent],
     providers: [

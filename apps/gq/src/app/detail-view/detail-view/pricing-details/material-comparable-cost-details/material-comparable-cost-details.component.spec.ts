@@ -2,7 +2,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -20,7 +20,7 @@ describe('MaterialComparableCostDetailsComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       SharedPipesModule,
-      ReactiveComponentModule,
+      PushModule,
       MatCardModule,
       LabelTextModule,
     ],

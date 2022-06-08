@@ -514,8 +514,6 @@ describe('MultiSelectFilterComponent', () => {
       component.dropdownOpenedChange(true);
 
       expect(component['emitUpdate']).not.toHaveBeenCalled();
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
       jest.advanceTimersByTime(101);
       expect(
         component.autocompleteInput.nativeElement.focus
@@ -539,7 +537,6 @@ describe('MultiSelectFilterComponent', () => {
       expect(
         component.autocompleteInput.nativeElement.focus
       ).not.toHaveBeenCalled();
-      expect(setTimeout).not.toHaveBeenCalledTimes(1);
     });
   });
 

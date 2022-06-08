@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'gq-detail-view-navigation-bar',
@@ -19,10 +19,10 @@ export class DetailViewNavigationBarComponent implements OnInit {
 
   @Output() navigateToCase: EventEmitter<number> = new EventEmitter<number>();
 
-  customIndexFormControl: FormControl;
+  customIndexFormControl: UntypedFormControl;
 
   ngOnInit(): void {
-    this.customIndexFormControl = new FormControl('', [
+    this.customIndexFormControl = new UntypedFormControl('', [
       Validators.min(1),
       Validators.max(this.numberOfCases),
     ]);

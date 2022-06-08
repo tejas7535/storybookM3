@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/empty-states",
   "sourceRoot": "libs/shared/ui/empty-states/src",
   "prefix": "schaeffler",
   "targets": {

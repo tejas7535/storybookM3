@@ -4,7 +4,7 @@ import { CompareButtonModule } from '@cdba/shared/components/table/button/compar
 import { LoadBomButtonModule } from '@cdba/shared/components/table/button/load-bom-button';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -18,7 +18,7 @@ describe('CalculationsStatusBarComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationsStatusBarComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       MockModule(CompareButtonModule),
       MockModule(ExcludedCalculationsModule),
       MockModule(LoadBomButtonModule),

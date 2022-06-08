@@ -5,7 +5,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -33,7 +33,7 @@ describe('ToggleComponent', () => {
       MatFormFieldModule,
       MatSlideToggleModule,
       NoopAnimationsModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

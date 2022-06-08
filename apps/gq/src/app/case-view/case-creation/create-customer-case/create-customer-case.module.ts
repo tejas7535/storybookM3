@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -34,7 +34,7 @@ import { StatusBarComponent } from './status-bar/status-bar.component';
     CommonModule,
     DialogHeaderModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    PushModule,
     AutocompleteInputModule,
     SelectSalesOrgModule,
     MatButtonModule,

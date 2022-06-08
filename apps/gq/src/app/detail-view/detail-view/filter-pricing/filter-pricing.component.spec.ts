@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -42,7 +42,7 @@ describe('FilterPricingComponent', () => {
       MatIconModule,
       MatFormFieldModule,
       MatInputModule,
-      ReactiveComponentModule,
+      PushModule,
       ReactiveFormsModule,
       SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),

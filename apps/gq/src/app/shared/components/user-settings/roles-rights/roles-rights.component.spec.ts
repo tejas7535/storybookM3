@@ -1,7 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -18,7 +18,7 @@ describe('RolesRightsComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       RolesDescriptionModule,
-      ReactiveComponentModule,
+      PushModule,
     ],
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },

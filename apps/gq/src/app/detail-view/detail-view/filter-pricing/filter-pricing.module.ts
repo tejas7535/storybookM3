@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -40,7 +40,7 @@ import { SapPriceComponent } from './sap-price/sap-price.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedPipesModule,
     DialogHeaderModule,
     LoadingSpinnerModule,

@@ -12,7 +12,7 @@ import {
   Spectator,
   SpyObject,
 } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -46,7 +46,7 @@ describe('ManualPriceComponent', () => {
       MatCardModule,
       MatFormFieldModule,
       MatInputModule,
-      ReactiveComponentModule,
+      PushModule,
       ReactiveFormsModule,
       SharedPipesModule,
       MatDialogModule,

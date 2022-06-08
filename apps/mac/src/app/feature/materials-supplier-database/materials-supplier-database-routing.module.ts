@@ -20,7 +20,7 @@ const routes: Routes = [
     children: [
       {
         path: MSDRoutePaths.MainTablePath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./main-table/main-table.module').then(
             (m) => m.MainTableModule
           ),

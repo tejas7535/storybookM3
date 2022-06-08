@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { CreateCaseActionCellComponent } from './action-cells/create-case-action-cell/create-case-action-cell.component';
 import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
@@ -33,7 +33,7 @@ import { PositionIdComponent } from './position-id/position-id.component';
     MatTooltipModule,
     MatInputModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    PushModule,
   ],
   exports: [
     ProcessCaseActionCellComponent,

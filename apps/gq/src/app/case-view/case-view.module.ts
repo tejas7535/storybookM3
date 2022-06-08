@@ -8,7 +8,7 @@ import {
 } from '@angular/material/dialog';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -31,7 +31,7 @@ import { CaseViewRoutingModule } from './case-view-routing.module';
     SharedTranslocoModule,
     CreateCustomerCaseModule,
     LoadingSpinnerModule,
-    ReactiveComponentModule,
+    PushModule,
     ImportCaseModule,
     CreateManualCaseModule,
     ConfirmationModalModule,

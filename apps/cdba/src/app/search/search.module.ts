@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { SearchEffects } from '@cdba/core/store/effects/search/search.effects';
 import { BlockUiModule } from '@cdba/shared/components';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -17,7 +17,7 @@ import { SearchRoutingModule } from './search-routing.module';
   declarations: [SearchComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedTranslocoModule,
     SearchRoutingModule,
     EffectsModule.forFeature([SearchEffects]),

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'shared-ui-legal-pages',
 
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
@@ -19,5 +19,5 @@ module.exports = {
     'jest-preset-angular/build/serializers/html-comment',
   ],
   coveragePathIgnorePatterns: ['./src/index.ts'],
-  preset: '../../../../jest.preset.ts',
+  preset: '../../../../jest.preset.js',
 };

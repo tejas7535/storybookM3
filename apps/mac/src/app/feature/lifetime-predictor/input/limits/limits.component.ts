@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { HvLimits } from '../../models';
 
@@ -24,9 +24,9 @@ export class LimitsComponent implements OnChanges {
   @Output() public readonly adjust: EventEmitter<HvLimits> = new EventEmitter();
   upperMax: number;
   lowerMin: number;
-  limitForm = new FormGroup({
-    hv_lower: new FormControl({ value: '', disabled: true }),
-    hv_upper: new FormControl({ value: '', disabled: true }),
+  limitForm = new UntypedFormGroup({
+    hv_lower: new UntypedFormControl({ value: '', disabled: true }),
+    hv_upper: new UntypedFormControl({ value: '', disabled: true }),
   });
 
   public ngOnChanges(changes: SimpleChanges): void {

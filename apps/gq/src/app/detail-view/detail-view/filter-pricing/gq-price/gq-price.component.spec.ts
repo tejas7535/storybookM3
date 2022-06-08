@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -29,7 +29,7 @@ describe('GqPriceComponent', () => {
     imports: [
       MatCardModule,
       MatIconModule,
-      ReactiveComponentModule,
+      PushModule,
       LoadingSpinnerModule,
       RouterTestingModule,
       SharedPipesModule,

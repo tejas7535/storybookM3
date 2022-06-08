@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import moment from 'moment';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -15,7 +15,7 @@ describe('LineChartComponent', () => {
   const createComponent = createComponentFactory({
     component: LineChartComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),

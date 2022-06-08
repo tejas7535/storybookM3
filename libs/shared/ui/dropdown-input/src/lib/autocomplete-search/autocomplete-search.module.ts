@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { AutocompleteSearchComponent } from './autocomplete-search.component';
 
@@ -15,11 +15,11 @@ import { AutocompleteSearchComponent } from './autocomplete-search.component';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    PushModule,
     MatFormFieldModule,
     MatInputModule,
     MatAutocompleteModule,
     MatIconModule,
-    ReactiveComponentModule,
   ],
   exports: [AutocompleteSearchComponent],
 })

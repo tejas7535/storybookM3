@@ -4,7 +4,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -21,7 +21,7 @@ describe('BearingSelectionButtonComponent', () => {
     component: BearingSelectionButtonComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(ReactiveComponentModule),
+      MockModule(LetModule),
       MockModule(MatButtonModule),
       MockModule(MatIconModule),
       MockModule(MatProgressSpinnerModule),

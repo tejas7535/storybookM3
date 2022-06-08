@@ -8,7 +8,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -52,7 +52,7 @@ describe('AddEntryComponent', () => {
       InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveFormsModule,
-      ReactiveComponentModule,
+      PushModule,
       MatSnackBarModule,
     ],
     providers: [

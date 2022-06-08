@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatOptionSelectionChange } from '@angular/material/core/option';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { AutocompleteSearchComponent } from './autocomplete-search.component';
 
@@ -26,7 +26,7 @@ describe('AutocompleteSearchComponent', () => {
       MatInputModule,
       MatAutocompleteModule,
       MatIconModule,
-      ReactiveComponentModule,
+      PushModule,
     ],
     providers: [
       {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
@@ -19,9 +19,9 @@ import {
   templateUrl: './material.component.html',
 })
 export class MaterialComponent implements OnInit, OnDestroy {
-  public materialForm = new FormGroup({
-    materialControl: new FormControl(),
-    heatTreatmentControl: new FormControl(),
+  public materialForm = new UntypedFormGroup({
+    materialControl: new UntypedFormControl(),
+    heatTreatmentControl: new UntypedFormControl(),
   });
 
   public materialOptions: Observable<string[]>;

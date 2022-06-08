@@ -2,7 +2,7 @@ import { MatListModule } from '@angular/material/list';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -22,7 +22,7 @@ describe('BearingSelectionListComponent', () => {
     imports: [
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(ReactiveComponentModule),
+      MockModule(LetModule),
       MockModule(MatListModule),
     ],
     providers: [provideMockStore()],

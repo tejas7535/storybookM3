@@ -1,6 +1,6 @@
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -16,7 +16,7 @@ describe('DetailTabComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailTabComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(LoadingSpinnerModule),
     ],

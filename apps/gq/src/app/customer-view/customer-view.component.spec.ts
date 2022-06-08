@@ -11,7 +11,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -50,7 +50,7 @@ describe('CustomerViewComponent', () => {
       CustomerInformationModule,
       MatSidenavModule,
       LoadingSpinnerModule,
-      ReactiveComponentModule,
+      PushModule,
       RouterTestingModule,
       BreadcrumbsModule,
       SubheaderModule,

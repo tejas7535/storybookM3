@@ -5,7 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
@@ -21,7 +21,7 @@ describe('OverviewCardComponent', () => {
       MatCardModule,
       MatIconModule,
       MatButtonModule,
-      ReactiveComponentModule,
+      PushModule,
       RouterTestingModule,
     ],
     providers: [

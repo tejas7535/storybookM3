@@ -9,6 +9,7 @@ import {
   ColDef,
   ColumnApi,
   ExcelStyle,
+  FilterChangedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   RowDoubleClickedEvent,
@@ -117,7 +118,7 @@ export class QuotationDetailsTableComponent implements OnInit {
       });
   }
 
-  public onColumnChange(event: SortChangedEvent): void {
+  public onColumnChange(event: FilterChangedEvent | SortChangedEvent): void {
     this.updateColumnData(event);
 
     this.agGridStateService.setColumnState(

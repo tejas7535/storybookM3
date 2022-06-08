@@ -6,14 +6,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { LetModule, PushModule } from '@ngrx/component';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { ResizeModule } from '@cdba/shared/directives/resize';
 import {
   MaterialNumberModule,
   UndefinedAttributeFallbackModule,
 } from '@cdba/shared/pipes';
-import { ReactiveComponentModule } from '@ngrx/component';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
@@ -24,11 +25,13 @@ import { CostElementsTableModule } from '../cost-elements-table/cost-elements-ta
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { RawMaterialAnalysisTableModule } from '../raw-material-analysis-table/raw-material-analysis-table.module';
 import { BomContainerComponent } from './bom-container.component';
+
 @NgModule({
   declarations: [BomContainerComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
+    LetModule,
     SharedTranslocoModule,
     MatCardModule,
     MatIconModule,

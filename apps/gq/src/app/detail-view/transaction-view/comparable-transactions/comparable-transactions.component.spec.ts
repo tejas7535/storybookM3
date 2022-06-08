@@ -4,7 +4,7 @@ import { FilterChangedEvent } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -27,7 +27,7 @@ describe('ComparableTransactionsComponent', () => {
       AgGridModule,
       InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
+      PushModule,
     ],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });

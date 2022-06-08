@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 
@@ -22,7 +22,7 @@ import { reducers } from './store/reducers';
   imports: [
     CommonModule,
     LifetimePredictorRoutingModule,
-    ReactiveComponentModule,
+    PushModule,
     InputModule,
     PredictionModule,
     SharedTranslocoModule,

@@ -10,8 +10,8 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatOptionSelectionChange } from '@angular/material/core/option';
+import { UntypedFormControl } from '@angular/forms';
+import { MatOptionSelectionChange } from '@angular/material/core';
 
 import { Subscription, timer } from 'rxjs';
 import { debounce, tap } from 'rxjs/operators';
@@ -48,8 +48,8 @@ export class MultiSelectFilterComponent
   DEBOUNCE_TIME_DEFAULT = 500;
   DEBOUNCE_TIME_ONE_CHAR = 1000;
 
-  form = new FormControl();
-  searchForm = new FormControl();
+  form = new UntypedFormControl();
+  searchForm = new UntypedFormControl();
   selectAllChecked = false;
   selectAllIndeterminate = false;
 

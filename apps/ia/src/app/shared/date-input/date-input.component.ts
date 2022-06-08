@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import {
   MatDatepicker,
   MatDatepickerInputEvent,
@@ -78,11 +78,11 @@ export class DateInputComponent {
     });
   }
 
-  dateInput = new FormControl({ value: '', disabled: true });
+  dateInput = new UntypedFormControl({ value: '', disabled: true });
 
-  rangeInput = new FormGroup({
+  rangeInput = new UntypedFormGroup({
     start: this.dateInput,
-    end: new FormControl({ value: '', disabled: true }),
+    end: new UntypedFormControl({ value: '', disabled: true }),
   });
   startView: 'multi-year' | 'month';
 

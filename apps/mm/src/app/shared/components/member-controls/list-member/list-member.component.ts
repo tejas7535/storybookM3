@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import {
   filter,
@@ -86,9 +86,10 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     return type === MemberTypes.LazyList && !forcedSelectsList.includes(id);
   }
 
-  public get control(): FormControl {
+  public get control(): UntypedFormControl {
     return (
-      (this.meta.control?.get('value') as FormControl) || new FormControl('')
+      (this.meta.control?.get('value') as UntypedFormControl) ||
+      new UntypedFormControl('')
     );
   }
 

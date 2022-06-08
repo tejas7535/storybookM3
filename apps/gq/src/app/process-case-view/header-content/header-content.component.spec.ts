@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -26,7 +26,7 @@ describe('HeaderContentComponent', () => {
       MatIconModule,
       InfoIconModule,
       SharedPipesModule,
-      ReactiveComponentModule,
+      PushModule,
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

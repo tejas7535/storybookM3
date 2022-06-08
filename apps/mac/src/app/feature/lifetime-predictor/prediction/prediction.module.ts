@@ -16,7 +16,7 @@ import {
 } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { BannerModule } from '@schaeffler/banner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -32,7 +32,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
   declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     ChartModule,
     MatTabsModule,
     MatIconModule,

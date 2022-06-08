@@ -7,7 +7,11 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatSelectChange } from '@angular/material/select';
 
@@ -18,17 +22,17 @@ import { MatSelectChange } from '@angular/material/select';
 export class FilterSelectionComponent implements OnInit, OnChanges {
   @Input() title: string;
   @Input() items: { value: string; selected: boolean; name?: string }[];
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Output() selection = new EventEmitter<string[]>();
   // eslint-disable-next-line @typescript-eslint/prefer-readonly
   @ViewChild('allSelected') private allSelected: MatOption;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(private readonly fb: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      items: new FormControl({
+      items: new UntypedFormControl({
         value: '',
         disabled: this.items.length === 0,
       }),

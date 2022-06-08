@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/dropdown-input",
   "sourceRoot": "libs/shared/ui/dropdown-input/src",
   "prefix": "schaeffler",
   "targets": {

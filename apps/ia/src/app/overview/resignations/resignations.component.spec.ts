@@ -37,10 +37,7 @@ describe('ResignationsComponent', () => {
 
   describe('columnDefs', () => {
     const expectedDate = '1/01/1970';
-    let mockDate: SpyInstance<
-      string,
-      [locales?: string | string[], options?: unknown]
-    >;
+    let mockDate: SpyInstance;
 
     beforeAll(() => {
       mockDate = jest

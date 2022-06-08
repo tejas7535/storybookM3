@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
@@ -22,7 +22,7 @@ export class LanguageSelectComponent implements OnInit, OnDestroy {
 
   public availableLanguages =
     this.transloco.getAvailableLangs() as LangDefinition[];
-  public languageSelectControl: FormControl = new FormControl(
+  public languageSelectControl: UntypedFormControl = new UntypedFormControl(
     this.transloco.getActiveLang()
   );
   private readonly subscription = new Subscription();

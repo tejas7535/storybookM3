@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
   styleUrls: ['./input.component.scss'],
 })
 export class InputComponent implements OnInit, OnDestroy {
-  @Input() public control: FormControl;
+  @Input() public control: UntypedFormControl;
   @Input() public placeholder?: string;
   @Input() public hint?: string;
   @Input() public label?: string;

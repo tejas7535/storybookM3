@@ -222,111 +222,105 @@ describe('SalesRowDetailsComponent', () => {
   });
 
   describe('sendUpdatedDates', () => {
-    it(
-      'should send update, reload grid and show success message',
-      waitForAsync(() => {
-        component['rowNode'] = {
-          setDataValue: jest.fn(),
-        } as unknown as RowNode;
+    it('should send update, reload grid and show success message', waitForAsync(() => {
+      component['rowNode'] = {
+        setDataValue: jest.fn(),
+      } as unknown as RowNode;
 
-        dataService.updateDates = jest.fn().mockResolvedValue({});
-        snackBar.open = jest.fn();
+      dataService.updateDates = jest.fn().mockResolvedValue({});
+      snackBar.open = jest.fn();
 
-        component.rowData = {
-          combinedKey: salesSummaryMock.combinedKey,
-        } as unknown as SalesSummary;
+      component.rowData = {
+        combinedKey: salesSummaryMock.combinedKey,
+      } as unknown as SalesSummary;
 
-        const dateString = new Date(Date.UTC(2020, 0, 1, 10, 0)).toISOString();
+      const dateString = new Date(Date.UTC(2020, 0, 1, 10, 0)).toISOString();
 
-        SalesRowDetailsComponent['convertToIsoDateString'] = jest
-          .fn()
-          .mockReturnValue(dateString);
+      SalesRowDetailsComponent['convertToIsoDateString'] = jest
+        .fn()
+        .mockReturnValue(dateString);
 
-        component.datesFormGroup.setValue({
-          eopDateControl: dateString,
-          edoDateControl: dateString,
-        });
+      component.datesFormGroup.setValue({
+        eopDateControl: dateString,
+        edoDateControl: dateString,
+      });
 
-        component.sendUpdatedDates().then(() => {
-          expect(
-            SalesRowDetailsComponent['convertToIsoDateString']
-          ).toHaveBeenCalledTimes(2);
-          expect(
-            SalesRowDetailsComponent['convertToIsoDateString']
-          ).toHaveBeenCalledWith(dateString);
+      component.sendUpdatedDates().then(() => {
+        expect(
+          SalesRowDetailsComponent['convertToIsoDateString']
+        ).toHaveBeenCalledTimes(2);
+        expect(
+          SalesRowDetailsComponent['convertToIsoDateString']
+        ).toHaveBeenCalledWith(dateString);
 
-          const expectedUpdateParams = new UpdateDatesParams(
-            salesSummaryMock.combinedKey,
-            dateString,
-            dateString
-          );
-          expect(dataService.updateDates).toHaveBeenCalledTimes(1);
-          expect(dataService.updateDates).toHaveBeenCalledWith(
-            expectedUpdateParams
-          );
+        const expectedUpdateParams = new UpdateDatesParams(
+          salesSummaryMock.combinedKey,
+          dateString,
+          dateString
+        );
+        expect(dataService.updateDates).toHaveBeenCalledTimes(1);
+        expect(dataService.updateDates).toHaveBeenCalledWith(
+          expectedUpdateParams
+        );
 
-          expect(component['rowNode'].setDataValue).toHaveBeenCalledTimes(2);
-          expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
-            'eopDateVerified',
-            dateString
-          );
-          expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
-            'edoDate',
-            dateString
-          );
+        expect(component['rowNode'].setDataValue).toHaveBeenCalledTimes(2);
+        expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
+          'eopDateVerified',
+          dateString
+        );
+        expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
+          'edoDate',
+          dateString
+        );
 
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith(
-            'Success: Update successful'
-          );
-        });
-      })
-    );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledWith(
+          'Success: Update successful'
+        );
+      });
+    }));
 
-    it(
-      'should show an error message on error',
-      waitForAsync(() => {
-        dataService.updateDates = jest.fn().mockRejectedValue({});
-        snackBar.open = jest.fn();
+    it('should show an error message on error', waitForAsync(() => {
+      dataService.updateDates = jest.fn().mockRejectedValue({});
+      snackBar.open = jest.fn();
 
-        component.rowData = {
-          combinedKey: salesSummaryMock.combinedKey,
-        } as unknown as SalesSummary;
+      component.rowData = {
+        combinedKey: salesSummaryMock.combinedKey,
+      } as unknown as SalesSummary;
 
-        const dateString = new Date(Date.UTC(2020, 0, 1, 10, 0)).toISOString();
+      const dateString = new Date(Date.UTC(2020, 0, 1, 10, 0)).toISOString();
 
-        SalesRowDetailsComponent['convertToIsoDateString'] = jest
-          .fn()
-          .mockReturnValue(dateString);
+      SalesRowDetailsComponent['convertToIsoDateString'] = jest
+        .fn()
+        .mockReturnValue(dateString);
 
-        component.datesFormGroup.setValue({
-          eopDateControl: dateString,
-          edoDateControl: dateString,
-        });
+      component.datesFormGroup.setValue({
+        eopDateControl: dateString,
+        edoDateControl: dateString,
+      });
 
-        component.sendUpdatedDates().then(() => {
-          expect(
-            SalesRowDetailsComponent['convertToIsoDateString']
-          ).toHaveBeenCalledTimes(2);
-          expect(
-            SalesRowDetailsComponent['convertToIsoDateString']
-          ).toHaveBeenCalledWith(dateString);
+      component.sendUpdatedDates().then(() => {
+        expect(
+          SalesRowDetailsComponent['convertToIsoDateString']
+        ).toHaveBeenCalledTimes(2);
+        expect(
+          SalesRowDetailsComponent['convertToIsoDateString']
+        ).toHaveBeenCalledWith(dateString);
 
-          const expectedUpdateParams = new UpdateDatesParams(
-            salesSummaryMock.combinedKey,
-            dateString,
-            dateString
-          );
-          expect(dataService.updateDates).toHaveBeenCalledTimes(1);
-          expect(dataService.updateDates).toHaveBeenCalledWith(
-            expectedUpdateParams
-          );
+        const expectedUpdateParams = new UpdateDatesParams(
+          salesSummaryMock.combinedKey,
+          dateString,
+          dateString
+        );
+        expect(dataService.updateDates).toHaveBeenCalledTimes(1);
+        expect(dataService.updateDates).toHaveBeenCalledWith(
+          expectedUpdateParams
+        );
 
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('Error: Update failed');
-        });
-      })
-    );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledWith('Error: Update failed');
+      });
+    }));
 
     it('should do nothing if datesFormGroup is not valid and show warning for EOP field', async () => {
       snackBar.open = jest.fn();
@@ -376,75 +370,69 @@ describe('SalesRowDetailsComponent', () => {
   });
 
   describe('sendUpdatedIgnoreFlag', () => {
-    it(
-      'should send update, update grid and show success message',
-      waitForAsync(() => {
-        component['rowNode'] = {
-          setDataValue: jest.fn(),
-        } as unknown as RowNode;
+    it('should send update, update grid and show success message', waitForAsync(() => {
+      component['rowNode'] = {
+        setDataValue: jest.fn(),
+      } as unknown as RowNode;
 
-        dataService.updateIgnoreFlag = jest.fn().mockResolvedValue({});
-        snackBar.open = jest.fn();
+      dataService.updateIgnoreFlag = jest.fn().mockResolvedValue({});
+      snackBar.open = jest.fn();
 
-        component.rowData = {
-          combinedKey: salesSummaryMock.combinedKey,
-        } as unknown as SalesSummary;
+      component.rowData = {
+        combinedKey: salesSummaryMock.combinedKey,
+      } as unknown as SalesSummary;
 
-        const mockIgnoreFlag = IgnoreFlag.CustomerNumberChange;
+      const mockIgnoreFlag = IgnoreFlag.CustomerNumberChange;
 
-        component.sendUpdatedIgnoreFlag(mockIgnoreFlag).then(() => {
-          const expectedUpdateParams = new UpdateIgnoreFlagParams(
-            salesSummaryMock.combinedKey,
-            mockIgnoreFlag
-          );
+      component.sendUpdatedIgnoreFlag(mockIgnoreFlag).then(() => {
+        const expectedUpdateParams = new UpdateIgnoreFlagParams(
+          salesSummaryMock.combinedKey,
+          mockIgnoreFlag
+        );
 
-          expect(dataService.updateIgnoreFlag).toHaveBeenCalledTimes(1);
-          expect(dataService.updateIgnoreFlag).toHaveBeenCalledWith(
-            expectedUpdateParams
-          );
+        expect(dataService.updateIgnoreFlag).toHaveBeenCalledTimes(1);
+        expect(dataService.updateIgnoreFlag).toHaveBeenCalledWith(
+          expectedUpdateParams
+        );
 
-          expect(component['rowNode'].setDataValue).toHaveBeenCalledTimes(1);
-          expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
-            'ignoreFlag',
-            mockIgnoreFlag
-          );
+        expect(component['rowNode'].setDataValue).toHaveBeenCalledTimes(1);
+        expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
+          'ignoreFlag',
+          mockIgnoreFlag
+        );
 
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith(
-            'Success: Update successful'
-          );
-        });
-      })
-    );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledWith(
+          'Success: Update successful'
+        );
+      });
+    }));
 
-    it(
-      'should show an error message on error',
-      waitForAsync(() => {
-        dataService.updateIgnoreFlag = jest.fn().mockRejectedValue({});
-        snackBar.open = jest.fn();
+    it('should show an error message on error', waitForAsync(() => {
+      dataService.updateIgnoreFlag = jest.fn().mockRejectedValue({});
+      snackBar.open = jest.fn();
 
-        component.rowData = {
-          combinedKey: salesSummaryMock.combinedKey,
-        } as unknown as SalesSummary;
+      component.rowData = {
+        combinedKey: salesSummaryMock.combinedKey,
+      } as unknown as SalesSummary;
 
-        const mockIgnoreFlag = IgnoreFlag.CustomerNumberChange;
+      const mockIgnoreFlag = IgnoreFlag.CustomerNumberChange;
 
-        component.sendUpdatedIgnoreFlag(mockIgnoreFlag).then(() => {
-          const expectedUpdateParams = new UpdateIgnoreFlagParams(
-            salesSummaryMock.combinedKey,
-            mockIgnoreFlag
-          );
+      component.sendUpdatedIgnoreFlag(mockIgnoreFlag).then(() => {
+        const expectedUpdateParams = new UpdateIgnoreFlagParams(
+          salesSummaryMock.combinedKey,
+          mockIgnoreFlag
+        );
 
-          expect(dataService.updateIgnoreFlag).toHaveBeenCalledTimes(1);
-          expect(dataService.updateIgnoreFlag).toHaveBeenCalledWith(
-            expectedUpdateParams
-          );
+        expect(dataService.updateIgnoreFlag).toHaveBeenCalledTimes(1);
+        expect(dataService.updateIgnoreFlag).toHaveBeenCalledWith(
+          expectedUpdateParams
+        );
 
-          expect(snackBar.open).toHaveBeenCalledTimes(1);
-          expect(snackBar.open).toHaveBeenCalledWith('Error: Update failed');
-        });
-      })
-    );
+        expect(snackBar.open).toHaveBeenCalledTimes(1);
+        expect(snackBar.open).toHaveBeenCalledWith('Error: Update failed');
+      });
+    }));
   });
 
   describe('openIgnoreDialog', () => {
@@ -536,8 +524,6 @@ describe('SalesRowDetailsComponent', () => {
 
       component.iconLeave(menuTrigger);
 
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1500);
       jest.advanceTimersByTime(1501);
       expect(menuTrigger.closeMenu).toHaveBeenCalled();
     });

@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
@@ -32,7 +32,7 @@ describe('GreaseResultComponent', () => {
         cookiesGroups: COOKIE_GROUPS,
         domainScript: 'mockOneTrustId',
       }),
-      ReactiveComponentModule,
+      PushModule,
     ],
   });
 

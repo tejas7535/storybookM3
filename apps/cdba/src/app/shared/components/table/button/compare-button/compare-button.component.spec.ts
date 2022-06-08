@@ -4,14 +4,15 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { GridApi, RowNode } from '@ag-grid-enterprise/all-modules';
-import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { CompareButtonComponent } from './compare-button.component';
 
@@ -23,7 +24,7 @@ describe('CompareButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: CompareButtonComponent,
     imports: [
-      ReactiveComponentModule,
+      MockModule(LetModule),
       MockModule(MatButtonModule),
       MockModule(MatTooltipModule),
       RouterTestingModule,

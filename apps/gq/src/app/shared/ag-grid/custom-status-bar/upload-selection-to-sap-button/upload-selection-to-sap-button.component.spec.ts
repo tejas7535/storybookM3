@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -30,7 +30,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
       MatButtonModule,
       MatIconModule,
       MatDialogModule,
-      ReactiveComponentModule,
+      PushModule,
       MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

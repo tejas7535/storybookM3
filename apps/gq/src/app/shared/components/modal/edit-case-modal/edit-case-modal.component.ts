@@ -4,7 +4,11 @@ import {
   Inject,
   OnInit,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -19,7 +23,7 @@ import { getAvailableCurrencies } from '../../../../core/store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditCaseModalComponent implements OnInit {
-  public caseModalForm: FormGroup;
+  public caseModalForm: UntypedFormGroup;
 
   currencies$: Observable<string[]>;
 
@@ -36,12 +40,14 @@ export class EditCaseModalComponent implements OnInit {
   ngOnInit(): void {
     this.currencies$ = this.store.select(getAvailableCurrencies);
 
-    this.caseModalForm = new FormGroup({
-      caseName: new FormControl(this.modalData?.caseName || '', [
+    this.caseModalForm = new UntypedFormGroup({
+      caseName: new UntypedFormControl(this.modalData?.caseName || '', [
         Validators.pattern('\\s*\\S.*'),
         Validators.maxLength(20),
       ]),
-      currency: new FormControl(this.modalData.currency, [Validators.required]),
+      currency: new UntypedFormControl(this.modalData.currency, [
+        Validators.required,
+      ]),
     });
   }
 

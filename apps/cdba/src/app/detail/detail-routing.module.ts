@@ -12,20 +12,20 @@ const routes: Routes = [
     children: [
       {
         path: DetailRoutePath.DetailsPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./detail-tab/detail-tab.module').then(
             (m) => m.DetailTabModule
           ),
       },
       {
         path: DetailRoutePath.BomPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./bom-tab/bom-tab.module').then((m) => m.BomTabModule),
         canActivateChild: [BasicRoleGuard, PricingRoleGuard],
       },
       {
         path: DetailRoutePath.CalculationsPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./calculations-tab/calculations-tab.module').then(
             (m) => m.CalculationsTabModule
           ),
@@ -38,7 +38,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        loadChildren: async () =>
+        loadChildren: () =>
           import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
       },
     ],

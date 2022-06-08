@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -14,7 +14,7 @@ import { LegendComponent } from './legend/legend.component';
   imports: [
     CommonModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    PushModule,
     NgxEchartsModule.forRoot({
       echarts: async () => import('echarts'),
     }),

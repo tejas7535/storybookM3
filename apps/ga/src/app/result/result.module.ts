@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -25,7 +25,7 @@ import { ResultRoutingModule } from './result-routing.module';
     CommonModule,
     ResultRoutingModule,
     SharedModule,
-    ReactiveComponentModule,
+    PushModule,
     FormsModule,
 
     // UI Modules

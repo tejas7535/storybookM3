@@ -8,7 +8,7 @@ import { AgGridEvent, RowNode } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -62,7 +62,7 @@ describe('QuotationDetailsTableComponent', () => {
       ]),
       CustomStatusBarModule,
       MatDialogModule,
-      ReactiveComponentModule,
+      PushModule,
       RouterTestingModule,
       MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),

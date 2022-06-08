@@ -5,8 +5,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { StepperModule } from '@schaeffler/stepper';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -31,7 +32,8 @@ describe('StepperComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatStepperModule,
       StepperModule,
-      ReactiveComponentModule,
+      MockModule(LetModule),
+      MockModule(PushModule),
       MatIconModule,
       RouterTestingModule,
     ],

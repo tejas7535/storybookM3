@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
@@ -20,11 +20,7 @@ describe('BearingSearchComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BearingSearchComponent,
-    imports: [
-      ReactiveFormsModule,
-      ReactiveComponentModule,
-      SearchAutocompleteModule,
-    ],
+    imports: [ReactiveFormsModule, PushModule, SearchAutocompleteModule],
     providers: [
       {
         provide: RestService,

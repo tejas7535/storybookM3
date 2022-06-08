@@ -9,7 +9,11 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import { EMPTY, Subscription, timer } from 'rxjs';
@@ -73,7 +77,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   selectedIdValue: IdValue;
   unselectedOptions: IdValue[];
-  searchFormControl: FormControl = new FormControl();
+  searchFormControl: UntypedFormControl = new UntypedFormControl();
 
   ngOnInit(): void {
     this.subscription.add(

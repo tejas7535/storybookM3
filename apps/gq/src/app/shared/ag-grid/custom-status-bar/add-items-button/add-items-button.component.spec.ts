@@ -3,7 +3,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -18,7 +18,7 @@ describe('AddItemsButtonComponent', () => {
   const createComponent = createComponentFactory({
     component: AddItemsButtonComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       MatIconModule,
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),

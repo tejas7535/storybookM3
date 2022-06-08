@@ -6,7 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Spectator } from '@ngneat/spectator';
 import { createComponentFactory } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
@@ -27,7 +27,7 @@ describe('EditCaseModalComponent', () => {
       MatInputModule,
       FormsModule,
       ReactiveFormsModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [

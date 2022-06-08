@@ -9,7 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -22,7 +22,7 @@ import { RangeFilterValuePipe } from './range-filter-value.pipe';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    PushModule,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,

@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -25,7 +25,7 @@ describe('CaseViewComponent', () => {
       CustomStatusBarModule,
       provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,
-      ReactiveComponentModule,
+      PushModule,
       MatCardModule,
     ],
     providers: [

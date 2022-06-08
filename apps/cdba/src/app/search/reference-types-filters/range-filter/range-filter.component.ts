@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { NumberFormatOptions } from '@ngneat/transloco-locale/lib/transloco-locale.types';
@@ -24,7 +24,7 @@ import { InputType } from './input-type.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RangeFilterComponent implements OnChanges, OnInit, Filter {
-  public form = new FormControl();
+  public form = new UntypedFormControl();
   public inputType = InputType;
   public disabledFilterHint: string;
 

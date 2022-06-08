@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -29,7 +29,8 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     MatButtonModule,
     MatSidenavModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     SharedPipesModule,
     PricingDetailsModule,
     LoadingSpinnerModule,

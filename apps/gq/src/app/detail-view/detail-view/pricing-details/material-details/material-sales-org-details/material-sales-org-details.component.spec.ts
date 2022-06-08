@@ -1,5 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -18,7 +18,7 @@ describe('MaterialSalesOrgDetailsComponent', () => {
     component: MaterialSalesOrgDetailsComponent,
     imports: [
       SharedPipesModule,
-      ReactiveComponentModule,
+      PushModule,
       LabelTextModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

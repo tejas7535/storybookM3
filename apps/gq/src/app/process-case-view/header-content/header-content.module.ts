@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -20,7 +20,7 @@ import { HeaderContentComponent } from './header-content.component';
     MatIconModule,
     MatButtonModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    PushModule,
     ReactiveFormsModule,
     MatInputModule,
     SharedTranslocoModule,

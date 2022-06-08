@@ -16,12 +16,12 @@ const routes: Routes = [
       },
       {
         path: `${GreaseCalculationPath.BearingPath}`,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('../bearing/bearing.module').then((m) => m.BearingModule),
       },
       {
         path: `${GreaseCalculationPath.ParametersPath}`,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('../parameters/parameters.module').then(
             (m) => m.ParametersModule
           ),
@@ -29,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: GreaseCalculationPath.ResultPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('../result/result.module').then((m) => m.ResultModule),
         canActivate: [ResultGuard],
       },

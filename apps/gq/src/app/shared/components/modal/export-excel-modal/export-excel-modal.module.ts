@@ -6,7 +6,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -25,7 +25,7 @@ import { ExportExcelModalComponent } from './export-excel-modal.component';
     MatRadioModule,
     FormsModule,
     LoadingSpinnerModule,
-    ReactiveComponentModule,
+    PushModule,
     DialogHeaderModule,
   ],
   exports: [ExportExcelModalComponent],

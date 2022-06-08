@@ -2,7 +2,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/marbles';
 
@@ -38,7 +38,7 @@ describe('FilterSectionComponent', () => {
     component: FilterSectionComponent,
     imports: [
       NoopAnimationsModule,
-      ReactiveComponentModule,
+      PushModule,
       MatExpansionModule,
       FilterModule,
       provideTranslocoTestingModule({ en }),

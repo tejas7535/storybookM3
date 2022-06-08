@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -34,7 +34,7 @@ import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain
     MaterialDetailsModule,
     MatExpansionModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedPipesModule,
     LoadingSpinnerModule,
     LabelTextModule,

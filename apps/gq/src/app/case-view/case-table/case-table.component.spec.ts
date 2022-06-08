@@ -7,7 +7,7 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { RowNode } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -46,7 +46,7 @@ describe('CaseTableComponent', () => {
       RouterTestingModule.withRoutes([]),
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
+      PushModule,
     ],
     providers: [
       provideMockStore({

@@ -1,7 +1,7 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { BannerComponent } from './banner.component';
@@ -16,7 +16,7 @@ describe('BannerComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BannerComponent,
-    imports: [BannerTextModule, ReactiveComponentModule],
+    imports: [BannerTextModule, PushModule],
     providers: [
       provideMockStore({
         initialState: { banner: initialState },

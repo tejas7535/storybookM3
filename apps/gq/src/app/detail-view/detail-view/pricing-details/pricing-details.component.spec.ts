@@ -4,7 +4,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -34,7 +34,7 @@ describe('PricingDetailsComponent', () => {
       MatExpansionModule,
       provideTranslocoTestingModule({ en: {} }),
       SharedPipesModule,
-      ReactiveComponentModule,
+      PushModule,
       LoadingSpinnerModule,
       LabelTextModule,
     ],

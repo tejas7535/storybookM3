@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -33,7 +33,7 @@ import { StoreModule } from './store/store.module';
       !environment.localDev
     ),
 
-    ReactiveComponentModule,
+    PushModule,
   ],
   providers: [],
   exports: [AppComponent],

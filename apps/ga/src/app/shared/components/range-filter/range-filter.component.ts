@@ -7,7 +7,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { InputType, RangeFilter } from './range-filter.model';
 
@@ -23,7 +23,7 @@ export class RangeFilterComponent implements OnChanges {
   @Output()
   public updateFilter: EventEmitter<RangeFilter> = new EventEmitter();
 
-  public form = new FormControl();
+  public form = new UntypedFormControl();
   public inputType = InputType;
 
   public ngOnChanges(changes: SimpleChanges): void {

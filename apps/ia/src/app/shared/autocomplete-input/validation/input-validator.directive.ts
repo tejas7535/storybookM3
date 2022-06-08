@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import {
-  FormControl,
+  UntypedFormControl,
   NG_VALIDATORS,
   ValidationErrors,
   Validator,
@@ -21,7 +21,7 @@ import { ValidationUtils } from './validation-utils';
   ],
 })
 export class InputValidatorDirective implements Validator {
-  public validate(control: FormControl): ValidationErrors | null {
+  public validate(control: UntypedFormControl): ValidationErrors | null {
     let message: string;
 
     if (

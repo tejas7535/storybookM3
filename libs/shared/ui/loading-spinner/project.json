@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/loading-spinner",
   "sourceRoot": "libs/shared/ui/loading-spinner/src",
   "prefix": "schaeffler",
   "targets": {

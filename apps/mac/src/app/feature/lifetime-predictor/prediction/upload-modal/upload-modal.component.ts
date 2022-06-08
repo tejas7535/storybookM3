@@ -1,21 +1,25 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'mac-ltp-upload-modal',
   templateUrl: './upload-modal.component.html',
 })
 export class UploadModalComponent {
-  loadForm = new FormGroup({
-    conversionFactor: new FormControl(1, [
+  loadForm = new UntypedFormGroup({
+    conversionFactor: new UntypedFormControl(1, [
       Validators.required,
       Validators.min(0.01),
     ]),
-    repetitionFactor: new FormControl(1, [
+    repetitionFactor: new UntypedFormControl(1, [
       Validators.required,
       Validators.min(0.01),
     ]),
-    method: new FormControl('FKM', [Validators.required]),
+    method: new UntypedFormControl('FKM', [Validators.required]),
   });
 
   methods: string[] = ['FKM', 'Goodman'];

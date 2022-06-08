@@ -1,5 +1,9 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Observable, Subscription } from 'rxjs';
@@ -42,7 +46,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   public materialInputIsValid = false;
   public quantityValid = false;
   public addRowEnabled = false;
-  public quantityFormControl: FormControl = new FormControl();
+  public quantityFormControl: UntypedFormControl = new UntypedFormControl();
   private readonly subscription: Subscription = new Subscription();
 
   @Input() public readonly isCaseView: boolean;

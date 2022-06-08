@@ -2,8 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
 } from '@angular/forms';
 
@@ -44,7 +44,7 @@ export class InputComponent implements OnInit {
   public materialControls: CustomFormControl[];
   public loadControls: CustomFormControl[];
   public commonControls: CustomFormControl[];
-  public inputForm = new FormGroup({});
+  public inputForm = new UntypedFormGroup({});
   public display: Observable<Display>;
   public quality: string;
   public material = false;
@@ -289,21 +289,21 @@ export class InputComponent implements OnInit {
       new ToggleControl({
         key: 'showMurakami',
         name: 'showMurakami',
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
         disabled: false,
         default: false,
       }),
       new ToggleControl({
         key: 'showFKM',
         name: 'showFkm',
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
         disabled: false,
         default: false,
       }),
       new ToggleControl({
         key: 'showStatistical',
         name: 'showStatistical',
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
         disabled: false,
         default: false,
       }),
@@ -316,7 +316,7 @@ export class InputComponent implements OnInit {
         disabled: this.predictionRequest.pipe(
           map((req: PredictionRequest) => req.prediction !== 0)
         ),
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
     ];
 
@@ -328,7 +328,7 @@ export class InputComponent implements OnInit {
         max: 800,
         step: 1,
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
     ];
 
@@ -340,7 +340,7 @@ export class InputComponent implements OnInit {
         max: 25,
         step: 0.1,
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'hv_core',
@@ -349,7 +349,7 @@ export class InputComponent implements OnInit {
         max: 800,
         step: 1,
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'rArea',
@@ -366,7 +366,7 @@ export class InputComponent implements OnInit {
 
           return label + addedString;
         },
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'es',
@@ -375,7 +375,7 @@ export class InputComponent implements OnInit {
         max: 90,
         step: 10,
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
     ];
 
@@ -389,7 +389,7 @@ export class InputComponent implements OnInit {
         disabled: this.predictionRequest.pipe(
           map((req: PredictionRequest) => req.prediction !== 0)
         ),
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'v90',
@@ -399,7 +399,7 @@ export class InputComponent implements OnInit {
         step: 1,
         logarithmic: true,
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'gradient',
@@ -408,7 +408,7 @@ export class InputComponent implements OnInit {
         max: 10,
         step: 0.1,
         disabled: true,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'rrelation',
@@ -417,7 +417,9 @@ export class InputComponent implements OnInit {
         max: 0.3,
         step: 0.05,
         disabled: false,
-        formControl: new FormControl(undefined, [this.validateRRelation()]),
+        formControl: new UntypedFormControl(undefined, [
+          this.validateRRelation(),
+        ]),
         infoText: 'rrelInfoLong',
       }),
       new SliderControl({
@@ -427,7 +429,7 @@ export class InputComponent implements OnInit {
         max: 2000,
         step: 1,
         disabled: true,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SliderControl({
         key: 'multiaxiality',
@@ -436,7 +438,7 @@ export class InputComponent implements OnInit {
         max: 1.33,
         step: 0.01,
         disabled: true,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
       new SelectControl({
         key: 'burdeningType',
@@ -454,7 +456,7 @@ export class InputComponent implements OnInit {
           })
         ),
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new UntypedFormControl(),
       }),
     ];
   }

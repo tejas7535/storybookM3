@@ -14,33 +14,33 @@ export const appRoutePaths: Routes = [
       },
       {
         path: AppRoutePath.OverviewPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
       {
         path: AppRoutePath.OrganizationalViewPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./organizational-view/organizational-view.module').then(
             (m) => m.OrganizationalViewModule
           ),
       },
       {
         path: AppRoutePath.LossOfSkillPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./loss-of-skill/loss-of-skill.module').then(
             (m) => m.LossOfSkillModule
           ),
       },
       {
         path: AppRoutePath.ReasonsAndCounterMeasuresPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import(
             './reasons-and-counter-measures/reasons-and-counter-measures.module'
           ).then((m) => m.ReasonsAndCounterMeasuresModule),
       },
       {
         path: AppRoutePath.FluctuationAnalyticsPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./attrition-analytics/attrition-analytics.module').then(
             (m) => m.AttritionAnalyticsModule
           ),
@@ -49,17 +49,17 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.ForbiddenPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: AppRoutePath.LegalPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {
     path: '**',
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

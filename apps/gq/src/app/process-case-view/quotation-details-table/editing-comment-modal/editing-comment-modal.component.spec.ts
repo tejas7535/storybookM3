@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -27,7 +27,7 @@ describe('EditingCommentModalComponent', () => {
       LoadingSpinnerModule,
       MatFormFieldModule,
       DialogHeaderModule,
-      ReactiveComponentModule,
+      PushModule,
       TextFieldModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({ en: {} }),

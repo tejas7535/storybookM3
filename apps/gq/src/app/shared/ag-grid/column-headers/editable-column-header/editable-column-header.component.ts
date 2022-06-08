@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { filter, map, pairwise, Subscription } from 'rxjs';
 
@@ -41,7 +41,7 @@ export class EditableColumnHeaderComponent
 
   showEditIcon = false;
 
-  editFormControl: FormControl;
+  editFormControl: UntypedFormControl;
 
   // price source header dependent values
   isPriceSource = false;
@@ -93,7 +93,7 @@ export class EditableColumnHeaderComponent
   agInit(params: IHeaderParams): void {
     this.value = 0;
 
-    this.editFormControl = new FormControl('', [
+    this.editFormControl = new UntypedFormControl('', [
       Validators.max(100),
       Validators.min(-100),
     ]);

@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -22,7 +22,7 @@ import { AddMaterialDialogComponent } from './add-material-dialog.component';
     MatDialogModule,
     MatIconModule,
     LoadingSpinnerModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedTranslocoModule,
     CommonModule,
   ],

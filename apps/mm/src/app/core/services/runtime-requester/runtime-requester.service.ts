@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { defer, map, Observable, of, switchMap } from 'rxjs';
 
@@ -39,7 +39,7 @@ export class RuntimeRequesterService implements RuntimeRequester {
     _tableId: string,
     _model: Model,
     object: ModelObject,
-    controlMap: Map<string, Map<string, FormGroup>>
+    controlMap: Map<string, Map<string, UntypedFormGroup>>
   ): Observable<BearinxDataTableDescription> {
     if (_tableId === TBL_BEARING_PREFLIGHT) {
       return this.loadPreflight(object, controlMap);
@@ -54,7 +54,7 @@ export class RuntimeRequesterService implements RuntimeRequester {
 
   private loadPreflight(
     object: ModelObject,
-    controlMap: Map<string, Map<string, FormGroup>>
+    controlMap: Map<string, Map<string, UntypedFormGroup>>
   ): Observable<BearinxDataTableDescription> {
     return defer(() =>
       of({
@@ -137,7 +137,7 @@ export class RuntimeRequesterService implements RuntimeRequester {
 
   private loadShaftMaterials(
     object: ModelObject,
-    controlMap: Map<string, Map<string, FormGroup>>
+    controlMap: Map<string, Map<string, UntypedFormGroup>>
   ): Observable<BearinxDataTableDescription> {
     return defer(() =>
       of({

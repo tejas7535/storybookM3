@@ -5,8 +5,8 @@
     "tslib": "^2.1.0"
   },
   "peerDependencies": {
-    "@angular/common": ">=11.2<=13.0.0",
-    "@angular/core": ">=11.2<=13.0.0",
+    "@angular/common": ">=11.2<=14.0.0",
+    "@angular/core": ">=11.2<=14.0.0",
     "@ngneat/transloco": "2.19.1",
     "rxjs": ">=6.5.0<=8.0.0"
   }

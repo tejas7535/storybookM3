@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
@@ -25,7 +25,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
   languageSelectComponent = LanguageSelectComponent;
 
   private readonly subscription = new Subscription();
-  public separatorSelectControl: FormControl = new FormControl('');
+  public separatorSelectControl: UntypedFormControl = new UntypedFormControl(
+    ''
+  );
 
   public availableSeparators: AvailableOption[] = [
     { id: ',', label: 'decimalSeparatorComma' },

@@ -1,6 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { StatusPanelDef } from '@ag-grid-community/core';
 import { ColDef } from '@ag-grid-enterprise/all-modules';
@@ -144,7 +144,7 @@ export class HelperService {
 
   static validateNumberInputPaste(
     event: ClipboardEvent,
-    formControl: FormControl,
+    formControl: UntypedFormControl,
     percentage: boolean
   ) {
     event.preventDefault();

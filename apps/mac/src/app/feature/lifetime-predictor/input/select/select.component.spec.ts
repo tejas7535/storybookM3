@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -39,7 +39,7 @@ describe('SelectComponent', () => {
       MatFormFieldModule,
       MatSelectModule,
       NoopAnimationsModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

@@ -6,7 +6,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -24,7 +24,7 @@ import { AdvancedBearingSelectionService } from './services/advanced-bearing-sel
   declarations: [AdvancedBearingSelectionComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
 
     // Transloco
     SharedTranslocoModule,

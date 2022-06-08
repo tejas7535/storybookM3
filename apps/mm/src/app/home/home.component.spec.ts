@@ -16,7 +16,8 @@ import {
   RuntimeRequestService,
 } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
+import { MockModule } from 'ng-mocks';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -80,7 +81,8 @@ describe('HomeComponent', () => {
       SharedModule,
       DynamicFormsModule.forRoot(),
 
-      ReactiveComponentModule,
+      MockModule(LetModule),
+      MockModule(PushModule),
       HttpClientTestingModule,
 
       PagesStepperModule,

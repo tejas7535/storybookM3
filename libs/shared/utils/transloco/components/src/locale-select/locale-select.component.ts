@@ -5,7 +5,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
@@ -29,7 +29,7 @@ export class LocaleSelectComponent implements OnInit {
   public currentLocaleId: string =
     this.getStoredLocale.id || this.getDefaultLocale.id;
 
-  public localeSelectControl: FormControl = new FormControl(
+  public localeSelectControl: UntypedFormControl = new UntypedFormControl(
     this.currentLocaleId
   );
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -21,7 +21,7 @@ import { CustomerViewRoutingModule } from './customer-view-routing.module';
     CustomerViewRoutingModule,
     MatSidenavModule,
     LoadingSpinnerModule,
-    ReactiveComponentModule,
+    PushModule,
     BreadcrumbsModule,
     SubheaderModule,
     ShareButtonModule,

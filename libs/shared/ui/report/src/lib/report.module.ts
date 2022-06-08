@@ -9,7 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LabelValueModule } from '@schaeffler/label-value';
 
@@ -33,7 +33,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 @NgModule({
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     TranslocoModule,
 
     LabelValueModule,

@@ -15,7 +15,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -59,7 +59,7 @@ describe('InputComponent', () => {
       MatExpansionModule,
       MatDividerModule,
       MatSlideToggleModule,
-      ReactiveComponentModule,
+      PushModule,
       TooltipModule,
       provideTranslocoTestingModule({ en }),
     ],

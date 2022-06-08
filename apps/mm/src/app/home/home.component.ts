@@ -8,7 +8,11 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import {
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import {
@@ -104,7 +108,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  private form: FormGroup;
+  private form: UntypedFormGroup;
 
   @ViewChild('stepper') private readonly stepper: PagesStepperComponent;
   @ViewChild('resultPage') private readonly resultPage: ResultPageComponent;
@@ -175,7 +179,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
 
     const currentPageTouched = currentPagedMeta?.controls.find(
-      ({ pristine }: FormControl) => !pristine
+      ({ pristine }: UntypedFormControl) => !pristine
     );
 
     if (
@@ -261,9 +265,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
     }
 
-    (this.form.get('objects.0.properties') as FormArray).controls
-      .map((control) => control as FormGroup)
-      .map((control: FormGroup) => {
+    (this.form.get('objects.0.properties') as UntypedFormArray).controls
+      .map((control) => control as UntypedFormGroup)
+      .map((control: UntypedFormGroup) => {
         const initialValue = control.get('initialValue').value;
         const name = control.get('name');
         if (resetMembers.includes(name.value)) {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
@@ -32,9 +32,9 @@ import { IgnoreFlagDialogComponent } from './ignore-flag-dialog/ignore-flag-dial
 export class SalesRowDetailsComponent
   implements ICellRendererAngularComp, OnDestroy
 {
-  public datesFormGroup = new FormGroup({
-    eopDateControl: new FormControl('', Validators.required),
-    edoDateControl: new FormControl('', Validators.required),
+  public datesFormGroup = new UntypedFormGroup({
+    eopDateControl: new UntypedFormControl('', Validators.required),
+    edoDateControl: new UntypedFormControl('', Validators.required),
   });
   public rowData: SalesSummary;
 

@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SearchAutocompleteComponent } from './search-autocomplete/search-autocomplete.component';
 
@@ -19,7 +19,7 @@ import { SearchAutocompleteComponent } from './search-autocomplete/search-autoco
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveComponentModule,
+    PushModule,
     MatIconModule,
   ],
   declarations: [SearchAutocompleteComponent],

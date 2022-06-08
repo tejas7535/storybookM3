@@ -9,7 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
@@ -23,7 +23,7 @@ import { MainTableRoutingModule } from './main-table-routing.module';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    ReactiveComponentModule,
+    PushModule,
     MatButtonModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,

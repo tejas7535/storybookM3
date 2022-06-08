@@ -11,7 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -38,7 +38,8 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
   imports: [
     CommonModule,
     AgGridModule.withComponents([QuotationDetailsStatusComponent]),
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     SharedTranslocoModule,
     CustomStatusBarModule,
     DialogHeaderModule,

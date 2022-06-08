@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { ECharts } from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 import resize_observer_polyfill from 'resize-observer-polyfill';
@@ -22,7 +22,7 @@ describe('ChartComponent', () => {
     declarations: [ChartComponent, LegendComponent],
     imports: [
       CommonModule,
-      ReactiveComponentModule,
+      PushModule,
       NgxEchartsModule.forRoot({
         echarts: async () => import('echarts'),
       }),

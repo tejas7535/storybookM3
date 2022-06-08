@@ -13,7 +13,7 @@ import {
 } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -58,7 +58,7 @@ describe('ExportToExcelButtonComponent', () => {
       MatIconModule,
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
+      PushModule,
       MatSnackBarModule,
     ],
   });

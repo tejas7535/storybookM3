@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { StepperModule } from '@schaeffler/stepper';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -16,7 +16,8 @@ import { GreaseStepperComponent } from './grease-stepper.component';
     CommonModule,
     MatStepperModule,
     StepperModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     SharedTranslocoModule,
     MatIconModule,
   ],

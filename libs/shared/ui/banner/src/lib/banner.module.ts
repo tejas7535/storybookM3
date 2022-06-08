@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { BannerComponent } from './banner.component';
 import { BannerTextModule } from './banner-text/banner-text.module';
@@ -16,7 +16,7 @@ import { StoreModule } from './store/store.module';
     CommonModule,
     StoreModule,
     BannerTextModule,
-    ReactiveComponentModule,
+    PushModule,
     TranslocoModule,
   ],
   exports: [BannerComponent],

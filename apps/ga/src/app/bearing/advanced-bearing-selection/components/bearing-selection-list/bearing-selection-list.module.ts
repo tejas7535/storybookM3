@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -13,7 +13,7 @@ import { BearingSelectionListComponent } from './bearing-selection-list.componen
   declarations: [BearingSelectionListComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule,
 
     // Material Modules
     MatIconModule,

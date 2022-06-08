@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { debounceTime, filter, map, Subject, take, takeUntil } from 'rxjs';
 
@@ -18,7 +18,7 @@ import {
   templateUrl: './quick-bearing-selection.component.html',
 })
 export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
-  bearingSearchFormControl = new FormControl();
+  bearingSearchFormControl = new UntypedFormControl();
   minimumChars = 2;
 
   loading$ = this.store.select(getBearingSelectionLoading);

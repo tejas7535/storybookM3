@@ -4,7 +4,7 @@ import {
   Inject,
   Input,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import {
   BearinxListValue,
@@ -29,9 +29,10 @@ export class SelectMemberComponent {
     @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta
   ) {}
 
-  public get control(): FormControl {
+  public get control(): UntypedFormControl {
     return (
-      (this.meta.control?.get('value') as FormControl) || new FormControl('')
+      (this.meta.control?.get('value') as UntypedFormControl) ||
+      new UntypedFormControl('')
     );
   }
 }

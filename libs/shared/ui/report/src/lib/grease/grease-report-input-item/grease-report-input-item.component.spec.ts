@@ -6,7 +6,7 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
 import { GreaseReportInputItemComponent } from './grease-report-input-item.component';
@@ -21,7 +21,7 @@ describe('GreaseReportInputItemComponent', () => {
   const createComponent = createComponentFactory({
     component: GreaseReportInputItemComponent,
     declarations: [GreaseReportInputItemComponent],
-    imports: [CommonModule, ReactiveComponentModule],
+    imports: [CommonModule, PushModule],
     providers: [mockProvider(TranslocoLocaleService, { localizeNumber })],
   });
 

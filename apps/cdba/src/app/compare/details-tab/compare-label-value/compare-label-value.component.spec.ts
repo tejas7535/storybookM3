@@ -1,7 +1,7 @@
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockModule } from 'ng-mocks';
 
 import { CompareLabelValueComponent } from './compare-label-value.component';
@@ -12,7 +12,7 @@ describe('CompareLabelValueComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CompareLabelValueComponent,
-    imports: [ReactiveComponentModule, MockModule(MatTooltipModule)],
+    imports: [PushModule, MockModule(MatTooltipModule)],
   });
 
   beforeEach(() => {

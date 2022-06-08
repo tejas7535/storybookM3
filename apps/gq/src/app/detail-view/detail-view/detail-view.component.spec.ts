@@ -11,8 +11,9 @@ import {
   Spectator,
 } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -54,7 +55,8 @@ describe('DetailViewComponent', () => {
       MatSidenavModule,
       PricingDetailsModule,
       LoadingSpinnerModule,
-      ReactiveComponentModule,
+      MockModule(LetModule),
+      MockModule(PushModule),
       SharedPipesModule,
       SubheaderModule,
       BreadcrumbsModule,

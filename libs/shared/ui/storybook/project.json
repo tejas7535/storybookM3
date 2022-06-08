@@ -1,18 +1,16 @@
 {
-  "root": "libs/shared/ui/storybook",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shared/ui/storybook/src",
   "projectType": "library",
   "generators": {},
   "targets": {
     "storybook": {
-      "executor": "@nrwl/storybook:storybook",
+      "executor": "@storybook/angular:start-storybook",
       "options": {
-        "uiFramework": "@storybook/angular",
         "port": 4400,
-        "config": {
-          "configFolder": "libs/shared/ui/storybook/.storybook"
-        },
-        "projectBuildConfig": "helloworld-azure"
+        "configDir": "libs/shared/ui/storybook/.storybook",
+        "browserTarget": "shared-ui-storybook:build-storybook",
+        "compodoc": false
       },
       "configurations": {
         "ci": {
@@ -21,21 +19,19 @@
       }
     },
     "build-storybook": {
-      "executor": "@nrwl/storybook:build",
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "uiFramework": "@storybook/angular",
-        "outputPath": "dist/storybook/shared-ui-storybook",
-        "config": {
-          "configFolder": "libs/shared/ui/storybook/.storybook"
-        },
-        "projectBuildConfig": "helloworld-azure"
+        "outputDir": "dist/storybook/shared-ui-storybook",
+        "configDir": "libs/shared/ui/storybook/.storybook",
+        "browserTarget": "shared-ui-storybook:build-storybook",
+        "compodoc": false
       },
       "configurations": {
         "ci": {
           "quiet": true
         }
-      },
-      "outputs": ["{options.outputPath}"]
+      }
     },
     "standard-version": {
       "executor": "@nrwl/workspace:run-commands",

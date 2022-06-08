@@ -1,5 +1,5 @@
 {
-  "root": "apps/mac-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/mac-e2e/src",
   "projectType": "application",
   "targets": {

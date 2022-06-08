@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoService } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -37,7 +37,7 @@ describe('ResultComponent', () => {
     component: ResultComponent,
     imports: [
       RouterTestingModule,
-      ReactiveComponentModule,
+      PushModule,
       FormsModule,
       provideTranslocoTestingModule(
         { en: {} },

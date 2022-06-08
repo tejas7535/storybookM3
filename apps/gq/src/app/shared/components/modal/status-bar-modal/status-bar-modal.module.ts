@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -19,7 +19,7 @@ import { StatusBarModalComponent } from './status-bar-modal.component';
     SharedTranslocoModule,
     HorizontalDividerModule,
     LabelTextModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedPipesModule,
   ],
   exports: [StatusBarModalComponent],

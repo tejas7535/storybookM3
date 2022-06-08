@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { TRANSLOCO_SCOPE, TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -26,7 +26,7 @@ import { TransparencyGraphModule } from './transparency-graph/transparency-graph
     ComparableTransactionsModule,
     TransparencyGraphModule,
     MatCardModule,
-    ReactiveComponentModule,
+    PushModule,
     LoadingSpinnerModule,
     MaterialPriceHeaderContentModule,
     SubheaderModule,

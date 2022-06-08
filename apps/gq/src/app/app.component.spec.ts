@@ -5,7 +5,7 @@ import { ReplaySubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
@@ -43,7 +43,7 @@ describe('AppComponent', () => {
     component: AppComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
+      PushModule,
       AppShellModule,
       LoadingSpinnerModule,
       MockModule(UserSettingsModule),

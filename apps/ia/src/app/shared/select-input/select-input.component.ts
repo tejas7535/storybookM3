@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 
 import { IdValue } from '../models';
@@ -32,7 +32,7 @@ export class SelectInputComponent {
 
   @Output() readonly selected: EventEmitter<IdValue> = new EventEmitter();
 
-  selectControl = new FormControl({ value: '', disabled: true });
+  selectControl = new UntypedFormControl({ value: '', disabled: true });
 
   public selectionChange(evt: MatSelectChange): void {
     const option = this.options.find((opt) => opt.id === evt.value);

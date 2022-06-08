@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/utils/application-insights",
   "sourceRoot": "libs/shared/utils/application-insights/src",
   "prefix": "schaeffler",
   "targets": {

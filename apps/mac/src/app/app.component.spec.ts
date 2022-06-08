@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -32,7 +32,7 @@ describe('AppComponent', () => {
       NoopAnimationsModule,
       MatButtonModule,
       RouterTestingModule,
-      ReactiveComponentModule,
+      PushModule,
       AppShellModule,
       provideTranslocoTestingModule({ en: {} }),
       OneTrustModule.forRoot({

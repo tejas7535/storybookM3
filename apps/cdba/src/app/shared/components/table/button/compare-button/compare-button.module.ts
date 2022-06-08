@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -12,7 +12,7 @@ import { CompareButtonComponent } from './compare-button.component';
   imports: [
     MatButtonModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    LetModule,
     MatTooltipModule,
   ],
   declarations: [CompareButtonComponent],

@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -24,7 +24,7 @@ import { AddEntryComponent } from './add-entry.component';
     MatIconModule,
     SharedTranslocoModule,
     ReactiveFormsModule,
-    ReactiveComponentModule,
+    PushModule,
     InfoIconModule,
     CommonModule,
   ],

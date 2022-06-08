@@ -1,5 +1,5 @@
 {
-  "root": "apps/cdba-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/cdba-e2e/src",
   "projectType": "application",
   "targets": {

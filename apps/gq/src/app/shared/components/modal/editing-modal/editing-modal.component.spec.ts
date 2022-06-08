@@ -5,8 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -32,7 +33,8 @@ describe('EditingModalComponent', () => {
       LoadingSpinnerModule,
       MatFormFieldModule,
       DialogHeaderModule,
-      ReactiveComponentModule,
+      MockModule(LetModule),
+      MockModule(PushModule),
       ReactiveFormsModule,
       MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),

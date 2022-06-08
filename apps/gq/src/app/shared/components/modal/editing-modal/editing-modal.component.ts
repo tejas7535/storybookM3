@@ -8,7 +8,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
@@ -36,7 +36,7 @@ import { KpiValue } from './kpi-value.model';
 export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly subscription: Subscription = new Subscription();
   confirmDisabled = true;
-  editFormControl: FormControl;
+  editFormControl: UntypedFormControl;
   updateLoading$: Observable<boolean>;
   customerCurrency$: Observable<string>;
   value: number;
@@ -70,7 +70,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.editFormControl = new FormControl();
+    this.editFormControl = new UntypedFormControl();
     this.updateLoading$ = this.store.select(getUpdateLoading);
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
 

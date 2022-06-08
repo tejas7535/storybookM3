@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -52,14 +52,14 @@ import {
 export class ParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
 
-  public radial = new FormControl(undefined, loadValidators);
-  public axial = new FormControl(undefined, loadValidators);
+  public radial = new UntypedFormControl(undefined, loadValidators);
+  public axial = new UntypedFormControl(undefined, loadValidators);
 
-  public exact = new FormControl(false);
-  public loadRatio = new FormControl();
+  public exact = new UntypedFormControl(false);
+  public loadRatio = new UntypedFormControl();
   public loadRatioOptions = loadRatioOptions;
 
-  public loadsForm = new FormGroup(
+  public loadsForm = new UntypedFormGroup(
     {
       radial: this.radial,
       axial: this.axial,
@@ -69,32 +69,37 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.loadValidator()
   );
 
-  public type = new FormControl(Movement.rotating, [Validators.required]);
+  public type = new UntypedFormControl(Movement.rotating, [
+    Validators.required,
+  ]);
   public typeOptions = typeOptions;
 
-  public rotationalSpeed = new FormControl(
+  public rotationalSpeed = new UntypedFormControl(
     undefined,
     rotationalSpeedValidators
   );
 
-  public shiftFrequency = new FormControl(undefined, shiftFrequencyValidators);
+  public shiftFrequency = new UntypedFormControl(
+    undefined,
+    shiftFrequencyValidators
+  );
 
-  public shiftAngle = new FormControl(undefined, shiftAngleValidators);
+  public shiftAngle = new UntypedFormControl(undefined, shiftAngleValidators);
 
-  public movementsForm = new FormGroup({
+  public movementsForm = new UntypedFormGroup({
     type: this.type,
     rotationalSpeed: this.rotationalSpeed,
     shiftFrequency: this.shiftFrequency,
     shiftAngle: this.shiftAngle,
   });
 
-  public environmentTemperature = new FormControl(20, [
+  public environmentTemperature = new UntypedFormControl(20, [
     Validators.required,
     Validators.max(300),
     Validators.min(-100),
   ]);
 
-  public operatingTemperature = new FormControl(70, [
+  public operatingTemperature = new UntypedFormControl(70, [
     Validators.required,
     Validators.max(230),
     Validators.min(-40),
@@ -108,19 +113,20 @@ export class ParametersComponent implements OnInit, OnDestroy {
     },
   ];
 
-  public environmentImpact = new FormControl(EnvironmentImpact.moderate, [
-    Validators.required,
-  ]);
+  public environmentImpact = new UntypedFormControl(
+    EnvironmentImpact.moderate,
+    [Validators.required]
+  );
 
   public environmentImpactOptions = environmentImpactOptions;
 
-  public environmentForm = new FormGroup({
+  public environmentForm = new UntypedFormGroup({
     operatingTemperature: this.operatingTemperature,
     environmentTemperature: this.environmentTemperature,
     environmentImpact: this.environmentImpact,
   });
 
-  form = new FormGroup({
+  form = new UntypedFormGroup({
     loads: this.loadsForm,
     movements: this.movementsForm,
     environment: this.environmentForm,
@@ -262,7 +268,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
   }
 
   private loadValidator(): any {
-    return (group: FormGroup): void => {
+    return (group: UntypedFormGroup): void => {
       const { radial, axial } = group.value;
 
       const anyLoadApplied = radial > 0 || axial > 0;
@@ -277,14 +283,14 @@ export class ParametersComponent implements OnInit, OnDestroy {
     };
   }
 
-  private setLoadErrors(group: FormGroup, type: Load): void {
+  private setLoadErrors(group: UntypedFormGroup, type: Load): void {
     group.controls[type].setErrors({
       ...group.controls[type].errors,
       anyLoad: true,
     });
   }
 
-  private removeLoadErrors(group: FormGroup, type: Load): void {
+  private removeLoadErrors(group: UntypedFormGroup, type: Load): void {
     if (group.controls[type]?.errors?.anyLoad) {
       const { anyLoad: _anyLoad, ...otherErrors } = group.controls[type].errors;
 

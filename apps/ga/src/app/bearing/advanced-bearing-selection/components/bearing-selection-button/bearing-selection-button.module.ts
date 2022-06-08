@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -15,7 +15,8 @@ import { BearingSelectionButtonComponent } from './bearing-selection-button.comp
   declarations: [BearingSelectionButtonComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
     SharedTranslocoModule,
     MatButtonModule,
     MatIconModule,

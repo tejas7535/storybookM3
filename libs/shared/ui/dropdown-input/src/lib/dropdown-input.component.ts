@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
@@ -40,7 +40,7 @@ export class DropdownInputComponent implements ControlValueAccessor {
 
   public value?: string | number;
   public disabled = false;
-  public selectionControl = new FormControl();
+  public selectionControl = new UntypedFormControl();
   public selectedItem?: DropdownInputOption;
 
   public isMobile = false;

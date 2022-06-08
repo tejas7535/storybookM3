@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -22,7 +22,7 @@ import { OverviewRoutingModule } from './overview-routing.module';
     ApplicationInsightsModule,
     OverviewCardModule,
     SubheaderModule,
-    ReactiveComponentModule,
+    PushModule,
   ],
 })
 export class OverviewModule {}

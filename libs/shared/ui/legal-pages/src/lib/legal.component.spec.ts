@@ -11,7 +11,7 @@ import { Observable, of, ReplaySubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate, TranslocoTestingModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -47,7 +47,7 @@ describe('LegalComponent', () => {
       RouterTestingModule,
       TranslocoTestingModule,
       SubheaderModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ 'forbidden/en': en }),
     ],
     providers: [

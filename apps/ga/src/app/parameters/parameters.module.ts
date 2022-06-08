@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -21,7 +21,7 @@ import { ParametersRoutingModule } from './parameters-routing.module';
     CommonModule,
     ParametersRoutingModule,
     SharedModule,
-    ReactiveComponentModule,
+    PushModule,
 
     // UI Modules
     SubheaderModule,

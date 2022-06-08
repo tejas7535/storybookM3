@@ -4,7 +4,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
@@ -40,7 +40,7 @@ describe('SapViewComponent', () => {
       SubheaderModule,
       MatCardModule,
       CustomerHeaderModule,
-      ReactiveComponentModule,
+      PushModule,
       ShareButtonModule,
       LoadingSpinnerModule,
       MaterialPriceHeaderContentModule,

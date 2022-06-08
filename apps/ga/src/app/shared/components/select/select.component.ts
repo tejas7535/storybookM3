@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { DropdownOption } from '../../models';
 
@@ -9,7 +9,7 @@ import { DropdownOption } from '../../models';
   styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent {
-  @Input() public control: FormControl;
+  @Input() public control: UntypedFormControl;
   @Input() public placeholder?: string;
   @Input() public hint?: string;
   @Input() public label?: string;

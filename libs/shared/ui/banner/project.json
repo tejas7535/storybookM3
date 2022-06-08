@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/shared/ui/banner",
   "sourceRoot": "libs/shared/ui/banner/src",
   "prefix": "schaeffler",
   "targets": {

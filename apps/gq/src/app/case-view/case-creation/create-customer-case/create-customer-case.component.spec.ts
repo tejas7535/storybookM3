@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -49,7 +49,7 @@ describe('CreateCustomerCaseComponent', () => {
   const createComponent = createComponentFactory({
     component: CreateCustomerCaseComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       DialogHeaderModule,
       MatIconModule,
       MatCheckboxModule,

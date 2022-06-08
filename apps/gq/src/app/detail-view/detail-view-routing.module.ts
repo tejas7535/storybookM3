@@ -6,21 +6,21 @@ import { DetailRoutePath } from './detail-route-path.enum';
 const routes: Routes = [
   {
     path: DetailRoutePath.BasePath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./detail-view/detail-view.module').then(
         (m) => m.DetailViewModule
       ),
   },
   {
     path: DetailRoutePath.TransactionsPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./transaction-view/transaction-view.module').then(
         (m) => m.TransactionViewModule
       ),
   },
   {
     path: DetailRoutePath.SapPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./sap-view/sap-view.module').then((m) => m.SapViewModule),
   },
 ];

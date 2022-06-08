@@ -3,7 +3,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
@@ -40,7 +40,7 @@ describe('AttritionAnalyticsComponent', () => {
   const createComponent = createComponentFactory({
     component: AttritionAnalyticsComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
       MatCardModule,
       MatChipsModule,

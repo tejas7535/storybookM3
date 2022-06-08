@@ -15,7 +15,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
@@ -54,7 +54,7 @@ describe('HardnessConverterComponent', () => {
       ReactiveFormsModule,
       MatCardModule,
       SharedModule,
-      ReactiveComponentModule,
+      PushModule,
       CopyInputModule,
       SubheaderModule,
       RouterTestingModule,

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -24,7 +24,7 @@ import { CreateManualCaseComponent } from './create-manual-case.component';
     LoadingSpinnerModule,
     MatIconModule,
     MatButtonModule,
-    ReactiveComponentModule,
+    PushModule,
     AutocompleteInputModule,
     InputTableModule,
     SelectSalesOrgModule,

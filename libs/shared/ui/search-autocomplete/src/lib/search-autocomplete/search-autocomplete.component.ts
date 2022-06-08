@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import {
   ControlValueAccessor,
-  FormControl,
+  UntypedFormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 
@@ -42,7 +42,7 @@ export class SearchAutocompleteComponent
   public showOptions$!: Observable<boolean>;
   public inputChange$!: Observable<string>;
   public valueSelected$!: Observable<boolean>;
-  public control = new FormControl();
+  public control = new UntypedFormControl();
   public disabled = false;
 
   @Input() public label? = '';

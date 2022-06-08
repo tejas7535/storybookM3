@@ -6,19 +6,18 @@ import { AppRoutePath } from './app-route-path.enum';
 export const appRoutePaths: Routes = [
   {
     path: AppRoutePath.BasePath,
-    loadChildren: async () =>
-      import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
     path: AppRoutePath.GreaseCalculationPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./grease-calculation/grease-calculation.module').then(
         (m) => m.GreaseCalculationModule
       ),
   },
   {
     path: AppRoutePath.LegalPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {

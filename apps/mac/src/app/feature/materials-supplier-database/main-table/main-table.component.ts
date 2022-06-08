@@ -9,7 +9,11 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -83,18 +87,18 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
 
-  public materialClassSelectionControl = new FormControl(undefined, [
+  public materialClassSelectionControl = new UntypedFormControl(undefined, [
     Validators.required,
   ]);
-  public productCategorySelectionControl = new FormControl(undefined, [
+  public productCategorySelectionControl = new UntypedFormControl(undefined, [
     Validators.required,
   ]);
-  public allCategoriesSelectedControl = new FormControl(false);
+  public allCategoriesSelectedControl = new UntypedFormControl(false);
   @ViewChildren('categoryOption')
   public categoryOptionsQuery: QueryList<MatOption>;
   public categoryOptions: MatOption[];
 
-  public filterForm = new FormGroup({
+  public filterForm = new UntypedFormGroup({
     materialClass: this.materialClassSelectionControl,
     productCategory: this.productCategorySelectionControl,
   });

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { LetModule, PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,7 +14,8 @@ import { SelectSalesOrgComponent } from './select-sales-org.component';
     CommonModule,
     MatSelectModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
+    LetModule,
+    PushModule,
   ],
   exports: [SelectSalesOrgComponent],
 })

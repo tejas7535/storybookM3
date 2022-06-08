@@ -1,5 +1,9 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  UntypedFormControl,
+  ValidatorFn,
+} from '@angular/forms';
 
 import { SliderControl } from './slider.model';
 
@@ -15,7 +19,7 @@ export class SliderComponent implements OnInit {
 
   public formOptions = { onlySelf: true, emitEvent: false };
 
-  public logSliderControl = new FormControl();
+  public logSliderControl = new UntypedFormControl();
   private logScale: number;
 
   public ngOnInit(): void {

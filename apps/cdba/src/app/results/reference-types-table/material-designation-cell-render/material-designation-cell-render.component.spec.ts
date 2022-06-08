@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
@@ -37,7 +37,7 @@ describe('MaterialDesignationCellRenderComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialDesignationCellRenderComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       MockModule(MatButtonModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -78,6 +78,7 @@ describe('MaterialDesignationCellRenderComponent', () => {
 
   describe('showDetailView', () => {
     test('should navigate to correct detail page', () => {
+      jest.spyOn(window, 'setTimeout');
       router.navigate = jest.fn();
       component['gridApi'] = params.api;
       component.agInit(params);

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -15,7 +15,7 @@ import { DrawingsTableModule } from './drawings-table/drawings-table.module';
   declarations: [DrawingsComponent],
   imports: [
     CommonModule,
-    ReactiveComponentModule,
+    PushModule,
     SharedTranslocoModule,
     MaterialNumberModule,
     DrawingsTableModule,

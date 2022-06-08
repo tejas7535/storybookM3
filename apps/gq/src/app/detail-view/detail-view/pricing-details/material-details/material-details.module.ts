@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -20,7 +20,7 @@ import { MaterialSalesOrgDetailsComponent } from './material-sales-org-details/m
     SharedPipesModule,
     LabelTextModule,
     HorizontalDividerModule,
-    ReactiveComponentModule,
+    PushModule,
     CommonModule,
   ],
   exports: [MaterialDetailsComponent],

@@ -8,7 +8,7 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { getRoles } from '@schaeffler/azure-auth';
@@ -44,7 +44,7 @@ describe('QuotationDetailsStatusComponent', () => {
       MatIconModule,
       MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
+      PushModule,
       MatDialogModule,
       SharedPipesModule,
     ],

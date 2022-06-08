@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'transloco',
 
   coverageDirectory: '../../../../coverage/libs/shared/utils/transloco',
@@ -19,5 +19,5 @@ module.exports = {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
   transformIgnorePatterns: ['node_modules/(?!.*.mjs$)'],
-  preset: '../../../../jest.preset.ts',
+  preset: '../../../../jest.preset.js',
 };

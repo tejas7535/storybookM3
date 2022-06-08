@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { combineLatest, defer, map, merge, of } from 'rxjs';
 
@@ -29,7 +29,8 @@ export class HomeService {
       .map(({ parent, metas }) => {
         const controls = metas.map(
           (meta) =>
-            (meta.control.get('value') as FormControl) || new FormControl({})
+            (meta.control.get('value') as UntypedFormControl) ||
+            new UntypedFormControl({})
         );
 
         controls.forEach((control) => {

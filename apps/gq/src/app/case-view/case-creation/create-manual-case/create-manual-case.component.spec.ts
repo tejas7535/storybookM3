@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -45,7 +45,7 @@ describe('CreateManualCaseComponent', () => {
       AutocompleteInputModule,
       AddEntryModule,
       LoadingSpinnerModule,
-      ReactiveComponentModule,
+      PushModule,
       DialogHeaderModule,
       MatSnackBarModule,
     ],

@@ -12,14 +12,14 @@ const routes: Routes = [
     children: [
       {
         path: CompareRoutePath.DetailsPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./details-tab/details-tab.module').then(
             (m) => m.DetailsTabModule
           ),
       },
       {
         path: CompareRoutePath.BomPath,
-        loadChildren: async () =>
+        loadChildren: () =>
           import('./bom-compare-tab/bom-compare-tab.module').then(
             (m) => m.BomCompareTabModule
           ),
@@ -32,7 +32,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        loadChildren: async () =>
+        loadChildren: () =>
           import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
       },
     ],

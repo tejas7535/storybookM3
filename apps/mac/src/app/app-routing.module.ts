@@ -17,7 +17,7 @@ export const appRoutePaths: Routes = [
   {
     canActivate: [MsalGuard],
     path: RoutePath.OverviewPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./feature/overview/overview.module').then(
         (m) => m.OverviewModule
       ),
@@ -25,7 +25,7 @@ export const appRoutePaths: Routes = [
   {
     canLoad: [MsalGuard],
     path: RoutePath.HardnessConverterPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./feature/hardness-converter/hardness-converter.module').then(
         (m) => m.HardnessConverterModule
       ),
@@ -33,7 +33,7 @@ export const appRoutePaths: Routes = [
   {
     canLoad: [MsalGuard],
     path: RoutePath.AQMCalculatorPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./feature/aqm-calculator/aqm-calculator.module').then(
         (m) => m.AqmCalculatorModule
       ),
@@ -42,7 +42,7 @@ export const appRoutePaths: Routes = [
     canLoad: [MsalGuard],
     canActivateChild: [RoleGuard],
     path: RoutePath.LifetimePredictorPath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('./feature/lifetime-predictor/lifetime-predictor.module').then(
         (m) => m.LifetimePredictorModule
       ),
@@ -54,7 +54,7 @@ export const appRoutePaths: Routes = [
     canLoad: [MsalGuard],
     canActivateChild: [RoleGuard],
     path: RoutePath.MaterialsSupplierDatabasePath,
-    loadChildren: async () =>
+    loadChildren: () =>
       import(
         './feature/materials-supplier-database/materials-supplier-database.module'
       ).then((m) => m.MaterialsSupplierDatabaseModule),
@@ -64,17 +64,17 @@ export const appRoutePaths: Routes = [
   },
   {
     path: LegalRoute,
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
   },
   {
     path: 'forbidden',
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',
-    loadChildren: async () =>
+    loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

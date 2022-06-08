@@ -3,7 +3,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -38,7 +38,7 @@ describe('ImportCaseComponent', () => {
     component: ImportCaseComponent,
     imports: [
       AutocompleteInputModule,
-      ReactiveComponentModule,
+      PushModule,
       MatButtonModule,
       LoadingSpinnerModule,
       DialogHeaderModule,

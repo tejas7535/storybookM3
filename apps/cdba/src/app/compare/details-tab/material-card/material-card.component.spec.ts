@@ -9,7 +9,7 @@ import {
 } from '@cdba/shared/models';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/marbles';
@@ -28,7 +28,7 @@ describe('MaterialCardComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialCardComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       MockModule(MatCardModule),
       MockModule(MatExpansionModule),
       provideTranslocoTestingModule({ en: {} }),

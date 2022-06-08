@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
@@ -63,7 +63,7 @@ describe('ReferenceTypesFiltersComponent', () => {
   const createComponent = createComponentFactory({
     component: ReferenceTypesFiltersComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       MatButtonModule,
       MatIconModule,
       MatTooltipModule,

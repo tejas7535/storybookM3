@@ -6,7 +6,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -36,7 +36,7 @@ describe('MaterialComponent', () => {
       MatSelectModule,
       MatFormFieldModule,
       NoopAnimationsModule,
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en }),
     ],
     providers: [

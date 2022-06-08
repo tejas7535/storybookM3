@@ -8,7 +8,7 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles/jest';
@@ -27,7 +27,7 @@ describe('ResultsComponent', () => {
   const createComponent = createComponentFactory({
     component: ResultsComponent,
     imports: [
-      ReactiveComponentModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(SubheaderModule),
       MockModule(ReferenceTypesTableModule),
