@@ -4,8 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getIsLoggedIn, getRoles } from '@schaeffler/azure-auth';
-
 import { AppRoutePath } from '../../app-route-path.enum';
 import { RoleGuard } from './role.guard';
 
@@ -32,34 +30,50 @@ describe('RoleGuard', () => {
   });
 
   describe('canActivateChild', () => {
-    test(
-      'should grant access, if user has base role',
-      waitForAsync(() => {
-        store.overrideSelector(getRoles, ['USER_READ']);
-        store.overrideSelector(getIsLoggedIn, true);
+    test('should grant access, if user has base role', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: ['USER_READ'],
+            },
+          },
+        },
+      });
 
-        guard
-          .canActivateChild(undefined, undefined)
-          .subscribe((granted) => expect(granted).toBeTruthy());
-      })
-    );
+      guard
+        .canActivateChild(undefined, undefined)
+        .subscribe((granted) => expect(granted).toBeTruthy());
+    });
 
-    test(
-      'should not grant access if user is lacking base role',
-      waitForAsync(() => {
-        store.overrideSelector(getRoles, []);
-        store.overrideSelector(getIsLoggedIn, true);
-        guard['router'].navigate = jest.fn().mockImplementation();
+    test('should not grant access if user is lacking base role', waitForAsync(() => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [],
+            },
+          },
+        },
+      });
 
-        guard
-          .canActivateChild(undefined, undefined)
-          .subscribe((granted) => expect(granted).toBeFalsy());
-      })
-    );
+      guard['router'].navigate = jest.fn().mockImplementation();
+
+      guard
+        .canActivateChild(undefined, undefined)
+        .subscribe((granted) => expect(granted).toBeFalsy());
+    }));
 
     test('should redirect to forbidden page if user is not authorized', () => {
-      store.overrideSelector(getRoles, []);
-      store.overrideSelector(getIsLoggedIn, true);
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [],
+            },
+          },
+        },
+      });
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard.canActivateChild(undefined, undefined).subscribe();
