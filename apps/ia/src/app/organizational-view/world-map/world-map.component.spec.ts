@@ -183,6 +183,7 @@ describe('WorldMapComponent', () => {
           data: {
             data: elem.attritionMeta,
             selectedTimeRange: '',
+            showAttritionRates: false,
           },
           maxWidth: '750px',
           width: '90%',

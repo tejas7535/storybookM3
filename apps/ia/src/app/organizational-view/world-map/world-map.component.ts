@@ -169,7 +169,11 @@ export class WorldMapComponent implements OnInit {
   }
 
   openDialog(attritionMeta: EmployeeAttritionMeta): void {
-    const data = new AttritionDialogMeta(attritionMeta, this.selectedTimeRange);
+    const data = new AttritionDialogMeta(
+      attritionMeta,
+      this.selectedTimeRange,
+      false
+    );
 
     this.dialog.open(AttritionDialogComponent, {
       data,

@@ -2,22 +2,29 @@
   <h6 class="mt-0 mr-0 mb-2 ml-1 text-overline font-medium uppercase leading-3">
     {{ t('metaTitle') }} ({{ meta.selectedTimeRange }})
   </h6>
-  <div class="flex items-center text-body-1 leading-8">
-    <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis"
-      >insert_chart</mat-icon
-    >
-    <div class="text-medium-emphasis">{{ t('attritionRate') }}:</div>
-    <span class="ml-2 text-high-emphasis">{{ meta.data.attritionRate }}%</span>
-  </div>
-  <div class="flex items-center text-body-1 leading-8">
-    <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis"
-      >insert_chart</mat-icon
-    >
-    <div class="text-medium-emphasis">{{ t('unforcedAttritionRate') }}:</div>
-    <span class="ml-2 text-high-emphasis"
-      >{{ meta.data.unforcedAttritionRate }}%</span
-    >
-  </div>
+  <ng-container *ngIf="meta.showAttritionRates">
+    <div class="flex items-center text-body-1 leading-8">
+      <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis">
+        insert_chart
+      </mat-icon>
+      <div class="text-medium-emphasis">{{ t('attritionRate') }}:</div>
+      <span class="ml-2 text-high-emphasis">
+        {{ meta.data.attritionRate }}%
+      </span>
+    </div>
+    <div class="flex items-center text-body-1 leading-8">
+      <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis">
+        insert_chart
+      </mat-icon>
+      <div
+        class="text-medium-emphasis"
+        [innerHTML]="t('unforcedAttritionRate') + ':'"
+      ></div>
+      <span class="ml-2 text-high-emphasis">
+        {{ meta.data.unforcedAttritionRate }}%
+      </span>
+    </div>
+  </ng-container>
   <div class="flex items-center text-body-1 leading-8">
     <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis"
       >person_outline</mat-icon

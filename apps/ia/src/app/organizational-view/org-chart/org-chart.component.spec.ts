@@ -100,6 +100,7 @@ describe('OrgChartComponent', () => {
           data: {
             selectedTimeRange: component.selectedTimeRange,
             data: {},
+            showAttritionRates: true,
           },
           width: '90%',
           maxWidth: '750px',
