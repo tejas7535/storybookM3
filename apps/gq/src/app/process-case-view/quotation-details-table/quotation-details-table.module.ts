@@ -7,11 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { DropdownInputModule } from '@schaeffler/dropdown-input';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -19,6 +21,7 @@ import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { QuotationDetailsStatusComponent } from '../../shared/ag-grid/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { DialogHeaderModule } from '../../shared/components/header/dialog-header/dialog-header.module';
+import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { EditingModalComponent } from '../../shared/components/modal/editing-modal/editing-modal.component';
 import { StatusBarModalModule } from '../../shared/components/modal/status-bar-modal/status-bar-modal.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
@@ -30,6 +33,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     QuotationDetailsTableComponent,
     EditingCommentModalComponent,
     EditingModalComponent,
+    EditCaseModalComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +54,8 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     SharedPipesModule,
     MatRadioModule,
     FormsModule,
+    DropdownInputModule,
+    MatSelectModule,
     MatTooltipModule,
   ],
   exports: [QuotationDetailsTableComponent],

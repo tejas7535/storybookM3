@@ -8,26 +8,19 @@
   <schaeffler-subheader
     *ngIf="quotation$ | ngrxPush as quotation"
     [subheaderTitle]="
-      displayTitle
-        ? quotation.caseName
-          ? quotation.caseName
-          : (quotation.gqId | gqQuotation)
-        : ''
+      quotation.caseName ? quotation.caseName : (quotation.gqId | gqQuotation)
     "
     [breadcrumbs]="breadcrumbs$ | ngrxPush"
   >
     <ng-container subheaderTitleContent>
-      <div
-        class="flex"
-        [ngClass]="displayTitle ? 'flex-row' : 'flex-row-reverse'"
-      >
+      <div class="flex flex-row">
         <span *ngIf="quotation.sapId" class="ml-4 text-low-emphasis">{{
           quotation.sapId | sapQuotation
         }}</span>
         <gq-header-content
           [quotation]="quotation"
-          (displayTitle)="toggleDisplayTitle($event)"
           (updateCaseName)="updateCaseName($event)"
+          (updateCurrency)="updateCurrency($event)"
         ></gq-header-content>
       </div>
     </ng-container>

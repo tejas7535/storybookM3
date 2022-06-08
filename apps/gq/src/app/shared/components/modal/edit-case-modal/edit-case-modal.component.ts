@@ -1,0 +1,58 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { Observable } from 'rxjs';
+
+import { Store } from '@ngrx/store';
+
+import { getAvailableCurrencies } from '../../../../core/store';
+
+@Component({
+  selector: 'gq-edit-case-modal',
+  templateUrl: './edit-case-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class EditCaseModalComponent implements OnInit {
+  public caseModalForm: FormGroup;
+
+  currencies$: Observable<string[]>;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public modalData: {
+      caseName: string;
+      currency: string;
+    },
+    private readonly dialogRef: MatDialogRef<EditCaseModalComponent>,
+    private readonly store: Store
+  ) {}
+
+  ngOnInit(): void {
+    this.currencies$ = this.store.select(getAvailableCurrencies);
+
+    this.caseModalForm = new FormGroup({
+      caseName: new FormControl(this.modalData?.caseName || '', [
+        Validators.pattern('\\s*\\S.*'),
+        Validators.maxLength(20),
+      ]),
+      currency: new FormControl(this.modalData.currency, [Validators.required]),
+    });
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  submitDialog(): void {
+    this.dialogRef.close({
+      caseName: this.caseModalForm.controls.caseName.value.trim(),
+      currency: this.caseModalForm.controls.currency.value,
+    });
+  }
+}

@@ -304,6 +304,13 @@
       },
       "cancel": "Zurück",
       "warning": "Bitte beachten Sie, dass diese Änderung dauerhaft ist und nicht rückgängig gemacht werden kann."
+    },
+    "caseModal": {
+      "title": "Case Einstellungen",
+      "cancel": "Abbrechen",
+      "update": "Speichern",
+      "nameLabel": "Individueller Name",
+      "currencyLabel": "Individuelle Währung"
     }
   },
   "legal": {

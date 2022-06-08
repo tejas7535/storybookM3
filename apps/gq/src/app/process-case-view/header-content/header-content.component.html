@@ -1,8 +1,8 @@
 <span *transloco="let t; read: 'processCaseView'">
-  <div *ngIf="!editCaseNameMode; else editIcon">
+  <div>
     <mat-icon
       class="ml-4 cursor-pointer text-medium-emphasis"
-      (click)="toggleCaseNameEditing(true)"
+      (click)="openCaseEditingModal()"
     >
       mode_edit
     </mat-icon>
@@ -13,35 +13,4 @@
     >
     </gq-info-icon>
   </div>
-  <ng-template #editIcon>
-    <div class="case-name-wrapper flex flex-row">
-      <mat-form-field class="case-name w-[300px]" appearance="outline">
-        <input
-          [formControl]="caseNameFormControl"
-          [placeholder]="t('header.caseNamePlaceholder')"
-          matInput
-          class="h-9 !text-caption !text-medium-emphasis"
-          maxlength="20"
-          type="text"
-        />
-      </mat-form-field>
-      <div class="ml-2 flex flex-row">
-        <button
-          class="text-error"
-          mat-icon-button
-          (click)="toggleCaseNameEditing(false)"
-        >
-          <mat-icon> close </mat-icon>
-        </button>
-        <button
-          color="primary"
-          mat-icon-button
-          [disabled]="!saveCaseNameEnabled"
-          (click)="saveCaseName()"
-        >
-          <mat-icon> done </mat-icon>
-        </button>
-      </div>
-    </div>
-  </ng-template>
 </span>

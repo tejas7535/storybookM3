@@ -1,0 +1,54 @@
+<div class="flex h-full flex-col" *transloco="let t; read: 'shared.caseModal'">
+  <gq-dialog-header [title]="t('title')" (closeDialog)="closeDialog()">
+  </gq-dialog-header>
+
+  <form [formGroup]="caseModalForm" (ngSubmit)="submitDialog()">
+    <div class="flex w-full py-8">
+      <mat-form-field class="mr-4 w-2/3" appearance="outline">
+        <mat-label>{{ t('nameLabel') }}</mat-label>
+        <input
+          formControlName="caseName"
+          type="text"
+          autocomplete="off"
+          matInput
+        />
+      </mat-form-field>
+
+      <mat-form-field class="w-1/3" appearance="outline">
+        <mat-label>{{ t('currencyLabel') }}</mat-label>
+        <mat-select formControlName="currency" [disabled]="true">
+          <mat-option
+            *ngFor="let currency of currencies$ | ngrxPush"
+            [value]="currency"
+            >{{ currency }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="flex w-full items-end justify-end">
+      <button
+        class="!pl-8 !pr-8"
+        color="primary"
+        mat-stroked-button
+        (click)="closeDialog()"
+        type="button"
+      >
+        <span> {{ t('cancel') | uppercase }} </span>
+      </button>
+      <button
+        class="!ml-6 !pl-8 !pr-8"
+        color="primary"
+        mat-raised-button
+        [disabled]="
+          (caseModalForm.pristine && caseModalForm.untouched) ||
+          caseModalForm.invalid ||
+          (caseModalForm.controls.caseName.value === modalData.caseName &&
+            caseModalForm.controls.currency.value === modalData.currency)
+        "
+      >
+        <span> {{ t('update') | uppercase }} </span>
+      </button>
+    </div>
+  </form>
+</div>

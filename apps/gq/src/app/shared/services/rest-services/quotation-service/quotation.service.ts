@@ -113,9 +113,15 @@ export class QuotationService {
     );
   }
 
-  public getCurrencies(): Observable<string[]> {
-    return this.http.get<string[]>(
+  public getCurrencies(): Observable<{ currency: string }[]> {
+    return this.http.get<{ currency: string }[]>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}`
+    );
+  }
+
+  public getExchangeRateForCurrency(fromCurrency: string, toCurrency: string) {
+    return this.http.get(
+      `${ApiVersion.V1}/${QuotationPaths.PATH_CURRENCIES}/${fromCurrency}/exchangeRates/${toCurrency}`
     );
   }
 }

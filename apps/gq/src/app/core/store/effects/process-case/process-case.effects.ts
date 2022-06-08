@@ -453,9 +453,15 @@ export class ProcessCaseEffect {
       ),
       mergeMap(() =>
         this.quotationService.getCurrencies().pipe(
-          map((currencies: string[]) =>
-            loadAvailableCurrenciesSuccess({ currencies })
-          ),
+          map((currencies: { currency: string }[]) => {
+            const currencyNames = currencies.map(
+              (currency: { currency: string }) => currency.currency
+            );
+
+            return loadAvailableCurrenciesSuccess({
+              currencies: currencyNames,
+            });
+          }),
           catchError((errorMessage) => {
             return of(loadAvailableCurrenciesFailure(errorMessage));
           })

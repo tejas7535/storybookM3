@@ -1023,13 +1023,13 @@ describe('ProcessCaseEffect', () => {
       'should return loadAvailableCurrencies',
       marbles((m) => {
         quotationService.getCurrencies = jest.fn(() => response);
-        const currencies = ['EUR', 'USD'];
+        const currencies = [{ currency: 'EUR' }, { currency: 'USD' }];
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', { a: currencies });
         const expected = m.cold('--b', {
-          b: loadAvailableCurrenciesSuccess({ currencies }),
+          b: loadAvailableCurrenciesSuccess({ currencies: ['EUR', 'USD'] }),
         });
 
         m.expect(effects.loadAvailableCurrencies$).toBeObservable(expected);
@@ -1041,10 +1041,13 @@ describe('ProcessCaseEffect', () => {
     test(
       'should NOT call the service if currencies are already set',
       marbles((m) => {
-        store.overrideSelector(getAvailableCurrencies, ['EUR', 'USD']);
+        store.overrideSelector(getAvailableCurrencies, [
+          { currency: 'EUR' },
+          { currency: 'USD' },
+        ]);
 
         quotationService.getCurrencies = jest.fn(() => response);
-        const currencies = ['EUR', 'USD'];
+        const currencies = [{ currency: 'EUR' }, { currency: 'USD' }];
 
         actions$ = m.hot('-a', { a: action });
 

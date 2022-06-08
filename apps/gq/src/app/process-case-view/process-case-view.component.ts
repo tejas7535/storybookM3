@@ -26,7 +26,6 @@ export class ProcessCaseViewComponent implements OnInit {
   public quotationLoading$: Observable<boolean>;
   public updateLoading$: Observable<boolean>;
   public breadcrumbs$: Observable<Breadcrumb[]>;
-  public displayTitle = true;
 
   constructor(
     private readonly store: Store,
@@ -49,10 +48,11 @@ export class ProcessCaseViewComponent implements OnInit {
       );
   }
 
-  public toggleDisplayTitle(display: boolean): void {
-    this.displayTitle = display;
-  }
   public updateCaseName(caseName: string): void {
     this.store.dispatch(updateCaseName({ caseName }));
+  }
+
+  public updateCurrency(currency: string): void {
+    console.log(currency);
   }
 }

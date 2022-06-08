@@ -304,6 +304,13 @@
         "discount": "Discount%"
       },
       "warning": "Please be aware this change is permanent and cannot be undone"
+    },
+    "caseModal": {
+      "title": "Case settings",
+      "cancel": "Cancel",
+      "update": "Update",
+      "nameLabel": "Custom Name",
+      "currencyLabel": "Custom Currency"
     }
   },
   "legal": {
