@@ -39,7 +39,7 @@ export const appRoutePaths: Routes = [
           ).then((m) => m.ReasonsAndCounterMeasuresModule),
       },
       {
-        path: AppRoutePath.AttritionAnalyticsPath,
+        path: AppRoutePath.FluctuationAnalyticsPath,
         loadChildren: async () =>
           import('./attrition-analytics/attrition-analytics.module').then(
             (m) => m.AttritionAnalyticsModule

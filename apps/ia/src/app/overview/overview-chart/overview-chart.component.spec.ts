@@ -74,6 +74,15 @@ describe('OverviewChartComponent', () => {
             'DEC',
           ],
         },
+        yAxis: {
+          type: 'value',
+          name: 'Number of Employees',
+          nameLocation: 'middle',
+          nameGap: 50,
+          nameTextStyle: {
+            fontFamily: 'Roboto',
+          },
+        },
         series: [
           { ...LINE_SERIES_BASE_OPTIONS, name: '2020', data: [10, 20, 10] },
         ],

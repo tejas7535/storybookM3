@@ -4,24 +4,24 @@
       "columnDirect": "Direct",
       "columnOverall": "Overall",
       "rowEmployees": "Employees",
-      "rowAttrition": "Attrition"
+      "rowAttrition": "Fluctuation"
     },
     "noData": "No Data Available."
   },
   "worldMap": {
     "chartLegend": {
-      "title": "Attrition:",
+      "title": "Fluctuation:",
       "danger": {
         "title": "High",
-        "tooltip": "Voluntary attrition rate >150% of the L1 average and number of people left in HCO >2."
+        "tooltip": "Voluntary fluctuation rate >150% of the L1 average and number of people left in HCO >2."
       },
       "warning": {
         "title": "Medium",
-        "tooltip": "Voluntary attrition rate between 100 and 150% of the average on L1 level."
+        "tooltip": "Voluntary fluctuation rate between 100 and 150% of the average on L1 level."
       },
       "ok": {
         "title": "Low",
-        "tooltip": "Voluntray attrition rate between 0% and the average on L1 level."
+        "tooltip": "Voluntray fluctuation rate between 0% and the average on L1 level."
       }
     }
   },
@@ -31,10 +31,10 @@
   },
   "attritionDialog": {
     "close": "Close",
-    "metaTitle": "Attrition",
-    "chartTitle": "Current Attrition Rates",
-    "attritionRate": "Attrition Rate",
-    "unforcedAttritionRate": "Unforced&nbsp;Attrition&nbsp;Rate",
+    "metaTitle": "Fluctuation",
+    "chartTitle": "Current Fluctuation",
+    "attritionRate": "Fluctuation Rate",
+    "unforcedAttritionRate": "Unforced&nbsp;Fluctuation&nbsp;Rate",
     "employeesLost": "Employees lost",
     "naturalTurnover": "Natural turnover",
     "forcedLeavers": "Forced leavers",
@@ -42,8 +42,8 @@
     "terminationReceived": "Termination received",
     "employeesAdded": "Employees added",
     "openPositions": "Open positions",
-    "pastAttritionRate": "Past Attrition Rate",
-    "futureAttritionRate": "Future Attrition Rate"
+    "pastAttritionRate": "Past",
+    "futureAttritionRate": "Future"
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

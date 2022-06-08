@@ -1,6 +1,6 @@
 {
   "attritionRateDetails": {
-    "title": "Attrition Rate - Details",
+    "title": "Unforced Fluctuation - Details",
     "chart": {
       "legend": {
         "charts": "Chart"
@@ -16,7 +16,7 @@
   "fluctuationRate": "Fluctuation Rate",
   "companyName": "SCHAEFFLER",
   "unforcedFluctuationRate": "Unforced Fluctuation Rate",
-  "chartTitle": "Current Attrition Rates",
+  "chartTitle": "Current Fluctuation Rates",
   "entriesExits": "Entries & Exits",
   "entries": "Entries",
   "exits": "Exits",

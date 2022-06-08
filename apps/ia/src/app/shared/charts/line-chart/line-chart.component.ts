@@ -17,12 +17,14 @@ import { LINE_CHART_BASE_OPTIONS } from './line-chart.config';
 })
 export class LineChartComponent implements OnInit {
   options: EChartsOption;
-  currentYear: number;
+  currentDate: string;
 
   private _config: EChartsOption;
+  readonly DATE_FORMAT = 'MM.YYYY';
 
   @Input() title: string;
   @Input() isDataLoading: boolean;
+
   @Input() get config(): EChartsOption {
     return this._config;
   }
@@ -33,7 +35,7 @@ export class LineChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentYear = moment.utc().get('year');
+    this.currentDate = moment.utc().format(this.DATE_FORMAT);
   }
 
   createEChartsOption(): EChartsOption {

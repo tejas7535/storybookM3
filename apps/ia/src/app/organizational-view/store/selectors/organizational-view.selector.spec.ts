@@ -95,11 +95,11 @@ describe('Organizational View Selector', () => {
           pieces: [
             {
               gte: 0,
-              lte: 2,
+              lte: 3,
               color: Color.GREEN,
             },
             {
-              gt: 2,
+              gt: 3,
               lte: 5,
               color: Color.BLUE,
             },

@@ -69,17 +69,17 @@ export function mapDataToChartOption(data: AttritionSeries) {
           pieces: [
             {
               gte: 0,
-              lte: 2,
+              lte: 3,
               color: Color.GREEN,
             },
             {
-              gt: 2,
+              gt: 3,
               lte: 5,
               color: Color.BLUE,
             },
           ],
           formatter: (val1: number, val2: number) =>
-            val1 === 0 && val2 === 2
+            val1 === 0 && val2 === 3
               ? translate(
                   'attritionDialog.pastAttritionRate',
                   {},

@@ -63,6 +63,15 @@ export class OverviewChartComponent {
           'DEC',
         ],
       },
+      yAxis: {
+        type: 'value',
+        name: 'Number of Employees',
+        nameLocation: 'middle',
+        nameGap: 50,
+        nameTextStyle: {
+          fontFamily: 'Roboto',
+        },
+      },
       series,
     };
 

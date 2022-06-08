@@ -59,8 +59,8 @@ export class AppComponent implements OnInit {
       disabled: false,
     },
     {
-      label: 'attritionAnalytics',
-      path: AppRoutePath.AttritionAnalyticsPath,
+      label: 'fluctuationAnalytics',
+      path: AppRoutePath.FluctuationAnalyticsPath,
       disabled: false,
     },
   ];
