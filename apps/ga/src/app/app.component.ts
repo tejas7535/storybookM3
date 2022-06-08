@@ -49,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(() => {
+        this.assignAppTitle();
         this.assignMetaTags();
         this.assignFooterLinks();
       });
@@ -56,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.translocoService.langChanges$
       .pipe(takeUntil(this.destroy$))
       .subscribe((language) => {
+        this.assignAppTitle();
         this.assignMetaTags();
         this.assignFooterLinks();
         this.oneTrustService?.translateBanner(language, true);
@@ -87,6 +89,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.applicationInsightsService.logEvent(TRACKING_NAME_LANGUAGE, {
       value: language,
     });
+  }
+
+  private assignAppTitle(): void {
+    this.appTitle = this.translocoService.translate('appTitle');
   }
 
   private assignFooterLinks(): void {

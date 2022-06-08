@@ -96,7 +96,7 @@ describe('AppComponent', () => {
           { value: 'de' }
         );
 
-        expect(translocoService.translate).toHaveBeenCalledTimes(12);
+        expect(translocoService.translate).toHaveBeenCalledTimes(13);
         expect(metaService.updateTag).toHaveBeenCalledTimes(12);
         expect(titleService.setTitle).toHaveBeenCalledTimes(2);
 
