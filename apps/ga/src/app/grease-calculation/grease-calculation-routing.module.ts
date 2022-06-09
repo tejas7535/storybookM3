@@ -13,6 +13,7 @@ const routes: Routes = [
       {
         path: GreaseCalculationPath.BasePath,
         redirectTo: GreaseCalculationPath.BearingPath,
+        pathMatch: 'full',
       },
       {
         path: `${GreaseCalculationPath.BearingPath}`,
