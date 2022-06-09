@@ -14,7 +14,7 @@ import { RangeFilterModule } from '@ga/shared/components/range-filter';
 
 import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
 import {
-  BearingSelectionButtonModule,
+  BearingSelectionButtonComponent,
   BearingSelectionFiltersSummaryModule,
   BearingSelectionListModule,
 } from './components';
@@ -43,7 +43,7 @@ import { AdvancedBearingSelectionService } from './services/advanced-bearing-sel
     // Components
     BearingSelectionListModule,
     BearingSelectionFiltersSummaryModule,
-    BearingSelectionButtonModule,
+    BearingSelectionButtonComponent,
   ],
   providers: [AdvancedBearingSelectionService],
   exports: [AdvancedBearingSelectionComponent],

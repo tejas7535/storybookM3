@@ -1,1 +1,1 @@
-export * from './bearing-selection-button.module';
+export * from './bearing-selection-button.component';

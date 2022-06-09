@@ -1,6 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { LetModule, PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   getAdvancedBearingSelectionResultsCount,
@@ -11,6 +19,17 @@ import { tooManyBearingsResultsThreshold } from '../../constants';
 
 @Component({
   selector: 'ga-bearing-selection-button',
+  standalone: true,
+  imports: [
+    CommonModule,
+    LetModule,
+    PushModule,
+    SharedTranslocoModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+  ],
   templateUrl: './bearing-selection-button.component.html',
 })
 export class BearingSelectionButtonComponent {

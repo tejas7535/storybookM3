@@ -28,7 +28,7 @@ describe('BearingComponent', () => {
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MockModule(LetModule),
-      MockModule(AdvancedBearingSelectionModule),
+      AdvancedBearingSelectionModule,
       MockModule(QuickBearingSelectionModule),
       MockModule(SubheaderModule),
       MockModule(MatButtonModule),

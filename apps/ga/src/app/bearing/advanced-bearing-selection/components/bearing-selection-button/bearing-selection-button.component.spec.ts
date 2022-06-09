@@ -27,13 +27,18 @@ describe('BearingSelectionButtonComponent', () => {
       MockModule(MatProgressSpinnerModule),
       MockModule(MatTooltipModule),
     ],
-    providers: [provideMockStore()],
-    declarations: [BearingSelectionButtonComponent],
+    providers: [
+      provideMockStore({
+        initialState: {
+          bearing: {},
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
     store = spectator.inject(MockStore);
 
     store.dispatch = jest.fn();
