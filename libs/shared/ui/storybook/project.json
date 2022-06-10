@@ -25,7 +25,14 @@
         "outputDir": "dist/storybook/shared-ui-storybook",
         "configDir": "libs/shared/ui/storybook/.storybook",
         "browserTarget": "shared-ui-storybook:build-storybook",
-        "compodoc": false
+        "compodoc": false,
+        "styles": [
+          "libs/shared/ui/storybook/src/styles.scss",
+          "node_modules/@fontsource/material-icons/400.css",
+          "node_modules/@fontsource/roboto/300.css",
+          "node_modules/@fontsource/roboto/400.css",
+          "node_modules/@fontsource/roboto/500.css"
+        ]
       },
       "configurations": {
         "ci": {
