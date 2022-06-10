@@ -41,7 +41,7 @@ describe('BetaFeatureSettingsComponent', () => {
 
     jest.spyOn(component, 'handleFeatureToggleChange');
 
-    jest.useFakeTimers('legacy');
+    jest.useFakeTimers();
 
     delete window.location;
     window.location = { reload: windowLocationReloadMock } as any;

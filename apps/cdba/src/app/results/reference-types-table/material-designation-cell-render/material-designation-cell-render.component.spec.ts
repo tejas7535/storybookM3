@@ -65,7 +65,7 @@ describe('MaterialDesignationCellRenderComponent', () => {
     component = spectator.component;
 
     router = spectator.inject(Router);
-    jest.useFakeTimers('legacy');
+    jest.useFakeTimers();
   });
 
   afterEach(() => {

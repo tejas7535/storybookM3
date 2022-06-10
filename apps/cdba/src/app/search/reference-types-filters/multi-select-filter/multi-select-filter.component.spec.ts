@@ -494,7 +494,7 @@ describe('MultiSelectFilterComponent', () => {
 
   describe('dropdownOpenedChange', () => {
     beforeEach(() => {
-      jest.useFakeTimers('legacy');
+      jest.useFakeTimers();
     });
 
     afterEach(() => {

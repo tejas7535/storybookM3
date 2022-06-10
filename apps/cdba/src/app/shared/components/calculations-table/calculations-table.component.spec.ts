@@ -116,7 +116,7 @@ describe('CalculationsTableComponent', () => {
     } as unknown as RowSelectedEvent;
 
     beforeEach(() => {
-      jest.useFakeTimers('legacy');
+      jest.useFakeTimers();
       component.minified = false;
 
       component.selectionChange.emit = jest.fn();
@@ -190,7 +190,7 @@ describe('CalculationsTableComponent', () => {
         getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
       } as unknown as GridApi;
 
-      jest.useFakeTimers('legacy');
+      jest.useFakeTimers();
     });
 
     afterEach(() => {

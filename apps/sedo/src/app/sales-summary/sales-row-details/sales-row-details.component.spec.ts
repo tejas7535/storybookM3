@@ -519,7 +519,7 @@ describe('SalesRowDetailsComponent', () => {
 
   describe('iconLeave', () => {
     it('should close the menu after the timeout', () => {
-      jest.useFakeTimers('legacy');
+      jest.useFakeTimers();
       const menuTrigger: any = { closeMenu: jest.fn() };
 
       component.iconLeave(menuTrigger);
