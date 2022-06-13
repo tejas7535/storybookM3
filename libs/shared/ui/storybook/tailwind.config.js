@@ -5,6 +5,6 @@ module.exports = {
   presets: [require('../../../../tailwind.config')],
   content: [
     join(__dirname, 'src/**/*.ts'),
-    ...createGlobPatternsForDependencies(__dirname, '../**/*.ts}'),
+    ...createGlobPatternsForDependencies(__dirname, '../../**/*.{ts,html}'),
   ],
 };
