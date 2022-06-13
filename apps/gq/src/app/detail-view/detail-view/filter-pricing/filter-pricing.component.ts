@@ -35,9 +35,9 @@ export class FilterPricingComponent implements OnInit {
 
   public ngOnInit(): void {
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
-    this.userHasManualPriceRole$ = this.store.select(userHasManualPriceRole);
-    this.userHasGPCRole$ = this.store.select(userHasGPCRole);
-    this.userHasSQVRole$ = this.store.select(userHasSQVRole);
+    this.userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
+    this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
+    this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);
     this.updateIsLoading$ = this.store.select(getUpdateLoading);
   }
 

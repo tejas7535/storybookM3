@@ -7,12 +7,11 @@ import {
 } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-import { concatLatestFrom } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { getIsLoggedIn, getRoles } from '@schaeffler/azure-auth';
+import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { UserRoles } from '../../shared/constants/user-roles.enum';
@@ -27,18 +26,11 @@ export class RoleGuard implements CanActivateChild {
     _childRoute: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.store.select(getRoles).pipe(
-      concatLatestFrom(() => this.store.select(getIsLoggedIn)),
-      filter(([_roles, isLoggedIn]) => isLoggedIn),
-      // eslint-disable-next-line ngrx/avoid-mapping-selectors
-      map(([roles, _isLoggedIn]) => {
-        if (!roles.includes(UserRoles.BASIC)) {
+    return this.store.pipe(hasIdTokenRole(UserRoles.BASIC)).pipe(
+      tap((granted) => {
+        if (!granted) {
           this.router.navigate([AppRoutePath.ForbiddenPath]);
-
-          return false;
         }
-
-        return true;
       })
     );
   }

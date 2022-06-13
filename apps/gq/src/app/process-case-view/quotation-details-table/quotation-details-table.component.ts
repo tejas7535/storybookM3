@@ -101,7 +101,7 @@ export class QuotationDetailsTableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.columnDefs$ = this.store.select(
+    this.columnDefs$ = this.store.pipe(
       getColumnDefsForRoles(this.columnDefinitionService.COLUMN_DEFS)
     );
     this.localeText$ = this.localizationService.locale$;

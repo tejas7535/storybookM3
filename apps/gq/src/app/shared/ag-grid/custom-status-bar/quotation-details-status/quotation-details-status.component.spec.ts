@@ -9,9 +9,8 @@ import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/azure-auth';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -19,7 +18,6 @@ import {
   QUOTATION_DETAIL_MOCK,
 } from '../../../../../testing/mocks';
 import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
-import { UserRoles } from '../../../constants/user-roles.enum';
 import { StatusBarProperties } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
 import { PriceService } from '../../../services/price-service/price.service';
@@ -34,7 +32,6 @@ describe('QuotationDetailsStatusComponent', () => {
   let component: QuotationDetailsStatusComponent;
   let spectator: Spectator<QuotationDetailsStatusComponent>;
   let params: IStatusPanelParams;
-  let store: MockStore;
   let matDialogSpyObject: SpyObject<MatDialog>;
 
   const createComponent = createComponentFactory({
@@ -64,7 +61,6 @@ describe('QuotationDetailsStatusComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
     matDialogSpyObject = spectator.inject(MatDialog);
     params = {
       api: {
@@ -81,8 +77,6 @@ describe('QuotationDetailsStatusComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set showMargins to true', () => {
-      store.overrideSelector(getRoles, [UserRoles.COST_GPC]);
-
       component.ngOnInit();
 
       expect(component.showGPI$).toBeTruthy();

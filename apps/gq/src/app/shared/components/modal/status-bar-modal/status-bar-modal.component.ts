@@ -30,8 +30,8 @@ export class StatusBarModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.showGPI$ = this.store.select(userHasGPCRole);
-    this.showGPM$ = this.store.select(userHasSQVRole);
+    this.showGPI$ = this.store.pipe(userHasGPCRole);
+    this.showGPM$ = this.store.pipe(userHasSQVRole);
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
   }
   closeDialog(): void {

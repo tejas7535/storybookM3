@@ -41,8 +41,8 @@ export class QuotationDetailsStatusComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.showGPI$ = this.store.select(userHasGPCRole);
-    this.showGPM$ = this.store.select(userHasSQVRole);
+    this.showGPI$ = this.store.pipe(userHasGPCRole);
+    this.showGPM$ = this.store.pipe(userHasSQVRole);
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
     this.simulatedQuotation$ = this.store.select(getSimulatedQuotation);

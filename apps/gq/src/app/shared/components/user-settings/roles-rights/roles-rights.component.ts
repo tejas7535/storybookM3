@@ -17,7 +17,7 @@ export class RolesRightsComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.allRoles$ = this.store.select(getAllRoles);
+    this.allRoles$ = this.store.pipe(getAllRoles);
   }
 
   public trackByFn(index: number): number {

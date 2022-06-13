@@ -3,8 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getIsLoggedIn, getRoles } from '@schaeffler/azure-auth';
-
+import { UserRoles } from '../../shared/constants';
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {
@@ -30,8 +29,15 @@ describe('RoleGuard', () => {
 
   describe('canActivateChild', () => {
     test('should grant access, if user has base role', () => {
-      store.overrideSelector(getRoles, ['BASIC']);
-      store.overrideSelector(getIsLoggedIn, true);
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC],
+            },
+          },
+        },
+      });
 
       guard
         .canActivateChild({} as any, {} as any)
@@ -39,8 +45,15 @@ describe('RoleGuard', () => {
     });
 
     test('should not grant access if user is lacking base role', () => {
-      store.overrideSelector(getRoles, []);
-      store.overrideSelector(getIsLoggedIn, true);
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [],
+            },
+          },
+        },
+      });
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard

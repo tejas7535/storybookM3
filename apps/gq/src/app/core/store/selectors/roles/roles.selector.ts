@@ -1,53 +1,52 @@
+import { pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { createSelector } from '@ngrx/store';
-
-import { getRoles } from '@schaeffler/azure-auth';
+import { getRoles } from 'libs/shared/utils/azure-auth/src/lib/store/selectors/auth.selectors';
 
 import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 import { UserRoles } from '../../../../shared/constants/user-roles.enum';
-import { RoleGroup } from '../../../../shared/models';
 
-export const getAllRoles = createSelector(
+export const getAllRoles = pipe(
   getRoles,
-  (roles: string[]): RoleGroup[] =>
-    roles
-      ? [
-          {
-            key: 'geoRoles',
-            roles: filterRoles(roles, UserRoles.REGION_PREFIX),
-          },
-          {
-            key: 'sectoralRoles',
-            roles: filterRoles(roles, UserRoles.SECTOR_PREFIX),
-          },
-          {
-            key: 'costRoles',
-            roles: filterRoles(roles, UserRoles.COST_PREFIX),
-          },
-          {
-            key: 'priceRoles',
-            roles: filterRoles(roles, UserRoles.MANUAL_PRICE),
-          },
-        ]
-      : []
+  map((roles) => [
+    {
+      key: 'geoRoles',
+      roles: filterRoles(roles, UserRoles.REGION_PREFIX),
+    },
+    {
+      key: 'sectoralRoles',
+      roles: filterRoles(roles, UserRoles.SECTOR_PREFIX),
+    },
+    {
+      key: 'costRoles',
+      roles: filterRoles(roles, UserRoles.COST_PREFIX),
+    },
+    {
+      key: 'priceRoles',
+      roles: filterRoles(roles, UserRoles.MANUAL_PRICE),
+    },
+  ])
 );
 export const getColumnDefsForRoles = (colDef: ColDef[]) =>
-  createSelector(getRoles, (roles) =>
-    ColumnUtilityService.createColumnDefs(roles, colDef)
+  createSelector(
+    getRoles,
+    map((roles) => ColumnUtilityService.createColumnDefs(roles, colDef))
   );
 
 export const filterRoles = (roles: string[], prefix: string): string[] =>
   roles.filter((role) => role.includes(prefix));
 
-export const userHasGPCRole = createSelector(
+export const userHasGPCRole = pipe(
   getRoles,
-  (roles: string[]): boolean => roles.includes(UserRoles.COST_GPC)
+  map((roles: string[]): boolean => roles.includes(UserRoles.COST_GPC))
 );
-export const userHasManualPriceRole = createSelector(
+export const userHasManualPriceRole = pipe(
   getRoles,
-  (roles: string[]): boolean => roles.includes(UserRoles.MANUAL_PRICE)
+  map((roles: string[]): boolean => roles.includes(UserRoles.MANUAL_PRICE))
 );
-export const userHasSQVRole = createSelector(
+export const userHasSQVRole = pipe(
   getRoles,
-  (roles: string[]): boolean => roles.includes(UserRoles.COST_SQV)
+  map((roles: string[]): boolean => roles.includes(UserRoles.COST_SQV))
 );
