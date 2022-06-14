@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.0...ga-v1.2.1) (2022-06-14)
+
+
+### 🐛 Bug Fixes
+
+* **ga:** add missing style scoping for custom ui components ([dfcb722](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/dfcb7228d152adbbc80ebb378142a85d898ca152))
+* **ga:** fix auto redirect ([59f09e2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/59f09e29da1ca450e1cd02a5fcd468d653f9037a))
+* **ga:** revert erroneous change of base url ([7c251c8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7c251c804f70add296525afd7e4a895e94c593b9))
+
+
+### 🎸 Features
+
+* **ga:** add advanced bearing selection list (UFTABI-5186) ([90b80f5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/90b80f5e5bf52f23c4486f232a980d35a929e626))
+* **ga:** add app banner ([4661633](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/466163340b743618d31f2a4ab11cf7601ab3e02f))
+* **ga:** add app logo to home page (UFTABI-5691) ([ddf39c8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ddf39c8b18fa466ad5a76539febe3097dc310d89))
+* **ga:** add greaseapp.com onetrust id (UFTABI-5687) ([7d5c26e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7d5c26eef8af8abaabc66b1288114fe9b385ffd4))
+* **ga:** add quick bearing selection to home page (UFTABI-5691) ([ea68cf4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ea68cf48f0993eb299d2ce42c5142f6a69cd6b45))
+* **ga:** add robots.txt for prod (UFTABI-5638) ([#4206](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4206)) ([b804018](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b8040182e5c375bea201a2b01de2f2ea473d3e1b))
+* **ga:** introduce bearing selection filter summary (UFTABI-5183) ([bff106f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bff106f6759fd3ec643248b3e13a74fe5cd96319))
+* **ga:** limit adv. bearing selection results to 500 (UFTABI-5183) ([429164e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/429164ea8a4ff41284f785986925662bdf9f2389))
+* **ga:** persist advanced bearing selection filters (UFTABI-5183) ([f09efba](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f09efba5f3440010d622df1d22e3a2b3f9f86153))
+* **ga:** persist bearing selection type in store (UFTABI-5183) ([1d491a2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1d491a285c51db5fe716f1e6f1b3c4583e41b76f))
+* **ga:** re-work and extend homepage cards (UFTABI-5662) ([8607969](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8607969a69ef644986c549e7063c0ddf808e15db))
+
 ## [1.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v0.0.2...ga-v1.2.0) (2022-05-23)
 
 
