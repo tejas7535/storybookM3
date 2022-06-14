@@ -123,7 +123,6 @@ module.exports = {
   ],
   overline: [
     '10px',
-
     {
       letterSpacing: '2px',
       lineHeight: '16px',

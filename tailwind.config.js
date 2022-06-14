@@ -185,6 +185,9 @@ module.exports = {
         '.text-h6': {
           fontWeight: theme('fontWeight.medium'),
         },
+        '.text-overline': {
+          textTransform: 'uppercase',
+        },
       });
     }),
   ],
