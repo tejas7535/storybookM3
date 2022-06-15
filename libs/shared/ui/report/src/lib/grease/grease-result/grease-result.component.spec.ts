@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 
@@ -15,6 +16,11 @@ import { MEDIASGREASE } from '../../models/index';
 import { GreaseResultComponent } from './grease-result.component';
 
 window.ResizeObserver = resize_observer_polyfill;
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((translateKey) => translateKey),
+}));
 
 describe('GreaseResultComponent', () => {
   let component: GreaseResultComponent;
@@ -57,6 +63,14 @@ describe('GreaseResultComponent', () => {
     });
   });
 
+  describe('getShopUrl', () => {
+    it('should return a valid url', () => {
+      expect(component.getShopUrl()).toBe(
+        'shopBaseUrl/search/searchpage?text=Arcanol MULTI2'
+      );
+    });
+  });
+
   describe('toggleShowValues', () => {
     it('should switch data amount', () => {
       component.toggleShowValues();
@@ -69,17 +83,15 @@ describe('GreaseResultComponent', () => {
 
   describe('#trackGreaseSelection', () => {
     it('should call the logEvent method', () => {
-      const mockGrease = 'RESI SCHMELZ';
-
       const trackingSpy = jest.spyOn(
         component['applicationInsightsService'],
         'logEvent'
       );
 
-      component.trackGreaseSelection(mockGrease);
+      component.trackGreaseSelection();
 
       expect(trackingSpy).toHaveBeenCalledWith(MEDIASGREASE, {
-        grease: mockGrease,
+        grease: 'Arcanol MULTI2',
       });
     });
   });

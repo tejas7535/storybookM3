@@ -8,6 +8,8 @@ import {
   OnInit,
 } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
+
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LabelValue } from '@schaeffler/label-value';
 
@@ -25,6 +27,7 @@ export enum LabelWidth {
 }
 
 export const elementWidthSmall = 400;
+export const shopSearchPathBase = 'search/searchpage?text=';
 
 @Component({
   selector: 'schaeffler-grease-result',
@@ -70,15 +73,21 @@ export class GreaseResultComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getShopUrl(): string {
+    return `${translate('shopBaseUrl')}/${shopSearchPathBase}${
+      this.greaseResult?.mainTitle
+    }`;
+  }
+
   public toggleShowValues(): void {
     this.showAllValues = !this.showAllValues;
 
     this.assignGreaseResultData();
   }
 
-  public trackGreaseSelection(grease: string): void {
+  public trackGreaseSelection(): void {
     this.applicationInsightsService.logEvent(MEDIASGREASE, {
-      grease,
+      grease: this.greaseResult?.mainTitle,
     });
   }
 

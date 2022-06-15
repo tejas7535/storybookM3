@@ -3,11 +3,9 @@
     <div class="p-3">
       <a
         class="font-medium text-link"
-        [attr.href]="
-          t('shopBaseUrl') + '/search/searchpage?text=' + greaseResult.mainTitle
-        "
+        [attr.href]="getShopUrl()"
         target="_blank"
-        (click)="trackGreaseSelection(greaseResult.mainTitle)"
+        (click)="trackGreaseSelection()"
       >
         {{ greaseResult.mainTitle }}
         <mat-icon
