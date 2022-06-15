@@ -16,8 +16,8 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import { Observable } from 'rxjs';
 
-import { formattedGreaseJson } from '../../../mocks/index';
-import { Subordinate, TitleId } from '../../models/index';
+import { formattedGreaseJson } from '../../../mocks';
+import { Subordinate, TitleId } from '../../models';
 import { GreaseReportInputComponent } from '../grease-report-input/grease-report-input.component';
 import { GreaseReportService } from '../services/grease-report.service';
 import { GreaseReportComponent } from './grease-report.component';
@@ -63,7 +63,6 @@ describe('GreaseReportComponent', () => {
     component = spectator.component;
 
     snackBar = spectator.inject(MatSnackBar);
-    component.greaseReportTitle = 'mockTitle';
     snackBar.open = jest.fn();
   });
 
@@ -126,7 +125,7 @@ describe('GreaseReportComponent', () => {
     it('should limit the subordinate to the amount of limitResults', () => {
       component.limitResults = true;
       const mockLength = 2;
-      component.resultAmount = mockLength;
+      component.resultsLimit = mockLength;
 
       const result = component.limitSubordinates(
         formattedGreaseJson[1].subordinates as Subordinate[],
@@ -138,7 +137,7 @@ describe('GreaseReportComponent', () => {
 
     it('should not limit the subordinate to the amount of limitResults', () => {
       component.limitResults = false;
-      component.resultAmount = 2;
+      component.resultsLimit = 2;
 
       const result = component.limitSubordinates(
         formattedGreaseJson[1].subordinates as Subordinate[],

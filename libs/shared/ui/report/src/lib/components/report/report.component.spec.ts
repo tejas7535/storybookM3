@@ -13,7 +13,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
-import { TableItem } from '../../models/index';
+import { TableItem } from '../../models';
 
 import { ReportComponent } from './report.component';
 import { ReportService } from '../../report.service';

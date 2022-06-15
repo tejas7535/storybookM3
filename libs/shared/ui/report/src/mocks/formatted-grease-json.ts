@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 
-import { Subordinate } from '../lib/models/index';
+import { Subordinate } from '../lib/models';
 import { greaseResultMock } from './grease-result.mock';
 
 export const formattedGreaseJson: Subordinate[] = [

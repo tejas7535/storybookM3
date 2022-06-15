@@ -12,7 +12,7 @@ import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { greaseResultMock } from '../../../mocks/grease-result.mock';
-import { MEDIASGREASE } from '../../models/index';
+import { MEDIASGREASE } from '../../models';
 import { GreaseResultComponent } from './grease-result.component';
 
 window.ResizeObserver = resize_observer_polyfill;

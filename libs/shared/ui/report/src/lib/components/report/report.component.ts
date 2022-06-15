@@ -9,7 +9,7 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import { Field, Subordinate, TableItem, Type } from '../../models/index';
+import { Field, Subordinate, TableItem, Type } from '../../models';
 import { ReportService } from '../../report.service';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Field, JsonTable, TableItem } from '../lib/models/index';
+import { Field, JsonTable, TableItem } from '../lib/models';
 
 export const mockTableItemUnit = 'mock_unit';
 export const mockTableItemValueString = 'mock_value';

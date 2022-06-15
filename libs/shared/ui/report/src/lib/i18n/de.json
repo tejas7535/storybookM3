@@ -6,7 +6,7 @@
   "allValues": "Alle Werte und Zeitspannen anzeigen",
   "hideValues": "Zusätzliche Werte verbergen",
   "allResults": "Zeige alle Ergebnisse",
-  "limitResults": "Zeige die ersten {{ amount }} Ergebnisse",
+  "limitResults": "Zeige die ersten {{ resultsLimit }} Ergebnisse",
   "results": "Ergebnisse sortiert nach Nachschmierinterval ({{ amount }}/{{ complete }} Fette)",
   "guideValues": "* Zahlen sind Richtwerte",
   "errorsWarningsNotes": "Fehler, Warnungen & Hinweise",

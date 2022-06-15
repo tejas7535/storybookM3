@@ -10,7 +10,7 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
-import { Subordinate } from '../../models/index';
+import { Subordinate } from '../../models';
 import { ReportService } from '../../report.service';
 
 @Component({

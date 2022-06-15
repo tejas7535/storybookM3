@@ -1,9 +1,3 @@
-<h6 *ngIf="greaseReportTitle">{{ greaseReportTitle }}</h6>
-<div *ngIf="greaseReportSubtitle" class="text-caption">
-  {{ greaseReportSubtitle }}
-</div>
-
-<!-- grease report -->
 <mat-accordion *transloco="let t">
   <mat-expansion-panel *ngIf="greaseInput">
     <mat-expansion-panel-header>
@@ -36,7 +30,7 @@
           >
             {{
               t('results', {
-                amount: limitResults ? resultAmount : getResultAmount(),
+                amount: limitResults ? resultsLimit : getResultAmount(),
                 complete: getResultAmount()
               })
             }}
@@ -56,9 +50,7 @@
           (click)="toggleLimitResults()"
         >
           {{
-            t(limitResults ? 'allResults' : 'limitResults', {
-              amount: resultAmount
-            })
+            t(limitResults ? 'allResults' : 'limitResults', { resultsLimit })
           }}
         </div>
         <div>

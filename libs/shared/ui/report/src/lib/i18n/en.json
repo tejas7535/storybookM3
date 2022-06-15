@@ -6,7 +6,7 @@
   "allValues": "Show all values & timeframes",
   "hideValues": "Hide additional values",
   "allResults": "Show all Results",
-  "limitResults": "Show first {{ amount }} Results",
+  "limitResults": "Show first {{ resultsLimit }} Results",
   "results": "Results sorted by relubrication interval ({{ amount }}/{{ complete }} greases)",
   "guideValues": "* guide values",
   "errorsWarningsNotes": "Errors, Warnings & Notes",

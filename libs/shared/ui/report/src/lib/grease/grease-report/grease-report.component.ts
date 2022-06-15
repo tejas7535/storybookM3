@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
-import { Report, Subordinate, TitleId } from '../../models/index';
+import { Report, Subordinate, TitleId } from '../../models';
 import { GreaseReportService } from '../services/grease-report.service';
 
 @Component({
@@ -19,14 +19,9 @@ import { GreaseReportService } from '../services/grease-report.service';
   styleUrls: ['./grease-report.component.scss'],
 })
 export class GreaseReportComponent implements OnInit, OnDestroy {
-  @Input() public greaseReportTitle!: string;
-  @Input() public greaseReportSubtitle?: string;
   @Input() public greaseReportUrl = '';
-  @Input() public greaseReportSelector?: string;
-  @Input() public errorMessage = translate('snackbarError') as string;
-  @Input() public actionText = translate('snackbarRetry') as string;
-  @Input() public resultAmount = 3;
 
+  public resultsLimit = 3;
   public limitResults = true;
   public subordinates: Subordinate[] = [];
   public greaseInput: Subordinate | undefined;
@@ -81,9 +76,13 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
   }
 
   public showSnackBarError(): void {
-    this.snackBarRef = this.snackbar.open(this.errorMessage, this.actionText, {
-      duration: Number.POSITIVE_INFINITY,
-    });
+    this.snackBarRef = this.snackbar.open(
+      translate('snackbarError'),
+      translate('snackbarRetry'),
+      {
+        duration: Number.POSITIVE_INFINITY,
+      }
+    );
   }
 
   public isGreaseResultSection = (
@@ -102,7 +101,7 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
     titleID: `${TitleId}`
   ): Subordinate[] =>
     this.isGreaseResultSection(titleID) && this.limitResults
-      ? subordinates.slice(0, this.resultAmount)
+      ? subordinates.slice(0, this.resultsLimit)
       : subordinates;
 
   public getResultAmount(): number {
