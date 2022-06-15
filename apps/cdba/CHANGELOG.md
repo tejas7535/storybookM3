@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.15.0...cdba-v2.16.0) (2022-06-15)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** use correct value for costs in object currency ([#4176](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4176)) ([2f543f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2f543f7d4483efbc8da955883c7a383e3bd73cc6))
+* **workspace:** fix fake timers in tests after version bump ([2a33b62](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2a33b629a73bf6f7a9ab2b78391d0edf39af516e))
+
+
+### 🎸 Features
+
+* **cdba:** implemented deselecting records out of the Portfolio Analyse table (DSCDA-2952) ([#4203](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4203)) ([f93f3cd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f93f3cd93a61dc668bbaaf4840d00698959a308a))
+
 ## [2.15.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.14.0...cdba-v2.15.0) (2022-05-25)
 
 
