@@ -45,5 +45,7 @@
   "suitabilityLevelHighlySuitable": "gut geeignet",
   "suitabilityLevelSuitable": "geeignet",
   "suitabilityLevelLessSuitable": "weniger geeignet",
-  "suitabilityLevelNotSuitable": "nicht geeignet"
+  "suitabilityLevelNotSuitable": "nicht geeignet",
+  "insufficientGreaseResultHint": "unzureichend",
+  "insufficientGreaseResultTooltip": "Die Eignung des Fettes wurde durch die Grease App als unzureichend bewertet.\n\nBitte kontaktieren Sie bei weiteren Fragen den Schaeffler Ingenieurdienst."
 }

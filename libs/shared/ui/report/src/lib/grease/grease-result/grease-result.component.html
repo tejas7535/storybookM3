@@ -1,7 +1,15 @@
 <ng-container *ngIf="greaseResult">
-  <div *transloco="let t">
+  <div
+    *transloco="let t"
+    class="overflow-hidden rounded border border-border"
+    [ngClass]="{
+      'border-[red]': !greaseResult.isSufficient,
+      'border-border': greaseResult.isSufficient
+    }"
+  >
     <div class="p-3">
       <a
+        *ngIf="greaseResult.isSufficient; else insufficientGreaseResult"
         class="font-medium text-link"
         [attr.href]="getShopUrl()"
         target="_blank"
@@ -13,6 +21,23 @@
           >open_in_new</mat-icon
         >
       </a>
+      <ng-template #insufficientGreaseResult>
+        <div class="inline-block font-medium text-medium-emphasis">
+          {{ greaseResult.mainTitle }}
+        </div>
+        <div class="relative ml-3 inline-block pr-7 font-medium text-[red]">
+          {{ t('insufficientGreaseResultHint') }}
+          <mat-icon
+            color="primary"
+            class="absolute right-0 top-[-2px] cursor-help"
+            matTooltip="{{ t('insufficientGreaseResultTooltip') }}"
+            matTooltipPosition="below"
+            matTooltipClass="!max-w-[400px]"
+          >
+            info_outline
+          </mat-icon>
+        </div>
+      </ng-template>
       <p class="text-caption">
         {{ greaseResult.subTitle }}
       </p>

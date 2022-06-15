@@ -17,7 +17,10 @@ import {
   TitleId,
   WARNINGSOPENED,
 } from '../../models';
-import { GreaseResult } from '../../models/grease-result.model';
+import {
+  GreaseResult,
+  GreaseResultDataSourceItem,
+} from '../../models/grease-result.model';
 import { itemValue } from '../helpers/grease-helpers';
 import { GreaseResultDataSourceService } from './grease-result-data-source.service';
 
@@ -79,6 +82,11 @@ export class GreaseReportService {
               (tableItems: TableItem[], index: number) => {
                 const table1Items = table1?.data?.items[index];
                 const rho = +itemValue(tableItems, Field.RHO);
+                const initialGreaseQuantity: GreaseResultDataSourceItem =
+                  this.greaseResultDataSourceService.initialGreaseQuantity(
+                    table1Items || [],
+                    rho
+                  );
 
                 const greaseResult: GreaseResult = {
                   mainTitle: `${itemValue(tableItems, undefined, 0)}`,
@@ -89,11 +97,10 @@ export class GreaseReportService {
                     tableItems,
                     Field.THICKENER
                   )}`,
+                  // mark as insufficient if there is no initial grease quantity available
+                  isSufficient: !!initialGreaseQuantity,
                   dataSource: [
-                    this.greaseResultDataSourceService.initialGreaseQuantity(
-                      table1Items || [],
-                      rho
-                    ),
+                    initialGreaseQuantity,
                     this.greaseResultDataSourceService.manualRelubricationQuantityInterval(
                       table1Items || [],
                       rho

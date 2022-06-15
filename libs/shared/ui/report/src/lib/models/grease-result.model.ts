@@ -11,5 +11,6 @@ export type GreaseResultData = GreaseResultDataSourceItem[];
 export interface GreaseResult {
   mainTitle: string;
   subTitle: string;
+  isSufficient: boolean;
   dataSource: GreaseResultData;
 }

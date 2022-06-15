@@ -122,5 +122,6 @@ export const greaseResultDataMock = (
 export const greaseResultMock: GreaseResult = {
   mainTitle: 'Arcanol MULTI2',
   subTitle: 'Mineral oil',
+  isSufficient: true,
   dataSource: greaseResultDataMock(mockTableItemValueNumber, mockTableItemUnit),
 };
