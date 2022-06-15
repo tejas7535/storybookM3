@@ -6,7 +6,6 @@ import { DropdownOption } from '../../models';
 @Component({
   selector: 'ga-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
 })
 export class SelectComponent {
   @Input() public control: UntypedFormControl;
@@ -15,6 +14,5 @@ export class SelectComponent {
   @Input() public label?: string;
   @Input() public options: DropdownOption[] = [];
   @Input() public tooltipText?: string;
-  @Input() public noInfo? = false;
   @Input() public customErrors?: { name: string; message: string }[];
 }

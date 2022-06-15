@@ -8,6 +8,7 @@ import {
 } from '../shared/models';
 
 export const loadValidators = [
+  Validators.required,
   Validators.min(0),
   Validators.max(1_000_000_000),
 ];

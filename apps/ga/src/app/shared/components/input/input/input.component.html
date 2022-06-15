@@ -1,12 +1,9 @@
 <div
-  class="flex w-full flex-row items-baseline justify-between gap-4"
+  class="flex w-full flex-row items-baseline justify-between gap-2"
+  [ngClass]="{ 'gap-0': !tooltipText }"
   *transloco="let t; read: 'parameters.errors'"
 >
-  <mat-form-field
-    appearance="outline"
-    class="flex grow flex-row pb-4"
-    [ngClass]="control.touched && control.errors ? 'pb-[3px]' : 'pb-4'"
-  >
+  <mat-form-field appearance="outline" class="flex grow flex-row pb-3">
     <mat-label *ngIf="label">{{ label }}</mat-label>
     <input
       *ngIf="onlyPositive; else casualInput"
@@ -42,10 +39,11 @@
       </mat-error>
     </ng-container>
   </mat-form-field>
-  <div *ngIf="!noInfo" class="w-6">
+  <div *ngIf="tooltipText" class="w-6">
     <mat-icon
       *ngIf="tooltipText"
       color="primary"
+      class="cursor-help"
       #tooltip="matTooltip"
       [matTooltip]="tooltipText"
       (click)="tooltip.toggle()"

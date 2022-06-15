@@ -12,23 +12,23 @@
     >
       <ng-container subheaderBlockContent> {{ t('title.sub') }} </ng-container>
     </schaeffler-subheader>
-    <div class="-ml-4 -mt-2 mb-4 flex flex-row">
-      <button
-        mat-button
-        color="primary"
-        [disableRipple]="true"
-        (click)="toggleBearingSelectionType(selectionType)"
-      >
-        {{
-          t(
-            selectionType === bearingSelectionType.AdvancedSelection
-              ? 'bearingSelection.button.quickSelection'
-              : 'bearingSelection.button.advancedSelection'
-          )
-        }}
-      </button>
-    </div>
-    <div class="max-w-[600px]">
+    <div class="container mx-auto py-4 md:max-w-2xl">
+      <div class="mb-5 text-center md:text-right">
+        <button
+          mat-button
+          color="primary"
+          [disableRipple]="true"
+          (click)="toggleBearingSelectionType(selectionType)"
+        >
+          {{
+            t(
+              selectionType === bearingSelectionType.AdvancedSelection
+                ? 'bearingSelection.button.quickSelection'
+                : 'bearingSelection.button.advancedSelection'
+            )
+          }}
+        </button>
+      </div>
       <ga-advanced-bearing-selection
         *ngIf="
           selectionType === bearingSelectionType.AdvancedSelection;
@@ -37,17 +37,11 @@
       ></ga-advanced-bearing-selection>
       <ng-template #quick_bearing_selection>
         <ga-quick-bearing-selection></ga-quick-bearing-selection>
+        <img
+          class="h-auto w-auto sm:max-h-full sm:object-cover"
+          src="../../assets/images/bearingSearch.png"
+        />
       </ng-template>
-    </div>
-
-    <div
-      *ngIf="!(selectionType === bearingSelectionType.AdvancedSelection)"
-      class="flex flex-1 flex-col justify-end sm:w-1/3"
-    >
-      <img
-        class="h-auto w-auto sm:max-h-full sm:object-cover"
-        src="../../assets/images/bearingSearch.png"
-      />
     </div>
   </div>
 </ng-container>

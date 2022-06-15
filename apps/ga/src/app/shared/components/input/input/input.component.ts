@@ -6,7 +6,6 @@ import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'ga-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
 })
 export class InputComponent implements OnInit, OnDestroy {
   @Input() public control: UntypedFormControl;
@@ -16,7 +15,6 @@ export class InputComponent implements OnInit, OnDestroy {
   @Input() public unit?: string;
   @Input() public onlyPositive? = false;
   @Input() public tooltipText?: string;
-  @Input() public noInfo? = false;
   @Input() public customErrors?: { name: string; message: string }[];
   destroy$ = new Subject<void>();
 
