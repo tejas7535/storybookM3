@@ -1,0 +1,15 @@
+<div
+  class="flex h-full w-full items-center justify-between pl-4"
+  (mouseover)="onMouseOver()"
+  (mouseleave)="onMouseLeave()"
+>
+  <div class="w-full text-center">{{ params.displayName }}</div>
+  <button
+    class="text-medium-emphasis"
+    mat-icon-button
+    [ngClass]="{ invisible: !isXButtonVisible }"
+    (click)="xButtonClicked(nodeId)"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</div>

@@ -1,5 +1,4 @@
 export class ProductCostAnalysis {
-  id: string;
   sqvMargin: number;
   gpcMargin: number;
 
@@ -7,15 +6,9 @@ export class ProductCostAnalysis {
     public materialDesignation: string,
     public averagePrice: number,
     public sqvCosts: number,
-    public gpcCosts: number
+    public gpcCosts: number,
+    public id: string
   ) {
-    // add random number to mat.-designation to create a local/temporary id
-    this.id = `${materialDesignation
-      .toString()
-      .replace(/\./g, '')}_${Math.floor(
-      100_000 + Math.random() * 900_000
-    ).toString()}`;
-
     // calculate margins
     this.sqvMargin =
       sqvCosts && averagePrice

@@ -173,7 +173,8 @@ export const getPortfolioAnalysisDataForSelectedNodes = createSelector(
         refType.materialDesignation,
         refType.averagePrices[0],
         refType.sqvSapLatestMonth,
-        refType.gpcLatestYear
+        refType.gpcLatestYear,
+        id
       );
     });
   }

@@ -8,6 +8,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  deselectReferenceType,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -295,7 +296,23 @@ export const searchReducer = createReducer(
       ...state,
       referenceTypes: { ...state.referenceTypes, selectedNodeIds: nodeIds },
     })
-  )
+  ),
+  on(deselectReferenceType, (state, { nodeId }): SearchState => {
+    const selectedNodeIds = [...state.referenceTypes.selectedNodeIds];
+    const indexOfNodeId = selectedNodeIds.indexOf(nodeId);
+
+    return indexOfNodeId > -1
+      ? {
+          ...state,
+          referenceTypes: {
+            ...state.referenceTypes,
+            selectedNodeIds: [
+              ...selectedNodeIds.filter((id: string) => id !== nodeId),
+            ],
+          },
+        }
+      : state;
+  })
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

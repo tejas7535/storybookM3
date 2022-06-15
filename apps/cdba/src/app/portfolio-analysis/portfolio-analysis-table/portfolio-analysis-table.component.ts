@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 
 import {
@@ -13,6 +15,7 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { ProductCostAnalysis } from '@cdba/shared/models';
 
+import { CustomHeaderComponent } from './custom-header-component/custom-header.component';
 import { TransposedRowData } from './portfolio-analysis-table.models';
 import { PortfolioAnalysisTableService } from './portfolio-analysis-table.service';
 
@@ -22,7 +25,7 @@ import { PortfolioAnalysisTableService } from './portfolio-analysis-table.servic
   styleUrls: ['./portfolio-analysis-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PortfolioAnalysisTableComponent implements OnInit {
+export class PortfolioAnalysisTableComponent implements OnInit, OnChanges {
   @Input() productCostAnalyses: ProductCostAnalysis[];
 
   public rowData: TransposedRowData[] = [];
@@ -37,6 +40,14 @@ export class PortfolioAnalysisTableComponent implements OnInit {
     this.resetColumnDefs();
 
     if (this.productCostAnalyses && this.productCostAnalyses.length > 0) {
+      this.setColumnDefs(this.productCostAnalyses);
+      this.setRowData(this.productCostAnalyses);
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.productCostAnalyses) {
+      this.resetColumnDefs();
       this.setColumnDefs(this.productCostAnalyses);
       this.setRowData(this.productCostAnalyses);
     }
@@ -59,6 +70,10 @@ export class PortfolioAnalysisTableComponent implements OnInit {
         field: productCostAnalysis.id,
         headerName: productCostAnalysis.materialDesignation,
         headerTooltip: productCostAnalysis.materialDesignation,
+        headerComponent: CustomHeaderComponent,
+        headerComponentParams: {
+          nodeId: productCostAnalysis.id,
+        },
         suppressMenu: true,
         cellStyle: { textAlign: 'center' },
       });

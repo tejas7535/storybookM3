@@ -72,6 +72,11 @@ export const selectReferenceTypes = createAction(
   props<{ nodeIds: string[] }>()
 );
 
+export const deselectReferenceType = createAction(
+  '[Search] Deselect Reference Type',
+  props<{ nodeId: string }>()
+);
+
 const all = union({
   loadInitialFilters,
   loadInitialFiltersSuccess,
@@ -89,6 +94,7 @@ const all = union({
   autocompleteSuccess,
   autocompleteFailure,
   selectReferenceTypes,
+  deselectReferenceType,
 });
 
 export type SearchActions = typeof all;

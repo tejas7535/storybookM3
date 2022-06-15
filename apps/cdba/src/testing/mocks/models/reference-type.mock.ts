@@ -3,6 +3,7 @@ import { ReferenceType } from '@cdba/shared/models';
 import { PCM_CALCULATIONS_MOCK } from './calculations.mock';
 
 export const REFERENCE_TYPE_MOCK: ReferenceType = {
+  id: '001',
   materialNumber: '0781403820000',
   plant: 'IWS',
   budgetQuantityCurrentYear: 239_349,

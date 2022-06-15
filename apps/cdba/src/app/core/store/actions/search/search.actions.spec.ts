@@ -14,6 +14,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  deselectReferenceType,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -220,6 +221,15 @@ describe('Search Actions', () => {
       expect(action).toEqual({
         type: '[Search] Select Reference Types',
         nodeIds: ['3', '4'],
+      });
+    });
+
+    test('deselectReferenceType', () => {
+      const action = deselectReferenceType({ nodeId: '3' });
+
+      expect(action).toEqual({
+        type: '[Search] Deselect Reference Type',
+        nodeId: '3',
       });
     });
   });

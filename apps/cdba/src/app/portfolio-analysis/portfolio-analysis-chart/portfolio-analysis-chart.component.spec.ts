@@ -1,3 +1,5 @@
+import { SimpleChanges } from '@angular/core';
+
 import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 import {
   createComponentFactory,
@@ -30,6 +32,7 @@ describe('PortfolioAnalysisChartComponent', () => {
   });
 
   beforeEach(() => {
+    jest.clearAllMocks();
     spectator = createComponent();
     component = spectator.component;
   });
@@ -44,5 +47,28 @@ describe('PortfolioAnalysisChartComponent', () => {
     component.ngOnInit();
 
     expect(component['chartService'].getEChartsOption).toBeCalledTimes(1);
+  });
+
+  it('should call getEChartsOption onChanges with changed data', () => {
+    component.productCostAnalyses = [PRODUCT_COST_ANALYSIS_MOCK];
+
+    const changes: SimpleChanges = {
+      productCostAnalyses: {
+        previousValue: component.productCostAnalyses,
+        currentValue: {},
+      },
+    } as unknown as SimpleChanges;
+
+    component.ngOnChanges(changes);
+
+    expect(component['chartService'].getEChartsOption).toBeCalledTimes(1);
+  });
+
+  it('should not call getEChartsOption onChanges with unchanged data', () => {
+    component.productCostAnalyses = [PRODUCT_COST_ANALYSIS_MOCK];
+
+    component.ngOnChanges(undefined);
+
+    expect(component['chartService'].getEChartsOption).toBeCalledTimes(0);
   });
 });

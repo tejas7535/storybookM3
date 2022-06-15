@@ -1,6 +1,7 @@
 import { PcmCalculation } from './pcm-calculation.model';
 
 export interface ReferenceType {
+  id: string;
   materialNumber: string;
   plant: string;
   budgetQuantityCurrentYear: number;
