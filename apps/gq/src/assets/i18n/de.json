@@ -37,6 +37,7 @@
       "productLine": "PL",
       "orderQuantity": "Menge",
       "rlt": "WBZ",
+      "materialClassificationSOP": "S&OP Klassifizierung",
       "sqv": "SAW",
       "uom": "Mengeneinheit",
       "rlm": "RLM % (Verlagerung)",

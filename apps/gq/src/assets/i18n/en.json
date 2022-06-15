@@ -37,6 +37,7 @@
       "productLine": "PL",
       "orderQuantity": "Quantity",
       "rlt": "RLT",
+      "materialClassificationSOP": "S&OP Classification",
       "sqv": "SQV",
       "uom": "UoM",
       "rlm": "RLM % (Reloc.)",

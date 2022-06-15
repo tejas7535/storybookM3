@@ -59,7 +59,8 @@
       "width": "Overall width (B)",
       "encodedInSalesOrg": "Encoded in sales org.",
       "dchainMaterialStatus": "DChain-Material-Status",
-      "minimumOrderQuantity": "Minimum Order Quantity"
+      "minimumOrderQuantity": "Minimum Order Quantity",
+      "materialClassificationSOP": "S&OP Classification"
     },
     "productionCostDetails": {
       "title": "Production & Cost",

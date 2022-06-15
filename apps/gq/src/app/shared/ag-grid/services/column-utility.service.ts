@@ -14,6 +14,7 @@ import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
 import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
+import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
@@ -24,6 +25,7 @@ import { ColumnFields } from '../constants/column-fields.enum';
 })
 export class ColumnUtilityService {
   static materialPipe = new MaterialTransformPipe();
+  static materialClassificationSOPPipe = new MaterialClassificationSOPPipe();
 
   static dateFilterParams = {
     comparator: (compareDate: Date, cellDate: string) => {
@@ -171,5 +173,13 @@ export class ColumnUtilityService {
     }
 
     return data.value;
+  }
+
+  static transformMaterialClassificationSOP(
+    data: ValueFormatterParams
+  ): string {
+    return ColumnUtilityService.materialClassificationSOPPipe.transform(
+      data.value
+    );
   }
 }

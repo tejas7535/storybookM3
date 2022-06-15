@@ -68,6 +68,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
     SAP_PRICE_DETAIL_ZMIN_MOCK,
     SAP_PRICE_DETAIL_ZRTU_MOCK,
   ],
+  materialClassificationSOP: '1',
   msp: 0.99,
   rsp: 1,
 };

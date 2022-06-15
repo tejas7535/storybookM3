@@ -9,4 +9,5 @@ import { MaterialDetails } from '../../../../shared/models/quotation-detail';
 export class MaterialDetailsComponent {
   @Input() materialDetails: MaterialDetails;
   @Input() customerMaterial: string;
+  @Input() materialClassificationSOP: string;
 }

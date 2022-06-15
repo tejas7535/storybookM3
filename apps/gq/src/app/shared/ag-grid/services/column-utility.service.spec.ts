@@ -311,4 +311,20 @@ describe('CreateColumnService', () => {
       expect(res).toEqual('translate it');
     });
   });
+
+  describe('transformMaterialClassificationSOP', () => {
+    test('should call materialClassificationSOP pipe', () => {
+      ColumnUtilityService.materialClassificationSOPPipe.transform = jest.fn();
+
+      ColumnUtilityService.transformMaterialClassificationSOP({
+        data: {
+          value: '1',
+        },
+      } as any);
+
+      expect(
+        ColumnUtilityService.materialClassificationSOPPipe.transform
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
 });

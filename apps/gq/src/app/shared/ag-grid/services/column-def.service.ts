@@ -303,6 +303,14 @@ export class ColumnDefService {
       filter: DATE_COLUMN_FILTER,
     },
     {
+      headerName: translate(
+        'shared.quotationDetailsTable.materialClassificationSOP'
+      ),
+      field: 'materialClassificationSOP',
+      valueFormatter: ColumnUtilityService.transformMaterialClassificationSOP,
+      filterParams: FILTER_PARAMS,
+    },
+    {
       headerName: translate('shared.quotationDetailsTable.rlt'),
       field: 'rlt',
       valueFormatter: ColumnUtilityService.basicTransform,
