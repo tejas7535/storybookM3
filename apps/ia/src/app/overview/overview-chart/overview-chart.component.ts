@@ -7,9 +7,11 @@ import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
-import { Event, TerminatedEmployee } from '../../shared/models';
+import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { Employee, Event } from '../../shared/models';
 import { ChartSeries } from '../models/chart-series.model';
-import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 
 @Component({
   selector: 'ia-overview-chart',
@@ -20,7 +22,7 @@ export class OverviewChartComponent {
   private chartInstance: any;
   private _data: {
     [seriesName: string]: {
-      employees: TerminatedEmployee[][];
+      employees: Employee[][];
       attrition: number[];
     };
   };
@@ -29,7 +31,7 @@ export class OverviewChartComponent {
   @Input() public events: Event[];
   @Input() public set data(data: {
     [seriesName: string]: {
-      employees: TerminatedEmployee[][];
+      employees: Employee[][];
       attrition: number[];
     };
   }) {
@@ -85,7 +87,7 @@ export class OverviewChartComponent {
 
   public get data(): {
     [seriesName: string]: {
-      employees: TerminatedEmployee[][];
+      employees: Employee[][];
       attrition: number[];
     };
   } {
@@ -116,12 +118,16 @@ export class OverviewChartComponent {
     const employees = this.data[event.seriesName].employees[event.dataIndex];
 
     if (employees && employees.length > 0) {
-      this.dialog.open(TerminatedEmployeesDialogComponent, {
-        data: {
-          employees,
-          title: `${event.seriesName} - ${event.name}:`,
-        },
-        width: '600px',
+      const data = new EmployeeListDialogMeta(
+        new EmployeeListDialogMetaHeadings(
+          `${event.seriesName} - ${event.name}:`,
+          undefined
+        ),
+        employees
+      );
+
+      this.dialog.open(EmployeeListDialogComponent, {
+        data,
       });
     }
   }

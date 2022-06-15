@@ -15,9 +15,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
-import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
 echarts.use([
   TitleComponent,
@@ -36,7 +36,7 @@ echarts.use([
     MatCheckboxModule,
     SharedTranslocoModule,
     MatDialogModule,
-    TerminatedEmployeesDialogModule,
+    EmployeeListDialogModule,
   ],
   exports: [OverviewChartComponent],
 })

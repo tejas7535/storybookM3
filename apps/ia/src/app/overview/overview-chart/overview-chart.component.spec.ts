@@ -11,11 +11,12 @@ import {
   LINE_CHART_BASE_OPTIONS,
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/charts/line-chart/line-chart.config';
-import { TerminatedEmployee } from '../../shared/models';
+import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
+import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
+import { Employee } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartComponent } from './overview-chart.component';
-import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
-import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
 describe('OverviewChartComponent', () => {
   let component: OverviewChartComponent;
@@ -32,7 +33,7 @@ describe('OverviewChartComponent', () => {
       }),
       provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,
-      TerminatedEmployeesDialogModule,
+      EmployeeListDialogModule,
     ],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
@@ -141,15 +142,15 @@ describe('OverviewChartComponent', () => {
   });
 
   describe('onChartClick', () => {
-    const employee: TerminatedEmployee = {
+    const employee: any = {
       employeeName: 'Donald Trump',
-      position: 'Depp',
+      positionDescription: 'Depp',
       orgUnit: 'Zirkus',
     };
 
     const data: {
       [seriesName: string]: {
-        employees: TerminatedEmployee[][];
+        employees: Employee[][];
         attrition: number[];
       };
     } = {
@@ -168,13 +169,15 @@ describe('OverviewChartComponent', () => {
       component.onChartClick(event);
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
-        TerminatedEmployeesDialogComponent,
+        EmployeeListDialogComponent,
         {
           data: {
-            title: '2020 - Jan:',
+            headings: new EmployeeListDialogMetaHeadings(
+              '2020 - Jan:',
+              undefined
+            ),
             employees: [employee],
           },
-          width: '600px',
         }
       );
     });

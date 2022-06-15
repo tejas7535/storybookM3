@@ -1,17 +1,13 @@
+import { Employee } from './employee';
+
 export interface Event {
   date: string;
   name: string;
 }
 
-export interface TerminatedEmployee {
-  employeeName: string;
-  orgUnit: string;
-  position: string;
-}
-
 export interface AttritionSeries {
   [seriesName: string]: {
-    employees: TerminatedEmployee[][];
+    employees: Employee[][];
     attrition: number[];
   };
 }

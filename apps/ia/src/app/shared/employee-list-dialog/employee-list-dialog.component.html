@@ -3,29 +3,52 @@
     {{ data?.headings?.header }}
   </h6>
 </div>
-<mat-dialog-content class="!overflow-hidden">
+<mat-dialog-content
+  class="!overflow-hidden"
+  *transloco="let t; read: 'employeeListDialog'"
+>
   <h6
     *ngIf="data?.headings?.contentTitle"
     class="text-overline mt-0 mr-0 mb-2 ml-1 font-medium leading-3"
   >
     {{ data?.headings?.contentTitle }}
   </h6>
-  <cdk-virtual-scroll-viewport itemSize="56" class="h-[400px] w-[300px]">
+  <cdk-virtual-scroll-viewport itemSize="56" class="h-[400px] w-[500px]">
     <mat-list>
       <ng-container
         *cdkVirtualFor="
-          let child of data.employees;
+          let employee of data.employees;
           let last = last;
           trackBy: trackByFn
         "
       >
-        <mat-list-item>
+        <mat-list-item class="!h-[100px]">
           <img
             matListAvatar
             src="assets/images/dummy.png"
-            [alt]="child.employeeName"
+            [alt]="employee.employeeName"
           />
-          <p matLine>{{ child.employeeName }}</p>
+          <div matLine class="!grid grid-cols-1 gap-2">
+            <div>{{ employee.employeeName }}</div>
+            <div class="flex">
+              <label
+                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                >{{ t('orgUnit') }}:&nbsp;</label
+              >
+              <div class="text-[12px] leading-4 text-high-emphasis">
+                {{ employee.orgUnit }}
+              </div>
+            </div>
+            <div class="flex">
+              <label
+                class="h-4 text-[12px] uppercase leading-4 text-medium-emphasis"
+                >{{ t('position') }}:&nbsp;</label
+              >
+              <div class="text-[12px] leading-4 text-high-emphasis">
+                {{ employee.positionDescription }}
+              </div>
+            </div>
+          </div>
         </mat-list-item>
         <mat-divider *ngIf="!last"></mat-divider>
       </ng-container>

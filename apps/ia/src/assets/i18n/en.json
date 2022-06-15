@@ -34,7 +34,9 @@
   },
   "employeeListDialog": {
     "close": "Close",
-    "total": "Total: {{total}}"
+    "total": "Total: {{total}}",
+    "orgUnit": "Organizational Unit",
+    "position": "Position"
   },
   "legal": {
     "imprint": "Imprint",
