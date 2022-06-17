@@ -6,7 +6,6 @@ import { LetModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { setBearingSelectionType } from '@ga/core/store';
@@ -30,7 +29,6 @@ describe('BearingComponent', () => {
       MockModule(LetModule),
       AdvancedBearingSelectionModule,
       MockModule(QuickBearingSelectionModule),
-      MockModule(SubheaderModule),
       MockModule(MatButtonModule),
     ],
     providers: [provideMockStore()],
@@ -69,7 +67,19 @@ describe('BearingComponent', () => {
 
   describe('toggleSelection', () => {
     it('should invert detailSelection', () => {
-      component.toggleBearingSelectionType('ADVANCED_SELECTION');
+      component.toggleBearingSelectionType({
+        source: undefined,
+        checked: true,
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setBearingSelectionType({ bearingSelectionType: 'ADVANCED_SELECTION' })
+      );
+
+      component.toggleBearingSelectionType({
+        source: undefined,
+        checked: false,
+      });
 
       expect(store.dispatch).toHaveBeenCalledWith(
         setBearingSelectionType({ bearingSelectionType: 'QUICK_SELECTION' })

@@ -1,4 +1,6 @@
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -10,8 +12,6 @@ import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
@@ -45,9 +45,9 @@ describe('ResultComponent', () => {
       ),
 
       // UI Modules
+      MockModule(MatIconModule),
+      MockModule(MatProgressSpinnerModule),
       MockModule(MatSlideToggleModule),
-      MockModule(SubheaderModule),
-      MockModule(LoadingSpinnerModule),
     ],
     providers: [
       provideMockStore({

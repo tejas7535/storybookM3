@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { getSelectedBearing } from '@ga/core/store';
 
 import { debounceTime, Subscription } from 'rxjs';
 
@@ -20,6 +21,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   public reportUrls: ReportUrls;
   public reportSelector = '.content';
   public showCompactView = true;
+  public selectedBearing$ = this.store.select(getSelectedBearing);
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;

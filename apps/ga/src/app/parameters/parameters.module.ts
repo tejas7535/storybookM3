@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ParameterEffects } from '../core/store/effects';
@@ -25,13 +25,13 @@ import { ParametersRoutingModule } from './parameters-routing.module';
     PushModule,
 
     // UI Modules
-    SubheaderModule,
     BreadcrumbsModule,
 
     // Material Modules
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
 
     // Translation
     SharedTranslocoModule,

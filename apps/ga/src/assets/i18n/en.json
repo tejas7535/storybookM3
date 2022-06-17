@@ -145,7 +145,10 @@
     }
   },
   "parameters": {
-    "showDetails": "Show details",
+    "title": {
+      "main": "Operating conditions for bearing",
+      "backButton": "Change bearing selection"
+    },
     "requiredInformation": "* required information",
     "loads": "Loads",
     "load": "Expected load",
@@ -153,7 +156,7 @@
     "axialLoad": "Axial load",
     "loadUnit": "N",
     "loadsUnknown": "Exact loads unknown?",
-    "enterRadialAndAxialLoad": "Enter radial and axial load?",
+    "enterRadialAndAxialLoad": "Enter radial and axial load",
     "motionInfluences": "Motion influences",
     "kindOfMotion": "Type of motion",
     "rotating": "rotating",
@@ -204,7 +207,10 @@
     }
   },
   "report": {
-    "title": "Report",
+    "title": {
+      "main": "Report for bearing",
+      "backButton": "Change operating conditions"
+    },
     "showCompactView": "Show compact view"
   },
   "settings": {

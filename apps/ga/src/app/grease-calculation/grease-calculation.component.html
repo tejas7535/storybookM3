@@ -1,12 +1,10 @@
-<div class="flex h-full flex-col">
+<div class="flex h-full flex-col sm:pt-4">
   <schaeffler-breadcrumbs
-    class="m-4 mb-2 hidden sm:block"
+    class="mx-4 hidden sm:block"
     [breadcrumbs]="breadcrumbs"
   ></schaeffler-breadcrumbs>
-  <div class="flex max-w-full grow flex-col bg-surface p-4 sm:m-4 sm:mt-0">
-    <div class="-ml-4 -mt-2">
-      <ga-grease-stepper></ga-grease-stepper>
-    </div>
+  <div class="container mx-auto flex max-w-screen-xl grow flex-col">
+    <ga-grease-stepper></ga-grease-stepper>
     <div class="flex-1">
       <router-outlet class="flex flex-1"></router-outlet>
     </div>

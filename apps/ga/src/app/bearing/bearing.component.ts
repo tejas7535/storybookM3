@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
@@ -9,10 +10,7 @@ import {
   setBearingSelectionType,
 } from '@ga/core/store';
 import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions';
-import {
-  BearingSelectionType,
-  BearingSelectionTypeUnion,
-} from '@ga/shared/models';
+import { BearingSelectionType } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-bearing',
@@ -36,14 +34,10 @@ export class BearingComponent implements OnInit {
     this.router.navigate([AppRoutePath.BasePath]);
   }
 
-  public toggleBearingSelectionType(
-    currentBearingSelectionType: BearingSelectionTypeUnion
-  ): void {
-    const bearingSelectionType =
-      currentBearingSelectionType ===
-      this.bearingSelectionType.AdvancedSelection
-        ? this.bearingSelectionType.QuickSelection
-        : this.bearingSelectionType.AdvancedSelection;
+  public toggleBearingSelectionType(toggleChange: MatSlideToggleChange): void {
+    const bearingSelectionType = toggleChange.checked
+      ? this.bearingSelectionType.AdvancedSelection
+      : this.bearingSelectionType.QuickSelection;
 
     this.store.dispatch(setBearingSelectionType({ bearingSelectionType }));
   }

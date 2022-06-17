@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { PushModule } from '@ngrx/component';
@@ -8,9 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ReportModule } from '@schaeffler/report';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ResultEffects } from '../core/store';
@@ -29,12 +29,12 @@ import { ResultRoutingModule } from './result-routing.module';
     FormsModule,
 
     // UI Modules
-    SubheaderModule,
     BreadcrumbsModule,
     ReportModule,
-    LoadingSpinnerModule,
 
     // Material Modules
+    MatIconModule,
+    MatProgressSpinnerModule,
     MatSlideToggleModule,
 
     // Translation

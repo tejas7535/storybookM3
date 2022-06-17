@@ -6,6 +6,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 
 import { debounceTime, Observable, Subject, take, takeUntil } from 'rxjs';
@@ -231,8 +232,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.shiftAngle.updateValueAndValidity();
   }
 
-  public toggleLoadsType(): void {
-    this.exact.patchValue(!this.exact.value);
+  public toggleLoadsType(toggleChange: MatSlideToggleChange): void {
+    this.exact.patchValue(toggleChange.checked);
   }
 
   public completeStep(): void {

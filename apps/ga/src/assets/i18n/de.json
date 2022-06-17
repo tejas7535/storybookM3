@@ -145,7 +145,10 @@
     }
   },
   "parameters": {
-    "showDetails": "Details anzeigen",
+    "title": {
+      "main": "Betriebsbedingungen für Lager",
+      "backButton": "Lagerauswahl ändern"
+    },
     "requiredInformation": "* Pflichtangabe",
     "loads": "Lasten",
     "load": "Belastungsannahme",
@@ -153,7 +156,7 @@
     "axialLoad": "Axiallast",
     "loadUnit": "N",
     "loadsUnknown": "Lasten nicht exakt bekannt?",
-    "enterRadialAndAxialLoad": "Radial- und Axiallast eingeben?",
+    "enterRadialAndAxialLoad": "Radial- und Axiallast eingeben",
     "motionInfluences": "Bewegungseinflüsse",
     "kindOfMotion": "Art der Bewegung",
     "rotating": "rotierend",
@@ -204,7 +207,10 @@
     }
   },
   "report": {
-    "title": "Ergebnisse",
+    "title": {
+      "main": "Ergebnisse für Lager",
+      "backButton": "Betriebsbedingungen ändern"
+    },
     "showCompactView": "Anzeige mit kompakter Darstellung"
   },
   "settings": {

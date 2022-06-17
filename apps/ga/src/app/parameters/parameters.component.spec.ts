@@ -2,6 +2,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -11,7 +13,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
-import { SubheaderModule } from '@schaeffler/subheader';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '../app-route-path.enum';
@@ -44,12 +45,13 @@ describe('ParametersComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
 
       // UI Modules
-      SubheaderModule,
       BreadcrumbsModule,
 
       // Material Modules
       MockModule(MatButtonModule),
       MockModule(MatIconModule),
+      MockModule(MatProgressSpinnerModule),
+      MockModule(MatSlideToggleModule),
     ],
     providers: [
       provideMockStore({
@@ -278,7 +280,10 @@ describe('ParametersComponent', () => {
       const patchValueSpy = jest.spyOn(component.exact, 'patchValue');
       component.exact.patchValue(true);
 
-      component.toggleLoadsType();
+      component.toggleLoadsType({
+        source: undefined,
+        checked: false,
+      });
 
       expect(patchValueSpy).toBeCalledWith(false);
     });

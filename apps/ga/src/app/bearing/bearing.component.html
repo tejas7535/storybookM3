@@ -3,31 +3,20 @@
     *ngrxLet="bearingSelectionType$; let selectionType"
     class="flex h-full max-w-full flex-col"
   >
-    <schaeffler-subheader
-      class="-ml-4"
-      [showBackButton]="true"
-      [subheaderTitle]="t('title.main')"
-      [hideLine]="true"
-      (backButtonClicked)="navigateBack()"
-    >
-      <ng-container subheaderBlockContent> {{ t('title.sub') }} </ng-container>
-    </schaeffler-subheader>
-    <div class="container mx-auto py-4 md:max-w-2xl">
-      <div class="mb-5 text-center md:text-right">
-        <button
-          mat-button
+    <div class="container mx-auto py-4 px-4 md:max-w-2xl md:px-0">
+      <h6>{{ t('title.main') }}</h6>
+      <div class="py-2 text-body-2">{{ t('title.sub') }}</div>
+    </div>
+    <div class="container mx-auto md:max-w-2xl">
+      <div class="mb-4 text-center md:text-left">
+        <mat-slide-toggle
           color="primary"
-          [disableRipple]="true"
-          (click)="toggleBearingSelectionType(selectionType)"
+          labelPosition="before"
+          [checked]="selectionType === bearingSelectionType.AdvancedSelection"
+          (change)="toggleBearingSelectionType($event)"
         >
-          {{
-            t(
-              selectionType === bearingSelectionType.AdvancedSelection
-                ? 'bearingSelection.button.quickSelection'
-                : 'bearingSelection.button.advancedSelection'
-            )
-          }}
-        </button>
+          {{ t('bearingSelection.button.advancedSelection') }}
+        </mat-slide-toggle>
       </div>
       <ga-advanced-bearing-selection
         *ngIf="
@@ -36,12 +25,14 @@
         "
       ></ga-advanced-bearing-selection>
       <ng-template #quick_bearing_selection>
-        <ga-quick-bearing-selection
-          [showSelectButton]="true"
-        ></ga-quick-bearing-selection>
+        <div class="px-4 md:px-0">
+          <ga-quick-bearing-selection
+            [showSelectButton]="true"
+          ></ga-quick-bearing-selection>
+        </div>
         <img
           class="mt-16 h-auto w-auto sm:max-h-full sm:object-cover"
-          src="../../assets/images/bearingSearch.png"
+          src="../../assets/images/bearingSearchTransparent.png"
         />
       </ng-template>
     </div>

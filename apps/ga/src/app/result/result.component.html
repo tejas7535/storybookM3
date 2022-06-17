@@ -1,47 +1,44 @@
 <ng-container *transloco="let t; read: 'report'">
-  <schaeffler-subheader
-    class="-ml-4"
-    [showBackButton]="true"
-    [subheaderTitle]="t('title')"
-    [hideLine]="true"
-    (backButtonClicked)="navigateBack()"
-  >
-  </schaeffler-subheader>
-  <div class="py-4">
-    <mat-slide-toggle
-      color="primary"
-      labelPosition="before"
-      [(ngModel)]="showCompactView"
-    >
-      <span class="text-body-1 text-medium-emphasis">
-        {{ t('showCompactView') }}
-      </span>
-    </mat-slide-toggle>
-  </div>
-  <div *ngIf="reportUrls; else loading_spinner">
-    <schaeffler-grease-report
-      *ngIf="showCompactView"
-      [greaseReportUrl]="reportUrls.jsonReportUrl"
-    ></schaeffler-grease-report>
-
-    <schaeffler-html-report
-      *ngIf="!showCompactView"
-      [htmlReportUrl]="reportUrls.htmlReportUrl"
-      [reportSelector]="reportSelector"
-    >
-      <!-- <div class="flex flex-col md:flex-row">
-      <a
-        mat-raised-button
-        color="primary"
-        class="grow"
-        [href]="result.pdfReportUrl"
+  <div class="flex h-full flex-col px-4">
+    <div class="py-4">
+      <h6>
+        <span class="mr-2 inline-block">{{ t('title.main') }}</span>
+        <span class="inline-block">{{ selectedBearing$ | ngrxPush }}</span>
+      </h6>
+      <div
+        class="-ml-1 inline-flex cursor-pointer items-center gap-1 py-2 pr-2 text-link"
+        (click)="navigateBack()"
       >
-        {{ t('downloadReport') }}
-      </a>
-    </div> -->
-    </schaeffler-html-report>
+        <mat-icon>arrow_back</mat-icon>
+        {{ t('title.backButton') }}
+      </div>
+    </div>
+    <div *ngIf="reportUrls; else loading_spinner">
+      <div class="mb-4">
+        <mat-slide-toggle
+          color="primary"
+          labelPosition="before"
+          [(ngModel)]="showCompactView"
+        >
+          {{ t('showCompactView') }}
+        </mat-slide-toggle>
+      </div>
+      <schaeffler-grease-report
+        *ngIf="showCompactView"
+        [greaseReportUrl]="reportUrls.jsonReportUrl"
+      ></schaeffler-grease-report>
+
+      <schaeffler-html-report
+        *ngIf="!showCompactView"
+        [htmlReportUrl]="reportUrls.htmlReportUrl"
+        [reportSelector]="reportSelector"
+      >
+      </schaeffler-html-report>
+    </div>
+    <ng-template #loading_spinner>
+      <div class="flex flex-1 items-center justify-center">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    </ng-template>
   </div>
-  <ng-template #loading_spinner>
-    <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
-  </ng-template>
 </ng-container>

@@ -1,16 +1,23 @@
 <ng-container *transloco="let t; read: 'parameters'">
   <div class="flex h-full flex-col">
-    <schaeffler-subheader
-      class="-ml-4"
-      [showBackButton]="true"
-      [subheaderTitle]="(selectedBearing$ | ngrxPush) || 'Title'"
-      [hideLine]="true"
-      (backButtonClicked)="navigateBack()"
-    >
-    </schaeffler-subheader>
-    <div class="container mx-auto pb-4 md:max-w-2xl md:pb-8">
-      <div class="flex flex-col gap-5">
-        <div class="rounded border border-border bg-surface">
+    <div class="container mx-auto py-4 px-4 md:max-w-2xl md:px-0">
+      <h6>
+        <span class="mr-2 inline-block">{{ t('title.main') }}</span>
+        <span class="inline-block">{{ selectedBearing$ | ngrxPush }}</span>
+      </h6>
+      <div
+        class="-ml-1 inline-flex cursor-pointer items-center gap-1 py-2 pr-2 text-link"
+        (click)="navigateBack()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        {{ t('title.backButton') }}
+      </div>
+    </div>
+    <div class="container mx-auto pb-4 sm:px-4 md:max-w-2xl md:px-0 md:pb-8">
+      <div class="flex flex-col gap-0 sm:gap-5">
+        <div
+          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+        >
           <div
             class="mb-4 flex flex-row items-center border-b border-border p-5"
           >
@@ -22,7 +29,17 @@
               >{{ t('requiredInformation') }}</span
             >
           </div>
-          <div class="p-4">
+          <div class="p-4 pb-0">
+            <div class="mb-4">
+              <mat-slide-toggle
+                color="primary"
+                labelPosition="before"
+                [checked]="this.exact.value"
+                (change)="toggleLoadsType($event)"
+              >
+                {{ t('enterRadialAndAxialLoad') }}
+              </mat-slide-toggle>
+            </div>
             <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
               <ng-container *ngIf="this.exact.value; else exactValuesUnknown">
                 <ga-input
@@ -52,25 +69,11 @@
                 ></ga-select>
               </ng-template>
             </div>
-            <div class="text-center md:text-left">
-              <button
-                mat-button
-                color="primary"
-                class="uppercase tracking-wider focus:outline-none"
-                (click)="toggleLoadsType()"
-              >
-                {{
-                  t(
-                    this.exact.value
-                      ? 'loadsUnknown'
-                      : 'enterRadialAndAxialLoad'
-                  )
-                }}
-              </button>
-            </div>
           </div>
         </div>
-        <div class="rounded border border-border bg-surface">
+        <div
+          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+        >
           <div
             class="mb-4 flex flex-row items-center border-b border-border p-5"
           >
@@ -126,7 +129,9 @@
             </ng-template>
           </div>
         </div>
-        <div class="rounded border border-border bg-surface">
+        <div
+          class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
+        >
           <div
             class="mb-4 flex flex-row items-center border-b border-border p-5"
           >

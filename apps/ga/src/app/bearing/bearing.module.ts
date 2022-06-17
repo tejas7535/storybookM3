@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { LetModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
-import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingEffects } from '@ga/core/store';
@@ -25,11 +25,9 @@ import { BearingRoutingModule } from './bearing-routing.module';
     // Routing
     BearingRoutingModule,
 
-    // Schaeffler Libs
-    SubheaderModule,
-
     // Material Modules
-    MatButtonModule,
+    MatSlideToggleModule,
+    MatIconModule,
 
     // Transloco
     SharedTranslocoModule,

@@ -19,6 +19,7 @@
       <button
         mat-flat-button
         color="primary"
+        class="w-full md:w-auto"
         (click)="handleBearingSelection(selectedBearing)"
         [disabled]="(modelCreationLoading$ | ngrxPush) || !selectedBearing"
       >
