@@ -113,7 +113,8 @@
         },
         "bearingsList": {
           "heading": "Lagerauswahl",
-          "intro": "Bitte Lager durch Klick auswählen",
+          "intro": "Bitte ein Lager auswählen",
+          "selectOption": "Fettberechnung zu Lager",
           "action": {
             "previousStep": "Filterkriterien anpassen"
           }

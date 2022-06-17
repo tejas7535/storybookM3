@@ -113,7 +113,8 @@
         },
         "bearingsList": {
           "heading": "Bearing Selection",
-          "intro": "Please select bearing by click",
+          "intro": "Please select a bearing",
+          "selectOption": "Grease calculation for bearing",
           "action": {
             "previousStep": "Adjust filter criteria"
           }

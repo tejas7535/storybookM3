@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { LetModule } from '@ngrx/component';
 
@@ -18,6 +19,7 @@ import { BearingSelectionListComponent } from './bearing-selection-list.componen
     // Material Modules
     MatIconModule,
     MatListModule,
+    MatProgressSpinnerModule,
 
     // Transloco
     SharedTranslocoModule,

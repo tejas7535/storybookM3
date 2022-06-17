@@ -1,23 +1,41 @@
 <div *transloco="let t; read: 'bearing.bearingSelection.advancedSelection'">
-  <div *ngrxLet="advancedBearingSelectionResultList$; let bearings">
+  <ng-container *ngrxLet="modelCreationLoading$; let loading">
     <div
-      *ngIf="bearings?.length; else no_results"
-      class="max-h-[370px] overflow-auto pr-3"
+      *ngrxLet="advancedBearingSelectionResultList$; let bearings"
+      class="relative"
     >
-      <mat-action-list>
-        <mat-list-item
-          *ngFor="let bearing of bearings"
-          (click)="selectBearing(bearing)"
-        >
-          <span>{{ bearing.title }}</span>
-          <mat-icon color="primary">chevron_right</mat-icon>
-        </mat-list-item>
-      </mat-action-list>
-    </div>
-    <ng-template #no_results>
-      <div class="py-2">
-        {{ t('noResults.message') }}
+      <div
+        *ngIf="bearings?.length; else no_results"
+        class="max-h-[370px] overflow-auto md:pr-3"
+      >
+        <mat-action-list>
+          <mat-list-item
+            *ngFor="let bearing of bearings"
+            (click)="selectBearing(bearing)"
+          >
+            <div>
+              <span class="mr-1 inline-block text-body-2">{{
+                t('bearingsList.selectOption')
+              }}</span>
+              <span class="text-subtitle-2 inline-block">{{
+                bearing.title
+              }}</span>
+            </div>
+            <mat-icon color="primary">chevron_right</mat-icon>
+          </mat-list-item>
+        </mat-action-list>
       </div>
-    </ng-template>
-  </div>
+      <ng-template #no_results>
+        <div class="p-4 md:p-2">
+          {{ t('noResults.message') }}
+        </div>
+      </ng-template>
+      <div
+        *ngIf="loading"
+        class="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-surface opacity-60"
+      >
+        <mat-spinner diameter="20"></mat-spinner>
+      </div>
+    </div>
+  </ng-container>
 </div>
