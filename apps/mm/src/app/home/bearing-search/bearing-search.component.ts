@@ -75,10 +75,12 @@ export class BearingSearchComponent implements OnInit {
   }
 
   public handleSelection(selectionId: string): void {
-    const bearing = this.myControl.value.title;
-    this.trackBearingSelection(bearing, selectionId);
+    if (selectionId) {
+      const bearing = this.myControl.value.title;
+      this.trackBearingSelection(bearing, selectionId);
 
-    this.bearing.emit(selectionId);
+      this.bearing.emit(selectionId);
+    }
   }
 
   public trackBearingSelection(bearing: string, selectionId: string): void {
