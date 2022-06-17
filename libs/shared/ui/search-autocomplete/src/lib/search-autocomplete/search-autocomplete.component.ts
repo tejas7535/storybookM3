@@ -53,6 +53,7 @@ export class SearchAutocompleteComponent
   @Input() public error? = false;
   @Input() public noResultsText? = 'No Results';
   @Input() public startsWith? = false;
+  @Input() public displayWith?: 'title' | 'id' = 'title';
 
   @Output() public readonly searchString = new EventEmitter<string>();
   @Output() public readonly selection = new EventEmitter<string | undefined>();
@@ -137,6 +138,7 @@ export class SearchAutocompleteComponent
 
   public clearSearchString(): void {
     this.control.setValue('');
+    this.selection.emit();
   }
 
   public get searchStringDeletable(): boolean {
@@ -146,6 +148,9 @@ export class SearchAutocompleteComponent
   public noResults(filteredList: SearchAutocompleteOption[] | null): boolean {
     return !this.loading && !this.error && filteredList?.length === 0;
   }
+
+  public optionId = (option: SearchAutocompleteOption): string =>
+    option?.id ? this.sanitizeSearchString(option.id) : '';
 
   public optionTitle = (option: SearchAutocompleteOption): string =>
     option?.title ? this.sanitizeSearchString(option.title) : '';

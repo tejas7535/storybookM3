@@ -194,6 +194,19 @@ describe('SearchAutocompleteComponent', () => {
     });
   });
 
+  describe('optionId', () => {
+    it('should return id string', () => {
+      const mockOption: SearchAutocompleteOption = {
+        title: 'mock_title',
+        id: 'mock_id',
+      };
+
+      const result = component.optionId(mockOption);
+
+      expect(result).toBe('mock_id');
+    });
+  });
+
   describe('optionTitle', () => {
     it('should return sanitized string', () => {
       const mockOption: SearchAutocompleteOption = {

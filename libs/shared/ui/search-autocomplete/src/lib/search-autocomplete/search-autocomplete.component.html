@@ -12,7 +12,7 @@
   />
   <mat-autocomplete
     #auto="matAutocomplete"
-    [displayWith]="optionTitle"
+    [displayWith]="displayWith === 'id' ? optionId : optionTitle"
     (optionSelected)="setValue($event)"
   >
     <div [hidden]="(showOptions$ | ngrxPush) === false">
