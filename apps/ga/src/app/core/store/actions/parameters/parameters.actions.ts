@@ -1,7 +1,12 @@
-import { createAction, props, union } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-import { Property } from '../../../../shared/models/parameters';
-import { ParameterState } from './../../reducers/parameter/parameter.reducer';
+import {
+  DialogResponse,
+  PreferredGreaseOption,
+  Property,
+} from '@ga/shared/models';
+
+import { ParameterState } from '../../reducers/parameter/parameter.reducer';
 
 export const patchParameters = createAction(
   '[Parameters] Patch Parameters',
@@ -23,12 +28,22 @@ export const getPropertiesFailure = createAction(
   '[Parameters] Get Properties Failure'
 );
 
-const all = union({
-  patchParameters,
-  modelUpdateSuccess,
-  getProperties,
-  getPropertiesSuccess,
-  getPropertiesFailure,
-});
+export const getDialog = createAction('[Parameters] Get Dialog');
 
-export type ParametersAction = typeof all;
+export const getDialogSuccess = createAction(
+  '[Parameters] Get Dialog Success',
+  props<{ dialogResponse: DialogResponse }>()
+);
+
+export const getDialogEnd = createAction('[Parameters] Get Dialog End');
+
+export const getDialogFailure = createAction('[Parameters] Get Dialog Failure');
+
+export const setPreferredGreaseSelection = createAction(
+  '[Parameters] Set Preferred Grease Selection',
+  props<{ selectedGrease: PreferredGreaseOption }>()
+);
+
+export const resetPreferredGreaseSelection = createAction(
+  '[Parameters] Reset Preferred Grease Selection'
+);

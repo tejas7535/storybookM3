@@ -1,12 +1,11 @@
-import { MOCK_PROPERTIES, MODEL_MOCK_ID } from '@ga/testing/mocks';
+import { LoadTypes, Movement, SelectedGreases } from '@ga/shared/models';
+import { MODEL_MOCK_ID, PROPERTIES_MOCK } from '@ga/testing/mocks';
 
-import { LoadTypes, SelectedGreases } from '../../../../shared/models';
 import { BearingState } from '../../reducers/bearing/bearing.reducer';
-import { Movement } from './../../../../shared/models/parameters/movement.model';
 import {
   initialState,
   ParameterState,
-} from './../../reducers/parameter/parameter.reducer';
+} from '../../reducers/parameter/parameter.reducer';
 import {
   axialLoadPossible,
   getCalculationParameters,
@@ -72,11 +71,11 @@ describe('Parameter Selector', () => {
         ...mockState,
         parameter: {
           ...mockState.parameter,
-          properties: MOCK_PROPERTIES,
+          properties: PROPERTIES_MOCK,
         },
       };
 
-      expect(getProperties(parameterMockState)).toEqual(MOCK_PROPERTIES);
+      expect(getProperties(parameterMockState)).toEqual(PROPERTIES_MOCK);
     });
   });
 
@@ -86,7 +85,7 @@ describe('Parameter Selector', () => {
         ...mockState,
         parameter: {
           ...mockState.parameter,
-          properties: MOCK_PROPERTIES,
+          properties: PROPERTIES_MOCK,
         },
       };
 
@@ -106,7 +105,7 @@ describe('Parameter Selector', () => {
         ...mockState,
         parameter: {
           ...mockState.parameter,
-          properties: MOCK_PROPERTIES,
+          properties: PROPERTIES_MOCK,
         },
       };
 
@@ -120,7 +119,7 @@ describe('Parameter Selector', () => {
         ...mockState,
         parameter: {
           ...mockState.parameter,
-          properties: MOCK_PROPERTIES,
+          properties: PROPERTIES_MOCK,
         },
       };
 

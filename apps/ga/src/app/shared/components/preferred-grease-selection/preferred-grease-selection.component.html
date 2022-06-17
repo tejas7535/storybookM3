@@ -1,0 +1,39 @@
+<div *transloco="let t" class="flex items-baseline gap-2">
+  <mat-form-field
+    *ngrxLet="preferredGrease$; let preferredGrease"
+    appearance="outline"
+    class="grow"
+  >
+    <mat-label>{{
+      t('shared.label.defaultSelect', {
+        label: t('parameters.preferredGrease.label.grease')
+      })
+    }}</mat-label>
+    <mat-select
+      [value]="preferredGrease?.selectedGrease"
+      [compareWith]="compareOptions"
+      [disabled]="preferredGrease?.loading"
+      (selectionChange)="onPreferredGreaseSelectionChange($event.value)"
+    >
+      <mat-option *ngIf="defaultOption" [value]="defaultOption">
+        {{ t(defaultOption.text) }}
+      </mat-option>
+      <mat-option
+        *ngFor="
+          let option of removeEmptyOptions(preferredGrease?.greaseOptions)
+        "
+        [value]="option"
+        >{{ option.text }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+  <mat-icon
+    color="primary"
+    class="cursor-help"
+    #tooltip="matTooltip"
+    [matTooltip]="t('parameters.preferredGrease.tooltip')"
+    (click)="tooltip.toggle()"
+  >
+    info_outline
+  </mat-icon>
+</div>

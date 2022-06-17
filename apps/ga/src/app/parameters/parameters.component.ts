@@ -9,33 +9,35 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 
-import { debounceTime, Observable, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, Subject, take, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../app-route-path.enum';
-import { getParameterState } from '../core/store';
-import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { Load } from '../shared/models';
+import { AppRoutePath } from '@ga/app-route-path.enum';
+import { getParameterState } from '@ga/core/store';
 import {
+  getDialog,
   getProperties,
   patchParameters,
-} from './../core/store/actions/parameters/parameters.actions';
+  resetPreferredGreaseSelection,
+} from '@ga/core/store/actions/parameters/parameters.actions';
 import {
   initialState,
   ParameterState,
-} from './../core/store/reducers/parameter/parameter.reducer';
-import { getSelectedBearing } from './../core/store/selectors/bearing/bearing.selector';
+} from '@ga/core/store/reducers/parameter/parameter.reducer';
+import { getSelectedBearing } from '@ga/core/store/selectors/bearing/bearing.selector';
 import {
   axialLoadPossible,
   getEnvironmentTemperatures,
   getLoadsInputType,
   getParameterUpdating,
+  getPreferredGreaseSelection,
   getSelectedMovementType,
   radialLoadPossible,
-} from './../core/store/selectors/parameter/parameter.selector';
-import { EnvironmentImpact } from './../shared/models/parameters/environment-impact.model';
-import { Movement } from './../shared/models/parameters/movement.model';
+} from '@ga/core/store/selectors/parameter/parameter.selector';
+import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+import { EnvironmentImpact, Load, Movement } from '@ga/shared/models';
+
 import {
   environmentImpactOptions,
   loadRatioOptions,
@@ -52,13 +54,12 @@ import {
 })
 export class ParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
+  public loadRatioOptions = loadRatioOptions;
 
   public radial = new UntypedFormControl(undefined, loadValidators);
   public axial = new UntypedFormControl(undefined, loadValidators);
-
   public exact = new UntypedFormControl(false);
   public loadRatio = new UntypedFormControl();
-  public loadRatioOptions = loadRatioOptions;
 
   public loadsForm = new UntypedFormGroup(
     {
@@ -133,12 +134,14 @@ export class ParametersComponent implements OnInit, OnDestroy {
     environment: this.environmentForm,
   });
 
-  public selectedBearing$: Observable<string>;
-  public selectedMovementType$: Observable<Movement>;
-  public loadsInputType$: Observable<boolean>;
-  public parameterUpdating$: Observable<boolean>;
-  public radialLoadPossible$: Observable<boolean>;
-  public axialLoadPossible$: Observable<boolean>;
+  public selectedBearing$ = this.store.select(getSelectedBearing);
+  public selectedMovementType$ = this.store.select(getSelectedMovementType);
+  public parameterUpdating$ = this.store.select(getParameterUpdating);
+  public radialLoadPossible$ = this.store.select(radialLoadPossible);
+  public axialLoadPossible$ = this.store.select(axialLoadPossible);
+  public preferredGreaseSelection$ = this.store.select(
+    getPreferredGreaseSelection
+  );
 
   private readonly destroy$ = new Subject<void>();
   public DEBOUNCE_TIME_DEFAULT = 500;
@@ -150,11 +153,7 @@ export class ParametersComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(getProperties());
-    this.selectedBearing$ = this.store.select(getSelectedBearing);
-    this.selectedMovementType$ = this.store.select(getSelectedMovementType);
-    this.parameterUpdating$ = this.store.select(getParameterUpdating);
-    this.radialLoadPossible$ = this.store.select(radialLoadPossible);
-    this.axialLoadPossible$ = this.store.select(axialLoadPossible);
+    this.store.dispatch(getDialog());
 
     this.store
       .select(getParameterState)
@@ -248,8 +247,9 @@ export class ParametersComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public resetForm(): void {
+  public onResetButtonClick(): void {
     this.form.reset(initialState);
+    this.store.dispatch(resetPreferredGreaseSelection());
   }
 
   private operatingTemperatureValidator(): ValidatorFn {

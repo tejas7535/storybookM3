@@ -3,15 +3,17 @@ import { Injectable } from '@angular/core';
 
 import { map, Observable } from 'rxjs';
 
+import { withCache } from '@ngneat/cashew';
+
+import { environment } from '@ga/../environments/environment';
 import {
-  CalculationParameters,
   AdvancedBearingSelectionFilters,
+  CalculationParameters,
+  DialogResponse,
   ExtendedSearchQueryParams,
   Property,
   Result,
 } from '@ga/shared/models';
-
-import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -79,6 +81,15 @@ export class RestService {
       .pipe(map((res: Result) => res._links[1].href.split('/').pop()));
   }
 
+  public getDialog(modelId: string) {
+    return this.httpClient.get<DialogResponse>(
+      `${environment.baseUrl}/${modelId}/dialog`,
+      {
+        context: withCache(),
+      }
+    );
+  }
+
   private getBearingExtendedSearchParams(
     selectionFilters: AdvancedBearingSelectionFilters
   ): HttpParams {
@@ -90,7 +101,7 @@ export class RestService {
     return new HttpParams({ fromObject: adaptedSearchParams });
   }
 
-  adaptExtendedSearchParamsFromAdvancedSelectionFilters(
+  private adaptExtendedSearchParamsFromAdvancedSelectionFilters(
     selectionFilters: AdvancedBearingSelectionFilters
   ): ExtendedSearchQueryParams {
     const adaptedExtendedSearchParams: ExtendedSearchQueryParams = {

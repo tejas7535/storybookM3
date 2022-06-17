@@ -5,18 +5,18 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
+import { environment } from '@ga/../environments/environment';
 import {
+  ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
   BEARING_SEARCH_RESULT_MOCK,
   CALCULATION_PARAMETERS_MOCK,
   CALCULATION_RESULT_MOCK,
   CALCULATION_RESULT_MOCK_ID,
-  ADVANCED_BEARING_SELECTION_FILTERS_MOCK,
-  MOCK_PROPERTIES,
+  DIALOG_RESPONSE_MOCK,
   MODEL_MOCK_ID,
+  PROPERTIES_MOCK,
 } from '@ga/testing/mocks';
 
-import { environment } from '../../../../environments/environment';
-import { Property } from '../../../shared/models';
 import { RestService } from './rest.service';
 
 describe('RestService', () => {
@@ -96,8 +96,8 @@ describe('RestService', () => {
     it('should get the properties for a model', (done) => {
       const mockModelId = 'mockModelId';
 
-      service.getProperties(mockModelId).subscribe((result: Property[]) => {
-        expect(result).toEqual(MOCK_PROPERTIES);
+      service.getProperties(mockModelId).subscribe((result) => {
+        expect(result).toEqual(PROPERTIES_MOCK);
         done();
       });
 
@@ -105,7 +105,7 @@ describe('RestService', () => {
         `${environment.baseUrl}/${mockModelId}/properties`
       );
       expect(req.request.method).toBe('GET');
-      req.flush(MOCK_PROPERTIES);
+      req.flush(PROPERTIES_MOCK);
     });
   });
 
@@ -157,6 +157,23 @@ describe('RestService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(CALCULATION_RESULT_MOCK);
+    });
+  });
+
+  describe('getDialog', () => {
+    it('should get the dialog', (done) => {
+      const mockModelId = 'mockModelId';
+
+      service.getDialog(mockModelId).subscribe((result) => {
+        expect(result).toEqual(DIALOG_RESPONSE_MOCK);
+        done();
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.baseUrl}/${mockModelId}/dialog`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(DIALOG_RESPONSE_MOCK);
     });
   });
 });

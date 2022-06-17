@@ -6,12 +6,14 @@ import {
   LoadInstallation,
   LoadTypes,
   Movement,
+  PreferredGrease,
   Property,
   SelectedGreases,
-} from '../../../../shared/models';
+} from '@ga/shared/models';
+
+import { getParameterState } from '../../reducers';
+import { ParameterState } from '../../reducers/parameter/parameter.reducer';
 import { getModelId, getSelectedBearing } from '..';
-import { getParameterState } from './../../reducers';
-import { ParameterState } from './../../reducers/parameter/parameter.reducer';
 
 interface LoadDirection {
   [key: string]: boolean;
@@ -137,4 +139,24 @@ export const getCalculationParameters = createSelector(
       }
     );
   }
+);
+
+export const getPreferredGrease = createSelector(
+  getParameterState,
+  (state: ParameterState): PreferredGrease => state?.preferredGrease
+);
+
+export const getPreferredGreaseOptions = createSelector(
+  getPreferredGrease,
+  (preferredGrease) => preferredGrease?.greaseOptions
+);
+
+export const getPreferredGreaseOptionsLoading = createSelector(
+  getPreferredGrease,
+  (preferredGrease) => preferredGrease?.loading
+);
+
+export const getPreferredGreaseSelection = createSelector(
+  getPreferredGrease,
+  (preferredGrease) => preferredGrease?.selectedGrease
 );

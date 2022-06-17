@@ -103,6 +103,16 @@
       "main": "Operating conditions for bearing",
       "backButton": "Change bearing selection"
     },
+    "preferredGrease": {
+      "title": {
+        "main": "新：Arcanol 润滑脂选择（可选）"
+      },
+      "label": {
+        "grease": "润滑脂"
+      },
+      "defaultOption": "所有润滑脂",
+      "tooltip": "在计算报告中，所选油脂将被优先考虑。\n如果所选的油脂不合适，将显示替代方案。"
+    },
     "requiredInformation": "* required information",
     "loads": "Loads",
     "load": "Expected load",

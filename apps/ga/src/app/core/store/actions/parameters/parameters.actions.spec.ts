@@ -1,4 +1,4 @@
-import { MOCK_PROPERTIES } from '@ga/testing/mocks';
+import { PROPERTIES_MOCK } from '@ga/testing/mocks';
 
 import { ParameterState } from '../../reducers/parameter/parameter.reducer';
 import {
@@ -44,11 +44,11 @@ describe('Parameter Actions', () => {
 
   describe('[Parameters] Get Properties Success', () => {
     it('getPropertiesSuccess', () => {
-      const action = getPropertiesSuccess({ properties: MOCK_PROPERTIES });
+      const action = getPropertiesSuccess({ properties: PROPERTIES_MOCK });
 
       expect(action).toEqual({
         type: '[Parameters] Get Properties Success',
-        properties: MOCK_PROPERTIES,
+        properties: PROPERTIES_MOCK,
       });
     });
   });

@@ -108,7 +108,7 @@
           "heading": "Filterkriterien",
           "intro": "Lagerauswahl eingrenzen auf maximal {{tooManyResultsThreshold}} Ergebnisse",
           "action": {
-            "nextStep": "Lager auswählen"
+            "nextStep": "Zur Lagerauswahl"
           }
         },
         "bearingsList": {
@@ -148,6 +148,16 @@
     "title": {
       "main": "Betriebsbedingungen für Lager",
       "backButton": "Lagerauswahl ändern"
+    },
+    "preferredGrease": {
+      "title": {
+        "main": "NEU: Arcanol Fettauswahl (optional)"
+      },
+      "label": {
+        "grease": "Fett"
+      },
+      "defaultOption": "Alle Fette",
+      "tooltip": "Das ausgewählte Fett wird im Berechnungsbericht vorrangig berücksichtigt.\nWenn das ausgewählte Fett nicht geeignet ist, werden Alternativen angezeigt."
     },
     "requiredInformation": "* Pflichtangabe",
     "loads": "Lasten",

@@ -1,15 +1,17 @@
+import { adaptPreferredGreaseOptionsFromDialogResponseListValues } from '@ga/core/helpers/grease-helpers';
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   EnvironmentImpact,
   LoadLevels,
   Movement,
+  PreferredGrease,
   Property,
-} from '../../../../shared/models';
-import * as ParametersActions from '../../actions/parameters/parameters.actions';
-import { RecursivePartial } from './../../../../shared/types/rescursive-partial.type';
+} from '@ga/shared/models';
 
-export interface FullParameterState {
+import * as parametersActions from '../../actions/parameters/parameters.actions';
+
+export interface ParameterState {
   loads: {
     radial: number;
     axial: number;
@@ -27,22 +29,11 @@ export interface FullParameterState {
     environmentTemperature: number;
     environmentImpact: EnvironmentImpact;
   };
-  greaseEnabled: boolean;
-  grease: {
-    greaseList: string[];
-    selectedGrease: string;
-    maxTemperature: number;
-    viscosity: number;
-    nlgiClass: number;
-  };
+  preferredGrease: PreferredGrease;
   valid: boolean;
   updating: boolean;
   properties: Property[];
 }
-
-export type ParameterState =
-  | FullParameterState
-  | RecursivePartial<FullParameterState>;
 
 export const initialState: ParameterState = {
   loads: {
@@ -62,13 +53,13 @@ export const initialState: ParameterState = {
     environmentTemperature: 20,
     environmentImpact: EnvironmentImpact.moderate,
   },
-  greaseEnabled: false,
-  grease: {
-    greaseList: [],
+  preferredGrease: {
+    greaseOptions: [],
     selectedGrease: undefined,
     maxTemperature: undefined,
     viscosity: undefined,
     nlgiClass: undefined,
+    loading: false,
   },
   valid: false,
   updating: false,
@@ -78,7 +69,7 @@ export const initialState: ParameterState = {
 export const parameterReducer = createReducer(
   initialState,
   on(
-    ParametersActions.patchParameters,
+    parametersActions.patchParameters,
     (state, { parameters }): ParameterState => ({
       ...state,
       ...parameters,
@@ -86,17 +77,71 @@ export const parameterReducer = createReducer(
     })
   ),
   on(
-    ParametersActions.modelUpdateSuccess,
+    parametersActions.modelUpdateSuccess,
     (state): ParameterState => ({
       ...state,
       updating: false,
     })
   ),
   on(
-    ParametersActions.getPropertiesSuccess,
+    parametersActions.getPropertiesSuccess,
     (state, { properties }): ParameterState => ({
       ...state,
       properties,
+    })
+  ),
+  on(
+    parametersActions.getDialog,
+    (state): ParameterState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    parametersActions.getDialogSuccess,
+    (state, { dialogResponse }): ParameterState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        greaseOptions: adaptPreferredGreaseOptionsFromDialogResponseListValues(
+          dialogResponse?.pages[2]?.groups[0]?.members[1]?.listValues
+        ),
+        loading: false,
+      },
+    })
+  ),
+  on(
+    parametersActions.getDialogFailure,
+    parametersActions.getDialogEnd,
+    (state): ParameterState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    parametersActions.setPreferredGreaseSelection,
+    (state, { selectedGrease }): ParameterState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        selectedGrease,
+      },
+    })
+  ),
+  on(
+    parametersActions.resetPreferredGreaseSelection,
+    (state): ParameterState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        selectedGrease: undefined,
+      },
     })
   )
 );

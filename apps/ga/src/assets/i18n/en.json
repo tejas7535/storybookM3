@@ -106,9 +106,9 @@
       "advancedSelection": {
         "filters": {
           "heading": "Filter criteria",
-          "intro": "Narrow down bearing selection to {{tooManyResultsThreshold}} results max.",
+          "intro": "Narrow down bearing selection to {{tooManyResultsThreshold}} results maximum",
           "action": {
-            "nextStep": "Select bearing"
+            "nextStep": "Go to bearing Selection"
           }
         },
         "bearingsList": {
@@ -148,6 +148,16 @@
     "title": {
       "main": "Operating conditions for bearing",
       "backButton": "Change bearing selection"
+    },
+    "preferredGrease": {
+      "title": {
+        "main": "NEW: Arcanol Grease Selection (opt)"
+      },
+      "label": {
+        "grease": "Grease"
+      },
+      "defaultOption": "All greases",
+      "tooltip": "The selected grease will be given priority in the calculation report.\nIf the selected grease is not suitable, alternatives will be displayed."
     },
     "requiredInformation": "* required information",
     "loads": "Loads",

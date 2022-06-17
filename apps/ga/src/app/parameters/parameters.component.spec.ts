@@ -1,6 +1,6 @@
 import { FormControl, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -15,13 +15,21 @@ import { MockModule } from 'ng-mocks';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { AppRoutePath } from '../app-route-path.enum';
-import { initialState } from '../core/store/reducers/parameter/parameter.reducer';
+import { AppRoutePath } from '@ga/app-route-path.enum';
+import {
+  patchParameters,
+  resetPreferredGreaseSelection,
+} from '@ga/core/store/actions/parameters/parameters.actions';
+import {
+  initialState,
+  ParameterState,
+} from '@ga/core/store/reducers/parameter/parameter.reducer';
+import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
+import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
+import { SharedModule } from '@ga/shared/shared.module';
+import { PREFERRED_GREASE_MOCK, PROPERTIES_MOCK } from '@ga/testing/mocks';
+
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { EnvironmentImpact, LoadLevels } from '../shared/models';
-import { SharedModule } from '../shared/shared.module';
-import { patchParameters } from './../core/store/actions/parameters/parameters.actions';
-import { Movement } from './../shared/models/parameters/movement.model';
 import {
   loadRatioOptions,
   loadValidators,
@@ -44,11 +52,13 @@ describe('ParametersComponent', () => {
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
 
-      // UI Modules
+      // UI
       BreadcrumbsModule,
+      PreferredGreaseSelectionComponent,
 
       // Material Modules
       MockModule(MatButtonModule),
+      MockModule(MatExpansionModule),
       MockModule(MatIconModule),
       MockModule(MatProgressSpinnerModule),
       MockModule(MatSlideToggleModule),
@@ -63,16 +73,14 @@ describe('ParametersComponent', () => {
           },
           parameter: {
             ...initialState,
+            preferredGrease: PREFERRED_GREASE_MOCK,
+            properties: PROPERTIES_MOCK,
           },
         },
       }),
       {
         provide: translate,
         useValue: jest.fn(),
-      },
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
       },
     ],
   });
@@ -124,7 +132,7 @@ describe('ParametersComponent', () => {
                 shiftAngle: undefined,
               },
               valid: false,
-            },
+            } as ParameterState,
           })
         );
         done();
@@ -157,7 +165,7 @@ describe('ParametersComponent', () => {
                 shiftAngle: undefined,
               },
               valid: true,
-            },
+            } as ParameterState,
           })
         );
         done();
@@ -325,13 +333,16 @@ describe('ParametersComponent', () => {
     });
   });
 
-  describe('resetForm', () => {
+  describe('onResetButtonClick', () => {
     it('should reset the form with initialState', () => {
       component.form.reset = jest.fn();
 
-      component.resetForm();
+      component.onResetButtonClick();
 
       expect(component.form.reset).toHaveBeenCalledWith(initialState);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        resetPreferredGreaseSelection()
+      );
     });
   });
 

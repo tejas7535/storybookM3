@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -11,8 +12,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ParameterEffects } from '../core/store/effects';
-import { SharedModule } from './../shared/shared.module';
+import { ParameterEffects } from '@ga/core/store/effects';
+import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
+import { SharedModule } from '@ga/shared/shared.module';
+
 import { ParametersComponent } from './parameters.component';
 import { ParametersRoutingModule } from './parameters-routing.module';
 
@@ -21,14 +24,16 @@ import { ParametersRoutingModule } from './parameters-routing.module';
   imports: [
     CommonModule,
     ParametersRoutingModule,
-    SharedModule,
     PushModule,
 
-    // UI Modules
+    // UI
     BreadcrumbsModule,
+    SharedModule,
+    PreferredGreaseSelectionComponent,
 
     // Material Modules
     MatButtonModule,
+    MatExpansionModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatSlideToggleModule,

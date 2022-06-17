@@ -4,14 +4,17 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import { RestService } from '@ga/core/services';
 import {
   CALCULATION_PARAMETERS_MOCK,
-  MOCK_PROPERTIES,
+  PROPERTIES_MOCK,
   MODEL_MOCK_ID,
+  DIALOG_RESPONSE_MOCK,
 } from '@ga/testing/mocks';
 
-import { RestService } from '../../../services/rest/rest.service';
 import {
+  getDialog,
+  getDialogSuccess,
   getProperties,
   getPropertiesSuccess,
   modelUpdateSuccess,
@@ -99,14 +102,13 @@ describe('Parameter Effects', () => {
     it(
       'should fetch grease calculation',
       marbles((m) => {
-        const properties = MOCK_PROPERTIES;
-        const result = getPropertiesSuccess({ properties });
+        const result = getPropertiesSuccess({ properties: PROPERTIES_MOCK });
 
         action = getProperties();
 
         actions$ = m.hot('-a', { a: action });
 
-        const response = m.cold('-a|', { a: properties });
+        const response = m.cold('-a|', { a: PROPERTIES_MOCK });
 
         const expected = m.cold('--b', { b: result });
 
@@ -116,6 +118,32 @@ describe('Parameter Effects', () => {
         m.flush();
 
         expect(restService.getProperties).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('getDialog$', () => {
+    it(
+      'should fetch dialog',
+      marbles((m) => {
+        const result = getDialogSuccess({
+          dialogResponse: DIALOG_RESPONSE_MOCK,
+        });
+
+        action = getDialog();
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', { a: DIALOG_RESPONSE_MOCK });
+
+        const expected = m.cold('--b', { b: result });
+
+        restService.getDialog = jest.fn(() => response);
+
+        m.expect(effects.getDialog$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getDialog).toHaveBeenCalled();
       })
     );
   });

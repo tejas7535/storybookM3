@@ -18,9 +18,7 @@
         <div
           class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
         >
-          <div
-            class="mb-4 flex flex-row items-center border-b border-border p-5"
-          >
+          <div class="flex flex-row items-center border-b border-border p-5">
             <mat-icon class="mr-2 !text-medium-emphasis">compress</mat-icon>
             <h5 class="mr-4 text-body-2">{{ t('loads') }}</h5>
             <span class="flex-grow"></span>
@@ -34,14 +32,14 @@
               <mat-slide-toggle
                 color="primary"
                 labelPosition="before"
-                [checked]="this.exact.value"
+                [checked]="exact.value"
                 (change)="toggleLoadsType($event)"
               >
                 {{ t('enterRadialAndAxialLoad') }}
               </mat-slide-toggle>
             </div>
             <div class="grid grid-cols-1 gap-0 md:grid-cols-2 md:gap-4">
-              <ng-container *ngIf="this.exact.value; else exactValuesUnknown">
+              <ng-container *ngIf="exact.value; else exactValuesUnknown">
                 <ga-input
                   *ngIf="radialLoadPossible$ | ngrxPush"
                   [control]="radial"
@@ -74,9 +72,7 @@
         <div
           class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
         >
-          <div
-            class="mb-4 flex flex-row items-center border-b border-border p-5"
-          >
+          <div class="flex flex-row items-center border-b border-border p-5">
             <mat-icon class="mr-2 !text-medium-emphasis">animation</mat-icon>
             <h5 class="mr-4 text-body-2">{{ t('motionInfluences') }}</h5>
             <span class="flex-grow"></span>
@@ -132,9 +128,7 @@
         <div
           class="border-t border-border bg-surface sm:rounded sm:border-x sm:border-b"
         >
-          <div
-            class="mb-4 flex flex-row items-center border-b border-border p-5"
-          >
+          <div class="flex flex-row items-center border-b border-border p-5">
             <mat-icon class="mr-2 !text-medium-emphasis"
               >device_thermostat</mat-icon
             >
@@ -167,7 +161,27 @@
             ></ga-select>
           </div>
         </div>
-        <div class="flex flex-col justify-between gap-5 md:flex-row">
+        <mat-accordion>
+          <mat-expansion-panel
+            [expanded]="!!(preferredGreaseSelection$ | ngrxPush)"
+            class="!rounded-none sm:!rounded"
+          >
+            <mat-expansion-panel-header class="!bg-primary-variant">
+              <mat-panel-title class="!text-link">
+                <mat-icon class="mr-2">manage_search</mat-icon>
+                {{ t('preferredGrease.title.main') }}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div
+              class="grid grid-cols-1 gap-0 p-4 pb-2 text-body-1 md:grid-cols-2 md:gap-4"
+            >
+              <ga-preferred-grease-selection></ga-preferred-grease-selection>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div
+          class="flex flex-col justify-between gap-5 px-4 pt-6 sm:px-0 sm:pt-0 md:flex-row"
+        >
           <button
             mat-raised-button
             color="primary"
@@ -185,7 +199,7 @@
               </div>
             </div>
           </button>
-          <button mat-button color="primary" (click)="resetForm()">
+          <button mat-button color="primary" (click)="onResetButtonClick()">
             {{ t('resetInputs') }}
           </button>
         </div>

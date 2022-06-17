@@ -1,14 +1,14 @@
 import { Action } from '@ngrx/store';
 
-import { MOCK_PROPERTIES } from '@ga/testing/mocks';
-
-import { EnvironmentImpact, LoadLevels } from '../../../../shared/models';
-import { Movement } from './../../../../shared/models/parameters/movement.model';
+import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
 import {
-  getPropertiesSuccess,
-  modelUpdateSuccess,
-  patchParameters,
-} from './../../actions/parameters/parameters.actions';
+  PROPERTIES_MOCK,
+  PREFERRED_GREASE_MOCK,
+  DIALOG_RESPONSE_MOCK,
+  PREFERRED_GREASE_OPTION_MOCK,
+} from '@ga/testing/mocks';
+
+import * as parametersActions from '../../actions/parameters/parameters.actions';
 import {
   initialState,
   parameterReducer,
@@ -20,7 +20,9 @@ describe('Parameter Reducer', () => {
   describe('Reducer function', () => {
     it('should return parameterReducer', () => {
       // prepare any action
-      const action: Action = patchParameters({ parameters: {} });
+      const action: Action = parametersActions.patchParameters({
+        parameters: undefined,
+      });
       expect(reducer(initialState, action)).toEqual(
         parameterReducer(initialState, action)
       );
@@ -29,7 +31,7 @@ describe('Parameter Reducer', () => {
 
   describe('patchParameters Action', () => {
     it('should patch all parameters', () => {
-      const parameters: ParameterState = {
+      const mockParameters: ParameterState = {
         loads: {
           radial: 10,
           axial: 10,
@@ -47,37 +49,30 @@ describe('Parameter Reducer', () => {
           environmentTemperature: 120,
           environmentImpact: EnvironmentImpact.moderate,
         },
-        greaseEnabled: true,
-        grease: {
-          greaseList: ['grease 1'],
-          selectedGrease: 'grease 1',
-          maxTemperature: 20,
-          viscosity: 10,
-          nlgiClass: 1,
-        },
+        preferredGrease: PREFERRED_GREASE_MOCK,
         valid: true,
         updating: false,
-      };
+      } as ParameterState;
 
       const newState = parameterReducer(
         initialState,
-        patchParameters({ parameters })
+        parametersActions.patchParameters({ parameters: mockParameters })
       );
 
-      expect(newState).toEqual({ ...parameters, updating: true });
+      expect(newState).toEqual({ ...mockParameters, updating: true });
     });
 
     it('should patch partial parameters', () => {
-      const parameters: ParameterState = {
+      const mockParameters: ParameterState = {
         loads: {
           radial: 10,
           axial: 10,
         },
-      };
+      } as ParameterState;
 
       const newState = parameterReducer(
         initialState,
-        patchParameters({ parameters })
+        parametersActions.patchParameters({ parameters: mockParameters })
       );
 
       expect(newState.loads.axial).toEqual(10);
@@ -87,7 +82,10 @@ describe('Parameter Reducer', () => {
 
   describe('modelUpdateSuccess Action', () => {
     it('should set updating to false when params are updated', () => {
-      const newState = parameterReducer(initialState, modelUpdateSuccess());
+      const newState = parameterReducer(
+        initialState,
+        parametersActions.modelUpdateSuccess()
+      );
 
       expect(newState).toEqual({ ...initialState, updating: false });
     });
@@ -97,13 +95,102 @@ describe('Parameter Reducer', () => {
     it('should set the properties for the model', () => {
       const newState = parameterReducer(
         initialState,
-        getPropertiesSuccess({ properties: MOCK_PROPERTIES })
+        parametersActions.getPropertiesSuccess({ properties: PROPERTIES_MOCK })
       );
 
       expect(newState).toEqual({
         ...initialState,
-        properties: MOCK_PROPERTIES,
+        properties: PROPERTIES_MOCK,
       });
+    });
+  });
+
+  describe('getDialog', () => {
+    it('should set loading to true', () => {
+      const newState = parameterReducer(
+        initialState,
+        parametersActions.getDialog()
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        preferredGrease: {
+          ...initialState.preferredGrease,
+          loading: true,
+        },
+      });
+    });
+  });
+
+  describe('getDialogSuccess', () => {
+    it('should set preferred grease', () => {
+      const newState = parameterReducer(
+        initialState,
+        parametersActions.getDialogSuccess({
+          dialogResponse: DIALOG_RESPONSE_MOCK,
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        preferredGrease: {
+          ...PREFERRED_GREASE_MOCK,
+          selectedGrease: undefined,
+        },
+      });
+    });
+  });
+
+  describe('getDialogFailure', () => {
+    it('should set loading to false', () => {
+      const newState = parameterReducer(
+        {
+          ...initialState,
+          preferredGrease: {
+            ...initialState.preferredGrease,
+            loading: true,
+          },
+        },
+        parametersActions.getDialogFailure()
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        preferredGrease: {
+          ...initialState.preferredGrease,
+          loading: false,
+        },
+      });
+    });
+  });
+
+  describe('setPreferredGreaseSelection', () => {
+    it('should set preferred grease selection', () => {
+      const newState = parameterReducer(
+        initialState,
+        parametersActions.setPreferredGreaseSelection({
+          selectedGrease: PREFERRED_GREASE_OPTION_MOCK,
+        })
+      );
+
+      expect(newState).toEqual({
+        ...initialState,
+        preferredGrease: {
+          ...initialState.preferredGrease,
+          selectedGrease: PREFERRED_GREASE_OPTION_MOCK,
+        },
+      });
+    });
+  });
+
+  describe('resetPreferredGreaseSelection', () => {
+    it('should reset preferred grease selection', () => {
+      const newState = parameterReducer(
+        initialState,
+        parametersActions.resetPreferredGreaseSelection()
+      );
+
+      expect(newState).toEqual(initialState);
     });
   });
 });
