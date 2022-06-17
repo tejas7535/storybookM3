@@ -36,9 +36,11 @@
         "
       ></ga-advanced-bearing-selection>
       <ng-template #quick_bearing_selection>
-        <ga-quick-bearing-selection></ga-quick-bearing-selection>
+        <ga-quick-bearing-selection
+          [showSelectButton]="true"
+        ></ga-quick-bearing-selection>
         <img
-          class="h-auto w-auto sm:max-h-full sm:object-cover"
+          class="mt-16 h-auto w-auto sm:max-h-full sm:object-cover"
           src="../../assets/images/bearingSearch.png"
         />
       </ng-template>

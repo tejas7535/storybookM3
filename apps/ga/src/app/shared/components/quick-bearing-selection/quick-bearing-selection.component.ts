@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 
 import {
   getBearingSelectionLoading,
+  getModelCreationLoading,
   getQuickBearingSelectionResultList,
   getSelectedBearing,
   resetBearing,
@@ -21,6 +22,7 @@ import {
 })
 export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   @Input() resetOnInit = false;
+  @Input() showSelectButton = false;
 
   public bearingSearchFormControl = new UntypedFormControl();
   public minimumChars = 2;
@@ -28,8 +30,9 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   public bearingResultList$ = this.store.select(
     getQuickBearingSelectionResultList
   );
+  public selectedBearing$ = this.store.select(getSelectedBearing);
+  public modelCreationLoading$ = this.store.select(getModelCreationLoading);
 
-  private readonly selectedBearing$ = this.store.select(getSelectedBearing);
   private readonly destroy$ = new Subject<void>();
   private currentLanguage: string;
 
@@ -80,8 +83,12 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public handleBearingSelection(bearing: string): void {
-    this.store.dispatch(selectBearing({ bearing }));
+  public handleBearingSelection(bearing: string | undefined): void {
+    if (bearing) {
+      this.store.dispatch(selectBearing({ bearing }));
+    } else {
+      this.resetBearingSelection();
+    }
   }
 
   private resetBearingSelection(): void {

@@ -1,11 +1,34 @@
 <div *transloco="let t; read: 'bearing.bearingSelection.quickSelection'">
-  <schaeffler-search-autocomplete
-    [options]="bearingResultList$ | ngrxPush"
-    [loading]="loading$ | ngrxPush"
-    [formControl]="bearingSearchFormControl"
-    [minimumChars]="minimumChars"
-    (selection)="handleBearingSelection($event)"
-    [label]="t('searchPlaceholder')"
-    [noResultsText]="t('noResults')"
-  ></schaeffler-search-autocomplete>
+  <div class="h-14 rounded bg-surface">
+    <schaeffler-search-autocomplete
+      [options]="bearingResultList$ | ngrxPush"
+      [loading]="loading$ | ngrxPush"
+      [formControl]="bearingSearchFormControl"
+      [minimumChars]="minimumChars"
+      (selection)="handleBearingSelection($event)"
+      [label]="t('searchPlaceholder')"
+      [noResultsText]="t('noResults')"
+      displayWith="id"
+    ></schaeffler-search-autocomplete>
+  </div>
+  <ng-container *ngIf="showSelectButton">
+    <div
+      *ngrxLet="selectedBearing$; let selectedBearing"
+      class="mt-5 text-center md:text-right"
+    >
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="handleBearingSelection(selectedBearing)"
+        [disabled]="(modelCreationLoading$ | ngrxPush) || !selectedBearing"
+      >
+        <mat-spinner
+          *ngIf="modelCreationLoading$ | ngrxPush"
+          diameter="20"
+          class="!inline-block"
+        ></mat-spinner>
+        {{ t('selectButton') }}
+      </button>
+    </div>
+  </ng-container>
 </div>

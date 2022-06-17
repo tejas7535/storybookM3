@@ -31,6 +31,11 @@ export const getModelId = createSelector(
   (state: BearingState): string => state?.modelId
 );
 
+export const getModelCreationLoading = createSelector(
+  getBearingState,
+  (state: BearingState): boolean => state?.modelCreationLoading
+);
+
 export const getModelCreationSuccess = createSelector(
   getBearingState,
   (state: BearingState): boolean => state?.modelCreationSuccess

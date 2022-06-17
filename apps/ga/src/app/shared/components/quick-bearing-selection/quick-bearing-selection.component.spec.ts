@@ -76,12 +76,10 @@ describe('QuickBearingSelectionComponent', () => {
       );
     });
 
-    it('should dispatch undefined bearing', () => {
+    it('should reset the search', () => {
       component.handleBearingSelection(undefined);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        selectBearing({ bearing: undefined })
-      );
+      expect(store.dispatch).toHaveBeenCalledWith(resetBearing());
     });
   });
 });

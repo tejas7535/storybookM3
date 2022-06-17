@@ -99,7 +99,8 @@
       },
       "quickSelection": {
         "searchPlaceholder": "Suche nach Lagerbezeichnung, z.B. 6215",
-        "selectOption": "Fettmengenberechnung zu Lager &nbsp;<strong>{{bearing}}</strong>",
+        "selectButton": "Lager auswählen",
+        "selectOption": "Fettberechnung zu Lager &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "Keine Ergebnisse gefunden"
       },
       "advancedSelection": {

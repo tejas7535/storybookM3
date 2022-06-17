@@ -36,6 +36,7 @@ export interface BearingState {
   loading: boolean;
   selectedBearing: string;
   modelId: string;
+  modelCreationLoading: boolean;
   modelCreationSuccess: boolean;
 }
 
@@ -61,6 +62,7 @@ export const initialState: BearingState = {
   loading: false,
   selectedBearing: undefined,
   modelId: undefined,
+  modelCreationLoading: false,
   modelCreationSuccess: undefined,
 };
 
@@ -142,11 +144,21 @@ export const bearingReducer = createReducer(
     })
   ),
   on(
+    selectBearing,
+    (state: BearingState, { bearing }): BearingState => ({
+      ...state,
+      selectedBearing: bearing,
+      modelCreationSuccess: undefined,
+      modelCreationLoading: true,
+    })
+  ),
+  on(
     modelCreateSuccess,
     (state: BearingState, { modelId }): BearingState => ({
       ...state,
       modelId,
       modelCreationSuccess: true,
+      modelCreationLoading: false,
     })
   ),
   on(
@@ -154,15 +166,8 @@ export const bearingReducer = createReducer(
     (state: BearingState): BearingState => ({
       ...state,
       modelCreationSuccess: false,
+      modelCreationLoading: false,
       modelId: undefined,
-    })
-  ),
-  on(
-    selectBearing,
-    (state: BearingState, { bearing }): BearingState => ({
-      ...state,
-      selectedBearing: bearing,
-      modelCreationSuccess: undefined,
     })
   ),
   on(

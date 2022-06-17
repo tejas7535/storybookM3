@@ -118,12 +118,23 @@ describe('Bearing Reducer', () => {
     });
   });
 
+  describe('on selectBearing', () => {
+    it('should set selectedBearing', () => {
+      const action: Action = selectBearing({ bearing: 'selected bearing' });
+      const state = bearingReducer(initialState, action);
+
+      expect(state.selectedBearing).toEqual('selected bearing');
+      expect(state.modelCreationLoading).toBe(true);
+    });
+  });
+
   describe('on modelCreateSuccess', () => {
     it('should set selectedBearing', () => {
       const action: Action = modelCreateSuccess({ modelId: MODEL_MOCK_ID });
       const state = bearingReducer(initialState, action);
 
       expect(state.modelId).toEqual(MODEL_MOCK_ID);
+      expect(state.modelCreationLoading).toBe(false);
     });
   });
 
@@ -133,15 +144,7 @@ describe('Bearing Reducer', () => {
       const state = bearingReducer(initialState, action);
 
       expect(state.modelCreationSuccess).toEqual(false);
-    });
-  });
-
-  describe('on selectBearing', () => {
-    it('should set selectedBearing', () => {
-      const action: Action = selectBearing({ bearing: 'selected bearing' });
-      const state = bearingReducer(initialState, action);
-
-      expect(state.selectedBearing).toEqual('selected bearing');
+      expect(state.modelCreationLoading).toBe(false);
     });
   });
 

@@ -12,6 +12,7 @@ import {
   getAdvancedBearingSelectionResultsCount,
   getBearingSelectionLoading,
   getBearingSelectionType,
+  getModelCreationLoading,
   getModelCreationSuccess,
   getModelId,
   getQuickBearingSelectionResultList,
@@ -71,6 +72,12 @@ describe('Bearing Selector', () => {
           modelId: MODEL_MOCK_ID,
         })
       ).toEqual(MODEL_MOCK_ID);
+    });
+  });
+
+  describe('getModelCreationLoading', () => {
+    it('should return loading latest status', () => {
+      expect(getModelCreationLoading(mockState)).toBeFalsy();
     });
   });
 
