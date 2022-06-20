@@ -8,11 +8,16 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { LetModule, PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
+import { marbles } from 'rxjs-marbles';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../../testing/mocks';
+import {
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
 import { updateQuotationDetails } from '../../../../core/store';
 import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-case/models';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
@@ -43,9 +48,7 @@ describe('EditingModalComponent', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          processCase: {
-            quotation: {},
-          },
+          processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
       {
@@ -72,15 +75,22 @@ describe('EditingModalComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('ngOnInit', () => {
-    test('should add subscriptions', () => {
-      component.addSubscriptions = jest.fn();
+    test(
+      'should initalize observables',
+      marbles((m) => {
+        component.addSubscriptions = jest.fn();
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.editFormControl).toBeDefined();
-      expect(component.updateLoading$).toBeDefined();
-      expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
-    });
+        m.expect(component.quotationCurrency$).toBeObservable('a', {
+          a: QUOTATION_MOCK.currency,
+        });
+        m.expect(component.updateLoading$).toBeObservable('a', {
+          a: PROCESS_CASE_STATE_MOCK.quotation.updateLoading,
+        });
+        expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
+      })
+    );
 
     test('should disable relative price editing if there is no price', () => {
       component.modalData = {

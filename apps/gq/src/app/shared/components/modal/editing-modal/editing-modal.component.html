@@ -101,7 +101,7 @@
               }}</span>
             </div>
           </div>
-          <div *ngrxLet="customerCurrency$ as customerCurrency">
+          <div *ngrxLet="quotationCurrency$ as quotationCurrency">
             <h6 class="truncate">
               <span
                 *ngIf="
@@ -128,7 +128,7 @@
               </ng-template>
               <ng-template #priceFormatter>
                 <span [ngClass]="{ 'text-error': mspWarningEnabled }">
-                  {{ kpi.value | numberCurrency: customerCurrency }}
+                  {{ kpi.value | numberCurrency: quotationCurrency }}
                   <mat-icon
                     class="ml-1 align-bottom"
                     *ngIf="mspWarningEnabled"
@@ -150,7 +150,7 @@
                 <span>
                   {{
                     modalData.quotationDetail.price
-                      | numberCurrency: customerCurrency
+                      | numberCurrency: quotationCurrency
                   }}
                 </span>
               </ng-template>

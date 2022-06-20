@@ -17,7 +17,7 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
-  getCustomerCurrency,
+  getQuotationCurrency,
   getQuotationErrorMessage,
   getUpdateLoading,
   updateQuotationDetails,
@@ -38,7 +38,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   confirmDisabled = true;
   editFormControl: UntypedFormControl;
   updateLoading$: Observable<boolean>;
-  customerCurrency$: Observable<string>;
+  quotationCurrency$: Observable<string>;
   value: number;
   affectedKpis: KpiValue[];
   fields = ColumnFields;
@@ -72,7 +72,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit(): void {
     this.editFormControl = new UntypedFormControl();
     this.updateLoading$ = this.store.select(getUpdateLoading);
-    this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
 
     if (
       this.modalData.field === ColumnFields.PRICE &&
