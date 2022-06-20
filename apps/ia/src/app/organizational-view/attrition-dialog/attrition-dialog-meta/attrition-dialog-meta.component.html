@@ -9,7 +9,7 @@
       </mat-icon>
       <div class="text-medium-emphasis">{{ t('attritionRate') }}:</div>
       <span class="ml-2 text-high-emphasis">
-        {{ meta.data.attritionRate }}%
+        {{ meta.data.attritionRate | percent: '1.0-2' }}
       </span>
     </div>
     <div class="flex items-center text-body-1 leading-8">
@@ -21,7 +21,7 @@
         [innerHTML]="t('unforcedAttritionRate') + ':'"
       ></div>
       <span class="ml-2 text-high-emphasis">
-        {{ meta.data.unforcedAttritionRate }}%
+        {{ meta.data.unforcedAttritionRate | percent: '1.0-2' }}
       </span>
     </div>
   </ng-container>
