@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getCustomerCurrency,
   getMaterialComparableCostsLoading,
   getMaterialSalesOrgLoading,
+  getQuotationCurrency,
 } from '../../../core/store';
 import { QuotationDetail } from '../../../shared/models/quotation-detail';
 
@@ -17,13 +17,13 @@ import { QuotationDetail } from '../../../shared/models/quotation-detail';
 })
 export class PricingDetailsComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
-  customerCurrency$: Observable<string>;
+  quotationCurrency$: Observable<string>;
   materialComparableCostsLoading$: Observable<boolean>;
   materialSalesOrgLoading$: Observable<boolean>;
   public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.materialComparableCostsLoading$ = this.store.select(
       getMaterialComparableCostsLoading
     );

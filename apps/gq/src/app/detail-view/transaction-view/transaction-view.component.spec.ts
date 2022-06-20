@@ -21,8 +21,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   COMPARABLE_LINKED_TRANSACTION_MOCK,
-  CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
 } from '../../../testing/mocks';
 import {
   PROCESS_CASE_STATE_MOCK,
@@ -113,8 +113,8 @@ describe('TransactionViewComponent', () => {
         m.expect(component.quotationLoading$).toBeObservable(
           m.cold('a', { a: false })
         );
-        m.expect(component.currency$).toBeObservable(
-          m.cold('a', { a: CUSTOMER_MOCK.currency })
+        m.expect(component.quotationCurrency$).toBeObservable(
+          m.cold('a', { a: QUOTATION_MOCK.currency })
         );
         m.expect(component.transactions$).toBeObservable(
           m.cold('a', { a: mockTransactions })

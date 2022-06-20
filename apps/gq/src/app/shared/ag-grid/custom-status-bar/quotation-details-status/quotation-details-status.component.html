@@ -12,7 +12,7 @@
     <div class="flex flex-row gap-16 pr-8 text-left text-white">
       <div
         class="flex flex-row"
-        *ngIf="customerCurrency$ | ngrxPush as currency"
+        *ngIf="quotationCurrency$ | ngrxPush as currency"
       >
         <div>
           <h6>{{ t('totalNetValue') }}</h6>
@@ -90,7 +90,7 @@
           >
           <span
             class="text-left text-high-emphasis"
-            *ngIf="customerCurrency$ | ngrxPush as currency"
+            *ngIf="quotationCurrency$ | ngrxPush as currency"
           >
             {{ statusBar.selected.netValue | numberCurrency: currency }}
           </span>
@@ -126,7 +126,7 @@
         </span>
         <span
           class="text-left text-high-emphasis"
-          *ngIf="customerCurrency$ | ngrxPush as currency"
+          *ngIf="quotationCurrency$ | ngrxPush as currency"
           >{{ statusBar.total.netValue | numberCurrency: currency }}
         </span>
       </div>

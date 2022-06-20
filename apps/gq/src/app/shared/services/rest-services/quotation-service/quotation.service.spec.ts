@@ -168,18 +168,21 @@ describe('QuotationService', () => {
     });
   });
 
-  describe('updateCaseName', () => {
+  describe('updateQuotation', () => {
     test('should call', () => {
-      const caseName = 'caseName';
+      const updateQuotationRequest = { caseName: 'caseName', currency: 'EUR' };
       const gqId = 12_345;
-      service.updateCaseName(caseName, gqId).subscribe((response) => {
-        expect(response).toEqual([]);
-      });
+      service
+        .updateQuotation(updateQuotationRequest, gqId)
+        .subscribe((response) => {
+          expect(response).toEqual([]);
+        });
       const req = httpMock.expectOne(
         `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`
       );
       expect(req.request.method).toBe(HttpMethod.PUT);
-      req.flush(caseName);
+      expect(req.request.body).toBe(updateQuotationRequest);
+      req.flush(updateQuotationRequest);
     });
   });
 

@@ -49,7 +49,7 @@ describe('HeaderContentComponent', () => {
 
   describe('case editing modal', () => {
     beforeEach(() => {
-      component.updateCaseName.emit = jest.fn();
+      component.updateQuotation.emit = jest.fn();
     });
     test('should pass caseName to Modal', () => {
       component.caseName = 'case-name';
@@ -67,15 +67,42 @@ describe('HeaderContentComponent', () => {
       );
     });
 
-    test('should emit output', () => {
+    test('should emit output for caseName and currency', () => {
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() => of({ caseName: 'test', currency: 'EUR' })),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(1);
+      expect(component.updateQuotation.emit).toHaveBeenCalledWith({
+        caseName: 'test',
+        currency: 'EUR',
+      });
+    });
+    test('should emit output for caseName', () => {
       matDialogSpyObject.open.andReturn({
         afterClosed: jest.fn(() => of({ caseName: 'test' })),
       });
 
       component.openCaseEditingModal();
 
-      expect(component.updateCaseName.emit).toHaveBeenCalledTimes(1);
-      expect(component.updateCaseName.emit).toHaveBeenCalledWith('test');
+      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(1);
+      expect(component.updateQuotation.emit).toHaveBeenCalledWith({
+        caseName: 'test',
+      });
+    });
+    test('should emit output for currency', () => {
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() => of({ currency: 'EUR' })),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(1);
+      expect(component.updateQuotation.emit).toHaveBeenCalledWith({
+        currency: 'EUR',
+      });
     });
 
     test('should not emit output', () => {
@@ -85,7 +112,27 @@ describe('HeaderContentComponent', () => {
 
       component.openCaseEditingModal();
 
-      expect(component.updateCaseName.emit).toHaveBeenCalledTimes(0);
+      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
+    });
+    test('should not emit output on same caseName', () => {
+      component.caseName = 'caseName';
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() => of({ caseName: 'caseName' })),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
+    });
+    test('should not emit output on same currency', () => {
+      component.currency = 'EUR';
+      matDialogSpyObject.open.andReturn({
+        afterClosed: jest.fn(() => of({ currency: 'EUR' })),
+      });
+
+      component.openCaseEditingModal();
+
+      expect(component.updateQuotation.emit).toHaveBeenCalledTimes(0);
     });
   });
 });

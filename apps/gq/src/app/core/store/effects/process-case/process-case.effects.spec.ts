@@ -18,7 +18,6 @@ import {
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
-  VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Quotation } from '../../../../shared/models';
@@ -62,11 +61,11 @@ import {
   refreshSapPricingSuccess,
   resetSimulatedQuotation,
   setSelectedQuotationDetail,
-  updateCaseName,
-  updateCaseNameFailure,
-  updateCaseNameSuccess,
+  updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
+  updateQuotationFailure,
+  updateQuotationSuccess,
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
@@ -903,44 +902,45 @@ describe('ProcessCaseEffect', () => {
     });
   });
 
-  describe('updateCaseName$', () => {
+  describe('updateQuotation$', () => {
     beforeEach(() => {
       const caseName = 'caseName';
-      action = updateCaseName({ caseName });
+      const currency = 'EUR';
+      action = updateQuotation({ caseName, currency });
     });
     test(
-      'should return updateCaseNameSuccess',
+      'should return updateQuotationSuccess',
       marbles((m) => {
-        quotationService.updateCaseName = jest.fn(() => response);
-        const quotation = VIEW_QUOTATION_MOCK;
+        quotationService.updateQuotation = jest.fn(() => response);
+        const quotation = QUOTATION_MOCK;
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', { a: quotation });
         const expected = m.cold('--b', {
-          b: updateCaseNameSuccess({ quotation }),
+          b: updateQuotationSuccess({ quotation }),
         });
 
-        m.expect(effects.updateCaseName$).toBeObservable(expected);
+        m.expect(effects.updateQuotation$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.updateCaseName).toHaveBeenCalledTimes(1);
+        expect(quotationService.updateQuotation).toHaveBeenCalledTimes(1);
       })
     );
     test(
-      'should return updateCaseNameFailure',
+      'should return updateQuotationFailure',
       marbles((m) => {
         actions$ = m.hot('-a', { a: action });
 
-        const result = updateCaseNameFailure({ errorMessage });
+        const result = updateQuotationFailure({ errorMessage });
 
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        quotationService.updateCaseName = jest.fn(() => response);
+        quotationService.updateQuotation = jest.fn(() => response);
 
-        m.expect(effects.updateCaseName$).toBeObservable(expected);
+        m.expect(effects.updateQuotation$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.updateCaseName).toHaveBeenCalledTimes(1);
+        expect(quotationService.updateQuotation).toHaveBeenCalledTimes(1);
       })
     );
   });
@@ -1023,7 +1023,7 @@ describe('ProcessCaseEffect', () => {
       'should return loadAvailableCurrencies',
       marbles((m) => {
         quotationService.getCurrencies = jest.fn(() => response);
-        const currencies = [{ currency: 'EUR' }, { currency: 'USD' }];
+        const currencies = [{ currency: 'USD' }, { currency: 'EUR' }];
 
         actions$ = m.hot('-a', { a: action });
 

@@ -33,9 +33,10 @@ import {
   getQuotation,
   getQuotationLoading,
   getUpdateLoading,
+  updateQuotation,
 } from '../core/store';
-import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { AddItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/add-items-button/add-items-button.component';
+import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
 import { ExportToExcelButtonComponent } from '../shared/ag-grid/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { RefreshSapPriceComponent } from '../shared/ag-grid/custom-status-bar/refresh-sap-price/refresh-sap-price.component';
@@ -45,6 +46,7 @@ import { AddEntryModule } from '../shared/components/case-material/add-entry/add
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
 import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
+import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
@@ -201,5 +203,21 @@ describe('ProcessCaseViewComponent', () => {
         });
       })
     );
+  });
+
+  describe('updateQuotation', () => {
+    test('should dispatch updateQuotation', () => {
+      store.dispatch = jest.fn();
+      const updateQuotationRequest: UpdateQuotationRequest = {
+        caseName: 'caseName',
+        currency: 'USD',
+      };
+      component.updateQuotation(updateQuotationRequest);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        updateQuotation(updateQuotationRequest)
+      );
+    });
   });
 });

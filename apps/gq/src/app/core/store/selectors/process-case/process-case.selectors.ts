@@ -37,6 +37,11 @@ export const getQuotation = createSelector(
   (state: ProcessCaseState): Quotation => state.quotation.item
 );
 
+export const getQuotationCurrency = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string => state.quotation.item.currency
+);
+
 export const getSimulatedQuotationDetailByItemId = (itemId: number) =>
   createSelector(
     getProcessCaseState,
@@ -58,7 +63,7 @@ export const getSimulationModeEnabled = createSelector(
     state.quotation.simulatedItem?.quotationDetails.length > 0
 );
 
-export const getTableContextQuotation = createSelector(
+export const getTableContextQuotationForCustomerCurrency = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): TableContext => ({
     quotation: state.quotation.item,

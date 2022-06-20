@@ -167,7 +167,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     const colDef = params.column.getColDef();
 
     if (PriceColumns.includes(colDef.field as ColumnFields)) {
-      return `${colDef.headerName} [${params.context?.quotation.customer.currency}]`;
+      return `${colDef.headerName} [${params.context?.quotation.currency}]`;
     }
 
     return colDef.headerName;
@@ -343,7 +343,7 @@ export class ExportToExcelButtonComponent implements OnInit {
             type: typeString,
             value: HelperService.transformMarginDetails(
               statusBarProperties?.netValue,
-              quotation.customer.currency
+              quotation.currency
             ),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
@@ -418,7 +418,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: quotation.customer.currency,
+            value: quotation.currency,
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -705,7 +705,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       header.push(
         this.getExcelCell(
           PriceColumns.includes(key as ColumnFields)
-            ? this.appendCurrency(value)
+            ? this.appendQuotationCurrency(value)
             : value
         )
       );
@@ -714,7 +714,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     return header;
   }
 
-  appendCurrency(key: string): string {
-    return `${key} [${this.params.context.quotation.customer.currency}]`;
+  appendQuotationCurrency(key: string): string {
+    return `${key} [${this.params.context.quotation.currency}]`;
   }
 }

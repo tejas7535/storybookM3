@@ -7,7 +7,7 @@ import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
 import {
-  getCustomerCurrency,
+  getQuotationCurrency,
   getSimulatedQuotation,
   getSimulationModeEnabled,
   userHasGPCRole,
@@ -27,7 +27,7 @@ import { PriceService } from '../../../services/price-service/price.service';
 export class QuotationDetailsStatusComponent implements OnInit {
   showGPI$: Observable<boolean>;
   showGPM$: Observable<boolean>;
-  customerCurrency$: Observable<string>;
+  quotationCurrency$: Observable<string>;
   simulationModeEnabled$: Observable<boolean>;
   simulatedQuotation$: Observable<SimulatedQuotation>;
   statusBar = new StatusBar();
@@ -43,7 +43,7 @@ export class QuotationDetailsStatusComponent implements OnInit {
   ngOnInit(): void {
     this.showGPI$ = this.store.pipe(userHasGPCRole);
     this.showGPM$ = this.store.pipe(userHasSQVRole);
-    this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.simulationModeEnabled$ = this.store.select(getSimulationModeEnabled);
     this.simulatedQuotation$ = this.store.select(getSimulatedQuotation);
   }

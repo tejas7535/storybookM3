@@ -12,6 +12,7 @@ import {
 import { ApiVersion, Quotation } from '../../../models';
 import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationPaths } from './models/quotation-paths.enum';
+import { UpdateQuotationRequest } from './models/update-quotation-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -103,13 +104,13 @@ export class QuotationService {
       );
   }
 
-  public updateCaseName(
-    caseName: string,
+  public updateQuotation(
+    updateQuotationRequest: UpdateQuotationRequest,
     gqId: number
-  ): Observable<ViewQuotation> {
-    return this.http.put<ViewQuotation>(
+  ): Observable<Quotation> {
+    return this.http.put<Quotation>(
       `${ApiVersion.V1}/${QuotationPaths.PATH_QUOTATIONS}/${gqId}`,
-      { caseName }
+      updateQuotationRequest
     );
   }
 

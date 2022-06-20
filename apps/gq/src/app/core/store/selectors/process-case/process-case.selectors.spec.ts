@@ -61,13 +61,23 @@ describe('Process Case Selector', () => {
     });
   });
 
+  describe('getQuotationCurrency', () => {
+    test('should return all quotation details', () => {
+      expect(
+        quotationSelectors.getQuotationCurrency.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item.currency);
+    });
+  });
+
   describe('getTableContextQuotation', () => {
     test('should get table context', () => {
       expect(
-        quotationSelectors.getTableContextQuotation.projector(
+        quotationSelectors.getTableContextQuotationForCustomerCurrency.projector(
           fakeState.processCase
         )
-      ).toEqual({ quotation: fakeState.processCase.quotation.item });
+      ).toEqual({
+        quotation: fakeState.processCase.quotation.item,
+      });
     });
   });
 

@@ -1,6 +1,6 @@
 <div *transloco="let t; read: 'detailView.pricingDetails'">
   <div *ngIf="quotationDetail">
-    <div *ngIf="customerCurrency$ | ngrxPush as currency">
+    <div *ngIf="quotationCurrency$ | ngrxPush as currency">
       <div
         *ngIf="
           !(materialComparableCostsLoading$ | ngrxPush) &&

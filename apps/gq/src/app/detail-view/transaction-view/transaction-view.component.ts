@@ -12,9 +12,9 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import {
   getCoefficients,
   getCustomer,
-  getCustomerCurrency,
   getDetailViewQueryParams,
   getGraphTransactions,
+  getQuotationCurrency,
   getQuotationLoading,
   getSelectedQuotationDetail,
   getTransactions,
@@ -36,7 +36,7 @@ import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/br
 export class TransactionViewComponent implements OnInit {
   quotationDetail$: Observable<QuotationDetail>;
   quotationLoading$: Observable<boolean>;
-  currency$: Observable<string>;
+  quotationCurrency$: Observable<string>;
   transactions$: Observable<ComparableLinkedTransaction[]>;
   transactionsLoading$: Observable<boolean>;
   translationsLoaded$: Observable<boolean>;
@@ -59,7 +59,7 @@ export class TransactionViewComponent implements OnInit {
   ngOnInit(): void {
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
-    this.currency$ = this.store.select(getCustomerCurrency);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.translationsLoaded$ = this.translocoService
       .selectTranslateObject('transactions', {}, 'transaction-view')
       .pipe(map((res) => typeof res !== 'string'));

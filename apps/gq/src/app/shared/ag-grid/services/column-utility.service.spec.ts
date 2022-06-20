@@ -148,14 +148,14 @@ describe('CreateColumnService', () => {
   });
 
   describe('numberCurrencyFormatter', () => {
-    test('should render number', () => {
+    test('should render number with quotationCurrency', () => {
       const params = {
         value: 1234,
         column: {
           colId: 'test',
         },
         context: {
-          quotation: { customer: { currency: 'testcurrency' } },
+          quotation: { currency: 'testcurrency' },
         },
       };
       const result = ColumnUtilityService.numberCurrencyFormatter(

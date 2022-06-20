@@ -1,6 +1,5 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
@@ -166,18 +165,18 @@ export const refreshSapPricingFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const updateCaseName = createAction(
-  '[Process Case] Update Case Name',
-  props<{ caseName: string }>()
+export const updateQuotation = createAction(
+  '[Process Case] Update Quotation',
+  props<{ caseName?: string; currency?: string }>()
 );
 
-export const updateCaseNameSuccess = createAction(
-  '[Process Case] Update Case Name Success',
-  props<{ quotation: ViewQuotation }>()
+export const updateQuotationSuccess = createAction(
+  '[Process Case] Update Quotation Success',
+  props<{ quotation: Quotation }>()
 );
 
-export const updateCaseNameFailure = createAction(
-  '[Process Case] Update Case Name Failure',
+export const updateQuotationFailure = createAction(
+  '[Process Case] Update Quotation Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -239,9 +238,9 @@ const all = union({
   refreshSapPricing,
   refreshSapPricingSuccess,
   refreshSapPricingFailure,
-  updateCaseName,
-  updateCaseNameSuccess,
-  updateCaseNameFailure,
+  updateQuotation,
+  updateQuotationSuccess,
+  updateQuotationFailure,
   addSimulatedQuotation,
   resetSimulatedQuotation,
   removeSimulatedQuotationDetail,

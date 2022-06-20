@@ -6,10 +6,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import {
+  MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
+  MATERIAL_SALES_ORG_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../testing/mocks';
 import { LabelTextModule } from '../../../shared/components/label-text/label-text.module';
 import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { MaterialComparableCostDetailsComponent } from './material-comparable-cost-details/material-comparable-cost-details.component';
@@ -39,7 +46,13 @@ describe('PricingDetailsComponent', () => {
       LabelTextModule,
     ],
     providers: [
-      provideMockStore({}),
+      provideMockStore({
+        initialState: {
+          processCase: PROCESS_CASE_STATE_MOCK,
+          materialSalesOrg: MATERIAL_SALES_ORG_STATE_MOCK,
+          materialComparableCosts: MATERIAL_COMPARABLE_COSTS_STATE_MOCK,
+        },
+      }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
     declarations: [
@@ -58,5 +71,26 @@ describe('PricingDetailsComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('ngOnInit', () => {
+    test(
+      'should initalize observables',
+      marbles((m) => {
+        component.ngOnInit();
+
+        m.expect(component.quotationCurrency$).toBeObservable('a', {
+          a: QUOTATION_MOCK.currency,
+        });
+        m.expect(component.materialSalesOrgLoading$).toBeObservable('a', {
+          a: MATERIAL_SALES_ORG_STATE_MOCK.materialSalesOrgLoading,
+        });
+        m.expect(component.materialComparableCostsLoading$).toBeObservable(
+          'a',
+          {
+            a: MATERIAL_COMPARABLE_COSTS_STATE_MOCK.materialComparableCostsLoading,
+          }
+        );
+      })
+    );
   });
 });

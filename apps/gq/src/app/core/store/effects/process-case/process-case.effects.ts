@@ -19,7 +19,6 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import { QuotationDetail } from '../../../../shared/models/quotation-detail';
@@ -59,12 +58,12 @@ import {
   resetSimulatedQuotation,
   selectQuotation,
   setSelectedQuotationDetail,
-  updateCaseName,
-  updateCaseNameFailure,
-  updateCaseNameSuccess,
+  updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  updateQuotationFailure,
+  updateQuotationSuccess,
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
@@ -403,19 +402,30 @@ export class ProcessCaseEffect {
     );
   });
 
-  updateCaseName$ = createEffect(() => {
+  updateQuotation$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(updateCaseName),
+      ofType(updateQuotation),
       concatLatestFrom(() => this.store.select(getGqId)),
       mergeMap(([action, gqId]) =>
-        this.quotationService.updateCaseName(action.caseName, gqId).pipe(
-          map((quotation: ViewQuotation) =>
-            updateCaseNameSuccess({ quotation })
-          ),
-          catchError((errorMessage) =>
-            of(updateCaseNameFailure({ errorMessage }))
+        this.quotationService
+          .updateQuotation(
+            {
+              caseName: action.caseName,
+              currency: action.currency,
+            },
+            gqId
           )
-        )
+          .pipe(
+            tap((item) =>
+              PriceService.addCalculationsForDetails(item.quotationDetails)
+            ),
+            map((quotation: Quotation) =>
+              updateQuotationSuccess({ quotation })
+            ),
+            catchError((errorMessage) =>
+              of(updateQuotationFailure({ errorMessage }))
+            )
+          )
       )
     );
   });
@@ -459,7 +469,7 @@ export class ProcessCaseEffect {
             );
 
             return loadAvailableCurrenciesSuccess({
-              currencies: currencyNames,
+              currencies: currencyNames.sort((a, b) => a.localeCompare(b)),
             });
           }),
           catchError((errorMessage) => {

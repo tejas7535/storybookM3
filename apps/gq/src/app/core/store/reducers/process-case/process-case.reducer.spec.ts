@@ -6,9 +6,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
   SIMULATED_QUOTATION_MOCK,
-  VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { Quotation } from '../../../../shared/models/';
 import { PriceSource } from '../../../../shared/models/quotation-detail';
 import {
@@ -42,12 +40,12 @@ import {
   selectQuotation,
   selectQuotationDetail,
   setSelectedQuotationDetail,
-  updateCaseName,
-  updateCaseNameFailure,
-  updateCaseNameSuccess,
+  updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  updateQuotationFailure,
+  updateQuotationSuccess,
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
@@ -610,34 +608,31 @@ describe('Quotation Reducer', () => {
     });
   });
 
-  describe('updateCaseName Reducers', () => {
-    describe('updateCaseName', () => {
+  describe('updateQuotation Reducers', () => {
+    describe('updateQuotation', () => {
       test('should set updateLoading true', () => {
-        const action = updateCaseName({ caseName: 'caseName' });
+        const action = updateQuotation({
+          caseName: 'caseName',
+          currency: 'EUR',
+        });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state.quotation.quotationLoading).toBeTruthy();
       });
     });
-    describe('updateCaseNameSuccess', () => {
+    describe('updateQuotationSuccess', () => {
       test('should set updateLoading false and set quotation', () => {
-        const quotation: ViewQuotation = VIEW_QUOTATION_MOCK;
-        const action = updateCaseNameSuccess({ quotation });
+        const quotation: Quotation = QUOTATION_MOCK;
+        const action = updateQuotationSuccess({ quotation });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
+        expect(state.quotation.item).toEqual(quotation);
         expect(state.quotation.quotationLoading).toBeFalsy();
-        expect(state.quotation.item.caseName).toEqual(quotation.caseName);
-        expect(state.quotation.item.gqLastUpdated).toEqual(
-          quotation.gqLastUpdated
-        );
-        expect(state.quotation.item.gqCreatedByUser).toEqual(
-          quotation.gqCreatedByUser
-        );
       });
     });
-    describe('updateCaseNameFailure', () => {
+    describe('updateQuotationFailure', () => {
       test('should set updateLoading', () => {
-        const action = updateCaseNameFailure({ errorMessage });
+        const action = updateQuotationFailure({ errorMessage });
         const state = processCaseReducer(PROCESS_CASE_STATE_MOCK, action);
 
         expect(state.quotation.quotationLoading).toBeFalsy();

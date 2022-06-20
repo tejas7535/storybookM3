@@ -4,10 +4,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
+import {
+  AUTH_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
 import { StatusBar } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
@@ -33,7 +38,7 @@ describe('StatusBarModalComponent', () => {
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
-          'azure-auth': {},
+          'azure-auth': AUTH_STATE_MOCK,
         },
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
@@ -56,6 +61,24 @@ describe('StatusBarModalComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('ngOnInit', () => {
+    test(
+      'should initialize observables',
+      marbles((m) => {
+        m.expect(component.quotationCurrency$).toBeObservable('a', {
+          a: QUOTATION_MOCK.currency,
+        });
+        m.expect(component.showGPI$).toBeObservable('a', {
+          a: true,
+        });
+        m.expect(component.showGPM$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
+  });
+
   describe('closeDialog', () => {
     test('should close dialogRef', () => {
       component['dialogRef'].close = jest.fn();

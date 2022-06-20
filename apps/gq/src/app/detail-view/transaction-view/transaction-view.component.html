@@ -10,7 +10,7 @@
       <ng-container subheaderTitleContent>
         <gq-material-price-header-content
           [quotationDetail]="quotationDetail$ | ngrxPush"
-          [currency]="currency$ | ngrxPush"
+          [currency]="quotationCurrency$ | ngrxPush"
           [price]="(quotationDetail$ | ngrxPush)?.recommendedPrice"
         >
         </gq-material-price-header-content>
@@ -47,7 +47,7 @@
             "
             [transactions]="graphTransactions$ | ngrxPush"
             [coefficients]="coefficients$ | ngrxPush"
-            [currency]="currency$ | ngrxPush"
+            [currency]="quotationCurrency$ | ngrxPush"
             [customer]="customer$ | ngrxPush"
           ></gq-transparency-graph>
         </mat-card>
@@ -61,7 +61,7 @@
               else loading
             "
             [rowData]="transactions$ | ngrxPush"
-            [currency]="currency$ | ngrxPush"
+            [currency]="quotationCurrency$ | ngrxPush"
             (filterChanged)="onFilterChanged($event)"
           ></gq-comparable-transactions>
         </mat-card>

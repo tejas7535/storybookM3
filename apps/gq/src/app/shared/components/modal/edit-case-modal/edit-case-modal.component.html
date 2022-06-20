@@ -16,7 +16,7 @@
 
       <mat-form-field class="w-1/3" appearance="outline">
         <mat-label>{{ t('currencyLabel') }}</mat-label>
-        <mat-select formControlName="currency" [disabled]="true">
+        <mat-select formControlName="currency">
           <mat-option
             *ngFor="let currency of currencies$ | ngrxPush"
             [value]="currency"

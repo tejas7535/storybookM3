@@ -98,7 +98,9 @@ describe('SapViewComponent', () => {
         );
         m.expect(component.rowData$).toBeObservable(m.cold('a', { a: [] }));
         m.expect(component.tableContext$).toBeObservable(
-          m.cold('a', { a: { quotation: QUOTATION_MOCK } })
+          m.cold('a', {
+            a: { quotation: QUOTATION_MOCK },
+          })
         );
         m.expect(component.breadcrumbs$).toBeObservable(
           m.cold('a', { a: breadcrumbs })

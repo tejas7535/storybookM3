@@ -28,7 +28,7 @@ import { ColumnDefService } from './config/column-def.service';
 export class ComparableTransactionsComponent implements OnInit {
   @Input() rowData: ComparableLinkedTransaction[];
   @Input() set currency(currency: string) {
-    this.tableContext.quotation.customer.currency = currency;
+    this.tableContext.quotation.currency = currency;
   }
 
   @Output() filterChanged: EventEmitter<FilterChangedEvent> =

@@ -232,9 +232,12 @@ describe('ExportToExcelButtonComponent', () => {
         column: {
           getColDef: () => colDef,
         },
+        context: {
+          quotation: { currency: 'EUR' },
+        },
       } as any;
 
-      const expected = `${colDef.headerName} [${params.context?.quotation.currency}]`;
+      const expected = `${colDef.headerName} [EUR]`;
 
       const result = component.processHeaderCallback(params);
       expect(result).toEqual(expected);
@@ -682,7 +685,7 @@ describe('ExportToExcelButtonComponent', () => {
               type,
               value: HelperService.transformMarginDetails(
                 CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
-                QUOTATION_MOCK.currency
+                CUSTOMER_MOCK.currency
               ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,
@@ -717,7 +720,7 @@ describe('ExportToExcelButtonComponent', () => {
               type,
               value: HelperService.transformMarginDetails(
                 CUSTOMER_MOCK.marginDetail?.currentNetSales,
-                QUOTATION_MOCK.currency
+                CUSTOMER_MOCK.currency
               ),
             },
             styleId: excelStyleObjects.excelTextBorder.id,
@@ -921,20 +924,22 @@ describe('ExportToExcelButtonComponent', () => {
 
       test('header calls appendCurrency', () => {
         component['getExcelCell'] = jest.fn();
-        component['appendCurrency'] = jest.fn();
+        component['appendQuotationCurrency'] = jest.fn();
 
         component.addComparableTransactionsHeader(translations);
 
         expect(component.getExcelCell).toHaveBeenCalledTimes(
           Object.values(translations).length
         );
-        expect(component.appendCurrency).toHaveBeenCalledWith(
+        expect(component.appendQuotationCurrency).toHaveBeenCalledWith(
           translations.price
         );
       });
 
       test('appendCurrency returns headerField with customer price unit', () => {
-        const headerField = component.appendCurrency(translations.price);
+        const headerField = component.appendQuotationCurrency(
+          translations.price
+        );
 
         expect(headerField).toEqual('Price [EUR]');
       });

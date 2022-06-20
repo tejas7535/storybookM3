@@ -84,7 +84,7 @@ export class ColumnUtilityService {
 
     return HelperService.transformNumberCurrency(
       formattedNumber,
-      params.context.quotation.customer.currency
+      params.context.quotation.currency
     );
   }
 

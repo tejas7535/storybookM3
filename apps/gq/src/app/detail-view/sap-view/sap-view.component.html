@@ -11,7 +11,7 @@
       <ng-container subheaderTitleContent>
         <gq-material-price-header-content
           [quotationDetail]="quotationDetail$ | ngrxPush"
-          [currency]="(customer$ | ngrxPush).currency"
+          [currency]="quotationCurrency$ | ngrxPush"
           [price]="(quotationDetail$ | ngrxPush)?.sapPrice"
         >
         </gq-material-price-header-content>

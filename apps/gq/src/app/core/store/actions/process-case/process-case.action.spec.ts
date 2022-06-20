@@ -3,15 +3,11 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_DETAILS_MOCK,
   QUOTATION_MOCK,
-  VIEW_QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import {
   refreshSapPricing,
   refreshSapPricingFailure,
   refreshSapPricingSuccess,
-  updateCaseName,
-  updateCaseNameFailure,
-  updateCaseNameSuccess,
 } from '..';
 import {
   addMaterials,
@@ -38,9 +34,12 @@ import {
   resetSimulatedQuotation,
   selectQuotationDetail,
   setSelectedQuotationDetail,
+  updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  updateQuotationFailure,
+  updateQuotationSuccess,
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
@@ -314,36 +313,38 @@ describe('CaseActions', () => {
     });
   });
 
-  describe('updateCaseName Actions', () => {
-    describe('updateCaseName', () => {
-      test('should updateCaseName', () => {
+  describe('updateQuotation Actions', () => {
+    describe('updateQuotation', () => {
+      test('should updateQuotation', () => {
         const caseName = 'name';
-        action = updateCaseName({ caseName });
+        const currency = 'EUR';
+        action = updateQuotation({ caseName, currency });
 
         expect(action).toEqual({
           caseName,
-          type: '[Process Case] Update Case Name',
+          currency,
+          type: '[Process Case] Update Quotation',
         });
       });
     });
-    describe('updateCaseNameSuccess', () => {
-      test('should updateCaseNameSuccess', () => {
-        const quotation = VIEW_QUOTATION_MOCK;
-        action = updateCaseNameSuccess({ quotation });
+    describe('updateQuotationSuccess', () => {
+      test('should updateQuotationSuccess', () => {
+        const quotation = QUOTATION_MOCK;
+        action = updateQuotationSuccess({ quotation });
 
         expect(action).toEqual({
           quotation,
-          type: '[Process Case] Update Case Name Success',
+          type: '[Process Case] Update Quotation Success',
         });
       });
     });
-    describe('updateCaseNameFailure', () => {
-      test('should updateCaseNameFailure', () => {
-        action = updateCaseNameFailure({ errorMessage });
+    describe('updateQuotationFailure', () => {
+      test('should updateQuotationFailure', () => {
+        action = updateQuotationFailure({ errorMessage });
 
         expect(action).toEqual({
           errorMessage,
-          type: '[Process Case] Update Case Name Failure',
+          type: '[Process Case] Update Quotation Failure',
         });
       });
     });

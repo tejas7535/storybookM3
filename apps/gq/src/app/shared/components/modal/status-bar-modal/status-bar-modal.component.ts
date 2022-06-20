@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getCustomerCurrency,
+  getQuotationCurrency,
   userHasGPCRole,
   userHasSQVRole,
 } from '../../../../core/store';
@@ -20,7 +20,7 @@ import { EditingModalComponent } from '../editing-modal/editing-modal.component'
 export class StatusBarModalComponent implements OnInit {
   showGPI$: Observable<boolean>;
   showGPM$: Observable<boolean>;
-  customerCurrency$: Observable<string>;
+  quotationCurrency$: Observable<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -32,7 +32,7 @@ export class StatusBarModalComponent implements OnInit {
   ngOnInit(): void {
     this.showGPI$ = this.store.pipe(userHasGPCRole);
     this.showGPM$ = this.store.pipe(userHasSQVRole);
-    this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
   }
   closeDialog(): void {
     this.dialogRef.close();

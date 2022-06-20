@@ -33,7 +33,7 @@ export const CUSTOMER_MOCK: Customer = {
   sectorId: 'V220',
   priceList: '00',
   calculationScheme: '1',
-  currency: 'EUR',
+  currency: 'USD',
   region: 'region',
   subRegion: 'subRegion',
   customRegion1: 'customRegion1',

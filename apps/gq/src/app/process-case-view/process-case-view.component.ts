@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { getQuotation, updateCaseName } from '../core/store';
+import { getQuotation, updateQuotation } from '../core/store';
 import {
   getCustomerLoading,
   getGqId,
@@ -15,6 +15,7 @@ import {
 } from '../core/store/selectors';
 import { Quotation } from '../shared/models';
 import { BreadcrumbsService } from '../shared/services/breadcrumbs-service/breadcrumbs.service';
+import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 
 @Component({
   selector: 'gq-case-view',
@@ -48,11 +49,7 @@ export class ProcessCaseViewComponent implements OnInit {
       );
   }
 
-  public updateCaseName(caseName: string): void {
-    this.store.dispatch(updateCaseName({ caseName }));
-  }
-
-  public updateCurrency(currency: string): void {
-    console.log(currency);
+  public updateQuotation(updateQuotationRequest: UpdateQuotationRequest) {
+    this.store.dispatch(updateQuotation(updateQuotationRequest));
   }
 }

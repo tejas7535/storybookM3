@@ -8,6 +8,7 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { Quotation } from '../../shared/models';
+import { UpdateQuotationRequest } from '../../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 
 @Component({
   selector: 'gq-header-content',
@@ -22,8 +23,7 @@ export class HeaderContentComponent {
   public saveCaseNameEnabled = false;
   public currency: string;
 
-  @Output() updateCaseName = new EventEmitter<string>();
-  @Output() updateCurrency = new EventEmitter<string>();
+  @Output() updateQuotation = new EventEmitter<UpdateQuotationRequest>();
 
   @Input() set quotation(value: Quotation) {
     if (value) {
@@ -85,13 +85,16 @@ export class HeaderContentComponent {
         },
       })
       .afterClosed()
-      .subscribe((result?: { caseName: string; currency: string }) => {
-        if (result && result.caseName !== this.caseName) {
-          this.updateCaseName.emit(result.caseName);
-        }
-
-        if (result?.currency && result.currency !== this.currency) {
-          this.updateCurrency.emit(result.currency);
+      .subscribe((result?: UpdateQuotationRequest) => {
+        if (
+          result &&
+          (result.caseName !== this.caseName ||
+            result.currency !== this.currency)
+        ) {
+          this.updateQuotation.emit({
+            caseName: result.caseName,
+            currency: result.currency,
+          });
         }
       });
   }

@@ -10,12 +10,15 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
+  AUTH_STATE_MOCK,
   PROCESS_CASE_STATE_MOCK,
   QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '../../../models';
@@ -51,7 +54,7 @@ describe('QuotationDetailsStatusComponent', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          'azure-auth': {},
+          'azure-auth': AUTH_STATE_MOCK,
           processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
@@ -76,11 +79,23 @@ describe('QuotationDetailsStatusComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should set showMargins to true', () => {
-      component.ngOnInit();
-
-      expect(component.showGPI$).toBeTruthy();
-    });
+    test(
+      'should initalize observables',
+      marbles((m) => {
+        component.ngOnInit();
+        m.expect(component.showGPI$).toBeObservable('a', { a: true });
+        m.expect(component.showGPM$).toBeObservable('a', { a: true });
+        m.expect(component.quotationCurrency$).toBeObservable('a', {
+          a: QUOTATION_MOCK.currency,
+        });
+        m.expect(component.simulationModeEnabled$).toBeObservable('a', {
+          a: false,
+        });
+        m.expect(component.simulatedQuotation$).toBeObservable('a', {
+          a: undefined,
+        });
+      })
+    );
   });
   describe('onRowDataChanged', () => {
     beforeEach(() => {

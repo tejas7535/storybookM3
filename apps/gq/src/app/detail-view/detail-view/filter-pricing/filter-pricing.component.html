@@ -2,7 +2,7 @@
   <gq-manual-price
     [userHasManualPriceRole]="userHasManualPriceRole$ | ngrxPush"
     [quotationDetail]="quotationDetail"
-    [currency]="customerCurrency$ | ngrxPush"
+    [currency]="quotationCurrency$ | ngrxPush"
     (selectManualPrice)="selectPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
@@ -12,7 +12,7 @@
   <gq-price
     *ngIf="quotationDetail?.recommendedPrice"
     [quotationDetail]="quotationDetail"
-    [currency]="customerCurrency$ | ngrxPush"
+    [currency]="quotationCurrency$ | ngrxPush"
     (selectGqPrice)="selectPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
@@ -23,7 +23,7 @@
   <gq-sap-price
     *ngIf="quotationDetail?.sapPrice"
     [quotationDetail]="quotationDetail"
-    [currency]="customerCurrency$ | ngrxPush"
+    [currency]="quotationCurrency$ | ngrxPush"
     (selectSapPrice)="selectPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"

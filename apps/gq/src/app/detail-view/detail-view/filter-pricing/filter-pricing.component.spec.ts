@@ -9,11 +9,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import {
+  AUTH_STATE_MOCK,
+  PROCESS_CASE_STATE_MOCK,
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../testing/mocks';
 import { updateQuotationDetails } from '../../../core/store';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import {
@@ -51,9 +57,8 @@ describe('FilterPricingComponent', () => {
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       provideMockStore({
         initialState: {
-          processCase: {
-            quotation: {},
-          },
+          processCase: PROCESS_CASE_STATE_MOCK,
+          'azure-auth': AUTH_STATE_MOCK,
         },
       }),
     ],
@@ -78,11 +83,28 @@ describe('FilterPricingComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should define observables', () => {
-      component.ngOnInit();
+    test(
+      'should initalize observables',
+      marbles((m) => {
+        component.ngOnInit();
 
-      expect(component.userHasManualPriceRole$).toBeDefined();
-    });
+        m.expect(component.quotationCurrency$).toBeObservable(
+          m.cold('a', { a: QUOTATION_MOCK.currency })
+        );
+        m.expect(component.updateIsLoading$).toBeObservable('a', {
+          a: PROCESS_CASE_STATE_MOCK.quotation.updateLoading,
+        });
+        m.expect(component.userHasGPCRole$).toBeObservable('a', {
+          a: true,
+        });
+        m.expect(component.userHasSQVRole$).toBeObservable('a', {
+          a: true,
+        });
+        m.expect(component.userHasManualPriceRole$).toBeObservable('a', {
+          a: true,
+        });
+      })
+    );
   });
 
   describe('selectManualPrice', () => {

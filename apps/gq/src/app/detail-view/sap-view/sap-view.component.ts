@@ -10,11 +10,12 @@ import { Breadcrumb } from '@schaeffler/breadcrumbs';
 import {
   getCustomer,
   getDetailViewQueryParams,
+  getQuotationCurrency,
   getQuotationLoading,
   getSapPriceDetails,
   getSapPriceDetailsLoading,
   getSelectedQuotationDetail,
-  getTableContextQuotation,
+  getTableContextQuotationForCustomerCurrency,
 } from '../../core/store';
 import { SapPriceConditionDetail } from '../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../process-case-view/quotation-details-table/config/tablecontext.model';
@@ -34,6 +35,7 @@ export class SapViewComponent implements OnInit {
   ) {}
 
   public customer$: Observable<Customer>;
+  public quotationCurrency$: Observable<string>;
   public quotationDetail$: Observable<QuotationDetail>;
   public quotationLoading$: Observable<boolean>;
   public translationsLoaded$: Observable<boolean>;
@@ -45,11 +47,14 @@ export class SapViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.customer$ = this.store.select(getCustomer);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.sapPriceDetailsLoading$ = this.store.select(getSapPriceDetailsLoading);
     this.rowData$ = this.store.select(getSapPriceDetails);
-    this.tableContext$ = this.store.select(getTableContextQuotation);
+    this.tableContext$ = this.store.select(
+      getTableContextQuotationForCustomerCurrency
+    );
     this.translationsLoaded$ = this.translocoService
       .selectTranslateObject('sapView', {}, '')
       .pipe(map((value) => typeof value !== 'string'));

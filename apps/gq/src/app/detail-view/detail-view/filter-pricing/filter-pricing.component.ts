@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getCustomerCurrency,
+  getQuotationCurrency,
   getUpdateLoading,
   updateQuotationDetails,
   userHasGPCRole,
@@ -23,7 +23,7 @@ import {
   templateUrl: './filter-pricing.component.html',
 })
 export class FilterPricingComponent implements OnInit {
-  public customerCurrency$: Observable<string>;
+  public quotationCurrency$: Observable<string>;
   public userHasManualPriceRole$: Observable<boolean>;
   public userHasGPCRole$: Observable<boolean>;
   public userHasSQVRole$: Observable<boolean>;
@@ -34,7 +34,7 @@ export class FilterPricingComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.customerCurrency$ = this.store.select(getCustomerCurrency);
+    this.quotationCurrency$ = this.store.select(getQuotationCurrency);
     this.userHasManualPriceRole$ = this.store.pipe(userHasManualPriceRole);
     this.userHasGPCRole$ = this.store.pipe(userHasGPCRole);
     this.userHasSQVRole$ = this.store.pipe(userHasSQVRole);

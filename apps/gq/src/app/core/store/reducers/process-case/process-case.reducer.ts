@@ -37,12 +37,12 @@ import {
   selectQuotation,
   selectQuotationDetail,
   setSelectedQuotationDetail,
-  updateCaseName,
-  updateCaseNameFailure,
-  updateCaseNameSuccess,
+  updateQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  updateQuotationFailure,
+  updateQuotationSuccess,
   uploadSelectionToSap,
   uploadSelectionToSapFailure,
   uploadSelectionToSapSuccess,
@@ -479,7 +479,7 @@ export const processCaseReducer = createReducer(
     })
   ),
   on(
-    updateCaseName,
+    updateQuotation,
     (state: ProcessCaseState): ProcessCaseState => ({
       ...state,
       quotation: {
@@ -489,23 +489,18 @@ export const processCaseReducer = createReducer(
     })
   ),
   on(
-    updateCaseNameSuccess,
+    updateQuotationSuccess,
     (state: ProcessCaseState, { quotation }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
-        item: {
-          ...state.quotation.item,
-          gqLastUpdated: quotation.gqLastUpdated,
-          gqCreatedByUser: quotation.gqLastUpdatedByUser,
-          caseName: quotation.caseName,
-        },
+        item: quotation,
         quotationLoading: false,
       },
     })
   ),
   on(
-    updateCaseNameFailure,
+    updateQuotationFailure,
     (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
       ...state,
       quotation: {
