@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-community/all-modules';
+import { ColDef, ValueGetterParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
@@ -307,7 +307,10 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.materialClassificationSOP'
       ),
       field: 'materialClassificationSOP',
-      valueFormatter: ColumnUtilityService.transformMaterialClassificationSOP,
+      valueGetter: (params: ValueGetterParams) =>
+        ColumnUtilityService.transformMaterialClassificationSOP(
+          params.data.materialClassificationSOP
+        ),
       filterParams: FILTER_PARAMS,
     },
     {

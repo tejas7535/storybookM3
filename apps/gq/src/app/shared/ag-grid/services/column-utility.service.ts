@@ -175,11 +175,9 @@ export class ColumnUtilityService {
     return data.value;
   }
 
-  static transformMaterialClassificationSOP(
-    data: ValueFormatterParams
-  ): string {
+  static transformMaterialClassificationSOP(materialSOPValue: string): string {
     return ColumnUtilityService.materialClassificationSOPPipe.transform(
-      data.value
+      materialSOPValue
     );
   }
 }
