@@ -26,6 +26,7 @@
       <schaeffler-grease-report
         *ngIf="showCompactView"
         [greaseReportUrl]="reportUrls.jsonReportUrl"
+        [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
       ></schaeffler-grease-report>
 
       <schaeffler-html-report

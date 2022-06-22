@@ -1,17 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { getSelectedBearing } from '@ga/core/store';
 
 import { debounceTime, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../app-route-path.enum';
-import { getCalculation } from '../core/store/actions/result/result.actions';
-import { getReportUrls } from '../core/store/selectors/result/result.selector';
-import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
-import { ReportUrls } from '../shared/models';
+import { AppRoutePath } from '@ga/app-route-path.enum';
+import { getSelectedBearing } from '@ga/core/store';
+import { getCalculation } from '@ga/core/store/actions/result/result.actions';
+import { getPreferredGreaseSelection } from '@ga/core/store/selectors/parameter/parameter.selector';
+import { getReportUrls } from '@ga/core/store/selectors/result/result.selector';
+import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+import { ReportUrls } from '@ga/shared/models';
 
 @Component({
   selector: 'ga-result',
@@ -22,6 +23,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   public reportSelector = '.content';
   public showCompactView = true;
   public selectedBearing$ = this.store.select(getSelectedBearing);
+  public preferredGreaseSelection$ = this.store.select(
+    getPreferredGreaseSelection
+  );
 
   private currentLanguage!: string;
   private reportUrlsSubscription!: Subscription;
