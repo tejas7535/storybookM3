@@ -9,7 +9,7 @@ import { mockProvider } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockDeclaration, MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -50,8 +50,8 @@ describe('AdvancedBearingSelectionComponent', () => {
       MockModule(RangeFilterModule),
       MockModule(BearingSelectionListModule),
       MockModule(BearingSelectionFiltersSummaryModule),
+      MockComponent(BearingSelectionButtonComponent),
     ],
-    declarations: [MockDeclaration(BearingSelectionButtonComponent)],
     providers: [
       mockProvider(AdvancedBearingSelectionService, {
         getBoreDiameterRangeFilter: jest.fn(() => RANGE_FILTER_MOCK),
