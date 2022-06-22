@@ -38,6 +38,7 @@ export const shopSearchPathBase = 'search/searchpage?text=';
 export class GreaseResultComponent implements OnInit, OnDestroy {
   @Input() public greaseResult!: GreaseResult;
   @Input() public valuesLimit = 3;
+  @Input() public indicateGreasePreference = false;
 
   public labelValues: LabelValue[] = [];
   public labelWidth: number = LabelWidth.Default;

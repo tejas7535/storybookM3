@@ -3,29 +3,44 @@
     *transloco="let t"
     class="overflow-hidden rounded border border-border"
     [ngClass]="{
-      'border-[red]': !greaseResult.isSufficient,
-      'border-border': greaseResult.isSufficient
+      'border-primary': greaseResult.isPreferred,
+      '!border-[#a31739]': !greaseResult.isSufficient
     }"
   >
     <div class="p-3">
       <a
         *ngIf="greaseResult.isSufficient; else insufficientGreaseResult"
-        class="font-medium text-link"
+        class="flex items-center justify-between font-medium text-link"
         [attr.href]="getShopUrl()"
         target="_blank"
         (click)="trackGreaseSelection()"
       >
-        {{ greaseResult.mainTitle }}
-        <mat-icon
-          class="ml-1 !h-[auto] !w-[auto] align-text-bottom !text-[16px] !leading-[inherit]"
-          >open_in_new</mat-icon
+        <div>
+          {{ greaseResult.mainTitle }}
+          <mat-icon
+            class="ml-1 !h-[auto] !w-[auto] align-text-bottom !text-[16px] !leading-[inherit]"
+            >open_in_new</mat-icon
+          >
+        </div>
+        <div
+          *ngIf="indicateGreasePreference"
+          class="ml-3 inline-block rounded-full bg-background-dark px-3 py-[1px] text-caption font-normal text-medium-emphasis"
+          [ngClass]="{ '!bg-primary !text-white': greaseResult.isPreferred }"
         >
+          {{
+            t(
+              greaseResult.isPreferred
+                ? 'preferredGreaseHintSelected'
+                : 'preferredGreaseHintAlternative'
+            )
+          }}
+        </div>
       </a>
       <ng-template #insufficientGreaseResult>
         <div class="inline-block font-medium text-medium-emphasis">
           {{ greaseResult.mainTitle }}
         </div>
-        <div class="relative ml-3 inline-block pr-7 font-medium text-[red]">
+        <div class="relative ml-3 inline-block pr-7 font-medium text-error">
           {{ t('insufficientGreaseResultHint') }}
           <mat-icon
             color="primary"

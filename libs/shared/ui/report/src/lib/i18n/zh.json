@@ -3,5 +3,7 @@
   "snackbarError": "发生错误.  请稍后再试",
   "snackbarRetry": "重试",
   "insufficientGreaseResultHint": "被评为不足",
-  "insufficientGreaseResultTooltip": "润滑脂的适用性被Grease App评为不足。\n\n如有问题，请联系舍弗勒工程服务。"
+  "insufficientGreaseResultTooltip": "润滑脂的适用性被Grease App评为不足。\n\n如有问题，请联系舍弗勒工程服务。",
+  "preferredGreaseHintSelected": "选定的",
+  "preferredGreaseHintAlternative": "另类的"
 }

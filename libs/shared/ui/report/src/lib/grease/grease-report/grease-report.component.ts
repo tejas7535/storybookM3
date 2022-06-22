@@ -11,6 +11,7 @@ import { translate } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
 import { Report, Subordinate, TitleId } from '../../models';
+import { PreferredGreaseResult } from '../../models/grease-result.model';
 import { GreaseReportService } from '../services/grease-report.service';
 
 @Component({
@@ -20,6 +21,7 @@ import { GreaseReportService } from '../services/grease-report.service';
 })
 export class GreaseReportComponent implements OnInit, OnDestroy {
   @Input() public greaseReportUrl = '';
+  @Input() public preferredGreaseResult?: PreferredGreaseResult;
 
   public resultsLimit = 3;
   public limitResults = true;
@@ -112,7 +114,8 @@ export class GreaseReportComponent implements OnInit, OnDestroy {
 
   private assignReportData(): void {
     this.subordinates = this.greaseReportService.formatGreaseReport(
-      this.reportRaw?.subordinates
+      this.reportRaw?.subordinates,
+      this.preferredGreaseResult
     );
 
     this.greaseInput = this.subordinates.find(

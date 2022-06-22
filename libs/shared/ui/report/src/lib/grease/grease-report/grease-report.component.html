@@ -115,6 +115,7 @@
       <div class="grease-result__grid-item mb-6 inline-flex w-full md:w-1/3">
         <schaeffler-grease-result
           [greaseResult]="subordinate.greaseResult"
+          [indicateGreasePreference]="!!preferredGreaseResult?.id"
         ></schaeffler-grease-result>
       </div>
     </ng-container>
