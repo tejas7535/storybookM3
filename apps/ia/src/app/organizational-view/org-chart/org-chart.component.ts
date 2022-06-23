@@ -111,7 +111,10 @@ export class OrgChartComponent implements AfterViewInit {
       // eslint-disable-next-line new-cap
       this.chart = new OrgChart();
     }
-    this.updateChart();
+    // wait until view is initiated to get template from this tab instead of previous one
+    setTimeout(() => {
+      this.updateChart();
+    });
   }
 
   updateChart(): void {

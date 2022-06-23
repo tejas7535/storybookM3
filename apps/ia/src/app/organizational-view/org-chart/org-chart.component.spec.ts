@@ -1,3 +1,4 @@
+import { fakeAsync, tick } from '@angular/core/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -149,16 +150,18 @@ describe('OrgChartComponent', () => {
   });
 
   describe('ngAfterViewInit', () => {
-    test('should call update start and init org chart if not initialized yet', () => {
+    test('should call update start and init org chart if not initialized yet', fakeAsync(() => {
       component.updateChart = jest.fn();
       expect(component.chart).toBeUndefined();
 
       component.ngAfterViewInit();
 
       expect(component.chart).toBeDefined();
+      tick();
       expect(component.updateChart).toHaveBeenCalled();
-    });
-    test('should only call update start if chart already initialized', () => {
+    }));
+
+    test('should only call update start if chart already initialized', fakeAsync(() => {
       component.updateChart = jest.fn();
       const chart = { test: '123' };
       component.chart = chart;
@@ -166,8 +169,9 @@ describe('OrgChartComponent', () => {
       component.ngAfterViewInit();
 
       expect(component.chart).toEqual(chart);
+      tick();
       expect(component.updateChart).toHaveBeenCalled();
-    });
+    }));
   });
 
   describe('updateChart', () => {
