@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.0...ga-v1.2.2) (2022-06-23)
+
+
+### 🐛 Bug Fixes
+
+* **ga:** remove tracking params from contact link (UFTABI-5854) ([16d244b](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/16d244b696d0929cae64712488e62e0cada3b909))
+
 ## [1.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.1...ga-v1.3.0) (2022-06-22)
 
 
