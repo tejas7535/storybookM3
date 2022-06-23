@@ -172,7 +172,7 @@ export class ColumnUtilityService {
       );
     }
 
-    return data.value;
+    return data.value || Keyboard.DASH;
   }
 
   static transformMaterialClassificationSOP(materialSOPValue: string): string {

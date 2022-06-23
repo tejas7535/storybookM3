@@ -6,4 +6,5 @@ export const LAST_OFFER_DETAIL_MOCK: LastOfferDetail = {
   reasonForRejection: 'EE',
   detailReasonForRejection: 'Project rejected',
   targetPrice: 200,
+  positionQuantity: 12,
 };

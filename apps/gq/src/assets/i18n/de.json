@@ -47,6 +47,7 @@
       "relocCity": "Zukünftiger Produktionsort",
       "relocCountry": "Zukünftiges Produktionsland",
       "lastOfferPrice": "Letzter Angebotspreis",
+      "lastOfferQuantity": "Menge letztes Angebot",
       "lastOfferDate": "Datum letztes Angebot",
       "reasonForRejection": "Absagegrund",
       "detailReasonForRejection": "Text Absagegrund",

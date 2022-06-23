@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
 import { ColDef, ValueGetterParams } from '@ag-grid-community/all-modules';
@@ -45,7 +46,7 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.orderQuantity'),
       field: ColumnFields.ORDER_QUANTITY,
-      valueFormatter: ColumnUtilityService.numberFormatter,
+      valueFormatter: ColumnUtilityService.numberDashFormatter,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -82,7 +83,7 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
       field: 'material.priceUnit',
-      valueFormatter: ColumnUtilityService.numberFormatter,
+      valueFormatter: ColumnUtilityService.numberDashFormatter,
       filterParams: FILTER_PARAMS,
     },
     {
@@ -275,6 +276,12 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),
       field: ColumnFields.LAST_OFFER_PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      filter: NUMBER_COLUMN_FILTER,
+    },
+    {
+      headerName: translate('shared.quotationDetailsTable.lastOfferQuantity'),
+      field: ColumnFields.LAST_OFFER_QUANTITY,
+      valueFormatter: ColumnUtilityService.numberDashFormatter,
       filter: NUMBER_COLUMN_FILTER,
     },
     {

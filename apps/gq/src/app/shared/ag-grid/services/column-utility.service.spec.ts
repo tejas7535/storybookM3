@@ -302,6 +302,14 @@ describe('CreateColumnService', () => {
       expect(translate).toHaveBeenCalledTimes(0);
       expect(res).toEqual('SI');
     });
+    test('should return dash if value is missing', () => {
+      const res = ColumnUtilityService.transformLastCustomerPriceCondition({
+        value: undefined,
+      } as any);
+
+      expect(translate).toHaveBeenCalledTimes(0);
+      expect(res).toEqual(Keyboard.DASH);
+    });
     test('should return translation if value is in enum', () => {
       const res = ColumnUtilityService.transformLastCustomerPriceCondition({
         value: LastCustomerPriceCondition.CA,

@@ -4,4 +4,5 @@ export class LastOfferDetail {
   public reasonForRejection: string;
   public detailReasonForRejection: string;
   public targetPrice: number;
+  public positionQuantity: number;
 }

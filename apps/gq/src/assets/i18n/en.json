@@ -47,6 +47,7 @@
       "relocCity": "Reloc. City",
       "relocCountry": "Reloc. Country",
       "lastOfferPrice": "Last Offer Price",
+      "lastOfferQuantity": "Qty Last Offer",
       "lastOfferDate": "Last Offer Date",
       "reasonForRejection": "Reason For Rejection",
       "detailReasonForRejection": "Descr. Reason",
