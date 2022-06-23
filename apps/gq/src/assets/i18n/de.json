@@ -12,6 +12,7 @@
       "lastCustomerPriceGpm": "GPM % (SAW) Letzter Kundenpreis",
       "lastCustomerPriceDate": "Datum letzer Kundenpreis",
       "lastCustomerPriceCondition": "Kondition Letzter Kundenpreis",
+      "lastCustomerPriceQuantity": "Menge letzter Kundenpreis",
       "lastCustomerPriceConditionOptions": {
         "st": "Standard",
         "sp": "Kundenspezifisch",

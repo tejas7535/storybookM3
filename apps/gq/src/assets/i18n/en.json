@@ -12,6 +12,7 @@
       "lastCustomerPriceGpm": "GPM % (SQV) Last Price",
       "lastCustomerPriceDate": "Last Customer Price Date",
       "lastCustomerPriceCondition": "Last Customer Price Condition",
+      "lastCustomerPriceQuantity": "Last Customer Price Qty",
       "lastCustomerPriceConditionOptions": {
         "st": "Standard",
         "sp": "Customer Specific",

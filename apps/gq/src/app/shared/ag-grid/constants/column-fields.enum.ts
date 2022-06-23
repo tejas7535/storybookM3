@@ -13,6 +13,7 @@ export enum ColumnFields {
   SQV = 'sqv',
   RELOCATION_COST = 'relocationCost',
   LAST_CUSTOMER_PRICE = 'lastCustomerPrice',
+  LAST_CUSTOMER_PRICE_QUANTITY = 'lastCustomerPriceQuantity',
   LAST_CUSTOMER_PRICE_GPI = 'lastCustomerPriceGpi',
   LAST_CUSTOMER_PRICE_GPM = 'lastCustomerPriceGpm',
   LAST_CUSTOMER_PRICE_DATE = 'lastCustomerPriceDate',

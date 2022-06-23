@@ -26,6 +26,7 @@ export class QuotationDetail {
   public lastCustomerPrice: number;
   public lastCustomerPriceDate: string;
   public lastCustomerPriceCondition: LastCustomerPriceCondition;
+  public lastCustomerPriceQuantity: number;
 
   public gpc: number;
   public sqv: number;

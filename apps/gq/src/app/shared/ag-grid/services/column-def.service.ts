@@ -221,6 +221,14 @@ export class ColumnDefService {
     },
     {
       headerName: translate(
+        'shared.quotationDetailsTable.lastCustomerPriceQuantity'
+      ),
+      field: ColumnFields.LAST_CUSTOMER_PRICE_QUANTITY,
+      valueFormatter: ColumnUtilityService.numberDashFormatter,
+      filter: NUMBER_COLUMN_FILTER,
+    },
+    {
+      headerName: translate(
         'shared.quotationDetailsTable.lastCustomerPriceGpi'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPI,
