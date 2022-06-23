@@ -16,13 +16,15 @@ export class KpiComponent {
   @Input() value: string | number;
   @Input() employees: Employee[];
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
+  @Input() showFluctuationType: boolean;
 
   constructor(private readonly dialog: MatDialog) {}
 
   openTeamMemberDialog(): void {
     const data = new EmployeeListDialogMeta(
       this.employeeListDialogMetaHeadings,
-      this.employees
+      this.employees,
+      this.showFluctuationType
     );
     this.dialog.open(EmployeeListDialogComponent, {
       data,

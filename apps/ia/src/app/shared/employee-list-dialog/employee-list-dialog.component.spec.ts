@@ -1,15 +1,17 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { Employee } from '../models';
+import { ActionType, Employee, EmployeeAction } from '../models';
 import { EmployeeListDialogComponent } from './employee-list-dialog.component';
 
 describe('EmployeeListDialogComponent', () => {
@@ -24,6 +26,8 @@ describe('EmployeeListDialogComponent', () => {
       MatButtonModule,
       MatDividerModule,
       MatListModule,
+      MatChipsModule,
+      MatTooltipModule,
       provideTranslocoTestingModule({ en: {} }),
       ScrollingModule,
     ],
@@ -43,11 +47,71 @@ describe('EmployeeListDialogComponent', () => {
   });
 
   describe('trackByFn', () => {
-    it('should return index', () => {
+    test('should return index', () => {
       const employee = { employeeId: '3' } as unknown as Employee;
       const result = component.trackByFn(3, employee);
 
       expect(result).toEqual(employee.employeeId);
+    });
+  });
+
+  describe('hasExternalAction', () => {
+    test('should return true when user has external action', () => {
+      const employee = {
+        actions: [{ actionType: ActionType.EXTERNAL } as EmployeeAction],
+      } as undefined as Employee;
+
+      const result = component.hasExternalAction(employee);
+
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false when user has only internal action', () => {
+      const employee = {
+        actions: [{ actionType: ActionType.INTERNAL } as EmployeeAction],
+      } as undefined as Employee;
+
+      const result = component.hasExternalAction(employee);
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when user has no actions', () => {
+      const employee = {} as undefined as Employee;
+
+      const result = component.hasExternalAction(employee);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('hasInternalAction', () => {
+    test('should return true when user has internal action', () => {
+      const employee = {
+        actions: [{ actionType: ActionType.INTERNAL } as EmployeeAction],
+      } as undefined as Employee;
+
+      const result = component.hasInternalAction(employee);
+
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false when user has only external action', () => {
+      const employee = {
+        actions: [{ actionType: ActionType.EXTERNAL } as EmployeeAction],
+      } as undefined as Employee;
+
+      const result = component.hasInternalAction(employee);
+
+      expect(result).toBeFalsy();
+    });
+
+    test('should return false when user has no actions', () => {
+      const employee = {} as undefined as Employee;
+
+      const result = component.hasInternalAction(employee);
+
+      expect(result).toBeFalsy();
     });
   });
 });

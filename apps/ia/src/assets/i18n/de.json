@@ -40,7 +40,17 @@
     "close": "Close",
     "total": "Total: {{total}}",
     "orgUnit": "Organisationseinheit",
-    "position": "Position"
+    "position": "Position",
+    "fluctuationType": {
+      "internal": {
+        "shortLabel": "Int.",
+        "label": "Internal"
+      },
+      "external": {
+        "shortLabel": "Ext.",
+        "label": "External"
+      }
+    }
   },
   "legal": {
     "imprint": "Imprint",

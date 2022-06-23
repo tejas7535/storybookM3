@@ -4,6 +4,7 @@ import { EmployeeListDialogMetaHeadings } from './employee-list-dialog-meta-head
 export class EmployeeListDialogMeta {
   public constructor(
     public headings: EmployeeListDialogMetaHeadings,
-    public employees: Employee[]
+    public employees: Employee[],
+    public showFluctuationType?: boolean
   ) {}
 }

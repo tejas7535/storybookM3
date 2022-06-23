@@ -49,6 +49,31 @@
               </div>
             </div>
           </div>
+          <mat-chip-list
+            [attr.aria-label]="t('globalFilters')"
+            *ngIf="showFluctuationType"
+          >
+            <mat-chip
+              *ngIf="hasInternalAction(employee)"
+              disableRipple="true"
+              selectable="false"
+              class="w-[40px] !bg-lime text-caption !text-white after:!bg-transparent"
+              [matTooltip]="t('fluctuationType.internal.label')"
+              (click)="$event.stopPropagation()"
+            >
+              {{ t('fluctuationType.internal.shortLabel') }}
+            </mat-chip>
+            <mat-chip
+              *ngIf="hasExternalAction(employee)"
+              disableRipple="true"
+              selectable="false"
+              class="!bg-light-blue w-[40px] text-caption !text-white after:!bg-transparent"
+              [matTooltip]="t('fluctuationType.external.label')"
+              (click)="$event.stopPropagation()"
+            >
+              {{ t('fluctuationType.external.shortLabel') }}
+            </mat-chip>
+          </mat-chip-list>
         </mat-list-item>
         <mat-divider *ngIf="!last"></mat-divider>
       </ng-container>

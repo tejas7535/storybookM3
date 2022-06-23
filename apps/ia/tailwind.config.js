@@ -19,7 +19,12 @@ module.exports = {
     "before:content-['\\e26a']",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        lime: '#A1C861', // used in entries & exits
+        'light-blue': '#78909C', // used in entries & exits
+      },
+    },
   },
   plugins: [],
 };
