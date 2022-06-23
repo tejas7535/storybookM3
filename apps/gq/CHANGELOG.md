@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.6.0...gq-v2.7.0) (2022-06-23)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fix currency displaying in editing modal ([#4255](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4255)) ([17e7bbe](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/17e7bbec4d8f1b4693bf40d56a2b09caa42861e3))
+* **gq:** fixed bug with display of material S&OP Filter ([#4265](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4265)) ([f0ffc77](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f0ffc77fae702e0308c2193dd0dbc237554b91db))
+
+
+### 🎸 Features
+
+* **gq:** add change quotation currency functionality (GQUOTE-1375) ([#4235](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4235)) ([84ebd8d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/84ebd8d1e7f90c6277dcfa7ab38e342905711b67))
+* **gq:** add last customer price quantity to workearea (GQUOTE-1401) ([#4270](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4270)) ([592ca39](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/592ca39a893f7c958b7c52f383654896a23a7171))
+* **gq:** add materialclassificationsop to detail page and workarea (GQUOTE-1338) ([#4196](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4196)) ([daeca63](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/daeca639bc7e516515323b11146ba29353e39928))
+* **gq:** add new case editing modal (GQUOTE-1340) ([#4205](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4205)) ([7aabf88](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7aabf8855a381d61c40bb2f0bb5f51d1bf46b73e))
+* **gq:** added last offer quantity column (GQUOTE-1403) ([#4269](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4269)) ([7fe83cc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7fe83cc39f9c80ca9c8e972997d3de9b672d4c6c))
+
 ## [2.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.5.0...gq-v2.6.0) (2022-06-07)
 
 
