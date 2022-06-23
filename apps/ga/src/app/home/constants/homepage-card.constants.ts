@@ -52,7 +52,6 @@ export const homepageCards: HomepageCard[] = [
     mainTitle: 'contact.title.main',
     imagePath: 'contact.jpg',
     externalLink: 'contact.externalLink',
-    utmParameters: UTM_PARAMS_DEFAULT,
     trackingId: 'contactLink',
   },
   {
