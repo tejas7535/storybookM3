@@ -29,10 +29,15 @@
             class="truncate"
           >
             {{
-              t('results', {
-                amount: limitResults ? resultsLimit : getResultAmount(),
-                complete: getResultAmount()
-              })
+              t(
+                preferredGreaseResult?.id
+                  ? 'resultsWithPreferred'
+                  : 'resultsDefault',
+                {
+                  amount: limitResults ? resultsLimit : getResultAmount(),
+                  complete: getResultAmount()
+                }
+              )
             }}
           </span>
           <ng-template #regular_title>
