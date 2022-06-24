@@ -36,7 +36,11 @@ export interface FilterState {
 
 const getInitialSelectedTimeRange = () => {
   // use month before to prevent wrong calculations for the future
-  const nowDate = moment.utc().endOf('month').subtract(1, 'month');
+  const nowDate = moment
+    .utc()
+    .endOf('month')
+    .subtract(1, 'month')
+    .endOf('month');
   const oldDate = getMonth12MonthsAgo(nowDate);
 
   return getTimeRangeFromDates(oldDate, nowDate);

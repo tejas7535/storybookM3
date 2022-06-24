@@ -108,7 +108,7 @@ describe('DateInputComponent', () => {
       component.updateStartEndDates(refDate);
 
       expect(component.rangeInput.controls.end.value).toEqual(
-        component.nowDate.clone().subtract(1, 'month')
+        component.nowDate.clone().subtract(1, 'month').endOf('month')
       );
 
       setTimeout(() => {
