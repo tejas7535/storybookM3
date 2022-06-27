@@ -19,7 +19,9 @@ import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from '../../../assets/i18n/en.json';
 import {
   HARDNESS_CONVERSION_ERROR_MOCK,
   HARDNESS_CONVERSION_MOCK,
@@ -58,6 +60,7 @@ describe('HardnessConverterComponent', () => {
       CopyInputModule,
       SubheaderModule,
       RouterTestingModule,
+      provideTranslocoTestingModule({ en }),
     ],
     declarations: [HardnessConverterComponent],
     providers: [

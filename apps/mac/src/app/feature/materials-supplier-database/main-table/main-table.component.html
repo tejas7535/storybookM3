@@ -1,16 +1,19 @@
-<div class="flex h-full w-full flex-col md:flex-row">
+<div
+  class="flex h-full w-full flex-col md:flex-row"
+  *transloco="let t; read: 'materialsSupplierDatabase'"
+>
   <div
     class="flex flex-col items-start justify-start border-r border-border p-4"
   >
     <ng-container>
       <mat-form-field appearance="outline" class="w-56">
-        <mat-label>Material Class</mat-label>
+        <mat-label>{{ t('materialClass') }}</mat-label>
         <mat-select
           [formControl]="materialClassSelectionControl"
           [compareWith]="compareDataFilters"
         >
           <mat-option [value]="{ id: undefined, name: undefined }">
-            All
+            {{ t('all') }}
           </mat-option>
           <mat-option
             *ngFor="let option of materialClassOptions$ | ngrxPush"
@@ -21,22 +24,22 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-56">
-        <mat-label>Product Category</mat-label>
+        <mat-label>{{ t('productCategory') }}</mat-label>
         <mat-select
           [formControl]="productCategorySelectionControl"
           [compareWith]="compareDataFilters"
           multiple
         >
-          <mat-select-trigger *ngIf="allCategoriesSelectedControl.value"
-            >All selected</mat-select-trigger
-          >
+          <mat-select-trigger *ngIf="allCategoriesSelectedControl.value">{{
+            t('allSelected')
+          }}</mat-select-trigger>
           <div class="flex h-12 flex-row place-items-center px-4">
             <mat-checkbox
               class="w-full"
               [formControl]="allCategoriesSelectedControl"
               color="primary"
               #selectAllCheckbox
-              >Select All</mat-checkbox
+              >{{ t('selectAll') }}</mat-checkbox
             >
           </div>
           <mat-option
@@ -61,7 +64,7 @@
         <div class="h-full w-full">
           <ag-grid-angular
             class="ag-theme-material h-full"
-            [columnDefs]="columnDefs"
+            [columnDefs]="getColumnDefs()"
             [defaultColDef]="defaultColDef"
             [modules]="modules"
             [sideBar]="sidebar"
@@ -91,7 +94,7 @@
       </button> -->
       <button mat-button color="primary" (click)="exportExcel()">
         <mat-icon class="material-icons-outlined">download</mat-icon>
-        <span>Export</span>
+        <span>{{ t('export') }}</span>
       </button>
       <button
         mat-button
@@ -100,19 +103,23 @@
         (click)="resetForm()"
       >
         <mat-icon class="material-icons-outlined">sync</mat-icon>
-        <span>Reset Table</span>
+        <span>{{ t('resetTable') }}</span>
       </button>
       <div class="flex flex-grow flex-row items-center justify-start gap-4">
         <div class="flex flex-col">
           <div class="text-caption text-low-emphasis">
-            All {{ selectedClass ? selectedClass : 'Materials' }}:
+            {{
+              t('allClass', {
+                class: selectedClass ? selectedClass : t('materials')
+              })
+            }}
           </div>
           <div class="text-caption text-high-emphasis">
             {{ resultCount$ | ngrxPush }}
           </div>
         </div>
         <div class="flex flex-col">
-          <div class="text-caption text-low-emphasis">Subtotal:</div>
+          <div class="text-caption text-low-emphasis">{{ t('subtotal') }}</div>
           <div class="text-caption text-high-emphasis">
             {{ displayCount }}
           </div>
@@ -120,7 +127,7 @@
       </div>
       <button mat-button color="primary" (click)="fetchMaterials()">
         <mat-icon class="material-icons-outlined">refresh</mat-icon>
-        <span>Reload</span>
+        <span>{{ t('reload') }}</span>
       </button>
     </div>
     <ng-template #loading>

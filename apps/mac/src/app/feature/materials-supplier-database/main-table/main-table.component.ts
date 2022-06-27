@@ -28,6 +28,7 @@ import {
   GridApi,
   SideBarDef,
 } from '@ag-grid-enterprise/all-modules';
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -122,7 +123,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly agGridStateService: MsdAgGridStateService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
-    private readonly applicationInsightsService: ApplicationInsightsService
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   public ngOnInit(): void {
@@ -331,7 +333,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         : // eslint-disable-next-line unicorn/no-nested-ternary
         this.productCategorySelectionControl.value?.length === 1
         ? this.productCategorySelectionControl.value[0].name
-        : `${this.productCategorySelectionControl.value.length} Product Categories`;
+        : `${
+            this.productCategorySelectionControl.value.length
+          } ${this.translocoService.translate(
+            'materialsSupplierDatabase.mainTable.productCategories'
+          )}`;
 
     this.store.dispatch(fetchMaterials());
   }
@@ -380,7 +386,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public resetAgGridColumnConfiguration(): void {
     if (this.agGridColumnApi) {
-      const state = COLUMN_DEFINITIONS.map(
+      const state = this.getColumnDefs().map(
         (column: ColDef) =>
           ({
             colId: column.field,
@@ -460,9 +466,15 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
     this.agGridApi.exportDataAsExcel({
-      author: 'MSD (Material Supplier Database)',
-      fileName: `${dateString}-MSD-export.xlsx`,
-      sheetName: 'MSD-Export',
+      author: this.translocoService.translate(
+        'materialsSupplierDatabase.mainTable.excelExport.author'
+      ),
+      fileName: `${dateString}${this.translocoService.translate(
+        'materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix'
+      )}`,
+      sheetName: this.translocoService.translate(
+        'materialsSupplierDatabase.mainTable.excelExport.sheetName'
+      ),
       getCustomContentBelowRow: this.splitRowsForMultipleSapIdsInExport,
       processCellCallback: this.reduceSapIdsForFirstRowInExport,
     });
@@ -527,4 +539,12 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       ? params.node.data[SAP_SUPPLIER_IDS][0].toString()
       : params.value?.toString() || '';
   }
+
+  public getColumnDefs = (): ColDef[] =>
+    this.columnDefs.map((columnDef) => ({
+      ...columnDef,
+      headerName: this.translocoService.translate(
+        `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
+      ),
+    }));
 }

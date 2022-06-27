@@ -1,14 +1,15 @@
 <div
   class="absolute block flex-row items-center justify-center p-8 sm:overflow-hidden md:relative md:flex"
+  *transloco="let t; read: 'aqmCalculator'"
 >
   <div class="flex flex-col">
     <mat-card class="aqm-calculator-card">
       <mac-breadcrumbs
         [breadcrumbs]="breadcrumbs$ | ngrxPush"
       ></mac-breadcrumbs>
-      <h5 class="mx-4">AQM Calculator</h5>
+      <h5 class="mx-4">{{ t('title') }}</h5>
       <mat-card-content class="p-4">
-        <h6>Alloy configuration</h6>
+        <h6>{{ t('alloyConfiguration') }}</h6>
         <div
           class="absolute z-10 flex h-full w-full justify-center overflow-hidden bg-surface opacity-70 duration-300 ease-in-out"
           [ngClass]="{ hidden: materials }"
@@ -18,7 +19,7 @@
         <div class="flex flex-col">
           <!-- select alloy -->
           <div class="flex flex-col items-center justify-center">
-            <p>Choose a specific alloy</p>
+            <p>{{ t('chooseAlloy') }}</p>
             <mat-form-field appearance="outline">
               <mat-select
                 [formControl]="materialInput"
@@ -39,14 +40,14 @@
             <div class="flex h-full flex-1">
               <div class="w-full border-b border-solid"></div>
             </div>
-            <p>OR</p>
+            <p>{{ t('or') }}</p>
             <div class="flex grow">
               <div class="w-full border-b border-solid"></div>
             </div>
           </div>
           <!-- input composition -->
           <div class="flex flex-col items-center justify-center gap-6">
-            <p>Specify the composition manually</p>
+            <p>{{ t('specifyManually') }}</p>
             <div
               class="flex flex-col items-start justify-center gap-2 md:flex-row md:gap-6"
             >
@@ -63,15 +64,15 @@
                   *ngIf="
                     !control.value.pristine && control.value.errors?.required
                   "
-                  >Input is required</mat-hint
+                  >{{ t('hintRequired') }}</mat-hint
                 >
                 <mat-hint
                   *ngIf="!control.value.pristine && control.value.errors?.max"
-                  >Value is too high</mat-hint
+                  >{{ t('hintTooHigh') }}</mat-hint
                 >
                 <mat-hint
                   *ngIf="!control.value.pristine && control.value.errors?.min"
-                  >Value is too low</mat-hint
+                  >{{ t('hintTooLow') }}</mat-hint
                 >
               </mat-form-field>
             </div>
@@ -88,9 +89,9 @@
             </div>
             <!-- results aqm -->
             <div class="flex flex-col">
-              <h6>Results</h6>
+              <h6>{{ t('results') }}</h6>
               <div class="flex flex-row justify-between gap-24">
-                <p>AQM value according to S130998:</p>
+                <p>{{ t('aqmAccordingTo', { norm: t('aqmNorm') }) }}</p>
                 <p
                   *ngIf="
                     (aqmCalculationResult | ngrxPush)?.aqm?.result;
@@ -108,7 +109,7 @@
                 </ng-template>
               </div>
               <div class="flex flex-row items-center justify-between">
-                <p>Sum value (Si + Mn + Cr):</p>
+                <p>{{ t('sumValue') }}</p>
                 <p>
                   {{
                     (
@@ -126,8 +127,8 @@
             </div>
             <!-- results limits -->
             <div class="flex flex-col">
-              <h6>Limits</h6>
-              <p class="mt-0">Sum limits reached for</p>
+              <h6>{{ t('limits') }}</h6>
+              <p class="mt-0">{{ t('sumLimitsReachedFor') }}</p>
               <mat-chip-list>
                 <mat-chip
                   *ngFor="

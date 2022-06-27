@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 
 import { SubheaderModule } from '@schaeffler/subheader';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
@@ -27,6 +28,7 @@ import { reducers } from './store/reducers';
     MatButtonModule,
     MatSnackBarModule,
     MatIconModule,
+    SharedTranslocoModule,
   ],
 })
 export class MaterialsSupplierDatabaseModule {}

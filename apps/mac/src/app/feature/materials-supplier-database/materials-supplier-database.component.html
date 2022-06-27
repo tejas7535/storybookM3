@@ -1,6 +1,12 @@
-<div class="flex h-full w-full flex-col bg-surface">
+<div
+  class="flex h-full w-full flex-col bg-surface"
+  *transloco="let t; read: 'materialsSupplierDatabase'"
+>
   <div class="fixed z-10 w-full">
-    <schaeffler-subheader [subheaderTitle]="title" [breadcrumbs]="breadcrumbs">
+    <schaeffler-subheader
+      [subheaderTitle]="t('title')"
+      [breadcrumbs]="breadcrumbs"
+    >
       <ng-container subheaderInlineContent>
         <div class="hidden flex-row gap-4 md:flex">
           <div class="my-auto flex flex-row rounded-md">
@@ -11,13 +17,12 @@
                 >info_outline</mat-icon
               >
               <div class="max-w-sm text-caption">
-                Presented CO2 values are for internal use only - data must not
-                be used for communication with customers
+                {{ t('disclaimer') }}
               </div>
             </div>
           </div>
           <button mat-raised-button (click)="shareButtonFn()" class="!my-auto">
-            Share
+            {{ t('share') }}
           </button>
         </div>
       </ng-container>

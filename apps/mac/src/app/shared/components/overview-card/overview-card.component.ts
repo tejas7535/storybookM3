@@ -24,7 +24,7 @@ export class OverviewCardComponent implements OnInit {
   @Input() description: string;
   @Input() link: string;
   @Input() learnMoreLink?: string;
-  @Input() noAccessText? = 'No Access';
+  @Input() translationKey?: string;
 
   @Input() disableImageHoverEffect? = false;
   @Input() external? = false;

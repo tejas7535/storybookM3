@@ -1,4 +1,7 @@
-<mat-card class="h-full w-full border border-border !p-0 !shadow-none">
+<mat-card
+  class="h-full w-full border border-border !p-0 !shadow-none"
+  *transloco="let t; read: 'overview.overviewCard'"
+>
   <div class="flex h-full flex-col">
     <div
       class="flex h-48 w-full flex-col items-center justify-center"
@@ -43,13 +46,17 @@
                       class="!h-12 !w-12 text-h1-mobile text-white"
                       [inline]="false"
                     ></mat-icon>
-                    <div class="text-center text-caption text-white">
-                      {{
-                        !external
-                          ? 'Open application'
-                          : 'Open application in new tab'
-                      }}
+                    <div
+                      class="text-center text-caption text-white"
+                      *ngIf="!external; else externalTemplate"
+                    >
+                      {{ t('openApplication') }}
                     </div>
+                    <ng-template #externalTemplate>
+                      <div class="text-center text-caption text-white">
+                        {{ t('openApplicationInNewWindow') }}
+                      </div>
+                    </ng-template>
                   </div>
                 </ng-container>
                 <ng-template #invertedHover>
@@ -65,13 +72,17 @@
                     ></mat-icon>
                     <div
                       class="absolute bottom-6 text-center text-caption text-white"
+                      *ngIf="!external; else externalTemplateInverted"
                     >
-                      {{
-                        !external
-                          ? 'Open application'
-                          : 'Open application in new tab'
-                      }}
+                      {{ t('openApplication') }}
                     </div>
+                    <ng-template #externalTemplateInverted>
+                      <div
+                        class="absolute bottom-6 text-center text-caption text-white"
+                      >
+                        {{ t('openApplicationInNewTab') }}
+                      </div>
+                    </ng-template>
                   </div>
                 </ng-template>
               </ng-container>
@@ -102,20 +113,36 @@
           class="flex h-full w-full flex-col items-center justify-center gap-4 rounded-t-sm bg-[rgb(0,0,0,0.2)]"
         >
           <mat-icon class="text-white">lock</mat-icon>
-          <div class="text-caption text-white">{{ noAccessText }}</div>
+          <div class="text-caption text-white">{{ t('noAccessText') }}</div>
         </div>
       </ng-template>
     </div>
     <div class="flex h-32 w-full flex-col items-start justify-start p-4">
       <div
         class="line-clamp-1 text-subtitle-2 overflow-hidden text-high-emphasis"
+        *ngIf="translationKey; else noTranslationTitleTemplate"
       >
-        {{ title }}
+        {{ t(translationKey + '.title') }}
       </div>
-      <div class="h-10 flex-1">
-        <div class="line-clamp-2 text-body-2 text-medium-emphasis">
-          {{ description }}
+      <ng-template #noTranslationTitleTemplate>
+        <div
+          class="line-clamp-1 text-subtitle-2 overflow-hidden text-high-emphasis"
+        >
+          {{ title }}
         </div>
+      </ng-template>
+      <div class="h-10 flex-1">
+        <div
+          class="line-clamp-2 text-body-2 text-medium-emphasis"
+          *ngIf="translationKey; else noTranslationDescriptionTemplate"
+        >
+          {{ t(translationKey + '.description') }}
+        </div>
+        <ng-template #noTranslationDescriptionTemplate>
+          <div class="line-clamp-2 text-body-2 text-medium-emphasis">
+            {{ description }}
+          </div>
+        </ng-template>
       </div>
       <div class="flex flex-col items-start justify-end">
         <ng-container *ngIf="learnMoreLink">
@@ -125,7 +152,7 @@
               [routerLink]="learnMoreLink"
               (click)="onLearnMoreClick()"
             >
-              Learn more
+              {{ t('learnMore') }}
             </div>
           </ng-container>
           <ng-template #externalLearnMoreLink>
@@ -135,7 +162,7 @@
               (click)="onLearnMoreClick()"
             >
               <div class="mt-2 cursor-pointer text-caption text-link">
-                Learn more
+                {{ t('learnMore') }}
               </div>
             </a>
           </ng-template>

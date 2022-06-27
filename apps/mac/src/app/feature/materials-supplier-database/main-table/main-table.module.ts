@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { PushModule } from '@ngrx/component';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 
@@ -28,6 +30,7 @@ import { MainTableRoutingModule } from './main-table-routing.module';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatIconModule,
+    SharedTranslocoModule,
   ],
   providers: [DatePipe],
 })

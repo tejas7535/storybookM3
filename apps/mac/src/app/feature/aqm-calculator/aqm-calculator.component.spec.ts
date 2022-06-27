@@ -15,7 +15,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from '../../../assets/i18n/en.json';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from '../../shared/shared.module';
 import {
@@ -53,6 +55,7 @@ describe('AqmCalculatorComponent', () => {
       MatIconModule,
       SharedModule,
       PushModule,
+      provideTranslocoTestingModule({ en }),
     ],
     declarations: [AqmCalculatorComponent],
     providers: [

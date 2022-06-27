@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -17,8 +18,6 @@ import { integratedApps, linkedApps, links } from './constants';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
-  public title = 'Home';
-
   public integratedApps = integratedApps;
   public linkedApps = linkedApps;
   public links = links;
@@ -29,12 +28,16 @@ export class OverviewComponent implements OnInit {
     private readonly appInsightsService: ApplicationInsightsService,
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly applicationInsightService: ApplicationInsightsService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly translocoService: TranslocoService
   ) {}
 
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - Overview] opened');
-    changeFavicon('assets/favicons/overview.ico', 'Materials App Center');
+    changeFavicon(
+      'assets/favicons/overview.ico',
+      this.translocoService.translate('title')
+    );
     this.breadcrumbsService.updateBreadcrumb('');
   }
 

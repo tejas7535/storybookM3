@@ -15,6 +15,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { debounceTime, filter, map, take, takeUntil } from 'rxjs/operators';
 
+import { TranslocoService } from '@ngneat/transloco';
+
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
@@ -33,14 +35,7 @@ import { HardnessConverterApiService } from './services/hardness-converter-api.s
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HardnessConverterComponent implements OnInit, OnDestroy {
-  public title = 'Hardness Converter';
-
-  public breadcrumbs: Breadcrumb[] = [
-    { label: 'Materials App Center', url: '/overview' },
-    {
-      label: this.title,
-    },
-  ];
+  public breadcrumbs: Breadcrumb[];
 
   private readonly destroy$ = new Subject<void>();
   public MPA = MPA;
@@ -67,8 +62,6 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
   public average$ = new ReplaySubject<number>();
   public standardDeviation$ = new ReplaySubject<number>();
 
-  public utsTooltip = 'Ultimate tensile strength';
-
   public conversionResult$ = new ReplaySubject<HardnessConversionResponse>();
   public resultLoading$ = new BehaviorSubject<boolean>(false);
 
@@ -76,14 +69,27 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
     private readonly hardnessService: HardnessConverterApiService,
     private readonly applicationInsightService: ApplicationInsightsService,
     private readonly clipboard: Clipboard,
-    private readonly snackbar: MatSnackBar
-  ) {}
+    private readonly snackbar: MatSnackBar,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.breadcrumbs = [
+      {
+        label: this.translocoService.translate(
+          'hardnessConverter.previousTitle'
+        ),
+        url: '/overview',
+      },
+      {
+        label: this.translocoService.translate('hardnessConverter.title'),
+      },
+    ];
+  }
 
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - HC] opened');
     changeFavicon(
       'assets/favicons/hardness-converter.ico',
-      'Hardness Converter'
+      this.translocoService.translate('hardnessConverter.title')
     );
     this.setupUnitList();
     this.conversionForm.valueChanges
@@ -194,7 +200,13 @@ export class HardnessConverterComponent implements OnInit, OnDestroy {
 
   public onShareButtonClick(): void {
     this.clipboard.copy(window.location.href);
-    this.snackbar.open('Url copied to clipboard', 'Close', { duration: 5000 });
+    this.snackbar.open(
+      this.translocoService.translate(
+        'hardnessConverter.shareCopiedToClipboard'
+      ),
+      this.translocoService.translate('hardnessConverter.close'),
+      { duration: 5000 }
+    );
   }
 
   public trackByFn(index: number): number {

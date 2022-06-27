@@ -30,7 +30,9 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from '../../../../assets/i18n/en.json';
 import { DataFilter, DataResult } from '../models';
 import { fetchMaterials, setAgGridFilter } from '../store/actions';
 import { initialState as initialDataState } from '../store/reducers/data.reducer';
@@ -68,6 +70,7 @@ describe('MainTableComponent', () => {
       LoadingSpinnerModule,
       MatCheckboxModule,
       MatIconModule,
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({ initialState }),
@@ -1272,7 +1275,7 @@ describe('MainTableComponent', () => {
         'yyyy-MM-dd'
       );
       expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalledWith({
-        author: 'MSD (Material Supplier Database)',
+        author: 'MSD (Materials Supplier Database)',
         fileName: '1234-13-44-MSD-export.xlsx',
         sheetName: 'MSD-Export',
         getCustomContentBelowRow:
@@ -1483,6 +1486,23 @@ describe('MainTableComponent', () => {
         component['reduceSapIdsForFirstRowInExport'](mockParams);
 
       expect(result).toEqual('id1-value');
+    });
+  });
+
+  describe('getColumnDefs', () => {
+    it('should return translated column defs', () => {
+      component['translocoService'].translate = jest.fn();
+      const columnDefs = component.columnDefs;
+
+      const translatedColumnDefs = component.getColumnDefs();
+
+      for (const columnDef of columnDefs) {
+        expect(component['translocoService'].translate).toHaveBeenCalledWith(
+          `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
+        );
+      }
+
+      expect(columnDefs.length).toEqual(translatedColumnDefs.length);
     });
   });
 

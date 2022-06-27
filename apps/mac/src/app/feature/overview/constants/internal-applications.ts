@@ -12,6 +12,7 @@ export const integratedApps: OverviewCard[] = [
     external: false,
     learnMoreExternal: false,
     inverted: true,
+    translationKey: 'internalApplications.hardnessConverter',
   },
   {
     image: '../../../assets/img/app-preview/msd.jpg',
@@ -25,6 +26,7 @@ export const integratedApps: OverviewCard[] = [
     learnMoreExternal: false,
     requiredRoles: ['material-supplier-database-read-user'],
     inverted: true,
+    translationKey: 'internalApplications.materialsSupplierDatabase',
   },
   {
     image: '../../../assets/img/app-preview/aqm.jpg',
@@ -37,6 +39,7 @@ export const integratedApps: OverviewCard[] = [
     external: false,
     learnMoreExternal: false,
     inverted: true,
+    translationKey: 'internalApplications.aqmCalculator',
   },
   {
     image: '../../../assets/img/app-preview/ltp.jpg',
@@ -51,6 +54,7 @@ export const integratedApps: OverviewCard[] = [
     learnMoreExternal: false,
     requiredRoles: ['lifetime-predictor-user'],
     inverted: true,
+    translationKey: 'internalApplications.lifetimePredictor',
   },
   {
     image: '../../../assets/img/app-preview/ga.png',
@@ -63,5 +67,6 @@ export const integratedApps: OverviewCard[] = [
     external: true,
     learnMoreExternal: false,
     inverted: true,
+    translationKey: 'internalApplications.greaseApp',
   },
 ];

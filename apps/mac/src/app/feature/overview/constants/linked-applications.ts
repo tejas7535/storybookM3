@@ -13,6 +13,7 @@ export const linkedApps: OverviewCard[] = [
     external: true,
     learnMoreExternal: true,
     inverted: true,
+    translationKey: 'linkedApplications.wiam',
   },
   {
     image: '',
@@ -26,6 +27,7 @@ export const linkedApps: OverviewCard[] = [
     external: true,
     learnMoreExternal: true,
     inverted: true,
+    translationKey: 'linkedApplications.carbonitridingPrediction',
   },
   {
     image: '',
@@ -38,6 +40,7 @@ export const linkedApps: OverviewCard[] = [
     external: true,
     learnMoreExternal: true,
     inverted: true,
+    translationKey: 'linkedApplications.lifetimeDocumenter',
   },
   {
     image: '',
@@ -50,5 +53,6 @@ export const linkedApps: OverviewCard[] = [
     external: true,
     learnMoreExternal: true,
     inverted: true,
+    translationKey: 'linkedApplications.polyassist',
   },
 ];

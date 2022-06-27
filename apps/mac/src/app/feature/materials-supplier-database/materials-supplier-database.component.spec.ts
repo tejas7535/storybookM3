@@ -15,7 +15,9 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { ShareButtonModule } from '@schaeffler/share-button';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from '../../../assets/i18n/en.json';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
 import { initialState as initialDataState } from './store/reducers/data.reducer';
@@ -44,6 +46,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
       MatButtonModule,
       MatSnackBarModule,
       MatIconModule,
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({ initialState }),

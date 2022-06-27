@@ -1,16 +1,18 @@
-<div class="flex h-full w-full flex-col overflow-auto bg-surface">
+<div
+  class="flex h-full w-full flex-col overflow-auto bg-surface"
+  *transloco="let t; read: 'overview'"
+>
   <div class="fixed z-10 w-full">
     <schaeffler-subheader subheaderTitle="" [showBackButton]="false">
       <ng-container subheaderTitleContent>
         <div class="flex w-full flex-row items-center justify-start gap-3 pt-5">
           <mat-icon class="flex-none text-medium-emphasis">home</mat-icon>
-          {{ title }}
+          {{ t('title') }}
         </div>
       </ng-container>
       <ng-container subheaderBlockContent>
         <div class="line-clamp-1 ml-9 text-subtitle-1 text-medium-emphasis">
-          Welcome to the Materials App Center – the central access point for
-          materials know-how at Schaeffler.
+          {{ t('welcomeText') }}
         </div>
       </ng-container>
     </schaeffler-subheader>
@@ -31,11 +33,14 @@
             [noAccess]="!(hasRequiredRoles(card.requiredRoles) | ngrxPush)"
             [inverted]="card.inverted"
             [disableImageHoverEffect]="card.disableImageHoverEffect"
+            [translationKey]="card.translationKey"
           ></mac-overview-card>
         </div>
       </ng-container>
     </div>
-    <div class="text-h6 text-high-emphasis">Linked Apps</div>
+    <div class="text-h6 text-high-emphasis">
+      {{ t('linkedApplications') }}
+    </div>
     <div class="grid w-full grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-5">
       <ng-container *ngFor="let card of linkedApps">
         <div class="col-span-1">
@@ -50,11 +55,12 @@
             [learnMoreExternal]="card.learnMoreExternal"
             [inverted]="card.inverted"
             [disableImageHoverEffect]="card.disableImageHoverEffect"
+            [translationKey]="card.translationKey"
           ></mac-overview-card>
         </div>
       </ng-container>
     </div>
-    <div class="text-h6 text-high-emphasis">Links</div>
+    <div class="text-h6 text-high-emphasis">{{ t('links.title') }}</div>
     <div class="flex flex-col items-start justify-start gap-3">
       <ng-container *ngFor="let link of links">
         <a target="_blank" [href]="link.link">
@@ -65,33 +71,33 @@
             <div
               class="line-clamp-1 text-body-2 text-medium-emphasis text-link hover:underline"
             >
-              {{ link.text }}
+              {{ t('links.' + link.text) }}
             </div>
           </div>
         </a>
       </ng-container>
     </div>
-    <div class="text-h6 text-high-emphasis">Contact</div>
+    <div class="text-h6 text-high-emphasis">{{ t('contact') }}</div>
     <div class="pb-4 text-body-2 text-high-emphasis">
-      The Materials App Center gives access to services provided to you by
-      Schaeffler
+      {{ t('macDescription1') }}
       <a
         class="text-link"
         href="https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials"
-        >Materials Technologies</a
+        >{{ t('materialsTechnologies') }}</a
       >
-      department.<br />
-      For more information please contact
-      <a class="text-link" href="mailto:materials-app-center@schaeffler.com"
-        >Materials App Center</a
-      >.<br />
-      The implementation has been done by
+      {{ t('macDescription2') }}<br />
+      {{ t('furtherInformation1') }}
+      <a class="text-link" href="mailto:materials-app-center@schaeffler.com">{{
+        t('materialsAppCenter')
+      }}</a>
+      {{ t('furtherInformation2') }}<br />
+      {{ t('implementation1') }}
       <a
         class="text-link"
         href="https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions"
-        >Data Science Solutions</a
+        >{{ t('dataScienceSolutions') }}</a
       >
-      department.
+      {{ t('implementation2') }}
     </div>
   </div>
 </div>

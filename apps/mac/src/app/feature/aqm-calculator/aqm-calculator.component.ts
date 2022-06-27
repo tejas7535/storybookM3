@@ -7,6 +7,8 @@ import {
 
 import { debounceTime, ReplaySubject, Subscription } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
+
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { RouteNames } from '../../app-routing.enum';
@@ -45,13 +47,17 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly aqmCalculationService: AqmCalculatorApiService,
     private readonly breadcrumbsService: BreadcrumbsService,
-    private readonly applicationInsightService: ApplicationInsightsService
+    private readonly applicationInsightService: ApplicationInsightsService,
+    private readonly translocoService: TranslocoService
   ) {}
 
   public ngOnInit(): void {
     this.applicationInsightService.logEvent('[MAC - AQM] opened');
     this.breadcrumbsService.updateBreadcrumb(RouteNames.AQMCalculator);
-    changeFavicon('assets/favicons/aqm.ico', 'AQM Calculator');
+    changeFavicon(
+      'assets/favicons/aqm.ico',
+      this.translocoService.translate('aqmCalculator.title')
+    );
     this.subscription.add(
       this.aqmCalculationService.getMaterialsData().subscribe((result: any) => {
         this.materials = result.materials;

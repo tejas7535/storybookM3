@@ -8,6 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { OverviewCardComponent } from './overview-card.component';
 
@@ -23,6 +24,7 @@ describe('OverviewCardComponent', () => {
       MatButtonModule,
       PushModule,
       RouterTestingModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [
       {

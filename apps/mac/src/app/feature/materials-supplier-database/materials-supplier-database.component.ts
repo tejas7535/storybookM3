@@ -5,6 +5,7 @@ import { Router, UrlSerializer } from '@angular/router';
 
 import { take } from 'rxjs/operators';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -18,14 +19,7 @@ import { getShareQueryParams } from './store';
   templateUrl: './materials-supplier-database.component.html',
 })
 export class MaterialsSupplierDatabaseComponent implements OnInit {
-  public title = 'Materials Supplier Database';
-
-  public breadcrumbs: Breadcrumb[] = [
-    { label: 'Materials App Center', url: '/overview' },
-    {
-      label: this.title,
-    },
-  ];
+  public breadcrumbs: Breadcrumb[];
 
   public constructor(
     private readonly store: Store,
@@ -33,12 +27,25 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
     private readonly urlSerializer: UrlSerializer,
     private readonly clipboard: Clipboard,
     private readonly snackbar: MatSnackBar,
-    private readonly applicationInsightsService: ApplicationInsightsService
-  ) {}
+    private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.breadcrumbs = [
+      { label: this.translocoService.translate('title'), url: '/overview' },
+      {
+        label: this.translocoService.translate(
+          'materialsSupplierDatabase.title'
+        ),
+      },
+    ];
+  }
 
   public ngOnInit(): void {
     this.applicationInsightsService.logEvent('[MAC - MSD] opened');
-    changeFavicon('../assets/favicons/msd.ico', 'Materials Supplier Database');
+    changeFavicon(
+      '../assets/favicons/msd.ico',
+      this.translocoService.translate('materialsSupplierDatabase.title')
+    );
   }
 
   public shareButtonFn(): void {
@@ -56,12 +63,19 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
         );
         if (url.length > 2000) {
           this.snackbar.open(
-            'The table filter is too long to be put into a link',
-            'Close'
+            this.translocoService.translate(
+              'materialsSupplierDatabase.filterTooLong'
+            ),
+            this.translocoService.translate('materialsSupplierDatabase.close')
           );
         } else {
           this.clipboard.copy(`${window.location.origin}${url}`);
-          this.snackbar.open('Link copied to clipboard', 'Close');
+          this.snackbar.open(
+            this.translocoService.translate(
+              'materialsSupplierDatabase.shareCopiedToClipboard'
+            ),
+            this.translocoService.translate('materialsSupplierDatabase.close')
+          );
         }
       });
   }

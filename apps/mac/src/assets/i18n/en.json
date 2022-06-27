@@ -1,4 +1,40 @@
 {
+  "aqmCalculator": {
+    "alloyConfiguration": "Alloy configuration",
+    "aqmAccordingTo": "AQM value according to {{norm}}:",
+    "aqmNorm": "S130998",
+    "chooseAlloy": "Choose a specific alloy",
+    "hintRequired": "Input is required",
+    "hintTooHigh": "Value is too high",
+    "hintTooLow": "Value is too low",
+    "limits": "Limits",
+    "or": "OR",
+    "results": "Results",
+    "specifyManually": "Specify the composition manually",
+    "sumLimitsReachedFor": "Sum limits reached for",
+    "sumValue": "Sum value (Si + Mn + Cr):",
+    "title": "AQM Calculator"
+  },
+  "hardnessConverter": {
+    "averageValue": "Average value",
+    "close": "Close",
+    "convertedAfter": "Converted after {{norm}}",
+    "convertedAfterMultiple": "Converted average value after {{norm}}",
+    "deviationWarning": "At least one measured value is not in agreement with the permissible deviation after S 285018. Please check the values.",
+    "from": "From",
+    "hcNorm": "ISO 18265-A.1",
+    "previousTitle": "Materials App Center",
+    "reset": "RESET",
+    "share": "Share",
+    "shareCopiedToClipboard": "Url copied to clipboard",
+    "standardDeviation": "Standard deviation",
+    "statisticalEvaluation": "Statistical evaluation",
+    "title": "Hardness Converter",
+    "uts": "(UTS)",
+    "utsTooltip": "Ultimate tensile strength",
+    "value": "Value",
+    "valuesCalculatedWith": "Values calculated with Backend v.{{version}}"
+  },
   "legal": {
     "cookiePolicy": "Cookie Policy",
     "cookieSettings": "Cookie Settings",
@@ -77,7 +113,7 @@
         "legendMl": "ML-Model (P<sub>Ü</sub> 50)",
         "legendMurakami": "Murakami-Model (P<sub>Ü</sub> 50)",
         "legendStatistical": "non-linear regression model (P<sub>Ü</sub> 50)",
-        "tooltip": "Fatigue stength at <b>{{value}}</b> MPa",
+        "tooltip": "Fatigue strength at <b>{{value}}</b> MPa",
         "tooltipSurvivalProbability": "at {{survivalProbability}}% survival probability and {{cycles}} cycles",
         "woehlerXLabel": "Num­ber of cy­cles to fai­lure",
         "woehlerYLabel": "Prin­cipal stress am­pli­tude in MPa"
@@ -85,7 +121,7 @@
       "csv": "CSV",
       "csv_dummy": "Dummy-CSV of load collective",
       "display": {
-        "infoDisplay": "Analytical models, e.g. following the FKM-guidline or the Murakami model can be chosen. Additionally a slider allows to define the scatter as a 'slog' (logarithmic deviation). A conservative value might be around 0.045.",
+        "infoDisplay": "Analytical models, e.g. following the FKM-guidline or the Murakami model can be chosen. Additionally a slider allows to define the scatter as a \"slog\" (logarithmic deviation). A conservative value might be around 0.045.",
         "infoHv": "The local hardness in Vickers (HV10) is our primary influence for the generation of a artificial SN-curve. The hardness could be defined directly via a slider or the hardness can be derived from histroical data from the PLS (ger. for Prozessleitsystem). In that case you need to know your material and heat treatment.",
         "infoLoad": "Additional information on the loading is required for a lifetime prediction. For example the R-value for a swelling or alternating loading.",
         "infoMaterial": "Besides the hardness some other material parameters, e.g. roughness an residual stress have an influence on the artificial SN-curve. With the corresponding sliders you can configure your material in more detail, what should lead to a more precise prediction. Attention: Some material parameters are only connected to the data driven material model. Step by step we want to include all parameters to the data driven model."
@@ -134,6 +170,7 @@
     "rrel": "Load ra­tio",
     "rrelInfoLong": "Our ML-model is trained for predictions at R = 0 and -1. For other R-values between -1 and 0.3 a transformation of the fatigue strength with use of the mean stress sensitivity is performed.",
     "rrelInfoShort": "No prediction for LCF-range, see info-i",
+    "rrelNAInfo": "The slope cannot be projected for Predictions using R values other than 0 or -1.",
     "showFkm": "show FKM-Model",
     "showLd": "show Load­data analysis",
     "showMurakami": "show Murakami-Model",
@@ -153,5 +190,134 @@
     "woehlerCurve": "SN-Curve",
     "woehlerXLabel": "Num­ber of cy­cles to fai­lure",
     "woehlerYLabel": "Prin­cipal stress am­pli­tude in MPa"
-  }
+  },
+  "materialsSupplierDatabase": {
+    "all": "All",
+    "allClass": "All {{class}}:",
+    "allSelected": "All selected",
+    "close": "Close",
+    "disclaimer": "Presented CO2 values are for internal use only - data must not be used for communication with customers",
+    "export": "Export",
+    "filterTooLong": "The table filter is too long to be put into a link",
+    "mainTable": {
+      "columns": {
+        "castingDiameter": "Casting Diameter",
+        "castingMode": "Casting Mode",
+        "co2PerTon": "kg CO₂e / t",
+        "esr": "ESR",
+        "export": "Export",
+        "isPrematerial": "Is Prematerial",
+        "manufacturerSupplierKind": "Kind",
+        "manufacturerSupplierName": "Supplier Name",
+        "manufacturerSupplierPlant": "Supplier Plant",
+        "materialNumbers": "Material Numbers",
+        "materialStandardMaterialName": "Material Name",
+        "materialStandardStandardDocument": "Standard Document",
+        "maxDimension": "Max Dimension",
+        "minDimension": "Min Dimension",
+        "ratingKindName": "Supplier Rating",
+        "releaseDateMonth": "Release Date Month",
+        "releaseDateYear": "Release Date Year",
+        "releaseRestrictions": "Release Restrictions",
+        "sapSupplierIds": "SAP Supplier ID(s)",
+        "shapeCode": "Product Category Code",
+        "shapeName": "Product Category",
+        "steelMakingProcess": "Steel Making Process",
+        "var": "VAR"
+      },
+      "excelExport": {
+        "author": "MSD (Materials Supplier Database)",
+        "fileNameSuffix": "-MSD-export.xlsx",
+        "sheetName": "MSD-Export"
+      },
+      "productCategories": "Product Categories"
+    },
+    "materialClass": "Material Class",
+    "materials": "Materials",
+    "productCategory": "Product Category",
+    "reload": "Reload",
+    "resetTable": "Reset Table",
+    "selectAll": "Select All",
+    "share": "Share",
+    "shareCopiedToClipboard": "Link copied to clipboard",
+    "subtotal": "Subtotal:",
+    "title": "Materials Supplier Database"
+  },
+  "overview": {
+    "contact": "Contact",
+    "dataScienceSolutions": "Data Science Solutions",
+    "furtherInformation1": "For more information please contact",
+    "furtherInformation2": ".",
+    "implementation1": "The implementation has been done by",
+    "implementation2": "department.",
+    "linkedApplications": "Linked Apps",
+    "links": {
+      "comparisonOfQuenchingMedia": "S-Connect - Comparison of quenching media",
+      "estimationOfMaterialProperties": "S-Connect - Estimation of material properties",
+      "globalBatchTraceability": "S-Connect - Global Batch Traceability",
+      "materials": "S-Connect - Materials",
+      "materialsAppCenter": "S-Connect - Materials App Center",
+      "materialsFaq": "S-Connect - Materials FAQ",
+      "materialsForRollingBearingTechnology": "S-Connect - TPI 226: Materials for Rolling Bearing Technology",
+      "orderAMaterialsLabInvestigation": "Order a materials-lab investigation",
+      "searchForStandards": "Search for standards",
+      "steelCleanlinessDataBase": "S-Connect - Steel Cleanliness Data Base (SCDB)",
+      "substanceInformationSystem": "Substance information system",
+      "title": "Links"
+    },
+    "macDescription1": "The Materials App Center gives access to services provided to you by Schaeffler",
+    "macDescription2": "department.",
+    "materialsAppCenter": "Materials App Center",
+    "materialsTechnologies": "Materials Technologies",
+    "overviewCard": {
+      "internalApplications": {
+        "aqmCalculator": {
+          "description": "Calculate analytical QM value and sum value",
+          "title": "AQM Calculator"
+        },
+        "greaseApp": {
+          "description": "Calculate the optimum amount of lubricant for your bearing",
+          "title": "Grease App"
+        },
+        "hardnessConverter": {
+          "description": "Convert hardness and tensile-strength values",
+          "title": "Hardness Converter"
+        },
+        "lifetimePredictor": {
+          "description": "Predict the conventional fatigue lifetime of metallic components",
+          "title": "Lifetime Predictor"
+        },
+        "materialsSupplierDatabase": {
+          "description": "Find released materials suppliers and their CO₂ footprints",
+          "title": "Materials Supplier Database"
+        }
+      },
+      "learnMore": "Learn more",
+      "linkedApplications": {
+        "carbonitridingPrediction": {
+          "description": "Predict carbonitriding profiles based on furnace parameters",
+          "title": "Carbonitriding Prediction"
+        },
+        "lifetimeDocumenter": {
+          "description": "Document fatigue-testing parameters and results",
+          "title": "Lifetime Documenter"
+        },
+        "polyassist": {
+          "description": "Perform a strength assessment for fiber reinforced polymers",
+          "title": "Polyassist"
+        },
+        "title": "Linked Apps",
+        "wiam": {
+          "description": "Find properties of specified materials",
+          "title": "WIAM"
+        }
+      },
+      "noAccessText": "No Access",
+      "openApplication": "Open application",
+      "openApplicationInNewTab": "Open application in new tab"
+    },
+    "title": "Home",
+    "welcomeText": "Welcome to the Materials App Center – the central access point for materials know-how at Schaeffler."
+  },
+  "title": "Materials App Center"
 }

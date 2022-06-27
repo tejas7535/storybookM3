@@ -10,7 +10,9 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import * as en from '../../../assets/i18n/en.json';
 import { OverviewCardModule } from '../../shared/components/overview-card/overview-card.module';
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
@@ -36,6 +38,7 @@ describe('OverviewComponent', () => {
       OverviewCardModule,
       HttpClientTestingModule,
       SubheaderModule,
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({

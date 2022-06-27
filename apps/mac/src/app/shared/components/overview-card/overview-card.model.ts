@@ -12,4 +12,5 @@ export interface OverviewCard {
   noAccess?: boolean;
   requiredRoles?: string[];
   inverted?: boolean;
+  translationKey?: string;
 }

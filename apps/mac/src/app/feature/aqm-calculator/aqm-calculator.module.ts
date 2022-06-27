@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { PushModule } from '@ngrx/component';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { SharedModule } from '../../shared/shared.module';
 import { AqmCalculatorComponent } from './aqm-calculator.component';
 import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
@@ -30,6 +32,7 @@ import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
     MatChipsModule,
     MatIconModule,
     PushModule,
+    SharedTranslocoModule,
   ],
 })
 export class AqmCalculatorModule {}

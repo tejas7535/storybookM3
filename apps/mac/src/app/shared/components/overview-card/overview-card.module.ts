@@ -7,6 +7,8 @@ import { RouterModule } from '@angular/router';
 
 import { PushModule } from '@ngrx/component';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { OverviewCardComponent } from './overview-card.component';
 
 @NgModule({
@@ -18,6 +20,7 @@ import { OverviewCardComponent } from './overview-card.component';
     MatButtonModule,
     PushModule,
     RouterModule,
+    SharedTranslocoModule,
   ],
   exports: [OverviewCardComponent],
 })

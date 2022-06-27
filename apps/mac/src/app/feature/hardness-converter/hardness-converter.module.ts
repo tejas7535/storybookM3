@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { PushModule } from '@ngrx/component';
 
 import { SubheaderModule } from '@schaeffler/subheader';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
 import { CopyInputModule } from './components/copy-input/copy-input.module';
@@ -41,6 +42,7 @@ import { HardnessConverterRoutingModule } from './hardness-converter-routing.mod
     PushModule,
 
     SharedModule,
+    SharedTranslocoModule,
   ],
 })
 export class HardnessConverterModule {}
