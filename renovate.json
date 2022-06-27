@@ -109,7 +109,8 @@
         "@ngneat/transloco-locale",
         "@ngneat/transloco-optimize",
         "@ngneat/transloco-persist-lang",
-        "@ngneat/transloco-validator"
+        "@ngneat/transloco-validator",
+        "@ngneat/transloco-messageformat"
       ],
       "groupName": "transloco"
     },

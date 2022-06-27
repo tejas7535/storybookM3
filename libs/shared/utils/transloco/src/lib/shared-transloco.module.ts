@@ -11,6 +11,7 @@ import {
   TranslocoService,
 } from '@ngneat/transloco';
 import { TranslocoLocaleModule } from '@ngneat/transloco-locale';
+import { TranslocoMessageFormatModule } from '@ngneat/transloco-messageformat';
 
 import {
   DEFAULT_LANGUAGE,
@@ -51,6 +52,7 @@ export const preLoad = {
   imports: [
     CommonModule,
     TranslocoModule,
+    TranslocoMessageFormatModule.forRoot(),
     TranslocoLocaleModule.forRoot({
       localeConfig: {
         global: {
