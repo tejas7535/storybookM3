@@ -1,5 +1,4 @@
 {
-  "version": 2,
   "projects": {
     "cdba": "apps/cdba",
     "cdba-e2e": "apps/cdba-e2e",
@@ -32,6 +31,7 @@
     "shared-ui-report": "libs/shared/ui/report",
     "shared-ui-roles-and-rights": "libs/shared/ui/roles-and-rights",
     "shared-ui-search-autocomplete": "libs/shared/ui/search-autocomplete",
+    "shared-ui-inputs": "libs/shared/ui/inputs",
     "shared-ui-share-button": "libs/shared/ui/share-button",
     "shared-ui-stepper": "libs/shared/ui/stepper",
     "shared-ui-storybook": "libs/shared/ui/storybook",
@@ -41,5 +41,6 @@
     "shared-utils-application-insights": "libs/shared/utils/application-insights",
     "shared-utils-azure-auth": "libs/shared/utils/azure-auth",
     "shared-utils-transloco": "libs/shared/utils/transloco"
-  }
+  },
+  "version": 2
 }

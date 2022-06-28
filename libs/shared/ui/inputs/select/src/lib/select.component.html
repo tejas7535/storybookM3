@@ -1,0 +1,158 @@
+<mat-form-field [appearance]="appearance" class="w-full" *transloco="let t">
+  <mat-label *ngIf="label && label !== ''">{{ label }}</mat-label>
+  <mat-select
+    controlType="mat-select"
+    disableOptionCentering
+    [placeholder]="placeholder"
+    [formControl]="formControl"
+    [multiple]="multiple"
+    panelClass="!overflow-hidden !max-h-min w-96"
+    (openedChange)="$event ? searchInput.focus() : undefined"
+    #selectInput
+  >
+    <mat-select-trigger>{{ currentValue }} </mat-select-trigger>
+    <div (keydown)="$event.stopPropagation()">
+      <mat-option #dummyOption class="!h-0"></mat-option>
+      <div class="flex flex-col">
+        <div class="flex flex-col px-4">
+          <div class="flex h-20 flex-row">
+            <mat-form-field
+              class="w-full border-primary"
+              (keydown.Tab)="$event.preventDefault()"
+              floatLabel="never"
+            >
+              <input
+                type="text"
+                matInput
+                [formControl]="searchControl"
+                [placeholder]="searchPlaceholder"
+                #searchInput
+              />
+              <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+            </mat-form-field>
+          </div>
+          <div *ngIf="addEntry" class="my-0.5 border-b border-border pt-2 pb-3">
+            <button
+              *ngIf="!addingEntry; else addingEntryTemplate"
+              mat-button
+              color="primary"
+              class="-ml-1 flex flex-row gap-2 text-medium-emphasis"
+              [ngClass]="{ 'text-link': !loading }"
+              (click)="onClickAddEntry()"
+              [disabled]="loading"
+            >
+              <mat-icon>add</mat-icon>
+              {{ t('addEntry') }}
+            </button>
+            <ng-template #addingEntryTemplate>
+              <div class="flex flex-row justify-center gap-4">
+                <div class="flex-1 rounded border border-primary px-4">
+                  <input
+                    type="text"
+                    class="w-full text-caption focus:outline-none"
+                    [placeholder]="addEntryPlaceholder"
+                    #addEntryInput
+                  />
+                </div>
+                <button
+                  mat-icon-button
+                  (click)="onCancelAddEntry()"
+                  [disabled]="loading"
+                >
+                  <mat-icon class="my-auto text-error">close</mat-icon>
+                </button>
+                <button
+                  mat-icon-button
+                  (click)="onConfirmAddEntry(addEntryInput.value)"
+                  [disabled]="loading || !addEntryInput.value"
+                >
+                  <mat-icon
+                    class="my-auto"
+                    [ngClass]="
+                      addEntryInput.value ? 'text-link' : 'text-low-emphasis'
+                    "
+                    >check</mat-icon
+                  >
+                </button>
+              </div>
+            </ng-template>
+          </div>
+          <div *ngIf="multiple" class="my-0.5 border-b border-border pt-2 pb-3">
+            <div class="flex flex-row content-between">
+              <mat-checkbox
+                color="primary"
+                class="flex-1"
+                [checked]="formControl.value?.length === stringOptions.length"
+                [indeterminate]="
+                  formControl.value?.length > 0 &&
+                  formControl.value.length < stringOptions.length
+                "
+                [disabled]="stringOptions.length === 0 || loading"
+                (change)="onSelectAllToggle($event.checked)"
+              >
+                <div class="flex flex-row gap-2 text-medium-emphasis">
+                  {{ t('selectAll') }}
+                </div>
+              </mat-checkbox>
+              <div
+                class="mt-auto pb-1 align-text-bottom text-caption text-low-emphasis"
+              >
+                {{ formControl.value?.length ?? 0 }} {{ t('selected') }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="max-h-80 overflow-auto">
+          <ng-content
+            select="[loadingContent]"
+            *ngIf="loading; else optionsTemplate"
+          >
+          </ng-content>
+          <ng-template #optionsTemplate>
+            <ng-content
+              select="[errorContent]"
+              *ngIf="error; else noErrorOptionsTemplate"
+            ></ng-content>
+            <ng-template #noErrorOptionsTemplate>
+              <div
+                class="flex h-12 w-full flex-col content-around"
+                *ngIf="stringOptions.length === 0"
+              >
+                <div class="relative my-auto text-center text-high-emphasis">
+                  {{ noResultsText }}
+                </div>
+              </div>
+              <mat-option
+                *ngFor="let option of stringOptions; trackBy: trackByFn"
+                #selectOption
+                [value]="option"
+                (click)="select()"
+                [ngClass]="{
+                  'mat-selected': option === formControl.value
+                }"
+                class="flex-1 text-high-emphasis"
+                [matTooltip]="option.tooltip ? option.tooltip : ''"
+                [matTooltipShowDelay]="option.tooltipDelay"
+              >
+                <div class="flex w-full flex-row">
+                  <div class="flex-1">
+                    {{ option.title }}
+                  </div>
+                  <button
+                    mat-icon-button
+                    *ngIf="option.removable"
+                    (click)="onOptionRemoved(option); $event.stopPropagation()"
+                  >
+                    <mat-icon class="my-auto !mx-0 text-medium-emphasis"
+                      >delete_outline</mat-icon
+                    >
+                  </button>
+                </div>
+              </mat-option>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </mat-select>
+</mat-form-field>

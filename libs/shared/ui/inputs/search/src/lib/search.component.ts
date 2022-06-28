@@ -1,0 +1,100 @@
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { ControlValueAccessor, FormControl } from '@angular/forms';
+
+import { debounceTime, filter, Subscription } from 'rxjs';
+
+import { StringOption } from '@schaeffler/inputs';
+
+@Component({
+  selector: 'schaeffler-search',
+  templateUrl: './search.component.html',
+})
+export class SearchComponent
+  implements OnInit, OnDestroy, ControlValueAccessor
+{
+  @Input() public appearance: 'fill' | 'outline' = 'fill';
+  @Input() public label = '';
+  @Input() public placeholder = '';
+  @Input() public hint = '';
+
+  @Input() public stringOptions!: StringOption[];
+  @Input() public loading?: boolean;
+  @Input() public error?: boolean;
+  @Input() public noResultsText = 'No Results';
+  @Input() public displayWith: 'id' | 'title' = 'title';
+
+  @Output() public readonly searchUpdated = new EventEmitter<string>();
+  @Output() public readonly optionSelected = new EventEmitter<
+    StringOption | StringOption[]
+  >();
+
+  @Input() public formControl = new FormControl();
+
+  public searchControl = new FormControl();
+
+  private readonly subscription = new Subscription();
+
+  public ngOnInit(): void {
+    this.subscription.add(
+      this.formControl.valueChanges
+        .pipe(debounceTime(100))
+        .subscribe((value) => this.optionSelected.emit(value))
+    );
+
+    this.subscription.add(
+      this.searchControl.valueChanges
+        .pipe(
+          debounceTime(500),
+          filter((value) => typeof value === 'string')
+        )
+        .subscribe((value) =>
+          this.searchUpdated.emit(value.length > 1 ? value : '')
+        )
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public onChange: (value: StringOption) => void = () => {};
+
+  public onTouched: () => void = () => {};
+
+  public writeValue(input: StringOption): void {
+    this.formControl.setValue(input);
+    this.onTouched();
+    this.onChange(input);
+  }
+
+  public registerOnChange(fn: any): void {
+    this.subscription.add(this.formControl.valueChanges.subscribe(fn));
+  }
+
+  public registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  public onOptionSelected(option: StringOption): void {
+    this.formControl.setValue(option, { emitEvent: false });
+  }
+
+  public onSearchReset(): void {
+    this.searchControl.setValue('');
+    this.formControl.reset();
+  }
+
+  public displayWithFn = (option: StringOption): string =>
+    this.displayWith === 'title' ? option.title : option.id.toString();
+
+  public trackByFn(index: number): number {
+    return index;
+  }
+}

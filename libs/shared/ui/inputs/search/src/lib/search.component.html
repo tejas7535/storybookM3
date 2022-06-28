@@ -1,0 +1,55 @@
+<mat-form-field [appearance]="appearance" class="w-full">
+  <mat-label class="ml-2" *ngIf="label">{{ label }}</mat-label>
+  <input
+    type="text"
+    [matAutocomplete]="auto"
+    matInput
+    [formControl]="searchControl"
+    class="ml-2 text-high-emphasis"
+    [class.text-high-emphasis]="!formControl.value"
+    [class.text-link]="formControl.value"
+    (blur)="onTouched()"
+    [placeholder]="placeholder"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayWithFn"
+    (optionSelected)="onOptionSelected($event.option.value)"
+  >
+    <div>
+      <mat-option #dummyOption class="!h-0"></mat-option>
+      <ng-content
+        select="[loadingContent]"
+        *ngIf="loading; else searchOptionsTemplate"
+      ></ng-content>
+      <ng-template #searchOptionsTemplate>
+        <div
+          class="flex h-12 w-full flex-col content-around"
+          *ngIf="stringOptions.length === 0"
+        >
+          <div class="relative my-auto text-center text-high-emphasis">
+            {{ noResultsText }}
+          </div>
+        </div>
+        <ng-content select="[errorContent]" *ngIf="error"></ng-content>
+        <div *ngIf="!loading && !error">
+          <mat-option
+            *ngFor="let option of stringOptions; trackBy: trackByFn"
+            [value]="option"
+            >{{ option.title }}</mat-option
+          >
+        </div>
+      </ng-template>
+    </div>
+  </mat-autocomplete>
+  <div matSuffix>
+    <mat-icon *ngIf="!searchControl.value; else clearButtonTemplate"
+      >search</mat-icon
+    >
+    <ng-template #clearButtonTemplate>
+      <button mat-icon-button (click)="onSearchReset()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </ng-template>
+  </div>
+</mat-form-field>
