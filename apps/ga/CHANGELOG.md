@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.2...ga-v1.2.3) (2022-06-28)
+
+
+### 🎸 Features
+
+* **ga:** add grease selection to calculator step 2 (UFTABI-4949) ([b283fe4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b283fe41fc49b8c5d61db4d281c8e03c034dbe4e))
+* **ga:** assign selected grease to grease report (UFTABI-4949) ([2bd352a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/2bd352affe239dd15965897b9cf1d8f5029549a5))
+
 ### [1.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.3.0...ga-v1.2.2) (2022-06-23)
 
 
