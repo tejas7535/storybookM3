@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.5.3...mac-v0.6.0) (2022-06-29)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** properly configure tailwind content configuration ([9b528dd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9b528dd9d416f58258ab260ea2c2909938d942ec))
+* **mac:** reduce requests in aqm calculator (UFTABI-5685) ([#4192](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4192)) ([d6d47ce](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6d47ce8d55c382cc49fec1a753c952527ab3a03))
+
+
+### 🎸 Features
+
+* **mac:** add new units to HC (UFTABI-5196) ([#4151](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4151)) ([410bceb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/410bcebdf7d47642128441551ce5272499c6b9b2))
+* **mac:** add transloco (UFTABI-5708) ([#4287](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4287)) ([6b86533](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6b865339fae4fc04e9695758de079f9b4ce6c04c))
+* **mac:** add warning for hardness deviation ([8b7c823](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8b7c82388984375b7618191905a069f6e8ff36c3))
+* **mac:** apply new design for hardness converter ([#4127](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4127)) ([70a725c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/70a725cd4f18dd340497786e7de64583dc170878))
+* **mac:** calculate the deviation correctly ([#4182](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4182)) ([956d1a6](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/956d1a6f19f1c562f97159d5df800b62e3568ed8))
+* **mac:** non breakable space in copied text ([64bf367](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/64bf3673bb2560224299d7a62edca795d4388ae3))
+* **mac:** remove approved for export column ([#4172](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4172)) ([571cc04](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/571cc046d33140de7799b33a9c02c0b4b74cbad1))
+* **mac:** split rows with multiple sap ids in export (UFTABI-5672) ([#4117](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4117)) ([fce3422](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fce34223ff129b48c4d22c89710e266e352d7aad))
+* **mac:** use correct icon ([3e9d0b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3e9d0b85d2e996456cb61b751ec87641a4aead98))
+
 ### [0.5.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.5.2...mac-v0.5.3) (2022-05-09)
 
 
