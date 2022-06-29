@@ -5,4 +5,5 @@ export interface PLsSeriesRequest {
   customer: CustomerIds;
   salesIndications: SalesIndication[];
   includeQuotationHistory: boolean;
+  historicalDataLimitInYear: number;
 }

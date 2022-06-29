@@ -6,27 +6,42 @@
   "
 >
   <div class="border-b-[1px] border-border">
-    <div class="m-4">
-      <mat-checkbox
-        color="primary"
-        [indeterminate]="someComplete"
-        [checked]="allComplete"
-        (change)="selectAll($event)"
-      >
-      </mat-checkbox>
-      <span class="ml-6">{{ t('materialSelection') }} </span>
+    <div class="flex items-center justify-between p-4">
+      <div>
+        <mat-checkbox
+          color="primary"
+          [indeterminate]="someComplete"
+          [checked]="allComplete"
+          (change)="selectAll($event)"
+        >
+        </mat-checkbox>
+        <span class="pl-6">{{ t('materialSelection') }} </span>
+      </div>
+
+      <div class="w-1/3">
+        <mat-select
+          (selectionChange)="onHistoricalDataLimitChanged($event)"
+          [value]="numberOfYears"
+        >
+          <mat-option [value]="years" *ngFor="let years of availableYears">{{
+            t('lastYears', { years: years + 1 })
+          }}</mat-option>
+        </mat-select>
+      </div>
     </div>
   </div>
   <div class="m-4">
     <div class="mt-4" *ngFor="let item of selectionItems">
-      <span>
+      <span class="flex">
         <mat-checkbox
           [checked]="item.checked"
           color="primary"
           (change)="updateSelection($event, item.id)"
         >
         </mat-checkbox>
-        <span class="ml-6">{{ t(item.translation) }}</span>
+        <span class="ml-6 flex">{{
+          t(item.translation, { numberOfYears: numberOfYears + 1 })
+        }}</span>
       </span>
     </div>
   </div>

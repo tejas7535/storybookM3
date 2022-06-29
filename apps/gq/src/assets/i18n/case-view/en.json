@@ -24,10 +24,11 @@
       "includeMaterials": {
         "title": "Include Materials",
         "materialSelection": "Material Selection",
-        "salesHistory": "Materials from sales history (Last 2 Years)",
+        "lastYears": "{years, plural, =1 {Current year} other {Last {{ years }} years}}",
+        "salesHistory": "{numberOfYears, plural, =1 {Materials from sales history (Current year)} other {Materials from sales history (Last {{ numberOfYears }} years)}}",
         "ordersOnHand": "Materials from Orders on Hand (Current Orders)",
         "openQuotes": "Materials from Open Quotes (Current Open Quotes)",
-        "lostQuotes": "Materials from Lost Quotes (Last 2 Years)"
+        "lostQuotes": "{numberOfYears, plural, =1 {Materials from Lost Quotes (Current year)} other {Materials from Lost Quotes (Last {{ numberOfYears }} years)}}"
       },
       "additionalMaterials": {
         "title": "Additional filters",

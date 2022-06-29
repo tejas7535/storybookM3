@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatSelectChange } from '@angular/material/select';
 
 import { Store } from '@ngrx/store';
 
@@ -45,10 +46,22 @@ export class MaterialSelectionComponent implements OnInit, OnChanges {
   allComplete = false;
   someComplete = true;
   selectionItems: Selection[] = [];
+  numberOfYears = 2;
+  availableYears: number[] = [];
 
   constructor(private readonly store: Store) {}
   ngOnInit(): void {
     this.selectionItems = this.createDefaultSelectionCopy();
+
+    // The first year where data for gq is available is 2018, so we only count all years
+    // from 2018 to the current year, including the current (not yet finished) year (GQUOTE-721)
+    this.availableYears = Array.from(
+      {
+        length:
+          new Date().getFullYear() + 1 - new Date('01-01-2018').getFullYear(),
+      },
+      (_, i) => i
+    );
   }
   ngOnChanges(): void {
     // if input changes
@@ -71,6 +84,11 @@ export class MaterialSelectionComponent implements OnInit, OnChanges {
 
   selectAll(event: MatCheckboxChange): void {
     this.selectionItems.forEach((item) => (item.checked = event.checked));
+    this.triggerPLsAndSeriesRequest();
+  }
+
+  onHistoricalDataLimitChanged(event: MatSelectChange): void {
+    this.numberOfYears = event.value;
     this.triggerPLsAndSeriesRequest();
   }
 
@@ -97,6 +115,7 @@ export class MaterialSelectionComponent implements OnInit, OnChanges {
           customerId: this.customerId,
           salesOrg: this.salesOrg,
         },
+        historicalDataLimitInYear: this.numberOfYears,
       };
       this.store.dispatch(getPLsAndSeries({ customerFilters }));
     }

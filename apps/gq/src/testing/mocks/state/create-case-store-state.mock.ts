@@ -15,6 +15,7 @@ export const CREATE_CASE_STORE_STATE_MOCK: CreateCaseState = {
     loading: false,
     plsAndSeries: { series: [], pls: [] },
     materialSelection: { includeQuotationHistory: false, salesIndications: [] },
+    historicalDataLimitInYear: 2,
   },
   createdCase: undefined,
   createCaseLoading: false,

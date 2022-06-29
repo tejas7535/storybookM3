@@ -199,5 +199,6 @@ export const getCreateCustomerCasePayload = createSelector(
     productLines: state.plSeries.plsAndSeries?.pls
       .filter((el) => el.selected)
       .map((el) => el.value),
+    historicalDataLimitInYear: state.plSeries.historicalDataLimitInYear,
   })
 );

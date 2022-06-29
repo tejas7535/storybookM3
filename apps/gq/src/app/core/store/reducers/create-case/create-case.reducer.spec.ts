@@ -589,6 +589,7 @@ describe('Create Case Reducer', () => {
           customerFilters: {
             includeQuotationHistory: true,
             salesIndications: [SalesIndication.INVOICE],
+            historicalDataLimitInYear: 2,
           } as any,
         });
 

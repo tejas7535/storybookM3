@@ -24,10 +24,11 @@
       "includeMaterials": {
         "title": "Selektion Material-Positionen",
         "materialSelection": "Materialauswahl",
-        "salesHistory": "Verkaufte Materialien (letzte 2 Jahre)",
+        "lastYears": "{years, plural, =1 {Aktuelles Jahr} other {Letzte {{ years }} Jahre}}",
+        "salesHistory": "{numberOfYears, plural, =1 {Verkaufte Materialien (aktuelles Jahr)} other {Verkaufte Materialien (letzte {{ numberOfYears }} Jahre)}}",
         "ordersOnHand": "Materialien aus dem aktuellen Auftragsbestand",
         "openQuotes": "Materialien aus den aktuell offenen Angeboten",
-        "lostQuotes": "Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (letzte 2 Jahre)"
+        "lostQuotes": "{numberOfYears, plural, =1 {Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (aktuelles Jahr)} other {Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (letzte {{ numberOfYears }} Jahre)}}"
       },
       "additionalMaterials": {
         "title": "Zusätzliche Filteroptionen",

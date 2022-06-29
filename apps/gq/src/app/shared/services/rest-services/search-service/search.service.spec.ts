@@ -125,6 +125,7 @@ describe('SearchService', () => {
         customer: CUSTOMER_MOCK.identifier,
         includeQuotationHistory: true,
         salesIndications: [SalesIndication.INVOICE],
+        historicalDataLimitInYear: 2,
       };
       service.getPlsAndSeries(requestPayload).subscribe((response) => {
         expect(response).toEqual({});

@@ -66,6 +66,7 @@ export interface CreateCaseState {
       includeQuotationHistory: boolean;
       salesIndications: SalesIndication[];
     };
+    historicalDataLimitInYear: number;
   };
   createdCase: CreateCaseResponse;
   createCaseLoading: boolean;
@@ -108,6 +109,7 @@ export const initialState: CreateCaseState = {
       includeQuotationHistory: undefined,
       salesIndications: [],
     },
+    historicalDataLimitInYear: undefined,
   },
   createdCase: undefined,
   createCaseLoading: false,
@@ -419,6 +421,7 @@ export const createCaseReducer = createReducer(
           includeQuotationHistory: customerFilters.includeQuotationHistory,
           salesIndications: customerFilters.salesIndications,
         },
+        historicalDataLimitInYear: customerFilters.historicalDataLimitInYear,
       },
     })
   ),

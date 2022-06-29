@@ -1,5 +1,6 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -17,11 +18,16 @@ describe('MaterialSelectionComponent', () => {
   let mockStore: MockStore;
   const createComponent = createComponentFactory({
     component: MaterialSelectionComponent,
-    imports: [MatCheckboxModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      MatCheckboxModule,
+      MatSelectModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -97,11 +103,80 @@ describe('MaterialSelectionComponent', () => {
         },
         includeQuotationHistory: true,
         salesIndications: [SalesIndication.INVOICE],
+        historicalDataLimitInYear: 2,
       };
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         getPLsAndSeries({ customerFilters })
       );
+    });
+  });
+
+  describe('availableYears', () => {
+    test('should return available years for 2022', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date(2022, 1, 1));
+      spectator.detectChanges();
+
+      expect(component.availableYears).toEqual([0, 1, 2, 3, 4]);
+      jest.useRealTimers();
+    });
+
+    test('should return available years for 2024', () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date(2024, 1, 1));
+      spectator.detectChanges();
+
+      expect(component.availableYears).toEqual([0, 1, 2, 3, 4, 5, 6]);
+      jest.useRealTimers();
+    });
+  });
+
+  describe('numberOfYears', () => {
+    test('should send correct number of years on dispatch', () => {
+      mockStore.dispatch = jest.fn();
+      component.customerId = '1235321';
+      component.salesOrg = '0615';
+      mockStore.dispatch = jest.fn();
+      component.selectionItems = [
+        { value: true, checked: true },
+        { value: SalesIndication.INVOICE, checked: true },
+      ] as any;
+
+      component.numberOfYears = 4;
+      const customerFilters: PLsSeriesRequest = {
+        customer: {
+          customerId: component.customerId,
+          salesOrg: component.salesOrg,
+        },
+        includeQuotationHistory: true,
+        salesIndications: [SalesIndication.INVOICE],
+        historicalDataLimitInYear: 4,
+      };
+
+      component.triggerPLsAndSeriesRequest();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        getPLsAndSeries({ customerFilters })
+      );
+    });
+  });
+
+  describe('onHistoricalDataLimitChanged', () => {
+    test('should update numberOfYears', () => {
+      spectator.detectChanges();
+      expect(component.numberOfYears).toEqual(2);
+
+      component.onHistoricalDataLimitChanged({ value: 3 } as any);
+      expect(component.numberOfYears).toEqual(3);
+    });
+
+    test('should call triggerPLsAndSeriesRequest', () => {
+      component.triggerPLsAndSeriesRequest = jest.fn();
+      spectator.detectChanges();
+
+      component.onHistoricalDataLimitChanged({ value: 3 } as any);
+
+      expect(component.triggerPLsAndSeriesRequest).toHaveBeenCalledTimes(1);
     });
   });
 });

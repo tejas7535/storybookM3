@@ -21,7 +21,7 @@ export const basicTableStyle = `
 }
 `;
 
-export const statusBarStlye = `  
+export const statusBarStlye = `
 ::ng-deep ag-grid-angular {
     .ag-status-bar {
     border: none !important;

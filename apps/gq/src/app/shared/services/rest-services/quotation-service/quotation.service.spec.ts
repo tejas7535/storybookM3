@@ -156,6 +156,7 @@ describe('QuotationService', () => {
         productLines: ['1'],
         series: ['2'],
         salesIndications: [SalesIndication.INVOICE],
+        historicalDataLimitInYear: 2,
       };
       service.createCustomerCase(mockBody).subscribe((response) => {
         expect(response).toEqual([]);

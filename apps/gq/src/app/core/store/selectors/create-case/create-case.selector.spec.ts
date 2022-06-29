@@ -210,6 +210,7 @@ describe('Create Case Selector', () => {
             includeQuotationHistory: true,
             salesIndications: [SalesIndication.INVOICE],
           },
+          historicalDataLimitInYear: 2,
         },
       };
 
@@ -222,6 +223,7 @@ describe('Create Case Selector', () => {
         productLines: ['1'],
         series: ['1'],
         salesIndications: [SalesIndication.INVOICE],
+        historicalDataLimitInYear: 2,
       };
       expect(
         createSelectors.getCreateCustomerCasePayload.projector(mockState)

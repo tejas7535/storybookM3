@@ -467,6 +467,7 @@ describe('Create Case Effects', () => {
           customer: CUSTOMER_MOCK.identifier,
           includeQuotationHistory: true,
           salesIndications: [SalesIndication.INVOICE],
+          historicalDataLimitInYear: 2,
         };
         const plsSeriesResponse: PLsSeriesResponse[] = [
           { series: '1', productLine: 'one', productLineId: '1' },

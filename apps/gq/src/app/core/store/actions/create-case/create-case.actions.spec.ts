@@ -265,6 +265,7 @@ describe('Create Actions', () => {
         },
         includeQuotationHistory: true,
         salesIndications: [SalesIndication.INVOICE],
+        historicalDataLimitInYear: 2,
       };
       const action = getPLsAndSeries({ customerFilters });
 
