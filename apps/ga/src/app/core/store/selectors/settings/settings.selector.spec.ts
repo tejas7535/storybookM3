@@ -35,9 +35,41 @@ describe('Settings Selector', () => {
   });
 
   describe('getEnabledSteps', () => {
-    it('should return enabeld steps', () => {
+    it('should return only enabled steps', () => {
       const expectedSteps = [
         { enabled: true, index: 0, link: 'bearing', name: 'bearingSelection' },
+        {
+          enabled: true,
+          index: 1,
+          link: 'parameters',
+          name: 'parameters',
+        },
+        {
+          enabled: true,
+          index: 2,
+          link: 'result',
+          name: 'report',
+        },
+      ];
+
+      expect(getEnabledSteps(mockState)).toEqual(expectedSteps);
+    });
+
+    it('should return step 1 disabled, others enabled', () => {
+      Object.defineProperty(global, 'window', {
+        value: {
+          self: 'mockValue',
+          top: 'otherMockValue',
+        },
+      });
+
+      const expectedSteps = [
+        {
+          enabled: false,
+          index: 0,
+          link: 'bearing',
+          name: 'bearingSelection',
+        },
         {
           enabled: true,
           index: 1,

@@ -23,7 +23,7 @@ export const getEnabledSteps = createSelector(
     (steps as EnabledStep[]).map((step) => {
       switch (step.name) {
         case 'bearingSelection':
-          return { ...step, enabled: true };
+          return { ...step, enabled: window.self === window.top };
         case 'parameters':
           return { ...step, enabled: !!bearing && success };
         case 'report':
