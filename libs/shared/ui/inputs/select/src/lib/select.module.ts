@@ -8,15 +8,23 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import deJson from './i18n/de.json';
+import enJson from './i18n/en.json';
+import esJson from './i18n/es.json';
+import frJson from './i18n/fr.json';
+import ruJson from './i18n/ru.json';
+import zhJson from './i18n/zh.json';
 import { SelectComponent } from './select.component';
 
 @NgModule({
   declarations: [SelectComponent],
   imports: [
     CommonModule,
-    TranslocoModule,
+    SharedTranslocoModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -27,4 +35,13 @@ import { SelectComponent } from './select.component';
   ],
   exports: [SelectComponent],
 })
-export class SelectModule {}
+export class SelectModule {
+  public constructor(private readonly translocoService: TranslocoService) {
+    this.translocoService.setTranslation(enJson, 'en');
+    this.translocoService.setTranslation(deJson, 'de');
+    this.translocoService.setTranslation(esJson, 'es');
+    this.translocoService.setTranslation(frJson, 'fr');
+    this.translocoService.setTranslation(ruJson, 'ru');
+    this.translocoService.setTranslation(zhJson, 'zh');
+  }
+}
