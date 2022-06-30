@@ -60,7 +60,7 @@
       "encodedInSalesOrg": "In Sales Org. ausgeprägt",
       "dchainMaterialStatus": "VkOrg. spez. Status",
       "minimumOrderQuantity": "Min. Auftragsmenge",
-      "materialClassificationSOP": "S&OP Klassifizierung"
+      "materialClassificationSOP": "S&OP Material Klassifizierung"
     },
     "productionCostDetails": {
       "title": "Produktion und Kosten",

@@ -60,7 +60,7 @@
       "encodedInSalesOrg": "Encoded in sales org.",
       "dchainMaterialStatus": "DChain-Material-Status",
       "minimumOrderQuantity": "Minimum Order Quantity",
-      "materialClassificationSOP": "S&OP Classification"
+      "materialClassificationSOP": "S&OP Material Classification"
     },
     "productionCostDetails": {
       "title": "Production & Cost",
