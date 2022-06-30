@@ -157,7 +157,7 @@
     "htmlhint": "1.0.0",
     "https-proxy-agent": "5.0.1",
     "husky": "8.0.1",
-    "jest": "28.1.1",
+    "jest": "28.1.2",
     "jest-canvas-mock": "2.4.0",
     "jest-environment-jsdom": "28.1.2",
     "jest-junit": "14.0.0",
