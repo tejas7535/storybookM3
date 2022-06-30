@@ -124,7 +124,7 @@ describe('OverviewSelectorUtils', () => {
 
       const result = utils.getPercentageValue(value);
 
-      expect(result).toEqual(4.18);
+      expect(result).toEqual(4.2);
     });
   });
 
@@ -134,7 +134,7 @@ describe('OverviewSelectorUtils', () => {
 
       const result = utils.getPercentageValueSigned(value);
 
-      expect(result).toEqual('4.32%');
+      expect(result).toEqual('4.3%');
     });
   });
 

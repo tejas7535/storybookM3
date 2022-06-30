@@ -6,7 +6,7 @@ import { filter, Subscription } from 'rxjs';
 
 import { BarChartConfig } from '../../shared/charts/models';
 import { FeaturesDialogComponent } from '../features-dialog/features-dialog.component';
-import { FeatureParams } from '../models';
+import { FeatureParams, FeatureSelectorConfig } from '../models';
 import { FeatureSelector } from '../models/feature-selector.model';
 
 @Component({
@@ -25,9 +25,14 @@ export class FeatureAnalysisComponent {
   @Input()
   loading: boolean;
 
+  @Input()
+  region: string;
+
+  @Input()
+  allSelectedFeatureParams: FeatureParams[];
+
   @Output()
-  private readonly selectFeatures: EventEmitter<FeatureParams[]> =
-    new EventEmitter();
+  readonly selectFeatures: EventEmitter<FeatureParams[]> = new EventEmitter();
 
   private readonly subscription: Subscription = new Subscription();
 
@@ -35,7 +40,7 @@ export class FeatureAnalysisComponent {
 
   openFeaturesDialog(): void {
     const dialogRef = this.dialog.open(FeaturesDialogComponent, {
-      data: this.allFeatureSelectors,
+      data: new FeatureSelectorConfig(this.allFeatureSelectors, this.region),
     });
 
     this.dispatchResultOnClose(dialogRef);
@@ -47,23 +52,44 @@ export class FeatureAnalysisComponent {
     this.subscription.add(
       dialogRef
         .afterClosed()
-        .pipe(filter((result) => result))
-        .subscribe((result) => this.onSelectedFeatures(result))
+        .pipe(filter((result: any) => result))
+        .subscribe((result: FeatureSelector[]) =>
+          this.onSelectedFeatures(result)
+        )
     );
   }
 
   onSelectedFeatures(featureSelectors: FeatureSelector[]): void {
-    const features = featureSelectors.map((selector) => selector.feature);
-    this.selectFeatures.emit(features);
+    const selectedFeatures = featureSelectors.map(
+      (selector) => selector.feature
+    );
+
+    const allFeatures = this.replaceRegionSelectedFeatures(
+      this.allSelectedFeatureParams,
+      selectedFeatures
+    );
+
+    this.selectFeatures.emit(allFeatures);
+  }
+
+  replaceRegionSelectedFeatures(
+    allFeatures: FeatureParams[],
+    newFeatures: FeatureParams[]
+  ) {
+    const otherFeatures = allFeatures.filter(
+      (feature) => feature.region !== this.region
+    );
+
+    return [...otherFeatures, ...newFeatures];
   }
 
   drop(event: CdkDragDrop<string[]>): void {
     const selectedFeatures = this.allFeatureSelectors.filter(
-      (feature) => feature.selected
+      (feature) => feature.selected && feature.feature.region === this.region
     );
 
     moveItemInArray(selectedFeatures, event.previousIndex, event.currentIndex);
-    this.onSelectedFeatures(selectedFeatures);
+    this.onSelectedFeatures([...selectedFeatures]);
   }
 
   trackByFn(index: number): number {

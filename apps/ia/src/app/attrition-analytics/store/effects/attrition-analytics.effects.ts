@@ -23,9 +23,7 @@ import { Action, Store } from '@ngrx/store';
 import { triggerLoad } from '../../../core/store/actions';
 import { AttritionAnalyticsService } from '../../attrition-analytics.service';
 import { AttritionAnalyticsStateService } from '../../attrition-analytics-state.service';
-import { FeatureChange } from '../../models';
 import {
-  changeOrderOfFeatures,
   changeSelectedFeatures,
   initializeSelectedFeatures,
   loadAvailableFeatures,
@@ -37,19 +35,19 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  selectRegion,
   toggleFeatureImportanceSort,
 } from '../actions/attrition-analytics.action';
 import {
   getFeatureImportanceHasNext,
   getFeatureImportancePageable,
   getFeatureImportanceSort,
+  getMonthFromCurrentFilters,
   getSelectedFeatureParams,
   getSelectedFeatures,
+  getSelectedRegion,
+  getYearFromCurrentFilters,
 } from '../selectors/attrition-analytics.selector';
-import {
-  didFeaturesChange,
-  sortFeaturesBasedOnParams,
-} from './attrition-analytics.effects.utils';
 
 @Injectable()
 export class AttritionAnalyticsEffects implements OnInitEffects {
@@ -97,62 +95,87 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
     );
   });
 
-  changeSelectedFeatures$ = createEffect(() => {
+  selectRegion$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(changeSelectedFeatures),
-      concatLatestFrom(() => this.store.select(getSelectedFeatures)),
-      tap(([action]) => this.stateService.setSelectedFeatures(action.features)),
-      map(([params, currentSelectedFilters]) =>
-        didFeaturesChange(params.features, currentSelectedFilters)
-      ),
-      switchMap((change: FeatureChange) =>
-        change.didChange
-          ? of(loadEmployeeAnalytics({ params: change.features }))
-          : of(changeOrderOfFeatures({ features: change.features }))
+      ofType(selectRegion),
+      concatLatestFrom(() => this.store.select(getSelectedFeatureParams)),
+      mergeMap(([region, selectedFeatureParams]) =>
+        of(
+          loadEmployeeAnalytics({
+            params: selectedFeatureParams?.filter(
+              (feature) => feature.region === region.selectedRegion
+            ),
+          })
+        )
       )
     );
   });
 
-  changeOrderOfFeatures$ = createEffect(() => {
+  changeSelectedFeatures$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(changeOrderOfFeatures),
-      concatLatestFrom(() => this.store.select(getSelectedFeatures)),
-      map(([params, features]) =>
-        sortFeaturesBasedOnParams(features, params.features)
+      ofType(changeSelectedFeatures),
+      withLatestFrom(
+        this.store.select(getSelectedFeatures),
+        this.store.select(getSelectedRegion)
       ),
-      switchMap((features) =>
-        of(loadEmployeeAnalyticsSuccess({ data: features }))
+      tap(([action, _filters]) =>
+        this.stateService.setSelectedFeatures(action.features)
+      ),
+      switchMap(([params, _filters, selectedRegion]) =>
+        of(
+          loadEmployeeAnalytics({
+            params: params.features.filter(
+              (feature) => feature.region === selectedRegion
+            ),
+          })
+        )
       )
     );
   });
 
   loadNextFeatureImportance$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadFeatureImportance, toggleFeatureImportanceSort),
+      ofType(loadFeatureImportance, toggleFeatureImportanceSort, selectRegion),
       withLatestFrom(
         this.store.select(getFeatureImportanceHasNext),
         this.store.select(getFeatureImportancePageable),
-        this.store.select(getFeatureImportanceSort)
+        this.store.select(getFeatureImportanceSort),
+        this.store.select(getSelectedRegion),
+        this.store.select(getYearFromCurrentFilters),
+        this.store.select(getMonthFromCurrentFilters)
       ),
-      filter(([_action, hasNext, _pageable, _sort]) => hasNext),
-      switchMap(([_action, _hasNext, pageable, sort]) =>
-        this.attritionAnalyticsService
-          .getFeatureImportance(
-            'Germany', // hardcoded for now
-            2021,
-            12,
-            pageable.pageNumber + 1, // load next features
-            pageable.pageSize,
-            sort.property,
-            sort.direction
-          )
-          .pipe(
-            map((data) => loadFeatureImportanceSuccess({ data })),
-            catchError((error) =>
-              of(loadFeatureImportanceFailure({ errorMessage: error.message }))
+      filter(
+        ([_action, hasNext, _pageable, _sort, selectedRegion, year, month]) =>
+          hasNext && !!selectedRegion && !!year && !!month
+      ),
+      switchMap(
+        ([_action, _hasNext, pageable, sort, selectedRegion, year, month]) =>
+          this.attritionAnalyticsService
+            .getFeatureImportance(
+              selectedRegion,
+              year,
+              month,
+              pageable.pageNumber + 1, // load next features
+              pageable.pageSize,
+              sort.property,
+              sort.direction
             )
-          )
+            .pipe(
+              map((data) => loadFeatureImportanceSuccess({ data })),
+              catchError((error) =>
+                of(
+                  loadFeatureImportanceFailure({ errorMessage: error.message })
+                )
+              )
+            )
       )
+    );
+  });
+
+  loadFeatureImportance$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadAvailableFeaturesSuccess),
+      switchMap(() => of(loadFeatureImportance()))
     );
   });
 
@@ -168,14 +191,21 @@ export class AttritionAnalyticsEffects implements OnInitEffects {
     this.store.dispatch(loadAvailableFeatures());
 
     // set default features
+    const selectedFeatures = this.stateService.getSelectedFeatures();
+    if (selectedFeatures.length > 0) {
+      this.store.dispatch(
+        selectRegion({
+          // get latest saved feature's region
+          selectedRegion: selectedFeatures[selectedFeatures.length - 1].region,
+        })
+      );
+    }
+
     this.store.dispatch(
       initializeSelectedFeatures({
-        features: this.stateService.getSelectedFeatures(),
+        features: selectedFeatures,
       })
     );
-
-    // load feature importance shap data
-    this.store.dispatch(loadFeatureImportance());
 
     return triggerLoad();
   }

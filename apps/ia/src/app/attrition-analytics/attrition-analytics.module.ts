@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { SharedModule } from '../shared/shared.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { AttritionAnalyticsRoutingModule } from './attrition-analytics.routing.module';
@@ -29,6 +30,7 @@ import { AttritionAnalyticsEffects } from './store/effects/attrition-analytics.e
     SharedTranslocoModule,
     FeatureImportanceModule,
     FeatureAnalysisModule,
+    SelectInputModule,
     MatCardModule,
     MatChipsModule,
   ],

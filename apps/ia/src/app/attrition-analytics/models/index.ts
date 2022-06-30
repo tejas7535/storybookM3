@@ -7,3 +7,4 @@ export * from './feature-importance-group.model';
 export * from './feature-importance-type.model';
 export * from './feature-params.model';
 export * from './feature-selector.model';
+export * from './feature-selector-config.model';

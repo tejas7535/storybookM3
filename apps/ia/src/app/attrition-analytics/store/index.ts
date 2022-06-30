@@ -18,12 +18,17 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  selectRegion,
   toggleFeatureImportanceSort,
 } from './actions/attrition-analytics.action';
 
 export const attrtionAnalyticsFeatureKey = 'attritionAnalytics';
 
 export interface AttritionAnalyticsState {
+  filter: {
+    regions: string[];
+    selectedRegion: string;
+  };
   employeeAnalytics: {
     features: {
       data: EmployeeAnalytics[];
@@ -50,6 +55,10 @@ export interface AttritionAnalyticsState {
 }
 
 export const initialState: AttritionAnalyticsState = {
+  filter: {
+    regions: undefined,
+    selectedRegion: undefined,
+  },
   employeeAnalytics: {
     features: {
       data: undefined,
@@ -84,6 +93,23 @@ export const initialState: AttritionAnalyticsState = {
 export const attritionAnalyticsReducer = createReducer(
   initialState,
   on(
+    selectRegion,
+    (
+      state: AttritionAnalyticsState,
+      { selectedRegion }
+    ): AttritionAnalyticsState => ({
+      ...state,
+      filter: {
+        ...state.filter,
+        selectedRegion,
+      },
+      featureImportance: {
+        ...initialState.featureImportance,
+        loading: true,
+      },
+    })
+  ),
+  on(
     loadEmployeeAnalytics,
     (state: AttritionAnalyticsState): AttritionAnalyticsState => ({
       ...state,
@@ -103,13 +129,11 @@ export const attritionAnalyticsReducer = createReducer(
     (state: AttritionAnalyticsState, { data }): AttritionAnalyticsState => ({
       ...state,
       employeeAnalytics: {
+        ...state.employeeAnalytics,
         features: {
           ...state.employeeAnalytics.features,
           data,
           loading: false,
-        },
-        availableFeatures: {
-          ...state.employeeAnalytics.availableFeatures,
         },
       },
     })

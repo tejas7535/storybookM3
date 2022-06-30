@@ -56,7 +56,7 @@ describe('FeatureAnalysisComponent', () => {
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         FeaturesDialogComponent,
-        expect.objectContaining({ data: [] })
+        expect.objectContaining({ data: { data: [], region: undefined } })
       );
       expect(component.dispatchResultOnClose).toHaveBeenCalledWith(
         component['dialog'].open(FeaturesDialogComponent, {
@@ -93,6 +93,68 @@ describe('FeatureAnalysisComponent', () => {
 
       expect(component['subscription'].add).toHaveBeenCalled();
       expect(component.onSelectedFeatures).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('replaceRegionSelectedFeatures', () => {
+    test('should replace region selected features', () => {
+      const region = 'Asia';
+      const europeFeature = { feature: 'Distance', region: 'Europe' };
+      component.region = region;
+
+      const allSelectedFeatures = [
+        { feature: 'Age', region },
+        { feature: 'Gender', region },
+        { feature: 'Position', region },
+        europeFeature,
+      ] as FeatureParams[];
+
+      const regionFeatures = [
+        { feature: 'Height', region },
+        { feature: 'Gender', region },
+      ] as FeatureParams[];
+
+      const result = component.replaceRegionSelectedFeatures(
+        allSelectedFeatures,
+        regionFeatures
+      );
+
+      expect(result.length).toBe(3);
+      expect(result[0]).toBe(europeFeature);
+      expect(result[1]).toBe(regionFeatures[0]);
+      expect(result[2]).toBe(regionFeatures[1]);
+    });
+  });
+
+  describe('onSelectedFeatures', () => {
+    test('should emit all feature params', () => {
+      const ageFeatureParam: FeatureParams = {
+        feature: 'Age',
+        region: 'Asia',
+        year: 2021,
+        month: 3,
+      };
+      const featureParams = [ageFeatureParam];
+      component.allSelectedFeatureParams = featureParams;
+
+      const allFeatures: FeatureSelector[] = [
+        {
+          feature: { feature: 'Height', region: 'Asia', year: 2022, month: 12 },
+          selected: true,
+        },
+        {
+          feature: ageFeatureParam,
+          selected: true,
+        },
+      ];
+      component.replaceRegionSelectedFeatures = jest
+        .fn()
+        .mockReturnValue(allFeatures);
+      component.selectFeatures.emit = jest.fn();
+
+      component.onSelectedFeatures(allFeatures);
+
+      expect(component.selectFeatures.emit).toHaveBeenCalledWith(allFeatures);
     });
   });
 });

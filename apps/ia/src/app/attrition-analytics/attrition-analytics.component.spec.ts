@@ -13,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
 import { SortDirection } from '../shared/models';
+import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { AttritionAnalyticsComponent } from './attrition-analytics.component';
 import { FeatureAnalysisComponent } from './feature-analysis/feature-analysis.component';
 import { FeatureImportanceComponent } from './feature-importance/feature-importance.component';
@@ -42,6 +43,7 @@ describe('AttritionAnalyticsComponent', () => {
     imports: [
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
+      SelectInputModule,
       MatCardModule,
       MatChipsModule,
     ],

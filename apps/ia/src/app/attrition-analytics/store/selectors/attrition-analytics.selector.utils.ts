@@ -78,7 +78,7 @@ export function mapToFeatureSelectors(
 
 export const doFeatureParamsMatchFeature = (
   featureParams: FeatureParams,
-  feature: EmployeeAnalytics
+  feature: EmployeeAnalytics | FeatureParams
 ) =>
   featureParams.feature === feature.feature &&
   featureParams.region === feature.region &&

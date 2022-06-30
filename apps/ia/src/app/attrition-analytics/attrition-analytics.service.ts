@@ -60,6 +60,7 @@ export class AttritionAnalyticsService {
           size,
           sort: sortQueryParam,
         },
+        context: withCache(),
       }
     );
   }

@@ -17,7 +17,6 @@ import {
 } from '../../models';
 import { AttritionAnalyticsState } from '..';
 import {
-  changeOrderOfFeatures,
   changeSelectedFeatures,
   initializeSelectedFeatures,
   loadAvailableFeatures,
@@ -29,12 +28,17 @@ import {
   loadFeatureImportance,
   loadFeatureImportanceFailure,
   loadFeatureImportanceSuccess,
+  selectRegion,
   toggleFeatureImportanceSort,
 } from '../actions/attrition-analytics.action';
 import {
   getFeatureImportanceHasNext,
   getFeatureImportancePageable,
   getFeatureImportanceSort,
+  getMonthFromCurrentFilters,
+  getSelectedFeatureParams,
+  getSelectedRegion,
+  getYearFromCurrentFilters,
 } from '../selectors/attrition-analytics.selector';
 import { AttritionAnalyticsEffects } from './attrition-analytics.effects';
 
@@ -243,6 +247,28 @@ describe('Attrition Anayltics Effects', () => {
     );
   });
 
+  describe('selectRegion$', () => {
+    test(
+      'should return loadEmployeeAnalytics',
+      marbles((m) => {
+        const selectedRegion = 'Asia';
+        action = selectRegion({ selectedRegion });
+
+        const featureParams = [ageFeature, positionFeature];
+
+        store.overrideSelector(getSelectedFeatureParams, featureParams);
+
+        const result = loadEmployeeAnalytics({ params: [featureParams[0]] });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.selectRegion$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
   describe('changeSelectedFeatures$', () => {
     const featureParams = [ageFeature, positionFeature];
 
@@ -254,6 +280,10 @@ describe('Attrition Anayltics Effects', () => {
       'should load Employee Analytics when selected different features',
       marbles((m) => {
         store.setState({
+          filter: {
+            regions: [ageFeature.region],
+            selectedRegion: ageFeature.region,
+          },
           attritionAnalytics: {
             employeeAnalytics: {
               features: { data: [ageFeature] },
@@ -261,7 +291,9 @@ describe('Attrition Anayltics Effects', () => {
           } as AttritionAnalyticsState,
         });
 
-        const result = loadEmployeeAnalytics({ params: featureParams });
+        store.overrideSelector(getSelectedRegion, ageFeature.region);
+
+        const result = loadEmployeeAnalytics({ params: [featureParams[0]] });
 
         actions$ = m.hot('-a', { a: action });
         const expected = m.cold('-b', { b: result });
@@ -271,58 +303,6 @@ describe('Attrition Anayltics Effects', () => {
         expect(stateService.setSelectedFeatures).toHaveBeenLastCalledWith(
           featureParams
         );
-      })
-    );
-
-    test(
-      'should change Order Of Features when selected same features in different order',
-      marbles((m) => {
-        store.setState({
-          attritionAnalytics: {
-            employeeAnalytics: {
-              features: { data: featureParams.reverse() },
-            },
-          } as AttritionAnalyticsState,
-        });
-        const result = changeOrderOfFeatures({ features: featureParams });
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.changeSelectedFeatures$).toBeObservable(expected);
-        expect(stateService.setSelectedFeatures).toHaveBeenLastCalledWith(
-          featureParams
-        );
-      })
-    );
-  });
-
-  describe('changeOrderOfFeatures$', () => {
-    const selectedFeatures = [ageFeature, positionFeature];
-
-    beforeEach(() => {
-      action = changeOrderOfFeatures({ features: selectedFeatures });
-    });
-
-    test(
-      'should load employee analytics with oreded features',
-      marbles((m) => {
-        store.setState({
-          attritionAnalytics: {
-            employeeAnalytics: {
-              features: { data: [positionFeature, ageFeature] },
-            },
-          } as AttritionAnalyticsState,
-        });
-
-        const result = loadEmployeeAnalyticsSuccess({
-          data: selectedFeatures as EmployeeAnalytics[],
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.changeOrderOfFeatures$).toBeObservable(expected);
       })
     );
   });
@@ -384,6 +364,9 @@ describe('Attrition Anayltics Effects', () => {
         employeeAnalyticsService.getFeatureImportance = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getSelectedRegion, 'Alasca');
+        store.overrideSelector(getYearFromCurrentFilters, 2022);
+        store.overrideSelector(getMonthFromCurrentFilters, 12);
 
         m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         m.flush();
@@ -407,6 +390,9 @@ describe('Attrition Anayltics Effects', () => {
         employeeAnalyticsService.getFeatureImportance = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getSelectedRegion, 'Alasca');
+        store.overrideSelector(getYearFromCurrentFilters, 2022);
+        store.overrideSelector(getMonthFromCurrentFilters, 12);
 
         m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         m.flush();
@@ -424,6 +410,9 @@ describe('Attrition Anayltics Effects', () => {
         const expected = m.cold('----');
 
         employeeAnalyticsService.getFeatureImportance = jest.fn();
+        store.overrideSelector(getSelectedRegion, 'Alasca');
+        store.overrideSelector(getYearFromCurrentFilters, 2022);
+        store.overrideSelector(getMonthFromCurrentFilters, 12);
 
         m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         expect(
@@ -490,6 +479,9 @@ describe('Attrition Anayltics Effects', () => {
         employeeAnalyticsService.getFeatureImportance = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getSelectedRegion, 'Alasca');
+        store.overrideSelector(getYearFromCurrentFilters, 2022);
+        store.overrideSelector(getMonthFromCurrentFilters, 12);
 
         m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         m.flush();
@@ -513,6 +505,9 @@ describe('Attrition Anayltics Effects', () => {
         employeeAnalyticsService.getFeatureImportance = jest
           .fn()
           .mockImplementation(() => response);
+        store.overrideSelector(getSelectedRegion, 'Alasca');
+        store.overrideSelector(getYearFromCurrentFilters, 2022);
+        store.overrideSelector(getMonthFromCurrentFilters, 12);
 
         m.expect(effects.loadNextFeatureImportance$).toBeObservable(expected);
         m.flush();
@@ -539,6 +534,23 @@ describe('Attrition Anayltics Effects', () => {
     );
   });
 
+  describe('getFeatureSelectorsForSelectedRegion', () => {
+    test(
+      'should return available and selected feature selectors',
+      marbles((m) => {
+        const result = loadFeatureImportance();
+        action = loadAvailableFeaturesSuccess({ data: [] });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.loadFeatureImportance$).toBeObservable(expected);
+        m.flush();
+      })
+    );
+  });
+
   describe('ngrxOnInitEffects', () => {
     test('should dispatch loadAvailableFeatures action', () => {
       effects['store'].dispatch = jest.fn();
@@ -553,10 +565,6 @@ describe('Attrition Anayltics Effects', () => {
         initializeSelectedFeatures({
           features: [],
         })
-      );
-
-      expect(effects['store'].dispatch).toHaveBeenCalledWith(
-        loadFeatureImportance()
       );
     });
   });

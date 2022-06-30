@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatSelectChange } from '@angular/material/select';
 
 import { IdValue } from '../models';
@@ -29,6 +30,7 @@ export class SelectInputComponent {
       this.selectControl.enable();
     }
   }
+  @Input() appearance: MatFormFieldAppearance = 'fill';
 
   @Output() readonly selected: EventEmitter<IdValue> = new EventEmitter();
 

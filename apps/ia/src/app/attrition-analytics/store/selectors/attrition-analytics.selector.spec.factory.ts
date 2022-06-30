@@ -6,6 +6,10 @@ import { AttritionAnalyticsState } from '..';
 
 export function createFakeState(): AttritionAnalyticsState {
   return {
+    filter: {
+      regions: ['Asia', 'Europe'],
+      selectedRegion: 'Asia',
+    },
     employeeAnalytics: {
       features: {
         data: [
@@ -122,7 +126,7 @@ export function createDummyBarChartSerie(color: string): BarChartSerie {
     [
       [4, 50, 2],
       [10.2, 49, 5],
-      [11.86, 59, 7],
+      [11.9, 59, 7],
     ],
     color
   );

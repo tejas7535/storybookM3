@@ -5,23 +5,24 @@
         {{ t('unforcedFluctuationAnalytics.title') }}
       </h5>
       <mat-chip-list class="ml-24">
+        <ia-select-input
+          class="mr-1 flex-1"
+          [appearance]="'fill'"
+          [options]="availableRegions$ | ngrxPush"
+          [selectedOption]="selectedRegion$ | ngrxPush"
+          [disabled]="false"
+          [label]="'Region'"
+          (selected)="regionSelected($event)"
+        ></ia-select-input>
         <mat-chip
+          *ngIf="year$ | ngrxPush"
           color="secondary"
           selected
           disableRipple="true"
           selectable="false"
           class="after:!bg-transparent"
           (click)="$event.stopPropagation()"
-          >Data-Set: Germany</mat-chip
-        >
-        <mat-chip
-          color="secondary"
-          selected
-          disableRipple="true"
-          selectable="false"
-          class="after:!bg-transparent"
-          (click)="$event.stopPropagation()"
-          >Time-Range: 2021</mat-chip
+          >Time-Range: {{ year$ | ngrxPush }}</mat-chip
         >
         <mat-chip
           color="secondary"
@@ -34,6 +35,7 @@
           {{ (featureAnalysisSelectors$ | ngrxPush)?.length }}</mat-chip
         >
         <mat-chip
+          *ngIf="featureAnalysisOverallAttritionRate$ | ngrxPush"
           color="secondary"
           selected
           disableRipple="true"
@@ -41,7 +43,9 @@
           class="after:!bg-transparent"
           (click)="$event.stopPropagation()"
           >{{ t('barChart.attritionRate') }}:
-          {{ featureAnalysisOverallAttritionRate$ | ngrxPush }}%</mat-chip
+          {{
+            featureAnalysisOverallAttritionRate$ | ngrxPush | percent: '1.0-1'
+          }}</mat-chip
         >
       </mat-chip-list>
     </div>
@@ -52,6 +56,8 @@
         [barChartConfigs]="barChartConfigs$ | ngrxPush"
         [loading]="featureAnalysisLoading$ | ngrxPush"
         [allFeatureSelectors]="featureAnalysisSelectors$ | ngrxPush"
+        [allSelectedFeatureParams]="allFeatureParams$ | ngrxPush"
+        [region]="selectedRegion$ | ngrxPush"
       ></ia-feature-analysis>
       <ia-feature-importance
         class="w-full"

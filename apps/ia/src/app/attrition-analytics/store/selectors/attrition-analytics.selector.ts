@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { getPercentageValue } from '../../../overview/store/selectors/overview-selector-utils';
+import { IdValue } from '../../../shared/models';
 import { Color } from '../../../shared/models/color.enum';
 import { EmployeeAnalytics } from '../../models/employee-analytics.model';
 import { FeatureParams } from '../../models/feature-params.model';
@@ -15,10 +15,37 @@ export const getEmployeeAnalyticsLoading = createSelector(
   (state: AttritionAnalyticsState) => state.employeeAnalytics.features.loading
 );
 
-export const getAvailableFeatures = createSelector(
+export const getAvailableRegionsIdValues = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => {
+    const allRegions = state.employeeAnalytics.availableFeatures.data?.map(
+      (featureParam) => featureParam.region
+    );
+
+    const idValues: IdValue[] = [...new Set(allRegions)].map(
+      (region) => new IdValue(region, region)
+    );
+
+    return idValues;
+  }
+);
+
+export const getSelectedRegion = createSelector(
+  selectAttritionAnalyticsState,
+  (state: AttritionAnalyticsState) => state.filter.selectedRegion
+);
+
+export const getAllAvailableFeatures = createSelector(
   selectAttritionAnalyticsState,
   (state: AttritionAnalyticsState) =>
     state.employeeAnalytics.availableFeatures.data
+);
+
+export const getAvailableFeaturesForSelectedRegion = createSelector(
+  getAllAvailableFeatures,
+  getSelectedRegion,
+  (featureParams: FeatureParams[], selectedRegion: string) =>
+    featureParams?.filter((feature) => feature.region === selectedRegion)
 );
 
 export const getAvailableFeaturesLoading = createSelector(
@@ -32,12 +59,20 @@ export const getSelectedFeatureParams = createSelector(
   (state: AttritionAnalyticsState) => state.selectedByUser.features
 );
 
-export const getFeatureSelectors = createSelector(
-  getAvailableFeatures,
+export const getFeatureSelectorsForSelectedRegion = createSelector(
+  getAvailableFeaturesForSelectedRegion,
   getSelectedFeatureParams,
-  (availableFeatures: FeatureParams[], selected: FeatureParams[]) =>
+  getSelectedRegion,
+  (
+    availableFeatures: FeatureParams[],
+    selected: FeatureParams[],
+    selectedRegion: string
+  ) =>
     availableFeatures
-      ? mapToFeatureSelectors(availableFeatures, selected)
+      ? mapToFeatureSelectors(
+          availableFeatures,
+          selected.filter((feature) => feature.region === selectedRegion)
+        )
       : undefined
 );
 
@@ -48,10 +83,22 @@ export const getSelectedFeatures = createSelector(
 
 export const getFeatureOverallAttritionRate = createSelector(
   getSelectedFeatures,
-  (selectedFeatures: EmployeeAnalytics[]) =>
-    selectedFeatures
-      ? getPercentageValue(selectedFeatures[0]?.overallAttritionRate) // overall attrition rate is the same for all features
-      : undefined
+  getSelectedRegion,
+  (selectedFeatures: EmployeeAnalytics[], selectedRegion: string) =>
+    selectedFeatures?.find((feature) => feature.region === selectedRegion)
+      ?.overallAttritionRate // overall attrition rate is the same for all features
+);
+
+export const getYearFromCurrentFilters = createSelector(
+  getAvailableFeaturesForSelectedRegion,
+  (featureParams: FeatureParams[]) =>
+    featureParams ? featureParams[0].year : undefined
+);
+
+export const getMonthFromCurrentFilters = createSelector(
+  getAvailableFeaturesForSelectedRegion,
+  (featureParams: FeatureParams[]) =>
+    featureParams ? featureParams[0].month : undefined
 );
 
 export const getBarChartConfigsForSelectedFeatures = createSelector(

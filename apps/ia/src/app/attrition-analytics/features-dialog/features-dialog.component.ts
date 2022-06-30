@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { translate } from '@ngneat/transloco';
 
+import { FeatureSelectorConfig } from '../models';
 import { FeatureSelector } from '../models/feature-selector.model';
 
 @Component({
@@ -25,13 +26,13 @@ export class FeaturesDialogComponent implements OnInit {
   unselected: FeatureSelector[] = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: FeatureSelector[],
+    @Inject(MAT_DIALOG_DATA) public config: FeatureSelectorConfig,
     private readonly snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
-    for (const entry of this.data) {
-      if (entry.selected) {
+    for (const entry of this.config.data) {
+      if (entry.feature.region === this.config.region && entry.selected) {
         this.selected.push(entry);
       } else {
         this.unselected.push(entry);

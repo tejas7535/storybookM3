@@ -7,6 +7,11 @@ import {
   FeatureParams,
 } from '../../models';
 
+export const selectRegion = createAction(
+  '[AttritionAnalytics] Select Region',
+  props<{ selectedRegion: string }>()
+);
+
 export const loadEmployeeAnalytics = createAction(
   '[AttritionAnalytics] Load Employee Analytics',
   props<{ params: FeatureParams[] }>()

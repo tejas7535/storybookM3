@@ -28,20 +28,25 @@ describe('FeaturesDialogComponent', () => {
   let spectator: Spectator<FeaturesDialogComponent>;
   let snackBar: MatSnackBar;
 
+  const region = 'Alasca';
   const data: FeatureSelector[] = [
     {
       feature: {
         feature: 'Test',
+        region,
       } as FeatureParams,
       selected: true,
     },
     {
       feature: {
         feature: 'Test 2',
+        region,
       } as FeatureParams,
       selected: false,
     },
   ];
+
+  const config = { data, region };
 
   const createComponent = createComponentFactory({
     component: FeaturesDialogComponent,
@@ -53,7 +58,7 @@ describe('FeaturesDialogComponent', () => {
       MatSnackBarModule,
     ],
     providers: [
-      { provide: MAT_DIALOG_DATA, useValue: data },
+      { provide: MAT_DIALOG_DATA, useValue: config },
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
     ],
   });

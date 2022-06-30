@@ -2,7 +2,7 @@ import { FeatureParams } from '../../models/feature-params.model';
 import { FeatureSelector } from '../../models/feature-selector.model';
 import { AttritionAnalyticsState, initialState } from '..';
 import {
-  getAvailableFeatures,
+  getAvailableFeaturesForSelectedRegion,
   getAvailableFeaturesLoading,
   getBarChartConfigsForSelectedFeatures,
   getEmployeeAnalyticsLoading,
@@ -13,7 +13,7 @@ import {
   getFeatureImportanceSort,
   getFeatureImportanceSortDirection,
   getFeatureOverallAttritionRate,
-  getFeatureSelectors,
+  getFeatureSelectorsForSelectedRegion,
   getSelectedFeatureParams,
   getSelectedFeatures,
 } from './attrition-analytics.selector';
@@ -48,10 +48,15 @@ describe('attrition analytics selector', () => {
     });
   });
 
-  describe('getAvailableFeatures', () => {
-    test('should get available features', () => {
-      const expectedResult = fakeState.employeeAnalytics.availableFeatures.data;
-      const result = getAvailableFeatures.projector(fakeState);
+  describe('getAvailableFeaturesForSelectedRegion', () => {
+    test('should get available features for selected region', () => {
+      const expectedResult = [
+        fakeState.employeeAnalytics.availableFeatures.data[1],
+      ];
+      const result = getAvailableFeaturesForSelectedRegion.projector(
+        fakeState.employeeAnalytics.availableFeatures.data,
+        fakeState.employeeAnalytics.availableFeatures.data[1].region
+      );
 
       expect(result).toEqual(expectedResult);
     });
@@ -81,12 +86,12 @@ describe('attrition analytics selector', () => {
     });
   });
 
-  describe('getFeatureSelectors', () => {
+  describe('getFeatureSelectorsForSelectedRegion', () => {
     test('should get feature selectors', () => {
       const ageFeature = { feature: 'Age' } as FeatureParams;
       const positionFeature = { feature: 'Position' } as FeatureParams;
       expect(
-        getFeatureSelectors.projector(
+        getFeatureSelectorsForSelectedRegion.projector(
           [ageFeature, positionFeature],
           [positionFeature]
         )
@@ -98,7 +103,7 @@ describe('attrition analytics selector', () => {
 
     test('should return undefined when features undefined', () => {
       expect(
-        getFeatureSelectors.projector(
+        getFeatureSelectorsForSelectedRegion.projector(
           undefined as string[],
           undefined as string[]
         )
@@ -118,17 +123,16 @@ describe('attrition analytics selector', () => {
     test('should get oerall attrition rate if features loaded', () => {
       expect(
         getFeatureOverallAttritionRate.projector(
-          fakeState.employeeAnalytics.features.data
+          fakeState.employeeAnalytics.features.data,
+          fakeState.filter.selectedRegion
         )
       ).toEqual(
-        fakeState.employeeAnalytics.features.data[0].overallAttritionRate * 100
+        fakeState.employeeAnalytics.features.data[1].overallAttritionRate
       );
     });
 
-    test('should return NaN otherwise', () => {
-      expect(
-        Number.isNaN(getFeatureOverallAttritionRate.projector([]))
-      ).toBeTruthy();
+    test('should return undefined otherwise', () => {
+      expect(getFeatureOverallAttritionRate.projector([])).toBeUndefined();
     });
   });
 

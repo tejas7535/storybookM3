@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BarChartConfig } from '../shared/charts/models/bar-chart-config.model';
-import { SortDirection } from '../shared/models';
+import { IdValue, SortDirection } from '../shared/models';
 import {
   FeatureImportanceGroup,
   FeatureParams,
@@ -14,9 +14,11 @@ import {
 import {
   changeSelectedFeatures,
   loadFeatureImportance,
+  selectRegion,
   toggleFeatureImportanceSort,
 } from './store/actions/attrition-analytics.action';
 import {
+  getAvailableRegionsIdValues,
   getBarChartConfigsForSelectedFeatures,
   getEmployeeAnalyticsLoading,
   getFeatureImportanceGroups,
@@ -24,7 +26,10 @@ import {
   getFeatureImportanceLoading,
   getFeatureImportanceSortDirection,
   getFeatureOverallAttritionRate,
-  getFeatureSelectors,
+  getFeatureSelectorsForSelectedRegion,
+  getSelectedFeatureParams,
+  getSelectedRegion,
+  getYearFromCurrentFilters,
 } from './store/selectors/attrition-analytics.selector';
 
 @Component({
@@ -34,6 +39,13 @@ import {
 })
 export class AttritionAnalyticsComponent implements OnInit {
   barChartConfigs$: Observable<BarChartConfig[]>;
+  selectedFeatureParams: FeatureParams[];
+  availableRegions$: Observable<IdValue[]>;
+  selectedRegion$: Observable<string>;
+  year$: Observable<number>;
+
+  allFeatureParams$: Observable<FeatureParams[]>;
+
   featureAnalysisLoading$: Observable<boolean>;
   featureAnalysisSelectors$: Observable<FeatureSelector[]>;
   featureAnalysisOverallAttritionRate$: Observable<number>;
@@ -49,7 +61,14 @@ export class AttritionAnalyticsComponent implements OnInit {
     this.featureAnalysisLoading$ = this.store.select(
       getEmployeeAnalyticsLoading
     );
-    this.featureAnalysisSelectors$ = this.store.select(getFeatureSelectors);
+    this.availableRegions$ = this.store.select(getAvailableRegionsIdValues);
+    this.selectedRegion$ = this.store.select(getSelectedRegion);
+    this.year$ = this.store.select(getYearFromCurrentFilters);
+    this.allFeatureParams$ = this.store.select(getSelectedFeatureParams);
+
+    this.featureAnalysisSelectors$ = this.store.select(
+      getFeatureSelectorsForSelectedRegion
+    );
     this.barChartConfigs$ = this.store.select(
       getBarChartConfigsForSelectedFeatures
     );
@@ -82,5 +101,9 @@ export class AttritionAnalyticsComponent implements OnInit {
 
   toggleSortFeatureImportance(): void {
     this.store.dispatch(toggleFeatureImportanceSort());
+  }
+
+  regionSelected(region: IdValue) {
+    this.store.dispatch(selectRegion({ selectedRegion: region.id }));
   }
 }
