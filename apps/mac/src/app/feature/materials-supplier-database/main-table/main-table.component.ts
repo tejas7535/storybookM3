@@ -57,6 +57,8 @@ import {
   SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from './table-config';
+import { MatDialog } from '@angular/material/dialog';
+import { InputDialogComponent } from './input-dialog/input-dialog.component';
 
 /* eslint-disable max-lines */
 @Component({
@@ -124,7 +126,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
     private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
@@ -547,4 +550,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
       ),
     }));
+
+  public openDialog(): void {
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      width: '863px',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed: ' + result);
+    });
+  }
 }

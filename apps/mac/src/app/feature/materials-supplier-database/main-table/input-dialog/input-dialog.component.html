@@ -1,0 +1,203 @@
+<div mat-dialog-title class="!-mx-6">
+  <div class="flex flex-row content-around justify-between">
+    <div class="text-h6 my-auto text-high-emphasis">Add Material</div>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+<mat-dialog-content class="flex flex-col">
+  <div class="flex flex-col">
+    <div class="text-subtitle-2 pb-4 text-high-emphasis">
+      Material standard information
+    </div>
+    <div class="flex flex-row gap-x-6">
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Standard Document*"
+      ></schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Material Name*"
+      ></schaeffler-select>
+    </div>
+    <div class="flex flex-row gap-x-6">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Steel number (EN 10027-2)</mat-label>
+        <input matInput placeholder="1.1234" value="" />
+      </mat-form-field>
+      <div class="flex w-full flex-row">
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="options"
+          label="Referenced in Document"
+        ></schaeffler-select>
+        <button mat-icon-button class="!mb-5 self-center">
+          <mat-icon class="text-link">info_outline</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-col">
+    <div class="text-subtitle-2 pb-4 text-high-emphasis">
+      Supplier information
+    </div>
+    <div class="flex flex-row gap-x-6">
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Supplier Name*"
+      ></schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Supplier Plant*"
+      ></schaeffler-select>
+    </div>
+    <div class="flex flex-row gap-x-6">
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Cast / Remelt product information*"
+      ></schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Casting / remelting process*"
+      ></schaeffler-select>
+    </div>
+    <div class="flex flex-row gap-x-6">
+      <schaeffler-select
+        appearance="outline"
+        class="w-auto"
+        [stringOptions]="options"
+        label="Supplier Rating"
+      ></schaeffler-select>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Supplier Rating remark</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="flex flex-col">
+    <div class="text-subtitle-2 pb-4 text-high-emphasis">
+      Product & CO2 information
+    </div>
+    <div class="flex flex-row gap-x-6">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Max Dimensions*</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Min Dimension</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Product Category*"
+      ></schaeffler-select>
+    </div>
+
+    <div class="flex flex-row gap-x-6">
+      <mat-form-field appearance="outline" class="w-1/4">
+        <mat-label>Scope 1</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-1/4">
+        <mat-label>Scope 2</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-1/4">
+        <mat-label>Scope 3</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-1/4">
+        <mat-label>Co2 Total</mat-label>
+        <input matInput placeholder="comment" value="" />
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-row gap-x-6">
+      <schaeffler-select
+        appearance="outline"
+        class="w-auto"
+        [stringOptions]="options"
+        label="Steel making Process"
+      ></schaeffler-select>
+      <div class="flex w-full flex-row">
+        <schaeffler-select
+          appearance="outline"
+          class="w-full"
+          [stringOptions]="options"
+          label="CO2 data classification*"
+        ></schaeffler-select>
+        <button mat-icon-button class="self-center">
+          <mat-icon class="mb-4 text-link">info_outline</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-row gap-x-6">
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Release Year*"
+      ></schaeffler-select>
+      <schaeffler-select
+        appearance="outline"
+        class="w-full"
+        [stringOptions]="options"
+        label="Release Month*"
+      ></schaeffler-select>
+    </div>
+
+    <div class="flex flex-row gap-x-6">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Release restrictions / Comment on CO2 calculation</mat-label>
+        <textarea matInput placeholder="comment" value=""></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="flex flex-row gap-x-6">
+      <section>
+        <mat-checkbox class="text-caption text-high-emphasis">
+          Blocked
+          <button mat-icon-button>
+            <mat-icon inline="true" class="text-link"> info_outline </mat-icon>
+          </button>
+        </mat-checkbox>
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="-mx-6">
+  <mat-divider class="w-full"></mat-divider>
+  <div>
+    <button mat-stroked-button (click)="closeDialog()">Cancel</button>
+    <button
+      mat-stroked-button
+      class="text-link"
+      mat-dialog-close="demovalue"
+      cdkFocusInitial
+    >
+      ADD Material
+    </button>
+  </div>
+</mat-dialog-actions>

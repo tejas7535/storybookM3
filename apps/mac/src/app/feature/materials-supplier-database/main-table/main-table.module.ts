@@ -15,6 +15,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
+import { InputDialogModule } from './input-dialog/input-dialog.module';
 
 @NgModule({
   declarations: [MainTableComponent],
@@ -31,6 +32,7 @@ import { MainTableRoutingModule } from './main-table-routing.module';
     MatCheckboxModule,
     MatIconModule,
     SharedTranslocoModule,
+    InputDialogModule,
   ],
   providers: [DatePipe],
 })

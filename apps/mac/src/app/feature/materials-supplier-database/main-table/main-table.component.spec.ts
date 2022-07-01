@@ -45,6 +45,7 @@ import {
   COLUMN_DEFINITIONS,
   SAP_SUPPLIER_IDS,
 } from './table-config/column-definitions';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('MainTableComponent', () => {
   let component: MainTableComponent;
@@ -58,6 +59,7 @@ describe('MainTableComponent', () => {
   const createComponent = createComponentFactory({
     component: MainTableComponent,
     imports: [
+      MatDialogModule,
       CommonModule,
       MainTableRoutingModule,
       RouterTestingModule,
