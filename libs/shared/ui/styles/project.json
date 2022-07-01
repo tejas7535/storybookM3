@@ -5,23 +5,23 @@
   "prefix": "schaeffler",
   "targets": {
     "build": {
-      "executor": "@nrwl/angular:package",
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
       "options": {
+        "outputPath": "dist/libs/shared/ui/styles",
+        "main": "libs/shared/ui/styles/src/index.ts",
         "tsConfig": "libs/shared/ui/styles/tsconfig.lib.json",
-        "project": "libs/shared/ui/styles/ng-package.json",
-        "buildableProjectDepsInPackageJsonType": "dependencies"
-      },
-      "configurations": {
-        "production": {
-          "tsConfig": "libs/shared/ui/styles/tsconfig.lib.prod.json"
-        }
+        "assets": [
+          "libs/shared/ui/styles/**/*.scss",
+          "libs/shared/ui/styles/*.md"
+        ]
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/shared/ui/styles/src/**/*.ts"]
+        "lintFilePatterns": ["libs/shared/ui/styles/src/**/*.js"]
       },
       "configurations": {
         "ci": {
@@ -30,14 +30,6 @@
           "force": true
         }
       }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "options": {
-        "jestConfig": "libs/shared/ui/styles/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "outputs": ["coverage/libs/shared/ui/styles"]
     },
     "standard-version": {
       "executor": "@nrwl/workspace:run-commands",
@@ -55,11 +47,6 @@
           }
         ]
       }
-    }
-  },
-  "generators": {
-    "@nrwl/angular:component": {
-      "style": "scss"
     }
   },
   "tags": ["scope:shared", "type:styles"]

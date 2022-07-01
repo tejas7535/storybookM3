@@ -48,5 +48,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["shared-ui-styles"]
 }

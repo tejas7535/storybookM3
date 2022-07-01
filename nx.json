@@ -41,6 +41,26 @@
       }
     }
   },
+  "targetDependencies": {
+    "storybook": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "build-storybook": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
   "cli": {
     "cache": {
       "enabled": true,

@@ -1,4 +1,4 @@
-@import 'libs/shared/ui/styles/src/lib/ghost-animation.scss';
+@import 'libs/shared/ui/styles/src/lib/scss/ghost-animation.scss';
 .skeleton-bg {
   @include animate-ghost-line;
 }

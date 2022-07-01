@@ -7,7 +7,7 @@ This lib depends on `tailwind`, which has to be included in your app.
 
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-@import 'libs/shared/ui/styles/src/lib/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';

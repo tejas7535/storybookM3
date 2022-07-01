@@ -17,7 +17,7 @@ This lib depends on [Angular Material](https://material.angular.io) (including [
  * Angular Material, material design components
  * see https://material.angular.io
  */
-@import 'libs/shared/ui/styles/src/lib/material-theme';
+@import 'libs/shared/ui/styles/src/lib/scss/material-theme';
 
 /*
  * further / custom components

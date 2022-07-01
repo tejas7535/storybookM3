@@ -1,8 +1,11 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
 const { join } = require('path');
+const {
+  schaefflerTailwindPreset,
+} = require('../../../../libs/shared/ui/styles/src/lib/tailwind/preset');
 
 module.exports = {
-  presets: [require('../../../../tailwind.config')],
+  presets: [schaefflerTailwindPreset],
   content: [
     join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
     join(__dirname, 'components/**/!(*.stories|*.spec).{ts,html}'),

@@ -1,5 +1,8 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
 const { join } = require('path');
+const {
+  schaefflerTailwindPreset,
+} = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
 
 const secondaryColorPalette = {
   50: '#E5F4E9',
@@ -22,7 +25,7 @@ module.exports = {
       '../**/!(*.stories|*.spec).{ts,html}'
     ),
   ],
-  presets: [require('../../tailwind.config')],
+  presets: [schaefflerTailwindPreset],
   theme: {
     extend: {
       colors: {

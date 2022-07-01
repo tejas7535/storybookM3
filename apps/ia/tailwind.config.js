@@ -1,5 +1,8 @@
 const { createGlobPatternsForDependencies } = require('@nrwl/angular/tailwind');
 const { join } = require('path');
+const {
+  schaefflerTailwindPreset,
+} = require('../../libs/shared/ui/styles/src/lib/tailwind/preset');
 
 module.exports = {
   content: [
@@ -9,7 +12,7 @@ module.exports = {
       '../**/!(*.stories|*.spec).{ts,html}'
     ),
   ],
-  presets: [require('../../tailwind.config')],
+  presets: [schaefflerTailwindPreset],
   safelist: [
     /**needed to make material icons work within org chart in app IA */
     "before:content-['\\e24b']",
