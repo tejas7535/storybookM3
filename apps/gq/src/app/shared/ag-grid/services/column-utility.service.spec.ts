@@ -66,8 +66,18 @@ describe('CreateColumnService', () => {
     });
   });
   describe('filterGpc', () => {
-    test('should return false', () => {
+    test('should return false for GPC', () => {
       const col = { field: ColumnFields.GPC };
+      const isNotFiltered = ColumnUtilityService.filterGpc(col, roles);
+      expect(isNotFiltered).toBeFalsy();
+    });
+    test('should return false for GPI', () => {
+      const col = { field: ColumnFields.GPI };
+      const isNotFiltered = ColumnUtilityService.filterGpc(col, roles);
+      expect(isNotFiltered).toBeFalsy();
+    });
+    test('should return false for LAST CUSTOMER PRICE GPI', () => {
+      const col = { field: ColumnFields.LAST_CUSTOMER_PRICE_GPI };
       const isNotFiltered = ColumnUtilityService.filterGpc(col, roles);
       expect(isNotFiltered).toBeFalsy();
     });

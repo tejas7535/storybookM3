@@ -5,11 +5,14 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
+import { UserRoles } from '../../../shared/constants';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
+import { ColumnDefService } from './config';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -20,6 +23,8 @@ jest.mock('@ngneat/transloco', () => ({
 describe('ComparableTransactionsComponent', () => {
   let component: ComparableTransactionsComponent;
   let spectator: Spectator<ComparableTransactionsComponent>;
+  let store: MockStore;
+  let columnDefService: ColumnDefService;
 
   const createComponent = createComponentFactory({
     component: ComparableTransactionsComponent,
@@ -28,13 +33,21 @@ describe('ComparableTransactionsComponent', () => {
       InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
       PushModule,
+      InfoIconModule,
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      ColumnDefService,
+      provideMockStore(),
+    ],
+    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
+    columnDefService = spectator.inject(ColumnDefService);
   });
 
   test('should create', () => {
@@ -145,6 +158,57 @@ describe('ComparableTransactionsComponent', () => {
       component.onFilterChanged(mockEvent);
 
       expect(result).toEqual(mockEvent);
+    });
+  });
+  describe('column definitions', () => {
+    test('should return all columns for user with GPC Role', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC, UserRoles.COST_GPC],
+            },
+          },
+        },
+      });
+
+      spectator.detectChanges();
+
+      let result;
+      spectator.component.columnDefs$.subscribe((colDefs) => {
+        result = colDefs;
+      });
+
+      spectator.detectChanges();
+
+      expect(result).toEqual(columnDefService.COLUMN_DEFS);
+    });
+
+    test('should NOT return profitMargin Col for users WITHOUT GPC Role', () => {
+      store.setState({
+        'azure-auth': {
+          accountInfo: {
+            idTokenClaims: {
+              roles: [UserRoles.BASIC],
+            },
+          },
+        },
+      });
+
+      spectator.detectChanges();
+
+      let result;
+      spectator.component.columnDefs$.subscribe((colDefs) => {
+        result = colDefs;
+      });
+
+      spectator.detectChanges();
+
+      expect(result).toEqual(
+        columnDefService.COLUMN_DEFS.filter(
+          (col) => col.field !== 'profitMargin'
+        )
+      );
     });
   });
 });

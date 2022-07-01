@@ -19,6 +19,7 @@ import {
   getSelectedQuotationDetail,
   getTransactions,
   getTransactionsLoading,
+  userHasGPCRole,
 } from '../../core/store';
 import { ComparableLinkedTransaction } from '../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { Customer } from '../../shared/models/customer';
@@ -43,6 +44,7 @@ export class TransactionViewComponent implements OnInit {
   graphTransactions$: Observable<ComparableLinkedTransaction[]>;
   coefficients$: Observable<Coefficients>;
   customer$: Observable<Customer>;
+  hasGpcRole$: Observable<boolean>;
 
   filteredTransactionIdentifier = new BehaviorSubject<number[] | undefined>(
     undefined
@@ -60,6 +62,7 @@ export class TransactionViewComponent implements OnInit {
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
     this.quotationLoading$ = this.store.select(getQuotationLoading);
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
+    this.hasGpcRole$ = this.store.pipe(userHasGPCRole);
     this.translationsLoaded$ = this.translocoService
       .selectTranslateObject('transactions', {}, 'transaction-view')
       .pipe(map((res) => typeof res !== 'string'));

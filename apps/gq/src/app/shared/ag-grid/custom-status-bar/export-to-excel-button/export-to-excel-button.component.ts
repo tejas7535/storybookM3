@@ -669,13 +669,16 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   transformValue(t: ExtendedComparableLinkedTransaction, key: string): string {
-    let value = t[key as keyof ExtendedComparableLinkedTransaction];
-    if (PercentColumns.includes(key as ColumnFields)) {
-      value = PriceService.roundToTwoDecimals(Number(value));
+    const value = t[key as keyof ExtendedComparableLinkedTransaction];
+
+    if (value === undefined || value === null) {
+      return '';
+    } else if (PercentColumns.includes(key as ColumnFields)) {
+      return PriceService.roundToTwoDecimals(Number(value)).toString();
     } else if (
       this.hasDelimiterProblemInExcelGreaterEqual1000(key, Number(value))
     ) {
-      value = HelperService.transformNumber(value as number, true);
+      return HelperService.transformNumber(value as number, true).toString();
     }
 
     return value?.toString();

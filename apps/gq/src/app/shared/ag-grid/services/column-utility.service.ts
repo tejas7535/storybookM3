@@ -60,7 +60,11 @@ export class ColumnUtilityService {
     );
   }
   static filterGpc(col: ColDef, roles: string[]): boolean {
-    return col.field === ColumnFields.GPC || col.field === ColumnFields.GPI
+    return [
+      ColumnFields.GPC,
+      ColumnFields.GPI,
+      ColumnFields.LAST_CUSTOMER_PRICE_GPI,
+    ].includes(col.field as ColumnFields)
       ? roles.includes(UserRoles.COST_GPC)
       : true;
   }

@@ -909,7 +909,7 @@ describe('ExportToExcelButtonComponent', () => {
 
       test('rows rounds up profitMargin', () => {
         component.transactions = [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK];
-        PriceService.roundToTwoDecimals = jest.fn();
+        PriceService.roundToTwoDecimals = jest.fn().mockReturnValue(42);
         component['getNumberExcelCell'] = jest.fn();
 
         component.addComparableTransactionsRows(translations);
@@ -959,7 +959,7 @@ describe('ExportToExcelButtonComponent', () => {
     });
 
     test('rounds up price', () => {
-      PriceService.roundToTwoDecimals = jest.fn();
+      PriceService.roundToTwoDecimals = jest.fn().mockReturnValue(42);
 
       component.transformValue(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
@@ -972,7 +972,7 @@ describe('ExportToExcelButtonComponent', () => {
     });
 
     test('rounds up percent value', () => {
-      HelperService.transformNumber = jest.fn();
+      HelperService.transformNumber = jest.fn().mockReturnValue(42);
 
       component.transformValue(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
@@ -983,6 +983,18 @@ describe('ExportToExcelButtonComponent', () => {
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price,
         true
       );
+    });
+
+    test('handle undefined values', () => {
+      HelperService.transformNumber = jest.fn().mockReturnValue(42);
+
+      const result = component.transformValue(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        'does-not-exist'
+      );
+
+      expect(HelperService.transformNumber).not.toHaveBeenCalled();
+      expect(result).toEqual('');
     });
   });
 

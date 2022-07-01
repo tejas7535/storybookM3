@@ -31,6 +31,7 @@ export class TransparencyGraphComponent implements OnInit {
   @Input() coefficients: Coefficients;
   @Input() currency: string;
   @Input() customer: Customer;
+  @Input() userHasGpcRole: boolean;
 
   transactionValues: ComparableLinkedTransaction[] = [];
 
@@ -58,7 +59,7 @@ export class TransparencyGraphComponent implements OnInit {
     );
 
     this.options = {
-      tooltip: this.chartConfigService.getToolTipConfig(),
+      tooltip: this.chartConfigService.getToolTipConfig(this.userHasGpcRole),
       xAxis: this.chartConfigService.getXAxisConfig(dataPoints),
       yAxis: this.chartConfigService.Y_AXIS_CONFIG,
       series: seriesConfig.series,

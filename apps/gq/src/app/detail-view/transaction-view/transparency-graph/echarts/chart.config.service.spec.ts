@@ -73,9 +73,14 @@ describe('ChartConfigService', () => {
     test('should return tooltipconfig', () => {
       service.tooltipFormatter = jest.fn();
       const formatter = service.tooltipFormatter;
-      const result = service.getToolTipConfig();
 
-      expect(result).toEqual({ ...TOOLTIP_CONFIG, formatter });
+      const expected = {
+        ...TOOLTIP_CONFIG,
+        formatter: (param: any) => formatter(param, true),
+      };
+      const result = service.getToolTipConfig(true);
+
+      expect(JSON.stringify(expected)).toEqual(JSON.stringify(result));
     });
   });
   describe('getValueForToolTipItem', () => {
@@ -109,13 +114,13 @@ describe('ChartConfigService', () => {
   });
 
   describe('tooltipFormatter', () => {
-    test('should create tooltip', () => {
+    test('should create tooltip with GPI', () => {
       const param = { data: DATA_POINT_MOCK };
       service.getRegressionForToolTipFormatter = jest.fn(() => '');
       service.getValueForToolTipItem = jest.fn();
       service.getLineForToolTipFormatter = jest.fn(() => '');
 
-      const result = service.tooltipFormatter(param);
+      const result = service.tooltipFormatter(param, true);
 
       expect(result).toEqual(
         `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
@@ -123,6 +128,22 @@ describe('ChartConfigService', () => {
       expect(service.getValueForToolTipItem).toHaveBeenCalledTimes(4);
       expect(service.getLineForToolTipFormatter).toHaveBeenCalledTimes(4);
       expect(service.getRegressionForToolTipFormatter).toHaveBeenCalledTimes(1);
+    });
+
+    test('should create tooltip without GPI', () => {
+      const param = { data: DATA_POINT_MOCK };
+      service.getRegressionForToolTipFormatter = jest.fn(() => '');
+      service.getValueForToolTipItem = jest.fn();
+      service.getLineForToolTipFormatter = jest.fn(() => '');
+
+      const result = service.tooltipFormatter(param, false);
+
+      expect(result).toEqual(
+        `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
+      );
+      expect(service.getValueForToolTipItem).toHaveBeenCalledTimes(3);
+      expect(service.getLineForToolTipFormatter).toHaveBeenCalledTimes(3);
+      expect(service.getRegressionForToolTipFormatter).toHaveBeenCalledTimes(0);
     });
   });
 

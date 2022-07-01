@@ -1,15 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
 
 import {
+  ColDef,
   ColumnState,
   FilterChangedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
   SortChangedEvent,
 } from '@ag-grid-community/all-modules';
+import { Store } from '@ngrx/store';
 
+import { userHasGPCRole } from '../../../core/store';
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
 import { AgGridLocale } from '../../../shared/ag-grid/models/ag-grid-locale.interface';
@@ -37,8 +40,8 @@ export class ComparableTransactionsComponent implements OnInit {
   private readonly TABLE_KEY = 'transactions';
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
-  public columnDefs = this.columnDefService.COLUMN_DEFS;
   public localeText$: Observable<AgGridLocale>;
+  columnDefs$: Observable<ColDef[]>;
 
   tableContext: TableContext = {
     quotation: { customer: {} } as unknown as Quotation,
@@ -47,11 +50,22 @@ export class ComparableTransactionsComponent implements OnInit {
   constructor(
     private readonly columnDefService: ColumnDefService,
     private readonly agGridStateService: AgGridStateService,
-    private readonly localizationService: LocalizationService
+    private readonly localizationService: LocalizationService,
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {
     this.localeText$ = this.localizationService.locale$;
+    this.columnDefs$ = combineLatest([
+      of(this.columnDefService.COLUMN_DEFS),
+      this.store.pipe(userHasGPCRole),
+    ]).pipe(
+      map(([colDefs, hasGPCRole]: [ColDef[], boolean]) =>
+        hasGPCRole
+          ? colDefs
+          : colDefs.filter((colDef) => colDef.field !== 'profitMargin')
+      )
+    );
   }
 
   public onColumnChange(event: SortChangedEvent): void {

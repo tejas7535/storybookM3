@@ -78,6 +78,9 @@ describe('TransactionViewComponent', () => {
             ...TRANSACTIONS_STATE_MOCK,
             transactions: mockTransactions,
           },
+          'azure-auth': {
+            accountInfo: { backendRoles: [] },
+          },
         },
       }),
     ],
@@ -124,6 +127,9 @@ describe('TransactionViewComponent', () => {
         );
         m.expect(component.translationsLoaded$).toBeObservable(
           m.cold('a', { a: true })
+        );
+        m.expect(component.hasGpcRole$).toBeObservable(
+          m.cold('a', { a: false })
         );
       })
     );

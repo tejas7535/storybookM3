@@ -111,14 +111,19 @@ export class ChartConfigService {
     }
   };
 
-  tooltipFormatter = (param: any): string => {
+  tooltipFormatter = (param: any, showGpi: boolean): string => {
     const data: DataPoint = param.data;
+
     const listedItems = [
       ToolTipItems.QUANTITY,
-      ToolTipItems.PROFIT_MARGIN,
       ToolTipItems.PRICE,
       ToolTipItems.YEAR,
     ];
+
+    if (showGpi) {
+      listedItems.splice(1, 0, ToolTipItems.PROFIT_MARGIN);
+    }
+
     let items = `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${data.customerName}</span><br>`;
 
     // tooltip data for scatter
@@ -132,14 +137,16 @@ export class ChartConfigService {
     });
 
     // tooltip data for regression
-    items += this.getRegressionForToolTipFormatter(data);
+    if (showGpi) {
+      items += this.getRegressionForToolTipFormatter(data);
+    }
 
     return items;
   };
 
-  getToolTipConfig = (): TooltipComponentOption => ({
+  getToolTipConfig = (showGpi: boolean): TooltipComponentOption => ({
     ...TOOLTIP_CONFIG,
-    formatter: this.tooltipFormatter,
+    formatter: (param) => this.tooltipFormatter(param, showGpi),
   });
 
   calculateAxisMax = (datapoints: DataPoint[], index: number): number => {
