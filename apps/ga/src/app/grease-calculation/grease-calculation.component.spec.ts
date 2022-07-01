@@ -14,7 +14,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { selectBearing } from '../core/store';
 import { initialState } from '../core/store/reducers/settings/settings.reducer';
-import { GreaseStepperModule } from './../core/components/grease-stepper/grease-stepper.module';
+import { GreaseStepperComponent } from './../core/components/grease-stepper';
 import { GreaseCalculationComponent } from './grease-calculation.component';
 
 describe('GreaseCalculationComponent', () => {
@@ -28,7 +28,7 @@ describe('GreaseCalculationComponent', () => {
       NoopAnimationsModule,
       RouterTestingModule,
       BreadcrumbsModule,
-      GreaseStepperModule,
+      GreaseStepperComponent,
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

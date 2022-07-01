@@ -64,29 +64,75 @@
       }
     }
   },
+  "shared": {
+    "button": {
+      "close": "Close"
+    },
+    "label": {
+      "defaultSet": "Set {{label}}",
+      "defaultSelect": "Select {{label}}"
+    },
+    "unit": {
+      "millimeterShort": "mm"
+    },
+    "min": "Min.",
+    "max": "Max."
+  },
   "bearing": {
-    "bearingSelection": "Bearing Selection",
-    "subtitle": "Please select a bearing to perform a lubrication calculation",
-    "searchPlaceholder": "Enter a bearing designation, e.g. 6215",
-    "narrowDownSelection": "Narrow down bearing selection?",
-    "easySelection": "Back to basic bearing selection",
-    "noResults": "No results",
-    "modelCreationError": "Currently a calculation for the bearing {{bearing}} is not possible.",
-    "close": "Close",
-    "pleaseEnter": "Set {{label}}",
-    "bearingType": "Bearing Type",
-    "boreDiameter": "d - Bore Diameter",
-    "boreDiameterWord": " - Bore Diameter",
-    "outsideDiameter": "D - Outside Diameter",
-    "width": "B - Width",
-    "min": "Min",
-    "max": "Max",
-    "mm": "mm",
-    "selectBearingFromList": "Select Bearing from List ({{ amount }})",
-    "enterSearchParameters": "Please enter valid search parameters",
-    "reset": "Reset {{ dimension }}",
-    "tooManyResults": "{{ amount }} Too many results. Please narrow down your criteria",
-    "types": {
+    "title": {
+      "main": "Bearing Selection",
+      "sub": "Please select a bearing to perform a lubrication calculation"
+    },
+    "label": {
+      "bearingType": "Bearing Type",
+      "boreDiameter": "Bore Diameter",
+      "boreDiameterShort": "d",
+      "outsideDiameter": "Outside Diameter",
+      "outsideDiameterShort": "D",
+      "width": "Width",
+      "widthShort": "B"
+    },
+    "bearingSelection": {
+      "button": {
+        "quickSelection": "Direct bearing selection",
+        "advancedSelection": "Advanced bearing selection"
+      },
+      "quickSelection": {
+        "searchPlaceholder": "Enter a bearing designation, e.g. 6215",
+        "selectButton": "Select bearing",
+        "selectOption": "Lubrication calculation for bearing &nbsp;<strong>{{bearing}}</strong>",
+        "noResults": "No results found"
+      },
+      "advancedSelection": {
+        "filters": {
+          "heading": "Filter criteria",
+          "intro": "Narrow down bearing selection to {{tooManyResultsThreshold}} results maximum",
+          "action": {
+            "nextStep": "Go to bearing Selection"
+          }
+        },
+        "bearingsList": {
+          "heading": "Bearing Selection",
+          "intro": "Please select a bearing",
+          "selectOption": "Grease calculation for bearing",
+          "action": {
+            "previousStep": "Adjust filter criteria"
+          }
+        },
+        "error": {
+          "modelCreation": "No calculation can currently be carried out for the {{bearing}} bearing."
+        },
+        "tooManyResults": {
+          "message": "Too many results ({{resultsCount}})",
+          "hint": "We found too many entries in our database.\nPlease use the filters to reduce the number of results to a maximum of {{tooManyResultsThreshold}}."
+        },
+        "noResults": {
+          "message": "No results found",
+          "hint": "We couldn’t find any bearing for the applied filters.\nPlease check your filter settings to make sure you are using a valid selection."
+        }
+      }
+    },
+    "bearingTypes": {
       "IDO_RADIAL_ANGULAR_CONTACT_BALL_BEARING": "Radial angular contact ball bearing",
       "IDO_RADIAL_BALL_BEARING": "Radial deep groove ball bearing",
       "IDO_RADIAL_ROLLER_BEARING": "Radial roller bearing",

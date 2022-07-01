@@ -393,4 +393,17 @@ describe('ParametersComponent', () => {
       /* eslint-enable unicorn/no-null */
     });
   });
+
+  describe('isStandalone', () => {
+    it('should return false in iframe case', () => {
+      Object.defineProperty(global, 'window', {
+        value: {
+          self: 'mockValue',
+          top: 'otherMockValue',
+        },
+      });
+
+      expect(component.isStandalone()).toEqual(false);
+    });
+  });
 });

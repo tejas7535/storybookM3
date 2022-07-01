@@ -92,8 +92,11 @@ export class BearingEffects {
               ]);
             } else {
               this.errorService.openSnackBar(
-                translate('bearing.modelCreationError', { bearing }),
-                translate('bearing.close')
+                translate(
+                  'bearing.bearingSelection.advancedSelection.error.modelCreation',
+                  { bearing }
+                ),
+                translate('shared.button.close')
               );
             }
           }),

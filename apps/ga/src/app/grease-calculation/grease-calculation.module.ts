@@ -6,7 +6,7 @@ import { PushModule } from '@ngrx/component';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 
 import { ParameterGuard, ResultGuard } from '../core/guards';
-import { GreaseStepperModule } from './../core/components/grease-stepper/grease-stepper.module';
+import { GreaseStepperComponent } from './../core/components/grease-stepper';
 import { GreaseCalculationComponent } from './grease-calculation.component';
 import { GreaseCalculationRoutingModule } from './grease-calculation-routing.module';
 
@@ -16,7 +16,7 @@ import { GreaseCalculationRoutingModule } from './grease-calculation-routing.mod
     CommonModule,
     BreadcrumbsModule,
     GreaseCalculationRoutingModule,
-    GreaseStepperModule,
+    GreaseStepperComponent,
     PushModule,
   ],
   providers: [ParameterGuard, ResultGuard],

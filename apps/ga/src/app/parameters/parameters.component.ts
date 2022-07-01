@@ -9,7 +9,7 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 
-import { debounceTime, Subject, take, takeUntil } from 'rxjs';
+import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
@@ -25,7 +25,11 @@ import {
   initialState,
   ParameterState,
 } from '@ga/core/store/reducers/parameter/parameter.reducer';
-import { getSelectedBearing } from '@ga/core/store/selectors/bearing/bearing.selector';
+import {
+  getModelCreationLoading,
+  getModelCreationSuccess,
+  getSelectedBearing,
+} from '@ga/core/store/selectors/bearing/bearing.selector';
 import {
   axialLoadPossible,
   getEnvironmentTemperatures,
@@ -142,6 +146,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
   public preferredGreaseSelection$ = this.store.select(
     getPreferredGreaseSelection
   );
+  public modelCreationSuccess$ = this.store.select(getModelCreationSuccess);
+  public modelCreationLoading$ = this.store.select(getModelCreationLoading);
 
   private readonly destroy$ = new Subject<void>();
   public DEBOUNCE_TIME_DEFAULT = 500;
@@ -152,8 +158,10 @@ export class ParametersComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(getProperties());
-    this.store.dispatch(getDialog());
+    this.modelCreationSuccess$.pipe(filter(Boolean)).subscribe(() => {
+      this.store.dispatch(getProperties());
+      this.store.dispatch(getDialog());
+    });
 
     this.store
       .select(getParameterState)
@@ -251,6 +259,8 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.form.reset(initialState);
     this.store.dispatch(resetPreferredGreaseSelection());
   }
+
+  public isStandalone = (): boolean => window.top === window.self;
 
   private operatingTemperatureValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {

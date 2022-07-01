@@ -4,8 +4,8 @@ import { createSelector } from '@ngrx/store';
 import { SearchAutocompleteOption } from '@schaeffler/search-autocomplete';
 
 import {
-  BearingSelectionTypeUnion,
   AdvancedBearingSelectionFilters,
+  BearingSelectionTypeUnion,
 } from '@ga/shared/models';
 
 import { getBearingState } from '../../reducers';

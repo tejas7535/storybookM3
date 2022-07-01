@@ -10,6 +10,7 @@ import { PushModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
+import { MaintenanceModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ParameterEffects } from '@ga/core/store/effects';
@@ -30,6 +31,7 @@ import { ParametersRoutingModule } from './parameters-routing.module';
     BreadcrumbsModule,
     SharedModule,
     PreferredGreaseSelectionComponent,
+    MaintenanceModule,
 
     // Material Modules
     MatButtonModule,
