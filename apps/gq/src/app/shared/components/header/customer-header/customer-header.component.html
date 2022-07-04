@@ -7,13 +7,13 @@
       <div class="mr-12">
         <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('name') }}: </span>
-          <span>
+          <span data-cy="customer-header_customer-name-value">
             {{ customer.name }}
           </span>
         </div>
         <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('id') }}: </span>
-          <span>
+          <span data-cy="customer-header_customer-id-value">
             {{ customer.identifier.customerId }}
           </span>
         </div>
@@ -21,7 +21,7 @@
       <div class="mr-12 overflow-x-hidden sm:overflow-x-visible">
         <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('keyAccount') }}: </span>
-          <span>
+          <span data-cy="customer-header_key-account-value">
             {{ customer.keyAccount | nullableString }}
           </span>
         </div>
@@ -29,7 +29,7 @@
           <span class="pr-2 text-medium-emphasis"
             >{{ t('subKeyAccount') }}:
           </span>
-          <span>
+          <span data-cy="customer-header_subkey-account-value">
             {{ customer.subKeyAccount | nullableString }}
           </span>
         </div>
@@ -39,13 +39,15 @@
           <span class="pr-2 text-medium-emphasis"
             >{{ t('netSalesClassification') }}:
           </span>
-          <span>{{ customer.netSalesClassification | nullableString }} </span>
+          <span data-cy="customer-header_net-sales-classification-value"
+            >{{ customer.netSalesClassification | nullableString }}
+          </span>
         </div>
         <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis"
             >{{ t('sectorManagement') }}:
           </span>
-          <span>
+          <span data-cy="customer-header_sector-management-value">
             {{ customer.sectorManagement | nullableString }}
           </span>
         </div>
@@ -55,7 +57,7 @@
           <span class="pr-2 text-medium-emphasis"
             >{{ t('netSalesLastYear') }} {{ lastYear }}:</span
           >
-          <span>
+          <span data-cy="customer-header_net-sales-last-year-value">
             {{
               customer.marginDetail?.netSalesLastYear
                 | numberCurrency: customer.currency
@@ -66,7 +68,7 @@
           <span class="pr-2 text-medium-emphasis"
             >{{ t('gpiLastYear') }} {{ lastYear }}:</span
           >
-          <span>
+          <span data-cy="customer-header_gpi-last-year-value">
             {{ customer.marginDetail?.gpiLastYear | percentage }}
           </span>
         </div>
@@ -74,13 +76,13 @@
       <div class="hidden overflow-x-hidden lg:flex lg:flex-col">
         <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('country') }}:</span>
-          <span>
+          <span data-cy="customer-header_country-value">
             {{ customer.country | nullableString }}
           </span>
         </div>
         <div class="whitespace-nowrap text-caption leading-6">
           <span class="pr-2 text-medium-emphasis">{{ t('currency') }}:</span>
-          <span>
+          <span data-cy="customer-header_currency-value">
             {{ customer.currency }}
           </span>
         </div>
@@ -92,6 +94,7 @@
         class="font-medium"
         mat-button
         (click)="openCustomer()"
+        data-cy="customer-header_open-customer-details-btn"
       >
         <mat-icon class="align-arrow-forward text-h6">arrow_forward</mat-icon>
         {{ t('details') }}

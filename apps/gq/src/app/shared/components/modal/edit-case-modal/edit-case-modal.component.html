@@ -11,12 +11,16 @@
           type="text"
           autocomplete="off"
           matInput
+          data-cy="edit-case-modal_custom-name-input"
         />
       </mat-form-field>
 
       <mat-form-field class="w-1/3" appearance="outline">
         <mat-label>{{ t('currencyLabel') }}</mat-label>
-        <mat-select formControlName="currency">
+        <mat-select
+          formControlName="currency"
+          data-cy="edit-case-modal_custom-currency-input"
+        >
           <mat-option
             *ngFor="let currency of currencies$ | ngrxPush"
             [value]="currency"
@@ -33,6 +37,7 @@
         mat-stroked-button
         (click)="closeDialog()"
         type="button"
+        data-cy="edit-case-modal_close-btn"
       >
         <span> {{ t('cancel') | uppercase }} </span>
       </button>
@@ -46,6 +51,7 @@
           (caseModalForm.controls.caseName.value === modalData.caseName &&
             caseModalForm.controls.currency.value === modalData.currency)
         "
+        data-cy="edit-case-modal_update-btn"
       >
         <span> {{ t('update') | uppercase }} </span>
       </button>

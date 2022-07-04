@@ -28,6 +28,7 @@
         color="primary"
         (change)="onRadioButtonChange(true)"
         [disabled]="isRelativePriceChangeDisabled"
+        [attr.data-cy]="modalData.field + '-modal_relative-radio-btn'"
       >
         <span class="pl-2">
           {{ t('relative') }}
@@ -37,6 +38,7 @@
         [value]="false"
         color="primary"
         (change)="onRadioButtonChange(false)"
+        [attr.data-cy]="modalData.field + '-modal_absolute-radio-btn'"
       >
         <span class="pl-2">
           {{ t('absolute') }}
@@ -63,6 +65,7 @@
           autocomplete="off"
           cdkTextareaAutosize
           matInput
+          [attr.data-cy]="modalData.field + '-modal_value-input'"
           #edit
         />
         <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
@@ -110,6 +113,9 @@
                     kpi.value <= 25;
                   else discount
                 "
+                [attr.data-cy]="
+                  modalData.field + '-modal_' + kpi.key + '-value'
+                "
                 class="!text-[#FFA726]"
               >
                 {{ kpi.value || 'N/A' }}
@@ -122,12 +128,22 @@
                 </mat-icon>
               </span>
               <ng-template #discount>
-                <span *ngIf="kpi.key !== fields.PRICE; else priceFormatter">
+                <span
+                  *ngIf="kpi.key !== fields.PRICE; else priceFormatter"
+                  [attr.data-cy]="
+                    modalData.field + '-modal_' + kpi.key + '-value'
+                  "
+                >
                   {{ kpi.value || 'N/A' }}
                 </span>
               </ng-template>
               <ng-template #priceFormatter>
-                <span [ngClass]="{ 'text-error': mspWarningEnabled }">
+                <span
+                  [ngClass]="{ 'text-error': mspWarningEnabled }"
+                  [attr.data-cy]="
+                    modalData.field + '-modal_' + kpi.key + '-value'
+                  "
+                >
                   {{ kpi.value | numberCurrency: quotationCurrency }}
                   <mat-icon
                     class="ml-1 align-bottom"
@@ -143,11 +159,18 @@
             <div class="text-caption leading-6 text-medium-emphasis">
               <span
                 *ngIf="kpi.key !== fields.PRICE; else previousPriceFormatter"
+                [attr.data-cy]="
+                  modalData.field + '-modal_' + kpi.key + '-previous-value'
+                "
               >
                 {{ modalData.quotationDetail[kpi.key] || 'N/A' }}
               </span>
               <ng-template #previousPriceFormatter>
-                <span>
+                <span
+                  [attr.data-cy]="
+                    modalData.field + '-modal_' + kpi.key + '-previous-value'
+                  "
+                >
                   {{
                     modalData.quotationDetail.price
                       | numberCurrency: quotationCurrency
@@ -172,6 +195,7 @@
         mat-raised-button
         [disabled]="confirmDisabled"
         (click)="confirmEditing()"
+        [attr.data-cy]="modalData.field + '-modal_submit-btn'"
       >
         <span> {{ t('confirm.' + modalData.field) | uppercase }} </span>
       </button>
@@ -180,6 +204,7 @@
         color="primary"
         mat-stroked-button
         (click)="closeDialog()"
+        [attr.data-cy]="modalData.field + '-modal_cancel-btn'"
       >
         <span> {{ t('cancel') | uppercase }} </span>
       </button>

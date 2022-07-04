@@ -25,6 +25,7 @@
           cdkAutosizeMaxRows="4"
           matInput
           #comment
+          data-cy="comment-modal_comment-input"
         ></textarea>
         <mat-hint align="end"> {{ comment.value.length }} / 100</mat-hint>
       </mat-form-field>
@@ -36,6 +37,7 @@
         mat-raised-button
         [disabled]="commentDisabled"
         (click)="confirmComment()"
+        data-cy="comment-modal_comment-confirm-btn"
       >
         <span> {{ t('confirm') | uppercase }} </span>
       </button>
@@ -44,6 +46,7 @@
         color="primary"
         mat-stroked-button
         (click)="closeDialog()"
+        data-cy="comment-modal_comment-cancel-btn"
       >
         <span> {{ t('cancel') | uppercase }} </span>
       </button>

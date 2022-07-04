@@ -26,6 +26,7 @@
             <mat-radio-button
               color="primary"
               [value]="ExportExcel.BASIC_DOWNLOAD"
+              data-cy="export-excel-modal_basic-download-radiobtn"
             ></mat-radio-button>
             <span class="!text-high-emphasis">
               {{ t('chooseColumn.basicDownload') }}
@@ -40,6 +41,7 @@
             <mat-radio-button
               color="primary"
               [value]="ExportExcel.DETAILED_DOWNLOAD"
+              data-cy="export-excel-modal_detailed-download-radiobtn"
             ></mat-radio-button>
             <span class="!text-high-emphasis">
               {{ t('chooseColumn.detailedDownload') }}
@@ -58,11 +60,17 @@
         mat-raised-button
         color="primary"
         (click)="fetchTransactions()"
+        data-cy="export-excel-modal_download-btn"
       >
         <mat-icon class="!text-[20px]">download</mat-icon>
         {{ t('confirm') }}
       </button>
-      <button color="primary" mat-stroked-button mat-dialog-close>
+      <button
+        color="primary"
+        mat-stroked-button
+        mat-dialog-close
+        data-cy="export-excel-modal_close-btn"
+      >
         {{ t('cancel') }}
       </button>
     </div>
