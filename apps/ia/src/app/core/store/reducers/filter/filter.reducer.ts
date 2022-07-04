@@ -1,6 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import moment from 'moment';
+import { DATA_IMPORT_DAY } from 'apps/ia/src/app/shared/constants';
+import moment, { Moment } from 'moment';
 
 import {
   filterAdapter,
@@ -34,11 +35,12 @@ export interface FilterState {
   selectedTimePeriod: TimePeriod;
 }
 
-const getInitialSelectedTimeRange = () => {
+export const getInitialSelectedTimeRange = (today: Moment) => {
   // use month before to prevent wrong calculations for the future
-  const nowDate = moment
+  const nowDate = today
+    .clone()
     .utc()
-    .endOf('month')
+    .subtract(DATA_IMPORT_DAY - 1, 'days') // use previous month if data is not imported yet
     .subtract(1, 'month')
     .endOf('month');
   const oldDate = getMonth12MonthsAgo(nowDate);
@@ -46,7 +48,7 @@ const getInitialSelectedTimeRange = () => {
   return getTimeRangeFromDates(oldDate, nowDate);
 };
 
-const initialTimeRange = getInitialSelectedTimeRange();
+const initialTimeRange = getInitialSelectedTimeRange(moment.utc());
 
 export const initialState: FilterState = {
   orgUnits: {

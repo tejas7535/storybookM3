@@ -14,6 +14,7 @@ import {
 
 import moment, { Moment } from 'moment';
 
+import { DATA_IMPORT_DAY } from '../constants';
 import { TimePeriod } from '../models';
 import { getMonth12MonthsAgo, getTimeRangeFromDates } from '../utils/utilities';
 
@@ -26,7 +27,10 @@ export class DateInputComponent {
   private _timePeriod: TimePeriod;
 
   timePeriods = TimePeriod;
-  nowDate = moment.utc().endOf('month');
+  nowDate = moment()
+    .utc()
+    .subtract(DATA_IMPORT_DAY - 1, 'days') // use previous month if data is not imported yet
+    .endOf('month');
   minDate = this.nowDate.clone();
   maxDate = moment({ year: this.nowDate.year() - 1, month: 11, day: 31 }).utc(); // last day of last year
 

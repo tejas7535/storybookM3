@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import moment from 'moment';
 
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
@@ -8,7 +9,12 @@ import {
   loadOrgUnitsSuccess,
   timePeriodSelected,
 } from '../../actions/filter/filter.action';
-import { filterReducer, initialState, reducer } from './filter.reducer';
+import {
+  filterReducer,
+  getInitialSelectedTimeRange,
+  initialState,
+  reducer,
+} from './filter.reducer';
 
 describe('Filter Reducer', () => {
   const errorMessage = 'An error occured';
@@ -117,6 +123,24 @@ describe('Filter Reducer', () => {
       expect(reducer(initialState, action)).toEqual(
         filterReducer(initialState, action)
       );
+    });
+  });
+
+  describe('getInitialSelectedTimeRange', () => {
+    test('should return one month earlier when 8th day of month', () => {
+      const today = moment.utc({ year: 2022, month: 5, day: 8 });
+
+      const result = getInitialSelectedTimeRange(today);
+
+      expect(result).toBe('1619827200|1651363199'); // 01-05-2021|30-04-2022
+    });
+
+    test('should return one month later when 9th day of month', () => {
+      const today = moment.utc({ year: 2022, month: 5, day: 9 });
+
+      const result = getInitialSelectedTimeRange(today);
+
+      expect(result).toBe('1622505600|1654041599'); // 01-06-2021|31-05-2022
     });
   });
 });
