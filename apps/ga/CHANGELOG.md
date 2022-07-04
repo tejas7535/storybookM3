@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.3...ga-v1.2.4) (2022-07-04)
+
+
+### 🎸 Features
+
+* **ga:** disable first step in case of iframe ([1b6f3a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1b6f3a19b3567fbf4adc6d9397cbd1c046682dc4))
+* **ga:** handle entry at step 2 for medias iframe (UFTABI-5524) ([#4299](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4299)) ([771657c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/771657c1d44b6be3549d4b0ae775d88d08815dd8))
+* **ga:** re-revert onetrust id to greaseapp.com domain ([76065e4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/76065e4136cf2d151b3087a329866525d7bc3bb2))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
 ### [1.2.3](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.2...ga-v1.2.3) (2022-06-28)
 
 
