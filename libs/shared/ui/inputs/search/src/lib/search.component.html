@@ -6,11 +6,12 @@
     matInput
     [formControl]="searchControl"
     class="ml-2 text-high-emphasis"
-    [class.text-high-emphasis]="!formControl.value"
-    [class.text-link]="formControl.value"
+    [class.text-high-emphasis]="!control.value"
+    [class.text-link]="control.value"
     (blur)="onTouched()"
     [placeholder]="placeholder"
   />
+  <ng-content select="[matErrorContent]"></ng-content>
   <mat-autocomplete
     #auto="matAutocomplete"
     [displayWith]="displayWithFn"
@@ -34,7 +35,7 @@
         <ng-content select="[errorContent]" *ngIf="error"></ng-content>
         <div *ngIf="!loading && !error">
           <mat-option
-            *ngFor="let option of stringOptions; trackBy: trackByFn"
+            *ngFor="let option of filteredOptions; trackBy: trackByFn"
             [value]="option"
             >{{ option.title }}</mat-option
           >

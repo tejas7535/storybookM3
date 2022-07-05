@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl } from '@angular/forms';
+import { ControlValueAccessor, FormControl, Validators } from '@angular/forms';
 
 import { debounceTime, filter, Subscription } from 'rxjs';
 
@@ -35,15 +35,21 @@ export class SearchComponent
     StringOption | StringOption[]
   >();
 
-  @Input() public formControl = new FormControl();
+  @Input() public control = new FormControl();
 
   public searchControl = new FormControl();
+
+  @Input() public filterFn?: (option: StringOption, value: string) => boolean;
 
   private readonly subscription = new Subscription();
 
   public ngOnInit(): void {
+    if (this.filterFn) {
+      this.filterOptions = this.filterFn;
+    }
+
     this.subscription.add(
-      this.formControl.valueChanges
+      this.control.valueChanges
         .pipe(debounceTime(100))
         .subscribe((value) => this.optionSelected.emit(value))
     );
@@ -69,13 +75,13 @@ export class SearchComponent
   public onTouched: () => void = () => {};
 
   public writeValue(input: StringOption): void {
-    this.formControl.setValue(input);
+    this.control.setValue(input);
     this.onTouched();
     this.onChange(input);
   }
 
   public registerOnChange(fn: any): void {
-    this.subscription.add(this.formControl.valueChanges.subscribe(fn));
+    this.subscription.add(this.control.valueChanges.subscribe(fn));
   }
 
   public registerOnTouched(fn: any): void {
@@ -83,16 +89,33 @@ export class SearchComponent
   }
 
   public onOptionSelected(option: StringOption): void {
-    this.formControl.setValue(option, { emitEvent: false });
+    this.control.setValue(option);
   }
 
   public onSearchReset(): void {
     this.searchControl.setValue('');
-    this.formControl.reset();
+    this.control.reset();
+  }
+
+  public get filteredOptions(): StringOption[] {
+    const value =
+      typeof this.searchControl.value === 'string'
+        ? this.searchControl.value
+        : '';
+
+    return this.stringOptions.filter((option) =>
+      this.filterOptions(option, value)
+    );
+  }
+
+  public get formControlRequired(): boolean {
+    return this.control.hasValidator(Validators.required);
   }
 
   public displayWithFn = (option: StringOption): string =>
-    this.displayWith === 'title' ? option.title : option.id.toString();
+    this.displayWith === 'title' ? option?.title : option?.id.toString();
+
+  public filterOptions = (_option?: StringOption, _value?: string) => true;
 
   public trackByFn(index: number): number {
     return index;

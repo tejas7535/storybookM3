@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { action } from '@storybook/addon-actions';
+import { StringOption } from '@schaeffler/inputs';
 
 export default {
   title: `${NavigationMain.Atomic}/${NavigationAtomic.Organisms}/Select`,
@@ -57,7 +58,8 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [multiple]="multiple"
           [noResultsText]="noResultsText"
           [addEntry]="addEntry"
-          [formControl]="formControl"
+          [control]="control"
+          [filterFn]="filterFn"
           (searchUpdated)="onSearchUpdated($event)"
           (entryAdded)="onEntryAdded($event)"
           (optionRemoved)="onOptionRemoved($event)"
@@ -75,7 +77,7 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
     </div>
     <div class="flex flex-row gap-4 mt-10">
       <div>Current Value:</div>
-      <div>{{ formControl.value | json }}</div>
+      <div>{{ control.value | json }}</div>
     </div>
   `,
 });
@@ -113,7 +115,7 @@ Primary.args = {
 };
 
 Primary.argTypes = {
-  formControl: {
+  control: {
     options: ['Default'],
     control: 'radio',
     mapping: {
@@ -125,5 +127,23 @@ Primary.argTypes = {
     options: ['fill', 'outline'],
     control: 'radio',
     defaultValue: 'fill',
+  },
+  filterFn: {
+    options: ['No Filter', 'Custom Filter'],
+    control: 'radio',
+    mapping: {
+      'No Filter': undefined,
+      'Custom Filter': (option: StringOption, value: string): boolean => {
+        if (!value) {
+          return true;
+        }
+
+        return option.title
+          ?.toLowerCase()
+          .trimEnd()
+          .includes(value.toLowerCase().trim());
+      },
+    },
+    defaultValue: 'No Filter',
   },
 };

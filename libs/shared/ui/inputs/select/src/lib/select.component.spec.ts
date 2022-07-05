@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatOption } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -69,12 +69,21 @@ describe('SelectComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should set the filterOptions function', () => {
+      const mockFn = (_option: StringOption, _value: string) => true;
+      component.filterFn = mockFn;
+
+      component.ngOnInit();
+
+      expect(component.filterOptions).toEqual(mockFn);
+    });
+
     it('should emit on change of the formControl', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
       component.optionSelected.emit = jest.fn();
       jest.useFakeTimers();
 
-      component.formControl.patchValue(mockOption);
+      component.control.patchValue(mockOption);
 
       jest.advanceTimersByTime(1000);
 
@@ -122,7 +131,7 @@ describe('SelectComponent', () => {
     const mockOption = { id: 'mockId', title: 'mockTitle' };
     it('should set value through writeValue', () => {
       component.writeValue(mockOption);
-      expect(component.formControl.value).toEqual(mockOption);
+      expect(component.control.value).toEqual(mockOption);
     });
 
     it('should register supplied fn as onTouched method', () => {
@@ -141,7 +150,7 @@ describe('SelectComponent', () => {
       component['onTouched'] = jest.fn();
 
       component.writeValue(mockOption);
-      expect(component.formControl.value).toEqual(mockOption);
+      expect(component.control.value).toEqual(mockOption);
       expect(component.onTouched).toHaveBeenCalledTimes(1);
       expect(component.onChange).toHaveBeenCalledTimes(1);
     });
@@ -232,11 +241,46 @@ describe('SelectComponent', () => {
     });
   });
 
+  describe('get filteredOptions', () => {
+    it('should call filterOptions', () => {
+      const mockOptionYes = {
+        id: 'yes',
+        title: 'yes',
+      };
+      const mockOptionNo = {
+        id: 'no',
+        title: 'no',
+      };
+      component.searchControl.setValue('value', { emitEvent: false });
+      component.stringOptions = [mockOptionYes, mockOptionNo];
+      component.filterOptions = jest.fn((option) =>
+        option.title === 'no' ? false : true
+      );
+
+      const result = component.filteredOptions;
+
+      expect(result).toEqual([
+        {
+          id: 'yes',
+          title: 'yes',
+        },
+      ]);
+      expect(component.filterOptions).toHaveBeenCalledWith(
+        mockOptionYes,
+        'value'
+      );
+      expect(component.filterOptions).toHaveBeenCalledWith(
+        mockOptionNo,
+        'value'
+      );
+    });
+  });
+
   describe('get currentValue', () => {
     it('should return the title of the selected option if single select', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
       component.multiple = false;
-      component.formControl.setValue(mockOption);
+      component.control.setValue(mockOption);
 
       const currentValue = component.currentValue;
 
@@ -246,7 +290,7 @@ describe('SelectComponent', () => {
     it('should return undefined if the control value is undefined', () => {
       component.multiple = false;
       // eslint-disable-next-line unicorn/no-useless-undefined
-      component.formControl.setValue(undefined);
+      component.control.setValue(undefined);
 
       const currentValue = component.currentValue;
 
@@ -256,7 +300,7 @@ describe('SelectComponent', () => {
     it('should return an array of the selected titles if multi select', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
       component.multiple = true;
-      component.formControl.setValue([mockOption, mockOption]);
+      component.control.setValue([mockOption, mockOption]);
 
       const currentValue = component.currentValue;
 
@@ -266,11 +310,37 @@ describe('SelectComponent', () => {
     it('should return undefined if the control value is undefined in multi select', () => {
       component.multiple = true;
       // eslint-disable-next-line unicorn/no-useless-undefined
-      component.formControl.setValue(undefined);
+      component.control.setValue(undefined);
 
       const currentValue = component.currentValue;
 
       expect(currentValue).toBe(undefined);
+    });
+  });
+
+  describe('get formControlRequired', () => {
+    it('should check for the validator and return true', () => {
+      component.control = new FormControl('', [Validators.required]);
+
+      const result = component.formControlRequired;
+
+      expect(result).toBe(true);
+    });
+
+    it('should check for the validator and return false', () => {
+      component.control = new FormControl('');
+
+      const result = component.formControlRequired;
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('filterOptions', () => {
+    it('should return true', () => {
+      const result = component.filterOptions();
+
+      expect(result).toBe(true);
     });
   });
 

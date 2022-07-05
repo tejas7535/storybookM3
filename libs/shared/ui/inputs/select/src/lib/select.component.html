@@ -4,11 +4,12 @@
     controlType="mat-select"
     disableOptionCentering
     [placeholder]="placeholder"
-    [formControl]="formControl"
+    [formControl]="control"
     [multiple]="multiple"
     panelClass="!overflow-hidden !max-h-min w-96"
     (openedChange)="$event ? searchInput.focus() : undefined"
     #selectInput
+    [required]="formControlRequired"
   >
     <mat-select-trigger>{{ currentValue }} </mat-select-trigger>
     <div (keydown)="$event.stopPropagation()">
@@ -82,10 +83,10 @@
               <mat-checkbox
                 color="primary"
                 class="flex-1"
-                [checked]="formControl.value?.length === stringOptions.length"
+                [checked]="control.value?.length === stringOptions.length"
                 [indeterminate]="
-                  formControl.value?.length > 0 &&
-                  formControl.value.length < stringOptions.length
+                  control.value?.length > 0 &&
+                  control.value.length < stringOptions.length
                 "
                 [disabled]="stringOptions.length === 0 || loading"
                 (change)="onSelectAllToggle($event.checked)"
@@ -97,7 +98,7 @@
               <div
                 class="mt-auto pb-1 align-text-bottom text-caption text-low-emphasis"
               >
-                {{ formControl.value?.length ?? 0 }} {{ t('selected') }}
+                {{ control.value?.length ?? 0 }} {{ t('selected') }}
               </div>
             </div>
           </div>
@@ -123,12 +124,12 @@
                 </div>
               </div>
               <mat-option
-                *ngFor="let option of stringOptions; trackBy: trackByFn"
+                *ngFor="let option of filteredOptions; trackBy: trackByFn"
                 #selectOption
                 [value]="option"
                 (click)="select()"
                 [ngClass]="{
-                  'mat-selected': option === formControl.value
+                  'mat-selected': option === control.value
                 }"
                 class="flex-1 text-high-emphasis"
                 [matTooltip]="option.tooltip ? option.tooltip : ''"
@@ -155,4 +156,5 @@
       </div>
     </div>
   </mat-select>
+  <ng-content select="[matErrorContent]"></ng-content>
 </mat-form-field>

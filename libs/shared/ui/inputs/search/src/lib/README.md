@@ -80,7 +80,7 @@ In the parent component:
 <schaeffler-search
     [stringOptions]="options"
     (searchUpdated)="onSearchUpdated($event)"
-    [formControl]="formControl"
+    [control]="formControl"
 ></schaeffler-search>
 
 <!--  advanced implementation  -->
@@ -94,6 +94,7 @@ In the parent component:
     [error]="error"
     [noResultsText]="noResultsText"
     [displayWith]="displayWith"
+    [filterFn]="filterFn"
     (searchUpdated)="onSearchUpdated($event)"
     (optionSelected)="onOptionSelected($event)"
 >
@@ -103,6 +104,9 @@ In the parent component:
     <div errorContent>
         The custom content to display in the panel while error is set to true.
         (The custom loading content will take priority over the error content, so in case loading and error are both set to true, the loading content will be shown)
+    </div>
+    <div matErrorContent>
+        <mat-error *ngIf="control.invalid">{{ getErrorMessage() }}<mat-error>
     </div>
 </schaeffler-search>
 ```
@@ -156,11 +160,11 @@ export class ExampleComponent implements OnInit {
     public noResultsText = 'message to display the length of the provided option array is 0';
     public displayWith = 'title';
 
-    public formControl = new FormControl();
+    public control = new FormControl();
 
     public ngOnInit(): void {
         // react to selection via formControl
-        this.formControl.valueChanges.subscribe(
+        this.control.valueChanges.subscribe(
             value => console.log(value);
         );
     }
@@ -173,6 +177,20 @@ export class ExampleComponent implements OnInit {
     // react to selection via event
     public onOptionSelected(option: StringOption): void {
         console.log(value);
+    }
+
+    // pass a custom filter function
+    public filterFn(option?: StringOption, value?: string) {
+        return option?.title?.includes(value);
+    }
+
+    // parse errors
+    public getErrorMessage() {
+        if (this.control.hasError('required')) {
+            return 'You must enter a value';
+        }
+
+        return '';
     }
 }
 
@@ -187,15 +205,16 @@ For further information about the option type see [@schaeffler/inputs documentat
 | Name           | Description                                                                                                      |
 | ---------------| -----------------------------------------------------------------------------------------------------------------|
 | stringOptions  | the options to select from                                                                                       |
-| appearance     | (optional) ('fill' \| 'outline') (default: 'fill') the style to display the component with                        |
+| appearance     | (optional) ('fill' \| 'outline') (default: 'fill') the style to display the component with                       |
 | label          | (optional) the label for the control                                                                             |
 | placeholder    | (optional) the placeholder for the control                                                                       |
 | hint           | (optional) the hint to display below the search bar                                                              |
 | loading        | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`)   |
 | error          | (optional) whether the control should be in error state (displays ng-content with selector `errorContent`)       |
 | noResultsText  | (optional) the text to display if the length of the options array is 0                                           |
-| displayWith    | (optional) ('id' \| 'title') (default: 'title') whether to display the id or the title                            |
-| formControl    | (optional) a form control to manage the value of the control                                                     |
+| displayWith    | (optional) ('id' \| 'title') (default: 'title') whether to display the id or the title                           |
+| control        | (optional) a form control to manage the value of the control                                                     |
+| filterFn       | (optional) a custom function to implement filter logic used by the component                                     |
 
 #### Events
 

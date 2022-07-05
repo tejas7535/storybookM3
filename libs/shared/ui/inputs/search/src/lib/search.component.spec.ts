@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +12,7 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { SearchComponent } from './search.component';
 
-describe('SelectComponent', () => {
+describe('SearchComponent', () => {
   let component: SearchComponent;
   let spectator: Spectator<SearchComponent>;
 
@@ -62,12 +62,21 @@ describe('SelectComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should set the filterOptions function', () => {
+      const mockFn = (_option: StringOption, _value: string) => true;
+      component.filterFn = mockFn;
+
+      component.ngOnInit();
+
+      expect(component.filterOptions).toEqual(mockFn);
+    });
+
     it('should emit on change of the formControl', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
       component.optionSelected.emit = jest.fn();
       jest.useFakeTimers();
 
-      component.formControl.patchValue(mockOption);
+      component.control.patchValue(mockOption);
 
       jest.advanceTimersByTime(1000);
 
@@ -127,7 +136,7 @@ describe('SelectComponent', () => {
     const mockOption = { id: 'mockId', title: 'mockTitle' };
     it('should set value through writeValue', () => {
       component.writeValue(mockOption);
-      expect(component.formControl.value).toEqual(mockOption);
+      expect(component.control.value).toEqual(mockOption);
     });
 
     it('should register supplied fn as onTouched method', () => {
@@ -146,7 +155,7 @@ describe('SelectComponent', () => {
       component['onTouched'] = jest.fn();
 
       component.writeValue(mockOption);
-      expect(component.formControl.value).toEqual(mockOption);
+      expect(component.control.value).toEqual(mockOption);
       expect(component.onTouched).toHaveBeenCalledTimes(1);
       expect(component.onChange).toHaveBeenCalledTimes(1);
     });
@@ -155,25 +164,70 @@ describe('SelectComponent', () => {
   describe('onOptionSelected', () => {
     it('should set the value of the formControl', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
-      component.formControl.setValue = jest.fn();
+      component.control.setValue = jest.fn();
 
       component.onOptionSelected(mockOption);
 
-      expect(component.formControl.setValue).toHaveBeenCalledWith(mockOption, {
-        emitEvent: false,
-      });
+      expect(component.control.setValue).toHaveBeenCalledWith(mockOption);
     });
   });
 
   describe('onSearchReset', () => {
     it('should set the value of the searchControl to an empty string and reset the formControl', () => {
       component.searchControl.setValue = jest.fn();
-      component.formControl.reset = jest.fn();
+      component.control.reset = jest.fn();
 
       component.onSearchReset();
 
       expect(component.searchControl.setValue).toHaveBeenCalledWith('');
-      expect(component.formControl.reset).toHaveBeenCalled();
+      expect(component.control.reset).toHaveBeenCalled();
+    });
+  });
+
+  describe('get filteredOptions', () => {
+    it('should call filterOptions', () => {
+      const mockOptionYes = {
+        id: 'yes',
+        title: 'yes',
+      };
+      const mockOptionNo = {
+        id: 'no',
+        title: 'no',
+      };
+      component.searchControl.setValue('', { emitEvent: false });
+      component.stringOptions = [mockOptionYes, mockOptionNo];
+      component.filterOptions = jest.fn((option) =>
+        option.title === 'no' ? false : true
+      );
+
+      const result = component.filteredOptions;
+
+      expect(result).toEqual([
+        {
+          id: 'yes',
+          title: 'yes',
+        },
+      ]);
+      expect(component.filterOptions).toHaveBeenCalledWith(mockOptionYes, '');
+      expect(component.filterOptions).toHaveBeenCalledWith(mockOptionNo, '');
+    });
+  });
+
+  describe('get formControlRequired', () => {
+    it('should check for the validator and return true', () => {
+      component.control = new FormControl('', [Validators.required]);
+
+      const result = component.formControlRequired;
+
+      expect(result).toBe(true);
+    });
+
+    it('should check for the validator and return false', () => {
+      component.control = new FormControl('');
+
+      const result = component.formControlRequired;
+
+      expect(result).toBe(false);
     });
   });
 
@@ -194,6 +248,14 @@ describe('SelectComponent', () => {
       const result = component.displayWithFn(mockOption);
 
       expect(result).toBe('mockId');
+    });
+  });
+
+  describe('filterOptions', () => {
+    it('should return true', () => {
+      const result = component.filterOptions();
+
+      expect(result).toBe(true);
     });
   });
 
