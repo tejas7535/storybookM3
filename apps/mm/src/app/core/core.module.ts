@@ -113,7 +113,7 @@ if (
         { id: 'es', label: 'Español' },
         { id: 'fr', label: 'Français' },
         { id: 'ru', label: 'русский' },
-        { id: 'zh', label: '中国' },
+        { id: 'zh', label: '中文' },
       ],
       undefined, // default -> undefined would lead to browser detection
       'en',

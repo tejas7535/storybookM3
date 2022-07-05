@@ -4,7 +4,7 @@ export const STORYBOOK_SUPPORTED_LANGUAGES = [
   { code: 'es', icon: '🇪🇸', title: 'Español' },
   { code: 'fr', icon: '🇫🇷', title: 'Français' },
   { code: 'ru', icon: '🇷🇺', title: 'Русский' },
-  { code: 'zh', icon: '🇨🇳', title: '中国' },
+  { code: 'zh', icon: '🇨🇳', title: '中文' },
 ];
 
 export const STORYBOOK_DEFAULT_LANGUAGE = STORYBOOK_SUPPORTED_LANGUAGES[1];

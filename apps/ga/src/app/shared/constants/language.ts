@@ -12,7 +12,7 @@ export const AVAILABLE_LANGUAGE_EN: LangDefinition = {
 
 export const AVAILABLE_LANGUAGE_ZH: LangDefinition = {
   id: 'zh',
-  label: '中国',
+  label: '中文',
 };
 
 export const AVAILABLE_LANGUAGES: LangDefinition[] = [

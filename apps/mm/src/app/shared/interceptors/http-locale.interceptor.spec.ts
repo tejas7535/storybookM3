@@ -47,7 +47,7 @@ describe(`HttpLocaleInterceptor`, () => {
           { id: 'es', label: 'Español' },
           { id: 'fr', label: 'Français' },
           { id: 'ru', label: 'русский' },
-          { id: 'zh', label: '中国' },
+          { id: 'zh', label: '中文' },
         ],
         'en', // default -> undefined would lead to browser detection
         'en',
@@ -76,15 +76,12 @@ describe(`HttpLocaleInterceptor`, () => {
   });
 
   describe('intercept', () => {
-    it(
-      'should change locale header attribute',
-      waitForAsync(() => {
-        service.getPosts().subscribe((response: any) => {
-          expect(response).toBeTruthy();
-        });
-        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-        expect(httpRequest.request.headers.get('Locale')).toBeDefined();
-      })
-    );
+    it('should change locale header attribute', waitForAsync(() => {
+      service.getPosts().subscribe((response: any) => {
+        expect(response).toBeTruthy();
+      });
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+      expect(httpRequest.request.headers.get('Locale')).toBeDefined();
+    }));
   });
 });
