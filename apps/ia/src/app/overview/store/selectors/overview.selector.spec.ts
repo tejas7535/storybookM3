@@ -13,7 +13,6 @@ import {
 } from '../../models';
 import { initialState, OverviewState } from '..';
 import {
-  getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
   getExitEmployees,
@@ -82,12 +81,6 @@ describe('Overview Selector', () => {
       ...initialState,
       attritionOverTime: {
         data: {
-          events: [
-            {
-              date: moment('01-01-2021', 'DD-MM-YYYY').valueOf().toString(),
-              name: 'Monkeys',
-            },
-          ],
           data: {
             2019: {
               employees: [],
@@ -172,17 +165,6 @@ describe('Overview Selector', () => {
   describe('getIsLoadingAttritionOverTimeOverview', () => {
     it('should return loading status', () => {
       expect(getIsLoadingAttritionOverTimeOverview(fakeState)).toBeTruthy();
-    });
-  });
-
-  describe('getAttritionOverTimeEvents', () => {
-    it('should return list of events', () => {
-      expect(getAttritionOverTimeEvents(fakeState)).toEqual([
-        {
-          date: moment('01-01-2021', 'DD-MM-YYYY').valueOf().toString(),
-          name: 'Monkeys',
-        },
-      ]);
     });
   });
 

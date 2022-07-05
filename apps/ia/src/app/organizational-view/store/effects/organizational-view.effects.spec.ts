@@ -341,7 +341,7 @@ describe('Organizational View Effects', () => {
     test(
       'should return loadAttritionOverTimeOrgChartSuccess action when REST call is successful',
       marbles((m) => {
-        const data: AttritionOverTime = { events: [], data: {} };
+        const data: AttritionOverTime = { data: {} };
         const result = loadAttritionOverTimeOrgChartSuccess({
           data,
         });
@@ -363,7 +363,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(orgUnit, TimePeriod.PLUS_MINUS_THREE_MONTHS);
+        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_6_MONTHS);
       })
     );
 
@@ -388,7 +388,7 @@ describe('Organizational View Effects', () => {
         m.flush();
         expect(
           organizationalViewService.getAttritionOverTime
-        ).toHaveBeenCalledWith(orgUnit, TimePeriod.PLUS_MINUS_THREE_MONTHS);
+        ).toHaveBeenCalledWith(orgUnit, TimePeriod.LAST_6_MONTHS);
       })
     );
   });

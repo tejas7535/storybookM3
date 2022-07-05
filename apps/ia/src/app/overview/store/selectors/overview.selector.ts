@@ -25,11 +25,6 @@ const getAttritionOverTime = createSelector(
   (state: OverviewState) => state.attritionOverTime?.data
 );
 
-export const getAttritionOverTimeEvents = createSelector(
-  getAttritionOverTime,
-  (attritionOverTime: AttritionOverTime) => attritionOverTime?.events
-);
-
 export const getAttritionOverTimeOverviewData = createSelector(
   getAttritionOverTime,
   (attritionOverTime: AttritionOverTime) => attritionOverTime?.data

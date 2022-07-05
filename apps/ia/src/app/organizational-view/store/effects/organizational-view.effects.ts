@@ -127,7 +127,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => action.orgUnit),
       switchMap((orgUnit: string) =>
         this.organizationalViewService
-          .getAttritionOverTime(orgUnit, TimePeriod.PLUS_MINUS_THREE_MONTHS)
+          .getAttritionOverTime(orgUnit, TimePeriod.LAST_6_MONTHS)
           .pipe(
             map((data: AttritionOverTime) =>
               loadAttritionOverTimeOrgChartSuccess({ data })

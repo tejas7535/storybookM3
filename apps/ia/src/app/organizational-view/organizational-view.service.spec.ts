@@ -135,7 +135,6 @@ describe('OrganizationalViewService', () => {
     test('should get attrition data for last years', () => {
       const orgUnit = 'Schaeffler12';
       const mock: AttritionOverTime = {
-        events: [],
         data: {
           '2019': {
             attrition: [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],

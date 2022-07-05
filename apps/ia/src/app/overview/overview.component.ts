@@ -8,10 +8,9 @@ import { EChartsOption } from 'echarts';
 
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { EmployeeListDialogMetaHeadings } from '../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { AttritionSeries, Employee, Event } from '../shared/models';
+import { AttritionSeries, Employee } from '../shared/models';
 import { FluctuationKpi, OpenApplication, ResignedEmployee } from './models';
 import {
-  getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
   getExitEmployees,
@@ -142,7 +141,6 @@ export class OverviewComponent implements OnInit {
     this.attritionRateLoading$ = this.store.select(
       getIsLoadingAttritionOverTimeOverview
     );
-    this.events$ = this.store.select(getAttritionOverTimeEvents);
     this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
   }
 }

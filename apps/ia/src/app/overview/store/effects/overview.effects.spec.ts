@@ -110,7 +110,7 @@ describe('Overview Effects', () => {
     test(
       'should return loadAttritionOverTimeOverviewSuccess action when REST call is successful',
       marbles((m) => {
-        const data: AttritionOverTime = { events: [], data: {} };
+        const data: AttritionOverTime = { data: {} };
         const result = loadAttritionOverTimeOverviewSuccess({
           data,
         });

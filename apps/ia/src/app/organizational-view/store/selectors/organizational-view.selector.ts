@@ -3,7 +3,6 @@ import { createSelector } from '@ngrx/store';
 
 import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/charts/line-chart/line-chart.config';
 import { AttritionOverTime, AttritionSeries } from '../../../shared/models';
-import { Color } from '../../../shared/models/color.enum';
 import { CountryData } from '../../world-map/models';
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
 
@@ -63,38 +62,6 @@ export function mapDataToChartOption(data: AttritionSeries) {
           name: translate(`attritionDialog.${name}`, {}, 'organizational-view'),
           data: data[name].attrition,
         })),
-        visualMap: {
-          show: true,
-          dimension: 0,
-          pieces: [
-            {
-              gte: 0,
-              lte: 3,
-              color: Color.GREEN,
-            },
-            {
-              gt: 3,
-              lte: 5,
-              color: Color.BLUE,
-            },
-          ],
-          formatter: (val1: number, val2: number) =>
-            val1 === 0 && val2 === 3
-              ? translate(
-                  'attritionDialog.pastAttritionRate',
-                  {},
-                  'organizational-view'
-                )
-              : translate(
-                  'attritionDialog.futureAttritionRate',
-                  {},
-                  'organizational-view'
-                ),
-          orient: 'horizontal',
-        },
-        legend: {
-          show: false,
-        },
         yAxis: {
           type: 'value',
           minInterval: 1,

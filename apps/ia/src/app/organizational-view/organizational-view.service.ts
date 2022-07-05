@@ -98,7 +98,7 @@ export class OrganizationalViewService {
 
   getAttritionOverTime(
     orgUnit: string,
-    timePeriod: TimePeriod.LAST_THREE_YEARS | TimePeriod.PLUS_MINUS_THREE_MONTHS
+    timePeriod: TimePeriod.LAST_THREE_YEARS | TimePeriod.LAST_6_MONTHS
   ): Observable<AttritionOverTime> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimePeriod(
       orgUnit,

@@ -1,10 +1,5 @@
 import { Employee } from './employee';
 
-export interface Event {
-  date: string;
-  name: string;
-}
-
 export interface AttritionSeries {
   [seriesName: string]: {
     employees: Employee[][];
@@ -13,6 +8,5 @@ export interface AttritionSeries {
 }
 
 export interface AttritionOverTime {
-  events: Event[];
   data: AttritionSeries;
 }

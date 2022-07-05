@@ -7,7 +7,6 @@ import { marbles } from 'rxjs-marbles/jest';
 import { DoughnutConfig } from '../shared/charts/models/doughnut-config.model';
 import { OverviewComponent } from './overview.component';
 import {
-  getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
   getExitEmployees,
@@ -68,25 +67,6 @@ describe('OverviewComponent', () => {
         store.overrideSelector(getIsLoadingAttritionOverTimeOverview, result);
         component.ngOnInit();
         m.expect(component.attritionRateLoading$).toBeObservable(
-          m.cold('a', {
-            a: result,
-          })
-        );
-      })
-    );
-
-    test(
-      'should set events$',
-      marbles((m) => {
-        const result = [
-          {
-            date: new Date(2020, 1, 1).valueOf().toString(),
-            name: 'blur',
-          },
-        ];
-        store.overrideSelector(getAttritionOverTimeEvents, result);
-        component.ngOnInit();
-        m.expect(component.events$).toBeObservable(
           m.cold('a', {
             a: result,
           })

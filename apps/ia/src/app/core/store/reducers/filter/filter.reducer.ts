@@ -1,8 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
-import { DATA_IMPORT_DAY } from 'apps/ia/src/app/shared/constants';
 import moment, { Moment } from 'moment';
 
+import { DATA_IMPORT_DAY } from '../../../../shared/constants';
 import {
   filterAdapter,
   FilterKey,
@@ -40,7 +40,7 @@ export const getInitialSelectedTimeRange = (today: Moment) => {
   const nowDate = today
     .clone()
     .utc()
-    .subtract(DATA_IMPORT_DAY - 1, 'days') // use previous month if data is not imported yet
+    .subtract(DATA_IMPORT_DAY, 'days') // use previous month if data is not imported yet
     .subtract(1, 'month')
     .endOf('month');
   const oldDate = getMonth12MonthsAgo(nowDate);

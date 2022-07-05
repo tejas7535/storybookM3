@@ -10,7 +10,7 @@ import {
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee, Event } from '../../shared/models';
+import { Employee } from '../../shared/models';
 import { ChartSeries } from '../models/chart-series.model';
 
 @Component({
@@ -28,7 +28,6 @@ export class OverviewChartComponent {
   };
 
   @Input() public loading: boolean;
-  @Input() public events: Event[];
   @Input() public set data(data: {
     [seriesName: string]: {
       employees: Employee[][];
