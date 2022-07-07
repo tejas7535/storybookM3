@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.4...azure-auth-v0.2.0) (2022-07-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* **azure-auth:** usage of role related selectors changed from `this.store.select(selector)` to
+`this.store.pipe(selector)`. Detailed documentation is in Readme.
+
+* **azure-auth:** use piped selectors for role selectors ([9d138a4](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d138a4d3a37d108c9d3ef60412e20a58f758ecc)), closes [#3857](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3857)
+
 ### [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/azure-auth-v0.1.3...azure-auth-v0.1.4) (2022-03-22)
 
 
