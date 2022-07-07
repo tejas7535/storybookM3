@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.5](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.4...application-insights-v0.1.5) (2022-07-07)
+
+
+### 🐛 Bug Fixes
+
+* **application-insights:** adjust to handle apps without cookies ([#3988](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3988)) ([378599d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/378599d96eb620cc70d376b91d83b2f823d75b36))
+* **application-insights:** only track when opt in happened ([#3932](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3932)) ([f55dc8c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f55dc8ce3e48550b594da1d7733bd8e4f29f2efa))
+
 ### [0.1.4](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/application-insights-v0.1.3...application-insights-v0.1.4) (2022-03-22)
 
 
