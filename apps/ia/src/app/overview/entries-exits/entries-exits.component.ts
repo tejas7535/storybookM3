@@ -8,7 +8,7 @@ import { DoughnutChartData } from '../../shared/charts/models/doughnut-chart-dat
 import { DoughnutConfig } from '../../shared/charts/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../shared/charts/models/doughnut-series-config.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Color, Employee } from '../../shared/models';
+import { Color, Employee, EmployeeListDialogType } from '../../shared/models';
 
 @Component({
   selector: 'ia-entries-exits',
@@ -32,6 +32,9 @@ export class EntriesExitsComponent {
   legendSelectAction: LegendSelectAction;
   entriesDoughnutConfig: DoughnutConfig;
   exitsDoughnutConfig: DoughnutConfig;
+
+  exitType = EmployeeListDialogType.EXIT;
+  entryType = EmployeeListDialogType.ENTRY;
 
   @Input() isDataLoading: boolean;
   @Input() entriesCount: number;

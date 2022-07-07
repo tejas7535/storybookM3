@@ -2,6 +2,7 @@ export * from './api-version.enum';
 export * from './attrition-over-time.model';
 export * from './color.enum';
 export * from './employee';
+export * from './employee-list-dialog-type.enum';
 export * from './employees-request.model';
 export * from './filter';
 export * from './id-value.model';

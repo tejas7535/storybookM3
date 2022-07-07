@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EmployeeListDialogComponent } from '../employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee } from '../models';
+import { Employee, EmployeeListDialogType } from '../models';
 
 @Component({
   selector: 'ia-kpi',
@@ -17,6 +17,7 @@ export class KpiComponent {
   @Input() employees: Employee[];
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;
   @Input() showFluctuationType: boolean;
+  @Input() employeeListType: EmployeeListDialogType;
 
   constructor(private readonly dialog: MatDialog) {}
 
@@ -24,7 +25,8 @@ export class KpiComponent {
     const data = new EmployeeListDialogMeta(
       this.employeeListDialogMetaHeadings,
       this.employees,
-      this.showFluctuationType
+      this.showFluctuationType,
+      this.employeeListType
     );
     this.dialog.open(EmployeeListDialogComponent, {
       data,
