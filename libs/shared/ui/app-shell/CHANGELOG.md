@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.7...app-shell-v0.0.8) (2022-07-07)
+
+
+### 🎸 Features
+
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
 ### [0.0.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/app-shell-v0.0.6...app-shell-v0.0.7) (2022-03-22)
 
 
