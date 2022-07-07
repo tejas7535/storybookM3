@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.2.0...transloco-v3.3.0) (2022-07-07)
+
+
+### 🐛 Bug Fixes
+
+* **transloco:** properly configure tailwind content configuration ([3ada7bb](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3ada7bb65f1656c4230d2a73cd46268e0b339971))
+
+
+### 🎸 Features
+
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+* **transloco:** add messageformat to support pluralization in translations ([#4282](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4282)) ([048e3c7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/048e3c7ade732b794618740df19695d537bce727))
+* **transloco:** take language changes from outside in consideration ([041402d](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/041402d95ca189f9d488ac7de0d4756ecb3ed0b3))
+
 ## [3.2.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/transloco-v3.1.0...transloco-v3.2.0) (2022-03-22)
 
 
