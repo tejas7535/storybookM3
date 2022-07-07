@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.1.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.1...icons-v2.1.2) (2022-07-07)
+
 ### [2.1.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/icons-v2.1.0...icons-v2.1.1) (2022-03-22)
 
 
