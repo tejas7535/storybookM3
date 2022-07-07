@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [3.3.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.2.1...hellworld-azure-v3.3.0) (2022-07-07)
+
+
+### 🎸 Features
+
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
 ### [3.2.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/hellworld-azure-v3.2.0...hellworld-azure-v3.2.1) (2022-05-25)
 
 
