@@ -106,6 +106,7 @@ In the parent component:
     [multiple]="multiple"
     [noResultsText]="noResultsText"
     [filterFn]="filterFn"
+    [resetOption]="resetOption"
     (searchUpdated)="onSearchUpdated($event)"
     (entryAdded)="onEntryAdded($event)"
     (optionRemoved)="onOptionRemoved($event)"
@@ -119,7 +120,8 @@ In the parent component:
         (The custom loading content will take priority over the error content, so in case loading and error are both set to true, the loading content will be shown)
     </div>
     <div matErrorContent>
-        <mat-error *ngIf="control.invalid">{{ getErrorMessage() }}<mat-error>
+        <!-- This content will be projected inside a mat-error element -->
+        {{ getErrorMessage() }}
     </div>
 </schaeffler-select>
 ```
@@ -175,6 +177,7 @@ export class ExampleComponent implements OnInit {
     public multiple = true;
     public noResultsText = 'message to display the length of the provided option array is 0';
     public addEntry = true;
+    public resetOption = 'None';
 
     public control = new FormControl();
 
@@ -245,6 +248,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 | addEntry              | (optional) whether the control should allow addition of new items                                                |
 | control               | (optional) a form control to manage the value of the control                                                     |
 | filterFn              | (optional) a custom function to implement filter logic used by the component                                     |
+| resetOption           | (optional) the text for an option with empty value which can be used to reset the selection                      |
 
 #### Events
 

@@ -34,6 +34,7 @@ export class SelectComponent
   @Input() public multiple?: boolean;
   @Input() public noResultsText = 'No Results';
   @Input() public addEntry?: boolean;
+  @Input() public resetOption?: string;
 
   @Output() public readonly searchUpdated = new EventEmitter<string>();
   @Output() public readonly entryAdded = new EventEmitter<string>();

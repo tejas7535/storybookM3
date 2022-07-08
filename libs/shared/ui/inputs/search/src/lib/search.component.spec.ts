@@ -71,9 +71,20 @@ describe('SearchComponent', () => {
       expect(component.filterOptions).toEqual(mockFn);
     });
 
+    it('should set the validators', () => {
+      component.searchControl.addValidators = jest.fn();
+
+      component.ngOnInit();
+
+      expect(component.searchControl.addValidators).toHaveBeenCalledWith(
+        component['validatorFn']
+      );
+    });
+
     it('should emit on change of the formControl', () => {
       const mockOption = { id: 'mockId', title: 'mockTitle' };
       component.optionSelected.emit = jest.fn();
+      component.searchControl.updateValueAndValidity = jest.fn();
       jest.useFakeTimers();
 
       component.control.patchValue(mockOption);
@@ -81,6 +92,7 @@ describe('SearchComponent', () => {
       jest.advanceTimersByTime(1000);
 
       expect(component.optionSelected.emit).toHaveBeenCalledWith(mockOption);
+      expect(component.searchControl.updateValueAndValidity).toHaveBeenCalled();
       jest.useRealTimers();
     });
 
@@ -264,6 +276,18 @@ describe('SearchComponent', () => {
       const result = component.trackByFn(5);
 
       expect(result).toEqual(5);
+    });
+  });
+
+  describe('validatorFn', () => {
+    it('should return the controls errors', () => {
+      component.control = {
+        errors: { test: true },
+      } as unknown as FormControl;
+
+      const result = component['validatorFn']({} as FormControl);
+
+      expect(result).toEqual({ test: true });
     });
   });
 });

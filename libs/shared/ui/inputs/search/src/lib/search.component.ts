@@ -6,9 +6,14 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ControlValueAccessor, FormControl, Validators } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormControl,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
-import { debounceTime, filter, Subscription } from 'rxjs';
+import { debounceTime, filter, Subscription, tap } from 'rxjs';
 
 import { StringOption } from '@schaeffler/inputs';
 
@@ -48,9 +53,14 @@ export class SearchComponent
       this.filterOptions = this.filterFn;
     }
 
+    this.searchControl.addValidators(this.validatorFn);
+
     this.subscription.add(
       this.control.valueChanges
-        .pipe(debounceTime(100))
+        .pipe(
+          tap(() => this.searchControl.updateValueAndValidity()),
+          debounceTime(100)
+        )
         .subscribe((value) => this.optionSelected.emit(value))
     );
 
@@ -120,4 +130,8 @@ export class SearchComponent
   public trackByFn(index: number): number {
     return index;
   }
+
+  private readonly validatorFn: ValidatorFn = (): {
+    [key: string]: boolean;
+  } | null => this.control.errors;
 }

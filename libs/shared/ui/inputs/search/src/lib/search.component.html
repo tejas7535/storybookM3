@@ -11,7 +11,6 @@
     (blur)="onTouched()"
     [placeholder]="placeholder"
   />
-  <ng-content select="[matErrorContent]"></ng-content>
   <mat-autocomplete
     #auto="matAutocomplete"
     [displayWith]="displayWithFn"
@@ -53,4 +52,8 @@
       </button>
     </ng-template>
   </div>
+
+  <mat-error>
+    <ng-content select="[matErrorContent]"></ng-content>
+  </mat-error>
 </mat-form-field>

@@ -124,6 +124,17 @@
                 </div>
               </div>
               <mat-option
+                *ngIf="!multiple && resetOption"
+                [value]="undefined"
+                (click)="select()"
+                [ngClass]="{
+                  'mat-selected': undefined === control.value
+                }"
+                class="flex-1 text-high-emphasis"
+              >
+                {{ resetOption }}
+              </mat-option>
+              <mat-option
                 *ngFor="let option of filteredOptions; trackBy: trackByFn"
                 #selectOption
                 [value]="option"
@@ -156,5 +167,7 @@
       </div>
     </div>
   </mat-select>
-  <ng-content select="[matErrorContent]"></ng-content>
+  <mat-error>
+    <ng-content select="[matErrorContent]"></ng-content>
+  </mat-error>
 </mat-form-field>

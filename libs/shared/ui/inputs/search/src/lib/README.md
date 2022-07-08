@@ -106,7 +106,8 @@ In the parent component:
         (The custom loading content will take priority over the error content, so in case loading and error are both set to true, the loading content will be shown)
     </div>
     <div matErrorContent>
-        <mat-error *ngIf="control.invalid">{{ getErrorMessage() }}<mat-error>
+        <!-- This content will be projected inside a mat-error element -->
+        {{ getErrorMessage() }}
     </div>
 </schaeffler-search>
 ```

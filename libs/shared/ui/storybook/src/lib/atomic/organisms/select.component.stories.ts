@@ -10,7 +10,7 @@ import {
 import { Badges } from '../../../../.storybook/storybook-badges.constants';
 import { SelectComponent, SelectModule } from '@schaeffler/inputs/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { action } from '@storybook/addon-actions';
 import { StringOption } from '@schaeffler/inputs';
@@ -60,6 +60,7 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [addEntry]="addEntry"
           [control]="control"
           [filterFn]="filterFn"
+          [resetOption]="resetOption"
           (searchUpdated)="onSearchUpdated($event)"
           (entryAdded)="onEntryAdded($event)"
           (optionRemoved)="onOptionRemoved($event)"
@@ -73,6 +74,7 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           <mat-icon class="text-error">cancel</mat-icon>
           <span class="text-caption">custom error content</span>
         </div>
+        <ng-container matErrorContent>Input is required</ng-container>
       </schaeffler-select>
     </div>
     <div class="flex flex-row gap-4 mt-10">
@@ -116,10 +118,11 @@ Primary.args = {
 
 Primary.argTypes = {
   control: {
-    options: ['Default'],
+    options: ['Default', 'Required'],
     control: 'radio',
     mapping: {
       Default: new FormControl(),
+      Required: new FormControl('', [Validators.required]),
     },
     defaultValue: 'Default',
   },
@@ -127,6 +130,10 @@ Primary.argTypes = {
     options: ['fill', 'outline'],
     control: 'radio',
     defaultValue: 'fill',
+  },
+  resetOption: {
+    control: 'text',
+    defaultValue: undefined,
   },
   filterFn: {
     options: ['No Filter', 'Custom Filter'],
