@@ -7,6 +7,10 @@ import { map, pairwise } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import {
+  clearProcessCaseRowData,
+  resetAllAutocompleteOptions,
+} from '../../core/store';
+import {
   getAddMaterialRowData,
   getQuotationErrorMessage,
   getUpdateLoading,
@@ -55,6 +59,8 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   }
 
   closeDialog(): void {
+    this.store.dispatch(clearProcessCaseRowData());
+    this.store.dispatch(resetAllAutocompleteOptions());
     this.dialogRef.close();
   }
 }

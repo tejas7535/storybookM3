@@ -30,6 +30,7 @@ import {
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetAllAutocompleteOptions,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
@@ -265,6 +266,13 @@ export const createCaseReducer = createReducer(
         salesOrgs:
           filter === FilterNames.CUSTOMER ? [] : state.customer.salesOrgs,
       },
+    })
+  ),
+  on(
+    resetAllAutocompleteOptions,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      autocompleteItems: initialState.autocompleteItems,
     })
   ),
   on(addRowDataItem, (state: CreateCaseState, { items }) => ({

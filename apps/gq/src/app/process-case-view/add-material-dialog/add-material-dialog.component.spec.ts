@@ -8,12 +8,16 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../testing/mocks';
+import {
+  clearProcessCaseRowData,
+  resetAllAutocompleteOptions,
+} from '../../core/store';
 import { AutocompleteInputModule } from '../../shared/components/autocomplete-input/autocomplete-input.module';
 import { AddEntryModule } from '../../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/components/case-material/input-table/input-table.module';
@@ -27,6 +31,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('AddMaterialDialogComponent', () => {
   let component: AddMaterialDialogComponent;
   let spectator: Spectator<AddMaterialDialogComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: AddMaterialDialogComponent,
@@ -62,6 +67,7 @@ describe('AddMaterialDialogComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -89,10 +95,16 @@ describe('AddMaterialDialogComponent', () => {
   });
   describe('closeDialog', () => {
     test('should close dialog', () => {
+      store.dispatch = jest.fn();
+
       component['dialogRef'].close = jest.fn();
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(clearProcessCaseRowData());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        resetAllAutocompleteOptions()
+      );
     });
   });
 });

@@ -30,6 +30,7 @@ import {
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetAllAutocompleteOptions,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
@@ -384,6 +385,15 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         type: '[Create Case] Reset PLs and Series',
+      });
+    });
+  });
+  describe('resetAllAutocompleteOptions', () => {
+    test('resetAllAutocompleteOptions', () => {
+      const action = resetAllAutocompleteOptions();
+
+      expect(action).toEqual({
+        type: '[Create Case] Reset all autocomplete options',
       });
     });
   });

@@ -157,6 +157,10 @@ export const resetPLsAndSeries = createAction(
   '[Create Case] Reset PLs and Series'
 );
 
+export const resetAllAutocompleteOptions = createAction(
+  '[Create Case] Reset all autocomplete options'
+);
+
 const all = union({
   addRowDataItem,
   autocomplete,

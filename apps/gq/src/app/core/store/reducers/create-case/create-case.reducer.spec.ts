@@ -30,6 +30,7 @@ import {
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetAllAutocompleteOptions,
   resetCustomerFilter,
   resetPLsAndSeries,
   resetProductLineAndSeries,
@@ -286,6 +287,30 @@ describe('Create Case Reducer', () => {
         ]);
         expect(state.customer.customerId).toEqual('82563');
         expect(state.customer.salesOrgs).toEqual(fakeState.customer.salesOrgs);
+      });
+    });
+    describe('resetAllAutocompleteOptions', () => {
+      test('should reset all autocomplete options', () => {
+        const fakeOptions = [
+          new IdValue('mcd', 'mercedes', true),
+          new IdValue('aud', 'audi', false),
+        ];
+        const fakeState: CreateCaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            {
+              filter: FilterNames.CUSTOMER,
+              options: fakeOptions,
+            },
+            { filter: FilterNames.MATERIAL_NUMBER, options: fakeOptions },
+          ],
+        };
+
+        const action = resetAllAutocompleteOptions();
+
+        const state = createCaseReducer(fakeState, action);
+
+        expect(state.autocompleteItems).toEqual(initialState.autocompleteItems);
       });
     });
   });

@@ -12,7 +12,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import {
   autocomplete,
-  resetCustomerFilter,
+  clearCreateCaseRowData,
+  resetAllAutocompleteOptions,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
@@ -101,7 +102,10 @@ describe('CreateManualCaseComponent', () => {
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
-      expect(mockStore.dispatch).toHaveBeenCalledWith(resetCustomerFilter());
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        resetAllAutocompleteOptions()
+      );
+      expect(mockStore.dispatch).toHaveBeenCalledWith(clearCreateCaseRowData());
     });
   });
 
