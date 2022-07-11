@@ -5,12 +5,16 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentFilters,
+  getSelectedTimeRange,
+} from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   Employee,
   EmployeesRequest,
   FilterKey,
+  IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
@@ -23,6 +27,10 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadOrgUnitFluctuationMeta,
+  loadOrgUnitFluctuationRate,
+  loadOrgUnitFluctuationRateFailure,
+  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -114,6 +122,37 @@ describe('Organizational View Effects', () => {
     );
   });
 
+  describe('loadOrgUnitFluctuationMeta$', () => {
+    test(
+      'should load org unit rates',
+      marbles((m) => {
+        const employee = {
+          orgUnitKey: '123',
+        } as Employee;
+
+        const timeRange = {
+          id: '1234|4567',
+          value: '1.1.2020 - 31.1.2022',
+        } as IdValue;
+        const request = {
+          orgUnit: employee.orgUnitKey,
+          timeRange: timeRange.id,
+        };
+
+        action = loadOrgUnitFluctuationMeta({ employee });
+        store.overrideSelector(getSelectedTimeRange, timeRange);
+        const result = loadOrgUnitFluctuationRate({ request });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', {
+          b: result,
+        });
+
+        m.expect(effects.loadOrgUnitFluctuationMeta$).toBeObservable(expected);
+      })
+    );
+  });
+
   describe('loadOrgChart$', () => {
     let request: EmployeesRequest;
 
@@ -172,6 +211,70 @@ describe('Organizational View Effects', () => {
         expect(organizationalViewService.getOrgChart).toHaveBeenCalledWith(
           request
         );
+      })
+    );
+  });
+
+  describe('loadOrgUnitFluctuationRate$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadOrgUnitFluctuationRate({ request });
+    });
+
+    test(
+      'should return loadOrgUnitFluctuationRateSuccess action when REST call is successful',
+      marbles((m) => {
+        const rate = {
+          orgUnitKey: '123',
+          timeRange: '123|456',
+          fluctuationRate: 0.1,
+          unforcedFluctuationRate: 0.02,
+        };
+        const result = loadOrgUnitFluctuationRateSuccess({
+          rate,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: rate,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        organizationalViewService.getOrgUnitFluctuationRate = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOrgUnitFluctuationRate$).toBeObservable(expected);
+        m.flush();
+        expect(
+          organizationalViewService.getOrgUnitFluctuationRate
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadOrgUnitFluctuationRateFailure on REST error',
+      marbles((m) => {
+        const result = loadOrgUnitFluctuationRateFailure({
+          errorMessage: error.message,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        organizationalViewService.getOrgUnitFluctuationRate = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOrgUnitFluctuationRate$).toBeObservable(expected);
+        m.flush();
+        expect(
+          organizationalViewService.getOrgUnitFluctuationRate
+        ).toHaveBeenCalledWith(request);
       })
     );
   });

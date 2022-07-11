@@ -4,6 +4,7 @@ import {
   EmployeesRequest,
 } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgUnitFluctuationRate } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -13,6 +14,10 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadOrgUnitFluctuationMeta,
+  loadOrgUnitFluctuationRate,
+  loadOrgUnitFluctuationRateFailure,
+  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -60,6 +65,54 @@ describe('Organizational View Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Organizational View] Load Org Chart Failure',
+    });
+  });
+
+  test('loadOrgUnitFluctuationMeta', () => {
+    const employee = {
+      orgUnit: '1234',
+      employeeId: '123',
+    } as unknown as Employee;
+    const action = loadOrgUnitFluctuationMeta({ employee });
+
+    expect(action).toEqual({
+      employee,
+      type: '[Organizational View] Load Org Unit Fluctuation Meta',
+    });
+  });
+
+  test('loadOrgUnitFluctuationRate', () => {
+    const request = {} as unknown as EmployeesRequest;
+    const action = loadOrgUnitFluctuationRate({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Organizational View] Load Org Unit Fluctuation Rate',
+    });
+  });
+
+  test('loadOrgUnitFluctuationRateSuccess', () => {
+    const rate: OrgUnitFluctuationRate = {
+      orgUnitKey: '123',
+      timeRange: '123|456',
+      fluctuationRate: 0.1,
+      unforcedFluctuationRate: 0.01,
+    };
+
+    const action = loadOrgUnitFluctuationRateSuccess({ rate });
+
+    expect(action).toEqual({
+      rate,
+      type: '[Organizational View] Load Org Unit Fluctuation Rate Success',
+    });
+  });
+
+  test('loadOrgUnitFluctuationRateFailure', () => {
+    const action = loadOrgUnitFluctuationRateFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Organizational View] Load Org Unit Fluctuation Rate Failure',
     });
   });
 

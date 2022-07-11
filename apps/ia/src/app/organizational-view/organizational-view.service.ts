@@ -15,7 +15,11 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../shared/models';
-import { OrgChartResponse } from './org-chart/models';
+import {
+  OrgChartResponse,
+  OrgUnitFluctuationRate,
+  OrgUnitFluctuationRateResponse,
+} from './org-chart/models';
 import { CountryData, WorldMapResponse } from './world-map/models';
 
 @Injectable({
@@ -26,6 +30,7 @@ export class OrganizationalViewService {
   readonly WORLD_MAP = 'world-map';
   readonly EMPLOYEE = 'employee';
   readonly ATTRITION_OVER_TIME = 'attrition-over-time';
+  readonly FLUCTUATION_RATE = 'fluctuation-rate';
 
   readonly PARAM_EMPLOYEE_ID = 'employee_key';
   readonly PARAM_REPORT_DATE = 'report_date';
@@ -79,6 +84,31 @@ export class OrganizationalViewService {
       .pipe(
         map((response) => response.data),
         map((countryData) => this.addContinentToCountryData(countryData))
+      );
+  }
+
+  getOrgUnitFluctuationRate(
+    employeesRequest: EmployeesRequest
+  ): Observable<OrgUnitFluctuationRate> {
+    const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
+      employeesRequest.orgUnit,
+      employeesRequest.timeRange
+    );
+
+    return this.http
+      .get<OrgUnitFluctuationRateResponse>(
+        `${ApiVersion.V1}/${this.FLUCTUATION_RATE}`,
+        {
+          params,
+          context: withCache(),
+        }
+      )
+      .pipe(
+        map((response) => ({
+          ...response,
+          orgUnitKey: employeesRequest.orgUnit,
+          timeRange: employeesRequest.timeRange,
+        }))
       );
   }
 

@@ -11,7 +11,7 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../shared/models';
-import { OrgChartResponse } from './org-chart/models';
+import { OrgChartResponse, OrgUnitFluctuationRate } from './org-chart/models';
 import { OrganizationalViewService } from './organizational-view.service';
 import { CountryData, WorldMapResponse } from './world-map/models';
 
@@ -128,6 +128,33 @@ describe('OrganizationalViewService', () => {
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
+    });
+  });
+
+  describe('getOrgUnitFluctuationRate', () => {
+    test('should get org unit fluctuation rate', () => {
+      const orgUnit = '123';
+      const timeRange = '123-321';
+      const response = {
+        fluctuationRate: 0.1,
+        unforcedFluctuationRate: 0.01,
+      };
+      const mock: OrgUnitFluctuationRate = {
+        ...response,
+        orgUnitKey: orgUnit,
+        timeRange,
+      };
+      const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
+
+      service.getOrgUnitFluctuationRate(request).subscribe((resp) => {
+        expect(resp).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `api/v1/fluctuation-rate?org_unit_key=${orgUnit}&time_range=${timeRange}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(response);
     });
   });
 

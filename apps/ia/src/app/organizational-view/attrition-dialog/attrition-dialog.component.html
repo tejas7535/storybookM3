@@ -1,10 +1,13 @@
 <h2 mat-dialog-title class="!mt-0 !mr-0 !mb-4 !ml-1 !text-high-emphasis">
-  {{ meta.data.title }}
+  {{ (meta$ | ngrxPush)?.data?.title }}
 </h2>
 <mat-dialog-content>
   <div class="flex grow flex-col gap-8 lg:flex-row">
-    <div class="flex flex-col">
-      <ia-attrition-dialog-meta [meta]="meta"></ia-attrition-dialog-meta>
+    <div class="relative flex flex-col lg:min-w-[280px]">
+      <ia-attrition-dialog-meta
+        [meta]="meta$ | ngrxPush"
+        [fluctuationLoading]="fluctuationLoading$ | ngrxPush"
+      ></ia-attrition-dialog-meta>
     </div>
     <div class="invisible lg:visible">
       <mat-divider class="h-full" [vertical]="true"></mat-divider>
@@ -14,8 +17,8 @@
       *transloco="let t; read: 'organizationalView.attritionDialog'"
     >
       <ia-line-chart
-        [config]="data$ | ngrxPush"
-        [isDataLoading]="attritionRateLoading$ | ngrxPush"
+        [config]="fluctuationOverTimeData$ | ngrxPush"
+        [isDataLoading]="fluctuationOverTimeDataLoading$ | ngrxPush"
         [title]="t('chartTitle')"
       ></ia-line-chart>
     </div>

@@ -19,7 +19,7 @@ import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employ
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { Employee } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
+import { ChartType } from '../models/chart-type.enum';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
 
@@ -43,10 +43,11 @@ export class OrgChartComponent implements AfterViewInit {
 
   @Input() isLoading = false;
 
-  @Input() selectedTimeRange = '';
-
   @Output()
   readonly showParent: EventEmitter<Employee> = new EventEmitter();
+
+  @Output()
+  readonly loadMeta: EventEmitter<Employee> = new EventEmitter();
 
   @ViewChild('chartContainer') chartContainer: ElementRef;
 
@@ -84,13 +85,9 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       case OrgChartConfig.BUTTON_CSS.attrition: {
-        const attritionMeta = employee?.attritionMeta;
-        const data = new AttritionDialogMeta(
-          attritionMeta,
-          this.selectedTimeRange
-        );
+        this.loadMeta.emit(employee);
         this.dialog.open(AttritionDialogComponent, {
-          data,
+          data: ChartType.ORG_CHART,
           width: '90%',
           maxWidth: '750px',
         });

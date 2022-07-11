@@ -9,7 +9,10 @@ import { ChartType } from './models/chart-type.enum';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
+  loadOrgUnitFluctuationMeta,
   loadParent,
+  loadWorldMapFluctuationContinentMeta,
+  loadWorldMapFluctuationCountryMeta,
 } from './store/actions/organizational-view.action';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
 
@@ -71,6 +74,44 @@ describe('OrganizationalViewComponent', () => {
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         loadParent({ employee })
+      );
+    });
+  });
+
+  describe('loadFluctuationMeta', () => {
+    test('should dispatch loadOrgUnitFluctuationMeta', () => {
+      component['store'].dispatch = jest.fn();
+      const employee = { employeeId: '123' } as unknown as Employee;
+
+      component.loadFluctuationMeta(employee);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadOrgUnitFluctuationMeta({ employee })
+      );
+    });
+  });
+  describe('loadContinentMeta', () => {
+    test('should dispatch loadWorldMapFluctuationContinentMeta', () => {
+      component['store'].dispatch = jest.fn();
+      const continent = 'Europe';
+
+      component.loadContinentMeta(continent);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadWorldMapFluctuationContinentMeta({ continent })
+      );
+    });
+  });
+
+  describe('loadCountryMeta', () => {
+    test('should dispatch loadWorldMapFluctuationCountryMeta', () => {
+      component['store'].dispatch = jest.fn();
+      const country = 'Germany';
+
+      component.loadCountryMeta(country);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadWorldMapFluctuationCountryMeta({ country })
       );
     });
   });

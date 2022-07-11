@@ -10,7 +10,10 @@ import { Employee, IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import {
   chartTypeSelected,
+  loadOrgUnitFluctuationMeta,
   loadParent,
+  loadWorldMapFluctuationContinentMeta,
+  loadWorldMapFluctuationCountryMeta,
 } from './store/actions/organizational-view.action';
 import {
   getContinents,
@@ -80,5 +83,17 @@ export class OrganizationalViewComponent implements OnInit {
 
   loadParent(employee: Employee): void {
     this.store.dispatch(loadParent({ employee }));
+  }
+
+  loadFluctuationMeta(employee: Employee): void {
+    this.store.dispatch(loadOrgUnitFluctuationMeta({ employee }));
+  }
+
+  loadContinentMeta(continent: string): void {
+    this.store.dispatch(loadWorldMapFluctuationContinentMeta({ continent }));
+  }
+
+  loadCountryMeta(country: string): void {
+    this.store.dispatch(loadWorldMapFluctuationCountryMeta({ country }));
   }
 }

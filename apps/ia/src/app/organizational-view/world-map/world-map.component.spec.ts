@@ -10,6 +10,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { ChartType } from '../models/chart-type.enum';
 import { CountryData } from './models/country-data.model';
 import { WorldMapComponent } from './world-map.component';
 
@@ -73,15 +74,11 @@ describe('WorldMapComponent', () => {
         } as unknown as CountryData,
       ];
 
-      component.getAreaColorFromHeatType = jest.fn();
       component.createAreaDataObj = jest.fn();
 
       component.data = data;
 
       expect(component.mergeOptions.series.data.length).toEqual(data.length);
-      expect(component.getAreaColorFromHeatType).toHaveBeenCalledTimes(
-        data.length
-      );
       expect(component.createAreaDataObj).toHaveBeenCalledTimes(data.length);
     });
   });
@@ -133,85 +130,43 @@ describe('WorldMapComponent', () => {
   });
 
   describe('openDialogWithCountryData', () => {
-    test('should open dialog with attrition meta', () => {
+    test('should emit country and open dialog', () => {
       component.openDialog = jest.fn();
-      const data = [
-        {
-          name: 'Italy',
-          attritionMeta: {},
-        } as CountryData,
-      ];
-
-      component.data = data;
+      component.loadCountryMeta.emit = jest.fn();
 
       component.openDialogWithCountryData('Italy');
 
-      expect(component.openDialog).toHaveBeenCalledWith(data[0].attritionMeta);
+      expect(component.openDialog).toHaveBeenCalledTimes(1);
+      expect(component.loadCountryMeta.emit).toHaveBeenCalledWith('Italy');
     });
+  });
 
-    test('should call open dialog with unedefined if country not found', () => {
+  describe('openDialogWithContinentData', () => {
+    test('should emit continent and open dialog', () => {
       component.openDialog = jest.fn();
-      const data = [
-        {
-          name: 'Italy',
-          attritionMeta: {},
-        } as CountryData,
-      ];
+      component.loadContinentMeta.emit = jest.fn();
 
-      component.data = data;
+      component.openDialogWithContinentData('Europe');
 
-      component.openDialogWithCountryData('Norway');
-
-      expect(component.openDialog).toHaveBeenCalledWith(undefined);
+      expect(component.openDialog).toHaveBeenCalledTimes(1);
+      expect(component.loadContinentMeta.emit).toHaveBeenCalledWith('Europe');
     });
   });
 
   describe('openDialog', () => {
-    test('should open dialog with provided country data', () => {
-      const elem = {
-        name: 'Switzerland',
-        attritionMeta: {},
-      } as unknown as CountryData;
-
+    test('should open dialog', () => {
       component['dialog'].open = jest.fn();
 
-      component.openDialog(elem.attritionMeta);
+      component.openDialog();
 
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,
         {
-          data: {
-            data: elem.attritionMeta,
-            selectedTimeRange: '',
-            showAttritionRates: false,
-          },
+          data: ChartType.WORLD_MAP,
           maxWidth: '750px',
           width: '90%',
         }
       );
-    });
-  });
-
-  describe('getAreaColorFromHeatType', () => {
-    test('should return green for green heat', () => {
-      expect(component.getAreaColorFromHeatType(HeatType.GREEN_HEAT)).toEqual(
-        Color.LIME
-      );
-    });
-    test('should return yellow for orange heat', () => {
-      expect(component.getAreaColorFromHeatType(HeatType.ORANGE_HEAT)).toEqual(
-        Color.YELLOW
-      );
-    });
-    test('should return red for red heat', () => {
-      expect(component.getAreaColorFromHeatType(HeatType.RED_HEAT)).toEqual(
-        Color.RED
-      );
-    });
-    test('should return gray on default', () => {
-      expect(
-        component.getAreaColorFromHeatType('test' as unknown as HeatType)
-      ).toEqual(Color.GREY);
     });
   });
 

@@ -6,6 +6,7 @@ import {
   EmployeesRequest,
 } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgUnitFluctuationRate } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
 
 export const chartTypeSelected = createAction(
@@ -26,6 +27,36 @@ export const loadOrgChartSuccess = createAction(
 export const loadOrgChartFailure = createAction(
   '[Organizational View] Load Org Chart Failure',
   props<{ errorMessage: string }>()
+);
+
+export const loadOrgUnitFluctuationMeta = createAction(
+  '[Organizational View] Load Org Unit Fluctuation Meta',
+  props<{ employee: Employee }>()
+);
+
+export const loadOrgUnitFluctuationRate = createAction(
+  '[Organizational View] Load Org Unit Fluctuation Rate',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadOrgUnitFluctuationRateSuccess = createAction(
+  '[Organizational View] Load Org Unit Fluctuation Rate Success',
+  props<{ rate: OrgUnitFluctuationRate }>()
+);
+
+export const loadOrgUnitFluctuationRateFailure = createAction(
+  '[Organizational View] Load Org Unit Fluctuation Rate Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadWorldMapFluctuationContinentMeta = createAction(
+  '[Organizational View] Load World Map Fluctuation Continent Meta',
+  props<{ continent: string }>()
+);
+
+export const loadWorldMapFluctuationCountryMeta = createAction(
+  '[Organizational View] Load World Map Fluctuation Country Meta',
+  props<{ country: string }>()
 );
 
 export const loadWorldMap = createAction(
@@ -78,6 +109,12 @@ const all = union({
   loadOrgChart,
   loadOrgChartSuccess,
   loadOrgChartFailure,
+  loadOrgUnitFluctuationMeta,
+  loadOrgUnitFluctuationRate,
+  loadOrgUnitFluctuationRateSuccess,
+  loadOrgUnitFluctuationRateFailure,
+  loadWorldMapFluctuationContinentMeta,
+  loadWorldMapFluctuationCountryMeta,
   loadWorldMap,
   loadWorldMapSuccess,
   loadWorldMapFailure,

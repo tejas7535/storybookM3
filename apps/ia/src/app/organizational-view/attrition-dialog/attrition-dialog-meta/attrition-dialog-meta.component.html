@@ -8,9 +8,20 @@
         insert_chart
       </mat-icon>
       <div class="text-medium-emphasis">{{ t('attritionRate') }}:</div>
-      <span class="ml-2 text-high-emphasis">
-        {{ meta.data.attritionRate | percent: '1.0-2' }}
+      <span
+        class="ml-2 text-high-emphasis"
+        *ngIf="!fluctuationLoading; else loadingFluct"
+      >
+        {{ meta.data.fluctuationRate | percent: '1.0-2' || 'n/a' }}
       </span>
+      <ng-template #loadingFluct>
+        <schaeffler-loading-spinner
+          class="ml-2"
+          [relative]="true"
+          [diameter]="20"
+          [strokeWidth]="2"
+        ></schaeffler-loading-spinner>
+      </ng-template>
     </div>
     <div class="flex items-center text-body-1 leading-8">
       <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis">
@@ -20,9 +31,20 @@
         class="text-medium-emphasis"
         [innerHTML]="t('unforcedAttritionRate') + ':'"
       ></div>
-      <span class="ml-2 text-high-emphasis">
-        {{ meta.data.unforcedAttritionRate | percent: '1.0-2' }}
+      <span
+        class="ml-2 text-high-emphasis"
+        *ngIf="!fluctuationLoading; else loadingUnforcedFluct"
+      >
+        {{ meta.data.unforcedFluctuationRate | percent: '1.0-2' }}
       </span>
+      <ng-template #loadingUnforcedFluct>
+        <schaeffler-loading-spinner
+          class="ml-2"
+          [diameter]="20"
+          [strokeWidth]="2"
+          [relative]="true"
+        ></schaeffler-loading-spinner>
+      </ng-template>
     </div>
   </ng-container>
   <div class="flex items-center text-body-1 leading-8">

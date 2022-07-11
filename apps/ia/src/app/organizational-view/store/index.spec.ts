@@ -6,6 +6,7 @@ import {
   EmployeesRequest,
 } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import { initialState, organizationalViewReducer, reducer } from '.';
 import {
@@ -16,11 +17,17 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadOrgUnitFluctuationMeta,
+  loadOrgUnitFluctuationRate,
+  loadOrgUnitFluctuationRateFailure,
+  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
+  loadWorldMapFluctuationContinentMeta,
+  loadWorldMapFluctuationCountryMeta,
   loadWorldMapSuccess,
 } from './actions/organizational-view.action';
 
@@ -73,6 +80,82 @@ describe('Organization View Reducer', () => {
 
       expect(state.orgChart.loading).toBeFalsy();
       expect(state.orgChart.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOrgUnitFluctuationRate', () => {
+    test('should set loading', () => {
+      const action = loadOrgUnitFluctuationRate({
+        request: {} as unknown as EmployeesRequest,
+      });
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.fluctuationRates.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOrgUnitFluctuationRateSuccess', () => {
+    test('should unset loading and add rate', () => {
+      const rate = {} as OrgUnitFluctuationRate;
+
+      const action = loadOrgUnitFluctuationRateSuccess({ rate });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
+      expect(state.orgChart.fluctuationRates.data).toContain(rate);
+    });
+  });
+
+  describe('loadOrgUnitFluctuationRateFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOrgUnitFluctuationRateFailure({ errorMessage });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
+      expect(state.orgChart.fluctuationRates.errorMessage).toEqual(
+        errorMessage
+      );
+    });
+  });
+
+  describe('loadWorldMapFluctuationContinentMeta', () => {
+    test('should toggle selected country/continent', () => {
+      const continent = 'Europe';
+      const action = loadWorldMapFluctuationContinentMeta({ continent });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.worldMap.selectedContinent).toEqual(continent);
+      expect(state.worldMap.selectedCountry).toBeUndefined();
+    });
+  });
+
+  describe('loadWorldMapFluctuationCountryMeta', () => {
+    test('should toggle selected country/continent', () => {
+      const country = 'Germany';
+      const action = loadWorldMapFluctuationCountryMeta({ country });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.worldMap.selectedCountry).toEqual(country);
+      expect(state.worldMap.selectedContinent).toBeUndefined();
+    });
+  });
+
+  describe('loadOrgUnitFluctuationMeta', () => {
+    test('should unset loading and set employee id', () => {
+      const employee = { employeeId: '123' } as unknown as Employee;
+      const action = loadOrgUnitFluctuationMeta({
+        employee,
+      });
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
+      expect(state.orgChart.fluctuationRates.selectedEmployeeId).toEqual(
+        employee.employeeId
+      );
     });
   });
 

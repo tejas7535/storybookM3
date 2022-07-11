@@ -10,9 +10,9 @@
     <ia-org-chart
       *ngIf="selectedChart === chartType.ORG_CHART"
       [data]="orgChart$ | ngrxPush"
-      [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
       [isLoading]="isLoadingOrgChart$ | ngrxPush"
       (showParent)="loadParent($event)"
+      (loadMeta)="loadFluctuationMeta($event)"
     ></ia-org-chart>
     <ia-world-map
       *ngIf="selectedChart === chartType.WORLD_MAP"
@@ -20,13 +20,16 @@
       [continents]="continents$ | ngrxPush"
       [selectedTimeRange]="(selectedTimeRange$ | ngrxPush).value"
       [isLoading]="isLoadingWorldMap$ | ngrxPush"
+      (loadContinentMeta)="loadContinentMeta($event)"
+      (loadCountryMeta)="loadCountryMeta($event)"
     ></ia-world-map>
   </div>
 
-  <div class="absolute right-1 bottom-1 flex flex-col">
+  <!-- TODO: add again once heat feature is activated -->
+  <!-- <div class="absolute right-1 bottom-1 flex flex-col">
     <ia-chart-legend
       [items]="chartLegendItems"
       [title]="'organizationalView.worldMap.chartLegend.title'"
     ></ia-chart-legend>
-  </div>
+  </div> -->
 </div>

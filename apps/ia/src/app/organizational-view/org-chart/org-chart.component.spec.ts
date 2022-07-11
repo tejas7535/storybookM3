@@ -16,6 +16,7 @@ import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/empl
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { Employee } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { ChartType } from '../models/chart-type.enum';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
@@ -85,7 +86,7 @@ describe('OrgChartComponent', () => {
       ];
     });
     test('should open dialog with attrition data when attrition icon is clicked', () => {
-      component.selectedTimeRange = '01.01.2020 - 03.05.2020';
+      component.loadMeta.emit = jest.fn();
       component.clickout({
         target: {
           id: 'employee-node-attrition',
@@ -95,14 +96,11 @@ describe('OrgChartComponent', () => {
         },
       });
 
+      expect(component.loadMeta.emit).toHaveBeenCalledWith(component.data[0]);
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,
         {
-          data: {
-            selectedTimeRange: component.selectedTimeRange,
-            data: {},
-            showAttritionRates: true,
-          },
+          data: ChartType.ORG_CHART,
           width: '90%',
           maxWidth: '750px',
         }

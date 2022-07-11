@@ -13,7 +13,10 @@ import {
 import { Action, Store } from '@ngrx/store';
 
 import { filterSelected, triggerLoad } from '../../../core/store/actions';
-import { getCurrentFilters } from '../../../core/store/selectors';
+import {
+  getCurrentFilters,
+  getSelectedTimeRange,
+} from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   Employee,
@@ -22,6 +25,7 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
+import { OrgUnitFluctuationRate } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
@@ -31,6 +35,10 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadOrgUnitFluctuationMeta,
+  loadOrgUnitFluctuationRate,
+  loadOrgUnitFluctuationRateFailure,
+  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
@@ -64,6 +72,41 @@ export class OrganizationalViewEffects implements OnInitEffects {
           map((employees: Employee[]) => loadOrgChartSuccess({ employees })),
           catchError((error) =>
             of(loadOrgChartFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    );
+  });
+
+  loadOrgUnitFluctuationMeta$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadOrgUnitFluctuationMeta),
+      concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
+      map(([action, timeRange]) => {
+        return {
+          orgUnit: action.employee.orgUnitKey,
+          timeRange: timeRange.id,
+        };
+      }),
+      switchMap((request: EmployeesRequest) =>
+        of(loadOrgUnitFluctuationRate({ request }))
+      )
+    );
+  });
+
+  loadOrgUnitFluctuationRate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadOrgUnitFluctuationRate),
+      map((action) => action.request),
+      switchMap((request: EmployeesRequest) =>
+        this.organizationalViewService.getOrgUnitFluctuationRate(request).pipe(
+          map((rate: OrgUnitFluctuationRate) =>
+            loadOrgUnitFluctuationRateSuccess({ rate })
+          ),
+          catchError((error) =>
+            of(
+              loadOrgUnitFluctuationRateFailure({ errorMessage: error.message })
+            )
           )
         )
       )

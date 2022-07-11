@@ -5,9 +5,13 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { ChartType } from '../models/chart-type.enum';
 import {
   getAttritionOverTimeOrgChartData,
   getIsLoadingAttritionOverTimeOrgChart,
+  getIsLoadingOrgUnitFluctuationRate,
+  getOrgUnitFluctuationDialogMeta,
+  getWorldMapFluctuationDialogMeta,
 } from '../store/selectors/organizational-view.selector';
 import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
 
@@ -16,18 +20,33 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
   templateUrl: './attrition-dialog.component.html',
 })
 export class AttritionDialogComponent implements OnInit {
-  public data$: Observable<any>;
-  public attritionRateLoading$: Observable<boolean>;
+  public fluctuationOverTimeData$: Observable<any>;
+  public fluctuationOverTimeDataLoading$: Observable<boolean>;
+
+  public meta$: Observable<AttritionDialogMeta>;
+  public fluctuationLoading$: Observable<boolean>;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public meta: AttritionDialogMeta,
+    @Inject(MAT_DIALOG_DATA) public data: ChartType,
     private readonly store: Store
   ) {}
 
   public ngOnInit(): void {
-    this.data$ = this.store.select(getAttritionOverTimeOrgChartData);
-    this.attritionRateLoading$ = this.store.select(
+    this.fluctuationOverTimeData$ = this.store.select(
+      getAttritionOverTimeOrgChartData
+    );
+    this.fluctuationOverTimeDataLoading$ = this.store.select(
       getIsLoadingAttritionOverTimeOrgChart
+    );
+
+    this.meta$ =
+      this.data === ChartType.ORG_CHART
+        ? this.store.select(getOrgUnitFluctuationDialogMeta)
+        : this.store.select(getWorldMapFluctuationDialogMeta);
+
+    // TODO: consider also world map loading as soon as this is implemented
+    this.fluctuationLoading$ = this.store.select(
+      getIsLoadingOrgUnitFluctuationRate
     );
   }
 }

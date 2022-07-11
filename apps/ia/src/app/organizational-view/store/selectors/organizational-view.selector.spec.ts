@@ -1,16 +1,22 @@
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { AttritionOverTime, Employee } from '../../../shared/models';
+import { AttritionOverTime, Employee, HeatType } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { CountryData } from '../../world-map/models/country-data.model';
 import { initialState, OrganizationalViewState } from '..';
 import {
   getAttritionOverTimeOrgChartData,
+  getContinents,
   getIsLoadingAttritionOverTimeOrgChart,
   getIsLoadingOrgChart,
+  getIsLoadingOrgUnitFluctuationRate,
   getIsLoadingWorldMap,
   getOrgChart,
+  getOrgUnitFluctuationDialogEmployeeData,
+  getOrgUnitFluctuationDialogMeta,
   getSelectedChartType,
   getWorldMap,
+  getWorldMapFluctuationDialogMeta,
+  getWorldMapFluctuationDialogMetaData,
 } from './organizational-view.selector';
 
 describe('Organizational View Selector', () => {
@@ -27,11 +33,43 @@ describe('Organizational View Selector', () => {
         ],
         loading: true,
         errorMessage: undefined,
+        fluctuationRates: {
+          selectedEmployeeId: '432433',
+          data: [],
+          loading: false,
+          errorMessage: undefined,
+        },
       },
       worldMap: {
+        selectedContinent: undefined,
+        selectedCountry: 'Germany',
         data: [
-          { name: 'Germany' } as unknown as CountryData,
-          { name: 'Poland' } as unknown as CountryData,
+          {
+            name: 'Germany',
+            continent: 'Europe',
+            attritionMeta: {
+              employeesLost: 3,
+              naturalTurnover: 1,
+              forcedLeavers: 0,
+              unforcedLeavers: 14,
+              terminationReceived: 99,
+              employeesAdded: 0,
+              openPositions: 400,
+            },
+          } as unknown as CountryData,
+          {
+            name: 'Poland',
+            continent: 'Europe',
+            attritionMeta: {
+              employeesLost: 33,
+              naturalTurnover: 0,
+              forcedLeavers: 5,
+              unforcedLeavers: 4,
+              terminationReceived: 9,
+              employeesAdded: 2,
+              openPositions: 0,
+            },
+          } as unknown as CountryData,
         ],
         loading: true,
         errorMessage: undefined,
@@ -51,6 +89,159 @@ describe('Organizational View Selector', () => {
       expect(getOrgChart(fakeState)).toEqual(
         fakeState.organizationalView.orgChart.data
       );
+    });
+  });
+
+  describe('getOrgUnitFluctuationDialogEmployeeData', () => {
+    test('should return attrition dialog fluctuation meta', () => {
+      const timeRange = {
+        id: '1577863715000|1609399715000',
+        value: '01.01.2020 - 31.12.2020',
+      };
+      const state = {
+        orgChart: {
+          fluctuationRates: {
+            selectedEmployeeId: '123',
+            data: [
+              {
+                orgUnitKey: '432432',
+                timeRange: '1577863715000|1609399715000',
+                fluctuationRate: 0.1,
+                unforcedFluctuationRate: 0.01,
+              },
+            ],
+          },
+          data: [
+            {
+              employeeId: '123',
+              orgUnitKey: '432432',
+              attritionMeta: {
+                employeesLost: 4,
+              },
+            },
+          ],
+        },
+      };
+
+      const result = getOrgUnitFluctuationDialogEmployeeData.projector(
+        state,
+        timeRange
+      );
+
+      expect(result).toEqual({
+        fluctuationRate: 0.1,
+        unforcedFluctuationRate: 0.01,
+        heatType: HeatType.NONE,
+        employeesLost: 4,
+      });
+    });
+  });
+
+  describe('getOrgUnitFluctuationDialogMeta', () => {
+    test('should return meta data', () => {
+      const timeRange = {
+        id: '1577863715000|1609399715000',
+        value: '01.01.2020 - 31.12.2020',
+      };
+      const data = {};
+      const result = getOrgUnitFluctuationDialogMeta.projector(timeRange, data);
+
+      expect(result).toEqual({
+        selectedTimeRange: '01.01.2020 - 31.12.2020',
+        data,
+        showAttritionRates: true,
+      });
+    });
+  });
+
+  describe('getIsLoadingOrgUnitFluctuationRate', () => {
+    test('should return loading', () => {
+      const result = getIsLoadingOrgUnitFluctuationRate.projector(
+        fakeState.organizationalView
+      );
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getContinents', () => {
+    test('should return continents', () => {
+      const result = getContinents.projector([
+        { continent: 'Europe' },
+        { continent: 'Asia' },
+      ]);
+
+      expect(result).toEqual(['Europe', 'Asia']);
+    });
+  });
+
+  describe('getWorldMapFluctuationDialogMetaData', () => {
+    test('should return continent meta if continent set', () => {
+      const input = {
+        ...fakeState.organizationalView,
+        worldMap: {
+          ...fakeState.organizationalView.worldMap,
+          selectedContinent: 'Europe',
+          selectedCountry: undefined as string,
+        },
+      };
+
+      const result = getWorldMapFluctuationDialogMetaData.projector(input);
+
+      expect(result).toEqual({
+        employeesAdded: 2,
+        employeesLost: 36,
+        forcedLeavers: 5,
+        naturalTurnover: 1,
+        openPositions: 400,
+        terminationReceived: 108,
+        title: 'Europe',
+        unforcedLeavers: 18,
+      });
+    });
+
+    test('should return country meta if country set', () => {
+      const input = {
+        ...fakeState.organizationalView,
+        worldMap: {
+          ...fakeState.organizationalView.worldMap,
+          selectedContinent: undefined as string,
+          selectedCountry: 'Germany',
+        },
+      };
+
+      const result = getWorldMapFluctuationDialogMetaData.projector(input);
+
+      expect(result).toEqual({
+        employeesAdded: 0,
+        employeesLost: 3,
+        forcedLeavers: 0,
+        naturalTurnover: 1,
+        openPositions: 400,
+        terminationReceived: 99,
+        unforcedLeavers: 14,
+      });
+    });
+  });
+
+  describe('getWorldMapFluctuationDialogMeta', () => {
+    test('should return fluctuation meta', () => {
+      const timeRange = {
+        id: '1577863715000|1609399715000',
+        value: '01.01.2020 - 31.12.2020',
+      };
+      const data = {};
+
+      const result = getWorldMapFluctuationDialogMeta.projector(
+        timeRange,
+        data
+      );
+
+      expect(result).toEqual({
+        selectedTimeRange: '01.01.2020 - 31.12.2020',
+        data,
+        showAttritionRates: false,
+      });
     });
   });
 
@@ -99,6 +290,13 @@ describe('Organizational View Selector', () => {
           },
         },
       });
+    });
+
+    test('should return undefined if data not available', () => {
+      const data = {};
+      const result = getAttritionOverTimeOrgChartData.projector(data);
+
+      expect(result).toBeUndefined();
     });
   });
 

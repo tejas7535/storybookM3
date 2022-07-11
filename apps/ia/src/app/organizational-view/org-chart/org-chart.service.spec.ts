@@ -1,7 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import d3Selection from 'd3-selection';
 
-import { Employee, HeatType } from '../../shared/models';
+import { Employee } from '../../shared/models';
 import { OrgChartService } from './org-chart.service';
 
 const mock: any = {
@@ -54,7 +54,7 @@ describe('OrgChartService', () => {
         textColumnOverall: 'translate it',
         textRowEmployees: 'translate it',
         textRowAttrition: 'translate it',
-        heatMapClass: 'bg-selected-overlay',
+        heatMapClass: 'bg-secondary-900',
         showUpperParentBtn: false,
       });
     });
@@ -87,53 +87,6 @@ describe('OrgChartService', () => {
 
       expect(result[0].showUpperParentBtn).toBeTruthy();
       expect(result[0].parentNodeId).toBeUndefined();
-    });
-
-    test('should include heat map info', () => {
-      const data: Employee[] = [
-        {
-          employeeId: '123',
-          parentEmployeeId: undefined,
-          employeeName: 'Hans',
-          attritionMeta: {
-            attritionRate: 0.1,
-          },
-        } as unknown as Employee,
-        {
-          employeeId: '456',
-          parentEmployeeId: '123',
-          employeeName: 'Hans2',
-          attritionMeta: {
-            attritionRate: 0.09,
-            heatType: HeatType.GREEN_HEAT,
-          },
-        } as unknown as Employee,
-        {
-          employeeId: '789',
-          parentEmployeeId: '123',
-          employeeName: 'Hans3',
-          attritionMeta: {
-            attritionRate: 0.12,
-            heatType: HeatType.ORANGE_HEAT,
-          },
-        } as unknown as Employee,
-        {
-          employeeId: '999',
-          parentEmployeeId: '123',
-          employeeName: 'Hans4',
-          attritionMeta: {
-            attritionRate: 0.5,
-            heatType: HeatType.RED_HEAT,
-          },
-        } as unknown as Employee,
-      ];
-
-      const result = service.mapEmployeesToNodes(data);
-
-      expect(result.length).toEqual(4);
-      expect(result[1].heatMapClass).toContain('bg-primary');
-      expect(result[2].heatMapClass).toContain('bg-sunny-yellow');
-      expect(result[3].heatMapClass).toContain('bg-error');
     });
   });
 

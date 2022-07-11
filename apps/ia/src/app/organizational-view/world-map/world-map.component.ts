@@ -1,18 +1,19 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
-import { EmployeeAttritionMeta, HeatType } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
+import { ChartType } from '../models/chart-type.enum';
 import { CountryData } from './models/country-data.model';
 
 @Component({
@@ -32,11 +33,7 @@ export class WorldMapComponent implements OnInit {
     this._data = [...countryData];
 
     for (const data of this._data) {
-      const areaColor = this.getAreaColorFromHeatType(
-        data.attritionMeta.heatType
-      );
-
-      selectedAreas.push(this.createAreaDataObj(data.name, areaColor));
+      selectedAreas.push(this.createAreaDataObj(data.name, Color.LIME));
     }
 
     // update world map
@@ -52,6 +49,12 @@ export class WorldMapComponent implements OnInit {
   }
 
   @Input() continents: string[];
+
+  @Output()
+  readonly loadCountryMeta: EventEmitter<string> = new EventEmitter();
+
+  @Output()
+  readonly loadContinentMeta: EventEmitter<string> = new EventEmitter();
 
   mergeOptions: any;
   options: any;
@@ -111,88 +114,24 @@ export class WorldMapComponent implements OnInit {
     }
   }
 
-  /** FIXME: remove this by an appropriate backend calculation as soon as area tables are available */
   openDialogWithContinentData(continent: string): void {
-    const relevantCountries = this.data.filter(
-      (countryData) => countryData.continent === continent
-    );
-    let employeesLost = 0;
-    let naturalTurnover = 0;
-    let forcedLeavers = 0;
-    let unforcedLeavers = 0;
-    let terminationReceived = 0;
-    let employeesAdded = 0;
-    let openPositions = 0;
-    let avgAttritionRate = 0;
-    let unforcedAvgAttritionRate = 0;
+    this.loadContinentMeta.emit(continent);
 
-    relevantCountries.forEach((country) => {
-      employeesLost += country.attritionMeta.employeesLost;
-      naturalTurnover += country.attritionMeta.naturalTurnover;
-      forcedLeavers += country.attritionMeta.forcedLeavers;
-      unforcedLeavers += country.attritionMeta.unforcedLeavers;
-      terminationReceived += country.attritionMeta.terminationReceived;
-      employeesAdded += country.attritionMeta.employeesAdded;
-      openPositions += country.attritionMeta.openPositions;
-      avgAttritionRate += country.attritionMeta.attritionRate;
-      unforcedAvgAttritionRate += country.attritionMeta.unforcedAttritionRate;
-    });
-
-    // as we do not have the total employees in the frontend we just calculate the average
-    const attritionRate = +(
-      avgAttritionRate / relevantCountries.length
-    ).toFixed(2);
-    const unforcedAttritionRate = +(
-      unforcedAvgAttritionRate / relevantCountries.length
-    ).toFixed(2);
-
-    const attritionMeta = new EmployeeAttritionMeta(
-      continent,
-      attritionRate,
-      unforcedAttritionRate,
-      employeesLost,
-      naturalTurnover,
-      forcedLeavers,
-      unforcedLeavers,
-      terminationReceived,
-      employeesAdded,
-      openPositions
-    );
-
-    this.openDialog(attritionMeta);
+    this.openDialog();
   }
 
   openDialogWithCountryData(name: string): void {
-    const meta = this.data.find((elem) => elem.name === name);
+    this.loadCountryMeta.emit(name);
 
-    this.openDialog(meta?.attritionMeta);
+    this.openDialog();
   }
 
-  openDialog(attritionMeta: EmployeeAttritionMeta): void {
-    const data = new AttritionDialogMeta(
-      attritionMeta,
-      this.selectedTimeRange,
-      false
-    );
-
+  openDialog(): void {
     this.dialog.open(AttritionDialogComponent, {
-      data,
+      data: ChartType.WORLD_MAP,
       width: '90%',
       maxWidth: '750px',
     });
-  }
-
-  getAreaColorFromHeatType(heatType: HeatType): string {
-    switch (heatType) {
-      case HeatType.GREEN_HEAT:
-        return Color.LIME;
-      case HeatType.ORANGE_HEAT:
-        return Color.YELLOW;
-      case HeatType.RED_HEAT:
-        return Color.RED;
-      default:
-        return Color.GREY;
-    }
   }
 
   createAreaDataObj(name: string, areaColor: string): any {

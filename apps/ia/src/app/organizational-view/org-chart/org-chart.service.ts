@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import * as d3Selection from 'd3-selection';
 
-import { Employee, HeatType } from '../../shared/models';
+import { Employee } from '../../shared/models';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
@@ -44,21 +44,22 @@ export class OrgChartService {
         'organizationalView.orgChart.table.rowAttrition'
       );
 
-      let heatMapClass = '';
+      // TODO: calculate heat
+      const heatMapClass = 'bg-secondary-900';
 
-      switch (elem.attritionMeta?.heatType) {
-        case HeatType.GREEN_HEAT:
-          heatMapClass = 'bg-primary';
-          break;
-        case HeatType.ORANGE_HEAT:
-          heatMapClass = 'bg-sunny-yellow';
-          break;
-        case HeatType.RED_HEAT:
-          heatMapClass = 'bg-error';
-          break;
-        default:
-          heatMapClass = 'bg-selected-overlay';
-      }
+      // switch (elem.attritionMeta?.heatType) {
+      //   case HeatType.GREEN_HEAT:
+      //     heatMapClass = 'bg-primary';
+      //     break;
+      //   case HeatType.ORANGE_HEAT:
+      //     heatMapClass = 'bg-sunny-yellow';
+      //     break;
+      //   case HeatType.RED_HEAT:
+      //     heatMapClass = 'bg-error';
+      //     break;
+      //   default:
+      //     heatMapClass = 'bg-selected-overlay';
+      // }
 
       return {
         nodeId,

@@ -2,6 +2,7 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime, Employee } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -11,11 +12,17 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadOrgUnitFluctuationMeta,
+  loadOrgUnitFluctuationRate,
+  loadOrgUnitFluctuationRateFailure,
+  loadOrgUnitFluctuationRateSuccess,
   loadParent,
   loadParentFailure,
   loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
+  loadWorldMapFluctuationContinentMeta,
+  loadWorldMapFluctuationCountryMeta,
   loadWorldMapSuccess,
 } from './actions/organizational-view.action';
 
@@ -26,8 +33,16 @@ export interface OrganizationalViewState {
     data: Employee[];
     loading: boolean;
     errorMessage: string;
+    fluctuationRates: {
+      selectedEmployeeId: string;
+      data: OrgUnitFluctuationRate[];
+      loading: boolean;
+      errorMessage: string;
+    };
   };
   worldMap: {
+    selectedContinent: string;
+    selectedCountry: string;
     data: CountryData[];
     loading: boolean;
     errorMessage: string;
@@ -45,8 +60,16 @@ export const initialState: OrganizationalViewState = {
     data: [],
     loading: false,
     errorMessage: undefined,
+    fluctuationRates: {
+      selectedEmployeeId: undefined,
+      data: [],
+      loading: false,
+      errorMessage: undefined,
+    },
   },
   worldMap: {
+    selectedContinent: undefined,
+    selectedCountry: undefined,
     data: [],
     loading: false,
     errorMessage: undefined,
@@ -107,6 +130,93 @@ export const organizationalViewReducer = createReducer(
         errorMessage,
         data: [],
         loading: false,
+      },
+    })
+  ),
+  on(
+    loadOrgUnitFluctuationMeta,
+    (
+      state: OrganizationalViewState,
+      { employee }
+    ): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        fluctuationRates: {
+          ...state.orgChart.fluctuationRates,
+          loading: false,
+          selectedEmployeeId: employee.employeeId,
+        },
+      },
+    })
+  ),
+  on(
+    loadOrgUnitFluctuationRate,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        fluctuationRates: {
+          ...state.orgChart.fluctuationRates,
+          loading: true,
+        },
+      },
+    })
+  ),
+  on(
+    loadOrgUnitFluctuationRateSuccess,
+    (state: OrganizationalViewState, { rate }): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        fluctuationRates: {
+          ...state.orgChart.fluctuationRates,
+          data: [...state.orgChart.fluctuationRates.data, rate],
+          loading: false,
+        },
+      },
+    })
+  ),
+  on(
+    loadOrgUnitFluctuationRateFailure,
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        fluctuationRates: {
+          ...state.orgChart.fluctuationRates,
+          errorMessage,
+          loading: false,
+          selectedEmployeeId: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    loadWorldMapFluctuationContinentMeta,
+    (
+      state: OrganizationalViewState,
+      { continent }
+    ): OrganizationalViewState => ({
+      ...state,
+      worldMap: {
+        ...state.worldMap,
+        selectedContinent: continent,
+        selectedCountry: undefined,
+      },
+    })
+  ),
+  on(
+    loadWorldMapFluctuationCountryMeta,
+    (state: OrganizationalViewState, { country }): OrganizationalViewState => ({
+      ...state,
+      worldMap: {
+        ...state.worldMap,
+        selectedContinent: undefined,
+        selectedCountry: country,
       },
     })
   ),

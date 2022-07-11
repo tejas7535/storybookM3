@@ -9,4 +9,5 @@ import { AttritionDialogMeta } from '../models/attrition-dialog-meta.model';
 })
 export class AttritionDialogMetaComponent {
   @Input() meta: AttritionDialogMeta;
+  @Input() fluctuationLoading: boolean;
 }

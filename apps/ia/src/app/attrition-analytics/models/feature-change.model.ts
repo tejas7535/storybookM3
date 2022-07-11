@@ -1,9 +1,7 @@
 import { FeatureParams } from './feature-params.model';
 
-export class FeatureChange {
-  constructor(
-    public didChange: boolean,
-    public features: FeatureParams[],
-    public selectedRegion: string
-  ) {}
+export interface FeatureChange {
+  didChange: boolean;
+  features: FeatureParams[];
+  selectedRegion: string;
 }
