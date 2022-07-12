@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.7...ga-v1.2.8) (2022-07-12)
+
+
+### 🐛 Bug Fixes
+
+* adjust chinese translation ([afafac1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/afafac1ed24d53c9b6c7e2a3bc964aae4212d045))
+* **ga:** show correct faq page in chinese version (UFTABI-5855) ([69f3928](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/69f3928ee449d91c4264fa08aa6ef6471e0593ce))
+
+
+### 🎸 Features
+
+* **ga:** add chinese translations ([17257a1](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/17257a1144850a33299046c588c832b65c0c7691))
+
 ### [1.2.7](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.6...ga-v1.2.7) (2022-07-04)
 
 ### [1.2.6](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.5...ga-v1.2.6) (2022-07-04)
