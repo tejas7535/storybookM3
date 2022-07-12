@@ -1,9 +1,0 @@
-<schaeffler-header [platformTitle]="title" class="full-height">
-  <schaeffler-user-menu
-    user-menu
-    [user]="username"
-    [entries]="userMenuEntries"
-  ></schaeffler-user-menu>
-
-  <router-outlet></router-outlet>
-</schaeffler-header>
