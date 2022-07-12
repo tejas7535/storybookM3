@@ -48,16 +48,7 @@
       }
     },
     {
-      "packageNames": [
-        "@angular/cli",
-        "@angular/pwa",
-        "@angular-devkit/architect",
-        "@angular-devkit/core",
-        "@angular-devkit/build-angular",
-        "@angular-devkit/build-ng-packagr",
-        "@angular-devkit/schematics",
-        "ng-packagr"
-      ],
+      "packageNames": ["@angular/cli", "@angular/pwa", "ng-packagr"],
       "groupName": "@angular/angular-cli",
       "major": {
         "enabled": false

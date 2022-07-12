@@ -15,7 +15,6 @@ updates:
       include: 'scope'
     ignore:
       - dependency-name: '@angular/*'
-      - dependency-name: '@angular-devkit/*'
       - dependency-name: '@nrwl/*'
       - dependency-name: '@ngrx/*'
       - dependency-name: '@storybook/*'
