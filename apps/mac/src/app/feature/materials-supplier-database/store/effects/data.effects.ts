@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { DataResult } from '../../models';
+import { StringOption } from '@schaeffler/inputs';
+
+import {
+  DataResult,
+  ManufacturerSupplier,
+  MaterialStandard,
+} from '../../models';
 import { getFilters } from '../selectors';
 import { DataFilter } from './../../models/data/data-filter.model';
 import { MsdDataService } from './../../services/msd-data/msd-data.service';
@@ -22,7 +28,7 @@ export class DataEffects {
   public fetchMaterials$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchMaterials),
-      withLatestFrom(this.store.select(getFilters)),
+      concatLatestFrom(() => this.store.select(getFilters)),
       switchMap(
         ([_action, { materialClass, productCategory }]: [
           any,
@@ -87,6 +93,129 @@ export class DataEffects {
           catchError(() =>
             // TODO: implement proper error handling
             of(DataActions.fetchCategoryOptionsFailure())
+          )
+        )
+      )
+    );
+  });
+
+  public addMaterialDialogOpened$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.addMaterialDialogOpened),
+      switchMap(() => [
+        DataActions.fetchMaterialStandards(),
+        DataActions.fetchCo2Classifications(),
+        DataActions.fetchManufacturerSuppliers(),
+        DataActions.fetchRatings(),
+        DataActions.fetchSteelMakingProcesses(),
+        DataActions.fetchCastingModes(),
+      ])
+    );
+  });
+
+  public fetchMaterialStandards$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchMaterialStandards),
+      switchMap(() =>
+        this.msdDataService.fetchMaterialStandards().pipe(
+          map((materialStandards: MaterialStandard[]) =>
+            DataActions.fetchMaterialStandardsSuccess({ materialStandards })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchMaterialStandardsFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchCo2Classifications$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchCo2Classifications),
+      switchMap(() =>
+        this.msdDataService.fetchCo2Classifications().pipe(
+          map((co2Classifications: StringOption[]) =>
+            DataActions.fetchCo2ClassificationsSuccess({ co2Classifications })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchCo2ClassificationsFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchManufacturerSuppliers$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchManufacturerSuppliers),
+      switchMap(() =>
+        this.msdDataService.fetchManufacturerSuppliers().pipe(
+          map((manufacturerSuppliers: ManufacturerSupplier[]) =>
+            DataActions.fetchManufacturerSuppliersSuccess({
+              manufacturerSuppliers,
+            })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchManufacturerSuppliersFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchRatings$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchRatings),
+      switchMap(() =>
+        this.msdDataService.fetchRatings().pipe(
+          map((ratings: string[]) =>
+            DataActions.fetchRatingsSuccess({ ratings })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchRatingsFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchSteelMakingProcesses$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchSteelMakingProcesses),
+      switchMap(() =>
+        this.msdDataService.fetchSteelMakingProcesses().pipe(
+          map((steelMakingProcesses: string[]) =>
+            DataActions.fetchSteelMakingProcessesSuccess({
+              steelMakingProcesses,
+            })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchSteelMakingProcessesFailure()))
+        )
+      )
+    );
+  });
+
+  public fetchCastingModes$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchCastingModes),
+      switchMap(() =>
+        this.msdDataService.fetchCastingModes().pipe(
+          map((castingModes: string[]) =>
+            DataActions.fetchCastingModesSuccess({ castingModes })
+          ),
+          // TODO: implement proper error handling
+          catchError(() => of(DataActions.fetchCastingModesFailure()))
+        )
+      )
+    );
+  });
+
+  public addMaterialDialogConfirmed$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.addMaterialDialogConfirmed),
+      switchMap(({ material }) =>
+        this.msdDataService.createMaterial(material).pipe(
+          map(() => DataActions.createMaterialComplete({ success: true })),
+          // TODO: implement proper error handling
+          catchError(() =>
+            of(DataActions.createMaterialComplete({ success: false }))
           )
         )
       )

@@ -64,7 +64,7 @@
         <div class="h-full w-full">
           <ag-grid-angular
             class="ag-theme-material h-full"
-            [columnDefs]="getColumnDefs()"
+            [columnDefs]="columnDefs"
             [defaultColDef]="defaultColDef"
             [modules]="modules"
             [sideBar]="sidebar"
@@ -73,10 +73,10 @@
             (gridReady)="onGridReady($event)"
             (filterChanged)="onFilterChange($event)"
             (firstDataRendered)="setAgGridFilter($event)"
+            [rowClass]="['!border-l-0', '!border-t-0']"
+            (columnVisible)="onColumnChange($event)"
             (columnMoved)="onColumnChange($event)"
             (sortChanged)="onColumnChange($event)"
-            (columnVisible)="onColumnChange($event)"
-            [rowClass]="['!border-l-0', '!border-t-0']"
           ></ag-grid-angular>
         </div>
       </div>
@@ -84,7 +84,12 @@
     <div
       class="flex flex-col items-center justify-start gap-4 p-4 pl-0 md:flex-row"
     >
-      <button mat-raised-button color="primary" (click)="openDialog()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="openDialog()"
+        [disabled]="!(hasEditorRole$ | ngrxPush)"
+      >
         <mat-icon class="material-icons-outlined">add</mat-icon>
         <span>Add Item</span>
       </button>

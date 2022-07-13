@@ -1,203 +1,409 @@
-<div mat-dialog-title class="!-mx-6">
-  <div class="flex flex-row content-around justify-between">
-    <div class="text-h6 my-auto text-high-emphasis">Add Material</div>
-    <button mat-icon-button (click)="closeDialog()">
-      <mat-icon>close</mat-icon>
-    </button>
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<ng-container
+  *transloco="let t; read: 'materialsSupplierDatabase.mainTable.dialog'"
+>
+  <div mat-dialog-title class="!-mx-6 !-mt-4">
+    <div class="flex flex-row content-around justify-between pl-4 pb-2 pr-2">
+      <div class="text-h6 my-auto text-high-emphasis">
+        {{ t('title') }}
+      </div>
+      <button mat-icon-button (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <mat-divider></mat-divider>
   </div>
-  <mat-divider></mat-divider>
-</div>
 
-<mat-dialog-content class="flex flex-col">
-  <div class="flex flex-col">
-    <div class="text-subtitle-2 pb-4 text-high-emphasis">
-      Material standard information
-    </div>
-    <div class="flex flex-row gap-x-6">
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Standard Document*"
-      ></schaeffler-select>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Material Name*"
-      ></schaeffler-select>
-    </div>
-    <div class="flex flex-row gap-x-6">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Steel number (EN 10027-2)</mat-label>
-        <input matInput placeholder="1.1234" value="" />
-      </mat-form-field>
-      <div class="flex w-full flex-row">
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="options"
-          label="Referenced in Document"
-        ></schaeffler-select>
-        <button mat-icon-button class="!mb-5 self-center">
-          <mat-icon class="text-link">info_outline</mat-icon>
-        </button>
+  <mat-dialog-content class="!px-4">
+    <div *ngIf="!(dialogLoading$ | ngrxPush); else dialogLoadingTemplate">
+      <div class="flex flex-col">
+        <div class="text-subtitle-2 pb-4 text-high-emphasis">
+          {{ t('materialStandardTitle') }}
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="standardDocuments$ | ngrxPush"
+            [control]="standardDocumentsControl"
+            [label]="t('standardDocument')"
+            [resetOption]="
+              standardDocumentsControl.value ? t('none') : undefined
+            "
+            [filterFn]="
+              valueTitleToOptionKeyFilterFnFactory(
+                materialNamesControl,
+                'materialName'
+              )
+            "
+          >
+            <div matErrorContent *ngIf="standardDocumentsControl.invalid">
+              {{ getErrorMessage(standardDocumentsControl.errors) }}
+            </div>
+          </schaeffler-select>
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="materialNames$ | ngrxPush"
+            [control]="materialNamesControl"
+            [label]="t('materialName')"
+            [resetOption]="materialNamesControl.value ? t('none') : undefined"
+            [filterFn]="
+              valueOptionKeyToTitleFilterFnFactory(
+                standardDocumentsControl,
+                'materialName'
+              )
+            "
+          >
+            <div matErrorContent *ngIf="materialNamesControl.invalid">
+              {{ getErrorMessage(materialNamesControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('steelNumber') }}</mat-label>
+            <input
+              matInput
+              placeholder="1.1234"
+              value=""
+              [formControl]="steelNumberControl"
+            />
+            <mat-error
+              *ngIf="steelNumberControl.invalid"
+              [matTooltip]="t('error.steelNumber')"
+              class="cursor-help"
+              ><div class="flex flex-row gap-1">
+                <span>{{ getErrorMessage(steelNumberControl.errors) }}</span>
+                <mat-icon inline="true" class="">info_outline</mat-icon>
+              </div></mat-error
+            >
+          </mat-form-field>
+          <div class="flex w-full flex-row">
+            <schaeffler-select
+              appearance="outline"
+              class="w-full"
+              [filterFn]="filterFn"
+              [label]="t('referencedInDocument')"
+              [stringOptions]="referenceDocument"
+              [control]="referenceDocumentControl"
+              [addEntry]="true"
+              [multiple]="true"
+              (entryAdded)="addReferenceDocument($event)"
+            ></schaeffler-select>
+            <span mat-icon class="mb-4 self-center pl-4">
+              <mat-icon
+                [matTooltip]="t('tooltip.referencedInDocument')"
+                matTooltipPosition="before"
+                class="cursor-help text-link"
+                >info_outline</mat-icon
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <div class="text-subtitle-2 pb-4 text-high-emphasis">
+          {{ t('supplierInformationTitle') }}
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="suppliers$ | ngrxPush"
+            [control]="suppliersControl"
+            [filterFn]="filterFn"
+            [label]="t('supplierName')"
+          >
+            <div matErrorContent *ngIf="suppliersControl.invalid">
+              {{ getErrorMessage(suppliersControl.errors) }}
+            </div>
+          </schaeffler-select>
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="supplierPlants$ | ngrxPush"
+            [control]="supplierPlantsControl"
+            [filterFn]="
+              valueTitleToOptionKeyFilterFnFactory(
+                suppliersControl,
+                'supplierName'
+              )
+            "
+            [label]="t('supplierPlant')"
+            [disabled]="!suppliersControl.value"
+          >
+            <div matErrorContent *ngIf="supplierPlantsControl.invalid">
+              {{ getErrorMessage(supplierPlantsControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="castingDiameter"
+            [control]="castingDiameterControl"
+            [filterFn]="filterFn"
+            [addEntry]="true"
+            [label]="t('castingDiameter')"
+            (entryAdded)="addCastingDiameter($event)"
+          >
+            <div matErrorContent *ngIf="castingDiameterControl.invalid">
+              {{ getErrorMessage(castingDiameterControl.errors) }}
+            </div>
+          </schaeffler-select>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('castingMode') }}</mat-label>
+            <mat-select [formControl]="castingModesControl">
+              <mat-option
+                *ngFor="let mode of castingModes$ | ngrxPush"
+                [value]="mode"
+              >
+                {{ t(mode.toLowerCase()) }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="castingModesControl.invalid">{{
+              getErrorMessage(castingModesControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-auto">
+            <mat-label>{{ t('supplierRating') }}</mat-label>
+            <mat-select [formControl]="ratingsControl">
+              <mat-option
+                *ngFor="let rating of ratings$ | ngrxPush"
+                [value]="rating.id"
+              >
+                {{ rating.title }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="ratingsControl.invalid">{{
+              getErrorMessage(ratingsControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('supplierRatingRemark') }}</mat-label>
+            <input matInput [formControl]="ratingRemarkControl" />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <div class="text-subtitle-2 pb-4 text-high-emphasis">
+          {{ t('co2AndProductInformationTitle') }}
+        </div>
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('maxDim') }}</mat-label>
+            <input matInput [formControl]="maxDimControl" type="number" />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('mm')
+            }}</span>
+            <mat-error *ngIf="maxDimControl.invalid">{{
+              getErrorMessage(maxDimControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('minDim') }}</mat-label>
+            <input matInput [formControl]="minDimControl" type="number" />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('mm')
+            }}</span>
+            <mat-error *ngIf="minDimControl.invalid">{{
+              getErrorMessage(minDimControl.errors)
+            }}</mat-error>
+          </mat-form-field>
+          <schaeffler-select
+            appearance="outline"
+            class="w-full"
+            [stringOptions]="categories$ | ngrxPush"
+            [control]="categoriesControl"
+            [filterFn]="filterFn"
+            [label]="t('productCategory')"
+          >
+            <div matErrorContent *ngIf="categoriesControl.invalid">
+              {{ getErrorMessage(categoriesControl.errors) }}
+            </div>
+          </schaeffler-select>
+        </div>
+
+        <!-- gap-x-6 did not work out with 4 input fields so i used pr-6 3 times.-->
+        <div class="flex flex-row">
+          <mat-form-field appearance="outline" class="w-1/4 pr-6">
+            <mat-label>{{ t('scope1') }}</mat-label>
+            <input matInput [formControl]="co2Scope1Control" type="number" />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('co2PerTon')
+            }}</span>
+            <mat-error *ngIf="co2Scope1Control.invalid">{{
+              getErrorMessage(co2scope1Control.errors)
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-1/4 pr-6">
+            <mat-label>{{ t('scope2') }}</mat-label>
+            <input matInput [formControl]="co2Scope2Control" type="number" />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('co2PerTon')
+            }}</span>
+            <mat-error *ngIf="co2Scope2Control.invalid">{{
+              getErrorMessage(co2scope2Control.errors)
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-1/4 pr-6">
+            <mat-label>{{ t('scope3') }}</mat-label>
+            <input matInput [formControl]="co2Scope3Control" type="number" />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('co2PerTon')
+            }}</span>
+            <mat-error *ngIf="co2Scope3Control.invalid">{{
+              getErrorMessage(co2scope3Control.errors)
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w-1/4">
+            <mat-label>{{ t('co2Total') }}</mat-label>
+            <input matInput [formControl]="co2TotalControl" type="number" />
+            <span matSuffix class="relative -top-1 pl-1 text-caption">{{
+              t('co2PerTon')
+            }}</span>
+            <mat-error
+              class="cursor-help"
+              *ngIf="co2TotalControl.invalid"
+              [matTooltip]="
+                co2TotalControl.errors?.scopeTotalLowerThanSingleScopes
+                  ? t('error.co2TooLow')
+                  : ''
+              "
+            >
+              <div class="flex flex-row gap-1">
+                <span>{{ getErrorMessage(co2TotalControl.errors) }}</span>
+                <mat-icon inline="true" class="">info_outline</mat-icon>
+              </div></mat-error
+            >
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <schaeffler-select
+            appearance="outline"
+            class="w-auto"
+            [stringOptions]="steelMakingProcess$ | ngrxPush"
+            [control]="steelMakingProcessControl"
+            [filterFn]="filterFn"
+            [label]="t('steelMakingProcess')"
+          ></schaeffler-select>
+          <div class="flex w-full flex-row">
+            <schaeffler-select
+              appearance="outline"
+              class="w-full"
+              [stringOptions]="co2Classification$ | ngrxPush"
+              [control]="co2ClassificationControl"
+              [filterFn]="filterFn"
+              [label]="t('co2Classification')"
+            >
+              <div matErrorContent *ngIf="co2ClassificationControl.invalid">
+                {{ getErrorMessage(co2ClassificationControl.errors) }}
+              </div>
+            </schaeffler-select>
+            <span mat-icon class="mb-4 self-center pl-4">
+              <mat-icon
+                matTooltipPosition="before"
+                [matTooltip]="t('tooltip.co2Classification')"
+                class="cursor-help text-link"
+                >info_outline</mat-icon
+              >
+            </span>
+          </div>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('releaseDateYear') }}</mat-label>
+            <mat-select [formControl]="releaseYearControl">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="releaseYearControl.invalid">{{
+              t('error.required')
+            }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('releaseDateMonth') }}</mat-label>
+            <mat-select [formControl]="releaseMonthControl">
+              <mat-option *ngFor="let month of months" [value]="month">
+                {{ t('month.' + month) }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="releaseMonthControl.invalid">{{
+              t('error.required')
+            }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('releaseRestrictions') }}</mat-label>
+            <textarea
+              matInput
+              [formControl]="releaseRestrictionsControl"
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
+          <mat-checkbox color="primary" [formControl]="isBlockedControl">
+            <div
+              class="flex flex-row justify-center gap-x-2 text-caption text-high-emphasis"
+            >
+              <span class="my-auto">{{ t('blocked') }}</span>
+              <span mat-icon class="mt-2 text-body-1">
+                <mat-icon
+                  [matTooltip]="t('tooltip.blocked')"
+                  matTooltipPosition="after"
+                  class="cursor-help text-link"
+                  inline="true"
+                  >info_outline</mat-icon
+                >
+              </span>
+            </div>
+          </mat-checkbox>
+        </div>
       </div>
     </div>
-  </div>
-
-  <div class="flex flex-col">
-    <div class="text-subtitle-2 pb-4 text-high-emphasis">
-      Supplier information
-    </div>
-    <div class="flex flex-row gap-x-6">
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Supplier Name*"
-      ></schaeffler-select>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Supplier Plant*"
-      ></schaeffler-select>
-    </div>
-    <div class="flex flex-row gap-x-6">
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Cast / Remelt product information*"
-      ></schaeffler-select>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Casting / remelting process*"
-      ></schaeffler-select>
-    </div>
-    <div class="flex flex-row gap-x-6">
-      <schaeffler-select
-        appearance="outline"
-        class="w-auto"
-        [stringOptions]="options"
-        label="Supplier Rating"
-      ></schaeffler-select>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Supplier Rating remark</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-    </div>
-  </div>
-
-  <div class="flex flex-col">
-    <div class="text-subtitle-2 pb-4 text-high-emphasis">
-      Product & CO2 information
-    </div>
-    <div class="flex flex-row gap-x-6">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Max Dimensions*</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Min Dimension</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Product Category*"
-      ></schaeffler-select>
-    </div>
-
-    <div class="flex flex-row gap-x-6">
-      <mat-form-field appearance="outline" class="w-1/4">
-        <mat-label>Scope 1</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-1/4">
-        <mat-label>Scope 2</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-1/4">
-        <mat-label>Scope 3</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="w-1/4">
-        <mat-label>Co2 Total</mat-label>
-        <input matInput placeholder="comment" value="" />
-      </mat-form-field>
-    </div>
-
-    <div class="flex flex-row gap-x-6">
-      <schaeffler-select
-        appearance="outline"
-        class="w-auto"
-        [stringOptions]="options"
-        label="Steel making Process"
-      ></schaeffler-select>
-      <div class="flex w-full flex-row">
-        <schaeffler-select
-          appearance="outline"
-          class="w-full"
-          [stringOptions]="options"
-          label="CO2 data classification*"
-        ></schaeffler-select>
-        <button mat-icon-button class="self-center">
-          <mat-icon class="mb-4 text-link">info_outline</mat-icon>
-        </button>
+    <ng-template #dialogLoadingTemplate>
+      <div class="flex flex-1 flex-col place-items-center">
+        <mat-spinner></mat-spinner>
       </div>
-    </div>
+    </ng-template>
+  </mat-dialog-content>
 
-    <div class="flex flex-row gap-x-6">
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Release Year*"
-      ></schaeffler-select>
-      <schaeffler-select
-        appearance="outline"
-        class="w-full"
-        [stringOptions]="options"
-        label="Release Month*"
-      ></schaeffler-select>
+  <mat-dialog-actions align="end" class="-mx-6">
+    <mat-divider class="w-full pb-4"></mat-divider>
+    <div class="px-4 pb-2">
+      <button mat-stroked-button (click)="closeDialog()">
+        {{ t('cancel') }}
+      </button>
+      <button
+        mat-stroked-button
+        class="!ml-4 text-link"
+        [disabled]="!createMaterialForm.valid"
+        (click)="addMaterial()"
+      >
+        <div class="flex flex-row gap-x-2">
+          {{ t('confirm') }}
+          <mat-spinner
+            *ngIf="createMaterialLoading | ngrxPush"
+            class="my-auto"
+            diameter="14"
+          ></mat-spinner>
+        </div>
+      </button>
     </div>
-
-    <div class="flex flex-row gap-x-6">
-      <mat-form-field appearance="outline" class="w-full">
-        <mat-label>Release restrictions / Comment on CO2 calculation</mat-label>
-        <textarea matInput placeholder="comment" value=""></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="flex flex-row gap-x-6">
-      <section>
-        <mat-checkbox class="text-caption text-high-emphasis">
-          Blocked
-          <button mat-icon-button>
-            <mat-icon inline="true" class="text-link"> info_outline </mat-icon>
-          </button>
-        </mat-checkbox>
-      </section>
-    </div>
-  </div>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end" class="-mx-6">
-  <mat-divider class="w-full"></mat-divider>
-  <div>
-    <button mat-stroked-button (click)="closeDialog()">Cancel</button>
-    <button
-      mat-stroked-button
-      class="text-link"
-      mat-dialog-close="demovalue"
-      cdkFocusInitial
-    >
-      ADD Material
-    </button>
-  </div>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+</ng-container>

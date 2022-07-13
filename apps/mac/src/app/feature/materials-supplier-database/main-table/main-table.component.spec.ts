@@ -3,13 +3,14 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MATERIAL_SANITY_CHECKS, MatOption } from '@angular/material/core';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 import {
   Column,
@@ -36,7 +37,12 @@ import * as en from '../../../../assets/i18n/en.json';
 import { DataFilter, DataResult } from '../models';
 import { fetchMaterials, setAgGridFilter } from '../store/actions';
 import { initialState as initialDataState } from '../store/reducers/data.reducer';
-import { setAgGridColumns, setFilter } from './../store/actions/data.actions';
+import {
+  addMaterialDialogOpened,
+  setAgGridColumns,
+  setFilter,
+} from './../store/actions/data.actions';
+import { InputDialogComponent } from './input-dialog/input-dialog.component';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
 import { EMPTY_VALUE_FORMATTER } from './table-config';
@@ -45,7 +51,6 @@ import {
   COLUMN_DEFINITIONS,
   SAP_SUPPLIER_IDS,
 } from './table-config/column-definitions';
-import { MatDialogModule } from '@angular/material/dialog';
 
 describe('MainTableComponent', () => {
   let component: MainTableComponent;
@@ -54,7 +59,28 @@ describe('MainTableComponent', () => {
   let route: ActivatedRoute;
   let router: Router;
 
-  const initialState = { msd: { data: initialDataState } };
+  const initialState = {
+    msd: { data: initialDataState },
+    'azure-auth': {
+      accountInfo: {
+        idTokenClaims: {
+          roles: ['material-supplier-database-test-editor'],
+        },
+        department: 'mock_department',
+        homeAccountId: 'mock_id',
+        environment: 'mock_environment',
+        tenantId: 'mock_id',
+        username: 'mock_name',
+        localAccountId: 'mock_id',
+        name: 'mock_name',
+      },
+      profileImage: {
+        url: 'mock_url',
+        loading: false,
+        errorMessage: 'mock_message',
+      },
+    },
+  };
 
   const createComponent = createComponentFactory({
     component: MainTableComponent,
@@ -1547,6 +1573,82 @@ describe('MainTableComponent', () => {
       const result = EMPTY_VALUE_FORMATTER(mockParams);
 
       expect(result).toBe('some value');
+    });
+  });
+
+  describe('openDialog', () => {
+    it('should open the dialog', () => {
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: jest.fn(() => new Observable()),
+          } as unknown as MatDialogRef<InputDialogComponent>)
+      );
+
+      component.openDialog();
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        InputDialogComponent,
+        {
+          width: '863px',
+          autoFocus: false,
+          enterAnimationDuration: '100ms',
+          restoreFocus: false,
+        }
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(addMaterialDialogOpened());
+    });
+
+    it('should do nothing on close if reload is not set', () => {
+      const mockObservable = new Subject<void>();
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: jest.fn(() => mockObservable),
+          } as unknown as MatDialogRef<InputDialogComponent>)
+      );
+      component.fetchMaterials = jest.fn();
+
+      component.openDialog();
+      mockObservable.next();
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        InputDialogComponent,
+        {
+          width: '863px',
+          autoFocus: false,
+          enterAnimationDuration: '100ms',
+          restoreFocus: false,
+        }
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(addMaterialDialogOpened());
+      expect(component.fetchMaterials).not.toHaveBeenCalled();
+    });
+
+    it('should call fetchMaterials on close if reload is true', () => {
+      const mockObservable = new Subject<boolean>();
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: jest.fn(() => mockObservable),
+          } as unknown as MatDialogRef<InputDialogComponent>)
+      );
+      component.fetchMaterials = jest.fn();
+
+      component.openDialog();
+      mockObservable.next(true);
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        InputDialogComponent,
+        {
+          width: '863px',
+          autoFocus: false,
+          enterAnimationDuration: '100ms',
+          restoreFocus: false,
+        }
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(addMaterialDialogOpened());
+      expect(component.fetchMaterials).toHaveBeenCalled();
     });
   });
 });

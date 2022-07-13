@@ -1,4 +1,6 @@
-import { createSelector } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+
+import { StringOption } from '@schaeffler/inputs';
 
 import * as fromStore from '../reducers';
 
@@ -72,3 +74,167 @@ export const getResultCount = createSelector(
   getResult,
   (result) => result?.length || 0
 );
+
+export const getAddMaterialDialog = createSelector(
+  getDataState,
+  (dataState) => dataState.addMaterialDialog
+);
+
+export const getAddMaterialDialogOptions = createSelector(
+  getAddMaterialDialog,
+  (addMaterialDialog) => addMaterialDialog.dialogOptions
+);
+
+export const getAddMaterialDialogOptionsLoading = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) =>
+    dialogOptions.ratingsLoading ||
+    dialogOptions.castingModesLoading ||
+    dialogOptions.materialStandardsLoading ||
+    dialogOptions.co2ClassificationsLoading ||
+    dialogOptions.steelMakingProcessesLoading ||
+    dialogOptions.manufacturerSuppliersLoading
+);
+
+export const getAddMaterialDialogOptionsLoadingError = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) =>
+    dialogOptions.ratingsLoading === undefined ||
+    dialogOptions.castingModesLoading === undefined ||
+    dialogOptions.materialStandardsLoading === undefined ||
+    dialogOptions.co2ClassificationsLoading === undefined ||
+    dialogOptions.steelMakingProcessesLoading === undefined ||
+    dialogOptions.manufacturerSuppliersLoading === undefined
+);
+
+export const getAddMaterialDialogCastingModes = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.castingModes
+);
+export const getAddMaterialDialogCo2Classifications = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.co2Classifications
+);
+export const getAddMaterialDialogSuppliers = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.manufacturerSuppliers
+);
+export const getAddMaterialDialogMaterialStandards = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.materialStandards
+);
+export const getAddMaterialDialogRatings = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.ratings
+);
+export const getAddMaterialDialogSteelMakingProcesses = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.steelMakingProcesses
+);
+
+export const getSupplierStringOptions = createSelector(
+  getAddMaterialDialogSuppliers,
+  (suppliers): StringOption[] =>
+    suppliers.map((supplier) => ({
+      id: supplier.id,
+      title: supplier.name,
+      data: { plant: supplier.plant },
+    }))
+);
+
+export const getSupplierPlantStringOptions = createSelector(
+  getAddMaterialDialogSuppliers,
+  (suppliers): StringOption[] =>
+    suppliers
+      .map((supplier) => ({
+        id: supplier.plant,
+        title: supplier.plant,
+        data: { supplierId: supplier.id, supplierName: supplier.name },
+      }))
+      .filter((option) => !!option)
+      .sort(stringOptionsSortFn)
+);
+
+export const getMaterialNameStringOptions = createSelector(
+  getAddMaterialDialogMaterialStandards,
+  (materialStandards): StringOption[] =>
+    materialStandards.map((materialStandard) => ({
+      id: materialStandard.id,
+      title: materialStandard.materialName,
+      data: { standardDocument: materialStandard.standardDocument },
+    }))
+);
+
+export const getMaterialStandardDocumentStringOptions = createSelector(
+  getAddMaterialDialogMaterialStandards,
+  (materialStandards): StringOption[] =>
+    materialStandards.map((materialStandard) => ({
+      id: materialStandard.id,
+      title: materialStandard.standardDocument,
+      data: { materialName: materialStandard.materialName },
+    }))
+);
+
+export const getProductCategoryStringOptions = createSelector(
+  getProductCategoryOptions,
+  (productCategories): StringOption[] =>
+    productCategories.map((productCategory) => ({
+      id: productCategory.code,
+      title: productCategory.name,
+    }))
+);
+
+export const getCreateMaterialLoading = createSelector(
+  getAddMaterialDialog,
+  (addMaterialDialog) => addMaterialDialog.createMaterial?.createMaterialLoading
+);
+
+export const getCreateMaterialSuccess = createSelector(
+  getAddMaterialDialog,
+  (addMaterialDialog) => addMaterialDialog.createMaterial?.createMaterialSuccess
+);
+
+export const getStringOptions = (
+  selector: MemoizedSelector<object, string[]>
+) =>
+  createSelector(selector, (values): StringOption[] =>
+    values
+      .map((value) => ({ id: value, title: value }))
+      .sort(stringOptionsSortFn)
+  );
+
+export const getUniqueStringOptions = (
+  selector: MemoizedSelector<object, StringOption[]>
+) =>
+  createSelector(selector, (stringOptions): StringOption[] =>
+    stringOptions
+      .filter(
+        (option, index) =>
+          stringOptions.findIndex(
+            (compareOption) => compareOption.title === option.title
+          ) === index
+      )
+      .sort(stringOptionsSortFn)
+  );
+
+export const stringOptionsSortFn = (
+  a: StringOption,
+  b: StringOption
+): number => {
+  if (!a.title || !b.title) {
+    return 0;
+  }
+
+  const lowerA = a.title.toLowerCase();
+  const lowerB = b.title.toLowerCase();
+
+  if (lowerA < lowerB) {
+    return -1;
+  }
+
+  if (lowerA > lowerB) {
+    return 1;
+  }
+
+  return 0;
+};

@@ -15,6 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable, Subject, withLatestFrom } from 'rxjs';
@@ -32,9 +33,9 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { hasIdTokenRole } from '@schaeffler/azure-auth';
 
 import { DataFilter, DataResult } from '../models';
-import { fetchMaterials, setAgGridFilter, setFilter } from '../store/actions';
 import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-grid-state.service';
 import {
   getAgGridFilter,
@@ -47,9 +48,14 @@ import {
   getResultCount,
 } from './../store';
 import {
+  addMaterialDialogOpened,
   fetchClassAndCategoryOptions,
+  fetchMaterials,
   setAgGridColumns,
-} from './../store/actions/data.actions';
+  setAgGridFilter,
+  setFilter,
+} from './../store/actions';
+import { InputDialogComponent } from './input-dialog/input-dialog.component';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
@@ -57,8 +63,6 @@ import {
   SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from './table-config';
-import { MatDialog } from '@angular/material/dialog';
-import { InputDialogComponent } from './input-dialog/input-dialog.component';
 
 /* eslint-disable max-lines */
 @Component({
@@ -80,6 +84,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public resultCount$: Observable<number>;
   public displayCount = 0;
 
+  private readonly EDITOR_ROLE = 'material-supplier-database-test-editor';
+  public hasEditorRole$: Observable<boolean>;
+
   public selectedClass: string;
   public selectedCategory: string[];
 
@@ -87,7 +94,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public modules: Module[] = MODULES;
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
+  public defaultColumnDefs: ColDef[] = COLUMN_DEFINITIONS;
+  public columnDefs: ColDef[];
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
 
   public materialClassSelectionControl = new UntypedFormControl(undefined, [
@@ -137,6 +145,10 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resultLoading$ = this.store.select(getLoading);
     this.result$ = this.store.select(getResult);
     this.resultCount$ = this.store.select(getResultCount);
+
+    this.hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
+
+    this.columnDefs = this.getColumnDefs();
 
     this.store.dispatch(fetchClassAndCategoryOptions());
 
@@ -544,7 +556,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public getColumnDefs = (): ColDef[] =>
-    this.columnDefs.map((columnDef) => ({
+    this.defaultColumnDefs.map((columnDef) => ({
       ...columnDef,
       headerName: this.translocoService.translate(
         `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
@@ -554,9 +566,19 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public openDialog(): void {
     const dialogRef = this.dialog.open(InputDialogComponent, {
       width: '863px',
+      autoFocus: false,
+      enterAnimationDuration: '100ms',
+      restoreFocus: false,
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed: ' + result);
-    });
+    this.store.dispatch(addMaterialDialogOpened());
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((reload?: boolean) => {
+        if (reload) {
+          this.fetchMaterials();
+        }
+      });
   }
 }

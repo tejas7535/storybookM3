@@ -13,9 +13,9 @@ import { PushModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { InputDialogModule } from './input-dialog/input-dialog.module';
 import { MainTableComponent } from './main-table.component';
 import { MainTableRoutingModule } from './main-table-routing.module';
-import { InputDialogModule } from './input-dialog/input-dialog.module';
 
 @NgModule({
   declarations: [MainTableComponent],
