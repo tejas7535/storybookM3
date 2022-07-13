@@ -101,7 +101,7 @@ describe('EntriesExitsComponent', () => {
         By.css('ia-loose-doughnut-chart')
       );
 
-      expect(kpiValues.length).toEqual(2);
+      expect(kpiValues.length).toEqual(3);
       expect(kpiValues).toContain(component.entriesCount.toString());
       expect(kpiValues).toContain(component.exitsCount.toString());
       expect(charts.length).toEqual(2);

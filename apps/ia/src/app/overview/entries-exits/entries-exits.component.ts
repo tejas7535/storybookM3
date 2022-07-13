@@ -39,6 +39,7 @@ export class EntriesExitsComponent {
   @Input() isDataLoading: boolean;
   @Input() entriesCount: number;
   @Input() exitsCount: number;
+  @Input() totalEmployeesCount: number;
   @Input() exitEmployees: Employee[] = [];
   @Input() entryEmployees: Employee[] = [];
   @Input() employeeListDialogMetaHeadings: EmployeeListDialogMetaHeadings;

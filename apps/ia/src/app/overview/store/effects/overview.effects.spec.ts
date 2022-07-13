@@ -176,6 +176,7 @@ describe('Overview Effects', () => {
         const data: OverviewFluctuationRates = {
           entryEmployees: [],
           exitEmployees: [],
+          totalEmployeesCount: 0,
           fluctuationRate: { global: 0, orgUnit: 0 },
           unforcedFluctuationRate: { global: 0, orgUnit: 0 },
         };

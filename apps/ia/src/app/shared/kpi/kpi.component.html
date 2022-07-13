@@ -1,10 +1,10 @@
-<div class="pb-3">
-  <span class="mt-4 flex text-body-2">{{ title }}</span>
+<div class="mt-4">
+  <span class="text-body-2">{{ title }}</span>
   <h4 class="mb-4">{{ value }}</h4>
   <button
     mat-fab
     color="primary"
-    class="mt-2 flex"
+    class="mt-2"
     *ngIf="employees"
     [disabled]="employees.length === 0"
     (click)="openTeamMemberDialog()"

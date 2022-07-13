@@ -1,45 +1,46 @@
 <div *transloco="let t; read: 'overview'">
   <h5>{{ t('entriesExits') }}</h5>
-  <div class="flex flex-row">
-    <div class="flex grow flex-col">
-      <div class="px-4">
-        <ia-kpi
-          [title]="t('entries')"
-          [value]="entriesCount"
-          [employees]="entryEmployees"
-          [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
-          [showFluctuationType]="true"
-          [employeeListType]="entryType"
-        ></ia-kpi>
-      </div>
-      <ia-loose-doughnut-chart
-        class="pt-6"
-        [data]="entriesDoughnutConfig"
-        [initialConfig]="initialConfig"
-        [isLoading]="isDataLoading"
-        [legendSelectAction]="legendSelectAction"
-      ></ia-loose-doughnut-chart>
+  <div class="grid grid-cols-6 gap-4">
+    <ia-kpi
+      class="col-span-2 text-center"
+      [title]="t('entries')"
+      [value]="entriesCount"
+      [employees]="entryEmployees"
+      [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
+      [showFluctuationType]="true"
+      [employeeListType]="entryType"
+    ></ia-kpi>
+
+    <div class="col-span-2 mt-4 text-center">
+      <span class="text-body-2">{{ t('totalHeadcount') }}</span>
+      <h4>{{ totalEmployeesCount }}</h4>
     </div>
 
-    <div class="flex grow flex-col">
-      <div class="px-4">
-        <ia-kpi
-          [title]="t('exits')"
-          [value]="exitsCount"
-          [employees]="exitEmployees"
-          [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
-          [showFluctuationType]="true"
-          [employeeListType]="exitType"
-        ></ia-kpi>
-      </div>
-      <ia-loose-doughnut-chart
-        class="pt-6"
-        [data]="exitsDoughnutConfig"
-        [initialConfig]="initialConfig"
-        [isLoading]="isDataLoading"
-        [legendSelectAction]="legendSelectAction"
-      ></ia-loose-doughnut-chart>
-    </div>
+    <ia-kpi
+      class="col-span-2 text-center"
+      [title]="t('exits')"
+      [value]="exitsCount"
+      [employees]="exitEmployees"
+      [employeeListDialogMetaHeadings]="employeeListDialogMetaHeadings"
+      [showFluctuationType]="true"
+      [employeeListType]="exitType"
+    ></ia-kpi>
+
+    <ia-loose-doughnut-chart
+      class="col-span-3 pt-6"
+      [data]="entriesDoughnutConfig"
+      [initialConfig]="initialConfig"
+      [isLoading]="isDataLoading"
+      [legendSelectAction]="legendSelectAction"
+    ></ia-loose-doughnut-chart>
+
+    <ia-loose-doughnut-chart
+      class="col-span-3 pt-6"
+      [data]="exitsDoughnutConfig"
+      [initialConfig]="initialConfig"
+      [isLoading]="isDataLoading"
+      [legendSelectAction]="legendSelectAction"
+    ></ia-loose-doughnut-chart>
   </div>
   <div class="flex justify-center pt-3">
     <ia-external-legend

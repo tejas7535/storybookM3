@@ -28,6 +28,7 @@ import {
   getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationKpi,
   getOverviewFluctuationRates,
+  getOverviewFluctuationTotalEmployeesCount,
   getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
@@ -110,6 +111,7 @@ describe('Overview Selector', () => {
             global: 0.081,
             orgUnit: 0.065,
           },
+          totalEmployeesCount: 20,
         },
         loading: true,
         errorMessage: undefined,
@@ -199,6 +201,7 @@ describe('Overview Selector', () => {
           global: 0.081,
           orgUnit: 0.065,
         },
+        totalEmployeesCount: 20,
       });
     });
   });
@@ -242,6 +245,14 @@ describe('Overview Selector', () => {
   describe('getOverviewFluctuationEntriesCount', () => {
     it('should return actual entries number', () => {
       expect(getOverviewFluctuationEntriesCount(fakeState)).toEqual(3);
+    });
+  });
+
+  describe('getOverviewFluctuationTotalEmployeesCount', () => {
+    it('should return total headcount', () => {
+      expect(
+        getOverviewFluctuationTotalEmployeesCount.projector(fakeState.overview)
+      ).toEqual(fakeState.overview.entriesExits.data.totalEmployeesCount);
     });
   });
   describe('getOverviewFluctuationExitsCount', () => {

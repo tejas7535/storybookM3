@@ -26,6 +26,7 @@ import {
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationKpi,
+  getOverviewFluctuationTotalEmployeesCount,
   getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
@@ -57,6 +58,7 @@ export class OverviewComponent implements OnInit {
   exitsCount$: Observable<number>;
   exitEmployees$: Observable<Employee[]>;
   entryEmployees$: Observable<Employee[]>;
+  totalEmployeesCount$: Observable<number>;
 
   resignedEmployees$: Observable<ResignedEmployee[]>;
   resignedEmployeesLoading$: Observable<boolean>;
@@ -121,6 +123,9 @@ export class OverviewComponent implements OnInit {
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
     this.exitEmployees$ = this.store.select(getExitEmployees);
     this.entryEmployees$ = this.store.select(getEntryEmployees);
+    this.totalEmployeesCount$ = this.store.select(
+      getOverviewFluctuationTotalEmployeesCount
+    );
   }
 
   loadResignedEmployeesData() {

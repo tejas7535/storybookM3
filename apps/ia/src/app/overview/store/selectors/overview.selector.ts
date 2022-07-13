@@ -118,6 +118,12 @@ export const getOverviewFluctuationExitsCount = createSelector(
   (employees: Employee[]) => employees?.length
 );
 
+export const getOverviewFluctuationTotalEmployeesCount = createSelector(
+  selectOverviewState,
+  (overviewState: OverviewState) =>
+    overviewState.entriesExits.data?.totalEmployeesCount
+);
+
 export const getEntryEmployees = createSelector(
   getOverviewFluctuationRates,
   getSelectedTimeRange,
