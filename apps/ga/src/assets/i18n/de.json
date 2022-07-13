@@ -98,7 +98,7 @@
         "advancedSelection": "Erweiterte Lagerauswahl"
       },
       "quickSelection": {
-        "searchPlaceholder": "Suche nach Lagerbezeichnung, z.B. 6215",
+        "searchPlaceholder": "Eingabe Lagerbezeichnung, z.B. 6215",
         "selectButton": "Lager auswählen",
         "selectOption": "Fettberechnung zu Lager &nbsp;<strong>{{bearing}}</strong>",
         "noResults": "Keine Ergebnisse gefunden"
