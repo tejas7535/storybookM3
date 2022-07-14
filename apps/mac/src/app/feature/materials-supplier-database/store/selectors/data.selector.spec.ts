@@ -7,6 +7,10 @@ import {
   MaterialStandard,
 } from '../../models';
 import { initialState } from './../reducers/data.reducer';
+import {
+  getMaterialNameStringOptionsMerged,
+  getMaterialStandardDocumentStringOptionsMerged,
+} from '.';
 import * as DataSelectors from './data.selector';
 import { sortAlphabetically } from './data.selector';
 
@@ -504,6 +508,83 @@ describe('DataSelectors', () => {
     expect(result).toEqual(expected);
   });
 
+  it('should return materialNames with merged standardDocumentMappings', () => {
+    const materialNameOptions: StringOption[] = [
+      {
+        id: 1,
+        title: '1',
+        data: {
+          standardDocument: 'std1',
+        },
+      },
+      {
+        id: 2,
+        title: '1',
+        data: {
+          standardDocument: 'std2',
+        },
+      },
+      {
+        id: 3,
+        title: '3',
+        data: {
+          standardDocument: 'std3',
+        },
+      },
+    ];
+
+    const expected: StringOption[] = [
+      {
+        id: 1,
+        title: '1',
+        data: {
+          standardDocuments: [
+            {
+              id: 1,
+              standardDocument: 'std1',
+            },
+            {
+              id: 2,
+              standardDocument: 'std2',
+            },
+          ],
+        },
+      },
+      {
+        id: 2,
+        title: '1',
+        data: {
+          standardDocuments: [
+            {
+              id: 1,
+              standardDocument: 'std1',
+            },
+            {
+              id: 2,
+              standardDocument: 'std2',
+            },
+          ],
+        },
+      },
+      {
+        id: 3,
+        title: '3',
+        data: {
+          standardDocuments: [
+            {
+              id: 3,
+              standardDocument: 'std3',
+            },
+          ],
+        },
+      },
+    ];
+
+    expect(
+      getMaterialNameStringOptionsMerged.projector(materialNameOptions)
+    ).toEqual(expected);
+  });
+
   it('should return the material standard documents as StringOptions', () => {
     const mockMaterialStandards: MaterialStandard[] = [
       {
@@ -543,6 +624,85 @@ describe('DataSelectors', () => {
       );
 
     expect(result).toEqual(expected);
+  });
+
+  it('should return standardDocuments with merged materialNameMappings', () => {
+    const standardDocumentOptions: StringOption[] = [
+      {
+        id: 1,
+        title: '1',
+        data: {
+          materialName: 'material1',
+        },
+      },
+      {
+        id: 2,
+        title: '1',
+        data: {
+          materialName: 'material2',
+        },
+      },
+      {
+        id: 3,
+        title: '3',
+        data: {
+          materialName: 'material3',
+        },
+      },
+    ];
+
+    const expected: StringOption[] = [
+      {
+        id: 1,
+        title: '1',
+        data: {
+          materialNames: [
+            {
+              id: 1,
+              materialName: 'material1',
+            },
+            {
+              id: 2,
+              materialName: 'material2',
+            },
+          ],
+        },
+      },
+      {
+        id: 2,
+        title: '1',
+        data: {
+          materialNames: [
+            {
+              id: 1,
+              materialName: 'material1',
+            },
+            {
+              id: 2,
+              materialName: 'material2',
+            },
+          ],
+        },
+      },
+      {
+        id: 3,
+        title: '3',
+        data: {
+          materialNames: [
+            {
+              id: 3,
+              materialName: 'material3',
+            },
+          ],
+        },
+      },
+    ];
+
+    expect(
+      getMaterialStandardDocumentStringOptionsMerged.projector(
+        standardDocumentOptions
+      )
+    ).toEqual(expected);
   });
 
   it('should return the product categories as StringOptions', () => {

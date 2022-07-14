@@ -28,8 +28,8 @@ import {
   getAddMaterialDialogSteelMakingProcesses,
   getCreateMaterialLoading,
   getCreateMaterialSuccess,
-  getMaterialNameStringOptions,
-  getMaterialStandardDocumentStringOptions,
+  getMaterialNameStringOptionsMerged,
+  getMaterialStandardDocumentStringOptionsMerged,
   getProductCategoryStringOptions,
   getStringOptions,
   getSupplierPlantStringOptions,
@@ -261,11 +261,11 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     this.createMaterialLoading$ = this.store.select(getCreateMaterialLoading);
 
     this.standardDocuments$ = this.store.select(
-      getUniqueStringOptions(getMaterialStandardDocumentStringOptions)
+      getUniqueStringOptions(getMaterialStandardDocumentStringOptionsMerged)
     );
 
     this.materialNames$ = this.store.select(
-      getUniqueStringOptions(getMaterialNameStringOptions)
+      getUniqueStringOptions(getMaterialNameStringOptionsMerged)
     );
     this.suppliers$ = this.store.select(
       getUniqueStringOptions(getSupplierStringOptions)
@@ -286,35 +286,71 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     );
 
     this.standardDocumentsControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((standardDocument) => {
+          if (!standardDocument) {
+            this.createMaterialForm
+              .get('materialName')
+              .reset(undefined, { emitEvent: false });
+            this.createMaterialForm
+              .get('materialStandardId')
+              .reset(undefined, { emitEvent: false });
+          }
+        }),
+        filter((standardDocument) => !!standardDocument)
+      )
       .subscribe((standardDocument: StringOption) => {
-        if (
-          !standardDocument ||
-          (this.materialNamesControl.value &&
-            this.materialNamesControl.value.title !==
-              standardDocument.data['materialName'])
-        ) {
-          this.materialNamesControl.reset(undefined, { emitEvent: false });
+        if (this.createMaterialForm.get('materialName').value) {
+          const mappedSelection = standardDocument.data.materialNames.find(
+            ({ materialName }: { id: number; materialName: string }) =>
+              materialName ===
+              this.createMaterialForm.get('materialName').value.title
+          );
+          if (mappedSelection) {
+            this.createMaterialForm.patchValue({
+              materialStandardId: mappedSelection.id,
+            });
+          } else {
+            this.createMaterialForm
+              .get('materialName')
+              .reset(undefined, { emitEvent: false });
+          }
         }
-        this.createMaterialForm.patchValue({
-          materialStandardId: standardDocument?.id as number,
-        });
       });
 
     this.materialNamesControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((materialName) => {
+          if (!materialName) {
+            this.createMaterialForm
+              .get('standardDocument')
+              .reset(undefined, { emitEvent: false });
+            this.createMaterialForm
+              .get('materialStandardId')
+              .reset(undefined, { emitEvent: false });
+          }
+        }),
+        filter((materialName) => !!materialName)
+      )
       .subscribe((materialName: StringOption) => {
-        if (
-          !materialName ||
-          (this.standardDocumentsControl.value &&
-            this.standardDocumentsControl.value.data['materialName'] !==
-              materialName.title)
-        ) {
-          this.standardDocumentsControl.reset(undefined, { emitEvent: false });
+        if (this.createMaterialForm.get('standardDocument').value) {
+          const mappedSelection = materialName.data.standardDocuments.find(
+            ({ standardDocument }: { id: number; standardDocument: string }) =>
+              standardDocument ===
+              this.createMaterialForm.get('standardDocument').value.title
+          );
+          if (mappedSelection) {
+            this.createMaterialForm.patchValue({
+              materialStandardId: mappedSelection.id,
+            });
+          } else {
+            this.createMaterialForm
+              .get('standardDocument')
+              .reset(undefined, { emitEvent: false });
+          }
         }
-        this.createMaterialForm.patchValue({
-          materialStandardId: materialName?.id as number,
-        });
       });
 
     this.suppliersControl.valueChanges
@@ -375,8 +411,26 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       if (
         this.standardDocumentsControl.value &&
         this.standardDocumentsControl.value.data &&
-        this.standardDocumentsControl.value.data['materialName'] !==
-          option.title
+        !this.standardDocumentsControl.value.data['materialNames'].some(
+          ({ materialName }: { materialName: string }) =>
+            materialName === option.title
+        )
+      ) {
+        return false;
+      }
+
+      return this.filterFn(option, value);
+    };
+
+  public standardDocumentFilterFnFactory =
+    () => (option?: StringOption, value?: string) => {
+      if (
+        this.materialNamesControl.value &&
+        this.materialNamesControl.value.data &&
+        !this.materialNamesControl.value.data['standardDocuments'].some(
+          ({ standardDocument }: { standardDocument: string }) =>
+            standardDocument === option.title
+        )
       ) {
         return false;
       }

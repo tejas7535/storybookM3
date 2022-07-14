@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { DatePipe } from '@angular/common';
 import {
   AfterViewInit,

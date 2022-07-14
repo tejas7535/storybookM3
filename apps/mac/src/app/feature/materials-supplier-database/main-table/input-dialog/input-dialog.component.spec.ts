@@ -167,34 +167,22 @@ describe('InputDialogComponent', () => {
     describe('formControls', () => {
       // prepared values
       const matNameOption: StringOption = {
-        id: '77',
+        id: 77,
         title: 'matName',
+        data: {
+          standardDocuments: [
+            { id: 1, standardDocument: 'standard documents' },
+          ],
+        },
       } as StringOption;
       const stdDocOption: StringOption = {
-        id: '42',
+        id: 42,
         title: 'stdDoc',
         data: {
-          materialName: 'materialName value',
+          materialNames: [{ id: 1, materialName: 'materialName value' }],
         },
       } as StringOption;
       describe('modify standard documents', () => {
-        it('should patch createMaterialForm and reset materialNames', () => {
-          // prepare
-          component.materialNamesControl.setValue(matNameOption, {
-            emitEvent: false,
-          });
-          // mock
-          component.materialNamesControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
-          // start patch
-          component.standardDocumentsControl.patchValue(stdDocOption);
-
-          expect(component.materialNamesControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: stdDocOption.id,
-          });
-        });
-
         it('should patch createMaterialForm and reset materialNames when stdDoc is undefined', () => {
           // prepare
           component.materialNamesControl.setValue(matNameOption, {
@@ -205,35 +193,30 @@ describe('InputDialogComponent', () => {
           });
           // mock
           component.materialNamesControl.reset = jest.fn();
+          component.materialStandardIdControl.reset = jest.fn();
           component.createMaterialForm.patchValue = jest.fn();
           // start patch
           // eslint-disable-next-line unicorn/no-useless-undefined
           component.standardDocumentsControl.setValue(undefined);
 
           expect(component.materialNamesControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: undefined,
-          });
+          expect(component.materialStandardIdControl.reset).toHaveBeenCalled();
+          expect(
+            component.createMaterialForm.patchValue
+          ).not.toHaveBeenCalled();
         });
 
-        it('should patch createMaterialForm and reset materialNames with empty stdDoc.data', () => {
+        it('should patch createMaterialForm and reset materialNames', () => {
           // prepare
           component.materialNamesControl.setValue(matNameOption, {
             emitEvent: false,
           });
           // mock
           component.materialNamesControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
           // start patch
-          component.standardDocumentsControl.patchValue({
-            ...stdDocOption,
-            data: {},
-          });
+          component.standardDocumentsControl.patchValue(stdDocOption);
 
           expect(component.materialNamesControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: stdDocOption.id,
-          });
         });
 
         it('should patch createMaterialForm and NOT reset materialNames with equal data', () => {
@@ -248,17 +231,17 @@ describe('InputDialogComponent', () => {
           component.standardDocumentsControl.patchValue({
             ...stdDocOption,
             data: {
-              materialName: matNameOption.title,
+              materialNames: [{ id: 100, materialName: matNameOption.title }],
             },
           } as StringOption);
 
           expect(component.materialNamesControl.reset).not.toHaveBeenCalled();
           expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: stdDocOption.id,
+            materialStandardId: 100,
           });
         });
 
-        it('should patch createMaterialForm and NOT reset materialNames with matName not set', () => {
+        it('should NOT patch createMaterialForm and NOT reset materialNames with matName not set', () => {
           // mock
           component.materialNamesControl.reset = jest.fn();
           component.createMaterialForm.patchValue = jest.fn();
@@ -266,22 +249,9 @@ describe('InputDialogComponent', () => {
           component.standardDocumentsControl.patchValue(stdDocOption);
 
           expect(component.materialNamesControl.reset).not.toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: stdDocOption.id,
-          });
-        });
-
-        it('should ignore updates if patch value is undefined', () => {
-          // mock
-          component.materialNamesControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
-          // start patch with equal value
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.standardDocumentsControl.patchValue(undefined);
-          expect(component.materialNamesControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: undefined,
-          });
+          expect(
+            component.createMaterialForm.patchValue
+          ).not.toHaveBeenCalled();
         });
       });
 
@@ -289,14 +259,12 @@ describe('InputDialogComponent', () => {
         it('should ignore updates if value is undefined', () => {
           // mock
           component.standardDocumentsControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
+          component.materialStandardIdControl.reset = jest.fn();
           // start patch with undefined value
           // eslint-disable-next-line unicorn/no-useless-undefined
           component.materialNamesControl.patchValue(undefined);
           expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: undefined,
-          });
+          expect(component.materialStandardIdControl.reset).toHaveBeenCalled();
         });
 
         it('should patch createMaterialForm and reset standardDoc', () => {
@@ -311,12 +279,12 @@ describe('InputDialogComponent', () => {
           component.materialNamesControl.patchValue(matNameOption);
 
           expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: matNameOption.id,
-          });
+          expect(
+            component.createMaterialForm.patchValue
+          ).not.toHaveBeenCalled();
         });
 
-        it('should patch createMaterialForm and reset standardDoc when stdDoc is undefined', () => {
+        it('should NOT patch createMaterialForm and NOT reset standardDoc with equal data', () => {
           // prepare
           component.standardDocumentsControl.setValue(stdDocOption, {
             emitEvent: false,
@@ -325,56 +293,20 @@ describe('InputDialogComponent', () => {
           component.standardDocumentsControl.reset = jest.fn();
           component.createMaterialForm.patchValue = jest.fn();
           // start patch
-          // eslint-disable-next-line unicorn/no-useless-undefined
-          component.materialNamesControl.setValue(undefined);
-
-          expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: undefined,
+          component.materialNamesControl.patchValue({
+            ...matNameOption,
+            data: {
+              standardDocuments: [
+                { id: 100, standardDocument: stdDocOption.title },
+              ],
+            },
           });
-        });
-
-        it('should patch createMaterialForm and reset standardDoc with empty stdDoc.data', () => {
-          // prepare
-          component.standardDocumentsControl.setValue(
-            {
-              ...stdDocOption,
-              data: {},
-            } as StringOption,
-            { emitEvent: false }
-          );
-          // mock
-          component.standardDocumentsControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
-          // start patch
-          component.materialNamesControl.patchValue(matNameOption);
-
-          expect(component.standardDocumentsControl.reset).toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: matNameOption.id,
-          });
-        });
-
-        it('should patch createMaterialForm and NOT reset standardDoc with equal data', () => {
-          // prepare
-          component.standardDocumentsControl.setValue(
-            {
-              ...stdDocOption,
-              data: { materialName: matNameOption.title },
-            } as StringOption,
-            { emitEvent: false }
-          );
-          // mock
-          component.standardDocumentsControl.reset = jest.fn();
-          component.createMaterialForm.patchValue = jest.fn();
-          // start patch
-          component.materialNamesControl.patchValue(matNameOption);
 
           expect(
             component.standardDocumentsControl.reset
           ).not.toHaveBeenCalled();
           expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: matNameOption.id,
+            materialStandardId: 100,
           });
         });
 
@@ -388,9 +320,9 @@ describe('InputDialogComponent', () => {
           expect(
             component.standardDocumentsControl.reset
           ).not.toHaveBeenCalled();
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            materialStandardId: matNameOption.id,
-          });
+          expect(
+            component.createMaterialForm.patchValue
+          ).not.toHaveBeenCalled();
         });
       });
 
@@ -586,9 +518,11 @@ describe('InputDialogComponent', () => {
       component.standardDocumentsControl.setValue(undefined, {
         emitEvent: false,
       });
+      component.filterFn = jest.fn(() => true);
       expect(
         component.materialNameFilterFnFactory()(option, option.title)
       ).toBe(true);
+      expect(component.filterFn).toHaveBeenCalledWith(option, option.title);
     });
 
     it('should return true with no "data" in  std doc set', () => {
@@ -599,49 +533,107 @@ describe('InputDialogComponent', () => {
       component.standardDocumentsControl.setValue(stdDoc, {
         emitEvent: false,
       });
+      component.filterFn = jest.fn(() => true);
       expect(
         component.materialNameFilterFnFactory()(option, option.title)
       ).toBe(true);
+      expect(component.filterFn).toHaveBeenCalledWith(option, option.title);
     });
 
     it('should return true with matching materialName', () => {
       const stdDoc: StringOption = {
         id: 24,
         title: 'aBcDeFgH',
-        data: { materialName: option.title },
+        data: { materialNames: [{ id: 1, materialName: option.title }] },
       };
+      component.filterFn = jest.fn(() => true);
       component.standardDocumentsControl.setValue(stdDoc, {
         emitEvent: false,
       });
       expect(component.materialNameFilterFnFactory()(option)).toBe(true);
+      expect(component.filterFn).toHaveBeenCalledWith(option, undefined);
     });
 
     it('should return false with not matching materialname', () => {
       const stdDoc: StringOption = {
         id: 78,
         title: 'aBcDeFgH',
-        data: { materialName: 'other matName' },
+        data: { materialNames: [{ id: 1, materialName: 'other matName' }] },
       };
+      component.filterFn = jest.fn(() => true);
       component.standardDocumentsControl.setValue(stdDoc, {
         emitEvent: false,
       });
       expect(
         component.materialNameFilterFnFactory()(option, option.title)
       ).toBeFalsy();
+      expect(component.filterFn).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('standardDocumentFilterFnFactory', () => {
+    const option: StringOption = { id: 78, title: 'aBcDeFgH' };
+
+    it('should return true with no material name set', () => {
+      component.materialNamesControl.setValue(undefined, {
+        emitEvent: false,
+      });
+      component.filterFn = jest.fn(() => true);
+      expect(
+        component.standardDocumentFilterFnFactory()(option, option.title)
+      ).toBe(true);
+      expect(component.filterFn).toHaveBeenCalledWith(option, option.title);
     });
 
-    it('should return true with std doc set', () => {
+    it('should return true with no "data" in  material name set', () => {
+      const stdDoc: StringOption = {
+        id: 11,
+        title: 'aBcDeFgH',
+      };
+      component.materialNamesControl.setValue(stdDoc, {
+        emitEvent: false,
+      });
+      component.filterFn = jest.fn(() => true);
+      expect(
+        component.standardDocumentFilterFnFactory()(option, option.title)
+      ).toBe(true);
+      expect(component.filterFn).toHaveBeenCalledWith(option, option.title);
+    });
+
+    it('should return true with matching standardDocument', () => {
+      const stdDoc: StringOption = {
+        id: 24,
+        title: 'aBcDeFgH',
+        data: {
+          standardDocuments: [{ id: 1, standardDocument: option.title }],
+        },
+      };
+      component.filterFn = jest.fn(() => true);
+      component.materialNamesControl.setValue(stdDoc, {
+        emitEvent: false,
+      });
+      expect(component.standardDocumentFilterFnFactory()(option)).toBe(true);
+      expect(component.filterFn).toHaveBeenCalledWith(option, undefined);
+    });
+
+    it('should return false with not matching standardDocument', () => {
       const stdDoc: StringOption = {
         id: 78,
         title: 'aBcDeFgH',
-        data: { materialName: option.title },
+        data: {
+          standardDocuments: [
+            { id: 1, standardDocument: 'other standard document' },
+          ],
+        },
       };
-      component.standardDocumentsControl.setValue(stdDoc, {
+      component.filterFn = jest.fn(() => true);
+      component.materialNamesControl.setValue(stdDoc, {
         emitEvent: false,
       });
       expect(
-        component.materialNameFilterFnFactory()(option, option.title)
-      ).toBe(true);
+        component.standardDocumentFilterFnFactory()(option, option.title)
+      ).toBeFalsy();
+      expect(component.filterFn).not.toHaveBeenCalled();
     });
   });
 

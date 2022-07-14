@@ -30,12 +30,7 @@
             [resetOption]="
               standardDocumentsControl.value ? t('none') : undefined
             "
-            [filterFn]="
-              valueTitleToOptionKeyFilterFnFactory(
-                materialNamesControl,
-                'materialName'
-              )
-            "
+            [filterFn]="standardDocumentFilterFnFactory()"
           >
             <div matErrorContent *ngIf="standardDocumentsControl.invalid">
               {{ getErrorMessage(standardDocumentsControl.errors) }}
@@ -48,12 +43,7 @@
             [control]="materialNamesControl"
             [label]="t('materialName')"
             [resetOption]="materialNamesControl.value ? t('none') : undefined"
-            [filterFn]="
-              valueOptionKeyToTitleFilterFnFactory(
-                standardDocumentsControl,
-                'materialName'
-              )
-            "
+            [filterFn]="materialNameFilterFnFactory()"
           >
             <div matErrorContent *ngIf="materialNamesControl.invalid">
               {{ getErrorMessage(materialNamesControl.errors) }}

@@ -165,6 +165,35 @@ export const getMaterialNameStringOptions = createSelector(
     }))
 );
 
+export const getMaterialNameStringOptionsMerged = createSelector(
+  getMaterialNameStringOptions,
+  (materialNameOptions): StringOption[] =>
+    materialNameOptions.map((materialName) => {
+      const extraStandardDocuments: { id: number; standardDocument: string }[] =
+        materialNameOptions
+          .filter((option) => option.title === materialName.title)
+          .map((option) => ({
+            id: option.id as number,
+            standardDocument: option.data.standardDocument,
+          }))
+          .filter(
+            (option, index, options) =>
+              options.findIndex(
+                (compareOption) =>
+                  option.id === compareOption.id &&
+                  compareOption.standardDocument === option.standardDocument
+              ) === index && !!option
+          );
+
+      return {
+        ...materialName,
+        data: {
+          standardDocuments: extraStandardDocuments,
+        },
+      };
+    })
+);
+
 export const getMaterialStandardDocumentStringOptions = createSelector(
   getAddMaterialDialogMaterialStandards,
   (materialStandards): StringOption[] =>
@@ -173,6 +202,35 @@ export const getMaterialStandardDocumentStringOptions = createSelector(
       title: materialStandard.standardDocument,
       data: { materialName: materialStandard.materialName },
     }))
+);
+
+export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
+  getMaterialStandardDocumentStringOptions,
+  (standardDocumentOptions): StringOption[] =>
+    standardDocumentOptions.map((standardDocument) => {
+      const extraMaterialNames: { id: number; materialName: string }[] =
+        standardDocumentOptions
+          .filter((option) => option.title === standardDocument.title)
+          .map((option) => ({
+            id: option.id as number,
+            materialName: option.data.materialName,
+          }))
+          .filter(
+            (option, index, options) =>
+              options.findIndex(
+                (compareOption) =>
+                  compareOption.id === option.id &&
+                  compareOption.materialName === option.materialName
+              ) === index
+          );
+
+      return {
+        ...standardDocument,
+        data: {
+          materialNames: extraMaterialNames,
+        },
+      };
+    })
 );
 
 export const getProductCategoryStringOptions = createSelector(
