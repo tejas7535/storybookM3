@@ -11,6 +11,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import {
   autocomplete,
   clearCreateCaseRowData,
+  clearCustomer,
   getCaseAutocompleteLoading,
   getCaseCustomer,
   getCaseRowData,
@@ -87,6 +88,7 @@ export class CreateManualCaseComponent implements OnInit {
   closeDialog(): void {
     this.dialogRef.close();
     this.store.dispatch(resetAllAutocompleteOptions());
+    this.store.dispatch(clearCustomer());
     this.store.dispatch(clearCreateCaseRowData());
 
     this.insightsService.logEvent(EVENT_NAMES.CASE_CREATION_CANCELLED, {

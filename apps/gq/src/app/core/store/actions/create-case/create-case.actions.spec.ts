@@ -14,6 +14,7 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   clearCreateCaseRowData,
+  clearCustomer,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -255,6 +256,13 @@ describe('Create Actions', () => {
         salesOrgId,
         type: '[Create Case] Select Sales Organisation For Customer',
       });
+    });
+  });
+  describe('clearCustomer', () => {
+    test('clearCustomer', () => {
+      const action = clearCustomer();
+
+      expect(action).toEqual({ type: '[Create Case] Clear Customer' });
     });
   });
   describe('getPLsAndSeries', () => {

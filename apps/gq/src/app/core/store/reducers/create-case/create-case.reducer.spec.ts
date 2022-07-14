@@ -14,6 +14,7 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   clearCreateCaseRowData,
+  clearCustomer,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -606,7 +607,25 @@ describe('Create Case Reducer', () => {
       });
     });
   });
+  describe('clearCustomer', () => {
+    test('should clearCustomer', () => {
+      const action = clearCustomer();
 
+      const stateMock = {
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        customer: {
+          customerId: '123',
+          salesOrgs: [{ id: '1', selected: true }],
+          errorMessage: '',
+          salesOrgsLoading: false,
+        },
+      };
+
+      const state = createCaseReducer(stateMock, action);
+
+      expect(state.customer).toEqual(initialState.customer);
+    });
+  });
   describe('PLsAndSeries Actions', () => {
     describe('getPLsAndSeries', () => {
       test('should set loading', () => {

@@ -104,6 +104,8 @@ export const getSalesOrgsFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const clearCustomer = createAction('[Create Case] Clear Customer');
+
 export const selectSalesOrg = createAction(
   '[Create Case] Select Sales Organisation For Customer',
   props<{ salesOrgId: string }>()

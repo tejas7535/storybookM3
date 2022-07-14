@@ -13,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   autocomplete,
   clearCreateCaseRowData,
+  clearCustomer,
   resetAllAutocompleteOptions,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -106,6 +107,7 @@ describe('CreateManualCaseComponent', () => {
         resetAllAutocompleteOptions()
       );
       expect(mockStore.dispatch).toHaveBeenCalledWith(clearCreateCaseRowData());
+      expect(mockStore.dispatch).toHaveBeenCalledWith(clearCustomer());
     });
   });
 

@@ -14,6 +14,7 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   clearCreateCaseRowData,
+  clearCustomer,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -415,6 +416,13 @@ export const createCaseReducer = createReducer(
           selected: el.id === salesOrgId,
         })),
       },
+    })
+  ),
+  on(
+    clearCustomer,
+    (state: CreateCaseState): CreateCaseState => ({
+      ...state,
+      customer: initialState.customer,
     })
   ),
   on(
