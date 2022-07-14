@@ -849,39 +849,35 @@ describe('InputDialogComponent', () => {
       component['translocoService'].translate = jest.fn();
       component.getErrorMessage({ required: true });
       expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.required'
+        'materialsSupplierDatabase.mainTable.dialog.error.required',
+        {}
       );
     });
     it('should give error message with numeric', () => {
       component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({
-        pattern: { required: `^${component.NUMBER_PATTERN}$` },
-      });
+      component.getErrorMessage({ min: { min: 1234, current: 99 } });
       expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.numeric'
-      );
-    });
-
-    it('should give generic error message with wrong pattern', () => {
-      component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({ pattern: { required: '123' } });
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.generic'
+        'materialsSupplierDatabase.mainTable.dialog.error.min',
+        { min: 1234 }
       );
     });
 
     it('should give error message with co2', () => {
       component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({ scopeTotalLowerThanSingleScopes: true });
+      component.getErrorMessage({
+        scopeTotalLowerThanSingleScopes: { min: 6, current: 12 },
+      });
       expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.co2TooLowShort'
+        'materialsSupplierDatabase.mainTable.dialog.error.co2TooLowShort',
+        { min: 6 }
       );
     });
     it('should give error message with none', () => {
       component['translocoService'].translate = jest.fn();
       component.getErrorMessage({ nothing: true });
       expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.generic'
+        'materialsSupplierDatabase.mainTable.dialog.error.generic',
+        {}
       );
     });
   });
@@ -901,7 +897,7 @@ describe('InputDialogComponent', () => {
       component.co2Scope3Control.setValue(6);
       const control = new FormControl<number>(6);
       expect(component['scopeTotalValidatorFn']()(control)).toMatchObject({
-        scopeTotalLowerThanSingleScopes: true,
+        scopeTotalLowerThanSingleScopes: { min: 12, current: 6 },
       });
     });
     it('should return undefined with all scope2 missing', () => {
@@ -911,7 +907,7 @@ describe('InputDialogComponent', () => {
       component.co2Scope3Control.setValue(6);
       const control = new FormControl<number>(6);
       expect(component['scopeTotalValidatorFn']()(control)).toMatchObject({
-        scopeTotalLowerThanSingleScopes: true,
+        scopeTotalLowerThanSingleScopes: { min: 12, current: 6 },
       });
     });
     it('should return undefined with all scope3 missing', () => {
@@ -921,7 +917,7 @@ describe('InputDialogComponent', () => {
       component.co2Scope3Control.setValue(undefined);
       const control = new FormControl<number>(6);
       expect(component['scopeTotalValidatorFn']()(control)).toMatchObject({
-        scopeTotalLowerThanSingleScopes: true,
+        scopeTotalLowerThanSingleScopes: { min: 12, current: 6 },
       });
     });
     it('should return error with all control undefined', () => {

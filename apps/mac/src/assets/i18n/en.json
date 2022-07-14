@@ -257,9 +257,9 @@
         "createMaterialSuccess": "Material added successfully",
         "error": {
           "co2TooLow": "Total value must be higher than the sum of the single scopes",
-          "co2TooLowShort": "Value too low",
+          "co2TooLowShort": "Value lower than {{min}}",
           "generic": "Value is not valid",
-          "numeric": "Only numeric (e.g. 34.2)",
+          "min": "Value lower than {{min}}",
           "required": "Input required",
           "steelNumber": "Required format: 1.1234(, 1.3456, ...)"
         },

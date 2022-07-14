@@ -5,6 +5,7 @@ import {
   FormArray,
   FormControl,
   FormGroup,
+  ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
@@ -58,8 +59,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public dialogLoading$: Observable<boolean>;
   public createMaterialLoading$: Observable<boolean>;
 
-  public readonly NUMBER_PATTERN = '[0-9]+(.[0-9]+)?';
-  private readonly MATERIAL_NUMBER_PATTERN = '1.[0-9]{4}(, 1.[0-9]{4})*';
+  private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, 1\\.[0-9]{4})*';
 
   public destroy$ = new Subject<void>();
 
@@ -170,32 +170,29 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     );
     this.maxDimControl = new FormControl<number>(undefined, [
       Validators.required,
-      Validators.pattern(this.NUMBER_PATTERN),
+      Validators.min(0),
     ]);
-    this.minDimControl = new FormControl<number>(
-      undefined,
-      Validators.pattern(this.NUMBER_PATTERN)
-    );
+    this.minDimControl = new FormControl<number>(undefined, Validators.min(0));
     this.categoriesControl = new FormControl<StringOption>(
       undefined,
       Validators.required
     );
     this.co2Scope1Control = new FormControl<number>(
       undefined,
-      Validators.pattern(this.NUMBER_PATTERN)
+      Validators.min(0)
     );
     this.co2Scope2Control = new FormControl<number>(
       undefined,
-      Validators.pattern(this.NUMBER_PATTERN)
+      Validators.min(0)
     );
     this.co2Scope3Control = new FormControl<number>(
       undefined,
-      Validators.pattern(this.NUMBER_PATTERN)
+      Validators.min(0)
     );
-    this.co2TotalControl = new FormControl<number>(
-      undefined,
-      Validators.pattern(this.NUMBER_PATTERN)
-    );
+    this.co2TotalControl = new FormControl<number>(undefined, [
+      Validators.min(0),
+      this.scopeTotalValidatorFn(),
+    ]);
     this.co2ClassificationControl = new FormControl<StringOption>(
       undefined,
       Validators.required
@@ -349,7 +346,6 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       });
 
     this.supplierPlantsControl.disable();
-    this.co2TotalControl.addValidators(this.scopeTotalValidatorFn());
     this.scopesControls.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -496,37 +492,40 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     if (errors.required) {
       return this.getTranslatedError('required');
     }
-    if (
-      errors.pattern &&
-      errors.pattern.required === `^${this.NUMBER_PATTERN}$`
-    ) {
-      return this.getTranslatedError('numeric');
+    if (errors.min) {
+      console.log(errors, errors.min.min);
+      return this.getTranslatedError('min', { min: errors.min.min });
     }
     if (errors.scopeTotalLowerThanSingleScopes) {
-      return this.getTranslatedError('co2TooLowShort');
+      console.log(errors, errors.scopeTotalLowerThanSingleScopes.min);
+      return this.getTranslatedError('co2TooLowShort', {
+        min: errors.scopeTotalLowerThanSingleScopes.min,
+      });
     }
 
     return this.getTranslatedError('generic');
   }
 
-  private getTranslatedError(key: string): string {
+  private getTranslatedError(key: string, params = {}): string {
     return this.translocoService.translate(
-      `materialsSupplierDatabase.mainTable.dialog.error.${key}`
+      `materialsSupplierDatabase.mainTable.dialog.error.${key}`,
+      params
     );
   }
 
   private readonly scopeTotalValidatorFn =
     (): ValidatorFn =>
-    (control: AbstractControl): { [key: string]: boolean } | null => {
+    (control: AbstractControl): ValidationErrors | null => {
       if (control.value) {
-        return (this.co2Scope1Control.value || 0) +
-          (this.co2Scope2Control.value || 0) +
-          (this.co2Scope3Control.value || 0) >
-          ((control.value as number) || 0)
-          ? { scopeTotalLowerThanSingleScopes: true }
+        const current = (control.value as number) || 0;
+        const min =
+          Math.max(this.co2Scope1Control.value || 0, 0) +
+          Math.max(this.co2Scope2Control.value || 0, 0) +
+          Math.max(this.co2Scope3Control.value || 0, 0);
+        return min > current
+          ? { scopeTotalLowerThanSingleScopes: { min, current } }
           : undefined;
       }
-
       return undefined;
     };
 }
