@@ -1,6 +1,7 @@
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { AttritionOverTime, Employee, HeatType } from '../../../shared/models';
+import { AttritionOverTime, HeatType } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import { initialState, OrganizationalViewState } from '..';
 import {
@@ -28,8 +29,8 @@ describe('Organizational View Selector', () => {
       ...initialState,
       orgChart: {
         data: [
-          { employeeId: '123' } as unknown as Employee,
-          { employeeId: '456' } as unknown as Employee,
+          { id: '123' } as OrgUnitFluctuationData,
+          { id: '456' } as OrgUnitFluctuationData,
         ],
         loading: true,
         errorMessage: undefined,
@@ -110,16 +111,24 @@ describe('Organizational View Selector', () => {
                 unforcedFluctuationRate: 0.01,
               },
             ],
+            loading: false,
+            errorMessage: '',
           },
           data: [
             {
-              employeeId: '123',
+              id: '123',
+              parentId: '321',
               orgUnitKey: '432432',
               attritionMeta: {
                 employeesLost: 4,
               },
-            },
+            } as OrgUnitFluctuationData,
           ],
+        },
+        attritionOverTime: {
+          data: {} as AttritionOverTime,
+          loading: false,
+          errorMessage: '',
         },
       };
 

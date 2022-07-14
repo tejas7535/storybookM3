@@ -3,9 +3,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { Employee } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { ChartType } from './models/chart-type.enum';
+import { OrgUnitFluctuationData } from './models/org-unit-fluctuation-data.model';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
@@ -68,12 +68,12 @@ describe('OrganizationalViewComponent', () => {
   describe('loadParent', () => {
     test('should dispatch loadParent', () => {
       component['store'].dispatch = jest.fn();
-      const employee = { employeeId: '123' } as unknown as Employee;
+      const orgUnit = { id: '123' } as unknown as OrgUnitFluctuationData;
 
-      component.loadParent(employee);
+      component.loadParent(orgUnit);
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        loadParent({ employee })
+        loadParent({ data: orgUnit })
       );
     });
   });
@@ -81,12 +81,12 @@ describe('OrganizationalViewComponent', () => {
   describe('loadFluctuationMeta', () => {
     test('should dispatch loadOrgUnitFluctuationMeta', () => {
       component['store'].dispatch = jest.fn();
-      const employee = { employeeId: '123' } as unknown as Employee;
+      const orgUnit = { id: '123' } as unknown as OrgUnitFluctuationData;
 
-      component.loadFluctuationMeta(employee);
+      component.loadFluctuationMeta(orgUnit);
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
-        loadOrgUnitFluctuationMeta({ employee })
+        loadOrgUnitFluctuationMeta({ data: orgUnit })
       );
     });
   });

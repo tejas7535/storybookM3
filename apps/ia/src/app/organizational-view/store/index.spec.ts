@@ -2,10 +2,11 @@ import { Action } from '@ngrx/store';
 
 import {
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
+  IdValue,
 } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
 import { OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import { initialState, organizationalViewReducer, reducer } from '.';
@@ -57,14 +58,16 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgChartSuccess', () => {
     test('should unset loading and set employees', () => {
-      const employees: Employee[] = [{} as unknown as Employee];
+      const data: OrgUnitFluctuationData[] = [
+        {} as unknown as OrgUnitFluctuationData,
+      ];
 
-      const action = loadOrgChartSuccess({ employees });
+      const action = loadOrgChartSuccess({ data });
 
       const state = organizationalViewReducer(initialState, action);
 
       expect(state.orgChart.loading).toBeFalsy();
-      expect(state.orgChart.data).toEqual(employees);
+      expect(state.orgChart.data).toEqual(data);
     });
   });
 
@@ -146,15 +149,15 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgUnitFluctuationMeta', () => {
     test('should unset loading and set employee id', () => {
-      const employee = { employeeId: '123' } as unknown as Employee;
+      const data = { id: '123' } as unknown as OrgUnitFluctuationData;
       const action = loadOrgUnitFluctuationMeta({
-        employee,
+        data,
       });
       const state = organizationalViewReducer(initialState, action);
 
       expect(state.orgChart.fluctuationRates.loading).toBeFalsy();
       expect(state.orgChart.fluctuationRates.selectedEmployeeId).toEqual(
-        employee.employeeId
+        data.id
       );
     });
   });
@@ -242,8 +245,8 @@ describe('Organization View Reducer', () => {
 
   describe('loadParent', () => {
     test('should set loading', () => {
-      const employee = {} as unknown as Employee;
-      const action = loadParent({ employee });
+      const data = {} as unknown as OrgUnitFluctuationData;
+      const action = loadParent({ data });
       const state = organizationalViewReducer(initialState, action);
 
       expect(state.orgChart.loading).toBeTruthy();
@@ -252,8 +255,8 @@ describe('Organization View Reducer', () => {
 
   describe('loadParentSuccess', () => {
     test('should do nothing', () => {
-      const employee = {} as unknown as Employee;
-      const action = loadParentSuccess({ employee });
+      const idValue = {} as unknown as IdValue;
+      const action = loadParentSuccess({ idValue });
 
       const state = organizationalViewReducer(initialState, action);
 

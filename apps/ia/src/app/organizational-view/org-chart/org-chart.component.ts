@@ -17,9 +17,9 @@ import { OrgChart } from 'd3-org-chart';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
 import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
-import { Employee } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
 import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
 
@@ -29,25 +29,25 @@ import { OrgChartService } from './org-chart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
-  private _data: Employee[] = [];
+  private _data: OrgUnitFluctuationData[] = [];
 
-  @Input() set data(data: Employee[]) {
+  @Input() set data(data: OrgUnitFluctuationData[]) {
     this._data = data;
-    this.chartData = this.orgChartService.mapEmployeesToNodes(data);
+    this.chartData = this.orgChartService.mapOrgUnitsToNodes(data);
     this.updateChart();
   }
 
-  get data(): Employee[] {
+  get data(): OrgUnitFluctuationData[] {
     return this._data;
   }
 
   @Input() isLoading = false;
 
   @Output()
-  readonly showParent: EventEmitter<Employee> = new EventEmitter();
+  readonly showParent: EventEmitter<OrgUnitFluctuationData> = new EventEmitter();
 
   @Output()
-  readonly loadMeta: EventEmitter<Employee> = new EventEmitter();
+  readonly loadMeta: EventEmitter<OrgUnitFluctuationData> = new EventEmitter();
 
   @ViewChild('chartContainer') chartContainer: ElementRef;
 
@@ -62,21 +62,21 @@ export class OrgChartComponent implements AfterViewInit {
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
     const node: HTMLElement = event.target;
-    const employeeId = node.dataset.id;
-    const employee = this.data.find((elem) => elem.employeeId === employeeId);
+    const id = node.dataset.id;
+    const orgUnit = this.data.find((elem) => elem.id === id);
 
     switch (node.id) {
       case OrgChartConfig.BUTTON_CSS.people: {
         const data = new EmployeeListDialogMeta(
           new EmployeeListDialogMetaHeadings(
-            `${employee.employeeName} (${employee.orgUnit})`,
+            `${orgUnit.managerOfOrgUnit} (${orgUnit.orgUnit})`,
             this.translocoService.translate(
               'employeeListDialog.contentTitle',
               {},
               'organizational-view'
             )
           ),
-          employee.directLeafChildren
+          orgUnit.directLeafChildren
         );
         this.dialog.open(EmployeeListDialogComponent, {
           data,
@@ -85,7 +85,7 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       case OrgChartConfig.BUTTON_CSS.attrition: {
-        this.loadMeta.emit(employee);
+        this.loadMeta.emit(orgUnit);
         this.dialog.open(AttritionDialogComponent, {
           data: ChartType.ORG_CHART,
           width: '90%',
@@ -95,7 +95,7 @@ export class OrgChartComponent implements AfterViewInit {
         break;
       }
       case OrgChartConfig.BUTTON_CSS.showUpArrow: {
-        this.showParent.emit(employee);
+        this.showParent.emit(orgUnit);
 
         break;
       }

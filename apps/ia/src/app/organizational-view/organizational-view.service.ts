@@ -11,10 +11,11 @@ import { ParamsCreatorService } from '../shared/http/params-creator.service';
 import {
   ApiVersion,
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
+  IdValue,
   TimePeriod,
 } from '../shared/models';
+import { OrgUnitFluctuationData } from './models/org-unit-fluctuation-data.model';
 import {
   OrgChartResponse,
   OrgUnitFluctuationRate,
@@ -28,19 +29,20 @@ import { CountryData, WorldMapResponse } from './world-map/models';
 export class OrganizationalViewService {
   readonly ORG_CHART = 'org-chart';
   readonly WORLD_MAP = 'world-map';
-  readonly EMPLOYEE = 'employee';
+  readonly ORG_UNIT = 'org-unit';
   readonly ATTRITION_OVER_TIME = 'attrition-over-time';
   readonly FLUCTUATION_RATE = 'fluctuation-rate';
 
-  readonly PARAM_EMPLOYEE_ID = 'employee_key';
-  readonly PARAM_REPORT_DATE = 'report_date';
+  readonly PARAM_ID = 'id';
 
   constructor(
     private readonly http: HttpClient,
     private readonly paramsCreator: ParamsCreatorService
   ) {}
 
-  getOrgChart(employeesRequest: EmployeesRequest): Observable<Employee[]> {
+  getOrgChart(
+    employeesRequest: EmployeesRequest
+  ): Observable<OrgUnitFluctuationData[]> {
     const params = this.paramsCreator.createHttpParamsForOrgUnitAndTimeRange(
       employeesRequest.orgUnit,
       employeesRequest.timeRange
@@ -51,7 +53,7 @@ export class OrganizationalViewService {
         params,
         context: withCache(),
       })
-      .pipe(map((response) => response.employees));
+      .pipe(map((response) => response.orgUnits));
   }
 
   addContinentToCountryData(countryData: CountryData[]): CountryData[] {
@@ -112,15 +114,10 @@ export class OrganizationalViewService {
       );
   }
 
-  getParentEmployee(
-    parentEmployeeId: string,
-    reportDate: string
-  ): Observable<Employee> {
-    const params = new HttpParams()
-      .set(this.PARAM_EMPLOYEE_ID, parentEmployeeId)
-      .set(this.PARAM_REPORT_DATE, reportDate);
+  getParentOrgUnit(parentId: string): Observable<IdValue> {
+    const params = new HttpParams().set(this.PARAM_ID, parentId);
 
-    return this.http.get<Employee>(`${ApiVersion.V1}/${this.EMPLOYEE}`, {
+    return this.http.get<IdValue>(`${ApiVersion.V1}/${this.ORG_UNIT}`, {
       params,
       context: withCache(),
     });

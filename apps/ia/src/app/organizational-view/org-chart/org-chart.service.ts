@@ -3,32 +3,32 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import * as d3Selection from 'd3-selection';
 
-import { Employee } from '../../shared/models';
+import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrgChartService {
-  mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
-    return data.map((elem: Employee) => {
-      let parentNodeId = elem.parentEmployeeId;
+  mapOrgUnitsToNodes(data: OrgUnitFluctuationData[]): OrgChartNode[] {
+    return data.map((elem: OrgUnitFluctuationData) => {
+      let parentNodeId = elem.parentId;
 
       // check if current node is local root
       if (
-        elem.parentEmployeeId &&
-        !data.map((empl) => empl.employeeId).includes(elem.parentEmployeeId)
+        elem.parentId &&
+        !data.map((empl) => empl.id).includes(elem.parentId)
       ) {
         // user has a parent that is out of scope -> local root
         parentNodeId = undefined;
       }
 
-      const nodeId = elem.employeeId;
-      const name = elem.employeeName;
+      const nodeId = elem.id;
+      const name = elem.managerOfOrgUnit;
       const organization = elem.orgUnit;
-      const expanded = elem.level < 2;
-      const directSubordinates = elem.directSubordinates;
-      const totalSubordinates = elem.totalSubordinates;
+      const expanded = false;
+      const directSubordinates = elem.directEmployees;
+      const totalSubordinates = elem.totalEmployees;
       const directAttrition = elem.directAttrition;
       const totalAttrition = elem.totalAttrition;
       const textColumnDirect = translate(
@@ -77,7 +77,7 @@ export class OrgChartService {
         textRowEmployees,
         textRowAttrition,
         showUpperParentBtn:
-          parentNodeId === undefined && elem.parentEmployeeId !== undefined,
+          parentNodeId === undefined && elem.parentId !== undefined,
       };
     });
   }

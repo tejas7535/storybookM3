@@ -1,9 +1,10 @@
 import {
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
+  IdValue,
 } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
 import { OrgUnitFluctuationRate } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
@@ -49,12 +50,12 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadOrgChartSuccess', () => {
-    const employees: Employee[] = [];
+    const data: OrgUnitFluctuationData[] = [];
 
-    const action = loadOrgChartSuccess({ employees });
+    const action = loadOrgChartSuccess({ data });
 
     expect(action).toEqual({
-      employees,
+      data,
       type: '[Organizational View] Load Org Chart Success',
     });
   });
@@ -69,14 +70,14 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadOrgUnitFluctuationMeta', () => {
-    const employee = {
-      orgUnit: '1234',
-      employeeId: '123',
-    } as unknown as Employee;
-    const action = loadOrgUnitFluctuationMeta({ employee });
+    const data = {
+      orgUnit: 'SH/ZHZ',
+      id: '1',
+    } as OrgUnitFluctuationData;
+    const action = loadOrgUnitFluctuationMeta({ data });
 
     expect(action).toEqual({
-      employee,
+      data,
       type: '[Organizational View] Load Org Unit Fluctuation Meta',
     });
   });
@@ -147,29 +148,29 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadParent', () => {
-    const employee = {
-      orgUnit: 'Schaeffler_IT',
-      employeeId: '123',
-    } as unknown as Employee;
+    const data = {
+      id: '1515',
+      parentId: '12',
+    } as OrgUnitFluctuationData;
 
-    const action = loadParent({ employee });
+    const action = loadParent({ data });
 
     expect(action).toEqual({
-      employee,
+      data,
       type: '[Organizational View] Load Parent',
     });
   });
 
   test('loadParentSuccess', () => {
-    const employee = {
-      orgUnit: 'Schaeffler_IT',
-      employeeId: '123',
-    } as unknown as Employee;
+    const idValue = {
+      id: '1515',
+      value: 'Sh/ZHZ',
+    } as IdValue;
 
-    const action = loadParentSuccess({ employee });
+    const action = loadParentSuccess({ idValue });
 
     expect(action).toEqual({
-      employee,
+      idValue,
       type: '[Organizational View] Load Parent Success',
     });
   });

@@ -28,7 +28,7 @@ export const getOrgUnitFluctuationDialogEmployeeData = createSelector(
   getSelectedTimeRange,
   (state: OrganizationalViewState, timeRange: IdValue) => {
     const employee = state.orgChart.data?.find(
-      (e) => e.employeeId === state.orgChart.fluctuationRates.selectedEmployeeId
+      (e) => e.id === state.orgChart.fluctuationRates.selectedEmployeeId
     );
     const employeeMeta = employee?.attritionMeta;
     const rates = state.orgChart.fluctuationRates.data?.find(

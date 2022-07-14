@@ -1,7 +1,8 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { AttritionOverTime, Employee } from '../../shared/models';
+import { AttritionOverTime } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
 import { OrgUnitFluctuationRate } from '../org-chart/models';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
@@ -30,7 +31,7 @@ export const organizationalViewFeatureKey = 'organizationalView';
 
 export interface OrganizationalViewState {
   orgChart: {
-    data: Employee[];
+    data: OrgUnitFluctuationData[];
     loading: boolean;
     errorMessage: string;
     fluctuationRates: {
@@ -106,14 +107,11 @@ export const organizationalViewReducer = createReducer(
   ),
   on(
     loadOrgChartSuccess,
-    (
-      state: OrganizationalViewState,
-      { employees }
-    ): OrganizationalViewState => ({
+    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
       ...state,
       orgChart: {
         ...state.orgChart,
-        data: employees,
+        data,
         loading: false,
       },
     })
@@ -135,17 +133,14 @@ export const organizationalViewReducer = createReducer(
   ),
   on(
     loadOrgUnitFluctuationMeta,
-    (
-      state: OrganizationalViewState,
-      { employee }
-    ): OrganizationalViewState => ({
+    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
       ...state,
       orgChart: {
         ...state.orgChart,
         fluctuationRates: {
           ...state.orgChart.fluctuationRates,
           loading: false,
-          selectedEmployeeId: employee.employeeId,
+          selectedEmployeeId: data.id,
         },
       },
     })

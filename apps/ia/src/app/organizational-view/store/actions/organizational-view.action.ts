@@ -2,10 +2,11 @@ import { createAction, props, union } from '@ngrx/store';
 
 import {
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
+  IdValue,
 } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
 import { OrgUnitFluctuationRate } from '../../org-chart/models';
 import { CountryData } from '../../world-map/models/country-data.model';
 
@@ -21,7 +22,7 @@ export const loadOrgChart = createAction(
 
 export const loadOrgChartSuccess = createAction(
   '[Organizational View] Load Org Chart Success',
-  props<{ employees: Employee[] }>()
+  props<{ data: OrgUnitFluctuationData[] }>()
 );
 
 export const loadOrgChartFailure = createAction(
@@ -31,7 +32,7 @@ export const loadOrgChartFailure = createAction(
 
 export const loadOrgUnitFluctuationMeta = createAction(
   '[Organizational View] Load Org Unit Fluctuation Meta',
-  props<{ employee: Employee }>()
+  props<{ data: OrgUnitFluctuationData }>()
 );
 
 export const loadOrgUnitFluctuationRate = createAction(
@@ -76,12 +77,12 @@ export const loadWorldMapFailure = createAction(
 
 export const loadParent = createAction(
   '[Organizational View] Load Parent',
-  props<{ employee: Employee }>()
+  props<{ data: OrgUnitFluctuationData }>()
 );
 
 export const loadParentSuccess = createAction(
   '[Organizational View] Load Parent Success',
-  props<{ employee: Employee }>()
+  props<{ idValue: IdValue }>()
 );
 
 export const loadParentFailure = createAction(

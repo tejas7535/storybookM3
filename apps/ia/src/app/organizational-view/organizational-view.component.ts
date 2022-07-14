@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 
 import { getSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/charts/models/chart-legend-item.model';
-import { Employee, IdValue, TailwindColor } from '../shared/models';
+import { IdValue, TailwindColor } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
+import { OrgUnitFluctuationData } from './models/org-unit-fluctuation-data.model';
 import {
   chartTypeSelected,
   loadOrgUnitFluctuationMeta,
@@ -37,7 +38,7 @@ import { CountryData } from './world-map/models/country-data.model';
   ],
 })
 export class OrganizationalViewComponent implements OnInit {
-  orgChart$: Observable<Employee[]>;
+  orgChart$: Observable<OrgUnitFluctuationData[]>;
   isLoadingOrgChart$: Observable<boolean>;
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
@@ -81,12 +82,12 @@ export class OrganizationalViewComponent implements OnInit {
     this.store.dispatch(chartTypeSelected({ chartType }));
   }
 
-  loadParent(employee: Employee): void {
-    this.store.dispatch(loadParent({ employee }));
+  loadParent(data: OrgUnitFluctuationData): void {
+    this.store.dispatch(loadParent({ data }));
   }
 
-  loadFluctuationMeta(employee: Employee): void {
-    this.store.dispatch(loadOrgUnitFluctuationMeta({ employee }));
+  loadFluctuationMeta(data: OrgUnitFluctuationData): void {
+    this.store.dispatch(loadOrgUnitFluctuationMeta({ data }));
   }
 
   loadContinentMeta(continent: string): void {

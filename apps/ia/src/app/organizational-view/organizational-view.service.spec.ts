@@ -7,7 +7,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import {
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
   TimePeriod,
 } from '../shared/models';
@@ -40,10 +39,10 @@ describe('OrganizationalViewService', () => {
   });
 
   describe('getOrgChart', () => {
-    test('should get employees for org chart', () => {
+    test('should get org units for org chart', () => {
       const orgUnit = 'Schaeffler12';
       const timeRange = '123-321';
-      const mock: OrgChartResponse = { employees: [] };
+      const mock: OrgChartResponse = { orgUnits: [] };
       const request = { orgUnit, timeRange } as unknown as EmployeesRequest;
 
       service.getOrgChart(request).subscribe((response) => {
@@ -111,21 +110,17 @@ describe('OrganizationalViewService', () => {
     });
   });
 
-  describe('getParentEmployee', () => {
-    test('should get parent for provided employee id', () => {
-      const mock: Employee = {} as unknown as Employee;
+  describe('getParentOrgUnit', () => {
+    test('should get parent for provided org unit id', () => {
+      const mock: OrgUnitFluctuationRate =
+        {} as unknown as OrgUnitFluctuationRate;
       const parentEmployeeId = '123';
-      const childReportDate = '345';
 
-      service
-        .getParentEmployee(parentEmployeeId, childReportDate)
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
+      service.getParentOrgUnit(parentEmployeeId).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
 
-      const req = httpMock.expectOne(
-        'api/v1/employee?employee_key=123&report_date=345'
-      );
+      const req = httpMock.expectOne('api/v1/org-unit?id=123');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

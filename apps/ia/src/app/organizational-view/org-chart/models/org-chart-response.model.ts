@@ -1,5 +1,5 @@
-import { Employee } from '../../../shared/models';
+import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
 
 export interface OrgChartResponse {
-  employees: Employee[];
+  orgUnits: OrgUnitFluctuationData[];
 }

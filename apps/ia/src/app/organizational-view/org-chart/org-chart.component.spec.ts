@@ -14,9 +14,10 @@ import * as en from '../../../assets/i18n/en.json';
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { EmployeeListDialogMeta } from '../../shared/employee-list-dialog/employee-list-dialog-meta.model';
-import { Employee } from '../../shared/models';
+import { EmployeeListDialogMetaHeadings } from '../../shared/employee-list-dialog/employee-list-dialog-meta-headings.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgUnitFluctuationData } from '../models/org-unit-fluctuation-data.model';
 import { OrgChartComponent } from './org-chart.component';
 import { OrgChartService } from './org-chart.service';
 
@@ -60,14 +61,14 @@ describe('OrgChartComponent', () => {
   describe('set data', () => {
     test('should set chart data and update chart', () => {
       component.updateChart = jest.fn();
-      component['orgChartService'].mapEmployeesToNodes = jest.fn();
-      const employees = [{ employeeId: '123' } as unknown as Employee];
+      component['orgChartService'].mapOrgUnitsToNodes = jest.fn();
+      const employees = [{ id: '123' } as unknown as OrgUnitFluctuationData];
 
       component.data = employees;
 
       expect(component.updateChart).toHaveBeenCalled();
       expect(
-        component['orgChartService'].mapEmployeesToNodes
+        component['orgChartService'].mapOrgUnitsToNodes
       ).toHaveBeenCalledWith(employees);
     });
   });
@@ -77,12 +78,12 @@ describe('OrgChartComponent', () => {
       component['dialog'].open = jest.fn();
       component.data = [
         {
-          employeeId: '123',
+          id: '123',
+          parentId: '321',
           directLeafChildren: [],
-          employeeName: 'Hans',
           orgUnit: 'Schaeffler_IT',
-          attritionMeta: {},
-        } as unknown as Employee,
+          managerOfOrgUnit: 'Hans',
+        } as OrgUnitFluctuationData,
       ];
     });
     test('should open dialog with attrition data when attrition icon is clicked', () => {
@@ -111,7 +112,7 @@ describe('OrgChartComponent', () => {
         headings: {
           header: 'Hans (Schaeffler_IT)',
           contentTitle: 'organizationalView.employeeListDialog.contentTitle',
-        },
+        } as EmployeeListDialogMetaHeadings,
         employees: [] as any[],
       };
 

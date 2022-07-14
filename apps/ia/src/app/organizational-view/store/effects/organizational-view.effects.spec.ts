@@ -11,13 +11,13 @@ import {
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
   FilterKey,
   IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
+import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
@@ -126,20 +126,22 @@ describe('Organizational View Effects', () => {
     test(
       'should load org unit rates',
       marbles((m) => {
-        const employee = {
+        const orgUnitFluctuationData = {
           orgUnitKey: '123',
-        } as Employee;
+          id: '32',
+          parentId: '23',
+        } as OrgUnitFluctuationData;
 
         const timeRange = {
           id: '1234|4567',
           value: '1.1.2020 - 31.1.2022',
         } as IdValue;
         const request = {
-          orgUnit: employee.orgUnitKey,
+          orgUnit: orgUnitFluctuationData.orgUnitKey,
           timeRange: timeRange.id,
         };
 
-        action = loadOrgUnitFluctuationMeta({ employee });
+        action = loadOrgUnitFluctuationMeta({ data: orgUnitFluctuationData });
         store.overrideSelector(getSelectedTimeRange, timeRange);
         const result = loadOrgUnitFluctuationRate({ request });
 
@@ -164,18 +166,18 @@ describe('Organizational View Effects', () => {
     test(
       'should return loadOrgChartSuccess action when REST call is successful',
       marbles((m) => {
-        const employees = [
-          { employeeId: '123' } as unknown as Employee,
-          { employeeId: '456' } as unknown as Employee,
+        const data = [
+          { id: '123' } as unknown as OrgUnitFluctuationData,
+          { id: '456' } as unknown as OrgUnitFluctuationData,
         ];
         const result = loadOrgChartSuccess({
-          employees,
+          data,
         });
 
         actions$ = m.hot('-a', { a: action });
 
         const response = m.cold('-a|', {
-          a: employees,
+          a: data,
         });
         const expected = m.cold('--b', { b: result });
 
@@ -342,41 +344,40 @@ describe('Organizational View Effects', () => {
   });
 
   describe('loadParent$', () => {
-    let parentEmployeeId: string;
-    let reportDate: string;
+    let parentId: string;
 
     beforeEach(() => {
-      parentEmployeeId = '123';
-      const employee = {
-        parentEmployeeId,
-      } as unknown as Employee;
+      parentId = '123';
+      const data = {
+        parentId,
+      } as unknown as OrgUnitFluctuationData;
 
-      action = loadParent({ employee });
+      action = loadParent({ data });
     });
     test(
       'should return loadParentSuccess action',
       marbles((m) => {
-        const resultEmployee = {
-          employeeId: '12',
-          reportDate: '123',
-        } as unknown as Employee;
+        const idValue: IdValue = {
+          id: '12',
+          value: '123',
+        };
         const response = m.cold('-a|', {
-          a: resultEmployee,
+          a: idValue,
         });
-        organizationalViewService.getParentEmployee = jest
+        organizationalViewService.getParentOrgUnit = jest
           .fn()
           .mockImplementation(() => response);
 
         actions$ = m.hot('-a', { a: action });
-        const result = loadParentSuccess({ employee: resultEmployee });
+        const result = loadParentSuccess({ idValue });
 
         const expected = m.cold('--b', { b: result });
 
         m.expect(effects.loadParent$).toBeObservable(expected);
         m.flush();
-        expect(
-          organizationalViewService.getParentEmployee
-        ).toHaveBeenCalledWith(parentEmployeeId, reportDate);
+        expect(organizationalViewService.getParentOrgUnit).toHaveBeenCalledWith(
+          parentId
+        );
       })
     );
 
@@ -391,15 +392,15 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        organizationalViewService.getParentEmployee = jest
+        organizationalViewService.getParentOrgUnit = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadParent$).toBeObservable(expected);
         m.flush();
-        expect(
-          organizationalViewService.getParentEmployee
-        ).toHaveBeenCalledWith(parentEmployeeId, reportDate);
+        expect(organizationalViewService.getParentOrgUnit).toHaveBeenCalledWith(
+          parentId
+        );
       })
     );
   });
@@ -408,18 +409,18 @@ describe('Organizational View Effects', () => {
     test(
       'should return filterSelected action',
       marbles((m) => {
-        const employee = {
-          orgUnit: 'Schaeffler_IT',
-          orgUnitKey: '888',
-        } as unknown as Employee;
+        const idValue: IdValue = {
+          id: 'Schaeffler_IT',
+          value: '888',
+        };
 
-        action = loadParentSuccess({ employee });
+        action = loadParentSuccess({ idValue });
 
         const filter = {
           name: FilterKey.ORG_UNIT,
           idValue: {
-            id: employee.orgUnitKey,
-            value: employee.orgUnit,
+            id: idValue.id,
+            value: idValue.value,
           },
         };
 

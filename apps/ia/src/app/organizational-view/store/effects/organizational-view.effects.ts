@@ -19,12 +19,13 @@ import {
 } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
-  Employee,
   EmployeesRequest,
   FilterKey,
+  IdValue,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
+import { OrgUnitFluctuationData } from '../../models/org-unit-fluctuation-data.model';
 import { OrgUnitFluctuationRate } from '../../org-chart/models';
 import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -69,7 +70,9 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => action.request),
       switchMap((request: EmployeesRequest) =>
         this.organizationalViewService.getOrgChart(request).pipe(
-          map((employees: Employee[]) => loadOrgChartSuccess({ employees })),
+          map((data: OrgUnitFluctuationData[]) =>
+            loadOrgChartSuccess({ data })
+          ),
           catchError((error) =>
             of(loadOrgChartFailure({ errorMessage: error.message }))
           )
@@ -84,7 +87,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       concatLatestFrom(() => this.store.select(getSelectedTimeRange)),
       map(([action, timeRange]) => {
         return {
-          orgUnit: action.employee.orgUnitKey,
+          orgUnit: action.data.orgUnitKey,
           timeRange: timeRange.id,
         };
       }),
@@ -131,15 +134,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
   loadParent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadParent),
-      map((action) => action.employee),
-      switchMap((childEmployee: Employee) =>
+      switchMap((action) =>
         this.organizationalViewService
-          .getParentEmployee(
-            childEmployee.parentEmployeeId,
-            childEmployee.reportDate
-          )
+          .getParentOrgUnit(action.data.parentId)
           .pipe(
-            map((employee: Employee) => loadParentSuccess({ employee })),
+            map((idValue: IdValue) => loadParentSuccess({ idValue })),
             catchError((error) =>
               of(loadParentFailure({ errorMessage: error.message }))
             )
@@ -153,10 +152,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadParentSuccess),
       map((action) => ({
         name: FilterKey.ORG_UNIT,
-        idValue: {
-          id: action.employee.orgUnitKey,
-          value: action.employee.orgUnit,
-        },
+        idValue: action.idValue,
       })),
       map((selectedFilter: SelectedFilter) =>
         filterSelected({ filter: selectedFilter })
