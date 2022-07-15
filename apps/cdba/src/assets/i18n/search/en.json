@@ -30,7 +30,7 @@
     },
     "tooltips": {
       "disabledBudgetQuantity": "To activate the budget quantity filter, please first use another filter and click on the search button.",
-      "disabledDimensionFilter": "To activate the main dimensions filters, please use the material short description filter and click on the search button."
+      "disabledDimensionFilter": "To activate the main dimensions filters, please first use another filter and click on the search button."
     },
     "searchButton": "Search",
     "searchButtonTooltip": "Please use filters to reduce the number of results to {{tooManyResultsThreshold}}",

@@ -30,7 +30,7 @@
     },
     "tooltips": {
       "disabledBudgetQuantity": "Um den Filter für die Budgetierte Stückzahl zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",
-      "disabledDimensionFilter": "Um die Hauptabmessungsfilter zu aktivieren, verwenden Sie bitte zunächst den Filter Materialkurzbezeichnung und klicken Sie anschließend auf 'Suchen'."
+      "disabledDimensionFilter": "Um die Hauptabmessungsfilter zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'."
     },
     "searchButton": "Suchen",
     "searchButtonTooltip": "Bitte verwenden Sie Filter, um die Anzahl der Ergebnisse auf {{tooManyResultsThreshold}} zu reduzieren",
