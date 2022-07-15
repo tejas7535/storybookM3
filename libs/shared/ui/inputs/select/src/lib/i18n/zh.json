@@ -1,5 +1,7 @@
 {
   "addEntry": "添加新条目",
+  "clear": "明确",
+  "reset": "重置",
   "selectAll": "全选",
   "selected": "选择"
 }

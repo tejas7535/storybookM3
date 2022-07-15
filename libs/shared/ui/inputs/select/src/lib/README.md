@@ -106,7 +106,7 @@ In the parent component:
     [multiple]="multiple"
     [noResultsText]="noResultsText"
     [filterFn]="filterFn"
-    [resetOption]="resetOption"
+    [resetButton]="resetButton"
     (searchUpdated)="onSearchUpdated($event)"
     (entryAdded)="onEntryAdded($event)"
     (optionRemoved)="onOptionRemoved($event)"
@@ -177,7 +177,7 @@ export class ExampleComponent implements OnInit {
     public multiple = true;
     public noResultsText = 'message to display the length of the provided option array is 0';
     public addEntry = true;
-    public resetOption = 'None';
+    public resetButton = true;
 
     public control = new FormControl();
 
@@ -248,7 +248,7 @@ For further information about the option type see [@schaeffler/inputs documentat
 | addEntry              | (optional) whether the control should allow addition of new items                                                |
 | control               | (optional) a form control to manage the value of the control                                                     |
 | filterFn              | (optional) a custom function to implement filter logic used by the component                                     |
-| resetOption           | (optional) the text for an option with empty value which can be used to reset the selection                      |
+| resetButton           | (optional) (default: true) whether to display a reset button below the options                                   |
 
 #### Events
 

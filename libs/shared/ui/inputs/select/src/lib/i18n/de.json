@@ -1,5 +1,7 @@
 {
   "addEntry": "Neuen Eintrag hinzufügen",
   "selectAll": "Alle auswählen",
-  "selected": "ausgewählt"
+  "selected": "ausgewählt",
+  "clear": "Löschen",
+  "reset": "Zurücksetzen"
 }

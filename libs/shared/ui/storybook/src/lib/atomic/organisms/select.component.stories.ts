@@ -60,7 +60,7 @@ const Template: Story<SelectComponent> = (args: SelectComponent) => ({
           [addEntry]="addEntry"
           [control]="control"
           [filterFn]="filterFn"
-          [resetOption]="resetOption"
+          [resetButton]="resetButton"
           (searchUpdated)="onSearchUpdated($event)"
           (entryAdded)="onEntryAdded($event)"
           (optionRemoved)="onOptionRemoved($event)"
@@ -114,6 +114,7 @@ Primary.args = {
   multiple: false,
   noResultsText: 'No Results',
   addEntry: false,
+  resetButton: true,
 };
 
 Primary.argTypes = {
@@ -130,10 +131,6 @@ Primary.argTypes = {
     options: ['fill', 'outline'],
     control: 'radio',
     defaultValue: 'fill',
-  },
-  resetOption: {
-    control: 'text',
-    defaultValue: undefined,
   },
   filterFn: {
     options: ['No Filter', 'Custom Filter'],

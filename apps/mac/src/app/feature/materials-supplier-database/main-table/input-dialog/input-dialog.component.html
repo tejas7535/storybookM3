@@ -27,10 +27,8 @@
             [stringOptions]="standardDocuments$ | ngrxPush"
             [control]="standardDocumentsControl"
             [label]="t('standardDocument')"
-            [resetOption]="
-              standardDocumentsControl.value ? t('none') : undefined
-            "
             [filterFn]="standardDocumentFilterFnFactory()"
+            [resetButton]="true"
           >
             <div matErrorContent *ngIf="standardDocumentsControl.invalid">
               {{ getErrorMessage(standardDocumentsControl.errors) }}
@@ -42,7 +40,6 @@
             [stringOptions]="materialNames$ | ngrxPush"
             [control]="materialNamesControl"
             [label]="t('materialName')"
-            [resetOption]="materialNamesControl.value ? t('none') : undefined"
             [filterFn]="materialNameFilterFnFactory()"
           >
             <div matErrorContent *ngIf="materialNamesControl.invalid">
@@ -139,6 +136,7 @@
             [addEntry]="true"
             [label]="t('castingDiameter')"
             (entryAdded)="addCastingDiameter($event)"
+            [resetButton]="false"
           >
             <div matErrorContent *ngIf="castingDiameterControl.invalid">
               {{ getErrorMessage(castingDiameterControl.errors) }}
@@ -215,6 +213,7 @@
             [control]="categoriesControl"
             [filterFn]="filterFn"
             [label]="t('productCategory')"
+            [resetButton]="false"
           >
             <div matErrorContent *ngIf="categoriesControl.invalid">
               {{ getErrorMessage(categoriesControl.errors) }}
@@ -294,6 +293,7 @@
               [control]="co2ClassificationControl"
               [filterFn]="filterFn"
               [label]="t('co2Classification')"
+              [resetButton]="false"
             >
               <div matErrorContent *ngIf="co2ClassificationControl.invalid">
                 {{ getErrorMessage(co2ClassificationControl.errors) }}

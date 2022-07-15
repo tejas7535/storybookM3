@@ -45,6 +45,7 @@ const border = {
   primary: colors.primary,
   info: colors['nordic-blue'],
   warning: colors['sunny-yellow'],
+  'medium-emphasis': colors['medium-emphasis'],
 };
 
 const fontFamilies = {

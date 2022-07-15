@@ -1,5 +1,7 @@
 {
   "addEntry": "Add New Entry",
+  "clear": "Clear",
+  "reset": "Reset",
   "selectAll": "Select all",
   "selected": "selected"
 }

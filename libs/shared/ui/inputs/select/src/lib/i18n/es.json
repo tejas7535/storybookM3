@@ -1,5 +1,7 @@
 {
   "addEntry": "Agregar Nueva Entrada",
+  "clear": "Limpiar",
+  "reset": "Reajustar",
   "selectAll": "Seleccionar todo",
   "selected": "seleccionadas"
 }

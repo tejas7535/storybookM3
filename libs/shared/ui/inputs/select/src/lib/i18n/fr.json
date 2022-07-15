@@ -1,5 +1,7 @@
 {
   "addEntry": "Ajouter Une Nouvelle Entrée",
+  "clear": "Nettoyer",
+  "reset": "Réinitialiser",
   "selectAll": "Tout sélectionner",
   "selected": "sélectionnées"
 }
