@@ -302,9 +302,9 @@
         "supplierRatingRemark": "Supplier Rating Remark",
         "title": "Add Material",
         "tooltip": {
-          "blocked": "ToolTip Blocked",
-          "co2Classification": "ToolTip co2 classification",
-          "referencedInDocument": "ToolTip referenceDocument"
+          "blocked": "Indication of whether the material/supplier is blocked (not displayed in the table)",
+          "co2Classification": "Classification of the method used to calculate the CO2 emissions",
+          "referencedInDocument": "Identifier(s) of document(s) that refer to this material/supplier, e.g., a product-specific standard"
         }
       },
       "excelExport": {
