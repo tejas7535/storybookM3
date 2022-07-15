@@ -122,7 +122,7 @@
             </div>
           </div>
         </div>
-        <div class="max-h-72 overflow-auto">
+        <div class="max-h-72 overflow-y-auto">
           <ng-content
             select="[loadingContent]"
             *ngIf="loading; else optionsTemplate"
@@ -155,7 +155,7 @@
                 [matTooltipShowDelay]="option.tooltipDelay"
               >
                 <div class="flex w-full flex-row justify-center">
-                  <div class="flex-1">
+                  <div class="max-w-full flex-1 truncate">
                     {{ option.title }}
                   </div>
                   <button
