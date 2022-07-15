@@ -10,6 +10,7 @@
     "ng": "nx",
     "nx": "nx",
     "start": "ng serve",
+    "embed-app:iframe": "http-server tools/embedded/iframe",
     "build": "ng build",
     "test": "ng test",
     "test:debug": "node ./tools/npm-scripts/debug-unit-tests.js",
