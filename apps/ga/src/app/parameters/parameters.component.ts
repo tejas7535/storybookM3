@@ -14,7 +14,7 @@ import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
-import { getParameterState } from '@ga/core/store';
+import { getParameterState, SettingsFacade } from '@ga/core/store';
 import {
   getDialog,
   getProperties,
@@ -148,13 +148,15 @@ export class ParametersComponent implements OnInit, OnDestroy {
   );
   public modelCreationSuccess$ = this.store.select(getModelCreationSuccess);
   public modelCreationLoading$ = this.store.select(getModelCreationLoading);
+  public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
 
   private readonly destroy$ = new Subject<void>();
   public DEBOUNCE_TIME_DEFAULT = 500;
 
   public constructor(
     private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly settingsFacade: SettingsFacade
   ) {}
 
   public ngOnInit(): void {
@@ -259,8 +261,6 @@ export class ParametersComponent implements OnInit, OnDestroy {
     this.form.reset(initialState);
     this.store.dispatch(resetPreferredGreaseSelection());
   }
-
-  public isStandalone = (): boolean => window.top === window.self;
 
   private operatingTemperatureValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {

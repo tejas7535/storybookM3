@@ -9,8 +9,12 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { marbles } from 'rxjs-marbles';
 
+import {
+  initSettingsEffects,
+  setAppDelivery,
+  setCurrentStep,
+} from '../../actions/settings/settings.actions';
 import { initialState } from '../../reducers/settings/settings.reducer';
-import { setCurrentStep } from './../../actions/settings/settings.actions';
 import { SettingsEffects } from './settings.effects';
 
 describe('Settings Effects', () => {
@@ -42,6 +46,23 @@ describe('Settings Effects', () => {
     router = spectator.inject(Router);
 
     router.navigate = jest.fn();
+  });
+
+  describe('initEffects$', () => {
+    it(
+      'should dispatch app delivery action',
+      marbles((m) => {
+        action = initSettingsEffects();
+        const result = setAppDelivery({ appDelivery: 'standalone' });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected$ = m.cold('-b', { b: result });
+
+        m.expect(effects.initEffects$).toBeObservable(expected$);
+        m.flush();
+      })
+    );
   });
 
   describe('router$', () => {
@@ -83,5 +104,11 @@ describe('Settings Effects', () => {
         m.flush();
       })
     );
+  });
+
+  describe('ngrxOnInitEffects', () => {
+    test('should dispatch init action', () => {
+      expect(effects.ngrxOnInitEffects()).toEqual(initSettingsEffects());
+    });
   });
 });

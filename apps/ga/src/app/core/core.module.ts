@@ -17,7 +17,10 @@ import {
 } from '@schaeffler/application-insights';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { environment } from '../../environments/environment';
+import { environment } from '@ga/../environments/environment';
+import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
+import { AppDelivery } from '@ga/shared/models';
+
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
@@ -67,11 +70,7 @@ let providers = [
 ];
 
 // needed for mobile app and medias
-if (
-  window.self !== window.top ||
-  window.origin.includes('capacitor://') ||
-  window.origin === 'http://localhost'
-) {
+if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
   Tracking = [];
   providers = providers.slice(1); // Removes OneTrust Provider
 }

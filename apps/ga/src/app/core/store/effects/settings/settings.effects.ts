@@ -2,16 +2,30 @@ import { Injectable } from '@angular/core';
 
 import { filter, map } from 'rxjs';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
+import { Action } from '@ngrx/store';
 
-import { steps } from '../../../../shared/constants';
-import { GreaseCalculationPath } from './../../../../grease-calculation/grease-calculation-path.enum';
-import { Step } from './../../../../shared/models/settings/step.model';
-import { setCurrentStep } from './../../actions/settings/settings.actions';
+import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
+import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+import { steps } from '@ga/shared/constants';
+import { Step } from '@ga/shared/models/settings/step.model';
+
+import {
+  initSettingsEffects,
+  setAppDelivery,
+  setCurrentStep,
+} from '../../actions/settings/settings.actions';
 
 @Injectable()
-export class SettingsEffects {
+export class SettingsEffects implements OnInitEffects {
+  initEffects$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(initSettingsEffects),
+      map(() => setAppDelivery({ appDelivery: detectAppDelivery() }))
+    );
+  });
+
   router$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
@@ -40,4 +54,8 @@ export class SettingsEffects {
   });
 
   constructor(private readonly actions$: Actions) {}
+
+  ngrxOnInitEffects(): Action {
+    return initSettingsEffects();
+  }
 }

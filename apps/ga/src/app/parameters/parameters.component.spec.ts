@@ -28,7 +28,13 @@ import {
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
 import { SharedModule } from '@ga/shared/shared.module';
-import { PREFERRED_GREASE_MOCK, PROPERTIES_MOCK } from '@ga/testing/mocks';
+import {
+  BEARING_STATE_MOCK,
+  PARAMETERS_STATE_MOCK,
+  PREFERRED_GREASE_MOCK,
+  PROPERTIES_MOCK,
+  SETTINGS_STATE_MOCK,
+} from '@ga/testing/mocks';
 
 import { GreaseCalculationPath } from '../grease-calculation/grease-calculation-path.enum';
 import {
@@ -68,13 +74,13 @@ describe('ParametersComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
+          settings: SETTINGS_STATE_MOCK,
           bearing: {
-            loading: false,
-            result: undefined,
+            ...BEARING_STATE_MOCK,
             selectedBearing: 'selected bearing',
           },
           parameter: {
-            ...initialState,
+            ...PARAMETERS_STATE_MOCK,
             preferredGrease: PREFERRED_GREASE_MOCK,
             properties: PROPERTIES_MOCK,
           },
@@ -393,19 +399,6 @@ describe('ParametersComponent', () => {
       expect(component.radial.errors).toEqual(null);
       expect(component.axial.errors).toEqual(null);
       /* eslint-enable unicorn/no-null */
-    });
-  });
-
-  describe('isStandalone', () => {
-    it('should return false in iframe case', () => {
-      Object.defineProperty(global, 'window', {
-        value: {
-          self: 'mockValue',
-          top: 'otherMockValue',
-        },
-      });
-
-      expect(component.isStandalone()).toEqual(false);
     });
   });
 });

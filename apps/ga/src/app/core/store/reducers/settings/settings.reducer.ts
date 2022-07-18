@@ -1,8 +1,16 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { setCurrentStep } from '../../actions/settings/settings.actions';
+import { AppDelivery } from '@ga/shared/models';
+
+import {
+  setAppDelivery,
+  setCurrentStep,
+} from '../../actions/settings/settings.actions';
 
 export interface SettingsState {
+  environment: {
+    appDelivery: `${AppDelivery}`;
+  };
   stepper: {
     currentStep: number;
   };
@@ -10,6 +18,9 @@ export interface SettingsState {
 }
 
 export const initialState: SettingsState = {
+  environment: {
+    appDelivery: 'standalone',
+  },
   stepper: {
     currentStep: 0,
   },
@@ -18,6 +29,13 @@ export const initialState: SettingsState = {
 
 export const settingsReducer = createReducer(
   initialState,
+  on(setAppDelivery, (state, { appDelivery }) => ({
+    ...state,
+    environment: {
+      ...state.environment,
+      appDelivery,
+    },
+  })),
   on(setCurrentStep, (state, { step }) => ({
     ...state,
     stepper: {
