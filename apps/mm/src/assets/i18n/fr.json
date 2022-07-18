@@ -92,7 +92,7 @@
     "termsOfUse": "Conditions d'utilisation",
     "cookiePolicy": "Politique en matière de cookies",
     "cookieSettings": "Paramètres des cookies",
-    "purpose": "With the Mounting Manager, calculations are carried out through user input such as bearing selection and operating parameters in order to determine a mounting reommendation",
+    "purpose": "</br>In the Mounting Manager, user inputs such as bearing selection and operating parameters are used to carry out calculations in order to issue a mounting recommendation. Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.</br>Your anonymized user data is stored on the Microsoft Azure platform and displayed in the form of a dashboard. This gives us the opportunity to evaluate user behavior in the Mounting Manager in order to be able to make strategic decisions about the further development of the Mounting Manager.",
     "storagePeriod": "one year"
   }
 }
