@@ -245,4 +245,20 @@ describe('ReasonsForLeavingComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(resetCompareMode());
     });
   });
+
+  describe('getOrgUnitShortName', () => {
+    test('should get short name', () => {
+      const orgUnitName = 'SH/ZHZ (Human Resources)';
+
+      const shortName = component.getOrgUnitShortName(orgUnitName);
+
+      expect(shortName).toEqual('SH/ZHZ');
+    });
+
+    test('should return undefined when name undefined', () => {
+      const result = component.getOrgUnitShortName(undefined as string);
+
+      expect(result).toBeUndefined();
+    });
+  });
 });

@@ -143,4 +143,8 @@ export class ReasonsForLeavingComponent implements OnInit {
   resetCompareMode(): void {
     this.store.dispatch(resetCompareMode());
   }
+
+  getOrgUnitShortName(name: string): string {
+    return name?.split('(')[0].trim();
+  }
 }

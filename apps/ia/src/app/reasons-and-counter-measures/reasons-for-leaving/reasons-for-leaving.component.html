@@ -20,9 +20,11 @@
       [config]="reasonsChartConfig$ | ngrxPush"
       [data]="chartData$ | ngrxPush"
       [combinedLegend]="reasonsChartLegend$ | ngrxPush"
-      [orgUnit]="(selectedOrgUnit$ | ngrxPush)?.id"
+      [orgUnit]="getOrgUnitShortName((selectedOrgUnit$ | ngrxPush)?.value)"
       [comparedConfig]="comparedReasonsChartConfig$ | ngrxPush"
-      [comparedOrgUnit]="(comparedSelectedOrgUnit$ | ngrxPush)?.id"
+      [comparedOrgUnit]="
+        getOrgUnitShortName((comparedSelectedOrgUnit$ | ngrxPush)?.value)
+      "
     ></ia-reasons-for-leaving-chart>
     <div class="relative order-3 mt-12 lg:order-3 lg:col-end-4 lg:mt-0">
       <button
