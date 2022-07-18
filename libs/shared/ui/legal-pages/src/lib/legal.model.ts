@@ -7,6 +7,7 @@ export interface LegalOptions {
   termsOfUse?: string;
   purpose?: string;
   dataSource?: string;
+  storagePeriod?: string;
 }
 
 export const PERSON_RESPONSIBLE = new InjectionToken<string>('');
@@ -20,3 +21,5 @@ export const CUSTOM_DATA_PRIVACY = new InjectionToken<Observable<string>>('');
 export const DATA_SOURCE = new InjectionToken<Observable<any>>('');
 
 export const RESPONSIBLE_DEFAULT = 'Schaeffler Technologies AG & Co. KG';
+
+export const STORAGE_PERIOD = new InjectionToken<Observable<any>>('');

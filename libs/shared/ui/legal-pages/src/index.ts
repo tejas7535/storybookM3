@@ -5,6 +5,7 @@ export {
   LegalOptions,
   PERSON_RESPONSIBLE,
   PURPOSE,
+  STORAGE_PERIOD,
   TERMS_OF_USE,
 } from './lib/legal.model';
 export { LegalModule } from './lib/legal.module';

@@ -25,6 +25,7 @@ import {
   DATA_SOURCE,
   PERSON_RESPONSIBLE,
   PURPOSE,
+  STORAGE_PERIOD,
   TERMS_OF_USE,
 } from './legal.model';
 
@@ -89,6 +90,10 @@ describe('LegalComponent', () => {
         useValue: of(customDataPrivacy),
       },
       {
+        provide: STORAGE_PERIOD,
+        useValue: of('eternity'),
+      },
+      {
         provide: MATERIAL_SANITY_CHECKS,
         useValue: false,
       },
@@ -147,7 +152,7 @@ describe('LegalComponent', () => {
       })
     );
     test(
-      'should set translationContent$ to default data privacy with purpose and dataSource',
+      'should set translationContent$ to default data privacy with purpose, dataSource and storagePeriod',
       marbles((m) => {
         component.ngOnInit();
 
@@ -173,14 +178,16 @@ describe('LegalComponent', () => {
           responsible: 'responsibleIntro',
           dataSource:
             'Sources of data might emerge from ones mind, but not from mine',
+          storagePeriod: 'eternity',
         });
       })
     );
     test(
-      'should set translationContent$ to default data privacy without purpose and dataSource',
+      'should set translationContent$ to default data privacy without purpose, dataSource and storagePeriod',
       marbles((m) => {
         component.purpose$ = undefined as unknown as Observable<string>;
         component.dataSource$ = undefined as unknown as Observable<string>;
+        component.storagePeriod$ = undefined as unknown as Observable<string>;
         component.ngOnInit();
 
         const newEvent = new NavigationEnd(
@@ -203,6 +210,7 @@ describe('LegalComponent', () => {
           responsible: 'responsibleIntro',
           purpose: '',
           dataSource: 'defaultDataSource',
+          storagePeriod: 'defaultPeriod',
         });
       })
     );

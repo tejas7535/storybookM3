@@ -17,6 +17,7 @@ import {
   DATA_SOURCE,
   PERSON_RESPONSIBLE,
   PURPOSE,
+  STORAGE_PERIOD,
   TERMS_OF_USE,
 } from './legal.model';
 import { LegalPath } from './legal-route-path.enum';
@@ -39,6 +40,7 @@ export class LegalComponent implements OnInit {
     @Inject(CUSTOM_DATA_PRIVACY)
     public customDataPrivacy$: Observable<string>,
     @Optional() @Inject(DATA_SOURCE) public dataSource$: Observable<any>,
+    @Optional() @Inject(STORAGE_PERIOD) public storagePeriod$: Observable<any>,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
@@ -66,12 +68,14 @@ export class LegalComponent implements OnInit {
         return combineLatest([
           this.purpose$ ?? of(''),
           this.dataSource$ ?? of(translate('defaultDataSource')),
+          this.storagePeriod$ ?? of(translate('defaultPeriod')),
         ]).pipe(
-          map(([purpose, dataSource]) =>
+          map(([purpose, dataSource, storagePeriod]) =>
             translate(path, {
               ...defaultTranslateOptions,
               purpose,
               dataSource,
+              storagePeriod,
             })
           )
         );
