@@ -92,6 +92,7 @@
     "termsOfUse": "Terms of Use",
     "cookiePolicy": "Cookie Policy",
     "cookieSettings": "Cookie Settings",
-    "purpose": "With the Mounting Manager, calculations are carried out through user input such as bearing selection and operating parameters in order to determine a mounting reommendation"
+    "purpose": "With the Mounting Manager, calculations are carried out through user input such as bearing selection and operating parameters in order to determine a mounting reommendation",
+    "storagePeriod": "one year"
   }
 }

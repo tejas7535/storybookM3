@@ -92,6 +92,8 @@
     "dataPrivacy": "数据保密",
     "termsOfUse": "使用条款",
     "cookiePolicy": "Cookie 政策",
-    "cookieSettings": "Cookie 设置"
+    "cookieSettings": "Cookie 设置",
+    "purpose": "With the Mounting Manager, calculations are carried out through user input such as bearing selection and operating parameters in order to determine a mounting reommendation",
+    "storagePeriod": "one year"
   }
 }

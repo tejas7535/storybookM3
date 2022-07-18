@@ -5,7 +5,11 @@ import { TranslocoService } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 
 import { AppShellModule } from '@schaeffler/app-shell';
-import { PERSON_RESPONSIBLE, PURPOSE } from '@schaeffler/legal-pages';
+import {
+  PERSON_RESPONSIBLE,
+  PURPOSE,
+  STORAGE_PERIOD,
+} from '@schaeffler/legal-pages';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +20,10 @@ import { MaterialModule } from './shared/material.module';
 
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');
+}
+
+export function DynamicStoragePeriod(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('legal.storagePeriod');
 }
 
 @NgModule({
@@ -37,6 +45,11 @@ export function DynamicPurpose(translocoService: TranslocoService) {
     {
       provide: PURPOSE,
       useFactory: DynamicPurpose,
+      deps: [TranslocoService],
+    },
+    {
+      provide: STORAGE_PERIOD,
+      useFactory: DynamicStoragePeriod,
       deps: [TranslocoService],
     },
   ],
