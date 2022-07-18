@@ -8,6 +8,7 @@ import { AppShellModule } from '@schaeffler/app-shell';
 import {
   PERSON_RESPONSIBLE,
   PURPOSE,
+  STORAGE_PERIOD,
   TERMS_OF_USE,
 } from '@schaeffler/legal-pages';
 
@@ -23,6 +24,10 @@ export function DynamicTermsOfUse(translocoService: TranslocoService) {
 
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');
+}
+
+export function DynamicStoragePeriod(translocoService: TranslocoService) {
+  return translocoService.selectTranslateObject('legal.storagePeriod');
 }
 
 @NgModule({
@@ -53,6 +58,11 @@ export function DynamicPurpose(translocoService: TranslocoService) {
     {
       provide: PURPOSE,
       useFactory: DynamicPurpose,
+      deps: [TranslocoService],
+    },
+    {
+      provide: STORAGE_PERIOD,
+      useFactory: DynamicStoragePeriod,
       deps: [TranslocoService],
     },
   ],
