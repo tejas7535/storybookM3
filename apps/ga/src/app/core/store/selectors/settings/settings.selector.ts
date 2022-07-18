@@ -1,26 +1,26 @@
 import { createSelector } from '@ngrx/store';
 
-import { steps } from '../../../../shared/constants';
-import { EnabledStep } from '../../../../shared/models';
+import { steps } from '@ga/shared/constants';
+
+import { getSettingsState } from '../../reducers';
+import { SettingsState } from '../../reducers/settings/settings.reducer';
 import {
   getModelCreationSuccess,
   getSelectedBearing,
 } from '../bearing/bearing.selector';
 import { getParameterValidity } from '../parameter/parameter.selector';
-import { getSettingsState } from './../../reducers';
-import { SettingsState } from './../../reducers/settings/settings.reducer';
 
 export const getStepperState = createSelector(
   getSettingsState,
   (state: SettingsState): { currentStep: number } => state.stepper
 );
 
-export const getEnabledSteps = createSelector(
+export const getSteps = createSelector(
   getSelectedBearing,
   getModelCreationSuccess,
   getParameterValidity,
-  (bearing: string, success: boolean, valid: boolean): EnabledStep[] =>
-    (steps as EnabledStep[]).map((step) => {
+  (bearing, success, valid) =>
+    steps.map((step) => {
       switch (step.name) {
         case 'bearingSelection':
           return { ...step, enabled: window.self === window.top };
@@ -36,5 +36,5 @@ export const getEnabledSteps = createSelector(
 
 export const getCurrentStep = createSelector(
   getStepperState,
-  (stepper: { currentStep: number }): number => stepper.currentStep
+  (stepper) => stepper.currentStep
 );

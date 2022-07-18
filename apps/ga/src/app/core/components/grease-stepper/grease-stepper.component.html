@@ -1,7 +1,7 @@
 <ng-container *transloco="let t; read: 'settings.stepper'">
   <mat-horizontal-stepper
     schaefflerSeperatedSteps
-    *ngrxLet="enabledSteps$; let steps"
+    *ngrxLet="steps$; let steps"
     [selectedIndex]="currentStep$ | ngrxPush"
     (selectionChange)="selectStep($event)"
     #stepper

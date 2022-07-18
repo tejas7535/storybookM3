@@ -1,6 +1,4 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
-import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -12,13 +10,10 @@ import { MockModule } from 'ng-mocks';
 import { StepperModule } from '@schaeffler/stepper';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { AppRoutePath } from '../../../app-route-path.enum';
-import { GreaseCalculationPath } from '../../../grease-calculation/grease-calculation-path.enum';
-import { initialState } from './../../store/reducers/settings/settings.reducer';
-import {
-  getCurrentStep,
-  getEnabledSteps,
-} from './../../store/selectors/settings/settings.selector';
+import { AppRoutePath } from '@ga/app-route-path.enum';
+import { initialState } from '@ga/core/store/reducers/settings/settings.reducer';
+import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+
 import { GreaseStepperComponent } from './grease-stepper.component';
 
 describe('StepperComponent', () => {
@@ -29,13 +24,12 @@ describe('StepperComponent', () => {
   const createComponent = createComponentFactory({
     component: GreaseStepperComponent,
     imports: [
+      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      MatStepperModule,
-      StepperModule,
       MockModule(LetModule),
       MockModule(PushModule),
-      MatIconModule,
-      RouterTestingModule,
+      MockModule(MatStepperModule),
+      MockModule(StepperModule),
     ],
     providers: [
       provideMockStore({
@@ -45,10 +39,6 @@ describe('StepperComponent', () => {
           },
         },
       }),
-      {
-        provide: MATERIAL_SANITY_CHECKS,
-        useValue: false,
-      },
     ],
   });
 
@@ -62,17 +52,6 @@ describe('StepperComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    it('should select stepper settings from store', () => {
-      store.select = jest.fn();
-
-      component.ngOnInit();
-
-      expect(store.select).toHaveBeenCalledWith(getEnabledSteps);
-      expect(store.select).toHaveBeenCalledWith(getCurrentStep);
-    });
   });
 
   describe('selectStep', () => {

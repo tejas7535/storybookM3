@@ -10,6 +10,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MaintenanceModule } from '@schaeffler/empty-states';
 import { MockModule } from 'ng-mocks';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
@@ -55,6 +56,7 @@ describe('ParametersComponent', () => {
       // UI
       BreadcrumbsModule,
       PreferredGreaseSelectionComponent,
+      MockModule(MaintenanceModule),
 
       // Material Modules
       MockModule(MatButtonModule),

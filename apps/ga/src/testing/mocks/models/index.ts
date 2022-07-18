@@ -4,3 +4,4 @@ export * from './dialog-response.mock';
 export * from './preferred-grease.mock';
 export * from './properties.mock';
 export * from './range-filter.mock';
+export * from './steps.mock';
