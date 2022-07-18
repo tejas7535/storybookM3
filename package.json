@@ -88,7 +88,7 @@
     "@ngrx/router-store": "14.0.2",
     "@ngrx/store": "14.0.2",
     "@tailwindcss/line-clamp": "0.4.0",
-    "core-js": "3.23.4",
+    "core-js": "3.23.5",
     "d3-org-chart": "2.6.0",
     "echarts": "5.3.3",
     "jwt-decode": "3.1.2",
