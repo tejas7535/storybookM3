@@ -17,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { HashMap, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -29,6 +30,11 @@ import * as en from '../../../../../assets/i18n/en.json';
 import { ManufacturerSupplier, MaterialStandard } from '../../models';
 import { initialState as initialDataState } from '../../store/reducers/data.reducer';
 import { InputDialogComponent } from './input-dialog.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('InputDialogComponent', () => {
   let component: InputDialogComponent;
@@ -459,6 +465,32 @@ describe('InputDialogComponent', () => {
           ).toHaveBeenCalled();
         });
       });
+
+      describe('modify co2TotalControl', () => {
+        it('co2Classification should be enabled when co2Total has a value', () => {
+          component.co2ClassificationControl.enable = jest.fn();
+          component.co2ClassificationControl.disable = jest.fn();
+
+          component.co2TotalControl.setValue(1);
+
+          expect(
+            component.co2ClassificationControl.disable
+          ).not.toHaveBeenCalled();
+          expect(component.co2ClassificationControl.enable).toHaveBeenCalled();
+        });
+        it('co2Classification should be disabled when co2Total has no value', () => {
+          component.co2ClassificationControl.enable = jest.fn();
+          component.co2ClassificationControl.disable = jest.fn();
+
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          component.co2TotalControl.setValue(undefined);
+
+          expect(component.co2ClassificationControl.disable).toHaveBeenCalled();
+          expect(
+            component.co2ClassificationControl.enable
+          ).not.toHaveBeenCalled();
+        });
+      });
     });
   });
 
@@ -767,7 +799,6 @@ describe('InputDialogComponent', () => {
       store.select = jest.fn(() => mockSubject);
       store.dispatch = jest.fn();
       component['snackbar'].open = jest.fn();
-      component['translocoService'].translate = jest.fn();
       component.createMaterialForm.setValue(material, { emitEvent: false });
       component.closeDialog = jest.fn();
 
@@ -776,10 +807,6 @@ describe('InputDialogComponent', () => {
 
       expect(store.dispatch).toBeCalled();
       expect(component['snackbar'].open).toBeCalled();
-      expect(component['translocoService'].translate).toBeCalledTimes(2);
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess'
-      );
       expect(component.closeDialog).toHaveBeenCalledWith(true);
     });
     it('stores material and open snackbar with failure?', () => {
@@ -787,7 +814,6 @@ describe('InputDialogComponent', () => {
       store.select = jest.fn(() => mockSubject);
       store.dispatch = jest.fn();
       component['snackbar'].open = jest.fn();
-      component['translocoService'].translate = jest.fn();
       component.createMaterialForm.setValue(material, { emitEvent: false });
 
       component.addMaterial();
@@ -795,10 +821,6 @@ describe('InputDialogComponent', () => {
 
       expect(store.dispatch).toBeCalled();
       expect(component['snackbar'].open).toBeCalled();
-      expect(component['translocoService'].translate).toBeCalledTimes(2);
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.createMaterialFailure'
-      );
     });
   });
 
@@ -838,39 +860,42 @@ describe('InputDialogComponent', () => {
 
   describe('getErrorMessage', () => {
     it('should give error message with required', () => {
-      component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({ required: true });
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.required',
-        {}
-      );
+      component['getTranslatedError'] = jest.fn((key) => key);
+      const result = component.getErrorMessage({ required: true });
+      expect(component['getTranslatedError']).toHaveBeenCalledWith('required');
+      expect(result).toEqual('required');
     });
-    it('should give error message with numeric', () => {
-      component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({ min: { min: 1234, current: 99 } });
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.min',
-        { min: 1234 }
+    it('should give error message with min', () => {
+      component['getTranslatedError'] = jest.fn(
+        (key, params: HashMap) => `${key}${params.min}`
       );
+      const result = component.getErrorMessage({
+        min: { min: 1234, current: 99 },
+      });
+      expect(component['getTranslatedError']).toHaveBeenCalledWith('min', {
+        min: 1234,
+      });
+      expect(result).toEqual('min1234');
     });
 
     it('should give error message with co2', () => {
-      component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({
+      component['getTranslatedError'] = jest.fn(
+        (key, params: HashMap) => `${key}${params.min}`
+      );
+      const result = component.getErrorMessage({
         scopeTotalLowerThanSingleScopes: { min: 6, current: 12 },
       });
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.co2TooLowShort',
+      expect(component['getTranslatedError']).toHaveBeenCalledWith(
+        'co2TooLowShort',
         { min: 6 }
       );
+      expect(result).toEqual('co2TooLowShort6');
     });
-    it('should give error message with none', () => {
-      component['translocoService'].translate = jest.fn();
-      component.getErrorMessage({ nothing: true });
-      expect(component['translocoService'].translate).toBeCalledWith(
-        'materialsSupplierDatabase.mainTable.dialog.error.generic',
-        {}
-      );
+    it('should give error message with generic', () => {
+      component['getTranslatedError'] = jest.fn((key) => key);
+      const result = component.getErrorMessage({ nothing: true });
+      expect(component['getTranslatedError']).toHaveBeenCalledWith('generic');
+      expect(result).toEqual('generic');
     });
   });
 

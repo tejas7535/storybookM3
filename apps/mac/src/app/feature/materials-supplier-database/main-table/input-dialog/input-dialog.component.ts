@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { filter, Observable, Subject, take, takeUntil, tap } from 'rxjs';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
@@ -121,7 +121,6 @@ export class InputDialogComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly store: Store,
-    private readonly translocoService: TranslocoService,
     private readonly dialogRef: MatDialogRef<InputDialogComponent>,
     private readonly snackbar: MatSnackBar
   ) {}
@@ -276,7 +275,12 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       getAddMaterialDialogCo2Classifications
     );
     this.ratings$ = this.store.select(
-      getStringOptions(getAddMaterialDialogRatings)
+      getStringOptions(getAddMaterialDialogRatings, [
+        {
+          id: undefined,
+          title: translate('materialsSupplierDatabase.mainTable.dialog.none'),
+        },
+      ])
     );
     this.steelMakingProcess$ = this.store.select(
       getStringOptions(getAddMaterialDialogSteelMakingProcesses)
@@ -387,6 +391,14 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.co2TotalControl.updateValueAndValidity({ onlySelf: true });
       });
+    this.co2TotalControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) =>
+        value
+          ? this.co2ClassificationControl.enable()
+          : this.co2ClassificationControl.disable()
+      );
+    this.co2ClassificationControl.disable();
   }
 
   public ngOnDestroy(): void {
@@ -507,23 +519,19 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       .subscribe((success) => {
         if (success) {
           this.snackbar.open(
-            this.translocoService.translate(
+            translate(
               'materialsSupplierDatabase.mainTable.dialog.createMaterialSuccess'
             ),
-            this.translocoService.translate(
-              'materialsSupplierDatabase.mainTable.dialog.close'
-            ),
+            translate('materialsSupplierDatabase.mainTable.dialog.close'),
             { duration: 5000 }
           );
           this.closeDialog(true);
         } else {
           this.snackbar.open(
-            this.translocoService.translate(
+            translate(
               'materialsSupplierDatabase.mainTable.dialog.createMaterialFailure'
             ),
-            this.translocoService.translate(
-              'materialsSupplierDatabase.mainTable.dialog.close'
-            ),
+            translate('materialsSupplierDatabase.mainTable.dialog.close'),
             { duration: 5000 }
           );
         }
@@ -547,11 +555,9 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       return this.getTranslatedError('required');
     }
     if (errors.min) {
-      console.log(errors, errors.min.min);
       return this.getTranslatedError('min', { min: errors.min.min });
     }
     if (errors.scopeTotalLowerThanSingleScopes) {
-      console.log(errors, errors.scopeTotalLowerThanSingleScopes.min);
       return this.getTranslatedError('co2TooLowShort', {
         min: errors.scopeTotalLowerThanSingleScopes.min,
       });
@@ -561,7 +567,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   }
 
   private getTranslatedError(key: string, params = {}): string {
-    return this.translocoService.translate(
+    return translate(
       `materialsSupplierDatabase.mainTable.dialog.error.${key}`,
       params
     );
@@ -576,10 +582,12 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           Math.max(this.co2Scope1Control.value || 0, 0) +
           Math.max(this.co2Scope2Control.value || 0, 0) +
           Math.max(this.co2Scope3Control.value || 0, 0);
+
         return min > current
           ? { scopeTotalLowerThanSingleScopes: { min, current } }
           : undefined;
       }
+
       return undefined;
     };
 }

@@ -169,24 +169,14 @@ export class MsdDataService {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL_V2}/materials/co2Classifications`)
       .pipe(
-        map((co2Classifications) => {
-          const mappedCo2Classifications = co2Classifications.map(
-            (co2Classification) => ({
-              id: co2Classification,
-              title: this.translocoService.translate(
-                `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${co2Classification.toLowerCase()}`
-              ),
-            })
-          );
-          mappedCo2Classifications.push({
-            id: undefined,
+        map((co2Classifications) =>
+          co2Classifications.map((co2Classification) => ({
+            id: co2Classification,
             title: this.translocoService.translate(
-              `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.none`
+              `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${co2Classification.toLowerCase()}`
             ),
-          });
-
-          return mappedCo2Classifications;
-        })
+          }))
+        )
       );
   }
 

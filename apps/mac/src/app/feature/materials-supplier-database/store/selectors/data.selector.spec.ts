@@ -758,6 +758,38 @@ describe('DataSelectors', () => {
     expect(result).toEqual(expected);
   });
 
+  it('should return a string list as StringOptions with extra option', () => {
+    const mockRatings: string[] = ['good', 'bad'];
+    const mockExtraOptions: StringOption[] = [
+      {
+        id: undefined,
+        title: 'none',
+      },
+    ];
+
+    const expected: StringOption[] = [
+      {
+        id: 'bad',
+        title: 'bad',
+      },
+      {
+        id: 'good',
+        title: 'good',
+      },
+      {
+        id: undefined,
+        title: 'none',
+      },
+    ];
+
+    const result = DataSelectors.getStringOptions(
+      DataSelectors.getAddMaterialDialogRatings,
+      mockExtraOptions
+    ).projector(mockRatings);
+
+    expect(result).toEqual(expected);
+  });
+
   it('should return createMaterialLoading', () => {
     expect(
       DataSelectors.getCreateMaterialLoading.projector({

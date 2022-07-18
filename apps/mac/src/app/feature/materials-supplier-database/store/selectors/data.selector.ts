@@ -253,13 +253,19 @@ export const getCreateMaterialSuccess = createSelector(
 );
 
 export const getStringOptions = (
-  selector: MemoizedSelector<object, string[]>
+  selector: MemoizedSelector<object, string[]>,
+  addOptions?: StringOption[]
 ) =>
-  createSelector(selector, (values): StringOption[] =>
-    values
+  createSelector(selector, (values): StringOption[] => {
+    const options: StringOption[] = values
       .map((value) => ({ id: value, title: value }))
-      .sort(stringOptionsSortFn)
-  );
+      .sort(stringOptionsSortFn);
+    if (addOptions && addOptions.length > 0) {
+      options.push(...addOptions);
+    }
+
+    return options;
+  });
 
 export const getUniqueStringOptions = (
   selector: MemoizedSelector<object, StringOption[]>

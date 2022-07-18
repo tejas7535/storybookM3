@@ -246,8 +246,7 @@
           "c2": "ISO-conform calculation method, and third-party certified (method-specific)",
           "c3": "Internal calculation method according to ISO standards (product-specific)",
           "c4": "Estimated based on energy and material consumption",
-          "c5": "Estimated based on material consumption",
-          "none": "None"
+          "c5": "Estimated based on material consumption"
         },
         "co2PerTon": "kg CO₂e / t",
         "co2Total": "CO₂ Total",

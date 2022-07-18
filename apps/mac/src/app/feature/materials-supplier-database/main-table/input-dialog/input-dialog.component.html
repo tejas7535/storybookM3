@@ -119,7 +119,6 @@
               )
             "
             [label]="t('supplierPlant')"
-            [disabled]="!suppliersControl.value"
           >
             <div matErrorContent *ngIf="supplierPlantsControl.invalid">
               {{ getErrorMessage(supplierPlantsControl.errors) }}
@@ -164,7 +163,7 @@
             <mat-select [formControl]="ratingsControl">
               <mat-option
                 *ngFor="let rating of ratings$ | ngrxPush"
-                [value]="rating.id"
+                [value]="rating"
               >
                 {{ rating.title }}
               </mat-option>

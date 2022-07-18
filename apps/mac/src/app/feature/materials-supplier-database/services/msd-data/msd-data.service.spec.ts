@@ -421,11 +421,6 @@ describe('MsdDataService', () => {
           title:
             'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.dice roll',
         },
-        {
-          id: undefined,
-          title:
-            'materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.none',
-        },
       ];
       service.fetchCo2Classifications().subscribe((result) => {
         expect(result).toEqual(expected);
