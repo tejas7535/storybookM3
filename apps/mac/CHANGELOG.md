@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.6.0...mac-v0.7.0) (2022-07-18)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** fix filters for material standard (UFTABI-5890) ([#4346](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4346)) ([f904336](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/f90433627fec9dfab91e28dc241fb667dfa26700))
+* **mac:** fixed validators for material input dialog (UFTABI-5888) ([#4341](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4341)) ([055dd51](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/055dd513176fd80cb0c0d6e1c4d0a71fad26124f))
+
+
+### 🎸 Features
+
+* **inputs:** add reset and clear button ([#4349](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4349)) ([acb1748](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/acb1748ecd27312d740c3a7ce56dbfb07d04f383))
+* **mac:** add tooltip texts for msd ([7b82a7a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/7b82a7af633f83fba7fcccc08d379ddd3ae441be))
+* **mac:** add ui dialog for adding entries to material service database (uftabi-5715)  ([#4306](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4306)) ([c2fe84c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c2fe84cc63cc69cd456e0e5b54d61560b52c70c7)), closes [#4303](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4303)
+* **mac:** implement logic for adding new materials in msd (UFTABI-5716) ([#4307](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4307)) ([a4b7a3e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/a4b7a3ee1033b1bdea413a49bec6b3a2396fdbec))
+* **mac:** make co2classification dependent on co2 (UFTABI-5878) ([#4348](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4348)) ([55cff8c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/55cff8c16a40464efbeeb96b73b6296947727f74))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
 ## [0.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/mac-v0.5.3...mac-v0.6.0) (2022-06-29)
 
 
