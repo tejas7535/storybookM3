@@ -877,6 +877,7 @@ pipeline {
                             github.executeAsGithubUser('github-jenkins-access-token', 'git fetch --all')
                             sh 'git checkout -- .'
                             sh 'git checkout gh-pages'
+                            sh "git reset --hard origin/gh-pages"
                             sh 'rm -rf *'
 
                             // download latest storybook bundle
@@ -887,6 +888,7 @@ pipeline {
                             // unzip bundle
                             sh 'mkdir docs'
                             fileOperations([fileUnZipOperation(filePath: 'storybook.zip', targetLocation: './docs')])
+                            writeFile(file: '.docs/CNAME', text: 'storybook.pages.dp.schaeffler')
                             sh 'rm storybook.zip'
 
                             try {
