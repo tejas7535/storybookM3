@@ -112,7 +112,7 @@
     "@commitlint/cli": "17.0.3",
     "@commitlint/config-conventional": "17.0.2",
     "@commitlint/cz-commitlint": "17.0.0",
-    "@geometricpanda/storybook-addon-badges": "0.2.1",
+    "@geometricpanda/storybook-addon-badges": "0.2.2",
     "@ngneat/spectator": "11.1.0",
     "@ngneat/transloco-keys-manager": "3.4.1",
     "@ngneat/transloco-optimize": "3.0.2",
