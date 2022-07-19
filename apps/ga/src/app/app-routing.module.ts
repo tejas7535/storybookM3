@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AppIsEmbeddedGuard } from '@ga/core/guards';
+
 import { AppRoutePath } from './app-route-path.enum';
 
 export const appRoutePaths: Routes = [
   {
     path: AppRoutePath.BasePath,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    canActivate: [AppIsEmbeddedGuard],
   },
   {
     path: AppRoutePath.GreaseCalculationPath,
