@@ -7,7 +7,10 @@ import { AppDelivery } from '@ga/shared/models';
 export const detectAppDelivery = () => {
   let appDelivery: `${AppDelivery}` = AppDelivery.Standalone;
 
-  if (window.origin.includes('capacitor://')) {
+  if (
+    window.origin.includes('capacitor://') ||
+    window.origin === 'http://localhost'
+  ) {
     appDelivery = AppDelivery.Native;
   } else if (window.self !== window.top) {
     appDelivery = AppDelivery.Embedded;

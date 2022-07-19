@@ -17,6 +17,10 @@ import {
 import { initialState } from '../../reducers/settings/settings.reducer';
 import { SettingsEffects } from './settings.effects';
 
+jest.mock('@ga/core/helpers/settings-helpers', () => ({
+  detectAppDelivery: jest.fn(() => 'standalone'),
+}));
+
 describe('Settings Effects', () => {
   let action: any;
   let actions$: any;

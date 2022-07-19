@@ -1,3 +1,7 @@
+/**
+ * @jest-environment-options {"url": "http://other-than-localhost"}
+ */
+
 import { detectAppDelivery } from './settings-helpers';
 
 const { origin, top, self } = window;
