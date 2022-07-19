@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import {
   ExcelCell,
@@ -19,8 +19,15 @@ import { ColDef } from '@ag-grid-community/core';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { getSimulationModeEnabled } from '../../../../core/store';
+import {
+  getExtendedSapPriceConditionDetails,
+  getSimulationModeEnabled,
+} from '../../../../core/store';
 import { ExtendedComparableLinkedTransaction } from '../../../../core/store/reducers/extended-comparable-linked-transactions/models/extended-comparable-linked-transaction';
+import {
+  CalculationType,
+  ExtendedSapPriceConditionDetail,
+} from '../../../../core/store/reducers/sap-price-details/models';
 import { getExtendedComparableLinkedTransactions } from '../../../../core/store/selectors/extended-comparable-linked-transactions/extended-comparable-linked-transactions.selector';
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
 import { ExportExcelModalComponent } from '../../../components/modal/export-excel-modal/export-excel-modal.component';
@@ -29,9 +36,11 @@ import { HelperService } from '../../../services/helper-service/helper-service.s
 import { PriceService } from '../../../services/price-service/price.service';
 import {
   ColumnFields,
+  DateColumns,
   ExportExcelNumberColumns,
   PercentColumns,
   PriceColumns,
+  SapPriceDetailsColumnFields,
 } from '../../constants/column-fields.enum';
 import { excelStyleObjects } from './excel-styles.constants';
 
@@ -45,8 +54,12 @@ const typeNumber = 'Number';
 export class ExportToExcelButtonComponent implements OnInit {
   private params: IStatusPanelParams;
   simulationModeEnabled$: Observable<boolean>;
-  transactions$: Observable<ExtendedComparableLinkedTransaction[]>;
-  transactions: ExtendedComparableLinkedTransaction[];
+  transactions$: Observable<
+    [ExtendedComparableLinkedTransaction[], ExtendedSapPriceConditionDetail[]]
+  >;
+  extendedComparableLinkedTransactions: ExtendedComparableLinkedTransaction[];
+  extendedSapPriceConditionDetails: ExtendedSapPriceConditionDetail[];
+
   toBeFormattedInExcelDownload: string[] = [
     ColumnFields.MATERIAL_NUMBER_15,
     ColumnFields.PRICE_UNIT,
@@ -65,9 +78,10 @@ export class ExportToExcelButtonComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.transactions$ = this.store.select(
-      getExtendedComparableLinkedTransactions
-    );
+    this.transactions$ = combineLatest([
+      this.store.select(getExtendedComparableLinkedTransactions),
+      this.store.select(getExtendedSapPriceConditionDetails),
+    ]);
   }
 
   agInit(params: IStatusPanelParams): void {
@@ -102,17 +116,40 @@ export class ExportToExcelButtonComponent implements OnInit {
   subscribeToTransactions(exportExcel: ExportExcel.DETAILED_DOWNLOAD) {
     this.unsubscribe(
       this.transactions$.subscribe((transactions) => {
-        if (transactions?.length > 0) {
-          this.transactions = transactions;
-          this.exportToExcel(exportExcel);
-        } else {
+        this.extendedComparableLinkedTransactions = transactions[0];
+        this.extendedSapPriceConditionDetails = transactions[1];
+
+        if (
+          this.extendedComparableLinkedTransactions.length === 0 &&
+          this.extendedSapPriceConditionDetails.length === 0
+        ) {
+          this.snackBar.open(
+            translate(
+              'shared.customStatusBar.excelExport.noTransactionAndPriceDetails'
+            )
+          );
+          this.exportToExcel(ExportExcel.BASIC_DOWNLOAD);
+
+          return;
+        }
+
+        if (this.extendedComparableLinkedTransactions.length === 0) {
           this.snackBar.open(
             translate(
               'shared.customStatusBar.excelExport.noComparableTransactionsWarning'
             )
           );
-          this.exportToExcel(ExportExcel.BASIC_DOWNLOAD);
         }
+
+        if (this.extendedSapPriceConditionDetails.length === 0) {
+          this.snackBar.open(
+            translate(
+              'shared.customStatusBar.excelExport.noExtendedSapPriceConditionDetailsWarning'
+            )
+          );
+        }
+
+        this.exportToExcel(exportExcel);
       })
     );
   }
@@ -135,13 +172,23 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   setData(exportExcel: ExportExcel): string[] {
-    return exportExcel === ExportExcel.BASIC_DOWNLOAD
-      ? [this.getSummarySheet(), this.getProcessCaseSheet()]
-      : [
-          this.getSummarySheet(),
-          this.getProcessCaseSheet(),
-          this.getComparableTransactions(),
-        ];
+    const sheets = [this.getSummarySheet(), this.getProcessCaseSheet()];
+
+    if (
+      exportExcel === ExportExcel.DETAILED_DOWNLOAD &&
+      this.extendedComparableLinkedTransactions?.length > 0
+    ) {
+      sheets.push(this.getComparableTransactions());
+    }
+
+    if (
+      exportExcel === ExportExcel.DETAILED_DOWNLOAD &&
+      this.extendedSapPriceConditionDetails?.length > 0
+    ) {
+      sheets.push(this.getExtendedSapPriceConditionDetails());
+    }
+
+    return sheets;
   }
 
   private getProcessCaseSheet(): string {
@@ -631,7 +678,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addComparableTransactions(): ExcelCell[][] {
-    const headersTranslationsOrderInDeJsonImportant: { [key: string]: string } =
+    const headerTranslations: { [key: string]: string } =
       this.translocoService.translateObject(
         'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions',
         {},
@@ -639,46 +686,125 @@ export class ExportToExcelButtonComponent implements OnInit {
       );
 
     return [
-      this.addComparableTransactionsHeader(
-        headersTranslationsOrderInDeJsonImportant
-      ),
-      ...this.addComparableTransactionsRows(
-        headersTranslationsOrderInDeJsonImportant
+      this.addCustomHeader(headerTranslations),
+      ...this.addCustomRows(
+        headerTranslations,
+        this.extendedComparableLinkedTransactions
       ),
     ];
   }
 
-  addComparableTransactionsRows(headersTranslations: {
-    [key: string]: string;
-  }): ExcelCell[][] {
-    return this.transactions.map((t) => {
-      const row: ExcelCell[] = [];
-      for (const key in headersTranslations) {
-        row.push(
-          this.getNumberExcelCell(
-            ExportExcelNumberColumns.includes(key as ColumnFields)
-              ? typeNumber
-              : typeString,
-            this.transformValue(t, key)
-          )
-        );
-      }
-
-      return row;
+  getExtendedSapPriceConditionDetails(): string {
+    return this.params.api.getSheetDataForExcel({
+      prependContent: this.addExtendedSapPriceConditionDetails(),
+      columnKeys: [''],
+      sheetName: translate(
+        'shared.customStatusBar.excelExport.extendedSapPriceConditionDetailsTitle'
+      ),
+      columnWidth: 250,
     });
   }
 
-  transformValue(t: ExtendedComparableLinkedTransaction, key: string): string {
-    const value = t[key as keyof ExtendedComparableLinkedTransaction];
+  addExtendedSapPriceConditionDetails(): ExcelCell[][] {
+    const headerTranslations: { [key: string]: string } =
+      this.translocoService.translateObject(
+        'shared.customStatusBar.excelExport.extendedSapPriceConditionDetails',
+        {},
+        ''
+      );
+
+    return [
+      this.addCustomHeader(headerTranslations),
+      ...this.addCustomRows(
+        headerTranslations,
+        this.extendedSapPriceConditionDetails
+      ),
+    ];
+  }
+
+  addCustomHeader(headersTranslations: { [key: string]: string }): ExcelCell[] {
+    const header: ExcelCell[] = [];
+    for (const [key, value] of Object.entries(headersTranslations)) {
+      header.push(
+        this.getExcelCell(
+          PriceColumns.includes(key as ColumnFields)
+            ? this.appendQuotationCurrency(value)
+            : value
+        )
+      );
+    }
+
+    return header;
+  }
+
+  addCustomRows(
+    headersTranslations: Record<string, string>,
+    values: (
+      | ExtendedComparableLinkedTransaction
+      | ExtendedSapPriceConditionDetail
+    )[]
+  ): ExcelCell[][] {
+    return values.map(
+      (
+        t: ExtendedComparableLinkedTransaction | ExtendedSapPriceConditionDetail
+      ) => {
+        const row: ExcelCell[] = [];
+        for (const key in headersTranslations) {
+          row.push(
+            this.getNumberExcelCell(
+              ExportExcelNumberColumns.includes(key as ColumnFields)
+                ? typeNumber
+                : typeString,
+              this.transformValue(
+                t,
+                key as
+                  | keyof ExtendedComparableLinkedTransaction
+                  | keyof ExtendedSapPriceConditionDetail
+              )
+            )
+          );
+        }
+
+        return row;
+      }
+    );
+  }
+
+  transformValue(
+    t: ExtendedComparableLinkedTransaction | ExtendedSapPriceConditionDetail,
+    key:
+      | keyof ExtendedComparableLinkedTransaction
+      | keyof ExtendedSapPriceConditionDetail
+  ): string {
+    const value =
+      'quotationItemId' in t
+        ? t[key as keyof ExtendedSapPriceConditionDetail]
+        : t[key as keyof ExtendedComparableLinkedTransaction];
 
     if (value === undefined || value === null) {
       return '';
     } else if (PercentColumns.includes(key as ColumnFields)) {
       return PriceService.roundToTwoDecimals(Number(value)).toString();
+    } else if (DateColumns.includes(key as SapPriceDetailsColumnFields)) {
+      return HelperService.transformDate(value.toString());
     } else if (
       this.hasDelimiterProblemInExcelGreaterEqual1000(key, Number(value))
     ) {
       return HelperService.transformNumber(value as number, true).toString();
+    } else if (key === SapPriceDetailsColumnFields.SAP_PRICING_UNIT) {
+      return value === 0 ? '' : value.toString();
+    } else if (key === SapPriceDetailsColumnFields.SAP_AMOUNT) {
+      if (
+        'calculationType' in t &&
+        t.calculationType === CalculationType.ABSOLUT
+      ) {
+        return HelperService.transformNumberCurrency(
+          HelperService.transformNumber(Number(value), true),
+          'USD'
+        );
+      }
+
+      return HelperService.transformPercentage(Number(value));
     }
 
     return value?.toString();
@@ -698,23 +824,6 @@ export class ExportToExcelButtonComponent implements OnInit {
     return (
       (PriceColumns as string[]).includes(colDef.field) && params.value < 1000
     );
-  }
-
-  addComparableTransactionsHeader(headersTranslations: {
-    [key: string]: string;
-  }): ExcelCell[] {
-    const header: ExcelCell[] = [];
-    for (const [key, value] of Object.entries(headersTranslations)) {
-      header.push(
-        this.getExcelCell(
-          PriceColumns.includes(key as ColumnFields)
-            ? this.appendQuotationCurrency(value)
-            : value
-        )
-      );
-    }
-
-    return header;
   }
 
   appendQuotationCurrency(key: string): string {

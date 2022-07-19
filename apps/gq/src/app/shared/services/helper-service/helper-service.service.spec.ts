@@ -442,4 +442,26 @@ describe('HelperServiceService', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('transform date', () => {
+    test('should transform date', () => {
+      const result = HelperService.transformDate('2020-01-01');
+      expect(result).toEqual('01.01.2020');
+    });
+
+    test('should not transform empty date', () => {
+      const result = HelperService.transformDate('');
+      expect(result).toEqual('');
+    });
+
+    test('should override format options', () => {
+      const result = HelperService.transformDate('2020-01-01', 'en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: '2-digit',
+      });
+
+      expect(result).toEqual('January 1, 20');
+    });
+  });
 });

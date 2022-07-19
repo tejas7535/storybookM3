@@ -9,12 +9,18 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import {
+  loadExtendedSapPriceConditionDetails,
+  loadExtendedSapPriceConditionDetailsFailure,
+  loadExtendedSapPriceConditionDetailsSuccess,
   loadSapPriceDetails,
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
 } from '../../actions';
 import { RouterStateUrl } from '../../reducers';
-import { SapPriceConditionDetail } from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
+import {
+  ExtendedSapPriceConditionDetail,
+  SapPriceConditionDetail,
+} from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
 
 @Injectable()
 export class SapPriceDetailsEffects {
@@ -51,6 +57,35 @@ export class SapPriceDetailsEffects {
       )
     );
   });
+
+  loadExtendedSapPriceConditionDetails$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadExtendedSapPriceConditionDetails),
+      map((action) => action.quotationNumber),
+      mergeMap((quotationNumber: number) =>
+        this.quotationDetailsService
+          .getExtendedSapPriceConditionDetails(quotationNumber)
+          .pipe(
+            map(
+              (
+                extendedSapPriceConditionDetails: ExtendedSapPriceConditionDetail[]
+              ) => {
+                return loadExtendedSapPriceConditionDetailsSuccess({
+                  extendedSapPriceConditionDetails:
+                    extendedSapPriceConditionDetails.sort(
+                      (a, b) => a.sequenceId - b.sequenceId
+                    ),
+                });
+              }
+            ),
+            catchError((errorMessage) =>
+              of(loadExtendedSapPriceConditionDetailsFailure({ errorMessage }))
+            )
+          )
+      )
+    );
+  });
+
   constructor(
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService

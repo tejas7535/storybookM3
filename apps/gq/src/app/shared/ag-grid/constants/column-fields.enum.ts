@@ -33,6 +33,17 @@ export enum ColumnFields {
   PRICE_DIFF = 'priceDiff',
 }
 
+export enum SapPriceDetailsColumnFields {
+  SAP_SEQUENCE_ID = 'sequenceId',
+  SAP_CONDITION_TYPE = 'sapConditionType',
+  SAP_CONDITION_DESCRIPTION = 'conditionTypeDescription',
+  SAP_AMOUNT = 'amount',
+  SAP_PRICING_UNIT = 'pricingUnit',
+  SAP_CONDITION_UNIT = 'conditionUnit',
+  SAP_CONDITION_VALUE = 'conditionValue',
+  SAP_VALID_TO = 'validTo',
+}
+
 export const PriceColumns = [
   ColumnFields.PRICE,
   ColumnFields.NET_VALUE,
@@ -45,6 +56,7 @@ export const PriceColumns = [
   ColumnFields.SAP_GROSS_PRICE,
   ColumnFields.SAP_PRICE,
   ColumnFields.RECOMMENDED_PRICE,
+  SapPriceDetailsColumnFields.SAP_CONDITION_VALUE,
 ];
 
 export const PercentColumns = [
@@ -56,6 +68,8 @@ export const PercentColumns = [
   ColumnFields.LAST_CUSTOMER_PRICE_GPI,
   ColumnFields.LAST_CUSTOMER_PRICE_GPM,
 ];
+
+export const DateColumns = [SapPriceDetailsColumnFields.SAP_VALID_TO];
 
 export const ExportExcelNumberColumns = [
   ...PriceColumns,

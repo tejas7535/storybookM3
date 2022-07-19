@@ -8,11 +8,17 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { marbles } from 'rxjs-marbles';
 
-import { SAP_PRICE_DETAIL_ZMIN_MOCK } from '../../../../../testing/mocks';
+import {
+  EXTENDED_SAP_PRICE_DETAIL_MOCK,
+  SAP_PRICE_DETAIL_ZMIN_MOCK,
+} from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import {
+  loadExtendedSapPriceConditionDetails,
+  loadExtendedSapPriceConditionDetailsFailure,
+  loadExtendedSapPriceConditionDetailsSuccess,
   loadSapPriceDetails,
   loadSapPriceDetailsFailure,
   loadSapPriceDetailsSuccess,
@@ -103,6 +109,63 @@ describe('SapPriceDetailsEffects', () => {
 
         expect(
           quotationDetailsService.getSapPriceDetails
+        ).toHaveBeenCalledTimes(1);
+      })
+    );
+  });
+
+  describe('loadExtendedSapPriceConditionDetails$', () => {
+    beforeEach(() => {
+      action = loadExtendedSapPriceConditionDetails({
+        quotationNumber: 1234,
+      });
+    });
+    test(
+      'should return loadExtendedSapPriceConditionDetailsSuccess',
+      marbles((m) => {
+        const extendedSapPriceConditionDetails = [
+          EXTENDED_SAP_PRICE_DETAIL_MOCK,
+        ];
+        quotationDetailsService.getExtendedSapPriceConditionDetails = jest.fn(
+          () => of(extendedSapPriceConditionDetails)
+        );
+        const result = loadExtendedSapPriceConditionDetailsSuccess({
+          extendedSapPriceConditionDetails,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const expected$ = m.cold('-b', { b: result });
+
+        m.expect(effects.loadExtendedSapPriceConditionDetails$).toBeObservable(
+          expected$
+        );
+      })
+    );
+
+    test(
+      'should return loadExtendedSapPriceConditionDetailsFailure',
+      marbles((m) => {
+        const errorMessage = 'error';
+        const result = loadExtendedSapPriceConditionDetailsFailure({
+          errorMessage,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+
+        const expected = m.cold('--b', { b: result });
+        quotationDetailsService.getExtendedSapPriceConditionDetails = jest.fn(
+          () => response
+        );
+
+        m.expect(effects.loadExtendedSapPriceConditionDetails$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          quotationDetailsService.getExtendedSapPriceConditionDetails
         ).toHaveBeenCalledTimes(1);
       })
     );

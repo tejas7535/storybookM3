@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { SapPriceDetailsColumnFields } from '../../../../shared/ag-grid/constants/column-fields.enum';
 import {
   DATE_COLUMN_FILTER,
   FILTER_PARAMS,
@@ -16,47 +17,47 @@ import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column
 export class SapPriceDetailsColumnDefService {
   COLUMN_DEFS: ColDef[] = [
     {
-      field: 'sequenceId',
+      field: SapPriceDetailsColumnFields.SAP_SEQUENCE_ID,
       hide: true,
       sort: 'asc',
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('sapView.sapConditionsTable.condition'),
-      field: 'sapConditionType',
+      field: SapPriceDetailsColumnFields.SAP_CONDITION_TYPE,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('sapView.sapConditionsTable.description'),
-      field: 'conditionTypeDescription',
+      field: SapPriceDetailsColumnFields.SAP_CONDITION_DESCRIPTION,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('sapView.sapConditionsTable.amount'),
-      field: 'amount',
+      field: SapPriceDetailsColumnFields.SAP_AMOUNT,
       valueFormatter: ColumnUtilityService.sapConditionAmountFormatter,
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('sapView.sapConditionsTable.pricingUnit'),
-      field: 'pricingUnit',
+      field: SapPriceDetailsColumnFields.SAP_PRICING_UNIT,
       valueFormatter: ColumnUtilityService.blankTransform,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('sapView.sapConditionsTable.conditionUnit'),
-      field: 'conditionUnit',
+      field: SapPriceDetailsColumnFields.SAP_CONDITION_UNIT,
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('sapView.sapConditionsTable.conditionValue'),
-      field: 'conditionValue',
+      field: SapPriceDetailsColumnFields.SAP_CONDITION_VALUE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('sapView.sapConditionsTable.validTo'),
-      field: 'validTo',
+      field: SapPriceDetailsColumnFields.SAP_VALID_TO,
       filter: DATE_COLUMN_FILTER,
       valueFormatter: ColumnUtilityService.dateFormatter,
       filterParams: ColumnUtilityService.dateFilterParams,

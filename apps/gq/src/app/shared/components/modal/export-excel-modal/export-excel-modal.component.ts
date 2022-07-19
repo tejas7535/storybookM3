@@ -8,7 +8,10 @@ import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
-import { getGqId } from '../../../../core/store';
+import {
+  getGqId,
+  loadExtendedSapPriceConditionDetails,
+} from '../../../../core/store';
 import { loadExtendedComparableLinkedTransaction } from '../../../../core/store/actions/extended-comparable-linked-transactions/extended-comparable-linked-transactions.actions';
 import {
   getExtendedComparableLinkedTransactionsErrorMessage,
@@ -86,6 +89,12 @@ export class ExportExcelModalComponent implements OnInit, OnDestroy {
     if (this.exportExcelOption === ExportExcel.DETAILED_DOWNLOAD) {
       this.store.dispatch(
         loadExtendedComparableLinkedTransaction({
+          quotationNumber: this.gQId,
+        })
+      );
+
+      this.store.dispatch(
+        loadExtendedSapPriceConditionDetails({
           quotationNumber: this.gQId,
         })
       );

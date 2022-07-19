@@ -5,4 +5,5 @@ export const SAP_PRICE_DETAILS_STATE_MOCK: SapPriceDetailsState = {
   errorMessage: 'error',
   sapPriceDetails: [],
   sapPriceDetailsLoading: false,
+  extendedSapPriceConditionDetails: [],
 };

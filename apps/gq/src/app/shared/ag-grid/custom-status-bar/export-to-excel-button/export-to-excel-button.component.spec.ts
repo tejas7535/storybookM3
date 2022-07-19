@@ -21,8 +21,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import {
   CUSTOMER_MOCK,
   EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
+  EXTENDED_SAP_PRICE_DETAIL_MOCK,
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
+  SAP_PRICE_DETAILS_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import { EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK } from '../../../../../testing/mocks/models/extended-comparable-linked-transaction.mock';
 import {
@@ -50,6 +52,7 @@ describe('ExportToExcelButtonComponent', () => {
         initialState: {
           extendedComparableLinkedTransactions:
             EXTENDED_COMPARABLE_LINKED_TRANSACTIONS_STATE_MOCK,
+          sapPriceDetails: SAP_PRICE_DETAILS_STATE_MOCK,
         },
       }),
     ],
@@ -169,14 +172,15 @@ describe('ExportToExcelButtonComponent', () => {
     test('calls dispatch and exportToExcel, if exportExcel is detailed download', () => {
       component['params'] = mockParams;
       component.transactions$ = of([
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK],
+        [EXTENDED_SAP_PRICE_DETAIL_MOCK],
       ]);
 
       component.shouldLoadTransactions(ExportExcel.DETAILED_DOWNLOAD);
 
-      expect(component.transactions[0]).toEqual(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK
-      );
+      expect(component.extendedComparableLinkedTransactions).toEqual([
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+      ]);
       expect(snackBar.open).not.toHaveBeenCalled();
       expect(component.exportToExcel).toHaveBeenCalledWith(
         ExportExcel.DETAILED_DOWNLOAD
@@ -185,11 +189,12 @@ describe('ExportToExcelButtonComponent', () => {
 
     test('calls dispatch and exportToExcel with BASIC_DOWNLOAD option, if no comparable transactions are available', () => {
       component['params'] = mockParams;
-      component.transactions$ = of([]);
+      component.transactions$ = of([[], []]);
 
       component.shouldLoadTransactions(ExportExcel.DETAILED_DOWNLOAD);
 
-      expect(component.transactions).toEqual(undefined);
+      expect(component.extendedComparableLinkedTransactions).toEqual([]);
+      expect(component.extendedSapPriceConditionDetails).toEqual([]);
       expect(snackBar.open).toHaveBeenCalledWith('translate it');
       expect(component.exportToExcel).toHaveBeenCalledWith(
         ExportExcel.BASIC_DOWNLOAD
@@ -825,7 +830,7 @@ describe('ExportToExcelButtonComponent', () => {
     });
   });
 
-  describe('export excel for comparable transactions', () => {
+  describe('export excel for comparable transactions and extendedSapPriceConditionDetails', () => {
     beforeEach(() => {
       component['params'] = mockParams;
     });
@@ -833,17 +838,51 @@ describe('ExportToExcelButtonComponent', () => {
     describe('setData', () => {
       beforeEach(() => {
         component['getComparableTransactions'] = jest.fn();
+        component['getExtendedSapPriceConditionDetails'] = jest.fn();
+        component.extendedComparableLinkedTransactions = [
+          EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        ];
+        component.extendedSapPriceConditionDetails = [
+          EXTENDED_SAP_PRICE_DETAIL_MOCK,
+        ];
       });
-      test(`calls get comparable transactions, if exportExcel is ${ExportExcel.DETAILED_DOWNLOAD}`, () => {
+
+      test(`calls getComparableTransactions and getExtendedSapPriceConditionDetails, if exportExcel is ${ExportExcel.DETAILED_DOWNLOAD}`, () => {
         component.setData(ExportExcel.DETAILED_DOWNLOAD);
 
         expect(component.getComparableTransactions).toHaveBeenCalledTimes(1);
+        expect(
+          component.getExtendedSapPriceConditionDetails
+        ).toHaveBeenCalledTimes(1);
       });
 
-      test(`does not call get comparable transactions, if exportExcel is ${ExportExcel.BASIC_DOWNLOAD}`, () => {
+      test(`does not call getComparableTransactions or getExtendedSapPriceConditionDetails, if exportExcel is ${ExportExcel.BASIC_DOWNLOAD}`, () => {
         component.setData(ExportExcel.BASIC_DOWNLOAD);
 
         expect(component.getComparableTransactions).not.toHaveBeenCalled();
+        expect(
+          component.getExtendedSapPriceConditionDetails
+        ).not.toHaveBeenCalled();
+      });
+
+      test(`does not call getComparableTransactions if there are no comparableTransactions`, () => {
+        component.extendedComparableLinkedTransactions = [];
+        component.setData(ExportExcel.DETAILED_DOWNLOAD);
+
+        expect(component.getComparableTransactions).not.toHaveBeenCalled();
+        expect(
+          component.getExtendedSapPriceConditionDetails
+        ).toHaveBeenCalledTimes(1);
+      });
+
+      test(`does not call getExtendedSapPriceConditionDetails if there are no comparableTransactions`, () => {
+        component.extendedSapPriceConditionDetails = [];
+        component.setData(ExportExcel.DETAILED_DOWNLOAD);
+
+        expect(component.getComparableTransactions).toHaveBeenCalledTimes(1);
+        expect(
+          component.getExtendedSapPriceConditionDetails
+        ).not.toHaveBeenCalled();
       });
     });
 
@@ -854,6 +893,29 @@ describe('ExportToExcelButtonComponent', () => {
         component.getComparableTransactions();
 
         expect(component.addComparableTransactions).toHaveBeenCalledTimes(1);
+        expect(
+          component['params'].api.getSheetDataForExcel
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          component['params'].api.getSheetDataForExcel
+        ).toHaveBeenLastCalledWith({
+          prependContent: [],
+          columnKeys: [''],
+          sheetName: 'translate it',
+          columnWidth: 250,
+        });
+      });
+    });
+
+    describe('getExtendedSapPriceConditionDetails', () => {
+      test('calls getSheetDataForExcel', () => {
+        component.addExtendedSapPriceConditionDetails = jest.fn(() => []);
+
+        component.getExtendedSapPriceConditionDetails();
+
+        expect(
+          component.addExtendedSapPriceConditionDetails
+        ).toHaveBeenCalledTimes(1);
         expect(
           component['params'].api.getSheetDataForExcel
         ).toHaveBeenCalledTimes(1);
@@ -893,26 +955,32 @@ describe('ExportToExcelButtonComponent', () => {
         };
       });
       test('header and body gets added', () => {
-        component.transactions = [];
-        component.addComparableTransactionsHeader = jest.fn(() => []);
-        component.addComparableTransactionsRows = jest.fn(() => []);
+        component.extendedComparableLinkedTransactions = [];
+        component.addCustomHeader = jest.fn(() => []);
+        component.addCustomRows = jest.fn(() => []);
 
         component.addComparableTransactions();
 
-        expect(component.addComparableTransactionsHeader).toHaveBeenCalledWith(
+        expect(component.addCustomHeader).toHaveBeenCalledWith(
           'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions'
         );
-        expect(component.addComparableTransactionsRows).toHaveBeenCalledWith(
-          'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions'
+        expect(component.addCustomRows).toHaveBeenCalledWith(
+          'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions',
+          component.extendedComparableLinkedTransactions
         );
       });
 
       test('rows rounds up profitMargin', () => {
-        component.transactions = [EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK];
+        component.extendedComparableLinkedTransactions = [
+          EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        ];
         PriceService.roundToTwoDecimals = jest.fn().mockReturnValue(42);
         component['getNumberExcelCell'] = jest.fn();
 
-        component.addComparableTransactionsRows(translations);
+        component.addCustomRows(
+          translations,
+          component.extendedComparableLinkedTransactions
+        );
 
         expect(component.getNumberExcelCell).toHaveBeenCalledTimes(
           Object.values(translations).length
@@ -926,7 +994,7 @@ describe('ExportToExcelButtonComponent', () => {
         component['getExcelCell'] = jest.fn();
         component['appendQuotationCurrency'] = jest.fn();
 
-        component.addComparableTransactionsHeader(translations);
+        component.addCustomHeader(translations);
 
         expect(component.getExcelCell).toHaveBeenCalledTimes(
           Object.values(translations).length
@@ -944,12 +1012,65 @@ describe('ExportToExcelButtonComponent', () => {
         expect(headerField).toEqual('Price [EUR]');
       });
     });
+
+    describe('addExtendedSapPriceConditionDetails', () => {
+      let translations: { [key: string]: string };
+      beforeEach(() => {
+        translations = {
+          quotationItemId: 'Item',
+          sapConditionType: 'SAP Condition Type',
+          conditionTypeDescription: 'Description',
+          amount: 'Amount',
+          pricingUnit: 'per',
+          conditionUnit: 'Condition Unit',
+          conditionValue: 'Condition Value',
+          validTo: 'Valid to',
+        };
+      });
+      test('header and body gets added', () => {
+        component.extendedSapPriceConditionDetails = [];
+        component.addCustomHeader = jest.fn(() => []);
+        component.addCustomRows = jest.fn(() => []);
+
+        component.addExtendedSapPriceConditionDetails();
+
+        expect(component.addCustomHeader).toHaveBeenCalledWith(
+          'shared.customStatusBar.excelExport.extendedSapPriceConditionDetails'
+        );
+        expect(component.addCustomRows).toHaveBeenCalledWith(
+          'shared.customStatusBar.excelExport.extendedSapPriceConditionDetails',
+          component.extendedSapPriceConditionDetails
+        );
+      });
+
+      test('header calls appendCurrency', () => {
+        component['getExcelCell'] = jest.fn();
+        component['appendQuotationCurrency'] = jest.fn();
+
+        component.addCustomHeader(translations);
+
+        expect(component.getExcelCell).toHaveBeenCalledTimes(
+          Object.values(translations).length
+        );
+        expect(component.appendQuotationCurrency).toHaveBeenCalledWith(
+          translations.conditionValue
+        );
+      });
+
+      test('appendCurrency returns headerField with unit', () => {
+        const headerField = component.appendQuotationCurrency(
+          translations.conditionValue
+        );
+
+        expect(headerField).toEqual('Condition Value [EUR]');
+      });
+    });
   });
 
   describe('transformValue', () => {
     test('transforms string value', () => {
       const actual = component.transformValue(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         'inputMaterialDescription'
       );
 
@@ -962,7 +1083,7 @@ describe('ExportToExcelButtonComponent', () => {
       PriceService.roundToTwoDecimals = jest.fn().mockReturnValue(42);
 
       component.transformValue(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         ColumnFields.PROFIT_MARGIN
       );
 
@@ -975,7 +1096,7 @@ describe('ExportToExcelButtonComponent', () => {
       HelperService.transformNumber = jest.fn().mockReturnValue(42);
 
       component.transformValue(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         ColumnFields.PRICE
       );
 
@@ -989,8 +1110,8 @@ describe('ExportToExcelButtonComponent', () => {
       HelperService.transformNumber = jest.fn().mockReturnValue(42);
 
       const result = component.transformValue(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
-        'does-not-exist'
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
+        'does-not-exist' as any
       );
 
       expect(HelperService.transformNumber).not.toHaveBeenCalled();

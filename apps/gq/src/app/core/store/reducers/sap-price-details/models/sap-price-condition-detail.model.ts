@@ -11,3 +11,8 @@ export interface SapPriceConditionDetail {
   calculationType: CalculationType;
   sequenceId: number;
 }
+
+export interface ExtendedSapPriceConditionDetail
+  extends SapPriceConditionDetail {
+  quotationItemId: number;
+}

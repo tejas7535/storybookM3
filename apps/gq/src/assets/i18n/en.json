@@ -191,6 +191,19 @@
         "summary": "Summary",
         "comparableTransactions": "Comparable Transactions",
         "noComparableTransactionsWarning": "Unfortunately, there are no comparable transactions for the selected case.",
+        "extendedSapPriceConditionDetailsTitle": "SAP Price Details",
+        "noExtendedSapPriceConditionDetailsWarning": "Unfortunately, there are no SAP price condition details for the selected case.",
+        "noTransactionAndPriceDetails": "Unfortunately, there are no transactions and no SAP price condition details for the selected case.",
+        "extendedSapPriceConditionDetails": {
+          "quotationItemId": "Item",
+          "sapConditionType": "Condition",
+          "conditionTypeDescription": "Description",
+          "amount": "Amount",
+          "pricingUnit": "per",
+          "conditionUnit": "units",
+          "conditionValue": "Condition Value",
+          "validTo": "Valid to"
+        },
         "extendedComparableLinkedTransactions": {
           "itemId": "Item",
           "materialDescription": "Material Description",

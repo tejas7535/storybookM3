@@ -8,7 +8,10 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '../../../../core/store/reducers/process-case/models';
-import { SapPriceConditionDetail } from '../../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
+import {
+  ExtendedSapPriceConditionDetail,
+  SapPriceConditionDetail,
+} from '../../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { ApiVersion, Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
@@ -26,6 +29,8 @@ export class QuotationDetailsService {
   private readonly PATH_MATERIAL_STATUS = 'material-status';
   private readonly PATH_SAP_PRICE_DETAILS =
     'material-sap-price-condition-details';
+  private readonly PATH_EXTENDED_SAP_PRICE_DETAILS =
+    'sap-price-condition-details';
 
   constructor(private readonly http: HttpClient) {}
 
@@ -94,6 +99,12 @@ export class QuotationDetailsService {
   ): Observable<SapPriceConditionDetail[]> {
     return this.http.get<SapPriceConditionDetail[]>(
       `${ApiVersion.V1}/${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_SAP_PRICE_DETAILS}`
+    );
+  }
+
+  getExtendedSapPriceConditionDetails(quotationNumber: number) {
+    return this.http.get<ExtendedSapPriceConditionDetail[]>(
+      `${ApiVersion.V1}/${this.PATH_QUOTATIONS}/${quotationNumber}/${this.PATH_EXTENDED_SAP_PRICE_DETAILS}`
     );
   }
 }

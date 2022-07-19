@@ -1,6 +1,9 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { SapPriceConditionDetail } from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
+import {
+  ExtendedSapPriceConditionDetail,
+  SapPriceConditionDetail,
+} from '../../reducers/sap-price-details/models/sap-price-condition-detail.model';
 
 export const loadSapPriceDetails = createAction(
   '[SAP Price Details] Load SAP Price Details for QuotationDetail',
@@ -17,10 +20,30 @@ export const loadSapPriceDetailsFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadExtendedSapPriceConditionDetails = createAction(
+  '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Quotation',
+  props<{ quotationNumber: number }>()
+);
+
+export const loadExtendedSapPriceConditionDetailsSuccess = createAction(
+  '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Quotation Success',
+  props<{
+    extendedSapPriceConditionDetails: ExtendedSapPriceConditionDetail[];
+  }>()
+);
+
+export const loadExtendedSapPriceConditionDetailsFailure = createAction(
+  '[SAP Price Details] Load ExtendedSapPriceConditionDetails for Quotation Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   loadSapPriceDetails,
   loadSapPriceDetailsSuccess,
   loadSapPriceDetailsFailure,
+  loadExtendedSapPriceConditionDetails,
+  loadExtendedSapPriceConditionDetailsSuccess,
+  loadExtendedSapPriceConditionDetailsFailure,
 });
 
 export type SapPriceDetailsActions = typeof all;

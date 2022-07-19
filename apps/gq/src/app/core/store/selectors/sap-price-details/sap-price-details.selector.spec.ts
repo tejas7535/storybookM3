@@ -18,4 +18,13 @@ describe('SapPriceDetails Selector', () => {
       ).toEqual(fakeState.sapPriceDetailsLoading);
     });
   });
+  describe('getExtendedSapPriceConditionDetails', () => {
+    test('should return extendedSapPriceConditionDetails', () => {
+      expect(
+        sapPriceDetailsSelectors.getExtendedSapPriceConditionDetails.projector(
+          fakeState
+        )
+      ).toEqual(fakeState.extendedSapPriceConditionDetails);
+    });
+  });
 });

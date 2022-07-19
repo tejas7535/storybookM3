@@ -46,7 +46,7 @@
     "descriptionColumn": {
       "title": "Included",
       "basicDownload": "Summary Page & Quote Items",
-      "detailedDownload": "Basic Download + Comparable Transactions"
+      "detailedDownload": "Basic Download + Comparable Transactions+ SAP Price Details"
     },
     "confirm": "Download",
     "cancel": "Cancel"

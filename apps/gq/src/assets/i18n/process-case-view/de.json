@@ -46,7 +46,7 @@
     "descriptionColumn": {
       "title": "Eingeschlossen",
       "basicDownload": "Übersichtsseite & Angebotspositionen",
-      "detailedDownload": "Basis Download + Vergleichbare Transaktionen"
+      "detailedDownload": "Basis Download + Vergleichbare Transaktionen + SAP Preis Details"
     },
     "confirm": "Herunterladen",
     "cancel": "Abbrechen"

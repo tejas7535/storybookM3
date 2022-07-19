@@ -29,6 +29,25 @@ export class HelperService {
     return pipe.transform(number, showDigits ? '.2-2' : '');
   }
 
+  static transformDate(
+    date: string,
+    formatLocale?: string,
+    formatOptions?: Intl.DateTimeFormatOptions
+  ): string {
+    if (!date) {
+      return '';
+    }
+
+    return new Intl.DateTimeFormat(
+      formatLocale || 'de-DE',
+      formatOptions || {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }
+    ).format(new Date(date));
+  }
+
   static transformNumberCurrency(number: string, currency: string): string {
     return number ? `${number} ${currency}` : Keyboard.DASH;
   }

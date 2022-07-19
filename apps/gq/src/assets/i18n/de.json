@@ -192,6 +192,19 @@
         "gqCreated": "Erstellt am",
         "comparableTransactions": "Vergleichbare Transaktionen",
         "noComparableTransactionsWarning": "Leider gibt es für den ausgewählten Case keine vergleichbaren Transaktionen.",
+        "extendedSapPriceConditionDetailsTitle": "SAP Preis Details",
+        "noExtendedSapPriceConditionDetailsWarning": "Leider gibt es für den ausgewählten Case keine SAP Preis Details.",
+        "noTransactionAndPriceDetails": "Leider gibt es für den ausgewählten Case keine Transatkionen und keine SAP Preis Details.",
+        "extendedSapPriceConditionDetails": {
+          "quotationItemId": "Item",
+          "sapConditionType": "SAP Preisbedingung",
+          "conditionTypeDescription": "Beschreibung",
+          "amount": "Betrag",
+          "pricingUnit": "per",
+          "conditionUnit": "Einheit",
+          "conditionValue": "Wert",
+          "validTo": "Gültig bis"
+        },
         "extendedComparableLinkedTransactions": {
           "itemId": "Position",
           "materialDescription": "Material-Beschreibung",
