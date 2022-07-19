@@ -7,6 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Embedded App</title>
     <link rel="icon" type="image/x-icon" href="favicon.png" />
+    <style>
+      :focus-visible {
+        outline: none !important;
+      }
+    </style>
   </head>
   <body>
     <div id="app" class="p-3">
@@ -31,7 +36,7 @@
           />
         </div>
       </div>
-      <div class="mx-auto flex max-w-md gap-4 px-4 pt-4">
+      <div class="mx-auto mb-4 flex max-w-md gap-4 px-4 pt-4">
         <div class="text-gray-500 flex items-center rounded-md border">
           <label
             for="app-height"
@@ -74,7 +79,7 @@
         </div>
       </div>
       <div
-        class="m-0 mx-auto flex resize overflow-hidden p-5"
+        class="from-gray-200 to-gray-100 m-0 mx-auto flex resize overflow-hidden rounded bg-gradient-to-br p-5"
         :style="{ 'height': iFrameHeight + 'px', width: iFrameWidth + 'px' }"
       >
         <iframe :src="iFrameSrc" class="m-0 grow border-none p-0"></iframe>
