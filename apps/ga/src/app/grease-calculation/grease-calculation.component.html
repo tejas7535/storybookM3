@@ -1,5 +1,6 @@
 <div class="flex h-full flex-col sm:pt-4">
   <schaeffler-breadcrumbs
+    *ngIf="!(appIsEmbedded$ | ngrxPush)"
     class="mx-4 hidden sm:block"
     [breadcrumbs]="breadcrumbs"
   ></schaeffler-breadcrumbs>

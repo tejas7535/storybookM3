@@ -11,6 +11,8 @@ import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
+import { SettingsFacade } from '@ga/core/store';
+
 import packageJson from '../../package.json';
 import { TRACKING_NAME_LANGUAGE } from './shared/constants';
 
@@ -25,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public footerLinks: AppShellFooterLink[] = [];
   public currentLanguage!: string;
   appVersion = packageJson.version;
+  public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
 
   constructor(
     private readonly router: Router,
@@ -32,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly metaService: Meta,
     private readonly titleService: Title,
     private readonly applicationInsightsService: ApplicationInsightsService,
+    private readonly settingsFacade: SettingsFacade,
     @Optional() private readonly oneTrustService: OneTrustService
   ) {}
 

@@ -1,36 +1,45 @@
-<schaeffler-app-shell
-  [appTitle]="appTitle"
-  [appTitleLink]="'/app'"
-  [hasSidebarLeft]="true"
-  [footerLinks]="footerLinks"
-  [appVersion]="appVersion"
+<div
+  class="min-h-screen bg-surface"
+  *ngIf="appIsEmbedded$ | ngrxPush; else standalone"
 >
-  <ng-container sidenavBody>
-    <div class="px-5">
-      <div class="py-4">
-        <ga-user-settings></ga-user-settings>
-      </div>
-    </div>
-  </ng-container>
-  <ng-container mainContent>
-    <div class="flex min-h-full w-full flex-col">
-      <div class="h-full w-full">
-        <router-outlet></router-outlet>
-      </div>
-      <div
-        *transloco="let t; read: 'legal'"
-        class="mx-auto w-full max-w-screen-md bg-surface"
-        [ngClass]="{ hidden: !isCookiePage }"
-      >
-        <div class="py-3 px-4">
-          <button id="ot-sdk-btn" class="ot-sdk-show-settings">
-            {{ t('cookieSettings') }}
-          </button>
-        </div>
-        <div class="py-3 md:px-4">
-          <div id="ot-sdk-cookie-policy"></div>
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #standalone>
+  <schaeffler-app-shell
+    [appTitle]="appTitle"
+    [appTitleLink]="'/app'"
+    [hasSidebarLeft]="true"
+    [footerLinks]="footerLinks"
+    [appVersion]="appVersion"
+  >
+    <ng-container sidenavBody>
+      <div class="px-5">
+        <div class="py-4">
+          <ga-user-settings></ga-user-settings>
         </div>
       </div>
-    </div>
-  </ng-container>
-</schaeffler-app-shell>
+    </ng-container>
+    <ng-container mainContent>
+      <div class="flex min-h-full w-full flex-col">
+        <div class="h-full w-full">
+          <router-outlet></router-outlet>
+        </div>
+        <div
+          *transloco="let t; read: 'legal'"
+          class="mx-auto w-full max-w-screen-md bg-surface"
+          [ngClass]="{ hidden: !isCookiePage }"
+        >
+          <div class="py-3 px-4">
+            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+              {{ t('cookieSettings') }}
+            </button>
+          </div>
+          <div class="py-3 md:px-4">
+            <div id="ot-sdk-cookie-policy"></div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </schaeffler-app-shell>
+</ng-template>

@@ -7,13 +7,14 @@ import { Store } from '@ngrx/store';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { selectBearing } from '../core/store';
+import { selectBearing, SettingsFacade } from '@ga/core/store';
 
 @Component({
   selector: 'ga-grease-calculation',
   templateUrl: './grease-calculation.component.html',
 })
 export class GreaseCalculationComponent implements OnInit {
+  public appIsEmbedded$ = this.settingsFacade.appIsEmbedded$;
   public breadcrumbs: Breadcrumb[] = [
     {
       label: 'Landing Page',
@@ -26,7 +27,8 @@ export class GreaseCalculationComponent implements OnInit {
 
   constructor(
     private readonly store: Store,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly settingsFacade: SettingsFacade
   ) {}
 
   public ngOnInit(): void {

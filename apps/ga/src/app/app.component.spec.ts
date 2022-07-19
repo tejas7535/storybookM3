@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OneTrustModule } from '@altack/ngx-onetrust';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
+import { PushModule } from '@ngrx/component';
 import { MockModule } from 'ng-mocks';
 
 import { AppShellModule } from '@schaeffler/app-shell';
@@ -32,6 +33,7 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       RouterTestingModule,
+      PushModule,
       MockModule(CoreModule),
       MockModule(AppShellModule),
       MockModule(UserSettingsModule),
