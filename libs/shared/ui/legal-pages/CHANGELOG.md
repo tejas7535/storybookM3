@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.2.2](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/legal-pages-v0.2.1...legal-pages-v0.2.2) (2022-07-20)
+
+
+### 🎸 Features
+
+* **legal-pages:** add dynamic storage period ([d60b117](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d60b117358cd4a8c579c9057be6627865b8e7cb5))
+* **legal-pages:** adjust default purpose text ([bbbc7b8](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bbbc7b812a4c50a8dee44ffa14382b1c1b3882e2))
+
 ### 0.2.1 (2022-07-07)
 
 
