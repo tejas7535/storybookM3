@@ -3,13 +3,6 @@
 This library enables authentications and token acquisition with the Microsoft Identity platform. It implements the `OAuth 2.0 Authorization Code Flow with PKCE` and it is `OpenID-compliant`.
 
 ## Prerequisites
-
-### Install (Sub)-Dependencies
-
-Install needed peer dependencies:
-
-`npm i @azure/msal-angular @azure/msal-browser`
-
 ### Azure AD
 
 1) Go to your `app registration` -> `Authentication` and `Add a platform`.  
