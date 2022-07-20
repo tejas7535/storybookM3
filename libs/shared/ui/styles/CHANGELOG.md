@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.6.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.6.0...styles-v1.6.1) (2022-07-20)
+
 ## [1.6.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/styles-v1.5.0...styles-v1.6.0) (2022-07-07)
 
 
