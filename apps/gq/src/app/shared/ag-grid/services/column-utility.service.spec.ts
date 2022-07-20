@@ -94,16 +94,40 @@ describe('CreateColumnService', () => {
       const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
       expect(isNotFiltered).toBeFalsy();
     });
-    test('should return true', () => {
-      const col = { field: ColumnFields.SQV };
-      roles.push(UserRoles.COST_SQV);
-      const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
-      expect(isNotFiltered).toBeTruthy();
-    });
-    test('should return true on gpm', () => {
+    test('should return false for gpm', () => {
       const col = { field: ColumnFields.GPM };
       const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
-      expect(isNotFiltered).toBeTruthy();
+      expect(isNotFiltered).toBeFalsy();
+    });
+    test('should return false for relocation cost', () => {
+      const col = { field: ColumnFields.RELOCATION_COST };
+      const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
+      expect(isNotFiltered).toBeFalsy();
+    });
+    test('should return false for rlm', () => {
+      const col = { field: ColumnFields.RLM };
+      const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
+      expect(isNotFiltered).toBeFalsy();
+    });
+    test('should return false for last customer price gpm', () => {
+      const col = { field: ColumnFields.LAST_CUSTOMER_PRICE_GPM };
+      const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
+      expect(isNotFiltered).toBeFalsy();
+    });
+    describe('include sqv roles', () => {
+      beforeAll(() => {
+        roles.push(UserRoles.COST_SQV);
+      });
+      test('should return true', () => {
+        const col = { field: ColumnFields.SQV };
+        const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
+        expect(isNotFiltered).toBeTruthy();
+      });
+      test('should return true on gpm', () => {
+        const col = { field: ColumnFields.GPM };
+        const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
+        expect(isNotFiltered).toBeTruthy();
+      });
     });
   });
 

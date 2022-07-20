@@ -18,7 +18,11 @@ import { MaterialClassificationSOPPipe } from '../../pipes/material-classificati
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
-import { ColumnFields } from '../constants/column-fields.enum';
+import {
+  ColumnFields,
+  GpcColumns,
+  SqvColumns,
+} from '../constants/column-fields.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -60,17 +64,13 @@ export class ColumnUtilityService {
     );
   }
   static filterGpc(col: ColDef, roles: string[]): boolean {
-    return [
-      ColumnFields.GPC,
-      ColumnFields.GPI,
-      ColumnFields.LAST_CUSTOMER_PRICE_GPI,
-    ].includes(col.field as ColumnFields)
+    return GpcColumns.includes(col.field as ColumnFields)
       ? roles.includes(UserRoles.COST_GPC)
       : true;
   }
 
   static filterSqv(col: ColDef, roles: string[]): boolean {
-    return col.field === ColumnFields.SQV || col.field === ColumnFields.GPM
+    return SqvColumns.includes(col.field as ColumnFields)
       ? roles.includes(UserRoles.COST_SQV)
       : true;
   }

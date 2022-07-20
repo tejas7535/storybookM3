@@ -84,3 +84,17 @@ export const RelatedKPIs = [
   ColumnFields.GPM,
   ColumnFields.DISCOUNT,
 ];
+
+export const SqvColumns = [
+  ColumnFields.SQV,
+  ColumnFields.GPM,
+  ColumnFields.RELOCATION_COST,
+  ColumnFields.RLM,
+  ColumnFields.LAST_CUSTOMER_PRICE_GPM,
+];
+
+export const GpcColumns = [
+  ColumnFields.GPC,
+  ColumnFields.GPI,
+  ColumnFields.LAST_CUSTOMER_PRICE_GPI,
+];
