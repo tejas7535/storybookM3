@@ -29,13 +29,13 @@ describe('SharedTranslocoModule for Root', () => {
     test('should load language', () => {
       const service = {
         load: jest.fn().mockImplementation(() => of(true)),
-        setActiveLang: jest.fn(),
+        setDefaultLang: jest.fn(),
       } as unknown as transloco.TranslocoService;
 
       preloadLanguage(service, 'en', 'es')();
 
       expect(service.load).toHaveBeenCalledWith('en');
-      expect(service.setActiveLang).toHaveBeenCalledWith('en');
+      expect(service.setDefaultLang).toHaveBeenCalledWith('en');
     });
 
     test('should load language from Browser Language', () => {
@@ -44,13 +44,13 @@ describe('SharedTranslocoModule for Root', () => {
       });
       const service = {
         load: jest.fn().mockImplementation(() => of(true)),
-        setActiveLang: jest.fn(),
+        setDefaultLang: jest.fn(),
       } as unknown as transloco.TranslocoService;
 
       preloadLanguage(service, undefined, 'it')();
 
       expect(service.load).toHaveBeenCalledWith('es');
-      expect(service.setActiveLang).toHaveBeenCalledWith('es');
+      expect(service.setDefaultLang).toHaveBeenCalledWith('es');
     });
 
     test('should load language from fallback language in the edge case', () => {
@@ -59,13 +59,13 @@ describe('SharedTranslocoModule for Root', () => {
       });
       const service = {
         load: jest.fn().mockImplementation(() => of(true)),
-        setActiveLang: jest.fn(),
+        setDefaultLang: jest.fn(),
       } as unknown as transloco.TranslocoService;
 
       preloadLanguage(service, undefined, 'nl')();
 
       expect(service.load).toHaveBeenCalledWith('nl');
-      expect(service.setActiveLang).toHaveBeenCalledWith('nl');
+      expect(service.setDefaultLang).toHaveBeenCalledWith('nl');
     });
   });
 });
