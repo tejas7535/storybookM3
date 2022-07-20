@@ -888,7 +888,7 @@ pipeline {
                             // unzip bundle
                             sh 'mkdir docs'
                             fileOperations([fileUnZipOperation(filePath: 'storybook.zip', targetLocation: './docs')])
-                            writeFile(file: '.docs/CNAME', text: 'storybook.pages.dp.schaeffler')
+                            writeFile(file: 'docs/CNAME', text: 'storybook.pages.dp.schaeffler')
                             sh 'rm storybook.zip'
 
                             try {
