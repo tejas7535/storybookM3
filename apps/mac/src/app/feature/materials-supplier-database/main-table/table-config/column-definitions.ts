@@ -1,6 +1,5 @@
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 
-import { BOOLEAN_VALUE_GETTER } from './boolean-value-getter';
 import { FILTER_PARAMS } from './filter-params';
 
 export const MATERIAL_STANDARD_MATERIAL_NAME = 'materialStandardMaterialName';
@@ -10,23 +9,22 @@ export const MATERIAL_NUMBERS = 'materialNumbers';
 export const MANUFACTURER_SUPPLIER_NAME = 'manufacturerSupplierName';
 export const MANUFACTURER_SUPPLIER_PLANT = 'manufacturerSupplierPlant';
 export const SAP_SUPPLIER_IDS = 'sapSupplierIds';
-export const MANUFACTURER_SUPPLIER_KIND = 'manufacturerSupplierKind';
-export const MIN_DIMENSION = 'minDimension';
-export const MAX_DIMENSION = 'maxDimension';
-export const RATING_KIND_NAME = 'ratingKindName';
+export const PRODUCT_CATEGORY = 'productCategoryText';
+export const CO2_SCOPE_1 = 'co2Scope1';
+export const CO2_SCOPE_2 = 'co2Scope2';
+export const CO2_SCOPE_3 = 'co2Scope3';
 export const CO2_PER_TON = 'co2PerTon';
-export const IS_PREMATERIAL = 'isPrematerial';
-export const SHAPE_NAME = 'shapeName';
-export const SHAPE_CODE = 'shapeCode';
-export const CASTING_MODE = 'castingMode';
-export const CASTING_DIAMETER = 'castingDiameter';
-export const STEEL_MAKING_PROCESS = 'steelMakingProcess';
+export const CO2_CLASSIFICATION = 'co2Classification';
 export const RELEASE_DATE_YEAR = 'releaseDateYear';
 export const RELEASE_DATE_MONTH = 'releaseDateMonth';
 export const RELEASE_RESTRICTIONS = 'releaseRestrictions';
-export const ESR = 'esr';
-export const VAR = 'var';
-export const EXPORT = 'export';
+export const CASTING_MODE = 'castingMode';
+export const CASTING_DIAMETER = 'castingDiameter';
+export const MIN_DIMENSION = 'minDimension';
+export const MAX_DIMENSION = 'maxDimension';
+export const STEEL_MAKING_PROCESS = 'steelMakingProcess';
+export const RATING = 'rating';
+export const RATING_REMARK = 'ratingRemark';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
@@ -62,12 +60,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     hide: true,
   },
   {
-    field: MANUFACTURER_SUPPLIER_KIND,
-    headerName: 'Kind',
-    filterParams: FILTER_PARAMS,
-    hide: true,
-  },
-  {
     field: MIN_DIMENSION,
     headerName: 'Min Dimension',
     filter: 'agNumberColumnFilter',
@@ -79,9 +71,15 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    field: RATING_KIND_NAME,
+    field: RATING,
     headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
+  },
+  {
+    field: RATING_REMARK,
+    headerName: 'Rating Remark',
+    filterParams: FILTER_PARAMS,
+    hide: true,
   },
   {
     field: CO2_PER_TON,
@@ -89,22 +87,14 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filter: 'agNumberColumnFilter',
   },
   {
-    field: IS_PREMATERIAL,
-    headerName: 'Is Prematerial',
-    filterParams: FILTER_PARAMS,
-    filterValueGetter: BOOLEAN_VALUE_GETTER,
+    field: CO2_CLASSIFICATION,
+    headerName: 'CO₂ Data Classification',
     hide: true,
   },
   {
-    field: SHAPE_NAME,
+    field: PRODUCT_CATEGORY,
     headerName: 'Product Category',
     filterParams: FILTER_PARAMS,
-  },
-  {
-    field: SHAPE_CODE,
-    headerName: 'Product Category Code',
-    filterParams: FILTER_PARAMS,
-    hide: true,
   },
   {
     field: CASTING_MODE,
@@ -140,20 +130,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: RELEASE_RESTRICTIONS,
     headerName: 'Release Restrictions',
     filterParams: FILTER_PARAMS,
-    hide: true,
-  },
-  {
-    field: ESR,
-    headerName: 'ESR',
-    filterParams: FILTER_PARAMS,
-    filterValueGetter: BOOLEAN_VALUE_GETTER,
-    hide: true,
-  },
-  {
-    field: VAR,
-    headerName: 'VAR',
-    filterParams: FILTER_PARAMS,
-    filterValueGetter: BOOLEAN_VALUE_GETTER,
     hide: true,
   },
 ];

@@ -10,16 +10,16 @@
         <mat-label>{{ t('materialClass') }}</mat-label>
         <mat-select
           [formControl]="materialClassSelectionControl"
-          [compareWith]="compareDataFilters"
+          [compareWith]="compareStringOptions"
         >
-          <mat-option [value]="{ id: undefined, name: undefined }">
+          <mat-option [value]="{ id: undefined, title: undefined }">
             {{ t('all') }}
           </mat-option>
           <mat-option
             *ngFor="let option of materialClassOptions$ | ngrxPush"
             [value]="option"
           >
-            {{ option.name | titlecase }}
+            {{ option.title | titlecase }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -27,7 +27,7 @@
         <mat-label>{{ t('productCategory') }}</mat-label>
         <mat-select
           [formControl]="productCategorySelectionControl"
-          [compareWith]="compareDataFilters"
+          [compareWith]="compareStringOptions"
           multiple
         >
           <mat-select-trigger *ngIf="allCategoriesSelectedControl.value">{{
@@ -47,7 +47,7 @@
             [value]="option"
             #categoryOption
           >
-            {{ option.name | titlecase }}
+            {{ option.title | titlecase }}
           </mat-option>
         </mat-select>
       </mat-form-field>

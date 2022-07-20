@@ -1,64 +1,35 @@
 export interface MaterialResponseEntry {
   id: number;
-  manufacturerSupplier: {
-    id: number;
-    name: string;
-    plant: string;
-    kind: number;
-    materials?: any[];
-    sapData?: {
-      id: number;
-      manufacturerSupplierId: number;
-      name: string;
-      plant: string;
-      sapSupplierId: string;
-      sapSupplierName: string;
-      sapSupplierLocation: string;
-      sapSupplierCountry: string;
-      sapCategory: string;
-    }[];
-  };
+  materialClass: string;
   materialStandard: {
     id: number;
     materialName: string;
     standardDocument: string;
-    materials?: any[];
+    materialNumber: string;
   };
-  isPrematerial: boolean;
-  materialCategory: string;
-  materialClass: {
+  manufacturerSupplier: {
     id: number;
     name: string;
-    code: string;
+    plant: string;
+    sapData?: {
+      sapSupplierId: string;
+    }[];
   };
-  shape: {
-    id: number;
-    name: string;
-    code: string;
-    materials?: any[];
-  };
-  castingMode: string;
-  castingDiameter: string;
-  minDimension: number;
-  maxDimension: number;
-  co2PerTon: number;
-  rating?: {
-    id: number;
-    code: string;
-    barDiameter: string;
-    squareDiameter: string;
-    remark: string;
-    kind: {
-      id: number;
-      name: string;
-      code: string;
-    };
-  };
-  steelMakingProcess: string;
+  productCategory: string;
+  referenceDoc?: string;
+  co2Scope1?: number;
+  co2Scope2?: number;
+  co2Scope3?: number;
+  co2PerTon?: number;
+  co2Classification?: string;
   releaseDateYear: number;
   releaseDateMonth: number;
-  releaseRestrictions: string;
-  esr: boolean;
-  var: boolean;
-  export: boolean;
+  releaseRestrictions?: string;
+  castingMode: string;
+  castingDiameter: string;
+  minDimension?: number;
+  maxDimension: number;
+  steelMakingProcess?: string;
+  rating?: string;
+  ratingRemark?: string;
 }

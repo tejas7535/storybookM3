@@ -26,15 +26,17 @@ import {
   GridApi,
 } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { StringOption } from '@schaeffler/inputs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../assets/i18n/en.json';
-import { DataFilter, DataResult } from '../models';
+import { DataResult } from '../models';
 import { fetchMaterials, setAgGridFilter } from '../store/actions';
 import { initialState as initialDataState } from '../store/reducers/data.reducer';
 import {
@@ -51,6 +53,11 @@ import {
   COLUMN_DEFINITIONS,
   SAP_SUPPLIER_IDS,
 } from './table-config/column-definitions';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
+  translate: jest.fn((string) => string),
+}));
 
 describe('MainTableComponent', () => {
   let component: MainTableComponent;
@@ -139,7 +146,7 @@ describe('MainTableComponent', () => {
 
         component.allCategoriesSelectedControl.patchValue = jest.fn();
 
-        component.productCategorySelectionControl.patchValue(['something']);
+        component.productCategorySelectionControl.patchValue([]);
 
         expect(
           component.allCategoriesSelectedControl.patchValue
@@ -150,7 +157,7 @@ describe('MainTableComponent', () => {
 
         component.allCategoriesSelectedControl.patchValue = jest.fn();
 
-        component.productCategorySelectionControl.patchValue(['something']);
+        component.productCategorySelectionControl.patchValue([]);
 
         expect(
           component.allCategoriesSelectedControl.patchValue
@@ -167,8 +174,8 @@ describe('MainTableComponent', () => {
 
       it('should dispatch setFilterModel on filterForm change', async () => {
         const mockValue: {
-          materialClass: DataFilter;
-          productCategory: DataFilter[];
+          materialClass: StringOption;
+          productCategory: StringOption[];
         } = {
           materialClass: undefined,
           productCategory: undefined,
@@ -273,11 +280,11 @@ describe('MainTableComponent', () => {
     it('should do nothing if materialClass is not defined', () => {
       const mockFilterString = 'some params';
       const mockFilterParams: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: undefined,
-        productCategory: [{ id: 0, name: 'gibts net' }],
+        productCategory: [{ id: 'id', title: 'gibts net' }],
       };
       JSON.parse = jest.fn(() => mockFilterParams);
       component.materialClassSelectionControl.patchValue = jest.fn();
@@ -303,10 +310,10 @@ describe('MainTableComponent', () => {
     it('should do nothing if productCategory is not defined', () => {
       const mockFilterString = 'some params';
       const mockFilterParams: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
-        materialClass: { id: 0, name: 'gibts net' },
+        materialClass: { id: 'id', title: 'gibts net' },
         productCategory: undefined,
       };
       JSON.parse = jest.fn(() => mockFilterParams);
@@ -333,8 +340,8 @@ describe('MainTableComponent', () => {
     it('should patch controls and fetch materials if params are defined', () => {
       const mockFilterString = 'some params';
       const mockFilterParams = {
-        materialClass: { id: 0, name: 'gibts net' },
-        productCategory: [{ id: 0, name: 'gibts net' }],
+        materialClass: { id: 'id', title: 'gibts net' },
+        productCategory: [{ id: 'id', title: 'gibts net' }],
       };
       JSON.parse = jest.fn(() => mockFilterParams);
       component.materialClassSelectionControl.patchValue = jest.fn();
@@ -350,10 +357,12 @@ describe('MainTableComponent', () => {
       expect(JSON.parse).toHaveBeenCalledWith(mockFilterString);
       expect(
         component.materialClassSelectionControl.patchValue
-      ).toHaveBeenCalledWith(mockFilterParams.materialClass as DataFilter);
+      ).toHaveBeenCalledWith(mockFilterParams.materialClass as StringOption);
       expect(
         component.productCategorySelectionControl.patchValue
-      ).toHaveBeenCalledWith(mockFilterParams.productCategory as DataFilter[]);
+      ).toHaveBeenCalledWith(
+        mockFilterParams.productCategory as StringOption[]
+      );
       expect(component.fetchMaterials).toHaveBeenCalled();
       expect(component.filterForm.markAsDirty).toHaveBeenCalled();
     });
@@ -510,44 +519,44 @@ describe('MainTableComponent', () => {
       expect(mockApi.setFilterModel).not.toHaveBeenCalled();
     });
   });
-  describe('compareDataFilters', () => {
+  describe('compareStringOptions', () => {
     it('should return false if a is not defined', () => {
-      const a: DataFilter = undefined;
-      const b: DataFilter = { id: 0, name: 'gibts net' };
+      const a: StringOption = undefined;
+      const b: StringOption = { id: 0, title: 'gibts net' };
 
-      const result = component.compareDataFilters(a, b);
+      const result = component.compareStringOptions(a, b);
 
       expect(result).toBe(false);
     });
     it('should return false if b is not defined', () => {
-      const a: DataFilter = { id: 0, name: 'gibts net' };
-      const b: DataFilter = undefined;
+      const a: StringOption = { id: 0, title: 'gibts net' };
+      const b: StringOption = undefined;
 
-      const result = component.compareDataFilters(a, b);
+      const result = component.compareStringOptions(a, b);
 
       expect(result).toBe(false);
     });
     it('should return false if a.id is not equal to b.id', () => {
-      const a: DataFilter = { id: 0, name: 'gibts net' };
-      const b: DataFilter = { id: 1, name: 'gibts net' };
+      const a: StringOption = { id: 0, title: 'gibts net' };
+      const b: StringOption = { id: 1, title: 'gibts net' };
 
-      const result = component.compareDataFilters(a, b);
+      const result = component.compareStringOptions(a, b);
 
       expect(result).toBe(false);
     });
     it('should return false if a.name is not equal to b.name', () => {
-      const a: DataFilter = { id: 0, name: 'gibts net' };
-      const b: DataFilter = { id: 0, name: 'gibts scho' };
+      const a: StringOption = { id: 0, title: 'gibts net' };
+      const b: StringOption = { id: 0, title: 'gibts scho' };
 
-      const result = component.compareDataFilters(a, b);
+      const result = component.compareStringOptions(a, b);
 
       expect(result).toBe(false);
     });
     it('should return true if a and b have same id and name', () => {
-      const a: DataFilter = { id: 0, name: 'gibts net' };
-      const b: DataFilter = { id: 0, name: 'gibts net' };
+      const a: StringOption = { id: 0, title: 'gibts net' };
+      const b: StringOption = { id: 0, title: 'gibts net' };
 
-      const result = component.compareDataFilters(a, b);
+      const result = component.compareStringOptions(a, b);
 
       expect(result).toBe(true);
     });
@@ -575,11 +584,11 @@ describe('MainTableComponent', () => {
     });
     it('should dispatch fetchMaterials and set headline cat x cat', () => {
       component.materialClassSelectionControl.setValue(
-        { id: 1, name: 'gibts net' },
+        { id: 'id1', title: 'gibts net' },
         { onlySelf: true, emitEvent: false }
       );
       component.productCategorySelectionControl.setValue(
-        [{ id: 1, name: 'gibts net' }],
+        [{ id: 'id2', title: 'gibts net' }],
         { onlySelf: true, emitEvent: false }
       );
       component.allCategoriesSelectedControl.setValue(false, {
@@ -595,13 +604,13 @@ describe('MainTableComponent', () => {
     });
     it('should dispatch fetchMaterials and set headline cat x multiple', () => {
       component.materialClassSelectionControl.setValue(
-        { id: 1, name: 'gibts net' },
+        { id: 'id', title: 'gibts net' },
         { onlySelf: true, emitEvent: false }
       );
       component.productCategorySelectionControl.setValue(
         [
-          { id: 1, name: 'gibts net' },
-          { id: 2, name: 'gibts auch net' },
+          { id: 'id1', title: 'gibts net' },
+          { id: 'id2', title: 'gibts auch net' },
         ],
         { onlySelf: true, emitEvent: false }
       );
@@ -614,7 +623,9 @@ describe('MainTableComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(fetchMaterials());
       expect(component.selectedClass).toEqual('gibts net');
-      expect(component.selectedCategory).toEqual('2 Product Categories');
+      expect(component.selectedCategory).toEqual(
+        '2 materialsSupplierDatabase.mainTable.productCategories'
+      );
     });
   });
   describe('onGridReady', () => {
@@ -877,12 +888,12 @@ describe('MainTableComponent', () => {
       component.resetAgGridFilter = jest.fn();
 
       const mockDefaultMaterialClass = {
-        id: 0,
-        name: 'test',
+        id: 'id',
+        title: 'test',
       };
       const mockDefaultFormValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: mockDefaultMaterialClass,
         productCategory: [],
@@ -992,23 +1003,26 @@ describe('MainTableComponent', () => {
   });
 
   describe('isDefaultFilterForm', () => {
-    it('should return true if the form value and the default value are equal', () => {
-      const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
+    let mockDefaultValue: {
+      materialClass: StringOption;
+      productCategory: StringOption[];
+    };
+
+    beforeEach(() => {
+      mockDefaultValue = {
         materialClass: {
-          id: 0,
-          name: 'test',
+          id: 'id',
+          title: 'test',
         },
         productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
+          { id: 'id1', title: 'test' },
+          { id: 'id2', title: 'test2' },
         ],
       };
-
-      component.defaultFilterFormValue = mockValue;
-      component.filterForm.setValue(mockValue);
+    });
+    it('should return true if the form value and the default value are equal', () => {
+      component.defaultFilterFormValue = mockDefaultValue;
+      component.filterForm.setValue(mockDefaultValue);
 
       const result = component.isDefaultFilterForm();
 
@@ -1016,30 +1030,17 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if the form materialClass is not the defaultMaterialClass (id)', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 1,
-          name: 'test',
+          id: 'notid',
+          title: 'test',
         },
         productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
+          { id: 'id1', title: 'test' },
+          { id: 'id2', title: 'test2' },
         ],
       };
 
@@ -1052,30 +1053,17 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if the form materialClass is not the defaultMaterialClass (name)', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 0,
-          name: 'test2',
+          id: 'id',
+          title: 'test2',
         },
         productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
+          { id: 'id1', title: 'test' },
+          { id: 'id2', title: 'test2' },
         ],
       };
 
@@ -1088,30 +1076,17 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if not all defaultProductCategories are currently selected (id)', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 0,
-          name: 'test',
+          id: 'id',
+          title: 'test',
         },
         productCategory: [
-          { id: 0, name: 'test' },
-          { id: 2, name: 'test2' },
+          { id: 'id1', title: 'test' },
+          { id: 'notid2', title: 'test2' },
         ],
       };
 
@@ -1124,30 +1099,17 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if not all defaultProductCategories are currently selected (name)', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 0,
-          name: 'test',
+          id: 'id',
+          title: 'test',
         },
         productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test3' },
+          { id: 'id1', title: 'test' },
+          { id: 'id2', title: 'test3' },
         ],
       };
 
@@ -1160,28 +1122,15 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if not all defaultProductCategories are currently selected', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 0,
-          name: 'test',
+          id: 'id',
+          title: 'test',
         },
-        productCategory: [{ id: 0, name: 'test' }],
+        productCategory: [{ id: 'id1', title: 'test' }],
       };
 
       component.defaultFilterFormValue = mockDefaultValue;
@@ -1192,26 +1141,13 @@ describe('MainTableComponent', () => {
       expect(result).toBe(false);
     });
     it('should return false if no materialClass is selected', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         // eslint-disable-next-line unicorn/no-null
         materialClass: null,
-        productCategory: [{ id: 0, name: 'test' }],
+        productCategory: [{ id: 'id1', title: 'test' }],
       };
 
       component.defaultFilterFormValue = mockDefaultValue;
@@ -1223,26 +1159,13 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if no productCategory is selected', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 0,
-          name: 'test',
+          id: 'id',
+          title: 'test',
         },
         // eslint-disable-next-line unicorn/no-null
         productCategory: null,
@@ -1257,26 +1180,13 @@ describe('MainTableComponent', () => {
     });
 
     it('should return false if no productCategory is selected (empty)', () => {
-      const mockDefaultValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
-      } = {
-        materialClass: {
-          id: 0,
-          name: 'test',
-        },
-        productCategory: [
-          { id: 0, name: 'test' },
-          { id: 1, name: 'test2' },
-        ],
-      };
       const mockValue: {
-        materialClass: DataFilter;
-        productCategory: DataFilter[];
+        materialClass: StringOption;
+        productCategory: StringOption[];
       } = {
         materialClass: {
-          id: 0,
-          name: 'test',
+          id: 'id',
+          title: 'test',
         },
         productCategory: [],
       };
@@ -1303,9 +1213,10 @@ describe('MainTableComponent', () => {
         'yyyy-MM-dd'
       );
       expect(component['agGridApi'].exportDataAsExcel).toHaveBeenCalledWith({
-        author: 'MSD (Materials Supplier Database)',
-        fileName: '1234-13-44-MSD-export.xlsx',
-        sheetName: 'MSD-Export',
+        author: 'materialsSupplierDatabase.mainTable.excelExport.author',
+        fileName:
+          '1234-13-44materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix',
+        sheetName: 'materialsSupplierDatabase.mainTable.excelExport.sheetName',
         getCustomContentBelowRow:
           component['splitRowsForMultipleSapIdsInExport'],
         processCellCallback: component['reduceSapIdsForFirstRowInExport'],
@@ -1519,13 +1430,12 @@ describe('MainTableComponent', () => {
 
   describe('getColumnDefs', () => {
     it('should return translated column defs', () => {
-      component['translocoService'].translate = jest.fn();
       const columnDefs = component.columnDefs;
 
       const translatedColumnDefs = component.getColumnDefs();
 
       for (const columnDef of columnDefs) {
-        expect(component['translocoService'].translate).toHaveBeenCalledWith(
+        expect(translate).toHaveBeenCalledWith(
           `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
         );
       }

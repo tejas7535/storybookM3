@@ -10,11 +10,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,13 +26,14 @@ import {
   GridApi,
   SideBarDef,
 } from '@ag-grid-enterprise/all-modules';
-import { TranslocoService } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { hasIdTokenRole } from '@schaeffler/azure-auth';
+import { StringOption } from '@schaeffler/inputs';
 
-import { DataFilter, DataResult } from '../models';
+import { DataResult } from '../models';
 import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-grid-state.service';
 import {
   getAgGridFilter,
@@ -72,8 +69,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  public materialClassOptions$: Observable<DataFilter[]>;
-  public productCategoryOptions$: Observable<DataFilter[]>;
+  public materialClassOptions$: Observable<StringOption[]>;
+  public productCategoryOptions$: Observable<StringOption[]>;
   public optionsLoading$: Observable<boolean>;
   public resultLoading$: Observable<boolean>;
   public result$: Observable<DataResult[]>;
@@ -89,7 +86,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public hasEditorRole$: Observable<boolean>;
 
   public selectedClass: string;
-  public selectedCategory: string[];
+  public selectedCategory: string;
 
   public destroy$ = new Subject<void>();
 
@@ -99,27 +96,32 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public columnDefs: ColDef[];
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;
 
-  public materialClassSelectionControl = new UntypedFormControl(undefined, [
-    Validators.required,
-  ]);
-  public productCategorySelectionControl = new UntypedFormControl(undefined, [
-    Validators.required,
-  ]);
-  public allCategoriesSelectedControl = new UntypedFormControl(false);
+  public materialClassSelectionControl = new FormControl<StringOption>(
+    undefined,
+    [Validators.required]
+  );
+  public productCategorySelectionControl = new FormControl<StringOption[]>(
+    undefined,
+    [Validators.required]
+  );
+  public allCategoriesSelectedControl = new FormControl<boolean>(false);
   @ViewChildren('categoryOption')
   public categoryOptionsQuery: QueryList<MatOption>;
   public categoryOptions: MatOption[];
 
-  public filterForm = new UntypedFormGroup({
+  public filterForm = new FormGroup<{
+    materialClass: FormControl<StringOption>;
+    productCategory: FormControl<StringOption[]>;
+  }>({
     materialClass: this.materialClassSelectionControl,
     productCategory: this.productCategorySelectionControl,
   });
-  public defaultFilterFormValue!: {
-    materialClass: DataFilter;
-    productCategory: DataFilter[];
-  };
+  public defaultFilterFormValue!: Partial<{
+    materialClass: StringOption;
+    productCategory: StringOption[];
+  }>;
 
-  private defaultMaterialClass!: DataFilter;
+  private defaultMaterialClass!: StringOption;
 
   private agGridApi!: GridApi;
   private agGridColumnApi!: ColumnApi;
@@ -135,7 +137,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly datePipe: DatePipe,
     private readonly applicationInsightsService: ApplicationInsightsService,
-    private readonly translocoService: TranslocoService,
     private readonly dialog: MatDialog
   ) {}
 
@@ -178,8 +179,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(take(1))
       .subscribe(
         (filters: {
-          materialClass: DataFilter | undefined;
-          productCategory: DataFilter[] | undefined;
+          materialClass: StringOption | undefined;
+          productCategory: StringOption[] | undefined;
         }) => {
           if (filters.materialClass) {
             this.materialClassSelectionControl.setValue(filters.materialClass);
@@ -194,26 +195,18 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.filterForm.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(5))
-      .subscribe(
-        ({
+      .subscribe(({ materialClass, productCategory }) => {
+        const filters = {
           materialClass,
-          productCategory,
-        }: {
-          materialClass: DataFilter | undefined;
-          productCategory: DataFilter[] | undefined;
-        }) => {
-          const filters = {
-            materialClass,
-            productCategory: this.allCategoriesSelectedControl.value
-              ? undefined
-              : productCategory,
-          };
-          this.store.dispatch(setFilter(filters));
-          if (this.filterForm.valid) {
-            this.fetchMaterials();
-          }
+          productCategory: this.allCategoriesSelectedControl.value
+            ? undefined
+            : productCategory,
+        };
+        this.store.dispatch(setFilter(filters));
+        if (this.filterForm.valid) {
+          this.fetchMaterials();
         }
-      );
+      });
 
     this.store
       .select(getAgGridFilter)
@@ -235,8 +228,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(([options, materialClassOptions]) => {
         this.categoryOptions = options.toArray();
         this.defaultMaterialClass = materialClassOptions.find(
-          (option) => option.name === 'Steel'
-        ) || { id: undefined, name: undefined };
+          (option) => option.id === 'st'
+        ) || { id: undefined, title: undefined };
         this.materialClassSelectionControl.patchValue(
           this.defaultMaterialClass
         );
@@ -270,20 +263,18 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setParamFilter(filterString: string): void {
     const filterParams: {
-      materialClass: DataFilter;
-      productCategory: DataFilter[] | string;
+      materialClass: StringOption;
+      productCategory: StringOption[] | string;
     } = JSON.parse(filterString);
 
     if (filterParams?.materialClass && filterParams?.productCategory) {
-      this.materialClassSelectionControl.patchValue(
-        filterParams.materialClass as DataFilter
-      );
+      this.materialClassSelectionControl.patchValue(filterParams.materialClass);
       if (filterParams.productCategory === 'all') {
         this.changeDetectorRef.detectChanges();
         this.allCategoriesSelectedControl.patchValue(true);
       } else {
         this.productCategorySelectionControl.patchValue(
-          filterParams.productCategory as DataFilter[]
+          filterParams.productCategory as StringOption[]
         );
       }
       this.filterForm.markAsDirty();
@@ -333,13 +324,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  public compareDataFilters(a: DataFilter, b: DataFilter) {
-    return !!a && !!b && a.id === b.id && a.name === b.name;
+  public compareStringOptions(a: StringOption, b: StringOption) {
+    return !!a && !!b && a.id === b.id && a.title === b.title;
   }
 
   public fetchMaterials(): void {
     this.selectedClass = this.materialClassSelectionControl.value?.id
-      ? this.materialClassSelectionControl.value.name
+      ? this.materialClassSelectionControl.value.title
       : undefined;
 
     this.selectedCategory =
@@ -348,10 +339,8 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
         ? undefined
         : // eslint-disable-next-line unicorn/no-nested-ternary
         this.productCategorySelectionControl.value?.length === 1
-        ? this.productCategorySelectionControl.value[0].name
-        : `${
-            this.productCategorySelectionControl.value.length
-          } ${this.translocoService.translate(
+        ? this.productCategorySelectionControl.value[0].title
+        : `${this.productCategorySelectionControl.value.length} ${translate(
             'materialsSupplierDatabase.mainTable.productCategories'
           )}`;
 
@@ -451,8 +440,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public isDefaultFilterForm(): boolean {
-    const value: { materialClass: DataFilter; productCategory: DataFilter[] } =
-      this.filterForm.value;
+    const value = this.filterForm.value;
     if (value?.materialClass !== this.defaultFilterFormValue?.materialClass) {
       return false;
     }
@@ -462,7 +450,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       const found = value?.productCategory?.find(
         (category) =>
           defaultCategory.id === category.id &&
-          defaultCategory.name === category.name
+          defaultCategory.title === category.title
       );
 
       if (!found) {
@@ -482,13 +470,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     const dateString = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
     this.agGridApi.exportDataAsExcel({
-      author: this.translocoService.translate(
+      author: translate(
         'materialsSupplierDatabase.mainTable.excelExport.author'
       ),
-      fileName: `${dateString}${this.translocoService.translate(
+      fileName: `${dateString}${translate(
         'materialsSupplierDatabase.mainTable.excelExport.fileNameSuffix'
       )}`,
-      sheetName: this.translocoService.translate(
+      sheetName: translate(
         'materialsSupplierDatabase.mainTable.excelExport.sheetName'
       ),
       getCustomContentBelowRow: this.splitRowsForMultipleSapIdsInExport,
@@ -559,7 +547,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public getColumnDefs = (): ColDef[] =>
     this.defaultColumnDefs.map((columnDef) => ({
       ...columnDef,
-      headerName: this.translocoService.translate(
+      headerName: translate(
         `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
       ),
     }));

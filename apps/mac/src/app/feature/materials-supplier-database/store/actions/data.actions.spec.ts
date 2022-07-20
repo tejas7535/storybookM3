@@ -1,9 +1,6 @@
-import {
-  DataFilter,
-  DataResult,
-  Material,
-  MaterialStandard,
-} from '../../models';
+import { StringOption } from '@schaeffler/inputs';
+
+import { DataResult, Material, MaterialStandard } from '../../models';
 import { ManufacturerSupplier } from './../../models/data/manufacturer-supplier.model';
 import {
   addMaterialDialogCanceled,
@@ -41,14 +38,14 @@ import {
 describe('Data Actions', () => {
   describe('Set Filter', () => {
     it('setFilter', () => {
-      const materialClass: DataFilter = {
-        id: 1,
-        name: 'very classy material',
+      const materialClass: StringOption = {
+        id: 'id',
+        title: 'very classy material',
       };
-      const productCategory: DataFilter[] = [
+      const productCategory: StringOption[] = [
         {
-          id: 1,
-          name: 'category a',
+          id: 'id',
+          title: 'category a',
         },
       ];
       const action = setFilter({ materialClass, productCategory });

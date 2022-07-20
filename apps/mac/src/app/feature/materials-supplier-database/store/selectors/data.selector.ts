@@ -233,15 +233,6 @@ export const getMaterialStandardDocumentStringOptionsMerged = createSelector(
     })
 );
 
-export const getProductCategoryStringOptions = createSelector(
-  getProductCategoryOptions,
-  (productCategories): StringOption[] =>
-    productCategories.map((productCategory) => ({
-      id: productCategory.code,
-      title: productCategory.name,
-    }))
-);
-
 export const getCreateMaterialLoading = createSelector(
   getAddMaterialDialog,
   (addMaterialDialog) => addMaterialDialog.createMaterial?.createMaterialLoading

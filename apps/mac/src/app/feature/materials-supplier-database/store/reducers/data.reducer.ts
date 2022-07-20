@@ -4,7 +4,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
-  DataFilter,
   DataResult,
   ManufacturerSupplier,
   MaterialStandard,
@@ -42,14 +41,14 @@ import {
 
 export interface DataState {
   filter: {
-    materialClass: DataFilter;
-    productCategory: DataFilter[];
+    materialClass: StringOption;
+    productCategory: StringOption[];
     agGridFilter: string;
     loading: boolean;
   };
   agGridColumns: string;
-  materialClassOptions: DataFilter[];
-  productCategoryOptions: DataFilter[];
+  materialClassOptions: StringOption[];
+  productCategoryOptions: StringOption[];
   materialClassLoading: boolean;
   productCategoryLoading: boolean;
   result: DataResult[];

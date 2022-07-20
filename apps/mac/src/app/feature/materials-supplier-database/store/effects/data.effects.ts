@@ -13,7 +13,6 @@ import {
   MaterialStandard,
 } from '../../models';
 import { getFilters } from '../selectors';
-import { DataFilter } from './../../models/data/data-filter.model';
 import { MsdDataService } from './../../services/msd-data/msd-data.service';
 import * as DataActions from './../actions/data.actions';
 
@@ -33,14 +32,16 @@ export class DataEffects {
         ([_action, { materialClass, productCategory }]: [
           any,
           {
-            materialClass: DataFilter;
-            productCategory: DataFilter[];
+            materialClass: StringOption;
+            productCategory: StringOption[];
           }
         ]) =>
           this.msdDataService
             .getMaterials(
-              materialClass?.id,
-              productCategory?.map((category: DataFilter) => category?.id)
+              materialClass?.id?.toString(),
+              productCategory?.map((category: StringOption) =>
+                category?.id?.toString()
+              )
             )
             .pipe(
               map((result: DataResult[]) =>
@@ -70,7 +71,7 @@ export class DataEffects {
       ofType(DataActions.fetchClassOptions),
       switchMap(() =>
         this.msdDataService.getMaterialClasses().pipe(
-          map((materialClassOptions: DataFilter[]) =>
+          map((materialClassOptions: StringOption[]) =>
             DataActions.fetchClassOptionsSuccess({ materialClassOptions })
           ),
           catchError(() =>
@@ -87,7 +88,7 @@ export class DataEffects {
       ofType(DataActions.fetchCategoryOptions),
       switchMap(() =>
         this.msdDataService.getProductCategories().pipe(
-          map((productCategoryOptions: DataFilter[]) =>
+          map((productCategoryOptions: StringOption[]) =>
             DataActions.fetchCategoryOptionsSuccess({ productCategoryOptions })
           ),
           catchError(() =>

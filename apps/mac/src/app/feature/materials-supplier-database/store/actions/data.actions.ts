@@ -3,7 +3,6 @@ import { createAction, props } from '@ngrx/store';
 import { StringOption } from '@schaeffler/inputs';
 
 import {
-  DataFilter,
   DataResult,
   ManufacturerSupplier,
   Material,
@@ -12,7 +11,7 @@ import {
 
 export const setFilter = createAction(
   '[MSD - Data] Set Filter',
-  props<{ materialClass: DataFilter; productCategory: DataFilter[] }>()
+  props<{ materialClass: StringOption; productCategory: StringOption[] }>()
 );
 
 export const fetchClassAndCategoryOptions = createAction(
@@ -29,7 +28,7 @@ export const fetchCategoryOptions = createAction(
 
 export const fetchClassOptionsSuccess = createAction(
   '[MSD - Data] Fetch Class Options Success',
-  props<{ materialClassOptions: DataFilter[] }>()
+  props<{ materialClassOptions: StringOption[] }>()
 );
 
 export const fetchClassOptionsFailure = createAction(
@@ -38,7 +37,7 @@ export const fetchClassOptionsFailure = createAction(
 
 export const fetchCategoryOptionsSuccess = createAction(
   '[MSD - Data] Fetch Category Options Success',
-  props<{ productCategoryOptions: DataFilter[] }>()
+  props<{ productCategoryOptions: StringOption[] }>()
 );
 
 export const fetchCategoryOptionsFailure = createAction(

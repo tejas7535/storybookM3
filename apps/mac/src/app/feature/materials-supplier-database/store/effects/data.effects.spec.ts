@@ -11,7 +11,6 @@ import { StringOption } from '@schaeffler/inputs';
 import { Material, MaterialStandard } from '../../models';
 import { fetchMaterials, fetchMaterialsSuccess } from '../actions';
 import { getFilters } from '../selectors';
-import { DataFilter } from './../../models/data/data-filter.model';
 import { DataResult } from './../../models/data/data-result.model';
 import { ManufacturerSupplier } from './../../models/data/manufacturer-supplier.model';
 import { MsdDataService } from './../../services/msd-data/msd-data.service';
@@ -82,8 +81,8 @@ describe('Data Effects', () => {
     it(
       'should fetch materials and return success action on success',
       marbles((m) => {
-        const materialClass = { id: 0, name: 'gibts net' };
-        const productCategory = [{ id: 0, name: 'gibts net' }];
+        const materialClass = { id: 'id', title: 'gibts net' };
+        const productCategory = [{ id: 'id', title: 'gibts net' }];
 
         store.overrideSelector(getFilters, { materialClass, productCategory });
 
@@ -106,7 +105,7 @@ describe('Data Effects', () => {
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
           materialClass.id,
-          productCategory.map((category: DataFilter) => category?.id)
+          productCategory.map((category: StringOption) => category?.id)
         );
       })
     );
@@ -114,8 +113,8 @@ describe('Data Effects', () => {
     it(
       'should fetch materials and return failure action on failure',
       marbles((m) => {
-        const materialClass = { id: 0, name: 'gibts net' };
-        const productCategory = [{ id: 0, name: 'gibts net' }];
+        const materialClass = { id: 'id', title: 'gibts net' };
+        const productCategory = [{ id: 'id', title: 'gibts net' }];
 
         store.overrideSelector(getFilters, { materialClass, productCategory });
 
@@ -124,7 +123,7 @@ describe('Data Effects', () => {
 
         msdDataService.getMaterials = jest
           .fn()
-          .mockReturnValue(throwError('error'));
+          .mockReturnValue(throwError(() => new Error('error')));
 
         const result = fetchMaterialsFailure();
         const expected = m.cold('-b', { b: result });
@@ -134,7 +133,7 @@ describe('Data Effects', () => {
 
         expect(msdDataService.getMaterials).toHaveBeenCalledWith(
           materialClass.id,
-          productCategory.map((category: DataFilter) => category?.id)
+          productCategory.map((category: StringOption) => category?.id)
         );
       })
     );
@@ -167,7 +166,7 @@ describe('Data Effects', () => {
         action = fetchClassOptions();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: DataFilter[] = [{ id: 0, name: 'gibts net' }];
+        const resultMock: StringOption[] = [{ id: 'id', title: 'gibts net' }];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.getMaterialClasses = jest.fn(() => response);
 
@@ -191,7 +190,7 @@ describe('Data Effects', () => {
 
         msdDataService.getMaterialClasses = jest
           .fn()
-          .mockReturnValue(throwError('error'));
+          .mockReturnValue(throwError(() => new Error('error')));
 
         const result = fetchClassOptionsFailure();
         const expected = m.cold('-b', { b: result });
@@ -211,7 +210,7 @@ describe('Data Effects', () => {
         action = fetchCategoryOptions();
         actions$ = m.hot('-a', { a: action });
 
-        const resultMock: DataFilter[] = [{ id: 0, name: 'gibts net' }];
+        const resultMock: StringOption[] = [{ id: 'id', title: 'gibts net' }];
         const response = m.cold('-a|', { a: resultMock });
         msdDataService.getProductCategories = jest.fn(() => response);
 
@@ -228,14 +227,14 @@ describe('Data Effects', () => {
     );
 
     it(
-      'should fetch materials and return failure action on failure',
+      'should fetch categories and return failure action on failure',
       marbles((m) => {
         action = fetchCategoryOptions();
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.getProductCategories = jest
           .fn()
-          .mockReturnValue(throwError('error'));
+          .mockReturnValue(throwError(() => new Error('error')));
 
         const result = fetchCategoryOptionsFailure();
         const expected = m.cold('-b', { b: result });

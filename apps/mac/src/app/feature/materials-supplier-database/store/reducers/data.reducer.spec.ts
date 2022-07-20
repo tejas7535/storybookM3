@@ -1,5 +1,6 @@
+import { StringOption } from '@schaeffler/inputs';
+
 import {
-  DataFilter,
   DataResult,
   ManufacturerSupplier,
   MaterialStandard,
@@ -23,8 +24,8 @@ describe('dataReducer', () => {
     });
 
     it('should set filter on setFilter', () => {
-      const materialClass = { id: 0, name: 'gibt net' };
-      const productCategory = [{ id: 0, name: 'gibt net' }];
+      const materialClass = { id: 'id', title: 'gibt net' };
+      const productCategory = [{ id: 'id', title: 'gibt net' }];
       const action = DataActions.setFilter({ materialClass, productCategory });
 
       const newState = dataReducer(state, action);
@@ -138,7 +139,7 @@ describe('dataReducer', () => {
     });
 
     it('should set materialClass loading state and options', () => {
-      const materialClassOptions: DataFilter[] = [];
+      const materialClassOptions: StringOption[] = [];
       const action = DataActions.fetchClassOptionsSuccess({
         materialClassOptions,
       });
@@ -177,7 +178,7 @@ describe('dataReducer', () => {
     });
 
     it('should set productCategory loading state and options', () => {
-      const productCategoryOptions: DataFilter[] = [];
+      const productCategoryOptions: StringOption[] = [];
       const action = DataActions.fetchCategoryOptionsSuccess({
         productCategoryOptions,
       });

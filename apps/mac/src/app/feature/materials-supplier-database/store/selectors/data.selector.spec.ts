@@ -1,7 +1,6 @@
 import { StringOption } from '@schaeffler/inputs';
 
 import {
-  DataFilter,
   DataResult,
   ManufacturerSupplier,
   MaterialStandard,
@@ -703,38 +702,6 @@ describe('DataSelectors', () => {
         standardDocumentOptions
       )
     ).toEqual(expected);
-  });
-
-  it('should return the product categories as StringOptions', () => {
-    const mockProductCategories: DataFilter[] = [
-      {
-        id: 1,
-        name: 'category1',
-        code: 'c',
-      },
-      {
-        id: 2,
-        name: 'category2',
-        code: 'd',
-      },
-    ];
-
-    const expected: StringOption[] = [
-      {
-        id: 'c',
-        title: 'category1',
-      },
-      {
-        id: 'd',
-        title: 'category2',
-      },
-    ];
-
-    const result = DataSelectors.getProductCategoryStringOptions.projector(
-      mockProductCategories
-    );
-
-    expect(result).toEqual(expected);
   });
 
   it('should return a string list as StringOptions', () => {

@@ -30,7 +30,7 @@ import {
   getCreateMaterialSuccess,
   getMaterialNameStringOptionsMerged,
   getMaterialStandardDocumentStringOptionsMerged,
-  getProductCategoryStringOptions,
+  getProductCategoryOptions,
   getStringOptions,
   getSupplierPlantStringOptions,
   getSupplierStringOptions,
@@ -286,7 +286,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       getStringOptions(getAddMaterialDialogSteelMakingProcesses)
     );
     this.categories$ = this.store.select(
-      getUniqueStringOptions(getProductCategoryStringOptions)
+      getUniqueStringOptions(getProductCategoryOptions)
     );
 
     this.standardDocumentsControl.valueChanges
@@ -505,7 +505,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       steelMakingProcess: baseMaterial.steelMakingProcess?.id as string,
       rating: baseMaterial.rating.id as string,
       ratingRemark: baseMaterial.ratingRemark,
-      attachments: '',
+      // attachments: '',
     };
 
     this.store.dispatch(addMaterialDialogConfirmed({ material }));
