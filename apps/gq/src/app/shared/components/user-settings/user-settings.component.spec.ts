@@ -3,7 +3,10 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { LanguageSelectModule } from '@schaeffler/transloco/components';
+import {
+  LanguageSelectModule,
+  LocaleSelectModule,
+} from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AUTH_STATE_MOCK } from '../../../../testing/mocks';
@@ -18,6 +21,7 @@ describe('UserSettingsComponent', () => {
     component: UserSettingsComponent,
     imports: [
       LanguageSelectModule,
+      LocaleSelectModule,
       RolesRightsModule,
       provideTranslocoTestingModule({ en: {} }),
     ],

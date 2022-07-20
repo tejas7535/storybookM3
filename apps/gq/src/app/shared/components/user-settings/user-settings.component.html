@@ -2,6 +2,15 @@
   <schaeffler-language-select
     [reloadOnLanguageChange]="true"
   ></schaeffler-language-select>
+  <div *ngIf="!production">
+    <schaeffler-locale-select
+      class="mt-4 block"
+      [reloadOnLocaleChange]="true"
+      [availableLocales]="availableLocales"
+      [defaultLocale]="defaultLocale"
+    ></schaeffler-locale-select>
+  </div>
+
   <div class="pt-4">
     <gq-roles-rights></gq-roles-rights>
   </div>
