@@ -9,8 +9,9 @@ import { TranslocoService } from '@ngneat/transloco';
 
 import { AppShellFooterLink } from '@schaeffler/app-shell';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
+import { LegalPath } from '@schaeffler/legal-pages';
 
+import { getAppFooterLinks } from '@ga/core/helpers/app-config-helpers';
 import { SettingsFacade } from '@ga/core/store';
 
 import packageJson from '../../package.json';
@@ -100,36 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private assignFooterLinks(): void {
-    this.footerLinks = [
-      {
-        link: `${LegalRoute}/${LegalPath.ImprintPath}`,
-        title: this.translocoService.translate('legal.imprint'),
-        external: false,
-      },
-      {
-        link: `${LegalRoute}/${LegalPath.DataprivacyPath}`,
-        title: this.translocoService.translate('legal.dataPrivacy'),
-        external: false,
-      },
-      {
-        link: `${LegalRoute}/${LegalPath.TermsPath}`,
-        title: this.translocoService.translate('legal.termsOfUse'),
-        external: false,
-      },
-    ];
-
-    if (
-      !window.origin.includes('capacitor://') &&
-      window.origin !== 'http://localhost'
-    ) {
-      const cookieLink = {
-        link: `${LegalRoute}/${LegalPath.CookiePath}`,
-        title: this.translocoService.translate('legal.cookiePolicy'),
-        external: false,
-      };
-
-      this.footerLinks.push(cookieLink);
-    }
+    this.footerLinks = getAppFooterLinks();
   }
 
   private assignMetaTags(): void {
