@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.7.1](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/report-v0.7.0...report-v0.7.1) (2022-07-20)
+
+
+### 🎸 Features
+
+* **report:** add chinese translations ([eddf066](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/eddf0665a065db77ee16c15614f964b93cab790a))
+
 ## 0.7.0 (2022-07-07)
 
 
