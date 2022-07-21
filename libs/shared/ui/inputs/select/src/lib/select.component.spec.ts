@@ -9,10 +9,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { MockModule } from 'ng-mocks';
 
 import { StringOption } from '@schaeffler/inputs';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { SelectComponent } from './select.component';
 
@@ -44,7 +44,7 @@ describe('SelectComponent', () => {
     imports: [
       CommonModule,
       ReactiveFormsModule,
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
       MockModule(MatFormFieldModule),
       MockModule(MatSelectModule),
       MockModule(MatInputModule),
