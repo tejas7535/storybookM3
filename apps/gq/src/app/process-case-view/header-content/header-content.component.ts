@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { Quotation } from '../../shared/models';
+import { Keyboard, Quotation } from '../../shared/models';
 import { UpdateQuotationRequest } from '../../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 
 @Component({
@@ -59,10 +59,9 @@ export class HeaderContentComponent {
               value.sapCreated,
               transformFormat
             ),
-            sapUpdatedDate: datePipe.transform(
-              value.sapLastUpdated,
-              transformFormat
-            ),
+            sapUpdatedDate:
+              datePipe.transform(value.sapLastUpdated, transformFormat) ||
+              Keyboard.DASH,
           },
           'process-case-view'
         );
