@@ -132,6 +132,38 @@ export const getAddMaterialDialogSteelMakingProcesses = createSelector(
   (dialogOptions) => dialogOptions.steelMakingProcesses
 );
 
+export const getAddMaterialDialogCastingDiameters = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.castingDiameters
+);
+
+export const getAddMaterialDialogCustomCastingDiameters = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.customCastingDiameters
+);
+
+export const getAddMaterialDialogCastingDiameterStringOptions = createSelector(
+  getAddMaterialDialogCastingDiameters,
+  getAddMaterialDialogCustomCastingDiameters,
+  (castingDiameters, customCastingDiameters) => {
+    const options: StringOption[] = (castingDiameters || [])
+      .filter((diameter) => !!diameter)
+      .map((diameter) => ({ id: diameter, title: diameter }))
+      .sort(stringOptionsSortFn);
+    const customOptions: StringOption[] = (customCastingDiameters || []).map(
+      (diameter) => ({ id: diameter, title: diameter })
+    );
+    options.unshift(...customOptions);
+
+    return options;
+  }
+);
+
+export const getAddMaterialDialogCastingDiametersLoading = createSelector(
+  getAddMaterialDialogOptions,
+  (dialogOptions) => dialogOptions.castingDiametersLoading
+);
+
 export const getSupplierStringOptions = createSelector(
   getAddMaterialDialogSuppliers,
   (suppliers): StringOption[] =>
@@ -248,9 +280,10 @@ export const getStringOptions = (
   addOptions?: StringOption[]
 ) =>
   createSelector(selector, (values): StringOption[] => {
-    const options: StringOption[] = values
-      .map((value) => ({ id: value, title: value }))
-      .sort(stringOptionsSortFn);
+    const options: StringOption[] =
+      values
+        ?.map((value) => ({ id: value, title: value }))
+        .sort(stringOptionsSortFn) || [];
     if (addOptions && addOptions.length > 0) {
       options.push(...addOptions);
     }

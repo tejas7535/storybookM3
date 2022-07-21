@@ -391,6 +391,74 @@ describe('DataSelectors', () => {
     ).toEqual(['1', '2']);
   });
 
+  it('should return the castingDiameters', () => {
+    expect(
+      DataSelectors.getAddMaterialDialogCastingDiameters.projector({
+        castingDiameters: ['200x200'],
+      })
+    ).toEqual(['200x200']);
+  });
+
+  it('should return the customCastingDiameters', () => {
+    expect(
+      DataSelectors.getAddMaterialDialogCustomCastingDiameters.projector({
+        customCastingDiameters: ['200x200'],
+      })
+    ).toEqual(['200x200']);
+  });
+
+  it('should return the casting diameter stringOptions', () => {
+    const mockState = {
+      msd: {
+        data: {
+          addMaterialDialog: {
+            dialogOptions: {
+              customCastingDiameters: ['custom'],
+              castingDiameters: ['notCustom'],
+            },
+          },
+        },
+      },
+    };
+
+    expect(
+      DataSelectors.getAddMaterialDialogCastingDiameterStringOptions(mockState)
+    ).toEqual([
+      {
+        id: 'custom',
+        title: 'custom',
+      },
+      {
+        id: 'notCustom',
+        title: 'notCustom',
+      },
+    ]);
+  });
+
+  it('should return the casting diameter stringOptions with empty lists', () => {
+    const mockState = {
+      msd: {
+        data: {
+          addMaterialDialog: {
+            dialogOptions: {},
+          },
+        },
+      },
+    };
+
+    expect(
+      DataSelectors.getAddMaterialDialogCastingDiameterStringOptions(mockState)
+    ).toEqual([]);
+  });
+
+  it('should return castingDiametersLoading', () => {
+    expect(
+      DataSelectors.getAddMaterialDialogCastingDiametersLoading.projector({
+        castingDiametersLoading: true,
+      })
+    ).toBe(true);
+  });
+
   it('should return the suppliers as StringOptions', () => {
     const mockSuppliers: ManufacturerSupplier[] = [
       {

@@ -129,13 +129,14 @@
           <schaeffler-select
             appearance="outline"
             class="w-full"
-            [stringOptions]="castingDiameter"
+            [stringOptions]="castingDiameters$ | ngrxPush"
             [control]="castingDiameterControl"
             [filterFn]="filterFn"
             [addEntry]="true"
             [label]="t('castingDiameter')"
             (entryAdded)="addCastingDiameter($event)"
             [resetButton]="false"
+            [loading]="castingDiametersLoading$ | ngrxPush"
           >
             <div matErrorContent *ngIf="castingDiameterControl.invalid">
               {{ getErrorMessage(castingDiameterControl.errors) }}

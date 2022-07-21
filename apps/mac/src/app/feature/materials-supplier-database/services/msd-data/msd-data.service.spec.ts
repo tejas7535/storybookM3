@@ -406,4 +406,30 @@ describe('MsdDataService', () => {
       req.flush(mockResponse);
     });
   });
+
+  describe('fetchCastingDiameters', () => {
+    it('should post a query for the casting diameters', (done) => {
+      const mockResponse = ['diameter'];
+      const expectedBody = {
+        select: ['castingDiameter'],
+        where: [
+          {
+            col: 'manufacturerSupplier.id',
+            op: 'IN',
+            values: ['1'],
+          },
+        ],
+        distinct: true,
+      };
+      service.fetchCastingDiameters(1).subscribe((result) => {
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+
+      const req = httpMock.expectOne(`${service['BASE_URL']}/materials/query`);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(expectedBody);
+      req.flush(mockResponse);
+    });
+  });
 });

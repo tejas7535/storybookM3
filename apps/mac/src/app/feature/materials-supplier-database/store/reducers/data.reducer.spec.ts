@@ -402,6 +402,63 @@ describe('dataReducer', () => {
       });
     });
 
+    it('should reset the castingDiameters and set the loading state to true', () => {
+      const supplierId = 1;
+      const action = DataActions.fetchCastingDiameters({
+        supplierId,
+      });
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        addMaterialDialog: {
+          ...state.addMaterialDialog,
+          dialogOptions: {
+            ...state.addMaterialDialog.dialogOptions,
+            castingDiameters: [],
+            castingDiametersLoading: true,
+          },
+        },
+      });
+    });
+
+    it('should set the castingDiameters', () => {
+      const castingDiameters = ['200x200'];
+      const action = DataActions.fetchCastingDiametersSuccess({
+        castingDiameters,
+      });
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        addMaterialDialog: {
+          ...state.addMaterialDialog,
+          dialogOptions: {
+            ...state.addMaterialDialog.dialogOptions,
+            castingDiameters,
+            castingDiametersLoading: false,
+          },
+        },
+      });
+    });
+
+    it('should set the castingDiameters and the loading state to undefined', () => {
+      const action = DataActions.fetchCastingDiametersFailure();
+      const newState = dataReducer(state, action);
+
+      expect(newState).toEqual({
+        ...state,
+        addMaterialDialog: {
+          ...state.addMaterialDialog,
+          dialogOptions: {
+            ...state.addMaterialDialog.dialogOptions,
+            castingDiameters: [],
+            castingDiametersLoading: undefined,
+          },
+        },
+      });
+    });
+
     it('should set the ratings', () => {
       const ratings = ['1', '2'];
       const action = DataActions.fetchRatingsSuccess({ ratings });
@@ -657,6 +714,66 @@ describe('dataReducer', () => {
           createMaterial: {
             createMaterialLoading: false,
             createMaterialSuccess: true,
+          },
+        },
+      });
+    });
+
+    it('should set the custom diameters if they are not defined', () => {
+      const action = DataActions.addCustomCastingDiameter({
+        castingDiameter: 'new',
+      });
+      const newState = dataReducer(
+        {
+          ...state,
+          addMaterialDialog: {
+            ...state.addMaterialDialog,
+            dialogOptions: {
+              ...state.addMaterialDialog.dialogOptions,
+              customCastingDiameters: undefined,
+            },
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        addMaterialDialog: {
+          ...state.addMaterialDialog,
+          dialogOptions: {
+            ...state.addMaterialDialog.dialogOptions,
+            customCastingDiameters: ['new'],
+          },
+        },
+      });
+    });
+
+    it('should add a custom diameter', () => {
+      const action = DataActions.addCustomCastingDiameter({
+        castingDiameter: 'new',
+      });
+      const newState = dataReducer(
+        {
+          ...state,
+          addMaterialDialog: {
+            ...state.addMaterialDialog,
+            dialogOptions: {
+              ...state.addMaterialDialog.dialogOptions,
+              customCastingDiameters: ['old'],
+            },
+          },
+        },
+        action
+      );
+
+      expect(newState).toEqual({
+        ...state,
+        addMaterialDialog: {
+          ...state.addMaterialDialog,
+          dialogOptions: {
+            ...state.addMaterialDialog.dialogOptions,
+            customCastingDiameters: ['new', 'old'],
           },
         },
       });

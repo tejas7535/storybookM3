@@ -2,12 +2,15 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { DataResult, Material, MaterialStandard } from '../../models';
 import { ManufacturerSupplier } from './../../models/data/manufacturer-supplier.model';
+import { addCustomCastingDiameter, fetchCastingDiameters } from '.';
 import {
   addMaterialDialogCanceled,
   addMaterialDialogConfirmed,
   addMaterialDialogOpened,
   createMaterialComplete,
   createMaterialFailure,
+  fetchCastingDiametersFailure,
+  fetchCastingDiametersSuccess,
   fetchCastingModes,
   fetchCastingModesFailure,
   fetchCastingModesSuccess,
@@ -217,6 +220,41 @@ describe('Data Actions', () => {
     });
   });
 
+  describe('Fetch Casting Diameters', () => {
+    it('fetchCastingDiameters', () => {
+      const action = fetchCastingDiameters({ supplierId: 1 });
+
+      expect(action).toEqual({
+        type: '[MSD - Add Material] Fetch Casting Diameters',
+        supplierId: 1,
+      });
+    });
+  });
+
+  describe('Fetch Casting Diameters Success', () => {
+    it('fetchCastingDiametersSuccess', () => {
+      const mockCastingDiameters = ['200x200'];
+      const action = fetchCastingDiametersSuccess({
+        castingDiameters: mockCastingDiameters,
+      });
+
+      expect(action).toEqual({
+        castingDiameters: mockCastingDiameters,
+        type: '[MSD - Add Material] Fetch Casting Diameters Success',
+      });
+    });
+  });
+
+  describe('Fetch Casting Diameters Failure', () => {
+    it('fetchCastingDiametersFailure', () => {
+      const action = fetchCastingDiametersFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Add Material] Fetch Casting Diameters Failure',
+      });
+    });
+  });
+
   describe('Fetch Ratings', () => {
     it('fetchRatings', () => {
       const action = fetchRatings();
@@ -371,6 +409,17 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         type: '[MSD - Add Material] Create Material Failure',
+      });
+    });
+  });
+
+  describe('Add Custom Casting Diameter', () => {
+    it('addCustomCastingDiameter', () => {
+      const action = addCustomCastingDiameter({ castingDiameter: '200x200' });
+
+      expect(action).toEqual({
+        type: '[MSD - Add Material] Add Custom Casting DIameter',
+        castingDiameter: '200x200',
       });
     });
   });

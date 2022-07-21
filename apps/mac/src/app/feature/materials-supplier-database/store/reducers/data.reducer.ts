@@ -9,10 +9,14 @@ import {
   MaterialStandard,
 } from '../../models';
 import {
+  addCustomCastingDiameter,
   addMaterialDialogCanceled,
   addMaterialDialogConfirmed,
   addMaterialDialogOpened,
   createMaterialComplete,
+  fetchCastingDiameters,
+  fetchCastingDiametersFailure,
+  fetchCastingDiametersSuccess,
   fetchCastingModesFailure,
   fetchCastingModesSuccess,
   fetchCategoryOptionsFailure,
@@ -75,6 +79,9 @@ export interface DataState {
       co2ClassificationsLoading: boolean;
       castingModes: string[];
       castingModesLoading: boolean;
+      castingDiameters: string[];
+      castingDiametersLoading: boolean;
+      customCastingDiameters: string[];
       loading: boolean;
     };
     createMaterial: {
@@ -231,6 +238,8 @@ export const dataReducer = createReducer(
           steelMakingProcesses: undefined,
           co2Classifications: undefined,
           castingModes: undefined,
+          castingDiameters: undefined,
+          customCastingDiameters: undefined,
         },
       },
     })
@@ -249,6 +258,8 @@ export const dataReducer = createReducer(
           steelMakingProcessesLoading: true,
           co2ClassificationsLoading: true,
           castingModesLoading: true,
+          customCastingDiameters: undefined,
+          castingDiameters: undefined,
         },
       },
     })
@@ -305,6 +316,48 @@ export const dataReducer = createReducer(
           ...state.addMaterialDialog.dialogOptions,
           manufacturerSuppliers: undefined,
           manufacturerSuppliersLoading: undefined,
+        },
+      },
+    })
+  ),
+  on(
+    fetchCastingDiameters,
+    (state): DataState => ({
+      ...state,
+      addMaterialDialog: {
+        ...state.addMaterialDialog,
+        dialogOptions: {
+          ...state.addMaterialDialog.dialogOptions,
+          castingDiameters: [],
+          castingDiametersLoading: true,
+        },
+      },
+    })
+  ),
+  on(
+    fetchCastingDiametersSuccess,
+    (state, { castingDiameters }): DataState => ({
+      ...state,
+      addMaterialDialog: {
+        ...state.addMaterialDialog,
+        dialogOptions: {
+          ...state.addMaterialDialog.dialogOptions,
+          castingDiameters,
+          castingDiametersLoading: false,
+        },
+      },
+    })
+  ),
+  on(
+    fetchCastingDiametersFailure,
+    (state): DataState => ({
+      ...state,
+      addMaterialDialog: {
+        ...state.addMaterialDialog,
+        dialogOptions: {
+          ...state.addMaterialDialog.dialogOptions,
+          castingDiameters: [],
+          castingDiametersLoading: undefined,
         },
       },
     })
@@ -446,7 +499,25 @@ export const dataReducer = createReducer(
         },
       },
     })
-  )
+  ),
+  on(addCustomCastingDiameter, (state, { castingDiameter }): DataState => {
+    const customCastingDiameters = state.addMaterialDialog.dialogOptions
+      .customCastingDiameters
+      ? [...state.addMaterialDialog.dialogOptions.customCastingDiameters]
+      : [];
+    customCastingDiameters.unshift(castingDiameter);
+
+    return {
+      ...state,
+      addMaterialDialog: {
+        ...state.addMaterialDialog,
+        dialogOptions: {
+          ...state.addMaterialDialog.dialogOptions,
+          customCastingDiameters,
+        },
+      },
+    };
+  })
 );
 
 export function reducer(state: DataState, action: Action): DataState {

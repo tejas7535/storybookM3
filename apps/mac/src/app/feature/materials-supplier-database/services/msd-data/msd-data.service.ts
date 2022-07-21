@@ -171,6 +171,25 @@ export class MsdDataService {
     );
   }
 
+  public fetchCastingDiameters(supplierId: number): Observable<string[]> {
+    const body = {
+      select: ['castingDiameter'],
+      where: [
+        {
+          col: 'manufacturerSupplier.id',
+          op: 'IN',
+          values: [supplierId.toString()],
+        },
+      ],
+      distinct: true,
+    };
+
+    return this.httpClient.post<string[]>(
+      `${this.BASE_URL}/materials/query`,
+      body
+    );
+  }
+
   public createMaterial(material: Material): Observable<{ id: number }> {
     return this.httpClient.post<{ id: number }>(
       `${this.BASE_URL}/materials`,

@@ -28,6 +28,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../../../../assets/i18n/en.json';
 import { ManufacturerSupplier, MaterialStandard } from '../../models';
+import { addCustomCastingDiameter } from '../../store/actions';
 import { initialState as initialDataState } from '../../store/reducers/data.reducer';
 import { InputDialogComponent } from './input-dialog.component';
 
@@ -848,13 +849,12 @@ describe('InputDialogComponent', () => {
 
   describe('addCastingDiameter', () => {
     it('should add values to select', () => {
-      const s = 'string';
-      component.castingDiameter.push = jest.fn();
-      component.addCastingDiameter(s);
-      expect(component.castingDiameter.push).toHaveBeenCalledWith({
-        id: s,
-        title: s,
-      });
+      const castingDiameter = 'string';
+      store.dispatch = jest.fn();
+      component.addCastingDiameter(castingDiameter);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        addCustomCastingDiameter({ castingDiameter })
+      );
     });
   });
 

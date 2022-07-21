@@ -18,6 +18,9 @@ import {
   addMaterialDialogConfirmed,
   addMaterialDialogOpened,
   createMaterialComplete,
+  fetchCastingDiameters,
+  fetchCastingDiametersFailure,
+  fetchCastingDiametersSuccess,
   fetchCastingModes,
   fetchCastingModesFailure,
   fetchCastingModesSuccess,
@@ -400,6 +403,70 @@ describe('Data Effects', () => {
         m.flush();
 
         expect(msdDataService.fetchCo2Classifications).toHaveBeenCalled();
+      })
+    );
+  });
+
+  describe('fetchCastingDiameters$', () => {
+    it(
+      'should return empty success action with empty supplierId',
+      marbles((m) => {
+        action = fetchCastingDiameters({ supplierId: undefined });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchCastingDiameters = jest.fn();
+
+        const result = fetchCastingDiametersSuccess({
+          castingDiameters: [],
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchCastingDiameters$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchCastingDiameters).not.toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should fetch castingDiameters and return success action on success',
+      marbles((m) => {
+        action = fetchCastingDiameters({ supplierId: 1 });
+        actions$ = m.hot('-a', { a: action });
+
+        const resultMock: string[] = ['1', '2'];
+        const response = m.cold('-a|', { a: resultMock });
+        msdDataService.fetchCastingDiameters = jest.fn(() => response);
+
+        const result = fetchCastingDiametersSuccess({
+          castingDiameters: resultMock,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.fetchCastingDiameters$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(1);
+      })
+    );
+
+    it(
+      'should fetch castingDiameters and return failure action on failure',
+      marbles((m) => {
+        action = fetchCastingDiameters({ supplierId: 1 });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchCastingDiameters = jest
+          .fn()
+          .mockReturnValue(throwError(() => 'error'));
+
+        const result = fetchCastingDiametersFailure();
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchCastingDiameters$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(1);
       })
     );
   });

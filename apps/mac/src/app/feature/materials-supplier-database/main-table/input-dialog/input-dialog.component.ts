@@ -21,6 +21,8 @@ import { StringOption } from '@schaeffler/inputs';
 
 import { Material } from '../../models';
 import {
+  getAddMaterialDialogCastingDiametersLoading,
+  getAddMaterialDialogCastingDiameterStringOptions,
   getAddMaterialDialogCastingModes,
   getAddMaterialDialogCo2Classifications,
   getAddMaterialDialogOptionsLoading,
@@ -36,7 +38,11 @@ import {
   getSupplierStringOptions,
   getUniqueStringOptions,
 } from '../../store';
-import { addMaterialDialogConfirmed } from './../../store/actions/data.actions';
+import {
+  addCustomCastingDiameter,
+  addMaterialDialogConfirmed,
+  fetchCastingDiameters,
+} from './../../store/actions/data.actions';
 
 @Component({
   selector: 'mac-input-dialog',
@@ -45,7 +51,6 @@ import { addMaterialDialogConfirmed } from './../../store/actions/data.actions';
 export class InputDialogComponent implements OnInit, OnDestroy {
   // mocks
   public referenceDocument: StringOption[] = [];
-  public castingDiameter: StringOption[] = [];
   //  observables
   public standardDocuments$: Observable<StringOption[]>;
   public materialNames$: Observable<StringOption[]>;
@@ -58,6 +63,8 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public steelMakingProcess$: Observable<StringOption[]>;
   public dialogLoading$: Observable<boolean>;
   public createMaterialLoading$: Observable<boolean>;
+  public castingDiameters$: Observable<StringOption[]>;
+  public castingDiametersLoading$: Observable<boolean>;
 
   private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, 1\\.[0-9]{4})*';
 
@@ -399,6 +406,18 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           : this.co2ClassificationControl.disable()
       );
     this.co2ClassificationControl.disable();
+
+    this.castingDiameters$ = this.store.select(
+      getAddMaterialDialogCastingDiameterStringOptions
+    );
+    this.castingDiametersLoading$ = this.store.select(
+      getAddMaterialDialogCastingDiametersLoading
+    );
+    this.manufacturerSupplierIdControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) =>
+        this.store.dispatch(fetchCastingDiameters({ supplierId: value }))
+      );
   }
 
   public ngOnDestroy(): void {
@@ -546,8 +565,8 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     this.referenceDocument.push({ id: value, title: value });
   }
 
-  public addCastingDiameter(value: string): void {
-    this.castingDiameter.push({ id: value, title: value });
+  public addCastingDiameter(castingDiameter: string): void {
+    this.store.dispatch(addCustomCastingDiameter({ castingDiameter }));
   }
 
   public getErrorMessage(errors: { [key: string]: any }): string {

@@ -161,6 +161,27 @@ export class DataEffects {
     );
   });
 
+  public fetchCastingDiameters$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(DataActions.fetchCastingDiameters),
+      map((action) => action.supplierId),
+      switchMap((supplierId) => {
+        if (!supplierId) {
+          return of(
+            DataActions.fetchCastingDiametersSuccess({ castingDiameters: [] })
+          );
+        }
+
+        return this.msdDataService.fetchCastingDiameters(supplierId).pipe(
+          map((castingDiameters) =>
+            DataActions.fetchCastingDiametersSuccess({ castingDiameters })
+          ),
+          catchError(() => of(DataActions.fetchCastingDiametersFailure()))
+        );
+      })
+    );
+  });
+
   public fetchRatings$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DataActions.fetchRatings),

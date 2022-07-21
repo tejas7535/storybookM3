@@ -106,6 +106,20 @@ export const fetchManufacturerSuppliersFailure = createAction(
   '[MSD - Add Material] Fetch Manufacturer Suppliers Failure'
 );
 
+export const fetchCastingDiameters = createAction(
+  '[MSD - Add Material] Fetch Casting Diameters',
+  props<{ supplierId: number }>()
+);
+
+export const fetchCastingDiametersSuccess = createAction(
+  '[MSD - Add Material] Fetch Casting Diameters Success',
+  props<{ castingDiameters: string[] }>()
+);
+
+export const fetchCastingDiametersFailure = createAction(
+  '[MSD - Add Material] Fetch Casting Diameters Failure'
+);
+
 export const fetchRatings = createAction('[MSD - Add Material] Fetch Ratings');
 
 export const fetchRatingsSuccess = createAction(
@@ -163,4 +177,9 @@ export const createMaterialComplete = createAction(
 
 export const createMaterialFailure = createAction(
   '[MSD - Add Material] Create Material Failure'
+);
+
+export const addCustomCastingDiameter = createAction(
+  '[MSD - Add Material] Add Custom Casting DIameter',
+  props<{ castingDiameter: string }>()
 );
