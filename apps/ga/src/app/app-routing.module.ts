@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppIsEmbeddedGuard } from '@ga/core/guards';
+import { AppIsEmbeddedGuard, LanguageGuard } from '@ga/core/guards';
 
 import { AppRoutePath } from './app-route-path.enum';
 
@@ -17,6 +17,7 @@ export const appRoutePaths: Routes = [
       import('./grease-calculation/grease-calculation.module').then(
         (m) => m.GreaseCalculationModule
       ),
+    canActivate: [LanguageGuard],
   },
   {
     path: AppRoutePath.LegalPath,
