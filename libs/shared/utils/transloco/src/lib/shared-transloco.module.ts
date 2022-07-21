@@ -22,12 +22,12 @@ import { sharedTranslocoLoader } from './shared-transloco.loader';
 
 export function preloadLanguage(
   transloco: TranslocoService,
-  defaultLanguage: string,
-  fallbackLanguage: string
+  language: string,
+  fallback: string
 ): any {
-  const lang = defaultLanguage || getBrowserLang() || fallbackLanguage;
+  const lang = language || getBrowserLang() || fallback;
 
-  transloco.setDefaultLang(lang);
+  transloco.setActiveLang(lang);
   const loader = async () => transloco.load(lang).toPromise();
 
   return loader;
