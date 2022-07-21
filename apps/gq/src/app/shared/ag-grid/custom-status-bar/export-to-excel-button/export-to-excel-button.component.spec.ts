@@ -1117,6 +1117,21 @@ describe('ExportToExcelButtonComponent', () => {
       expect(HelperService.transformNumber).not.toHaveBeenCalled();
       expect(result).toEqual('');
     });
+
+    test('uses quotation currency', () => {
+      HelperService.transformNumber = jest.fn().mockReturnValue(42);
+      HelperService.transformNumberCurrency = jest.fn();
+      component['params'] = {
+        ...mockParams,
+        context: { quotation: { currency: 'JPY' } },
+      };
+      component.transformValue(EXTENDED_SAP_PRICE_DETAIL_MOCK, 'amount');
+
+      expect(HelperService.transformNumberCurrency).toHaveBeenCalledWith(
+        42,
+        'JPY'
+      );
+    });
   });
 
   describe('hasDelimiterProblemInExcelGreaterEqual1000', () => {

@@ -800,7 +800,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       ) {
         return HelperService.transformNumberCurrency(
           HelperService.transformNumber(Number(value), true),
-          'USD'
+          this.params.context.quotation.currency
         );
       }
 
