@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Locale } from '@schaeffler/transloco/components';
 
 import { environment } from '../../../../environments/environment';
-import { serivceNowAdress } from '../../constants';
+import { AVAILABLE_LOCALES, serivceNowAdress } from '../../constants';
 
 @Component({
   selector: 'gq-user-settings',
@@ -12,15 +12,6 @@ import { serivceNowAdress } from '../../constants';
 export class UserSettingsComponent {
   production = environment.production;
   serivceNowAdress = serivceNowAdress;
-  availableLocales: Locale[] = [
-    {
-      id: 'de-DE',
-      label: 'Deutsch (Deutschland)',
-    },
-    {
-      id: 'en-US',
-      label: 'English (United States)',
-    },
-  ];
-  defaultLocale: Locale = this.availableLocales[0];
+  availableLocales: Locale[] = AVAILABLE_LOCALES;
+  defaultLocale: Locale = AVAILABLE_LOCALES[0];
 }

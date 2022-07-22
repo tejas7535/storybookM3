@@ -1,3 +1,4 @@
+export * from './available-locales';
 export * from './forbidden-action';
 export * from './language';
 export * from './legal-constants';

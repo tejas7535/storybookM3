@@ -1,55 +1,26 @@
 <gq-filter-pricing-card
   *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
   [title]="t('title')"
-  [isDisabled]="
-    !userHasManualPriceRole ||
-    !manualPriceFormControl?.value ||
-    manualPriceFormControl?.value ===
-      quotationDetail.recommendedPrice?.toString()
-  "
-  [isSelected]="
-    manualPriceFormControl?.value === quotationDetail.price?.toString() &&
-    quotationDetail.priceSource === PriceSource.MANUAL
-  "
-  (selectManualPrice)="selectPrice()"
+  [isDisabled]="true"
+  [isSelected]="quotationDetail.priceSource === PriceSource.MANUAL"
   [isLoading]="isLoading"
 >
   <div class="flex w-full flex-col flex-wrap sm:flex-row" content>
     <div class="min-w-[8rem] max-w-[25%] grow pt-4">
       <div class="mb-1 text-body-2 text-medium-emphasis">
-        <span>{{ t('label') }}</span
-        ><span *ngIf="editMode"> ({{ currency }})</span>
-        <span>:</span>
+        <span>{{ t('label') }}:</span>
       </div>
       <div>
-        <div class="flex-1" *ngIf="!editMode; else editing">
+        <div class="flex-1">
           <span class="font-bold">{{ price | numberCurrency: currency }}</span>
           <span *ngIf="!price" class="font-bold"> {{ currency }}</span>
           <mat-icon
             *ngIf="userHasManualPriceRole"
             class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
-            (click)="openEditing()"
+            (click)="openEditing(ColumnFields.PRICE)"
             >mode_edit</mat-icon
           >
         </div>
-        <ng-template #editing>
-          <div class="flex-1" class="small-input">
-            <mat-form-field content appearance="outline">
-              <input
-                [formControl]="manualPriceFormControl"
-                (keydown)="onKeyPress($event, manualPrice)"
-                (paste)="onPaste($event)"
-                class="text-overline"
-                matInput
-                type="text"
-                #manualPrice
-              />
-              <mat-hint>
-                {{ t('hint') }}
-              </mat-hint>
-            </mat-form-field>
-          </div>
-        </ng-template>
       </div>
     </div>
     <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
@@ -57,8 +28,9 @@
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
         <mat-icon
+          *ngIf="userHasManualPriceRole"
           class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
-          (click)="openMarginEditing(true)"
+          (click)="openEditing(ColumnFields.GPI)"
           >mode_edit</mat-icon
         >
       </div>
@@ -68,8 +40,9 @@
       <div>
         <span class="font-bold">{{ gpm || '-' }} %</span>
         <mat-icon
+          *ngIf="userHasManualPriceRole"
           class="ml-1 cursor-pointer align-bottom !text-body-1 !leading-6 text-medium-emphasis"
-          (click)="openMarginEditing(false)"
+          (click)="openEditing(ColumnFields.GPM)"
           >mode_edit</mat-icon
         >
       </div>
