@@ -1,20 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { environment } from '@mac/environments/environment';
 import {
   DataResult,
   ManufacturerSupplier,
   Material,
+  MaterialResponseEntry,
   MaterialStandard,
-} from '../../models';
-import { environment } from './../../../../../environments/environment';
-import { MaterialResponseEntry } from './../../models/data/material-response-entry.model';
+} from '@mac/msd/models';
 
 @Injectable({
   providedIn: 'root',
@@ -26,40 +26,43 @@ export class MsdDataService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  public getMaterialClasses(): Observable<StringOption[]> {
+  public getMaterialClasses() {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/materialClasses`)
       .pipe(
         map((materialClasses) =>
-          materialClasses.map((materialClass) => ({
-            id: materialClass,
-            title: translate(
-              `materialsSupplierDatabase.materialClassValues.${materialClass}`
-            ),
-          }))
+          materialClasses.map(
+            (materialClass) =>
+              ({
+                id: materialClass,
+                title: translate(
+                  `materialsSupplierDatabase.materialClassValues.${materialClass}`
+                ),
+              } as StringOption)
+          )
         )
       );
   }
 
-  public getProductCategories(): Observable<StringOption[]> {
+  public getProductCategories() {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/productCategories`)
       .pipe(
         map((productCategories) =>
-          productCategories.map((productCategory) => ({
-            id: productCategory,
-            title: translate(
-              `materialsSupplierDatabase.productCategoryValues.${productCategory}`
-            ),
-          }))
+          productCategories.map(
+            (productCategory) =>
+              ({
+                id: productCategory,
+                title: translate(
+                  `materialsSupplierDatabase.productCategoryValues.${productCategory}`
+                ),
+              } as StringOption)
+          )
         )
       );
   }
 
-  public getMaterials(
-    materialClass?: string,
-    category?: string[]
-  ): Observable<DataResult[]> {
+  public getMaterials(materialClass?: string, category?: string[]) {
     const params: { materialClass?: string; category?: string[] } = {};
     if (materialClass) {
       params.materialClass = materialClass;
@@ -128,50 +131,53 @@ export class MsdDataService {
       );
   }
 
-  public fetchManufacturerSuppliers(): Observable<ManufacturerSupplier[]> {
+  public fetchManufacturerSuppliers() {
     return this.httpClient.get<ManufacturerSupplier[]>(
       `${this.BASE_URL}/materials/manufacturerSuppliers`
     );
   }
 
-  public fetchMaterialStandards(): Observable<MaterialStandard[]> {
+  public fetchMaterialStandards() {
     return this.httpClient.get<MaterialStandard[]>(
       `${this.BASE_URL}/materials/materialStandards`
     );
   }
 
-  public fetchRatings(): Observable<string[]> {
+  public fetchRatings() {
     return this.httpClient.get<string[]>(`${this.BASE_URL}/materials/ratings`);
   }
 
-  public fetchSteelMakingProcesses(): Observable<string[]> {
+  public fetchSteelMakingProcesses() {
     return this.httpClient.get<string[]>(
       `${this.BASE_URL}/materials/steelMakingProcesses`
     );
   }
 
-  public fetchCo2Classifications(): Observable<StringOption[]> {
+  public fetchCo2Classifications() {
     return this.httpClient
       .get<string[]>(`${this.BASE_URL}/materials/co2Classifications`)
       .pipe(
         map((co2Classifications) =>
-          co2Classifications.map((co2Classification) => ({
-            id: co2Classification,
-            title: translate(
-              `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${co2Classification.toLowerCase()}`
-            ),
-          }))
+          co2Classifications.map(
+            (co2Classification) =>
+              ({
+                id: co2Classification,
+                title: translate(
+                  `materialsSupplierDatabase.mainTable.dialog.co2ClassificationValues.${co2Classification.toLowerCase()}`
+                ),
+              } as StringOption)
+          )
         )
       );
   }
 
-  public fetchCastingModes(): Observable<string[]> {
+  public fetchCastingModes() {
     return this.httpClient.get<string[]>(
       `${this.BASE_URL}/materials/castingModes`
     );
   }
 
-  public fetchCastingDiameters(supplierId: number): Observable<string[]> {
+  public fetchCastingDiameters(supplierId: number) {
     const body = {
       select: ['castingDiameter'],
       where: [
@@ -190,7 +196,7 @@ export class MsdDataService {
     );
   }
 
-  public createMaterial(material: Material): Observable<{ id: number }> {
+  public createMaterial(material: Material) {
     return this.httpClient.post<{ id: number }>(
       `${this.BASE_URL}/materials`,
       material

@@ -18,8 +18,8 @@ import {
 } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { AppComponent } from './app.component';
-import { RoutePath } from './app-routing.enum';
+import { AppComponent } from '@mac/app.component';
+import { RoutePath } from '@mac/app-routing.enum';
 
 describe('AppComponent', () => {
   let component: AppComponent;

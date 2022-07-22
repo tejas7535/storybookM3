@@ -6,13 +6,12 @@ import { Router, UrlSerializer } from '@angular/router';
 import { take } from 'rxjs/operators';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 
-import { changeFavicon } from '../../shared/change-favicon';
-import { getShareQueryParams } from './store';
+import { DataFacade } from '@mac/msd/store';
+import { changeFavicon } from '@mac/shared/change-favicon';
 
 @Component({
   selector: 'mac-materials-supplier-database',
@@ -22,7 +21,7 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
   public breadcrumbs: Breadcrumb[];
 
   public constructor(
-    private readonly store: Store,
+    private readonly dataFacade: DataFacade,
     private readonly router: Router,
     private readonly urlSerializer: UrlSerializer,
     private readonly clipboard: Clipboard,
@@ -49,8 +48,7 @@ export class MaterialsSupplierDatabaseComponent implements OnInit {
   }
 
   public shareButtonFn(): void {
-    this.store
-      .select(getShareQueryParams)
+    this.dataFacade.shareQueryParams$
       .pipe(take(1))
       .subscribe((params: { filterForm: string; agGridFilter: string }) => {
         const tree = this.router.parseUrl(this.router.url);

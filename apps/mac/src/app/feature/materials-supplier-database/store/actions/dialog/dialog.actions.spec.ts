@@ -1,14 +1,17 @@
-import { StringOption } from '@schaeffler/inputs';
-
-import { DataResult, Material, MaterialStandard } from '../../models';
-import { ManufacturerSupplier } from './../../models/data/manufacturer-supplier.model';
-import { addCustomCastingDiameter, fetchCastingDiameters } from '.';
 import {
+  ManufacturerSupplier,
+  Material,
+  MaterialStandard,
+} from '@mac/msd/models';
+
+import {
+  addCustomCastingDiameter,
   addMaterialDialogCanceled,
   addMaterialDialogConfirmed,
   addMaterialDialogOpened,
   createMaterialComplete,
   createMaterialFailure,
+  fetchCastingDiameters,
   fetchCastingDiametersFailure,
   fetchCastingDiametersSuccess,
   fetchCastingModes,
@@ -20,9 +23,6 @@ import {
   fetchManufacturerSuppliers,
   fetchManufacturerSuppliersFailure,
   fetchManufacturerSuppliersSuccess,
-  fetchMaterials,
-  fetchMaterialsFailure,
-  fetchMaterialsSuccess,
   fetchMaterialStandards,
   fetchMaterialStandardsFailure,
   fetchMaterialStandardsSuccess,
@@ -32,100 +32,15 @@ import {
   fetchSteelMakingProcesses,
   fetchSteelMakingProcessesFailure,
   fetchSteelMakingProcessesSuccess,
-  resetResult,
-  setAgGridColumns,
-  setAgGridFilter,
-  setFilter,
-} from './data.actions';
+} from './dialog.actions';
 
-describe('Data Actions', () => {
-  describe('Set Filter', () => {
-    it('setFilter', () => {
-      const materialClass: StringOption = {
-        id: 'id',
-        title: 'very classy material',
-      };
-      const productCategory: StringOption[] = [
-        {
-          id: 'id',
-          title: 'category a',
-        },
-      ];
-      const action = setFilter({ materialClass, productCategory });
-
-      expect(action).toEqual({
-        materialClass,
-        productCategory,
-        type: '[MSD - Data] Set Filter',
-      });
-    });
-  });
-  describe('Fetch Materials', () => {
-    it('fetchMaterials', () => {
-      const action = fetchMaterials();
-
-      expect(action).toEqual({
-        type: '[MSD - Data] Fetch Materials',
-      });
-    });
-  });
-  describe('Fetch Materials Success', () => {
-    it('fetchMaterialsSuccess', () => {
-      const result: DataResult[] = [{} as DataResult];
-      const action = fetchMaterialsSuccess({ result });
-
-      expect(action).toEqual({
-        result,
-        type: '[MSD - Data] Fetch Materials Success',
-      });
-    });
-  });
-  describe('Fetch Materials Failure', () => {
-    it('fetchMaterialsSuccess', () => {
-      const action = fetchMaterialsFailure();
-
-      expect(action).toEqual({
-        type: '[MSD - Data] Fetch Materials Failure',
-      });
-    });
-  });
-  describe('Set AgGrid Filter', () => {
-    it('setAgGridFilter', () => {
-      const action = setAgGridFilter({ filterModel: {} });
-
-      expect(action).toEqual({
-        filterModel: {},
-        type: '[MSD - Data] Set AgGrid Filter',
-      });
-    });
-  });
-  describe('Reset Result', () => {
-    it('resetResult', () => {
-      const action = resetResult();
-
-      expect(action).toEqual({
-        type: '[MSD - Data] Reset Result',
-      });
-    });
-  });
-
-  describe('Set Ag Grid Columns', () => {
-    it('setAgGridColumns', () => {
-      const action = setAgGridColumns({ agGridColumns: 'columns' });
-
-      expect(action).toEqual({
-        agGridColumns: 'columns',
-        type: '[MSD - Data] Set Ag Grid Columns',
-      });
-    });
-  });
-
+describe('Dialog Actions', () => {
   describe('Add Material Dialog Opened', () => {
     it('addMaterialDialogOpened', () => {
       const action = addMaterialDialogOpened();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Add Material Dialog Opened',
+        type: '[MSD - Dialog] Add Material Dialog Opened',
       });
     });
   });
@@ -135,7 +50,7 @@ describe('Data Actions', () => {
       const action = addMaterialDialogCanceled();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Add Material Dialog Canceled',
+        type: '[MSD - Dialog] Add Material Dialog Canceled',
       });
     });
   });
@@ -147,7 +62,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         material: mockMaterial,
-        type: '[MSD - Add Material] Add Material Confirmed',
+        type: '[MSD - Dialog] Add Material Confirmed',
       });
     });
   });
@@ -157,7 +72,7 @@ describe('Data Actions', () => {
       const action = fetchMaterialStandards();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Material Standards',
+        type: '[MSD - Dialog] Fetch Material Standards',
       });
     });
   });
@@ -171,7 +86,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         materialStandards: mockMaterialStandards,
-        type: '[MSD - Add Material] Fetch Material Standards Success',
+        type: '[MSD - Dialog] Fetch Material Standards Success',
       });
     });
   });
@@ -181,7 +96,7 @@ describe('Data Actions', () => {
       const action = fetchMaterialStandardsFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Material Standards Failure',
+        type: '[MSD - Dialog] Fetch Material Standards Failure',
       });
     });
   });
@@ -191,7 +106,7 @@ describe('Data Actions', () => {
       const action = fetchManufacturerSuppliers();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Manufacturer Suppliers',
+        type: '[MSD - Dialog] Fetch Manufacturer Suppliers',
       });
     });
   });
@@ -205,7 +120,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         manufacturerSuppliers: mockManufacturerSuppliers,
-        type: '[MSD - Add Material] Fetch Manufacturer Suppliers Success',
+        type: '[MSD - Dialog] Fetch Manufacturer Suppliers Success',
       });
     });
   });
@@ -215,42 +130,7 @@ describe('Data Actions', () => {
       const action = fetchManufacturerSuppliersFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Manufacturer Suppliers Failure',
-      });
-    });
-  });
-
-  describe('Fetch Casting Diameters', () => {
-    it('fetchCastingDiameters', () => {
-      const action = fetchCastingDiameters({ supplierId: 1 });
-
-      expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Casting Diameters',
-        supplierId: 1,
-      });
-    });
-  });
-
-  describe('Fetch Casting Diameters Success', () => {
-    it('fetchCastingDiametersSuccess', () => {
-      const mockCastingDiameters = ['200x200'];
-      const action = fetchCastingDiametersSuccess({
-        castingDiameters: mockCastingDiameters,
-      });
-
-      expect(action).toEqual({
-        castingDiameters: mockCastingDiameters,
-        type: '[MSD - Add Material] Fetch Casting Diameters Success',
-      });
-    });
-  });
-
-  describe('Fetch Casting Diameters Failure', () => {
-    it('fetchCastingDiametersFailure', () => {
-      const action = fetchCastingDiametersFailure();
-
-      expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Casting Diameters Failure',
+        type: '[MSD - Dialog] Fetch Manufacturer Suppliers Failure',
       });
     });
   });
@@ -260,7 +140,7 @@ describe('Data Actions', () => {
       const action = fetchRatings();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Ratings',
+        type: '[MSD - Dialog] Fetch Ratings',
       });
     });
   });
@@ -272,7 +152,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         ratings: mockRatings,
-        type: '[MSD - Add Material] Fetch Ratings Success',
+        type: '[MSD - Dialog] Fetch Ratings Success',
       });
     });
   });
@@ -282,7 +162,7 @@ describe('Data Actions', () => {
       const action = fetchRatingsFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Ratings Failure',
+        type: '[MSD - Dialog] Fetch Ratings Failure',
       });
     });
   });
@@ -292,7 +172,7 @@ describe('Data Actions', () => {
       const action = fetchCo2Classifications();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch CO2 Classifications',
+        type: '[MSD - Dialog] Fetch CO2 Classifications',
       });
     });
   });
@@ -309,7 +189,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         co2Classifications: mockCo2Classifications,
-        type: '[MSD - Add Material] Fetch CO2 Classifications Success',
+        type: '[MSD - Dialog] Fetch CO2 Classifications Success',
       });
     });
   });
@@ -319,7 +199,7 @@ describe('Data Actions', () => {
       const action = fetchCo2ClassificationsFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch CO2 Classifications Failure',
+        type: '[MSD - Dialog] Fetch CO2 Classifications Failure',
       });
     });
   });
@@ -329,7 +209,7 @@ describe('Data Actions', () => {
       const action = fetchSteelMakingProcesses();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Steel Making Processes',
+        type: '[MSD - Dialog] Fetch Steel Making Processes',
       });
     });
   });
@@ -343,7 +223,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         steelMakingProcesses: mockSteelMakingProcesses,
-        type: '[MSD - Add Material] Fetch Steel Making Processes Success',
+        type: '[MSD - Dialog] Fetch Steel Making Processes Success',
       });
     });
   });
@@ -353,7 +233,7 @@ describe('Data Actions', () => {
       const action = fetchSteelMakingProcessesFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Steel Making Processes Failure',
+        type: '[MSD - Dialog] Fetch Steel Making Processes Failure',
       });
     });
   });
@@ -363,7 +243,7 @@ describe('Data Actions', () => {
       const action = fetchCastingModes();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Casting Modes',
+        type: '[MSD - Dialog] Fetch Casting Modes',
       });
     });
   });
@@ -377,7 +257,7 @@ describe('Data Actions', () => {
 
       expect(action).toEqual({
         castingModes: mockCastingModes,
-        type: '[MSD - Add Material] Fetch Casting Modes Success',
+        type: '[MSD - Dialog] Fetch Casting Modes Success',
       });
     });
   });
@@ -387,7 +267,7 @@ describe('Data Actions', () => {
       const action = fetchCastingModesFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Fetch Casting Modes Failure',
+        type: '[MSD - Dialog] Fetch Casting Modes Failure',
       });
     });
   });
@@ -397,7 +277,7 @@ describe('Data Actions', () => {
       const action = createMaterialComplete({ success: true });
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Create Material Complete',
+        type: '[MSD - Dialog] Create Material Complete',
         success: true,
       });
     });
@@ -408,7 +288,42 @@ describe('Data Actions', () => {
       const action = createMaterialFailure();
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Create Material Failure',
+        type: '[MSD - Dialog] Create Material Failure',
+      });
+    });
+  });
+
+  describe('Fetch Casting Diameters', () => {
+    it('fetchCastingDiameters', () => {
+      const action = fetchCastingDiameters({ supplierId: 1 });
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Casting Diameters',
+        supplierId: 1,
+      });
+    });
+  });
+
+  describe('Fetch Casting Diameters Success', () => {
+    it('fetchCastingDiametersSuccess', () => {
+      const mockCastingDiameters = ['200x200'];
+      const action = fetchCastingDiametersSuccess({
+        castingDiameters: mockCastingDiameters,
+      });
+
+      expect(action).toEqual({
+        castingDiameters: mockCastingDiameters,
+        type: '[MSD - Dialog] Fetch Casting Diameters Success',
+      });
+    });
+  });
+
+  describe('Fetch Casting Diameters Failure', () => {
+    it('fetchCastingDiametersFailure', () => {
+      const action = fetchCastingDiametersFailure();
+
+      expect(action).toEqual({
+        type: '[MSD - Dialog] Fetch Casting Diameters Failure',
       });
     });
   });
@@ -418,7 +333,7 @@ describe('Data Actions', () => {
       const action = addCustomCastingDiameter({ castingDiameter: '200x200' });
 
       expect(action).toEqual({
-        type: '[MSD - Add Material] Add Custom Casting DIameter',
+        type: '[MSD - Dialog] Add Custom Casting DIameter',
         castingDiameter: '200x200',
       });
     });

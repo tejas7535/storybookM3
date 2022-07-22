@@ -1,1 +1,2 @@
-export * from './data.selector';
+export * from './data';
+export * from './dialog';

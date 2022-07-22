@@ -5,8 +5,8 @@ import { MsalGuard } from '@azure/msal-angular';
 
 import { LegalRoute } from '@schaeffler/legal-pages';
 
-import { RoutePath } from './app-routing.enum';
-import { RoleGuard } from './core/guards/role.guard';
+import { RoutePath } from '@mac/app-routing.enum';
+import { RoleGuard } from '@mac/core/guards/role.guard';
 
 export const appRoutePaths: Routes = [
   {

@@ -1,150 +1,27 @@
 import { StringOption } from '@schaeffler/inputs';
 
-import {
-  DataResult,
-  ManufacturerSupplier,
-  MaterialStandard,
-} from '../../models';
-import { initialState } from './../reducers/data.reducer';
-import {
-  getMaterialNameStringOptionsMerged,
-  getMaterialStandardDocumentStringOptionsMerged,
-} from '.';
-import * as DataSelectors from './data.selector';
-import { sortAlphabetically } from './data.selector';
+import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import { initialState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
-describe('DataSelectors', () => {
+import * as DialogSelectors from './dialog.selector';
+
+describe('DialogSelectors', () => {
   it('should sort alphabetically', () => {
     const strings = ['a', 'a', 'c', 'e', 'b', 'd'];
     const sorted = ['a', 'a', 'b', 'c', 'd', 'e'];
 
-    const result = strings.sort(sortAlphabetically);
+    const result = strings.sort(DialogSelectors.sortAlphabetically);
 
     expect(result).toEqual(sorted);
   });
-  it('should get dataState', () => {
+  it('should get dialogState', () => {
     expect(
-      DataSelectors.getDataState.projector({ data: initialState })
+      DialogSelectors.getDialogState.projector({ dialog: initialState })
     ).toEqual(initialState);
   });
 
-  it('should get data filter', () => {
-    expect(DataSelectors.getFilter.projector(initialState)).toEqual(
-      initialState.filter
-    );
-  });
-
-  it('should get data filters', () => {
-    expect(DataSelectors.getFilters.projector(initialState)).toEqual({
-      materialClass: undefined,
-      productCategory: undefined,
-    });
-  });
-
-  it('should get data loading', () => {
-    expect(DataSelectors.getLoading.projector(initialState)).toEqual(undefined);
-  });
-
-  it('should get material class options', () => {
-    expect(
-      DataSelectors.getMaterialClassOptions.projector(initialState)
-    ).toEqual(initialState.materialClassOptions);
-  });
-
-  it('should get product category options', () => {
-    expect(
-      DataSelectors.getProductCategoryOptions.projector(initialState)
-    ).toEqual(initialState.productCategoryOptions);
-  });
-
-  it('should get result', () => {
-    expect(DataSelectors.getResult.projector(initialState)).toEqual(
-      initialState.result
-    );
-  });
-
-  it('should get agGridFilter as undefined if not defined', () => {
-    expect(
-      DataSelectors.getAgGridFilter.projector({ ...initialState.filter })
-    ).toEqual({});
-  });
-
-  it('should get agGridFilter as undefined if unable to parse', () => {
-    expect(
-      DataSelectors.getAgGridFilter.projector({
-        ...initialState.filter,
-        agGridFilter: 'some not parsable string',
-      })
-    ).toEqual(undefined);
-  });
-  it('should get agGridFilter', () => {
-    expect(
-      DataSelectors.getAgGridFilter.projector({
-        ...initialState.filter,
-        agGridFilter: '{"someKey":"someValue"}',
-      })
-    ).toEqual({
-      someKey: 'someValue',
-    });
-  });
-
-  it('should get query filter params', () => {
-    const materialClass = { id: 0, name: 'gibts net' };
-    const productCategory = { id: 0, name: 'gibts net' };
-    const agGridFilter = 'some filter';
-
-    expect(
-      DataSelectors.getShareQueryParams.projector({
-        ...initialState.filter,
-        materialClass,
-        productCategory,
-        agGridFilter,
-      })
-    ).toEqual({
-      filterForm: JSON.stringify({ materialClass, productCategory }),
-      agGridFilter,
-    });
-  });
-
-  it('should return ag grid columns', () => {
-    const result = DataSelectors.getAgGridColumns.projector({
-      ...initialState,
-      agGridColumns: 'columns',
-    });
-
-    expect(result).toEqual('columns');
-  });
-
-  it('should get result count', () => {
-    const result = DataSelectors.getResultCount.projector([
-      {} as DataResult,
-      {} as DataResult,
-      {} as DataResult,
-    ]);
-
-    expect(result).toEqual(3);
-  });
-
-  it('should get 0 if result is not defined', () => {
-    const result = DataSelectors.getResultCount.projector(initialState.result);
-
-    expect(result).toEqual(0);
-  });
-
-  it('should get the materialDialog object', () => {
-    const result = DataSelectors.getAddMaterialDialog.projector({
-      ...initialState,
-    });
-
-    expect(result).toEqual({
-      manufacturerSupplier: undefined,
-      materialStandard: undefined,
-      dialogOptions: undefined,
-    });
-  });
-
   it('should get the dialogOptions object', () => {
-    const result = DataSelectors.getAddMaterialDialogOptions.projector({
+    const result = DialogSelectors.getAddMaterialDialogOptions.projector({
       dialogOptions: {
         materialStandardsLoading: true,
       },
@@ -175,29 +52,29 @@ describe('DataSelectors', () => {
     const results = [];
 
     results.push(
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
         castingModesLoading: undefined,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
         castingModesLoading: undefined,
         materialStandardsLoading: undefined,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
         castingModesLoading: undefined,
         materialStandardsLoading: undefined,
         co2ClassificationsLoading: undefined,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
         castingModesLoading: undefined,
         materialStandardsLoading: undefined,
@@ -205,7 +82,7 @@ describe('DataSelectors', () => {
         steelMakingProcessesLoading: undefined,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
         castingModesLoading: undefined,
         materialStandardsLoading: undefined,
@@ -232,9 +109,11 @@ describe('DataSelectors', () => {
       manufacturerSuppliersLoading: false,
     };
 
-    const result = DataSelectors.getAddMaterialDialogOptionsLoading.projector({
-      ...dialogOptionsBase,
-    });
+    const result = DialogSelectors.getAddMaterialDialogOptionsLoading.projector(
+      {
+        ...dialogOptionsBase,
+      }
+    );
 
     expect(result).toBe(false);
   });
@@ -252,29 +131,29 @@ describe('DataSelectors', () => {
     const results = [];
 
     results.push(
-      DataSelectors.getAddMaterialDialogOptionsLoading.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoading.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
         castingModesLoading: true,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoading.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
         castingModesLoading: true,
         materialStandardsLoading: true,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoading.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
         castingModesLoading: true,
         materialStandardsLoading: true,
         co2ClassificationsLoading: true,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoading.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
         castingModesLoading: true,
         materialStandardsLoading: true,
@@ -282,7 +161,7 @@ describe('DataSelectors', () => {
         steelMakingProcessesLoading: true,
       }),
 
-      DataSelectors.getAddMaterialDialogOptionsLoading.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoading.projector({
         ...dialogOptionsBase,
         castingModesLoading: true,
         materialStandardsLoading: true,
@@ -310,7 +189,7 @@ describe('DataSelectors', () => {
     };
 
     const result =
-      DataSelectors.getAddMaterialDialogOptionsLoadingError.projector({
+      DialogSelectors.getAddMaterialDialogOptionsLoadingError.projector({
         ...dialogOptionsBase,
       });
 
@@ -319,7 +198,7 @@ describe('DataSelectors', () => {
 
   it('should return the castingModes', () => {
     expect(
-      DataSelectors.getAddMaterialDialogCastingModes.projector({
+      DialogSelectors.getAddMaterialDialogCastingModes.projector({
         castingModes: ['1', '2'],
       })
     ).toEqual(['1', '2']);
@@ -327,7 +206,7 @@ describe('DataSelectors', () => {
 
   it('should return the co2Classifications', () => {
     expect(
-      DataSelectors.getAddMaterialDialogCo2Classifications.projector({
+      DialogSelectors.getAddMaterialDialogCo2Classifications.projector({
         co2Classifications: ['1', '2'],
       })
     ).toEqual(['1', '2']);
@@ -347,7 +226,7 @@ describe('DataSelectors', () => {
       },
     ];
     expect(
-      DataSelectors.getAddMaterialDialogSuppliers.projector({
+      DialogSelectors.getAddMaterialDialogSuppliers.projector({
         manufacturerSuppliers,
       })
     ).toEqual(manufacturerSuppliers);
@@ -369,7 +248,7 @@ describe('DataSelectors', () => {
       },
     ];
     expect(
-      DataSelectors.getAddMaterialDialogMaterialStandards.projector({
+      DialogSelectors.getAddMaterialDialogMaterialStandards.projector({
         materialStandards,
       })
     ).toEqual(materialStandards);
@@ -377,7 +256,7 @@ describe('DataSelectors', () => {
 
   it('should return the ratings', () => {
     expect(
-      DataSelectors.getAddMaterialDialogRatings.projector({
+      DialogSelectors.getAddMaterialDialogRatings.projector({
         ratings: ['1', '2'],
       })
     ).toEqual(['1', '2']);
@@ -385,7 +264,7 @@ describe('DataSelectors', () => {
 
   it('should return the steelMakingProcesses', () => {
     expect(
-      DataSelectors.getAddMaterialDialogSteelMakingProcesses.projector({
+      DialogSelectors.getAddMaterialDialogSteelMakingProcesses.projector({
         steelMakingProcesses: ['1', '2'],
       })
     ).toEqual(['1', '2']);
@@ -393,7 +272,7 @@ describe('DataSelectors', () => {
 
   it('should return the castingDiameters', () => {
     expect(
-      DataSelectors.getAddMaterialDialogCastingDiameters.projector({
+      DialogSelectors.getAddMaterialDialogCastingDiameters.projector({
         castingDiameters: ['200x200'],
       })
     ).toEqual(['200x200']);
@@ -401,7 +280,7 @@ describe('DataSelectors', () => {
 
   it('should return the customCastingDiameters', () => {
     expect(
-      DataSelectors.getAddMaterialDialogCustomCastingDiameters.projector({
+      DialogSelectors.getAddMaterialDialogCustomCastingDiameters.projector({
         customCastingDiameters: ['200x200'],
       })
     ).toEqual(['200x200']);
@@ -410,19 +289,19 @@ describe('DataSelectors', () => {
   it('should return the casting diameter stringOptions', () => {
     const mockState = {
       msd: {
-        data: {
-          addMaterialDialog: {
-            dialogOptions: {
-              customCastingDiameters: ['custom'],
-              castingDiameters: ['notCustom'],
-            },
+        dialog: {
+          dialogOptions: {
+            customCastingDiameters: ['custom'],
+            castingDiameters: ['notCustom'],
           },
         },
       },
     };
 
     expect(
-      DataSelectors.getAddMaterialDialogCastingDiameterStringOptions(mockState)
+      DialogSelectors.getAddMaterialDialogCastingDiameterStringOptions(
+        mockState
+      )
     ).toEqual([
       {
         id: 'custom',
@@ -438,22 +317,22 @@ describe('DataSelectors', () => {
   it('should return the casting diameter stringOptions with empty lists', () => {
     const mockState = {
       msd: {
-        data: {
-          addMaterialDialog: {
-            dialogOptions: {},
-          },
+        dialog: {
+          dialogOptions: {},
         },
       },
     };
 
     expect(
-      DataSelectors.getAddMaterialDialogCastingDiameterStringOptions(mockState)
+      DialogSelectors.getAddMaterialDialogCastingDiameterStringOptions(
+        mockState
+      )
     ).toEqual([]);
   });
 
   it('should return castingDiametersLoading', () => {
     expect(
-      DataSelectors.getAddMaterialDialogCastingDiametersLoading.projector({
+      DialogSelectors.getAddMaterialDialogCastingDiametersLoading.projector({
         castingDiametersLoading: true,
       })
     ).toBe(true);
@@ -491,7 +370,7 @@ describe('DataSelectors', () => {
     ];
 
     const result =
-      DataSelectors.getSupplierStringOptions.projector(mockSuppliers);
+      DialogSelectors.getSupplierStringOptions.projector(mockSuppliers);
 
     expect(result).toEqual(expected);
   });
@@ -530,7 +409,7 @@ describe('DataSelectors', () => {
     ];
 
     const result =
-      DataSelectors.getSupplierPlantStringOptions.projector(mockSuppliers);
+      DialogSelectors.getSupplierPlantStringOptions.projector(mockSuppliers);
 
     expect(result).toEqual(expected);
   });
@@ -568,7 +447,7 @@ describe('DataSelectors', () => {
       },
     ];
 
-    const result = DataSelectors.getMaterialNameStringOptions.projector(
+    const result = DialogSelectors.getMaterialNameStringOptions.projector(
       mockMaterialStandards
     );
 
@@ -648,7 +527,9 @@ describe('DataSelectors', () => {
     ];
 
     expect(
-      getMaterialNameStringOptionsMerged.projector(materialNameOptions)
+      DialogSelectors.getMaterialNameStringOptionsMerged.projector(
+        materialNameOptions
+      )
     ).toEqual(expected);
   });
 
@@ -686,7 +567,7 @@ describe('DataSelectors', () => {
     ];
 
     const result =
-      DataSelectors.getMaterialStandardDocumentStringOptions.projector(
+      DialogSelectors.getMaterialStandardDocumentStringOptions.projector(
         mockMaterialStandards
       );
 
@@ -766,7 +647,7 @@ describe('DataSelectors', () => {
     ];
 
     expect(
-      getMaterialStandardDocumentStringOptionsMerged.projector(
+      DialogSelectors.getMaterialStandardDocumentStringOptionsMerged.projector(
         standardDocumentOptions
       )
     ).toEqual(expected);
@@ -786,8 +667,8 @@ describe('DataSelectors', () => {
       },
     ];
 
-    const result = DataSelectors.getStringOptions(
-      DataSelectors.getAddMaterialDialogRatings
+    const result = DialogSelectors.getStringOptions(
+      DialogSelectors.getAddMaterialDialogRatings
     ).projector(mockRatings);
 
     expect(result).toEqual(expected);
@@ -817,8 +698,8 @@ describe('DataSelectors', () => {
       },
     ];
 
-    const result = DataSelectors.getStringOptions(
-      DataSelectors.getAddMaterialDialogRatings,
+    const result = DialogSelectors.getStringOptions(
+      DialogSelectors.getAddMaterialDialogRatings,
       mockExtraOptions
     ).projector(mockRatings);
 
@@ -827,7 +708,7 @@ describe('DataSelectors', () => {
 
   it('should return createMaterialLoading', () => {
     expect(
-      DataSelectors.getCreateMaterialLoading.projector({
+      DialogSelectors.getCreateMaterialLoading.projector({
         createMaterial: {
           createMaterialLoading: true,
         },
@@ -837,7 +718,7 @@ describe('DataSelectors', () => {
 
   it('should return createMaterialSuccess', () => {
     expect(
-      DataSelectors.getCreateMaterialSuccess.projector({
+      DialogSelectors.getCreateMaterialSuccess.projector({
         createMaterial: {
           createMaterialSuccess: true,
         },
@@ -880,8 +761,8 @@ describe('DataSelectors', () => {
       },
     ];
 
-    const result = DataSelectors.getUniqueStringOptions(
-      DataSelectors.getMaterialStandardDocumentStringOptions
+    const result = DialogSelectors.getUniqueStringOptions(
+      DialogSelectors.getMaterialStandardDocumentStringOptions
     ).projector(mockOptions);
 
     expect(result).toEqual(expected);
@@ -899,7 +780,7 @@ describe('DataSelectors', () => {
         title: 'abc',
       };
 
-      const result = DataSelectors.stringOptionsSortFn(
+      const result = DialogSelectors.stringOptionsSortFn(
         mockOptionA,
         mockOptionB
       );
@@ -916,7 +797,7 @@ describe('DataSelectors', () => {
         title: 'Bca',
       };
 
-      const result = DataSelectors.stringOptionsSortFn(
+      const result = DialogSelectors.stringOptionsSortFn(
         mockOptionA,
         mockOptionB
       );
@@ -933,7 +814,7 @@ describe('DataSelectors', () => {
         title: 'abc',
       };
 
-      const result = DataSelectors.stringOptionsSortFn(
+      const result = DialogSelectors.stringOptionsSortFn(
         mockOptionA,
         mockOptionB
       );
@@ -950,11 +831,11 @@ describe('DataSelectors', () => {
         title: 'abc',
       };
 
-      const result = DataSelectors.stringOptionsSortFn(
+      const result = DialogSelectors.stringOptionsSortFn(
         mockOptionA,
         mockOptionB
       );
-      const result2 = DataSelectors.stringOptionsSortFn(
+      const result2 = DialogSelectors.stringOptionsSortFn(
         mockOptionB,
         mockOptionA
       );

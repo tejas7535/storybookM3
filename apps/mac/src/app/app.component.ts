@@ -18,7 +18,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
-import { RoutePath } from './app-routing.enum';
+import { RoutePath } from '@mac/app-routing.enum';
 
 @Component({
   selector: 'mac-root',

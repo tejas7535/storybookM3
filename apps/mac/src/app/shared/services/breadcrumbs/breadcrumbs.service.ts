@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { RouteNames, RoutePath } from '../../../app-routing.enum';
-import { Breadcrumb } from '../../components/breadcrumbs/breadcrumb.model';
+import { RouteNames, RoutePath } from '@mac/app-routing.enum';
+import { Breadcrumb } from '@mac/shared/components/breadcrumbs/breadcrumb.model';
 
 @Injectable({
   providedIn: 'root',

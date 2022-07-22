@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
+import { MaterialsSupplierDatabaseComponent } from '@mac/msd/materials-supplier-database.component';
 
 export enum MSDRoutePaths {
   BasePath = '',

@@ -26,10 +26,12 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
+import { addCustomCastingDiameter } from '@mac/msd/store';
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
+
 import * as en from '../../../../../assets/i18n/en.json';
-import { ManufacturerSupplier, MaterialStandard } from '../../models';
-import { addCustomCastingDiameter } from '../../store/actions';
-import { initialState as initialDataState } from '../../store/reducers/data.reducer';
 import { InputDialogComponent } from './input-dialog.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -73,27 +75,29 @@ describe('InputDialogComponent', () => {
     msd: {
       data: {
         ...initialDataState,
-        addMaterialDialog: {
-          ...initialDataState.addMaterialDialog,
-          dialogOptions: {
-            materialStandards: mockMaterialStandards,
-            materialStandardsLoading: true,
-            manufacturerSuppliers: mockSuppliers,
-            manufacturerSuppliersLoading: true,
-            ratings: ['1'],
-            ratingsLoading: true,
-            steelMakingProcesses: ['1'],
-            steelMakingProcessesLoading: true,
-            co2Classifications: ['1'],
-            co2ClassificationsLoading: true,
-            castingModes: ['1'],
-            castingModesLoading: true,
-            loading: true,
-          },
-          createMaterial: {
-            createMaterialLoading: true,
-            createMaterialSuccess: true,
-          },
+      },
+      dialog: {
+        ...initialDialogState,
+        dialogOptions: {
+          ...initialDialogState.dialogOptions,
+          materialStandards: mockMaterialStandards,
+          materialStandardsLoading: true,
+          manufacturerSuppliers: mockSuppliers,
+          manufacturerSuppliersLoading: true,
+          ratings: ['1'],
+          ratingsLoading: true,
+          steelMakingProcesses: ['1'],
+          steelMakingProcessesLoading: true,
+          co2Classifications: ['1'],
+          co2ClassificationsLoading: true,
+          castingModes: ['1'],
+          castingModesLoading: true,
+          loading: true,
+        },
+        createMaterial: {
+          ...initialDialogState.createMaterial,
+          createMaterialLoading: true,
+          createMaterialSuccess: true,
         },
       },
     },

@@ -35,24 +35,28 @@ import { StringOption } from '@schaeffler/inputs';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import * as en from '../../../../assets/i18n/en.json';
-import { DataResult } from '../models';
-import { fetchMaterials, setAgGridFilter } from '../store/actions';
-import { initialState as initialDataState } from '../store/reducers/data.reducer';
+import { InputDialogComponent } from '@mac/msd/main-table/input-dialog/input-dialog.component';
 import {
-  addMaterialDialogOpened,
-  setAgGridColumns,
-  setFilter,
-} from './../store/actions/data.actions';
-import { InputDialogComponent } from './input-dialog/input-dialog.component';
-import { MainTableComponent } from './main-table.component';
-import { MainTableRoutingModule } from './main-table-routing.module';
-import { EMPTY_VALUE_FORMATTER } from './table-config';
-import { BOOLEAN_VALUE_GETTER } from './table-config/boolean-value-getter';
+  BOOLEAN_VALUE_GETTER,
+  EMPTY_VALUE_FORMATTER,
+} from '@mac/msd/main-table/table-config';
 import {
   COLUMN_DEFINITIONS,
   SAP_SUPPLIER_IDS,
-} from './table-config/column-definitions';
+} from '@mac/msd/main-table/table-config/column-definitions';
+import { DataResult } from '@mac/msd/models';
+import {
+  addMaterialDialogOpened,
+  fetchMaterials,
+  setAgGridColumns,
+  setAgGridFilter,
+  setFilter,
+} from '@mac/msd/store/actions';
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
+
+import * as en from '../../../../assets/i18n/en.json';
+import { MainTableComponent } from './main-table.component';
+import { MainTableRoutingModule } from './main-table-routing.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
@@ -495,7 +499,7 @@ describe('MainTableComponent', () => {
       const mockApi = {
         setFilterModel: jest.fn(),
       };
-      store.select = jest.fn(() => of({}));
+      component['dataFacade'].agGridFilter$ = of({});
 
       component['agGridApi'] = undefined;
 
@@ -509,7 +513,7 @@ describe('MainTableComponent', () => {
         setFilterModel: jest.fn(),
       };
       // eslint-disable-next-line unicorn/no-useless-undefined
-      store.select = jest.fn(() => of(undefined));
+      component['dataFacade'].agGridFilter$ = of(undefined);
 
       component['agGridApi'] = undefined;
 

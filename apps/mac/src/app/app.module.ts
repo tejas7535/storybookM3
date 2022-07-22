@@ -10,10 +10,10 @@ import {
   PURPOSE,
 } from '@schaeffler/legal-pages';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
+import { AppComponent } from '@mac/app.component';
+import { AppRoutingModule } from '@mac/app-routing.module';
+import { CoreModule } from '@mac/core/core.module';
+import { SharedModule } from '@mac/shared/shared.module';
 
 export function DynamicPurpose(translocoService: TranslocoService) {
   return translocoService.selectTranslateObject('legal.purpose');

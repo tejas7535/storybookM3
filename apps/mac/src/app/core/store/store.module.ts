@@ -6,7 +6,8 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@mac/environments/environment';
+
 import { RootEffects } from '.';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 

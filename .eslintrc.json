@@ -223,6 +223,7 @@
               ["^@schaeffler(/.*|$)"],
               ["^@cdba(/.*|$)"],
               ["^@ga(/.*|$)"],
+              ["^@mac(/.*|$)"],
               ["^"], // absolute imports, everything that does not match sth else
               ["^\\."] // relative imports
             ]

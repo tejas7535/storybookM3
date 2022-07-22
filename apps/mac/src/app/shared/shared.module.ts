@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { BreadcrumbsComponent } from '@mac/shared/components/breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   imports: [CommonModule, MatIconModule, RouterModule],

@@ -11,10 +11,11 @@ import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
-import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
-import { DataEffects } from './store/effects/data.effects';
-import { reducers } from './store/reducers';
+import { MaterialsSupplierDatabaseComponent } from '@mac/msd/materials-supplier-database.component';
+import { MaterialsSupplierDatabaseRoutingModule } from '@mac/msd/materials-supplier-database-routing.module';
+import { DataEffects } from '@mac/msd/store/effects/data/data.effects';
+import { DialogEffects } from '@mac/msd/store/effects/dialog/dialog.effects';
+import { reducers } from '@mac/msd/store/reducers';
 
 @NgModule({
   declarations: [MaterialsSupplierDatabaseComponent],
@@ -22,7 +23,7 @@ import { reducers } from './store/reducers';
     CommonModule,
     MaterialsSupplierDatabaseRoutingModule,
     NgrxStoreModule.forFeature('msd', reducers),
-    EffectsModule.forFeature([DataEffects]),
+    EffectsModule.forFeature([DataEffects, DialogEffects]),
     SubheaderModule,
     HttpClientModule,
     MatButtonModule,

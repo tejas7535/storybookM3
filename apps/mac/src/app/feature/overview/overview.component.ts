@@ -8,9 +8,13 @@ import { Store } from '@ngrx/store';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 
-import { changeFavicon } from '../../shared/change-favicon';
-import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
-import { integratedApps, linkedApps, links } from './constants';
+import {
+  integratedApps,
+  linkedApps,
+  links,
+} from '@mac/feature/overview/constants';
+import { changeFavicon } from '@mac/shared/change-favicon';
+import { BreadcrumbsService } from '@mac/shared/services';
 
 @Component({
   selector: 'mac-overview',

@@ -17,7 +17,7 @@ import { OverviewCardModule } from '../../shared/components/overview-card/overvi
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
 
-jest.mock('../../shared/change-favicon', () => ({
+jest.mock('@mac/shared/change-favicon', () => ({
   changeFavicon: jest.fn(() => {}),
 }));
 
@@ -76,7 +76,7 @@ describe('OverviewComponent', () => {
     });
   });
 
-  describe('tracktrackCall', () => {
+  describe('trackCall', () => {
     it('should call logevent', () => {
       appInsightsService.logEvent = jest.fn();
       component.trackCall('element1');

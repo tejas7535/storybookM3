@@ -12,37 +12,19 @@ import {
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { filter, Observable, Subject, take, takeUntil, tap } from 'rxjs';
+import { filter, Subject, take, takeUntil, tap } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 
 import { StringOption } from '@schaeffler/inputs';
 
-import { Material } from '../../models';
-import {
-  getAddMaterialDialogCastingDiametersLoading,
-  getAddMaterialDialogCastingDiameterStringOptions,
-  getAddMaterialDialogCastingModes,
-  getAddMaterialDialogCo2Classifications,
-  getAddMaterialDialogOptionsLoading,
-  getAddMaterialDialogRatings,
-  getAddMaterialDialogSteelMakingProcesses,
-  getCreateMaterialLoading,
-  getCreateMaterialSuccess,
-  getMaterialNameStringOptionsMerged,
-  getMaterialStandardDocumentStringOptionsMerged,
-  getProductCategoryOptions,
-  getStringOptions,
-  getSupplierPlantStringOptions,
-  getSupplierStringOptions,
-  getUniqueStringOptions,
-} from '../../store';
+import { Material } from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
   addMaterialDialogConfirmed,
+  DialogFacade,
   fetchCastingDiameters,
-} from './../../store/actions/data.actions';
+} from '@mac/msd/store';
 
 @Component({
   selector: 'mac-input-dialog',
@@ -52,19 +34,19 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   // mocks
   public referenceDocument: StringOption[] = [];
   //  observables
-  public standardDocuments$: Observable<StringOption[]>;
-  public materialNames$: Observable<StringOption[]>;
-  public suppliers$: Observable<StringOption[]>;
-  public supplierPlants$: Observable<StringOption[]>;
-  public castingModes$: Observable<string[]>;
-  public co2Classification$: Observable<StringOption[]>;
-  public ratings$: Observable<StringOption[]>;
-  public categories$: Observable<StringOption[]>;
-  public steelMakingProcess$: Observable<StringOption[]>;
-  public dialogLoading$: Observable<boolean>;
-  public createMaterialLoading$: Observable<boolean>;
-  public castingDiameters$: Observable<StringOption[]>;
-  public castingDiametersLoading$: Observable<boolean>;
+  public standardDocuments$ = this.dialogFacade.standardDocuments$;
+  public materialNames$ = this.dialogFacade.materialNames$;
+  public suppliers$ = this.dialogFacade.suppliers$;
+  public supplierPlants$ = this.dialogFacade.supplierPlants$;
+  public castingModes$ = this.dialogFacade.castingModes$;
+  public co2Classification$ = this.dialogFacade.co2Classification$;
+  public ratings$ = this.dialogFacade.ratings$;
+  public categories$ = this.dialogFacade.categories$;
+  public steelMakingProcess$ = this.dialogFacade.steelMakingProcess$;
+  public dialogLoading$ = this.dialogFacade.dialogLoading$;
+  public createMaterialLoading$ = this.dialogFacade.createMaterialLoading$;
+  public castingDiameters$ = this.dialogFacade.castingDiameters$;
+  public castingDiametersLoading$ = this.dialogFacade.castingDiametersLoading$;
 
   private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, 1\\.[0-9]{4})*';
 
@@ -127,7 +109,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   private scopesControls: FormArray;
 
   public constructor(
-    private readonly store: Store,
+    private readonly dialogFacade: DialogFacade,
     private readonly dialogRef: MatDialogRef<InputDialogComponent>,
     private readonly snackbar: MatSnackBar
   ) {}
@@ -263,39 +245,6 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       (_, i) => curYear - i
     );
 
-    this.dialogLoading$ = this.store.select(getAddMaterialDialogOptionsLoading);
-    this.createMaterialLoading$ = this.store.select(getCreateMaterialLoading);
-
-    this.standardDocuments$ = this.store.select(
-      getUniqueStringOptions(getMaterialStandardDocumentStringOptionsMerged)
-    );
-
-    this.materialNames$ = this.store.select(
-      getUniqueStringOptions(getMaterialNameStringOptionsMerged)
-    );
-    this.suppliers$ = this.store.select(
-      getUniqueStringOptions(getSupplierStringOptions)
-    );
-    this.supplierPlants$ = this.store.select(getSupplierPlantStringOptions);
-    this.castingModes$ = this.store.select(getAddMaterialDialogCastingModes);
-    this.co2Classification$ = this.store.select(
-      getAddMaterialDialogCo2Classifications
-    );
-    this.ratings$ = this.store.select(
-      getStringOptions(getAddMaterialDialogRatings, [
-        {
-          id: undefined,
-          title: translate('materialsSupplierDatabase.mainTable.dialog.none'),
-        },
-      ])
-    );
-    this.steelMakingProcess$ = this.store.select(
-      getStringOptions(getAddMaterialDialogSteelMakingProcesses)
-    );
-    this.categories$ = this.store.select(
-      getUniqueStringOptions(getProductCategoryOptions)
-    );
-
     this.standardDocumentsControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -407,16 +356,10 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       );
     this.co2ClassificationControl.disable();
 
-    this.castingDiameters$ = this.store.select(
-      getAddMaterialDialogCastingDiameterStringOptions
-    );
-    this.castingDiametersLoading$ = this.store.select(
-      getAddMaterialDialogCastingDiametersLoading
-    );
     this.manufacturerSupplierIdControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) =>
-        this.store.dispatch(fetchCastingDiameters({ supplierId: value }))
+        this.dialogFacade.dispatch(fetchCastingDiameters({ supplierId: value }))
       );
   }
 
@@ -527,10 +470,9 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       // attachments: '',
     };
 
-    this.store.dispatch(addMaterialDialogConfirmed({ material }));
+    this.dialogFacade.dispatch(addMaterialDialogConfirmed({ material }));
 
-    this.store
-      .select(getCreateMaterialSuccess)
+    this.dialogFacade.createMaterialSuccess$
       .pipe(
         filter((success) => success !== undefined),
         take(1)
@@ -566,7 +508,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   }
 
   public addCastingDiameter(castingDiameter: string): void {
-    this.store.dispatch(addCustomCastingDiameter({ castingDiameter }));
+    this.dialogFacade.dispatch(addCustomCastingDiameter({ castingDiameter }));
   }
 
   public getErrorMessage(errors: { [key: string]: any }): string {

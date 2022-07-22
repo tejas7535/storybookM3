@@ -1,1 +1,1 @@
-export * from './data.effects';
+export * from './data';

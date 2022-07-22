@@ -23,9 +23,9 @@ import {
 } from '@schaeffler/azure-auth';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { environment } from '../../environments/environment';
-import { AppComponent } from '../app.component';
-import { StoreModule } from './store/store.module';
+import { AppComponent } from '@mac/app.component';
+import { StoreModule } from '@mac/core/store/store.module';
+import { environment } from '@mac/environments/environment';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const azureConfig = new AzureConfig(

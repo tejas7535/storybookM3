@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { of } from 'rxjs';
 
+import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -20,9 +21,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 import * as en from '../../../assets/i18n/en.json';
 import { MaterialsSupplierDatabaseComponent } from './materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from './materials-supplier-database-routing.module';
-import { initialState as initialDataState } from './store/reducers/data.reducer';
 
-jest.mock('../../shared/change-favicon', () => ({
+jest.mock('@mac/shared/change-favicon', () => ({
   changeFavicon: jest.fn(() => {}),
 }));
 
@@ -93,7 +93,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         filterForm: 'some filter',
         agGridFilter: 'some ag grid filter',
       };
-      store.select = jest.fn(() => of(mockParams));
+      component['dataFacade'].shareQueryParams$ = of(mockParams);
 
       const mockTree = { queryParams: {} };
       router.parseUrl = jest.fn(() => mockTree as UrlTree);
@@ -104,7 +104,6 @@ describe('MaterialsSupplierDatabaseComponent', () => {
 
       component.shareButtonFn();
 
-      expect(store.select).toHaveBeenCalled();
       expect(router.parseUrl).toHaveBeenCalled();
       expect(component['urlSerializer'].serialize).toHaveBeenCalledWith({
         ...mockTree,
@@ -127,7 +126,7 @@ describe('MaterialsSupplierDatabaseComponent', () => {
         filterForm: 'some filter',
         agGridFilter: 'some ag grid filter',
       };
-      store.select = jest.fn(() => of(mockParams));
+      component['dataFacade'].shareQueryParams$ = of(mockParams);
 
       const mockTree = { queryParams: {} };
       router.parseUrl = jest.fn(() => mockTree as UrlTree);
@@ -141,7 +140,6 @@ describe('MaterialsSupplierDatabaseComponent', () => {
 
       component.shareButtonFn();
 
-      expect(store.select).toHaveBeenCalled();
       expect(router.parseUrl).toHaveBeenCalled();
       expect(component['urlSerializer'].serialize).toHaveBeenCalledWith({
         ...mockTree,

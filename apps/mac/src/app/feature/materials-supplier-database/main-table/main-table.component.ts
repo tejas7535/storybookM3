@@ -15,7 +15,7 @@ import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Observable, Subject, withLatestFrom } from 'rxjs';
+import { Subject, withLatestFrom } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
 import { ColumnApi, Module } from '@ag-grid-community/all-modules';
@@ -27,40 +27,29 @@ import {
   SideBarDef,
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { hasIdTokenRole } from '@schaeffler/azure-auth';
 import { StringOption } from '@schaeffler/inputs';
 
-import { DataResult } from '../models';
-import { MsdAgGridStateService } from './../services/msd-ag-grid-state/msd-ag-grid-state.service';
-import {
-  getAgGridFilter,
-  getFilters,
-  getLoading,
-  getMaterialClassOptions,
-  getOptionsLoading,
-  getProductCategoryOptions,
-  getResult,
-  getResultCount,
-} from './../store';
-import {
-  addMaterialDialogOpened,
-  fetchClassAndCategoryOptions,
-  fetchMaterials,
-  setAgGridColumns,
-  setAgGridFilter,
-  setFilter,
-} from './../store/actions';
-import { InputDialogComponent } from './input-dialog/input-dialog.component';
+import { InputDialogComponent } from '@mac/msd/main-table/input-dialog/input-dialog.component';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
   MODULES,
   SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
-} from './table-config';
+} from '@mac/msd/main-table/table-config';
+import { DataResult } from '@mac/msd/models';
+import { MsdAgGridStateService } from '@mac/msd/services';
+import {
+  addMaterialDialogOpened,
+  DataFacade,
+  fetchClassAndCategoryOptions,
+  fetchMaterials,
+  setAgGridColumns,
+  setAgGridFilter,
+  setFilter,
+} from '@mac/msd/store';
 
 /* eslint-disable max-lines */
 @Component({
@@ -69,21 +58,16 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
-  public materialClassOptions$: Observable<StringOption[]>;
-  public productCategoryOptions$: Observable<StringOption[]>;
-  public optionsLoading$: Observable<boolean>;
-  public resultLoading$: Observable<boolean>;
-  public result$: Observable<DataResult[]>;
-  public filterLists$: Observable<{
-    materialNames: string[];
-    materialStandards: string[];
-    materialNumbers: string[];
-  }>;
-  public resultCount$: Observable<number>;
+  public materialClassOptions$ = this.dataFacade.materialClassOptions$;
+  public productCategoryOptions$ = this.dataFacade.productCategoryOptions$;
+  public optionsLoading$ = this.dataFacade.optionsLoading$;
+  public resultLoading$ = this.dataFacade.resultLoading$;
+  public result$ = this.dataFacade.result$;
+  public resultCount$ = this.dataFacade.resultCount$;
+
   public displayCount = 0;
 
-  private readonly EDITOR_ROLE = 'material-supplier-database-test-editor';
-  public hasEditorRole$: Observable<boolean>;
+  public hasEditorRole$ = this.dataFacade.hasEditorRole$;
 
   public selectedClass: string;
   public selectedCategory: string;
@@ -130,7 +114,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private visibleColumns: string[];
 
   public constructor(
-    private readonly store: Store,
+    private readonly dataFacade: DataFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private readonly agGridStateService: MsdAgGridStateService,
@@ -141,18 +125,9 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   public ngOnInit(): void {
-    this.materialClassOptions$ = this.store.select(getMaterialClassOptions);
-    this.productCategoryOptions$ = this.store.select(getProductCategoryOptions);
-    this.optionsLoading$ = this.store.select(getOptionsLoading);
-    this.resultLoading$ = this.store.select(getLoading);
-    this.result$ = this.store.select(getResult);
-    this.resultCount$ = this.store.select(getResultCount);
-
-    this.hasEditorRole$ = this.store.pipe(hasIdTokenRole(this.EDITOR_ROLE));
-
     this.columnDefs = this.getColumnDefs();
 
-    this.store.dispatch(fetchClassAndCategoryOptions());
+    this.dataFacade.dispatch(fetchClassAndCategoryOptions());
 
     this.productCategorySelectionControl.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -174,8 +149,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       this.toggleAllCategories(value)
     );
 
-    this.store
-      .select(getFilters)
+    this.dataFacade.filters$
       .pipe(take(1))
       .subscribe(
         (filters: {
@@ -202,14 +176,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             ? undefined
             : productCategory,
         };
-        this.store.dispatch(setFilter(filters));
+        this.dataFacade.dispatch(setFilter(filters));
         if (this.filterForm.valid) {
           this.fetchMaterials();
         }
       });
 
-    this.store
-      .select(getAgGridFilter)
+    this.dataFacade.agGridFilter$
       .pipe(takeUntil(this.destroy$))
       .subscribe((filterModel: { [key: string]: any }) => {
         if (this.agGridApi && !filterModel) {
@@ -290,7 +263,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!filterModel) {
       return;
     }
-    this.store.dispatch(setAgGridFilter({ filterModel }));
+    this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
   }
 
   public toggleAllCategories(select: boolean): void {
@@ -308,14 +281,13 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public onFilterChange({ api }: { api: GridApi }): void {
     const filterModel = api.getFilterModel();
 
-    this.store.dispatch(setAgGridFilter({ filterModel }));
+    this.dataFacade.dispatch(setAgGridFilter({ filterModel }));
     this.displayCount = api.getDisplayedRowCount();
   }
 
   public setAgGridFilter({ api }: { api: GridApi }): void {
     this.agGridApi = api;
-    this.store
-      .select(getAgGridFilter)
+    this.dataFacade.agGridFilter$
       .pipe(take(1))
       .subscribe((filterModel: { [key: string]: any }) => {
         if (filterModel) {
@@ -344,7 +316,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             'materialsSupplierDatabase.mainTable.productCategories'
           )}`;
 
-    this.store.dispatch(fetchMaterials());
+    this.dataFacade.dispatch(fetchMaterials());
   }
 
   public onGridReady({
@@ -375,7 +347,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   public onColumnChange({ columnApi }: { columnApi: ColumnApi }): void {
     const agGridColumns = columnApi.getColumnState();
     this.agGridStateService.setColumnState(this.TABLE_KEY, agGridColumns);
-    this.store.dispatch(
+    this.dataFacade.dispatch(
       setAgGridColumns({ agGridColumns: JSON.stringify(agGridColumns) })
     );
     this.setVisibleColumns();
@@ -559,7 +531,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       enterAnimationDuration: '100ms',
       restoreFocus: false,
     });
-    this.store.dispatch(addMaterialDialogOpened());
+    this.dataFacade.dispatch(addMaterialDialogOpened());
 
     dialogRef
       .afterClosed()

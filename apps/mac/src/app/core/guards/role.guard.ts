@@ -13,7 +13,7 @@ import { Store } from '@ngrx/store';
 
 import { hasIdTokenRoles } from '@schaeffler/azure-auth';
 
-import { RoutePath } from '../../app-routing.enum';
+import { RoutePath } from '@mac/app-routing.enum';
 
 @Injectable({
   providedIn: 'root',

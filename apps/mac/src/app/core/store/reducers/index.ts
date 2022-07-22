@@ -7,7 +7,7 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '@mac/environments/environment';
 
 export interface RouterStateUrl {
   url: string;

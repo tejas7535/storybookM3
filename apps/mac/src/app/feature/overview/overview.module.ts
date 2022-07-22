@@ -9,7 +9,8 @@ import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { SubheaderModule } from '@schaeffler/subheader';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { OverviewCardModule } from './../../shared/components/overview-card/overview-card.module';
+import { OverviewCardModule } from '@mac/shared/components/overview-card/overview-card.module';
+
 import { OverviewComponent } from './overview.component';
 import { OverviewRoutingModule } from './overview-routing.module';
 
