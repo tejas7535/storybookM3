@@ -1,4 +1,4 @@
-export * from './bearing';
-export * from './parameters';
-export * from './result';
+export * from './bearing-selection';
+export * from './calculation-parameters';
+export * from './calculation-result';
 export * from './settings';

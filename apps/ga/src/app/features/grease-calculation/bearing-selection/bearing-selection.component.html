@@ -1,0 +1,40 @@
+<ng-container *transloco="let t; read: 'bearing'">
+  <div
+    *ngrxLet="bearingSelectionType$; let selectionType"
+    class="flex h-full max-w-full flex-col"
+  >
+    <div class="container mx-auto py-4 px-4 md:max-w-2xl md:px-0">
+      <h6>{{ t('title.main') }}</h6>
+      <div class="py-2 text-body-2">{{ t('title.sub') }}</div>
+    </div>
+    <div class="container mx-auto md:max-w-2xl">
+      <div class="mb-4 text-center md:text-left">
+        <mat-slide-toggle
+          color="primary"
+          labelPosition="before"
+          [checked]="selectionType === bearingSelectionType.AdvancedSelection"
+          (change)="toggleBearingSelectionType($event)"
+        >
+          {{ t('bearingSelection.button.advancedSelection') }}
+        </mat-slide-toggle>
+      </div>
+      <ga-advanced-bearing-selection
+        *ngIf="
+          selectionType === bearingSelectionType.AdvancedSelection;
+          else quick_bearing_selection
+        "
+      ></ga-advanced-bearing-selection>
+      <ng-template #quick_bearing_selection>
+        <div class="px-4 md:px-0">
+          <ga-quick-bearing-selection
+            [showSelectButton]="true"
+          ></ga-quick-bearing-selection>
+        </div>
+        <img
+          class="mt-16 h-auto w-auto sm:max-h-full sm:object-cover"
+          src="../../../../assets/images/bearingSearchTransparent.png"
+        />
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

@@ -5,7 +5,7 @@ import { map } from 'rxjs';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { SettingsFacade } from '@ga/core/store';
-import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 
 @Injectable({
   providedIn: 'root',

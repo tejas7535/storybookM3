@@ -9,8 +9,8 @@ import { Store } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { setPreferredGreaseSelection } from '@ga/core/store/actions/parameters/parameters.actions';
-import { getPreferredGrease } from '@ga/core/store/selectors/parameter/parameter.selector';
+import { setPreferredGreaseSelection } from '@ga/core/store/actions';
+import { getPreferredGrease } from '@ga/core/store/selectors/calculation-parameters/calculation-parameters.selector';
 import { defaultOption, emptyOptionId } from '@ga/shared/constants';
 import { PreferredGreaseOption } from '@ga/shared/models';
 

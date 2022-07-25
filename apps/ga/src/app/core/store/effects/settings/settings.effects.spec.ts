@@ -13,7 +13,7 @@ import {
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
-} from '../../actions/settings/settings.actions';
+} from '@ga/core/store/actions/settings/settings.actions';
 import { initialState } from '../../reducers/settings/settings.reducer';
 import { SettingsEffects } from './settings.effects';
 

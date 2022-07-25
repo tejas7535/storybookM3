@@ -14,7 +14,7 @@ export const appRoutePaths: Routes = [
   {
     path: AppRoutePath.GreaseCalculationPath,
     loadChildren: () =>
-      import('./grease-calculation/grease-calculation.module').then(
+      import('./features/grease-calculation/grease-calculation.module').then(
         (m) => m.GreaseCalculationModule
       ),
     canActivate: [LanguageGuard],

@@ -1,4 +1,4 @@
-import { Params, RouterStateSnapshot } from '@angular/router';
+import { RouterStateSnapshot } from '@angular/router';
 
 import * as fromRouter from '@ngrx/router-store';
 import {
@@ -7,30 +7,31 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
-import { environment } from '../../../../environments/environment';
-import * as fromBearing from './bearing/bearing.reducer';
-import * as fromParameter from './parameter/parameter.reducer';
-import * as fromResult from './result/result.reducer';
-import * as fromSettings from './settings/settings.reducer';
+import { environment } from '@ga/../environments/environment';
+import {
+  BearingSelectionState,
+  CalculationParametersState,
+  CalculationResultState,
+  RouterStateUrl,
+  SettingsState,
+} from '@ga/core/store/models';
 
-export interface RouterStateUrl {
-  url: string;
-  queryParams: Params;
-  params: Params;
-}
+import { bearingSelectionReducer } from './bearing-selection/bearing-selection.reducer';
+import { calculationParametersReducer } from './calculation-parameters/calculation-parameters.reducer';
+import { settingsReducer } from './settings/settings.reducer';
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  settings: fromSettings.SettingsState;
-  bearing: fromBearing.BearingState;
-  parameter: fromParameter.ParameterState;
+  settings: SettingsState;
+  bearingSelection: BearingSelectionState;
+  calculationParameters: CalculationParametersState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  settings: fromSettings.settingsReducer,
-  bearing: fromBearing.bearingReducer,
-  parameter: fromParameter.parameterReducer,
+  settings: settingsReducer,
+  bearingSelection: bearingSelectionReducer,
+  calculationParameters: calculationParametersReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -42,17 +43,17 @@ export const getRouterState =
     'router'
   );
 
-export const getBearingState =
-  createFeatureSelector<fromBearing.BearingState>('bearing');
+export const getBearingSelectionState =
+  createFeatureSelector<BearingSelectionState>('bearingSelection');
 
-export const getParameterState =
-  createFeatureSelector<fromParameter.ParameterState>('parameter');
+export const getCalculationParametersState =
+  createFeatureSelector<CalculationParametersState>('calculationParameters');
 
-export const getResultState =
-  createFeatureSelector<fromResult.ResultState>('result');
+export const getCalculationResultState =
+  createFeatureSelector<CalculationResultState>('calculationResult');
 
 export const getSettingsState =
-  createFeatureSelector<fromSettings.SettingsState>('settings');
+  createFeatureSelector<SettingsState>('settings');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl>

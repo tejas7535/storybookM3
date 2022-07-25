@@ -1,5 +1,6 @@
 export * from './advanced-bearing-selection-filters.mock';
 export * from './calculation-parameters.mock';
+export * from './calculation-result.mock';
 export * from './dialog-response.mock';
 export * from './preferred-grease.mock';
 export * from './properties.mock';

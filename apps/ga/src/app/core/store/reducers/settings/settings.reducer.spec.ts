@@ -1,7 +1,7 @@
 import {
   setAppDelivery,
   setCurrentStep,
-} from '../../actions/settings/settings.actions';
+} from '@ga/core/store/actions/settings/settings.actions';
 import { initialState, reducer } from './settings.reducer';
 
 describe('Settings Reducer', () => {

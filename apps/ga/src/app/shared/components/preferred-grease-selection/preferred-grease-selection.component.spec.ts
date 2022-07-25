@@ -5,7 +5,7 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { setPreferredGreaseSelection } from '@ga/core/store/actions/parameters/parameters.actions';
+import { setPreferredGreaseSelection } from '@ga/core/store/actions';
 import { PREFERRED_GREASE_OPTION_MOCK } from '@ga/testing/mocks';
 
 import { PreferredGreaseSelectionComponent } from './preferred-grease-selection.component';

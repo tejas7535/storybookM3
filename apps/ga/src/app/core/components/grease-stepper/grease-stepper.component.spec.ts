@@ -12,7 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { initialState } from '@ga/core/store/reducers/settings/settings.reducer';
-import { GreaseCalculationPath } from '@ga/grease-calculation/grease-calculation-path.enum';
+import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
 
 import { GreaseStepperComponent } from './grease-stepper.component';
 

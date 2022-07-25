@@ -1,4 +1,5 @@
-import { GreaseCalculationPath } from '../../grease-calculation/grease-calculation-path.enum';
+import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
+
 import { Step } from '../models';
 
 export const steps: Step[] = [

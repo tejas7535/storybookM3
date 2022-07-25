@@ -1,1 +1,1 @@
-export * from './bearing/bearing.selector';
+export * from './bearing-selection/bearing-selection.selector';

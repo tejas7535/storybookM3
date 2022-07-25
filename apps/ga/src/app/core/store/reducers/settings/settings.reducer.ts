@@ -5,7 +5,7 @@ import { AppDelivery } from '@ga/shared/models';
 import {
   setAppDelivery,
   setCurrentStep,
-} from '../../actions/settings/settings.actions';
+} from '@ga/core/store/actions/settings/settings.actions';
 
 export interface SettingsState {
   environment: {

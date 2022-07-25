@@ -7,8 +7,8 @@ import { getSettingsState } from '../../reducers';
 import {
   getModelCreationSuccess,
   getSelectedBearing,
-} from '../bearing/bearing.selector';
-import { getParameterValidity } from '../parameter/parameter.selector';
+} from '../bearing-selection/bearing-selection.selector';
+import { getParameterValidity } from '../calculation-parameters/calculation-parameters.selector';
 
 export const getEnvironment = createSelector(
   getSettingsState,

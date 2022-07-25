@@ -6,8 +6,9 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { environment } from '../../../environments/environment';
-import { BearingEffects } from './effects/bearing/bearing.effects';
+import { environment } from '@ga/../environments/environment';
+
+import { BearingSelectionEffects } from './effects/bearing-selection/bearing-selection.effects';
 import { SettingsEffects } from './effects/settings/settings.effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
@@ -30,7 +31,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
           maxAge: 50,
         })
       : /* istanbul ignore next: very difficult */ [],
-    EffectsModule.forRoot([BearingEffects, SettingsEffects]),
+    EffectsModule.forRoot([BearingSelectionEffects, SettingsEffects]),
   ],
   exports: [],
 })
