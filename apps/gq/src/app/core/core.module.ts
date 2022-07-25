@@ -33,6 +33,7 @@ import { UserSettingsModule } from '../shared/components/user-settings/user-sett
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
+  LANGUAGE_STORAGE_KEY,
 } from '../shared/constants/language';
 import { BaseHttpInterceptor } from '../shared/http/base-http.interceptor';
 import { StoreModule } from './store';
@@ -78,12 +79,13 @@ export function appInitializer(
       AVAILABLE_LANGUAGES,
       undefined, // default -> undefined would lead to browser detection
       FALLBACK_LANGUAGE.id, // fallback language
+      LANGUAGE_STORAGE_KEY, // storage key
       true,
       !environment.localDev,
       i18nChecksumsJson
     ),
     TranslocoPersistLangModule.forRoot({
-      storageKey: 'language',
+      storageKey: LANGUAGE_STORAGE_KEY,
       storage: {
         provide: TRANSLOCO_PERSIST_LANG_STORAGE,
         useValue: localStorage,

@@ -16,3 +16,5 @@ export const AVAILABLE_LANGUAGES: LangDefinition[] = [
 ];
 
 export const FALLBACK_LANGUAGE: LangDefinition = AVAILABLE_LANGUAGE_EN;
+
+export const LANGUAGE_STORAGE_KEY = 'language';
