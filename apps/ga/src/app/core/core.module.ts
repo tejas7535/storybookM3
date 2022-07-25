@@ -24,6 +24,7 @@ import { AppDelivery } from '@ga/shared/models';
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
+  LANGUAGE_STORAGE_KEY,
 } from '../shared/constants/language';
 import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
 import { SharedModule } from '../shared/shared.module';
@@ -92,11 +93,12 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
       AVAILABLE_LANGUAGES,
       undefined, // default -> undefined would lead to browser detection
       FALLBACK_LANGUAGE.id,
+      LANGUAGE_STORAGE_KEY,
       true,
       !environment.localDev
     ),
     TranslocoPersistLangModule.forRoot({
-      storageKey: 'language',
+      storageKey: LANGUAGE_STORAGE_KEY,
       storage: {
         provide: TRANSLOCO_PERSIST_LANG_STORAGE,
         useValue: localStorage,

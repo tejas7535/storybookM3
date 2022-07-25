@@ -1,5 +1,7 @@
 import { LangDefinition } from '@ngneat/transloco/lib/types';
 
+export const LANGUAGE_STORAGE_KEY = 'language';
+
 export const AVAILABLE_LANGUAGE_DE: LangDefinition = {
   id: 'de',
   label: 'Deutsch',
