@@ -13,15 +13,16 @@ import { environment } from '../environments/environment';
 .
 .
 imports: [
-    SharedTranslocoModule.forRoot(environment.production, ['de', 'en'], undefined, 'en', true)
+    SharedTranslocoModule.forRoot(environment.production, ['de', 'en'], undefined, 'en', 'language', true)
 ]
 ```
 
-The first parameter represents whether Transloco should be imported for production with AOT.  
-The second parameter represents the available languages in your application.  
-The third parameter defines the default language. If it is `undefined` the browser language is detected within the library itself and used for translation.  
-The fourth parameter represents the fallback language that is used when loading a language (e.g. the browser language) failed to load.  
-The last parameter defines whether the app itself has translation files or not.  
+The first parameter represents whether Transloco should be imported for production with AOT.
+The second parameter represents the available languages in your application.
+The third parameter defines the default language. If it is `undefined` the browser language is detected within the library itself and used for translation.
+The fourth parameter represents the fallback language that is used when loading a language (e.g. the browser language) failed to load.
+The fifth parameter defines the name of the local storage item where the selected language is persisted. This should be same value you pass as `TRANSLOCO_PERSIST_LANG_STORAGE` into the `TranslocoPersistLangModule`. Can be `undefined` if the language is not persisted.
+The last parameter defines whether the app itself has translation files or not.
 
 Whenever you actually need only to import `TranslocoModule` in your submodules import `SharedTranslocoModule` instead.
 
@@ -46,7 +47,7 @@ imports: [
 ]
 ```
 
-The first parameter represents the scope that is used within the library for translation.  
+The first parameter represents the scope that is used within the library for translation.
 Do not forget to add `SharedTranslocoModule.forRoot` into your main app later.
 
 ## How to use transloco in unit test

@@ -17,15 +17,21 @@ import {
   DEFAULT_LANGUAGE,
   FALLBACK_LANGUAGE,
   I18N_CACHE_CHECKSUM,
+  LANGUAGE_STORAGE_KEY,
 } from './injection-tokens';
 import { sharedTranslocoLoader } from './shared-transloco.loader';
 
 export function preloadLanguage(
   transloco: TranslocoService,
   language: string,
-  fallback: string
+  fallback: string,
+  localStorageKey: string
 ): any {
-  const lang = language || getBrowserLang() || fallback;
+  const storedLang = localStorage.getItem(localStorageKey);
+  const lang =
+    storedLang && storedLang !== 'undefined'
+      ? storedLang
+      : language || getBrowserLang() || fallback;
 
   transloco.setActiveLang(lang);
   const loader = async () => transloco.load(lang).toPromise();
@@ -37,7 +43,12 @@ export const preLoad = {
   provide: APP_INITIALIZER,
   multi: true,
   useFactory: preloadLanguage,
-  deps: [TranslocoService, DEFAULT_LANGUAGE, FALLBACK_LANGUAGE],
+  deps: [
+    TranslocoService,
+    DEFAULT_LANGUAGE,
+    FALLBACK_LANGUAGE,
+    LANGUAGE_STORAGE_KEY,
+  ],
 };
 
 /**
@@ -73,6 +84,7 @@ export class SharedTranslocoModule {
     availableLangs: AvailableLangs,
     defaultLang: string,
     fallbackLang: string,
+    localStorageKey: string,
     appHasTranslations: boolean = true,
     enableAotFlattening: boolean,
     cacheChecksums?: { [p: string]: string }
@@ -85,6 +97,7 @@ export class SharedTranslocoModule {
               sharedTranslocoLoader,
               { provide: DEFAULT_LANGUAGE, useValue: defaultLang },
               { provide: FALLBACK_LANGUAGE, useValue: fallbackLang },
+              { provide: LANGUAGE_STORAGE_KEY, useValue: localStorageKey },
               preLoad,
             ]
           : []),

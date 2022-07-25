@@ -19,6 +19,7 @@ describe('SharedTranslocoModule for Root', () => {
       ['es'],
       'es',
       'es',
+      undefined,
       false,
       false
     );
@@ -32,10 +33,26 @@ describe('SharedTranslocoModule for Root', () => {
         setActiveLang: jest.fn(),
       } as unknown as transloco.TranslocoService;
 
-      preloadLanguage(service, 'en', 'es')();
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      Storage.prototype.getItem = jest.fn().mockReturnValue(undefined);
+      preloadLanguage(service, 'en', 'es', '')();
 
       expect(service.load).toHaveBeenCalledWith('en');
       expect(service.setActiveLang).toHaveBeenCalledWith('en');
+    });
+
+    test('should load language from local storage', () => {
+      const service = {
+        load: jest.fn().mockImplementation(() => of(true)),
+        setActiveLang: jest.fn(),
+      } as unknown as transloco.TranslocoService;
+
+      Storage.prototype.getItem = jest.fn().mockReturnValue('de');
+      preloadLanguage(service, 'en', 'es', 'language')();
+
+      expect(localStorage.getItem).toHaveBeenCalledWith('language');
+      expect(service.load).toHaveBeenCalledWith('de');
+      expect(service.setActiveLang).toHaveBeenCalledWith('de');
     });
 
     test('should load language from Browser Language', () => {
@@ -47,7 +64,9 @@ describe('SharedTranslocoModule for Root', () => {
         setActiveLang: jest.fn(),
       } as unknown as transloco.TranslocoService;
 
-      preloadLanguage(service, undefined, 'it')();
+      // eslint-disable-next-line unicorn/no-useless-undefined
+      Storage.prototype.getItem = jest.fn().mockReturnValue(undefined);
+      preloadLanguage(service, undefined, 'it', '')();
 
       expect(service.load).toHaveBeenCalledWith('es');
       expect(service.setActiveLang).toHaveBeenCalledWith('es');
@@ -62,7 +81,7 @@ describe('SharedTranslocoModule for Root', () => {
         setActiveLang: jest.fn(),
       } as unknown as transloco.TranslocoService;
 
-      preloadLanguage(service, undefined, 'nl')();
+      preloadLanguage(service, undefined, 'nl', '')();
 
       expect(service.load).toHaveBeenCalledWith('nl');
       expect(service.setActiveLang).toHaveBeenCalledWith('nl');
