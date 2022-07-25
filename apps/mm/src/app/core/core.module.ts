@@ -117,6 +117,7 @@ if (
       ],
       undefined, // default -> undefined would lead to browser detection
       'en',
+      undefined, // language storage key -> language is not persisted in this app
       true,
       !environment.localDev
     ),
