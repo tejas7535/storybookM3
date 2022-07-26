@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: 'report'">
+<ng-container *transloco="let t; read: 'calculationResult'">
   <div class="flex h-full flex-col px-4">
     <div class="py-4">
       <h6>
@@ -23,11 +23,11 @@
           {{ t('showCompactView') }}
         </mat-slide-toggle>
       </div>
-      <schaeffler-grease-report
+      <ga-grease-report
         *ngIf="showCompactView"
         [greaseReportUrl]="reportUrls.jsonReportUrl"
         [preferredGreaseResult]="preferredGreaseSelection$ | ngrxPush"
-      ></schaeffler-grease-report>
+      ></ga-grease-report>
 
       <schaeffler-html-report
         *ngIf="!showCompactView"

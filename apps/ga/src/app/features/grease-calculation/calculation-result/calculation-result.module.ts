@@ -19,6 +19,7 @@ import { SharedModule } from '@ga/shared/shared.module';
 
 import { CalculationResultComponent } from './calculation-result.component';
 import { CalculationResultRoutingModule } from './calculation-result-routing.module';
+import { GreaseReportComponent } from './components/grease-report';
 
 @NgModule({
   declarations: [CalculationResultComponent],
@@ -29,21 +30,22 @@ import { CalculationResultRoutingModule } from './calculation-result-routing.mod
     PushModule,
     FormsModule,
 
-    // UI Modules
-    BreadcrumbsModule,
-    ReportModule,
-
-    // Material Modules
-    MatIconModule,
-    MatProgressSpinnerModule,
-    MatSlideToggleModule,
-
     // Translation
     SharedTranslocoModule,
 
     // Store
     StoreModule.forFeature('calculationResult', calculationResultReducer),
     EffectsModule.forFeature([CalculationResultEffects]),
+
+    // Material
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule,
+
+    // Components
+    BreadcrumbsModule,
+    ReportModule,
+    GreaseReportComponent,
   ],
 })
 export class CalculationResultModule {}
