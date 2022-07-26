@@ -5,7 +5,7 @@
       "calculator": {
         "title": {
           "main": "Calculadora de grasa",
-          "sub": "Con tecnología de Bearinx"
+          "sub": "impulsado por Bearinx"
         }
       },
       "greases": {
@@ -23,7 +23,7 @@
       },
       "maintenance": {
         "title": {
-          "main": "Herramienta de Mantenimiento"
+          "main": "Herramienta de</br>Mantenimiento"
         },
         "externalLink": "https://medias.schaeffler.es/es/maintenance-tools"
       },
