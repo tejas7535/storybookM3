@@ -1,6 +1,6 @@
 {
-  "reportSectionInput": "Input",
-  "shopBaseUrl": "https://medias.schaeffler.de/en",
+  "reportSectionInput": "输入",
+  "shopBaseUrl": "https://medias.schaeffler.cn/zh",
   "snackbarError": "很遗憾，出现错误。请稍后再试。",
   "snackbarRetry": "重试",
   "allValues": "显示所有值与时间表",

@@ -1,5 +1,5 @@
 {
-  "reportSectionInput": "Input",
+  "reportSectionInput": "Entrada",
   "shopBaseUrl": "https://medias.schaeffler.es/es",
   "snackbarError": "Lamentablemente se ha producido un error. Por favor, inténtelo de nuevo más tarde.",
   "snackbarRetry": "Reintentar",
@@ -7,7 +7,7 @@
   "hideValues": "Ocultar valores adicionales",
   "allResults": "Mostrar todos los resultados",
   "limitResults": "Mostrar los primeros {{ amount }} resultados",
-  "results": "Resultados ordenados por intervalo de relubricación ({{ amount }}/{{ complete }} grasas)",
+  "resultsDefault": "Resultados ordenados por intervalo de relubricación ({{ amount }}/{{ complete }} grasas)",
   "resultsWithPreferred": "Resultados de las grasas seleccionadas y alternativas clasificadas por intervalo de reengrase",
   "guideValues": "* Valores orientativos",
   "errorsWarningsNotes": "Errores, advertencias y notas",
