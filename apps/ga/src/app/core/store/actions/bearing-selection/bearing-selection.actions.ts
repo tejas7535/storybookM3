@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 
 import {
-  BearingSelectionTypeUnion,
   AdvancedBearingSelectionFilters,
+  BearingSelectionTypeUnion,
 } from '@ga/shared/models';
 
 export const setBearingSelectionType = createAction(

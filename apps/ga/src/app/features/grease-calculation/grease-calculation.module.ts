@@ -5,11 +5,11 @@ import { PushModule } from '@ngrx/component';
 
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 
+import { GreaseStepperComponent } from '../../core/components/grease-stepper';
 import {
   CalculationParametersGuard,
   CalculationResultGuard,
 } from '../../core/guards';
-import { GreaseStepperComponent } from '../../core/components/grease-stepper';
 import { GreaseCalculationComponent } from './grease-calculation.component';
 import { GreaseCalculationRoutingModule } from './grease-calculation-routing.module';
 

@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 
+import * as parametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
 import {
@@ -9,7 +10,6 @@ import {
   PROPERTIES_MOCK,
 } from '@ga/testing/mocks';
 
-import * as parametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import {
   calculationParametersReducer,
   initialState,

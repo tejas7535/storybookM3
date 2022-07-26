@@ -12,9 +12,9 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { GreaseStepperComponent } from '../../core/components/grease-stepper';
 import { selectBearing } from '../../core/store';
 import { initialState } from '../../core/store/reducers/settings/settings.reducer';
-import { GreaseStepperComponent } from '../../core/components/grease-stepper';
 import { GreaseCalculationComponent } from './grease-calculation.component';
 
 describe('GreaseCalculationComponent', () => {

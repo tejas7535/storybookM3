@@ -13,8 +13,8 @@ import { setCurrentStep } from '@ga/core/store/actions/settings/settings.actions
 import { QuickBearingSelectionModule } from '@ga/shared/components/quick-bearing-selection';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import { AdvancedBearingSelectionModule } from './components/advanced-bearing-selection';
 import { BearingSelectionComponent } from './bearing-selection.component';
+import { AdvancedBearingSelectionModule } from './components/advanced-bearing-selection';
 
 describe('BearingSelectionComponent', () => {
   let component: BearingSelectionComponent;

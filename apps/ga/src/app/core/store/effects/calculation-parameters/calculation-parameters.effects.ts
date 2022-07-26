@@ -7,8 +7,8 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { RestService } from '@ga/core/services';
-
 import * as calculationParametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
+
 import { getModelId } from '../../selectors/bearing-selection/bearing-selection.selector';
 import {
   getCalculationParameters,

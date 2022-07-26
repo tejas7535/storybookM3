@@ -6,8 +6,8 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 
-import { RangeFilterValuePipe } from './range-filter-value.pipe';
 import { RangeFilter } from './range-filter.model';
+import { RangeFilterValuePipe } from './range-filter-value.pipe';
 
 describe('RangeFilterValuePipe', () => {
   let spectator: SpectatorPipe<RangeFilterValuePipe>;

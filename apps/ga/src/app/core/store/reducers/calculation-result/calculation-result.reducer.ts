@@ -14,19 +14,28 @@ export const initialState: CalculationResultState = {
 
 export const calculationResultReducer = createReducer(
   initialState,
-  on(getCalculation, (state) => ({
-    ...state,
-    loading: true,
-  })),
-  on(calculationSuccess, (state, { resultId }) => ({
-    ...state,
-    resultId,
-    loading: false,
-  })),
-  on(calculationError, (state) => ({
-    ...state,
-    loading: false,
-  }))
+  on(
+    getCalculation,
+    (state): CalculationResultState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    calculationSuccess,
+    (state, { resultId }): CalculationResultState => ({
+      ...state,
+      resultId,
+      loading: false,
+    })
+  ),
+  on(
+    calculationError,
+    (state): CalculationResultState => ({
+      ...state,
+      loading: false,
+    })
+  )
 );
 
 export function reducer(

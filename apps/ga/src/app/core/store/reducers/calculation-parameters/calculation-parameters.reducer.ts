@@ -38,40 +38,55 @@ export const initialState: CalculationParametersState = {
 
 export const calculationParametersReducer = createReducer(
   initialState,
-  on(parametersActions.patchParameters, (state, { parameters }) => ({
-    ...state,
-    ...parameters,
-    updating: true,
-  })),
-  on(parametersActions.modelUpdateSuccess, (state) => ({
-    ...state,
-    updating: false,
-  })),
-  on(parametersActions.getPropertiesSuccess, (state, { properties }) => ({
-    ...state,
-    properties,
-  })),
-  on(parametersActions.getDialog, (state) => ({
-    ...state,
-    preferredGrease: {
-      ...state.preferredGrease,
-      loading: true,
-    },
-  })),
-  on(parametersActions.getDialogSuccess, (state, { dialogResponse }) => ({
-    ...state,
-    preferredGrease: {
-      ...state.preferredGrease,
-      greaseOptions: adaptPreferredGreaseOptionsFromDialogResponseListValues(
-        dialogResponse?.pages[2]?.groups[0]?.members[1]?.listValues
-      ),
-      loading: false,
-    },
-  })),
+  on(
+    parametersActions.patchParameters,
+    (state, { parameters }): CalculationParametersState => ({
+      ...state,
+      ...parameters,
+      updating: true,
+    })
+  ),
+  on(
+    parametersActions.modelUpdateSuccess,
+    (state): CalculationParametersState => ({
+      ...state,
+      updating: false,
+    })
+  ),
+  on(
+    parametersActions.getPropertiesSuccess,
+    (state, { properties }): CalculationParametersState => ({
+      ...state,
+      properties,
+    })
+  ),
+  on(
+    parametersActions.getDialog,
+    (state): CalculationParametersState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    parametersActions.getDialogSuccess,
+    (state, { dialogResponse }): CalculationParametersState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        greaseOptions: adaptPreferredGreaseOptionsFromDialogResponseListValues(
+          dialogResponse?.pages[2]?.groups[0]?.members[1]?.listValues
+        ),
+        loading: false,
+      },
+    })
+  ),
   on(
     parametersActions.getDialogFailure,
     parametersActions.getDialogEnd,
-    (state) => ({
+    (state): CalculationParametersState => ({
       ...state,
       preferredGrease: {
         ...state.preferredGrease,
@@ -81,7 +96,7 @@ export const calculationParametersReducer = createReducer(
   ),
   on(
     parametersActions.setPreferredGreaseSelection,
-    (state, { selectedGrease }) => ({
+    (state, { selectedGrease }): CalculationParametersState => ({
       ...state,
       preferredGrease: {
         ...state.preferredGrease,
@@ -89,13 +104,16 @@ export const calculationParametersReducer = createReducer(
       },
     })
   ),
-  on(parametersActions.resetPreferredGreaseSelection, (state) => ({
-    ...state,
-    preferredGrease: {
-      ...state.preferredGrease,
-      selectedGrease: undefined,
-    },
-  }))
+  on(
+    parametersActions.resetPreferredGreaseSelection,
+    (state): CalculationParametersState => ({
+      ...state,
+      preferredGrease: {
+        ...state.preferredGrease,
+        selectedGrease: undefined,
+      },
+    })
+  )
 );
 
 export function reducer(

@@ -14,13 +14,13 @@ import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
+import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
 import {
   getDialog,
   getProperties,
   patchParameters,
   resetPreferredGreaseSelection,
 } from '@ga/core/store/actions';
-import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
 import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
 import {

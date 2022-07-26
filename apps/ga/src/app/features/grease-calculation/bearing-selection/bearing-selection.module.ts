@@ -11,9 +11,9 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { BearingSelectionEffects } from '@ga/core/store';
 import { QuickBearingSelectionModule } from '@ga/shared/components/quick-bearing-selection';
 
-import { AdvancedBearingSelectionModule } from './components/advanced-bearing-selection';
 import { BearingSelectionComponent } from './bearing-selection.component';
 import { BearingSelectionRoutingModule } from './bearing-selection-routing.module';
+import { AdvancedBearingSelectionModule } from './components/advanced-bearing-selection';
 
 @NgModule({
   declarations: [BearingSelectionComponent],

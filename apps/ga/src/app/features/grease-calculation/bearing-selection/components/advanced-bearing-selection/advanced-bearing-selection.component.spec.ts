@@ -23,13 +23,13 @@ import {
   RANGE_FILTER_MOCK,
 } from '@ga/testing/mocks';
 
-import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
+import { AdvancedBearingSelectionService } from '../../services/advanced-bearing-selection.service';
 import {
   BearingSelectionButtonComponent,
   BearingSelectionFiltersSummaryModule,
   BearingSelectionListModule,
 } from '..';
-import { AdvancedBearingSelectionService } from '../../services/advanced-bearing-selection.service';
+import { AdvancedBearingSelectionComponent } from './advanced-bearing-selection.component';
 
 describe('AdvancedBearingSelectionComponent', () => {
   let component: AdvancedBearingSelectionComponent;

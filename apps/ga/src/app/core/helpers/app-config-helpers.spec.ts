@@ -1,8 +1,8 @@
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { getAppFooterLinks } from './app-config-helpers';
-
 import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
+
+import { getAppFooterLinks } from './app-config-helpers';
 
 jest.mock('@ga/core/helpers/settings-helpers');
 

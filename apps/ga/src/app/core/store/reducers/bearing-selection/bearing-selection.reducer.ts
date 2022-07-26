@@ -46,30 +46,39 @@ export const initialState: BearingSelectionState = {
 
 export const bearingSelectionReducer = createReducer(
   initialState,
-  on(setBearingSelectionType, (state, { bearingSelectionType }) => ({
-    ...state,
-    bearingSelectionType,
-  })),
-  on(searchBearing, (state, { query }) => ({
-    ...state,
-    quickBearingSelection: {
-      ...initialState.quickBearingSelection,
-      query,
-    },
-    loading: true,
-  })),
-  on(bearingSearchSuccess, (state, { resultList }) => ({
-    ...state,
-    quickBearingSelection: {
-      ...state.quickBearingSelection,
-      resultList,
-    },
-    loading: false,
-  })),
+  on(
+    setBearingSelectionType,
+    (state, { bearingSelectionType }): BearingSelectionState => ({
+      ...state,
+      bearingSelectionType,
+    })
+  ),
+  on(
+    searchBearing,
+    (state, { query }): BearingSelectionState => ({
+      ...state,
+      quickBearingSelection: {
+        ...initialState.quickBearingSelection,
+        query,
+      },
+      loading: true,
+    })
+  ),
+  on(
+    bearingSearchSuccess,
+    (state, { resultList }): BearingSelectionState => ({
+      ...state,
+      quickBearingSelection: {
+        ...state.quickBearingSelection,
+        resultList,
+      },
+      loading: false,
+    })
+  ),
   on(
     searchBearingForAdvancedSelection,
     searchBearingForAdvancedSelectionCount,
-    (state, { selectionFilters }) => ({
+    (state, { selectionFilters }): BearingSelectionState => ({
       ...state,
       advancedBearingSelection: {
         ...state.advancedBearingSelection,
@@ -78,18 +87,21 @@ export const bearingSelectionReducer = createReducer(
       loading: true,
     })
   ),
-  on(advancedBearingSelectionSuccess, (state, { resultList }) => ({
-    ...state,
-    advancedBearingSelection: {
-      ...state.advancedBearingSelection,
-      resultList,
-    },
-    loading: false,
-  })),
+  on(
+    advancedBearingSelectionSuccess,
+    (state, { resultList }): BearingSelectionState => ({
+      ...state,
+      advancedBearingSelection: {
+        ...state.advancedBearingSelection,
+        resultList,
+      },
+      loading: false,
+    })
+  ),
   on(
     advancedBearingSelectionFailure,
     advancedBearingSelectionCountFailure,
-    (state) => ({
+    (state): BearingSelectionState => ({
       ...state,
       advancedBearingSelection: {
         ...state.advancedBearingSelection,
@@ -98,35 +110,50 @@ export const bearingSelectionReducer = createReducer(
       loading: false,
     })
   ),
-  on(advancedBearingSelectionCountSuccess, (state, { resultsCount }) => ({
-    ...state,
-    advancedBearingSelection: {
-      ...state.advancedBearingSelection,
-      resultsCount,
-    },
-    loading: false,
-  })),
-  on(selectBearing, (state, { bearing }) => ({
-    ...state,
-    selectedBearing: bearing,
-    modelCreationSuccess: undefined,
-    modelCreationLoading: true,
-  })),
-  on(modelCreateSuccess, (state, { modelId }) => ({
-    ...state,
-    modelId,
-    modelCreationSuccess: true,
-    modelCreationLoading: false,
-  })),
-  on(modelCreateFailure, (state) => ({
-    ...state,
-    modelCreationSuccess: false,
-    modelCreationLoading: false,
-    modelId: undefined,
-  })),
-  on(resetBearing, () => ({
-    ...initialState,
-  }))
+  on(
+    advancedBearingSelectionCountSuccess,
+    (state, { resultsCount }): BearingSelectionState => ({
+      ...state,
+      advancedBearingSelection: {
+        ...state.advancedBearingSelection,
+        resultsCount,
+      },
+      loading: false,
+    })
+  ),
+  on(
+    selectBearing,
+    (state, { bearing }): BearingSelectionState => ({
+      ...state,
+      selectedBearing: bearing,
+      modelCreationSuccess: undefined,
+      modelCreationLoading: true,
+    })
+  ),
+  on(
+    modelCreateSuccess,
+    (state, { modelId }): BearingSelectionState => ({
+      ...state,
+      modelId,
+      modelCreationSuccess: true,
+      modelCreationLoading: false,
+    })
+  ),
+  on(
+    modelCreateFailure,
+    (state): BearingSelectionState => ({
+      ...state,
+      modelCreationSuccess: false,
+      modelCreationLoading: false,
+      modelId: undefined,
+    })
+  ),
+  on(
+    resetBearing,
+    (): BearingSelectionState => ({
+      ...initialState,
+    })
+  )
 );
 
 export function reducer(

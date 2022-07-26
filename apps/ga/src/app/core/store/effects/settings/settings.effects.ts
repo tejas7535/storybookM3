@@ -7,15 +7,14 @@ import { ROUTER_NAVIGATED, RouterNavigatedAction } from '@ngrx/router-store';
 import { Action } from '@ngrx/store';
 
 import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
-import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
-import { steps } from '@ga/shared/constants';
-import { Step } from '@ga/shared/models/settings/step.model';
-
 import {
   initSettingsEffects,
   setAppDelivery,
   setCurrentStep,
 } from '@ga/core/store/actions/settings/settings.actions';
+import { GreaseCalculationPath } from '@ga/features/grease-calculation/grease-calculation-path.enum';
+import { steps } from '@ga/shared/constants';
+import { Step } from '@ga/shared/models/settings/step.model';
 
 @Injectable()
 export class SettingsEffects implements OnInitEffects {
