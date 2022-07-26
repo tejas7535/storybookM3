@@ -107,6 +107,10 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   }>;
 
   private scopesControls: FormArray;
+  private castingDiameterDependencies: FormGroup<{
+    supplierId: FormControl<number>;
+    castingMode: FormControl<string>;
+  }>;
 
   public constructor(
     private readonly dialogFacade: DialogFacade,
@@ -141,15 +145,15 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       Validators.required
     );
     this.supplierPlantsControl = new FormControl<StringOption>(
-      undefined,
+      { value: undefined, disabled: true },
       Validators.required
     );
     this.castingModesControl = new FormControl<string>(
-      undefined,
+      { value: undefined, disabled: true },
       Validators.required
     );
     this.castingDiameterControl = new FormControl<StringOption>(
-      undefined,
+      { value: undefined, disabled: true },
       Validators.required
     );
     this.ratingsControl = new FormControl<StringOption>(
@@ -182,7 +186,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       this.scopeTotalValidatorFn(),
     ]);
     this.co2ClassificationControl = new FormControl<StringOption>(
-      undefined,
+      { value: undefined, disabled: true },
       Validators.required
     );
     this.releaseMonthControl = new FormControl<number>(
@@ -234,6 +238,11 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       this.co2Scope3Control,
       this.co2TotalControl,
     ]);
+
+    this.castingDiameterDependencies = new FormGroup({
+      supplierId: this.manufacturerSupplierIdControl,
+      castingMode: this.castingModesControl,
+    });
 
     // create an array of months
     this.months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -318,8 +327,8 @@ export class InputDialogComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         tap((value) =>
           value
-            ? this.supplierPlantsControl.enable()
-            : this.supplierPlantsControl.disable()
+            ? this.supplierPlantsControl.enable({ emitEvent: false })
+            : this.supplierPlantsControl.disable({ emitEvent: false })
         )
       )
       .subscribe((supplier: StringOption) => {
@@ -336,12 +345,11 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     this.supplierPlantsControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((plant: StringOption) => {
-        this.createMaterialForm.patchValue({
-          manufacturerSupplierId: plant?.data['supplierId'],
-        });
+        this.manufacturerSupplierIdControl.patchValue(
+          plant?.data['supplierId']
+        );
       });
 
-    this.supplierPlantsControl.disable();
     this.scopesControls.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -351,16 +359,30 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) =>
         value
-          ? this.co2ClassificationControl.enable()
-          : this.co2ClassificationControl.disable()
+          ? this.co2ClassificationControl.enable({ emitEvent: false })
+          : this.co2ClassificationControl.disable({ emitEvent: false })
       );
-    this.co2ClassificationControl.disable();
 
-    this.manufacturerSupplierIdControl.valueChanges
+    this.castingDiameterDependencies.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((value) =>
-        this.dialogFacade.dispatch(fetchCastingDiameters({ supplierId: value }))
-      );
+      .subscribe(({ supplierId, castingMode }) => {
+        if (!supplierId) {
+          this.castingModesControl.reset(
+            { value: undefined, disabled: true },
+            { emitEvent: false }
+          );
+        } else {
+          this.castingModesControl.enable({ emitEvent: false });
+        }
+        if (!supplierId || !castingMode) {
+          this.castingDiameterControl.disable({ emitEvent: false });
+        } else {
+          this.castingDiameterControl.enable({ emitEvent: false });
+          this.dialogFacade.dispatch(
+            fetchCastingDiameters({ supplierId, castingMode })
+          );
+        }
+      });
   }
 
   public ngOnDestroy(): void {

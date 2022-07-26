@@ -177,7 +177,7 @@ export class MsdDataService {
     );
   }
 
-  public fetchCastingDiameters(supplierId: number) {
+  public fetchCastingDiameters(supplierId: number, castingMode: string) {
     const body = {
       select: ['castingDiameter'],
       where: [
@@ -185,6 +185,11 @@ export class MsdDataService {
           col: 'manufacturerSupplier.id',
           op: 'IN',
           values: [supplierId.toString()],
+        },
+        {
+          col: 'castingMode',
+          op: 'LIKE',
+          values: [castingMode],
         },
       ],
       distinct: true,

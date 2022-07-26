@@ -409,7 +409,33 @@ describe('Data Effects', () => {
     it(
       'should return empty success action with empty supplierId',
       marbles((m) => {
-        action = fetchCastingDiameters({ supplierId: undefined });
+        action = fetchCastingDiameters({
+          supplierId: undefined,
+          castingMode: 'ingot',
+        });
+        actions$ = m.hot('-a', { a: action });
+
+        msdDataService.fetchCastingDiameters = jest.fn();
+
+        const result = fetchCastingDiametersSuccess({
+          castingDiameters: [],
+        });
+        const expected = m.cold('-b', { b: result });
+
+        m.expect(effects.fetchCastingDiameters$).toBeObservable(expected);
+        m.flush();
+
+        expect(msdDataService.fetchCastingDiameters).not.toHaveBeenCalled();
+      })
+    );
+
+    it(
+      'should return empty success action with empty castingMode',
+      marbles((m) => {
+        action = fetchCastingDiameters({
+          supplierId: 1,
+          castingMode: undefined,
+        });
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.fetchCastingDiameters = jest.fn();
@@ -429,7 +455,7 @@ describe('Data Effects', () => {
     it(
       'should fetch castingDiameters and return success action on success',
       marbles((m) => {
-        action = fetchCastingDiameters({ supplierId: 1 });
+        action = fetchCastingDiameters({ supplierId: 1, castingMode: 'ingot' });
         actions$ = m.hot('-a', { a: action });
 
         const resultMock: string[] = ['1', '2'];
@@ -444,14 +470,17 @@ describe('Data Effects', () => {
         m.expect(effects.fetchCastingDiameters$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(1);
+        expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(
+          1,
+          'ingot'
+        );
       })
     );
 
     it(
       'should fetch castingDiameters and return failure action on failure',
       marbles((m) => {
-        action = fetchCastingDiameters({ supplierId: 1 });
+        action = fetchCastingDiameters({ supplierId: 1, castingMode: 'ingot' });
         actions$ = m.hot('-a', { a: action });
 
         msdDataService.fetchCastingDiameters = jest
@@ -464,7 +493,10 @@ describe('Data Effects', () => {
         m.expect(effects.fetchCastingDiameters$).toBeObservable(expected);
         m.flush();
 
-        expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(1);
+        expect(msdDataService.fetchCastingDiameters).toHaveBeenCalledWith(
+          1,
+          'ingot'
+        );
       })
     );
   });

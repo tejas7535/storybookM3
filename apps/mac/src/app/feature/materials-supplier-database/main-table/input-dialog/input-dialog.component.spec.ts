@@ -27,7 +27,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { ManufacturerSupplier, MaterialStandard } from '@mac/msd/models';
-import { addCustomCastingDiameter } from '@mac/msd/store';
+import {
+  addCustomCastingDiameter,
+  fetchCastingDiameters,
+} from '@mac/msd/store';
 import { initialState as initialDataState } from '@mac/msd/store/reducers/data/data.reducer';
 import { initialState as initialDialogState } from '@mac/msd/store/reducers/dialog/dialog.reducer';
 
@@ -266,6 +269,47 @@ describe('InputDialogComponent', () => {
         });
       });
 
+      describe('modify casting diameter dependencies', () => {
+        it('should disable castingDiameter if supplierId is not defined', () => {
+          component.castingDiameterControl.disable = jest.fn();
+          component.castingModesControl.reset = jest.fn();
+
+          component['castingDiameterDependencies'].patchValue({
+            supplierId: undefined,
+            castingMode: 'ingot',
+          });
+
+          expect(component.castingDiameterControl.disable).toHaveBeenCalled();
+          expect(component.castingModesControl.reset).toHaveBeenCalled();
+        });
+
+        it('should disable castingDiameter if castingMode is not defined', () => {
+          component.castingModesControl.enable = jest.fn();
+          component.castingDiameterControl.disable = jest.fn();
+
+          component['castingDiameterDependencies'].patchValue({
+            supplierId: 1,
+            castingMode: undefined,
+          });
+
+          expect(component.castingDiameterControl.disable).toHaveBeenCalled();
+          expect(component.castingModesControl.enable).toHaveBeenCalled();
+        });
+
+        it('should enable castingDiameter and fetch if supplierId and castingMode are defined', () => {
+          component.castingDiameterControl.enable = jest.fn();
+          component['dialogFacade'].dispatch = jest.fn();
+
+          component.manufacturerSupplierIdControl.patchValue(1);
+          component.castingModesControl.patchValue('ingot');
+
+          expect(component.castingDiameterControl.enable).toHaveBeenCalled();
+          expect(component['dialogFacade'].dispatch).toHaveBeenCalledWith(
+            fetchCastingDiameters({ supplierId: 1, castingMode: 'ingot' })
+          );
+        });
+      });
+
       describe('modify material names', () => {
         it('should ignore updates if value is undefined', () => {
           // mock
@@ -414,27 +458,27 @@ describe('InputDialogComponent', () => {
         };
 
         it('should patch createMaterialForm', () => {
-          component.createMaterialForm.patchValue = jest.fn();
+          component.manufacturerSupplierIdControl.patchValue = jest.fn();
           // start patch
           component.supplierPlantsControl.patchValue(plantData);
 
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            manufacturerSupplierId: plantData.data.supplierId,
-          });
+          expect(
+            component.manufacturerSupplierIdControl.patchValue
+          ).toHaveBeenCalledWith(plantData.data.supplierId);
         });
 
         it('should reset createMaterialForm if plant is undefined', () => {
           component.supplierPlantsControl.setValue(plantData, {
             emitEvent: false,
           });
-          component.createMaterialForm.patchValue = jest.fn();
+          component.manufacturerSupplierIdControl.patchValue = jest.fn();
           // start patch
           // eslint-disable-next-line unicorn/no-useless-undefined
           component.supplierPlantsControl.setValue(undefined);
 
-          expect(component.createMaterialForm.patchValue).toHaveBeenCalledWith({
-            manufacturerSupplierId: undefined,
-          });
+          expect(
+            component.manufacturerSupplierIdControl.patchValue
+          ).toHaveBeenCalledWith(undefined);
         });
       });
 
@@ -804,6 +848,7 @@ describe('InputDialogComponent', () => {
       store.select = jest.fn(() => mockSubject);
       store.dispatch = jest.fn();
       component['snackbar'].open = jest.fn();
+      component.castingDiameterControl.enable();
       component.createMaterialForm.setValue(material, { emitEvent: false });
       component.closeDialog = jest.fn();
 
@@ -819,6 +864,7 @@ describe('InputDialogComponent', () => {
       store.select = jest.fn(() => mockSubject);
       store.dispatch = jest.fn();
       component['snackbar'].open = jest.fn();
+      component.castingDiameterControl.enable();
       component.createMaterialForm.setValue(material, { emitEvent: false });
 
       component.addMaterial();

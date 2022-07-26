@@ -145,20 +145,21 @@ export class DialogEffects {
   public fetchCastingDiameters$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(DialogActions.fetchCastingDiameters),
-      map((action) => action.supplierId),
-      switchMap((supplierId) => {
-        if (!supplierId) {
+      switchMap(({ supplierId, castingMode }) => {
+        if (!supplierId || !castingMode) {
           return of(
             DialogActions.fetchCastingDiametersSuccess({ castingDiameters: [] })
           );
         }
 
-        return this.msdDataService.fetchCastingDiameters(supplierId).pipe(
-          map((castingDiameters) =>
-            DialogActions.fetchCastingDiametersSuccess({ castingDiameters })
-          ),
-          catchError(() => of(DialogActions.fetchCastingDiametersFailure()))
-        );
+        return this.msdDataService
+          .fetchCastingDiameters(supplierId, castingMode)
+          .pipe(
+            map((castingDiameters) =>
+              DialogActions.fetchCastingDiametersSuccess({ castingDiameters })
+            ),
+            catchError(() => of(DialogActions.fetchCastingDiametersFailure()))
+          );
       })
     );
   });

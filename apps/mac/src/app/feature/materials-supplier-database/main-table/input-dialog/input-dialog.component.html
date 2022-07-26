@@ -126,6 +126,21 @@
           </schaeffler-select>
         </div>
         <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('castingMode') }}</mat-label>
+            <mat-select [formControl]="castingModesControl">
+              <mat-option
+                *ngFor="let mode of castingModes$ | ngrxPush"
+                [value]="mode"
+              >
+                {{ t(mode.toLowerCase()) }}
+              </mat-option>
+            </mat-select>
+
+            <mat-error *ngIf="castingModesControl.invalid">{{
+              getErrorMessage(castingModesControl.errors)
+            }}</mat-error>
+          </mat-form-field>
           <schaeffler-select
             appearance="outline"
             class="w-full"
@@ -142,21 +157,6 @@
               {{ getErrorMessage(castingDiameterControl.errors) }}
             </div>
           </schaeffler-select>
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('castingMode') }}</mat-label>
-            <mat-select [formControl]="castingModesControl">
-              <mat-option
-                *ngFor="let mode of castingModes$ | ngrxPush"
-                [value]="mode"
-              >
-                {{ t(mode.toLowerCase()) }}
-              </mat-option>
-            </mat-select>
-
-            <mat-error *ngIf="castingModesControl.invalid">{{
-              getErrorMessage(castingModesControl.errors)
-            }}</mat-error>
-          </mat-form-field>
         </div>
         <div class="flex flex-row gap-x-6">
           <mat-form-field appearance="outline" class="w-auto">

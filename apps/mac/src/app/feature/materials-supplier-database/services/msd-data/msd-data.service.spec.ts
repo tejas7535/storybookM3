@@ -418,10 +418,15 @@ describe('MsdDataService', () => {
             op: 'IN',
             values: ['1'],
           },
+          {
+            col: 'castingMode',
+            op: 'LIKE',
+            values: ['ingot'],
+          },
         ],
         distinct: true,
       };
-      service.fetchCastingDiameters(1).subscribe((result) => {
+      service.fetchCastingDiameters(1, 'ingot').subscribe((result) => {
         expect(result).toEqual(mockResponse);
         done();
       });

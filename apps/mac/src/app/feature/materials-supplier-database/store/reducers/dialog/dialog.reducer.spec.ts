@@ -153,8 +153,10 @@ describe('dialogReducer', () => {
 
     it('should reset the castingDiameters and set the loading state to true', () => {
       const supplierId = 1;
+      const castingMode = 'ingot';
       const action = DataActions.fetchCastingDiameters({
         supplierId,
+        castingMode,
       });
       const newState = dialogReducer(state, action);
 

@@ -295,11 +295,15 @@ describe('Dialog Actions', () => {
 
   describe('Fetch Casting Diameters', () => {
     it('fetchCastingDiameters', () => {
-      const action = fetchCastingDiameters({ supplierId: 1 });
+      const action = fetchCastingDiameters({
+        supplierId: 1,
+        castingMode: 'ingot',
+      });
 
       expect(action).toEqual({
         type: '[MSD - Dialog] Fetch Casting Diameters',
         supplierId: 1,
+        castingMode: 'ingot',
       });
     });
   });

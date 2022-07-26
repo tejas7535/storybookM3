@@ -13,8 +13,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialsSupplierDatabaseComponent } from '@mac/msd/materials-supplier-database.component';
 import { MaterialsSupplierDatabaseRoutingModule } from '@mac/msd/materials-supplier-database-routing.module';
-import { DataEffects } from '@mac/msd/store/effects/data/data.effects';
-import { DialogEffects } from '@mac/msd/store/effects/dialog/dialog.effects';
+import { DataEffects, DialogEffects } from '@mac/msd/store/effects';
 import { reducers } from '@mac/msd/store/reducers';
 
 @NgModule({

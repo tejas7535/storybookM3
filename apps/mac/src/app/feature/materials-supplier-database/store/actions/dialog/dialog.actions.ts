@@ -108,7 +108,7 @@ export const createMaterialFailure = createAction(
 
 export const fetchCastingDiameters = createAction(
   '[MSD - Dialog] Fetch Casting Diameters',
-  props<{ supplierId: number }>()
+  props<{ supplierId: number; castingMode: string }>()
 );
 
 export const fetchCastingDiametersSuccess = createAction(
