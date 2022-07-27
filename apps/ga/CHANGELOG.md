@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.2.9](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.8...ga-v1.2.9) (2022-07-27)
+
+
+### 🎸 Features
+
+* **ga:** add spanish language selection ([b17e806](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b17e80667e2671c2681d3fe4aed1392cb1339c08))
+* **ga:** add spanish translation ([6a65068](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6a65068cbdedfffc5cf76b88a7b18e3d5c7b93da))
+* **ga:** adjust basic templates to embedded status (UFTABI-5525) ([3a4db61](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/3a4db61b1920f2769b12dee1fce56795de53c945))
+* **ga:** adjust bearing search placeholder wording ([48009f7](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/48009f7e3a96c3f98c3c1c054289c3e484dcbf83))
+* **ga:** adjust links to spanish medias ([4bff5ad](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4bff5ad191a0d228686eb99ec4d3532eeea63ec8))
+* **ga:** adjust purpose to provided text ([fe5846a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fe5846abdf5c3992a6be39ec129a52fd07fae4fa))
+* **ga:** adjust spanish texts to fit landing page cards ([9f90907](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9f9090716e282cbfb440bb16446fb05b6f678d02))
+* **ga:** extend storage period to one yearh ([8e8faea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8e8faead1a5bd427305e1c46c407358e5a88cc50))
+* **ga:** re-direct to grease-calculator if embedded (UFTABI-5525) ([29b50fc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/29b50fc14086052167651249862fb659c492be0a))
+* **ga:** set active language from query param (UFTABI-5824) ([e8cdd10](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/e8cdd107481417fe4d07149bb25b3aa4f572c1b9))
+
+
+### 🐛 Bug Fixes
+
+* **ga:** change insufficiency detection for grease results (UFTABI-5931) ([4934313](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/4934313d88a07a578ea4b123bd0e8000de614048))
+* **ga:** ensure maintenance card height ([20217c9](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/20217c9c5e8e9187acdfe0a1a45b8a2bed639d6e))
+* **ga:** update SharedTranslocoModule import to fix issues with language persisting ([cf07d14](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/cf07d1430a4c20c8bb52afd6ffcc3e3e9f3eeb48))
+
 ### [1.2.8](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/ga-v1.2.7...ga-v1.2.8) (2022-07-12)
 
 
