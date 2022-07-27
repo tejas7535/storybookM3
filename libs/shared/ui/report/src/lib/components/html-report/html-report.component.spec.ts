@@ -11,8 +11,8 @@ import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ReportService } from '../../services/report.service';
 import { HtmlReportComponent } from './html-report.component';
-import { ReportService } from '../../report.service';
 
 describe('HtmlReportComponent', () => {
   let component: HtmlReportComponent;
@@ -27,9 +27,7 @@ describe('HtmlReportComponent', () => {
       HttpClientModule,
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
-
       PushModule,
-
       MatExpansionModule,
       MatSnackBarModule,
     ],

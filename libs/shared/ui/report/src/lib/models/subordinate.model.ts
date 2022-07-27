@@ -1,7 +1,4 @@
 import { Description } from './description.model';
-import { GreaseResult } from './grease-result.model';
-import { JsonTable } from './json-table.model';
-import { TitleId } from './title.enum';
 
 export type SubordinateIdentifier =
   | 'text'
@@ -21,9 +18,7 @@ export interface Subordinate {
   text?: string[];
   designation?: string;
   value?: string;
-  data?: JsonTable;
   abbreviation?: string;
-  titleID?: `${TitleId}`;
   legal?: string;
   unit?: string;
   description?: Description;
@@ -31,5 +26,4 @@ export interface Subordinate {
   defaultOpen?: boolean;
   content?: any;
   clickHandler?: any;
-  greaseResult?: GreaseResult;
 }

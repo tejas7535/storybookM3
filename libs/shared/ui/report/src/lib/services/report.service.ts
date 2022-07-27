@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { Content, Subordinate } from './models';
+import { Content } from '../models';
 
 @Injectable()
 export class ReportService {
@@ -52,13 +52,6 @@ export class ReportService {
 
         return structuredContent;
       }),
-      catchError(() => throwError(() => new Error('Unexpected error')))
-    );
-  }
-
-  public getJsonReport(jsonReportUrl: string): Observable<Subordinate[]> {
-    return this.http.get<{ data: string }>(jsonReportUrl).pipe(
-      map((response: any) => response.subordinates),
       catchError(() => throwError(() => new Error('Unexpected error')))
     );
   }

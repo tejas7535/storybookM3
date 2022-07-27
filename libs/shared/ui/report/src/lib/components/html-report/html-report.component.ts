@@ -11,7 +11,7 @@ import { ReplaySubject, Subject, takeUntil } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 
 import { Subordinate } from '../../models';
-import { ReportService } from '../../report.service';
+import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'schaeffler-html-report',

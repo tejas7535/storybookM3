@@ -4,7 +4,7 @@ import {
   SpectatorHttp,
 } from '@ngneat/spectator';
 
-import { jsonReport, reportBodyMock } from '../mocks';
+import { reportBodyMock } from '../../mocks';
 import { ReportService } from './report.service';
 
 describe('ReportService testing', () => {
@@ -28,24 +28,6 @@ describe('ReportService testing', () => {
         });
 
       const req = spectator.expectOne(mockRefHtml, HttpMethod.GET);
-
-      req.flush(mock);
-    });
-  });
-
-  describe('getJsonReport', () => {
-    it('should trigger a GET call', () => {
-      const mockRefJson = 'fakeRefJson';
-
-      const mock = jsonReport.subordinates;
-
-      spectator.service
-        .getJsonReport(mockRefJson)
-        .subscribe((response: any) => {
-          expect(response).toEqual(mock);
-        });
-
-      const req = spectator.expectOne(mockRefJson, HttpMethod.GET);
 
       req.flush(mock);
     });
