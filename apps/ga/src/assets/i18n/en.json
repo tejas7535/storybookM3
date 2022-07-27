@@ -23,7 +23,8 @@
       },
       "maintenance": {
         "title": {
-          "main": "Maintenance Tools"
+          "main": "Maintenance Tools",
+          "sub": "&nbsp;"
         },
         "externalLink": "https://medias.schaeffler.de/en/maintenance-tools"
       },

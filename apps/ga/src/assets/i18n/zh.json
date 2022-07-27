@@ -23,7 +23,8 @@
       },
       "maintenance": {
         "title": {
-          "main": "智能维护工具"
+          "main": "智能维护工具",
+          "sub": "&nbsp;"
         },
         "externalLink": "https://medias.schaeffler.cn/zh/maintenance-tools"
       },

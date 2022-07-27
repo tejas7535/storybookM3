@@ -29,6 +29,7 @@ export const homepageCards: HomepageCard[] = [
   },
   {
     mainTitle: 'maintenance.title.main',
+    subTitle: 'maintenance.title.sub',
     imagePath: 'maintenance.jpg',
     externalLink: 'maintenance.externalLink',
     utmParameters: UTM_PARAMS_DEFAULT,
