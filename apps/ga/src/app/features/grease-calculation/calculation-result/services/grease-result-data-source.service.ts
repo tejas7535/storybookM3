@@ -23,6 +23,15 @@ export class GreaseResultDataSourceService {
     private readonly undefinedValuePipe: UndefinedValuePipe
   ) {}
 
+  public isSufficient(dataItems: GreaseReportSubordinateDataItem[]): boolean {
+    const initialGreaseQuantityValue = helpers.itemValue(
+      dataItems,
+      SubordinateDataItemField.TFG_MIN
+    );
+
+    return !!initialGreaseQuantityValue;
+  }
+
   public initialGreaseQuantity(
     dataItems: GreaseReportSubordinateDataItem[],
     rho: number

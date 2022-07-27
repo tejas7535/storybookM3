@@ -17,7 +17,6 @@ import {
   GreaseReportSubordinateHint,
   GreaseReportSubordinateTitle,
   GreaseResult,
-  GreaseResultDataSourceItem,
   PreferredGreaseResult,
   SubordinateDataItemField,
 } from '../models';
@@ -84,11 +83,6 @@ export class GreaseReportService {
             const mainTitle = `${itemValue(dataItems, undefined, 0)}`;
             const table1Items = table1?.data?.items[index];
             const rho = +itemValue(dataItems, SubordinateDataItemField.RHO);
-            const initialGreaseQuantity: GreaseResultDataSourceItem =
-              this.greaseResultDataSourceService.initialGreaseQuantity(
-                table1Items || [],
-                rho
-              );
 
             const greaseResult: GreaseResult = {
               mainTitle,
@@ -99,11 +93,15 @@ export class GreaseReportService {
                 dataItems,
                 SubordinateDataItemField.NLGI
               )}, ${itemValue(dataItems, SubordinateDataItemField.THICKENER)}`,
-              // mark as insufficient if there is no initial grease quantity available
-              isSufficient: !!initialGreaseQuantity,
+              isSufficient: this.greaseResultDataSourceService.isSufficient(
+                table1Items || []
+              ),
               isPreferred: mainTitle === preferredGreaseResult?.text,
               dataSource: [
-                initialGreaseQuantity,
+                this.greaseResultDataSourceService.initialGreaseQuantity(
+                  table1Items || [],
+                  rho
+                ),
                 this.greaseResultDataSourceService.manualRelubricationQuantityInterval(
                   table1Items || [],
                   rho

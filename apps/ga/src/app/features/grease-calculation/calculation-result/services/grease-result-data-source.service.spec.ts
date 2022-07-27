@@ -51,6 +51,30 @@ describe('GreaseResultDataSourceService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('isSufficient', () => {
+    it('should return false', () => {
+      const sufficient = service.isSufficient([
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          field: SubordinateDataItemField.QVIN,
+        },
+      ]);
+
+      expect(sufficient).toBe(false);
+    });
+
+    it('should return true', () => {
+      const sufficient = service.isSufficient([
+        {
+          ...subordinateDataMock.greaseReportSubordinateDataItemNumberMock,
+          field: SubordinateDataItemField.TFG_MIN,
+        },
+      ]);
+
+      expect(sufficient).toBe(true);
+    });
+  });
+
   describe('initialGreaseQuantity', () => {
     it('should return the data source item', () => {
       const item = service.initialGreaseQuantity(
