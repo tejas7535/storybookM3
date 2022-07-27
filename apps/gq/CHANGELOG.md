@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.7.0...gq-v2.8.0) (2022-07-27)
+
+
+### 🎸 Features
+
+* **gq:** add data-cy attributes to custom elements (GQUOTE-1441) ([#4305](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4305)) ([bb3c326](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bb3c326d048328369d4e81c04b96dc089b9ff65b))
+* **gq:** add extended SAP Price Condition Details to Detailled Excel Download (GQUOTE-1071) ([#4359](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4359)) ([b3b04c2](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b3b04c29c807968625d9a3af1263eb2610446d5b))
+* **gq:** add locale select dropdown (GQUOTE-1488) ([#4384](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4384)) ([6696729](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/6696729c710e43bb83c180d4790ca51e95cced8c))
+* **gq:** add year drop down on create case from customer selection (GQUOTE-721) ([#4297](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4297)) ([810f8da](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/810f8da6d59ef1f3523ef9b939b0b0c9fe88bd6f))
+* **gq:** remove GPI% from pop over and excel download for users without the necessary roles (GQUOTE-1433) ([#4304](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4304)) ([9d91c80](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9d91c8004257d7e549433a6589226f3c90748539))
+* **gq:** rename translations for s&op classification (GQUOTE-1442) ([#4298](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4298)) ([5667570](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/566757092d45c5c90ff77c79facef776a6857a94))
+* **gq:** use editing modal instead of details page inline editing (GQUOTE-1518) ([#4392](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4392)) ([fd6a7cd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/fd6a7cd55243909c82a0ef9ecc4da5698fb5581e))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
+
+### 🐛 Bug Fixes
+
+* fix sqv column displaying (GQUOTE-1501) ([#4380](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4380)) ([8053133](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8053133d7c5cfca354da18b7e9afccbc467d1e0a))
+* **gq:** fix clearing of customer (GQUOTE-1455) ([#4347](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4347)) ([bcedd93](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bcedd931f2f4a114a0664fc4f2f60f5e21e8ebd4))
+* **gq:** fix empty lastSapUpdate display (GQUOTE-1519) ([#4381](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4381)) ([c5fcfb5](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c5fcfb5fbb4b1314d76652d76d5180a41654cb95))
+* **gq:** fixed clearing autocomplete inputs on modal close (GQUOTE-1455) ([#4327](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4327)) ([c8071fd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c8071fda601d7ee3ba33f12d7deee047bc2fd5d2))
+* **gq:** fixed currency of SAP Price Details in Excel Download (GQUOTE-1527) ([#4382](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4382)) ([30968dd](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/30968ddfe198d7d2faf8150ada2f50967e830150))
+* **gq:** fixed translation (GQUOTE-1403) ([#4284](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4284)) ([9c55a93](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/9c55a93bd431a93c4d276319ff6ea603d11d32be))
+* **gq:** update SharedTranslocoModule import to fix issues with language persisting ([8588a51](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/8588a512eff5c102c74cb3dcfd4e30a8fab79f84))
+
 ## [2.7.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.6.0...gq-v2.7.0) (2022-06-23)
 
 
