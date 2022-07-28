@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import { DropdownOption } from '../../models';
+import { DropdownOption } from '../../../models/index';
 
 @Component({
   selector: 'ga-select',

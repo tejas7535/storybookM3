@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -18,16 +17,15 @@ import {
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '@ga/../environments/environment';
-import { detectAppDelivery } from '@ga/core/helpers/settings-helpers';
-import { AppDelivery } from '@ga/shared/models';
-
 import {
   AVAILABLE_LANGUAGES,
   FALLBACK_LANGUAGE,
   LANGUAGE_STORAGE_KEY,
-} from '../shared/constants/language';
-import { HttpGreaseInterceptor } from '../shared/interceptors/http-grease.interceptor';
-import { SharedModule } from '../shared/shared.module';
+} from '@ga/shared/constants/language';
+import { AppDelivery } from '@ga/shared/models';
+
+import { detectAppDelivery } from './helpers/settings-helpers';
+import { HttpGreaseInterceptor } from './interceptors/http-grease.interceptor';
 import { StoreModule } from './store/store.module';
 
 export function appInitializer(
@@ -78,11 +76,7 @@ if (detectAppDelivery() !== AppDelivery.Standalone || environment.localDev) {
 
 @NgModule({
   imports: [
-    CommonModule,
     StoreModule,
-
-    // UI Modules
-    SharedModule,
 
     // Material Modules
     MatSnackBarModule,

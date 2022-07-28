@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
-import { environment } from './../../../environments/environment';
+import { environment } from '@ga/../environments/environment';
 
 @Injectable()
 export class HttpGreaseInterceptor implements HttpInterceptor {

@@ -25,7 +25,6 @@ import { CalculationParametersState } from '@ga/core/store/models';
 import { initialState } from '@ga/core/store/reducers/calculation-parameters/calculation-parameters.reducer';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
 import { EnvironmentImpact, LoadLevels, Movement } from '@ga/shared/models';
-import { SharedModule } from '@ga/shared/shared.module';
 import {
   BEARING_SELECTION_STATE_MOCK,
   CALCULATION_PARAMETERS_STATE_MOCK,
@@ -53,7 +52,6 @@ describe('CalculationParametersComponent', () => {
     component: CalculationParametersComponent,
     imports: [
       RouterTestingModule,
-      SharedModule,
       PushModule,
       provideTranslocoTestingModule({ en: {} }),
 

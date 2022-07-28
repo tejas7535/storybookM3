@@ -13,8 +13,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { InputComponent } from './components/input/input/input.component';
-import { SelectComponent } from './components/select/select.component';
+import { InputComponent } from './input';
+import { SelectComponent } from './select';
 
 @NgModule({
   declarations: [InputComponent, SelectComponent],
@@ -37,4 +37,4 @@ import { SelectComponent } from './components/select/select.component';
   ],
   exports: [InputComponent, SelectComponent],
 })
-export class SharedModule {}
+export class FormFieldModule {}

@@ -14,8 +14,8 @@ import { MaintenanceModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationParametersEffects } from '@ga/core/store/effects';
+import { FormFieldModule } from '@ga/shared/components/form-field';
 import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferred-grease-selection';
-import { SharedModule } from '@ga/shared/shared.module';
 
 import { CalculationParametersComponent } from './calculation-parameters.component';
 import { CalculationParametersRoutingModule } from './calculation-parameters-routing.module';
@@ -29,9 +29,9 @@ import { CalculationParametersRoutingModule } from './calculation-parameters-rou
 
     // UI
     BreadcrumbsModule,
-    SharedModule,
-    PreferredGreaseSelectionComponent,
     MaintenanceModule,
+    FormFieldModule,
+    PreferredGreaseSelectionComponent,
 
     // Material Modules
     MatButtonModule,

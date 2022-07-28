@@ -15,7 +15,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { CalculationResultEffects } from '@ga/core/store';
 import { calculationResultReducer } from '@ga/core/store/reducers/calculation-result/calculation-result.reducer';
-import { SharedModule } from '@ga/shared/shared.module';
 
 import { CalculationResultComponent } from './calculation-result.component';
 import { CalculationResultRoutingModule } from './calculation-result-routing.module';
@@ -26,7 +25,6 @@ import { GreaseReportComponent } from './components/grease-report';
   imports: [
     CommonModule,
     CalculationResultRoutingModule,
-    SharedModule,
     PushModule,
     FormsModule,
 
