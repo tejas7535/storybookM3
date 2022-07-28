@@ -6,13 +6,9 @@ import {
   FirstDataRenderedEvent,
   GridApi,
   GridReadyEvent,
-  RowSelectedEvent,
+  SelectionChangedEvent,
   SortChangedEvent,
 } from '@ag-grid-enterprise/all-modules';
-import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
-import { ReferenceType } from '@cdba/shared/models';
-import { AgGridStateService } from '@cdba/shared/services';
-import { CALCULATIONS_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
@@ -20,6 +16,11 @@ import {
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
+
+import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
+import { ReferenceType } from '@cdba/shared/models';
+import { AgGridStateService } from '@cdba/shared/services';
+import { CALCULATIONS_MOCK, SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
@@ -174,72 +175,42 @@ describe('ReferenceTypesTableComponent', () => {
       },
       api: {
         setFilterModel: jest.fn(),
+        refreshHeader: jest.fn(),
       },
     } as unknown as FirstDataRenderedEvent;
 
     beforeEach(() => {
+      jest.clearAllMocks();
       jest.spyOn(component as any, 'selectNodes');
     });
     it('should call autoSizeAllColumns', () => {
       component.onFirstDataRendered(params);
 
       expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+      expect(params.api.refreshHeader).toHaveBeenCalledTimes(1);
     });
 
     it('should call selectNodes', () => {
       component.onFirstDataRendered(params);
 
       expect(component['selectNodes']).toHaveBeenCalled();
+      expect(params.api.refreshHeader).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('onRowSelected', () => {
+  describe('onSelectionChanged', () => {
     const event = {
-      node: {
-        id: '2',
-        isSelected: jest.fn(() => true),
-      },
       api: {
-        getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
+        getSelectedNodes: jest.fn(() => [{ id: 0 }]),
       },
-    } as unknown as RowSelectedEvent;
+    } as unknown as SelectionChangedEvent;
 
-    it('should fill the selectedRows if the row is selected', () => {
-      component.selectedRows = ['1'];
-
-      component.onRowSelected(event);
-
-      expect(component.selectedRows).toStrictEqual(['1', '2']);
-    });
-
-    it('should remove the selectedRows if the row is deselected', () => {
+    it('should react on change in selected nodes', () => {
       component.selectionChange.emit = jest.fn();
 
-      component.selectedRows = ['1', '2'];
+      component.onSelectionChanged(event);
 
-      component.onRowSelected({
-        ...event,
-        node: {
-          ...event.node,
-          isSelected: jest.fn(() => false),
-        },
-      } as unknown as RowSelectedEvent);
-
-      expect(component.selectedRows).toStrictEqual(['1']);
-
-      expect(component.selectionChange.emit).toHaveBeenCalled();
-    });
-
-    it('should remove from selectedRows if there are to many entries', () => {
-      // prettier-ignore
-      component.selectedRows = ['1', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26'];
-
-      component.onRowSelected(event);
-
-      // prettier-ignore
-      expect(component.selectedRows).toStrictEqual(['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '2']);
-
-      expect(event.api.getRowNode).toHaveBeenCalledWith('1');
+      expect(component.selectionChange.emit).toHaveBeenCalledWith([0]);
     });
   });
 

@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 
 import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { translate } from '@ngneat/transloco';
+
 import {
   columnDefinitionToReferenceTypeProp,
   ColumnUtilsService,
@@ -16,7 +18,6 @@ import {
 } from '@cdba/shared/components/table';
 import { PcmCalculation, ReferenceType } from '@cdba/shared/models';
 import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
-import { translate } from '@ngneat/transloco';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,8 @@ export class ColumnDefinitionService {
   COLUMN_DEFINITIONS: ColDef[] = [
     {
       checkboxSelection: true,
+      headerCheckboxSelection: true,
+      headerCheckboxSelectionFilteredOnly: true,
       sortable: false,
       filter: false,
       resizable: false,

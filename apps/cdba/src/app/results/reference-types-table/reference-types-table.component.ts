@@ -8,7 +8,10 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { GridOptions } from '@ag-grid-community/all-modules';
+import {
+  GridOptions,
+  SelectionChangedEvent,
+} from '@ag-grid-community/all-modules';
 import {
   ClientSideRowModelModule,
   ClipboardModule,
@@ -21,7 +24,6 @@ import {
   MenuModule,
   RangeSelectionModule,
   RowGroupingModule,
-  RowSelectedEvent,
   SetFilterModule,
   SideBarDef,
   SideBarModule,
@@ -29,13 +31,12 @@ import {
   StatusBarModule,
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
+import { translate } from '@ngneat/transloco';
+
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
-import { PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT } from '@cdba/shared/constants/table';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
-import { arrayEquals } from '@cdba/shared/utils';
-import { translate } from '@ngneat/transloco';
 
 import {
   getMainMenuItems,
@@ -106,8 +107,6 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
 
   public sideBar: SideBarDef = SIDE_BAR_CONFIG;
 
-  public selectedRows: string[] = [];
-
   public getMainMenuItems = getMainMenuItems;
 
   private gridApi: GridApi;
@@ -167,30 +166,11 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
 
     params.api.setFilterModel(this.tableFilters);
     this.selectNodes();
+    params.api.refreshHeader();
   }
 
-  /**
-   * Limit selected rows to a maximum
-   */
-  public onRowSelected({ node, api }: RowSelectedEvent): void {
-    const maxLength = PORTFOLIO_ANALYSIS_ITEMS_MAX_COUNT;
-
-    const previouslySelectedRows = [...this.selectedRows];
-
-    const { id } = node;
-    const selected = node.isSelected();
-
-    this.selectedRows = selected
-      ? [...this.selectedRows, id]
-      : this.selectedRows.filter((entry: string) => entry !== id);
-
-    if (this.selectedRows.length > maxLength) {
-      api.getRowNode(this.selectedRows.shift()).setSelected(false, false, true);
-    }
-
-    if (!arrayEquals<string>(this.selectedRows, previouslySelectedRows)) {
-      this.selectionChange.emit(this.selectedRows);
-    }
+  public onSelectionChanged(event: SelectionChangedEvent): void {
+    this.selectionChange.emit(event.api.getSelectedNodes().map((el) => el.id));
   }
 
   private selectNodes(): void {
