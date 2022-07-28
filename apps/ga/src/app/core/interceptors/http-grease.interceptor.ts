@@ -11,19 +11,22 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { environment } from '@ga/../environments/environment';
+import { MeasurementUnitsService } from '@ga/shared/services';
 
 @Injectable()
 export class HttpGreaseInterceptor implements HttpInterceptor {
-  constructor(private readonly translocoService: TranslocoService) {}
+  constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly measurementUnitsService: MeasurementUnitsService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const currentLanguage = this.translocoService.getActiveLang();
-
     let bearinxLanguage: string;
-    switch (currentLanguage) {
+
+    switch (this.translocoService.getActiveLang()) {
       case 'de':
         bearinxLanguage = 'LANGUAGE_GERMAN';
         break;
@@ -39,7 +42,10 @@ export class HttpGreaseInterceptor implements HttpInterceptor {
         .set('x-bearinx-tenantid', environment.tenantId)
         .set('x-bearinx-groupId', environment.groupId)
         .set('x-bearinx-language', bearinxLanguage)
-        .set('x-bearinx-unitset', 'ID_UNIT_SET_SI'),
+        .set(
+          'x-bearinx-unitset',
+          this.measurementUnitsService.getMeasurementUnits()
+        ),
     });
 
     return next.handle(modifiedReq);
