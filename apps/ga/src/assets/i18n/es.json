@@ -63,6 +63,17 @@
       "title": {
         "main": " Configuración de idioma"
       }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "Sistema de unidades",
+        "sub": "Afecta a las especificaciones de peso y temperatura"
+      },
+      "label": "sistema de unidades",
+      "options": {
+        "metric": "Unidades métricas",
+        "imperial": "Unidades imperiales"
+      }
     }
   },
   "shared": {
@@ -72,6 +83,9 @@
     "label": {
       "defaultSet": "Establecer {{label}}",
       "defaultSelect": "Seleccione {{label}}"
+    },
+    "hint": {
+      "applicationReload": "La aplicación se recargará."
     },
     "unit": {
       "millimeterShort": "mm"

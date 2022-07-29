@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { environment } from '@ga/../environments/environment';
 import {
   AVAILABLE_LOCALES,
   DEFAULT_LOCALE,
@@ -10,6 +11,7 @@ import {
   templateUrl: './user-settings.component.html',
 })
 export class UserSettingsComponent {
-  availableLocales = AVAILABLE_LOCALES;
-  defaultLocale = DEFAULT_LOCALE;
+  public availableLocales = AVAILABLE_LOCALES;
+  public defaultLocale = DEFAULT_LOCALE;
+  public isProduction = environment.production;
 }

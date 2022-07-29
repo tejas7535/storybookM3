@@ -63,6 +63,17 @@
       "title": {
         "main": "语言设置"
       }
+    },
+    "measurementUnits": {
+      "title": {
+        "main": "单位系统",
+        "sub": "影响到重量和温度规格"
+      },
+      "label": "单位系统",
+      "options": {
+        "metric": "公制单位",
+        "imperial": "英制单位"
+      }
     }
   },
   "shared": {
@@ -72,6 +83,9 @@
     "label": {
       "defaultSet": "设置 {{label}}",
       "defaultSelect": "精选 {{label}}"
+    },
+    "hint": {
+      "applicationReload": "该应用程序将被重新加载。"
     },
     "unit": {
       "millimeterShort": "毫米"

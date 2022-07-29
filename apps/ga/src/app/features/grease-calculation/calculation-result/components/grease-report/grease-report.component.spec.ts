@@ -17,7 +17,6 @@ import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { COOKIE_GROUPS } from '@schaeffler/application-insights';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { GreaseReportResultComponent } from '@ga/features/grease-calculation/calculation-result/components/grease-report-result/index';
 import { GREASE_RESULT_SUBORDINATES_MOCK } from '@ga/testing/mocks';
 
 import {
@@ -26,6 +25,7 @@ import {
 } from '../../models';
 import { GreaseReportService } from '../../services/grease-report.service';
 import { GreaseReportInputComponent } from '../grease-report-input/grease-report-input.component';
+import { GreaseReportResultComponent } from '../grease-report-result';
 import { GreaseReportComponent } from './grease-report.component';
 
 describe('GreaseReportComponent', () => {
