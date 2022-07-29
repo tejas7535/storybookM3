@@ -1,9 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   UntypedFormControl,
   UntypedFormGroup,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -12,6 +10,7 @@ import { Router } from '@angular/router';
 import { debounceTime, filter, Subject, take, takeUntil } from 'rxjs';
 
 import { Store } from '@ngrx/store';
+import { isEqual } from 'lodash';
 
 import { AppRoutePath } from '@ga/app-route-path.enum';
 import { getCalculationParametersState, SettingsFacade } from '@ga/core/store';
@@ -48,7 +47,8 @@ import {
   shiftAngleValidators,
   shiftFrequencyValidators,
   typeOptions,
-} from './calculation-parameters-constants';
+} from './constants';
+import { CalculationParametersService } from './services';
 
 @Component({
   selector: 'ga-calculation-parameters',
@@ -56,6 +56,7 @@ import {
 })
 export class CalculationParametersComponent implements OnInit, OnDestroy {
   public movement = Movement;
+  public loadUnit = this.calculationParametersService.loadUnit();
   public loadRatioOptions = loadRatioOptions;
 
   public radial = new UntypedFormControl(undefined, loadValidators);
@@ -73,7 +74,7 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     this.loadValidator()
   );
 
-  public type = new UntypedFormControl(Movement.rotating, [
+  public movementType = new UntypedFormControl(Movement.rotating, [
     Validators.required,
   ]);
   public typeOptions = typeOptions;
@@ -91,24 +92,17 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public shiftAngle = new UntypedFormControl(undefined, shiftAngleValidators);
 
   public movementsForm = new UntypedFormGroup({
-    type: this.type,
+    type: this.movementType,
     rotationalSpeed: this.rotationalSpeed,
     shiftFrequency: this.shiftFrequency,
     shiftAngle: this.shiftAngle,
   });
 
-  public environmentTemperature = new UntypedFormControl(20, [
-    Validators.required,
-    Validators.max(300),
-    Validators.min(-100),
-  ]);
-
-  public operatingTemperature = new UntypedFormControl(70, [
-    Validators.required,
-    Validators.max(230),
-    Validators.min(-40),
-    this.operatingTemperatureValidator(),
-  ]);
+  public temperatureUnit = this.calculationParametersService.temperatureUnit();
+  public environmentTemperature =
+    this.calculationParametersService.getEnvironmentTemperatureControl();
+  public operatingTemperature =
+    this.calculationParametersService.getOperatingTemperatureControl();
 
   public operatingTemperatureErrors: { name: string; message: string }[] = [
     {
@@ -154,25 +148,29 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly store: Store,
     private readonly router: Router,
-    private readonly settingsFacade: SettingsFacade
+    private readonly settingsFacade: SettingsFacade,
+    private readonly calculationParametersService: CalculationParametersService
   ) {}
 
   public ngOnInit(): void {
-    this.modelCreationSuccess$.pipe(filter(Boolean)).subscribe(() => {
-      this.store.dispatch(getProperties());
-      this.store.dispatch(getDialog());
-    });
-
     this.store
       .select(getCalculationParametersState)
       .pipe(take(1))
-      .subscribe((value: CalculationParametersState) => {
-        if (value !== initialState) {
-          this.form.patchValue(value, { onlySelf: false, emitEvent: true });
+      .subscribe((parametersState: CalculationParametersState) => {
+        if (!isEqual(parametersState, initialState)) {
+          this.form.patchValue(parametersState, {
+            onlySelf: false,
+            emitEvent: true,
+          });
           this.form.markAllAsTouched();
           this.form.updateValueAndValidity({ emitEvent: true });
         }
       });
+
+    this.modelCreationSuccess$.pipe(filter(Boolean)).subscribe(() => {
+      this.store.dispatch(getProperties());
+      this.store.dispatch(getDialog());
+    });
 
     this.store
       .select(getLoadsInputType)
@@ -260,22 +258,6 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     this.store.dispatch(resetPreferredGreaseSelection());
   }
 
-  private operatingTemperatureValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (
-        control.value &&
-        this.environmentTemperature.value &&
-        control.value < this.environmentTemperature.value
-      ) {
-        return {
-          lowerThanEnvironmentTemperature: true,
-        };
-      }
-
-      return undefined;
-    };
-  }
-
   private loadValidator(): any {
     return (group: UntypedFormGroup): void => {
       const { radial, axial } = group.value;
@@ -303,9 +285,8 @@ export class CalculationParametersComponent implements OnInit, OnDestroy {
     if (group.controls[type]?.errors?.anyLoad) {
       const { anyLoad: _anyLoad, ...otherErrors } = group.controls[type].errors;
 
-      /* eslint-disable unicorn/no-null */
+      /* eslint-disable-next-line unicorn/no-null */
       group.controls[type].setErrors(otherErrors?.length ? otherErrors : null);
-      /* eslint-enable unicorn/no-null */
     }
   }
 }

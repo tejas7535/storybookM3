@@ -19,6 +19,7 @@ import { PreferredGreaseSelectionComponent } from '@ga/shared/components/preferr
 
 import { CalculationParametersComponent } from './calculation-parameters.component';
 import { CalculationParametersRoutingModule } from './calculation-parameters-routing.module';
+import { CalculationParametersService } from './services';
 
 @NgModule({
   declarations: [CalculationParametersComponent],
@@ -46,5 +47,6 @@ import { CalculationParametersRoutingModule } from './calculation-parameters-rou
     // Store
     EffectsModule.forFeature([CalculationParametersEffects]),
   ],
+  providers: [CalculationParametersService],
 })
 export class CalculationParametersModule {}

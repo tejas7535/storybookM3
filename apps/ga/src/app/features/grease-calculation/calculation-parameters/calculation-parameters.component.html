@@ -52,7 +52,7 @@
                   *ngIf="radialLoadPossible$ | ngrxPush"
                   [control]="radial"
                   [label]="t('radialLoad')"
-                  [unit]="t('loadUnit')"
+                  [unit]="loadUnit"
                   [tooltipText]="t('tooltip.radialLoad')"
                   [placeholder]="t('pleaseEnter', { label: t('radialLoad') })"
                   [onlyPositive]="true"
@@ -61,7 +61,7 @@
                   *ngIf="axialLoadPossible$ | ngrxPush"
                   [control]="axial"
                   [label]="t('axialLoad')"
-                  [unit]="t('loadUnit')"
+                  [unit]="loadUnit"
                   [tooltipText]="t('tooltip.axialLoad')"
                   [placeholder]="t('pleaseEnter', { label: t('axialLoad') })"
                   [onlyPositive]="true"
@@ -91,7 +91,7 @@
           </div>
           <div class="grid grid-cols-1 gap-0 p-4 pb-0 md:grid-cols-2 md:gap-4">
             <ga-select
-              [control]="type"
+              [control]="movementType"
               [label]="t('kindOfMotion')"
               [options]="typeOptions"
             ></ga-select>
@@ -151,14 +151,14 @@
             <ga-input
               [control]="operatingTemperature"
               [label]="t('operatingTemperature')"
-              [unit]="t('degreeCelsius')"
+              [unit]="temperatureUnit"
               [customErrors]="operatingTemperatureErrors"
               [tooltipText]="t('tooltip.operatingTemperature')"
             ></ga-input>
             <ga-input
               [control]="environmentTemperature"
               [label]="t('environmentTemperature')"
-              [unit]="t('degreeCelsius')"
+              [unit]="temperatureUnit"
               [tooltipText]="t('tooltip.environmentTemperature')"
             ></ga-input>
             <ga-select

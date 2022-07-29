@@ -1,4 +1,4 @@
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,7 +41,8 @@ import {
   rotationalSpeedValidators,
   shiftAngleValidators,
   shiftFrequencyValidators,
-} from './calculation-parameters-constants';
+} from './constants';
+import { CalculationParametersService } from './services';
 
 describe('CalculationParametersComponent', () => {
   let component: CalculationParametersComponent;
@@ -82,6 +83,7 @@ describe('CalculationParametersComponent', () => {
           },
         },
       }),
+      CalculationParametersService,
       {
         provide: translate,
         useValue: jest.fn(),
@@ -347,25 +349,6 @@ describe('CalculationParametersComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         resetPreferredGreaseSelection()
       );
-    });
-  });
-
-  describe('operatingTemperatureValidator', () => {
-    it('should return the error if operatingTemperature < environmentTemperature', () => {
-      const mockControl = new FormControl(10);
-
-      const result = component['operatingTemperatureValidator']()(mockControl);
-
-      expect(result).toEqual({
-        lowerThanEnvironmentTemperature: true,
-      });
-    });
-    it('should return undefined if operatingTemperature < environmentTemperature', () => {
-      const mockControl = new FormControl(70);
-
-      const result = component['operatingTemperatureValidator']()(mockControl);
-
-      expect(result).toEqual(undefined);
     });
   });
 

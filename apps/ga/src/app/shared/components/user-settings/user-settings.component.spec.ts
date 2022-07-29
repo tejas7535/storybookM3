@@ -9,7 +9,7 @@ import {
 } from '@schaeffler/transloco/components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { MeasurementUnitsSelectComponent } from '@ga/shared/components/measurement-units-select/index';
+import { MeasurementUnitsSelectComponent } from '@ga/shared/components/measurement-units-select';
 
 import { UserSettingsComponent } from './user-settings.component';
 

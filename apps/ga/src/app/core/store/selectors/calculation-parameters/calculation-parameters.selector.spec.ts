@@ -1,11 +1,10 @@
-import { LoadTypes, Movement, SelectedGreases } from '@ga/shared/models';
+import { Movement } from '@ga/shared/models';
 import {
   APP_STATE_MOCK,
   MODEL_MOCK_ID,
   PROPERTIES_MOCK,
 } from '@ga/testing/mocks';
 
-import { initialState } from '../../reducers/calculation-parameters/calculation-parameters.reducer';
 import {
   axialLoadPossible,
   getCalculationParameters,
@@ -147,27 +146,16 @@ describe('Calculation Parameters Selector', () => {
       expect(getCalculationParameters(validMockState)).toEqual({
         modelId: MODEL_MOCK_ID,
         options: {
+          idL_RELATIVE_SPEED_WITHOUT_SIGN: '9000.0',
+          idcO_AXIAL_LOAD: '500.0',
           idcO_DESIGNATION: 'mockBearing',
-          idlC_TYPE_OF_MOVEMENT: initialState.movements.type,
-          idscO_GREASE_SELECTION_ARCANOL: SelectedGreases.no,
-          idcO_LOAD_INPUT_GREASE_APP: LoadTypes.LB_ENTER_LOAD,
-          idL_RELATIVE_SPEED_WITHOUT_SIGN: `${validMockState.calculationParameters.movements.rotationalSpeed.toFixed(
-            1
-          )}`,
-          idcO_RADIAL_LOAD: `${validMockState.calculationParameters.loads.radial.toFixed(
-            1
-          )}`,
-          idcO_AXIAL_LOAD: `${validMockState.calculationParameters.loads.axial.toFixed(
-            1
-          )}`,
-          idscO_OILTEMP: `${initialState.environment.operatingTemperature.toFixed(
-            1
-          )}`,
-          idslC_TEMPERATURE: `${initialState.environment.environmentTemperature.toFixed(
-            1
-          )}`,
-          idscO_INFLUENCE_OF_AMBIENT:
-            initialState.environment.environmentImpact,
+          idcO_LOAD_INPUT_GREASE_APP: 'LB_ENTER_LOAD',
+          idcO_RADIAL_LOAD: '700.0',
+          idlC_TYPE_OF_MOVEMENT: 'LB_ROTATING',
+          idscO_GREASE_SELECTION_ARCANOL: 'LB_NO_CALCULATE_ALL_GREASES',
+          idscO_INFLUENCE_OF_AMBIENT: 'LB_AVERAGE_AMBIENT_INFLUENCE',
+          idscO_OILTEMP: '70.0',
+          idslC_TEMPERATURE: '20.0',
         },
       });
     });

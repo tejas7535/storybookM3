@@ -3,7 +3,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 import { adaptPreferredGreaseOptionsFromDialogResponseListValues } from '@ga/core/helpers/grease-helpers';
 import * as parametersActions from '@ga/core/store/actions/calculation-parameters/calculation-parameters.actions';
 import { CalculationParametersState } from '@ga/core/store/models';
-import { EnvironmentImpact, Movement } from '@ga/shared/models';
 
 export const initialState: CalculationParametersState = {
   loads: {
@@ -13,15 +12,15 @@ export const initialState: CalculationParametersState = {
     loadRatio: undefined,
   },
   movements: {
-    type: Movement.rotating,
+    type: undefined,
     rotationalSpeed: undefined,
     shiftFrequency: undefined,
     shiftAngle: undefined,
   },
   environment: {
-    operatingTemperature: 70,
-    environmentTemperature: 20,
-    environmentImpact: EnvironmentImpact.moderate,
+    operatingTemperature: undefined,
+    environmentTemperature: undefined,
+    environmentImpact: undefined,
   },
   preferredGrease: {
     greaseOptions: [],
