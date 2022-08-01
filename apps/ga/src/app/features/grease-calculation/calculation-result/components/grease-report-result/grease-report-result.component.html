@@ -1,7 +1,7 @@
 <ng-container *ngIf="greaseResult">
   <div
     *transloco="let t; read: 'calculationResult'"
-    class="overflow-hidden rounded border border-border"
+    class="overflow-hidden border-y border-border md:rounded md:border-x"
     [ngClass]="{
       'border-primary': greaseResult.isPreferred,
       '!border-[#a31739]': !greaseResult.isSufficient
