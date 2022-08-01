@@ -14,9 +14,12 @@
   <div class="flex h-[65px] items-center pl-3">
     <mat-icon
       color="primary"
-      matTooltip="{{ t(tooltipText || 'localeSelectTooltip') }}"
+      class="cursor-help"
+      #tooltip="matTooltip"
+      [matTooltip]="t(tooltipText || 'localeSelectTooltip')"
       matTooltipPosition="after"
       matTooltipClass="!max-w-[400px]"
+      (click)="tooltip.toggle()"
     >
       info_outline
     </mat-icon>
