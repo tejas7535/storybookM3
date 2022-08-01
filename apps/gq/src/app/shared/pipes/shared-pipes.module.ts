@@ -12,6 +12,7 @@ import { NumberCurrencyPipe } from './number-currency/number-currency.pipe';
 import { PercentagePipe } from './percentage/percentage.pipe';
 import { PlantDisplayPipe } from './plant-display/plant-display.pipe';
 import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
+import { UomPipe } from './uom/uom.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
     NullableStringPipe,
     DateDisplayPipe,
     MaterialClassificationSOPPipe,
+    UomPipe,
   ],
   imports: [],
   exports: [
@@ -40,6 +42,7 @@ import { SapQuotationPipe } from './sap-quotation/sap-quotation.pipe';
     MultiSelectPipe,
     MillimeterUnitPipe,
     NullableStringPipe,
+    UomPipe,
     DateDisplayPipe,
     MaterialClassificationSOPPipe,
   ],

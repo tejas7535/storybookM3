@@ -100,7 +100,7 @@
     <div>
       <gq-label-text>
         <span label>{{ t('baseUoM') }}</span>
-        <span text>{{ materialDetails.baseUoM | nullableString }}</span>
+        <span text>{{ materialDetails.baseUoM | uom | nullableString }}</span>
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('materialType') }}</span>

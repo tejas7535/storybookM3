@@ -75,7 +75,8 @@
           "gqPriceSource": "GQ Preis",
           "sapPriceSource": "SAP Preis"
         }
-      }
+      },
+      "ST": "ST"
     },
     "breadcrumbs": {
       "caseView": "Case Übersicht",

@@ -88,8 +88,9 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.uom'),
-      field: 'material.baseUoM',
+      field: ColumnFields.UOM,
       filterParams: FILTER_PARAMS,
+      valueFormatter: ColumnUtilityService.transformConditionUnit,
     },
     {
       headerName: translate('shared.quotationDetailsTable.netValue'),

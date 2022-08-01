@@ -32,6 +32,7 @@ import { getExtendedComparableLinkedTransactions } from '../../../../core/store/
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
 import { ExportExcelModalComponent } from '../../../components/modal/export-excel-modal/export-excel-modal.component';
 import { Keyboard, Quotation } from '../../../models';
+import { UomPipe } from '../../../pipes/uom/uom.pipe';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PriceService } from '../../../services/price-service/price.service';
 import {
@@ -68,6 +69,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.FOLLOWING_TYPE,
     ColumnFields.PRICE_SOURCE,
     ColumnFields.LAST_CUSTOMER_PRICE_CONDITION,
+    ColumnFields.UOM,
   ];
 
   constructor(
@@ -791,23 +793,33 @@ export class ExportToExcelButtonComponent implements OnInit {
       this.hasDelimiterProblemInExcelGreaterEqual1000(key, Number(value))
     ) {
       return HelperService.transformNumber(value as number, true).toString();
-    } else if (key === SapPriceDetailsColumnFields.SAP_PRICING_UNIT) {
-      return value === 0 ? '' : value.toString();
-    } else if (key === SapPriceDetailsColumnFields.SAP_AMOUNT) {
-      if (
-        'calculationType' in t &&
-        t.calculationType === CalculationType.ABSOLUT
-      ) {
-        return HelperService.transformNumberCurrency(
-          HelperService.transformNumber(Number(value), true),
-          this.params.context.quotation.currency
-        );
+    } else {
+      switch (key) {
+        case SapPriceDetailsColumnFields.SAP_PRICING_UNIT: {
+          return value === 0 ? '' : value.toString();
+        }
+        case SapPriceDetailsColumnFields.SAP_CONDITION_UNIT: {
+          const pipe = new UomPipe();
+
+          return pipe.transform(value as string);
+        }
+        case SapPriceDetailsColumnFields.SAP_AMOUNT: {
+          if (
+            'calculationType' in t &&
+            t.calculationType === CalculationType.ABSOLUT
+          ) {
+            return HelperService.transformNumberCurrency(
+              HelperService.transformNumber(Number(value), true),
+              this.params.context.quotation.currency
+            );
+          }
+
+          return HelperService.transformPercentage(Number(value));
+        }
+        default:
+          return value.toString();
       }
-
-      return HelperService.transformPercentage(Number(value));
     }
-
-    return value?.toString();
   }
 
   hasDelimiterProblemInExcelGreaterEqual1000(

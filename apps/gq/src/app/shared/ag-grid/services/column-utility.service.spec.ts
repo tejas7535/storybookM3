@@ -369,4 +369,27 @@ describe('CreateColumnService', () => {
       ).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('transformConditionUnit', () => {
+    beforeEach(() => {
+      jest.resetAllMocks();
+    });
+
+    test("should translate 'ST' units", () => {
+      ColumnUtilityService.transformConditionUnit({
+        value: 'ST',
+      } as ValueFormatterParams);
+
+      expect(translate).toHaveBeenCalledTimes(1);
+      expect(translate).toHaveBeenCalledWith('shared.quotationDetailsTable.ST');
+    });
+
+    test('should NOT translate other units', () => {
+      ColumnUtilityService.transformConditionUnit({
+        value: 'kg',
+      } as ValueFormatterParams);
+
+      expect(translate).not.toHaveBeenCalled();
+    });
+  });
 });

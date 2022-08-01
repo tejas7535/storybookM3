@@ -16,6 +16,7 @@ import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
+import { UomPipe } from '../../pipes/uom/uom.pipe';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import { PriceService } from '../../services/price-service/price.service';
 import {
@@ -183,5 +184,11 @@ export class ColumnUtilityService {
     return ColumnUtilityService.materialClassificationSOPPipe.transform(
       materialSOPValue
     );
+  }
+
+  static transformConditionUnit(params: ValueFormatterParams): string {
+    const uomPipe = new UomPipe();
+
+    return uomPipe.transform(params.value);
   }
 }

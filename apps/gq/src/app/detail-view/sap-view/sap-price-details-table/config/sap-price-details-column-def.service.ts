@@ -47,6 +47,7 @@ export class SapPriceDetailsColumnDefService {
     {
       headerName: translate('sapView.sapConditionsTable.conditionUnit'),
       field: SapPriceDetailsColumnFields.SAP_CONDITION_UNIT,
+      valueFormatter: ColumnUtilityService.transformConditionUnit,
       filterParams: FILTER_PARAMS,
     },
     {
