@@ -1,4 +1,4 @@
-<mat-accordion *transloco="let t; read: 'calculationResult'">
+<mat-accordion [multi]="true" *transloco="let t; read: 'calculationResult'">
   <mat-expansion-panel *ngIf="greaseInput">
     <mat-expansion-panel-header>
       {{ t('reportSectionInput') }}
@@ -11,8 +11,14 @@
     <mat-expansion-panel
       *ngIf="!isInputSection(subordinate)"
       [expanded]="subordinate.defaultOpen"
+      [disabled]="isGreaseResultSection(subordinate.titleID)"
     >
       <mat-expansion-panel-header
+        [ngClass]="{
+          '!cursor-default !text-high-emphasis': isGreaseResultSection(
+            subordinate.titleID
+          )
+        }"
         (click)="
           !subordinate.defaultOpen &&
             !!subordinate.clickHandler &&
