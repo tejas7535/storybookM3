@@ -181,7 +181,7 @@
     "standard-version": "9.5.0",
     "storybook-addon-designs": "6.3.1",
     "storybook-dark-mode": "1.1.0",
-    "tailwindcss": "3.1.6",
+    "tailwindcss": "3.1.7",
     "ts-jest": "28.0.7",
     "ts-node": "10.9.1",
     "tsickle": "0.46.3",
