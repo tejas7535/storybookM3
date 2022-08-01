@@ -374,11 +374,12 @@ describe('QuotationDetailsTableComponent', () => {
       jest.clearAllMocks();
     });
     test('should set simulated field and value', () => {
-      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 25);
+      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 25, false);
       component.tableContext.quotation = { gqId: 1234 } as Quotation;
 
       expect(component.simulatedField).toEqual('price');
       expect(component.simulatedValue).toEqual(25);
+      expect(component.isInputInvalid).toEqual(false);
     });
 
     test('should simulate if all values are valid', () => {
@@ -393,7 +394,7 @@ describe('QuotationDetailsTableComponent', () => {
       component.selectedRows = [
         { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
       ];
-      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 50);
+      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 50, false);
 
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
@@ -412,6 +413,7 @@ describe('QuotationDetailsTableComponent', () => {
         ],
         type: addSimulatedQuotation.type,
       });
+      expect(component.isInputInvalid).toEqual(false);
     });
 
     test('should NOT simulate Discount if there is no sapGrossPrice', () => {
@@ -427,13 +429,14 @@ describe('QuotationDetailsTableComponent', () => {
         { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
       ];
 
-      component.onMultipleMaterialSimulation(ColumnFields.DISCOUNT, 50);
+      component.onMultipleMaterialSimulation(ColumnFields.DISCOUNT, 50, false);
 
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
         quotationDetails: [mockQuotationDetail],
         type: addSimulatedQuotation.type,
       });
+      expect(component.isInputInvalid).toEqual(false);
     });
 
     test('should NOT simulate GPI if there is no gpc', () => {
@@ -449,13 +452,14 @@ describe('QuotationDetailsTableComponent', () => {
         { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
       ];
 
-      component.onMultipleMaterialSimulation(ColumnFields.GPI, 50);
+      component.onMultipleMaterialSimulation(ColumnFields.GPI, 50, false);
 
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
         quotationDetails: [mockQuotationDetail],
         type: addSimulatedQuotation.type,
       });
+      expect(component.isInputInvalid).toEqual(false);
     });
 
     test('should NOT simulate GPM if there is no sqv', () => {
@@ -471,13 +475,25 @@ describe('QuotationDetailsTableComponent', () => {
         { data: mockQuotationDetail, rowIndex: 0, id: '111' } as RowNode,
       ];
 
-      component.onMultipleMaterialSimulation(ColumnFields.GPM, 50);
+      component.onMultipleMaterialSimulation(ColumnFields.GPM, 50, false);
 
       expect(store.dispatch).toHaveBeenCalledWith({
         gqId: MOCK_QUOTATION_ID,
         quotationDetails: [mockQuotationDetail],
         type: addSimulatedQuotation.type,
       });
+      expect(component.isInputInvalid).toEqual(false);
+    });
+    test('should not simulate on invalid input', () => {
+      component.tableContext = { quotation: { gqId: 123 } } as any;
+      component.onMultipleMaterialSimulation(ColumnFields.PRICE, 123, true);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        addSimulatedQuotation({
+          gqId: 123,
+          quotationDetails: [],
+        })
+      );
     });
   });
 

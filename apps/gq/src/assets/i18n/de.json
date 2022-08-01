@@ -311,6 +311,9 @@
         "discount": "Rabatt ändern",
         "orderQuantity": "Menge ändern"
       },
+      "errors": {
+        "invalidInput": "Bitte eine gültige Zahl eingeben"
+      },
       "kpis": {
         "price": "Nettopreis",
         "previous": "Vorheriger {{fieldTranslation}}",

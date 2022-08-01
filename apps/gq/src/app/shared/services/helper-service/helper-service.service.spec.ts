@@ -143,210 +143,7 @@ describe('HelperServiceService', () => {
       expect(result).toEqual(expected);
     });
   });
-  describe('validateNumberInputKeyPress', () => {
-    test('should prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '20.22' } as any;
 
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should not prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '2' } as any;
-
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default when delete key is pressed', () => {
-      const event = { key: Keyboard.DELETE, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '20.022' } as any;
-
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default when input is paste event', () => {
-      const event = {
-        key: 'v',
-        preventDefault: jest.fn(),
-        ctrlKey: true,
-      } as any;
-      const manualPriceInput = { value: '20' } as any;
-
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default when input is paste event on Mac', () => {
-      const event = {
-        key: 'v',
-        preventDefault: jest.fn(),
-        ctrlKey: false,
-        metaKey: true,
-      } as any;
-      const manualPriceInput = { value: '20' } as any;
-
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-    test('should prevent default for multiple dots/dashs', () => {
-      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '20.' } as any;
-
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should prevent default for multiple dashs', () => {
-      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '-' } as any;
-
-      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('validateAbsolutePriceInputKeyPress', () => {
-    test('should prevent Default for more then two digits after decimal point', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '20.22' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should not prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '2' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default for long numbers', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '2' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default when delete key is pressed', () => {
-      const event = { key: Keyboard.DELETE, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '20.022' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default when input is paste event', () => {
-      const event = {
-        key: 'v',
-        preventDefault: jest.fn(),
-        ctrlKey: true,
-      } as any;
-      const manualPriceInput = { value: '20' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default when input is paste event on Mac', () => {
-      const event = {
-        key: 'v',
-        preventDefault: jest.fn(),
-        ctrlKey: false,
-        metaKey: true,
-      } as any;
-      const manualPriceInput = { value: '20' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-    test('should prevent default for multiple dots/dashs', () => {
-      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '20.' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should prevent default for multiple dashs', () => {
-      const event = { key: Keyboard.DASH, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: '-' } as any;
-
-      HelperService.validateAbsolutePriceInputKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('validateNumberInputPaste', () => {
-    test('should set price for percentage value', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => '20.022'),
-        },
-        preventDefault: jest.fn(),
-      } as any;
-      const manualPriceFormControl = { setValue: jest.fn() } as any;
-
-      HelperService.validateNumberInputPaste(
-        event,
-        manualPriceFormControl,
-        true
-      );
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(1);
-      expect(manualPriceFormControl.setValue).toHaveBeenCalledWith(20.02);
-    });
-    test('should set price for absolute value', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => '123.123'),
-        },
-        preventDefault: jest.fn(),
-      } as any;
-      const manualPriceFormControl = { setValue: jest.fn() } as any;
-
-      HelperService.validateNumberInputPaste(
-        event,
-        manualPriceFormControl,
-        false
-      );
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(1);
-      expect(manualPriceFormControl.setValue).toHaveBeenCalledWith(123.12);
-    });
-    test('should not set value on NaN', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => 'This is not a number, this is a text'),
-        },
-        preventDefault: jest.fn(),
-      } as any;
-      const manualPriceFormControl = { setValue: jest.fn() } as any;
-
-      HelperService.validateNumberInputPaste(
-        event,
-        manualPriceFormControl,
-        false
-      );
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(0);
-    });
-  });
   describe('transformPLsAndSeriesResponse', () => {
     test('should transform reponse', () => {
       const response: PLsSeriesResponse[] = [
@@ -408,40 +205,6 @@ describe('HelperServiceService', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(0);
     });
   });
-  describe('validateQuantityInputPaste', () => {
-    test('should not prevent default on valid input', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => '1000'),
-        },
-        preventDefault: jest.fn(),
-      };
-      HelperService.validateQuantityInputPaste(event as any);
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should prevent default on invalid input', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => 'aaa'),
-        },
-        preventDefault: jest.fn(),
-      };
-      HelperService.validateQuantityInputPaste(event as any);
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-
-    test('should prevent default on float input', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => '12345.67'),
-        },
-        preventDefault: jest.fn(),
-      };
-      HelperService.validateQuantityInputPaste(event as any);
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-  });
 
   describe('transform date', () => {
     test('should transform date', () => {
@@ -462,6 +225,52 @@ describe('HelperServiceService', () => {
       });
 
       expect(result).toEqual('January 1, 20');
+    });
+  });
+
+  describe('parseLocalizedInputValue', () => {
+    [
+      {
+        locale: 'de-DE',
+        inputs: [
+          undefined,
+          '100',
+          '1.000',
+          '1.000.000',
+          '1.000.000,45678',
+          '10,23',
+          '1,5',
+        ],
+        expectedOutputs: [
+          0, 100, 1000, 1_000_000, 1_000_000.456_78, 10.23, 1.5,
+        ],
+      },
+      {
+        locale: 'en-US',
+        inputs: [
+          undefined,
+          '100',
+          '1,000',
+          '1,000,000',
+          '1,000,000.45678',
+          '10.23',
+          '1.5',
+        ],
+        expectedOutputs: [
+          0, 100, 1000, 1_000_000, 1_000_000.456_78, 10.23, 1.5,
+        ],
+      },
+    ].forEach((testCase) => {
+      testCase.inputs.forEach((input, index) => {
+        test(`should return ${testCase.expectedOutputs[index]} for ${testCase.inputs[index]} for locale ${testCase.locale}`, () => {
+          const result = HelperService.parseLocalizedInputValue(
+            input,
+            testCase.locale
+          );
+
+          expect(result).toEqual(testCase.expectedOutputs[index]);
+        });
+      });
     });
   });
 });

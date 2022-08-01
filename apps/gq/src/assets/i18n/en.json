@@ -312,6 +312,9 @@
         "discount": "Change discount",
         "orderQuantity": "Change quantity"
       },
+      "errors": {
+        "invalidInput": "Please enter a valid number"
+      },
       "kpis": {
         "price": "Net Price",
         "previous": "Previous {{fieldTranslation}}",

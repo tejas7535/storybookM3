@@ -5,7 +5,7 @@
   <gq-dialog-header
     [title]="
       t('title', {
-        id: modalData.quotationDetail.quotationItemId,
+        id: modalData?.quotationDetail?.quotationItemId,
         fieldName: t(modalData.field)
       })
     "
@@ -13,13 +13,14 @@
   >
   </gq-dialog-header>
 
-  <div
+  <form
+    [formGroup]="editingFormGroup"
     class="mt-6 flex h-full flex-col"
     *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
   >
     <mat-radio-group
       class="flex flex-col pb-8"
-      [(ngModel)]="isRelativePriceChange"
+      formControlName="isRelativePriceChangeRadioGroup"
       *ngIf="showRadioGroup"
     >
       <mat-radio-button
@@ -48,18 +49,20 @@
 
     <div class="flex h-full flex-row">
       <mat-form-field class="w-2/3" appearance="outline">
-        <mat-label *ngIf="isRelativePriceChange">{{
-          t('labels.' + modalData.field)
-        }}</mat-label>
-        <mat-label *ngIf="!isRelativePriceChange">{{
-          t('labels.' + modalData.field + 'Absolute')
+        <mat-label>{{
+          t(
+            'labels.' +
+              modalData.field +
+              (editingFormGroup.get('isRelativePriceChangeRadioGroup').value
+                ? ''
+                : 'Absolute')
+          )
         }}</mat-label>
 
         <input
           class="text-overline !leading-7"
-          [formControl]="editFormControl"
-          (keydown)="onKeyPress($event, edit)"
-          (paste)="onPaste($event)"
+          formControlName="valueInput"
+          (keydown)="onKeyPress($event)"
           [placeholder]="value?.toString()"
           type="text"
           autocomplete="off"
@@ -69,6 +72,7 @@
           #edit
         />
         <mat-hint>{{ t('hints.' + modalData.field) }}</mat-hint>
+        <mat-error>{{ t('errors.invalidInput') }}</mat-error>
       </mat-form-field>
 
       <div class="ml-4 mt-3 flex flex-col gap-2">
@@ -193,7 +197,9 @@
         class="!pl-4 !pr-4"
         color="primary"
         mat-raised-button
-        [disabled]="confirmDisabled"
+        [disabled]="
+          editingFormGroup.invalid || !editingFormGroup.get('valueInput').value
+        "
         (click)="confirmEditing()"
         [attr.data-cy]="modalData.field + '-modal_submit-btn'"
       >
@@ -209,7 +215,7 @@
         <span> {{ t('cancel') | uppercase }} </span>
       </button>
     </div>
-  </div>
+  </form>
   <ng-template #loading>
     <div class="py-24">
       <schaeffler-loading-spinner

@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -25,15 +24,11 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../models/table';
+import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('AddEntryComponent', () => {
   let component: AddEntryComponent;
@@ -199,11 +194,37 @@ describe('AddEntryComponent', () => {
       expect(component.quantityFormControl.reset).toHaveBeenCalledTimes(1);
     });
   });
+  describe('onQuantityKeyPress', () => {
+    test('should call validateQuantityInputKeyPress', () => {
+      HelperService.validateQuantityInputKeyPress = jest.fn();
+      const event = {} as KeyboardEvent;
+
+      component.onQuantityKeyPress(event);
+      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
+        1
+      );
+      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledWith(
+        event
+      );
+    });
+  });
+
   describe('materialHasInput', () => {
     test('should set materialNumberInput and emitHasInput', () => {
       component.materialNumberInput = false;
       component.materialHasInput(true);
       expect(component.materialNumberInput).toBeTruthy();
+    });
+  });
+  describe('pasteFromClipboard', () => {
+    test('should call paste from clipboard', () => {
+      component['pasteMaterialsService'].onPasteStart = jest.fn();
+
+      component.pasteFromClipboard();
+
+      expect(
+        component['pasteMaterialsService'].onPasteStart
+      ).toHaveBeenCalledWith(component.isCaseView);
     });
   });
   describe('displaySnackBar', () => {

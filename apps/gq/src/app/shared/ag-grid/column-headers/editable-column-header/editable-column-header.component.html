@@ -50,11 +50,9 @@
     <input
       #inputField
       matInput
-      type="number"
+      type="text"
       [placeholder]="params.displayName"
       (keydown.enter)="submitValue($event)"
-      (keydown)="onKeyPress($event)"
-      (paste)="onPaste($event)"
       (blur)="disableEditMode()"
       class="!text-high-emphasis"
       [formControl]="editFormControl"

@@ -1,11 +1,11 @@
 import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
 
 import { StatusPanelDef } from '@ag-grid-community/core';
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
+import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
 import { PriceService } from '../price-service/price.service';
@@ -95,87 +95,18 @@ export class HelperService {
     return [...colDef, actionCell];
   }
 
-  static validateNumberInputKeyPress(
-    event: KeyboardEvent,
-    manualPriceInput: HTMLInputElement
-  ): void {
-    this.validateNumberInput(
-      event,
-      manualPriceInput,
-      [Keyboard.BACKSPACE, Keyboard.DELETE, Keyboard.DOT, Keyboard.DASH],
-      2
-    );
-  }
-
-  static validateAbsolutePriceInputKeyPress(
-    event: KeyboardEvent,
-    absolutePriceInput: HTMLInputElement
-  ): void {
-    this.validateNumberInput(
-      event,
-      absolutePriceInput,
-      [Keyboard.BACKSPACE, Keyboard.DELETE, Keyboard.DOT],
-      20
-    );
-  }
-
-  static validateNumberInput(
-    event: KeyboardEvent,
-    inputElem: HTMLInputElement,
-    allowdKeys: Keyboard[],
-    numDigits: number
-  ) {
-    const parsedInput = Number.parseInt(event.key, 10);
-    const isValidNumber = parsedInput === 0 || !Number.isNaN(parsedInput);
-    // Allowed keys besides numbers
-    const inputIsAllowedSpecialKey = allowdKeys.includes(event.key as Keyboard);
-
-    if (
-      // prevent on invalid number
-      (!isValidNumber && !inputIsAllowedSpecialKey && !isPaste(event)) ||
-      // prevent more than two decimal places
-      ((inputElem.value + event.key)
-        .toString()
-        .replace(Keyboard.DASH, Keyboard.EMPTY)
-        .split(Keyboard.DOT)[0].length > numDigits &&
-        !inputIsAllowedSpecialKey &&
-        !isPaste(event)) ||
-      // prevent dot and dash expect for first char and digits
-      ([Keyboard.DOT, Keyboard.DASH].some((char) =>
-        inputElem.value.startsWith(char)
-      ) &&
-        [Keyboard.DOT, Keyboard.DASH].includes(event.key as Keyboard) &&
-        inputElem.value.length === 1) ||
-      (inputElem.value.length > 1 && event.key === Keyboard.DASH)
-    ) {
-      event.preventDefault();
-    } else {
-      const { value } = inputElem;
-      // get all decimal digits for the input value
-      const decimalDigits = value ? value.toString().split('.') : [];
-
-      // prevent user from entering a third decimal place
-      if (decimalDigits[1]?.length > 1 && !inputIsAllowedSpecialKey) {
-        event.preventDefault();
-      }
+  static parseLocalizedInputValue(val: string, locale: string): number {
+    if (!val) {
+      return 0;
     }
+    const isGermanLocale = locale === LOCALE_DE.id;
+
+    const value = isGermanLocale
+      ? val.replace(/\./g, Keyboard.EMPTY).replace(/,/g, Keyboard.DOT)
+      : val.replace(/,/g, Keyboard.EMPTY);
+
+    return Number.parseFloat(value);
   }
-
-  static validateNumberInputPaste(
-    event: ClipboardEvent,
-    formControl: UntypedFormControl,
-    percentage: boolean
-  ) {
-    event.preventDefault();
-    const price =
-      Math.round(Number.parseFloat(event.clipboardData.getData('text')) * 100) /
-      100;
-
-    if (!Number.isNaN(price) && (price < 100 || !percentage)) {
-      formControl.setValue(price);
-    }
-  }
-
   static transformPLsAndSeriesResponse(
     response: PLsSeriesResponse[]
   ): PLsAndSeries {
@@ -215,13 +146,6 @@ export class HelperService {
       !inputIsAllowedSpecialKey &&
       !isPaste(event)
     ) {
-      event.preventDefault();
-    }
-  }
-
-  static validateQuantityInputPaste(event: ClipboardEvent): void {
-    const quantity = Number.parseFloat(event.clipboardData.getData('text'));
-    if (Number.isNaN(quantity) || !Number.isInteger(quantity)) {
       event.preventDefault();
     }
   }

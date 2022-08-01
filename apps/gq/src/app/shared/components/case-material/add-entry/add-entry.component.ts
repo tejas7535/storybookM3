@@ -162,10 +162,6 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     HelperService.validateQuantityInputKeyPress(event);
   }
 
-  onQuantityPaste(event: ClipboardEvent): void {
-    HelperService.validateQuantityInputPaste(event);
-  }
-
   pasteFromClipboard() {
     this.pasteMaterialsService.onPasteStart(this.isCaseView);
   }

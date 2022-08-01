@@ -88,6 +88,7 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   simulatedField: ColumnFields;
   simulatedValue: number;
+  isInputInvalid: boolean;
   simulatedPriceSource: PriceSourceOptions;
 
   selectedQuotationIds: string[] = [];
@@ -211,7 +212,11 @@ export class QuotationDetailsTableComponent implements OnInit {
       this.simulatedValue
     ) {
       if (event.node.isSelected()) {
-        this.simulateMaterial(this.simulatedField, this.simulatedValue);
+        this.simulateMaterial(
+          this.simulatedField,
+          this.simulatedValue,
+          this.isInputInvalid
+        );
       } else {
         this.store.dispatch(
           removeSimulatedQuotationDetail({
@@ -228,13 +233,18 @@ export class QuotationDetailsTableComponent implements OnInit {
     }
   }
 
-  public onMultipleMaterialSimulation(valId: ColumnFields, value: number) {
+  public onMultipleMaterialSimulation(
+    valId: ColumnFields,
+    value: number,
+    isInvalid: boolean
+  ) {
     this.simulatedField = valId;
     this.simulatedValue = value;
+    this.isInputInvalid = isInvalid;
     this.tableContext.simulatedField = this.simulatedField;
     this.tableContext.simulatedValue = this.simulatedValue;
 
-    this.simulateMaterial(valId, value);
+    this.simulateMaterial(valId, value, isInvalid);
   }
 
   public onPriceSourceSimulation(priceSourceOption: PriceSourceOptions) {
@@ -364,51 +374,65 @@ export class QuotationDetailsTableComponent implements OnInit {
     return PriceSource.SAP_SPECIAL;
   }
 
-  private simulateMaterial(field: ColumnFields, value: number) {
-    const simulatedRows = this.selectedRows.map((row: RowNode) => {
-      if (!this.shouldSimulate(field, row.data)) {
-        return row.data;
-      }
+  private getSimulatedRow(
+    field: ColumnFields,
+    value: number,
+    row: RowNode
+  ): QuotationDetail {
+    if (!this.shouldSimulate(field, row.data)) {
+      return row.data;
+    }
 
-      const affectedKpis = PriceService.calculateAffectedKPIs(
-        value,
-        field,
-        row.data
-      );
-      const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
+    const affectedKpis = PriceService.calculateAffectedKPIs(
+      value,
+      field,
+      row.data
+    );
+    const simulatedPrice = this.getAffectedKpi(affectedKpis, 'price');
 
-      const simulatedRow: QuotationDetail = {
+    const simulatedRow: QuotationDetail = {
+      ...row.data,
+      price: simulatedPrice,
+      priceSource: PriceSource.MANUAL,
+      netValue: PriceService.calculateNetValue(
+        simulatedPrice,
+        row.data.orderQuantity
+      ),
+      gpi:
+        field === ColumnFields.GPI
+          ? value
+          : this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
+      gpm:
+        field === ColumnFields.GPM
+          ? value
+          : this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
+      discount:
+        field === ColumnFields.DISCOUNT
+          ? value
+          : this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
+      priceDiff: PriceService.calculatepriceDiff({
         ...row.data,
         price: simulatedPrice,
-        priceSource: PriceSource.MANUAL,
-        netValue: PriceService.calculateNetValue(
-          simulatedPrice,
-          row.data.orderQuantity
-        ),
-        gpi:
-          field === ColumnFields.GPI
-            ? value
-            : this.getAffectedKpi(affectedKpis, ColumnFields.GPI),
-        gpm:
-          field === ColumnFields.GPM
-            ? value
-            : this.getAffectedKpi(affectedKpis, ColumnFields.GPM),
-        discount:
-          field === ColumnFields.DISCOUNT
-            ? value
-            : this.getAffectedKpi(affectedKpis, ColumnFields.DISCOUNT),
-        priceDiff: PriceService.calculatepriceDiff({
-          ...row.data,
-          price: simulatedPrice,
-        }),
-        rlm: PriceService.calculateMargin(
-          simulatedPrice,
-          row.data.relocationCost
-        ),
-      };
+      }),
+      rlm: PriceService.calculateMargin(
+        simulatedPrice,
+        row.data.relocationCost
+      ),
+    };
 
-      return simulatedRow;
-    });
+    return simulatedRow;
+  }
+
+  private simulateMaterial(
+    field: ColumnFields,
+    value: number,
+    isInvalid: boolean
+  ) {
+    const simulatedRows = isInvalid
+      ? []
+      : this.selectedRows.map((row: RowNode) =>
+          this.getSimulatedRow(field, value, row)
+        );
 
     this.store.dispatch(
       addSimulatedQuotation({

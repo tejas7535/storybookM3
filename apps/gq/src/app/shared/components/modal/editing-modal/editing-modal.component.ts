@@ -8,12 +8,19 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { combineLatest, map, Observable, pairwise, Subscription } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import {
@@ -24,6 +31,11 @@ import {
 } from '../../../../core/store';
 import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-case/models';
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
+import {
+  getCurrencyRegex,
+  getPercentageRegex,
+  quantityRegex,
+} from '../../../constants';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PriceService } from '../../../services/price-service/price.service';
@@ -35,15 +47,13 @@ import { KpiValue } from './kpi-value.model';
 })
 export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly subscription: Subscription = new Subscription();
-  confirmDisabled = true;
-  editFormControl: UntypedFormControl;
+  editingFormGroup: FormGroup;
   updateLoading$: Observable<boolean>;
   quotationCurrency$: Observable<string>;
   value: number;
   affectedKpis: KpiValue[];
   fields = ColumnFields;
 
-  isRelativePriceChange = true;
   isRelativePriceChangeDisabled = false;
   showRadioGroup = this.modalData.field === ColumnFields.PRICE;
 
@@ -66,11 +76,23 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
     private readonly store: Store,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   ngOnInit(): void {
-    this.editFormControl = new UntypedFormControl();
+    this.editingFormGroup = new FormGroup({
+      isRelativePriceChangeRadioGroup: new FormControl(
+        true,
+        Validators.required
+      ),
+      valueInput: new FormControl(undefined),
+    });
+    this.editingFormGroup
+      .get('valueInput')
+      .setValidators([this.isInputValid.bind(this)]);
+    this.editingFormGroup.get('valueInput').markAllAsTouched();
+
     this.updateLoading$ = this.store.select(getUpdateLoading);
     this.quotationCurrency$ = this.store.select(getQuotationCurrency);
 
@@ -79,7 +101,9 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       !this.modalData.quotationDetail.price
     ) {
       this.isRelativePriceChangeDisabled = true;
-      this.isRelativePriceChange = false;
+      this.editingFormGroup
+        .get('isRelativePriceChangeRadioGroup')
+        .setValue(false);
     }
 
     this.addSubscriptions();
@@ -121,25 +145,41 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     this.subscription.add(
-      this.editFormControl.valueChanges.subscribe((val: string) => {
-        const parsedValue = Number.parseFloat(val);
+      this.editingFormGroup
+        .get('valueInput')
+        .valueChanges.subscribe((val: string) => {
+          let parsedValue = HelperService.parseLocalizedInputValue(
+            val,
+            this.translocoLocaleService.getLocale()
+          );
 
-        this.confirmDisabled =
-          !val ||
-          Number.isNaN(parsedValue) ||
-          // dynamic to value
-          val === this.value?.toString() ||
-          // dynamic to value
-          (![ColumnFields.ORDER_QUANTITY].includes(
-            this.modalData.field as ColumnFields
-          ) &&
-            this.isRelativePriceChange &&
-            parsedValue >= 100);
-
-        // trigger dynamic kpi simulation
-        this.setAffectedKpis(parsedValue);
-      })
+          if (this.editingFormGroup.get('valueInput').invalid) {
+            parsedValue = Number.NaN;
+          }
+          // trigger dynamic kpi simulation
+          this.setAffectedKpis(parsedValue);
+        })
     );
+  }
+
+  validateInput(value: string): boolean {
+    const locale = this.translocoLocaleService.getLocale();
+    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
+      return quantityRegex.test(value);
+    }
+
+    return !this.editingFormGroup.get('isRelativePriceChangeRadioGroup')
+      .value && this.modalData.field === ColumnFields.PRICE
+      ? getCurrencyRegex(locale).test(value)
+      : getPercentageRegex(locale).test(value);
+  }
+
+  isInputValid(control: AbstractControl): ValidationErrors {
+    if (this.validateInput(control.value) || !control.value) {
+      return undefined;
+    }
+
+    return { invalidInput: true };
   }
 
   setAffectedKpis(val: number): void {
@@ -149,7 +189,7 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       this.modalData.quotationDetail,
       this.modalData.field !== ColumnFields.PRICE ||
         (this.modalData.field === ColumnFields.PRICE &&
-          this.isRelativePriceChange)
+          this.editingFormGroup.get('isRelativePriceChangeRadioGroup').value)
     );
     this.mspWarningEnabled =
       this.modalData.quotationDetail.msp &&
@@ -161,7 +201,10 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dialogRef.close();
   }
   confirmEditing(): void {
-    const value = Number.parseFloat(this.editFormControl.value);
+    const value = HelperService.parseLocalizedInputValue(
+      this.editingFormGroup.get('valueInput').value,
+      this.translocoLocaleService.getLocale()
+    );
 
     if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
       const updateQuotationDetailList: UpdateQuotationDetail[] = [
@@ -193,7 +236,8 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
           value
         );
       } else if (this.modalData.field === ColumnFields.PRICE) {
-        newPrice = this.isRelativePriceChange
+        newPrice = this.editingFormGroup.get('isRelativePriceChangeRadioGroup')
+          .value
           ? PriceService.multiplyAndRoundValues(
               this.modalData.quotationDetail.price,
               1 + value / 100
@@ -218,74 +262,66 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  onKeyPress(event: KeyboardEvent, value: HTMLInputElement): void {
+  onKeyPress(event: KeyboardEvent): void {
     if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
       HelperService.validateQuantityInputKeyPress(event);
-    } else if (
-      this.modalData.field === ColumnFields.PRICE &&
-      !this.isRelativePriceChange
-    ) {
-      HelperService.validateAbsolutePriceInputKeyPress(event, value);
-    } else {
-      HelperService.validateNumberInputKeyPress(event, value);
-    }
-  }
-
-  onPaste(event: ClipboardEvent): void {
-    if (this.modalData.field === ColumnFields.ORDER_QUANTITY) {
-      HelperService.validateQuantityInputPaste(event);
-    } else {
-      HelperService.validateNumberInputPaste(
-        event,
-        this.editFormControl,
-        this.isRelativePriceChange
-      );
     }
   }
 
   increment(): void {
     // margins and discounts should not be higher than 99 %
+    const value = HelperService.parseLocalizedInputValue(
+      this.editingFormGroup.get('valueInput').value,
+      this.translocoLocaleService.getLocale()
+    );
+
     if (
       [ColumnFields.ORDER_QUANTITY, ColumnFields.PRICE].includes(
         this.modalData.field
       ) ||
-      this.editFormControl.value < 99
+      value < 99
     ) {
-      this.editFormControl.setValue(
-        PriceService.roundToTwoDecimals(
-          (Number.parseInt(this.editFormControl.value ?? this.value, 10) || 0) +
-            1
-        )
-      );
+      this.editingFormGroup
+        .get('valueInput')
+        .setValue(
+          PriceService.roundToTwoDecimals(
+            (value || this.value || 0) + 1
+          ).toString()
+        );
       this.editInputField?.nativeElement.focus();
     }
   }
 
   decrement(): void {
+    const value = HelperService.parseLocalizedInputValue(
+      this.editingFormGroup.get('valueInput').value,
+      this.translocoLocaleService.getLocale()
+    );
     if (
       // should not decrement to less than -99 % for percentage changes
       (this.modalData.field !== ColumnFields.ORDER_QUANTITY &&
-        this.isRelativePriceChange &&
-        (this.editFormControl.value ?? this.value) > -99) ||
+        this.editingFormGroup.get('isRelativePriceChangeRadioGroup').value &&
+        (value ?? this.value) > -99) ||
       // absolute price can not be lower than 1
-      (!this.isRelativePriceChange &&
-        (this.editFormControl.value ?? this.value) > 1) ||
+      (!this.editingFormGroup.get('isRelativePriceChangeRadioGroup').value &&
+        (value ?? this.value) > 1) ||
       // quantity should not be lower than 1
       (this.modalData.field === ColumnFields.ORDER_QUANTITY &&
-        (this.editFormControl.value ?? this.value) > 1)
+        (value ?? this.value) > 1)
     ) {
-      this.editFormControl.setValue(
-        PriceService.roundToTwoDecimals(
-          (Number.parseInt(this.editFormControl.value ?? this.value, 10) || 0) -
-            1
-        )
-      );
+      this.editingFormGroup
+        .get('valueInput')
+        .setValue(
+          PriceService.roundToTwoDecimals(
+            (value || this.value || 0) - 1
+          ).toString()
+        );
       this.editInputField?.nativeElement.focus();
     }
   }
 
   onRadioButtonChange(isRelative: boolean): void {
-    this.editFormControl.setValue('');
+    this.editingFormGroup.get('valueInput').setValue('');
     this.setAffectedKpis(isRelative ? this.modalData.quotationDetail.price : 0);
   }
 }

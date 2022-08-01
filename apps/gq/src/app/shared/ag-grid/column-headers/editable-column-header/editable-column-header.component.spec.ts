@@ -1,8 +1,14 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { mockProvider } from '@ngneat/spectator/jest';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -10,7 +16,6 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { PROCESS_CASE_STATE_MOCK } from '../../../../../testing/mocks';
 import { EVENT_NAMES } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
-import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../../constants/column-fields.enum';
 import { EditableColumnHeaderComponent } from './editable-column-header.component';
 import { PriceSourceOptions } from './models/price-source-options.enum';
@@ -30,7 +35,7 @@ describe('EditableColumnHeaderComponent', () => {
       addEventListener: jest.fn(),
       isSortAscending: jest.fn(),
       isSortDescending: jest.fn(),
-      getId: jest.fn().mockReturnValue('price'),
+      getId: jest.fn().mockReturnValue(ColumnFields.PRICE),
     } as any,
     api: {
       addEventListener: jest.fn(),
@@ -47,6 +52,7 @@ describe('EditableColumnHeaderComponent', () => {
     component: EditableColumnHeaderComponent,
     imports: [MatIconModule, MatInputModule, ReactiveFormsModule, FormsModule],
     providers: [
+      mockProvider(TranslocoLocaleService),
       provideMockStore({
         initialState: {
           processCase: PROCESS_CASE_STATE_MOCK,
@@ -66,6 +72,7 @@ describe('EditableColumnHeaderComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     component.params = DEFAULT_PARAMS;
+    component.editFormControl = new UntypedFormControl();
     applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
@@ -266,17 +273,19 @@ describe('EditableColumnHeaderComponent', () => {
 
       expect(
         component.params.context.onMultipleMaterialSimulation
-      ).not.toHaveBeenCalled();
+      ).toHaveBeenCalledWith(ColumnFields.PRICE, 101, true);
+      expect(component['insightsService'].logEvent).not.toHaveBeenCalled();
     });
 
-    it('should not submit if the value is bigger less then -100', () => {
+    it('should submit with input invalid if value is bigger less then -100', () => {
       component.editFormControl.setValue(-101);
 
       component.submitValue({ stopPropagation: jest.fn() } as any);
 
       expect(
         component.params.context.onMultipleMaterialSimulation
-      ).not.toHaveBeenCalled();
+      ).toHaveBeenCalledWith(ColumnFields.PRICE, -101, true);
+      expect(component['insightsService'].logEvent).not.toHaveBeenCalled();
     });
 
     it('should submit if the form is valid', () => {
@@ -287,7 +296,8 @@ describe('EditableColumnHeaderComponent', () => {
       expect(component.value).toEqual(25.05);
       expect(
         component.params.context.onMultipleMaterialSimulation
-      ).toHaveBeenCalledWith('price', 25.05);
+      ).toHaveBeenCalledWith('price', 25.05, false);
+      expect(component['insightsService'].logEvent).toHaveBeenCalledTimes(1);
     });
 
     it('should submit if the form is valid with a negative value', () => {
@@ -298,37 +308,8 @@ describe('EditableColumnHeaderComponent', () => {
       expect(component.value).toEqual(-25.05);
       expect(
         component.params.context.onMultipleMaterialSimulation
-      ).toHaveBeenCalledWith('price', -25.05);
-    });
-  });
-
-  describe('validate input', () => {
-    beforeEach(() => {
-      spectator.detectChanges();
-      component.agInit(DEFAULT_PARAMS);
-    });
-
-    it('should validate number input onKeyPress', () => {
-      HelperService.validateNumberInputKeyPress = jest.fn();
-
-      component.onKeyPress({ preventDefault: jest.fn() } as any);
-      expect(HelperService.validateNumberInputKeyPress).toHaveBeenCalledTimes(
-        1
-      );
-    });
-
-    it('should validate number input onPaste', () => {
-      component.editFormControl = {} as any;
-
-      HelperService.validateNumberInputPaste = jest.fn();
-
-      component.onPaste({} as any);
-      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
-      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledWith(
-        {},
-        {},
-        true
-      );
+      ).toHaveBeenCalledWith('price', -25.05, false);
+      expect(component['insightsService'].logEvent).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -439,11 +420,12 @@ describe('EditableColumnHeaderComponent', () => {
       component.agInit(DEFAULT_PARAMS);
       component.ngOnInit();
 
-      component.editFormControl.setValue(2);
+      component.editFormControl.setValue('2');
+      spectator.detectChanges();
 
       expect(
         component.params.context.onMultipleMaterialSimulation
-      ).toHaveBeenCalledWith('price', 2);
+      ).toHaveBeenCalledWith(ColumnFields.PRICE, 2, false);
     });
 
     it('should update for NULL values', () => {
@@ -455,7 +437,7 @@ describe('EditableColumnHeaderComponent', () => {
 
       expect(
         component.params.context.onMultipleMaterialSimulation
-      ).toHaveBeenCalledWith('price', 0);
+      ).toHaveBeenCalledWith(ColumnFields.PRICE, 0, false);
     });
 
     it('should NOT update for undefined values', () => {

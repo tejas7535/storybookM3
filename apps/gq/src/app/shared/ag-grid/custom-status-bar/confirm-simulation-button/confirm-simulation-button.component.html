@@ -5,6 +5,7 @@
     color="primary"
     *transloco="let t; read: 'shared.customStatusBar.buttons'"
     (click)="confirmSimulation()"
+    [disabled]="params.context.inputInvalid"
   >
     {{ t('confirmSimulation') }} ({{ selectedRowCount }})
   </button>

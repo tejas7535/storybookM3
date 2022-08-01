@@ -11,11 +11,13 @@ import { filter, map, pairwise, Subscription } from 'rxjs';
 
 import { IHeaderParams } from '@ag-grid-community/all-modules';
 import { IHeaderAngularComp } from '@ag-grid-community/angular';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import { getSimulatedQuotation } from '../../../../core/store';
+import { getPercentageRegex } from '../../../constants';
 import { EVENT_NAMES, MassSimulationParams } from '../../../models';
 import { PriceSource, QuotationDetail } from '../../../models/quotation-detail';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
@@ -41,8 +43,7 @@ export class EditableColumnHeaderComponent
 
   showEditIcon = false;
 
-  editFormControl: UntypedFormControl;
-
+  editFormControl: UntypedFormControl = new UntypedFormControl();
   // price source header dependent values
   isPriceSource = false;
   priceSourceOptions = PriceSourceOptions;
@@ -53,13 +54,14 @@ export class EditableColumnHeaderComponent
 
   constructor(
     private readonly store: Store,
-    private readonly insightsService: ApplicationInsightsService
+    private readonly insightsService: ApplicationInsightsService,
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   ngOnInit(): void {
     this.addSubscriptions();
+    this.editFormControl.markAllAsTouched();
   }
-
   addSubscriptions(): void {
     const simulationReset$ = this.store.select(getSimulatedQuotation).pipe(
       pairwise(),
@@ -78,10 +80,15 @@ export class EditableColumnHeaderComponent
     this.subscription.add(
       this.editFormControl?.valueChanges
         .pipe(
-          filter((newVal: number | undefined | null) => newVal !== undefined)
+          filter((newVal: string | undefined | null) => newVal !== undefined)
         )
-        .subscribe((newVal: number | null) => {
-          this.updateMaterialSimulation(newVal || 0);
+        .subscribe((newVal: string | null) => {
+          this.updateMaterialSimulation(
+            HelperService.parseLocalizedInputValue(
+              newVal,
+              this.translocoLocaleService.getLocale()
+            ) || 0
+          );
         })
     );
   }
@@ -94,8 +101,9 @@ export class EditableColumnHeaderComponent
     this.value = 0;
 
     this.editFormControl = new UntypedFormControl('', [
-      Validators.max(100),
-      Validators.min(-100),
+      Validators.pattern(
+        getPercentageRegex(this.translocoLocaleService.getLocale())
+      ),
     ]);
 
     this.params = params;
@@ -186,17 +194,6 @@ export class EditableColumnHeaderComponent
     this.params.setSort(newSort, event.shiftKey);
   }
 
-  onKeyPress(event: KeyboardEvent): void {
-    HelperService.validateNumberInputKeyPress(
-      event,
-      this.inputField?.nativeElement
-    );
-  }
-
-  onPaste(event: ClipboardEvent): void {
-    HelperService.validateNumberInputPaste(event, this.editFormControl, true);
-  }
-
   refresh() {
     return false;
   }
@@ -234,21 +231,20 @@ export class EditableColumnHeaderComponent
   }
 
   private updateMaterialSimulation(value: number) {
-    if (!this.editFormControl.valid) {
-      return;
-    }
-
     this.value = value;
     this.params.context.onMultipleMaterialSimulation(
       this.params.column.getId(),
-      value
+      value,
+      this.editFormControl.invalid
     );
 
-    this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_UPDATED, {
-      type: this.params.column.getId(),
-      simulatedValue: value,
-      numberOfSimulatedRows: this.params.api.getSelectedRows()?.length,
-    } as MassSimulationParams);
+    if (this.editFormControl.valid) {
+      this.insightsService.logEvent(EVENT_NAMES.MASS_SIMULATION_UPDATED, {
+        type: this.params.column.getId(),
+        simulatedValue: value,
+        numberOfSimulatedRows: this.params.api.getSelectedRows()?.length,
+      } as MassSimulationParams);
+    }
   }
 
   public switchPriceSource(): void {
