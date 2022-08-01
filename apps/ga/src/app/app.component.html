@@ -12,6 +12,7 @@
     [hasSidebarLeft]="true"
     [footerLinks]="footerLinks"
     [appVersion]="appVersion"
+    [footerFixed]="false"
   >
     <ng-container sidenavBody>
       <div class="px-5">
@@ -21,7 +22,7 @@
       </div>
     </ng-container>
     <ng-container mainContent>
-      <div class="flex min-h-full w-full flex-col">
+      <div class="flex h-full min-h-full w-full flex-col">
         <div class="h-full w-full">
           <router-outlet></router-outlet>
         </div>
