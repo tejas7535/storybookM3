@@ -4,17 +4,7 @@ import {
   setAppDelivery,
   setCurrentStep,
 } from '@ga/core/store/actions/settings/settings.actions';
-import { AppDelivery } from '@ga/shared/models';
-
-export interface SettingsState {
-  environment: {
-    appDelivery: `${AppDelivery}`;
-  };
-  stepper: {
-    currentStep: number;
-  };
-  units: string;
-}
+import { SettingsState } from '@ga/core/store/models';
 
 export const initialState: SettingsState = {
   environment: {
@@ -23,7 +13,6 @@ export const initialState: SettingsState = {
   stepper: {
     currentStep: 0,
   },
-  units: undefined,
 };
 
 export const settingsReducer = createReducer(

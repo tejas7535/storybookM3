@@ -1,4 +1,4 @@
-import { SettingsState } from '@ga/core/store/reducers/settings/settings.reducer';
+import { SettingsState } from '@ga/core/store/models';
 import { AppDelivery } from '@ga/shared/models';
 
 export const APP_DELIVERY_MOCK: `${AppDelivery}` = 'standalone';
@@ -10,5 +10,4 @@ export const SETTINGS_STATE_MOCK: SettingsState = {
   stepper: {
     currentStep: 0,
   },
-  units: undefined,
 };

@@ -7,5 +7,4 @@ export interface SettingsState {
   stepper: {
     currentStep: number;
   };
-  units: string;
 }
