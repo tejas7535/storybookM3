@@ -17,13 +17,7 @@ describe('SearchComponent', () => {
   let spectator: Spectator<SearchComponent>;
 
   const mockOptions: StringOption[] = [
-    {
-      id: 0,
-      title: 'option0',
-      tooltip: 'tooltip',
-      tooltipDelay: 1000,
-      removable: true,
-    },
+    { id: 0, title: 'option0' },
     { id: 1, title: 'option1' },
     { id: 2, title: 'option2' },
     { id: 3, title: 'option3' },

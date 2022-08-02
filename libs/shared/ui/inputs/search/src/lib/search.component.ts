@@ -36,9 +36,7 @@ export class SearchComponent
   @Input() public displayWith: 'id' | 'title' = 'title';
 
   @Output() public readonly searchUpdated = new EventEmitter<string>();
-  @Output() public readonly optionSelected = new EventEmitter<
-    StringOption | StringOption[]
-  >();
+  @Output() public readonly optionSelected = new EventEmitter<StringOption>();
 
   @Input() public control = new FormControl();
 

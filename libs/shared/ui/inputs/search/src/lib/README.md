@@ -71,44 +71,44 @@ In the parent component:
 
 <!--  default implementation  -->
 <schaeffler-search
-    [stringOptions]="options"
-    (searchUpdated)="onSearchUpdated($event)"
-    (optionSelected)="onOptionSelected($event)"
+  [stringOptions]="options"
+  (searchUpdated)="onSearchUpdated($event)"
+  (optionSelected)="onOptionSelected($event)"
 ></schaeffler-search>
 
 <!--  using @angular/forms formControl implementation  -->
 <schaeffler-search
-    [stringOptions]="options"
-    (searchUpdated)="onSearchUpdated($event)"
-    [control]="formControl"
+  [stringOptions]="options"
+  (searchUpdated)="onSearchUpdated($event)"
+  [control]="control"
 ></schaeffler-search>
 
 <!--  advanced implementation  -->
 <schaeffler-search
-    [stringOptions]="options"
-    [appearance]="appearance"
-    [label]="label"
-    [placeholder]="placeholder"
-    [hint]="hint"
-    [loading]="loading"
-    [error]="error"
-    [noResultsText]="noResultsText"
-    [displayWith]="displayWith"
-    [filterFn]="filterFn"
-    (searchUpdated)="onSearchUpdated($event)"
-    (optionSelected)="onOptionSelected($event)"
+  [stringOptions]="options"
+  appearance="fill"
+  [label]="label"
+  [placeholder]="placeholder"
+  [hint]="hint"
+  [loading]="loading"
+  [error]="error"
+  [noResultsText]="noResultsText"
+  displayWith="title"
+  [filterFn]="filterFn"
+  (searchUpdated)="onSearchUpdated($event)"
+  (optionSelected)="onOptionSelected($event)"
 >
-    <div loadingContent>
-        The custom content to display in the panel while loading is set to true.
-    </div>
-    <div errorContent>
-        The custom content to display in the panel while error is set to true.
-        (The custom loading content will take priority over the error content, so in case loading and error are both set to true, the loading content will be shown)
-    </div>
-    <div matErrorContent>
-        <!-- This content will be projected inside a mat-error element -->
-        {{ getErrorMessage() }}
-    </div>
+  <div loadingContent>
+    The custom content to display in the panel while loading is set to true.
+  </div>
+  <div errorContent>
+    The custom content to display in the panel while error is set to true.
+    (The custom loading content will take priority over the error content, so in case loading and error are both set to true, the loading content will be shown)
+  </div>
+  <div matErrorContent>
+    <!-- This content will be projected inside a mat-error element -->
+    {{ getErrorMessage() }}
+  </div>
 </schaeffler-search>
 ```
 
@@ -125,74 +125,65 @@ import { StringOption } from '@schaeffler/inputs';
   templateUrl: './example.component.html',
 })
 export class ExampleComponent implements OnInit {
-    public allOptions: StringOptions = [
-        {
-        id: '1',
-        title: 'full option',
-        removable: true,
-        tooltip: 'option tooltip',
-        tooltipDelay: 1000,
-        },
-        {
-            id: 1,
-            title: 'minimum option',
-        }
-    ];
+  public allOptions: StringOption[] = [
+    {
+      id: '1',
+      title: 'first option',
+    },
+    {
+      id: 2,
+      title: 'second option',
+    }
+  ];
 
-    public options: StringOptions = [
-        {
-        id: '1',
-        title: 'full option',
-        removable: true,
-        tooltip: 'option tooltip',
-        tooltipDelay: 1000,
-        },
-        {
-            id: 1,
-            title: 'minimum option',
-        }
-    ];
-    public appearance = 'fill';
-    public label = 'search label';
-    public placeholder = 'search placeholder';
-    public hint = 'search hint';
-    public loading = false;
-    public error = false;
-    public noResultsText = 'message to display the length of the provided option array is 0';
-    public displayWith = 'title';
+  public options: StringOption[] = [
+    {
+      id: '1',
+      title: 'first option',
+    },
+    {
+      id: 2,
+      title: 'second option',
+    }
+  ];
+  public label = 'search label';
+  public placeholder = 'search placeholder';
+  public hint = 'search hint';
+  public loading = false;
+  public error = false;
+  public noResultsText = 'message to display the length of the provided option array is 0';
 
-    public control = new FormControl();
+  public control = new FormControl();
 
-    public ngOnInit(): void {
-        // react to selection via formControl
-        this.control.valueChanges.subscribe(
-            value => console.log(value);
-        );
+  public ngOnInit(): void {
+    // react to selection via formControl
+    this.control.valueChanges.subscribe(value =>
+      console.log(value))
+  }
+
+  // react to changes of the search value. Minimum length of the search string is 2 otherwise an empty string will be returned
+  public onSearchUpdated(searchValue: string): void {
+    this.options = this.allOptions.filter((option: StringOption) => option.title.includes(searchValue));
+  }
+
+  // react to selection via event
+  public onOptionSelected(option: StringOption): void {
+    console.log(option);
+  }
+
+  // pass a custom filter function
+  public filterFn(option?: StringOption, value?: string) {
+    return option?.title?.includes(value);
+  }
+
+  // parse errors
+  public getErrorMessage() {
+    if (this.control.hasError('required')) {
+      return 'You must enter a value';
     }
 
-    // react to changes of the search value. Minimum length of the search string is 2 otherwise an empty string will be returned
-    public onSearchUpdated(searchValue: string): void {
-        this.options = allOptions.filter((option: StringOption) => option.title.includes(searchValue));
-    }
-
-    // react to selection via event
-    public onOptionSelected(option: StringOption): void {
-        console.log(value);
-    }
-
-    // pass a custom filter function
-    public filterFn(option?: StringOption, value?: string) {
-        return option?.title?.includes(value);
-    }
-
-    // parse errors
-    public getErrorMessage() {
-        if (this.control.hasError('required')) {
-            return 'You must enter a value';
-        }
-
-        return '';
-    }
+    return '';
+  }
 }
 
 ```
