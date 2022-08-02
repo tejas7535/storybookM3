@@ -13,9 +13,9 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { debounceTime, filter, Subscription, tap } from 'rxjs';
-
 import { StringOption } from '@schaeffler/inputs';
+
+import { debounceTime, filter, Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'schaeffler-search',
@@ -28,6 +28,7 @@ export class SearchComponent
   @Input() public label = '';
   @Input() public placeholder = '';
   @Input() public hint = '';
+  @Input() public initialValue: StringOption = undefined;
 
   @Input() public stringOptions!: StringOption[];
   @Input() public loading?: boolean;
@@ -52,6 +53,11 @@ export class SearchComponent
     }
 
     this.searchControl.addValidators(this.validatorFn);
+
+    if (this.initialValue) {
+      this.searchControl.setValue(this.initialValue);
+      this.searchUpdated.emit(this.initialValue[this.displayWith].toString());
+    }
 
     this.subscription.add(
       this.control.valueChanges

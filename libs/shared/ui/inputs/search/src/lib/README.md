@@ -83,6 +83,14 @@ In the parent component:
   [control]="control"
 ></schaeffler-search>
 
+<!--  setting an initial value for the search input  -->
+<schaeffler-search
+  [stringOptions]="options"
+  [initialValue]="initialValue"
+  (searchUpdated)="onSearchUpdated($event)"
+  (optionSelected)="onOptionSelected($event)"
+></schaeffler-search>
+
 <!--  advanced implementation  -->
 <schaeffler-search
   [stringOptions]="options"
@@ -125,6 +133,13 @@ import { StringOption } from '@schaeffler/inputs';
   templateUrl: './example.component.html',
 })
 export class ExampleComponent implements OnInit {
+  constructor(private readonly changeDetector: ChangeDetectorRef) {}
+
+  // set an initial value for the search input
+  // make sure to align it with the `displayWith` input
+  public initialValue: StringOption = { id: '1', title: 'first option' };
+
+  // parent options to simulate a data source
   public allOptions: StringOption[] = [
     {
       id: '1',
@@ -136,6 +151,7 @@ export class ExampleComponent implements OnInit {
     }
   ];
 
+  // options to be assigned to search component
   public options: StringOption[] = [
     {
       id: '1',
@@ -146,6 +162,7 @@ export class ExampleComponent implements OnInit {
       title: 'second option',
     }
   ];
+
   public label = 'search label';
   public placeholder = 'search placeholder';
   public hint = 'search hint';
@@ -158,17 +175,22 @@ export class ExampleComponent implements OnInit {
   public ngOnInit(): void {
     // react to selection via formControl
     this.control.valueChanges.subscribe(value =>
-      console.log(value))
+      console.log('value:', value))
   }
 
   // react to changes of the search value. Minimum length of the search string is 2 otherwise an empty string will be returned
   public onSearchUpdated(searchValue: string): void {
+    console.log('onSearchUpdated in Parent', searchValue)
+
     this.options = this.allOptions.filter((option: StringOption) => option.title.includes(searchValue));
+
+    // this is only necessary if an initial value is set
+    this.changeDetector.detectChanges();
   }
 
   // react to selection via event
   public onOptionSelected(option: StringOption): void {
-    console.log(option);
+    console.log('option:', option);
   }
 
   // pass a custom filter function
@@ -194,19 +216,20 @@ For further information about the option type see [@schaeffler/inputs documentat
 
 #### Inputs
 
-| Name           | Description                                                                                                      |
-| ---------------| -----------------------------------------------------------------------------------------------------------------|
-| stringOptions  | the options to select from                                                                                       |
-| appearance     | (optional) ('fill' \| 'outline') (default: 'fill') the style to display the component with                       |
-| label          | (optional) the label for the control                                                                             |
-| placeholder    | (optional) the placeholder for the control                                                                       |
-| hint           | (optional) the hint to display below the search bar                                                              |
-| loading        | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`)   |
-| error          | (optional) whether the control should be in error state (displays ng-content with selector `errorContent`)       |
-| noResultsText  | (optional) the text to display if the length of the options array is 0                                           |
-| displayWith    | (optional) ('id' \| 'title') (default: 'title') whether to display the id or the title                           |
-| control        | (optional) a form control to manage the value of the control                                                     |
-| filterFn       | (optional) a custom function to implement filter logic used by the component                                     |
+| Name           | Description                                                                                                    |
+| ---------------|----------------------------------------------------------------------------------------------------------------|
+| stringOptions  | the options to select from                                                                                     |
+| appearance     | (optional) ('fill' \| 'outline') (default: 'fill') the style to display the component with                     |
+| label          | (optional) the label for the control                                                                           |
+| placeholder    | (optional) the placeholder for the control                                                                     |
+| hint           | (optional) the hint to display below the search bar                                                            |
+| initialValue   | (optional) set an initial value to the search bar                                                              |
+| loading        | (optional) whether the control should be in loading state (displays ng-content with selector `loadingContent`) |
+| error          | (optional) whether the control should be in error state (displays ng-content with selector `errorContent`)     |
+| noResultsText  | (optional) the text to display if the length of the options array is 0                                         |
+| displayWith    | (optional) ('id' \| 'title') (default: 'title') whether to display the id or the title                         |
+| control        | (optional) a form control to manage the value of the control                                                   |
+| filterFn       | (optional) a custom function to implement filter logic used by the component                                   |
 
 #### Events
 
