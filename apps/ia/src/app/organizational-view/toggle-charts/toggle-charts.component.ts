@@ -6,7 +6,13 @@ import { ChartType } from '../models/chart-type.enum';
 @Component({
   selector: 'ia-toggle-charts',
   templateUrl: './toggle-charts.component.html',
-  styleUrls: ['./toggle-charts.component.scss'],
+  styles: [
+    `
+      .mat-button-toggle-checked mat-icon {
+        @apply text-link;
+      }
+    `,
+  ],
 })
 export class ToggleChartsComponent {
   @Input() set chartType(chartType: ChartType) {
