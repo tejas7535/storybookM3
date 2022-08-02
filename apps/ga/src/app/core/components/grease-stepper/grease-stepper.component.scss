@@ -1,3 +1,5 @@
+@import 'libs/shared/ui/stepper';
+
 :host {
   ::ng-deep {
     .mat-step-header[aria-labelledby='disabled'] {
