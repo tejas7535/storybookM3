@@ -106,24 +106,19 @@ export class LostJobProfilesComponent implements OnChanges {
       `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
 
-    const employees: string[] =
+    const employees: Employee[] =
       key === 'workforce' ? params.data.employees : params.data.leavers;
 
     this.openEmployeeListDialog(title, employees);
   }
 
-  openEmployeeListDialog(title: string, employees: string[]): void {
-    // TODO: extend REST API to get full employee not just the name? may be useful later anyway
-    const convertedEmployees = employees.map(
-      (employee) => ({ employeeName: employee } as unknown as Employee)
-    );
-
+  openEmployeeListDialog(title: string, employees: Employee[]): void {
     const data = new EmployeeListDialogMeta(
       new EmployeeListDialogMetaHeadings(
         title,
         translate('lossOfSkill.employeeListDialog.contentTitle')
       ),
-      convertedEmployees
+      employees
     );
 
     this.dialog.open(EmployeeListDialogComponent, {

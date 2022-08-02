@@ -1,3 +1,4 @@
+import { Employee } from '../../../shared/models';
 import { JobProfile, OpenPosition } from '../../models';
 import { LossOfSkillState } from '..';
 import {
@@ -83,13 +84,19 @@ describe('LossOfSkill Selector', () => {
       jobProfiles = [
         {
           positionDescription: 'Developer',
-          leavers: ['Hans', 'Peter'],
-          employees: ['Thorsten'],
+          leavers: [
+            { employeeName: 'Hans' } as Employee,
+            { employeeName: 'Peter' } as Employee,
+          ],
+          employees: [{ employeeName: 'Thorsten' } as Employee],
         },
         {
           positionDescription: 'PO',
           leavers: [],
-          employees: ['Serge', 'Maria'],
+          employees: [
+            { employeeName: 'Serge' } as Employee,
+            { employeeName: 'Maria' } as Employee,
+          ],
         },
       ];
       openPositions = [

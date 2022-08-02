@@ -1,5 +1,7 @@
+import { Employee } from '../../shared/models';
+
 export interface JobProfile {
   positionDescription: string;
-  employees: string[];
-  leavers: string[];
+  employees: Employee[];
+  leavers: Employee[];
 }

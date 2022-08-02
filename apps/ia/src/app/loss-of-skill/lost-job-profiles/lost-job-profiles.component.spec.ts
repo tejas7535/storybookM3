@@ -75,7 +75,7 @@ describe('LostJobProfilesComponent', () => {
   describe('openEmployeeListDialog', () => {
     it('should open the dialog with correct params', () => {
       const title = 'FOO';
-      const employees = ['Donald'];
+      const employees = [{ employeeName: 'Donald' } as Employee];
 
       component['dialog'].open = jest.fn();
 

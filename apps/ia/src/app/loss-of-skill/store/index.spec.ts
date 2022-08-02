@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { EmployeesRequest } from '../../shared/models';
+import { Employee, EmployeesRequest } from '../../shared/models';
 import { JobProfile, OpenPosition } from '../models';
 import { initialState, lossOfSkillReducer, reducer } from '.';
 import {
@@ -55,8 +55,8 @@ describe('LossOfSkill Reducer', () => {
           loading: true,
           data: [
             {
-              employees: ['Hans'],
-              leavers: ['Peter'],
+              employees: [{ employeeName: 'Hans' } as Employee],
+              leavers: [{ employeeName: 'Peter' } as Employee],
               positionDescription: 'Foo Bar',
             },
           ],
