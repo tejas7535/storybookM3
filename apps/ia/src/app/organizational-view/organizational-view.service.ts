@@ -61,12 +61,12 @@ export class OrganizationalViewService {
       const countryJson = (worldJson as any).features.find(
         (elem: any) =>
           elem.properties.name === country.name ||
-          elem.properties.name_long === country.name
+          elem.properties.nameLong === country.name
       );
 
       return {
         ...country,
-        name: countryJson?.properties.name,
+        name: country.name,
         continent: countryJson?.properties.continent,
       };
     });

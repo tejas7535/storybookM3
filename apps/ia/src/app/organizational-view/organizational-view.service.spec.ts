@@ -71,19 +71,19 @@ describe('OrganizationalViewService', () => {
       expect(result[0].continent).toEqual('Europe');
     });
 
-    test('should look for correct continent and set it with name_long prop', () => {
+    test('should look for correct continent and set it with nameLong prop', () => {
       const data = [
         {
           name: 'Czech Republic',
         } as CountryData,
       ];
 
-      // world.json contains Czech Rep. as name and Czech Republic as name_long
+      // world.json contains Czech Rep. as name and Czech Republic as nameLong
       const result = service.addContinentToCountryData(data);
 
       expect(result.length).toEqual(1);
       expect(result[0].continent).toEqual('Europe');
-      expect(result[0].name).toEqual('Czech Rep.');
+      expect(result[0].name).toEqual('Czech Republic');
     });
   });
 
