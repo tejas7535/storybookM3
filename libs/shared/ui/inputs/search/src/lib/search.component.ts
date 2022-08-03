@@ -80,7 +80,7 @@ export class SearchComponent
           filter((value) => typeof value === 'string')
         )
         .subscribe((value) =>
-          this.searchUpdated.emit(value.length > 1 ? value : '')
+          this.searchUpdated.emit(value?.length > 1 ? value : '')
         )
     );
   }
@@ -114,7 +114,7 @@ export class SearchComponent
   public onSearchReset(): void {
     this.autocomplete.closePanel();
     this.stringOptions = [];
-    this.searchControl.reset();
+    this.searchControl.setValue('');
     this.control.reset();
   }
 

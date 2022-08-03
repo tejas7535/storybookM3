@@ -24,7 +24,7 @@
       ></ng-content>
       <ng-template #searchOptionsTemplate>
         <div
-          *ngIf="stringOptions.length === 0 && noResultsText"
+          *ngIf="stringOptions?.length === 0 && noResultsText"
           class="flex h-12 w-full flex-col content-around"
         >
           <div class="relative my-auto text-center text-high-emphasis">

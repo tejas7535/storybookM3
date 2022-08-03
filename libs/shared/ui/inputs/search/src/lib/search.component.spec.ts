@@ -180,12 +180,12 @@ describe('SearchComponent', () => {
 
   describe('onSearchReset', () => {
     it('should set the value of the searchControl to an empty string and reset the formControl', () => {
-      component.searchControl.reset = jest.fn();
+      component.searchControl.setValue = jest.fn();
       component.control.reset = jest.fn();
 
       component.onSearchReset();
 
-      expect(component.searchControl.reset).toHaveBeenCalled();
+      expect(component.searchControl.setValue).toHaveBeenCalledWith('');
       expect(component.stringOptions).toStrictEqual([]);
       expect(component.control.reset).toHaveBeenCalled();
     });
