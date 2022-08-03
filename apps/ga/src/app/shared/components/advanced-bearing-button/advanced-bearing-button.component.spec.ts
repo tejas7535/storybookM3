@@ -20,7 +20,6 @@ describe('AdvancedBearingButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AdvancedBearingButtonComponent,
-    declarations: [AdvancedBearingButtonComponent],
     imports: [
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),

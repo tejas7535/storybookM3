@@ -1,1 +1,1 @@
-export * from './quick-bearing-selection.module';
+export * from './quick-bearing-selection.component';

@@ -1,9 +1,8 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
-import { AdvancedBearingButtonModule } from '@ga/shared/components/advanced-bearing-button';
 import { AppLogoModule } from '@ga/shared/components/app-logo';
-import { QuickBearingSelectionModule } from '@ga/shared/components/quick-bearing-selection';
+import { QuickBearingSelectionComponent } from '@ga/shared/components/quick-bearing-selection';
 
 import { HomepageCardModule } from './components';
 import { HomeComponent } from './home.component';
@@ -17,9 +16,8 @@ describe('HomeComponent', () => {
     declarations: [HomeComponent],
     imports: [
       MockModule(HomepageCardModule),
-      MockModule(AdvancedBearingButtonModule),
       MockModule(AppLogoModule),
-      MockModule(QuickBearingSelectionModule),
+      MockComponent(QuickBearingSelectionComponent),
     ],
   });
 

@@ -1,10 +1,24 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { debounceTime, filter, map, Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
+import { LetModule, PushModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
+
+import { StringOption } from '@schaeffler/inputs';
+import { SearchModule } from '@schaeffler/inputs/search';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   getBearingSelectionLoading,
@@ -15,30 +29,46 @@ import {
   searchBearing,
   selectBearing,
 } from '@ga/core/store';
+import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-bearing-button';
 
 @Component({
   selector: 'ga-quick-bearing-selection',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PushModule,
+    LetModule,
+    SharedTranslocoModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    SearchModule,
+    AdvancedBearingButtonComponent,
+  ],
   templateUrl: './quick-bearing-selection.component.html',
 })
 export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
   @Input() resetOnInit = false;
   @Input() showSelectButton = false;
 
-  public bearingSearchFormControl = new UntypedFormControl();
-  public minimumChars = 2;
-  public loading$ = this.store.select(getBearingSelectionLoading);
+  public bearingSelectionLoading$ = this.store.select(
+    getBearingSelectionLoading
+  );
   public bearingResultList$ = this.store.select(
     getQuickBearingSelectionResultList
   );
   public selectedBearing$ = this.store.select(getSelectedBearing);
   public modelCreationLoading$ = this.store.select(getModelCreationLoading);
 
+  private readonly minimumChars = 2;
   private readonly destroy$ = new Subject<void>();
   private currentLanguage: string;
+  private currentSearchQuery: string;
 
   public constructor(
     private readonly store: Store,
-    private readonly transloco: TranslocoService
+    private readonly transloco: TranslocoService,
+    private readonly changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -52,30 +82,16 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
       .subscribe((language) => {
         if (language !== this.currentLanguage) {
           this.currentLanguage = language;
-          this.resetBearingSelection();
-          this.bearingSearchFormControl.reset();
+
+          if (this.currentSearchQuery) {
+            this.store.dispatch(
+              searchBearing({ query: this.currentSearchQuery })
+            );
+          } else {
+            this.resetBearingSelection();
+          }
         }
       });
-
-    this.selectedBearing$
-      .pipe(
-        take(1),
-        filter((bearing: string) => !!bearing)
-      )
-      .subscribe((bearing: string) =>
-        this.bearingSearchFormControl.setValue({ id: bearing, title: bearing })
-      );
-
-    this.bearingSearchFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(300),
-        filter((value: string) => value?.length >= this.minimumChars),
-        map((query: string) => {
-          this.store.dispatch(searchBearing({ query }));
-        })
-      )
-      .subscribe();
   }
 
   ngOnDestroy() {
@@ -83,9 +99,28 @@ export class QuickBearingSelectionComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  public handleBearingSelection(bearing: string | undefined): void {
+  public onBearingSelectionButtonClick(bearing: string | undefined): void {
     if (bearing) {
       this.store.dispatch(selectBearing({ bearing }));
+    } else {
+      this.resetBearingSelection();
+    }
+  }
+
+  public onSearchUpdated(query: string | undefined): void {
+    this.currentSearchQuery = query;
+
+    if (query?.length >= this.minimumChars) {
+      this.store.dispatch(searchBearing({ query }));
+      this.changeDetector.detectChanges();
+    } else {
+      this.resetBearingSelection();
+    }
+  }
+
+  public onOptionSelected(option: StringOption): void {
+    if (option) {
+      this.store.dispatch(selectBearing({ bearing: option.id.toString() }));
     } else {
       this.resetBearingSelection();
     }

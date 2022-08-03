@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 
 import {
   getAdvancedBearingSelectionFilters,
+  getModelCreationLoading,
   searchBearingForAdvancedSelection,
   searchBearingForAdvancedSelectionCount,
 } from '@ga/core/store';
@@ -30,6 +31,7 @@ export class AdvancedBearingSelectionComponent implements OnInit {
   private readonly advancedBearingSelectionFilters$ = this.store.select(
     getAdvancedBearingSelectionFilters
   );
+  public modelCreationLoading$ = this.store.select(getModelCreationLoading);
 
   constructor(
     private readonly store: Store,

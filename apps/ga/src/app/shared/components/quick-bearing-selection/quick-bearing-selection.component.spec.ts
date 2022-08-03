@@ -1,15 +1,18 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoService } from '@ngneat/transloco';
-import { PushModule } from '@ngrx/component';
+import { LetModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { MockComponent, MockModule } from 'ng-mocks';
 
-import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
+import { SearchModule } from '@schaeffler/inputs/search';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
-import { resetBearing, selectBearing } from '@ga/core/store';
+import { resetBearing, searchBearing, selectBearing } from '@ga/core/store';
+import { AdvancedBearingButtonComponent } from '@ga/shared/components/advanced-bearing-button';
+import { BEARING_SELECTION_STATE_MOCK } from '@ga/testing/mocks';
 
 import { QuickBearingSelectionComponent } from './quick-bearing-selection.component';
 
@@ -22,15 +25,25 @@ describe('QuickBearingSelectionComponent', () => {
   const createComponent = createComponentFactory({
     component: QuickBearingSelectionComponent,
     imports: [
+      RouterTestingModule,
       MockModule(ReactiveFormsModule),
-      MockModule(PushModule),
-      MockModule(SearchAutocompleteModule),
+      MockModule(LetModule),
+      MockModule(SearchModule),
+      MockComponent(AdvancedBearingButtonComponent),
       provideTranslocoTestingModule(
         { en: {} },
         { translocoConfig: { defaultLang: 'de' } }
       ),
     ],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore({
+        initialState: {
+          bearingSelection: {
+            ...BEARING_SELECTION_STATE_MOCK,
+          },
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -65,11 +78,26 @@ describe('QuickBearingSelectionComponent', () => {
         done();
       });
     });
+
+    it('should hit search with the current search query on language change', (done) => {
+      translocoService.getActiveLang = jest.fn(() => 'ru');
+
+      component.onSearchUpdated('mock search');
+      component.ngOnInit();
+
+      translocoService.langChanges$.subscribe(() => {
+        expect(store.dispatch).toHaveBeenCalledWith(
+          searchBearing({ query: 'mock search' })
+        );
+
+        done();
+      });
+    });
   });
 
-  describe('handleBearingSelection', () => {
-    it('should dispatch select bearing and navigate to parameters', () => {
-      component.handleBearingSelection('some bearing');
+  describe('onBearingSelectionButtonClick', () => {
+    it('should dispatch select bearing', () => {
+      component.onBearingSelectionButtonClick('some bearing');
 
       expect(store.dispatch).toHaveBeenCalledWith(
         selectBearing({ bearing: 'some bearing' })
@@ -77,7 +105,43 @@ describe('QuickBearingSelectionComponent', () => {
     });
 
     it('should reset the search', () => {
-      component.handleBearingSelection(undefined);
+      component.onBearingSelectionButtonClick(undefined);
+
+      expect(store.dispatch).toHaveBeenCalledWith(resetBearing());
+    });
+  });
+
+  describe('onSearchUpdated', () => {
+    it('should dispatch search bearing', () => {
+      component.onSearchUpdated('mock search');
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        searchBearing({ query: 'mock search' })
+      );
+    });
+
+    it('should reset the search', () => {
+      component.onSearchUpdated('m');
+
+      expect(store.dispatch).toHaveBeenCalledWith(resetBearing());
+
+      component.onSearchUpdated(undefined);
+
+      expect(store.dispatch).toHaveBeenCalledWith(resetBearing());
+    });
+  });
+
+  describe('onOptionSelected', () => {
+    it('should dispatch select bearing', () => {
+      component.onOptionSelected({ id: 'mock_id', title: 'mock_title' });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        selectBearing({ bearing: 'mock_id' })
+      );
+    });
+
+    it('should reset the search', () => {
+      component.onOptionSelected(undefined);
 
       expect(store.dispatch).toHaveBeenCalledWith(resetBearing());
     });

@@ -92,6 +92,7 @@
           color="primary"
           class="w-full md:w-auto"
           (click)="prevStep()"
+          [disabled]="modelCreationLoading$ | ngrxPush"
         >
           {{
             t(

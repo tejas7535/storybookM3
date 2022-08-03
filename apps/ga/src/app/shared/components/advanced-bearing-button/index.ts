@@ -1,1 +1,1 @@
-export * from './advanced-bearing-button.module';
+export * from './advanced-bearing-button.component';
