@@ -1,6 +1,6 @@
 {
   "extends": ["../../../../.eslintrc.json"],
-  "ignorePatterns": ["!**/*"],
+  "ignorePatterns": ["!**/*", "jest.config.ts"],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -38,7 +38,7 @@
     {
       "files": ["*.html"],
       "extends": ["plugin:@nrwl/nx/angular-template"],
-      "rules": {}
+      "plugins": ["@angular-eslint/eslint-plugin-template"]
     }
   ]
 }
