@@ -47,7 +47,7 @@ const Template: Story = (args) => ({
     <section class="mb-8">
       <div class="flex flex-row gap-6 py-3">
         <mat-form-field [ngClass]="{ 'mat-form-field-invalid': errorMessage }" appearance="fill">
-          <mat-label>{{ label }}</mat-label>
+          <mat-label *ngIf="label">{{ label }}</mat-label>
           <mat-icon *ngIf="prefixIcon" matPrefix>{{ prefixIcon }}</mat-icon>
           <input matInput [placeholder]="placeholder" value="" [disabled]="disabled">
           <mat-icon *ngIf="suffixIcon" matSuffix>{{ suffixIcon }}</mat-icon>
@@ -56,7 +56,7 @@ const Template: Story = (args) => ({
     </div>
     <div class="flex flex-row gap-6 py-3">
       <mat-form-field [ngClass]="{ 'mat-form-field-invalid': errorMessage }" appearance="outline">
-        <mat-label>{{ label }}</mat-label>
+        <mat-label *ngIf="label">{{ label }}</mat-label>
         <mat-icon *ngIf="prefixIcon" matPrefix>{{ prefixIcon }}</mat-icon>
         <input matInput [placeholder]="placeholder" value="" [disabled]="disabled">
         <mat-icon *ngIf="suffixIcon" matSuffix>{{ suffixIcon }}</mat-icon>
