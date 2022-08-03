@@ -5,6 +5,7 @@ export enum RoutePath {
   AQMCalculatorPath = 'aqm-calculator',
   LifetimePredictorPath = 'lifetime-predictor',
   MaterialsSupplierDatabasePath = 'materials-supplier-database',
+  LearnMorePath = 'learn-more',
   ForbiddenPath = 'forbidden',
 }
 
@@ -15,5 +16,6 @@ export enum RouteNames {
   AQMCalculator = 'AQM Calculator',
   LifetimePredictor = 'Lifetime Predictor',
   MaterialsSupplierDatabase = 'Materials Supplier Database',
+  LearnMore = 'Learn More',
   Forbidden = 'forbidden',
 }

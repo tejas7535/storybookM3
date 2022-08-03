@@ -148,7 +148,7 @@
         <ng-container *ngIf="learnMoreLink">
           <ng-container *ngIf="!learnMoreExternal; else externalLearnMoreLink">
             <div
-              class="mt-2 cursor-pointer text-caption text-link"
+              class="mt-2 cursor-pointer text-caption text-link hover:underline"
               [routerLink]="learnMoreLink"
               (click)="onLearnMoreClick()"
             >
@@ -161,7 +161,9 @@
               [href]="learnMoreLink"
               (click)="onLearnMoreClick()"
             >
-              <div class="mt-2 cursor-pointer text-caption text-link">
+              <div
+                class="mt-2 cursor-pointer text-caption text-link hover:underline"
+              >
                 {{ t('learnMore') }}
               </div>
             </a>

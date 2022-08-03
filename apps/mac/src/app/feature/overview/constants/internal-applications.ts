@@ -7,7 +7,7 @@ export const integratedApps: OverviewCard[] = [
     title: 'Hardness Converter',
     description: 'Convert hardness and tensile-strength values',
     link: '/hardness-converter',
-    learnMoreLink: undefined,
+    learnMoreLink: '/learn-more/hardness-converter',
     disableImageHoverEffect: false,
     external: false,
     learnMoreExternal: false,

@@ -63,6 +63,13 @@ export const appRoutePaths: Routes = [
     },
   },
   {
+    path: RoutePath.LearnMorePath,
+    loadChildren: () =>
+      import('./feature/learn-more/learn-more-routing.module').then(
+        (m) => m.LearnMoreRoutingModule
+      ),
+  },
+  {
     path: LegalRoute,
     loadChildren: () =>
       import('@schaeffler/legal-pages').then((m) => m.LegalModule),
