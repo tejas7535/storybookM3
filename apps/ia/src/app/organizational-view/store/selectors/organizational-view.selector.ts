@@ -63,18 +63,18 @@ const getWorldMapFluctuationDialogContinentMetaData = (
     (countryData) => countryData.continent === continent
   );
   let employeesLost = 0;
-  let naturalTurnover = 0;
-  let forcedLeavers = 0;
-  let unforcedLeavers = 0;
+  let remainingFluctuation = 0;
+  let forcedFluctuation = 0;
+  let unforcedFluctuation = 0;
   let terminationReceived = 0;
   let employeesAdded = 0;
   let openPositions = 0;
 
   relevantCountries.forEach((country) => {
     employeesLost += country.attritionMeta.employeesLost;
-    naturalTurnover += country.attritionMeta.naturalTurnover;
-    forcedLeavers += country.attritionMeta.forcedLeavers;
-    unforcedLeavers += country.attritionMeta.unforcedLeavers;
+    remainingFluctuation += country.attritionMeta.remainingFluctuation;
+    forcedFluctuation += country.attritionMeta.forcedFluctuation;
+    unforcedFluctuation += country.attritionMeta.unforcedFluctuation;
     terminationReceived += country.attritionMeta.terminationReceived;
     employeesAdded += country.attritionMeta.employeesAdded;
     openPositions += country.attritionMeta.openPositions;
@@ -83,9 +83,9 @@ const getWorldMapFluctuationDialogContinentMetaData = (
   return {
     title: continent,
     employeesLost,
-    naturalTurnover,
-    forcedLeavers,
-    unforcedLeavers,
+    remainingFluctuation,
+    forcedFluctuation,
+    unforcedFluctuation,
     terminationReceived,
     employeesAdded,
     openPositions,

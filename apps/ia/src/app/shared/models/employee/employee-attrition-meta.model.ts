@@ -1,9 +1,9 @@
 export interface EmployeeAttritionMeta {
   title: string;
   employeesLost: number;
-  naturalTurnover: number;
-  forcedLeavers: number;
-  unforcedLeavers: number;
+  remainingFluctuation: number;
+  forcedFluctuation: number;
+  unforcedFluctuation: number;
   terminationReceived: number;
   employeesAdded: number;
   openPositions: number;

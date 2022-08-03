@@ -5,9 +5,9 @@ export interface AttritionDialogFluctuationMeta {
   fluctuationRate: number;
   unforcedFluctuationRate: number;
   employeesLost: number;
-  naturalTurnover: number;
-  forcedLeavers: number;
-  unforcedLeavers: number;
+  remainingFluctuation: number;
+  forcedFluctuation: number;
+  unforcedFluctuation: number;
   terminationReceived: number;
   employeesAdded: number;
   openPositions: number;

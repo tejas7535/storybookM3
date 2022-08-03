@@ -35,13 +35,13 @@
     "chartTitle": "Current Fluctuation",
     "attritionRate": "Fluctuation",
     "unforcedAttritionRate": "Unforced&nbsp;Fluctuation&nbsp;Rate",
-    "employeesLost": "Employees lost",
-    "naturalTurnover": "Natural turnover",
-    "forcedLeavers": "Forced leavers",
-    "unforcedLeavers": "Unforced leavers",
-    "terminationReceived": "Termination received",
-    "employeesAdded": "Employees added",
-    "openPositions": "Open positions"
+    "employeesLost": "Employees Lost",
+    "remainingFluctuation": "Remaining Fluctuation",
+    "forcedFluctuation": "Forced Fluctuation",
+    "unforcedFluctuation": "Unforced Fluctuation",
+    "terminationReceived": "Termination Received",
+    "employeesAdded": "Employees Added",
+    "openPositions": "Open Positions"
   },
   "employeeListDialog": {
     "contentTitle": "Staff"

@@ -50,9 +50,9 @@ describe('Organizational View Selector', () => {
             continent: 'Europe',
             attritionMeta: {
               employeesLost: 3,
-              naturalTurnover: 1,
-              forcedLeavers: 0,
-              unforcedLeavers: 14,
+              remainingFluctuation: 1,
+              forcedFluctuation: 0,
+              unforcedFluctuation: 14,
               terminationReceived: 99,
               employeesAdded: 0,
               openPositions: 400,
@@ -63,9 +63,9 @@ describe('Organizational View Selector', () => {
             continent: 'Europe',
             attritionMeta: {
               employeesLost: 33,
-              naturalTurnover: 0,
-              forcedLeavers: 5,
-              unforcedLeavers: 4,
+              remainingFluctuation: 0,
+              forcedFluctuation: 5,
+              unforcedFluctuation: 4,
               terminationReceived: 9,
               employeesAdded: 2,
               openPositions: 0,
@@ -200,12 +200,12 @@ describe('Organizational View Selector', () => {
       expect(result).toEqual({
         employeesAdded: 2,
         employeesLost: 36,
-        forcedLeavers: 5,
-        naturalTurnover: 1,
+        forcedFluctuation: 5,
+        remainingFluctuation: 1,
         openPositions: 400,
         terminationReceived: 108,
         title: 'Europe',
-        unforcedLeavers: 18,
+        unforcedFluctuation: 18,
       });
     });
 
@@ -224,11 +224,11 @@ describe('Organizational View Selector', () => {
       expect(result).toEqual({
         employeesAdded: 0,
         employeesLost: 3,
-        forcedLeavers: 0,
-        naturalTurnover: 1,
+        forcedFluctuation: 0,
+        remainingFluctuation: 1,
         openPositions: 400,
         terminationReceived: 99,
-        unforcedLeavers: 14,
+        unforcedFluctuation: 14,
       });
     });
   });
