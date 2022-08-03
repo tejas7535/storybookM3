@@ -132,6 +132,25 @@ describe('AppComponent', () => {
     );
 
     test(
+      'should consider new routing events - fluctuation analytics',
+      marbles((m) => {
+        routerMock.url = '/';
+        component.handleCurrentRoute();
+
+        const newEvent = new NavigationEnd(
+          1,
+          '/fluctuation-analytics',
+          '/fluctuation-analytics'
+        );
+        eventSubject.next(newEvent);
+
+        m.expect(component.isFluctuationAnalyticsPageActive$).toBeObservable(
+          m.cold('(ab)', { a: false, b: true })
+        );
+      })
+    );
+
+    test(
       'should consider new routing events - new non legal routing',
       marbles((m) => {
         routerMock.url = '/';

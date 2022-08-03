@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
 
   isLegalRouteActive$: Observable<boolean>;
   isCookieRouteActive$: Observable<boolean>;
+  isFluctuationAnalyticsPageActive$: Observable<boolean>;
   // eslint-disable-next-line no-useless-escape
   private readonly legalRouteRegExp = new RegExp(`^\/${LegalRoute}\/.*`);
 
@@ -125,6 +126,16 @@ export class AppComponent implements OnInit {
     // check if current route is cookie page
     this.isCookieRouteActive$ = merge(initialLoad, routerEvents).pipe(
       map((url) => url.split('/').pop() === LegalPath.CookiePath)
+    );
+
+    // check if current route is fluctuation analytics
+    this.isFluctuationAnalyticsPageActive$ = merge(
+      initialLoad,
+      routerEvents
+    ).pipe(
+      map(
+        (url) => url.split('/').pop() === AppRoutePath.FluctuationAnalyticsPath
+      )
     );
   }
 }

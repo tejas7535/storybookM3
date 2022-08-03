@@ -19,7 +19,9 @@
           !(isCookieRouteActive$ | ngrxPush)
         "
       >
-        <ia-filter-section></ia-filter-section>
+        <ia-filter-section
+          *ngIf="!(isFluctuationAnalyticsPageActive$ | ngrxPush)"
+        ></ia-filter-section>
 
         <nav
           mat-tab-nav-bar
