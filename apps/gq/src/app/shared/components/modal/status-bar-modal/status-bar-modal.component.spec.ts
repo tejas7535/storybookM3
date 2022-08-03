@@ -15,6 +15,7 @@ import {
 } from '../../../../../testing/mocks';
 import { StatusBar } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
+import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { HorizontalDividerModule } from '../../horizontal-divider/horizontal-divider.module';
 import { LabelTextModule } from '../../label-text/label-text.module';
@@ -49,6 +50,13 @@ describe('StatusBarModalComponent', () => {
       {
         provide: MAT_DIALOG_DATA,
         useValue: new StatusBar(),
+      },
+      {
+        provide: HelperService,
+        useValue: {
+          transformMarginDetails: jest.fn(),
+          transformPercentage: jest.fn(),
+        },
       },
     ],
   });

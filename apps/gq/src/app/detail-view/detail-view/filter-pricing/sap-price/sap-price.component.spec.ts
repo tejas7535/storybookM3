@@ -16,6 +16,7 @@ import {
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
 import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { DetailButtonComponent } from '../detail-button/detail-button.component';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
@@ -42,7 +43,13 @@ describe('SapPriceComponent', () => {
       MockComponent(QuantityDisplayComponent),
       MockComponent(DetailButtonComponent),
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      {
+        provide: HelperService,
+        useValue: { transformMarginDetails: jest.fn() },
+      },
+    ],
   });
 
   beforeEach(() => {

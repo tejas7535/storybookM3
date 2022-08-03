@@ -1,66 +1,37 @@
-import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 
 import { StatusPanelDef } from '@ag-grid-community/core';
 import { ColDef } from '@ag-grid-enterprise/all-modules';
+import {
+  TranslocoCurrencyPipe,
+  TranslocoDatePipe,
+  TranslocoDecimalPipe,
+  TranslocoPercentPipe,
+} from '@ngneat/transloco-locale';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { LOCALE_DE } from '../../constants';
 import { Keyboard } from '../../models';
 import { StatusBarConfig } from '../../models/table';
-import { PriceService } from '../price-service/price.service';
 import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HelperService {
+  constructor(
+    private readonly translocoCurrencyPipe: TranslocoCurrencyPipe,
+    private readonly translocoDatePipe: TranslocoDatePipe,
+    private readonly translocoPercentPipe: TranslocoPercentPipe,
+    private readonly translocoDecimalPipe: TranslocoDecimalPipe
+  ) {}
+
   static getCurrentYear(): number {
     return new Date().getFullYear();
   }
 
   static getLastYear(): number {
     return HelperService.getCurrentYear() - 1;
-  }
-
-  static transformNumber(number: number, showDigits: boolean): string {
-    const pipe = new DecimalPipe('en');
-
-    return pipe.transform(number, showDigits ? '.2-2' : '');
-  }
-
-  static transformDate(
-    date: string,
-    formatLocale?: string,
-    formatOptions?: Intl.DateTimeFormatOptions
-  ): string {
-    if (!date) {
-      return '';
-    }
-
-    return new Intl.DateTimeFormat(
-      formatLocale || 'de-DE',
-      formatOptions || {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      }
-    ).format(new Date(date));
-  }
-
-  static transformNumberCurrency(number: string, currency: string): string {
-    return number ? `${number} ${currency}` : Keyboard.DASH;
-  }
-
-  static transformMarginDetails(value: number, currency: string): string {
-    const transformedNumber = HelperService.transformNumber(value, true);
-
-    return HelperService.transformNumberCurrency(transformedNumber, currency);
-  }
-  static transformPercentage(percentage: number): string {
-    return percentage
-      ? `${PriceService.roundToTwoDecimals(percentage)} %`
-      : Keyboard.DASH;
   }
 
   static initStatusBar(
@@ -148,6 +119,75 @@ export class HelperService {
     ) {
       event.preventDefault();
     }
+  }
+
+  transformNumber(number: number, showDigits: boolean): string {
+    if (number === undefined) {
+      return Keyboard.DASH;
+    }
+
+    return this.translocoDecimalPipe.transform(number, {
+      minimumFractionDigits: showDigits ? 2 : undefined,
+      maximumFractionDigits: showDigits ? 2 : 0,
+    });
+  }
+
+  transformNumberExcel(number: number): string {
+    if (!number) {
+      return Keyboard.DASH;
+    }
+
+    return this.translocoDecimalPipe.transform(
+      number,
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+        useGrouping: false,
+      },
+      'en-US'
+    );
+  }
+
+  transformNumberCurrency(number: string, currency: string): string {
+    return number
+      ? this.translocoCurrencyPipe.transform(
+          number,
+          'code',
+          undefined,
+          currency
+        )
+      : Keyboard.DASH;
+  }
+
+  transformMarginDetails(value: number, currency: string): string {
+    if (!value) {
+      return Keyboard.DASH;
+    }
+
+    return this.transformNumberCurrency(value.toString(), currency);
+  }
+
+  transformPercentage(percentage: number): string {
+    return percentage
+      ? this.translocoPercentPipe.transform(percentage / 100, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })
+      : Keyboard.DASH;
+  }
+
+  transformDate(date: string, includeTime: boolean = false): string {
+    if (!date) {
+      return '';
+    }
+
+    return this.translocoDatePipe.transform(date, {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit',
+      hour: includeTime ? '2-digit' : undefined,
+      minute: includeTime ? '2-digit' : undefined,
+    });
   }
 }
 

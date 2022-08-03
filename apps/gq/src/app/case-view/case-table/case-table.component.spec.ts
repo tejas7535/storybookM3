@@ -20,6 +20,7 @@ import { CreateManualCaseButtonComponent } from '../../shared/ag-grid/custom-sta
 import { ImportCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/import-case-button/import-case-button.component';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/delete-case-button/delete-case-button.component';
+import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { CaseTableComponent } from './case-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -53,6 +54,7 @@ describe('CaseTableComponent', () => {
         initialState: VIEW_CASE_STATE_MOCK,
       }),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      { provide: HelperService, useValue: {} },
     ],
     declarations: [CaseTableComponent],
   });

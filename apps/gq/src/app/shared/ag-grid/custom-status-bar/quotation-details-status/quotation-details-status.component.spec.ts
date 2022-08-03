@@ -23,6 +23,7 @@ import {
 import { StatusBarModalComponent } from '../../../components/modal/status-bar-modal/status-bar-modal.component';
 import { StatusBarProperties } from '../../../models';
 import { SharedPipesModule } from '../../../pipes/shared-pipes.module';
+import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PriceService } from '../../../services/price-service/price.service';
 import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
 
@@ -58,6 +59,13 @@ describe('QuotationDetailsStatusComponent', () => {
           processCase: PROCESS_CASE_STATE_MOCK,
         },
       }),
+      {
+        provide: HelperService,
+        useValue: {
+          transformPercentage: jest.fn(),
+          transformMarginDetails: jest.fn(),
+        },
+      },
     ],
   });
 

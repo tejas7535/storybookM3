@@ -13,6 +13,8 @@ import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column
   providedIn: 'root',
 })
 export class ColumnDefService {
+  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+
   COLUMN_DEFS: ColDef[] = [
     {
       headerName: translate('transactionView.transactions.table.customerId'),
@@ -34,18 +36,22 @@ export class ColumnDefService {
     {
       headerName: translate('transactionView.transactions.table.price'),
       field: 'price',
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('transactionView.transactions.table.quantity'),
       field: 'quantity',
       filter: NUMBER_COLUMN_FILTER,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberFormatter(params),
     },
     {
       headerName: translate('transactionView.transactions.table.profitMargin'),
       field: 'profitMargin',
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {

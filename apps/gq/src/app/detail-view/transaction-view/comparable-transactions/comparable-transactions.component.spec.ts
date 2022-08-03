@@ -9,6 +9,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-utility.service';
 import { InfoIconModule } from '../../../shared/components/info-icon/info-icon.module';
 import { UserRoles } from '../../../shared/constants';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
@@ -38,6 +39,10 @@ describe('ComparableTransactionsComponent', () => {
     providers: [
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
       ColumnDefService,
+      {
+        provide: ColumnUtilityService,
+        useValue: {},
+      },
       provideMockStore(),
     ],
     detectChanges: false,

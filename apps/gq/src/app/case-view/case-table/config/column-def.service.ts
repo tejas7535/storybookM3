@@ -13,6 +13,8 @@ import { ColumnUtilityService } from '../../../shared/ag-grid/services/column-ut
   providedIn: 'root',
 })
 export class ColumnDefService {
+  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+
   COLUMN_DEFS: ColDef[] = [
     {
       checkboxSelection: true,
@@ -27,7 +29,8 @@ export class ColumnDefService {
       headerName: translate('caseView.caseTable.creationDate'),
       field: 'gqCreated',
       filter: DATE_COLUMN_FILTER,
-      valueFormatter: ColumnUtilityService.dateFormatter,
+      valueFormatter: (data) =>
+        this.columnUtilityService.dateFormatter(data.value),
       filterParams: ColumnUtilityService.dateFilterParams,
     },
     {

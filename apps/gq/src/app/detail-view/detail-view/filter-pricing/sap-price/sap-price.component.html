@@ -18,13 +18,13 @@
       <div class="min-w-[8rem] pt-4" *ngIf="userHasGPCRole">
         <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpi') }}:</div>
         <div>
-          <span class="font-bold">{{ gpi || '-' }} %</span>
+          <span class="font-bold">{{ gpi | percentage }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-4" *ngIf="userHasSQVRole">
         <div class="mb-1 text-body-2 text-medium-emphasis">{{ t('gpm') }}:</div>
         <div>
-          <span class="font-bold">{{ gpm || '-' }} %</span>
+          <span class="font-bold">{{ gpm | percentage }}</span>
         </div>
       </div>
       <div class="min-w-[8rem] pt-4">

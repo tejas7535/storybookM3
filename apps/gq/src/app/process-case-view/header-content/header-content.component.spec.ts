@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +17,7 @@ import { InfoIconModule } from '../../shared/components/info-icon/info-icon.modu
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { Keyboard } from '../../shared/models';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
+import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { HeaderContentComponent } from './header-content.component';
 
 describe('HeaderContentComponent', () => {
@@ -25,6 +25,7 @@ describe('HeaderContentComponent', () => {
   let spectator: Spectator<HeaderContentComponent>;
   let matDialogSpyObject: SpyObject<MatDialog>;
   let fakeTranslocoService: SpyObject<TranslocoService>;
+  let helperService: HelperService;
 
   const createComponent = createComponentFactory({
     component: HeaderContentComponent,
@@ -36,7 +37,15 @@ describe('HeaderContentComponent', () => {
       MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
+    providers: [
+      { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      {
+        provide: HelperService,
+        useValue: {
+          transformDate: jest.fn(),
+        },
+      },
+    ],
     mocks: [MatDialog],
   });
 
@@ -51,6 +60,7 @@ describe('HeaderContentComponent', () => {
       .fn()
       .mockReturnValue(of('translated')) as any;
     component = spectator.debugElement.componentInstance;
+    helperService = spectator.inject(HelperService);
   });
 
   test('should create', () => {
@@ -150,23 +160,18 @@ describe('HeaderContentComponent', () => {
     test(
       'translations for quotation mock',
       marbles((m) => {
+        const mockDate = '2022-02-01';
+        helperService.transformDate = jest.fn().mockReturnValue(mockDate);
+
         spectator.setInput('quotation', QUOTATION_MOCK);
-        const datePipe = new DatePipe('en');
-        const transformFormat = 'dd.MM.yyyy HH:mm';
 
         expect(fakeTranslocoService.selectTranslate).toHaveBeenCalledTimes(2);
         expect(fakeTranslocoService.selectTranslate).toHaveBeenCalledWith(
           'header.gqHeader',
           {
-            gqCreationDate: datePipe.transform(
-              QUOTATION_MOCK.gqCreated,
-              transformFormat
-            ),
+            gqCreationDate: mockDate,
             gqCreationName: QUOTATION_MOCK.gqCreatedByUser.name,
-            gqUpdatedDate: datePipe.transform(
-              QUOTATION_MOCK.gqLastUpdated,
-              transformFormat
-            ),
+            gqUpdatedDate: mockDate,
             gqUpdatedName: QUOTATION_MOCK.gqLastUpdatedByUser.name,
           },
           'process-case-view'
@@ -175,14 +180,8 @@ describe('HeaderContentComponent', () => {
           'header.sapHeader',
           {
             sapCreationName: QUOTATION_MOCK.sapCreatedByUser.name,
-            sapCreationDate: datePipe.transform(
-              QUOTATION_MOCK.sapCreated,
-              transformFormat
-            ),
-            sapUpdatedDate: datePipe.transform(
-              QUOTATION_MOCK.sapLastUpdated,
-              transformFormat
-            ),
+            sapCreationDate: mockDate,
+            sapUpdatedDate: mockDate,
           },
           'process-case-view'
         );
@@ -197,26 +196,23 @@ describe('HeaderContentComponent', () => {
     test(
       'translations for missing sap updated date',
       marbles((m) => {
+        const mockDate = '2022-02-01';
+        helperService.transformDate = jest
+          .fn()
+          .mockImplementation((value) => (value ? mockDate : Keyboard.DASH));
+
         spectator.setInput('quotation', {
           ...QUOTATION_MOCK,
           sapLastUpdated: undefined,
         });
-        const datePipe = new DatePipe('en');
-        const transformFormat = 'dd.MM.yyyy HH:mm';
 
         expect(fakeTranslocoService.selectTranslate).toHaveBeenCalledTimes(2);
         expect(fakeTranslocoService.selectTranslate).toHaveBeenCalledWith(
           'header.gqHeader',
           {
-            gqCreationDate: datePipe.transform(
-              QUOTATION_MOCK.gqCreated,
-              transformFormat
-            ),
+            gqCreationDate: mockDate,
             gqCreationName: QUOTATION_MOCK.gqCreatedByUser.name,
-            gqUpdatedDate: datePipe.transform(
-              QUOTATION_MOCK.gqLastUpdated,
-              transformFormat
-            ),
+            gqUpdatedDate: mockDate,
             gqUpdatedName: QUOTATION_MOCK.gqLastUpdatedByUser.name,
           },
           'process-case-view'
@@ -225,10 +221,7 @@ describe('HeaderContentComponent', () => {
           'header.sapHeader',
           {
             sapCreationName: QUOTATION_MOCK.sapCreatedByUser.name,
-            sapCreationDate: datePipe.transform(
-              QUOTATION_MOCK.sapCreated,
-              transformFormat
-            ),
+            sapCreationDate: mockDate,
             sapUpdatedDate: Keyboard.DASH,
           },
           'process-case-view'

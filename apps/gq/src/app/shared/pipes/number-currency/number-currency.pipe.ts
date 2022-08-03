@@ -6,7 +6,9 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
   name: 'numberCurrency',
 })
 export class NumberCurrencyPipe implements PipeTransform {
+  constructor(private readonly helperService: HelperService) {}
+
   transform(value: number, currency: string): string {
-    return HelperService.transformMarginDetails(value, currency);
+    return this.helperService.transformMarginDetails(value, currency);
   }
 }

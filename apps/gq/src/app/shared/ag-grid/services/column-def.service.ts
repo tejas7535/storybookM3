@@ -19,6 +19,8 @@ import { ColumnUtilityService } from './column-utility.service';
   providedIn: 'root',
 })
 export class ColumnDefService {
+  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+
   COLUMN_DEFS: ColDef[] = [
     {
       headerCheckboxSelection: true,
@@ -46,7 +48,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.orderQuantity'),
       field: ColumnFields.ORDER_QUANTITY,
-      valueFormatter: ColumnUtilityService.numberDashFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberDashFormatter(params),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -57,7 +60,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.price'),
       field: ColumnFields.PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: false },
@@ -83,7 +87,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.priceUnit'),
       field: 'material.priceUnit',
-      valueFormatter: ColumnUtilityService.numberDashFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberDashFormatter(params),
       filterParams: FILTER_PARAMS,
     },
     {
@@ -95,7 +100,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.netValue'),
       field: ColumnFields.NET_VALUE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
@@ -107,7 +113,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.gqPrice'),
       field: ColumnFields.RECOMMENDED_PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
@@ -119,31 +126,36 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.sapPrice'),
       field: ColumnFields.SAP_PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.rsp'),
       field: ColumnFields.RSP,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.msp'),
       field: ColumnFields.MSP,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.sapGrossPrice'),
       field: ColumnFields.SAP_GROSS_PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.discount'),
       field: ColumnFields.DISCOUNT,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       editable: true,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
@@ -157,31 +169,36 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.targetPrice'),
       field: ColumnFields.TARGET_PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpc'),
       field: ColumnFields.GPC,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.sqv'),
       field: ColumnFields.SQV,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.relocCost'),
       field: ColumnFields.RELOCATION_COST,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.gpi'),
       field: ColumnFields.GPI,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.GPC },
@@ -194,7 +211,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.gpm'),
       field: ColumnFields.GPM,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
         condition: { enabled: true, conditionField: ColumnFields.SQV },
@@ -207,7 +225,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.rlm'),
       field: ColumnFields.RLM,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
@@ -218,7 +237,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),
       field: ColumnFields.LAST_CUSTOMER_PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
@@ -226,7 +246,8 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceQuantity'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_QUANTITY,
-      valueFormatter: ColumnUtilityService.numberDashFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberDashFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
@@ -234,7 +255,8 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceGpi'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPI,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
@@ -242,7 +264,8 @@ export class ColumnDefService {
         'shared.quotationDetailsTable.lastCustomerPriceGpm'
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_GPM,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
@@ -251,7 +274,8 @@ export class ColumnDefService {
       ),
       field: ColumnFields.LAST_CUSTOMER_PRICE_DATE,
       filter: DATE_COLUMN_FILTER,
-      valueFormatter: ColumnUtilityService.dateFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.dateFormatter(params.value),
       filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
@@ -265,7 +289,8 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.priceDiff'),
       field: ColumnFields.PRICE_DIFF,
-      valueFormatter: ColumnUtilityService.percentageFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.percentageFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
       cellRenderer: 'EditCellComponent',
       cellRendererParams: {
@@ -276,20 +301,23 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferPrice'),
       field: ColumnFields.LAST_OFFER_PRICE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberCurrencyFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferQuantity'),
       field: ColumnFields.LAST_OFFER_QUANTITY,
-      valueFormatter: ColumnUtilityService.numberDashFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberDashFormatter(params),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('shared.quotationDetailsTable.lastOfferDate'),
       field: ColumnFields.LAST_OFFER_PRICE_DATE,
       filter: DATE_COLUMN_FILTER,
-      valueFormatter: ColumnUtilityService.dateFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.dateFormatter(params.value),
       filterParams: ColumnUtilityService.dateFilterParams,
     },
     {
@@ -309,13 +337,15 @@ export class ColumnDefService {
     {
       headerName: translate('shared.quotationDetailsTable.freeStock'),
       field: 'materialStockByPlant.freeStock',
-      valueFormatter: ColumnUtilityService.numberDashFormatter,
+      valueFormatter: (params) =>
+        this.columnUtilityService.numberDashFormatter(params),
       filterParams: FILTER_PARAMS,
     },
     {
       headerName: translate('shared.quotationDetailsTable.dateNextFreeAtp'),
-      field: 'materialStockByPlant.dateNextFree',
-      valueFormatter: ColumnUtilityService.dateFormatter,
+      field: ColumnFields.DATE_NEXT_FREE_ATP,
+      valueFormatter: (params) =>
+        this.columnUtilityService.dateFormatter(params.value),
       filter: DATE_COLUMN_FILTER,
     },
     {

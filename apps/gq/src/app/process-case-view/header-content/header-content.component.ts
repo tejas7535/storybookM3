@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,7 +6,8 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
-import { Keyboard, Quotation } from '../../shared/models';
+import { Quotation } from '../../shared/models';
+import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 
 @Component({
@@ -33,18 +33,18 @@ export class HeaderContentComponent {
 
       this.currency = value.currency;
 
-      const datePipe = new DatePipe('en');
-      const transformFormat = 'dd.MM.yyyy HH:mm';
-
       this.gqHeader$ = this.translocoService.selectTranslate(
         'header.gqHeader',
         {
           gqCreationName: value.gqCreatedByUser.name,
-          gqCreationDate: datePipe.transform(value.gqCreated, transformFormat),
+          gqCreationDate: this.helperService.transformDate(
+            value.gqCreated,
+            true
+          ),
           gqUpdatedName: value.gqLastUpdatedByUser.name,
-          gqUpdatedDate: datePipe.transform(
+          gqUpdatedDate: this.helperService.transformDate(
             value.gqLastUpdated,
-            transformFormat
+            true
           ),
         },
         'process-case-view'
@@ -55,13 +55,14 @@ export class HeaderContentComponent {
           'header.sapHeader',
           {
             sapCreationName: value.sapCreatedByUser.name,
-            sapCreationDate: datePipe.transform(
+            sapCreationDate: this.helperService.transformDate(
               value.sapCreated,
-              transformFormat
+              true
             ),
-            sapUpdatedDate:
-              datePipe.transform(value.sapLastUpdated, transformFormat) ||
-              Keyboard.DASH,
+            sapUpdatedDate: this.helperService.transformDate(
+              value.sapLastUpdated,
+              true
+            ),
           },
           'process-case-view'
         );
@@ -71,7 +72,8 @@ export class HeaderContentComponent {
 
   constructor(
     private readonly translocoService: TranslocoService,
-    private readonly matDialog: MatDialog
+    private readonly matDialog: MatDialog,
+    private readonly helperService: HelperService
   ) {}
 
   public openCaseEditingModal(): void {

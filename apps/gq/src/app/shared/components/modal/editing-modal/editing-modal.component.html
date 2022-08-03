@@ -122,7 +122,7 @@
                 "
                 class="!text-[#FFA726]"
               >
-                {{ kpi.value || 'N/A' }}
+                {{ kpi.value | percentage }}
                 <mat-icon
                   [matTooltip]="marginWarningTooltip"
                   matTooltipClass="whitespace-pre-line !text-caption"
@@ -138,7 +138,7 @@
                     modalData.field + '-modal_' + kpi.key + '-value'
                   "
                 >
-                  {{ kpi.value || 'N/A' }}
+                  {{ kpi.value | percentage }}
                 </span>
               </ng-template>
               <ng-template #priceFormatter>
@@ -167,7 +167,7 @@
                   modalData.field + '-modal_' + kpi.key + '-previous-value'
                 "
               >
-                {{ modalData.quotationDetail[kpi.key] || 'N/A' }}
+                {{ $any(modalData.quotationDetail[kpi.key]) | percentage }}
               </span>
               <ng-template #previousPriceFormatter>
                 <span

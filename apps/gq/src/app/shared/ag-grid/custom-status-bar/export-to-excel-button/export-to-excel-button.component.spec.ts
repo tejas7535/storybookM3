@@ -8,10 +8,8 @@ import { of } from 'rxjs';
 
 import {
   IStatusPanelParams,
-  ProcessCellForExportParams,
   ProcessHeaderForExportParams,
 } from '@ag-grid-community/all-modules';
-import { ColDef } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -33,7 +31,6 @@ import {
 } from '../../../ag-grid/constants/column-fields.enum';
 import { ExportExcel } from '../../../components/modal/export-excel-modal/export-excel.enum';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
-import { PriceService } from '../../../services/price-service/price.service';
 import { excelStyleObjects } from './excel-styles.constants';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
 
@@ -42,6 +39,7 @@ describe('ExportToExcelButtonComponent', () => {
   let spectator: Spectator<ExportToExcelButtonComponent>;
   let mockParams: IStatusPanelParams;
   let snackBar: MatSnackBar;
+  let helperService: HelperService;
 
   const createComponent = createComponentFactory({
     component: ExportToExcelButtonComponent,
@@ -55,6 +53,22 @@ describe('ExportToExcelButtonComponent', () => {
           sapPriceDetails: SAP_PRICE_DETAILS_STATE_MOCK,
         },
       }),
+      {
+        provide: HelperService,
+        useValue: {
+          transformMarginDetails: jest.fn().mockImplementation(
+            (value) =>
+              `${Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 2,
+              }).format(value)} EUR`
+          ),
+          transformPercentage: jest
+            .fn()
+            .mockImplementation((value) => `${value} %`),
+          transformNumber: jest.fn().mockImplementation(() => 42),
+          transformNumberExcel: jest.fn().mockImplementation(() => 42),
+        },
+      },
     ],
     imports: [
       MatButtonModule,
@@ -83,6 +97,7 @@ describe('ExportToExcelButtonComponent', () => {
       },
     } as unknown as IStatusPanelParams;
     snackBar = spectator.inject(MatSnackBar);
+    helperService = spectator.inject(HelperService);
   });
 
   test('should create', () => {
@@ -249,20 +264,6 @@ describe('ExportToExcelButtonComponent', () => {
     });
   });
   describe('processCellCallback', () => {
-    test('should return cell value', () => {
-      const colDef = {
-        field: ColumnFields.GPI,
-      };
-      const params = {
-        value: 'value',
-        column: {
-          getColDef: () => colDef,
-        },
-      } as any;
-
-      const result = component.processCellCallback(params);
-      expect(result).toEqual(params.value);
-    });
     describe('should apply valueFormatter', () => {
       const colDef = {
         field: undefined as any,
@@ -420,6 +421,11 @@ describe('ExportToExcelButtonComponent', () => {
 
   describe('addSummaryHeader', () => {
     test('should return summary Header', () => {
+      helperService.transformDate = jest
+        .fn()
+        .mockReturnValue(
+          new Date(QUOTATION_MOCK.gqCreated).toLocaleDateString()
+        );
       const result = component.addSummaryHeader(QUOTATION_MOCK);
       const type = 'String';
 
@@ -688,7 +694,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: HelperService.transformMarginDetails(
+              value: helperService.transformMarginDetails(
                 CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
                 CUSTOMER_MOCK.currency
               ),
@@ -723,7 +729,7 @@ describe('ExportToExcelButtonComponent', () => {
           {
             data: {
               type,
-              value: HelperService.transformMarginDetails(
+              value: helperService.transformMarginDetails(
                 CUSTOMER_MOCK.marginDetail?.currentNetSales,
                 CUSTOMER_MOCK.currency
               ),
@@ -974,7 +980,6 @@ describe('ExportToExcelButtonComponent', () => {
         component.extendedComparableLinkedTransactions = [
           EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK,
         ];
-        PriceService.roundToTwoDecimals = jest.fn().mockReturnValue(42);
         component['getNumberExcelCell'] = jest.fn();
 
         component.addCustomRows(
@@ -985,7 +990,7 @@ describe('ExportToExcelButtonComponent', () => {
         expect(component.getNumberExcelCell).toHaveBeenCalledTimes(
           Object.values(translations).length
         );
-        expect(PriceService.roundToTwoDecimals).toHaveBeenCalledWith(
+        expect(helperService.transformNumberExcel).toHaveBeenCalledWith(
           EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
         );
       });
@@ -1080,115 +1085,52 @@ describe('ExportToExcelButtonComponent', () => {
     });
 
     test('rounds up price', () => {
-      PriceService.roundToTwoDecimals = jest.fn().mockReturnValue(42);
-
       component.transformValue(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         ColumnFields.PROFIT_MARGIN
       );
 
-      expect(PriceService.roundToTwoDecimals).toHaveBeenCalledWith(
+      expect(helperService.transformNumberExcel).toHaveBeenCalledWith(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.profitMargin
       );
     });
 
     test('rounds up percent value', () => {
-      HelperService.transformNumber = jest.fn().mockReturnValue(42);
-
       component.transformValue(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         ColumnFields.PRICE
       );
 
-      expect(HelperService.transformNumber).toHaveBeenCalledWith(
-        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price,
-        true
+      expect(helperService.transformNumberExcel).toHaveBeenCalledWith(
+        EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK.price
       );
     });
 
     test('handle undefined values', () => {
-      HelperService.transformNumber = jest.fn().mockReturnValue(42);
+      helperService.transformNumber = jest.fn().mockReturnValue(42);
 
       const result = component.transformValue(
         EXTENDED_COMPARABLE_LINKED_TRANSACTION_MOCK as any,
         'does-not-exist' as any
       );
 
-      expect(HelperService.transformNumber).not.toHaveBeenCalled();
+      expect(helperService.transformNumber).not.toHaveBeenCalled();
       expect(result).toEqual('');
     });
 
     test('uses quotation currency', () => {
-      HelperService.transformNumber = jest.fn().mockReturnValue(42);
-      HelperService.transformNumberCurrency = jest.fn();
+      helperService.transformNumber = jest.fn().mockReturnValue(42);
+      helperService.transformNumberCurrency = jest.fn();
       component['params'] = {
         ...mockParams,
         context: { quotation: { currency: 'JPY' } },
       };
       component.transformValue(EXTENDED_SAP_PRICE_DETAIL_MOCK, 'amount');
 
-      expect(HelperService.transformNumberCurrency).toHaveBeenCalledWith(
+      expect(helperService.transformNumberCurrency).toHaveBeenCalledWith(
         42,
         'JPY'
       );
-    });
-  });
-
-  describe('hasDelimiterProblemInExcelGreaterEqual1000', () => {
-    test('does not transform, if columnFields is not equal to Price', () => {
-      expect(
-        component.hasDelimiterProblemInExcelGreaterEqual1000(
-          ColumnFields.ORDER_QUANTITY,
-          1000
-        )
-      ).toBeFalsy();
-    });
-
-    test('does not transform, if columnFields is equal to Price and value is equals to or smaller than 1000', () => {
-      expect(
-        component.hasDelimiterProblemInExcelGreaterEqual1000(
-          ColumnFields.PRICE,
-          1000
-        )
-      ).toBeFalsy();
-    });
-
-    test('transforms, if columnFields is equal to Price and value is smaller than 1000', () => {
-      expect(
-        component.hasDelimiterProblemInExcelGreaterEqual1000(
-          ColumnFields.PRICE,
-          999
-        )
-      ).toBeTruthy();
-    });
-  });
-
-  describe('hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell', () => {
-    test('does not transform, if columnFields is not equal to Price', () => {
-      expect(
-        component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
-          { field: ColumnFields.ORDER_QUANTITY } as ColDef,
-          { value: 1000 } as ProcessCellForExportParams
-        )
-      ).toBeFalsy();
-    });
-
-    test('does not transform, if columnFields is equal to Price and value is equals to or smaller than 1000', () => {
-      expect(
-        component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
-          { field: ColumnFields.PRICE } as ColDef,
-          { value: 1000 } as ProcessCellForExportParams
-        )
-      ).toBeFalsy();
-    });
-
-    test('transforms, if columnFields is equal to Price and value is smaller than 1000', () => {
-      expect(
-        component.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
-          { field: ColumnFields.PRICE } as ColDef,
-          { value: 999 } as ProcessCellForExportParams
-        )
-      ).toBeTruthy();
     });
   });
 });

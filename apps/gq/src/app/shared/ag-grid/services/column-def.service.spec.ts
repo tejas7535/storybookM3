@@ -5,6 +5,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { HelperService } from '../../services/helper-service/helper-service.service';
 import { ColumnDefService } from './column-def.service';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -21,6 +22,7 @@ describe('ColumnDefService', () => {
     providers: [
       provideMockStore({}),
       { provide: MATERIAL_SANITY_CHECKS, useValue: false },
+      { provide: HelperService, useValue: {} },
     ],
   });
 

@@ -5,10 +5,10 @@ import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { StatusBarConfig } from '../../../models/table';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import {
-  BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
+  InputTableColumnDefService,
   MODULES,
 } from './config';
 
@@ -18,6 +18,9 @@ import {
   styleUrls: ['./input-table.component.scss'],
 })
 export class InputTableComponent implements OnInit {
+  constructor(
+    private readonly columnDefinitionService: InputTableColumnDefService
+  ) {}
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs: ColDef[];
@@ -30,7 +33,7 @@ export class InputTableComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = HelperService.initColDef(
       this.isCaseView,
-      BASE_COLUMN_DEFS
+      this.columnDefinitionService.BASE_COLUMN_DEFS
     );
     this.statusBar = HelperService.initStatusBar(
       this.isCaseView,

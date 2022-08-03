@@ -5,6 +5,7 @@ import { PushModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
+import { HelperService } from '../../../shared/services/helper-service/helper-service.service';
 import { SapPriceDetailsTableComponent } from './sap-price-details-table.component';
 
 describe('SapConditionsTableComponent', () => {
@@ -18,6 +19,7 @@ describe('SapConditionsTableComponent', () => {
       provideTranslocoTestingModule({}),
       PushModule,
     ],
+    providers: [{ provide: HelperService, useValue: {} }],
   });
 
   beforeEach(() => {

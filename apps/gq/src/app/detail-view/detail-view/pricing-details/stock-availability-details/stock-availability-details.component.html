@@ -56,11 +56,13 @@
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('dateNextFreeAtp') }}</span>
-        <span text>{{ materialStockByPlant.dateNextFree | dateDisplay }}</span>
+        <span text>{{
+          materialStockByPlant.dateNextFree | translocoDate
+        }}</span>
       </gq-label-text>
       <gq-label-text>
         <span label>{{ t('deliveryDate') }}</span>
-        <span text>{{ materialStockByPlant.arrivalDate | dateDisplay }}</span>
+        <span text>{{ materialStockByPlant.arrivalDate | translocoDate }}</span>
       </gq-label-text>
     </div>
   </div>

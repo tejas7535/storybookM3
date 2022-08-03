@@ -12,7 +12,6 @@ import { UserRoles } from '../../constants/user-roles.enum';
 import { Keyboard } from '../../models';
 import { PriceSource, QuotationDetail } from '../../models/quotation-detail';
 import { LastCustomerPriceCondition } from '../../models/quotation-detail/last-customer-price-condition.enum';
-import { DateDisplayPipe } from '../../pipes/date-display/date-display.pipe';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialClassificationSOPPipe } from '../../pipes/material-classification-sop/material-classification-sop.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
@@ -31,6 +30,8 @@ import {
 export class ColumnUtilityService {
   static materialPipe = new MaterialTransformPipe();
   static materialClassificationSOPPipe = new MaterialClassificationSOPPipe();
+
+  constructor(private readonly helperService: HelperService) {}
 
   static dateFilterParams = {
     comparator: (compareDate: Date, cellDate: string) => {
@@ -76,37 +77,6 @@ export class ColumnUtilityService {
       : true;
   }
 
-  static numberFormatter(data: ValueFormatterParams): string {
-    return HelperService.transformNumber(data.value, false);
-  }
-
-  static numberDashFormatter(data: ValueFormatterParams): string {
-    return HelperService.transformNumber(data.value, false) ?? Keyboard.DASH;
-  }
-
-  static numberCurrencyFormatter(params: ValueFormatterParams): string {
-    const formattedNumber = HelperService.transformNumber(params.value, true);
-
-    return HelperService.transformNumberCurrency(
-      formattedNumber,
-      params.context.quotation.currency
-    );
-  }
-
-  static sapConditionAmountFormatter(params: ValueFormatterParams): string {
-    if (params.data.calculationType === CalculationType.ABSOLUT) {
-      return ColumnUtilityService.numberCurrencyFormatter(params);
-    }
-
-    return ColumnUtilityService.percentageFormatter(params);
-  }
-
-  static percentageFormatter(data: ValueFormatterParams): string {
-    return HelperService.transformPercentage(
-      PriceService.roundToTwoDecimals(data.value)
-    );
-  }
-
   static infoComparator(info1: any, info2: any): number {
     const valid1 = info1.valid;
     const valid2 = info2.valid;
@@ -141,11 +111,6 @@ export class ColumnUtilityService {
   }
   static blankTransform(data: ValueFormatterParams): string {
     return data.value || '';
-  }
-  static dateFormatter(data: any): string {
-    const datePipe = new DateDisplayPipe();
-
-    return datePipe.transform(data.value);
   }
 
   static idFormatter(data: any): string {
@@ -190,5 +155,46 @@ export class ColumnUtilityService {
     const uomPipe = new UomPipe();
 
     return uomPipe.transform(params.value);
+  }
+
+  numberDashFormatter(data: ValueFormatterParams): string {
+    if (!data?.value) {
+      return Keyboard.DASH;
+    }
+
+    return this.helperService.transformNumber(data.value, false);
+  }
+
+  numberFormatter(data: ValueFormatterParams): string {
+    return this.helperService.transformNumber(data.value, false);
+  }
+
+  percentageFormatter(data: ValueFormatterParams): string {
+    return this.helperService.transformPercentage(
+      PriceService.roundToTwoDecimals(data.value)
+    );
+  }
+
+  sapConditionAmountFormatter(params: ValueFormatterParams): string {
+    if (params.data.calculationType === CalculationType.ABSOLUT) {
+      return this.numberCurrencyFormatter(params);
+    }
+
+    return this.percentageFormatter(params);
+  }
+
+  dateFormatter(date: string): string {
+    if (!date) {
+      return Keyboard.DASH;
+    }
+
+    return this.helperService.transformDate(date);
+  }
+
+  numberCurrencyFormatter(params: ValueFormatterParams): string {
+    return this.helperService.transformNumberCurrency(
+      params.value,
+      params.context.quotation.currency
+    );
   }
 }

@@ -6,6 +6,12 @@ import { Observable } from 'rxjs';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 import { TranslocoService } from '@ngneat/transloco';
+import {
+  TranslocoCurrencyPipe,
+  TranslocoDatePipe,
+  TranslocoDecimalPipe,
+  TranslocoPercentPipe,
+} from '@ngneat/transloco-locale';
 
 import {
   AzureConfig,
@@ -64,6 +70,10 @@ const azureConfig = new AzureConfig(
       useFactory: DynamicDataPrivacy,
       deps: [TranslocoService],
     },
+    TranslocoCurrencyPipe,
+    TranslocoDatePipe,
+    TranslocoDecimalPipe,
+    TranslocoPercentPipe,
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

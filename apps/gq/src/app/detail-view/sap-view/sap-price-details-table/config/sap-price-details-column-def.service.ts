@@ -15,6 +15,8 @@ import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column
   providedIn: 'root',
 })
 export class SapPriceDetailsColumnDefService {
+  constructor(private readonly columnUtilityService: ColumnUtilityService) {}
+
   COLUMN_DEFS: ColDef[] = [
     {
       field: SapPriceDetailsColumnFields.SAP_SEQUENCE_ID,
@@ -35,7 +37,8 @@ export class SapPriceDetailsColumnDefService {
     {
       headerName: translate('sapView.sapConditionsTable.amount'),
       field: SapPriceDetailsColumnFields.SAP_AMOUNT,
-      valueFormatter: ColumnUtilityService.sapConditionAmountFormatter,
+      valueFormatter: (data) =>
+        this.columnUtilityService.sapConditionAmountFormatter(data),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
@@ -53,14 +56,16 @@ export class SapPriceDetailsColumnDefService {
     {
       headerName: translate('sapView.sapConditionsTable.conditionValue'),
       field: SapPriceDetailsColumnFields.SAP_CONDITION_VALUE,
-      valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
+      valueFormatter: (data) =>
+        this.columnUtilityService.numberCurrencyFormatter(data),
       filter: NUMBER_COLUMN_FILTER,
     },
     {
       headerName: translate('sapView.sapConditionsTable.validTo'),
       field: SapPriceDetailsColumnFields.SAP_VALID_TO,
       filter: DATE_COLUMN_FILTER,
-      valueFormatter: ColumnUtilityService.dateFormatter,
+      valueFormatter: (data) =>
+        this.columnUtilityService.dateFormatter(data.value),
       filterParams: ColumnUtilityService.dateFilterParams,
     },
   ];

@@ -8,6 +8,7 @@ import {
   DATA_POINT_MOCK,
 } from '../../../../../testing/mocks';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
@@ -23,14 +24,26 @@ jest.mock('@ngneat/transloco', () => ({
 describe('ChartConfigService', () => {
   let service: ChartConfigService;
   let spectator: SpectatorService<ChartConfigService>;
+  let helperService: HelperService;
 
   const createService = createServiceFactory({
     service: ChartConfigService,
+    providers: [
+      {
+        provide: HelperService,
+        useValue: {
+          transformPercentage: jest.fn(),
+          transformNumberCurrency: jest.fn(),
+          transformNumber: jest.fn(),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
+    helperService = spectator.inject(HelperService);
   });
 
   describe('getLineForToolTipFormatter', () => {
@@ -51,6 +64,8 @@ describe('ChartConfigService', () => {
   });
   describe('getRegressionForToolTipFormatter', () => {
     test('should return regression line', () => {
+      helperService.transformPercentage = jest.fn().mockReturnValue('100%');
+
       const data = { value: [0, 1] } as any;
       service.regressionData = [[0, 100]];
 
@@ -86,16 +101,27 @@ describe('ChartConfigService', () => {
   describe('getValueForToolTipItem', () => {
     const data: DataPoint = DATA_POINT_MOCK;
     test('should return price', () => {
+      helperService.transformNumberCurrency = jest
+        .fn()
+        .mockReturnValue('25 EUR');
+
       const result = service.getValueForToolTipItem(ToolTipItems.PRICE, data);
 
+      expect(helperService.transformNumberCurrency).toHaveBeenCalledWith(
+        data.price.toString(),
+        data.currency
+      );
       expect(result).toEqual(`${data.price} ${data.currency}`);
     });
+
     test('should return year', () => {
       const result = service.getValueForToolTipItem(ToolTipItems.YEAR, data);
 
       expect(result).toEqual(data.year);
     });
     test('should return quantity', () => {
+      helperService.transformNumber = jest.fn().mockReturnValue(120);
+
       const result = service.getValueForToolTipItem(
         ToolTipItems.QUANTITY,
         data
@@ -104,6 +130,8 @@ describe('ChartConfigService', () => {
       expect(result).toEqual(data.value[service.INDEX_X_AXIS]);
     });
     test('should return profitMargin', () => {
+      helperService.transformPercentage = jest.fn().mockReturnValue('120%');
+
       const result = service.getValueForToolTipItem(
         ToolTipItems.PROFIT_MARGIN,
         data

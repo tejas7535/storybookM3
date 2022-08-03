@@ -12,6 +12,7 @@ import {
 import { ComparableLinkedTransaction } from '../../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
 import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { Customer } from '../../../../shared/models/customer';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { DataPoint } from '../models/data-point.model';
 import { ToolTipItems } from '../models/tooltip-items.enum';
@@ -36,6 +37,8 @@ export class ChartConfigService {
     },
     axisLabel: {
       show: true,
+      formatter: (value: number) =>
+        this.helperService.transformNumber(value, false),
     },
     name: translate(`transactionView.graph.x-axis`),
     nameLocation: 'middle',
@@ -51,7 +54,13 @@ export class ChartConfigService {
     name: translate(`transactionView.graph.y-axis`),
     nameGap: 20,
     max: 100,
+    axisLabel: {
+      formatter: (value: number) =>
+        this.helperService.transformNumber(value, false),
+    },
   };
+
+  constructor(private readonly helperService: HelperService) {}
 
   getLineForToolTipFormatter = (
     color: string,
@@ -78,9 +87,9 @@ export class ChartConfigService {
       (d) => d[0] === data.value[this.INDEX_X_AXIS]
     );
 
-    const gpi = `${PriceService.roundToTwoDecimals(
+    const gpi = `${this.helperService.transformPercentage(
       dataPoint[this.INDEX_Y_AXIS]
-    )}%`;
+    )}`;
 
     let items = `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.2">`;
 
@@ -99,13 +108,21 @@ export class ChartConfigService {
   ): string | number => {
     switch (item) {
       case ToolTipItems.PRICE:
-        return `${data.price} ${data.currency}`;
+        return this.helperService.transformNumberCurrency(
+          data.price.toString(),
+          data.currency
+        );
       case ToolTipItems.YEAR:
         return data.year;
       case ToolTipItems.QUANTITY:
-        return data.value[this.INDEX_X_AXIS];
+        return this.helperService.transformNumber(
+          data.value[this.INDEX_X_AXIS],
+          false
+        );
       case ToolTipItems.PROFIT_MARGIN:
-        return `${data.value[this.INDEX_Y_AXIS]}%`;
+        return this.helperService.transformPercentage(
+          data.value[this.INDEX_Y_AXIS]
+        );
       default:
         return ``;
     }

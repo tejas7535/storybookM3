@@ -15,6 +15,7 @@ import { CreateCaseResetAllButtonComponent } from '../../../ag-grid/custom-statu
 import { ProcessCaseResetAllButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { CustomStatusBarModule } from '../../../ag-grid/custom-status-bar/custom-status-bar.module';
 import { MaterialValidationStatusComponent } from '../../../ag-grid/custom-status-bar/material-validation-status/material-validation-status.component';
+import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { InputTableComponent } from './input-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -47,6 +48,7 @@ describe('InputTableComponent', () => {
         provide: MatDialogRef,
         useValue: {},
       },
+      { provide: HelperService, useValue: {} },
     ],
   });
   beforeEach(() => {

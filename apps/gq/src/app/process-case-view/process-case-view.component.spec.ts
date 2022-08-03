@@ -46,6 +46,7 @@ import { AddEntryModule } from '../shared/components/case-material/add-entry/add
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
 import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
+import { HelperService } from '../shared/services/helper-service/helper-service.service';
 import { UpdateQuotationRequest } from '../shared/services/rest-services/quotation-service/models/update-quotation-request.model';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
@@ -108,6 +109,14 @@ describe('ProcessCaseViewComponent', () => {
           'azure-auth': {},
         },
       }),
+      {
+        provide: HelperService,
+        useValue: {
+          transformDate: jest.fn(),
+          transformMarginDetails: jest.fn(),
+          transformPercentage: jest.fn(),
+        },
+      },
     ],
     entryComponents: [AddMaterialDialogComponent],
   });

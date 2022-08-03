@@ -15,7 +15,6 @@ import {
   ProcessHeaderForExportParams,
   ValueFormatterParams,
 } from '@ag-grid-community/all-modules';
-import { ColDef } from '@ag-grid-community/core';
 import { translate, TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
@@ -39,7 +38,6 @@ import {
   ColumnFields,
   DateColumns,
   ExportExcelNumberColumns,
-  PercentColumns,
   PriceColumns,
   SapPriceDetailsColumnFields,
 } from '../../constants/column-fields.enum';
@@ -70,13 +68,15 @@ export class ExportToExcelButtonComponent implements OnInit {
     ColumnFields.PRICE_SOURCE,
     ColumnFields.LAST_CUSTOMER_PRICE_CONDITION,
     ColumnFields.UOM,
+    ColumnFields.DATE_NEXT_FREE_ATP,
   ];
 
   constructor(
     private readonly matDialog: MatDialog,
     private readonly store: Store,
     private readonly translocoService: TranslocoService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -224,18 +224,16 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   processCellCallback(params: ProcessCellForExportParams): string {
     const colDef = params.column.getColDef();
+
     if (
       colDef.valueFormatter &&
       this.toBeFormattedInExcelDownload.includes(colDef.field)
     ) {
       return this.applyExcelCellValueFormatter(params);
     } else if (
-      this.hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
-        colDef,
-        params
-      )
+      ExportExcelNumberColumns.includes(colDef.field as ColumnFields)
     ) {
-      return HelperService.transformNumber(params.value, true);
+      return this.helperService.transformNumberExcel(params.value);
     }
 
     return params.value;
@@ -275,7 +273,7 @@ export class ExportToExcelButtonComponent implements OnInit {
   }
 
   addSummaryHeader(quotation: Quotation): ExcelCell[][] {
-    const createdOnDate = new Date(quotation.gqCreated).toLocaleDateString();
+    const createdOnDate = this.helperService.transformDate(quotation.gqCreated);
     const result: ExcelCell[][] = [
       [
         this.getExcelCell(
@@ -390,7 +388,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformMarginDetails(
+            value: this.helperService.transformMarginDetails(
               statusBarProperties?.netValue,
               quotation.currency
             ),
@@ -411,7 +409,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformPercentage(statusBarProperties.gpm),
+            value: this.helperService.transformPercentage(
+              statusBarProperties.gpm
+            ),
           },
           styleId: excelStyleObjects.excelTextBorderBold.id,
         },
@@ -429,7 +429,9 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformPercentage(statusBarProperties.gpi),
+            value: this.helperService.transformPercentage(
+              statusBarProperties.gpi
+            ),
           },
           styleId: excelStyleObjects.excelTextBorder.id,
         },
@@ -447,7 +449,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformPercentage(
+            value: this.helperService.transformPercentage(
               statusBarProperties.priceDiff
             ),
           },
@@ -560,7 +562,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformMarginDetails(
+            value: this.helperService.transformMarginDetails(
               customer.marginDetail?.netSalesLastYear,
               customer.currency
             ),
@@ -581,7 +583,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformPercentage(
+            value: this.helperService.transformPercentage(
               customer.marginDetail?.gpiLastYear
             ),
           },
@@ -601,7 +603,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformMarginDetails(
+            value: this.helperService.transformMarginDetails(
               customer.marginDetail?.currentNetSales,
               customer.currency
             ),
@@ -622,7 +624,7 @@ export class ExportToExcelButtonComponent implements OnInit {
         {
           data: {
             type: typeString,
-            value: HelperService.transformPercentage(
+            value: this.helperService.transformPercentage(
               customer.marginDetail?.currentGpi
             ),
           },
@@ -785,14 +787,10 @@ export class ExportToExcelButtonComponent implements OnInit {
 
     if (value === undefined || value === null) {
       return '';
-    } else if (PercentColumns.includes(key as ColumnFields)) {
-      return PriceService.roundToTwoDecimals(Number(value)).toString();
+    } else if (ExportExcelNumberColumns.includes(key as ColumnFields)) {
+      return this.helperService.transformNumberExcel(value as number);
     } else if (DateColumns.includes(key as SapPriceDetailsColumnFields)) {
-      return HelperService.transformDate(value.toString());
-    } else if (
-      this.hasDelimiterProblemInExcelGreaterEqual1000(key, Number(value))
-    ) {
-      return HelperService.transformNumber(value as number, true).toString();
+      return this.helperService.transformDate(value.toString());
     } else {
       switch (key) {
         case SapPriceDetailsColumnFields.SAP_PRICING_UNIT: {
@@ -808,34 +806,18 @@ export class ExportToExcelButtonComponent implements OnInit {
             'calculationType' in t &&
             t.calculationType === CalculationType.ABSOLUT
           ) {
-            return HelperService.transformNumberCurrency(
-              HelperService.transformNumber(Number(value), true),
+            return this.helperService.transformNumberCurrency(
+              this.helperService.transformNumber(Number(value), true),
               this.params.context.quotation.currency
             );
           }
 
-          return HelperService.transformPercentage(Number(value));
+          return this.helperService.transformPercentage(Number(value));
         }
         default:
           return value.toString();
       }
     }
-  }
-
-  hasDelimiterProblemInExcelGreaterEqual1000(
-    key: string,
-    value: number
-  ): boolean {
-    return key === ColumnFields.PRICE && value < 1000;
-  }
-
-  hasDelimiterProblemInExcelGreaterEqual1000ProcessingCell(
-    colDef: ColDef,
-    params: ProcessCellForExportParams
-  ): boolean {
-    return (
-      (PriceColumns as string[]).includes(colDef.field) && params.value < 1000
-    );
   }
 
   appendQuotationCurrency(key: string): string {

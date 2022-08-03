@@ -2,6 +2,7 @@ import {
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-community/all-modules';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import {
@@ -18,6 +19,7 @@ import {
 } from '../../models/quotation-detail';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
+import { HelperService } from '../../services/helper-service/helper-service.service';
 import { ColumnFields } from '../constants/column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
@@ -27,7 +29,45 @@ jest.mock('@ngneat/transloco', () => ({
 }));
 
 describe('CreateColumnService', () => {
+  let service: ColumnUtilityService;
+  let spectator: SpectatorService<ColumnUtilityService>;
   let roles: string[];
+
+  const createService = createServiceFactory({
+    service: ColumnUtilityService,
+    providers: [
+      {
+        provide: HelperService,
+        useValue: {
+          transformPercentage: jest
+            .fn()
+            .mockImplementation((value) => `${value} %`),
+          transformNumberCurrency: jest.fn().mockImplementation(
+            (value, currency) =>
+              `${Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 2,
+              }).format(value)} ${currency}`
+          ),
+          transformNumber: jest
+            .fn()
+            .mockImplementation((value) =>
+              Intl.NumberFormat('en-US').format(value)
+            ),
+          transformDate: jest
+            .fn()
+            .mockImplementation((value) =>
+              Intl.DateTimeFormat('en-US').format(new Date(value))
+            ),
+        },
+      },
+    ],
+  });
+
+  beforeEach(() => {
+    spectator = createService();
+    service = spectator.service;
+  });
+
   beforeAll(() => {
     roles = [UserRoles.BASIC];
   });
@@ -161,7 +201,7 @@ describe('CreateColumnService', () => {
       const params = {
         value: 1234,
       };
-      const result = ColumnUtilityService.numberFormatter(
+      const result = service.numberFormatter(
         params as unknown as ValueFormatterParams
       );
 
@@ -173,7 +213,7 @@ describe('CreateColumnService', () => {
       const params = {
         value: undefined as any,
       };
-      const result = ColumnUtilityService.numberDashFormatter(
+      const result = service.numberDashFormatter(
         params as unknown as ValueFormatterParams
       );
 
@@ -192,7 +232,7 @@ describe('CreateColumnService', () => {
           quotation: { currency: 'testcurrency' },
         },
       };
-      const result = ColumnUtilityService.numberCurrencyFormatter(
+      const result = service.numberCurrencyFormatter(
         params as unknown as ValueFormatterParams
       );
 
@@ -208,7 +248,7 @@ describe('CreateColumnService', () => {
         context: { quotation: QUOTATION_MOCK },
       };
 
-      const result = ColumnUtilityService.sapConditionAmountFormatter(
+      const result = service.sapConditionAmountFormatter(
         params as ValueFormatterParams
       );
 
@@ -223,7 +263,7 @@ describe('CreateColumnService', () => {
         },
       };
 
-      const result = ColumnUtilityService.sapConditionAmountFormatter(
+      const result = service.sapConditionAmountFormatter(
         params as ValueFormatterParams
       );
 
@@ -233,7 +273,7 @@ describe('CreateColumnService', () => {
 
   describe('percentageFormatter', () => {
     test('should add %', () => {
-      const result = ColumnUtilityService.percentageFormatter({
+      const result = service.percentageFormatter({
         value: 10,
       } as unknown as ValueFormatterParams);
 
@@ -292,14 +332,16 @@ describe('CreateColumnService', () => {
       const data = {
         value: '2020-11-24T07:46:32.446388',
       };
-      const res = ColumnUtilityService.dateFormatter(data);
+      const res = service.dateFormatter(data.value);
 
-      const expected = new Date(data.value).toLocaleDateString();
+      const expected = '11/24/2020';
       expect(res).toEqual(expected);
     });
     test('should render Date for empty data', () => {
-      const data = {};
-      const res = ColumnUtilityService.dateFormatter(data);
+      const data = {
+        value: undefined as any,
+      };
+      const res = service.dateFormatter(data.value);
       expect(res).toEqual(Keyboard.DASH);
     });
   });
