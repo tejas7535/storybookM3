@@ -1,11 +1,10 @@
 <mat-form-field [appearance]="appearance" class="w-full">
-  <mat-label class="ml-2" *ngIf="label">{{ label }}</mat-label>
+  <mat-label *ngIf="label">{{ label }}</mat-label>
   <input
     type="text"
     [matAutocomplete]="auto"
     matInput
     [formControl]="searchControl"
-    class="ml-2 text-high-emphasis"
     [class.text-high-emphasis]="!control.value"
     [class.text-link]="control.value"
     (blur)="onTouched()"
@@ -14,6 +13,7 @@
   <mat-autocomplete
     #auto="matAutocomplete"
     [displayWith]="displayWithFn"
+    [autoActiveFirstOption]="true"
     (optionSelected)="onOptionSelected($event.option.value)"
   >
     <div>
@@ -24,8 +24,8 @@
       ></ng-content>
       <ng-template #searchOptionsTemplate>
         <div
+          *ngIf="stringOptions.length === 0 && noResultsText"
           class="flex h-12 w-full flex-col content-around"
-          *ngIf="stringOptions.length === 0"
         >
           <div class="relative my-auto text-center text-high-emphasis">
             {{ noResultsText }}
@@ -36,8 +36,9 @@
           <mat-option
             *ngFor="let option of filteredOptions; trackBy: trackByFn"
             [value]="option"
-            >{{ option.title }}</mat-option
-          >
+            [innerHTML]="option.title"
+            class="!h-10 !text-caption"
+          ></mat-option>
         </div>
       </ng-template>
     </div>

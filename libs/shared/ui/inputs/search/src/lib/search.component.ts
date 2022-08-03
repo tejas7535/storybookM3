@@ -5,6 +5,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -12,10 +13,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-
-import { StringOption } from '@schaeffler/inputs';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 import { debounceTime, filter, Subscription, tap } from 'rxjs';
+
+import { StringOption } from '@schaeffler/inputs';
 
 @Component({
   selector: 'schaeffler-search',
@@ -33,7 +35,7 @@ export class SearchComponent
   @Input() public stringOptions!: StringOption[];
   @Input() public loading?: boolean;
   @Input() public error?: boolean;
-  @Input() public noResultsText = 'No Results';
+  @Input() public noResultsText: string = undefined;
   @Input() public displayWith: 'id' | 'title' = 'title';
 
   @Output() public readonly searchUpdated = new EventEmitter<string>();
@@ -44,6 +46,9 @@ export class SearchComponent
   public searchControl = new FormControl();
 
   @Input() public filterFn?: (option: StringOption, value: string) => boolean;
+
+  @ViewChild(MatAutocompleteTrigger)
+  private readonly autocomplete: MatAutocompleteTrigger;
 
   private readonly subscription = new Subscription();
 
@@ -107,7 +112,9 @@ export class SearchComponent
   }
 
   public onSearchReset(): void {
-    this.searchControl.setValue('');
+    this.autocomplete.closePanel();
+    this.stringOptions = [];
+    this.searchControl.reset();
     this.control.reset();
   }
 
@@ -127,7 +134,9 @@ export class SearchComponent
   }
 
   public displayWithFn = (option: StringOption): string =>
-    this.displayWith === 'title' ? option?.title : option?.id.toString();
+    this.sanitizeSearchString(
+      this.displayWith === 'title' ? option?.title : option?.id.toString()
+    );
 
   public filterOptions = (_option?: StringOption, _value?: string) => true;
 
@@ -138,4 +147,9 @@ export class SearchComponent
   private readonly validatorFn: ValidatorFn = (): {
     [key: string]: boolean;
   } | null => this.control.errors;
+
+  private sanitizeSearchString(val: string): string {
+    // remove html tags and empty spaces
+    return val?.toString().replace(/(&nbsp;|(<([^>]+)>))/gi, '');
+  }
 }
