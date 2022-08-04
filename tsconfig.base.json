@@ -45,6 +45,13 @@
       ],
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
+      "@schaeffler/inputs": ["libs/shared/ui/inputs/src/index.ts"],
+      "@schaeffler/inputs/search": [
+        "libs/shared/ui/inputs/search/src/index.ts"
+      ],
+      "@schaeffler/inputs/select": [
+        "libs/shared/ui/inputs/select/src/index.ts"
+      ],
       "@schaeffler/label-value": ["libs/shared/ui/label-value/src/index.ts"],
       "@schaeffler/legal-pages": ["libs/shared/ui/legal-pages/src/index.ts"],
       "@schaeffler/loading-spinner": [
@@ -57,13 +64,6 @@
       ],
       "@schaeffler/search-autocomplete": [
         "libs/shared/ui/search-autocomplete/src/index.ts"
-      ],
-      "@schaeffler/inputs": ["libs/shared/ui/inputs/src/index.ts"],
-      "@schaeffler/inputs/search": [
-        "libs/shared/ui/inputs/search/src/index.ts"
-      ],
-      "@schaeffler/inputs/select": [
-        "libs/shared/ui/inputs/select/src/index.ts"
       ],
       "@schaeffler/share-button": ["libs/shared/ui/share-button/src/index.ts"],
       "@schaeffler/shared/cypress-utils": [
