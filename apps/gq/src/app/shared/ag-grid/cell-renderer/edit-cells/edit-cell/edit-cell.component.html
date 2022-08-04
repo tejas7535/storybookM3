@@ -1,6 +1,6 @@
 <div *ngIf="params?.valueFormatted">
   <span
-    class="float-left w-[100px] truncate"
+    class="float-left w-full min-w-[100px] truncate"
     [ngClass]="{
       'text-error': mspWarningEnabled,
       'text-[#FFA726]': marginWarningEnabled && !mspWarningEnabled
