@@ -125,6 +125,7 @@ export class MsdDataService {
                 steelMakingProcess: materialResponse.steelMakingProcess,
                 rating: materialResponse.rating,
                 ratingRemark: materialResponse.ratingRemark,
+                ratingChangeComment: materialResponse.ratingChangeComment,
               } as DataResult)
           )
         )

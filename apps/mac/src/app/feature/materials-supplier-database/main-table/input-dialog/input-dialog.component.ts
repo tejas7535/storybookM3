@@ -74,6 +74,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public releaseYearControl: FormControl<number>;
   public referenceDocumentControl: FormControl<StringOption[]>;
   public ratingRemarkControl: FormControl<string>;
+  public ratingChangeCommentControl: FormControl<string>;
   public releaseRestrictionsControl: FormControl<string>;
   public isBlockedControl: FormControl<boolean>;
   public steelMakingProcessControl: FormControl<StringOption>;
@@ -99,6 +100,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     steelMakingProcess: FormControl<StringOption>;
     rating: FormControl<StringOption>;
     ratingRemark: FormControl<string>;
+    ratingChangeComment: FormControl<string>;
 
     standardDocument: FormControl<StringOption>;
     materialName: FormControl<StringOption>;
@@ -199,6 +201,10 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     );
     this.referenceDocumentControl = new FormControl<StringOption[]>(undefined);
     this.ratingRemarkControl = new FormControl<string>('');
+    this.ratingChangeCommentControl = new FormControl<string>(
+      { value: '', disabled: true },
+      Validators.required
+    );
     this.releaseRestrictionsControl = new FormControl<string>('');
     this.isBlockedControl = new FormControl<boolean>(false);
     this.steelMakingProcessControl = new FormControl<StringOption>(undefined);
@@ -224,6 +230,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       steelMakingProcess: this.steelMakingProcessControl,
       rating: this.ratingsControl,
       ratingRemark: this.ratingRemarkControl,
+      ratingChangeComment: this.ratingChangeCommentControl,
 
       // these controls are not used for creating a material, only for materialStandards or manufacturerSuppliers
       standardDocument: this.standardDocumentsControl,
@@ -383,6 +390,14 @@ export class InputDialogComponent implements OnInit, OnDestroy {
           );
         }
       });
+
+    this.ratingsControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value: StringOption) =>
+        value && value?.id
+          ? this.ratingChangeCommentControl.enable({ emitEvent: false })
+          : this.ratingChangeCommentControl.disable({ emitEvent: false })
+      );
   }
 
   public ngOnDestroy(): void {
@@ -489,6 +504,7 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       steelMakingProcess: baseMaterial.steelMakingProcess?.id as string,
       rating: baseMaterial.rating.id as string,
       ratingRemark: baseMaterial.ratingRemark,
+      ratingChangeComment: baseMaterial.ratingChangeComment,
       // attachments: '',
     };
 

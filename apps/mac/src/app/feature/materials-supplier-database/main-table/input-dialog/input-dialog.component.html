@@ -347,6 +347,16 @@
         </div>
 
         <div class="flex flex-row gap-x-6">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>{{ t('ratingChangeComment') }}</mat-label>
+            <textarea
+              matInput
+              [formControl]="ratingChangeCommentControl"
+            ></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="flex flex-row gap-x-6">
           <mat-checkbox color="primary" [formControl]="isBlockedControl">
             <div
               class="flex flex-row justify-center gap-x-2 text-caption text-high-emphasis"

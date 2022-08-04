@@ -28,4 +28,5 @@ export interface DataResult {
   steelMakingProcess?: string;
   rating?: string;
   ratingRemark?: string;
+  ratingChangeComment?: string;
 }

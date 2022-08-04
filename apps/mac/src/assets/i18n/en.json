@@ -234,6 +234,7 @@
         "castingMode": "Casting / Remelting process",
         "close": "Close",
         "co2AndProductInformationTitle": "Product & CO₂ information",
+        "ratingChangeComment": "Reason for change of supplier rating",
         "co2Classification": "CO₂ data classification",
         "co2ClassificationValues": {
           "c1": "ISO-conform calculation method, and third-party certified (product-specific)",

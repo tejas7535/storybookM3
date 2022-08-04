@@ -190,6 +190,7 @@ describe('MsdDataService', () => {
         co2Scope2: undefined,
         co2Scope3: undefined,
         ratingRemark: undefined,
+        ratingChangeComment: undefined,
         referenceDoc: undefined,
       } as DataResult,
       {
@@ -219,6 +220,7 @@ describe('MsdDataService', () => {
         co2Scope2: undefined,
         co2Scope3: undefined,
         ratingRemark: undefined,
+        ratingChangeComment: undefined,
         referenceDoc: undefined,
         materialNumbers: ['1.1234', '1.2345'],
       } as DataResult,

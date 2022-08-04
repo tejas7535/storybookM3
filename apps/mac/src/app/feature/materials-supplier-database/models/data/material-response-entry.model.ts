@@ -32,4 +32,5 @@ export interface MaterialResponseEntry {
   steelMakingProcess?: string;
   rating?: string;
   ratingRemark?: string;
+  ratingChangeComment?: string;
 }

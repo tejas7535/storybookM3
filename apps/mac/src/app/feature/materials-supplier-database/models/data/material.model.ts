@@ -21,4 +21,5 @@ export interface Material {
   steelMakingProcess?: string;
   rating: string;
   ratingRemark: string;
+  ratingChangeComment?: string;
 }

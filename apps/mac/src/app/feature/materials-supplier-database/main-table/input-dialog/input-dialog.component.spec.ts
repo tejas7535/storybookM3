@@ -540,6 +540,43 @@ describe('InputDialogComponent', () => {
           ).not.toHaveBeenCalled();
         });
       });
+
+      describe('modify ratingChangeComment', () => {
+        it('ratingChangeComment should be enabled when rating has a value', () => {
+          component.ratingChangeCommentControl.enable = jest.fn();
+          component.ratingChangeCommentControl.disable = jest.fn();
+
+          component.ratingsControl.setValue({
+            id: 1,
+            title: 'title',
+          } as StringOption);
+
+          expect(
+            component.ratingChangeCommentControl.disable
+          ).not.toHaveBeenCalled();
+          expect(
+            component.ratingChangeCommentControl.enable
+          ).toHaveBeenCalled();
+        });
+        it('co2Classification should be disabled when co2Total has no value', () => {
+          component.ratingChangeCommentControl.enable = jest.fn();
+          component.ratingChangeCommentControl.disable = jest.fn();
+
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          component.ratingsControl.setValue({
+            id: undefined,
+            title: 'None',
+          } as StringOption);
+
+          expect(
+            component.ratingChangeCommentControl.disable
+          ).toHaveBeenCalled();
+          expect(
+            component.ratingChangeCommentControl.enable
+          ).not.toHaveBeenCalled();
+          expect(component.ratingChangeCommentControl.value).toBe('');
+        });
+      });
     });
   });
 
@@ -834,6 +871,7 @@ describe('InputDialogComponent', () => {
       productCategory: option,
       rating: option,
       ratingRemark: '',
+      ratingChangeComment: '',
       referenceDoc: [option],
       releaseDateMonth: 12,
       releaseDateYear: 1223,
