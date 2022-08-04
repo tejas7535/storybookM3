@@ -3,13 +3,16 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { translate } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
 
 import {
   pasteRowDataItems,
   pasteRowDataItemsToAddMaterial,
 } from '../../../core/store';
-import { ValidationDescription } from '../../models/table';
+import { LOCALE_DE } from '../../constants';
+import { Keyboard } from '../../models';
+import { MaterialTableItem, ValidationDescription } from '../../models/table';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +20,8 @@ import { ValidationDescription } from '../../models/table';
 export class PasteMaterialsService {
   public constructor(
     private readonly store: Store,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly translocoLocaleService: TranslocoLocaleService
   ) {}
 
   public async onPasteStart(isCaseView: boolean): Promise<void> {
@@ -44,9 +48,9 @@ export class PasteMaterialsService {
     }
   }
 
-  private processInput(linesArray: string[][]) {
+  private processInput(linesArray: string[][]): MaterialTableItem[] {
     return linesArray.map((el) => {
-      const parsedQuantity = this.checkForValidQuantity(el);
+      const parsedQuantity = this.getParsedQuantity(el[1]);
 
       return {
         materialNumber: el[0].trim(),
@@ -59,8 +63,16 @@ export class PasteMaterialsService {
     });
   }
 
-  private checkForValidQuantity(el: string[]) {
-    return el[1] ? Number.parseInt(el[1].trim(), 10) : 0;
+  private getParsedQuantity(quantity: string): number {
+    if (!quantity) {
+      return 1;
+    }
+    const localeQuantity =
+      this.translocoLocaleService.getLocale() === LOCALE_DE.id
+        ? quantity.replace(/\./g, Keyboard.EMPTY)
+        : quantity.replace(/,/g, Keyboard.EMPTY);
+
+    return Number.parseInt(localeQuantity.trim(), 10);
   }
 
   private removeEmptyLines(text: string): string[][] {

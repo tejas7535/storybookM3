@@ -1,13 +1,16 @@
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { mockProvider } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import {
   pasteRowDataItems,
   pasteRowDataItemsToAddMaterial,
 } from '../../../core/store';
+import { LOCALE_DE, LOCALE_EN } from '../../constants';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { PasteMaterialsService } from './paste-materials.service';
 
@@ -21,7 +24,7 @@ describe('PasteMaterialsService', () => {
   const createService = createServiceFactory({
     service: PasteMaterialsService,
     imports: [MatSnackBarModule],
-    providers: [provideMockStore({})],
+    providers: [provideMockStore({}), mockProvider(TranslocoLocaleService)],
   });
 
   beforeEach(() => {
@@ -65,6 +68,10 @@ describe('PasteMaterialsService', () => {
       ];
     });
     test('should dispatch action with transformed array', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_DE.id);
+
       Object.assign(navigator, {
         clipboard: {
           readText: () =>
@@ -74,6 +81,64 @@ describe('PasteMaterialsService', () => {
 
       const combinedItem = {
         items: combinedArray,
+      };
+      await service.onPasteStart(true);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        pasteRowDataItems(combinedItem)
+      );
+    });
+    test('should dispatch action german locale', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_DE.id);
+
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () => new Promise((resolve) => resolve(`20\t1.000`)),
+        },
+      });
+
+      const combinedItem = {
+        items: [
+          {
+            materialNumber: '20',
+            quantity: 1000,
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
+            },
+          },
+        ],
+      };
+      await service.onPasteStart(true);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        pasteRowDataItems(combinedItem)
+      );
+    });
+    test('should dispatch action english locale', async () => {
+      service['translocoLocaleService'].getLocale = jest
+        .fn()
+        .mockReturnValue(LOCALE_EN.id);
+
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () => new Promise((resolve) => resolve(`20\t1,000`)),
+        },
+      });
+
+      const combinedItem = {
+        items: [
+          {
+            materialNumber: '20',
+            quantity: 1000,
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
+            },
+          },
+        ],
       };
       await service.onPasteStart(true);
 
@@ -108,7 +173,7 @@ describe('PasteMaterialsService', () => {
       });
 
       combinedArray[0].materialNumber = '';
-      combinedArray[1].quantity = 0;
+      combinedArray[1].quantity = 1;
 
       const combinedItem = {
         items: combinedArray,
