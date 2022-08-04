@@ -3,7 +3,13 @@ import {
   Component,
   HostListener,
   Input,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
+import { MatSidenavContent } from '@angular/material/sidenav';
+import { NavigationEnd, Router } from '@angular/router';
+
+import { filter } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
@@ -23,7 +29,7 @@ import { AppShellFooterLink } from '../../models';
   animations: [sidenavToggleAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppShellComponent {
+export class AppShellComponent implements OnInit {
   @Input() public appTitle: string;
   @Input() public appTitleLink?: string;
   @Input() public hasSidebarLeft = false;
@@ -33,16 +39,33 @@ export class AppShellComponent {
   @Input() public footerLinks?: AppShellFooterLink[] = [];
   @Input() public footerFixed? = true;
   @Input() public appVersion?: string;
+  @Input() public scrollToTop? = false;
+
+  @ViewChild('sidenavContent')
+  private readonly sidenavContent: MatSidenavContent;
 
   public sidenavOpen = false;
 
-  public constructor(private readonly translocoService: TranslocoService) {
+  public constructor(
+    private readonly translocoService: TranslocoService,
+    private readonly router: Router
+  ) {
     this.translocoService.setTranslation(enJson, 'en');
     this.translocoService.setTranslation(deJson, 'de');
     this.translocoService.setTranslation(esJson, 'es');
     this.translocoService.setTranslation(frJson, 'fr');
     this.translocoService.setTranslation(ruJson, 'ru');
     this.translocoService.setTranslation(zhJson, 'zh');
+  }
+
+  public ngOnInit(): void {
+    if (this.scrollToTop) {
+      this.router.events
+        .pipe(filter((event) => event instanceof NavigationEnd))
+        .subscribe(() => {
+          this.sidenavContent.scrollTo({ top: 0 });
+        });
+    }
   }
 
   // close the sidenav when pressing "esc"

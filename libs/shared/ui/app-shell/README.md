@@ -128,6 +128,7 @@ export class AppComponent {
 | footerLinks    | (optional) array of typed (internal and external) links, displayed in the footer. Overrides `hasFooter: false`   |
 | footerFixed    | (optional) (default: true) Whether the footer should be fixed on the bottom of the window                        |
 | appVersion     | (optional) String with your app's version number, display next to the footer links                               |
+| scrollToTop     | (optional) (default: false) Wheater the content should scroll to the top on navigation
 
 ### i18n
 

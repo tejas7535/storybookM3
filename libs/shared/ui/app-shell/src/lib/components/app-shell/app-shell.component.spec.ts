@@ -4,7 +4,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { NavigationEnd, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { Subject } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockModule } from 'ng-mocks';
@@ -41,6 +44,8 @@ describe('AppShellComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+
+    component['sidenavContent'].scrollTo = jest.fn();
   });
 
   it('should create', () => {
@@ -59,6 +64,7 @@ describe('AppShellComponent', () => {
       expect(component.footerFixed).toBeTruthy();
       expect(component.footerLinks.length).toBe(0);
       expect(component.appVersion).toBeUndefined();
+      expect(component.scrollToTop).toBeFalsy();
     });
   });
 
@@ -67,5 +73,31 @@ describe('AppShellComponent', () => {
     component.onEscKeyUp();
 
     expect(component.sidenavOpen).toBeFalsy();
+  });
+
+  it('should scroll to top if input says so', () => {
+    const spy = jest.spyOn(component['sidenavContent'], 'scrollTo');
+
+    component.scrollToTop = true;
+    component.ngOnInit();
+
+    (component['router'].events as Subject<RouterEvent>).next(
+      new NavigationEnd(1, 'url', 'fullUrl')
+    );
+
+    expect(spy).toBeCalledWith({ top: 0 });
+  });
+
+  it('should not scroll to top by default', () => {
+    const spy = jest.spyOn(component['sidenavContent'], 'scrollTo');
+
+    component.scrollToTop = false;
+    component.ngOnInit();
+
+    (component['router'].events as Subject<RouterEvent>).next(
+      new NavigationEnd(1, 'url', 'fullUrl')
+    );
+
+    expect(spy).toBeCalledTimes(0);
   });
 });
