@@ -3,7 +3,8 @@ import { map } from 'rxjs/operators';
 
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { createSelector } from '@ngrx/store';
-import { getRoles } from 'libs/shared/utils/azure-auth/src/lib/store/selectors/auth.selectors';
+
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 import { UserRoles } from '../../../../shared/constants/user-roles.enum';

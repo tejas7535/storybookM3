@@ -7,7 +7,9 @@
       <mat-chip
         *ngIf="materialStock?.slowMover || materialStockLoading"
         class="!ml-4 !mr-0 !bg-sunny-yellow text-caption font-normal"
-        [ngClass]="{ 'skeleton-bg w-24': materialStockLoading }"
+        [ngClass]="{
+          'w-24 animate-pulse !bg-disabled-overlay': materialStockLoading
+        }"
       >
         <span *ngIf="materialStock?.slowMover">
           {{ t('slowMover') }}
@@ -15,7 +17,9 @@
       ><mat-chip
         *ngIf="materialStock?.excessStock || materialStockLoading"
         class="!ml-4 !bg-nordic-blue text-caption font-normal !text-white"
-        [ngClass]="{ 'skeleton-bg w-24': materialStockLoading }"
+        [ngClass]="{
+          'w-24 animate-pulse !bg-disabled-overlay': materialStockLoading
+        }"
       >
         <span *ngIf="materialStock?.excessStock">
           {{ t('excessStock') }}

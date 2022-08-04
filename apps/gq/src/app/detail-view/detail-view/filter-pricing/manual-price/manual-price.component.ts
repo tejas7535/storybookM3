@@ -19,7 +19,6 @@ import {
 @Component({
   selector: 'gq-manual-price',
   templateUrl: './manual-price.component.html',
-  styleUrls: ['./manual-price.component.scss'],
 })
 export class ManualPriceComponent implements OnChanges, OnInit {
   price: number;
