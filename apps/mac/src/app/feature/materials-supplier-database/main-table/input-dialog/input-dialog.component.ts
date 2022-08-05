@@ -1,14 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,6 +10,7 @@ import { translate } from '@ngneat/transloco';
 
 import { StringOption } from '@schaeffler/inputs';
 
+import { DialogControlsService } from '@mac/msd/main-table/input-dialog/services';
 import { Material } from '@mac/msd/models';
 import {
   addCustomCastingDiameter,
@@ -25,6 +18,8 @@ import {
   DialogFacade,
   fetchCastingDiameters,
 } from '@mac/msd/store';
+
+import * as util from './util';
 
 @Component({
   selector: 'mac-input-dialog',
@@ -48,36 +43,55 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public castingDiameters$ = this.dialogFacade.castingDiameters$;
   public castingDiametersLoading$ = this.dialogFacade.castingDiametersLoading$;
 
-  private readonly MATERIAL_NUMBER_PATTERN = '1\\.[0-9]{4}(, 1\\.[0-9]{4})*';
-
   public destroy$ = new Subject<void>();
 
-  public manufacturerSupplierIdControl: FormControl<number>;
-  public materialStandardIdControl: FormControl<number>;
-  public standardDocumentsControl: FormControl<StringOption>;
-  public materialNamesControl: FormControl<StringOption>;
-  public steelNumberControl: FormControl<string>;
-  public suppliersControl: FormControl<StringOption>;
-  public supplierPlantsControl: FormControl<StringOption>;
-  public castingModesControl: FormControl<string>;
-  public castingDiameterControl: FormControl<StringOption>;
-  public ratingsControl: FormControl<StringOption>;
-  public maxDimControl: FormControl<number>;
-  public minDimControl: FormControl<number>;
-  public categoriesControl: FormControl<StringOption>;
-  public co2Scope1Control: FormControl<number>;
-  public co2Scope2Control: FormControl<number>;
-  public co2Scope3Control: FormControl<number>;
-  public co2TotalControl: FormControl<number>;
-  public co2ClassificationControl: FormControl<StringOption>;
-  public releaseMonthControl: FormControl<number>;
-  public releaseYearControl: FormControl<number>;
-  public referenceDocumentControl: FormControl<StringOption[]>;
-  public ratingRemarkControl: FormControl<string>;
-  public ratingChangeCommentControl: FormControl<string>;
-  public releaseRestrictionsControl: FormControl<string>;
-  public isBlockedControl: FormControl<boolean>;
-  public steelMakingProcessControl: FormControl<StringOption>;
+  public manufacturerSupplierIdControl =
+    this.controlsService.getRequiredControl<number>();
+  public materialStandardIdControl =
+    this.controlsService.getRequiredControl<number>();
+  public standardDocumentsControl =
+    this.controlsService.getRequiredControl<StringOption>();
+  public materialNamesControl =
+    this.controlsService.getRequiredControl<StringOption>();
+  public steelNumberControl = this.controlsService.getSteelNumberControl();
+  public suppliersControl =
+    this.controlsService.getRequiredControl<StringOption>();
+  public supplierPlantsControl =
+    this.controlsService.getRequiredControl<StringOption>(undefined, true);
+  public castingModesControl = this.controlsService.getRequiredControl<string>(
+    undefined,
+    true
+  );
+  public castingDiameterControl =
+    this.controlsService.getRequiredControl<StringOption>(undefined, true);
+  public ratingsControl =
+    this.controlsService.getRequiredControl<StringOption>();
+  public maxDimControl = this.controlsService.getRequiredNumberControl();
+  public minDimControl = this.controlsService.getNumberControl();
+  public categoriesControl =
+    this.controlsService.getRequiredControl<StringOption>();
+  public co2Scope1Control = this.controlsService.getNumberControl();
+  public co2Scope2Control = this.controlsService.getNumberControl();
+  public co2Scope3Control = this.controlsService.getNumberControl();
+  public co2TotalControl = this.controlsService.getCo2TotalControl(
+    this.co2Scope1Control,
+    this.co2Scope2Control,
+    this.co2Scope3Control
+  );
+  public co2ClassificationControl =
+    this.controlsService.getRequiredControl<StringOption>(undefined, true);
+  public releaseMonthControl =
+    this.controlsService.getRequiredControl<number>();
+  public releaseYearControl = this.controlsService.getRequiredControl<number>();
+  public referenceDocumentControl =
+    this.controlsService.getControl<StringOption[]>();
+  public ratingRemarkControl = this.controlsService.getControl<string>();
+  public ratingChangeCommentControl =
+    this.controlsService.getRequiredControl<string>(undefined, true);
+  public releaseRestrictionsControl = this.controlsService.getControl<string>();
+  public isBlockedControl = this.controlsService.getControl<boolean>(false);
+  public steelMakingProcessControl =
+    this.controlsService.getControl<StringOption>();
 
   public createMaterialForm: FormGroup<{
     manufacturerSupplierId: FormControl<number>;
@@ -114,101 +128,26 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     castingMode: FormControl<string>;
   }>;
 
+  public filterFn = util.filterFn;
+  public materialNameFilterFnFactory = util.materialNameFilterFnFactory;
+  public standardDocumentFilterFnFactory = util.standardDocumentFilterFnFactory;
+  public valueTitleToOptionKeyFilterFnFactory =
+    util.valueTitleToOptionKeyFilterFnFactory;
+  public valueOptionKeyToTitleFilterFnFactory =
+    util.valueOptionKeyToTitleFilterFnFactory;
+  public getErrorMessage = util.getErrorMessage;
+
   public constructor(
     private readonly dialogFacade: DialogFacade,
     private readonly dialogRef: MatDialogRef<InputDialogComponent>,
-    private readonly snackbar: MatSnackBar
+    private readonly snackbar: MatSnackBar,
+    private readonly controlsService: DialogControlsService
   ) {}
 
   public years: number[];
   public months: number[];
 
   public ngOnInit(): void {
-    this.manufacturerSupplierIdControl = new FormControl<number>(undefined, [
-      Validators.required,
-    ]);
-    this.materialStandardIdControl = new FormControl<number>(undefined, [
-      Validators.required,
-    ]);
-    this.standardDocumentsControl = new FormControl<StringOption>(
-      undefined,
-      Validators.required
-    );
-    this.materialNamesControl = new FormControl<StringOption>(
-      undefined,
-      Validators.required
-    );
-    this.steelNumberControl = new FormControl<string>(
-      undefined,
-      Validators.pattern(this.MATERIAL_NUMBER_PATTERN)
-    );
-    this.suppliersControl = new FormControl<StringOption>(
-      undefined,
-      Validators.required
-    );
-    this.supplierPlantsControl = new FormControl<StringOption>(
-      { value: undefined, disabled: true },
-      Validators.required
-    );
-    this.castingModesControl = new FormControl<string>(
-      { value: undefined, disabled: true },
-      Validators.required
-    );
-    this.castingDiameterControl = new FormControl<StringOption>(
-      { value: undefined, disabled: true },
-      Validators.required
-    );
-    this.ratingsControl = new FormControl<StringOption>(
-      undefined,
-      Validators.required
-    );
-    this.maxDimControl = new FormControl<number>(undefined, [
-      Validators.required,
-      Validators.min(0),
-    ]);
-    this.minDimControl = new FormControl<number>(undefined, Validators.min(0));
-    this.categoriesControl = new FormControl<StringOption>(
-      undefined,
-      Validators.required
-    );
-    this.co2Scope1Control = new FormControl<number>(
-      undefined,
-      Validators.min(0)
-    );
-    this.co2Scope2Control = new FormControl<number>(
-      undefined,
-      Validators.min(0)
-    );
-    this.co2Scope3Control = new FormControl<number>(
-      undefined,
-      Validators.min(0)
-    );
-    this.co2TotalControl = new FormControl<number>(undefined, [
-      Validators.min(0),
-      this.scopeTotalValidatorFn(),
-    ]);
-    this.co2ClassificationControl = new FormControl<StringOption>(
-      { value: undefined, disabled: true },
-      Validators.required
-    );
-    this.releaseMonthControl = new FormControl<number>(
-      undefined,
-      Validators.required
-    );
-    this.releaseYearControl = new FormControl<number>(
-      undefined,
-      Validators.required
-    );
-    this.referenceDocumentControl = new FormControl<StringOption[]>(undefined);
-    this.ratingRemarkControl = new FormControl<string>('');
-    this.ratingChangeCommentControl = new FormControl<string>(
-      { value: '', disabled: true },
-      Validators.required
-    );
-    this.releaseRestrictionsControl = new FormControl<string>('');
-    this.isBlockedControl = new FormControl<boolean>(false);
-    this.steelMakingProcessControl = new FormControl<StringOption>(undefined);
-
     this.createMaterialForm = new FormGroup({
       manufacturerSupplierId: this.manufacturerSupplierIdControl,
       materialStandardId: this.materialStandardIdControl,
@@ -251,15 +190,8 @@ export class InputDialogComponent implements OnInit, OnDestroy {
       castingMode: this.castingModesControl,
     });
 
-    // create an array of months
-    this.months = Array.from({ length: 12 }, (_, i) => i + 1);
-
-    // create a list of years from 2000 to current
-    const curYear = new Date().getFullYear();
-    this.years = Array.from(
-      { length: curYear - 2000 + 1 },
-      (_, i) => curYear - i
-    );
+    this.months = util.getMonths();
+    this.years = util.getYears();
 
     this.standardDocumentsControl.valueChanges
       .pipe(
@@ -405,78 +337,6 @@ export class InputDialogComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // pass a custom filter function
-  public filterFn(option?: StringOption, value?: string) {
-    if (!value) {
-      return true;
-    }
-
-    return option?.title
-      ?.toLowerCase()
-      .trim()
-      .includes(value.toLowerCase().trim());
-  }
-
-  public materialNameFilterFnFactory =
-    () => (option?: StringOption, value?: string) => {
-      if (
-        this.standardDocumentsControl.value &&
-        this.standardDocumentsControl.value.data &&
-        !this.standardDocumentsControl.value.data['materialNames'].some(
-          ({ materialName }: { materialName: string }) =>
-            materialName === option.title
-        )
-      ) {
-        return false;
-      }
-
-      return this.filterFn(option, value);
-    };
-
-  public standardDocumentFilterFnFactory =
-    () => (option?: StringOption, value?: string) => {
-      if (
-        this.materialNamesControl.value &&
-        this.materialNamesControl.value.data &&
-        !this.materialNamesControl.value.data['standardDocuments'].some(
-          ({ standardDocument }: { standardDocument: string }) =>
-            standardDocument === option.title
-        )
-      ) {
-        return false;
-      }
-
-      return this.filterFn(option, value);
-    };
-
-  public valueTitleToOptionKeyFilterFnFactory =
-    (control: FormControl<StringOption>, dataKey: string) =>
-    (option?: StringOption, value?: string) => {
-      if (
-        control.value &&
-        control.value.title &&
-        control.value.title !== option.data[dataKey]
-      ) {
-        return false;
-      }
-
-      return this.filterFn(option, value);
-    };
-
-  public valueOptionKeyToTitleFilterFnFactory =
-    (control: FormControl<StringOption>, dataKey: string) =>
-    (option?: StringOption, value?: string) => {
-      if (
-        control.value &&
-        control.value.data &&
-        control.value.data[dataKey] !== option.title
-      ) {
-        return false;
-      }
-
-      return this.filterFn(option, value);
-    };
-
   public addMaterial(): void {
     const baseMaterial = this.createMaterialForm.value;
     const material: Material = {
@@ -548,45 +408,4 @@ export class InputDialogComponent implements OnInit, OnDestroy {
   public addCastingDiameter(castingDiameter: string): void {
     this.dialogFacade.dispatch(addCustomCastingDiameter({ castingDiameter }));
   }
-
-  public getErrorMessage(errors: { [key: string]: any }): string {
-    if (errors.required) {
-      return this.getTranslatedError('required');
-    }
-    if (errors.min) {
-      return this.getTranslatedError('min', { min: errors.min.min });
-    }
-    if (errors.scopeTotalLowerThanSingleScopes) {
-      return this.getTranslatedError('co2TooLowShort', {
-        min: errors.scopeTotalLowerThanSingleScopes.min,
-      });
-    }
-
-    return this.getTranslatedError('generic');
-  }
-
-  private getTranslatedError(key: string, params = {}): string {
-    return translate(
-      `materialsSupplierDatabase.mainTable.dialog.error.${key}`,
-      params
-    );
-  }
-
-  private readonly scopeTotalValidatorFn =
-    (): ValidatorFn =>
-    (control: AbstractControl): ValidationErrors | null => {
-      if (control.value) {
-        const current = (control.value as number) || 0;
-        const min =
-          Math.max(this.co2Scope1Control.value || 0, 0) +
-          Math.max(this.co2Scope2Control.value || 0, 0) +
-          Math.max(this.co2Scope3Control.value || 0, 0);
-
-        return min > current
-          ? { scopeTotalLowerThanSingleScopes: { min, current } }
-          : undefined;
-      }
-
-      return undefined;
-    };
 }

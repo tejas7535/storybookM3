@@ -20,6 +20,7 @@ import { SelectModule } from '@schaeffler/inputs/select';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { InputDialogComponent } from './input-dialog.component';
+import { DialogControlsService } from './services';
 
 @NgModule({
   declarations: [InputDialogComponent],
@@ -43,5 +44,6 @@ import { InputDialogComponent } from './input-dialog.component';
     MatSnackBarModule,
   ],
   exports: [InputDialogComponent],
+  providers: [DialogControlsService],
 })
 export class InputDialogModule {}

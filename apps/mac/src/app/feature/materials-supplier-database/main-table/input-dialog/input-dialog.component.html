@@ -27,7 +27,7 @@
             [stringOptions]="standardDocuments$ | ngrxPush"
             [control]="standardDocumentsControl"
             [label]="t('standardDocument')"
-            [filterFn]="standardDocumentFilterFnFactory()"
+            [filterFn]="standardDocumentFilterFnFactory(materialNamesControl)"
             [resetButton]="true"
           >
             <div matErrorContent *ngIf="standardDocumentsControl.invalid">
@@ -40,7 +40,7 @@
             [stringOptions]="materialNames$ | ngrxPush"
             [control]="materialNamesControl"
             [label]="t('materialName')"
-            [filterFn]="materialNameFilterFnFactory()"
+            [filterFn]="materialNameFilterFnFactory(standardDocumentsControl)"
           >
             <div matErrorContent *ngIf="materialNamesControl.invalid">
               {{ getErrorMessage(materialNamesControl.errors) }}
@@ -179,6 +179,16 @@
             <input matInput [formControl]="ratingRemarkControl" />
           </mat-form-field>
         </div>
+      </div>
+
+      <div class="flex flex-row gap-x-6">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>{{ t('ratingChangeComment') }}</mat-label>
+          <textarea
+            matInput
+            [formControl]="ratingChangeCommentControl"
+          ></textarea>
+        </mat-form-field>
       </div>
 
       <div class="flex flex-col">
@@ -342,16 +352,6 @@
             <textarea
               matInput
               [formControl]="releaseRestrictionsControl"
-            ></textarea>
-          </mat-form-field>
-        </div>
-
-        <div class="flex flex-row gap-x-6">
-          <mat-form-field appearance="outline" class="w-full">
-            <mat-label>{{ t('ratingChangeComment') }}</mat-label>
-            <textarea
-              matInput
-              [formControl]="ratingChangeCommentControl"
             ></textarea>
           </mat-form-field>
         </div>
