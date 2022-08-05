@@ -48,10 +48,10 @@ export const integratedApps: OverviewCard[] = [
     description:
       'Predict the conventional fatigue lifetime of metallic components',
     link: '/lifetime-predictor',
-    learnMoreLink: undefined,
+    learnMoreLink: 'https://sconnect.schaeffler.com/docs/DOC-277273',
     disableImageHoverEffect: false,
     external: false,
-    learnMoreExternal: false,
+    learnMoreExternal: true,
     requiredRoles: ['lifetime-predictor-user'],
     inverted: true,
     translationKey: 'internalApplications.lifetimePredictor',
