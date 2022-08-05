@@ -8,7 +8,7 @@ export const environment: Environment = {
   azureClientId: 'd4fa5085-89b2-4e17-b226-633e5048a932', // SG_MAC_Q
   appId: 'api://d7b55d07-470d-4483-a4de-524bbe21f2a5/macapi', // SG_MAC_Q_API
   baseUrl: 'https://materials-app-center-q.dev.dp.schaeffler',
-  envName: 'https://materials-app-center-q.dev.dp.schaeffler (qa)',
+  envName: 'env.qaSystem',
   oneTrustId: 'f9014e2c-8a6f-4f8b-8b31-d767dfe8d356',
   applicationInsights: {
     applicationInsightsConfig: {

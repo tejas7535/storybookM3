@@ -19,13 +19,14 @@ import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 import { LegalPath, LegalRoute } from '@schaeffler/legal-pages';
 
 import { RoutePath } from '@mac/app-routing.enum';
+import { environment } from '@mac/environments/environment';
 
 @Component({
   selector: 'mac-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public title = 'Materials App Center';
+  public title = translate('title');
 
   public isCookiePage = false;
   public cookieSettings = translate('legal.cookieSettings');
@@ -90,6 +91,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.oneTrustService.translateBanner(language, true);
         this.footerLinks$.next(this.updateFooterLinks());
       });
+  }
+
+  public get envName(): string {
+    // don't show environment name in production
+    return environment.production ? '' : translate(environment.envName);
   }
 
   public get link(): string | boolean {

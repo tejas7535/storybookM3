@@ -481,5 +481,11 @@
       "linkgroup3_2_name": "Email - Materials App Center"
     }
   },
-  "title": "Materials App Center"
+  "title": "Materials App Center",
+  "env": {
+    "localDev": "Local Development",
+    "devSystem": "Test System (Development)",
+    "qaSystem": "Test System (Quality)",
+    "prodSystem": ""
+  }
 }

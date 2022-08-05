@@ -20,6 +20,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { AppComponent } from '@mac/app.component';
 import { RoutePath } from '@mac/app-routing.enum';
+import { environment } from '@mac/environments/environment';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -109,6 +110,18 @@ describe('AppComponent', () => {
       );
 
       expect(component.url).toEqual('url');
+    });
+  });
+
+  describe('envName', () => {
+    it('should return translation', () => {
+      environment.envName = 'sth';
+      expect(component.envName).toEqual('sth');
+    });
+
+    it('should return empty string for production', () => {
+      environment.production = true;
+      expect(component.envName).toBe('');
     });
   });
 });
