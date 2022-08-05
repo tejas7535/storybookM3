@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.17.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.16.0...cdba-v2.17.0) (2022-08-05)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** update SharedTranslocoModule import to fix issues with language persisting ([db469cc](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/db469cc046c44902a0b66dd3f7f2315c22fe741e))
+
+
+### 🎸 Features
+
+* **cdba:** enabled checkbox in header of the results table ([#4343](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4343)) ([c3de433](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/c3de433cd544623e20afff0c11f84dcfc59027aa))
+* **cdba:** update tooltips for usage of dimension filters ([#4122](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4122)) ([aede2ea](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/aede2ea6928fe0a71ca4be19758880ec9a57609f))
+* **styles:** add tailwind to styles lib ([#3573](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3573)) ([#4104](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4104)) ([d32b170](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d32b170c13de73f90b3a792d9f50f29cede37898)), closes [#3753](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/3753)
+
 ## [2.16.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/cdba-v2.15.0...cdba-v2.16.0) (2022-06-15)
 
 
