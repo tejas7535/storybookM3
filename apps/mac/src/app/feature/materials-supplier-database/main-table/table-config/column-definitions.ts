@@ -69,11 +69,13 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: MAX_DIMENSION,
     headerName: 'Max Dimension',
     filter: 'agNumberColumnFilter',
+    tooltipField: MAX_DIMENSION,
   },
   {
     field: RATING,
     headerName: 'Supplier Rating',
     filterParams: FILTER_PARAMS,
+    tooltipField: RATING,
   },
   {
     field: RATING_REMARK,
@@ -85,6 +87,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: CO2_PER_TON,
     headerName: 'kg CO₂e / t',
     filter: 'agNumberColumnFilter',
+    tooltipField: CO2_PER_TON,
   },
   {
     field: CO2_CLASSIFICATION,
@@ -101,18 +104,21 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Casting Mode',
     filterParams: FILTER_PARAMS,
     hide: true,
+    tooltipField: CASTING_MODE,
   },
   {
     field: CASTING_DIAMETER,
     headerName: 'Casting Diameter',
     filterParams: FILTER_PARAMS,
     hide: true,
+    tooltipField: CASTING_DIAMETER,
   },
   {
     field: STEEL_MAKING_PROCESS,
     headerName: 'Steel Making Process',
     filterParams: FILTER_PARAMS,
     hide: true,
+    tooltipField: STEEL_MAKING_PROCESS,
   },
   {
     field: RELEASE_DATE_YEAR,

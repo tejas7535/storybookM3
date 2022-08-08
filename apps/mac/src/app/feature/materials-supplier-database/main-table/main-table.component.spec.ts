@@ -1443,8 +1443,48 @@ describe('MainTableComponent', () => {
           `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
         );
       }
+      columnDefs
+        .filter((c) => c.tooltipField)
+        .forEach((columnDef) => {
+          expect(translate).toHaveBeenCalledWith(
+            `materialsSupplierDatabase.mainTable.tooltip.${columnDef.tooltipField}`
+          );
+        });
 
+      columnDefs
+        .filter((c) => !c.tooltipField)
+        .forEach((columnDef) => {
+          expect(translate).not.toHaveBeenCalledWith(
+            `materialsSupplierDatabase.mainTable.tooltip.${columnDef.tooltipField}`
+          );
+        });
       expect(columnDefs.length).toEqual(translatedColumnDefs.length);
+    });
+
+    it('should skip tooltip if property not set', () => {
+      component.defaultColumnDefs = [
+        {
+          field: 'fieldname',
+          tooltipField: undefined,
+        },
+      ];
+      component.getColumnDefs();
+      expect(translate).not.toHaveBeenCalledWith(
+        `materialsSupplierDatabase.mainTable.tooltip.fieldname`
+      );
+    });
+
+    it('should setup tooltip if property set', () => {
+      component.defaultColumnDefs = [
+        {
+          field: 'fieldname',
+          tooltipField: 'fieldname',
+        },
+      ];
+      component.getColumnDefs();
+      expect(translate).toHaveBeenCalledWith(
+        `materialsSupplierDatabase.mainTable.tooltip.fieldname`
+      );
     });
   });
 

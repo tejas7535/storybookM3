@@ -112,6 +112,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly TABLE_KEY = 'msdMainTable';
 
   private visibleColumns: string[];
+  public agGridTooltipDelay = 500;
 
   public constructor(
     private readonly dataFacade: DataFacade,
@@ -522,6 +523,11 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
       headerName: translate(
         `materialsSupplierDatabase.mainTable.columns.${columnDef.field}`
       ),
+      headerTooltip: columnDef.tooltipField
+        ? translate(
+            `materialsSupplierDatabase.mainTable.tooltip.${columnDef.tooltipField}`
+          )
+        : undefined,
     }));
 
   public openDialog(): void {

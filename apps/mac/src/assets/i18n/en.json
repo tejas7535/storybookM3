@@ -227,6 +227,14 @@
         "steelMakingProcess": "Steel Making Process",
         "steelNumber": "Steel number (EN 10027)"
       },
+      "tooltip": {
+        "castingMode": "Final steel-manufacturing step; either a casting (continuous or ingot) or remelting process (VAR: vacuum arc remelting, ESR: electro slag remelting)",
+        "castingDiameter": "Detail on final steel-manufacturing step, e.g., casting dimension, ingot name, dimension, or weight",
+        "steelMakingProcess": "Details on steelmaking process; BF: blast furnace, DRI: direct reduced iron, BOF: basic oxygen furnace, EAF: electric arc furnace, EOF: energy optimizing furnace, VIM: vacuum induction melting, VAR: vacuum arc remelting, ESR: electro slag remelting",
+        "maxDimension": "Maximum dimension (diameter, thickness) allowed to be delivered by supplier",
+        "rating": "Quality level of steel supplier according to S 266042 (if available); from RSI (highest quality) to RSIII (lowest quality)",
+        "co2PerTon": "Scope 3.1 upstream green-house gas emissions of product (cradle-to-gate)"
+      },
       "dialog": {
         "blocked": "Blocked",
         "cancel": "Cancel",

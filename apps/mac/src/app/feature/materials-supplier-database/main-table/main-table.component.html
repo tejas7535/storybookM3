@@ -70,6 +70,7 @@
             [sideBar]="sidebar"
             [enableCellTextSelection]="true"
             [rowData]="result$ | ngrxPush"
+            [tooltipShowDelay]="agGridTooltipDelay"
             (gridReady)="onGridReady($event)"
             (filterChanged)="onFilterChange($event)"
             (firstDataRendered)="setAgGridFilter($event)"
