@@ -1,12 +1,15 @@
-<schaeffler-search-autocomplete
+<schaeffler-search
   *transloco="let t"
-  [options]="options$ | ngrxPush"
-  [loading]="loading$ | ngrxPush"
+  appearance="outline"
+  [stringOptions]="options$ | ngrxPush"
+  [loading]="loading"
+  [control]="myControl"
   [label]="t('form.chooseOption')"
-  [loadingMessage]="t('form.searchLoading')"
+  [placeholder]="t('form.chooseOption')"
   [noResultsText]="t('form.searchNoResults')"
-  [minimumChars]="2"
-  [formControl]="myControl"
-  (selection)="handleSelection($event)"
+  [initialValue]="selectedBearing"
+  (searchUpdated)="getBearings($event)"
+  (optionSelected)="onOptionSelected($event)"
 >
-</schaeffler-search-autocomplete>
+  <div loadingContent>{{ t('form.searchLoading') }}</div>
+</schaeffler-search>

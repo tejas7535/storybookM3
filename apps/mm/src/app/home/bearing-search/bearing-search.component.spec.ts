@@ -8,6 +8,7 @@ import { PushModule } from '@ngrx/component';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { BEARING } from '../../shared/constants/tracking-names';
 import { BEARING_SEARCH_RESULT_MOCK } from './../../../testing/mocks/rest.service.mock';
@@ -20,7 +21,12 @@ describe('BearingSearchComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BearingSearchComponent,
-    imports: [ReactiveFormsModule, PushModule, SearchAutocompleteModule],
+    imports: [
+      ReactiveFormsModule,
+      PushModule,
+      SearchAutocompleteModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
     providers: [
       {
         provide: RestService,
@@ -39,7 +45,6 @@ describe('BearingSearchComponent', () => {
         useValue: false,
       },
     ],
-    declarations: [BearingSearchComponent],
   });
 
   beforeEach(() => {
@@ -51,34 +56,23 @@ describe('BearingSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('#ngOnInit', () => {
-    it('should set value if selectedBearing is set', () => {
-      component.myControl.setValue = jest.fn();
-      component.selectedBearing = { id: 'id', title: 'bearing' };
-
-      component.ngOnInit();
-
-      expect(component.myControl.setValue).toHaveBeenCalledWith({
-        id: 'id',
-        title: 'bearing',
-      });
-    });
-  });
-
   describe('#getBearings', () => {
     it('should call getBearings at restService', () => {
       const mockSearchQuery = 'irgendNQuatsch';
 
-      component.getBearings(mockSearchQuery).subscribe((response) => {
-        expect(response).toEqual([{ title: 'entryTitle', id: 'entryId' }]);
-        expect(component['restService'].getBearingSearch).toHaveBeenCalledWith(
-          mockSearchQuery
-        );
-      });
+      component.getBearings(mockSearchQuery);
+
+      component.options$.subscribe((value) =>
+        expect(value).toEqual([{ title: 'entryTitle', id: 'entryId' }])
+      );
+
+      expect(component['restService'].getBearingSearch).toHaveBeenCalledWith(
+        mockSearchQuery
+      );
     });
   });
 
-  describe('#handleSelection', () => {
+  describe('#onOptionSelected', () => {
     it('should emit the bearing and track Bearing select event', () => {
       const mockSelectionId = 'mockAutoCompleteId';
       const mockBearingName = 'mockBearingName';
@@ -94,7 +88,10 @@ describe('BearingSearchComponent', () => {
         'trackBearingSelection'
       );
 
-      component.handleSelection(mockSelectionId);
+      component.onOptionSelected({
+        id: mockSelectionId,
+        title: mockBearingName,
+      });
 
       expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
       expect(trackBearingSelectionSpy).toHaveBeenCalledWith(

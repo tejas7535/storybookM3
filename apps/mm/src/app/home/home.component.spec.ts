@@ -34,7 +34,6 @@ import {
   PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS,
   PAGE_MOUNTING_MANAGER_SEAT,
 } from './../shared/constants/dialog-constant';
-import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
 import { ResultPageModule } from './result-page/result-page.module';
@@ -86,7 +85,6 @@ describe('HomeComponent', () => {
       HttpClientTestingModule,
 
       PagesStepperModule,
-      BearingSearchModule,
       ResultPageModule,
 
       RouterTestingModule,

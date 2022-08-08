@@ -3,83 +3,64 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 
-import {
-  BehaviorSubject,
-  debounceTime,
-  filter,
-  map,
-  Observable,
-  of,
-  startWith,
-  switchMap,
-  tap,
-} from 'rxjs';
+import { map, Observable, of, tap } from 'rxjs';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { StringOption } from '@schaeffler/inputs';
+import { SearchModule } from '@schaeffler/inputs/search';
+import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
 import { BEARING } from '../../shared/constants/tracking-names';
 import { BearingOption, SearchEntry } from '../../shared/models';
+import { SharedModule } from '../../shared/shared.module';
 import { RestService } from './../../core/services/rest/rest.service';
 @Component({
+  standalone: true,
+  imports: [SharedModule, SearchAutocompleteModule, SearchModule],
   selector: 'mm-bearing-search',
   templateUrl: './bearing-search.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BearingSearchComponent implements OnInit {
+export class BearingSearchComponent {
   @Input() public selectedBearing?: BearingOption;
-
   @Output() public bearing = new EventEmitter<string | undefined>();
 
   public myControl = new UntypedFormControl('');
-
-  public options$: Observable<BearingOption[]> = of([]);
-
-  public loading$ = new BehaviorSubject<boolean>(false);
+  public options$: Observable<StringOption[]> = of([]);
+  public loading = false;
 
   public constructor(
     private readonly restService: RestService,
     private readonly applicationInsightsService: ApplicationInsightsService
   ) {}
 
-  public ngOnInit(): void {
-    this.options$ = this.myControl.valueChanges.pipe(
-      startWith(''),
-      debounceTime(300),
-      filter((value) => value.length > 1),
-      switchMap((value) => this.getBearings(value))
-    );
+  public getBearings(searchQuery: string): void {
+    if (searchQuery) {
+      this.loading = true;
 
-    if (this.selectedBearing) {
-      this.myControl.setValue(this.selectedBearing);
+      this.options$ = this.restService.getBearingSearch(searchQuery).pipe(
+        map((response) =>
+          response.data.map(({ data: { title, id } }: SearchEntry) => ({
+            title,
+            id,
+          }))
+        ),
+        tap(() => (this.loading = false))
+      );
+    } else {
+      this.options$ = of([]);
     }
   }
 
-  public getBearings(searchQuery: string): Observable<BearingOption[]> {
-    this.loading$.next(true);
-
-    return this.restService.getBearingSearch(searchQuery).pipe(
-      map((response) =>
-        response.data.map((entry: SearchEntry) => {
-          const { title, id } = entry.data;
-
-          return { title, id };
-        })
-      ),
-      tap(() => this.loading$.next(false))
-    );
-  }
-
-  public handleSelection(selectionId: string): void {
-    if (selectionId) {
-      const bearing = this.myControl.value.title;
-      this.trackBearingSelection(bearing, selectionId);
-
-      this.bearing.emit(selectionId);
+  public onOptionSelected(selection: StringOption): void {
+    if (selection) {
+      const { id, title } = selection;
+      this.trackBearingSelection(title, id as string);
+      this.bearing.emit(id as string);
     }
   }
 
