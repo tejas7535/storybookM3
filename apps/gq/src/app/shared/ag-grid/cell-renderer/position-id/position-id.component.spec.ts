@@ -1,12 +1,16 @@
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { CellClassParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { PositionIdComponent } from './position-id.component';
 
 describe('PositionIdComponent', () => {
   let component: PositionIdComponent;
   let spectator: Spectator<PositionIdComponent>;
+  let router: Router;
 
   const createComponent = createComponentFactory({
     component: PositionIdComponent,
@@ -16,6 +20,7 @@ describe('PositionIdComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    router = spectator.inject(Router);
   });
 
   test('should create', () => {
@@ -47,6 +52,28 @@ describe('PositionIdComponent', () => {
 
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(component['router'].navigate).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('set URL', () => {
+    test('should create valid URL', () => {
+      const url =
+        '/detail-view?customer_number=queryParamValue_customer_number&sales_org=queryParamValue_sales_org&quotation_number=queryParamValue_quotation_number&gqPositionId=123456789';
+      router.createUrlTree = jest.fn().mockReturnValue(url);
+
+      component.agInit({
+        data: { gqPositionId: '123456789' },
+      } as CellClassParams);
+
+      expect(router.createUrlTree).toHaveBeenCalledTimes(1);
+      expect(router.createUrlTree).toHaveBeenCalledWith(
+        [AppRoutePath.DetailViewPath],
+        {
+          queryParamsHandling: 'merge',
+          queryParams: { gqPositionId: '123456789' },
+        }
+      );
+      expect(component.url).toEqual(url);
     });
   });
 });
