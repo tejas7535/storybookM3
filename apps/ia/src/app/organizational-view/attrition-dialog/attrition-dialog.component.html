@@ -19,7 +19,7 @@
       <ia-line-chart
         [config]="fluctuationOverTimeData$ | ngrxPush"
         [isDataLoading]="fluctuationOverTimeDataLoading$ | ngrxPush"
-        [title]="t('chartTitle')"
+        [title]="(referenceOrgUnit$ | ngrxPush) + ' - ' + t('chartTitle')"
       ></ia-line-chart>
     </div>
   </div>

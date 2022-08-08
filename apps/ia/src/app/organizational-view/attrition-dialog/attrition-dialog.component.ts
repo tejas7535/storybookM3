@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { getSelectOrgUnitValueShort } from '../../core/store/selectors';
 import { ChartType } from '../models/chart-type.enum';
 import {
   getAttritionOverTimeOrgChartData,
@@ -25,6 +26,7 @@ export class AttritionDialogComponent implements OnInit {
 
   public meta$: Observable<AttritionDialogMeta>;
   public fluctuationLoading$: Observable<boolean>;
+  public referenceOrgUnit$: Observable<string>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ChartType,
@@ -38,6 +40,7 @@ export class AttritionDialogComponent implements OnInit {
     this.fluctuationOverTimeDataLoading$ = this.store.select(
       getIsLoadingAttritionOverTimeOrgChart
     );
+    this.referenceOrgUnit$ = this.store.select(getSelectOrgUnitValueShort);
 
     this.meta$ =
       this.data === ChartType.ORG_CHART

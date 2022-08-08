@@ -1,10 +1,12 @@
 <div *transloco="let t; read: 'organizationalView.attritionDialog'">
-  <h6 class="text-overline mt-0 mr-0 mb-2 ml-1 font-medium leading-3">
+  <h6
+    class="text-overline mt-0 mr-0 mb-2 ml-1 font-medium leading-4 text-medium-emphasis"
+  >
     {{ t('metaTitle') }} ({{ meta.selectedTimeRange }})
   </h6>
   <ng-container *ngIf="meta.showAttritionRates">
     <div class="flex items-center text-body-1 leading-8">
-      <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis">
+      <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">
         insert_chart
       </mat-icon>
       <div class="text-medium-emphasis">{{ t('attritionRate') }}:</div>
@@ -24,7 +26,7 @@
       </ng-template>
     </div>
     <div class="flex items-center text-body-1 leading-8">
-      <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis">
+      <mat-icon class="!min-w-6 mr-1.5 !h-6 !w-6 text-medium-emphasis">
         insert_chart
       </mat-icon>
       <div
@@ -48,7 +50,7 @@
     </div>
   </ng-container>
   <div class="flex items-center text-body-1 leading-8">
-    <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis"
+    <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >person_outline</mat-icon
     >
     <div class="text-medium-emphasis">{{ t('employeesLost') }}:</div>
@@ -56,23 +58,23 @@
   </div>
   <div class="flex text-body-1 leading-8">
     <mat-divider
-      class="!-mt-1 !mr-4 !mb-3 !ml-3 flex"
+      class="!-mt-1 !mr-[calc(1rem+1px)] !mb-3 !ml-3 flex"
       [vertical]="true"
     ></mat-divider>
     <div class="flex flex-col">
-      <div>
+      <div class="text-medium-emphasis">
         {{ t('unforcedFluctuation') }}:
         <span class="ml-2 text-high-emphasis">{{
           meta.data.unforcedFluctuation
         }}</span>
       </div>
-      <div>
+      <div class="text-medium-emphasis">
         {{ t('forcedFluctuation') }}:
         <span class="ml-2 text-high-emphasis">{{
           meta.data.forcedFluctuation
         }}</span>
       </div>
-      <div>
+      <div class="text-medium-emphasis">
         {{ t('remainingFluctuation') }}:
         <span class="ml-2 text-high-emphasis">{{
           meta.data.remainingFluctuation
@@ -81,21 +83,21 @@
     </div>
   </div>
   <div class="flex items-center text-body-1 leading-8">
-    <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis">block</mat-icon>
+    <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis">block</mat-icon>
     <div class="text-medium-emphasis">{{ t('terminationReceived') }}:</div>
     <span class="ml-2 text-high-emphasis">{{
       meta.data.terminationReceived
     }}</span>
   </div>
   <div class="flex items-center text-body-1 leading-8">
-    <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis"
+    <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >person_add</mat-icon
     >
     <div class="text-medium-emphasis">{{ t('employeesAdded') }}:</div>
     <span class="ml-2 text-high-emphasis">{{ meta.data.employeesAdded }}</span>
   </div>
   <div class="flex items-center text-body-1 leading-8">
-    <mat-icon class="!h-4.5 !w-4.5 mr-1.5 text-medium-emphasis"
+    <mat-icon class="mr-1.5 !h-6 !w-6 text-medium-emphasis"
       >people_outlined</mat-icon
     >
     <div class="text-medium-emphasis">{{ t('openPositions') }}:</div>
