@@ -28,6 +28,7 @@ import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-c
 import { ColumnFields } from '../../../ag-grid/constants/column-fields.enum';
 import { LOCALE_DE, LOCALE_EN } from '../../../constants';
 import { PriceSource } from '../../../models/quotation-detail';
+import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { PriceService } from '../../../services/price-service/price.service';
 import { DialogHeaderModule } from '../../header/dialog-header/dialog-header.module';
 import { EditingModalComponent } from './editing-modal.component';
@@ -36,6 +37,7 @@ describe('EditingModalComponent', () => {
   let component: EditingModalComponent;
   let spectator: Spectator<EditingModalComponent>;
   let store: MockStore;
+  let helperService: HelperService;
 
   const createComponent = createComponentFactory({
     component: EditingModalComponent,
@@ -68,6 +70,17 @@ describe('EditingModalComponent', () => {
           field: ColumnFields.DISCOUNT,
         },
       },
+      {
+        provide: HelperService,
+        useValue: {
+          transformNumber: jest.fn().mockImplementation((value, showDigits) =>
+            Intl.NumberFormat('de-DE', {
+              minimumFractionDigits: showDigits ? 2 : undefined,
+              maximumFractionDigits: showDigits ? 2 : 0,
+            }).format(value)
+          ),
+        },
+      },
     ],
   });
 
@@ -79,6 +92,7 @@ describe('EditingModalComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
+    helperService = spectator.inject(HelperService);
   });
 
   test('should create', () => {
@@ -529,6 +543,10 @@ describe('EditingModalComponent', () => {
   });
 
   describe('increment', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     test('should increment price', () => {
       component.modalData = {
         field: ColumnFields.PRICE,
@@ -538,6 +556,8 @@ describe('EditingModalComponent', () => {
       component.increment();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('2');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(2, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
 
     test('should increment price on placeholder value', () => {
@@ -551,6 +571,8 @@ describe('EditingModalComponent', () => {
       component.increment();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('11');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(11, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should not increment gpi', () => {
       component.modalData = {
@@ -561,6 +583,7 @@ describe('EditingModalComponent', () => {
       component.increment();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('99');
+      expect(helperService.transformNumber).not.toHaveBeenCalled();
     });
 
     test('should use 0 if the value is not parseable', () => {
@@ -574,10 +597,32 @@ describe('EditingModalComponent', () => {
       component.increment();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('1');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(1, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+    });
+
+    test('should increment float value', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      updateFormValue('10.25' as any);
+
+      component.increment();
+
+      expect(component.editingFormGroup.get('valueInput').value).toEqual(
+        '11,25'
+      );
+      expect(helperService.transformNumber).toHaveBeenCalledWith(11.25, true);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('decrement', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     test('should decrement quantity', () => {
       component.modalData = {
         field: ColumnFields.ORDER_QUANTITY,
@@ -589,6 +634,8 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('99');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(99, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should not decrement quantity', () => {
       component.modalData = {
@@ -601,6 +648,7 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('1');
+      expect(helperService.transformNumber).not.toHaveBeenCalled();
     });
     test('should decrement gpi', () => {
       component.modalData = {
@@ -613,6 +661,8 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('-91');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(-91, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should not decrement gpi', () => {
       component.modalData = {
@@ -625,6 +675,7 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('-90');
+      expect(helperService.transformNumber).not.toHaveBeenCalled();
     });
     test('should not decrement absolute price', () => {
       component.modalData = {
@@ -640,6 +691,7 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('1');
+      expect(helperService.transformNumber).not.toHaveBeenCalled();
     });
     test('should decrement absolute price', () => {
       component.modalData = {
@@ -655,6 +707,8 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('19');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(19, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should decrement for placeholder', () => {
       component.modalData = {
@@ -666,6 +720,8 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('95');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(95, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
     test('should use 0 if the value is not parseable', () => {
       component.modalData = {
@@ -678,6 +734,24 @@ describe('EditingModalComponent', () => {
       component.decrement();
 
       expect(component.editingFormGroup.get('valueInput').value).toEqual('-1');
+      expect(helperService.transformNumber).toHaveBeenCalledWith(-1, false);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
+    });
+
+    test('should decrement float value', () => {
+      component.modalData = {
+        field: ColumnFields.PRICE,
+        quotationDetail: QUOTATION_DETAIL_MOCK,
+      };
+      updateFormValue('10.25' as any);
+
+      component.decrement();
+
+      expect(component.editingFormGroup.get('valueInput').value).toEqual(
+        '9,25'
+      );
+      expect(helperService.transformNumber).toHaveBeenCalledWith(9.25, true);
+      expect(helperService.transformNumber).toHaveBeenCalledTimes(1);
     });
   });
 

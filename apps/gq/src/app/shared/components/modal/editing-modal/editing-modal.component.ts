@@ -77,7 +77,8 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly dialogRef: MatDialogRef<EditingModalComponent>,
     private readonly store: Store,
     private readonly cdr: ChangeDetectorRef,
-    private readonly translocoLocaleService: TranslocoLocaleService
+    private readonly translocoLocaleService: TranslocoLocaleService,
+    private readonly helperService: HelperService
   ) {}
 
   ngOnInit(): void {
@@ -284,9 +285,12 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       this.editingFormGroup
         .get('valueInput')
         .setValue(
-          PriceService.roundToTwoDecimals(
-            (value || this.value || 0) + 1
-          ).toString()
+          this.helperService
+            .transformNumber(
+              (value || this.value || 0) + 1,
+              !Number.isInteger(value)
+            )
+            .toString()
         );
       this.editInputField?.nativeElement.focus();
     }
@@ -312,9 +316,12 @@ export class EditingModalComponent implements OnInit, OnDestroy, AfterViewInit {
       this.editingFormGroup
         .get('valueInput')
         .setValue(
-          PriceService.roundToTwoDecimals(
-            (value || this.value || 0) - 1
-          ).toString()
+          this.helperService
+            .transformNumber(
+              (value || this.value || 0) - 1,
+              !Number.isInteger(value)
+            )
+            .toString()
         );
       this.editInputField?.nativeElement.focus();
     }
