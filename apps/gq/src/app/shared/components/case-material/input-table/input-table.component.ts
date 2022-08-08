@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 
+import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
+import { LocalizationService } from '../../../ag-grid/services/localization.service';
 import { StatusBarConfig } from '../../../models/table';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import {
@@ -19,13 +23,15 @@ import {
 })
 export class InputTableComponent implements OnInit {
   constructor(
-    private readonly columnDefinitionService: InputTableColumnDefService
+    private readonly columnDefinitionService: InputTableColumnDefService,
+    private readonly localizationService: LocalizationService
   ) {}
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs: ColDef[];
   public statusBar: StatusBarConfig;
   public components = COMPONENTS;
+  public localeText$: Observable<AgGridLocale>;
 
   @Input() isCaseView: boolean;
   @Input() rowData: any[];
@@ -39,5 +45,6 @@ export class InputTableComponent implements OnInit {
       this.isCaseView,
       BASE_STATUS_BAR_CONFIG
     );
+    this.localeText$ = this.localizationService.locale$;
   }
 }

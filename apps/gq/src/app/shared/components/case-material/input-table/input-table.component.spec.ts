@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -39,6 +40,7 @@ describe('InputTableComponent', () => {
       ]),
       CellRendererModule,
       CustomStatusBarModule,
+      PushModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
