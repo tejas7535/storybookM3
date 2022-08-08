@@ -4,7 +4,7 @@
     "customer": "Kunde",
     "customerId": "Kundennummer",
     "netSalesClassification": "Umsatzklassifizierung (A,B,C)",
-    "netSales": "Umsatz",
+    "netSales": "Fakturierter Wert",
     "gpi": "GPI",
     "incoterms": "Incoterms",
     "keyAccount": "Key-Account",
@@ -29,7 +29,7 @@
     "title": "Key Account",
     "keyAccount": "Key Account",
     "subKeyAccount": "Sub Key Account",
-    "netSales": "Umsatz",
+    "netSales": "Fakturierter Wert",
     "gpi": "GPI"
   }
 }

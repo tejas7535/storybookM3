@@ -246,7 +246,7 @@
           "keyAccount": "Key-Account",
           "subKeyAccount": "Sub-Key-Account",
           "customerClassification": "Umsatzklassifizierung",
-          "netSales": "Umsatz",
+          "netSales": "Fakturierter Wert",
           "gpi": "GPI%",
           "country": "Land",
           "incoterms": "Incoterms"
@@ -261,7 +261,7 @@
       "sectorManagement": "Sektormanagement",
       "subKeyAccount": "Sub-Key-Account",
       "netSalesClassification": "Umsatzklassifizierung",
-      "netSalesLastYear": "Umsatz",
+      "netSalesLastYear": "Fakturierter Wert",
       "gpiLastYear": "GPI",
       "country": "Land",
       "currency": "Währung"

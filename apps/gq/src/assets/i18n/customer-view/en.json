@@ -4,8 +4,8 @@
     "country": "Country",
     "customer": "Customer",
     "customerId": "Customer Number",
-    "netSalesClassification": "Net Sales Classification (A,B,C)",
-    "netSales": "Net Sales",
+    "netSalesClassification": "Invoice Value Classification (A,B,C)",
+    "netSales": "Invoiced Value",
     "gpi": "GPI",
     "incoterms": "Incoterms",
     "keyAccount": "Key Account",
@@ -29,7 +29,7 @@
     "title": "Key Account",
     "keyAccount": "Key Account",
     "subKeyAccount": "Sub Key Account",
-    "netSales": "Net Sales",
+    "netSales": "Invoiced Value",
     "gpi": "GPI"
   }
 }
