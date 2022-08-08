@@ -1,0 +1,66 @@
+{
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/ui/controls/src",
+  "prefix": "schaeffler",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "tsConfig": "libs/shared/ui/controls/tsconfig.lib.json",
+        "project": "libs/shared/ui/controls/ng-package.json",
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "tailwindConfig": "libs/shared/ui/controls/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/shared/ui/controls/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/ui/controls/src/**/*.ts",
+          "libs/shared/ui/controls/src/**/*.html"
+        ]
+      },
+      "configurations": {
+        "ci": {
+          "format": "checkstyle",
+          "outputFile": "checkstyle/libs/shared/ui/controls/checkstyle.xml",
+          "force": true
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/ui/controls"],
+      "options": {
+        "jestConfig": "libs/shared/ui/controls/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "standard-version": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "npx standard-version --no-verify {args.params}",
+        "cwd": "libs/shared/ui/controls"
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "npm publish dist/libs/shared/ui/controls --tag latest"
+          }
+        ]
+      }
+    }
+  },
+  "tags": ["scope:shared", "type:ui"],
+  "implicitDependencies": ["shared-ui-styles"]
+}
