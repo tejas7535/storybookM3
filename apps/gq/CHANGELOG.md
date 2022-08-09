@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.9.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.8.0...gq-v2.9.0) (2022-08-09)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed issue with increment / decrement in EditingModal (GQUOTE-1574) ([#4459](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4459)) ([06d5e97](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/06d5e97db0388e403f67643a426e1fc0f1b60f18))
+
+
+### 🎸 Features
+
+* **gq:** add locale quantity and currency input (GQUOTE-1518) ([#4394](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4394)) ([311b14a](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/311b14a71a4e1dd9370ce1888cd0c6c75a8f5e0a))
+* **gq:** add localization for numbers and dates (GQUOTE-1516) ([#4411](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4411)) ([ae10a78](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/ae10a785b549437a547de40ed73df2f9b8a7541a))
+* **gq:** added dynamic route to gq position id component (GQUOTE-1543) ([#4451](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4451)) ([bd2924c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/bd2924c7daf58a7e73c885b9343364c38738d191))
+* **gq:** added localization to InputTableComponent (GQUOTE-1534) ([#4458](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4458)) ([d93f252](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d93f25205989dcba21a63fc08a90e3c8ada0912b))
+* **gq:** added translation for unit of measurement (GQUOTE-1531) ([#4417](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4417)) ([d6ad79c](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/d6ad79c6b28f86fb0f715b6c73a7f7b3dbd5a670))
+* **gq:** made edit cells automatically expand (GQUOTE-1533) ([#4445](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4445)) ([1e5dc4e](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/1e5dc4e50fde99cb5885ade4dc0962c9d8cef128))
+* **gq:** only accept locale quantity for pasteFromClipboard (GQUOTE-1517) ([#4442](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4442)) ([463617f](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/463617ff90c5263e3707875b4fa0eb0abe44c865))
+* **gq:** updated net sales translations (GQUOTE-1554) ([#4455](https://github.com/Schaeffler-Group/frontend-schaeffler/issues/4455)) ([b776c65](https://github.com/Schaeffler-Group/frontend-schaeffler/commit/b776c653b5d4f97c2a735623c99a3ef3425daec5))
+
 ## [2.8.0](https://github.com/Schaeffler-Group/frontend-schaeffler/compare/gq-v2.7.0...gq-v2.8.0) (2022-07-27)
 
 
