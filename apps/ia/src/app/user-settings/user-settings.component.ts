@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { RolesGroup } from '@schaeffler/roles-and-rights';
 
+import { FilterDimension } from '../core/store/reducers/filter/filter.reducer';
 import { getOrgUnitsFilter, getUserRoles } from '../core/store/selectors';
 import { Filter, SelectedFilter } from '../shared/models';
 import { UserSettings } from './models/user-settings.model';
@@ -50,6 +51,11 @@ export class UserSettingsComponent implements OnInit {
   }
 
   autoCompleteOrgUnitsChange(searchFor: string): void {
-    this.store.dispatch(loadUserSettingsOrgUnits({ searchFor }));
+    this.store.dispatch(
+      loadUserSettingsOrgUnits({
+        filterDimension: FilterDimension.ORG_UNITS,
+        searchFor,
+      })
+    );
   }
 }

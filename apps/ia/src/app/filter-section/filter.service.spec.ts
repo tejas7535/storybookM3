@@ -58,4 +58,64 @@ describe('FilterService', () => {
       req.flush(mock);
     });
   });
+
+  describe('getRegions', () => {
+    test('should get regions', () => {
+      const data: IdValue[] = [];
+
+      service.getRegions().subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(`api/v1/filters/regions`);
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getSubRegions', () => {
+    test('should get sub-regions', () => {
+      const data: IdValue[] = [];
+
+      service.getSubRegions().subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(`api/v1/filters/sub-regions`);
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getCountries', () => {
+    test('should get countries', () => {
+      const data: IdValue[] = [];
+
+      service.getCountries().subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(`api/v1/filters/countries`);
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
+
+  describe('getSubFunctions', () => {
+    test('should get sub-functions', () => {
+      const data: IdValue[] = [];
+
+      service.getSubFunctions().subscribe((response) => {
+        expect(response).toEqual(data);
+      });
+
+      const req = httpMock.expectOne(`api/v1/filters/sub-functions`);
+
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
+    });
+  });
 });

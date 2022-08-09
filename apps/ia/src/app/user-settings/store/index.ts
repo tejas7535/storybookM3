@@ -1,8 +1,8 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import {
-  loadOrgUnitsFailure,
-  loadOrgUnitsSuccess,
+  loadFilterDimensionDataFailure,
+  loadFilterDimensionDataSuccess,
 } from '../../core/store/actions';
 import { UserSettings } from '../models/user-settings.model';
 import {
@@ -93,7 +93,7 @@ export const userSettingsReducer = createReducer(
     })
   ),
   on(
-    loadOrgUnitsSuccess,
+    loadFilterDimensionDataSuccess,
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {
@@ -102,7 +102,7 @@ export const userSettingsReducer = createReducer(
     })
   ),
   on(
-    loadOrgUnitsFailure,
+    loadFilterDimensionDataFailure,
     (state: UserSettingsState): UserSettingsState => ({
       ...state,
       dialog: {

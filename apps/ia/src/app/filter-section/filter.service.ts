@@ -14,6 +14,10 @@ import { ApiVersion, IdValue, Slice } from '../shared/models';
 export class FilterService {
   readonly FILTER_BASE_PATH = 'filters';
   readonly AUTOCOMPLETE_ORG_UNITS = 'org-units';
+  readonly REGIONS = 'regions';
+  readonly SUB_REGIONS = 'sub-regions';
+  readonly COUNTRIES = 'countries';
+  readonly SUB_FUNCTIONS = 'sub-functions';
 
   constructor(
     private readonly http: HttpClient,
@@ -32,5 +36,33 @@ export class FilterService {
         { params, context: withCache() }
       )
       .pipe(map((result) => result.content));
+  }
+
+  getRegions(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.REGIONS}`,
+      { context: withCache() }
+    );
+  }
+
+  getSubRegions(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_REGIONS}`,
+      { context: withCache() }
+    );
+  }
+
+  getCountries(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.COUNTRIES}`,
+      { context: withCache() }
+    );
+  }
+
+  getSubFunctions(): Observable<IdValue[]> {
+    return this.http.get<IdValue[]>(
+      `${ApiVersion.V1}/${this.FILTER_BASE_PATH}/${this.SUB_FUNCTIONS}`,
+      { context: withCache() }
+    );
   }
 }

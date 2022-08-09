@@ -19,10 +19,12 @@ describe('Filter Selector', () => {
   const fakeState = {
     filter: {
       ...initialState,
-      orgUnits: {
-        loading: true,
-        items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
-        errorMessage: '',
+      data: {
+        orgUnits: {
+          loading: true,
+          items: [new IdValue('Schaeffler_IT_1', 'Schaeffler_IT_1')],
+          errorMessage: '',
+        },
       },
       selectedFilters: {
         ids: [FilterKey.ORG_UNIT, FilterKey.TIME_RANGE],

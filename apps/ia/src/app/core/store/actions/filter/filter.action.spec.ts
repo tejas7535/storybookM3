@@ -1,9 +1,10 @@
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
+import { FilterDimension } from '../../reducers/filter/filter.reducer';
 import {
   filterSelected,
-  loadOrgUnits,
-  loadOrgUnitsFailure,
-  loadOrgUnitsSuccess,
+  loadFilterDimensionData,
+  loadFilterDimensionDataFailure,
+  loadFilterDimensionDataSuccess,
   timePeriodSelected,
   triggerLoad,
 } from '../';
@@ -12,32 +13,40 @@ describe('Filter Actions', () => {
   const errorMessage = 'An error occured';
 
   describe('Get initial filters actions', () => {
-    test('loadOrgUnits', () => {
+    test('loadFilterDimenstionData', () => {
       const searchFor = 'search';
-      const action = loadOrgUnits({ searchFor });
-
-      expect(action).toEqual({
+      const action = loadFilterDimensionData({
+        filterDimension: FilterDimension.ORG_UNITS,
         searchFor,
-        type: '[Filter] Load Org Units',
       });
-    });
-
-    test('loadOrgUnitsSuccess', () => {
-      const items = [new IdValue('Department1', 'Department1')];
-      const action = loadOrgUnitsSuccess({ items });
 
       expect(action).toEqual({
-        items,
-        type: '[Filter] Load Org Units Success',
+        filterDimension: FilterDimension.ORG_UNITS,
+        searchFor,
+        type: '[Filter] Load Filter Dimension Data',
       });
     });
 
-    test('loadOrgUnitsFailure', () => {
-      const action = loadOrgUnitsFailure({ errorMessage });
+    test('loadFilterDimensionDataSuccess', () => {
+      const items = [new IdValue('Department1', 'Department1')];
+      const action = loadFilterDimensionDataSuccess({
+        filterDimension: FilterDimension.ORG_UNITS,
+        items,
+      });
+
+      expect(action).toEqual({
+        filterDimension: FilterDimension.ORG_UNITS,
+        items,
+        type: '[Filter] Load Filter Dimension Data Success',
+      });
+    });
+
+    test('loadFilterDimensionDataFailure', () => {
+      const action = loadFilterDimensionDataFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
-        type: '[Filter] Load Org Units Failure',
+        type: '[Filter] Load Filter Dimension Data Failure',
       });
     });
 

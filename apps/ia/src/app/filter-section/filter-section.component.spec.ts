@@ -9,7 +9,8 @@ import { marbles } from 'rxjs-marbles/marbles';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as en from '../../assets/i18n/en.json';
-import { filterSelected, loadOrgUnits } from '../core/store/actions';
+import { filterSelected, loadFilterDimensionData } from '../core/store/actions';
+import { FilterDimension } from '../core/store/reducers/filter/filter.reducer';
 import {
   getOrgUnitsFilter,
   getOrgUnitsLoading,
@@ -213,7 +214,12 @@ describe('FilterSectionComponent', () => {
       const searchFor = 'search';
       component.autoCompleteOrgUnitsChange(searchFor);
 
-      expect(store.dispatch).toHaveBeenCalledWith(loadOrgUnits({ searchFor }));
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadFilterDimensionData({
+          filterDimension: FilterDimension.ORG_UNITS,
+          searchFor,
+        })
+      );
     });
   });
 });

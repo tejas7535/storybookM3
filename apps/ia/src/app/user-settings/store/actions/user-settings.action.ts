@@ -1,5 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { FilterDimension } from '../../../core/store/reducers/filter/filter.reducer';
 import { UserSettings } from '../../models/user-settings.model';
 
 export const loadUserSettings = createAction(
@@ -37,7 +38,7 @@ export const updateUserSettingsFailure = createAction(
 
 export const loadUserSettingsOrgUnits = createAction(
   '[Filter] Load User Settings Org Units',
-  props<{ searchFor: string }>()
+  props<{ filterDimension: FilterDimension; searchFor: string }>()
 );
 
 const all = union({

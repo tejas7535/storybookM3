@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { FilterDimension } from '../../core/store/reducers/filter/filter.reducer';
 import { getOrgUnitsFilter } from '../../core/store/selectors/filter/filter.selector';
 import { Filter, SelectedFilter } from '../../shared/models';
 import { UserSettings } from '../models/user-settings.model';
@@ -49,6 +50,11 @@ export class UserSettingsDialogComponent implements OnInit {
   }
 
   autoCompleteOrgUnitsChange(searchFor: string): void {
-    this.store.dispatch(loadUserSettingsOrgUnits({ searchFor }));
+    this.store.dispatch(
+      loadUserSettingsOrgUnits({
+        filterDimension: FilterDimension.ORG_UNITS,
+        searchFor,
+      })
+    );
   }
 }

@@ -17,19 +17,36 @@ import {
 } from '../../../../shared/utils/utilities';
 import {
   filterSelected,
-  loadOrgUnits,
-  loadOrgUnitsFailure,
-  loadOrgUnitsSuccess,
+  loadFilterDimensionData,
+  loadFilterDimensionDataFailure,
+  loadFilterDimensionDataSuccess,
   timePeriodSelected,
 } from '../../actions/filter/filter.action';
 
 export const filterKey = 'filter';
+
+export interface FilterData {
+  loading: boolean;
+  items: IdValue[];
+  errorMessage: string;
+}
+
+export enum FilterDimension {
+  ORG_UNITS = 'orgUnits',
+  REGIONS = 'regions',
+  SUB_REGIONS = 'subRegions',
+  COUNTRIES = 'countries',
+  FUNCTIONS = 'functions',
+  SUB_FUNCTIONS = 'subFunctions',
+  SEGMENTS = 'segments',
+  SUB_SEGMENTS = 'subSegments',
+  SEGMENT_UNITS = 'segmentUnits',
+  BOARDS = 'boards',
+  SUB_BOARDS = 'subBoards',
+}
+
 export interface FilterState {
-  orgUnits: {
-    loading: boolean;
-    items: IdValue[];
-    errorMessage: string;
-  };
+  data: Record<FilterDimension, FilterData>;
   timePeriods: IdValue[];
   selectedFilters: EntityState<SelectedFilter>; // currently selected filters
   selectedTimePeriod: TimePeriod;
@@ -51,10 +68,19 @@ export const getInitialSelectedTimeRange = (today: Moment) => {
 const initialTimeRange = getInitialSelectedTimeRange(moment.utc());
 
 export const initialState: FilterState = {
-  orgUnits: {
-    loading: false,
-    items: [],
-    errorMessage: undefined,
+  data: {
+    // eslint-disable-next-line unicorn/no-array-reduce
+    ...Object.values(FilterDimension).reduce(
+      (map, curr) => (
+        (map[curr] = {
+          loading: false,
+          items: [],
+          errorMessage: undefined,
+        }),
+        map
+      ),
+      {} as any
+    ),
   },
   timePeriods: [
     {
@@ -84,34 +110,43 @@ export const initialState: FilterState = {
 export const filterReducer = createReducer(
   initialState,
   on(
-    loadOrgUnits,
-    (state: FilterState): FilterState => ({
+    loadFilterDimensionData,
+    (state: FilterState, { filterDimension: filterType }): FilterState => ({
       ...state,
-      orgUnits: {
-        ...state.orgUnits,
-        loading: true,
+      data: {
+        ...state.data,
+        [filterType]: {
+          ...state.data[filterType],
+          loading: true,
+        },
       },
     })
   ),
   on(
-    loadOrgUnitsSuccess,
+    loadFilterDimensionDataSuccess,
     (state: FilterState, { items }): FilterState => ({
       ...state,
-      orgUnits: {
-        ...state.orgUnits,
-        loading: false,
-        items,
+      data: {
+        ...state.data,
+        [FilterDimension.ORG_UNITS]: {
+          ...state.data.orgUnits,
+          loading: false,
+          items,
+        },
       },
     })
   ),
   on(
-    loadOrgUnitsFailure,
+    loadFilterDimensionDataFailure,
     (state: FilterState, { errorMessage }): FilterState => ({
       ...state,
-      orgUnits: {
-        ...state.orgUnits,
-        errorMessage,
-        loading: false,
+      data: {
+        ...state.data,
+        [FilterDimension.ORG_UNITS]: {
+          ...state.data.orgUnits,
+          errorMessage,
+          loading: false,
+        },
       },
     })
   ),

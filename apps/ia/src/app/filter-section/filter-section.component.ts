@@ -6,9 +6,10 @@ import { Store } from '@ngrx/store';
 
 import {
   filterSelected,
-  loadOrgUnits,
+  loadFilterDimensionData,
   timePeriodSelected,
 } from '../core/store/actions';
+import { FilterDimension } from '../core/store/reducers/filter/filter.reducer';
 import {
   getOrgUnitsFilter,
   getOrgUnitsLoading,
@@ -63,6 +64,11 @@ export class FilterSectionComponent implements OnInit {
   }
 
   autoCompleteOrgUnitsChange(searchFor: string): void {
-    this.store.dispatch(loadOrgUnits({ searchFor }));
+    this.store.dispatch(
+      loadFilterDimensionData({
+        filterDimension: FilterDimension.ORG_UNITS,
+        searchFor,
+      })
+    );
   }
 }

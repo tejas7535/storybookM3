@@ -20,12 +20,13 @@ import {
 
 export const getOrgUnitsFilter = createSelector(
   selectFilterState,
-  (state: FilterState) => new Filter(FilterKey.ORG_UNIT, state.orgUnits.items)
+  (state: FilterState) =>
+    new Filter(FilterKey.ORG_UNIT, state.data.orgUnits.items)
 );
 
 export const getOrgUnitsLoading = createSelector(
   selectFilterState,
-  (state: FilterState) => state.orgUnits.loading
+  (state: FilterState) => state.data.orgUnits.loading
 );
 
 export const getCurrentRoute = createSelector(

@@ -1,19 +1,20 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
+import { FilterDimension as FilterDimension } from '../../reducers/filter/filter.reducer';
 
-export const loadOrgUnits = createAction(
-  '[Filter] Load Org Units',
-  props<{ searchFor: string }>()
+export const loadFilterDimensionData = createAction(
+  '[Filter] Load Filter Dimension Data',
+  props<{ filterDimension: FilterDimension; searchFor?: string }>()
 );
 
-export const loadOrgUnitsSuccess = createAction(
-  '[Filter] Load Org Units Success',
-  props<{ items: IdValue[] }>()
+export const loadFilterDimensionDataSuccess = createAction(
+  '[Filter] Load Filter Dimension Data Success',
+  props<{ filterDimension: FilterDimension; items: IdValue[] }>()
 );
 
-export const loadOrgUnitsFailure = createAction(
-  '[Filter] Load Org Units Failure',
+export const loadFilterDimensionDataFailure = createAction(
+  '[Filter] Load Filter Dimension Data Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -30,9 +31,9 @@ export const timePeriodSelected = createAction(
 export const triggerLoad = createAction('[Filter] Trigger Load');
 
 const all = union({
-  loadOrgUnits,
-  loadOrgUnitsSuccess,
-  loadOrgUnitsFailure,
+  loadFilterDimensionData,
+  loadFilterDimensionDataSuccess,
+  loadFilterDimensionDataFailure,
   filterSelected,
   timePeriodSelected,
   triggerLoad,
