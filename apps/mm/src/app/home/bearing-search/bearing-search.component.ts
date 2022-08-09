@@ -12,7 +12,6 @@ import { map, Observable, of, tap } from 'rxjs';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { StringOption } from '@schaeffler/inputs';
 import { SearchModule } from '@schaeffler/inputs/search';
-import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
 import { BEARING } from '../../shared/constants/tracking-names';
 import { BearingOption, SearchEntry } from '../../shared/models';
@@ -20,7 +19,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { RestService } from './../../core/services/rest/rest.service';
 @Component({
   standalone: true,
-  imports: [SharedModule, SearchAutocompleteModule, SearchModule],
+  imports: [SharedModule, SearchModule],
   selector: 'mm-bearing-search',
   templateUrl: './bearing-search.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
