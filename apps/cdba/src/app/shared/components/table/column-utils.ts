@@ -1,12 +1,13 @@
+import { translate } from '@ngneat/transloco';
 import {
   GetMainMenuItemsParams,
   MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-enterprise/all-modules';
+} from 'ag-grid-enterprise';
+
 import { getEnv } from '@cdba/environments/environment.provider';
 import { getValueFromObject } from '@cdba/shared/utils';
-import { translate } from '@ngneat/transloco';
 
 import {
   MaterialNumberPipe,

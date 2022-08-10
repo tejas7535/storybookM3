@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
 
 import {
   columnDefinitionToReferenceTypeProp,

@@ -15,22 +15,15 @@ import { ActivatedRoute } from '@angular/router';
 
 import { of } from 'rxjs';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import {
-  ClientSideRowModelModule,
-  ColumnsToolPanelModule,
-  FiltersToolPanelModule,
-  GridApi,
-  GridReadyEvent,
-  IStatusPanelParams,
-  MasterDetailModule,
-  MultiFilterModule,
-  RowClickedEvent,
-  SetFilterModule,
-  SideBarModule,
-} from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import {
+  GridReadyEvent,
+  IStatusPanelParams,
+  RowClickedEvent,
+} from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
@@ -59,15 +52,7 @@ describe('SalesTableComponent', () => {
       MatNativeDateModule,
       MatButtonModule,
       BrowserDynamicTestingModule,
-      AgGridModule.withComponents([
-        ClientSideRowModelModule,
-        ColumnsToolPanelModule,
-        FiltersToolPanelModule,
-        MasterDetailModule,
-        MultiFilterModule,
-        SetFilterModule,
-        SideBarModule,
-      ]),
+      AgGridModule,
     ],
     declarations: [SalesTableComponent],
     providers: [

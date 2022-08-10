@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
-import { ICellRendererAngularComp } from '@ag-grid-community/angular';
-import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { ICellRendererParams } from 'ag-grid-enterprise';
+
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService } from '@cdba/shared/services';
 

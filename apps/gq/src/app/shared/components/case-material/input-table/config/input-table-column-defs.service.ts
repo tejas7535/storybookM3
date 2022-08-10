@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from 'ag-grid-enterprise';
 import { translate } from '@ngneat/transloco';
 
 import { ColumnUtilityService } from '../../../../ag-grid/services/column-utility.service';

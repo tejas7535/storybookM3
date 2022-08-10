@@ -9,10 +9,11 @@ import {
 
 import {
   AgGridEvent,
-  ClientSideRowModelModule,
-  ColDef,
-  GridApi,
-} from '@ag-grid-enterprise/all-modules';
+  GridSizeChangedEvent,
+  RowDataUpdatedEvent,
+} from 'ag-grid-community';
+import { ColDef, GridApi } from 'ag-grid-enterprise';
+
 import { ProductCostAnalysis } from '@cdba/shared/models';
 
 import { CustomHeaderComponent } from './custom-header-component/custom-header.component';
@@ -30,7 +31,6 @@ export class PortfolioAnalysisTableComponent implements OnInit, OnChanges {
 
   public rowData: TransposedRowData[] = [];
   public columnDefs: ColDef[] = [];
-  public modules: any[] = [ClientSideRowModelModule];
 
   private gridApi: GridApi;
 
@@ -53,7 +53,9 @@ export class PortfolioAnalysisTableComponent implements OnInit, OnChanges {
     }
   }
 
-  onTableChanged(agGridEvent: AgGridEvent): void {
+  onTableChanged(
+    agGridEvent: AgGridEvent<RowDataUpdatedEvent | GridSizeChangedEvent>
+  ): void {
     this.gridApi = agGridEvent.api;
     this.gridApi.sizeColumnsToFit();
   }

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
-import { GridApi } from '@ag-grid-enterprise/all-modules';
+import { GridApi } from 'ag-grid-enterprise';
 import {
   createComponentFactory,
   mockProvider,

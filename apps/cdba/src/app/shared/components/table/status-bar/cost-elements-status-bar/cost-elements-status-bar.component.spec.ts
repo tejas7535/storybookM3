@@ -1,11 +1,12 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
-import { toggleSplitType as toggleSelectedSplitTypeCompare } from '@cdba/compare/store';
-import { toggleSplitType as toggleSelectedSplitTypeDetail } from '@cdba/core/store';
-import { COMPARE_STATE_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IStatusPanelParams } from 'ag-grid-community';
 import { MockModule } from 'ng-mocks';
+
+import { toggleSplitType as toggleSelectedSplitTypeCompare } from '@cdba/compare/store';
+import { toggleSplitType as toggleSelectedSplitTypeDetail } from '@cdba/core/store';
+import { COMPARE_STATE_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { ToggleSplitTypeButtonModule } from '../../button/toggle-split-type-button/toggle-split-type-button.module';
 import { CostElementsStatusBarComponent } from './cost-elements-status-bar.component';

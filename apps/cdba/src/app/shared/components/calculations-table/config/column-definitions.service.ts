@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
-import { Calculation } from '@cdba/shared/models';
 import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
+
+import { Calculation } from '@cdba/shared/models';
 
 import { ColumnUtilsService, valueGetterDate } from '../../table';
 

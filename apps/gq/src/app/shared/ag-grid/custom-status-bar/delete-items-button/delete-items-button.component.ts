@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import { removePositions } from '../../../../core/store/actions';
 import { getSapId } from '../../../../core/store/selectors';

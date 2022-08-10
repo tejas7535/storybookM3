@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { FilterChangedEvent, RowNode } from '@ag-grid-community/all-modules';
 import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+import { FilterChangedEvent, RowNode } from 'ag-grid-community';
 
 import { Breadcrumb } from '@schaeffler/breadcrumbs';
 

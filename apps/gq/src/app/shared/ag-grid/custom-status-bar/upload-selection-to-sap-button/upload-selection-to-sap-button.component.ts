@@ -3,9 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import {
   getSapId,

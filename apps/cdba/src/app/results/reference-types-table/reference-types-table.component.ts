@@ -8,30 +8,20 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import {
-  GridOptions,
-  SelectionChangedEvent,
-} from '@ag-grid-community/all-modules';
-import {
-  ClientSideRowModelModule,
-  ClipboardModule,
-  ColDef,
-  ColumnsToolPanelModule,
-  FiltersToolPanelModule,
-  FirstDataRenderedEvent,
-  GridApi,
-  GridReadyEvent,
-  MenuModule,
-  RangeSelectionModule,
-  RowGroupingModule,
-  SetFilterModule,
-  SideBarDef,
-  SideBarModule,
-  SortChangedEvent,
-  StatusBarModule,
-  StatusPanelDef,
-} from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
+import {
+  FirstDataRenderedEvent,
+  GridOptions,
+  GridReadyEvent,
+  SelectionChangedEvent,
+  SortChangedEvent,
+} from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  SideBarDef,
+  StatusPanelDef,
+} from 'ag-grid-enterprise';
 
 import { ResultsStatusBarComponent } from '@cdba/shared/components/table/status-bar/results-status-bar';
 import { GRID_OPTIONS_DEFAULT } from '@cdba/shared/constants/grid-options';
@@ -66,19 +56,6 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   @Input() public selectedNodeIds: string[];
   @Output() readonly selectionChange: EventEmitter<string[]> =
     new EventEmitter();
-
-  public modules = [
-    ClientSideRowModelModule,
-    FiltersToolPanelModule,
-    ColumnsToolPanelModule,
-    MenuModule,
-    RangeSelectionModule,
-    RowGroupingModule,
-    StatusBarModule,
-    ClipboardModule,
-    SetFilterModule,
-    SideBarModule,
-  ];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;

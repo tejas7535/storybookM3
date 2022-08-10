@@ -5,10 +5,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { FilterChangedEvent } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { FilterChangedEvent } from 'ag-grid-community';
 import resize_observer_polyfill from 'resize-observer-polyfill';
 import { marbles } from 'rxjs-marbles';
 

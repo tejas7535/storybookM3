@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import {
-  ClientSideRowModelModule,
-  ColDef,
-} from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-community';
 import moment from 'moment';
 
 import { ResignedEmployee } from '../models';
@@ -17,8 +14,6 @@ import { ResignedEmployee } from '../models';
 export class ResignationsComponent {
   @Input() loading: boolean; // not used at the moment
   @Input() data: ResignedEmployee[];
-
-  modules: any[] = [ClientSideRowModelModule];
 
   frameworkComponents = {};
 

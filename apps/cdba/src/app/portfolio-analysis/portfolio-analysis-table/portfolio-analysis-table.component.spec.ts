@@ -1,13 +1,14 @@
 import { SimpleChanges } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { AgGridModule } from 'ag-grid-angular';
 import { MockModule } from 'ng-mocks';
+
+import { PRODUCT_COST_ANALYSIS_MOCK } from '@cdba/testing/mocks/models/product-cost-analysis.mock';
 
 import { PortfolioAnalysisTableComponent } from './portfolio-analysis-table.component';
 import { PortfolioAnalysisTableService } from './portfolio-analysis-table.service';

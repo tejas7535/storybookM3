@@ -6,12 +6,9 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import {
-  ColDef,
-  GridApi,
-  GridReadyEvent,
-  StatusPanelDef,
-} from '@ag-grid-enterprise/all-modules';
+import { GridReadyEvent } from 'ag-grid-community';
+import { ColDef, GridApi, StatusPanelDef } from 'ag-grid-enterprise';
+
 import { BomItem, Calculation, CostComponentSplit } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
@@ -21,7 +18,6 @@ import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
   FRAMEWORK_COMPONENTS,
-  MODULES,
   STATUS_BAR_CONFIG,
 } from './config';
 
@@ -74,8 +70,6 @@ export class CostElementsTableComponent implements OnInit, OnChanges {
     this.columnDefs = this.columnDefinitionService.getColDef();
     this.statusBar = STATUS_BAR_CONFIG;
     this.components = FRAMEWORK_COMPONENTS;
-
-    this.modules = MODULES;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

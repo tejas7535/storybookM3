@@ -4,22 +4,22 @@ import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
+import { Store } from '@ngrx/store';
 import {
-  AgGridEvent,
   ColDef,
   ColumnApi,
   ExcelStyle,
   FilterChangedEvent,
   FirstDataRenderedEvent,
   GridReadyEvent,
+  RowDataUpdatedEvent,
   RowDoubleClickedEvent,
   RowNode,
   RowSelectedEvent,
   SideBarDef,
   SortChangedEvent,
   StatusPanelDef,
-} from '@ag-grid-community/all-modules';
-import { Store } from '@ngrx/store';
+} from 'ag-grid-community';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import {
@@ -50,7 +50,6 @@ import { PriceService } from '../../shared/services/price-service/price.service'
 import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
-  MODULES,
   SIDE_BAR,
   STATUS_BAR_CONFIG,
 } from './config';
@@ -70,7 +69,6 @@ export class QuotationDetailsTableComponent implements OnInit {
   private readonly TABLE_KEY = 'processCase';
 
   public sideBar: SideBarDef = SIDE_BAR;
-  public modules: any[] = MODULES;
   public defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
   public statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
   public components = COMPONENTS;
@@ -134,7 +132,7 @@ export class QuotationDetailsTableComponent implements OnInit {
     );
   }
 
-  public onRowDataChanged(event: AgGridEvent): void {
+  public onRowDataUpdated(event: RowDataUpdatedEvent): void {
     this.updateColumnData(event);
 
     if (this.selectedRows) {
@@ -144,7 +142,9 @@ export class QuotationDetailsTableComponent implements OnInit {
     }
   }
 
-  public updateColumnData(event: AgGridEvent): void {
+  public updateColumnData(
+    event: FilterChangedEvent | SortChangedEvent | RowDataUpdatedEvent
+  ): void {
     const columnData = this.buildColumnData(event);
 
     this.agGridStateService.setColumnData(
@@ -177,7 +177,7 @@ export class QuotationDetailsTableComponent implements OnInit {
     });
   }
 
-  private readonly buildColumnData = (event: AgGridEvent) => {
+  private readonly buildColumnData = (event: RowDataUpdatedEvent) => {
     const columnData: QuotationDetail[] = [];
     event.api.forEachNodeAfterFilterAndSort((node: RowNode) => {
       columnData.push(node.data);

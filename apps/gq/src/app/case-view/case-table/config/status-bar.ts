@@ -1,4 +1,4 @@
-import { StatusPanelDef } from '@ag-grid-community/all-modules';
+import { StatusPanelDef } from 'ag-grid-community';
 
 export const STATUS_BAR_CONFIG: {
   statusPanels: StatusPanelDef[];

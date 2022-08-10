@@ -5,10 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock.js';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

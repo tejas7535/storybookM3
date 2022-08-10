@@ -9,10 +9,10 @@ import { UntypedFormControl, Validators } from '@angular/forms';
 
 import { filter, map, pairwise, Subscription } from 'rxjs';
 
-import { IHeaderParams } from '@ag-grid-community/all-modules';
-import { IHeaderAngularComp } from '@ag-grid-community/angular';
 import { TranslocoLocaleService } from '@ngneat/transloco-locale';
 import { Store } from '@ngrx/store';
+import { IHeaderAngularComp } from 'ag-grid-angular';
+import { IHeaderParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 

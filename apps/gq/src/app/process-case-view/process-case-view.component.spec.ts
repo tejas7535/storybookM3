@@ -7,7 +7,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import {
   createComponentFactory,
   mockProvider,
@@ -16,6 +15,7 @@ import {
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
 import { MockModule } from 'ng-mocks';
 import { marbles } from 'rxjs-marbles';
 
@@ -35,13 +35,7 @@ import {
   getUpdateLoading,
   updateQuotation,
 } from '../core/store';
-import { AddItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/add-items-button/add-items-button.component';
 import { CustomStatusBarModule } from '../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { DeleteItemsButtonComponent } from '../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
-import { ExportToExcelButtonComponent } from '../shared/ag-grid/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
-import { RefreshSapPriceComponent } from '../shared/ag-grid/custom-status-bar/refresh-sap-price/refresh-sap-price.component';
-import { TotalRowCountComponent } from '../shared/ag-grid/custom-status-bar/total-row-count/total-row-count.component';
-import { UploadSelectionToSapButtonComponent } from '../shared/ag-grid/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 import { AddEntryModule } from '../shared/components/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/components/case-material/input-table/input-table.module';
 import { CustomerHeaderModule } from '../shared/components/header/customer-header/customer-header.module';
@@ -70,14 +64,7 @@ describe('ProcessCaseViewComponent', () => {
     imports: [
       AddEntryModule,
       MockModule(InputTableModule),
-      AgGridModule.withComponents([
-        DeleteItemsButtonComponent,
-        UploadSelectionToSapButtonComponent,
-        AddItemsButtonComponent,
-        ExportToExcelButtonComponent,
-        TotalRowCountComponent,
-        RefreshSapPriceComponent,
-      ]),
+      AgGridModule,
       BrowserAnimationsModule,
       MockModule(CustomStatusBarModule),
       MatCardModule,

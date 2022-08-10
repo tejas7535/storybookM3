@@ -9,14 +9,17 @@ import {
 } from '@angular/core';
 
 import {
-  ColDef,
-  GridApi,
   GridReadyEvent,
   RowSelectedEvent,
-  SideBarDef,
   SortChangedEvent,
+} from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  SideBarDef,
   StatusPanelDef,
-} from '@ag-grid-enterprise/all-modules';
+} from 'ag-grid-enterprise';
+
 import { COMPARE_ITEMS_MAX_COUNT } from '@cdba/shared/constants/table';
 import { arrayEquals } from '@cdba/shared/utils';
 
@@ -29,8 +32,6 @@ import {
   DEFAULT_COLUMN_DEFINITION,
   FRAMEWORK_COMPONENTS,
   FRAMEWORK_COMPONENTS_MINIFIED,
-  MODULES,
-  MODULES_MINIFIED,
   STATUS_BAR_CONFIG,
 } from './config';
 
@@ -183,8 +184,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     this.components = minified
       ? FRAMEWORK_COMPONENTS_MINIFIED
       : FRAMEWORK_COMPONENTS;
-
-    this.modules = minified ? MODULES_MINIFIED : MODULES;
 
     this.rowSelection = 'multiple';
     this.enableRangeSelection = !minified;

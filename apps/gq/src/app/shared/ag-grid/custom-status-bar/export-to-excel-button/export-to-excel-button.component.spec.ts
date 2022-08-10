@@ -6,13 +6,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { of } from 'rxjs';
 
-import {
-  IStatusPanelParams,
-  ProcessHeaderForExportParams,
-} from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import {
+  ExcelRow,
+  IStatusPanelParams,
+  ProcessHeaderForExportParams,
+} from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -429,56 +430,62 @@ describe('ExportToExcelButtonComponent', () => {
       const result = component.addSummaryHeader(QUOTATION_MOCK);
       const type = 'String';
 
-      const expected = [
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+      const expected: ExcelRow[] = [
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelText.id,
             },
-            styleId: excelStyleObjects.excelText.id,
-          },
-          {
-            data: {
-              type,
-              value: QUOTATION_MOCK.sapId,
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.sapId,
+              },
+              styleId: excelStyleObjects.excelText.id,
             },
-            styleId: excelStyleObjects.excelText.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelText.id,
             },
-            styleId: excelStyleObjects.excelText.id,
-          },
-          {
-            data: {
-              type,
-              value: QUOTATION_MOCK.gqId.toString(),
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.gqId.toString(),
+              },
+              styleId: excelStyleObjects.excelText.id,
             },
-            styleId: excelStyleObjects.excelText.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelText.id,
             },
-            styleId: excelStyleObjects.excelText.id,
-          },
-          {
-            data: {
-              type,
-              value: new Date(QUOTATION_MOCK.gqCreated).toLocaleDateString(),
+            {
+              data: {
+                type,
+                value: new Date(QUOTATION_MOCK.gqCreated).toLocaleDateString(),
+              },
+              styleId: excelStyleObjects.excelText.id,
             },
-            styleId: excelStyleObjects.excelText.id,
-          },
-        ],
-        [],
+          ],
+        },
+        { cells: [] },
       ];
       expect(result.length).toEqual(4);
       expect(result).toEqual(expected);
@@ -490,129 +497,145 @@ describe('ExportToExcelButtonComponent', () => {
       const result = component.addQuotationSummary(QUOTATION_MOCK);
       const type = 'String';
 
-      const expected = [
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+      const expected: ExcelRow[] = [
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelTextBold.id,
             },
-            styleId: excelStyleObjects.excelTextBold.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: QUOTATION_MOCK.customer.identifier.customerId,
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.customer.identifier.customerId,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: QUOTATION_MOCK.customer.name,
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.customer.name,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: '2,000.00 EUR',
+            {
+              data: {
+                type,
+                value: '2,000.00 EUR',
+              },
+              styleId: excelStyleObjects.excelTextBorderBold.id,
             },
-            styleId: excelStyleObjects.excelTextBorderBold.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: `85 %`,
+            {
+              data: {
+                type,
+                value: `85 %`,
+              },
+              styleId: excelStyleObjects.excelTextBorderBold.id,
             },
-            styleId: excelStyleObjects.excelTextBorderBold.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: `90 %`,
+            {
+              data: {
+                type,
+                value: `90 %`,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: `${QUOTATION_DETAIL_MOCK.priceDiff} %`,
+            {
+              data: {
+                type,
+                value: `${QUOTATION_DETAIL_MOCK.priceDiff} %`,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
             },
-            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: QUOTATION_MOCK.currency,
+            {
+              data: {
+                type,
+                value: QUOTATION_MOCK.currency,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [],
+          ],
+        },
+        { cells: [] },
       ];
       expect(result).toEqual(expected);
     });
@@ -625,166 +648,186 @@ describe('ExportToExcelButtonComponent', () => {
       const lastYear = HelperService.getLastYear();
       const currentYear = HelperService.getCurrentYear();
 
-      const expected = [
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+      const expected: ExcelRow[] = [
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelTextBold.id,
             },
-            styleId: excelStyleObjects.excelTextBold.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: CUSTOMER_MOCK.keyAccount,
+            {
+              data: {
+                type,
+                value: CUSTOMER_MOCK.keyAccount,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: CUSTOMER_MOCK.subKeyAccount,
+            {
+              data: {
+                type,
+                value: CUSTOMER_MOCK.subKeyAccount,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: CUSTOMER_MOCK.netSalesClassification,
+            {
+              data: {
+                type,
+                value: CUSTOMER_MOCK.netSalesClassification,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: `${lastYear} translate it`,
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: `${lastYear} translate it`,
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: helperService.transformMarginDetails(
-                CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
-                CUSTOMER_MOCK.currency
-              ),
+            {
+              data: {
+                type,
+                value: helperService.transformMarginDetails(
+                  CUSTOMER_MOCK.marginDetail?.netSalesLastYear,
+                  CUSTOMER_MOCK.currency
+                ),
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: `${lastYear} translate it`,
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: `${lastYear} translate it`,
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: `${CUSTOMER_MOCK.marginDetail?.gpiLastYear.toString()} %`,
+            {
+              data: {
+                type,
+                value: `${CUSTOMER_MOCK.marginDetail?.gpiLastYear.toString()} %`,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: `${currentYear} translate it`,
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: `${currentYear} translate it`,
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: helperService.transformMarginDetails(
-                CUSTOMER_MOCK.marginDetail?.currentNetSales,
-                CUSTOMER_MOCK.currency
-              ),
+            {
+              data: {
+                type,
+                value: helperService.transformMarginDetails(
+                  CUSTOMER_MOCK.marginDetail?.currentNetSales,
+                  CUSTOMER_MOCK.currency
+                ),
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: `${currentYear} translate it`,
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: `${currentYear} translate it`,
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: `${CUSTOMER_MOCK.marginDetail?.currentGpi.toString()} %`,
+            {
+              data: {
+                type,
+                value: `${CUSTOMER_MOCK.marginDetail?.currentGpi.toString()} %`,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: CUSTOMER_MOCK.country,
+            {
+              data: {
+                type,
+                value: CUSTOMER_MOCK.country,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
-        [
-          {
-            data: {
-              type,
-              value: 'translate it',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type,
+                value: 'translate it',
+              },
+              styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
             },
-            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-          },
-          {
-            data: {
-              type,
-              value: CUSTOMER_MOCK.incoterms,
+            {
+              data: {
+                type,
+                value: CUSTOMER_MOCK.incoterms,
+              },
+              styleId: excelStyleObjects.excelTextBorder.id,
             },
-            styleId: excelStyleObjects.excelTextBorder.id,
-          },
-        ],
+          ],
+        },
       ];
       expect(result).toEqual(expected);
     });

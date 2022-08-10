@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ColDef } from '@ag-grid-community/all-modules';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { RoleGroup } from 'apps/gq/src/app/shared/models';
+import { ColDef } from 'ag-grid-enterprise';
 import { marbles } from 'rxjs-marbles';
 
 import { ColumnUtilityService } from '../../../../shared/ag-grid/services/column-utility.service';
 import { UserRoles } from '../../../../shared/constants/user-roles.enum';
+import { RoleGroup } from '../../../../shared/models';
 import { userHasGPCRole, userHasManualPriceRole, userHasSQVRole } from '../..';
 import {
   filterRoles,

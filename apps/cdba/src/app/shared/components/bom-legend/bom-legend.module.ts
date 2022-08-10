@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
+import { AgGridModule } from 'ag-grid-angular';
+
 import { MaterialNumberModule } from '@cdba/shared/pipes';
 
 import { BomLegendComponent } from './bom-legend.component';
@@ -9,12 +10,7 @@ import { MaterialDesignationCellRendererComponent } from './material-designation
 
 @NgModule({
   declarations: [BomLegendComponent, MaterialDesignationCellRendererComponent],
-  imports: [
-    CommonModule,
-    AgGridModule.withComponents([MaterialDesignationCellRendererComponent]),
-
-    MaterialNumberModule,
-  ],
+  imports: [CommonModule, AgGridModule, MaterialNumberModule],
   exports: [BomLegendComponent],
 })
 export class BomLegendModule {}

@@ -1,19 +1,17 @@
 import {
-  ValueFormatterParams,
-  ValueGetterParams,
-} from '@ag-grid-community/all-modules';
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
+import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import {
   ValueFormatterFunction,
   ValueGetterFunction,
 } from '@cdba/testing/types';
-import {
-  createServiceFactory,
-  mockProvider,
-  SpectatorService,
-} from '@ngneat/spectator/jest';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import * as utils from '../../../shared/components/table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { combineLatest, map, Observable, of } from 'rxjs';
 
+import { Store } from '@ngrx/store';
 import {
   ColDef,
   ColumnState,
@@ -9,8 +10,7 @@ import {
   FirstDataRenderedEvent,
   GridReadyEvent,
   SortChangedEvent,
-} from '@ag-grid-community/all-modules';
-import { Store } from '@ngrx/store';
+} from 'ag-grid-community';
 
 import { userHasGPCRole } from '../../../core/store';
 import { ComparableLinkedTransaction } from '../../../core/store/reducers/transactions/models/comparable-linked-transaction.model';
@@ -20,7 +20,7 @@ import { LocalizationService } from '../../../shared/ag-grid/services/localizati
 import { basicTableStyle } from '../../../shared/constants';
 import { Quotation } from '../../../shared/models';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
-import { DEFAULT_COLUMN_DEFS, MODULES } from './config';
+import { DEFAULT_COLUMN_DEFS } from './config';
 import { ColumnDefService } from './config/column-def.service';
 
 @Component({
@@ -38,7 +38,6 @@ export class ComparableTransactionsComponent implements OnInit {
     new EventEmitter<FilterChangedEvent>();
 
   private readonly TABLE_KEY = 'transactions';
-  public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public localeText$: Observable<AgGridLocale>;
   columnDefs$: Observable<ColDef[]>;

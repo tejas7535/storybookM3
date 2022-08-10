@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { GridApi, IStatusPanelParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'cdba-results-status-bar',

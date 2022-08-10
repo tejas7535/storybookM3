@@ -1,7 +1,8 @@
-import { ColumnState } from '@ag-grid-enterprise/all-modules';
-import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { ColumnState } from 'ag-grid-enterprise';
+
+import { LocalStorageMock } from '@cdba/testing/mocks/storage/local-storage.mock';
 
 import { AgGridStateService } from './ag-grid-state.service';
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
 import {
   ColDef,
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-enterprise/all-modules';
-import { translate } from '@ngneat/transloco';
+} from 'ag-grid-enterprise';
 
 import { CalculationType } from '../../../core/store/reducers/sap-price-details/models/calculation-type.enum';
 import { UserRoles } from '../../constants/user-roles.enum';

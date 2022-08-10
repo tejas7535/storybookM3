@@ -1,4 +1,4 @@
-import { ColumnState } from '@ag-grid-enterprise/all-modules';
+import { ColumnState } from 'ag-grid-enterprise';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 

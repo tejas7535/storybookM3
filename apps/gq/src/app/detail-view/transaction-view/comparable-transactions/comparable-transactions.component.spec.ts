@@ -1,11 +1,11 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { FilterChangedEvent } from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import { FilterChangedEvent } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

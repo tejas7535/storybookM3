@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
-import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';

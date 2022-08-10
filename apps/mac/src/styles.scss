@@ -2,6 +2,11 @@
  * COMPONENTS AND THEMES
  */
 
+/***************************************************************************************************
+  * DECLARATIONS
+  */
+@use 'node_modules/ag-grid-community/styles' as ag;
+
 /*
  * Angular Material, material design components
  * see https://material.angular.io
@@ -14,8 +19,14 @@
   * ag grid components
   * see https://www.ag-grid.com/angular-grid
   */
-@import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
-@import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
+@include ag.grid-styles(
+  (
+    theme: material,
+    material-primary-color: $primary,
+    material-accent-color: $nordic-blue,
+    checkbox-checked-color: $primary,
+  )
+);
 
 /***************************************************************************************************
   * UTILITIES
@@ -34,14 +45,6 @@
   */
 
 .ag-theme-material {
-  @include ag-theme-material(
-    (
-      material-primary-color: $primary,
-      material-accent-color: $nordic-blue,
-      checkbox-checked-color: $primary,
-    )
-  );
-
   .ag-column-panel {
     border-left: 1px solid ag-param(border-color);
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ICellRendererParams } from '@ag-grid-community/all-modules';
+import { ICellRendererParams } from 'ag-grid-community';
 
 @Component({
   selector: 'ia-amount-cell-renderer',

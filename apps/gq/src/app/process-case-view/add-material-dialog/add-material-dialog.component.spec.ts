@@ -4,11 +4,11 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -39,7 +39,7 @@ describe('AddMaterialDialogComponent', () => {
     imports: [
       AddEntryModule,
       InputTableModule,
-      AgGridModule.withComponents([]),
+      AgGridModule,
       AutocompleteInputModule,
       LoadingSpinnerModule,
       MatCardModule,

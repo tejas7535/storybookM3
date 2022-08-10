@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { INoRowsOverlayAngularComp } from '@ag-grid-community/angular';
-import { INoRowsOverlayParams } from '@ag-grid-community/core';
+import { INoRowsOverlayAngularComp } from 'ag-grid-angular';
+import { INoRowsOverlayParams } from 'ag-grid-community';
 
 export interface NoRowsParams {
   getMessage: () => string;

@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import {
-  ClientSideRowModelModule,
-  ColDef,
-} from '@ag-grid-enterprise/all-modules';
+import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
+
 import { ColumnUtilsService } from '@cdba/shared/components/table';
 import { BomItem } from '@cdba/shared/models';
 import { CurrencyService } from '@cdba/shared/services/currency/currency.service';
-import { translate } from '@ngneat/transloco';
 
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer/material-designation-cell-renderer.component';
 
@@ -24,7 +22,6 @@ export class BomLegendComponent {
     private readonly currencyService: CurrencyService
   ) {}
 
-  public modules = [ClientSideRowModelModule];
   public columnDefs: ColDef[] = [
     {
       field: 'materialDesignation',

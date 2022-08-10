@@ -1,11 +1,12 @@
-import { ValueFormatterParams } from '@ag-grid-community/all-modules';
-import { ColumnUtilsService } from '@cdba/shared/components/table';
-import { ValueFormatterFunction } from '@cdba/testing/types';
 import {
   createServiceFactory,
   mockProvider,
   SpectatorService,
 } from '@ngneat/spectator/jest';
+import { ValueFormatterParams } from 'ag-grid-community';
+
+import { ColumnUtilsService } from '@cdba/shared/components/table';
+import { ValueFormatterFunction } from '@cdba/testing/types';
 
 import { ColumnDefinitionService } from './column-definitions.service';
 

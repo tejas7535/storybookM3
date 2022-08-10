@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 

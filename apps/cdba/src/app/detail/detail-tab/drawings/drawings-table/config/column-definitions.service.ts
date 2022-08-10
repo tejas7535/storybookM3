@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { translate } from '@ngneat/transloco';
+import { ColDef } from 'ag-grid-enterprise';
+
 import {
   ColumnUtilsService,
   scrambleMaterialDesignation,
   valueGetterDate,
 } from '@cdba/shared/components/table';
 import { Drawing } from '@cdba/shared/models';
-import { translate } from '@ngneat/transloco';
 
 @Injectable({
   providedIn: 'root',

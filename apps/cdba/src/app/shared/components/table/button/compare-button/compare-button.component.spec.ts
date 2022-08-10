@@ -3,7 +3,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { GridApi, RowNode } from '@ag-grid-enterprise/all-modules';
+import { GridApi, RowNode } from 'ag-grid-enterprise';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { LetModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';

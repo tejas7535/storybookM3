@@ -1,8 +1,8 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { ColDef, ValueGetterParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import { ColDef, ValueGetterParams } from 'ag-grid-enterprise';
 
 import { EditCellData } from '../../ag-grid/cell-renderer/models/edit-cell-class-params.model';
 import { EditableColumnHeaderComponent } from '../column-headers/editable-column-header/editable-column-header.component';

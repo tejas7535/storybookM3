@@ -1,4 +1,4 @@
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { ExcludedCalculationsModule } from '@cdba/shared/components/excluded-calculations';
 import { CompareButtonModule } from '@cdba/shared/components/table/button/compare-button';
 import { LoadBomButtonModule } from '@cdba/shared/components/table/button/load-bom-button';

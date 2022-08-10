@@ -1,21 +1,19 @@
 import { SimpleChange } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import {
-  ColumnApi,
-  GridApi,
-  GridReadyEvent,
-} from '@ag-grid-enterprise/all-modules';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { AgGridModule } from 'ag-grid-angular';
+import { GridReadyEvent } from 'ag-grid-community';
+import { ColumnApi, GridApi } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { CostElementsStatusBarModule } from '../table/status-bar/cost-elements-status-bar';
@@ -30,7 +28,7 @@ describe('CostElementsTableComponent', () => {
     component: CostElementsTableComponent,
     imports: [
       MatIconModule,
-      MockModule(AgGridModule.withComponents([])),
+      MockModule(AgGridModule),
       MockModule(CustomOverlayModule),
       MockModule(CostElementsStatusBarModule),
       provideTranslocoTestingModule({ en: {} }),

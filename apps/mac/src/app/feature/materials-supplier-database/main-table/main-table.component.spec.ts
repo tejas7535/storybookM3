@@ -16,15 +16,13 @@ import {
   Column,
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
-import { ColumnApi, IFilterComp, RowNode } from '@ag-grid-community/core';
-import {
-  ColDef,
-  ColumnState,
-  ExcelCell,
-  GridApi,
-} from '@ag-grid-enterprise/all-modules';
+  ColumnApi,
+  IFilterComp,
+  RowNode,
+  ExcelRow,
+} from 'ag-grid-community';
+import { AgGridModule } from 'ag-grid-angular';
+import { ColDef, ColumnState, GridApi } from 'ag-grid-enterprise';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
@@ -1283,7 +1281,7 @@ describe('MainTableComponent', () => {
         } as unknown as RowNode,
       };
 
-      const result: ExcelCell[][] =
+      const result: ExcelRow[] =
         component['splitRowsForMultipleSapIdsInExport'](mockParams);
 
       expect(result).toEqual([]);
@@ -1300,7 +1298,7 @@ describe('MainTableComponent', () => {
         } as unknown as RowNode,
       };
 
-      const result: ExcelCell[][] =
+      const result: ExcelRow[] =
         component['splitRowsForMultipleSapIdsInExport'](mockParams);
 
       expect(result).toEqual([]);
@@ -1318,38 +1316,42 @@ describe('MainTableComponent', () => {
       };
       component['visibleColumns'] = ['col1', SAP_SUPPLIER_IDS];
 
-      const result: ExcelCell[][] =
+      const result: ExcelRow[] =
         component['splitRowsForMultipleSapIdsInExport'](mockParams);
 
       expect(result).toEqual([
-        [
-          {
-            data: {
-              type: 'String',
-              value: 'a',
+        {
+          cells: [
+            {
+              data: {
+                type: 'String',
+                value: 'a',
+              },
             },
-          },
-          {
-            data: {
-              type: 'String',
-              value: 'id2',
+            {
+              data: {
+                type: 'String',
+                value: 'id2',
+              },
             },
-          },
-        ],
-        [
-          {
-            data: {
-              type: 'String',
-              value: 'a',
+          ],
+        },
+        {
+          cells: [
+            {
+              data: {
+                type: 'String',
+                value: 'a',
+              },
             },
-          },
-          {
-            data: {
-              type: 'String',
-              value: 'id3',
+            {
+              data: {
+                type: 'String',
+                value: 'id3',
+              },
             },
-          },
-        ],
+          ],
+        },
       ]);
     });
   });

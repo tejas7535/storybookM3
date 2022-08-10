@@ -3,7 +3,7 @@ import {
   MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-enterprise/all-modules';
+} from 'ag-grid-enterprise';
 
 import {
   currentYear,

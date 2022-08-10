@@ -1,13 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import {
-  ClientSideRowModelModule,
-  ColDef,
-  GridApi,
-  GridReadyEvent,
-} from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import moment from 'moment';
 
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
@@ -28,8 +23,6 @@ export class LostJobProfilesComponent implements OnChanges {
   @Input() data: LostJobProfile[];
 
   gridApi: GridApi;
-
-  modules: any[] = [ClientSideRowModelModule];
 
   frameworkComponents = {
     amountCellRenderer: AmountCellRendererComponent,
@@ -96,8 +89,6 @@ export class LostJobProfilesComponent implements OnChanges {
     this.gridApi = params.api;
     params.columnApi.autoSizeColumn('openPositions');
   }
-
-  getRowClass = () => 'border-2';
 
   handleCellClick(params: any, key: CellType): void {
     const translationKey =

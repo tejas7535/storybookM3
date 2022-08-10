@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -13,7 +13,7 @@ import { ResignationsComponent } from './resignations.component';
   imports: [
     SharedModule,
     SharedTranslocoModule,
-    AgGridModule.withComponents([]),
+    AgGridModule,
     SharedPipesModule,
   ],
   exports: [ResignationsComponent],

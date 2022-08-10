@@ -1,6 +1,5 @@
 <ag-grid-angular
   class="ag-theme-material h-[325px]"
-  [modules]="modules"
   [tooltipShowDelay]="200"
   [columnDefs]="columnDefs"
   [suppressMovableColumns]="true"
@@ -9,7 +8,7 @@
   [suppressRowHoverHighlight]="true"
   [columnHoverHighlight]="true"
   [rowData]="rowData"
-  (rowDataChanged)="onTableChanged($event)"
+  (rowDataUpdated)="onTableChanged($event)"
   (gridSizeChanged)="onTableChanged($event)"
 >
 </ag-grid-angular>

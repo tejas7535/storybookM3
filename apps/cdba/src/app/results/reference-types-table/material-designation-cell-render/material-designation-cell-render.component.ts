@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {
-  GridApi,
-  ICellRendererParams,
-  RowNode,
-} from '@ag-grid-enterprise/all-modules';
+import { GridApi, ICellRendererParams, RowNode } from 'ag-grid-enterprise';
+
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
 import { ReferenceType } from '@cdba/shared/models';

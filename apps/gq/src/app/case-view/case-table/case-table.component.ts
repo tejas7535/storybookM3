@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 
 import { Observable, take } from 'rxjs';
 
+import { Store } from '@ngrx/store';
 import {
   GridReadyEvent,
   RowDoubleClickedEvent,
   RowSelectedEvent,
-} from '@ag-grid-community/all-modules';
-import { Store } from '@ngrx/store';
+} from 'ag-grid-community';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { deselectCase, getSelectedCaseIds, selectCase } from '../../core/store';
@@ -20,12 +20,7 @@ import {
   statusBarStlye,
 } from '../../shared/constants';
 import { ViewQuotation } from '../models/view-quotation.model';
-import {
-  COMPONENTS,
-  DEFAULT_COLUMN_DEFS,
-  MODULES,
-  STATUS_BAR_CONFIG,
-} from './config';
+import { COMPONENTS, DEFAULT_COLUMN_DEFS, STATUS_BAR_CONFIG } from './config';
 import { ColumnDefService } from './config/column-def.service';
 @Component({
   selector: 'gq-case-table',
@@ -40,12 +35,10 @@ export class CaseTableComponent implements OnInit {
     private readonly router: Router
   ) {}
 
-  public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
   public statusBar = STATUS_BAR_CONFIG;
   public components = COMPONENTS;
-  public rowSelection = 'multiple';
   public localeText$: Observable<AgGridLocale>;
   public selectedRows: number[] = [];
 

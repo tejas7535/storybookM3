@@ -1,10 +1,10 @@
 import { MatCardModule } from '@angular/material/card';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
@@ -20,7 +20,7 @@ describe('CaseViewComponent', () => {
   const createComponent = createComponentFactory({
     component: CaseViewComponent,
     imports: [
-      AgGridModule.withComponents([]),
+      AgGridModule,
       CaseTableModule,
       CustomStatusBarModule,
       provideTranslocoTestingModule({ en: {} }),

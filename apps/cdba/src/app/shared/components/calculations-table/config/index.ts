@@ -4,5 +4,4 @@ export {
   FRAMEWORK_COMPONENTS,
   FRAMEWORK_COMPONENTS_MINIFIED,
 } from './framework-components';
-export { MODULES, MODULES_MINIFIED } from './modules';
 export { STATUS_BAR_CONFIG } from './status-bar';

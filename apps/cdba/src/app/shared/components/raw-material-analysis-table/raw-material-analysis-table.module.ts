@@ -2,13 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+
 import { RawMaterialAnalysisTableComponent } from './raw-material-analysis-table.component';
 
 @NgModule({
@@ -17,10 +16,7 @@ import { RawMaterialAnalysisTableComponent } from './raw-material-analysis-table
     CommonModule,
     MatIconModule,
     SharedTranslocoModule,
-    AgGridModule.withComponents([
-      CustomLoadingOverlayComponent,
-      CustomNoRowsOverlayComponent,
-    ]),
+    AgGridModule,
     MaterialNumberModule,
   ],
   exports: [RawMaterialAnalysisTableComponent],

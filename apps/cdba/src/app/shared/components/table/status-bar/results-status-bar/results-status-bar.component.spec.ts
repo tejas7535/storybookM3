@@ -1,4 +1,4 @@
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { IStatusPanelParams } from 'ag-grid-enterprise';
 import { CompareButtonModule } from '@cdba/shared/components/table/button/compare-button';
 import { PortfolioAnalysisButtonModule } from '@cdba/shared/components/table/button/portfolio-analysis-button';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';

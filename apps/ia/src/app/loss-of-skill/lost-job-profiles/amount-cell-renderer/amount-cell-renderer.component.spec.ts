@@ -1,8 +1,8 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { ICellRendererParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ICellRendererParams } from 'ag-grid-community';
 
 import { AmountCellRendererComponent } from './amount-cell-renderer.component';
 

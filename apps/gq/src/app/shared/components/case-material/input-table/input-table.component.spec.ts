@@ -1,21 +1,16 @@
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { CellRendererModule } from '../../../ag-grid/cell-renderer/cell-renderer.module';
-import { AddMaterialButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/create-case-button/create-case-button.component';
-import { CreateCaseResetAllButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
-import { ProcessCaseResetAllButtonComponent } from '../../../ag-grid/custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { CustomStatusBarModule } from '../../../ag-grid/custom-status-bar/custom-status-bar.module';
-import { MaterialValidationStatusComponent } from '../../../ag-grid/custom-status-bar/material-validation-status/material-validation-status.component';
 import { HelperService } from '../../../services/helper-service/helper-service.service';
 import { InputTableComponent } from './input-table.component';
 
@@ -31,13 +26,7 @@ describe('InputTableComponent', () => {
   const createComponent = createComponentFactory({
     component: InputTableComponent,
     imports: [
-      AgGridModule.withComponents([
-        CreateCaseButtonComponent,
-        AddMaterialButtonComponent,
-        ProcessCaseResetAllButtonComponent,
-        CreateCaseResetAllButtonComponent,
-        MaterialValidationStatusComponent,
-      ]),
+      AgGridModule,
       CellRendererModule,
       CustomStatusBarModule,
       PushModule,

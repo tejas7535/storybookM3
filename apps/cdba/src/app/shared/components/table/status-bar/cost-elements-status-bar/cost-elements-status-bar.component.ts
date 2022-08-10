@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { Store } from '@ngrx/store';
+import { IStatusPanelParams } from 'ag-grid-community';
+
 import {
   getCostComponentSplitItems as getCostComponentSplitItemsDetail,
   getSelectedSplitType as getSelectedSplitTypeDetail,
@@ -12,7 +14,6 @@ import {
   CostComponentSplit,
   CostComponentSplitType,
 } from '@cdba/shared/models';
-import { Store } from '@ngrx/store';
 
 import { toggleSplitType as toggleSplitTypeForComparePage } from '../../../../../compare/store/actions';
 import {

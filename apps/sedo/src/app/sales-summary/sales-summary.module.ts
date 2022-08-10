@@ -15,7 +15,7 @@ import {
 } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { AgGridModule } from '@ag-grid-community/angular';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { IgnoreFlagDialogModule } from './sales-row-details/ignore-flag-dialog/ignore-flag-dialog.module';
 import { SalesRowDetailsComponent } from './sales-row-details/sales-row-details.component';

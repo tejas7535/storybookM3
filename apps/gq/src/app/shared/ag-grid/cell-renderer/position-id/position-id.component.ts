@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
-import { CellClassParams } from '@ag-grid-community/all-modules';
+import { CellClassParams } from 'ag-grid-enterprise';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 

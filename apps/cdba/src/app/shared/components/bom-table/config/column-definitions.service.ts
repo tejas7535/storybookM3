@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from 'ag-grid-enterprise';
 import {
   ColumnUtilsService,
   filterParamsForDecimalValues,

@@ -18,14 +18,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, withLatestFrom } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
 
-import { ColumnApi, Module } from '@ag-grid-community/all-modules';
-import { Column, ColumnState, RowNode } from '@ag-grid-community/core';
 import {
-  ColDef,
-  ExcelCell,
-  GridApi,
-  SideBarDef,
-} from '@ag-grid-enterprise/all-modules';
+  ColumnApi,
+  Column,
+  ColumnState,
+  RowNode,
+  ExcelRow,
+} from 'ag-grid-community';
+import { ColDef, ExcelCell, GridApi, SideBarDef } from 'ag-grid-enterprise';
 import { translate } from '@ngneat/transloco';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
@@ -35,7 +35,6 @@ import { InputDialogComponent } from '@mac/msd/main-table/input-dialog/input-dia
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
-  MODULES,
   SAP_SUPPLIER_IDS,
   SIDE_BAR_CONFIG,
 } from '@mac/msd/main-table/table-config';
@@ -74,7 +73,6 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public destroy$ = new Subject<void>();
 
-  public modules: Module[] = MODULES;
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public defaultColumnDefs: ColDef[] = COLUMN_DEFINITIONS;
   public columnDefs: ColDef[];
@@ -469,15 +467,15 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private readonly splitRowsForMultipleSapIdsInExport = (
     params: any
-  ): ExcelCell[][] => {
+  ): ExcelRow[] => {
     const rowNode: RowNode = params.node;
     const data = rowNode.data;
 
-    const result: ExcelCell[][] = [];
+    const result: ExcelRow[] = [];
 
     if (data.sapSupplierIds?.length > 1) {
       for (let i = 1; i < data.sapSupplierIds.length; i += 1) {
-        const row: ExcelCell[] = [];
+        const cells: ExcelCell[] = [];
         const keys = Object.keys(data)
           .filter((key) => this.visibleColumns.includes(key))
           .sort(
@@ -486,14 +484,14 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
           );
         for (const key of keys) {
           if (key === SAP_SUPPLIER_IDS) {
-            row.push({
+            cells.push({
               data: {
                 type: 'String',
                 value: data[key][i].toString(),
               },
             });
           } else {
-            row.push({
+            cells.push({
               data: {
                 type: 'String',
                 value: data[key]?.toString() || '',
@@ -501,6 +499,7 @@ export class MainTableComponent implements OnInit, OnDestroy, AfterViewInit {
             });
           }
         }
+        const row: ExcelRow = { cells };
         result.push(row);
       }
     }

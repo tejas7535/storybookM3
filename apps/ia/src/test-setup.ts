@@ -3,8 +3,8 @@ import '../../../global-mocks';
 import 'jest-canvas-mock';
 import 'jest-preset-angular/setup-jest';
 
-import { LicenseManager } from '@ag-grid-enterprise/core';
 import { TranslocoModule } from '@ngneat/transloco';
+import { LicenseManager } from 'ag-grid-enterprise';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),

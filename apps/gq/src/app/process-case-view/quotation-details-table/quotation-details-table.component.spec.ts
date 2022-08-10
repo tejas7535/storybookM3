@@ -4,13 +4,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridEvent, RowNode } from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { TranslocoCurrencyPipe } from '@ngneat/transloco-locale';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import { AgGridEvent, GridReadyEvent, RowNode } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
@@ -29,8 +29,6 @@ import {
 import { PriceSourceOptions } from '../../shared/ag-grid/column-headers/editable-column-header/models/price-source-options.enum';
 import { ColumnFields } from '../../shared/ag-grid/constants/column-fields.enum';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { DeleteItemsButtonComponent } from '../../shared/ag-grid/custom-status-bar/delete-items-button/delete-items-button.component';
-import { QuotationDetailsStatusComponent } from '../../shared/ag-grid/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { Quotation } from '../../shared/models';
 import {
   PriceSource,
@@ -58,10 +56,7 @@ describe('QuotationDetailsTableComponent', () => {
     declarations: [QuotationDetailsTableComponent],
     detectChanges: false,
     imports: [
-      AgGridModule.withComponents([
-        QuotationDetailsStatusComponent,
-        DeleteItemsButtonComponent,
-      ]),
+      AgGridModule,
       CustomStatusBarModule,
       MatDialogModule,
       PushModule,
@@ -171,7 +166,7 @@ describe('QuotationDetailsTableComponent', () => {
   });
 
   describe('onGridReady', () => {
-    let mockEvent: AgGridEvent;
+    let mockEvent: AgGridEvent<GridReadyEvent>;
 
     beforeEach(() => {
       mockEvent = {
@@ -329,7 +324,7 @@ describe('QuotationDetailsTableComponent', () => {
     });
   });
 
-  describe('onRowDataChanged', () => {
+  describe('onRowDataUpdated', () => {
     const mockEvent = {
       api: {
         selectIndex: jest.fn(),
@@ -349,7 +344,7 @@ describe('QuotationDetailsTableComponent', () => {
     test('should update column data', () => {
       component.selectedRows = [];
 
-      component.onRowDataChanged(mockEvent as any);
+      component.onRowDataUpdated(mockEvent as any);
 
       expect(component.updateColumnData).toHaveBeenCalledWith(mockEvent);
     });
@@ -359,7 +354,7 @@ describe('QuotationDetailsTableComponent', () => {
         { rowIndex: 21, data: { gqPositionId: '123' } },
       ] as any;
 
-      component.onRowDataChanged(mockEvent as any);
+      component.onRowDataUpdated(mockEvent as any);
 
       expect(mockEvent.api.selectIndex).toHaveBeenCalledWith(21, true, true);
     });
@@ -367,7 +362,7 @@ describe('QuotationDetailsTableComponent', () => {
     test('should NOT re-select rows if no rows had been selected', () => {
       component.selectedRows = [];
 
-      component.onRowDataChanged(mockEvent as any);
+      component.onRowDataUpdated(mockEvent as any);
 
       expect(mockEvent.api.selectIndex).not.toHaveBeenCalled();
     });

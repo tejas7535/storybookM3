@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CellClassParams } from '@ag-grid-community/core';
+import { CellClassParams } from 'ag-grid-community';
 
 @Component({
   selector: 'gq-gq-rating',

@@ -1,6 +1,6 @@
-import { RowDataChangedEvent } from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { AgGridModule } from 'ag-grid-angular';
+import { RowDataUpdatedEvent } from 'ag-grid-community';
 
 import { ReasonsForLeavingTableComponent } from './reasons-for-leaving-table.component';
 
@@ -10,7 +10,7 @@ describe('ReasonsForLeavingTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ReasonsForLeavingTableComponent,
-    imports: [AgGridModule.withComponents([])],
+    imports: [AgGridModule],
     providers: [],
   });
 
@@ -33,15 +33,15 @@ describe('ReasonsForLeavingTableComponent', () => {
     });
   });
 
-  describe('onRowDataChanged', () => {
+  describe('onRowDataUpdated', () => {
     test('should autosize detailedReason column', () => {
       const params = {
         columnApi: {
           autoSizeColumns: jest.fn(),
         },
-      } as unknown as RowDataChangedEvent;
+      } as unknown as RowDataUpdatedEvent;
 
-      component.onRowDataChanged(params);
+      component.onRowDataUpdated(params);
 
       expect(params.columnApi.autoSizeColumns).toHaveBeenCalledWith(
         ['detailedReason'],

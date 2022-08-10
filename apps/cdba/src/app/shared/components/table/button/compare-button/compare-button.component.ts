@@ -3,7 +3,7 @@ import { Params, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 
-import { GridApi, RowNode } from '@ag-grid-enterprise/all-modules';
+import { GridApi, RowNode } from 'ag-grid-enterprise';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getSelectedCalculationNodeIds,

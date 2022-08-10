@@ -6,7 +6,7 @@ import {
   ColumnState,
   GridReadyEvent,
   SortChangedEvent,
-} from '@ag-grid-community/all-modules';
+} from 'ag-grid-community';
 
 import { SapPriceConditionDetail } from '../../../core/store/reducers/sap-price-details/models/sap-price-condition-detail.model';
 import { TableContext } from '../../../process-case-view/quotation-details-table/config/tablecontext.model';
@@ -19,7 +19,6 @@ import {
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import {
   SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS,
-  SAP_PRICE_DETAILS_MODULE,
   SapPriceDetailsColumnDefService,
 } from './config';
 
@@ -42,7 +41,6 @@ export class SapPriceDetailsTableComponent implements OnInit {
   public rowData$: Observable<SapPriceConditionDetail[]>;
   public defaultColumnDefs = SAP_PRICE_DETAILS_DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
-  public modules = SAP_PRICE_DETAILS_MODULE;
   public localeText$: Observable<AgGridLocale>;
 
   ngOnInit(): void {

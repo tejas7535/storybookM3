@@ -3,25 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import {
-  ClientSideRowModelModule,
-  ColDef,
-  ColumnsToolPanelModule,
-  FiltersToolPanelModule,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  MasterDetailModule,
-  MenuModule,
-  Module,
-  MultiFilterModule,
-  RowClickedEvent,
-  SetFilterModule,
-  SideBarDef,
-  SideBarModule,
-  SortChangedEvent,
-} from '@ag-grid-enterprise/all-modules';
 import { Store } from '@ngrx/store';
+import {
+  GridReadyEvent,
+  RowClickedEvent,
+  SortChangedEvent,
+} from 'ag-grid-community';
+import { ColDef, GridApi, GridOptions, SideBarDef } from 'ag-grid-enterprise';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 
@@ -39,18 +27,6 @@ import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
   templateUrl: './sales-table.component.html',
 })
 export class SalesTableComponent implements OnInit, OnDestroy {
-  public modules: Module[] = [
-    ClientSideRowModelModule,
-    SideBarModule,
-    ColumnsToolPanelModule,
-    MasterDetailModule,
-    MultiFilterModule,
-    FiltersToolPanelModule,
-    ColumnsToolPanelModule,
-    SetFilterModule,
-    SideBarModule,
-    MenuModule,
-  ];
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
   public sidebar: SideBarDef = SIDE_BAR_CONFIG;

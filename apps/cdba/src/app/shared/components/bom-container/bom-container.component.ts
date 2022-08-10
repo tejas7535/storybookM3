@@ -8,14 +8,15 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
+import { TranslocoLocaleService } from '@ngneat/transloco-locale';
+import { Store } from '@ngrx/store';
+import { ExcelCell, ExcelRow, GridApi } from 'ag-grid-enterprise';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
 import { MaterialNumberPipe } from '@cdba/shared/pipes';
-import { TranslocoLocaleService } from '@ngneat/transloco-locale';
-import { Store } from '@ngrx/store';
-
-import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 import {
   BomItem,
@@ -258,7 +259,7 @@ export class BomContainerComponent implements OnInit {
     });
   }
 
-  private getBomMetadata(numberOfColumns: number): ExcelCell[][] {
+  private getBomMetadata(numberOfColumns: number): ExcelRow[] {
     const styleId = 'prependedMetadata';
 
     const emptyCell = {
@@ -266,28 +267,28 @@ export class BomContainerComponent implements OnInit {
       styleId,
     } as ExcelCell;
 
-    const prependedMetadata = [[]] as ExcelCell[][];
+    const prependedMetadata = [] as ExcelRow[];
 
-    const emptyAndStyledExcelCells = [];
+    const emptyAndStyledExcelCells: ExcelCell[] = [];
 
     // eslint-disable-next-line no-plusplus
     for (let i = 0; i <= numberOfColumns; i++) {
       emptyAndStyledExcelCells.push(emptyCell);
     }
 
-    prependedMetadata[0] = [...emptyAndStyledExcelCells];
-    prependedMetadata[1] = [...emptyAndStyledExcelCells];
-    prependedMetadata[2] = [...emptyAndStyledExcelCells];
+    prependedMetadata[0] = this.createEmptyRow(0, emptyAndStyledExcelCells);
+    prependedMetadata[1] = this.createEmptyRow(1, emptyAndStyledExcelCells);
+    prependedMetadata[2] = this.createEmptyRow(2, emptyAndStyledExcelCells);
 
-    prependedMetadata[0][1] = {
+    // Material Designation[0][1] and Material Number[0][2]
+    prependedMetadata[0].cells[1] = {
       data: {
         value: this.materialDesignation,
         type: 'String',
       },
       styleId,
     };
-
-    prependedMetadata[0][2] = {
+    prependedMetadata[0].cells[2] = {
       data: {
         value: new MaterialNumberPipe().transform(
           this.selectedCalculation.materialNumber
@@ -297,15 +298,15 @@ export class BomContainerComponent implements OnInit {
       styleId,
     };
 
-    prependedMetadata[1][1] = {
+    // Cost Type[1][1] and Calculation Date[1][2]
+    prependedMetadata[1].cells[1] = {
       data: {
         value: `Cost Type: ${this.selectedCalculation.costType}`,
         type: 'String',
       },
       styleId,
     };
-
-    prependedMetadata[1][2] = {
+    prependedMetadata[1].cells[2] = {
       data: {
         value: `Calculation Date: ${this.localeService.localizeDate(
           this.selectedCalculation.calculationDate
@@ -316,5 +317,16 @@ export class BomContainerComponent implements OnInit {
     };
 
     return prependedMetadata;
+  }
+
+  private createEmptyRow(index: number, cells: ExcelCell[]): ExcelRow {
+    return {
+      index,
+      collapsed: false,
+      hidden: false,
+      height: 1,
+      outlineLevel: 0,
+      cells: [...cells],
+    };
   }
 }

@@ -1,5 +1,5 @@
-import { IStatusPanelParams, RowNode } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { IStatusPanelParams, RowNode } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

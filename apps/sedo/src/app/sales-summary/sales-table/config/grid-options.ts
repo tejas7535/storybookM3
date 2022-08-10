@@ -1,4 +1,4 @@
-import { GridOptions } from '@ag-grid-community/all-modules';
+import { GridOptions } from 'ag-grid-community';
 
 export const GRID_OPTIONS: GridOptions = {
   pagination: true,

@@ -1,4 +1,4 @@
-import { CellClassParams } from '@ag-grid-community/all-modules';
+import { CellClassParams } from 'ag-grid-community';
 
 import { EditCellData } from './edit-cell-class-params.model';
 

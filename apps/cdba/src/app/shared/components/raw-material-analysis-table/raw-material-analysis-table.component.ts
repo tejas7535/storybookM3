@@ -11,7 +11,8 @@ import {
   GridApi,
   GridReadyEvent,
   StatusPanelDef,
-} from '@ag-grid-community/all-modules';
+} from 'ag-grid-community';
+
 import { BomItem, Calculation, RawMaterialAnalysis } from '@cdba/shared/models';
 import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
@@ -20,7 +21,6 @@ import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/cus
 import {
   ColumnDefinitionService,
   FRAMEWORK_COMPONENTS,
-  MODULES,
   STATUS_BAR_CONFIG,
 } from './config';
 import { DEFAULT_COLUMN_DEFINITION } from './config/default-column-definition';
@@ -73,8 +73,6 @@ export class RawMaterialAnalysisTableComponent implements OnInit, OnChanges {
     this.columnDefs = this.columnDefinitionService.getColDef();
     this.statusBar = STATUS_BAR_CONFIG;
     this.components = FRAMEWORK_COMPONENTS;
-
-    this.modules = MODULES;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

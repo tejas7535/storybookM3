@@ -1,4 +1,4 @@
-import { ExcelStyle } from '@ag-grid-community/all-modules';
+import { ExcelStyle } from 'ag-grid-enterprise';
 
 interface ExcelStyleMap {
   [name: string]: ExcelStyle;

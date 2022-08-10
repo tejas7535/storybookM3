@@ -1,4 +1,3 @@
-import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
 import {
@@ -7,6 +6,7 @@ import {
   TranslocoDecimalPipe,
   TranslocoPercentPipe,
 } from '@ngneat/transloco-locale';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 

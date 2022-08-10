@@ -1,4 +1,4 @@
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { FILTER_PARAMS } from './filter-params';
 

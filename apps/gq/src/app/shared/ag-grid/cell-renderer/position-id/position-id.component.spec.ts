@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CellClassParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { CellClassParams } from 'ag-grid-community';
 
 import { AppRoutePath } from '../../../../../app/app-route-path.enum';
 import { PositionIdComponent } from './position-id.component';

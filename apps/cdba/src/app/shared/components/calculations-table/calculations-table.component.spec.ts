@@ -1,20 +1,21 @@
 import { SimpleChange } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import {
-  GridApi,
-  GridReadyEvent,
-  RowSelectedEvent,
-  SortChangedEvent,
-} from '@ag-grid-enterprise/all-modules';
-import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import {
+  GridReadyEvent,
+  RowSelectedEvent,
+  SortChangedEvent,
+} from 'ag-grid-community';
+import { GridApi } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
+
+import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
 import { AgGridStateService } from '../../services/ag-grid-state/ag-grid-state.service';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
@@ -30,7 +31,7 @@ describe('CalculationsTableComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationsTableComponent,
     imports: [
-      MockModule(AgGridModule.withComponents([])),
+      MockModule(AgGridModule),
       MockModule(CustomOverlayModule),
       MockModule(CalculationsStatusBarModule),
     ],

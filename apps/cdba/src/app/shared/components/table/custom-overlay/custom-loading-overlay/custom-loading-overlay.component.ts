@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ILoadingOverlayAngularComp } from '@ag-grid-community/angular';
+import { ILoadingOverlayAngularComp } from 'ag-grid-angular';
 
 @Component({
   selector: 'cdba-custom-loading-overlay',

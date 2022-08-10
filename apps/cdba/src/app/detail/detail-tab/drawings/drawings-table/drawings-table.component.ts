@@ -6,11 +6,9 @@ import {
   Output,
 } from '@angular/core';
 
-import {
-  ClientSideRowModelModule,
-  ColDef,
-  RowSelectedEvent,
-} from '@ag-grid-enterprise/all-modules';
+import { RowSelectedEvent } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
+
 import { Drawing } from '@cdba/shared/models';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
@@ -34,8 +32,6 @@ export class DrawingsTableComponent {
   public constructor(
     private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
-
-  public modules: any[] = [ClientSideRowModelModule];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
 

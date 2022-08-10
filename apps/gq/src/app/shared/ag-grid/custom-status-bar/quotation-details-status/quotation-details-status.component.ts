@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
-import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
+import { IStatusPanelParams, RowNode } from 'ag-grid-community';
 
 import {
   getQuotationCurrency,

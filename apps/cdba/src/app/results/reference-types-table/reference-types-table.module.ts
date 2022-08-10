@@ -3,14 +3,12 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
-import {
-  ResultsStatusBarComponent,
-  ResultsStatusBarModule,
-} from '@cdba/shared/components/table/status-bar/results-status-bar';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { PcmBadgeModule } from '@cdba/shared/components/pcm-badge';
+import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
 
 import { MaterialDesignationCellRenderComponent } from './material-designation-cell-render/material-designation-cell-render.component';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
@@ -25,11 +23,7 @@ import { TableStore } from './table.store';
   ],
   imports: [
     CommonModule,
-    AgGridModule.withComponents([
-      ResultsStatusBarComponent,
-      MaterialDesignationCellRenderComponent,
-      PcmCellRendererComponent,
-    ]),
+    AgGridModule,
     MatButtonModule,
     MatIconModule,
     PcmBadgeModule,

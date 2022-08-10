@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
-import { IHeaderParams } from '@ag-grid-community/all-modules';
-import { IHeaderAngularComp } from '@ag-grid-community/angular';
-import { deselectReferenceType } from '@cdba/core/store';
 import { Store } from '@ngrx/store';
+import { IHeaderAngularComp } from 'ag-grid-angular/lib/interfaces';
+import { IHeaderParams } from 'ag-grid-community';
+
+import { deselectReferenceType } from '@cdba/core/store';
 
 @Component({
   selector: 'cdba-custom-header',

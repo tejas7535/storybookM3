@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { RowNode } from '@ag-grid-community/all-modules';
-import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { RowNode } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 
 @Component({
   selector: 'cdba-radio-button-cell-render',

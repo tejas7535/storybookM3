@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { distinctUntilChanged, Observable } from 'rxjs';
 
-import { ICellRendererAngularComp } from '@ag-grid-community/angular';
-import { ICellRendererParams } from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { ICellRendererParams } from 'ag-grid-community';
 
 import { TableContext } from '../../../../../../app/process-case-view/quotation-details-table/config/tablecontext.model';
 import { getSimulatedQuotationDetailByItemId } from '../../../../../core/store';

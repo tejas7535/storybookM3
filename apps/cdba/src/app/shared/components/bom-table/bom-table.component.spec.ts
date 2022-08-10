@@ -1,25 +1,24 @@
 import { SimpleChange } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import {
-  ColumnApi,
-  FirstDataRenderedEvent,
-  GridApi,
-  GridReadyEvent,
-  RowClickedEvent,
-  RowNode,
-} from '@ag-grid-enterprise/all-modules';
-import { ENV, getEnv } from '@cdba/environments/environment.provider';
-import { BomTableModule } from '@cdba/shared/components';
-import { ColumnDefinitionService } from '@cdba/shared/components/bom-table/config';
-import { MaterialNumberModule } from '@cdba/shared/pipes';
-import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { AgGridModule } from 'ag-grid-angular';
+import {
+  FirstDataRenderedEvent,
+  GridReadyEvent,
+  RowClickedEvent,
+} from 'ag-grid-community';
+import { ColumnApi, GridApi, RowNode } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
+
+import { ENV, getEnv } from '@cdba/environments/environment.provider';
+import { BomTableModule } from '@cdba/shared/components';
+import { ColumnDefinitionService } from '@cdba/shared/components/bom-table/config';
+import { MaterialNumberModule } from '@cdba/shared/pipes';
+import { BOM_ODATA_MOCK } from '@cdba/testing/mocks';
 
 import { BomTableComponent } from './bom-table.component';
 import { BomTableStatusBarComponentModule } from './bom-table-status-bar/bom-table-status-bar.component';
@@ -31,7 +30,7 @@ describe('BomTableComponent', () => {
   const createComponent = createComponentFactory({
     component: BomTableComponent,
     imports: [
-      AgGridModule.withComponents([]),
+      AgGridModule,
       MaterialNumberModule,
       MockModule(BomTableModule),
       MockModule(BomTableStatusBarComponentModule),

@@ -2,9 +2,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { CellClassParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
+import { CellClassParams } from 'ag-grid-community';
 
 import { ValidationDescription } from '../../../models/table';
 import { InfoCellComponent } from './info-cell.component';

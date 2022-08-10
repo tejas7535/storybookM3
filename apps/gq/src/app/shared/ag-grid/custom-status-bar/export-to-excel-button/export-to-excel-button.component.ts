@@ -5,18 +5,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { combineLatest, Observable, Subscription } from 'rxjs';
 
+import { translate, TranslocoService } from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
 import {
   ExcelCell,
   ExcelDataType,
   ExcelExportParams,
   ExcelOOXMLDataType,
+  ExcelRow,
   IStatusPanelParams,
   ProcessCellForExportParams,
   ProcessHeaderForExportParams,
   ValueFormatterParams,
-} from '@ag-grid-community/all-modules';
-import { translate, TranslocoService } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
+} from 'ag-grid-community';
 
 import {
   getExtendedSapPriceConditionDetails,
@@ -257,7 +258,7 @@ export class ExportToExcelButtonComponent implements OnInit {
 
   getSummarySheet(): string {
     const quotation: Quotation = this.params.context.quotation;
-    const prependContent: ExcelCell[][] = [
+    const prependContent: ExcelRow[] = [
       ...this.addSummaryHeader(quotation),
       ...this.addQuotationSummary(quotation),
       ...this.addCustomerOverview(quotation),
@@ -272,31 +273,37 @@ export class ExportToExcelButtonComponent implements OnInit {
     return this.params.api.getSheetDataForExcel(summaryParams);
   }
 
-  addSummaryHeader(quotation: Quotation): ExcelCell[][] {
-    const createdOnDate = this.helperService.transformDate(quotation.gqCreated);
-    const result: ExcelCell[][] = [
-      [
-        this.getExcelCell(
-          translate('shared.customStatusBar.excelExport.gqCase')
-        ),
-        this.getExcelCell(quotation.gqId.toString()),
-      ],
-      [
-        this.getExcelCell(
-          translate('shared.customStatusBar.excelExport.gqCreated')
-        ),
-        this.getExcelCell(createdOnDate),
-      ],
-      [],
+  addSummaryHeader(quotation: Quotation): ExcelRow[] {
+    const createdOnDate = new Date(quotation.gqCreated).toLocaleDateString();
+    const result: ExcelRow[] = [
+      {
+        cells: [
+          this.getExcelCell(
+            translate('shared.customStatusBar.excelExport.gqCase')
+          ),
+          this.getExcelCell(quotation.gqId.toString()),
+        ],
+      },
+      {
+        cells: [
+          this.getExcelCell(
+            translate('shared.customStatusBar.excelExport.gqCreated')
+          ),
+          this.getExcelCell(createdOnDate),
+        ],
+      },
+      { cells: [] },
     ];
 
     if (quotation.sapId) {
-      result.unshift([
-        this.getExcelCell(
-          translate('shared.customStatusBar.excelExport.sapQuote')
-        ),
-        this.getExcelCell(quotation.sapId),
-      ]);
+      result.unshift({
+        cells: [
+          this.getExcelCell(
+            translate('shared.customStatusBar.excelExport.sapQuote')
+          ),
+          this.getExcelCell(quotation.sapId),
+        ],
+      });
     }
 
     return result;
@@ -328,345 +335,383 @@ export class ExportToExcelButtonComponent implements OnInit {
     };
   }
 
-  addQuotationSummary(quotation: Quotation): ExcelCell[][] {
+  addQuotationSummary(quotation: Quotation): ExcelRow[] {
     const statusBarProperties = PriceService.calculateStatusBarValues(
       quotation.quotationDetails
     );
 
     return [
-      [
-        this.getExcelCell(
-          translate(
-            'shared.customStatusBar.excelExport.quotationSummary.title'
+      {
+        cells: [
+          this.getExcelCell(
+            translate(
+              'shared.customStatusBar.excelExport.quotationSummary.title'
+            ),
+            excelStyleObjects.excelTextBold.id
           ),
-          excelStyleObjects.excelTextBold.id
-        ),
-      ],
-      [
-        this.getExcelCell(
-          translate(
-            'shared.customStatusBar.excelExport.quotationSummary.customerNumber'
+        ],
+      },
+      {
+        cells: [
+          this.getExcelCell(
+            translate(
+              'shared.customStatusBar.excelExport.quotationSummary.customerNumber'
+            ),
+            excelStyleObjects.excelQuotationSummaryLabel.id
           ),
-          excelStyleObjects.excelQuotationSummaryLabel.id
-        ),
-        {
-          data: {
-            type: typeString,
-            value: quotation.customer.identifier.customerId,
+          {
+            data: {
+              type: typeString,
+              value: quotation.customer.identifier.customerId,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.customerName'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.customerName'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
           },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: quotation.customer.name,
+          {
+            data: {
+              type: typeString,
+              value: quotation.customer.name,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.quoteNetValue'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.quoteNetValue'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
           },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformMarginDetails(
-              statusBarProperties?.netValue,
-              quotation.currency
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformMarginDetails(
+                statusBarProperties?.netValue,
+                quotation.currency
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorderBold.id,
           },
-          styleId: excelStyleObjects.excelTextBorderBold.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.quoteWeightedAverageGPM'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.quoteWeightedAverageGPM'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
           },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformPercentage(
-              statusBarProperties.gpm
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformPercentage(
+                statusBarProperties.gpm
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorderBold.id,
           },
-          styleId: excelStyleObjects.excelTextBorderBold.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.quoteWeightedAverageGPI'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.quoteWeightedAverageGPI'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
           },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformPercentage(
-              statusBarProperties.gpi
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformPercentage(
+                statusBarProperties.gpi
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.quotePriceDifference'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.quotePriceDifference'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
           },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformPercentage(
-              statusBarProperties.priceDiff
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformPercentage(
+                statusBarProperties.priceDiff
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.quotationSummary.currencyUsed'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.quotationSummary.currencyUsed'
+              ),
+            },
+            styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
           },
-          styleId: excelStyleObjects.excelQuotationSummaryLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: quotation.currency,
+          {
+            data: {
+              type: typeString,
+              value: quotation.currency,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [],
+        ],
+      },
+      {
+        cells: [],
+      },
     ];
   }
 
-  addCustomerOverview(quotation: Quotation): ExcelCell[][] {
+  addCustomerOverview(quotation: Quotation): ExcelRow[] {
     const { customer } = quotation;
     const lastYear = HelperService.getLastYear();
     const currentYear = HelperService.getCurrentYear();
 
     return [
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.title'
-            ),
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.customerOverview.title'
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBold.id,
           },
-          styleId: excelStyleObjects.excelTextBold.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.keyAccount'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.customerOverview.keyAccount'
+              ),
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: customer.keyAccount,
+          {
+            data: {
+              type: typeString,
+              value: customer.keyAccount,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.subKeyAccount'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.customerOverview.subKeyAccount'
+              ),
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: customer.subKeyAccount,
+          {
+            data: {
+              type: typeString,
+              value: customer.subKeyAccount,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.netSalesClassification'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.customerOverview.netSalesClassification'
+              ),
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: customer.netSalesClassification,
+          {
+            data: {
+              type: typeString,
+              value: customer.netSalesClassification,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: `${lastYear} ${translate(
-              'shared.customStatusBar.excelExport.customerOverview.netSales'
-            )}`,
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: `${lastYear} ${translate(
+                'shared.customStatusBar.excelExport.customerOverview.netSales'
+              )}`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformMarginDetails(
-              customer.marginDetail?.netSalesLastYear,
-              customer.currency
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformMarginDetails(
+                customer.marginDetail?.netSalesLastYear,
+                customer.currency
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: `${lastYear} ${translate(
-              'shared.customStatusBar.excelExport.customerOverview.gpi'
-            )}`,
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: `${lastYear} ${translate(
+                'shared.customStatusBar.excelExport.customerOverview.gpi'
+              )}`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformPercentage(
-              customer.marginDetail?.gpiLastYear
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformPercentage(
+                customer.marginDetail?.gpiLastYear
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: `${currentYear} ${translate(
-              'shared.customStatusBar.excelExport.customerOverview.netSales'
-            )}`,
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: `${currentYear} ${translate(
+                'shared.customStatusBar.excelExport.customerOverview.netSales'
+              )}`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformMarginDetails(
-              customer.marginDetail?.currentNetSales,
-              customer.currency
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformMarginDetails(
+                customer.marginDetail?.currentNetSales,
+                customer.currency
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: `${currentYear} ${translate(
-              'shared.customStatusBar.excelExport.customerOverview.gpi'
-            )}`,
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: `${currentYear} ${translate(
+                'shared.customStatusBar.excelExport.customerOverview.gpi'
+              )}`,
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: this.helperService.transformPercentage(
-              customer.marginDetail?.currentGpi
-            ),
+          {
+            data: {
+              type: typeString,
+              value: this.helperService.transformPercentage(
+                customer.marginDetail?.currentGpi
+              ),
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.country'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.customerOverview.country'
+              ),
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: customer.country,
+          {
+            data: {
+              type: typeString,
+              value: customer.country,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
-      [
-        {
-          data: {
-            type: typeString,
-            value: translate(
-              'shared.customStatusBar.excelExport.customerOverview.incoterms'
-            ),
+        ],
+      },
+      {
+        cells: [
+          {
+            data: {
+              type: typeString,
+              value: translate(
+                'shared.customStatusBar.excelExport.customerOverview.incoterms'
+              ),
+            },
+            styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
           },
-          styleId: excelStyleObjects.excelCustomerOverviewLabel.id,
-        },
-        {
-          data: {
-            type: typeString,
-            value: customer.incoterms,
+          {
+            data: {
+              type: typeString,
+              value: customer.incoterms,
+            },
+            styleId: excelStyleObjects.excelTextBorder.id,
           },
-          styleId: excelStyleObjects.excelTextBorder.id,
-        },
-      ],
+        ],
+      },
     ];
   }
 
@@ -681,7 +726,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     });
   }
 
-  addComparableTransactions(): ExcelCell[][] {
+  addComparableTransactions(): ExcelRow[] {
     const headerTranslations: { [key: string]: string } =
       this.translocoService.translateObject(
         'shared.customStatusBar.excelExport.extendedComparableLinkedTransactions',
@@ -690,7 +735,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       );
 
     return [
-      this.addCustomHeader(headerTranslations),
+      { cells: this.addCustomHeader(headerTranslations) },
       ...this.addCustomRows(
         headerTranslations,
         this.extendedComparableLinkedTransactions
@@ -709,7 +754,7 @@ export class ExportToExcelButtonComponent implements OnInit {
     });
   }
 
-  addExtendedSapPriceConditionDetails(): ExcelCell[][] {
+  addExtendedSapPriceConditionDetails(): ExcelRow[] {
     const headerTranslations: { [key: string]: string } =
       this.translocoService.translateObject(
         'shared.customStatusBar.excelExport.extendedSapPriceConditionDetails',
@@ -718,7 +763,7 @@ export class ExportToExcelButtonComponent implements OnInit {
       );
 
     return [
-      this.addCustomHeader(headerTranslations),
+      { cells: this.addCustomHeader(headerTranslations) },
       ...this.addCustomRows(
         headerTranslations,
         this.extendedSapPriceConditionDetails
@@ -747,14 +792,14 @@ export class ExportToExcelButtonComponent implements OnInit {
       | ExtendedComparableLinkedTransaction
       | ExtendedSapPriceConditionDetail
     )[]
-  ): ExcelCell[][] {
+  ): ExcelRow[] {
     return values.map(
       (
         t: ExtendedComparableLinkedTransaction | ExtendedSapPriceConditionDetail
       ) => {
-        const row: ExcelCell[] = [];
+        const row: ExcelRow = { cells: [] };
         for (const key in headersTranslations) {
-          row.push(
+          row.cells.push(
             this.getNumberExcelCell(
               ExportExcelNumberColumns.includes(key as ColumnFields)
                 ? typeNumber

@@ -1,5 +1,5 @@
-import { SideBarDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import { SideBarDef } from 'ag-grid-community';
 
 export const SIDE_BAR: SideBarDef = {
   toolPanels: [

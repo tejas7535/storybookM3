@@ -1,20 +1,19 @@
 import { SimpleChanges } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import {
-  ColumnApi,
-  FirstDataRenderedEvent,
-  GridApi,
-  GridReadyEvent,
-  SelectionChangedEvent,
-  SortChangedEvent,
-} from '@ag-grid-enterprise/all-modules';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import {
+  FirstDataRenderedEvent,
+  GridReadyEvent,
+  SelectionChangedEvent,
+  SortChangedEvent,
+} from 'ag-grid-community';
+import { ColumnApi, GridApi } from 'ag-grid-enterprise';
 import { MockModule } from 'ng-mocks';
 
 import { ResultsStatusBarModule } from '@cdba/shared/components/table/status-bar/results-status-bar';
@@ -33,10 +32,7 @@ describe('ReferenceTypesTableComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ReferenceTypesTableComponent,
-    imports: [
-      MockModule(AgGridModule.withComponents([])),
-      MockModule(ResultsStatusBarModule),
-    ],
+    imports: [MockModule(AgGridModule), MockModule(ResultsStatusBarModule)],
     declarations: [ReferenceTypesTableComponent],
     providers: [
       mockProvider(ColumnDefinitionService, {

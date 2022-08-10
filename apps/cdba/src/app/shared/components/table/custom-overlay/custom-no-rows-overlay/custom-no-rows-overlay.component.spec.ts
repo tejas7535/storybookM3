@@ -1,5 +1,5 @@
-import { INoRowsOverlayParams } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { INoRowsOverlayParams } from 'ag-grid-community';
 
 import {
   CustomNoRowsOverlayComponent,

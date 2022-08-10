@@ -1,10 +1,10 @@
-import { AgGridModule } from '@ag-grid-community/angular';
-import { RowSelectedEvent } from '@ag-grid-enterprise/all-modules';
 import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { AgGridModule } from 'ag-grid-angular';
+import { RowSelectedEvent } from 'ag-grid-community';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
 import { ColumnDefinitionService } from './config';
@@ -17,7 +17,7 @@ describe('DrawingsTableComponent', () => {
   const createComponent = createComponentFactory({
     component: DrawingsTableComponent,
     declarations: [ActionsCellRendererComponent],
-    imports: [AgGridModule.withComponents([ActionsCellRendererComponent])],
+    imports: [AgGridModule],
     providers: [
       mockProvider(ColumnDefinitionService, { COLUMN_DEFINITIONS: [] }),
     ],

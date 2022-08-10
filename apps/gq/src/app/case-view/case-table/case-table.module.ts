@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { PushModule } from '@ngrx/component';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { CaseTableComponent } from './case-table.component';
 
 @NgModule({
   declarations: [CaseTableComponent],
-  imports: [AgGridModule.withComponents({}), PushModule],
+  imports: [AgGridModule, PushModule],
   exports: [CaseTableComponent],
 })
 export class CaseTableModule {}

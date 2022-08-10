@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 

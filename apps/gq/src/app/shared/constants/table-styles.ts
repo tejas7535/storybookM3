@@ -3,9 +3,6 @@ export const basicTableStyle = `
   .ag-root-wrapper-body {
     border: 0;
   }
-  .ag-row {
-    border: 0;
-  }
   .ag-root-wrapper {
     border: 0;
   }

@@ -11,9 +11,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Subscription } from 'rxjs';
 
-import { RowNode } from '@ag-grid-community/all-modules';
-import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import { Store } from '@ngrx/store';
+import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { RowNode } from 'ag-grid-community';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 

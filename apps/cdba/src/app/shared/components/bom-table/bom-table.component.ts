@@ -8,17 +8,16 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
 import {
-  ColumnApi,
   FirstDataRenderedEvent,
-  GridApi,
   GridReadyEvent,
   RowClickedEvent,
-  RowNode,
-} from '@ag-grid-enterprise/all-modules';
+} from 'ag-grid-community';
+import { ColumnApi, GridApi, RowNode } from 'ag-grid-enterprise';
+
 import { ScrambleMaterialDesignationPipe } from '@cdba/shared/pipes';
 import { CostShareService } from '@cdba/shared/services';
-import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../models';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
@@ -26,7 +25,6 @@ import {
   BOM_ROW_CLASS_RULES,
   BOM_TABLE_COMPONENTS,
   BOM_TABLE_EXCEL_STYLES,
-  BOM_TABLE_MODULES,
   BOM_TABLE_STATUS_BAR_CONFIG,
   ColumnDefinitionService,
   SidebarService,
@@ -67,7 +65,6 @@ export class BomTableComponent implements OnChanges {
   autoGroupColumnDef = this.columnDefinitionService.AUTO_GROUP_COLUMN_DEF;
   groupDefaultExpanded = 1;
 
-  modules = BOM_TABLE_MODULES;
   statusBar = BOM_TABLE_STATUS_BAR_CONFIG;
   components = BOM_TABLE_COMPONENTS;
   sideBar = this.sidebarService.SIDE_BAR_CONFIG;

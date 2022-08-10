@@ -1,9 +1,6 @@
-import {
-  ValueFormatterParams,
-  ValueGetterParams,
-} from '@ag-grid-community/all-modules';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { translate, TranslocoModule } from '@ngneat/transloco';
+import { ValueFormatterParams, ValueGetterParams } from 'ag-grid-community';
 
 import {
   QUOTATION_DETAIL_MOCK,

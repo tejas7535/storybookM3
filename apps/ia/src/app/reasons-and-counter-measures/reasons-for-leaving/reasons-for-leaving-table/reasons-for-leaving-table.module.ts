@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -10,11 +10,7 @@ import { ReasonsForLeavingTableComponent } from './reasons-for-leaving-table.com
 
 @NgModule({
   declarations: [ReasonsForLeavingTableComponent],
-  imports: [
-    SharedModule,
-    SharedTranslocoModule,
-    AgGridModule.withComponents([]),
-  ],
+  imports: [SharedModule, SharedTranslocoModule, AgGridModule],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'reasons-and-counter-measures' },
   ],

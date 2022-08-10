@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
+import { IStatusPanelParams } from 'ag-grid-community';
 
 import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { deleteCase } from '../../../../core/store';

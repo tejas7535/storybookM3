@@ -1,4 +1,4 @@
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { IGNORE_FLAG_DESCRIPTIONS } from '../constants/ignore-flag-descriptions.const';
 import { FILTER_PARAMS } from './filter-params';

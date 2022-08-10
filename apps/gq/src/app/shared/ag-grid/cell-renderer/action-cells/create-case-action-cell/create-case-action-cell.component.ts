@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { CellClassParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
+import { CellClassParams } from 'ag-grid-community';
 
 import { deleteRowDataItem } from '../../../../../core/store/actions';
 

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { AgGridLocale } from '../../../ag-grid/models/ag-grid-locale.interface';
 import { LocalizationService } from '../../../ag-grid/services/localization.service';
@@ -13,7 +13,6 @@ import {
   COMPONENTS,
   DEFAULT_COLUMN_DEFS,
   InputTableColumnDefService,
-  MODULES,
 } from './config';
 
 @Component({
@@ -26,7 +25,6 @@ export class InputTableComponent implements OnInit {
     private readonly columnDefinitionService: InputTableColumnDefService,
     private readonly localizationService: LocalizationService
   ) {}
-  public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs: ColDef[];
   public statusBar: StatusBarConfig;

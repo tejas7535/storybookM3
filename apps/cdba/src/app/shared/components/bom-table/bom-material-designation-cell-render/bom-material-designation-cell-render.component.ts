@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
+import { ICellRendererParams } from 'ag-grid-enterprise';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
 

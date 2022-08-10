@@ -2,20 +2,17 @@ import { SimpleChange } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 import {
-  ColumnApi,
-  GridApi,
-  GridReadyEvent,
-} from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
-import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
-import {
   createComponentFactory,
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { AgGridModule } from 'ag-grid-angular';
+import { ColumnApi, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
+
+import { BetaFeatureService } from '@cdba/shared/services/beta-feature/beta-feature.service';
 
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { ColumnDefinitionService } from './config';
@@ -28,7 +25,7 @@ describe('RawMaterialAnalysisTableComponent', () => {
     component: RawMaterialAnalysisTableComponent,
     imports: [
       MatIconModule,
-      MockModule(AgGridModule.withComponents([])),
+      MockModule(AgGridModule),
       MockModule(CustomOverlayModule),
       provideTranslocoTestingModule({ en: {} }),
     ],

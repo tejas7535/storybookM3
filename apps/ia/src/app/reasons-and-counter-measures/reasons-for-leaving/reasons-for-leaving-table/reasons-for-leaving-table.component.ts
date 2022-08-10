@@ -1,11 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import {
-  ClientSideRowModelModule,
-  ColDef,
-  RowDataChangedEvent,
-} from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+import { ColDef, RowDataUpdatedEvent } from 'ag-grid-community';
 
 import { ReasonForLeavingStats } from '../../models/reason-for-leaving-stats.model';
 
@@ -17,7 +13,6 @@ export class ReasonsForLeavingTableComponent implements OnInit {
   @Input() loading: boolean; // not used at the moment
   @Input() data: ReasonForLeavingStats[];
 
-  modules: any[] = [ClientSideRowModelModule];
   frameworkComponents = {};
 
   readonly timeRangeHintValue = 'time range';
@@ -75,7 +70,7 @@ export class ReasonsForLeavingTableComponent implements OnInit {
     }
   }
 
-  onRowDataChanged(event: RowDataChangedEvent): void {
+  onRowDataUpdated(event: RowDataUpdatedEvent): void {
     // autosize reason column to show full content
     event.columnApi.autoSizeColumns(['detailedReason'], false);
   }

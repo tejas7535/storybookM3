@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AgGridModule } from '@ag-grid-community/angular';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -15,7 +15,7 @@ import { LostJobProfilesComponent } from './lost-job-profiles.component';
     SharedModule,
     MatIconModule,
     MatButtonModule,
-    AgGridModule.withComponents([AmountCellRendererComponent]),
+    AgGridModule,
     EmployeeListDialogModule,
   ],
   exports: [LostJobProfilesComponent],

@@ -16,10 +16,10 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 
 import { of } from 'rxjs';
 
-import { RowNode } from '@ag-grid-community/core';
 import { SpyObject } from '@ngneat/spectator';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { RowNode } from 'ag-grid-community';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/app-state-mock';
 import { salesSummaryMock } from '../../../testing/mocks/sales-summary.mock';

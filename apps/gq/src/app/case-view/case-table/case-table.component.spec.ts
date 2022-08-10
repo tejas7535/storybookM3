@@ -3,23 +3,19 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import { RowNode } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoModule } from '@ngneat/transloco';
 import { PushModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AgGridModule } from 'ag-grid-angular';
+import { RowNode } from 'ag-grid-community';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco/testing';
 
 import { VIEW_CASE_STATE_MOCK } from '../../../testing/mocks';
 import { AppRoutePath } from '../../app-route-path.enum';
 import { getSelectedCaseIds } from '../../core/store';
-import { CreateCustomerCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
-import { CreateManualCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';
-import { ImportCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/case-view/import-case-button/import-case-button.component';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { DeleteCaseButtonComponent } from '../../shared/ag-grid/custom-status-bar/delete-case-button/delete-case-button.component';
 import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 import { CaseTableComponent } from './case-table.component';
 
@@ -37,12 +33,7 @@ describe('CaseTableComponent', () => {
   const createComponent = createComponentFactory({
     component: CaseTableComponent,
     imports: [
-      AgGridModule.withComponents({
-        DeleteCaseButtonComponent,
-        ImportCaseButtonComponent,
-        CreateManualCaseButtonComponent,
-        CreateCustomerCaseButtonComponent,
-      }),
+      AgGridModule,
       CustomStatusBarModule,
       RouterTestingModule.withRoutes([]),
       MatDialogModule,

@@ -1,10 +1,10 @@
 import { SimpleChange, SimpleChanges } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
-import { AgGridModule } from '@ag-grid-community/angular';
-import { GridApi, GridReadyEvent } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
+import { AgGridModule } from 'ag-grid-angular';
+import { GridApi, GridReadyEvent } from 'ag-grid-community';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 
@@ -22,11 +22,7 @@ describe('LostJobProfilesComponent', () => {
   const createComponent = createComponentFactory({
     component: LostJobProfilesComponent,
     detectChanges: false,
-    imports: [
-      UnderConstructionModule,
-      EmployeeListDialogModule,
-      AgGridModule.withComponents([EmployeeListDialogComponent]),
-    ],
+    imports: [UnderConstructionModule, EmployeeListDialogModule, AgGridModule],
     providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }],
   });
 

@@ -10,8 +10,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { LetModule, PushModule } from '@ngrx/component';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
@@ -19,7 +19,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ColumnHeadersModule } from '../../shared/ag-grid/column-headers/column-headers.module';
 import { CustomStatusBarModule } from '../../shared/ag-grid/custom-status-bar/custom-status-bar.module';
-import { QuotationDetailsStatusComponent } from '../../shared/ag-grid/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { DialogHeaderModule } from '../../shared/components/header/dialog-header/dialog-header.module';
 import { EditCaseModalComponent } from '../../shared/components/modal/edit-case-modal/edit-case-modal.component';
 import { EditingModalComponent } from '../../shared/components/modal/editing-modal/editing-modal.component';
@@ -37,7 +36,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
   ],
   imports: [
     CommonModule,
-    AgGridModule.withComponents([QuotationDetailsStatusComponent]),
+    AgGridModule,
     LetModule,
     PushModule,
     SharedTranslocoModule,

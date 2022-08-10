@@ -1,8 +1,8 @@
 import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { createSelector } from '@ngrx/store';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { getRoles } from '@schaeffler/azure-auth';
 

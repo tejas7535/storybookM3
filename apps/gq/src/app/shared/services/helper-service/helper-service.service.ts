@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { StatusPanelDef } from '@ag-grid-community/core';
-import { ColDef } from '@ag-grid-enterprise/all-modules';
 import {
   TranslocoCurrencyPipe,
   TranslocoDatePipe,
   TranslocoDecimalPipe,
   TranslocoPercentPipe,
 } from '@ngneat/transloco-locale';
+import { StatusPanelDef } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-enterprise';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { LOCALE_DE } from '../../constants';
